@@ -410,9 +410,10 @@ def cmd_crawl(args):
 
         slugs = dedupe(slugs)
 
-        if not args.delay and (len(slugs) > 10 or args.depth or args.all_agencies):
-            args.delay = 300
-            print(f"  auto-setting --delay {args.delay}s (5 min) to avoid rate limiting\n")
+        if args.delay == 0 and not any("--delay" in a for a in sys.argv):
+            if len(slugs) > 10 or args.depth or args.all_agencies:
+                args.delay = 300
+                print(f"  auto-setting --delay {args.delay}s (5 min) to avoid rate limiting\n")
 
         all_results = []
         visited = set()
@@ -423,32 +424,49 @@ def cmd_crawl(args):
         batch_remaining = args.batch if args.batch else float("inf")
 
         if args.all_agencies or args.depth:
-            max_depth = max(args.depth, 1)
+            max_depth = args.depth if args.depth else 1
             for level in range(max_depth + 1):
+                # For already-visited slugs, load sharing lists from stored JSONs
+                # so we can discover their downstream agencies without re-fetching
+                discovered_from_existing = []
+                for s in slugs:
+                    if s in visited:
+                        slug_dir = data_dir / s
+                        jsons = sorted(slug_dir.glob("*.json"))
+                        if jsons:
+                            stored = json.loads(jsons[-1].read_text())
+                            discovered_from_existing.extend(
+                                stored.get("shared_org_slugs", [])
+                            )
+
                 new_slugs = [s for s in slugs if s not in visited]
                 if args.batch:
                     new_slugs = new_slugs[:int(batch_remaining)]
-                if not new_slugs:
+
+                if not new_slugs and not discovered_from_existing:
                     print(f"\nDepth {level}: no new agencies to check, stopping.\n")
                     break
 
-                label = f"depth {level}" if args.depth else "all"
-                print(f"[{label}] Archiving {len(new_slugs)} agency portal(s):\n")
+                discovered = list(discovered_from_existing)
 
-                results, discovered = run_crawl_batch(
-                    page, new_slugs, data_dir, args.force,
-                    args.delay, hashes, failed_slugs,
-                )
-                all_results.extend(results)
-                visited.update(s for s, _ in results)
-                batch_remaining -= len(new_slugs)
+                if new_slugs:
+                    label = f"depth {level}" if args.depth else "all"
+                    print(f"[{label}] Archiving {len(new_slugs)} agency portal(s):\n")
 
-                if batch_remaining <= 0:
-                    print(f"\n  batch limit reached, stopping.\n")
-                    break
+                    results, newly_discovered = run_crawl_batch(
+                        page, new_slugs, data_dir, args.force,
+                        args.delay, hashes, failed_slugs,
+                    )
+                    all_results.extend(results)
+                    visited.update(s for s, _ in results)
+                    batch_remaining -= len(new_slugs)
+                    discovered.extend(newly_discovered)
+
+                    if batch_remaining <= 0:
+                        print(f"\n  batch limit reached, stopping.\n")
+                        break
+
                 slugs = dedupe(discovered)
-                if not args.depth:
-                    break
         else:
             if args.batch:
                 slugs = slugs[:args.batch]
