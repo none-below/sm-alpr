@@ -77,10 +77,28 @@ def generate_sidecar(pdf_path, force=False):
         print(f"  WARNING: could not open {pdf_path}: {e}", file=sys.stderr)
         return None
 
+    # Extract text from each page, tracking whether OCR added anything
+    native_chars = 0
+    ocr_chars = 0
     pages = []
     for page_num in range(len(doc)):
-        text = extract_text_from_page(doc[page_num])
-        pages.append(f"--- page {page_num + 1} ---\n{text}")
+        native = (doc[page_num].get_text() or "").strip()
+        native_chars += len(native)
+
+        has_images = len(doc[page_num].get_images()) > 0
+        needs_ocr = has_images and len(native) <= 50
+
+        if needs_ocr:
+            ocr_text = extract_text_from_page(doc[page_num])
+            ocr_chars += len(ocr_text.strip())
+            pages.append(f"--- page {page_num + 1} ---\n{ocr_text}")
+        else:
+            pages.append(f"--- page {page_num + 1} ---\n{native}")
+
+    # Skip if OCR added no meaningful text — the PDF is already searchable
+    if ocr_chars == 0:
+        doc.close()
+        return None
 
     doc.close()
 
