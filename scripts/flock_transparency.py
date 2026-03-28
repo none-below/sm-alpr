@@ -27,6 +27,9 @@ Usage:
   uv run python scripts/flock_transparency.py aggregate --json --out outputs/sharing.json
 """
 
+import functools
+print = functools.partial(print, flush=True)
+
 import argparse
 import base64
 import hashlib
@@ -244,13 +247,13 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     pdf_path = slug_dir / f"{datestamp}.pdf"
 
     prefix = f"  {progress} " if progress else "  "
-    print(f"{prefix}{slug} -> {url}", flush=True)
+    print(f"{prefix}{slug} -> {url}")
 
     try:
         response = page.goto(url, wait_until="domcontentloaded", timeout=30000)
     except Exception as e:
         print(f"    WARNING: navigation failed: {e}")
-        return None, []
+        return ("failed", "navigation_error"), []
 
     if response and response.status == 429:
         print(f"    RATE LIMITED (429), will retry later")
@@ -258,7 +261,7 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
 
     if response and response.status >= 400:
         print(f"    WARNING: got HTTP {response.status}, skipping")
-        return None, []
+        return ("failed", f"http_{response.status}"), []
 
     page.wait_for_timeout(WAIT_MS)
 
@@ -266,7 +269,7 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     expected_sections = ["Policies", "Usage", "What's Detected"]
     if not any(section in page_text for section in expected_sections):
         print(f"    WARNING: page does not look like a transparency portal, skipping")
-        return None, []
+        return ("failed", "not_a_portal"), []
 
     current_hash = content_hash(page_text)
     prev_hash = (hashes or {}).get(slug)
@@ -326,7 +329,8 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs):
     for i, slug in enumerate(slugs):
         progress = f"({i + 1}/{total})"
         if slug in failed_slugs:
-            print(f"  {progress} {slug} -> previously failed, skipping")
+            reason = failed_slugs[slug].get("reason", "unknown") if isinstance(failed_slugs[slug], dict) else "unknown"
+            print(f"  {progress} {slug} -> previously failed ({reason}), skipping")
             results.append((slug, None))
             continue
 
@@ -349,8 +353,8 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs):
         results.append((slug, status))
         if shared_slugs:
             discovered.extend(shared_slugs)
-        if status is None:
-            failed_slugs[slug] = date.today().isoformat()
+        if isinstance(status, tuple) and status[0] == "failed":
+            failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
         save_json(data_dir / HASH_FILE, hashes)
         save_json(data_dir / FAILED_FILE, failed_slugs)
@@ -479,9 +483,11 @@ def cmd_crawl(args):
 
         browser.close()
 
-    captured = sum(1 for _, r in all_results if r not in (None, "unchanged"))
+    def _is_failed(r):
+        return r is None or (isinstance(r, tuple) and r[0] == "failed")
+    captured = sum(1 for _, r in all_results if not _is_failed(r) and r != "unchanged")
     unchanged = sum(1 for _, r in all_results if r == "unchanged")
-    failed = sum(1 for _, r in all_results if r is None)
+    failed = sum(1 for _, r in all_results if _is_failed(r))
     print(f"\nDone: {captured} captured, {unchanged} unchanged, {failed} failed.")
 
     if failed and not captured and not unchanged:
