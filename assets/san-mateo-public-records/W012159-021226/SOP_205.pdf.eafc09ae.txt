@@ -1,0 +1,230 @@
+--- page 1 ---
+Procedure
+205
+San Mateo Police Department
+PROCEDURES
+Automated License Plate Reader Operating 
+Procedure
+205.1   PURPOSE AND SCOPE
+This standard operating procedure provides guidelines for the operation and accessing of SMPD’s 
+Automated License Plate Reader (ALPR) program and data. This document is intended to 
+supplement SMPD Lexipol Policy 462.
+Our Department currently uses four independent ALPR hardware and/or software technology 
+platforms - Flock Safety Inc., PIPs Technology, Vigilant Solutions, and the Northern California 
+Regional Intelligence Center (NCRIC) Astrometrics.. Our Department only subscribes to Vigilant 
+Solutions for access to their ALPR data and does not utilize their hardware. We partner with 
+the NCRIC to store the ALPR data we collect with PIPs and Flock, and our end-users access 
+and review this data through PIPs, BOSS, Flock, Vigilant, and the NCRIC’s web-based internet 
+platform.
+In accordance with the California Values Act, ALPR data may not be used for the purposes of 
+immigration enforcement or other similar duties.
+This Operating Procedure, along with SMPD Lexipol Policy 462, shall be posted conspicuously 
+on our Department website.
+205.2   DEFINITIONS
+The following definitions for ‘Operator’ and ‘End-User,' are listed in our Policy 462, and come from 
+California Civil Code 1798.
+“Automated license plate recognition operator” or “ALPR operator,” means a person that 
+operates an ALPR system. For our Department purposes, this will usually refer to our personnel or 
+authorized designee operating a vehicle or other item of equipment with ALPR cameras collecting 
+license plate data.
+“Automated license plate recognition end-user” or “ALPR end-user” means a person that 
+accesses or uses an ALPR system. For our Department purposes, this will usually refer to our 
+personnel or authorized designee accessing historical data that is collected and stored in a 
+centralized database(s).
+205.3   ALPR OPERATOR TRAINING
+Prior to the operation of the our Department approved ALPR system, any person operating a 
+system shall complete Department approved training. The training will be coordinated by the 
+Department Training Division, and shall include the following:
+•
+A general review of the functionality of the system
+•
+The authorized purposes for operating the ALPR system.
+•
+How to access the software system, by way of a login/password protected registry
+Copyright Lexipol, LLC 2025/11/10, All Rights Reserved.
+Published with permission by San Mateo Police Department
+Automated License Plate Reader Operating 
+Procedure - 46
+
+
+--- page 2 ---
+San Mateo Police Department
+PROCEDURES
+Automated License Plate Reader Operating Procedure
+•
+How our vendors maintain logs of access and use
+•
+How our vendors retain and purge data from their systems
+•
+How our vendors maintain system security to protect collected data
+•
+How to trouble-shoot and report basic malfunctions
+Departmental Operator training will be included in the on-boarding process for new personnel. 
+Records of this training shall be maintained by our Training Division. Additional or refresher training 
+will be determined by the department's system administrator.
+205.4   ALPR END-USER TRAINING
+Prior to accessing the ALPR platforms to review data as end-users, any person doing so shall 
+complete Department approved training. The training will be coordinated by the Department 
+Training Division, and shall include the following:
+•
+A general review of how the ALPR Platform works
+•
+The authorized purposes for accessing the ALPR platform
+•
+How to access the software system, by way of a login/password protected registry
+•
+How the ALPR platform maintains logs of operator access and use
+•
+How the ALPR platform retains and purges data from its systems
+Any person(s) using the ALPR platform as end-user shall complete Department approved training.
+205.5   ALPR SYSTEM MONITORING AND AUDITING
+The Support Services Captain has administrative responsibility for the ALPR platforms. This 
+responsibility may be delegated to a designee as appropriate.
+205.5.1   ALPR PLATFORM AUDITS
+PIPs Technology
+Data captured via the PIPs Technology PAGIS software program on our patrol mobile units are 
+transmitted via the mobile unit’s cellular connection to the BOSS search engine server operated 
+by NCRIC. This data is retained on the PIPs Technology processor in the mobile unit until the 
+operator exits the software program. At that point all data recorded during that session is purged 
+from the mobile unit as well as the PIPs Technology server.
+A record of the operator’s use of the PIPs Technology system is maintained by PIPs, and available 
+for review and audit by SMPD. This record includes the following:
+•
+The device used to capture data
+•
+The date, time, and location of the data capture
+•
+General information on use of the system (how many license plates uploaded to the 
+server, etc).
+Copyright Lexipol, LLC 2025/11/10, All Rights Reserved.
+Published with permission by San Mateo Police Department
+Automated License Plate Reader Operating 
+Procedure - 47
+
+
+--- page 3 ---
+San Mateo Police Department
+PROCEDURES
+Automated License Plate Reader Operating Procedure
+Vigilant Solutions Platform
+Data captured via Vigilant Solution's software platform is securely hosted by Verio, a subsidiary 
+of NTT Communications. This data, license plate, date, time, and location are retained and 
+automatically deleted from the server based on our own retention policy. A record of the end-user 
+access to the Vigilant Solutions platform is also maintained by Verio, and available for review and 
+audit by SMPD. This record includes the following:
+•
+End-User usage information, to include entry of system sign-on information 
+(username, password, etc)
+•
+Date and time of access
+•
+Entry of required search information by the End-User (case number, etc)
+•
+Connection between searched data and listed justification for the search
+•
+Any other relevant information as determined by the person conducting the audit
+Flock Safety Hardware and Software Platform
+Data captured via Flock Safety Inc. is hosted in the cloud using Amazon Web Services and stores 
+license plate data such as date, time, location, photo of plate and video footage. License plate 
+data is held in the server based on our own retention policy. Video footage is held for 30 days, 
+then it is automatically deleted and purged from their system. Access to the data requires VPN 
+and/or multi-factored authentication. Security, monitoring, and auditing of data maintained in the 
+Flock Safety Amazon Web database, as well as the end-user review of such data, is described 
+in the Flock Safety "Government Agency Customer Agreement." A record of the operator's use of 
+the Flock Safety platform is also maintained by Amazon Web Services and available for review 
+and audit by SMPD.
+This record includes the following:
+•
+The device used to capture data
+•
+The date, time, and location of the data capture
+•
+General information on use of the system (how many license plates uploaded to the 
+server, etc).
+•
+Operator usage, to include entry of system sign-on information (username, password, 
+etc)
+•
+Date and times of access
+•
+Entry of required search information by the End-User (case number, etc)
+•
+Connection between searched data and listed justification for the search
+•
+Any other relevant information as determined by the person conducting the audit
+NCRIC Astrometrics Platform
+Copyright Lexipol, LLC 2025/11/10, All Rights Reserved.
+Published with permission by San Mateo Police Department
+Automated License Plate Reader Operating 
+Procedure - 48
+
+
+--- page 4 ---
+San Mateo Police Department
+PROCEDURES
+Automated License Plate Reader Operating Procedure
+The security, monitoring, and auditing of data maintained in the NCRIC databases, as well as end-
+user review of such data is described in the NCRIC’s “Automated License Plate Reader Policy.” 
+This policy is maintained by NCRIC.
+The Support Services Captain, or their designee, shall conduct audits of end-users usage of the 
+NCRIC platform on a quarterly basis to ensure compliance with Lexipol policy 462, this procedure, 
+and Civil Code 1798. Our Department can obtain such data for the purposes of an audit directly 
+from the NCRIC. The results of these audits shall be submitted to the Support Services Captain 
+for their review.
+Audits should review information such as:
+•
+End-user access, to include entry of system sign-on information (username, password, 
+etc)
+•
+Date and time of access
+•
+Entry of required search information by the End-User (case number, etc)
+•
+Connection between searched data and listed justification for the search
+•
+Any other relevant information as determined by the person conducting the audit
+The Support Services Captain, or their designee, shall conduct audits of operators use of the PIPs 
+Technology, Flock Safety, Vigilant Solutions, and BOSS and NCRIC platforms on a quarterly basis 
+to ensure compliance with Lexipol policy 462 and Civil Code 1798. The results of these audits 
+shall be submitted to the Support Services Captain for their review.
+Audits should review information such as:
+•
+Proper maintenance of system security
+•
+Date, times, and location of operation
+•
+Amount of license plate data collected and proper quality of data (photographs 
+of sufficient quality, license plate data uploaded matches information listed in 
+photographs, etc)
+•
+Any other relevant information as determined by the person conducting the audit
+205.6   PROTOCOL REVIEW
+This Standard Operating Protocol should be reviewed on an annual basis with the Support 
+Services Captain, or their designee, and any other person(s) as determined by the Support 
+Services Captain.
+205.7   ALPR COMMITTEES
+ALPR Steering Committee
+An ALPR Steering Committee will include the Support Services Captain, Communications and 
+Records Manager, Traffic Lieutenant, and Investigations Lieutenant. The Steering Committee 
+will provide direction to the ALPR subcommittee as changes in policy, legislation, and/or best 
+Copyright Lexipol, LLC 2025/11/10, All Rights Reserved.
+Published with permission by San Mateo Police Department
+Automated License Plate Reader Operating 
+Procedure - 49
+
+
+--- page 5 ---
+San Mateo Police Department
+PROCEDURES
+Automated License Plate Reader Operating Procedure
+practices are identified and work with Command Staff, City Attorney's Office, or other appropriate 
+stakeholders to ensure the ALPR program conforms with all relevant requirements and standards.
+ALPR Subcommittee
+The ALPR Subcommittee will consist of an Investigations Sergeant, a Traffic Sergeant, the Police 
+IT Senior Systems Analyst, and designated officers from Traffic, Investigations, and Patrol. They 
+will meet to discuss research and develop new policy and procedure updates, equipment issues, 
+consolidation of different platforms and other projects.
+Copyright Lexipol, LLC 2025/11/10, All Rights Reserved.
+Published with permission by San Mateo Police Department
+Automated License Plate Reader Operating 
+Procedure - 50
