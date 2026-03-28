@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SMPD ALPR Findings — Markdown-to-PDF generator (Draft 10).
+SMPD ALPR Findings — Markdown-to-PDF generator.
 Reads .md file at runtime. Zero hardcoded bullet text.
 """
 
@@ -28,7 +28,7 @@ MUTED      = HexColor("#6b7280")
 RED_ACCENT = HexColor("#b91c1c")
 LINK_BLUE  = "#1e40af"
 PAGE_W, PAGE_H = letter
-ML, MR, MT, MB = 0.9*inch, 0.9*inch, 0.85*inch, 0.85*inch
+ML, MR, MT, MB = 0.72*inch, 0.72*inch, 0.72*inch, 0.72*inch
 COUNCIL_PORTAL = "https://www.cityofsanmateo.org/publicmeetings"
 
 class BookmarkAnchor(Flowable):
@@ -45,6 +45,7 @@ class QRFlowable(Flowable):
         qr=QrCodeWidget(self.url); b=qr.getBounds()
         d=Drawing(self.size,self.size,transform=[self.size/(b[2]-b[0]),0,0,self.size/(b[3]-b[1]),0,0])
         d.add(qr); d.drawOn(self.canv,0,0)
+        self.canv.linkURL(self.url, (0, 0, self.size, self.size), relative=1)
 
 _MD5_HASH = ""  # set at build time
 
@@ -54,10 +55,9 @@ def on_content(canvas,doc):
     canvas.setStrokeColor(MED_GRAY); canvas.setLineWidth(0.5)
     canvas.line(ML, PAGE_H-0.6*inch, PAGE_W-MR, PAGE_H-0.6*inch)
     canvas.setFont("Helvetica",8); canvas.setFillColor(MUTED)
-    canvas.drawString(ML, 0.5*inch, "DRAFT \u2014 For Editorial Review")
     if _MD5_HASH:
         canvas.setFont("Helvetica",6.5)
-        canvas.drawCentredString(PAGE_W/2, 0.5*inch, f"MD5: {_MD5_HASH[:12]}")
+        canvas.drawString(ML, 0.5*inch, f"Version: {_MD5_HASH[:12]}")
     canvas.setFont("Helvetica",8)
     canvas.drawRightString(PAGE_W-MR, 0.5*inch, f"Page {doc.page}")
     canvas.restoreState()
@@ -72,7 +72,7 @@ def mkstyles():
     s['sec_head']=ParagraphStyle('sh',parent=ss['Heading1'],fontName='Helvetica-Bold',fontSize=16,leading=20,textColor=DARK_BLUE,spaceBefore=22,spaceAfter=4)
     s['tldr']=ParagraphStyle('tldr',parent=ss['Normal'],fontName='Helvetica-BoldOblique',fontSize=10,leading=14,textColor=MED_BLUE,spaceBefore=2,spaceAfter=10,backColor=HexColor("#eef2f9"),borderPadding=(6,8,6,8))
     s['body']=ParagraphStyle('body',parent=ss['Normal'],fontName='Helvetica',fontSize=10,leading=14.5,textColor=TEXT_COLOR,alignment=TA_JUSTIFY,spaceBefore=2,spaceAfter=2)
-    s['bullet']=ParagraphStyle('bl',parent=s['body'],leftIndent=18,firstLineIndent=0,spaceBefore=5,spaceAfter=5,bulletIndent=4,bulletFontSize=10)
+    s['bullet']=ParagraphStyle('bl',parent=s['body'],leftIndent=12,firstLineIndent=0,spaceBefore=5,spaceAfter=5,bulletIndent=0,bulletFontSize=10)
     s['src_ref']=ParagraphStyle('sr',parent=ss['Normal'],fontName='Helvetica',fontSize=8.5,leading=11,textColor=MUTED)
     s['th']=ParagraphStyle('thd',parent=ss['Normal'],fontName='Helvetica-Bold',fontSize=9,leading=12,textColor=white,alignment=TA_LEFT)
     s['tc']=ParagraphStyle('tc',parent=ss['Normal'],fontName='Helvetica',fontSize=8.5,leading=11.5,textColor=TEXT_COLOR,alignment=TA_LEFT)
@@ -93,7 +93,7 @@ def mkstyles():
 
 def ilink(t,bm,color=LINK_BLUE): return f'<a href="#{bm}" color="{color}">{t}</a>'
 def elink(t,url,color=LINK_BLUE): return f'<a href="{url}" color="{color}">{t}</a>'
-SEC_ANCHORS = {'1':'sec_audit','2':'sec_transparency','3':'sec_council','4':'sec_vendor','5':'sec_network','6':'sec_timing'}
+SEC_ANCHORS = {'1':'sec_audit','2':'sec_transparency','3':'sec_council','4':'sec_devices','5':'sec_vendor','6':'sec_network','7':'sec_timing'}
 
 def md_to_xml(text, exec_mode=False):
     rv = RED_ACCENT.hexval()
@@ -103,7 +103,7 @@ def md_to_xml(text, exec_mode=False):
     text = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', lambda m: elink(m.group(1),m.group(2)), text)
     if exec_mode:
         text = re.sub(r'\[§(\d)\]', lambda m: f'<a href="#{SEC_ANCHORS.get(m.group(1),"sec_"+m.group(1))}" color="{LINK_BLUE}">[\xa7{m.group(1)}]</a>', text)
-    text = re.sub(r'\[(\d{1,2}(?:,\s*§?[\d.]+)*)\]', lambda m: f'<a href="#source_{re.findall(r"[0-9]+",m.group(1))[0]}" color="{LINK_BLUE}">{m.group(0)}</a>' if re.findall(r"[0-9]+",m.group(1)) else m.group(0), text)
+    text = re.sub(r'\[(\d{1,2}(?:[^\]\d][^\]]*)?)\]', lambda m: f'<a href="#source_{re.findall(r"[0-9]+",m.group(1))[0]}" color="{LINK_BLUE}">{m.group(0)}</a>' if re.findall(r"[0-9]+",m.group(1)) else m.group(0), text)
     text = re.sub(r'\[PRA not yet filed\]', f'<font color="{rv}"><i>[PRA not yet filed]</i></font>', text)
     text = re.sub(r'\[VERIFY[^\]]*\]', lambda m: f'<font color="{rv}"><i>{m.group(0)}</i></font>', text)
     # Status emoji → colored Zapf/Helvetica symbols
@@ -112,8 +112,8 @@ def md_to_xml(text, exec_mode=False):
     # ❌ → red X
     text = text.replace('\u274c', '<font name="ZapfDingbats" color="#b91c1c" size="10">&#x2718;</font>')
     # ⚠️ → amber triangle (Helvetica)
-    text = text.replace('\u26a0\ufe0f', '<font color="#b45309"><b>&#x25b2;</b></font>')
-    text = text.replace('\u26a0', '<font color="#b45309"><b>&#x25b2;</b></font>')
+    text = text.replace('\u26a0\ufe0f', '<font color="#d97706"><b>&#x25b2;</b></font>')
+    text = text.replace('\u26a0', '<font color="#d97706"><b>&#x25b2;</b></font>')
     return text
 
 def _back(styles):
@@ -138,8 +138,16 @@ def parse_md(path):
                source_intro='', source_rows=[], contacts=[],
                appendix_a_lines=[], appendix_b_lines=[], verify_items=[])
     state = 'preamble'; current_section = None
+    in_html_comment = False
     for line in lines:
         raw = line.rstrip('\n'); stripped = raw.strip()
+        # Strip HTML comments
+        if '<!--' in stripped:
+            if '-->' in stripped: continue
+            in_html_comment = True; continue
+        if in_html_comment:
+            if '-->' in stripped: in_html_comment = False
+            continue
         if stripped == '---':
             if state == 'preamble': pass
             continue
@@ -148,7 +156,8 @@ def parse_md(path):
         if re.match(r'^## \d+\. ', stripped):
             if current_section: doc['sections'].append(current_section)
             m=re.match(r'^## (\d+)\. (.+)',stripped); n,t=m.group(1),m.group(2)
-            current_section={'num':n,'title':t,'anchor':SEC_ANCHORS.get(n,f'sec_{n}'),'tldr':'','bullets':[]}
+            current_section={'num':n,'title':t,'anchor':SEC_ANCHORS.get(n,f'sec_{n}'),
+                             'table_rows':[],'bullets':[]}
             state='section'; continue
         if stripped.startswith('## Source Documents'):
             if current_section: doc['sections'].append(current_section); current_section=None
@@ -164,8 +173,23 @@ def parse_md(path):
         elif state=='key_findings':
             if re.match(r'^\d+\. ', stripped): doc['key_findings'].append(stripped)
         elif state=='section':
-            if stripped.startswith('**TLDR:**'): current_section['tldr']=stripped.replace('**TLDR:**','').strip()
-            elif stripped.startswith('- '): current_section['bullets'].append(stripped[2:])
+            if stripped.startswith('|'):
+                cleaned = stripped.replace('-','').replace('|','').replace(' ','').replace(':','')
+                if cleaned == '': continue
+                parts=[p.strip() for p in stripped.split('|')[1:-1]]
+                if parts: current_section['table_rows'].append(parts)
+            elif re.match(r'^  +- ', raw):
+                sub_text = re.sub(r'^  +- ', '', raw)
+                if current_section['bullets']:
+                    last = current_section['bullets'][-1]
+                    if isinstance(last, dict):
+                        last['subs'].append(sub_text)
+                    else:
+                        current_section['bullets'][-1] = {'text': last, 'subs': [sub_text]}
+                else:
+                    current_section['bullets'].append(sub_text)
+            elif stripped.startswith('- '):
+                current_section['bullets'].append(stripped[2:])
         elif state=='source_docs':
             if stripped.startswith('**How to look up'): doc['source_intro']=stripped
             elif stripped.startswith('|') and not stripped.startswith('|---') and not stripped.startswith('| #'):
@@ -183,15 +207,22 @@ def parse_md(path):
 # ═══════════════════ BUILDERS ═══════════════════
 
 def build_cover(S, dd):
-    note=''
+    note=''; date_line=''
     for l in dd['preamble_lines']:
-        if 'Note for reviewers' in l: note=l
-    return [Spacer(1,1.5*inch),Paragraph("SMPD ALPR Investigation",S['cover_title']),
+        if l.startswith('*Prepared') or l.startswith('*March') or l.startswith('*February'):
+            date_line = l.strip('*').strip()
+        elif l and not l.startswith('*') and not l.startswith('#'):
+            note = l
+    els = [Spacer(1,1.5*inch),Paragraph("SMPD ALPR Investigation",S['cover_title']),
             Paragraph("Findings",S['cover_title']),Spacer(1,8),
-            HRFlowable(width="40%",thickness=2,color=ACCENT_BLUE,spaceAfter=14,spaceBefore=6,hAlign='LEFT'),
-            Paragraph("Draft for Editorial Review",S['cover_sub']),
-            Paragraph("Prepared February 19, 2026",S['cover_sub']),Spacer(1,24),
-            Paragraph(md_to_xml(note),S['cover_note']),PageBreak()]
+            HRFlowable(width="40%",thickness=2,color=ACCENT_BLUE,spaceAfter=14,spaceBefore=6,hAlign='LEFT')]
+    if date_line:
+        els.append(Paragraph(date_line,S['cover_sub']))
+    els.append(Spacer(1,24))
+    if note:
+        els.append(Paragraph(md_to_xml(note),S['cover_note']))
+    els.append(PageBreak())
+    return els
 
 def build_toc(S, dd):
     els=[BookmarkAnchor("toc"),Paragraph("Contents",S['toc_hdr']),Spacer(1,4)]
@@ -202,7 +233,7 @@ def build_toc(S, dd):
     extras=[("Source Documents","source_docs"),("Key Contacts","contacts"),
             ("Appendix A: Agency Access Breakdown","appendix_a")]
     if dd.get('appendix_b_lines'): extras.append(("Appendix B: Statutory Gap Analysis","appendix_b"))
-    extras.append(("Items Requiring Verification","verify"))
+    if dd.get('verify_items'): extras.append(("Items Requiring Verification","verify"))
     for label,anchor in extras:
         els.append(Paragraph(ilink(f"<u>{label}</u>",anchor,LINK_BLUE),S['toc_entry']))
     els+=[Spacer(1,12),HRFlowable(width="100%",thickness=0.5,color=MED_GRAY,spaceAfter=6),PageBreak()]
@@ -223,19 +254,68 @@ def build_exec(S, dd):
     els.append(HRFlowable(width="100%",thickness=0.5,color=MED_GRAY,spaceAfter=4,spaceBefore=12))
     return els
 
+def _build_section_table(rows, S):
+    """Build a section-level compliance/comparison table."""
+    if not rows: return None
+    ncols = max(len(r) for r in rows)
+    data = []
+    for i, parts in enumerate(rows):
+        style = S['th'] if i == 0 else S['tcs']
+        cells = [Paragraph(md_to_xml(p), style) for p in parts]
+        while len(cells) < ncols: cells.append(Paragraph("", style))
+        data.append(cells)
+    avail = PAGE_W - ML - MR
+    if ncols == 3:
+        cw = [1.3*inch, 2.1*inch, avail - 3.4*inch]
+    elif ncols == 4:
+        cw = [1.2*inch] + [(avail - 1.2*inch) / 3] * 3
+    elif ncols == 5:
+        cw = [1.1*inch] + [(avail - 1.1*inch) / 4] * 4
+    elif ncols == 6:
+        cw = [1.0*inch] + [(avail - 1.0*inch) / 5] * 5
+    elif ncols >= 7:
+        cw = [0.95*inch] + [(avail - 0.95*inch) / (ncols - 1)] * (ncols - 1)
+    else:
+        cw = [avail / ncols] * ncols
+    t = Table(data, colWidths=cw, repeatRows=1)
+    cmds = [('BACKGROUND',(0,0),(-1,0),DARK_BLUE),('TEXTCOLOR',(0,0),(-1,0),white),
+            ('GRID',(0,0),(-1,-1),0.4,MED_GRAY),('VALIGN',(0,0),(-1,-1),'TOP'),
+            ('TOPPADDING',(0,0),(-1,-1),3),('BOTTOMPADDING',(0,0),(-1,-1),3),
+            ('LEFTPADDING',(0,0),(-1,-1),3),('RIGHTPADDING',(0,0),(-1,-1),3),
+            ('ROWBACKGROUNDS',(0,1),(-1,-1),[white,LIGHT_GRAY])]
+    t.setStyle(TableStyle(cmds))
+    return t
+
 def build_section(S, sec):
-    els=[]
-    hdr=[BookmarkAnchor(sec['anchor']),_back(S),Paragraph(f"{sec['num']}. {sec['title']}",S['sec_head']),Paragraph(sec['tldr'],S['tldr'])]
-    if sec['bullets']: hdr.append(Paragraph(md_to_xml(sec['bullets'][0]),S['bullet'],bulletText='\u2022'))
+    els = []
+    hdr = [BookmarkAnchor(sec['anchor']), _back(S),
+           Paragraph(f"{sec['num']}. {sec['title']}", S['sec_head'])]
+    tbl = _build_section_table(sec.get('table_rows', []), S)
+    if tbl:
+        hdr.append(Spacer(1, 6))
+        hdr.append(tbl)
+        hdr.append(Spacer(1, 8))
     els.append(KeepTogether(hdr))
-    for b in sec['bullets'][1:]: els.append(KeepTogether([Paragraph(md_to_xml(b),S['bullet'],bulletText='\u2022')]))
+    sub_style = ParagraphStyle('sub_bullet', parent=S['bullet'],
+                               leftIndent=28, bulletIndent=16, fontSize=9.5, leading=13.5)
+    for b in sec['bullets']:
+        if isinstance(b, dict):
+            group = [Paragraph(md_to_xml(b['text']), S['bullet'], bulletText='\u2022')]
+            for sub in b['subs']:
+                group.append(Paragraph(md_to_xml(sub), sub_style, bulletText='\u00b7'))
+            els.append(KeepTogether(group))
+        else:
+            els.append(KeepTogether([Paragraph(md_to_xml(b), S['bullet'], bulletText='\u2022')]))
     return els
 
 def _make_qr_cell(urls, S):
     if not urls: return Paragraph("\u2014",S['tcs'])
     QR_SZ=44; items=[]
     for label,url in urls[:3]:
-        qr=QRFlowable(url,size=QR_SZ); lbl=Paragraph(f'<font size="5.5">{label[:20]}</font>',S['qr_lbl'])
+        # Use parenthetical content as label if present, otherwise truncate
+        paren = re.search(r'\(([^)]+)\)', label)
+        short_label = paren.group(1)[:22] if paren else label[:22]
+        qr=QRFlowable(url,size=QR_SZ); lbl=Paragraph(f'<font size="5.5">{short_label}</font>',S['qr_lbl'])
         mini=Table([[qr],[lbl]],colWidths=[QR_SZ+6])
         mini.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),('TOPPADDING',(0,0),(-1,-1),1),('BOTTOMPADDING',(0,0),(-1,-1),1),('LEFTPADDING',(0,0),(-1,-1),1),('RIGHTPADDING',(0,0),(-1,-1),1)]))
         items.append(mini)
@@ -260,7 +340,6 @@ def build_source_table(S, dd):
     els=[BookmarkAnchor("source_docs"),_back(S),Paragraph("Source Documents",S['sec_head'])]
     els.append(Paragraph(md_to_xml(dd['source_intro']),S['body']))
     els.append(Spacer(1,8))
-    for num,_,_ in dd['source_rows']: els.append(BookmarkAnchor(f"source_{num}"))
     cw=[0.28*inch,2.05*inch,2.55*inch,1.52*inch]
     hdr=[Paragraph("#",S['th']),Paragraph("Document",S['th']),Paragraph("Location / Links",S['th']),Paragraph("QR",S['th'])]
     data=[hdr]
@@ -271,7 +350,9 @@ def build_source_table(S, dd):
         else:
             urls=extract_urls(link_text)
             qr_cell=_make_qr_cell(urls,S) if urls else Paragraph("\u2014",S['tcs'])
-        data.append([Paragraph(num,S['tc']),Paragraph(doc_name,S['tc']),Paragraph(link_xml,S['tcs']),qr_cell])
+        # Embed bookmark anchor in the # cell so links jump to the specific row
+        num_cell = Paragraph(f'<a name="source_{num}"/>{num}',S['tc'])
+        data.append([num_cell,Paragraph(doc_name,S['tc']),Paragraph(link_xml,S['tcs']),qr_cell])
     t=Table(data,colWidths=cw,repeatRows=1)
     cmds=[('BACKGROUND',(0,0),(-1,0),DARK_BLUE),('TEXTCOLOR',(0,0),(-1,0),white),
           ('GRID',(0,0),(-1,-1),0.4,MED_GRAY),('VALIGN',(0,0),(-1,-1),'TOP'),
@@ -311,7 +392,8 @@ def _build_table(rows, S):
     return t
 
 def _render_appendix(lines, S, anchor, title):
-    els=[BookmarkAnchor(anchor),_back(S),Paragraph(title,S['app_head'])]
+    header_els=[BookmarkAnchor(anchor),_back(S),Paragraph(title,S['app_head'])]
+    els=[]
     pending_table=[]
     # Collect lines into subsections grouped by ### headings
     # Each subsection (### heading + content) gets KeepTogether
@@ -327,22 +409,19 @@ def _render_appendix(lines, S, anchor, title):
     def flush_subsection():
         nonlocal subsection_buf
         if not subsection_buf: return
-        # Group labeled paragraphs within subsection into KeepTogether blocks
-        # A labeled paragraph starts with **Label:** and includes following paragraphs
-        # until the next label or end
-        groups = []
-        current_group = []
-        for item in subsection_buf:
-            current_group.append(item)
-        if current_group:
-            # Try to KeepTogether the whole subsection; if too big, at least keep heading+first para
-            if len(current_group) <= 12:
-                els.append(KeepTogether(current_group))
-            else:
-                # Keep heading + first 2 items together, rest individually
-                els.append(KeepTogether(current_group[:3]))
-                for item in current_group[3:]:
-                    els.append(item)
+        current_group = list(subsection_buf)
+        has_table = any(isinstance(item, Table) for item in current_group)
+        if has_table:
+            # Tables can be very tall — don't wrap in KeepTogether
+            for item in current_group:
+                els.append(item)
+        elif len(current_group) <= 12:
+            els.append(KeepTogether(current_group))
+        else:
+            # Keep heading + first 2 items together, rest individually
+            els.append(KeepTogether(current_group[:3]))
+            for item in current_group[3:]:
+                els.append(item)
         subsection_buf = []
 
     def _make_para(stripped):
@@ -376,7 +455,7 @@ def _render_appendix(lines, S, anchor, title):
         subsection_buf.append(_make_para(stripped))
     flush_table()
     flush_subsection()
-    return els
+    return header_els + els
 
 def build_appendix_a(S,dd):
     return _render_appendix(dd['appendix_a_lines'],S,'appendix_a',dd.get('appendix_a_title','Appendix A'))
@@ -398,31 +477,34 @@ def build_verify(S, dd):
 def main():
     global _MD5_HASH
     import hashlib
-    md_path=sys.argv[1] if len(sys.argv)>1 else "outputs/SMPD_ALPR_Findings_Draft.md"
-    out_path=sys.argv[2] if len(sys.argv)>2 else "outputs/SMPD_ALPR_Findings_Draft.pdf"
+    md_path=sys.argv[1] if len(sys.argv)>1 else "outputs/SMPD_ALPR_Findings.md"
+    out_path=sys.argv[2] if len(sys.argv)>2 else "outputs/SMPD_ALPR_Findings.pdf"
     with open(md_path,'rb') as f: _MD5_HASH=hashlib.md5(f.read()).hexdigest()
     dd=parse_md(md_path); S=mkstyles()
     frame=Frame(ML,MB,PAGE_W-ML-MR,PAGE_H-MT-MB,id='main')
-    pdf=BaseDocTemplate(out_path,pagesize=letter,title="SMPD ALPR Investigation",author="Draft",subject="ALPR")
+    pdf=BaseDocTemplate(out_path,pagesize=letter,title="SMPD ALPR Investigation — Findings",author="",subject="ALPR")
     pdf.addPageTemplates([PageTemplate(id='cover',frames=[frame],onPage=on_cover),
                           PageTemplate(id='content',frames=[frame],onPage=on_content)])
     story=[]
     story.extend(build_cover(S,dd)); story.append(NextPageTemplate('content'))
     story.extend(build_toc(S,dd)); story.extend(build_exec(S,dd))
     for i,sec in enumerate(dd['sections']):
+        story.append(PageBreak())
         story.extend(build_section(S,sec))
-        if i<len(dd['sections'])-1: story.append(HRFlowable(width="100%",thickness=0.5,color=MED_GRAY,spaceAfter=4,spaceBefore=12))
     story.append(PageBreak()); story.extend(build_source_table(S,dd))
     story.append(PageBreak()); story.extend(build_contacts(S,dd))
     story.append(PageBreak()); story.extend(build_appendix_a(S,dd))
     if dd.get('appendix_b_lines'):
         story.append(PageBreak()); story.extend(build_appendix_b(S,dd))
-    story.append(Spacer(1,16)); story.extend(build_verify(S,dd))
+    if dd.get('verify_items'):
+        story.append(Spacer(1,16)); story.extend(build_verify(S,dd))
     pdf.build(story)
     nb=sum(len(s['bullets']) for s in dd['sections'])
+    nt=sum(1 for s in dd['sections'] if s.get('table_rows'))
     print(f"PDF: {out_path}")
-    print(f"  {len(dd['sections'])} sections, {len(dd['source_rows'])} sources, {nb} bullets")
+    print(f"  Source MD5: {_MD5_HASH}")
+    print(f"  {len(dd['sections'])} sections ({nt} with tables), {len(dd['source_rows'])} sources, {nb} bullets")
     print(f"  Appendix A: {len(dd['appendix_a_lines'])} lines, Appendix B: {len(dd['appendix_b_lines'])} lines")
-    print(f"  Verify: {len(dd['verify_items'])} items")
+    if dd['verify_items']: print(f"  Verify: {len(dd['verify_items'])} items")
 
 if __name__=="__main__": main()

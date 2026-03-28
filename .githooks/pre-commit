@@ -1,7 +1,20 @@
 #!/bin/sh
-# Pre-commit hook for assets/ PDFs:
-#   1. Generate OCR text sidecars for staged PDFs (aborts if new sidecars created)
-#   2. Scan staged PDFs for PII (blocks commit if found)
+# Pre-commit hook:
+#   1. Regenerate PDF if the findings MD or the PDF generator changed
+#   2. Generate OCR text sidecars for staged PDFs (aborts if new sidecars created)
+#   3. Scan staged PDFs for PII (blocks commit if found)
+
+FILE_MD="outputs/SMPD_ALPR_Findings.md"
+FILE_PDF="outputs/SMPD_ALPR_Findings.pdf"
+BUILD_SCRIPT="scripts/md_to_pdf.py"
+
+# If the MD or build script is staged, rebuild the PDF and stage it
+if git diff --cached --name-only | grep -qF "${FILE_MD}" || \
+   git diff --cached --name-only | grep -qF "${BUILD_SCRIPT}"; then
+    echo "Rebuilding PDF from ${FILE_MD}..."
+    uv run python "${BUILD_SCRIPT}" "${FILE_MD}" "${FILE_PDF}" || exit 1
+    git add "${FILE_PDF}"
+fi
 
 # Generate sidecars — exits 1 if new sidecars were written, prompting re-stage
 uv run python scripts/ocr_sidecar.py --staged || exit 1

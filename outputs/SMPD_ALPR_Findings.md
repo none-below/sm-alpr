@@ -1,6 +1,5 @@
 # SMPD ALPR Investigation — Findings
 
-<!-- PDF GENERATOR NOTE: All [N] references in table cells should be converted to hyperlinks pointing to the corresponding entry in the Source Documents section. Display the cell text without bracket notation. Each cell contains at most one citation. Section-specific column headers (SOP 205, Policy 463, etc.) cite their own source implicitly and do not need links. -->
 *Prepared March 16, 2026*
 
 Every factual claim below is traceable to a specific document, email, or public record. Bracketed numbers (e.g., [1]) refer to the numbered Source Documents table at the end. In the digital version, source links are clickable. In print, QR codes are provided for key sources.
