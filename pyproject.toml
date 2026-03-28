@@ -1,0 +1,11 @@
+[project]
+name = "sm-alpr"
+version = "0.1.0"
+description = "SMPD ALPR investigation — findings report and tooling"
+requires-python = ">=3.14"
+dependencies = [
+    "pillow>=12.1.1",
+    "pymupdf>=1.27.2.2",
+    "pytesseract>=0.3.13",
+    "reportlab>=4.4.10",
+]

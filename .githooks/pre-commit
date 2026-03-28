@@ -1,0 +1,10 @@
+#!/bin/sh
+# Pre-commit hook for assets/ PDFs:
+#   1. Generate OCR text sidecars for staged PDFs (aborts if new sidecars created)
+#   2. Scan staged PDFs for PII (blocks commit if found)
+
+# Generate sidecars — exits 1 if new sidecars were written, prompting re-stage
+uv run python scripts/ocr_sidecar.py --staged || exit 1
+
+# PII scan
+exec uv run python scripts/pii_scan.py --staged
