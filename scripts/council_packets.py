@@ -25,9 +25,14 @@ Usage:
 """
 
 import argparse
+import hashlib
+import io
 import json
+import os
+import random
 import re
 import sys
+import tempfile
 import time
 import urllib.request
 from pathlib import Path
@@ -81,19 +86,25 @@ def find_packet_template_id(meeting):
     return None
 
 
-def download_packet(template_id, dest_path):
-    """Download a compiled packet PDF."""
+def download_packet(template_id, dest_path, retries=3):
+    """Download a compiled packet PDF with retries."""
     url = f"{PACKET_URL}?meetingTemplateId={template_id}&compileOutputType=1"
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            data = resp.read()
-            dest_path.write_bytes(data)
-            size_mb = len(data) / (1024 * 1024)
-            return size_mb
-    except Exception as e:
-        print(f"    WARNING: download failed: {e}")
-        return None
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                data = resp.read()
+                dest_path.write_bytes(data)
+                size_mb = len(data) / (1024 * 1024)
+                return size_mb
+        except Exception as e:
+            if attempt < retries - 1:
+                wait = 5 * (attempt + 1)
+                print(f"    WARNING: {e}, retrying in {wait}s...")
+                time.sleep(wait)
+            else:
+                print(f"    WARNING: download failed after {retries} attempts: {e}")
+                return None
 
 
 def safe_dirname(meeting):
@@ -210,7 +221,8 @@ def cmd_fetch(args):
         downloaded += 1
 
         if args.delay and i < len(with_packets) - 1:
-            time.sleep(args.delay)
+            jitter = args.delay * random.uniform(0.7, 1.3)
+            time.sleep(jitter)
 
     print(f"\nDone: {downloaded} downloaded, {skipped} already had.")
 
@@ -219,9 +231,16 @@ def cmd_fetch(args):
 # OCR
 # ═══════════════════════════════════════════════════════════
 
+def _ocr_image(img_bytes):
+    """OCR a single page image. Runs in a subprocess via ProcessPoolExecutor."""
+    import pytesseract  # imported here because subprocesses need their own import
+    from PIL import Image
+    img = Image.open(io.BytesIO(img_bytes))
+    return pytesseract.image_to_string(img)
+
+
 def cmd_ocr(args):
-    import fitz  # pymupdf
-    import io
+    import fitz  # pymupdf — lazy import since not needed for fetch/index
 
     data_dir = args.data_dir
 
@@ -240,10 +259,16 @@ def cmd_ocr(args):
 
         if not pdf_path.exists():
             continue
-        if txt_path.exists() and not args.force:
-            continue
 
-        print(f"  {meeting_dir.name}...", end="", flush=True)
+        pdf_hash = hashlib.sha256(pdf_path.read_bytes()).hexdigest()
+
+        if txt_path.exists() and not args.force:
+            existing_header = txt_path.read_text(encoding="utf-8")[:200]
+            if f"sha256: {pdf_hash}" in existing_header:
+                continue
+            print(f"  {meeting_dir.name}: PDF changed, re-extracting...", end="", flush=True)
+        else:
+            print(f"  {meeting_dir.name}...", end="", flush=True)
 
         try:
             doc = fitz.open(pdf_path)
@@ -251,8 +276,8 @@ def cmd_ocr(args):
             print(f" ERROR: {e}")
             continue
 
-        pages = []
-        ocr_pages = 0
+        # Extract page data: native text + image bytes for OCR candidates
+        page_data = []  # (page_num, native_text, image_bytes_or_None)
         for page_num in range(len(doc)):
             page = doc[page_num]
             native = (page.get_text() or "").strip()
@@ -261,23 +286,57 @@ def cmd_ocr(args):
 
             if needs_ocr:
                 try:
-                    import pytesseract
-                    from PIL import Image
                     pix = page.get_pixmap(dpi=300)
-                    img = Image.open(io.BytesIO(pix.tobytes("png")))
-                    text = pytesseract.image_to_string(img)
-                    ocr_pages += 1
+                    img_bytes = pix.tobytes("png")
                 except Exception:
-                    text = native  # fallback
+                    img_bytes = None
+                page_data.append((page_num, native, img_bytes))
             else:
-                text = native
-
-            pages.append(f"--- page {page_num + 1} ---\n{text}")
+                page_data.append((page_num, native, None))
 
         doc.close()
 
-        full_text = "\n\n".join(pages)
-        txt_path.write_text(full_text, encoding="utf-8")
+        # OCR image pages in parallel
+        from concurrent.futures import ProcessPoolExecutor
+        ocr_items = [(i, d) for i, d in enumerate(page_data) if d[2] is not None]
+        ocr_results = {}
+
+        if ocr_items:
+            with ProcessPoolExecutor() as pool:
+                futures = {
+                    pool.submit(_ocr_image, d[2]): i
+                    for i, d in ocr_items
+                }
+                for future in futures:
+                    idx = futures[future]
+                    try:
+                        ocr_results[idx] = future.result()
+                    except Exception:
+                        ocr_results[idx] = page_data[idx][1]  # fallback to native
+
+        # Assemble pages
+        pages = []
+        ocr_pages = len(ocr_results)
+        for i, (page_num, native, img_bytes) in enumerate(page_data):
+            text = ocr_results.get(i, native)
+            pages.append(f"--- page {page_num + 1} ---\n{text}")
+
+        header = (
+            f"source: packet.pdf\n"
+            f"sha256: {pdf_hash}\n"
+            f"pages: {len(pages)}\n"
+            f"ocr_pages: {ocr_pages}\n"
+            f"---\n"
+        )
+        full_text = header + "\n\n".join(pages)
+        fd, tmp_path = tempfile.mkstemp(prefix=".packet_", suffix=".tmp", dir=str(meeting_dir))
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                f.write(full_text)
+            Path(tmp_path).replace(txt_path)
+        except Exception:
+            Path(tmp_path).unlink(missing_ok=True)
+            raise
         print(f" {len(pages)} pages ({ocr_pages} OCR'd)")
         count += 1
 

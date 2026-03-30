@@ -50,6 +50,7 @@ HASH_FILE = ".content_hashes.json"
 FAILED_FILE = ".failed_slugs.json"
 VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
+STALE_DAYS = 14
 
 
 # ═══════════════════════════════════════════════════════════
@@ -96,6 +97,24 @@ def content_hash(text):
 def dedupe(slugs):
     seen = set()
     return [s for s in slugs if not (s in seen or seen.add(s))]
+
+
+def is_stale(slug, data_dir, max_age_days=STALE_DAYS):
+    """Check if a slug's latest capture is older than max_age_days."""
+    slug_dir = data_dir / slug
+    if not slug_dir.is_dir():
+        return True
+    txts = sorted(slug_dir.glob("*.txt"))
+    if not txts:
+        return True
+    latest_date_str = txts[-1].stem  # e.g. "2026-03-27"
+    try:
+        from datetime import datetime
+        latest = datetime.strptime(latest_date_str, "%Y-%m-%d").date()
+        age = (date.today() - latest).days
+        return age >= max_age_days
+    except ValueError:
+        return True
 
 
 # ═══════════════════════════════════════════════════════════
@@ -424,7 +443,10 @@ def cmd_crawl(args):
         if not args.retry_failed:
             visited.update(failed_slugs.keys())
         if not args.force:
-            visited.update(hashes.keys())
+            # Only skip slugs with fresh captures (< STALE_DAYS old)
+            visited.update(
+                s for s in hashes if not is_stale(s, data_dir, args.max_age)
+            )
         batch_remaining = args.batch if args.batch else float("inf")
 
         if args.all_agencies or args.depth:
@@ -792,6 +814,8 @@ def main():
                          help="Process at most N agencies then exit")
     p_crawl.add_argument("--proxy", type=str, metavar="URL",
                          help="SOCKS5/HTTP proxy (e.g. socks5://localhost:9050)")
+    p_crawl.add_argument("--max-age", type=int, default=STALE_DAYS, metavar="DAYS",
+                         help=f"Re-fetch if latest capture is older than DAYS (default: {STALE_DAYS})")
     p_crawl.add_argument("--retry-failed", action="store_true",
                          help="Retry previously failed slugs")
 
