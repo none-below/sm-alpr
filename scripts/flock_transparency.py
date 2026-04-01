@@ -123,7 +123,7 @@ def is_stale(slug, data_dir, max_age_days=STALE_DAYS):
 
 _AGENCY_MARKERS = re.compile(
     r"\b(PD|SO|SD|DA|Police|Sheriff|Office|Patrol|Parks|Fire|NCRIC|Cal Fire"
-    r"|Highway Patrol|State Parks|Campus|College|University|Station"
+    r"|Cal State|Highway Patrol|State Parks|Campus|College|University|Station"
     r"|Department of Public Safety)\b",
     re.IGNORECASE,
 )
