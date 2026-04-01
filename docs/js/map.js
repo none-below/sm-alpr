@@ -313,6 +313,54 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       '<p class="stat">311 agencies mapped.</p>';
   });
 
+  // Edge indicators for off-screen markers
+  function updateEdgeIndicators() {
+    const bounds = map.getBounds();
+    let left = 0, right = 0, top = 0, bottom = 0;
+    let leftViol = false, rightViol = false, topViol = false, bottomViol = false;
+
+    markers.forEach(m => {
+      if (bounds.contains([m.lat, m.lng])) return;
+      const viol = isViolation(m.slug);
+      if (m.lng < bounds.getWest()) { left++; if (viol) leftViol = true; }
+      if (m.lng > bounds.getEast()) { right++; if (viol) rightViol = true; }
+      if (m.lat > bounds.getNorth()) { top++; if (viol) topViol = true; }
+      if (m.lat < bounds.getSouth()) { bottom++; if (viol) bottomViol = true; }
+    });
+
+    function show(id, count, hasViol, arrow) {
+      const el = document.getElementById(id);
+      if (count > 0) {
+        el.textContent = arrow + ' ' + count;
+        el.className = 'edge-indicator' + (hasViol ? ' has-violation' : '');
+        el.style.display = '';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+    show('edge-left', left, leftViol, '\u2190');
+    show('edge-right', right, rightViol, '\u2192');
+    show('edge-top', top, topViol, '\u2191');
+    show('edge-bottom', bottom, bottomViol, '\u2193');
+  }
+  map.on('moveend', updateEdgeIndicators);
+  map.on('zoomend', updateEdgeIndicators);
+  updateEdgeIndicators();
+
+  // Click edge indicators to pan towards off-screen markers
+  ['edge-left', 'edge-right', 'edge-top', 'edge-bottom'].forEach(id => {
+    document.getElementById(id).addEventListener('click', () => {
+      const bounds = map.getBounds();
+      const center = map.getCenter();
+      const dx = (bounds.getEast() - bounds.getWest()) * 0.4;
+      const dy = (bounds.getNorth() - bounds.getSouth()) * 0.4;
+      if (id === 'edge-left') map.panTo([center.lat, center.lng - dx]);
+      if (id === 'edge-right') map.panTo([center.lat, center.lng + dx]);
+      if (id === 'edge-top') map.panTo([center.lat + dy, center.lng]);
+      if (id === 'edge-bottom') map.panTo([center.lat - dy, center.lng]);
+    });
+  });
+
   // Navigate to slug from info panel
   const markerDataBySlug = {};
   markers.forEach(m => { markerDataBySlug[m.slug] = m; });

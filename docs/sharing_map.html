@@ -36,6 +36,20 @@
   }
   .offmap-panel h4 { margin: 0 0 6px 0; color: #dc2626; font-size: 12px; }
   .offmap-panel div { padding: 1px 0; cursor: pointer; }
+  .edge-indicator {
+    position: absolute; z-index: 1000;
+    background: #2563eb; color: white;
+    border-radius: 16px; padding: 4px 10px;
+    font-size: 12px; font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    cursor: pointer; white-space: nowrap;
+    display: none;
+  }
+  .edge-indicator.has-violation { background: #dc2626; }
+  #edge-left { left: 10px; top: 50%; transform: translateY(-50%); }
+  #edge-right { right: 370px; top: 50%; transform: translateY(-50%); }
+  #edge-top { top: 10px; left: 50%; transform: translateX(-50%); }
+  #edge-bottom { bottom: 30px; left: 50%; transform: translateX(-50%); }
 </style>
 </head>
 <body>
@@ -54,6 +68,10 @@
   <div class="legend-item"><div style="width:20px;height:2px;background:#2563eb"></div> Shares with (outbound)</div>
   <div class="legend-item"><div style="width:20px;height:2px;background:#16a34a;border-top:2px dashed #16a34a"></div> Receives from (inbound)</div>
 </div>
+<div id="edge-left" class="edge-indicator"></div>
+<div id="edge-right" class="edge-indicator"></div>
+<div id="edge-top" class="edge-indicator"></div>
+<div id="edge-bottom" class="edge-indicator"></div>
 <div class="offmap-panel" id="offmap"></div>
 <script src="data/map_data.json" type="application/json" id="mapData"></script>
 <script src="js/map.js"></script>

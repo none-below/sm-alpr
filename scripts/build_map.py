@@ -627,6 +627,20 @@ def _generate_html(marker_count):
   }}
   .offmap-panel h4 {{ margin: 0 0 6px 0; color: #dc2626; font-size: 12px; }}
   .offmap-panel div {{ padding: 1px 0; cursor: pointer; }}
+  .edge-indicator {{
+    position: absolute; z-index: 1000;
+    background: #2563eb; color: white;
+    border-radius: 16px; padding: 4px 10px;
+    font-size: 12px; font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    cursor: pointer; white-space: nowrap;
+    display: none;
+  }}
+  .edge-indicator.has-violation {{ background: #dc2626; }}
+  #edge-left {{ left: 10px; top: 50%; transform: translateY(-50%); }}
+  #edge-right {{ right: 370px; top: 50%; transform: translateY(-50%); }}
+  #edge-top {{ top: 10px; left: 50%; transform: translateX(-50%); }}
+  #edge-bottom {{ bottom: 30px; left: 50%; transform: translateX(-50%); }}
 </style>
 </head>
 <body>
@@ -645,6 +659,10 @@ def _generate_html(marker_count):
   <div class="legend-item"><div style="width:20px;height:2px;background:#2563eb"></div> Shares with (outbound)</div>
   <div class="legend-item"><div style="width:20px;height:2px;background:#16a34a;border-top:2px dashed #16a34a"></div> Receives from (inbound)</div>
 </div>
+<div id="edge-left" class="edge-indicator"></div>
+<div id="edge-right" class="edge-indicator"></div>
+<div id="edge-top" class="edge-indicator"></div>
+<div id="edge-bottom" class="edge-indicator"></div>
 <div class="offmap-panel" id="offmap"></div>
 <script src="data/map_data.json" type="application/json" id="mapData"></script>
 <script src="js/map.js"></script>
@@ -967,6 +985,54 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       '<h3>Flock ALPR Sharing Map</h3>' +
       '<p class="stat">Click an agency to see its sharing web.</p>' +
       '<p class="stat">""" + str(marker_count) + r""" agencies mapped.</p>';
+  });
+
+  // Edge indicators for off-screen markers
+  function updateEdgeIndicators() {
+    const bounds = map.getBounds();
+    let left = 0, right = 0, top = 0, bottom = 0;
+    let leftViol = false, rightViol = false, topViol = false, bottomViol = false;
+
+    markers.forEach(m => {
+      if (bounds.contains([m.lat, m.lng])) return;
+      const viol = isViolation(m.slug);
+      if (m.lng < bounds.getWest()) { left++; if (viol) leftViol = true; }
+      if (m.lng > bounds.getEast()) { right++; if (viol) rightViol = true; }
+      if (m.lat > bounds.getNorth()) { top++; if (viol) topViol = true; }
+      if (m.lat < bounds.getSouth()) { bottom++; if (viol) bottomViol = true; }
+    });
+
+    function show(id, count, hasViol, arrow) {
+      const el = document.getElementById(id);
+      if (count > 0) {
+        el.textContent = arrow + ' ' + count;
+        el.className = 'edge-indicator' + (hasViol ? ' has-violation' : '');
+        el.style.display = '';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+    show('edge-left', left, leftViol, '\u2190');
+    show('edge-right', right, rightViol, '\u2192');
+    show('edge-top', top, topViol, '\u2191');
+    show('edge-bottom', bottom, bottomViol, '\u2193');
+  }
+  map.on('moveend', updateEdgeIndicators);
+  map.on('zoomend', updateEdgeIndicators);
+  updateEdgeIndicators();
+
+  // Click edge indicators to pan towards off-screen markers
+  ['edge-left', 'edge-right', 'edge-top', 'edge-bottom'].forEach(id => {
+    document.getElementById(id).addEventListener('click', () => {
+      const bounds = map.getBounds();
+      const center = map.getCenter();
+      const dx = (bounds.getEast() - bounds.getWest()) * 0.4;
+      const dy = (bounds.getNorth() - bounds.getSouth()) * 0.4;
+      if (id === 'edge-left') map.panTo([center.lat, center.lng - dx]);
+      if (id === 'edge-right') map.panTo([center.lat, center.lng + dx]);
+      if (id === 'edge-top') map.panTo([center.lat + dy, center.lng]);
+      if (id === 'edge-bottom') map.panTo([center.lat - dy, center.lng]);
+    });
   });
 
   // Navigate to slug from info panel
