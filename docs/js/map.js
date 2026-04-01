@@ -12,12 +12,75 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     maxZoom: 18,
   }).addTo(map);
 
-  const markerLayer = L.layerGroup().addTo(map);
+  const markerLayer = L.markerClusterGroup({
+    maxClusterRadius: 20,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    iconCreateFunction: function(cluster) {
+      const children = cluster.getAllChildMarkers();
+      let worstPriority = 10;
+      children.forEach(cm => {
+        const slug = cm.options.slug;
+        if (!slug) return;
+        const info = agencyInfo[slug] || {};
+        let pri = 10;
+        if (info.state && info.state !== 'CA') pri = 0;
+        else if (info.public === false) pri = 1;
+        else if (info.type === 'decommissioned' || info.type === 'test') pri = 2;
+        if (pri < worstPriority) worstPriority = pri;
+      });
+      const color = worstPriority <= 1 ? '#dc2626' : worstPriority <= 3 ? '#f97316' : '#2563eb';
+      const size = Math.min(40, 20 + children.length * 2);
+      return L.divIcon({
+        html: '<div style="background:' + color + ';color:white;border-radius:50%;width:' + size + 'px;height:' + size + 'px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">' + children.length + '</div>',
+        className: '',
+        iconSize: [size, size],
+      });
+    },
+  });
+
+  // Show member names on cluster hover
+  markerLayer.on('clustermouseover', function(e) {
+    const children = e.layer.getAllChildMarkers();
+    if (children.length > 15) {
+      e.layer.bindTooltip(children.length + ' agencies').openTooltip();
+      return;
+    }
+    const names = children.map(cm => {
+      const slug = cm.options.slug;
+      const info = agencyInfo[slug] || {};
+      let name = info.name || slug;
+      if (isViolation(slug)) name = '\u26a0 ' + name;
+      return name;
+    }).sort();
+    e.layer.bindTooltip(names.join('<br>'), { direction: 'top' }).openTooltip();
+  });
+  markerLayer.on('clustermouseout', function(e) {
+    e.layer.unbindTooltip();
+  });
+
+  markerLayer.addTo(map);
   const lineLayer = L.layerGroup().addTo(map);
   const markersBySlug = {};
 
   function defaultRadius(m) {
     return m.crawled ? Math.max(4, Math.min(10, Math.sqrt(m.cameras || 1) * 2)) : 3;
+  }
+
+  function isViolation(slug) {
+    const info = agencyInfo[slug] || {};
+    if (info.public === false && info.type !== 'test') return true;
+    if (info.state && info.state !== 'CA') return true;
+    if (info.type === 'decommissioned') return true;
+    if (info.type === 'test') return true;
+    return false;
+  }
+
+  function defaultColor(m) {
+    if (isViolation(m.slug)) return { fill: '#dc2626', border: '#991b1b', opacity: 0.8 };
+    if (m.crawled) return { fill: '#2563eb', border: '#1e40af', opacity: 0.6 };
+    return { fill: '#9ca3af', border: '#6b7280', opacity: 0.3 };
   }
 
   function distKm(lat1, lng1, lat2, lng2) {
@@ -73,16 +136,31 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
 
   // Place markers
   markers.forEach(m => {
+    const col = defaultColor(m);
+    const radius = isViolation(m.slug) ? Math.max(6, defaultRadius(m)) : defaultRadius(m);
     const circle = L.circleMarker([m.lat, m.lng], {
-      radius: defaultRadius(m),
-      fillColor: m.crawled ? '#2563eb' : '#9ca3af',
-      color: m.crawled ? '#1e40af' : '#6b7280',
-      weight: 1,
-      fillOpacity: m.crawled ? 0.6 : 0.3,
+      radius: radius,
+      fillColor: col.fill,
+      color: col.border,
+      weight: isViolation(m.slug) ? 2 : 1,
+      fillOpacity: col.opacity,
+      slug: m.slug,
     }).addTo(markerLayer);
-    circle.bindTooltip(m.slug, { direction: 'top', offset: [0, -8] });
+    const info = agencyInfo[m.slug] || {};
+    const tipName = (info.name || m.slug) + (isViolation(m.slug) ? ' \u26a0' : '');
+    circle.bindTooltip(tipName, { direction: 'top', offset: [0, -8], sticky: true });
     circle.on('click', (e) => { L.DomEvent.stopPropagation(e); showAgency(m); });
     markersBySlug[m.slug] = circle;
+  });
+
+  // After spiderfy, re-bind tooltips on the spidered markers
+  markerLayer.on('spiderfied', function(e) {
+    e.markers.forEach(cm => {
+      const slug = cm.options.slug;
+      const info = agencyInfo[slug] || {};
+      const tipName = (info.name || slug) + (isViolation(slug) ? ' \u26a0' : '');
+      cm.bindTooltip(tipName, { direction: 'top', offset: [0, -8], sticky: true });
+    });
   });
 
   function showAgency(m) {
@@ -156,8 +234,12 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
         c.setRadius(Math.max(6, defaultRadius(mm)));
         c.setStyle({ fillColor: '#f97316', fillOpacity: 0.9, weight: 2, color: '#c2410c' });
       } else if (connected.has(mm.slug)) {
+        const col = defaultColor(mm);
         c.setRadius(defaultRadius(mm));
-        c.setStyle({ fillColor: mm.crawled ? '#2563eb' : '#9ca3af', fillOpacity: 0.8, weight: 1, color: mm.crawled ? '#1e40af' : '#6b7280' });
+        c.setStyle({ fillColor: col.fill, fillOpacity: 0.8, weight: 1, color: col.border });
+      } else if (isViolation(mm.slug)) {
+        c.setRadius(3);
+        c.setStyle({ fillColor: '#dc2626', fillOpacity: 0.3, weight: 1, color: '#991b1b' });
       } else {
         c.setRadius(2);
         c.setStyle({ fillColor: '#d1d5db', fillOpacity: 0.2, weight: 0.5, color: '#e5e7eb' });
@@ -165,20 +247,21 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     });
   }
 
-  // Click map background to reset
-  map.on('click', () => {
-    lineLayer.clearLayers();
+  function resetMarkers() {
     markers.forEach(mm => {
       const c = markersBySlug[mm.slug];
       if (!c) return;
-      c.setRadius(defaultRadius(mm));
-      c.setStyle({
-        fillColor: mm.crawled ? '#2563eb' : '#9ca3af',
-        fillOpacity: mm.crawled ? 0.6 : 0.3,
-        weight: 1,
-        color: mm.crawled ? '#1e40af' : '#6b7280',
-      });
+      const col = defaultColor(mm);
+      const radius = isViolation(mm.slug) ? Math.max(5, defaultRadius(mm)) : defaultRadius(mm);
+      c.setRadius(radius);
+      c.setStyle({ fillColor: col.fill, fillOpacity: col.opacity, weight: isViolation(mm.slug) ? 2 : 1, color: col.border });
     });
+  }
+
+  // Click map background to reset
+  map.on('click', () => {
+    lineLayer.clearLayers();
+    resetMarkers();
     document.getElementById('info').innerHTML =
       '<h3>Flock ALPR Sharing Map</h3>' +
       '<p class="stat">Click an agency to see its sharing web.</p>' +
