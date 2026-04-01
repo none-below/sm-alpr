@@ -38,7 +38,7 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       const total = children.length;
       const segments = [];
       let angle = 0;
-      [[red, '#dc2626'], [orange, '#f97316'], [blue, '#2563eb'], [gray, '#9ca3af']].forEach(([count, color]) => {
+      [[red, '#dc2626'], [orange, '#f97316'], [blue, '#2563eb'], [gray, '#8b5cf6']].forEach(([count, color]) => {
         if (count === 0) return;
         const sweep = (count / total) * 360;
         if (count === total) {
@@ -95,7 +95,8 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
   const markersBySlug = {};
 
   function defaultRadius(m) {
-    return m.crawled ? Math.max(4, Math.min(10, Math.sqrt(m.cameras || 1) * 2)) : 3;
+    if (m.crawled) return Math.max(4, Math.min(10, Math.sqrt(m.cameras || 1) * 2));
+    return 4;  // uncrawled: same base size as small cities
   }
 
   function isViolation(slug) {
@@ -116,7 +117,7 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     if (isViolation(m.slug)) return { fill: '#dc2626', border: '#991b1b', opacity: 0.8 };
     if (hasOutboundViolation(m)) return { fill: '#f97316', border: '#c2410c', opacity: 0.7 };
     if (m.crawled) return { fill: '#2563eb', border: '#1e40af', opacity: 0.6 };
-    return { fill: '#9ca3af', border: '#6b7280', opacity: 0.3 };
+    return { fill: '#8b5cf6', border: '#6d28d9', opacity: 0.5 };
   }
 
   function distKm(lat1, lng1, lat2, lng2) {
@@ -220,7 +221,7 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     });
 
     const info = document.getElementById('info');
-    const status = m.crawled ? 'Crawled' : 'Not crawled (inferred from other portals)';
+    const status = m.crawled ? 'Crawled' : 'No transparency page found (inferred from other portals)';
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
     let html = '<h3>' + m.slug + '</h3>';
     if (m.crawled) {
@@ -264,8 +265,8 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       const c = markersBySlug[mm.slug];
       if (!c) return;
       if (mm.slug === m.slug) {
-        c.setRadius(12);
-        c.setStyle({ fillColor: '#dc2626', fillOpacity: 1, weight: 2, color: '#991b1b' });
+        c.setRadius(14);
+        c.setStyle({ fillColor: '#06b6d4', fillOpacity: 1, weight: 3, color: '#0e7490' });
         c.bringToFront();
       } else if (myMismatches.has(mm.slug)) {
         c.setRadius(Math.max(6, defaultRadius(mm)));
@@ -302,7 +303,7 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     document.getElementById('info').innerHTML =
       '<h3>Flock ALPR Sharing Map</h3>' +
       '<p class="stat">Click an agency to see its sharing web.</p>' +
-      '<p class="stat">310 agencies mapped.</p>';
+      '<p class="stat">311 agencies mapped.</p>';
   });
 
   // Navigate to slug from info panel

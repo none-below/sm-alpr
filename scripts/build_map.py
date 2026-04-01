@@ -325,7 +325,7 @@ CA_COORDS = {
     "tulare-county": (36.2077, -119.3473),
     "tustin": (33.7458, -117.8262),
     "ukiah": (39.1502, -123.2078),
-    "union-pacific-railroad": (37.7749, -122.4194),
+    "union-pacific-railroad": (41.2565, -95.9345),  # Omaha, NE
     "university-of-the-pacific": (37.9812, -121.3114),
     "williams": (39.1541, -122.1497),
     "willits": (39.4096, -123.3556),
@@ -345,6 +345,8 @@ CA_COORDS = {
     "cal-state-fullerton": (33.8829, -117.8853),
     "cal-state-san-bernadino": (34.1817, -117.3232),
     "california-city": (35.1258, -117.9859),
+    "california-state-university-long-beach": (33.7830, -118.1129),
+    "california-state-university-long-beach-campus-pd": (33.7830, -118.1129),
     "cerritos": (33.8583, -118.0648),
     "chabot-college": (37.6525, -122.0947),
     "chaffey-college": (34.1047, -117.5765),
@@ -423,6 +425,16 @@ CA_COORDS = {
     "west-valley-mission-college": (37.2630, -121.9188),
     "western-states-information-network": (38.5816, -121.4944),
     "woodlake": (36.4136, -119.0987),
+    # "City of" / "Town of" aliases — same location as their PD
+    "city-of-vallejo-ca": (38.1041, -122.2566),
+    "city-of-half-moon-bay": (37.4636, -122.4286),
+    "city-of-lemoore": (36.3008, -119.7826),
+    "city-of-menifee": (33.6781, -117.1464),
+    "city-of-monte-sereno": (37.2363, -121.9928),
+    "half-moon-bay": (37.4636, -122.4286),
+    "newman": (37.3133, -121.0208),
+    "lindsay": (36.2030, -119.0882),
+    "modesto": (37.6391, -120.9969),
     # Out-of-state (direct slug matches since suffix stripping won't work)
     "18th-judicial-district-das-office-la-pd": (30.4515, -91.1871),  # Baton Rouge, LA
     "goshen-village-ny-pd": (41.3812, -74.3240),  # Goshen, NY
@@ -475,16 +487,22 @@ def main():
     # Load agency registry for classification data
     registry_path = Path("assets/agency_registry.json")
     registry_by_slug = {}
+    alias_to_primary = {}  # alias_slug -> primary_slug
     if registry_path.exists():
         for e in json.loads(registry_path.read_text()):
             registry_by_slug[e["slug"]] = e
+            for aka in e.get("also_known_as", []):
+                alias_to_primary[aka] = e["slug"]
 
-    # Build map data
+    # Build map data — skip aliases, merge their data into primary
     markers = []
     geocoded = 0
     ungeocodable = []
 
     for slug, data in graph["agencies"].items():
+        # Skip alias slugs — their data is on the primary
+        if slug in alias_to_primary:
+            continue
         loc = slug_to_location(slug)
         if not loc:
             ungeocodable.append(slug)
@@ -521,6 +539,11 @@ def main():
             "crawled": reg.get("crawled", False),
             "notes": reg.get("notes"),
         }
+
+    # Add alias entries pointing to primary's info
+    for alias, primary in alias_to_primary.items():
+        if primary in slug_info and alias not in slug_info:
+            slug_info[alias] = slug_info[primary]
 
     # Build mismatch lookup
     mismatch_map = {}
@@ -609,7 +632,8 @@ def _generate_html(marker_count):
   <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div> Public agency</div>
   <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Shares with violation entity</div>
   <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Violation entity (private/out-of-state/decommissioned)</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#9ca3af"></div> Not crawled</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div> Selected</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div> No transparency page found</div>
   <div class="legend-item"><div style="width:20px;height:2px;background:#2563eb"></div> Shares with (outbound)</div>
   <div class="legend-item"><div style="width:20px;height:2px;background:#16a34a;border-top:2px dashed #16a34a"></div> Receives from (inbound)</div>
 </div>
@@ -661,7 +685,7 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       const total = children.length;
       const segments = [];
       let angle = 0;
-      [[red, '#dc2626'], [orange, '#f97316'], [blue, '#2563eb'], [gray, '#9ca3af']].forEach(([count, color]) => {
+      [[red, '#dc2626'], [orange, '#f97316'], [blue, '#2563eb'], [gray, '#8b5cf6']].forEach(([count, color]) => {
         if (count === 0) return;
         const sweep = (count / total) * 360;
         if (count === total) {
@@ -718,7 +742,8 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
   const markersBySlug = {};
 
   function defaultRadius(m) {
-    return m.crawled ? Math.max(4, Math.min(10, Math.sqrt(m.cameras || 1) * 2)) : 3;
+    if (m.crawled) return Math.max(4, Math.min(10, Math.sqrt(m.cameras || 1) * 2));
+    return 4;  // uncrawled: same base size as small cities
   }
 
   function isViolation(slug) {
@@ -739,7 +764,7 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     if (isViolation(m.slug)) return { fill: '#dc2626', border: '#991b1b', opacity: 0.8 };
     if (hasOutboundViolation(m)) return { fill: '#f97316', border: '#c2410c', opacity: 0.7 };
     if (m.crawled) return { fill: '#2563eb', border: '#1e40af', opacity: 0.6 };
-    return { fill: '#9ca3af', border: '#6b7280', opacity: 0.3 };
+    return { fill: '#8b5cf6', border: '#6d28d9', opacity: 0.5 };
   }
 
   function distKm(lat1, lng1, lat2, lng2) {
@@ -843,7 +868,7 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     });
 
     const info = document.getElementById('info');
-    const status = m.crawled ? 'Crawled' : 'Not crawled (inferred from other portals)';
+    const status = m.crawled ? 'Crawled' : 'No transparency page found (inferred from other portals)';
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
     let html = '<h3>' + m.slug + '</h3>';
     if (m.crawled) {
@@ -887,8 +912,8 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       const c = markersBySlug[mm.slug];
       if (!c) return;
       if (mm.slug === m.slug) {
-        c.setRadius(12);
-        c.setStyle({ fillColor: '#dc2626', fillOpacity: 1, weight: 2, color: '#991b1b' });
+        c.setRadius(14);
+        c.setStyle({ fillColor: '#06b6d4', fillOpacity: 1, weight: 3, color: '#0e7490' });
         c.bringToFront();
       } else if (myMismatches.has(mm.slug)) {
         c.setRadius(Math.max(6, defaultRadius(mm)));

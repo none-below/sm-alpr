@@ -653,7 +653,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": false
+    "needs_review": false,
+    "notes": "Hollywood Burbank Airport Police. Airport is owned by the Burbank-Glendale-Pasadena Airport Authority, a public joint powers authority."
   },
   {
     "slug": "burbank-ca-pd",
@@ -733,7 +734,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (Napa Valley College). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "ca-wasco-pd",
@@ -925,7 +927,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public university (CSU Long Beach). Part of the <a href=\"https://www.calstate.edu/attend/campuses\" target=\"_blank\">California State University</a> system."
   },
   {
     "slug": "calistoga-ca-pd",
@@ -1037,7 +1040,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (Cerritos College). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "chabot-college-campus-safety-security-department-ca",
@@ -1053,7 +1057,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (Chabot College). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "chaffey-college-pd-ca",
@@ -1069,7 +1074,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (Chaffey College). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "chino-ca-pd",
@@ -1168,11 +1174,11 @@
     "needs_review": true
   },
   {
-    "slug": "city-of-newman-ca-pd",
+    "slug": "newman-ca-pd",
     "flock_name": "City of Newman CA PD",
     "human_name": "City of Newman CA PD",
-    "lat": null,
-    "lng": null,
+    "lat": 37.3133,
+    "lng": -121.0208,
     "public": true,
     "federal": false,
     "state": "CA",
@@ -1181,10 +1187,13 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": false
+    "needs_review": false,
+    "also_known_as": [
+      "city-of-newman-ca-pd"
+    ]
   },
   {
-    "slug": "city-of-riverside-ca-pd",
+    "slug": "riverside-ca-pd",
     "flock_name": "City of Riverside CA PD",
     "human_name": "City of Riverside CA PD",
     "lat": null,
@@ -1197,7 +1206,10 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": false
+    "needs_review": false,
+    "also_known_as": [
+      "city-of-riverside-ca-pd"
+    ]
   },
   {
     "slug": "claremont-ca-pd",
@@ -1384,12 +1396,13 @@
     "public": false,
     "federal": false,
     "state": "CA",
-    "agency_role": "other",
+    "agency_role": "school",
     "agency_type": "private",
-    "website": null,
+    "website": "https://www.cde.ca.gov/schooldirectory/details?cdscode=30736357091770",
     "crawled": false,
     "crawled_date": null,
-    "needs_review": false
+    "needs_review": false,
+    "notes": "Private school receiving ALPR data from law enforcement agencies. Not a public agency under <a href=\"https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.90.5.&lawCode=CIV\" target=\"_blank\">CA Civil Code \u00a71798.90.5(f)</a>. <a href=\"https://www.cde.ca.gov/schooldirectory/details?cdscode=30736357091770\" target=\"_blank\">CDE listing</a>."
   },
   {
     "slug": "corona-ca-pd",
@@ -1726,7 +1739,7 @@
     "crawled": false,
     "crawled_date": null,
     "needs_review": false,
-    "notes": "Santa Clara University is a private institution. Entry marked Do Not Use by Flock."
+    "notes": "Santa Clara University is a private institution. Entry marked \"Do Not Use\" by Flock but still appears in sharing lists."
   },
   {
     "slug": "downey-pd-ca",
@@ -3262,7 +3275,10 @@
     "website": null,
     "crawled": true,
     "crawled_date": "2026-03-29",
-    "needs_review": false
+    "needs_review": false,
+    "also_known_as": [
+      "city-of-menifee-ca-pd"
+    ]
   },
   {
     "slug": "menlo-park-ca-pd",
@@ -3790,7 +3806,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (Orange Coast College). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "orange-county-ca-da-office",
@@ -4302,7 +4319,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (Rio Hondo College). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "rio-vista-ca-pd",
@@ -4558,7 +4576,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (San Bernardino Valley College). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "san-bernardino-county-ca-human-services-law-enforcement",
@@ -4766,7 +4785,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (San Joaquin Delta College). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "san-jose-ca-pd",
@@ -4798,7 +4818,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (San Jose-Evergreen CCD). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "san-jose-state-university-ca",
@@ -4814,7 +4835,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public university (San Jose State University). Part of the <a href=\"https://www.calstate.edu/attend/campuses\" target=\"_blank\">California State University</a> system."
   },
   {
     "slug": "san-juan-bautista-ca",
@@ -5294,7 +5316,8 @@
     "website": null,
     "crawled": true,
     "crawled_date": "2026-03-31",
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (College of the Sequoias). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "shafter-pd-ca",
@@ -5583,7 +5606,7 @@
     "crawled": false,
     "crawled_date": null,
     "needs_review": false,
-    "notes": "Private university. Not a public agency under CA Civil Code \u00a71798.90.5(f)."
+    "notes": "Private university. Not a public agency under <a href=\"https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.90.5.&lawCode=CIV\" target=\"_blank\">CA Civil Code \u00a71798.90.5(f)</a>."
   },
   {
     "slug": "stockton-ca-pd",
@@ -5746,7 +5769,7 @@
     "needs_review": false
   },
   {
-    "slug": "town-of-los-gatos-ca",
+    "slug": "los-gatos-ca",
     "flock_name": "Town of Los Gatos CA",
     "human_name": "Town of Los Gatos CA",
     "lat": null,
@@ -5759,10 +5782,13 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": true,
+    "also_known_as": [
+      "town-of-los-gatos-ca"
+    ]
   },
   {
-    "slug": "town-of-woodside-ca",
+    "slug": "woodside-ca",
     "flock_name": "Town of Woodside CA (SMCSO)",
     "human_name": "Town of Woodside CA (SMCSO)",
     "lat": null,
@@ -5775,7 +5801,10 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": true,
+    "also_known_as": [
+      "town-of-woodside-ca"
+    ]
   },
   {
     "slug": "tracy-ca-pd",
@@ -5903,7 +5932,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public university (UC Irvine). Part of the <a href=\"https://www.universityofcalifornia.edu/campuses\" target=\"_blank\">University of California</a> system."
   },
   {
     "slug": "ukiah-ca-pd",
@@ -5957,17 +5987,18 @@
     "slug": "union-pacific-railroad-pd",
     "flock_name": "Union Pacific Railroad PD",
     "human_name": "Union Pacific Railroad PD",
-    "lat": 37.7749,
-    "lng": -122.4194,
-    "public": true,
+    "lat": 41.2565,
+    "lng": -95.9345,
+    "public": false,
     "federal": false,
-    "state": null,
+    "state": "NE",
     "agency_role": "police",
-    "agency_type": "city",
+    "agency_type": "private",
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": false
+    "needs_review": false,
+    "notes": "Union Pacific Railroad Police is a <a href=\"https://en.wikipedia.org/wiki/Union_Pacific_Police_Department\" target=\"_blank\">private railroad police</a> force. While railroad police have some law enforcement authority under federal law (49 USC \u00a728101), Union Pacific is a private corporation. Not a public agency under <a href=\"https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.90.5.&lawCode=CIV\" target=\"_blank\">CA Civil Code \u00a71798.90.5(f)</a>."
   },
   {
     "slug": "university-of-ca-santa-barbara-ca-pd",
@@ -5983,7 +6014,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public university (UC Santa Barbara). Part of the <a href=\"https://www.universityofcalifornia.edu/campuses\" target=\"_blank\">University of California</a> system."
   },
   {
     "slug": "university-of-california-berkeley",
@@ -5999,7 +6031,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public university (UC Berkeley). Part of the <a href=\"https://www.universityofcalifornia.edu/campuses\" target=\"_blank\">University of California</a> system."
   },
   {
     "slug": "university-of-san-francisco-ca-pd",
@@ -6016,7 +6049,7 @@
     "crawled": false,
     "crawled_date": null,
     "needs_review": false,
-    "notes": "Private Jesuit university. Not a public agency under CA Civil Code \u00a71798.90.5(f)."
+    "notes": "Private Jesuit university. Not a public agency under <a href=\"https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.90.5.&lawCode=CIV\" target=\"_blank\">CA Civil Code \u00a71798.90.5(f)</a>."
   },
   {
     "slug": "university-of-the-pacific-ca",
@@ -6033,7 +6066,7 @@
     "crawled": false,
     "crawled_date": null,
     "needs_review": false,
-    "notes": "UOP Chief of Police confirmed in writing that University of the Pacific is a private institution (Source 29). Removed from SMPD portal after resident inquiry; remains on Stockton PD portal."
+    "notes": "UOP Chief of Police confirmed in writing that University of the Pacific is \"a private institution and therefore not subject to the CPRA.\" CA Civil Code \u00a71798.90.55(b) restricts ALPR sharing to public agencies only. UOP was removed from SMPD\u2019s portal after a resident raised the issue; it remains on Stockton PD\u2019s portal. (<a href=\"SMPD_ALPR_Findings.pdf\" target=\"_blank\">Findings, Source 29</a>)"
   },
   {
     "slug": "upland-ca-pd",
@@ -6081,7 +6114,10 @@
     "website": null,
     "crawled": true,
     "crawled_date": "2026-03-31",
-    "needs_review": false
+    "needs_review": false,
+    "also_known_as": [
+      "city-of-vallejo-ca"
+    ]
   },
   {
     "slug": "ventura-ca-pd",
@@ -6241,7 +6277,8 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Public community college (West Valley-Mission CCD). Part of the <a href=\"https://www.cccco.edu/Students/Find-a-College\" target=\"_blank\">California Community Colleges</a> system."
   },
   {
     "slug": "western-states-information-network-ca",
@@ -6249,15 +6286,16 @@
     "human_name": "Western States Information Network (CA)",
     "lat": 38.5816,
     "lng": -121.4944,
-    "public": null,
+    "public": true,
     "federal": false,
-    "state": "CA",
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
+    "state": null,
+    "agency_role": "intelligence",
+    "agency_type": "state",
+    "website": "https://www.riss.net/centers/wsin/",
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true
+    "needs_review": false,
+    "notes": "Western States Information Network (WSIN) is a federally funded, multi-state intelligence center serving Alaska, California, Hawaii, Oregon, Washington, Canada, Guam, and New Zealand. Part of the <a href=\"https://www.riss.net/\" target=\"_blank\">RISS</a> program. While it includes CA, it is a multi-jurisdictional entity \u2014 not a California-only public agency."
   },
   {
     "slug": "westminster-ca-pd",
