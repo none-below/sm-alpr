@@ -330,6 +330,7 @@ CA_COORDS = {
     "williams": (39.1541, -122.1497),
     "willits": (39.4096, -123.3556),
     # Additional cities/places
+    "acratt": (37.6688, -122.0808),  # Alameda County Regional Auto Theft Task Force
     "amador-county": (38.4468, -120.6543),
     "american-canyon": (38.1749, -122.2608),
     "arvin": (35.2094, -118.8282),
