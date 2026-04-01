@@ -1,6 +1,6 @@
 
 // Load data
-fetch('data/map_data.json?v=1775077383').then(r => r.json()).then(data => {
+fetch('data/map_data.json?v=1775077950').then(r => r.json()).then(data => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;

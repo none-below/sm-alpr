@@ -171,7 +171,7 @@ CA_COORDS = {
     "san-leandro": (37.7249, -122.1561),
     "san-luis-obispo": (35.2828, -120.6596),
     "san-mateo": (37.5630, -122.3255),
-    "san-mateo-county": (37.4337, -122.4014),
+    "san-mateo-county": (37.4852, -122.2364),  # County Hall of Justice, Redwood City
     "san-pablo": (37.9621, -122.3458),
     "san-ramon": (37.7799, -121.9780),
     "santa-barbara-county": (34.4208, -119.6982),
