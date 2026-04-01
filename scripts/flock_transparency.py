@@ -80,6 +80,34 @@ def name_to_slug(name):
     return s
 
 
+def slug_variations(slug):
+    """Generate plausible Flock portal slug variations to try."""
+    variations = [slug]
+
+    # Try without state code: anaheim-ca-pd -> anaheim-pd
+    no_state = re.sub(r"-ca-", "-", slug)
+    if no_state != slug:
+        variations.append(no_state)
+
+    # Try with "police-department": anaheim-ca-pd -> anaheim-ca-police-department
+    if slug.endswith("-pd"):
+        variations.append(slug[:-3] + "-police-department")
+        variations.append(re.sub(r"-ca-pd$", "-pd", slug))
+
+    # Try with "sheriffs-office": foo-ca-so -> foo-ca-sheriffs-office
+    if slug.endswith("-so"):
+        variations.append(slug[:-3] + "-sheriffs-office")
+        variations.append(re.sub(r"-ca-so$", "-so", slug))
+
+    # Try pd-ca instead of ca-pd: downey-pd-ca -> downey-ca-pd
+    if re.search(r"-pd-ca$", slug):
+        variations.append(re.sub(r"-pd-ca$", "-ca-pd", slug))
+    elif re.search(r"-ca-pd$", slug):
+        variations.append(re.sub(r"-ca-pd$", "-pd-ca", slug))
+
+    return dedupe(variations)
+
+
 def load_json(path):
     if path.exists():
         return json.loads(path.read_text())
@@ -121,10 +149,9 @@ def is_stale(slug, data_dir, max_age_days=STALE_DAYS):
 # Parsing: raw DOM text -> structured JSON
 # ═══════════════════════════════════════════════════════════
 
-_AGENCY_MARKERS = re.compile(
-    r"\b(PD|SO|SD|DA|Police|Sheriff|Office|Patrol|Parks|Fire|NCRIC|Cal Fire"
-    r"|Cal State|Highway Patrol|State Parks|Campus|College|University|Station"
-    r"|Department of Public Safety)\b",
+# Pattern for names that expect a comma continuation (e.g. "University of California, Berkeley")
+_EXPECTS_CONTINUATION = re.compile(
+    r"University of California$",
     re.IGNORECASE,
 )
 
@@ -179,7 +206,8 @@ def parse_org_list(orgs_text):
     raw = [n.strip() for n in body.split(", ") if n.strip()]
     names = []
     for part in raw:
-        if names and not _AGENCY_MARKERS.search(part):
+        if names and _EXPECTS_CONTINUATION.search(names[-1]):
+            # Rejoin: "University of California" + "Berkeley"
             names[-1] = f"{names[-1]}, {part}"
         else:
             names.append(part)
@@ -198,7 +226,8 @@ def parse_portal_text(raw_text, slug, datestamp):
     for org_label in ["Organizations granted access", "Approved NCRIC Share With",
                        "Agencies NCRIC Shares With"]:
         org_text = field(org_label, "Additional Info", "Hotlists Alerted On",
-                         "Policy Documents", "Provided by Flock Safety")
+                         "Policy Documents", "Provided by Flock Safety",
+                         "Organizations sharing their data")
         if org_text:
             break
     org_text = re.sub(r"^.*?data\s*", "", org_text, count=1).strip()
@@ -339,7 +368,8 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     return pdf_path, shared_slugs
 
 
-def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs):
+def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
+                    try_variations=False):
     """Crawl a list of slugs. Returns (results, discovered_slugs)."""
     results = []
     discovered = []
