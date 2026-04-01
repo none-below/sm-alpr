@@ -2,6 +2,18 @@
 
 Tools and source documents for investigating the San Mateo Police Department's Automated License Plate Reader program.
 
+**[View the interactive sharing map](https://none-below.github.io/sm-alpr/sharing_map.html)** | **[Read the findings (PDF)](https://none-below.github.io/sm-alpr/SMPD_ALPR_Findings.pdf)**
+
+## Publishing
+
+To update the GitHub Pages site:
+
+```sh
+sh scripts/publish_docs.sh
+git add docs/ && git commit -m "Update docs"
+git push
+```
+
 ## Scripts
 
 ### Flock Transparency Portal Archiver

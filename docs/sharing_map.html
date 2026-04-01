@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Flock ALPR Sharing Map — California</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  body { margin: 0; font-family: -apple-system, sans-serif; }
+  #map { height: 100vh; width: 100%; }
+  .info-panel {
+    position: absolute; top: 10px; right: 10px; z-index: 1000;
+    background: white; padding: 12px 16px; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); max-width: 350px;
+    max-height: 80vh; overflow-y: auto; font-size: 13px;
+  }
+  .info-panel h3 { margin: 0 0 8px 0; }
+  .info-panel .stat { color: #666; margin: 2px 0; }
+  .info-panel .sharing-list { margin-top: 8px; }
+  .info-panel .sharing-list div { padding: 1px 0; }
+  .legend {
+    position: absolute; bottom: 20px; left: 10px; z-index: 1000;
+    background: white; padding: 10px 14px; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 12px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div class="info-panel" id="info">
+  <h3>Flock ALPR Sharing Map</h3>
+  <p class="stat">Click an agency to see its sharing web.</p>
+  <p class="stat">310 agencies mapped.</p>
+</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div> Agency (crawled)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#9ca3af"></div> Agency (not crawled)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Selected</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Sharing mismatch</div>
+  <div class="legend-item"><div style="width:20px;height:2px;background:#2563eb"></div> Shares with (outbound)</div>
+  <div class="legend-item"><div style="width:20px;height:2px;background:#16a34a;border-top:2px dashed #16a34a"></div> Receives from (inbound)</div>
+</div>
+<script src="data/map_data.json" type="application/json" id="mapData"></script>
+<script src="js/map.js"></script>
+</body>
+</html>

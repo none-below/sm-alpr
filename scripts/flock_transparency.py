@@ -385,6 +385,18 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
 
         status, shared_slugs = archive_agency(page, slug, data_dir, force, hashes, progress=progress)
 
+        # Try slug variations on 404
+        if try_variations and isinstance(status, tuple) and status[0] == "failed" and status[1] == "http_404":
+            for alt in slug_variations(slug)[1:]:
+                print(f"    trying variation: {alt}")
+                status, shared_slugs = archive_agency(page, alt, data_dir, force, hashes)
+                if not (isinstance(status, tuple) and status[0] == "failed"):
+                    print(f"    found working slug: {alt}")
+                    slug = alt
+                    break
+                if delay:
+                    time.sleep(delay * random.uniform(0.7, 1.3))
+
         if status == "rate_limited":
             for attempt in range(4):
                 backoff = max(delay, 30) * (2 ** (attempt + 1))
@@ -512,6 +524,7 @@ def cmd_crawl(args):
                     results, newly_discovered = run_crawl_batch(
                         page, new_slugs, data_dir, args.force,
                         args.delay, hashes, failed_slugs,
+                        try_variations=args.try_variations,
                     )
                     all_results.extend(results)
                     visited.update(s for s, _ in results)
@@ -530,6 +543,7 @@ def cmd_crawl(args):
             results, _ = run_crawl_batch(
                 page, slugs, data_dir, args.force,
                 args.delay, hashes, failed_slugs,
+                try_variations=args.try_variations,
             )
             all_results.extend(results)
 
@@ -848,6 +862,8 @@ def main():
                          help=f"Re-fetch if latest capture is older than DAYS (default: {STALE_DAYS})")
     p_crawl.add_argument("--retry-failed", action="store_true",
                          help="Retry previously failed slugs")
+    p_crawl.add_argument("--try-variations", action="store_true",
+                         help="On 404, try common slug variations")
 
     # ── parse ──
     p_parse = sub.add_parser("parse", help="(Re)generate JSON from saved .txt files")
