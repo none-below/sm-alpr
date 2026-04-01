@@ -481,7 +481,6 @@ def main():
 
     # Build map data
     markers = []
-    edges = []
     geocoded = 0
     ungeocodable = []
 
@@ -642,6 +641,21 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     return m.crawled ? Math.max(4, Math.min(10, Math.sqrt(m.cameras || 1) * 2)) : 3;
   }
 
+  function isViolation(slug) {
+    const info = agencyInfo[slug] || {};
+    if (info.public === false && info.type !== 'test') return true;
+    if (info.state && info.state !== 'CA') return true;
+    if (info.type === 'decommissioned') return true;
+    if (info.type === 'test') return true;
+    return false;
+  }
+
+  function defaultColor(m) {
+    if (isViolation(m.slug)) return { fill: '#dc2626', border: '#991b1b', opacity: 0.8 };
+    if (m.crawled) return { fill: '#2563eb', border: '#1e40af', opacity: 0.6 };
+    return { fill: '#9ca3af', border: '#6b7280', opacity: 0.3 };
+  }
+
   function distKm(lat1, lng1, lat2, lng2) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -695,14 +709,18 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
 
   // Place markers
   markers.forEach(m => {
+    const col = defaultColor(m);
+    const radius = isViolation(m.slug) ? Math.max(5, defaultRadius(m)) : defaultRadius(m);
     const circle = L.circleMarker([m.lat, m.lng], {
-      radius: defaultRadius(m),
-      fillColor: m.crawled ? '#2563eb' : '#9ca3af',
-      color: m.crawled ? '#1e40af' : '#6b7280',
-      weight: 1,
-      fillOpacity: m.crawled ? 0.6 : 0.3,
+      radius: radius,
+      fillColor: col.fill,
+      color: col.border,
+      weight: isViolation(m.slug) ? 2 : 1,
+      fillOpacity: col.opacity,
     }).addTo(markerLayer);
-    circle.bindTooltip(m.slug, { direction: 'top', offset: [0, -8] });
+    const info = agencyInfo[m.slug] || {};
+    const tip = (info.name || m.slug) + (isViolation(m.slug) ? ' \u26a0' : '');
+    circle.bindTooltip(tip, { direction: 'top', offset: [0, -8] });
     circle.on('click', (e) => { L.DomEvent.stopPropagation(e); showAgency(m); });
     markersBySlug[m.slug] = circle;
   });

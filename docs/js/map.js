@@ -20,22 +20,6 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     return m.crawled ? Math.max(4, Math.min(10, Math.sqrt(m.cameras || 1) * 2)) : 3;
   }
 
-  // Is this entity a likely violation from CA public agency perspective?
-  function isViolation(slug) {
-    const info = agencyInfo[slug] || {};
-    if (info.public === false && info.type !== 'test') return true;  // private entity
-    if (info.state && info.state !== 'CA') return true;               // out-of-state
-    if (info.type === 'decommissioned') return true;                  // decommissioned
-    if (info.type === 'test') return true;                            // test/demo
-    return false;
-  }
-
-  function defaultColor(m) {
-    if (isViolation(m.slug)) return { fill: '#dc2626', border: '#991b1b', opacity: 0.8 };
-    if (m.crawled) return { fill: '#2563eb', border: '#1e40af', opacity: 0.6 };
-    return { fill: '#9ca3af', border: '#6b7280', opacity: 0.3 };
-  }
-
   function distKm(lat1, lng1, lat2, lng2) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -89,18 +73,14 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
 
   // Place markers
   markers.forEach(m => {
-    const c = defaultColor(m);
-    const radius = isViolation(m.slug) ? Math.max(5, defaultRadius(m)) : defaultRadius(m);
     const circle = L.circleMarker([m.lat, m.lng], {
-      radius: radius,
-      fillColor: c.fill,
-      color: c.border,
-      weight: isViolation(m.slug) ? 2 : 1,
-      fillOpacity: c.opacity,
+      radius: defaultRadius(m),
+      fillColor: m.crawled ? '#2563eb' : '#9ca3af',
+      color: m.crawled ? '#1e40af' : '#6b7280',
+      weight: 1,
+      fillOpacity: m.crawled ? 0.6 : 0.3,
     }).addTo(markerLayer);
-    const info = agencyInfo[m.slug] || {};
-    const tip = (info.name || m.slug) + (isViolation(m.slug) ? ' \u26a0' : '');
-    circle.bindTooltip(tip, { direction: 'top', offset: [0, -8] });
+    circle.bindTooltip(m.slug, { direction: 'top', offset: [0, -8] });
     circle.on('click', (e) => { L.DomEvent.stopPropagation(e); showAgency(m); });
     markersBySlug[m.slug] = circle;
   });
@@ -176,13 +156,8 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
         c.setRadius(Math.max(6, defaultRadius(mm)));
         c.setStyle({ fillColor: '#f97316', fillOpacity: 0.9, weight: 2, color: '#c2410c' });
       } else if (connected.has(mm.slug)) {
-        const col = defaultColor(mm);
         c.setRadius(defaultRadius(mm));
-        c.setStyle({ fillColor: col.fill, fillOpacity: 0.8, weight: 1, color: col.border });
-      } else if (isViolation(mm.slug)) {
-        // Keep violations visible even when not connected
-        c.setRadius(3);
-        c.setStyle({ fillColor: '#dc2626', fillOpacity: 0.3, weight: 1, color: '#991b1b' });
+        c.setStyle({ fillColor: mm.crawled ? '#2563eb' : '#9ca3af', fillOpacity: 0.8, weight: 1, color: mm.crawled ? '#1e40af' : '#6b7280' });
       } else {
         c.setRadius(2);
         c.setStyle({ fillColor: '#d1d5db', fillOpacity: 0.2, weight: 0.5, color: '#e5e7eb' });
@@ -190,21 +165,20 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     });
   }
 
-  function resetMarkers() {
-    markers.forEach(mm => {
-      const c = markersBySlug[mm.slug];
-      if (!c) return;
-      const col = defaultColor(mm);
-      const radius = isViolation(mm.slug) ? Math.max(5, defaultRadius(mm)) : defaultRadius(mm);
-      c.setRadius(radius);
-      c.setStyle({ fillColor: col.fill, fillOpacity: col.opacity, weight: isViolation(mm.slug) ? 2 : 1, color: col.border });
-    });
-  }
-
   // Click map background to reset
   map.on('click', () => {
     lineLayer.clearLayers();
-    resetMarkers();
+    markers.forEach(mm => {
+      const c = markersBySlug[mm.slug];
+      if (!c) return;
+      c.setRadius(defaultRadius(mm));
+      c.setStyle({
+        fillColor: mm.crawled ? '#2563eb' : '#9ca3af',
+        fillOpacity: mm.crawled ? 0.6 : 0.3,
+        weight: 1,
+        color: mm.crawled ? '#1e40af' : '#6b7280',
+      });
+    });
     document.getElementById('info').innerHTML =
       '<h3>Flock ALPR Sharing Map</h3>' +
       '<p class="stat">Click an agency to see its sharing web.</p>' +
