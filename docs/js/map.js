@@ -101,8 +101,9 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
 
   function isViolation(slug) {
     const info = agencyInfo[slug] || {};
-    if (info.public === false && info.type !== 'test') return true;
-    if (info.state && info.state !== 'CA') return true;
+    if (info.public === false && info.type !== 'test') return true;  // private entity
+    if (info.state && info.state !== 'CA') return true;               // out-of-state
+    if (info.type === 'federal') return true;                         // federal — not "agency of the state" per §1798.90.5(f)
     if (info.type === 'decommissioned') return true;
     if (info.type === 'test') return true;
     return false;
@@ -129,11 +130,13 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
   }
 
   function sortPriority(info) {
-    if (info.state && info.state !== 'CA') return 0;
-    if (info.public === false) return 1;
-    if (info.type === 'decommissioned') return 2;
-    if (info.type === 'test') return 3;
-    return 10;
+    if (info.state && info.state !== 'CA') return 0;           // out-of-state
+    if (info.public === false) return 1;                        // private
+    if (info.type === 'federal') return 2;                      // federal — not agency of the state
+    if (info.type === 'decommissioned') return 3;               // decommissioned/DNU
+    if (info.type === 'test') return 4;                         // test/demo
+    if (info.notes && info.notes.indexOf('re-sharing') >= 0) return 5;  // re-sharing risk
+    return 10;                                                  // normal
   }
 
   function sortOutbound(slugs, fromLat, fromLng) {
@@ -159,10 +162,14 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Out-of-state sharing may violate CA Civil Code \u00a71798.90.55(b)">[' + info.state + ' \u2014 out of state]</span>';
     if (info.public === false && info.type !== 'decommissioned' && info.type !== 'test')
       tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Civil Code \u00a71798.90.55(b) restricts ALPR sharing to public agencies">[PRIVATE \u2014 likely violates SB 34]</span>';
+    if (info.type === 'federal')
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Federal entity \u2014 not an agency of the state per CA Civil Code \u00a71798.90.5(f). AG Bulletin 2023-DLE-06 prohibits sharing with federal agencies.">[FEDERAL]</span>';
     if (info.type === 'decommissioned')
       tag += ' <span style="color:#f97316;font-weight:bold" title="Marked Do Not Use by Flock but still appears in sharing lists">[DECOMMISSIONED]</span>';
     if (info.type === 'test')
       tag += ' <span style="color:#f97316;font-weight:bold" title="Test/demo entry still in sharing list">[TEST]</span>';
+    if (info.notes && info.notes.indexOf('re-sharing') >= 0)
+      tag += ' <span style="color:#d97706;font-weight:bold" title="' + info.notes.replace(/"/g, '&quot;').replace(/<[^>]*>/g, '') + '">[RE-SHARES TO VIOLATIONS]</span>';
     const loc = coords[s];
     if (!loc) tag += ' <span style="color:#9ca3af">(not mapped)</span>';
     if (info.crawled) {
@@ -326,7 +333,8 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       if (info.state) html += '<p class="stat">State: ' + info.state + '</p>';
       if (info.role) html += '<p class="stat">Role: ' + info.role + '</p>';
       if (info.type) html += '<p class="stat">Type: ' + info.type + '</p>';
-      if (info.public === true) html += '<p class="stat" style="color:#16a34a">Public agency</p>';
+      if (info.type === 'federal') html += '<p class="stat" style="color:#dc2626">Federal entity \u2014 not an \u201cagency of the state\u201d per \u00a71798.90.5(f). AG Bulletin prohibits sharing with federal agencies.</p>';
+      else if (info.public === true) html += '<p class="stat" style="color:#16a34a">Public agency</p>';
       if (info.public === false) html += '<p class="stat" style="color:#dc2626">Not a public agency \u2014 sharing likely violates SB 34</p>';
       if (info.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + info.notes + '</p>';
 
@@ -341,4 +349,21 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       panel.innerHTML = html;
     }
   };
+
+  // Populate off-map violations panel
+  const offmapPanel = document.getElementById('offmap');
+  const offmapEntities = Object.entries(agencyInfo).filter(([slug, info]) => {
+    return isViolation(slug) && !coords[slug];
+  }).sort((a, b) => sortPriority(a[1]) - sortPriority(b[1]));
+
+  if (offmapEntities.length) {
+    let html = '<h4>\u26a0 Off-map violations (' + offmapEntities.length + ')</h4>';
+    offmapEntities.slice(0, 30).forEach(([slug, info]) => {
+      html += '<div onclick="clickSlug(\'' + slug + '\')">' + slugLabel(slug) + '</div>';
+    });
+    if (offmapEntities.length > 30) html += '<div>... and ' + (offmapEntities.length - 30) + ' more</div>';
+    offmapPanel.innerHTML = html;
+  } else {
+    offmapPanel.style.display = 'none';
+  }
 });
