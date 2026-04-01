@@ -576,8 +576,9 @@ def main():
     (docs_dir / "data" / "map_data.json").write_text(json.dumps(map_data) + "\n")
     print(f"Data written to {docs_dir}/data/map_data.json")
 
-    # Write JS
-    js_code = _generate_js(len(markers))
+    # Write JS with cache-bust timestamp
+    import time
+    js_code = _generate_js(len(markers)).replace("CACHE_BUST", str(int(time.time())))
     (docs_dir / "js" / "map.js").write_text(js_code)
     print(f"JS written to {docs_dir}/js/map.js")
 
@@ -675,7 +676,7 @@ def _generate_js(marker_count):
     # Plain JS — no f-string escaping needed
     return r"""
 // Load data
-fetch('data/map_data.json').then(r => r.json()).then(data => {
+fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
