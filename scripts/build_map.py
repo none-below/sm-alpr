@@ -606,10 +606,10 @@ def _generate_html(marker_count):
   <p class="stat">{marker_count} agencies mapped.</p>
 </div>
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div> Public agency (crawled)</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#9ca3af"></div> Public agency (not crawled)</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Likely violation (private/out-of-state/decommissioned)</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Sharing mismatch</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div> Public agency</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Shares with violation entity</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Violation entity (private/out-of-state/decommissioned)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#9ca3af"></div> Not crawled</div>
   <div class="legend-item"><div style="width:20px;height:2px;background:#2563eb"></div> Shares with (outbound)</div>
   <div class="legend-item"><div style="width:20px;height:2px;background:#16a34a;border-top:2px dashed #16a34a"></div> Receives from (inbound)</div>
 </div>
@@ -642,21 +642,51 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     zoomToBoundsOnClick: true,
     iconCreateFunction: function(cluster) {
       const children = cluster.getAllChildMarkers();
-      let worstPriority = 10;
+      const size = Math.min(44, 22 + children.length * 2);
+      const r = size / 2;
+
+      // Count categories
+      let red = 0, orange = 0, blue = 0, gray = 0;
       children.forEach(cm => {
         const slug = cm.options.slug;
-        if (!slug) return;
+        if (!slug) { gray++; return; }
         const info = agencyInfo[slug] || {};
-        let pri = 10;
-        if (info.state && info.state !== 'CA') pri = 0;
-        else if (info.public === false) pri = 1;
-        else if (info.type === 'decommissioned' || info.type === 'test') pri = 2;
-        if (pri < worstPriority) worstPriority = pri;
+        if (isViolation(slug)) red++;
+        else if (hasOutboundViolation(cm._markerData || {})) orange++;
+        else if (info.crawled || cm.options.fillColor === '#2563eb') blue++;
+        else gray++;
       });
-      const color = worstPriority <= 1 ? '#dc2626' : worstPriority <= 3 ? '#f97316' : '#2563eb';
-      const size = Math.min(40, 20 + children.length * 2);
+
+      // Build SVG pie chart
+      const total = children.length;
+      const segments = [];
+      let angle = 0;
+      [[red, '#dc2626'], [orange, '#f97316'], [blue, '#2563eb'], [gray, '#9ca3af']].forEach(([count, color]) => {
+        if (count === 0) return;
+        const sweep = (count / total) * 360;
+        if (count === total) {
+          segments.push('<circle cx="' + r + '" cy="' + r + '" r="' + (r-1) + '" fill="' + color + '"/>');
+        } else {
+          const startRad = angle * Math.PI / 180;
+          const endRad = (angle + sweep) * Math.PI / 180;
+          const x1 = r + (r-1) * Math.sin(startRad);
+          const y1 = r - (r-1) * Math.cos(startRad);
+          const x2 = r + (r-1) * Math.sin(endRad);
+          const y2 = r - (r-1) * Math.cos(endRad);
+          const large = sweep > 180 ? 1 : 0;
+          segments.push('<path d="M' + r + ',' + r + ' L' + x1 + ',' + y1 + ' A' + (r-1) + ',' + (r-1) + ' 0 ' + large + ',1 ' + x2 + ',' + y2 + ' Z" fill="' + color + '"/>');
+        }
+        angle += sweep;
+      });
+
+      const svg = '<svg width="' + size + '" height="' + size + '" xmlns="http://www.w3.org/2000/svg">' +
+        segments.join('') +
+        '<circle cx="' + r + '" cy="' + r + '" r="' + (r * 0.55) + '" fill="white"/>' +
+        '<text x="' + r + '" y="' + (r + 4) + '" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">' + total + '</text>' +
+        '</svg>';
+
       return L.divIcon({
-        html: '<div style="background:' + color + ';color:white;border-radius:50%;width:' + size + 'px;height:' + size + 'px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">' + children.length + '</div>',
+        html: svg,
         className: '',
         iconSize: [size, size],
       });
@@ -700,8 +730,14 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
     return false;
   }
 
+  // Does this agency share with any violation entities?
+  function hasOutboundViolation(m) {
+    return (m.outbound_slugs || []).some(s => isViolation(s));
+  }
+
   function defaultColor(m) {
     if (isViolation(m.slug)) return { fill: '#dc2626', border: '#991b1b', opacity: 0.8 };
+    if (hasOutboundViolation(m)) return { fill: '#f97316', border: '#c2410c', opacity: 0.7 };
     if (m.crawled) return { fill: '#2563eb', border: '#1e40af', opacity: 0.6 };
     return { fill: '#9ca3af', border: '#6b7280', opacity: 0.3 };
   }
@@ -770,6 +806,7 @@ fetch('data/map_data.json').then(r => r.json()).then(data => {
       slug: m.slug,
     }).addTo(markerLayer);
     const info = agencyInfo[m.slug] || {};
+    circle._markerData = m;
     const tipName = (info.name || m.slug) + (isViolation(m.slug) ? ' \u26a0' : '');
     circle.bindTooltip(tipName, { direction: 'top', offset: [0, -8], sticky: true });
     circle.on('click', (e) => { L.DomEvent.stopPropagation(e); showAgency(m); });
