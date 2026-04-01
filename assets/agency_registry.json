@@ -204,8 +204,8 @@
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
-    "crawled": false,
-    "crawled_date": null,
+    "crawled": true,
+    "crawled_date": "2026-04-01",
     "needs_review": false
   },
   {
@@ -1175,7 +1175,7 @@
     "needs_review": true
   },
   {
-    "slug": "newman-ca-pd",
+    "slug": "city-of-newman-ca-pd",
     "flock_name": "City of Newman CA PD",
     "human_name": "City of Newman CA PD",
     "lat": 37.3133,
@@ -1188,13 +1188,10 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": false,
-    "also_known_as": [
-      "city-of-newman-ca-pd"
-    ]
+    "needs_review": false
   },
   {
-    "slug": "riverside-ca-pd",
+    "slug": "city-of-riverside-ca-pd",
     "flock_name": "City of Riverside CA PD",
     "human_name": "City of Riverside CA PD",
     "lat": null,
@@ -1207,10 +1204,7 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": false,
-    "also_known_as": [
-      "city-of-riverside-ca-pd"
-    ]
+    "needs_review": false
   },
   {
     "slug": "claremont-ca-pd",
@@ -5771,7 +5765,7 @@
     "needs_review": false
   },
   {
-    "slug": "los-gatos-ca",
+    "slug": "town-of-los-gatos-ca",
     "flock_name": "Town of Los Gatos CA",
     "human_name": "Town of Los Gatos CA",
     "lat": null,
@@ -5784,13 +5778,10 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true,
-    "also_known_as": [
-      "town-of-los-gatos-ca"
-    ]
+    "needs_review": true
   },
   {
-    "slug": "woodside-ca",
+    "slug": "town-of-woodside-ca",
     "flock_name": "Town of Woodside CA (SMCSO)",
     "human_name": "Town of Woodside CA (SMCSO)",
     "lat": null,
@@ -5803,10 +5794,7 @@
     "website": null,
     "crawled": false,
     "crawled_date": null,
-    "needs_review": true,
-    "also_known_as": [
-      "town-of-woodside-ca"
-    ]
+    "needs_review": true
   },
   {
     "slug": "tracy-ca-pd",
@@ -6518,6 +6506,22 @@
     "state": "CA",
     "agency_role": "sheriff",
     "agency_type": "county",
+    "website": null,
+    "crawled": false,
+    "crawled_date": null,
+    "needs_review": false
+  },
+  {
+    "slug": "yuba-county-sheriffs-office-public-search-audit-download-csv",
+    "flock_name": "Yuba County Sheriffs Office\n\nPublic Search Audit\n\nDownload CSV",
+    "human_name": "Yuba County Sheriffs Office Public Search Audit Download CSV",
+    "lat": null,
+    "lng": null,
+    "public": true,
+    "federal": true,
+    "state": null,
+    "agency_role": "police",
+    "agency_type": "federal",
     "website": null,
     "crawled": false,
     "crawled_date": null,
