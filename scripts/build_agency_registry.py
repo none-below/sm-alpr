@@ -41,10 +41,6 @@ from pathlib import Path
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 REGISTRY_PATH = Path("assets/agency_registry.json")
 
-sys.path.insert(0, str(Path(__file__).parent))
-from build_map import slug_to_location
-
-
 # ── State detection ──
 
 ALL_STATES = {
@@ -250,15 +246,14 @@ def main():
             continue
 
         flock_name = slug_to_flock_name[slug]
-        loc = slug_to_location(slug)
         cls = classify(flock_name)
 
         entry = {
             "slug": slug,
             "flock_name": flock_name,
             "human_name": flock_name_to_human(flock_name),
-            "lat": loc[0] if loc else None,
-            "lng": loc[1] if loc else None,
+            "lat": None,
+            "lng": None,
             "public": cls["public"],
             "federal": cls["federal"],
             "state": detect_state(flock_name),

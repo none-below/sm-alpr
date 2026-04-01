@@ -597,53 +597,32 @@ def cmd_parse(args):
 # Aggregate: build sharing graph + analysis from .json files
 # ═══════════════════════════════════════════════════════════
 
-# Entity classification patterns
-_PUBLIC_LE = re.compile(
-    r"\b(pd|police|sheriff|so|sd|da|district-attorney|highway-patrol"
-    r"|state-parks|state-police|marshal|constable|ranger"
-    r"|probation|corrections|parole)\b", re.IGNORECASE)
-
-_UNIVERSITY = re.compile(
-    r"\b(university|college|campus|cal-state|uc-|csu-)\b", re.IGNORECASE)
-
-_CA_PUBLIC_UNI_FRAGMENTS = {
-    "uc", "csu", "cal-state", "cal-poly",
-    "california-state-university", "university-of-california",
-    "san-jose-state", "foothill-deanza", "rio-hondo-college",
-    "sequoias-community-college", "san-joaquin-delta-college",
-    "cerritos-college", "west-valley-mission-college",
-    "san-jose-evergreen-community-college",
-    "san-bernardino-community-college",
-}
-
-_KNOWN_PRIVATE = {
-    "university-of-the-pacific", "stanford", "university-of-san-francisco",
-    "usc", "santa-clara-university", "loyola-marymount",
-    "pepperdine", "chapman", "azusa-pacific",
-}
-
-_CA_INDICATOR = re.compile(
-    r"(-ca-|-ca$|^ca-|california|cal-fire|cal-state|ncric"
-    r"|-so-ca|-da-ca|county-ca)", re.IGNORECASE)
-
-_NON_LE = re.compile(
-    r"\b(fire-authority|fire-department|fire-district|housing-authority"
-    r"|water-district|transit|school-district)\b", re.IGNORECASE)
+def _load_registry():
+    """Load agency registry as slug->entry lookup."""
+    registry_path = Path("assets/agency_registry.json")
+    if not registry_path.exists():
+        return {}
+    return {e["slug"]: e for e in json.loads(registry_path.read_text())}
 
 
-def classify_entity(slug):
+def classify_entity_from_registry(slug, registry):
+    """Classify an entity using the registry (single source of truth)."""
+    e = registry.get(slug, {})
     flags = []
-    if _UNIVERSITY.search(slug):
-        is_known_private = any(p in slug for p in _KNOWN_PRIVATE)
-        is_public = any(p in slug for p in _CA_PUBLIC_UNI_FRAGMENTS)
-        if is_known_private:
-            flags.append("PRIVATE_UNIVERSITY")
-        elif not is_public:
-            flags.append("POSSIBLY_PRIVATE_UNIVERSITY")
-    if _NON_LE.search(slug):
+    if e.get("public") is False:
+        flags.append("PRIVATE")
+    if e.get("state") and e["state"] != "CA":
+        flags.append("OUT_OF_STATE")
+    if e.get("federal"):
+        flags.append("FEDERAL")
+    if e.get("agency_type") == "decommissioned":
+        flags.append("DECOMMISSIONED")
+    if e.get("agency_type") == "test":
+        flags.append("TEST")
+    if e.get("agency_role") == "fire":
         flags.append("NON_LAW_ENFORCEMENT")
-    if not _CA_INDICATOR.search(slug):
-        flags.append("POSSIBLY_OUT_OF_STATE")
+    if e.get("needs_review"):
+        flags.append("NEEDS_REVIEW")
     return flags
 
 
@@ -681,10 +660,11 @@ def cmd_aggregate(args):
         for t in targets:
             inbound[t] += 1
 
-    # Classify and flag
+    # Classify and flag using registry
+    registry = _load_registry()
     flagged = []
     for entity in sorted(all_entities):
-        flags = classify_entity(entity)
+        flags = classify_entity_from_registry(entity, registry)
         if not flags:
             continue
         shared_by = [src for src, targets in sharing_graph.items() if entity in targets]
@@ -770,11 +750,11 @@ def _print_report(r):
         dt = info.get("archived_date") or "?"
         print(f"  {slug:<40} {cam:>4} {ret:>4} {orgs:>5} {dt:<12}")
 
-    # Flagged universities
-    private = [e for e in r["flagged_entities"] if any("UNIVERSITY" in f for f in e["flags"])]
+    # Private entities
+    private = [e for e in r["flagged_entities"] if "PRIVATE" in e["flags"]]
     if private:
         print(f"\n{'─' * 60}")
-        print(f"PRIVATE / POSSIBLY PRIVATE UNIVERSITIES")
+        print(f"PRIVATE ENTITIES ({len(private)})")
         print(f"  CA law (§1798.90.55(b)) restricts sharing to public agencies\n")
         for e in sorted(private, key=lambda x: -x["shared_by_count"]):
             print(f"  {e['entity']}  [{', '.join(e['flags'])}]")
@@ -783,12 +763,22 @@ def _print_report(r):
             print()
 
     # Out of state
-    oos = [e for e in r["flagged_entities"] if "POSSIBLY_OUT_OF_STATE" in e["flags"]
-           and not any("UNIVERSITY" in f for f in e["flags"])]
+    oos = [e for e in r["flagged_entities"] if "OUT_OF_STATE" in e["flags"]]
     if oos:
         print(f"{'─' * 60}")
-        print(f"POSSIBLY OUT-OF-STATE ENTITIES\n")
+        print(f"OUT-OF-STATE ENTITIES ({len(oos)})\n")
         for e in sorted(oos, key=lambda x: -x["shared_by_count"]):
+            print(f"  {e['entity']}")
+            if e["shared_by"]:
+                print(f"    shared by: {', '.join(e['shared_by'])}")
+            print()
+
+    # Federal
+    federal = [e for e in r["flagged_entities"] if "FEDERAL" in e["flags"]]
+    if federal:
+        print(f"{'─' * 60}")
+        print(f"FEDERAL ENTITIES ({len(federal)})\n")
+        for e in sorted(federal, key=lambda x: -x["shared_by_count"]):
             print(f"  {e['entity']}")
             if e["shared_by"]:
                 print(f"    shared by: {', '.join(e['shared_by'])}")

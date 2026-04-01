@@ -1,6 +1,6 @@
 
 // Load data
-fetch('data/map_data.json?v=1775077950').then(r => r.json()).then(data => {
+fetch('data/map_data.json?v=1775078487').then(r => r.json()).then(data => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
@@ -93,6 +93,7 @@ fetch('data/map_data.json?v=1775077950').then(r => r.json()).then(data => {
   markerLayer.addTo(map);
   const lineLayer = L.layerGroup().addTo(map);
   const markersBySlug = {};
+  let hiddenMarkers = [];
 
   function defaultRadius(m) {
     if (m.crawled) return Math.max(4, Math.min(10, Math.sqrt(m.cameras || 1) * 2));
@@ -268,6 +269,10 @@ fetch('data/map_data.json?v=1775077950').then(r => r.json()).then(data => {
     (m.inbound_slugs || []).forEach(s => connected.add(s));
     const myMismatches = new Set(mismatches[m.slug] || []);
 
+    // Restore any previously hidden markers before hiding new ones
+    hiddenMarkers.forEach(c => markerLayer.addLayer(c));
+    hiddenMarkers = [];
+
     markers.forEach(mm => {
       const c = markersBySlug[mm.slug];
       if (!c) return;
@@ -282,17 +287,16 @@ fetch('data/map_data.json?v=1775077950').then(r => r.json()).then(data => {
         const col = defaultColor(mm);
         c.setRadius(defaultRadius(mm));
         c.setStyle({ fillColor: col.fill, fillOpacity: 0.8, weight: 1, color: col.border });
-      } else if (isViolation(mm.slug)) {
-        c.setRadius(3);
-        c.setStyle({ fillColor: '#dc2626', fillOpacity: 0.3, weight: 1, color: '#991b1b' });
       } else {
-        c.setRadius(2);
-        c.setStyle({ fillColor: '#d1d5db', fillOpacity: 0.2, weight: 0.5, color: '#e5e7eb' });
+        markerLayer.removeLayer(c);
+        hiddenMarkers.push(c);
       }
     });
   }
 
   function resetMarkers() {
+    hiddenMarkers.forEach(c => markerLayer.addLayer(c));
+    hiddenMarkers = [];
     markers.forEach(mm => {
       const c = markersBySlug[mm.slug];
       if (!c) return;
@@ -310,7 +314,7 @@ fetch('data/map_data.json?v=1775077950').then(r => r.json()).then(data => {
     document.getElementById('info').innerHTML =
       '<h3>Flock ALPR Sharing Map</h3>' +
       '<p class="stat">Click an agency to see its sharing web.</p>' +
-      '<p class="stat">313 agencies mapped.</p>';
+      '<p class="stat">311 agencies mapped.</p>';
   });
 
   // Edge indicators for off-screen markers
