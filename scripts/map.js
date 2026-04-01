@@ -1,5 +1,5 @@
 // Load data
-fetch('data/map_data.json?v=1775080251').then(r => r.json()).then(data => {
+fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
@@ -309,7 +309,7 @@ fetch('data/map_data.json?v=1775080251').then(r => r.json()).then(data => {
     document.getElementById('info').innerHTML =
       '<h3>Flock ALPR Sharing Map</h3>' +
       '<p class="stat">Click an agency to see its sharing web.</p>' +
-      '<p class="stat">311 agencies mapped.</p>';
+      '<p class="stat">MARKER_COUNT agencies mapped.</p>';
   });
 
   // Edge indicators for off-screen markers

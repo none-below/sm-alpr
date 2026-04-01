@@ -230,6 +230,14 @@ def main():
         if slug not in slug_to_flock_name:
             slug_to_flock_name[slug] = slug
 
+    # Also pick up entities from the sharing graph (includes inbound, uncrawled refs)
+    graph_path = data_dir / ".sharing_graph_full.json"
+    if graph_path.exists():
+        graph = json.loads(graph_path.read_text())
+        for slug in graph.get("agencies", {}):
+            if slug not in slug_to_flock_name:
+                slug_to_flock_name[slug] = slug
+
     # Build registry
     registry = []
     new_count = 0
