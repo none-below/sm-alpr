@@ -6,12 +6,15 @@ Tools and source documents for investigating the San Mateo Police Department's A
 
 ## Publishing
 
-To update the GitHub Pages site:
+GitHub Pages deploys automatically on merge to `main` via GitHub Actions.
 
+To set up: repo Settings → Pages → Source → **GitHub Actions**
+
+The CI workflow runs on PRs to validate builds. The deploy workflow runs on merge to main.
+
+To rebuild locally:
 ```sh
 sh scripts/publish_docs.sh
-git add docs/ && git commit -m "Update docs"
-git push
 ```
 
 ## Scripts
