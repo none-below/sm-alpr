@@ -25,9 +25,8 @@ from pathlib import Path
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 
-# Import shared parsing from flock_transparency
 sys.path.insert(0, str(Path(__file__).parent))
-from flock_transparency import parse_org_list, name_to_slug, _EXPECTS_CONTINUATION
+from lib import load_registry, flock_name_to_slug, parse_org_list
 
 
 def extract_inbound_orgs(raw_text):
@@ -84,10 +83,11 @@ def main():
         portal_data = json.loads(jsons[-1].read_text()) if jsons else {}
 
         outbound_names = portal_data.get("shared_org_names", [])
-        outbound_slugs = [name_to_slug(n) for n in outbound_names]
+        outbound_slugs = portal_data.get("shared_org_slugs", [])
 
         inbound_names = extract_inbound_orgs(raw_text)
-        inbound_slugs = [name_to_slug(n) for n in inbound_names]
+        inbound_slugs = [flock_name_to_slug(n) for n in inbound_names]
+        inbound_slugs = [s for s in inbound_slugs if s]  # drop unresolved
 
         agencies[slug] = {
             "slug": slug,

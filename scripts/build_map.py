@@ -189,6 +189,12 @@ def _generate_html(marker_count):
   .info-panel .stat {{ color: #666; margin: 2px 0; }}
   .info-panel .sharing-list {{ margin-top: 8px; }}
   .info-panel .sharing-list div {{ padding: 1px 0; }}
+  .info-toggle {{
+    display: none; position: absolute; top: 10px; right: 10px; z-index: 1001;
+    background: #2563eb; color: white; border: none; border-radius: 8px;
+    padding: 8px 12px; font-size: 13px; font-weight: bold; cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }}
   .legend {{
     position: absolute; bottom: 20px; left: 10px; z-index: 1000;
     background: white; padding: 10px 14px; border-radius: 8px;
@@ -196,6 +202,31 @@ def _generate_html(marker_count):
   }}
   .legend-item {{ display: flex; align-items: center; gap: 6px; margin: 3px 0; }}
   .legend-dot {{ width: 12px; height: 12px; border-radius: 50%; }}
+  @media (max-width: 768px) {{
+    .info-panel {{
+      top: auto; bottom: 0; left: 0; right: 0;
+      max-width: 100%; max-height: 40vh;
+      border-radius: 12px 12px 0 0;
+      font-size: 12px;
+    }}
+    .info-panel.collapsed {{
+      max-height: 0; padding: 0; overflow: hidden;
+    }}
+    .info-toggle {{
+      display: block;
+    }}
+    .legend {{
+      display: none;
+    }}
+    #violation-banner {{
+      font-size: 11px !important;
+      padding: 6px 10px !important;
+      left: 10px !important;
+      right: 10px !important;
+      transform: none !important;
+      white-space: normal !important;
+    }}
+  }}
   .offmap-panel {{
     position: absolute; bottom: 20px; right: 10px; z-index: 1000;
     background: white; padding: 10px 14px; border-radius: 8px;
@@ -214,6 +245,12 @@ def _generate_html(marker_count):
     display: none;
   }}
   .edge-indicator.has-violation {{ background: #dc2626; }}
+  #violation-banner {{
+    position: absolute; top: 10px; left: 50%; transform: translateX(-60%);
+    z-index: 1000; background: #dc2626; color: white;
+    padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3); display: none; white-space: nowrap;
+  }}
   #edge-left {{ left: 10px; top: 50%; transform: translateY(-50%); }}
   #edge-right {{ right: 370px; top: 50%; transform: translateY(-50%); }}
   #edge-top {{ top: 10px; left: 50%; transform: translateX(-50%); }}
@@ -222,6 +259,12 @@ def _generate_html(marker_count):
 </head>
 <body>
 <div id="map"></div>
+<div id="violation-banner"></div>
+<button class="info-toggle" id="infoToggle" onclick="
+  var p = document.getElementById('info');
+  p.classList.toggle('collapsed');
+  this.textContent = p.classList.contains('collapsed') ? '\u25b2 Show details' : '\u25bc Hide details';
+">\u25bc Hide details</button>
 <div class="info-panel" id="info">
   <h3>Flock ALPR Sharing Map</h3>
   <p class="stat">Click an agency to see its sharing web.</p>

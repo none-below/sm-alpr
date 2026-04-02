@@ -1,22 +1,12 @@
 {
   "summary": {
     "agencies_crawled": 129,
-    "agencies_uncrawled": 463,
-    "total_entities": 592,
+    "agencies_uncrawled": 277,
+    "total_entities": 406,
     "agencies_with_inbound_data": 12,
     "mismatches_found": 101
   },
   "agencies": {
-    "1800-block-s-orange-grove-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "18th-judicial-district-das-office-la-pd": {
       "archived_date": null,
       "crawled": false,
@@ -41,26 +31,6 @@
         "livermore-ca-pd",
         "pleasanton-ca-pd"
       ]
-    },
-    "adrian-mi-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "akron-oh-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "alameda-ca-pd": {
       "archived_date": null,
@@ -425,16 +395,6 @@
       ],
       "inbound_slugs": []
     },
-    "alcoa-tn-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "alhambra-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -549,16 +509,6 @@
         "westminster-ca-pd"
       ]
     },
-    "alhambra-courtyard-shopping-center-alhambra-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "alpine-county-ca-so": {
       "archived_date": null,
       "crawled": false,
@@ -667,16 +617,6 @@
         "lodi-ca-pd",
         "merced-county-ca-so"
       ]
-    },
-    "ampm-beaumont-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "anaheim-ca-pd": {
       "archived_date": null,
@@ -898,16 +838,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "anderson-in-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "angels-camp-ca-pd": {
       "archived_date": null,
@@ -1297,7 +1227,6 @@
         "chino-ca-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
@@ -1374,8 +1303,6 @@
         "laguna-beach-ca-pd",
         "lake-county-ca-so",
         "lakeport-ca-pd",
-        "landmark-limited-group-of-companies",
-        "las-vegas-metro-nv-pd",
         "lassen-county-so-ca",
         "lathrop-ca-pd",
         "lincoln-ca-pd",
@@ -1404,7 +1331,6 @@
         "monterey-county-ca-so",
         "moraga-ca-pd",
         "morgan-hill-ca-pd",
-        "mountain-house-ca",
         "murrieta-ca-pd",
         "napa-ca-pd",
         "napa-county-ca-so",
@@ -1434,7 +1360,6 @@
         "redondo-beach-ca-pd",
         "redwood-city-ca-pd",
         "reedley-ca-pd",
-        "reno-nv-pd",
         "ridgecrest-ca-pd",
         "rio-hondo-college-pd-ca",
         "rio-vista-ca-pd",
@@ -1486,7 +1411,6 @@
         "sutter-county-ca-so",
         "taft-ca-pd",
         "tehachapi-ca-pd",
-        "the-landing-at-wildflower-station-ca",
         "tiburon-ca-pd",
         "tracy-ca-pd",
         "tulare-ca-pd",
@@ -1500,7 +1424,6 @@
         "vallejo-ca-pd",
         "ventura-ca-pd",
         "vernon-ca-pd",
-        "village-pointe-ca",
         "visalia-ca-pd",
         "walnut-creek-ca-pd",
         "watsonville-ca-pd",
@@ -1509,7 +1432,6 @@
         "west-valley-mission-college-dist-campus-ca",
         "westminster-ca-pd",
         "westmorland-ca-pd",
-        "westwood-village",
         "wheatland-ca-pd",
         "whittier-ca-pd",
         "williams-ca-pd",
@@ -1517,9 +1439,7 @@
         "woodlake-ca-pd",
         "woodland-ca-pd",
         "yolo-county-ca-so",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-345466-hotlist-hits-in-the-last-30-days-14136-searches-in-the-last-30-days-303"
+        "yuba-city-ca-pd"
       ]
     },
     "arcadia-ca-pd": {
@@ -2534,16 +2454,6 @@
         "westminster-ca-pd"
       ]
     },
-    "avon-in-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "azusa-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -3028,16 +2938,6 @@
       ],
       "inbound_slugs": []
     },
-    "baldwin-county-ga-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "baldwin-park-ca-pd": {
       "archived_date": "2026-03-28",
       "crawled": true,
@@ -3369,11 +3269,9 @@
         "yuba-county-sheriffs-office"
       ],
       "inbound_slugs": [
-        "1800-block-s-orange-grove-ca",
         "alameda-county-ca-so",
         "albany-ca-pd",
         "alhambra-ca-pd",
-        "alhambra-courtyard-shopping-center-alhambra-ca",
         "anaheim-ca-pd",
         "anderson-ca-pd",
         "angels-camp-ca-pd",
@@ -3385,7 +3283,6 @@
         "baldwin-park-ca-pd",
         "barstow-ca-pd",
         "beaumont-ca-pd",
-        "bel-air-hills-ca",
         "bell-ca-pd",
         "beverly-hills-ca-pd",
         "bishop-ca-pd",
@@ -3394,10 +3291,7 @@
         "burbank-ca-pd",
         "burlingame-ca-pd",
         "butte-county-ca-so",
-        "ca-topgolf-usa-el-segundo",
-        "llc",
         "ca-wasco-pd",
-        "cahuilla-tribal-gaming-agency-ca-rcsd",
         "cal-fire",
         "cal-state-fullerton-ca",
         "calexico-ca-pd",
@@ -3439,7 +3333,6 @@
         "el-cerrito-ca-pd",
         "el-monte-ca-pd",
         "emeryville-ca-pd",
-        "encino-ca",
         "escalon-ca-pd",
         "escondido-ca-pd",
         "fairfield-ca-pd",
@@ -3454,8 +3347,6 @@
         "gilroy-ca-pd",
         "glendale-ca-pd",
         "glendora-ca-pd",
-        "gold-hills-ca",
-        "goodland-avenue-ca",
         "grass-valley-ca-pd",
         "greenfield-ca-pd",
         "grover-beach-ca-pd",
@@ -3464,11 +3355,8 @@
         "hayward-ca-pd",
         "hemet-ca-pd",
         "hercules-ca-pd",
-        "hestia-lei-ca",
         "hillsborough-ca-pd",
         "hollister-ca-pd",
-        "home-depot-corporation",
-        "hunters-trail-ca",
         "huntington-beach-ca-pd",
         "imperial-city-ca-pd",
         "imperial-county-ca-so",
@@ -3482,7 +3370,6 @@
         "la-habra-ca-pd",
         "la-mesa-ca-pd",
         "la-verne-ca-pd",
-        "la-verne-live-oak-ca",
         "laguna-beach-ca-pd",
         "lake-county-ca-so",
         "lakeport-ca-pd",
@@ -3498,21 +3385,16 @@
         "madera-county-so-ca",
         "manteca-ca-pd",
         "marina-ca-pd",
-        "marshall-canyon-estates-ca",
         "marysville-ca-pd",
         "mcfarland-ca-pd",
-        "melrose-action-ca",
         "mendocino-county-so-ca",
         "mendota-ca-pd",
         "menifee-ca-pd",
         "menlo-park-ca-pd",
         "merced-county-ca-so",
-        "midwick-collection-ca",
         "milpitas-ca-pd",
-        "miraleste-hills",
         "modoc-county-ca-so",
         "monrovia-ca-pd",
-        "monster-energy-corporate-office-ca",
         "montclair-ca-pd",
         "montebello-ca-pd",
         "monterey-county-ca-so",
@@ -3533,7 +3415,6 @@
         "orange-ca-pd",
         "orange-county-so-ca",
         "oroville-ca-pd",
-        "pacific-palisades-residents-association-ca",
         "pasadena-ca-pd",
         "placentia-ca-pd",
         "placer-county-ca-so",
@@ -3550,8 +3431,6 @@
         "rio-hondo-college-pd-ca",
         "rio-vista-ca-pd",
         "riverside-county-ca-so",
-        "rose-hills-memorial-park-mortuary-ca",
-        "rountree-road-neighborhood-ca",
         "salinas-ca-pd",
         "san-bernardino-ca-pd",
         "san-bernardino-county-ca-so",
@@ -3572,7 +3451,6 @@
         "san-ramon-ca-pd",
         "sand-city-ca-pd",
         "sanger-ca-pd",
-        "santa-anita-oaks-ca",
         "santa-barbara-county-ca-so",
         "santa-clara-ca-pd",
         "santa-monica-ca-pd",
@@ -3593,22 +3471,15 @@
         "stockton-ca-pd",
         "suisun-city-ca-pd",
         "tehachapi-ca-pd",
-        "the-lewis-group-of-companies",
-        "toluca-lake-ca",
-        "total-wine-more-md",
         "tracy-ca-pd",
         "turlock-ca-pd",
         "tustin-ca-pd",
         "ukiah-ca-pd",
         "ukiah-fire-ca-fd",
-        "ulta-il",
         "union-city-ca-pd",
         "upland-ca-pd",
         "vacaville-ca-pd",
         "vallejo-ca-pd",
-        "valley-circle-estates-ca",
-        "valley-glen-neighborhood-watch-ca",
-        "valley-glen-vose-neighborhood-watch-ca",
         "ventura-ca-pd",
         "vernon-ca-pd",
         "visalia-ca-pd",
@@ -3616,8 +3487,6 @@
         "west-covina-ca-pd",
         "west-sacramento-ca-pd",
         "west-valley-mission-college-dist-campus-ca",
-        "westfield-park-recreation-and-parkways",
-        "district-12-ca",
         "westminster-ca-pd",
         "westmorland-ca-pd",
         "whittier-ca-pd",
@@ -3626,9 +3495,7 @@
         "woodland-ca-pd",
         "yolo-county-ca-so",
         "yreka-ca-pd",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-581062-hotlist-hits-in-the-last-30-days-11535-searches-in-the-last-30-days-270"
+        "yuba-city-ca-pd"
       ]
     },
     "barstow-ca-pd": {
@@ -3963,16 +3830,6 @@
         "yuba-city-ca-pd",
         "yuba-county-sheriffs-office"
       ],
-      "inbound_slugs": []
-    },
-    "baytown-tx-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "bear-valley-springs-ca-pd": {
@@ -4403,36 +4260,25 @@
         "yuba-county-sheriffs-office"
       ],
       "inbound_slugs": [
-        "federal-loma-linda-healthcare-system-ca-veterans-affairs-pd",
-        "adrian-mi-pd",
-        "akron-oh-pd",
         "alameda-county-ca-so",
         "albany-ca-pd",
-        "alcoa-tn-pd",
         "alhambra-ca-pd",
         "amador-county-ca-sheriffs-office",
-        "ampm-beaumont-pd",
         "anaheim-ca-pd",
         "anderson-ca-pd",
-        "anderson-in-pd",
         "angels-camp-ca-pd",
         "antioch-ca-pd",
         "atherton-ca-pd",
         "atwater-ca-pd",
         "auburn-ca-pd",
-        "avon-in-pd",
         "azusa-ca-pd",
         "bakersfield-ca-pd",
-        "baldwin-county-ga-so",
         "baldwin-park-ca-pd",
         "barstow-ca-pd",
-        "baytown-tx-pd",
         "bear-valley-springs-ca-pd",
         "bell-ca-pd",
         "beverly-hills-ca-pd",
         "bishop-ca-pd",
-        "blackmanleoni-public-safety-mi",
-        "bloomfield-nm-pd",
         "blue-lake-rancheria-tribal-pd",
         "brawley-ca-pd",
         "brentwood-ca-pd",
@@ -4444,7 +4290,6 @@
         "cal-fire",
         "cal-state-fullerton-ca",
         "calexico-ca-pd",
-        "calhoun-county-al-so",
         "california-highway-patrol",
         "california-state-parks",
         "calistoga-ca-pd",
@@ -4452,23 +4297,16 @@
         "cathedral-city-ca-pd",
         "central-marin-ca-pd",
         "chaffey-college-pd-ca",
-        "chambers-county-al-so",
         "chino-ca-pd",
-        "chino-valley-az-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
         "claremont-ca-pd",
-        "class-acts-autobody-ca",
         "clayton-ca-pd",
         "clearlake-ca-pd",
-        "clearwater-fl-pd",
         "cloverdale-ca-pd",
-        "cobb-county-ga-pd",
-        "collier-county-fl-so",
         "colma-ca-pd",
         "colton-ca-pd",
         "colusa-ca-pd",
@@ -4481,10 +4319,8 @@
         "cotati-ca-pd",
         "covina-ca-pd",
         "cypress-ca-pd",
-        "ds-towing",
         "daly-city-ca-pd",
         "danville-ca-pd",
-        "decatur-ga-pd",
         "del-norte-county-ca-so",
         "delano-ca-pd",
         "desert-hot-springs-ca-pd",
@@ -4505,12 +4341,9 @@
         "escondido-ca-pd",
         "fairfield-ca-pd",
         "farmersville-ca-pd",
-        "florence-al-pd",
-        "fms-ca",
         "folsom-ca-pd",
         "fontana-ca-pd",
         "fort-bragg-ca-pd",
-        "fort-worth-tx-pd",
         "fountain-valley-ca-pd",
         "fowler-ca-pd",
         "fremont-ca-pd",
@@ -4518,37 +4351,24 @@
         "galt-ca-pd",
         "garden-grove-ca-pd",
         "gilroy-ca-pd",
-        "glencoe-al-pd",
         "glendale-ca-pd",
         "glendora-ca-pd",
-        "goshen-in-pd",
-        "grants-pass-or-pd",
         "grass-valley-ca-pd",
         "greenfield-ca-pd",
         "grover-beach-ca-pd",
         "gustine-pd-ca",
         "hanford-ca-pd",
-        "hardin-county-tn-so",
         "hayward-ca-pd",
-        "helena-al-pd",
         "hemet-ca-pd",
-        "hendry-county-fl-so",
         "hercules-ca-pd",
         "hillsborough-ca-pd",
-        "hillside-il-pd",
         "hollister-ca-pd",
-        "home-depot-corporation",
-        "houston-metro-transit-authority-tx",
-        "houston-tx-pd",
         "huntington-beach-ca-pd",
         "imperial-city-ca-pd",
         "imperial-county-ca-so",
         "indio-ca-pd",
-        "irondale-al-pd",
         "irvine-ca-pd",
         "irwindale-ca-pd",
-        "jasper-county-in-so",
-        "jonesboro-ar-pd",
         "kerman-ca-pd",
         "kern-county-ca-so",
         "kings-county-ca-das-office",
@@ -4556,16 +4376,13 @@
         "kingsburg-ca-pd",
         "la-habra-ca-pd",
         "la-mesa-ca-pd",
-        "la-paz-county-az-so",
         "la-verne-ca-pd",
         "laguna-beach-ca-pd",
         "lake-county-ca-so",
-        "lake-havasu-city-az-pd",
         "lakeport-ca-pd",
         "lancaster-ca-pd",
         "lassen-county-so-ca",
         "lathrop-ca-pd",
-        "lexington-sc-pd",
         "lincoln-ca-pd",
         "lindsay-public-safety-department-ca",
         "livermore-ca-pd",
@@ -4576,24 +4393,17 @@
         "los-angeles-port-police-ca",
         "madera-ca-pd",
         "madera-county-so-ca",
-        "mahoning-twp-pa-pd",
         "manteca-ca-pd",
         "marina-ca-pd",
         "marysville-ca-pd",
-        "matteson-il-pd",
         "mcfarland-ca-pd",
-        "mchenry-county-conservation-district-il-pd",
         "mendocino-county-so-ca",
         "mendota-ca-pd",
         "menifee-ca-pd",
         "menlo-park-ca-pd",
         "merced-county-ca-so",
-        "middlebury-in-pd",
         "milpitas-ca-pd",
-        "milton-ga-pd",
         "modoc-county-ca-so",
-        "mohave-county-az-so",
-        "monroe-ga-pd",
         "monrovia-ca-pd",
         "montclair-ca-pd",
         "montebello-ca-pd",
@@ -4605,34 +4415,22 @@
         "napa-ca-pd",
         "napa-county-ca-so",
         "national-city-ca-pd",
-        "navajo-county-az-so",
         "ncric",
-        "nephi-pd-ut",
         "nevada-county-ca-so",
-        "new-castle-county-de-pd",
         "newark-ca-pd",
         "newport-beach-pd-ca",
         "novato-ca-pd",
-        "oak-valley-ii-ca",
         "oakley-ca-pd",
         "oceanside-ca-pd",
-        "ogden-dunes-in-pd",
-        "olivewood-community-association-ca",
         "ontario-ca-pd",
-        "ontario-oh-pd",
-        "orange-beach-al-pd",
         "orange-ca-pd",
         "orange-county-fire-authority-ca",
-        "orange-county-fl-so",
         "orange-county-so-ca",
-        "orlando-fl-pd",
         "oroville-ca-pd",
         "pacifica-ca-pd",
         "palm-springs-ca-pd",
         "pasadena-ca-pd",
-        "peotone-il-pd",
         "petaluma-ca-pd",
-        "pittsboro-in-pd",
         "placentia-ca-pd",
         "placer-county-ca-so",
         "pleasant-hill-ca-pd",
@@ -4644,13 +4442,11 @@
         "redlands-ca-pd",
         "redondo-beach-ca-pd",
         "reedley-ca-pd",
-        "richland-county-sc-so",
         "ridgecrest-ca-pd",
         "rio-hondo-college-pd-ca",
         "rio-vista-ca-pd",
         "riverside-county-ca-so",
         "rohnert-park-department-of-public-safety-ca",
-        "round-valley-indian-tribes-ca",
         "salinas-ca-pd",
         "san-benito-county-so-ca",
         "san-bernardino-ca-pd",
@@ -4682,14 +4478,10 @@
         "santa-monica-ca-pd",
         "santa-rosa-band-of-cahuilla-indians-ca",
         "santa-rosa-ca-pd",
-        "sarasota-county-fl-so",
-        "sarasota-fl-pd",
         "sausalito-ca-pd",
         "seal-beach-ca-pd",
         "seaside-ca-pd",
-        "sedgwick-ks-pd",
         "selma-ca-pd",
-        "senoia-ga-pd",
         "sequoias-community-college-district-ca-pd",
         "shafter-pd-ca",
         "simi-valley-ca-pd",
@@ -4698,23 +4490,14 @@
         "sonoma-county-ca-so",
         "south-gate-ca-pd",
         "south-pasadena-ca-pd",
-        "south-sioux-city-ne-pd",
-        "st-charles-county-mo-pd",
         "stallion-springs-ca-pd",
         "stockton-ca-pd",
         "suisun-city-ca-pd",
-        "sumner-county-tn-so",
-        "sundance-ca",
         "sutter-county-ca-so",
         "taft-ca-pd",
-        "tarpon-springs-fl-pd",
         "tehachapi-ca-pd",
         "tehama-county-ca-so",
         "tiburon-ca-pd",
-        "tift-county-ga-so",
-        "tifton-ga-pd",
-        "titusville-fl-pd",
-        "tombstone-marshals-office-az",
         "tracy-ca-pd",
         "trinity-county-so-ca",
         "tulare-ca-pd",
@@ -4722,9 +4505,7 @@
         "tustin-ca-pd",
         "ukiah-ca-pd",
         "ukiah-fire-ca-fd",
-        "ulysses-ks-pd",
         "union-city-ca-pd",
-        "university-of-north-texas-at-denton-pd-tx",
         "university-of-the-pacific-ca",
         "upland-ca-pd",
         "vacaville-ca-pd",
@@ -4740,7 +4521,6 @@
         "westmorland-ca-pd",
         "wheatland-ca-pd",
         "whittier-ca-pd",
-        "wichita-falls-tx-pd",
         "williams-ca-pd",
         "willits-ca-pd",
         "winters-ca-pd",
@@ -4748,20 +4528,8 @@
         "woodland-ca-pd",
         "yolo-county-ca-so",
         "yreka-ca-pd",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-483777-hotlist-hits-in-the-last-30-days-9342-searches-in-the-last-30-days-467"
+        "yuba-city-ca-pd"
       ]
-    },
-    "bel-air-hills-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "bell-ca-pd": {
       "archived_date": "2026-03-28",
@@ -5884,16 +5652,6 @@
       ],
       "inbound_slugs": []
     },
-    "beverly-hills-unified-school-district-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "bishop-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -6008,26 +5766,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "blackmanleoni-public-safety-mi": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "bloomfield-nm-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "blue-lake-rancheria-tribal-pd": {
       "archived_date": null,
@@ -6749,16 +6487,6 @@
         "vallejo-ca-pd",
         "west-valley-mission-college-dist-campus-ca"
       ],
-      "inbound_slugs": []
-    },
-    "brookhaven-circle-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "buena-park-ca-pd": {
@@ -7883,26 +7611,6 @@
         "tracy-ca-pd"
       ]
     },
-    "ca-newport-beach-country-club": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ca-topgolf-usa-el-segundo": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "ca-wasco-pd": {
       "archived_date": null,
       "crawled": false,
@@ -7936,26 +7644,6 @@
         "tracy-ca-pd",
         "vacaville-ca-pd"
       ]
-    },
-    "cabana-isle-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "cahuilla-tribal-gaming-agency-ca-rcsd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "cal-fire": {
       "archived_date": null,
@@ -8072,16 +7760,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "cal-maritime-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "cal-state-fullerton-ca": {
       "archived_date": null,
@@ -8348,16 +8026,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "calhoun-county-al-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "california-city-pd-ca": {
       "archived_date": null,
@@ -9337,16 +9005,6 @@
       ],
       "inbound_slugs": []
     },
-    "calle-roberto-west-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "campbell-ca-pd": {
       "archived_date": "2026-03-28",
       "crawled": true,
@@ -9701,16 +9359,6 @@
       "crawled": true,
       "camera_count": 6,
       "data_retention_days": 30,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "carson-city-nv-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
       "outbound_count": 0,
       "inbound_count": 0,
       "outbound_slugs": [],
@@ -10338,16 +9986,6 @@
         "tracy-ca-pd"
       ]
     },
-    "chambers-county-al-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "chino-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -10456,16 +10094,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "chino-valley-az-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "chula-vista-ca-pd": {
       "archived_date": "2026-03-28",
@@ -10910,16 +10538,6 @@
         "westminster-ca-pd"
       ]
     },
-    "city-of-half-moon-bay": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "city-of-lemoore-ca": {
       "archived_date": null,
       "crawled": false,
@@ -11214,26 +10832,6 @@
         "westminster-ca-pd"
       ]
     },
-    "city-of-vallejo-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "cjm-ron": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "claremont-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -11329,16 +10927,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "class-acts-autobody-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "clayton-ca-pd": {
       "archived_date": null,
@@ -11607,16 +11195,6 @@
       ],
       "inbound_slugs": []
     },
-    "clearwater-fl-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "cloverdale-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -11743,26 +11321,6 @@
       "inbound_slugs": [
         "lodi-ca-pd"
       ]
-    },
-    "cobb-county-ga-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "collier-county-fl-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "colma-ca-pd": {
       "archived_date": "2026-03-27",
@@ -13798,26 +13356,6 @@
         "westminster-ca-pd"
       ]
     },
-    "country-club-vista-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "country-rose-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "covina-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -14050,16 +13588,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "cuyahoga-falls-oh-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "cypress-ca-pd": {
       "archived_date": null,
@@ -14624,16 +14152,6 @@
       "inbound_slugs": []
     },
     "deactivated": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "decatur-ga-pd": {
       "archived_date": null,
       "crawled": false,
       "camera_count": null,
@@ -15566,16 +15084,6 @@
       ],
       "inbound_slugs": []
     },
-    "district-12-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "dixon-ca-pd": {
       "archived_date": "2026-03-28",
       "crawled": true,
@@ -15975,16 +15483,6 @@
         "merced-county-ca-so"
       ]
     },
-    "douglas-county-nv-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "downey-pd-ca": {
       "archived_date": null,
       "crawled": false,
@@ -16096,16 +15594,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "ds-towing": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "dublin-ca-pd": {
       "archived_date": null,
@@ -17236,7 +16724,6 @@
       ],
       "inbound_slugs": [
         "san-jose-state-university-ca",
-        "federal-loma-linda-healthcare-system-ca-veterans-affairs-pd",
         "alameda-county-ca-so",
         "albany-ca-pd",
         "alhambra-ca-pd",
@@ -17281,7 +16768,6 @@
         "chino-ca-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
@@ -17298,7 +16784,6 @@
         "corona-ca-pd",
         "coronado-ca-pd",
         "costa-mesa-ca-pd",
-        "country-club-vista-ca",
         "covina-ca-pd",
         "cypress-ca-pd",
         "daly-city-ca-pd",
@@ -17386,7 +16871,6 @@
         "menlo-park-ca-pd",
         "merced-county-ca-so",
         "milpitas-ca-pd",
-        "modesto-ca-pd",
         "modoc-county-ca-so",
         "monrovia-ca-pd",
         "montclair-ca-pd",
@@ -17435,7 +16919,6 @@
         "riverside-county-ca-so",
         "rocklin-ca-pd",
         "rohnert-park-department-of-public-safety-ca",
-        "round-valley-indian-tribes-ca",
         "salinas-ca-pd",
         "san-benito-county-so-ca",
         "san-bernardino-ca-pd",
@@ -17974,16 +17457,6 @@
       "crawled": true,
       "camera_count": 16,
       "data_retention_days": 30,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "encino-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
       "outbound_count": 0,
       "inbound_count": 0,
       "outbound_slugs": [],
@@ -18787,16 +18260,6 @@
       ],
       "inbound_slugs": []
     },
-    "fairway-eighteen-by-hqt-development-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "farmersville-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -18833,46 +18296,6 @@
         "sequoias-community-college-district-ca-pd",
         "tracy-ca-pd"
       ]
-    },
-    "federal-loma-linda-healthcare-system-ca-veterans-affairs-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "fedex-corporation": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "florence-al-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "fms-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "folsom-ca-pd": {
       "archived_date": "2026-03-28",
@@ -19966,7 +19389,6 @@
         "amador-county-ca-sheriffs-office",
         "anaheim-ca-pd",
         "anderson-ca-pd",
-        "anderson-in-pd",
         "angels-camp-ca-pd",
         "antioch-ca-pd",
         "atherton-ca-pd",
@@ -19974,16 +19396,13 @@
         "auburn-ca-pd",
         "azusa-ca-pd",
         "bakersfield-ca-pd",
-        "baldwin-county-ga-so",
         "baldwin-park-ca-pd",
         "barstow-ca-pd",
-        "baytown-tx-pd",
         "bear-valley-springs-ca-pd",
         "beaumont-ca-pd",
         "bell-ca-pd",
         "beverly-hills-ca-pd",
         "bishop-ca-pd",
-        "bloomfield-nm-pd",
         "blue-lake-rancheria-tribal-pd",
         "brawley-ca-pd",
         "brentwood-ca-pd",
@@ -20006,17 +19425,13 @@
         "chino-ca-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
         "claremont-ca-pd",
         "clayton-ca-pd",
         "clearlake-ca-pd",
-        "clearwater-fl-pd",
         "cloverdale-ca-pd",
-        "cobb-county-ga-pd",
-        "collier-county-fl-so",
         "colma-ca-pd",
         "colton-ca-pd",
         "concord-ca-pd",
@@ -20051,7 +19466,6 @@
         "folsom-ca-pd",
         "fontana-ca-pd",
         "fort-bragg-ca-pd",
-        "fort-worth-tx-pd",
         "foster-city-ca-pd",
         "fountain-valley-ca-pd",
         "fowler-ca-pd",
@@ -20100,7 +19514,6 @@
         "los-angeles-port-police-ca",
         "madera-ca-pd",
         "madera-county-so-ca",
-        "mahoning-twp-pa-pd",
         "manteca-ca-pd",
         "marina-ca-pd",
         "marysville-ca-pd",
@@ -20122,7 +19535,6 @@
         "napa-ca-pd",
         "napa-county-ca-so",
         "national-city-ca-pd",
-        "navajo-county-az-so",
         "ncric",
         "nevada-county-ca-so",
         "newark-ca-pd",
@@ -20133,7 +19545,6 @@
         "ontario-ca-pd",
         "orange-ca-pd",
         "orange-county-ca-da-office",
-        "orange-county-fl-so",
         "orange-county-so-ca",
         "orange-cove-ca-pd",
         "oroville-ca-pd",
@@ -20141,7 +19552,6 @@
         "pasadena-ca-pd",
         "petaluma-ca-pd",
         "piedmont-ca-pd",
-        "pittsboro-in-pd",
         "placentia-ca-pd",
         "placer-county-ca-so",
         "pleasant-hill-ca-pd",
@@ -20187,7 +19597,6 @@
         "santa-monica-ca-pd",
         "santa-rosa-band-of-cahuilla-indians-ca",
         "santa-rosa-ca-pd",
-        "sarasota-fl-pd",
         "sausalito-ca-pd",
         "seal-beach-ca-pd",
         "seaside-ca-pd",
@@ -20203,7 +19612,6 @@
         "stallion-springs-ca-pd",
         "stockton-ca-pd",
         "suisun-city-ca-pd",
-        "sumner-county-tn-so",
         "sutter-county-ca-so",
         "taft-ca-pd",
         "tehachapi-ca-pd",
@@ -20214,7 +19622,6 @@
         "tustin-ca-pd",
         "ukiah-ca-pd",
         "ukiah-fire-ca-fd",
-        "ulysses-ks-pd",
         "union-city-ca-pd",
         "university-of-california-berkeley",
         "university-of-the-pacific-ca",
@@ -20232,43 +19639,20 @@
         "westmorland-ca-pd",
         "wheatland-ca-pd",
         "whittier-ca-pd",
-        "wichita-falls-tx-pd",
         "williams-ca-pd",
         "willits-ca-pd",
         "winters-ca-pd",
         "woodlake-ca-pd",
         "woodland-ca-pd",
         "yolo-county-ca-so",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-56768-hotlist-hits-in-the-last-30-days-204-searches-in-the-last-30-days-18"
+        "yuba-city-ca-pd"
       ]
-    },
-    "fort-worth-tx-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "foster-city-ca-pd": {
       "archived_date": "2026-03-27",
       "crawled": true,
       "camera_count": 20,
       "data_retention_days": 30,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "foster-farms-inc-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
       "outbound_count": 0,
       "inbound_count": 0,
       "outbound_slugs": [],
@@ -20549,16 +19933,6 @@
         "yuba-city-ca-pd",
         "yuba-county-sheriffs-office"
       ],
-      "inbound_slugs": []
-    },
-    "fountain-walk-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "fowler-ca-pd": {
@@ -21256,7 +20630,6 @@
         "beaumont-ca-pd",
         "bell-ca-pd",
         "beverly-hills-ca-pd",
-        "beverly-hills-unified-school-district-ca",
         "bishop-ca-pd",
         "blue-lake-rancheria-tribal-pd",
         "brawley-ca-pd",
@@ -21268,7 +20641,6 @@
         "ca-napa-valley-college-campus",
         "ca-wasco-pd",
         "ca-iipay-nation-of-santa-ysabel",
-        "ca-newport-beach-country-club",
         "cal-fire",
         "cal-state-fullerton-ca",
         "calexico-ca-pd",
@@ -21276,15 +20648,12 @@
         "california-state-parks",
         "calistoga-ca-pd",
         "campbell-ca-pd",
-        "carson-city-nv-so",
         "cathedral-city-ca-pd",
         "central-marin-ca-pd",
         "chaffey-college-pd-ca",
         "chino-ca-pd",
-        "chino-valley-az-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
@@ -21310,7 +20679,6 @@
         "desert-hot-springs-ca-pd",
         "dinuba-ca-pd",
         "dixon-ca-pd",
-        "douglas-county-nv-so",
         "downey-pd-ca",
         "dublin-ca-pd",
         "east-bay-parks-ca-pd",
@@ -21325,7 +20693,6 @@
         "escondido-ca-pd",
         "fairfield-ca-pd",
         "farmersville-ca-pd",
-        "fedex-corporation",
         "folsom-ca-pd",
         "fontana-ca-pd",
         "fort-bragg-ca-pd",
@@ -21343,14 +20710,12 @@
         "grover-beach-ca-pd",
         "gustine-pd-ca",
         "hanford-ca-pd",
-        "hawks-pointe-ca",
         "hayward-ca-pd",
         "hemet-ca-pd",
         "hercules-ca-pd",
         "hermosa-beach-pd-ca",
         "hillsborough-ca-pd",
         "hollister-ca-pd",
-        "home-depot-corporation",
         "huntington-beach-ca-pd",
         "imperial-city-ca-pd",
         "imperial-county-ca-so",
@@ -21369,7 +20734,6 @@
         "lake-county-ca-so",
         "lakeport-ca-pd",
         "lancaster-ca-pd",
-        "las-vegas-metro-nv-pd",
         "lassen-county-so-ca",
         "lathrop-ca-pd",
         "lincoln-ca-pd",
@@ -21391,7 +20755,6 @@
         "menifee-ca-pd",
         "menlo-park-ca-pd",
         "merced-county-ca-so",
-        "mercury-insurance-ca",
         "milpitas-ca-pd",
         "modoc-county-ca-so",
         "monrovia-ca-pd",
@@ -21405,7 +20768,6 @@
         "napa-ca-pd",
         "napa-county-ca-so",
         "national-city-ca-pd",
-        "navajo-county-az-so",
         "ncric",
         "nevada-county-ca-so",
         "newark-ca-pd",
@@ -21422,7 +20784,6 @@
         "oroville-ca-pd",
         "pacifica-ca-pd",
         "palm-springs-ca-pd",
-        "paradise-valley-az-pd",
         "pasadena-ca-pd",
         "petaluma-ca-pd",
         "placentia-ca-pd",
@@ -21439,7 +20800,6 @@
         "ridgecrest-ca-pd",
         "rio-hondo-college-pd-ca",
         "rio-vista-ca-pd",
-        "ritchie-brothers-auctioneers",
         "riverside-county-ca-so",
         "rohnert-park-department-of-public-safety-ca",
         "salinas-ca-pd",
@@ -21487,7 +20847,6 @@
         "sonoma-county-ca-so",
         "south-gate-ca-pd",
         "south-pasadena-ca-pd",
-        "sparks-police-department-nv",
         "stallion-springs-ca-pd",
         "stockton-ca-pd",
         "suisun-city-ca-pd",
@@ -21496,7 +20855,6 @@
         "tehachapi-ca-pd",
         "tehama-county-ca-so",
         "tiburon-ca-pd",
-        "tombstone-marshals-office-az",
         "tracy-ca-pd",
         "tulare-ca-pd",
         "turlock-ca-pd",
@@ -21511,7 +20869,6 @@
         "ventura-ca-pd",
         "vernon-ca-pd",
         "visalia-ca-pd",
-        "washoe-county-nv-so",
         "watsonville-ca-pd",
         "west-covina-ca-pd",
         "west-sacramento-ca-pd",
@@ -21526,9 +20883,7 @@
         "woodland-ca-pd",
         "yolo-county-ca-so",
         "yreka-ca-pd",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-920135-hotlist-hits-in-the-last-30-days-4254-searches-in-the-last-30-days-502"
+        "yuba-city-ca-pd"
       ]
     },
     "galt-ca-pd": {
@@ -21940,16 +21295,6 @@
         "westminster-ca-pd"
       ]
     },
-    "ggtpc-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "gilroy-ca-pd": {
       "archived_date": "2026-03-28",
       "crawled": true,
@@ -22297,36 +21642,6 @@
       ],
       "inbound_slugs": []
     },
-    "glen-cove-community-association-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "glen-cove-marina-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "glencoe-al-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "glendale-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -22509,36 +21824,6 @@
         "westminster-ca-pd"
       ]
     },
-    "gold-hills-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "goodland-avenue-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "goshen-in-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "goshen-village-ny-pd": {
       "archived_date": null,
       "crawled": false,
@@ -22551,31 +21836,11 @@
         "seaside-ca-pd"
       ]
     },
-    "grants-pass-or-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "grass-valley-ca-pd": {
       "archived_date": "2026-03-28",
       "crawled": true,
       "camera_count": 80,
       "data_retention_days": 30,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "great-wolf-lodge-corporate": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
       "outbound_count": 0,
       "inbound_count": 0,
       "outbound_slugs": [],
@@ -23467,36 +22732,6 @@
       ],
       "inbound_slugs": []
     },
-    "hardin-county-tn-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "haven-north-village": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "hawks-pointe-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "hawthorne-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -23568,16 +22803,6 @@
         "tracy-ca-pd",
         "vallejo-ca-pd"
       ]
-    },
-    "helena-al-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "hemet-ca-pd": {
       "archived_date": null,
@@ -23676,16 +22901,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "hendry-county-fl-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "hercules-ca-pd": {
       "archived_date": "2026-03-28",
@@ -24137,46 +23352,6 @@
         "westminster-ca-pd"
       ]
     },
-    "heron-bay-spyglass-hills-homeowners-association-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "hestia-lei-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "hiddenbrooke-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "highlands-hoa-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "hillsborough-ca-pd": {
       "archived_date": "2026-03-27",
       "crawled": true,
@@ -24502,26 +23677,6 @@
         "yuba-city-ca-pd",
         "yuba-county-sheriffs-office"
       ],
-      "inbound_slugs": []
-    },
-    "hillside-il-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "holiday-gardens-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "hollister-ca-pd": {
@@ -24867,7 +24022,6 @@
         "amador-county-ca-sheriffs-office",
         "anaheim-ca-pd",
         "anderson-ca-pd",
-        "anderson-in-pd",
         "angels-camp-ca-pd",
         "antioch-ca-pd",
         "atherton-ca-pd",
@@ -24875,7 +24029,6 @@
         "auburn-ca-pd",
         "azusa-ca-pd",
         "bakersfield-ca-pd",
-        "baldwin-county-ga-so",
         "baldwin-park-ca-pd",
         "barstow-ca-pd",
         "bear-valley-springs-ca-pd",
@@ -24884,7 +24037,6 @@
         "belmont-ca-pd",
         "beverly-hills-ca-pd",
         "bishop-ca-pd",
-        "bloomfield-nm-pd",
         "blue-lake-rancheria-tribal-pd",
         "brawley-ca-pd",
         "brentwood-ca-pd",
@@ -24906,15 +24058,12 @@
         "chino-ca-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
         "claremont-ca-pd",
         "clayton-ca-pd",
-        "clearwater-fl-pd",
         "cloverdale-ca-pd",
-        "cobb-county-ga-pd",
         "colma-ca-pd",
         "colton-ca-pd",
         "concord-ca-pd",
@@ -24950,7 +24099,6 @@
         "folsom-ca-pd",
         "fontana-ca-pd",
         "fort-bragg-ca-pd",
-        "fort-worth-tx-pd",
         "fountain-valley-ca-pd",
         "fowler-ca-pd",
         "fremont-ca-pd",
@@ -24999,7 +24147,6 @@
         "los-angeles-port-police-ca",
         "madera-ca-pd",
         "madera-county-so-ca",
-        "mahoning-twp-pa-pd",
         "manteca-ca-pd",
         "marina-ca-pd",
         "marysville-ca-pd",
@@ -25030,7 +24177,6 @@
         "oceanside-ca-pd",
         "ontario-ca-pd",
         "orange-ca-pd",
-        "orange-county-fl-so",
         "orange-county-so-ca",
         "orange-cove-ca-pd",
         "oroville-ca-pd",
@@ -25082,7 +24228,6 @@
         "santa-monica-ca-pd",
         "santa-rosa-band-of-cahuilla-indians-ca",
         "santa-rosa-ca-pd",
-        "sarasota-fl-pd",
         "sausalito-ca-pd",
         "seal-beach-ca-pd",
         "seaside-ca-pd",
@@ -25131,40 +24276,8 @@
         "winters-ca-pd",
         "woodlake-ca-pd",
         "woodland-ca-pd",
-        "yolo-county-ca-so",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-148712-hotlist-hits-in-the-last-30-days-2875"
+        "yolo-county-ca-so"
       ]
-    },
-    "home-depot-corporation": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "houston-metro-transit-authority-tx": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "houston-tx-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "humboldt-county-ca-so": {
       "archived_date": null,
@@ -25275,16 +24388,6 @@
         "westminster-ca-pd"
       ]
     },
-    "hunters-trail-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "huntington-beach-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -25341,16 +24444,6 @@
         "west-covina-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "huntsville-al-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "imperial-city-ca-pd": {
       "archived_date": null,
@@ -25741,26 +24834,6 @@
         "westminster-ca-pd"
       ]
     },
-    "irondale-al-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ironridge-at-portola-hills-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "irvine-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -25998,26 +25071,6 @@
         "lodi-ca-pd",
         "merced-county-ca-so"
       ]
-    },
-    "jasper-county-in-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "jonesboro-ar-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "kensington-ca-pd": {
       "archived_date": null,
@@ -26280,16 +25333,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "kerrigan-ranch-ii-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "kings-county-ca-das-office": {
       "archived_date": "2026-03-28",
@@ -26984,16 +26027,6 @@
         "westminster-ca-pd"
       ]
     },
-    "la-paz-county-az-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "la-verne-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -27111,16 +26144,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "la-verne-live-oak-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "laguna-beach-ca-pd": {
       "archived_date": null,
@@ -27581,16 +26604,6 @@
         "lake-county-ca-so"
       ]
     },
-    "lake-havasu-city-az-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "lakeport-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -27807,26 +26820,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "landmark-limited-group-of-companies": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "las-vegas-metro-nv-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "lasd-ca-san-dimas-station": {
       "archived_date": null,
@@ -28257,16 +27250,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "lexington-sc-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "lincoln-ca-pd": {
       "archived_date": "2026-03-28",
@@ -29178,7 +28161,6 @@
         "chino-ca-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
@@ -29211,7 +28193,6 @@
         "folsom-ca-pd",
         "fontana-ca-pd",
         "fort-bragg-ca-pd",
-        "foster-farms-inc-ca",
         "fowler-ca-pd",
         "fremont-ca-pd",
         "fullerton-ca-pd",
@@ -29318,20 +28299,8 @@
         "woodland-ca-pd",
         "yolo-county-ca-so",
         "yreka-ca-pd",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-132264-hotlist-hits-in-the-last-30-days-954-searches-in-the-last-30-days-21"
+        "yuba-city-ca-pd"
       ]
-    },
-    "llc": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "lodi-ca-pd": {
       "archived_date": "2026-03-28",
@@ -30053,16 +29022,6 @@
       ],
       "inbound_slugs": []
     },
-    "longshore-cove-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "los-alamitos-pd-ca": {
       "archived_date": null,
       "crawled": false,
@@ -30585,16 +29544,6 @@
         "westminster-ca-pd"
       ]
     },
-    "lowes-corporation": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "madera-ca-pd": {
       "archived_date": "2026-03-28",
       "crawled": true,
@@ -30895,16 +29844,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "mahoning-twp-pa-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "mammoth-lakes-ca-pd": {
       "archived_date": null,
@@ -31302,16 +30241,6 @@
       ],
       "inbound_slugs": []
     },
-    "mare-island-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "marin-county-ca-da": {
       "archived_date": null,
       "crawled": false,
@@ -31550,16 +30479,6 @@
       "outbound_slugs": [],
       "inbound_slugs": []
     },
-    "marshall-canyon-estates-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "marysville-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -31589,16 +30508,6 @@
         "vacaville-ca-pd",
         "west-sacramento-ca-pd"
       ]
-    },
-    "matteson-il-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "mcfarland-ca-pd": {
       "archived_date": null,
@@ -31712,36 +30621,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "mchenry-county-conservation-district-il-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "meadowood-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "melrose-action-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "mendocino-county-so-ca": {
       "archived_date": null,
@@ -32982,46 +31861,6 @@
       ],
       "inbound_slugs": []
     },
-    "mercury-insurance-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "mesa-verde-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "middlebury-in-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "midwick-collection-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "mill-valley-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -33246,36 +32085,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "milton-ga-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "miraleste-hills": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "modesto-ca-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "modoc-county-ca-so": {
       "archived_date": "2026-03-29",
@@ -33596,26 +32405,6 @@
         "yuba-city-ca-pd",
         "yuba-county-sheriffs-office"
       ],
-      "inbound_slugs": []
-    },
-    "mohave-county-az-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "monroe-ga-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "monrovia-ca-pd": {
@@ -33949,16 +32738,6 @@
         "yuba-city-ca-pd",
         "yuba-county-sheriffs-office"
       ],
-      "inbound_slugs": []
-    },
-    "monster-energy-corporate-office-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "montclair-ca-pd": {
@@ -35223,16 +34002,6 @@
         "yuba-city-ca-pd",
         "yuba-county-sheriffs-office"
       ],
-      "inbound_slugs": []
-    },
-    "mountain-house-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "murrieta-ca-pd": {
@@ -36558,126 +35327,6 @@
       ],
       "inbound_slugs": []
     },
-    "navajo-county-az-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-132264-hotlist-hits-in-the-last-30-days-954-searches-in-the-last-30-days-21": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-1413971-hotlist-hits-in-the-last-30-days-14103-searches-in-the-last-30-days-903": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-148712-hotlist-hits-in-the-last-30-days-2875": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-345466-hotlist-hits-in-the-last-30-days-14136-searches-in-the-last-30-days-303": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-483777-hotlist-hits-in-the-last-30-days-9342-searches-in-the-last-30-days-467": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-56768-hotlist-hits-in-the-last-30-days-204-searches-in-the-last-30-days-18": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-581062-hotlist-hits-in-the-last-30-days-11535-searches-in-the-last-30-days-270": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-600945-hotlist-hits-in-the-last-30-days-2857-searches-in-the-last-30-days-378": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-654942-hotlist-hits-in-the-last-30-days-3795-searches-in-the-last-30-days-158": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-920135-hotlist-hits-in-the-last-30-days-4254-searches-in-the-last-30-days-502": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ncmec-amber-alert-vehicles-detected-in-the-last-30-days-510153-hotlist-hits-in-the-last-30-days-29510-searches-in-the-last-30-days-543": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "ncric": {
       "archived_date": "2026-03-27",
       "crawled": true,
@@ -37007,16 +35656,6 @@
       ],
       "inbound_slugs": []
     },
-    "nephi-pd-ut": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "nevada-city-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -37135,16 +35774,6 @@
       "crawled": true,
       "camera_count": 26,
       "data_retention_days": 30,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "new-castle-county-de-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
       "outbound_count": 0,
       "inbound_count": 0,
       "outbound_slugs": [],
@@ -37272,16 +35901,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "newells-mobile-city-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "newport-beach-pd-ca": {
       "archived_date": "2026-03-29",
@@ -37933,16 +36552,6 @@
         "yuba-city-ca-pd",
         "yuba-county-sheriffs-office"
       ],
-      "inbound_slugs": []
-    },
-    "oak-valley-ii-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "oakland-ca-pd": {
@@ -38699,7 +37308,6 @@
         "coronado-ca-pd",
         "costa-mesa-ca-pd",
         "cotati-ca-pd",
-        "country-rose-ca",
         "covina-ca-pd",
         "cypress-ca-pd",
         "daly-city-ca-pd",
@@ -38723,7 +37331,6 @@
         "escondido-ca-pd",
         "fairfield-ca-pd",
         "farmersville-ca-pd",
-        "fedex-corporation",
         "folsom-ca-pd",
         "fontana-ca-pd",
         "fort-bragg-ca-pd",
@@ -38744,10 +37351,8 @@
         "hayward-ca-pd",
         "hemet-ca-pd",
         "hercules-ca-pd",
-        "heron-bay-spyglass-hills-homeowners-association-ca",
         "hillsborough-ca-pd",
         "hollister-ca-pd",
-        "home-depot-corporation",
         "huntington-beach-ca-pd",
         "imperial-city-ca-pd",
         "imperial-county-ca-so",
@@ -38775,7 +37380,6 @@
         "los-alamitos-pd-ca",
         "los-angeles-county-ca-sd",
         "los-angeles-port-police-ca",
-        "lowes-corporation",
         "madera-ca-pd",
         "madera-county-so-ca",
         "manteca-ca-pd",
@@ -38907,20 +37511,8 @@
         "woodland-ca-pd",
         "yolo-county-ca-so",
         "yreka-ca-pd",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-600945-hotlist-hits-in-the-last-30-days-2857-searches-in-the-last-30-days-378"
+        "yuba-city-ca-pd"
       ]
-    },
-    "ogden-dunes-in-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "old": {
       "archived_date": null,
@@ -38934,26 +37526,6 @@
         "lodi-ca-pd",
         "merced-county-ca-so"
       ]
-    },
-    "olinda-ranch-community-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "olivewood-community-association-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "ontario-ca-pd": {
       "archived_date": "2026-03-29",
@@ -39302,26 +37874,6 @@
       ],
       "inbound_slugs": []
     },
-    "ontario-oh-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "orange-beach-al-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "orange-ca-pd": {
       "archived_date": "2026-03-29",
       "crawled": true,
@@ -39624,7 +38176,6 @@
       ],
       "inbound_slugs": [
         "san-jose-state-university-ca",
-        "federal-loma-linda-healthcare-system-ca-veterans-affairs-pd",
         "alameda-county-ca-so",
         "albany-ca-pd",
         "alhambra-ca-pd",
@@ -39644,13 +38195,11 @@
         "beaumont-ca-pd",
         "bell-ca-pd",
         "beverly-hills-ca-pd",
-        "beverly-hills-unified-school-district-ca",
         "bishop-ca-pd",
         "blue-lake-rancheria-tribal-pd",
         "blythe-ca-pd",
         "brawley-ca-pd",
         "brentwood-ca-pd",
-        "brookhaven-circle-ca",
         "buena-park-ca-pd",
         "burbank-ca-pd",
         "burlingame-ca-pd",
@@ -39658,7 +38207,6 @@
         "ca-napa-valley-college-campus",
         "ca-wasco-pd",
         "ca-iipay-nation-of-santa-ysabel",
-        "ca-newport-beach-country-club",
         "cal-fire",
         "cal-state-fullerton-ca",
         "calexico-ca-pd",
@@ -39666,7 +38214,6 @@
         "california-highway-patrol",
         "california-state-parks",
         "calistoga-ca-pd",
-        "calle-roberto-west-ca",
         "campbell-ca-pd",
         "cathedral-city-ca-pd",
         "central-marin-ca-pd",
@@ -39674,7 +38221,6 @@
         "chino-ca-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
@@ -39713,24 +38259,20 @@
         "escalon-ca-pd",
         "escondido-ca-pd",
         "fairfield-ca-pd",
-        "fairway-eighteen-by-hqt-development-ca",
         "farmersville-ca-pd",
         "folsom-ca-pd",
         "fontana-ca-pd",
         "fort-bragg-ca-pd",
         "fountain-valley-ca-pd",
-        "fountain-walk-ca",
         "fowler-ca-pd",
         "fremont-ca-pd",
         "fullerton-ca-pd",
         "galt-ca-pd",
         "garden-grove-ca-pd",
-        "ggtpc-ca",
         "gilroy-ca-pd",
         "glendale-ca-pd",
         "glendora-ca-pd",
         "grass-valley-ca-pd",
-        "great-wolf-lodge-corporate",
         "greenfield-ca-pd",
         "grover-beach-ca-pd",
         "gustine-pd-ca",
@@ -39738,20 +38280,16 @@
         "hayward-ca-pd",
         "hemet-ca-pd",
         "hercules-ca-pd",
-        "highlands-hoa-ca",
         "hillsborough-ca-pd",
         "hollister-ca-pd",
-        "home-depot-corporation",
         "huntington-beach-ca-pd",
         "imperial-city-ca-pd",
         "imperial-county-ca-so",
         "indio-ca-pd",
-        "ironridge-at-portola-hills-ca",
         "irvine-ca-pd",
         "irwindale-ca-pd",
         "kerman-ca-pd",
         "kern-county-ca-so",
-        "kerrigan-ranch-ii-ca",
         "kings-county-ca-das-office",
         "kings-county-sheriffs-office-ca",
         "kingsburg-ca-pd",
@@ -39772,7 +38310,6 @@
         "los-alamitos-pd-ca",
         "los-angeles-county-ca-sd",
         "los-angeles-port-police-ca",
-        "lowes-corporation",
         "madera-ca-pd",
         "madera-county-so-ca",
         "manteca-ca-pd",
@@ -39784,8 +38321,6 @@
         "menifee-ca-pd",
         "menlo-park-ca-pd",
         "merced-county-ca-so",
-        "mercury-insurance-ca",
-        "mesa-verde-ca",
         "milpitas-ca-pd",
         "modoc-county-ca-so",
         "monrovia-ca-pd",
@@ -39806,7 +38341,6 @@
         "novato-ca-pd",
         "oakley-ca-pd",
         "oceanside-ca-pd",
-        "olinda-ranch-community-ca",
         "ontario-ca-pd",
         "orange-county-ca-da-office",
         "orange-county-fire-authority-ca",
@@ -39814,9 +38348,7 @@
         "orange-cove-ca-pd",
         "oroville-ca-pd",
         "pacifica-ca-pd",
-        "pacifica-san-juan",
         "pasadena-ca-pd",
-        "peppertree-bend-ca",
         "petaluma-ca-pd",
         "placentia-ca-pd",
         "placer-county-ca-so",
@@ -39834,7 +38366,6 @@
         "rio-vista-ca-pd",
         "riverside-county-ca-so",
         "rohnert-park-department-of-public-safety-ca",
-        "round-valley-indian-tribes-ca",
         "salinas-ca-pd",
         "san-benito-county-so-ca",
         "san-bernardino-ca-pd",
@@ -39875,10 +38406,7 @@
         "sequoias-community-college-district-ca-pd",
         "shafter-pd-ca",
         "shasta-county-so",
-        "sherwood-village-anaheim-ca",
-        "shore-cliffs-ca",
         "simi-valley-ca-pd",
-        "simon-property-group-hq-in",
         "solano-county-ca-so",
         "soledad-ca-pd",
         "sonoma-county-ca-so",
@@ -39896,7 +38424,6 @@
         "tulare-ca-pd",
         "turlock-ca-pd",
         "tustin-ca-pd",
-        "tustin-fields-ca",
         "ukiah-ca-pd",
         "ukiah-fire-ca-fd",
         "union-city-ca-pd",
@@ -39916,7 +38443,6 @@
         "west-valley-mission-college-dist-campus-ca",
         "westminster-ca-pd",
         "westmorland-ca-pd",
-        "westpark-las-palmas-ca",
         "wheatland-ca-pd",
         "whittier-ca-pd",
         "williams-ca-pd",
@@ -39926,9 +38452,7 @@
         "woodland-ca-pd",
         "yolo-county-ca-so",
         "yreka-ca-pd",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-1413971-hotlist-hits-in-the-last-30-days-14103-searches-in-the-last-30-days-903"
+        "yuba-city-ca-pd"
       ]
     },
     "orange-coast-college-campus-ca-pd": {
@@ -40158,16 +38682,6 @@
         "westminster-ca-pd"
       ]
     },
-    "orange-county-fl-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "orange-county-so-ca": {
       "archived_date": null,
       "crawled": false,
@@ -40317,16 +38831,6 @@
         "tracy-ca-pd",
         "vacaville-ca-pd"
       ]
-    },
-    "orlando-fl-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "oroville-ca-pd": {
       "archived_date": "2026-03-29",
@@ -40534,16 +39038,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "pacific-palisades-residents-association-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "pacifica-ca-pd": {
       "archived_date": "2026-03-27",
@@ -40837,16 +39331,6 @@
       ],
       "inbound_slugs": []
     },
-    "pacifica-san-juan": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "palm-springs-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -41036,16 +39520,6 @@
         "west-sacramento-ca-pd",
         "west-valley-mission-college-dist-campus-ca"
       ],
-      "inbound_slugs": []
-    },
-    "paradise-valley-az-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "pasadena-ca-pd": {
@@ -41379,26 +39853,6 @@
       ],
       "inbound_slugs": []
     },
-    "peotone-il-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "peppertree-bend-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "petaluma-ca-pd": {
       "archived_date": "2026-03-30",
       "crawled": true,
@@ -41623,16 +40077,6 @@
       "crawled": true,
       "camera_count": 58,
       "data_retention_days": 60,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "pittsboro-in-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
       "outbound_count": 0,
       "inbound_count": 0,
       "outbound_slugs": [],
@@ -43630,16 +42074,6 @@
       ],
       "inbound_slugs": []
     },
-    "quiet-harbor": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "redding-pd-ca": {
       "archived_date": null,
       "crawled": false,
@@ -44512,26 +42946,6 @@
       ],
       "inbound_slugs": []
     },
-    "reflections-hoa-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "reno-nv-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "rialto-pd-ca": {
       "archived_date": null,
       "crawled": false,
@@ -44639,16 +43053,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "richland-county-sc-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "richmond-ca-pd": {
       "archived_date": null,
@@ -45279,16 +43683,6 @@
         "santa-clara-ca-pd",
         "tracy-ca-pd"
       ]
-    },
-    "ritchie-brothers-auctioneers": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "riv-co-arson-tf-ca-pd": {
       "archived_date": null,
@@ -45960,16 +44354,6 @@
       ],
       "inbound_slugs": []
     },
-    "rose-hills-memorial-park-mortuary-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "roseville-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -46036,26 +44420,6 @@
         "vallejo-ca-pd",
         "west-sacramento-ca-pd"
       ]
-    },
-    "round-valley-indian-tribes-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "rountree-road-neighborhood-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "sacramento-ca-da": {
       "archived_date": null,
@@ -51137,16 +49501,6 @@
         "westminster-ca-pd"
       ]
     },
-    "santa-anita-oaks-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "santa-barbara-county-ca-so": {
       "archived_date": null,
       "crawled": false,
@@ -52408,26 +50762,6 @@
       ],
       "inbound_slugs": []
     },
-    "sarasota-county-fl-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "sarasota-fl-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "sausalito-ca-pd": {
       "archived_date": "2026-03-31",
       "crawled": true,
@@ -53206,16 +51540,6 @@
       ],
       "inbound_slugs": []
     },
-    "sedgwick-ks-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "selma-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -53323,16 +51647,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "senoia-ga-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "sequoias-community-college-district-ca-pd": {
       "archived_date": "2026-03-31",
@@ -53885,26 +52199,6 @@
       ],
       "inbound_slugs": []
     },
-    "sherwood-village-anaheim-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "shore-cliffs-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "sierra-madre-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -54332,16 +52626,6 @@
         "yuba-city-ca-pd",
         "yuba-county-sheriffs-office"
       ],
-      "inbound_slugs": []
-    },
-    "simon-property-group-hq-in": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "siskiyou-county-so-ca": {
@@ -55192,10 +53476,8 @@
         "campbell-ca-pd",
         "cathedral-city-ca-pd",
         "chino-ca-pd",
-        "chino-valley-az-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
@@ -55248,7 +53530,6 @@
         "hillsborough-ca-pd",
         "hollister-ca-pd",
         "huntington-beach-ca-pd",
-        "huntsville-al-pd",
         "imperial-city-ca-pd",
         "imperial-county-ca-so",
         "indio-ca-pd",
@@ -55307,7 +53588,6 @@
         "orange-cove-ca-pd",
         "oroville-ca-pd",
         "pacifica-ca-pd",
-        "paradise-valley-az-pd",
         "pasadena-ca-pd",
         "placentia-ca-pd",
         "placer-county-ca-so",
@@ -55322,7 +53602,6 @@
         "ridgecrest-ca-pd",
         "rio-hondo-college-pd-ca",
         "rio-vista-ca-pd",
-        "ritchie-brothers-auctioneers",
         "riverside-county-ca-so",
         "salinas-ca-pd",
         "san-bernardino-county-ca-so",
@@ -55360,12 +53639,10 @@
         "soledad-ca-pd",
         "sonoma-county-ca-so",
         "south-pasadena-ca-pd",
-        "st-francois-county-mo-so",
         "stallion-springs-ca-pd",
         "stockton-ca-pd",
         "suisun-city-ca-pd",
         "tehachapi-ca-pd",
-        "tombstone-marshals-office-az",
         "tracy-ca-pd",
         "tulare-ca-pd",
         "turlock-ca-pd",
@@ -55391,9 +53668,7 @@
         "woodland-ca-pd",
         "yolo-county-ca-so",
         "yreka-ca-pd",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-unique-vehicles-detected-in-the-last-30-days-654942-hotlist-hits-in-the-last-30-days-3795-searches-in-the-last-30-days-158"
+        "yuba-city-ca-pd"
       ]
     },
     "south-pasadena-ca-pd": {
@@ -55755,46 +54030,6 @@
         "san-mateo-ca-pd",
         "san-mateo-county-ca-so"
       ],
-      "inbound_slugs": []
-    },
-    "south-sioux-city-ne-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "sparks-police-department-nv": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "st-charles-county-mo-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "st-francois-county-mo-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
       "inbound_slugs": []
     },
     "st-helena-ca-pd": {
@@ -56497,26 +54732,6 @@
         "westminster-ca-pd"
       ]
     },
-    "sumner-county-tn-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "sundance-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "sunnyvale-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -56742,16 +54957,6 @@
         "westminster-ca-pd"
       ]
     },
-    "sycamore-place-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "taft-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -56863,16 +55068,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "tarpon-springs-fl-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "tehachapi-ca-pd": {
       "archived_date": null,
@@ -57123,36 +55318,6 @@
         "merced-county-ca-so"
       ]
     },
-    "texas-city-tx-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "the-landing-at-wildflower-station-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "the-lewis-group-of-companies": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "tiburon-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -57261,66 +55426,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "tift-county-ga-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "tifton-ga-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "titusville-fl-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "toluca-lake-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "tombstone-marshals-office-az": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "total-wine-more-md": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "town-of-los-gatos-ca": {
       "archived_date": null,
@@ -58497,16 +56602,6 @@
         "westminster-ca-pd"
       ]
     },
-    "tustin-fields-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "uc-irvine-campus-pd-ca": {
       "archived_date": null,
       "crawled": false,
@@ -58688,26 +56783,6 @@
         "tracy-ca-pd",
         "vallejo-ca-pd"
       ]
-    },
-    "ulta-il": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "ulysses-ks-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "union-city-ca-pd": {
       "archived_date": "2026-03-31",
@@ -59241,16 +57316,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "university-of-north-texas-at-denton-pd-tx": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "university-of-san-francisco-ca-pd": {
       "archived_date": null,
@@ -60142,27 +58207,21 @@
         "yuba-county-sheriffs-office"
       ],
       "inbound_slugs": [
-        "adrian-mi-pd",
-        "akron-oh-pd",
         "alameda-county-ca-so",
         "albany-ca-pd",
         "alhambra-ca-pd",
         "amador-county-ca-sheriffs-office",
         "anaheim-ca-pd",
         "anderson-ca-pd",
-        "anderson-in-pd",
         "angels-camp-ca-pd",
         "antioch-ca-pd",
         "atherton-ca-pd",
         "atwater-ca-pd",
         "auburn-ca-pd",
-        "avon-in-pd",
         "azusa-ca-pd",
         "bakersfield-ca-pd",
-        "baldwin-county-ga-so",
         "baldwin-park-ca-pd",
         "barstow-ca-pd",
-        "baytown-tx-pd",
         "bear-valley-springs-ca-pd",
         "beaumont-ca-pd",
         "bell-ca-pd",
@@ -60170,7 +58229,6 @@
         "benicia-ca-pd",
         "beverly-hills-ca-pd",
         "bishop-ca-pd",
-        "bloomfield-nm-pd",
         "blue-lake-rancheria-tribal-pd",
         "brawley-ca-pd",
         "brentwood-ca-pd",
@@ -60181,9 +58239,7 @@
         "butte-county-ca-so",
         "ca-napa-valley-college-campus",
         "ca-iipay-nation-of-santa-ysabel",
-        "cabana-isle-ca",
         "cal-fire",
-        "cal-maritime-ca",
         "cal-state-fullerton-ca",
         "calexico-ca-pd",
         "california-highway-patrol",
@@ -60195,17 +58251,11 @@
         "chino-ca-pd",
         "chula-vista-ca-pd",
         "citrus-heights-ca-pd",
-        "city-of-half-moon-bay",
         "city-of-lemoore-ca",
         "city-of-newman-ca-pd",
         "city-of-riverside-ca-pd",
-        "city-of-vallejo-ca",
-        "cjm-ron",
         "clayton-ca-pd",
-        "clearwater-fl-pd",
         "cloverdale-ca-pd",
-        "cobb-county-ga-pd",
-        "collier-county-fl-so",
         "colma-ca-pd",
         "colton-ca-pd",
         "colusa-ca-pd",
@@ -60216,7 +58266,6 @@
         "coronado-ca-pd",
         "costa-mesa-ca-pd",
         "covina-ca-pd",
-        "cuyahoga-falls-oh-pd",
         "cypress-ca-pd",
         "daly-city-ca-pd",
         "danville-ca-pd",
@@ -60242,7 +58291,6 @@
         "folsom-ca-pd",
         "fontana-ca-pd",
         "fort-bragg-ca-pd",
-        "fort-worth-tx-pd",
         "foster-city-ca-pd",
         "fountain-valley-ca-pd",
         "fowler-ca-pd",
@@ -60251,9 +58299,6 @@
         "galt-ca-pd",
         "garden-grove-ca-pd",
         "gilroy-ca-pd",
-        "glen-cove-community-association-ca",
-        "glen-cove-marina-ca",
-        "glencoe-al-pd",
         "glendale-ca-pd",
         "glendora-ca-pd",
         "grass-valley-ca-pd",
@@ -60261,16 +58306,12 @@
         "grover-beach-ca-pd",
         "gustine-pd-ca",
         "hanford-ca-pd",
-        "haven-north-village",
         "hayward-ca-pd",
         "healdsburg-ca-pd",
         "hemet-ca-pd",
         "hercules-ca-pd",
-        "hiddenbrooke-ca",
         "hillsborough-ca-pd",
-        "holiday-gardens-ca",
         "hollister-ca-pd",
-        "houston-tx-pd",
         "huntington-beach-ca-pd",
         "imperial-city-ca-pd",
         "imperial-county-ca-so",
@@ -60294,28 +58335,22 @@
         "livermore-ca-pd",
         "lodi-ca-pd",
         "lompoc-ca-pd",
-        "longshore-cove-ca",
         "los-alamitos-pd-ca",
         "los-angeles-county-ca-sd",
         "los-angeles-port-police-ca",
         "madera-ca-pd",
         "madera-county-so-ca",
         "manteca-ca-pd",
-        "mare-island-ca",
         "marina-ca-pd",
         "marysville-ca-pd",
         "mcfarland-ca-pd",
-        "meadowood-ca",
         "mendocino-county-so-ca",
         "mendota-ca-pd",
         "menifee-ca-pd",
         "menlo-park-ca-pd",
         "merced-county-ca-so",
         "milpitas-ca-pd",
-        "milton-ga-pd",
-        "modesto-ca-pd",
         "modoc-county-ca-so",
-        "monroe-ga-pd",
         "monrovia-ca-pd",
         "montclair-ca-pd",
         "monterey-county-ca-so",
@@ -60327,19 +58362,15 @@
         "napa-county-ca-so",
         "national-city-ca-pd",
         "ncric",
-        "nephi-pd-ut",
         "nevada-county-ca-so",
         "newark-ca-pd",
-        "newells-mobile-city-ca",
         "newport-beach-pd-ca",
         "novato-ca-pd",
         "oakland-ca-pd",
         "oakley-ca-pd",
         "oceanside-ca-pd",
         "ontario-ca-pd",
-        "orange-beach-al-pd",
         "orange-ca-pd",
-        "orange-county-fl-so",
         "orange-county-so-ca",
         "orange-cove-ca-pd",
         "oroville-ca-pd",
@@ -60355,12 +58386,10 @@
         "pomona-ca-pd",
         "port-of-stockton-ca-pd",
         "porterville-ca-pd",
-        "quiet-harbor",
         "redlands-ca-pd",
         "redondo-beach-ca-pd",
         "redwood-city-ca-pd",
         "reedley-ca-pd",
-        "reflections-hoa-ca",
         "ridgecrest-ca-pd",
         "rio-hondo-college-pd-ca",
         "rio-vista-ca-pd",
@@ -60368,7 +58397,6 @@
         "rocklin-ca-pd",
         "rohnert-park-department-of-public-safety-ca",
         "roseville-ca-pd",
-        "round-valley-indian-tribes-ca",
         "salinas-ca-pd",
         "san-benito-county-so-ca",
         "san-bernardino-ca-pd",
@@ -60398,7 +58426,6 @@
         "santa-monica-ca-pd",
         "santa-rosa-band-of-cahuilla-indians-ca",
         "santa-rosa-ca-pd",
-        "sarasota-fl-pd",
         "sausalito-ca-pd",
         "seal-beach-ca-pd",
         "seaside-ca-pd",
@@ -60416,10 +58443,8 @@
         "stockton-ca-pd",
         "suisun-city-ca-pd",
         "sutter-county-ca-so",
-        "sycamore-place-ca",
         "taft-ca-pd",
         "tehachapi-ca-pd",
-        "texas-city-tx-pd",
         "tiburon-ca-pd",
         "tracy-ca-pd",
         "trinity-county-so-ca",
@@ -60428,7 +58453,6 @@
         "tustin-ca-pd",
         "ukiah-ca-pd",
         "ukiah-fire-ca-fd",
-        "ulta-il",
         "union-city-ca-pd",
         "university-of-california-berkeley",
         "university-of-the-pacific-ca",
@@ -60437,13 +58461,8 @@
         "vallejo-ca-pd",
         "ventura-ca-pd",
         "vernon-ca-pd",
-        "view-park-hoa-ca",
-        "villa-del-mar-ca",
-        "village-at-hiddenbrooke-ca",
         "visalia-ca-pd",
         "walnut-creek-ca-pd",
-        "waterstone-community-association-ca",
-        "waterstone-hoa-ca",
         "watsonville-ca-pd",
         "west-sacramento-ca-pd",
         "west-valley-mission-college-dist-campus-ca",
@@ -60457,40 +58476,8 @@
         "woodlake-ca-pd",
         "woodland-ca-pd",
         "yolo-county-ca-so",
-        "yuba-city-ca-pd",
-        "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs",
-        "ncmec-amber-alert-vehicles-detected-in-the-last-30-days-510153-hotlist-hits-in-the-last-30-days-29510-searches-in-the-last-30-days-543"
+        "yuba-city-ca-pd"
       ]
-    },
-    "valley-circle-estates-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "valley-glen-neighborhood-watch-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "valley-glen-vose-neighborhood-watch-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "ventura-ca-pd": {
       "archived_date": null,
@@ -60870,46 +58857,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "view-park-hoa-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "villa-del-mar-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "village-at-hiddenbrooke-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "village-pointe-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "visalia-ca-pd": {
       "archived_date": "2026-03-31",
@@ -61339,36 +59286,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "washoe-county-nv-so": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "waterstone-community-association-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "waterstone-hoa-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "watsonville-ca-pd": {
       "archived_date": "2026-04-01",
@@ -62484,16 +60401,6 @@
         "tracy-ca-pd"
       ]
     },
-    "westfield-park-recreation-and-parkways": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "westminster-ca-pd": {
       "archived_date": "2026-04-01",
       "crawled": true,
@@ -62862,26 +60769,6 @@
         "vacaville-ca-pd"
       ]
     },
-    "westpark-las-palmas-ca": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
-    "westwood-village": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
-    },
     "wheatland-ca-pd": {
       "archived_date": null,
       "crawled": false,
@@ -63100,16 +60987,6 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "wichita-falls-tx-pd": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     },
     "williams-ca-pd": {
       "archived_date": null,
@@ -64125,75 +62002,9 @@
         "west-sacramento-ca-pd",
         "westminster-ca-pd"
       ]
-    },
-    "yuba-county-sheriffs-office-hotlists-alerted-on-california-svs": {
-      "archived_date": null,
-      "crawled": false,
-      "camera_count": null,
-      "data_retention_days": null,
-      "outbound_count": 0,
-      "inbound_count": 0,
-      "outbound_slugs": [],
-      "inbound_slugs": []
     }
   },
   "mismatches": [
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
-      "claims_shared_by": "hayward-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
     {
       "type": "inbound_not_confirmed",
       "agency": "oceanside-ca-pd",
@@ -64404,292 +62215,6 @@
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "foster-city-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "hayward-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "livingston-ca-pd",
-      "source_has_outbound_list": true,
-      "source_outbound_count": 104,
-      "detail": "el-cerrito-ca-pd's portal says livingston-ca-pd shares with it, but livingston-ca-pd's portal (lists 104 agencies but not el-cerrito-ca-pd"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "oakland-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says oakland-ca-pd shares with it, but oakland-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "el-cerrito-ca-pd",
-      "claims_shared_by": "piedmont-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "el-cerrito-ca-pd's portal says piedmont-ca-pd shares with it, but piedmont-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "outbound_not_confirmed",
-      "agency": "monterey-park-ca-pd",
-      "shares_with": "antioch-ca-pd",
-      "detail": "monterey-park-ca-pd shares with antioch-ca-pd, but antioch-ca-pd's inbound list doesn't include monterey-park-ca-pd"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "fort-bragg-ca-pd",
-      "source_has_outbound_list": true,
-      "source_outbound_count": 303,
-      "detail": "fort-bragg-ca-pd's portal says fort-bragg-ca-pd shares with it, but fort-bragg-ca-pd's portal (lists 303 agencies but not fort-bragg-ca-pd"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "foster-city-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "hayward-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "piedmont-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says piedmont-ca-pd shares with it, but piedmont-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "hayward-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "foster-city-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "hayward-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
       "agency": "antioch-ca-pd",
       "claims_shared_by": "alameda-county-ca-so",
       "source_has_outbound_list": false,
@@ -64759,70 +62284,6 @@
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
       "detail": "antioch-ca-pd's portal says piedmont-ca-pd shares with it, but piedmont-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "baldwin-park-ca-pd",
-      "source_has_outbound_list": true,
-      "source_outbound_count": 321,
-      "detail": "baldwin-park-ca-pd's portal says baldwin-park-ca-pd shares with it, but baldwin-park-ca-pd's portal (lists 321 agencies but not baldwin-park-ca-pd"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "hayward-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
@@ -64943,6 +62404,412 @@
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
       "detail": "south-gate-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "foster-city-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "hayward-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "livingston-ca-pd",
+      "source_has_outbound_list": true,
+      "source_outbound_count": 104,
+      "detail": "el-cerrito-ca-pd's portal says livingston-ca-pd shares with it, but livingston-ca-pd's portal (lists 104 agencies but not el-cerrito-ca-pd"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "oakland-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says oakland-ca-pd shares with it, but oakland-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "el-cerrito-ca-pd",
+      "claims_shared_by": "piedmont-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "el-cerrito-ca-pd's portal says piedmont-ca-pd shares with it, but piedmont-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "baldwin-park-ca-pd",
+      "source_has_outbound_list": true,
+      "source_outbound_count": 321,
+      "detail": "baldwin-park-ca-pd's portal says baldwin-park-ca-pd shares with it, but baldwin-park-ca-pd's portal (lists 321 agencies but not baldwin-park-ca-pd"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "hayward-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "fort-bragg-ca-pd",
+      "source_has_outbound_list": true,
+      "source_outbound_count": 303,
+      "detail": "fort-bragg-ca-pd's portal says fort-bragg-ca-pd shares with it, but fort-bragg-ca-pd's portal (lists 303 agencies but not fort-bragg-ca-pd"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "foster-city-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "hayward-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "piedmont-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says piedmont-ca-pd shares with it, but piedmont-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "foster-city-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "hayward-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "hayward-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "outbound_not_confirmed",
+      "agency": "monterey-park-ca-pd",
+      "shares_with": "antioch-ca-pd",
+      "detail": "monterey-park-ca-pd shares with antioch-ca-pd, but antioch-ca-pd's inbound list doesn't include monterey-park-ca-pd"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "orange-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "orange-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "orange-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "orange-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "orange-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "orange-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "orange-ca-pd",
+      "claims_shared_by": "hayward-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "orange-ca-pd's portal says hayward-ca-pd shares with it, but hayward-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "orange-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "orange-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "orange-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "orange-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "orange-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "orange-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
     }
   ],
   "most_shared_with": [
@@ -64951,23 +62818,23 @@
       "inbound_count": 113
     },
     {
-      "slug": "dublin-ca-pd",
-      "inbound_count": 112
-    },
-    {
       "slug": "newark-ca-pd",
       "inbound_count": 112
     },
     {
-      "slug": "union-city-ca-pd",
+      "slug": "dublin-ca-pd",
+      "inbound_count": 112
+    },
+    {
+      "slug": "santa-clara-ca-pd",
       "inbound_count": 111
     },
     {
-      "slug": "burlingame-ca-pd",
+      "slug": "santa-rosa-ca-pd",
       "inbound_count": 111
     },
     {
-      "slug": "vacaville-ca-pd",
+      "slug": "san-leandro-ca-pd",
       "inbound_count": 111
     },
     {
@@ -64979,19 +62846,11 @@
       "inbound_count": 111
     },
     {
-      "slug": "redwood-city-ca-pd",
+      "slug": "fairfield-ca-pd",
       "inbound_count": 111
     },
     {
-      "slug": "san-leandro-ca-pd",
-      "inbound_count": 111
-    },
-    {
-      "slug": "santa-rosa-ca-pd",
-      "inbound_count": 111
-    },
-    {
-      "slug": "santa-clara-ca-pd",
+      "slug": "vacaville-ca-pd",
       "inbound_count": 111
     },
     {
@@ -64999,11 +62858,19 @@
       "inbound_count": 111
     },
     {
-      "slug": "fairfield-ca-pd",
+      "slug": "union-city-ca-pd",
       "inbound_count": 111
     },
     {
-      "slug": "benicia-ca-pd",
+      "slug": "burlingame-ca-pd",
+      "inbound_count": 111
+    },
+    {
+      "slug": "redwood-city-ca-pd",
+      "inbound_count": 111
+    },
+    {
+      "slug": "danville-ca-pd",
       "inbound_count": 110
     },
     {
@@ -65011,27 +62878,19 @@
       "inbound_count": 110
     },
     {
+      "slug": "benicia-ca-pd",
+      "inbound_count": 110
+    },
+    {
       "slug": "concord-ca-pd",
       "inbound_count": 110
     },
     {
-      "slug": "danville-ca-pd",
-      "inbound_count": 110
+      "slug": "sonoma-county-ca-so",
+      "inbound_count": 109
     },
     {
       "slug": "napa-county-ca-so",
-      "inbound_count": 109
-    },
-    {
-      "slug": "napa-ca-pd",
-      "inbound_count": 109
-    },
-    {
-      "slug": "san-bruno-ca-pd",
-      "inbound_count": 109
-    },
-    {
-      "slug": "clayton-ca-pd",
       "inbound_count": 109
     },
     {
@@ -65039,7 +62898,15 @@
       "inbound_count": 109
     },
     {
-      "slug": "sonoma-county-ca-so",
+      "slug": "clayton-ca-pd",
+      "inbound_count": 109
+    },
+    {
+      "slug": "san-bruno-ca-pd",
+      "inbound_count": 109
+    },
+    {
+      "slug": "napa-ca-pd",
       "inbound_count": 109
     },
     {
@@ -65047,11 +62914,11 @@
       "inbound_count": 109
     },
     {
-      "slug": "livermore-ca-pd",
+      "slug": "seaside-ca-pd",
       "inbound_count": 108
     },
     {
-      "slug": "pleasanton-ca-pd",
+      "slug": "dixon-ca-pd",
       "inbound_count": 108
     },
     {
@@ -65059,11 +62926,11 @@
       "inbound_count": 108
     },
     {
-      "slug": "stockton-ca-pd",
+      "slug": "san-luis-obispo-county-ca-sheriff",
       "inbound_count": 108
     },
     {
-      "slug": "seaside-ca-pd",
+      "slug": "citrus-heights-ca-pd",
       "inbound_count": 108
     }
   ]

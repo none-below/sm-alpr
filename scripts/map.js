@@ -12,7 +12,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   }).addTo(map);
 
   const markerLayer = L.markerClusterGroup({
-    maxClusterRadius: 20,
+    maxClusterRadius: 50,
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: false,
     zoomToBoundsOnClick: true,
@@ -207,29 +207,129 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     });
   });
 
+  // Temporary markers for inbound-only entities (community cameras, HOAs, etc.)
+  let tempMarkers = [];
+
+  function clearTempMarkers() {
+    tempMarkers.forEach(tm => markerLayer.removeLayer(tm));
+    tempMarkers = [];
+  }
+
   function showAgency(m) {
     lineLayer.clearLayers();
+    clearTempMarkers();
 
     let outConnected = 0;
+    let outViolations = 0;
+    let outNotMapped = 0;
+    const unmappedViolations = [];
     (m.outbound_slugs || []).forEach(target => {
+      if (isViolation(target)) outViolations++;
       if (coords[target]) {
-        L.polyline([[m.lat, m.lng], coords[target]], { color: '#2563eb', weight: 1.5, opacity: 0.3 }).addTo(lineLayer);
+        const lineColor = isViolation(target) ? '#dc2626' : '#2563eb';
+        const lineWeight = isViolation(target) ? 2 : 1.5;
+        L.polyline([[m.lat, m.lng], coords[target]], { color: lineColor, weight: lineWeight, opacity: 0.4 }).addTo(lineLayer);
         outConnected++;
+      } else if (isViolation(target)) {
+        unmappedViolations.push(target);
+      } else {
+        outNotMapped++;
       }
     });
 
+    // Place unmapped violations as warning markers along the top edge
+    if (unmappedViolations.length > 0) {
+      const spread = Math.min(unmappedViolations.length, 20);
+      const startLng = m.lng - 2.5;
+      const lngStep = 5.0 / Math.max(spread - 1, 1);
+      const topLat = m.lat + 3.5;
+
+      unmappedViolations.slice(0, 20).forEach((slug, i) => {
+        const vLat = topLat + (Math.random() - 0.5) * 0.3;
+        const vLng = startLng + i * lngStep + (Math.random() - 0.5) * 0.2;
+        const vInfo = agencyInfo[slug] || {};
+        const label = (vInfo.name || slug);
+
+        // Warning triangle marker
+        const icon = L.divIcon({
+          html: '<div style="font-size:16px;text-align:center" title="' + label + '">\u26a0</div>',
+          className: '',
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
+        });
+        const tm = L.marker([vLat, vLng], { icon: icon }).addTo(lineLayer);
+        tm.bindTooltip(label, { direction: 'top', offset: [0, -10] });
+        tm.on('click', (e) => { L.DomEvent.stopPropagation(e); window.clickSlug(slug); });
+
+        // Red dashed line from agency to warning
+        L.polyline([[m.lat, m.lng], [vLat, vLng]], {
+          color: '#dc2626', weight: 1.5, opacity: 0.3, dashArray: '4 4'
+        }).addTo(lineLayer);
+      });
+
+      if (unmappedViolations.length > 20) {
+        // Overflow indicator
+        const overflowIcon = L.divIcon({
+          html: '<div style="background:#dc2626;color:white;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;white-space:nowrap">+' + (unmappedViolations.length - 20) + ' more</div>',
+          className: '',
+          iconSize: [80, 20],
+          iconAnchor: [40, 10],
+        });
+        L.marker([topLat + 0.4, m.lng], { icon: overflowIcon }).addTo(lineLayer);
+      }
+    }
+
     let inConnected = 0;
-    (m.inbound_slugs || []).forEach(source => {
+    let tempCount = 0;
+    (m.inbound_slugs || []).forEach((source) => {
       if (coords[source]) {
+        // Source has a map position — draw line
         L.polyline([coords[source], [m.lat, m.lng]], { color: '#16a34a', weight: 1.5, opacity: 0.3, dashArray: '4 4' }).addTo(lineLayer);
+        inConnected++;
+      } else {
+        // No map position — create a temporary marker near the selected agency
+        const angle = (tempCount * 2.399) + 0.5;  // golden angle spiral
+        const dist = 0.008 + tempCount * 0.003;
+        const tLat = m.lat + Math.cos(angle) * dist;
+        const tLng = m.lng + Math.sin(angle) * dist;
+        const info = agencyInfo[source] || {};
+        const tipName = (info.name || source);
+        const isComm = info.type === 'community' || info.type === 'other';
+        const fillColor = isComm ? '#10b981' : '#8b5cf6';  // green for community, purple for unknown
+        const tm = L.circleMarker([tLat, tLng], {
+          radius: 4,
+          fillColor: fillColor,
+          color: '#065f46',
+          weight: 1,
+          fillOpacity: 0.7,
+          slug: source,
+        }).addTo(markerLayer);
+        tm.bindTooltip(tipName + ' (community camera)', { direction: 'top', offset: [0, -6], sticky: true });
+        tm.on('click', (e) => { L.DomEvent.stopPropagation(e); window.clickSlug(source); });
+        // Draw dashed line from temp marker to agency
+        L.polyline([[tLat, tLng], [m.lat, m.lng]], { color: '#10b981', weight: 1, opacity: 0.4, dashArray: '3 3' }).addTo(lineLayer);
+        tempMarkers.push(tm);
+        tempCount++;
         inConnected++;
       }
     });
 
+    // Show violation summary as a fixed banner at top of map
+    const bannerEl = document.getElementById('violation-banner');
+    if (outViolations > 0) {
+      bannerEl.innerHTML = '\u26a0 Shares with ' + outViolations + ' violation' + (outViolations > 1 ? 's' : '') +
+        ' (private, out-of-state, federal, decommissioned)' +
+        (outNotMapped > 0 ? ' \u2014 ' + outNotMapped + ' not on map' : '');
+      bannerEl.style.display = 'block';
+    } else {
+      bannerEl.style.display = 'none';
+    }
+
     const info = document.getElementById('info');
     const status = m.crawled ? 'Crawled' : 'No transparency page found (inferred from other portals)';
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
-    let html = '<h3>' + m.slug + '</h3>';
+    const shareUrl = window.location.origin + window.location.pathname + '#' + m.slug;
+    let html = '<h3>' + (agencyInfo[m.slug]?.name || m.slug) + ' <a href="javascript:void(0)" onclick="navigator.clipboard.writeText(\'' + shareUrl + '\').then(()=>{this.textContent=\'copied!\';setTimeout(()=>{this.textContent=\'\ud83d\udd17\'},1500)})" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
     if (m.crawled) {
       html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + m.slug + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
     }
@@ -267,31 +367,41 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     (m.inbound_slugs || []).forEach(s => connected.add(s));
     const myMismatches = new Set(mismatches[m.slug] || []);
 
+    // Remove unrelated markers from cluster group, keep connected ones
+    markerLayer.clearLayers();
     markers.forEach(mm => {
       const c = markersBySlug[mm.slug];
       if (!c) return;
+      if (!connected.has(mm.slug)) return;  // skip unrelated
+
       if (mm.slug === m.slug) {
         c.setRadius(14);
         c.setStyle({ fillColor: '#06b6d4', fillOpacity: 1, weight: 3, color: '#0e7490' });
-        c.bringToFront();
       } else if (myMismatches.has(mm.slug)) {
         c.setRadius(Math.max(6, defaultRadius(mm)));
         c.setStyle({ fillColor: '#f97316', fillOpacity: 0.9, weight: 2, color: '#c2410c' });
-      } else if (connected.has(mm.slug)) {
+      } else {
         const col = defaultColor(mm);
         c.setRadius(defaultRadius(mm));
         c.setStyle({ fillColor: col.fill, fillOpacity: 0.8, weight: 1, color: col.border });
-      } else if (isViolation(mm.slug)) {
-        c.setRadius(3);
-        c.setStyle({ fillColor: '#dc2626', fillOpacity: 0.3, weight: 1, color: '#991b1b' });
-      } else {
-        c.setRadius(2);
-        c.setStyle({ fillColor: '#d1d5db', fillOpacity: 0.2, weight: 0.5, color: '#e5e7eb' });
       }
+      markerLayer.addLayer(c);
     });
+
+    // Center on the visible area (left of info panel)
+    // Info panel is ~370px on the right, so the usable map width is smaller
+    const panelWidth = 370;
+    const mapWidth = map.getSize().x;
+    const usableCenter = (mapWidth - panelWidth) / 2;
+    const currentCenter = mapWidth / 2;
+    const shiftRight = currentCenter - usableCenter;  // shift right in pixels
+    const targetPoint = map.project([m.lat, m.lng], 6).add([shiftRight, 0]);
+    const targetLatLng = map.unproject(targetPoint, 6);
+    map.setView(targetLatLng, 6);
   }
 
   function resetMarkers() {
+    markerLayer.clearLayers();
     markers.forEach(mm => {
       const c = markersBySlug[mm.slug];
       if (!c) return;
@@ -299,13 +409,17 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       const radius = isViolation(mm.slug) ? Math.max(5, defaultRadius(mm)) : defaultRadius(mm);
       c.setRadius(radius);
       c.setStyle({ fillColor: col.fill, fillOpacity: col.opacity, weight: isViolation(mm.slug) ? 2 : 1, color: col.border });
+      markerLayer.addLayer(c);
     });
   }
 
   // Click map background to reset
   map.on('click', () => {
+    history.replaceState(null, '', window.location.pathname);
     lineLayer.clearLayers();
+    clearTempMarkers();
     resetMarkers();
+    document.getElementById('violation-banner').style.display = 'none';
     document.getElementById('info').innerHTML =
       '<h3>Flock ALPR Sharing Map</h3>' +
       '<p class="stat">Click an agency to see its sharing web.</p>' +
@@ -365,9 +479,11 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   markers.forEach(m => { markerDataBySlug[m.slug] = m; });
 
   window.clickSlug = function(slug) {
+    // Update URL hash for shareable links
+    history.replaceState(null, '', '#' + slug);
+
     const m = markerDataBySlug[slug];
     if (m) {
-      map.setView([m.lat, m.lng], 10);
       showAgency(m);
     } else {
       const info = agencyInfo[slug] || {};
@@ -397,20 +513,66 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     }
   };
 
-  // Populate off-map violations panel
-  const offmapPanel = document.getElementById('offmap');
-  const offmapEntities = Object.entries(agencyInfo).filter(([slug, info]) => {
+  // Place off-map violations as markers in the ocean west of California
+  document.getElementById('offmap').style.display = 'none';  // hide the old panel
+
+  const offmapEntities = Object.entries(agencyInfo).filter(([slug]) => {
     return isViolation(slug) && !coords[slug];
   }).sort((a, b) => sortPriority(a[1]) - sortPriority(b[1]));
 
   if (offmapEntities.length) {
-    let html = '<h4>\u26a0 Off-map violations (' + offmapEntities.length + ')</h4>';
-    offmapEntities.slice(0, 30).forEach(([slug, info]) => {
-      html += '<div onclick="clickSlug(\'' + slug + '\')">' + slugLabel(slug) + '</div>';
+    // Group by type for cleaner layout
+    const groups = {};
+    offmapEntities.forEach(([slug, info]) => {
+      const type = info.type || 'other';
+      if (!groups[type]) groups[type] = [];
+      groups[type].push(slug);
     });
-    if (offmapEntities.length > 30) html += '<div>... and ' + (offmapEntities.length - 30) + ' more</div>';
-    offmapPanel.innerHTML = html;
-  } else {
-    offmapPanel.style.display = 'none';
+
+    // Place groups in a column off the coast
+    const baseLat = 39.5;
+    const baseLng = -126.5;
+    let row = 0;
+
+    // Header marker
+    const headerIcon = L.divIcon({
+      html: '<div style="background:#dc2626;color:white;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:bold;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.3)">\u26a0 Off-map violations (' + offmapEntities.length + ')</div>',
+      className: '',
+      iconSize: [200, 24],
+      iconAnchor: [100, 12],
+    });
+    L.marker([baseLat + 0.8, baseLng], { icon: headerIcon, interactive: false }).addTo(markerLayer);
+
+    Object.entries(groups).forEach(([type, slugs]) => {
+      slugs.forEach((slug, i) => {
+        const vLat = baseLat - row * 0.4;
+        const vLng = baseLng + (i % 3) * 0.5 - 0.5;
+        const info = agencyInfo[slug] || {};
+        const label = info.name || slug;
+
+        // Determine color
+        let color = '#dc2626';
+        if (type === 'test') color = '#f97316';
+        else if (type === 'decommissioned') color = '#f97316';
+
+        const circle = L.circleMarker([vLat, vLng], {
+          radius: 5,
+          fillColor: color,
+          color: color,
+          weight: 1,
+          fillOpacity: 0.8,
+          slug: slug,
+        }).addTo(markerLayer);
+        circle.bindTooltip(label, { direction: 'right', offset: [8, 0], sticky: true });
+        circle.on('click', (e) => { L.DomEvent.stopPropagation(e); window.clickSlug(slug); });
+        if (i % 3 === 2 || i === slugs.length - 1) row++;
+      });
+    });
+  }
+
+  // Auto-select agency from URL hash (e.g. #san-mateo-ca-pd)
+  const hashSlug = window.location.hash.replace('#', '');
+  if (hashSlug) {
+    setTimeout(() => clickSlug(hashSlug), 100);
   }
 });
