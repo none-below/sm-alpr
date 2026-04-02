@@ -38,9 +38,6 @@ jobs:
       - name: Build sharing graph
         run: uv run python scripts/build_sharing_graph.py
 
-      - name: Build agency registry
-        run: uv run python scripts/build_agency_registry.py --merge
-
       - name: Build map
         run: uv run python scripts/build_map.py
 

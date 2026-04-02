@@ -275,6 +275,14 @@ def main():
         registry.append(entry)
         new_count += 1
 
+    # In merge mode, preserve manually-added entries not in discovered data
+    if args.merge:
+        registry_slugs = {e["slug"] for e in registry}
+        for slug, entry in existing.items():
+            if slug not in registry_slugs:
+                registry.append(entry)
+                kept_count += 1
+
     # Save
     REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
     REGISTRY_PATH.write_text(json.dumps(registry, indent=2) + "\n")
