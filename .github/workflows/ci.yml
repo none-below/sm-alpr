@@ -8,10 +8,10 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v8
 
       - name: Install dependencies
         run: uv sync
@@ -35,9 +35,5 @@ jobs:
       - name: Build findings PDF
         run: uv run python scripts/md_to_pdf.py
 
-      - name: Verify docs build
-        run: |
-          test -f docs/sharing_map.html
-          test -f docs/data/map_data.json
-          test -f docs/js/map.js
-          echo "All docs artifacts built successfully"
+      - name: Run smoke tests
+        run: uv run pytest tests/test_map_smoke.py -v
