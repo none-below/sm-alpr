@@ -6,8 +6,10 @@ Builds the map, serves it locally, and verifies key functionality
 using Playwright. Run with: uv run pytest tests/test_map_smoke.py
 """
 
+import http.server
 import json
 import subprocess
+import threading
 import time
 from pathlib import Path
 
@@ -161,3 +163,218 @@ class TestHTML:
     def test_has_cache_bust_on_data(self):
         js = (DOCS_DIR / "js" / "map.js").read_text()
         assert "map_data.json?v=" in js
+
+
+# ── Browser layout tests (Playwright) ──
+
+def _serve_docs():
+    """Start a local HTTP server for the docs directory, return (server, port)."""
+    handler = http.server.SimpleHTTPRequestHandler
+    server = http.server.HTTPServer(("127.0.0.1", 0), handler)
+    server.timeout = 0.5
+    port = server.server_address[1]
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    return server, port
+
+
+def _boxes_overlap(a, b):
+    """Return True if two bounding boxes overlap."""
+    return not (
+        a["x"] + a["width"] <= b["x"] or
+        b["x"] + b["width"] <= a["x"] or
+        a["y"] + a["height"] <= b["y"] or
+        b["y"] + b["height"] <= a["y"]
+    )
+
+
+# All positioned UI elements — checked pairwise for overlap.
+# Add new elements here as they're created.
+_UI_ELEMENTS = [
+    "#search-box",
+    "#violation-banner",
+    ".info-panel",
+    ".legend",
+]
+
+# Build all unique pairs
+_NO_OVERLAP_PAIRS = [
+    (a, b) for i, a in enumerate(_UI_ELEMENTS) for b in _UI_ELEMENTS[i + 1:]
+]
+
+VIEWPORTS = [
+    {"name": "desktop", "width": 1440, "height": 900},
+    {"name": "laptop", "width": 1280, "height": 720},
+    {"name": "tablet", "width": 768, "height": 1024},
+    {"name": "mobile", "width": 375, "height": 812},
+]
+
+
+class TestLayout:
+    """Verify UI elements don't overlap across screen sizes."""
+
+    @pytest.fixture(autouse=True, scope="class")
+    def serve(self, request):
+        import os
+        os.chdir(DOCS_DIR)
+        server, port = _serve_docs()
+        request.cls.port = port
+        yield
+        server.shutdown()
+        os.chdir(Path(__file__).parent.parent)
+
+    @pytest.fixture(scope="class")
+    def browser(self, request):
+        from playwright.sync_api import sync_playwright
+        pw = sync_playwright().start()
+        b = pw.chromium.launch()
+        request.cls._pw = pw
+        request.cls._browser = b
+        yield b
+        b.close()
+        pw.stop()
+
+    def test_all_ui_elements_exist(self, browser):
+        """Every element in _UI_ELEMENTS must exist in the page."""
+        page = browser.new_page(viewport={"width": 1440, "height": 900})
+        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
+        page.wait_for_selector("#map", state="visible", timeout=10000)
+        for sel in _UI_ELEMENTS:
+            el = page.query_selector(sel)
+            assert el is not None, f"UI element {sel} not found in page"
+        page.close()
+
+    def test_no_unregistered_overlays(self, browser):
+        """Catch new positioned overlays not yet in _UI_ELEMENTS."""
+        page = browser.new_page(viewport={"width": 1440, "height": 900})
+        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
+        page.wait_for_selector("#map", state="visible", timeout=10000)
+        # Find all direct children of body with position:absolute/fixed (overlays)
+        overlays = page.evaluate("""() => {
+            const found = [];
+            document.querySelectorAll('body > *').forEach(el => {
+                const style = getComputedStyle(el);
+                if (style.position === 'absolute' || style.position === 'fixed') {
+                    const id = el.id ? '#' + el.id : (el.className ? '.' + el.className.split(' ')[0] : el.tagName);
+                    found.push(id);
+                }
+            });
+            return found;
+        }""")
+        known = set()
+        for sel in _UI_ELEMENTS:
+            known.add(sel)
+        # edge indicators are expected but not worth overlap-checking (they hide/show dynamically)
+        # Dynamically shown/hidden elements that don't need overlap checks in default state
+        known.update(["#edge-left", "#edge-right", "#edge-top", "#edge-bottom",
+                       "#offmap", "#infoToggle", "#search-results"])
+        # #info is the .info-panel (already in _UI_ELEMENTS as .info-panel)
+        known.add("#info")
+        unknown = [o for o in overlays if o not in known and o != "#map"]
+        assert not unknown, (
+            f"Found positioned overlay(s) not in _UI_ELEMENTS: {unknown}. "
+            f"Add them to _UI_ELEMENTS in test_map_smoke.py to include them in overlap checks."
+        )
+        page.close()
+
+    @pytest.mark.parametrize("vp", VIEWPORTS, ids=lambda v: v["name"])
+    def test_no_element_overlap(self, browser, vp):
+        page = browser.new_page(viewport={"width": vp["width"], "height": vp["height"]})
+        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
+        # Wait for map to initialize
+        page.wait_for_selector("#map", state="visible", timeout=10000)
+
+        for sel_a, sel_b in _NO_OVERLAP_PAIRS:
+            el_a = page.query_selector(sel_a)
+            el_b = page.query_selector(sel_b)
+            if not el_a or not el_b:
+                continue
+            # Skip hidden elements
+            if not el_a.is_visible() or not el_b.is_visible():
+                continue
+            box_a = el_a.bounding_box()
+            box_b = el_b.bounding_box()
+            if not box_a or not box_b:
+                continue
+            assert not _boxes_overlap(box_a, box_b), (
+                f"{sel_a} overlaps {sel_b} at {vp['name']} ({vp['width']}x{vp['height']}): "
+                f"{sel_a}={box_a}, {sel_b}={box_b}"
+            )
+        page.close()
+
+    @pytest.mark.parametrize("vp", VIEWPORTS, ids=lambda v: v["name"])
+    def test_ui_elements_visible_and_in_viewport(self, browser, vp):
+        """All UI elements should be visible and fully within the viewport."""
+        page = browser.new_page(viewport={"width": vp["width"], "height": vp["height"]})
+        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
+        page.wait_for_selector("#map", state="visible", timeout=10000)
+
+        # Elements that are hidden by default (shown dynamically)
+        hidden_by_default = {"#violation-banner"}
+
+        for sel in _UI_ELEMENTS:
+            el = page.query_selector(sel)
+            if not el:
+                continue
+            # Some elements are hidden on certain viewports by design
+            if not el.is_visible():
+                # Legend hides on mobile — that's expected
+                if sel == ".legend" and vp["width"] < 769:
+                    continue
+                # Violation banner hidden until agency is clicked
+                if sel in hidden_by_default:
+                    continue
+                pytest.fail(f"{sel} not visible at {vp['name']} ({vp['width']}x{vp['height']})")
+            box = el.bounding_box()
+            if not box:
+                continue
+            assert box["x"] >= 0, f"{sel} clipped on left at {vp['name']}: x={box['x']}"
+            assert box["y"] >= 0, f"{sel} clipped on top at {vp['name']}: y={box['y']}"
+            assert box["x"] + box["width"] <= vp["width"] + 1, (
+                f"{sel} extends past right edge at {vp['name']}: "
+                f"right={box['x'] + box['width']}, viewport={vp['width']}"
+            )
+            assert box["y"] + box["height"] <= vp["height"] + 1, (
+                f"{sel} extends past bottom edge at {vp['name']}: "
+                f"bottom={box['y'] + box['height']}, viewport={vp['height']}"
+            )
+        page.close()
+
+    @pytest.mark.parametrize("vp", VIEWPORTS, ids=lambda v: v["name"])
+    def test_violation_banner_after_click(self, browser, vp):
+        """After selecting an agency with violations, banner should not overlap search and be fully visible."""
+        page = browser.new_page(viewport={"width": vp["width"], "height": vp["height"]})
+        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html#san-mateo-ca-pd", wait_until="networkidle")
+        page.wait_for_selector("#map", state="visible", timeout=10000)
+        # Give JS time to process the hash
+        page.wait_for_timeout(500)
+
+        search = page.query_selector("#search-box")
+        banner = page.query_selector("#violation-banner")
+
+        # Banner must be visible when an agency with violations is selected
+        assert banner is not None, "Violation banner element not found"
+        assert banner.is_visible(), f"Violation banner not visible at {vp['name']} after selecting agency with violations"
+
+        box_b = banner.bounding_box()
+        assert box_b is not None, f"Violation banner has no bounding box at {vp['name']}"
+
+        # Banner must be fully within viewport
+        assert box_b["x"] >= 0, f"Banner clipped on left at {vp['name']}: x={box_b['x']}"
+        assert box_b["y"] >= 0, f"Banner clipped on top at {vp['name']}: y={box_b['y']}"
+        assert box_b["x"] + box_b["width"] <= vp["width"], (
+            f"Banner clipped on right at {vp['name']}: right edge={box_b['x'] + box_b['width']}, viewport={vp['width']}"
+        )
+        assert box_b["y"] + box_b["height"] <= vp["height"], (
+            f"Banner clipped on bottom at {vp['name']}: bottom edge={box_b['y'] + box_b['height']}, viewport={vp['height']}"
+        )
+
+        # Must not overlap search box
+        if search and search.is_visible():
+            box_s = search.bounding_box()
+            if box_s:
+                assert not _boxes_overlap(box_s, box_b), (
+                    f"Search box overlaps violation banner at {vp['name']}: "
+                    f"search={box_s}, banner={box_b}"
+                )
+        page.close()

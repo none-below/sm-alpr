@@ -6,7 +6,7 @@ const SLUG_RE = /^[a-z0-9][a-z0-9\-]*$/;
 function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
 
 // Load data
-fetch('data/map_data.json?v=1775121215').then(r => r.json()).then(data => {
+fetch('data/map_data.json?v=1775121663').then(r => r.json()).then(data => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
@@ -184,7 +184,7 @@ fetch('data/map_data.json?v=1775121215').then(r => r.json()).then(data => {
     if (mData && !isViolation(s)) {
       const hasOutboundViol = (mData.outbound_slugs || []).some(t => isViolation(t));
       if (hasOutboundViol)
-        tag += ' <span style="color:#d97706;font-weight:bold" title="This agency shares data with violation entities (private, federal, test)">[RE-SHARES TO VIOLATIONS]</span>';
+        tag += ' <span style="color:#d97706;font-weight:bold" title="This agency shares data with non-conforming entities (private, federal, test)">[SHARES WITH NON-CONFORMING ENTITY]</span>';
     }
     // Flag agencies sharing with a sued agency
     if (mData && !info.ag_lawsuit) {
