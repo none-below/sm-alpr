@@ -162,7 +162,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
 
   function slugLabel(s) {
     const info = agencyInfo[s] || {};
-    let label = info.name || s;
+    let label = escapeHtml(info.name || s);
     let tag = '';
     if (info.state && info.state !== 'CA')
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Out-of-state sharing may violate CA Civil Code \u00a71798.90.55(b)">[' + info.state + ' \u2014 out of state]</span>';
@@ -179,7 +179,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     const loc = coords[s];
     if (!loc) tag += ' <span style="color:#9ca3af">(not mapped)</span>';
     if (info.crawled) {
-      tag += ' <a href="https://transparency.flocksafety.com/' + s + '" target="_blank" style="color:#6b7280;text-decoration:none" title="View transparency portal">\u2197</a>';
+      tag += ' <a href="https://transparency.flocksafety.com/' + safeSlug(s) + '" target="_blank" style="color:#6b7280;text-decoration:none" title="View transparency portal">\u2197</a>';
     }
     return label + tag;
   }
@@ -335,10 +335,10 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     const info = document.getElementById('info');
     const status = m.crawled ? 'Crawled' : 'No transparency page found (inferred from other portals)';
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
-    const shareUrl = window.location.origin + window.location.pathname + '#' + encodeURIComponent(m.slug);
+    const shareUrl = window.location.href.split('#')[0] + '#' + m.slug;
     let html = '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="#" data-share-url="' + escapeHtml(shareUrl) + '" onclick="event.preventDefault();navigator.clipboard.writeText(this.dataset.shareUrl).then(()=>{this.textContent=\'copied!\';setTimeout(()=>{this.textContent=\'\ud83d\udd17\'},1500)})" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
     if (m.crawled) {
-      html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + m.slug + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
+      html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + safeSlug(m.slug) + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
     }
     html += '<p class="stat" style="color:' + statusColor + '">' + status + '</p>';
     if (m.cameras) html += '<p class="stat">Cameras: ' + m.cameras + '</p>';
@@ -346,7 +346,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     html += '<p class="stat">Shares with: ' + m.outbound_count + ' agencies (' + outConnected + ' mapped)</p>';
     html += '<p class="stat">Receives from: ' + (m.inbound_count || (m.inbound_slugs ? m.inbound_slugs.length : 0)) + ' agencies (' + inConnected + ' mapped)</p>';
     const mInfo = agencyInfo[m.slug] || {};
-    if (mInfo.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + mInfo.notes + '</p>';
+    if (mInfo.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + escapeHtml(mInfo.notes) + '</p>';
 
     if (m.outbound_slugs && m.outbound_slugs.length) {
       html += '<div class="sharing-list"><strong>Shares with (outbound):</strong>';
@@ -496,15 +496,15 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       let html = '<h3>' + escapeHtml(info.name || slug) + '</h3>';
       html += '<p class="stat" style="color:#f97316">No map location</p>';
       if (info.crawled) {
-        html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + slug + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
+        html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + safeSlug(slug) + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
       }
-      if (info.state) html += '<p class="stat">State: ' + info.state + '</p>';
-      if (info.role) html += '<p class="stat">Role: ' + info.role + '</p>';
-      if (info.type) html += '<p class="stat">Type: ' + info.type + '</p>';
+      if (info.state) html += '<p class="stat">State: ' + escapeHtml(info.state) + '</p>';
+      if (info.role) html += '<p class="stat">Role: ' + escapeHtml(info.role) + '</p>';
+      if (info.type) html += '<p class="stat">Type: ' + escapeHtml(info.type) + '</p>';
       if (info.type === 'federal') html += '<p class="stat" style="color:#dc2626">Federal entity \u2014 not an \u201cagency of the state\u201d per \u00a71798.90.5(f). AG Bulletin prohibits sharing with federal agencies.</p>';
       else if (info.public === true) html += '<p class="stat" style="color:#16a34a">Public agency</p>';
       if (info.public === false) html += '<p class="stat" style="color:#dc2626">Not a public agency \u2014 sharing likely violates SB 34</p>';
-      if (info.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + info.notes + '</p>';
+      if (info.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + escapeHtml(info.notes) + '</p>';
 
       const sharedBy = markers.filter(mm => (mm.outbound_slugs || []).includes(slug));
       if (sharedBy.length) {
