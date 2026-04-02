@@ -97,6 +97,48 @@ def main():
             "inbound_slugs": data.get("inbound_slugs", []),
         })
 
+    # Add Flock Safety vendor as an implicit outbound target for all crawled agencies.
+    # Every agency using Flock's platform grants §5.3 disclosure authority to Flock.
+    flock_reg = registry_by_slug.get("flock-safety-vendor")
+    if flock_reg and flock_reg.get("lat") and flock_reg.get("lng"):
+        # Collect all crawled agency slugs that feed into Flock
+        flock_inbound = [m["slug"] for m in markers if m.get("crawled")]
+
+        # Add Flock as a marker with inbound from all crawled agencies
+        markers.append({
+            "slug": "flock-safety-vendor",
+            "lat": flock_reg["lat"],
+            "lng": flock_reg["lng"],
+            "cameras": 0,
+            "crawled": False,
+            "outbound_count": 0,
+            "inbound_count": len(flock_inbound),
+            "retention_days": None,
+            "outbound_slugs": [],
+            "inbound_slugs": flock_inbound,
+        })
+        geocoded += 1
+        # Add to every crawled agency's outbound
+        for m in markers:
+            if m.get("crawled") and m["slug"] != "flock-safety-vendor":
+                m["outbound_slugs"].append("flock-safety-vendor")
+                m["outbound_count"] += 1
+
+    # Compute inbound for all markers from outbound data.
+    # This fills in inbound even for agencies whose portal doesn't have
+    # the "Organizations sharing their data with" section.
+    marker_by_slug = {m["slug"]: m for m in markers}
+    computed_inbound = {m["slug"]: set() for m in markers}
+    for m in markers:
+        for target in m.get("outbound_slugs", []):
+            if target in computed_inbound:
+                computed_inbound[target].add(m["slug"])
+    for m in markers:
+        existing = set(m.get("inbound_slugs", []))
+        merged = sorted(existing | computed_inbound.get(m["slug"], set()))
+        m["inbound_slugs"] = merged
+        m["inbound_count"] = len(merged)
+
     # Resolve edges with coordinates
     slug_coords = {m["slug"]: (m["lat"], m["lng"]) for m in markers}
 
@@ -110,7 +152,9 @@ def main():
             "role": reg.get("agency_role"),
             "type": reg.get("agency_type"),
             "crawled": reg.get("crawled", False),
+            "crawled_date": reg.get("crawled_date"),
             "notes": reg.get("notes"),
+            "ag_lawsuit": reg.get("ag_lawsuit", False),
         }
 
     # Add alias entries pointing to primary's info

@@ -137,6 +137,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   }
 
   function sortPriority(info) {
+    if (info.ag_lawsuit) return -1;                              // AG lawsuit — top priority
     if (info.state && info.state !== 'CA') return 0;           // out-of-state
     if (info.public === false) return 1;                        // private
     if (info.type === 'federal') return 2;                      // federal — not agency of the state
@@ -167,16 +168,33 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     let tag = '';
     if (info.state && info.state !== 'CA')
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Out-of-state sharing may violate CA Civil Code \u00a71798.90.55(b)">[' + info.state + ' \u2014 out of state]</span>';
-    if (info.public === false && info.type !== 'decommissioned' && info.type !== 'test')
+    if (info.role === 'vendor')
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Private vendor with contractual authority to independently disclose agency data (\u00a75.3). Not a public agency.">[VENDOR \u2014 \u00a75.3 disclosure authority]</span>';
+    else if (info.public === false)
       tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Civil Code \u00a71798.90.55(b) restricts ALPR sharing to public agencies">[PRIVATE \u2014 likely violates SB 34]</span>';
     if (info.type === 'federal')
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Federal entity \u2014 not an agency of the state per CA Civil Code \u00a71798.90.5(f). AG Bulletin 2023-DLE-06 prohibits sharing with federal agencies.">[FEDERAL]</span>';
-    if (info.type === 'decommissioned')
-      tag += ' <span style="color:#f97316;font-weight:bold" title="Marked Do Not Use by Flock but still appears in sharing lists">[DECOMMISSIONED]</span>';
-    if (info.type === 'test')
-      tag += ' <span style="color:#dc2626;font-weight:bold" title="Test/demo entry \u2014 not a public agency. Sharing ALPR data with non-agency accounts likely violates CA Civil Code \u00a71798.90.55(b).">[NOT AN AGENCY \u2014 likely violates SB 34]</span>';
-    if (info.notes && info.notes.indexOf('re-sharing') >= 0)
-      tag += ' <span style="color:#d97706;font-weight:bold" title="' + info.notes.replace(/"/g, '&quot;').replace(/<[^>]*>/g, '') + '">[RE-SHARES TO VIOLATIONS]</span>';
+    if ((info.type === 'decommissioned' || info.type === 'test') && info.public !== false)
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="' + (info.type === 'decommissioned' ? 'Decommissioned/DNU entry' : 'Test/demo entry') + ' \u2014 not a public agency. Sharing ALPR data with non-agency accounts likely violates CA Civil Code \u00a71798.90.55(b).">[NOT AN AGENCY \u2014 likely violates SB 34]</span>';
+    // Flag agencies under AG lawsuit
+    if (info.ag_lawsuit)
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Attorney General lawsuit for illegal out-of-state ALPR data sharing in violation of SB 34">[AG LAWSUIT \u2014 illegal sharing]</span>';
+    // Check if this agency re-shares to violations (from marker data)
+    const mData = (typeof markerDataBySlug !== 'undefined') && markerDataBySlug[s];
+    if (mData && !isViolation(s)) {
+      const hasOutboundViol = (mData.outbound_slugs || []).some(t => isViolation(t));
+      if (hasOutboundViol)
+        tag += ' <span style="color:#d97706;font-weight:bold" title="This agency shares data with violation entities (private, federal, test)">[RE-SHARES TO VIOLATIONS]</span>';
+    }
+    // Flag agencies sharing with a sued agency
+    if (mData && !info.ag_lawsuit) {
+      const sharesWithSued = (mData.outbound_slugs || []).some(t => (agencyInfo[t] || {}).ag_lawsuit);
+      if (sharesWithSued)
+        tag += ' <span style="color:#d97706;font-weight:bold" title="This agency shares ALPR data with an agency under AG lawsuit for illegal sharing">[SHARES WITH SUED AGENCY]</span>';
+    }
+    // Flag uncrawled agencies with no transparency portal
+    if (info.crawled === false && info.public !== false && info.type !== 'test' && info.type !== 'decommissioned')
+      tag += ' <span style="color:#d97706;font-size:11px" title="No transparency portal found">[no portal]</span>';
     const loc = coords[s];
     if (!loc) tag += ' <span style="color:#9ca3af">(not mapped)</span>';
     if (info.crawled) {
@@ -186,6 +204,8 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   }
 
   // Place markers
+  // Create all markers but only add public ones to the map initially.
+  // Non-public (private, test, decommissioned) only appear when an agency is selected.
   markers.forEach(m => {
     const col = defaultColor(m);
     const radius = isViolation(m.slug) ? Math.max(6, defaultRadius(m)) : defaultRadius(m);
@@ -196,13 +216,15 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       weight: isViolation(m.slug) ? 2 : 1,
       fillOpacity: col.opacity,
       slug: m.slug,
-    }).addTo(markerLayer);
+    });
     const info = agencyInfo[m.slug] || {};
     circle._markerData = m;
     const tipName = (info.name || m.slug) + (isViolation(m.slug) ? ' \u26a0' : '');
     circle.bindTooltip(tipName, { direction: 'top', offset: [0, -8], sticky: true });
     circle.on('click', (e) => { L.DomEvent.stopPropagation(e); showAgency(m); });
     markersBySlug[m.slug] = circle;
+    // Defer adding to map — done after recipientSlugs is computed
+    circle._shouldAdd = true;
   });
 
   // After spiderfy, re-bind tooltips on the spidered markers
@@ -214,6 +236,8 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       cm.bindTooltip(tipName, { direction: 'top', offset: [0, -8], sticky: true });
     });
   });
+
+  // Initial marker population happens after resetMarkers is defined (see below)
 
   // Temporary markers for inbound-only entities (community cameras, HOAs, etc.)
   let tempMarkers = [];
@@ -341,7 +365,9 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     }
 
     const info = document.getElementById('info');
-    const status = m.crawled ? 'Crawled' : 'No transparency page found (inferred from other portals)';
+    const mCrawlInfo = agencyInfo[m.slug] || {};
+    const crawlDate = mCrawlInfo.crawled_date;
+    const status = m.crawled ? ('Crawled' + (crawlDate ? ' ' + crawlDate : '')) : 'No transparency page found (inferred from other portals)';
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
     const shareUrl = window.location.href.split('#')[0] + '#' + m.slug;
     let html = '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="' + escapeHtml(shareUrl) + '" data-share-url="' + escapeHtml(shareUrl) + '" onclick="event.preventDefault();navigator.clipboard.writeText(this.dataset.shareUrl).then(()=>{this.textContent=\'copied!\';setTimeout(()=>{this.textContent=\'\ud83d\udd17\'},1500)})" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
@@ -351,10 +377,17 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     html += '<p class="stat" style="color:' + statusColor + '">' + status + '</p>';
     if (m.cameras) html += '<p class="stat">Cameras: ' + m.cameras + '</p>';
     if (m.retention_days) html += '<p class="stat">Retention: ' + m.retention_days + ' days</p>';
-    html += '<p class="stat">Shares with: ' + m.outbound_count + ' agencies (' + outConnected + ' mapped)</p>';
-    html += '<p class="stat">Receives from: ' + (m.inbound_count || (m.inbound_slugs ? m.inbound_slugs.length : 0)) + ' agencies (' + inConnected + ' mapped)</p>';
+    if (m.crawled) {
+      html += '<p class="stat">Shares with: ' + m.outbound_count + ' entities</p>';
+    } else {
+      html += '<p class="stat">Shares with: unknown (no portal data)</p>';
+    }
+    const inCount = m.inbound_count || (m.inbound_slugs ? m.inbound_slugs.length : 0);
+    if (inCount > 0) {
+      html += '<p class="stat">Receives from: \u2265' + inCount + ' entities</p>';
+    }
     const mInfo = agencyInfo[m.slug] || {};
-    if (mInfo.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + escapeHtml(mInfo.notes) + '</p>';
+    if (mInfo.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + mInfo.notes + '</p>';
 
     if (m.outbound_slugs && m.outbound_slugs.length) {
       const sorted = sortOutbound(m.outbound_slugs, m.lat, m.lng);
@@ -378,7 +411,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
         html += '<p class="stat" style="font-size:11px;color:#92400e;margin:2px 0 4px 0">Data reaches these entities through intermediaries.</p>';
         myIndirects.forEach(function(iv) {
           html += '<div style="cursor:pointer;padding:2px 0" data-slug="' + escapeHtml(iv.violation) + '" onclick="clickSlug(this.dataset.slug)">';
-          html += '<span style="color:#dc2626;font-weight:bold">' + escapeHtml(iv.violation_name) + '</span>';
+          html += slugLabel(iv.violation);
           html += ' <span style="color:#6b7280;font-size:11px">via </span>';
           html += '<span style="cursor:pointer;color:#2563eb;font-size:11px" data-slug="' + escapeHtml(iv.via) + '" onclick="event.stopPropagation();clickSlug(this.dataset.slug)">' + escapeHtml(iv.via_name) + '</span>';
           html += '</div>';
@@ -398,8 +431,10 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
 
     if (m.inbound_slugs && m.inbound_slugs.length) {
       html += '<div class="sharing-list" style="border-top:1px solid #e5e7eb;padding-top:6px"><strong>Receives from (inbound):</strong>';
-      sortOutbound(m.inbound_slugs, m.lat, m.lng).forEach(function(s) {
-        html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + '</div>';
+      m.inbound_slugs.forEach(function(s) {
+        const sInfo = agencyInfo[s] || {};
+        const sName = escapeHtml(sInfo.name || s);
+        html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + sName + '</div>';
       });
       html += '</div>';
     }
@@ -445,11 +480,23 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     map.setView(targetLatLng, 6);
   }
 
+  // Pre-compute which slugs are recipients (receive data from someone)
+  const recipientSlugs = new Set();
+  markers.forEach(mm => {
+    (mm.outbound_slugs || []).forEach(t => recipientSlugs.add(t));
+  });
+
+  function shouldShowByDefault(slug) {
+    const info = agencyInfo[slug] || {};
+    return info.public !== false || recipientSlugs.has(slug);
+  }
+
   function resetMarkers() {
     markerLayer.clearLayers();
     markers.forEach(mm => {
       const c = markersBySlug[mm.slug];
       if (!c) return;
+      if (!shouldShowByDefault(mm.slug)) return;
       const col = defaultColor(mm);
       const radius = isViolation(mm.slug) ? Math.max(5, defaultRadius(mm)) : defaultRadius(mm);
       c.setRadius(radius);
@@ -457,6 +504,9 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       markerLayer.addLayer(c);
     });
   }
+
+  // Initial marker population
+  resetMarkers();
 
   // Click map background to reset
   map.on('click', () => {
@@ -544,13 +594,15 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       if (info.type === 'federal') html += '<p class="stat" style="color:#dc2626">Federal entity \u2014 not an \u201cagency of the state\u201d per \u00a71798.90.5(f). AG Bulletin prohibits sharing with federal agencies.</p>';
       else if (info.public === true) html += '<p class="stat" style="color:#16a34a">Public agency</p>';
       if (info.public === false) html += '<p class="stat" style="color:#dc2626">Not a public agency \u2014 sharing likely violates SB 34</p>';
-      if (info.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + escapeHtml(info.notes) + '</p>';
+      if (info.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + info.notes + '</p>';
 
       const sharedBy = markers.filter(mm => (mm.outbound_slugs || []).includes(slug));
       if (sharedBy.length) {
         html += '<div class="sharing-list"><strong>Receives data from (' + sharedBy.length + '):</strong>';
         sharedBy.forEach(function(mm) {
-          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(mm.slug) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(mm.slug) + '</div>';
+          const sInfo = agencyInfo[mm.slug] || {};
+          const sName = escapeHtml(sInfo.name || mm.slug);
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(mm.slug) + '" onclick="clickSlug(this.dataset.slug)">' + sName + '</div>';
         });
         html += '</div>';
       }
@@ -561,57 +613,42 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   // Place off-map violations as markers in the ocean west of California
   document.getElementById('offmap').style.display = 'none';  // hide the old panel
 
+  // Only show entities that RECEIVE data from CA agencies but have no map location
+  // (test accounts, decommissioned entries, etc.) — not out-of-state sources
   const offmapEntities = Object.entries(agencyInfo).filter(([slug]) => {
-    return isViolation(slug) && !coords[slug];
+    if (!isViolation(slug)) return false;
+    if (coords[slug]) return false;
+    // Must be a recipient — some agency shares outbound to this entity
+    return recipientSlugs.has(slug);
   }).sort((a, b) => sortPriority(a[1]) - sortPriority(b[1]));
 
   if (offmapEntities.length) {
-    // Group by type for cleaner layout
-    const groups = {};
-    offmapEntities.forEach(([slug, info]) => {
-      const type = info.type || 'other';
-      if (!groups[type]) groups[type] = [];
-      groups[type].push(slug);
-    });
+    // Place all off-map violations at a single point in the ocean.
+    // MarkerCluster will group them into one clickable cluster.
+    const offmapLat = 37.5;
+    const offmapLng = -126.0;
 
-    // Place groups in a column off the coast
-    const baseLat = 39.5;
-    const baseLng = -126.5;
-    let row = 0;
+    offmapEntities.forEach(([slug]) => {
+      const info = agencyInfo[slug] || {};
+      let color = '#dc2626';
+      if (info.type === 'test' || info.type === 'decommissioned') color = '#f97316';
 
-    // Header marker
-    const headerIcon = L.divIcon({
-      html: '<div style="background:#dc2626;color:white;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:bold;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.3)">\u26a0 Off-map violations (' + offmapEntities.length + ')</div>',
-      className: '',
-      iconSize: [200, 24],
-      iconAnchor: [100, 12],
-    });
-    L.marker([baseLat + 0.8, baseLng], { icon: headerIcon, interactive: false }).addTo(markerLayer);
-
-    Object.entries(groups).forEach(([type, slugs]) => {
-      slugs.forEach((slug, i) => {
-        const vLat = baseLat - row * 0.4;
-        const vLng = baseLng + (i % 3) * 0.5 - 0.5;
-        const info = agencyInfo[slug] || {};
-        const label = info.name || slug;
-
-        // Determine color
-        let color = '#dc2626';
-        if (type === 'test') color = '#f97316';
-        else if (type === 'decommissioned') color = '#f97316';
-
-        const circle = L.circleMarker([vLat, vLng], {
-          radius: 5,
-          fillColor: color,
-          color: color,
-          weight: 1,
-          fillOpacity: 0.8,
-          slug: slug,
-        }).addTo(markerLayer);
-        circle.bindTooltip(label, { direction: 'right', offset: [8, 0], sticky: true });
-        circle.on('click', (e) => { L.DomEvent.stopPropagation(e); window.clickSlug(slug); });
-        if (i % 3 === 2 || i === slugs.length - 1) row++;
+      const circle = L.circleMarker([offmapLat, offmapLng], {
+        radius: 5,
+        fillColor: color,
+        color: color,
+        weight: 1,
+        fillOpacity: 0.8,
+        slug: slug,
       });
+      circle.bindTooltip(slugLabel(slug), { direction: 'right', offset: [8, 0], sticky: true });
+      circle.on('click', (e) => { L.DomEvent.stopPropagation(e); window.clickSlug(slug); });
+      // Find who shares with this entity
+      const inboundSlugs = markers.filter(mm => (mm.outbound_slugs || []).includes(slug)).map(mm => mm.slug);
+      const offmapMarkerData = { slug: slug, lat: offmapLat, lng: offmapLng, crawled: false, cameras: 0, outbound_slugs: [], inbound_slugs: inboundSlugs, outbound_count: 0, inbound_count: inboundSlugs.length };
+      markers.push(offmapMarkerData);
+      markersBySlug[slug] = circle;
+      markerLayer.addLayer(circle);
     });
   }
 
