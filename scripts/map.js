@@ -1,3 +1,10 @@
+// Sanitization helpers
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+const SLUG_RE = /^[a-z0-9][a-z0-9\-]*$/;
+function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
+
 // Load data
 fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   const markers = data.markers;
@@ -252,7 +259,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
 
         // Warning triangle marker
         const icon = L.divIcon({
-          html: '<div style="font-size:16px;text-align:center" title="' + label + '">\u26a0</div>',
+          html: '<div style="font-size:16px;text-align:center" title="' + escapeHtml(label) + '">\u26a0</div>',
           className: '',
           iconSize: [24, 24],
           iconAnchor: [12, 12],
@@ -317,7 +324,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     // Show violation summary as a fixed banner at top of map
     const bannerEl = document.getElementById('violation-banner');
     if (outViolations > 0) {
-      bannerEl.innerHTML = '\u26a0 Shares with ' + outViolations + ' violation' + (outViolations > 1 ? 's' : '') +
+      bannerEl.textContent = '\u26a0 Shares with ' + outViolations + ' violation' + (outViolations > 1 ? 's' : '') +
         ' (private, out-of-state, federal, decommissioned)' +
         (outNotMapped > 0 ? ' \u2014 ' + outNotMapped + ' not on map' : '');
       bannerEl.style.display = 'block';
@@ -328,8 +335,8 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     const info = document.getElementById('info');
     const status = m.crawled ? 'Crawled' : 'No transparency page found (inferred from other portals)';
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
-    const shareUrl = window.location.origin + window.location.pathname + '#' + m.slug;
-    let html = '<h3>' + (agencyInfo[m.slug]?.name || m.slug) + ' <a href="javascript:void(0)" onclick="navigator.clipboard.writeText(\'' + shareUrl + '\').then(()=>{this.textContent=\'copied!\';setTimeout(()=>{this.textContent=\'\ud83d\udd17\'},1500)})" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
+    const shareUrl = window.location.origin + window.location.pathname + '#' + encodeURIComponent(m.slug);
+    let html = '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="#" data-share-url="' + escapeHtml(shareUrl) + '" onclick="event.preventDefault();navigator.clipboard.writeText(this.dataset.shareUrl).then(()=>{this.textContent=\'copied!\';setTimeout(()=>{this.textContent=\'\ud83d\udd17\'},1500)})" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
     if (m.crawled) {
       html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + m.slug + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
     }
@@ -343,19 +350,17 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
 
     if (m.outbound_slugs && m.outbound_slugs.length) {
       html += '<div class="sharing-list"><strong>Shares with (outbound):</strong>';
-      sortOutbound(m.outbound_slugs, m.lat, m.lng).slice(0, 50).forEach(function(s) {
-        html += '<div style="cursor:pointer" onclick="clickSlug(\'' + s + '\')">' + slugLabel(s) + '</div>';
+      sortOutbound(m.outbound_slugs, m.lat, m.lng).forEach(function(s) {
+        html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + '</div>';
       });
-      if (m.outbound_slugs.length > 50) html += '<div>... and ' + (m.outbound_slugs.length - 50) + ' more</div>';
       html += '</div>';
     }
 
     if (m.inbound_slugs && m.inbound_slugs.length) {
       html += '<div class="sharing-list"><strong>Receives from (inbound):</strong>';
-      sortOutbound(m.inbound_slugs, m.lat, m.lng).slice(0, 50).forEach(function(s) {
-        html += '<div style="cursor:pointer" onclick="clickSlug(\'' + s + '\')">' + slugLabel(s) + '</div>';
+      sortOutbound(m.inbound_slugs, m.lat, m.lng).forEach(function(s) {
+        html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + '</div>';
       });
-      if (m.inbound_slugs.length > 50) html += '<div>... and ' + (m.inbound_slugs.length - 50) + ' more</div>';
       html += '</div>';
     }
 
@@ -488,7 +493,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     } else {
       const info = agencyInfo[slug] || {};
       const panel = document.getElementById('info');
-      let html = '<h3>' + (info.name || slug) + '</h3>';
+      let html = '<h3>' + escapeHtml(info.name || slug) + '</h3>';
       html += '<p class="stat" style="color:#f97316">No map location</p>';
       if (info.crawled) {
         html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + slug + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
@@ -505,7 +510,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       if (sharedBy.length) {
         html += '<div class="sharing-list"><strong>Receives data from (' + sharedBy.length + '):</strong>';
         sharedBy.forEach(function(mm) {
-          html += '<div style="cursor:pointer" onclick="clickSlug(\'' + mm.slug + '\')">' + slugLabel(mm.slug) + '</div>';
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(mm.slug) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(mm.slug) + '</div>';
         });
         html += '</div>';
       }
@@ -571,8 +576,8 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   }
 
   // Auto-select agency from URL hash (e.g. #san-mateo-ca-pd)
-  const hashSlug = window.location.hash.replace('#', '');
-  if (hashSlug) {
+  const hashSlug = decodeURIComponent(window.location.hash.replace('#', ''));
+  if (hashSlug && safeSlug(hashSlug)) {
     setTimeout(() => clickSlug(hashSlug), 100);
   }
 });

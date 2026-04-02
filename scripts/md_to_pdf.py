@@ -5,6 +5,7 @@ Reads .md file at runtime. Zero hardcoded bullet text.
 """
 
 import re, sys
+from pathlib import Path
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
@@ -477,8 +478,10 @@ def build_verify(S, dd):
 def main():
     global _MD5_HASH
     import hashlib
-    md_path=sys.argv[1] if len(sys.argv)>1 else "outputs/SMPD_ALPR_Findings.md"
-    out_path=sys.argv[2] if len(sys.argv)>2 else "outputs/SMPD_ALPR_Findings.pdf"
+    md_path=str(Path(sys.argv[1]).resolve()) if len(sys.argv)>1 else "outputs/SMPD_ALPR_Findings.md"
+    out_path=str(Path(sys.argv[2]).resolve()) if len(sys.argv)>2 else "outputs/SMPD_ALPR_Findings.pdf"
+    if not md_path.endswith('.md') or not out_path.endswith('.pdf'):
+        raise SystemExit("Error: expected .md input and .pdf output paths")
     with open(md_path,'rb') as f: _MD5_HASH=hashlib.md5(f.read()).hexdigest()
     dd=parse_md(md_path); S=mkstyles()
     frame=Frame(ML,MB,PAGE_W-ML-MR,PAGE_H-MT-MB,id='main')
