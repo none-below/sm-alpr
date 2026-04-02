@@ -336,7 +336,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     const status = m.crawled ? 'Crawled' : 'No transparency page found (inferred from other portals)';
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
     const shareUrl = window.location.href.split('#')[0] + '#' + m.slug;
-    let html = '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="#" data-share-url="' + escapeHtml(shareUrl) + '" onclick="event.preventDefault();navigator.clipboard.writeText(this.dataset.shareUrl).then(()=>{this.textContent=\'copied!\';setTimeout(()=>{this.textContent=\'\ud83d\udd17\'},1500)})" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
+    let html = '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="' + escapeHtml(shareUrl) + '" data-share-url="' + escapeHtml(shareUrl) + '" onclick="event.preventDefault();navigator.clipboard.writeText(this.dataset.shareUrl).then(()=>{this.textContent=\'copied!\';setTimeout(()=>{this.textContent=\'\ud83d\udd17\'},1500)})" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
     if (m.crawled) {
       html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + safeSlug(m.slug) + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
     }
