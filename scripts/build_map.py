@@ -137,9 +137,27 @@ def main():
                 computed_inbound[target].add(m["slug"])
     for m in markers:
         existing = set(m.get("inbound_slugs", []))
-        merged = sorted(existing | computed_inbound.get(m["slug"], set()))
+        inferred_in = computed_inbound.get(m["slug"], set()) - existing
+        merged = sorted(existing | inferred_in)
         m["inbound_slugs"] = merged
         m["inbound_count"] = len(merged)
+        m["inferred_inbound"] = sorted(inferred_in)
+
+    # Compute inferred outbound from other agencies' inbound claims.
+    # If Fort Bragg's portal says "Alameda shares with me," Alameda
+    # should show Fort Bragg as an outbound target (inferred).
+    computed_outbound = {m["slug"]: set() for m in markers}
+    for m in markers:
+        for source in m.get("inbound_slugs", []):
+            if source in computed_outbound:
+                computed_outbound[source].add(m["slug"])
+    for m in markers:
+        existing = set(m.get("outbound_slugs", []))
+        inferred_out = computed_outbound.get(m["slug"], set()) - existing
+        merged = sorted(existing | inferred_out)
+        m["outbound_slugs"] = merged
+        m["outbound_count"] = len(merged)
+        m["inferred_outbound"] = sorted(inferred_out)
 
     # Resolve edges with coordinates
     slug_coords = {m["slug"]: (m["lat"], m["lng"]) for m in markers}

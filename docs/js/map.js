@@ -6,7 +6,7 @@ const SLUG_RE = /^[a-z0-9][a-z0-9\-]*$/;
 function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
 
 // Load data
-fetch('data/map_data.json?v=1775116755').then(r => r.json()).then(data => {
+fetch('data/map_data.json?v=1775120803').then(r => r.json()).then(data => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
@@ -389,6 +389,10 @@ fetch('data/map_data.json?v=1775116755').then(r => r.json()).then(data => {
     const mInfo = agencyInfo[m.slug] || {};
     if (mInfo.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + mInfo.notes + '</p>';
 
+    const inferredOut = new Set(m.inferred_outbound || []);
+    const inferredIn = new Set(m.inferred_inbound || []);
+    const inferTag = ' <span style="color:#6b7280;font-size:11px;font-style:italic" title="Not on this agency\'s portal — inferred from the other agency\'s portal">[inferred]</span>';
+
     if (m.outbound_slugs && m.outbound_slugs.length) {
       const sorted = sortOutbound(m.outbound_slugs, m.lat, m.lng);
       const directViol = sorted.filter(s => isViolation(s));
@@ -399,7 +403,7 @@ fetch('data/map_data.json?v=1775116755').then(r => r.json()).then(data => {
       if (directViol.length) {
         html += '<div class="sharing-list"><strong style="color:#dc2626">\u26a0 Direct violations (' + directViol.length + '):</strong>';
         directViol.forEach(function(s) {
-          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + '</div>';
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
         });
         html += '</div>';
       }
@@ -423,7 +427,7 @@ fetch('data/map_data.json?v=1775116755').then(r => r.json()).then(data => {
       if (clean.length) {
         html += '<div class="sharing-list" style="border-top:1px solid #e5e7eb;padding-top:6px"><strong>Shares with (' + clean.length + '):</strong>';
         clean.forEach(function(s) {
-          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + '</div>';
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
         });
         html += '</div>';
       }
@@ -434,7 +438,7 @@ fetch('data/map_data.json?v=1775116755').then(r => r.json()).then(data => {
       m.inbound_slugs.forEach(function(s) {
         const sInfo = agencyInfo[s] || {};
         const sName = escapeHtml(sInfo.name || s);
-        html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + sName + '</div>';
+        html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + sName + (inferredIn.has(s) ? inferTag : '') + '</div>';
       });
       html += '</div>';
     }
