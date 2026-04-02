@@ -169,7 +169,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     if (info.state && info.state !== 'CA')
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Out-of-state sharing may violate CA Civil Code \u00a71798.90.55(b)">[' + info.state + ' \u2014 out of state]</span>';
     if (info.role === 'vendor')
-      tag += ' <span style="color:#dc2626;font-weight:bold" title="Private vendor with contractual authority to independently disclose agency data (\u00a75.3). Not a public agency.">[VENDOR \u2014 \u00a75.3 disclosure authority]</span>';
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Private vendor. Flock MSA \u00a75.3 grants Flock independent authority to disclose agency data to third parties without agency approval. AG Bulletin 2023-DLE-06 directed agencies to review vendor contracts for exactly this type of provision. \u00a75.3 survives contract termination (\u00a77.3).">[VENDOR \u2014 \u00a75.3 disclosure authority]</span>';
     else if (info.public === false)
       tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Civil Code \u00a71798.90.55(b) restricts ALPR sharing to public agencies">[PRIVATE \u2014 likely violates SB 34]</span>';
     if (info.type === 'federal')
