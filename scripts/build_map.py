@@ -127,6 +127,55 @@ def main():
             mismatch_map.setdefault(agency, []).append(partner)
             mismatch_map.setdefault(partner, []).append(agency)
 
+    # Compute indirect violations: if A shares with B, and B shares with
+    # a violation entity V, then A has an indirect violation "V via B"
+    def is_violation_entity(slug):
+        r = registry_by_slug.get(slug, {})
+        if r.get("public") is False:
+            return True
+        if r.get("state") and r["state"] != "CA":
+            return True
+        if r.get("agency_type") in ("federal", "decommissioned", "test"):
+            return True
+        return False
+
+    # Build outbound lookup from graph
+    outbound_by_slug = {}
+    for slug, data in graph["agencies"].items():
+        outbound_by_slug[slug] = data.get("outbound_slugs", [])
+
+    # For each agency, find indirect violations (depth 1: via intermediaries)
+    indirect_violations = {}  # slug -> [{"violation": v, "via": intermediary}]
+    for slug, data in graph["agencies"].items():
+        indirects = []
+        direct_violations = set()
+        for target in data.get("outbound_slugs", []):
+            if is_violation_entity(target):
+                direct_violations.add(target)
+        # Check intermediaries
+        for target in data.get("outbound_slugs", []):
+            if target in outbound_by_slug:
+                for second_hop in outbound_by_slug[target]:
+                    if is_violation_entity(second_hop) and second_hop not in direct_violations:
+                        indirects.append({
+                            "violation": second_hop,
+                            "via": target,
+                            "via_name": registry_by_slug.get(target, {}).get("flock_name", target),
+                            "violation_name": registry_by_slug.get(second_hop, {}).get("flock_name", second_hop),
+                        })
+        if indirects:
+            # Deduplicate by violation slug
+            seen = set()
+            deduped = []
+            for iv in indirects:
+                if iv["violation"] not in seen:
+                    seen.add(iv["violation"])
+                    deduped.append(iv)
+            indirect_violations[slug] = deduped
+
+    indirect_count = sum(len(v) for v in indirect_violations.values())
+    print(f"Indirect violations: {indirect_count} across {len(indirect_violations)} agencies")
+
     print(f"Geocoded: {geocoded}/{len(graph['agencies'])}")
     if ungeocodable:
         print(f"Could not geocode: {', '.join(ungeocodable[:10])}")
@@ -144,6 +193,7 @@ def main():
         "coords": slug_coords,
         "agencyInfo": slug_info,
         "mismatches": mismatch_map,
+        "indirectViolations": indirect_violations,
     }
     (docs_dir / "data" / "map_data.json").write_text(json.dumps(map_data) + "\n")
     print(f"Data written to {docs_dir}/data/map_data.json")
@@ -172,7 +222,7 @@ def _generate_html(marker_count):
 <meta charset="utf-8">
 <title>Flock ALPR Sharing Map — California</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org data:; connect-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org data:; connect-src 'self';">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" integrity="sha384-pmjIAcz2bAn0xukfxADbZIb3t8oRT9Sv0rvO+BR5Csr6Dhqq+nZs59P0pPKQJkEV" crossorigin="anonymous" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>

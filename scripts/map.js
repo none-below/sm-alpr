@@ -11,6 +11,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
   const mismatches = data.mismatches;
+  const indirectViolations = data.indirectViolations || {};
 
   const map = L.map('map').setView([37.5, -121.5], 7);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {
@@ -323,10 +324,17 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
 
     // Show violation summary as a fixed banner at top of map
     const bannerEl = document.getElementById('violation-banner');
-    if (outViolations > 0) {
-      bannerEl.textContent = '\u26a0 Shares with ' + outViolations + ' violation' + (outViolations > 1 ? 's' : '') +
-        ' (private, out-of-state, federal, decommissioned)' +
-        (outNotMapped > 0 ? ' \u2014 ' + outNotMapped + ' not on map' : '');
+    const myIndirectCount = (indirectViolations[m.slug] || []).length;
+    const totalViolations = outViolations + myIndirectCount;
+    if (totalViolations > 0) {
+      let bannerText = '\u26a0 ' + outViolations + ' direct violation' + (outViolations !== 1 ? 's' : '');
+      if (myIndirectCount > 0) {
+        bannerText += ' + ' + myIndirectCount + ' indirect (via intermediaries)';
+      }
+      if (outNotMapped > 0) {
+        bannerText += ' \u2014 ' + outNotMapped + ' not on map';
+      }
+      bannerEl.textContent = bannerText;
       bannerEl.style.display = 'block';
     } else {
       bannerEl.style.display = 'none';
@@ -349,15 +357,47 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     if (mInfo.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + escapeHtml(mInfo.notes) + '</p>';
 
     if (m.outbound_slugs && m.outbound_slugs.length) {
-      html += '<div class="sharing-list"><strong>Shares with (outbound):</strong>';
-      sortOutbound(m.outbound_slugs, m.lat, m.lng).forEach(function(s) {
-        html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + '</div>';
-      });
-      html += '</div>';
+      const sorted = sortOutbound(m.outbound_slugs, m.lat, m.lng);
+      const directViol = sorted.filter(s => isViolation(s));
+      const clean = sorted.filter(s => !isViolation(s));
+      const myIndirects = indirectViolations[m.slug] || [];
+
+      // Direct violations first
+      if (directViol.length) {
+        html += '<div class="sharing-list"><strong style="color:#dc2626">\u26a0 Direct violations (' + directViol.length + '):</strong>';
+        directViol.forEach(function(s) {
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Indirect violations
+      if (myIndirects.length) {
+        html += '<div class="sharing-list" style="border-top:1px solid #fecaca;padding-top:6px">';
+        html += '<strong style="color:#dc2626">\u26a0 Indirect violations (' + myIndirects.length + '):</strong>';
+        html += '<p class="stat" style="font-size:11px;color:#92400e;margin:2px 0 4px 0">Data reaches these entities through intermediaries.</p>';
+        myIndirects.forEach(function(iv) {
+          html += '<div style="cursor:pointer;padding:2px 0" data-slug="' + escapeHtml(iv.violation) + '" onclick="clickSlug(this.dataset.slug)">';
+          html += '<span style="color:#dc2626;font-weight:bold">' + escapeHtml(iv.violation_name) + '</span>';
+          html += ' <span style="color:#6b7280;font-size:11px">via </span>';
+          html += '<span style="cursor:pointer;color:#2563eb;font-size:11px" data-slug="' + escapeHtml(iv.via) + '" onclick="event.stopPropagation();clickSlug(this.dataset.slug)">' + escapeHtml(iv.via_name) + '</span>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Clean agencies
+      if (clean.length) {
+        html += '<div class="sharing-list" style="border-top:1px solid #e5e7eb;padding-top:6px"><strong>Shares with (' + clean.length + '):</strong>';
+        clean.forEach(function(s) {
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + '</div>';
+        });
+        html += '</div>';
+      }
     }
 
     if (m.inbound_slugs && m.inbound_slugs.length) {
-      html += '<div class="sharing-list"><strong>Receives from (inbound):</strong>';
+      html += '<div class="sharing-list" style="border-top:1px solid #e5e7eb;padding-top:6px"><strong>Receives from (inbound):</strong>';
       sortOutbound(m.inbound_slugs, m.lat, m.lng).forEach(function(s) {
         html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + '</div>';
       });
