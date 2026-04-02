@@ -251,8 +251,8 @@ def main():
     (docs_dir / "js" / "map.js").write_text(js_code)
     print(f"JS written to {docs_dir}/js/map.js")
 
-    # Write HTML shell
-    html = _generate_html(len(markers))
+    # Write HTML shell with cache-bust on JS reference
+    html = _generate_html(len(markers)).replace("JSCACHEBUST", str(int(time.time())))
     args.out.write_text(html)
     print(f"Map written to {args.out}")
 
@@ -380,7 +380,7 @@ def _generate_html(marker_count):
 <div id="edge-bottom" class="edge-indicator"></div>
 <div class="offmap-panel" id="offmap"></div>
 <script src="data/map_data.json" type="application/json" id="mapData"></script>
-<script src="js/map.js"></script>
+<script src="js/map.js?v=JSCACHEBUST"></script>
 </body>
 </html>"""
 

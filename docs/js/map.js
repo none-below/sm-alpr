@@ -6,7 +6,7 @@ const SLUG_RE = /^[a-z0-9][a-z0-9\-]*$/;
 function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
 
 // Load data
-fetch('data/map_data.json?v=1775114911').then(r => r.json()).then(data => {
+fetch('data/map_data.json?v=1775115344').then(r => r.json()).then(data => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
