@@ -423,8 +423,8 @@ def _generate_html(marker_count):
 </div>
 <div class="legend">
   <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div> Public agency</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Shares with violation entity</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Violation entity (private/out-of-state/decommissioned)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Shares with non-conforming entity</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Non-conforming entity (private/out-of-state/decommissioned)</div>
   <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div> Selected</div>
   <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div> No transparency page found</div>
   <div class="legend-item"><div style="width:20px;height:2px;background:#2563eb"></div> Shares with (outbound)</div>
