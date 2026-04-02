@@ -97,32 +97,34 @@ def main():
             "inbound_slugs": data.get("inbound_slugs", []),
         })
 
-    # Add Flock Safety vendor as an implicit outbound target for all crawled agencies.
-    # Every agency using Flock's platform grants §5.3 disclosure authority to Flock.
+    # Add Flock Safety vendor as an implicit outbound target for San Mateo PD.
+    # We've verified SMPD's Flock MSA contains §5.3 disclosure authority.
+    # Other agencies likely have similar contracts but we haven't confirmed yet.
+    FLOCK_53_AGENCIES = ["san-mateo-ca-pd"]
     flock_reg = registry_by_slug.get("flock-safety-vendor")
     if flock_reg and flock_reg.get("lat") and flock_reg.get("lng"):
-        # Collect all crawled agency slugs that feed into Flock
-        flock_inbound = [m["slug"] for m in markers if m.get("crawled")]
+        existing_slugs = {m["slug"] for m in markers}
+        flock_inbound = [s for s in FLOCK_53_AGENCIES if s in existing_slugs]
 
-        # Add Flock as a marker with inbound from all crawled agencies
-        markers.append({
-            "slug": "flock-safety-vendor",
-            "lat": flock_reg["lat"],
-            "lng": flock_reg["lng"],
-            "cameras": 0,
-            "crawled": False,
-            "outbound_count": 0,
-            "inbound_count": len(flock_inbound),
-            "retention_days": None,
-            "outbound_slugs": [],
-            "inbound_slugs": flock_inbound,
-        })
-        geocoded += 1
-        # Add to every crawled agency's outbound
-        for m in markers:
-            if m.get("crawled") and m["slug"] != "flock-safety-vendor":
-                m["outbound_slugs"].append("flock-safety-vendor")
-                m["outbound_count"] += 1
+        if flock_inbound:
+            markers.append({
+                "slug": "flock-safety-vendor",
+                "lat": flock_reg["lat"],
+                "lng": flock_reg["lng"],
+                "cameras": 0,
+                "crawled": False,
+                "outbound_count": 0,
+                "inbound_count": len(flock_inbound),
+                "retention_days": None,
+                "outbound_slugs": [],
+                "inbound_slugs": flock_inbound,
+            })
+            geocoded += 1
+            # Add Flock to each confirmed agency's outbound
+            for m in markers:
+                if m["slug"] in FLOCK_53_AGENCIES:
+                    m["outbound_slugs"].append("flock-safety-vendor")
+                    m["outbound_count"] += 1
 
     # Compute inbound for all markers from outbound data.
     # This fills in inbound even for agencies whose portal doesn't have
