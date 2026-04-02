@@ -173,7 +173,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     if (info.type === 'decommissioned')
       tag += ' <span style="color:#f97316;font-weight:bold" title="Marked Do Not Use by Flock but still appears in sharing lists">[DECOMMISSIONED]</span>';
     if (info.type === 'test')
-      tag += ' <span style="color:#f97316;font-weight:bold" title="Test/demo entry still in sharing list">[TEST]</span>';
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Test/demo entry \u2014 not a public agency. Sharing ALPR data with non-agency accounts likely violates CA Civil Code \u00a71798.90.55(b).">[NOT AN AGENCY \u2014 likely violates SB 34]</span>';
     if (info.notes && info.notes.indexOf('re-sharing') >= 0)
       tag += ' <span style="color:#d97706;font-weight:bold" title="' + info.notes.replace(/"/g, '&quot;').replace(/<[^>]*>/g, '') + '">[RE-SHARES TO VIOLATIONS]</span>';
     const loc = coords[s];
