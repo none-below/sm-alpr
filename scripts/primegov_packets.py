@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Fetch and OCR San Mateo City Council meeting packets.
+Fetch and OCR meeting packets from PrimeGov city portals.
 
 Pipeline:
   fetch     Download packet PDFs from PrimeGov API (gitignored)
@@ -8,7 +8,7 @@ Pipeline:
   index     Build searchable metadata index from all fetched packets
 
 Directory structure:
-  assets/council-packets/
+  assets/{city}/council-packets/
     index.json                        # metadata for all packets
     {meeting-id}_{date}/
       packet.pdf                      # full compiled packet (gitignored)
@@ -16,12 +16,13 @@ Directory structure:
       metadata.json                   # meeting info + source URL
 
 Usage:
-  uv run python scripts/council_packets.py fetch
-  uv run python scripts/council_packets.py fetch --year 2023 --year 2024
-  uv run python scripts/council_packets.py fetch --meeting-id 1391
-  uv run python scripts/council_packets.py ocr
-  uv run python scripts/council_packets.py ocr --meeting-id 1391
-  uv run python scripts/council_packets.py index
+  uv run python scripts/primegov_packets.py fetch
+  uv run python scripts/primegov_packets.py fetch --city fostercity
+  uv run python scripts/primegov_packets.py fetch --city sanbruno --year 2025
+  uv run python scripts/primegov_packets.py fetch --meeting-id 1391
+  uv run python scripts/primegov_packets.py ocr
+  uv run python scripts/primegov_packets.py ocr --meeting-id 1391
+  uv run python scripts/primegov_packets.py index
 """
 
 import argparse
@@ -37,9 +38,19 @@ import time
 import urllib.request
 from pathlib import Path
 
-PRIMEGOV_API = "https://sanmateo.primegov.com/api/v2/PublicPortal"
-PACKET_URL = "https://sanmateo.primegov.com/Public/CompiledDocument"
-DEFAULT_DATA_DIR = Path("assets/san-mateo/council-packets")
+DEFAULT_CITY = "sanmateo"
+
+# Known PrimeGov subdomains in the San Mateo County area.
+# Use these with --city, e.g.: --city fostercity
+KNOWN_CITIES = {
+    "sanmateo":        "City of San Mateo",
+    "fostercity":      "City of Foster City",
+    "sanbruno":        "City of San Bruno",
+    "cityofsancarlos": "City of San Carlos",
+    "atherton":        "Town of Atherton",
+    "redwoodcity":     "City of Redwood City",
+}
+
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
     "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -54,9 +65,37 @@ DEFAULT_YEARS = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
 # API
 # ═══════════════════════════════════════════════════════════
 
-def fetch_meetings_for_year(year):
+def primegov_api(city):
+    """Return the PrimeGov public portal API base URL for a city."""
+    return f"https://{city}.primegov.com/api/v2/PublicPortal"
+
+
+def primegov_packet_url(city):
+    """Return the PrimeGov compiled-document URL for a city."""
+    return f"https://{city}.primegov.com/Public/CompiledDocument"
+
+
+def data_dir_for_city(city):
+    """Return the default data directory for a city.
+
+    Inserts hyphens before word boundaries in camelCase subdomains so that
+    e.g. "fostercity" -> "foster-city", "cityofsancarlos" -> "cityofsancarlos".
+    For the common case we keep a small explicit map to match existing dirs.
+    """
+    DIR_NAMES = {
+        "sanmateo": "san-mateo",
+        "fostercity": "foster-city",
+        "sanbruno": "san-bruno",
+        "cityofsancarlos": "city-of-san-carlos",
+        "redwoodcity": "redwood-city",
+    }
+    slug = DIR_NAMES.get(city, city)
+    return Path(f"assets/{slug}/council-packets")
+
+
+def fetch_meetings_for_year(year, city):
     """Fetch all meetings for a given year from PrimeGov API."""
-    url = f"{PRIMEGOV_API}/ListArchivedMeetings?year={year}"
+    url = f"{primegov_api(city)}/ListArchivedMeetings?year={year}"
     try:
         req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": USER_AGENT})
         with urllib.request.urlopen(req, timeout=30) as resp:
@@ -66,9 +105,9 @@ def fetch_meetings_for_year(year):
         return []
 
 
-def fetch_upcoming_meetings():
+def fetch_upcoming_meetings(city):
     """Fetch upcoming meetings from PrimeGov API."""
-    url = f"{PRIMEGOV_API}/ListUpcomingMeetings"
+    url = f"{primegov_api(city)}/ListUpcomingMeetings"
     try:
         req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": USER_AGENT})
         with urllib.request.urlopen(req, timeout=30) as resp:
@@ -86,9 +125,9 @@ def find_packet_template_id(meeting):
     return None
 
 
-def download_packet(template_id, dest_path, retries=3):
+def download_packet(template_id, dest_path, city, retries=3):
     """Download a compiled packet PDF with retries."""
-    url = f"{PACKET_URL}?meetingTemplateId={template_id}&compileOutputType=1"
+    url = f"{primegov_packet_url(city)}?meetingTemplateId={template_id}&compileOutputType=1"
     for attempt in range(retries):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -126,8 +165,12 @@ def safe_dirname(meeting):
 # ═══════════════════════════════════════════════════════════
 
 def cmd_fetch(args):
+    city = args.city
     data_dir = args.data_dir
     data_dir.mkdir(parents=True, exist_ok=True)
+
+    label = KNOWN_CITIES.get(city, city)
+    print(f"Target: {label} ({city}.primegov.com)\n")
 
     # Gather meetings
     all_meetings = []
@@ -136,7 +179,7 @@ def cmd_fetch(args):
         # Fetch a specific meeting — we need to find it across years
         print(f"Looking for meeting {args.meeting_id}...")
         for year in DEFAULT_YEARS:
-            meetings = fetch_meetings_for_year(year)
+            meetings = fetch_meetings_for_year(year, city)
             for m in meetings:
                 if m["id"] == args.meeting_id:
                     all_meetings.append(m)
@@ -145,7 +188,7 @@ def cmd_fetch(args):
                 break
         if not all_meetings:
             # Try upcoming
-            for m in fetch_upcoming_meetings():
+            for m in fetch_upcoming_meetings(city):
                 if m["id"] == args.meeting_id:
                     all_meetings.append(m)
         if not all_meetings:
@@ -155,13 +198,13 @@ def cmd_fetch(args):
         years = args.years if args.years else DEFAULT_YEARS
         for year in years:
             print(f"  Fetching meeting list for {year}...")
-            meetings = fetch_meetings_for_year(year)
+            meetings = fetch_meetings_for_year(year, city)
             all_meetings.extend(meetings)
             time.sleep(0.5)
 
         # Also check upcoming
         print(f"  Fetching upcoming meetings...")
-        all_meetings.extend(fetch_upcoming_meetings())
+        all_meetings.extend(fetch_upcoming_meetings(city))
 
     # Filter to meetings that have packets
     with_packets = []
@@ -195,11 +238,11 @@ def cmd_fetch(args):
 
         title = meeting.get("title", "?")
         date_str = meeting.get("date", "?")
-        source_url = f"{PACKET_URL}?meetingTemplateId={template_id}&compileOutputType=1"
+        source_url = f"{primegov_packet_url(city)}?meetingTemplateId={template_id}&compileOutputType=1"
 
         print(f"  ({i + 1}/{len(with_packets)}) {date_str} — {title}")
 
-        size = download_packet(template_id, pdf_path)
+        size = download_packet(template_id, pdf_path, city)
         if size is None:
             continue
 
@@ -382,11 +425,16 @@ def cmd_index(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="San Mateo Council packet fetcher & OCR"
+        description="Council packet fetcher & OCR for PrimeGov cities"
     )
     parser.add_argument(
-        "--data-dir", type=Path, default=DEFAULT_DATA_DIR,
-        help=f"Data directory (default: {DEFAULT_DATA_DIR})",
+        "--city", default=DEFAULT_CITY,
+        help=f"PrimeGov subdomain (default: {DEFAULT_CITY}). "
+             f"Known cities: {', '.join(KNOWN_CITIES)}",
+    )
+    parser.add_argument(
+        "--data-dir", type=Path, default=None,
+        help="Data directory (default: assets/{city}/council-packets)",
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -414,6 +462,9 @@ def main():
     sub.add_parser("index", help="Build metadata index from fetched packets")
 
     args = parser.parse_args()
+
+    if args.data_dir is None:
+        args.data_dir = data_dir_for_city(args.city)
 
     if args.command == "fetch":
         cmd_fetch(args)
