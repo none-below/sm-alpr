@@ -62756,99 +62756,67 @@
   "mismatches": [
     {
       "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
+      "agency": "fort-bragg-ca-pd",
       "claims_shared_by": "alameda-county-ca-so",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+      "detail": "fort-bragg-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
+      "agency": "fort-bragg-ca-pd",
       "claims_shared_by": "emeryville-ca-pd",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+      "detail": "fort-bragg-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "fort-bragg-ca-pd",
+      "source_has_outbound_list": true,
+      "source_outbound_count": 303,
+      "detail": "fort-bragg-ca-pd's portal says fort-bragg-ca-pd shares with it, but fort-bragg-ca-pd's portal (lists 303 agencies but not fort-bragg-ca-pd"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
+      "claims_shared_by": "foster-city-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fort-bragg-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fort-bragg-ca-pd",
       "claims_shared_by": "grass-valley-ca-pd",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+      "detail": "fort-bragg-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
+      "agency": "fort-bragg-ca-pd",
       "claims_shared_by": "marina-ca-pd",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+      "detail": "fort-bragg-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
+      "agency": "fort-bragg-ca-pd",
       "claims_shared_by": "nevada-county-ca-so",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+      "detail": "fort-bragg-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "orange-ca-pd",
+      "agency": "fort-bragg-ca-pd",
       "claims_shared_by": "oroville-ca-pd",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "orange-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "south-gate-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "south-gate-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "south-gate-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "south-gate-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "south-gate-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "south-gate-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "south-gate-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "south-gate-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "south-gate-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "south-gate-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "south-gate-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "south-gate-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+      "detail": "fort-bragg-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
@@ -62931,330 +62899,10 @@
       "detail": "vallejo-ca-pd's portal says vallejo-ca-pd shares with it, but vallejo-ca-pd's portal (lists 281 agencies but not vallejo-ca-pd"
     },
     {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "fort-bragg-ca-pd",
-      "source_has_outbound_list": true,
-      "source_outbound_count": 303,
-      "detail": "fort-bragg-ca-pd's portal says fort-bragg-ca-pd shares with it, but fort-bragg-ca-pd's portal (lists 303 agencies but not fort-bragg-ca-pd"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "foster-city-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fort-bragg-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fort-bragg-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "baldwin-park-ca-pd",
-      "source_has_outbound_list": true,
-      "source_outbound_count": 321,
-      "detail": "baldwin-park-ca-pd's portal says baldwin-park-ca-pd shares with it, but baldwin-park-ca-pd's portal (lists 321 agencies but not baldwin-park-ca-pd"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "baldwin-park-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "baldwin-park-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
       "type": "outbound_not_confirmed",
       "agency": "monterey-park-ca-pd",
       "shares_with": "antioch-ca-pd",
       "detail": "monterey-park-ca-pd shares with antioch-ca-pd, but antioch-ca-pd's inbound list doesn't include monterey-park-ca-pd"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "foster-city-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "fullerton-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "fullerton-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "antioch-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "antioch-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "antioch-ca-pd",
-      "claims_shared_by": "benicia-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "antioch-ca-pd's portal says benicia-ca-pd shares with it, but benicia-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "antioch-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "antioch-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "antioch-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "antioch-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "antioch-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "antioch-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "antioch-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "antioch-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "antioch-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "antioch-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "livingston-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "livingston-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "beaumont-ca-pd",
-      "claims_shared_by": "alameda-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "beaumont-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "beaumont-ca-pd",
-      "claims_shared_by": "emeryville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "beaumont-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "beaumont-ca-pd",
-      "claims_shared_by": "grass-valley-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "beaumont-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "beaumont-ca-pd",
-      "claims_shared_by": "marina-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "beaumont-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "beaumont-ca-pd",
-      "claims_shared_by": "nevada-county-ca-so",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "beaumont-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
-    },
-    {
-      "type": "inbound_not_confirmed",
-      "agency": "beaumont-ca-pd",
-      "claims_shared_by": "oroville-ca-pd",
-      "source_has_outbound_list": false,
-      "source_outbound_count": 0,
-      "detail": "beaumont-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
@@ -63330,51 +62978,91 @@
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "oceanside-ca-pd",
+      "agency": "orange-ca-pd",
       "claims_shared_by": "alameda-county-ca-so",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "oceanside-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+      "detail": "orange-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "oceanside-ca-pd",
+      "agency": "orange-ca-pd",
       "claims_shared_by": "emeryville-ca-pd",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "oceanside-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+      "detail": "orange-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "oceanside-ca-pd",
+      "agency": "orange-ca-pd",
       "claims_shared_by": "grass-valley-ca-pd",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "oceanside-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+      "detail": "orange-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "oceanside-ca-pd",
+      "agency": "orange-ca-pd",
       "claims_shared_by": "marina-ca-pd",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "oceanside-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+      "detail": "orange-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "oceanside-ca-pd",
+      "agency": "orange-ca-pd",
       "claims_shared_by": "nevada-county-ca-so",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "oceanside-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+      "detail": "orange-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
-      "agency": "oceanside-ca-pd",
+      "agency": "orange-ca-pd",
       "claims_shared_by": "oroville-ca-pd",
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
-      "detail": "oceanside-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+      "detail": "orange-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "livingston-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "livingston-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
     },
     {
       "type": "inbound_not_confirmed",
@@ -63431,6 +63119,318 @@
       "source_has_outbound_list": false,
       "source_outbound_count": 0,
       "detail": "hollister-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "beaumont-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "beaumont-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "beaumont-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "beaumont-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "beaumont-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "beaumont-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "beaumont-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "beaumont-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "beaumont-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "beaumont-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "beaumont-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "beaumont-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "baldwin-park-ca-pd",
+      "source_has_outbound_list": true,
+      "source_outbound_count": 321,
+      "detail": "baldwin-park-ca-pd's portal says baldwin-park-ca-pd shares with it, but baldwin-park-ca-pd's portal (lists 321 agencies but not baldwin-park-ca-pd"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "baldwin-park-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "baldwin-park-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "oceanside-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "oceanside-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "oceanside-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "oceanside-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "oceanside-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "oceanside-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "oceanside-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "oceanside-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "oceanside-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "oceanside-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "oceanside-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "oceanside-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "foster-city-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says foster-city-ca-pd shares with it, but foster-city-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "fullerton-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "fullerton-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "south-gate-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "south-gate-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "south-gate-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "south-gate-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "south-gate-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "south-gate-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "south-gate-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "south-gate-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "south-gate-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "south-gate-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "south-gate-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "south-gate-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "antioch-ca-pd",
+      "claims_shared_by": "alameda-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "antioch-ca-pd's portal says alameda-county-ca-so shares with it, but alameda-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "antioch-ca-pd",
+      "claims_shared_by": "benicia-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "antioch-ca-pd's portal says benicia-ca-pd shares with it, but benicia-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "antioch-ca-pd",
+      "claims_shared_by": "emeryville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "antioch-ca-pd's portal says emeryville-ca-pd shares with it, but emeryville-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "antioch-ca-pd",
+      "claims_shared_by": "grass-valley-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "antioch-ca-pd's portal says grass-valley-ca-pd shares with it, but grass-valley-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "antioch-ca-pd",
+      "claims_shared_by": "marina-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "antioch-ca-pd's portal says marina-ca-pd shares with it, but marina-ca-pd's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "antioch-ca-pd",
+      "claims_shared_by": "nevada-county-ca-so",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "antioch-ca-pd's portal says nevada-county-ca-so shares with it, but nevada-county-ca-so's portal (has no outbound sharing section"
+    },
+    {
+      "type": "inbound_not_confirmed",
+      "agency": "antioch-ca-pd",
+      "claims_shared_by": "oroville-ca-pd",
+      "source_has_outbound_list": false,
+      "source_outbound_count": 0,
+      "detail": "antioch-ca-pd's portal says oroville-ca-pd shares with it, but oroville-ca-pd's portal (has no outbound sharing section"
     }
   ],
   "most_shared_with": [
@@ -63439,19 +63439,19 @@
       "inbound_count": 115
     },
     {
-      "slug": "dublin-ca-pd",
-      "inbound_count": 114
-    },
-    {
       "slug": "newark-ca-pd",
       "inbound_count": 114
     },
     {
-      "slug": "burlingame-ca-pd",
+      "slug": "dublin-ca-pd",
+      "inbound_count": 114
+    },
+    {
+      "slug": "union-city-ca-pd",
       "inbound_count": 113
     },
     {
-      "slug": "vacaville-ca-pd",
+      "slug": "burlingame-ca-pd",
       "inbound_count": 113
     },
     {
@@ -63459,11 +63459,7 @@
       "inbound_count": 113
     },
     {
-      "slug": "santa-clara-ca-pd",
-      "inbound_count": 113
-    },
-    {
-      "slug": "redwood-city-ca-pd",
+      "slug": "vacaville-ca-pd",
       "inbound_count": 113
     },
     {
@@ -63471,11 +63467,15 @@
       "inbound_count": 113
     },
     {
-      "slug": "san-mateo-ca-pd",
+      "slug": "redwood-city-ca-pd",
       "inbound_count": 113
     },
     {
-      "slug": "union-city-ca-pd",
+      "slug": "santa-clara-ca-pd",
+      "inbound_count": 113
+    },
+    {
+      "slug": "san-mateo-ca-pd",
       "inbound_count": 113
     },
     {
@@ -63483,19 +63483,7 @@
       "inbound_count": 113
     },
     {
-      "slug": "concord-ca-pd",
-      "inbound_count": 112
-    },
-    {
-      "slug": "east-palo-alto-ca-pd",
-      "inbound_count": 112
-    },
-    {
       "slug": "benicia-ca-pd",
-      "inbound_count": 112
-    },
-    {
-      "slug": "danville-ca-pd",
       "inbound_count": 112
     },
     {
@@ -63503,8 +63491,16 @@
       "inbound_count": 112
     },
     {
-      "slug": "napa-county-ca-so",
-      "inbound_count": 111
+      "slug": "east-palo-alto-ca-pd",
+      "inbound_count": 112
+    },
+    {
+      "slug": "danville-ca-pd",
+      "inbound_count": 112
+    },
+    {
+      "slug": "concord-ca-pd",
+      "inbound_count": 112
     },
     {
       "slug": "napa-ca-pd",
@@ -63515,15 +63511,19 @@
       "inbound_count": 111
     },
     {
-      "slug": "clayton-ca-pd",
-      "inbound_count": 111
-    },
-    {
       "slug": "central-marin-ca-pd",
       "inbound_count": 111
     },
     {
-      "slug": "seaside-ca-pd",
+      "slug": "clayton-ca-pd",
+      "inbound_count": 111
+    },
+    {
+      "slug": "napa-county-ca-so",
+      "inbound_count": 111
+    },
+    {
+      "slug": "folsom-ca-pd",
       "inbound_count": 110
     },
     {
@@ -63531,27 +63531,27 @@
       "inbound_count": 110
     },
     {
-      "slug": "livermore-ca-pd",
+      "slug": "gilroy-ca-pd",
       "inbound_count": 110
     },
     {
-      "slug": "dixon-ca-pd",
+      "slug": "seaside-ca-pd",
       "inbound_count": 110
     },
     {
-      "slug": "folsom-ca-pd",
+      "slug": "san-bruno-ca-pd",
       "inbound_count": 110
     },
     {
-      "slug": "citrus-heights-ca-pd",
-      "inbound_count": 110
-    },
-    {
-      "slug": "pleasant-hill-ca-pd",
+      "slug": "hillsborough-ca-pd",
       "inbound_count": 110
     },
     {
       "slug": "los-altos-ca-pd",
+      "inbound_count": 110
+    },
+    {
+      "slug": "pleasant-hill-ca-pd",
       "inbound_count": 110
     }
   ]
