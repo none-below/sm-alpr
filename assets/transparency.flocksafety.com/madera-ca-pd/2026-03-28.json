@@ -11,8 +11,8 @@
   "sharing_restrictions": "",
   "data_retention_days": 30,
   "camera_count": 8,
-  "hotlists_alerted_on": "California SVS, NCMEC Amber Alert\n\nUnique vehicles detected in the last 30 days\n\n106,635\n\nHotlist hits in the last 30 days\n\n387\n\nSearches in the last 30 days\n\n52\n\nPublic Search Audit\n\nDownload CSV\nAdditional Info\n\nRecent Success Story\n\nAdditional Info\n\nProvided by Flock Safety",
-  "vehicles_detected_30d": null,
+  "hotlists_alerted_on": "",
+  "vehicles_detected_30d": 106635,
   "hotlist_hits_30d": 387,
   "searches_30d": 52,
   "shared_org_count": 174,
@@ -367,5 +367,8 @@
     "woodlake-ca-pd",
     "yolo-county-ca-so",
     "yuba-city-ca-pd"
-  ]
+  ],
+  "orgs_sharing_with_count": 0,
+  "orgs_sharing_with_names": [],
+  "orgs_sharing_with_slugs": []
 }

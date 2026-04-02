@@ -11,8 +11,8 @@
   "sharing_restrictions": "",
   "data_retention_days": 365,
   "camera_count": 118,
-  "hotlists_alerted_on": "California SVS, NCMEC Amber Alert\n\nUnique vehicles detected in the last 30 days\n\n1,413,233\n\nHotlist hits in the last 30 days\n\n15,348\n\nSearches in the last 30 days\n\n453",
-  "vehicles_detected_30d": null,
+  "hotlists_alerted_on": "",
+  "vehicles_detected_30d": 1413233,
   "hotlist_hits_30d": 15348,
   "searches_30d": 453,
   "shared_org_count": 313,
@@ -645,5 +645,8 @@
     "yolo-county-ca-so",
     "yuba-city-ca-pd",
     "yuba-county-sheriffs-office"
-  ]
+  ],
+  "orgs_sharing_with_count": 0,
+  "orgs_sharing_with_names": [],
+  "orgs_sharing_with_slugs": []
 }

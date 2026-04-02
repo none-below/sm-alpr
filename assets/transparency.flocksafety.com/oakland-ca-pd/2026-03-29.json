@@ -9,13 +9,16 @@
   "hotlist_policy": "The Department shall only use the following hot lists: Stolen Vehicle System (\"SVS\"), National Crime Information Center (\"NCIC\") lists, CA DOJ lists, Amber and Silver alerts, and custom BOLO lists pertaining solely to missing or at-risk persons, witness locates, burglaries, grant theft, and violent crime investigation. Please refer to DGO I-12 for further details.",
   "sharing_with_partners": "",
   "sharing_restrictions": "",
-  "data_retention_days": null,
+  "data_retention_days": 30,
   "camera_count": 293,
-  "hotlists_alerted_on": "California SVS, NCMEC Amber Alert, Custom Hot Lists\n\nVehicles Detected in the Last 30 Days\n\n1,502,467\n\nHotlist Hits in the Last 30 Days\n\n102,040\n\nSearches in the Last 30 Days\n\n2,477\n\nPublic Search Audit\n\nDownload CSV\nAdditional Info\n\nOPD Policy: DGO I-12 - Automated License Plate Readers\n\nhttps://public.powerdms.com/OAKLAND/documents/3622083\n\nProvided by Flock Safety",
+  "hotlists_alerted_on": "",
   "vehicles_detected_30d": 1502467,
-  "hotlist_hits_30d": null,
+  "hotlist_hits_30d": 102040,
   "searches_30d": 2477,
   "shared_org_count": 0,
   "shared_org_names": [],
-  "shared_org_slugs": []
+  "shared_org_slugs": [],
+  "orgs_sharing_with_count": 0,
+  "orgs_sharing_with_names": [],
+  "orgs_sharing_with_slugs": []
 }

@@ -41,7 +41,7 @@ import sys
 import tempfile
 import time
 from collections import Counter
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 BASE_URL = "https://transparency.flocksafety.com"
@@ -137,7 +137,6 @@ def is_stale(slug, data_dir, max_age_days=STALE_DAYS):
         return True
     latest_date_str = txts[-1].stem  # e.g. "2026-03-27"
     try:
-        from datetime import datetime
         latest = datetime.strptime(latest_date_str, "%Y-%m-%d").date()
         age = (date.today() - latest).days
         return age >= max_age_days
@@ -155,39 +154,190 @@ _EXPECTS_CONTINUATION = re.compile(
     re.IGNORECASE,
 )
 
-_SECTION_LABELS = [
-    "Overview",
-    "What's Detected", "What's Not Detected",
-    "Acceptable Use Policy", "Prohibited Uses",
-    "Access Policy", "Hotlist Policy",
-    "Restrictions on Deployment",
-    "Sharing with Partners", "Sharing Restrictions",
-    "Data retention (in days)", "Data retention",
-    "Data Retention for Flock Devices",
-    "Number of LPR and other cameras", "Number of Owned Cameras",
-    "Hotlists Alerted On",
-    "Organizations granted access", "Approved NCRIC Share With",
-    "Agencies NCRIC Shares With",
-    "Vehicles detected in the last 30 days", "Vehicles Detected in the Last 30 Days",
-    "Hotlist hits in the last 30 days",
-    "Searches in the last 30 days", "Searches in the Last 30 Days",
-    "Additional Info",
-    "Policy Documents", "Policy Page", "ALPR Policy",
-    "Provided by Flock Safety",
+# Maps heading aliases -> canonical field name.  This is the single source of
+# truth for all known headings.  Use None for structural headings (page chrome
+# like "Policies", "Usage") that act as section boundaries but carry no data.
+# If a heading isn't in this map (exact or prefix match), parsing will fail
+# so you know to update the map.
+_HEADING_MAP = {
+    # ── structural (no data, just section boundaries) ──
+    "Overview":                              None,
+    "Policies":                              None,
+    "Policy":                                None,
+    "Usage":                                 None,
+    "Transparency Portal":                   None,
+    "Additional Info":                       None,
+    "Additional Information":                None,
+    "Provided by Flock Safety":              None,
+    "Policy Documents":                      None,
+    "Policy Page":                           None,
+    "Policy Link":                           None,
+    "Documentation":                         None,
+    "ALPR Policy":                           None,
+    "ALPR":                                  None,
+    "ALPR POLICY":                           None,
+    "ALPR Manual":                           None,
+    "Alpr policy":                           None,
+    "Full ALPR Policy":                      None,
+    "Full ALPR Policy:":                     None,
+    "Full ALPR Policy Here:":                None,
+    "Full LPR Policy Here:":                 None,
+    "Complete ALPR Policy":                  None,
+    "OPD Policy: DGO I-12 - Automated License Plate Readers": None,
+    "Download CSV":                          None,
+    "Public Search Audit":                   None,
+    "Search Audit":                          None,
+    "Delivery address":                      None,
+    "Sharing":                               None,
+    "Success Story":                         None,
+    "Recent Success Story":                  None,
+    "Recent Success Stories":                None,
+    "Success Stories":                       None,
+    "Disclaimer":                            None,
+    "California SVS":                        None,
+    # ── data fields ──
+    "What's Detected":                       "whats_detected",
+    "What's Not Detected":                   "whats_not_detected",
+    "Acceptable Use Policy":                 "acceptable_use_policy",
+    "Prohibited Uses":                       "prohibited_uses",
+    "Access Policy":                         "access_policy",
+    "Hotlist Policy":                        "hotlist_policy",
+    "Restrictions on Deployment":            "restrictions_on_deployment",
+    "Sharing with Partners":                 "sharing_with_partners",
+    "Sharing Restrictions":                  "sharing_restrictions",
+    "Data retention (in days)":              "data_retention",
+    "Data retention":                        "data_retention",
+    "Data Retention (days)":                 "data_retention",
+    "Data Retention for Flock Devices":      "data_retention",
+    "Flock Data retention (in days)":        "data_retention",
+    "Number of LPR and other cameras":       "camera_count",
+    "Number of LPR cameras":                 "camera_count",
+    "Number of LPR Cameras":                 "camera_count",
+    "Number of Active LPR cameras":          "camera_count",
+    "Number of Owned Cameras":               "camera_count",
+    "Hotlists Alerted On":                   "hotlists_alerted_on",
+    "Vehicles detected in the last 30 days": "vehicles_detected_30d",
+    "Vehicles Detected in the Last 30 Days": "vehicles_detected_30d",
+    "Unique vehicles detected in the last 30 days": "vehicles_detected_30d",
+    "Hotlist hits in the last 30 days":      "hotlist_hits_30d",
+    "Hotlist Hits in the Last 30 Days":      "hotlist_hits_30d",
+    "Searches in the last 30 days":          "searches_30d",
+    "Searches in the Last 30 Days":          "searches_30d",
+    "Livermore PD searches in the last 30 days": "searches_30d",
+    # org sharing — prefix match handles "Organizations granted access to X data"
+    "Organizations granted access":          "orgs_granted_access",
+    "Approved NCRIC Share With":             "orgs_granted_access",
+    "Agencies NCRIC Shares With":            "orgs_granted_access",
+    "External agencies who have access":     "orgs_granted_access",
+    "Only Agencies With External Access":    "orgs_granted_access",
+    "Organizations sharing their data":      "orgs_sharing_with",
+}
+
+# Dynamic heading patterns — matched after exact/prefix lookup fails.
+# These are headings that contain variable text (agency names, URLs, etc.)
+# Map to a field name or None for structural.
+_DYNAMIC_HEADINGS = [
+    (re.compile(r"^Last Updated:"), None),
+    (re.compile(r"^(Link to |Link To |To view ).+"), None),
+    (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+"), None),
+    (re.compile(r"^.+ (ALPR|LPR) Policy.*$"), None),
+    (re.compile(r"^.+Police Department Policy Manual.*$"), None),
 ]
 
+_MAX_HEADING_LEN = 120
 
-def _extract_between(text, start_label, end_labels):
-    idx = text.find(start_label)
-    if idx == -1:
-        return ""
-    start = idx + len(start_label)
-    end = len(text)
-    for el in end_labels:
-        pos = text.find(el, start)
-        if pos != -1 and pos < end:
-            end = pos
-    return text[start:end].strip()
+
+def _match_heading(line):
+    """Return canonical field name if line is a known heading, None if it's a
+    known structural heading, or the sentinel _UNKNOWN if unrecognised."""
+    # Exact match
+    if line in _HEADING_MAP:
+        return _HEADING_MAP[line]
+    # Prefix match (for "Organizations granted access to X data", etc.)
+    for prefix, field_name in _HEADING_MAP.items():
+        if line.startswith(prefix):
+            return field_name
+    # Dynamic patterns
+    for pattern, field_name in _DYNAMIC_HEADINGS:
+        if pattern.match(line):
+            return field_name
+    return _UNKNOWN
+
+
+_UNKNOWN = object()  # sentinel — distinct from None (which means "structural")
+
+
+def _looks_like_heading(line):
+    """Heuristic: could this line plausibly be a new/unknown section heading?
+
+    Catches things like "Delivery address", "Disclaimer", "Success Story" that
+    we haven't added to the known lists yet.  Tries to reject content lines
+    like "License Plates, Vehicles" or "License Plates and Vehicles".
+    """
+    # Starts with digit or paren -> data value like "365 days", "(TBD)"
+    if line[0].isdigit() or line[0] == "(":
+        return False
+    # Starts with lowercase -> likely content prose
+    if line[0].islower():
+        return False
+    # Contains commas -> likely a list of values
+    if "," in line:
+        return False
+    # Long -> content
+    if len(line) > 60:
+        return False
+    # Reject short content that lists items with "and"/"or"
+    # e.g. "License Plates and Vehicles", "Facial Recognition and People"
+    words = line.split()
+    if len(words) <= 5 and any(w in ("and", "or") for w in words):
+        return False
+    return True
+
+
+def parse_sections(text):
+    """Split raw DOM text into [(heading, body), ...] pairs.
+
+    A heading is a line that either matches a known heading label or looks like
+    a plausible new heading (short, title-like, no commas).  Headings must be
+    followed by a blank line.  The body is everything up to the next heading.
+
+    Returns a list of (heading_str, body_str) tuples and a list of
+    unrecognised heading strings.
+    """
+    lines = text.split("\n")
+    # First pass: identify which lines are headings
+    heading_indices = []
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if not stripped:
+            continue
+        # Must be followed by a blank line (or be at end of text)
+        next_blank = (i == len(lines) - 1) or not lines[i + 1].strip()
+        if not next_blank:
+            continue
+        prev_blank = (i == 0) or not lines[i - 1].strip()
+        match = _match_heading(stripped)
+        if match is not _UNKNOWN:
+            # Known heading — accept even without preceding blank line
+            # (handles "Hotlist Policy\nUsage" pattern)
+            heading_indices.append(i)
+        elif len(stripped) <= _MAX_HEADING_LEN and prev_blank and _looks_like_heading(stripped):
+            # Unknown but plausible heading — length-limited, preceded by blank line
+            heading_indices.append(i)
+
+    # Second pass: extract (heading, body) pairs
+    sections = []
+    unknown = []
+    for idx, hi in enumerate(heading_indices):
+        heading = lines[hi].strip()
+        body_start = hi + 1
+        body_end = heading_indices[idx + 1] if idx + 1 < len(heading_indices) else len(lines)
+        body = "\n".join(lines[body_start:body_end]).strip()
+        if _match_heading(heading) is _UNKNOWN:
+            unknown.append(heading)
+        sections.append((heading, body))
+
+    return sections, unknown
 
 
 def _parse_number(s):
@@ -197,17 +347,14 @@ def _parse_number(s):
     return int(m.group(0).replace(",", "")) if m else None
 
 
-def parse_org_list(orgs_text):
-    if not orgs_text:
-        return []
-    _, _, body = orgs_text.partition("\n\n")
+def _parse_org_names(body):
+    """Extract org names from a shared-orgs section body."""
     if not body:
-        _, _, body = orgs_text.partition("\n")
+        return []
     raw = [n.strip() for n in body.split(", ") if n.strip()]
     names = []
     for part in raw:
         if names and _EXPECTS_CONTINUATION.search(names[-1]):
-            # Rejoin: "University of California" + "Berkeley"
             names[-1] = f"{names[-1]}, {part}"
         else:
             names.append(part)
@@ -216,63 +363,50 @@ def parse_org_list(orgs_text):
 
 def parse_portal_text(raw_text, slug, datestamp):
     """Parse structured data from raw DOM text."""
-    text = raw_text
+    sections, unknown = parse_sections(raw_text)
 
-    def field(start, *end_labels):
-        ends = list(end_labels) if end_labels else _SECTION_LABELS
-        return _extract_between(text, start, ends)
+    if unknown:
+        raise ValueError(
+            f"Unrecognised headings in {slug}: {unknown}  — add them to _HEADING_MAP"
+        )
 
-    org_text = ""
-    for org_label in ["Organizations granted access", "Approved NCRIC Share With",
-                       "Agencies NCRIC Shares With"]:
-        org_text = field(org_label, "Additional Info", "Hotlists Alerted On",
-                         "Policy Documents", "Provided by Flock Safety",
-                         "Organizations sharing their data")
-        if org_text:
-            break
-    org_text = re.sub(r"^.*?data\s*", "", org_text, count=1).strip()
-    org_names = parse_org_list(
-        f"Organizations granted access\n\n{org_text}" if org_text else ""
-    )
+    # Build field_name -> body lookup (last match wins — when a page has
+    # both a specific and a general heading for the same field, the general
+    # one tends to appear later and be more complete, e.g. "Number of LPR
+    # cameras" (44) followed by "Number of LPR and other cameras" (140)).
+    fields = {}
+    for heading, body in sections:
+        field_name = _match_heading(heading)
+        if field_name is None:
+            continue  # structural heading, no data
+        fields[field_name] = body
+
+    granted = _parse_org_names(fields.get("orgs_granted_access", ""))
+    sharing_with = _parse_org_names(fields.get("orgs_sharing_with", ""))
 
     return {
         "slug": slug,
         "archived_date": datestamp,
-        "whats_detected": field("What's Detected", "What's Not Detected"),
-        "whats_not_detected": field("What's Not Detected",
-                                     "Acceptable Use Policy", "Restrictions on Deployment",
-                                     "Sharing with Partners", "Usage"),
-        "acceptable_use_policy": field("Acceptable Use Policy", "Prohibited Uses"),
-        "prohibited_uses": field("Prohibited Uses", "Access Policy"),
-        "access_policy": field("Access Policy", "Hotlist Policy"),
-        "hotlist_policy": field("Hotlist Policy", "Usage", "Data retention",
-                                "Sharing with Partners"),
-        "sharing_with_partners": field("Sharing with Partners", "Sharing Restrictions"),
-        "sharing_restrictions": field("Sharing Restrictions", "Usage", "Data retention"),
-        "data_retention_days": _parse_number(
-            field("Data retention (in days)", "Number of") or
-            field("Data Retention for Flock Devices", "Number of") or
-            field("Data retention", "Number of")
-        ),
-        "camera_count": _parse_number(
-            field("Number of LPR and other cameras", "Hotlists", "Organizations") or
-            field("Number of Owned Cameras", "Vehicles", "Organizations")
-        ),
-        "hotlists_alerted_on": field("Hotlists Alerted On", "Vehicles detected", "Organizations"),
-        "vehicles_detected_30d": _parse_number(
-            field("Vehicles detected in the last 30 days", "Hotlist hits") or
-            field("Vehicles Detected in the Last 30 Days", "Searches")
-        ),
-        "hotlist_hits_30d": _parse_number(
-            field("Hotlist hits in the last 30 days", "Searches", "Organizations", "Additional")
-        ),
-        "searches_30d": _parse_number(
-            field("Searches in the last 30 days", "Additional", "Organizations") or
-            field("Searches in the Last 30 Days", "Additional", "Organizations")
-        ),
-        "shared_org_count": len(org_names),
-        "shared_org_names": org_names,
-        "shared_org_slugs": [name_to_slug(n) for n in org_names],
+        "whats_detected": fields.get("whats_detected", ""),
+        "whats_not_detected": fields.get("whats_not_detected", ""),
+        "acceptable_use_policy": fields.get("acceptable_use_policy", ""),
+        "prohibited_uses": fields.get("prohibited_uses", ""),
+        "access_policy": fields.get("access_policy", ""),
+        "hotlist_policy": fields.get("hotlist_policy", ""),
+        "sharing_with_partners": fields.get("sharing_with_partners", ""),
+        "sharing_restrictions": fields.get("sharing_restrictions", ""),
+        "data_retention_days": _parse_number(fields.get("data_retention", "")),
+        "camera_count": _parse_number(fields.get("camera_count", "")),
+        "hotlists_alerted_on": fields.get("hotlists_alerted_on", ""),
+        "vehicles_detected_30d": _parse_number(fields.get("vehicles_detected_30d", "")),
+        "hotlist_hits_30d": _parse_number(fields.get("hotlist_hits_30d", "")),
+        "searches_30d": _parse_number(fields.get("searches_30d", "")),
+        "shared_org_count": len(granted),
+        "shared_org_names": granted,
+        "shared_org_slugs": [name_to_slug(n) for n in granted],
+        "orgs_sharing_with_count": len(sharing_with),
+        "orgs_sharing_with_names": sharing_with,
+        "orgs_sharing_with_slugs": [name_to_slug(n) for n in sharing_with],
     }
 
 
@@ -323,7 +457,9 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     prev_hash = (hashes or {}).get(slug)
 
     # Parse for shared slugs (needed for recursive crawling even if unchanged)
+    crawled_at = datetime.now(timezone.utc).isoformat()
     portal_data = parse_portal_text(page_text, slug, datestamp)
+    portal_data["crawled_at"] = crawled_at
     shared_slugs = portal_data.get("shared_org_slugs", [])
 
     if not force and prev_hash == current_hash:
