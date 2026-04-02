@@ -52,25 +52,31 @@ uv run python scripts/flock_transparency.py aggregate
 uv run python scripts/flock_transparency.py aggregate --json --out outputs/sharing.json
 ```
 
-### Council Packet Fetcher
+### PrimeGov Meeting Packet Fetcher
 
-Downloads San Mateo City Council meeting packets from the PrimeGov API, extracts text with page markers.
+Downloads meeting packets from PrimeGov-powered city portals, extracts text with page markers. Works with any PrimeGov city — defaults to San Mateo.
 
 ```sh
-# Fetch all council packets 2020-2026
-uv run python scripts/council_packets.py fetch
-uv run python scripts/council_packets.py fetch --council-only
-uv run python scripts/council_packets.py fetch --year 2023 --year 2024
+# Fetch all San Mateo packets 2020-2026
+uv run python scripts/primegov_packets.py fetch
+uv run python scripts/primegov_packets.py fetch --council-only
+uv run python scripts/primegov_packets.py fetch --year 2023 --year 2024
+
+# Fetch from other cities
+uv run python scripts/primegov_packets.py --city fostercity fetch
+uv run python scripts/primegov_packets.py --city sanbruno fetch --year 2025
+uv run python scripts/primegov_packets.py --city cityofsancarlos fetch
+uv run python scripts/primegov_packets.py --city atherton fetch
 
 # Fetch a specific meeting
-uv run python scripts/council_packets.py fetch --meeting-id 1391
+uv run python scripts/primegov_packets.py fetch --meeting-id 1391
 
 # OCR/text-extract all downloaded packets
-uv run python scripts/council_packets.py ocr
-uv run python scripts/council_packets.py ocr --meeting-id 1391
+uv run python scripts/primegov_packets.py ocr
+uv run python scripts/primegov_packets.py ocr --meeting-id 1391
 
 # Build searchable metadata index
-uv run python scripts/council_packets.py index
+uv run python scripts/primegov_packets.py index
 ```
 
 ### Findings PDF Generator
