@@ -152,6 +152,9 @@ class TestHTML:
     def test_has_violation_banner(self):
         assert 'id="violation-banner"' in self.html
 
+    def test_has_search_box(self):
+        assert 'id="search-input"' in self.html
+
     def test_has_cache_bust_on_js(self):
         assert "map.js?v=" in self.html
 

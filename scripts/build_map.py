@@ -286,7 +286,7 @@ def _generate_html(marker_count):
 <meta charset="utf-8">
 <title>Flock ALPR Sharing Map — California</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org data:; connect-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://unpkg.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org data:; connect-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://unpkg.com https://nominatim.openstreetmap.org;">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" integrity="sha384-pmjIAcz2bAn0xukfxADbZIb3t8oRT9Sv0rvO+BR5Csr6Dhqq+nZs59P0pPKQJkEV" crossorigin="anonymous" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
@@ -304,6 +304,32 @@ def _generate_html(marker_count):
   .info-panel .stat {{ color: #666; margin: 2px 0; }}
   .info-panel .sharing-list {{ margin-top: 8px; }}
   .info-panel .sharing-list div {{ padding: 1px 0; }}
+  #search-box {{
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    z-index: 1001; display: flex; gap: 0;
+  }}
+  #search-input {{
+    width: 260px; padding: 8px 12px; border: 2px solid #2563eb;
+    border-radius: 8px 0 0 8px; font-size: 14px; outline: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }}
+  #search-input::placeholder {{ color: #9ca3af; }}
+  #search-btn {{
+    padding: 8px 12px; background: #2563eb; color: white; border: 2px solid #2563eb;
+    border-left: none; border-radius: 0 8px 8px 0; font-size: 14px; cursor: pointer;
+  }}
+  #search-results {{
+    position: absolute; top: 42px; left: 50%; transform: translateX(-50%);
+    z-index: 1002; background: white; border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); max-height: 260px;
+    overflow-y: auto; width: 310px; display: none; font-size: 13px;
+  }}
+  #search-results div {{
+    padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f3f4f6;
+  }}
+  #search-results div:hover {{ background: #eff6ff; }}
+  #search-results div:last-child {{ border-bottom: none; }}
+  #search-results .sr-tag {{ color: #6b7280; font-size: 11px; }}
   .info-toggle {{
     display: none; position: absolute; top: 10px; right: 10px; z-index: 1001;
     background: #2563eb; color: white; border: none; border-radius: 8px;
@@ -341,6 +367,11 @@ def _generate_html(marker_count):
       transform: none !important;
       white-space: normal !important;
     }}
+    #search-box {{
+      left: 10px; right: 10px; transform: none;
+    }}
+    #search-input {{ width: 100%; box-sizing: border-box; font-size: 13px; }}
+    #search-results {{ left: 10px; right: 10px; transform: none; width: auto; }}
   }}
   .offmap-panel {{
     position: absolute; bottom: 20px; right: 10px; z-index: 1000;
@@ -374,6 +405,11 @@ def _generate_html(marker_count):
 </head>
 <body>
 <div id="map"></div>
+<div id="search-box">
+  <input type="text" id="search-input" placeholder="Search city, agency, or zip code" autocomplete="off">
+  <button id="search-btn">\U0001f50d</button>
+</div>
+<div id="search-results"></div>
 <div id="violation-banner"></div>
 <button class="info-toggle" id="infoToggle" onclick="
   var p = document.getElementById('info');

@@ -6,7 +6,7 @@ const SLUG_RE = /^[a-z0-9][a-z0-9\-]*$/;
 function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
 
 // Load data
-fetch('data/map_data.json?v=1775120803').then(r => r.json()).then(data => {
+fetch('data/map_data.json?v=1775121215').then(r => r.json()).then(data => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
@@ -655,6 +655,125 @@ fetch('data/map_data.json?v=1775120803').then(r => r.json()).then(data => {
       markerLayer.addLayer(circle);
     });
   }
+
+  // ── Search ──
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+
+  // Build searchable index: name -> slug, with common aliases
+  const searchIndex = [];
+  markers.forEach(m => {
+    const info = agencyInfo[m.slug] || {};
+    const name = info.name || m.slug;
+    searchIndex.push({ name: name, slug: m.slug, lat: m.lat, lng: m.lng });
+    // Add slug as searchable too (e.g. "san-mateo-ca-pd")
+    if (m.slug !== name) {
+      searchIndex.push({ name: m.slug.replace(/-/g, ' '), slug: m.slug, lat: m.lat, lng: m.lng, alias: true });
+    }
+  });
+  // Also include unmapped agencies from agencyInfo
+  Object.entries(agencyInfo).forEach(([slug, info]) => {
+    if (!markerDataBySlug[slug]) {
+      searchIndex.push({ name: info.name || slug, slug: slug, lat: null, lng: null });
+    }
+  });
+
+  function doSearch(query) {
+    const q = query.trim().toLowerCase();
+    if (!q) { searchResults.style.display = 'none'; return; }
+
+    // Check if it looks like a zip code (5 digits)
+    if (/^\d{5}$/.test(q)) {
+      searchResults.innerHTML = '<div onclick="searchZip(\'' + escapeHtml(q) + '\')">Zoom to zip code <strong>' + escapeHtml(q) + '</strong></div>';
+      searchResults.style.display = 'block';
+      return;
+    }
+
+    const matches = [];
+    searchIndex.forEach(entry => {
+      const name = entry.name.toLowerCase();
+      const score = name === q ? 100 : name.startsWith(q) ? 50 : name.includes(q) ? 10 : 0;
+      if (score > 0 && !entry.alias) matches.push({ ...entry, score });
+      else if (score > 0 && entry.alias) matches.push({ ...entry, score: score - 1 });
+    });
+    // Deduplicate by slug, keep highest score
+    const seen = {};
+    matches.forEach(m => { if (!seen[m.slug] || m.score > seen[m.slug].score) seen[m.slug] = m; });
+    const sorted = Object.values(seen).sort((a, b) => b.score - a.score).slice(0, 15);
+
+    if (sorted.length === 0) {
+      // Also offer zip/location search
+      searchResults.innerHTML = '<div style="color:#6b7280;cursor:default">No matching agencies</div>';
+      searchResults.style.display = 'block';
+      return;
+    }
+
+    let html = '';
+    sorted.forEach(m => {
+      const info = agencyInfo[m.slug] || {};
+      let tag = '';
+      if (info.public === false) tag = ' <span class="sr-tag">[private]</span>';
+      else if (info.type === 'federal') tag = ' <span class="sr-tag">[federal]</span>';
+      else if (!m.lat) tag = ' <span class="sr-tag">[not mapped]</span>';
+      html += '<div data-slug="' + escapeHtml(m.slug) + '">' + escapeHtml(info.name || m.slug) + tag + '</div>';
+    });
+    searchResults.innerHTML = html;
+    searchResults.style.display = 'block';
+
+    // Attach click handlers
+    searchResults.querySelectorAll('[data-slug]').forEach(el => {
+      el.addEventListener('click', () => {
+        searchResults.style.display = 'none';
+        searchInput.value = '';
+        clickSlug(el.dataset.slug);
+      });
+    });
+  }
+
+  window.searchZip = function(zip) {
+    searchResults.innerHTML = '<div style="color:#6b7280;cursor:default">Looking up zip code...</div>';
+    fetch('https://nominatim.openstreetmap.org/search?postalcode=' + encodeURIComponent(zip) + '&country=US&format=json&limit=1', {
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(r => r.json())
+    .then(results => {
+      if (results.length) {
+        const lat = parseFloat(results[0].lat);
+        const lng = parseFloat(results[0].lon);
+        map.setView([lat, lng], 12);
+        searchResults.style.display = 'none';
+        searchInput.value = '';
+      } else {
+        searchResults.innerHTML = '<div style="color:#dc2626;cursor:default">Zip code not found</div>';
+      }
+    })
+    .catch(() => {
+      searchResults.innerHTML = '<div style="color:#dc2626;cursor:default">Lookup failed</div>';
+    });
+  };
+
+  searchInput.addEventListener('input', () => doSearch(searchInput.value));
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const q = searchInput.value.trim();
+      if (/^\d{5}$/.test(q)) { window.searchZip(q); return; }
+      // Select first result
+      const first = searchResults.querySelector('[data-slug]');
+      if (first) { first.click(); }
+    }
+    if (e.key === 'Escape') {
+      searchResults.style.display = 'none';
+      searchInput.blur();
+    }
+  });
+
+  // Close search results when clicking elsewhere
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#search-box') && !e.target.closest('#search-results')) {
+      searchResults.style.display = 'none';
+    }
+  });
 
   // Auto-select agency from URL hash (e.g. #san-mateo-ca-pd)
   const hashSlug = decodeURIComponent(window.location.hash.replace('#', ''));
