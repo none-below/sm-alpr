@@ -68,6 +68,20 @@ jobs:
       - name: Parse new data
         run: uv run python scripts/flock_transparency.py parse
 
+      - name: Install Tesseract (cached)
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: tesseract-ocr
+          version: 1.0
+
+      - name: Validate build outputs
+        run: |
+          uv run python scripts/build_sharing_graph.py &
+          uv run python scripts/build_map.py &
+          uv run python scripts/md_to_pdf.py &
+          wait
+          uv run pytest tests/test_map_smoke.py -v
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"

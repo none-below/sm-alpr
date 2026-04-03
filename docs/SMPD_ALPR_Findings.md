@@ -443,7 +443,7 @@ Belmont CA PD, Brisbane CA PD, Burlingame CA PD, Colma CA PD, Daly City CA PD, F
 
 ## Appendix B: Statutory Compliance Matrix
 
-*Element-by-element comparison of California Civil Code §§ 1798.90.51 (operator), 1798.90.53 (end-user), and 1798.90.55 (sharing) against Policy 463 [3], SOP 205 [4], and documented practice. Analysis date: March 4, 2026. Statute text: [12].*
+*Element-by-element comparison of California Civil Code §§ 1798.90.51 (operator), 1798.90.53 (end-user), and 1798.90.55 (sharing) against Policy 463 [3], SOP 205 [4], and documented practice. Analysis date: April 2, 2026. Statute text: [12].*
 
 SMPD is both an ALPR **operator** (§ 1798.90.51 — it operates Flock cameras) and an ALPR **end-user** (§ 1798.90.53 — it accesses ALPR data, including from community cameras). Both sections impose nearly identical obligations.
 
