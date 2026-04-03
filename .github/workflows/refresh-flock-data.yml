@@ -1,0 +1,87 @@
+name: Refresh Flock Transparency Data
+
+on:
+  schedule:
+    - cron: '17 * * * *'   # hourly at :17
+  workflow_dispatch:
+    inputs:
+      batch_size:
+        description: 'Number of agencies to refresh'
+        default: '3'
+      max_age:
+        description: 'Re-crawl if older than N days'
+        default: '7'
+
+concurrency:
+  group: flock-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Set up refresh branch
+        run: |
+          git fetch origin flock-refresh || true
+          if git rev-parse --verify origin/flock-refresh >/dev/null 2>&1; then
+            git checkout flock-refresh
+            git merge origin/main --no-edit || true
+          else
+            git checkout -b flock-refresh
+          fi
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Install Chromium for Playwright
+        run: uv run playwright install chromium
+
+      - name: Crawl oldest agencies
+        run: |
+          uv run python scripts/flock_transparency.py crawl \
+            --all \
+            --batch ${{ inputs.batch_size || '3' }} \
+            --max-age ${{ inputs.max_age || '7' }}
+
+      - name: Parse new data
+        run: uv run python scripts/flock_transparency.py parse
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/transparency.flocksafety.com/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: refresh flock transparency data (batch of ${{ inputs.batch_size || '3' }})"
+          git push origin flock-refresh
+
+      - name: Create or update PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh pr list --head flock-refresh --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "PR #$existing already open, pushed new commits to it"
+          else
+            gh pr create \
+              --title "chore: refresh flock transparency data" \
+              --body "Automated rolling refresh of Flock Safety transparency portal data.
+
+          This PR accumulates hourly batches. Merge when ready — the next run will create a fresh branch from main." \
+              --head flock-refresh \
+              --base main
+          fi
