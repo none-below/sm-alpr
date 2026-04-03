@@ -4,7 +4,7 @@ SMPD ALPR Findings — Markdown-to-PDF generator.
 Reads .md file at runtime. Zero hardcoded bullet text.
 """
 
-import re, sys
+import re, sys, tempfile
 from pathlib import Path
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -479,7 +479,7 @@ def main():
     global _MD5_HASH
     import hashlib
     md_path=str(Path(sys.argv[1]).resolve()) if len(sys.argv)>1 else "docs/SMPD_ALPR_Findings.md"
-    out_path=str(Path(sys.argv[2]).resolve()) if len(sys.argv)>2 else "docs/SMPD_ALPR_Findings.pdf"
+    out_path=str(Path(sys.argv[2]).resolve()) if len(sys.argv)>2 else str(Path(tempfile.gettempdir())/"SMPD_ALPR_Findings.pdf")
     if not md_path.endswith('.md') or not out_path.endswith('.pdf'):
         raise SystemExit("Error: expected .md input and .pdf output paths")
     with open(md_path,'rb') as f: _MD5_HASH=hashlib.md5(f.read()).hexdigest()
