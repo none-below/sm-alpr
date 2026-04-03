@@ -144,6 +144,14 @@ def is_stale(slug, data_dir, max_age_days=STALE_DAYS):
         return True
 
 
+def has_prior_success(slug, data_dir):
+    """Check if a slug has any prior successful capture (a .json file)."""
+    slug_dir = data_dir / slug
+    if not slug_dir.is_dir():
+        return False
+    return any(slug_dir.glob("*.json"))
+
+
 # ═══════════════════════════════════════════════════════════
 # Parsing: raw DOM text -> structured JSON
 # ═══════════════════════════════════════════════════════════
@@ -644,6 +652,9 @@ def cmd_crawl(args):
                             )
 
                 new_slugs = [s for s in slugs if s not in visited]
+                # Prioritize agencies that have succeeded before (stale refresh)
+                # over never-tried ones (unlikely to suddenly appear)
+                new_slugs.sort(key=lambda s: (0 if has_prior_success(s, data_dir) else 1))
                 if args.batch:
                     new_slugs = new_slugs[:int(batch_remaining)]
 
