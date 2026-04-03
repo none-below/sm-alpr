@@ -79,7 +79,7 @@ jobs:
             exit 0
           fi
           git commit -m "chore: refresh flock transparency data (batch of ${{ inputs.batch_size || '3' }})"
-          git push origin flock-refresh
+          git push --force-with-lease origin flock-refresh
 
       - name: Report validate status
         env:
