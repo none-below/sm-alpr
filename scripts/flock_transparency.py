@@ -693,7 +693,8 @@ def cmd_crawl(args):
     print(f"\nDone: {captured} captured, {unchanged} unchanged, {failed} failed.")
 
     if failed and not captured and not unchanged:
-        sys.exit(1)
+        print("  (all agencies failed — not treated as error for batch crawls)")
+
 
 
 # ═══════════════════════════════════════════════════════════
