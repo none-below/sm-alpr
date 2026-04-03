@@ -52,7 +52,8 @@ jobs:
           uv run python scripts/flock_transparency.py crawl \
             --all \
             --batch ${{ inputs.batch_size || '3' }} \
-            --max-age ${{ inputs.max_age || '7' }}
+            --max-age ${{ inputs.max_age || '7' }} \
+            --delay 1
 
       - name: Parse new data
         run: uv run python scripts/flock_transparency.py parse
