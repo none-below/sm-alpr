@@ -45,9 +45,6 @@ jobs:
           packages: tesseract-ocr
           version: 1.0
 
-      - name: Parse transparency portal data
-        run: uv run python scripts/flock_transparency.py parse
-
       - name: Build sharing graph, map, and findings PDF
         run: |
           uv run python scripts/build_sharing_graph.py &
