@@ -94,7 +94,13 @@ def mkstyles():
 
 def ilink(t,bm,color=LINK_BLUE): return f'<a href="#{bm}" color="{color}">{t}</a>'
 def elink(t,url,color=LINK_BLUE): return f'<a href="{url}" color="{color}">{t}</a>'
-SEC_ANCHORS = {'1':'sec_audit','2':'sec_transparency','3':'sec_council','4':'sec_devices','5':'sec_vendor','6':'sec_network','7':'sec_timing'}
+_SEC_ANCHORS = {}  # populated by parse_md(), keyed by section number string
+
+def _slugify(text):
+    """Convert heading text to a URL-safe anchor slug."""
+    text = re.sub(r'^\d+\.\s*', '', text)  # strip leading number
+    text = re.sub(r'[^a-z0-9\s]', '', text.lower())
+    return 'sec_' + re.sub(r'\s+', '_', text.strip())
 
 def md_to_xml(text, exec_mode=False):
     rv = RED_ACCENT.hexval()
@@ -103,19 +109,24 @@ def md_to_xml(text, exec_mode=False):
     text = re.sub(r'~~(.+?)~~', r'<s>\1</s>', text)
     text = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', lambda m: elink(m.group(1),m.group(2)), text)
     if exec_mode:
-        text = re.sub(r'\[§(\d)\]', lambda m: f'<a href="#{SEC_ANCHORS.get(m.group(1),"sec_"+m.group(1))}" color="{LINK_BLUE}">[\xa7{m.group(1)}]</a>', text)
+        text = re.sub(r'\(see (§[\d,\s§–]+)\)', _resolve_section_refs, text)
+        text = re.sub(r'\(See ([^)]*§[^)]+)\)', _resolve_section_refs, text)
     text = re.sub(r'\[(\d{1,2}(?:[^\]\d][^\]]*)?)\]', lambda m: f'<a href="#source_{re.findall(r"[0-9]+",m.group(1))[0]}" color="{LINK_BLUE}">{m.group(0)}</a>' if re.findall(r"[0-9]+",m.group(1)) else m.group(0), text)
     text = re.sub(r'\[PRA not yet filed\]', f'<font color="{rv}"><i>[PRA not yet filed]</i></font>', text)
     text = re.sub(r'\[VERIFY[^\]]*\]', lambda m: f'<font color="{rv}"><i>{m.group(0)}</i></font>', text)
-    # Status emoji → colored Zapf/Helvetica symbols
-    # ✅ → green bullet
     text = text.replace('\u2705', '<font name="ZapfDingbats" color="#15803d" size="10">&#x2714;</font>')
-    # ❌ → red X
     text = text.replace('\u274c', '<font name="ZapfDingbats" color="#b91c1c" size="10">&#x2718;</font>')
-    # ⚠️ → amber triangle (Helvetica)
     text = text.replace('\u26a0\ufe0f', '<font color="#d97706"><b>&#x25b2;</b></font>')
     text = text.replace('\u26a0', '<font color="#d97706"><b>&#x25b2;</b></font>')
     return text
+
+def _resolve_section_refs(m):
+    """Turn '(see §1, §2)' or '(See Appendix B; see §1–7.)' into linked text."""
+    def _link_one(sm):
+        num = sm.group(1)
+        anchor = _SEC_ANCHORS.get(num, f'sec_{num}')
+        return f'<a href="#{anchor}" color="{LINK_BLUE}">\xa7{num}</a>'
+    return re.sub(r'§(\d+)', _link_one, m.group(0))
 
 def _back(styles):
     return Paragraph(ilink("\u25b2 Contents","toc",color=MUTED.hexval()), styles['src_ref'])
@@ -134,90 +145,113 @@ COUNCIL_SOURCE_NUMS = set(COUNCIL_FILE_IDS.keys())
 # ═══════════════════ PARSER ═══════════════════
 
 def parse_md(path):
-    with open(path,'r') as f: lines = f.readlines()
-    doc = dict(preamble_lines=[], exec_paras=[], key_findings=[], sections=[],
+    """Split markdown into sections by headings.  Returns a list of
+    {'title': str, 'anchor': str, 'lines': [str]} dicts,
+    plus a preamble (lines before the first heading)."""
+    global _SEC_ANCHORS
+    with open(path, 'r') as f: raw_lines = f.readlines()
+    # Strip HTML comments and --- separators
+    lines = []
+    in_comment = False
+    for line in raw_lines:
+        s = line.rstrip('\n')
+        if '<!--' in s:
+            if '-->' in s: continue
+            in_comment = True; continue
+        if in_comment:
+            if '-->' in s: in_comment = False
+            continue
+        if s.strip() == '---': continue
+        lines.append(s)
+    # Split into blocks by heading
+    blocks = []  # list of {'title','anchor','lines'}
+    preamble = []
+    for line in lines:
+        stripped = line.strip()
+        m = re.match(r'^(##)\s+(.+)', stripped)  # only ## splits; ### stays as content
+        if m:
+            title = m.group(2).strip()
+            nm = re.match(r'^(\d+)\.\s+(.+)', title)
+            anchor = _slugify(nm.group(2)) if nm else _slugify(title)
+            blocks.append({'title': title, 'anchor': anchor, 'lines': []})
+        elif blocks:
+            blocks[-1]['lines'].append(line)
+        else:
+            preamble.append(stripped)
+    # Build the doc dict that builders expect, interpreting blocks generically
+    doc = dict(preamble_lines=preamble, exec_paras=[], key_findings=[], sections=[],
                source_intro='', source_rows=[], contacts=[],
                appendix_a_lines=[], appendix_b_lines=[], verify_items=[])
-    state = 'preamble'; current_section = None
-    in_html_comment = False
-    for line in lines:
-        raw = line.rstrip('\n'); stripped = raw.strip()
-        # Strip HTML comments
-        if '<!--' in stripped:
-            if '-->' in stripped: continue
-            in_html_comment = True; continue
-        if in_html_comment:
-            if '-->' in stripped: in_html_comment = False
-            continue
-        if stripped == '---':
-            if state == 'preamble': pass
-            continue
-        if stripped.startswith('## Executive Summary'): state='exec_summary'; continue
-        if stripped.startswith('### Key Findings'): state='key_findings'; continue
-        if re.match(r'^## \d+\. ', stripped):
-            if current_section: doc['sections'].append(current_section)
-            m=re.match(r'^## (\d+)\. (.+)',stripped); n,t=m.group(1),m.group(2)
-            current_section={'num':n,'title':t,'anchor':SEC_ANCHORS.get(n,f'sec_{n}'),
-                             'table_rows':[],'bullets':[]}
-            state='section'; continue
-        if stripped.startswith('## Source Documents'):
-            if current_section: doc['sections'].append(current_section); current_section=None
-            state='source_docs'; continue
-        if stripped.startswith('## Key Contacts'): state='contacts'; continue
-        if stripped.startswith('## Appendix A'): state='appendix_a'; doc['appendix_a_title']=stripped[3:]; continue
-        if re.match(r'^#{1,2} Appendix B', stripped): state='appendix_b'; doc['appendix_b_title']=stripped.lstrip('#').strip(); continue
-        if stripped.startswith('## Items Requiring Verification'): state='verify'; continue
-        # Content
-        if state=='preamble': doc['preamble_lines'].append(stripped)
-        elif state=='exec_summary':
-            if stripped and not stripped.startswith('#'): doc['exec_paras'].append(stripped)
-        elif state=='key_findings':
-            if re.match(r'^\d+\. ', stripped): doc['key_findings'].append(stripped)
-        elif state=='section':
-            if stripped.startswith('|'):
-                cleaned = stripped.replace('-','').replace('|','').replace(' ','').replace(':','')
-                if cleaned == '': continue
-                parts=[p.strip() for p in stripped.split('|')[1:-1]]
-                if parts: current_section['table_rows'].append(parts)
-            elif re.match(r'^  +- ', raw):
-                sub_text = re.sub(r'^  +- ', '', raw)
-                if current_section['bullets']:
-                    last = current_section['bullets'][-1]
-                    if isinstance(last, dict):
-                        last['subs'].append(sub_text)
+    for block in blocks:
+        title_low = block['title'].lower()
+        nm = re.match(r'^(\d+)\.\s+(.+)', block['title'])
+        if nm:
+            # Numbered section — extract tables + bullets
+            sec = {'num': nm.group(1), 'title': nm.group(2), 'anchor': block['anchor'],
+                   'table_rows': [], 'bullets': []}
+            for line in block['lines']:
+                raw = line; stripped = line.strip()
+                if not stripped: continue
+                if stripped.startswith('|'):
+                    cleaned = stripped.replace('-', '').replace('|', '').replace(' ', '').replace(':', '')
+                    if cleaned == '': continue
+                    parts = [p.strip() for p in stripped.split('|')[1:-1]]
+                    if parts: sec['table_rows'].append(parts)
+                elif re.match(r'^  +- ', raw):
+                    sub_text = re.sub(r'^  +- ', '', raw)
+                    if sec['bullets']:
+                        last = sec['bullets'][-1]
+                        if isinstance(last, dict):
+                            last['subs'].append(sub_text)
+                        else:
+                            sec['bullets'][-1] = {'text': last, 'subs': [sub_text]}
                     else:
-                        current_section['bullets'][-1] = {'text': last, 'subs': [sub_text]}
-                else:
-                    current_section['bullets'].append(sub_text)
-            elif stripped.startswith('- '):
-                current_section['bullets'].append(stripped[2:])
-        elif state=='source_docs':
-            if stripped.startswith('**How to look up'): doc['source_intro']=stripped
-            elif stripped.startswith('|') and not stripped.startswith('|---') and not stripped.startswith('| #'):
-                parts=[p.strip() for p in stripped.split('|')[1:-1]]
-                if len(parts)>=3: doc['source_rows'].append((parts[0],parts[1],parts[2]))
-        elif state=='contacts':
-            if stripped.startswith('- '): doc['contacts'].append(stripped[2:])
-        elif state=='appendix_a': doc['appendix_a_lines'].append(raw)
-        elif state=='appendix_b': doc['appendix_b_lines'].append(raw)
-        elif state=='verify':
-            if stripped.startswith('- '): doc['verify_items'].append(stripped[2:])
-    if current_section: doc['sections'].append(current_section)
+                        sec['bullets'].append(sub_text)
+                elif stripped.startswith('- '):
+                    sec['bullets'].append(stripped[2:])
+            doc['sections'].append(sec)
+        elif title_low.startswith('executive summary'):
+            doc['exec_paras'] = [s.strip() for s in block['lines']
+                                 if s.strip() and not s.strip().startswith('#')]
+        elif title_low.startswith('key findings'):
+            doc['key_findings'] = [s.strip() for s in block['lines']
+                                   if re.match(r'^\d+\. ', s.strip())]
+        elif title_low.startswith('source documents'):
+            for s in block['lines']:
+                s = s.strip()
+                if s.startswith('**How to look up'): doc['source_intro'] = s
+                elif s.startswith('|') and not s.startswith('|---') and not s.startswith('| #'):
+                    parts = [p.strip() for p in s.split('|')[1:-1]]
+                    if len(parts) >= 3: doc['source_rows'].append((parts[0], parts[1], parts[2]))
+        elif title_low.startswith('key contacts'):
+            doc['contacts'] = [s.strip()[2:] for s in block['lines'] if s.strip().startswith('- ')]
+        elif title_low.startswith('appendix a'):
+            doc['appendix_a_title'] = block['title']
+            doc['appendix_a_lines'] = block['lines']
+        elif title_low.startswith('appendix b'):
+            doc['appendix_b_title'] = block['title']
+            doc['appendix_b_lines'] = block['lines']
+        elif 'items requiring verification' in title_low:
+            doc['verify_items'] = [s.strip()[2:] for s in block['lines'] if s.strip().startswith('- ')]
+        # Sub-headings (### within a ## block) and unrecognized headings are
+        # already captured in their parent block's lines by the splitter above,
+        # since only the first heading creates a new block.  No action needed.
+    _SEC_ANCHORS = {sec['num']: sec['anchor'] for sec in doc['sections']}
     return doc
 
 # ═══════════════════ BUILDERS ═══════════════════
 
 def build_cover(S, dd):
-    note=''; date_line=''
+    note=''; date_lines=[]
     for l in dd['preamble_lines']:
-        if l.startswith('*Prepared') or l.startswith('*March') or l.startswith('*February'):
-            date_line = l.strip('*').strip()
+        if l.startswith('*') and l.endswith('*'):
+            date_lines.append(l.strip('*').strip())
         elif l and not l.startswith('*') and not l.startswith('#'):
             note = l
     els = [Spacer(1,1.5*inch),Paragraph("SMPD ALPR Investigation",S['cover_title']),
             Paragraph("Findings",S['cover_title']),Spacer(1,8),
             HRFlowable(width="40%",thickness=2,color=ACCENT_BLUE,spaceAfter=14,spaceBefore=6,hAlign='LEFT')]
-    if date_line:
+    for date_line in date_lines:
         els.append(Paragraph(date_line,S['cover_sub']))
     els.append(Spacer(1,24))
     if note:

@@ -15,7 +15,7 @@ Council approved 55 Flock Safety devices across two actions (August 2023 and Mar
 
 This document presents eight findings across seven sections, grounded in the department's own records and statements. The findings do not argue for or against the ALPR program. They compare the department's documented commitments against its documented actions.
 
-### Key Findings
+## Key Findings
 
 1. **283 agencies listed as having access — scope inconsistent with policy and statute.** The 2023 staff report told Council that SMPD shares with NCRIC and "allied County law enforcement agencies." As of February 2026, the Flock transparency page listed 283 organizations statewide, including University of the Pacific — a private university whose own Chief of Police confirmed it is not a public agency. UOP was removed from SMPD’s list after a resident raised the issue (see §6).
 
