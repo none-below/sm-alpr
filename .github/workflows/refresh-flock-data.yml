@@ -74,7 +74,9 @@ jobs:
       - name: Generate diff summary
         id: diff
         run: |
-          summary=$(uv run python scripts/diff_scrapes.py)
+          slugs=$(git diff HEAD~1 --name-only -- 'assets/transparency.flocksafety.com/' \
+            | sed 's|assets/transparency.flocksafety.com/||' | cut -d/ -f1 | sort -u)
+          summary=$(uv run python scripts/diff_scrapes.py $slugs)
           echo "$summary"
           {
             echo 'DIFF_SUMMARY<<EOF'

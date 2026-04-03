@@ -73,11 +73,16 @@ def main():
         print("No data directory found.")
         sys.exit(0)
 
+    # If slugs are passed as arguments, only diff those
+    filter_slugs = set(sys.argv[1:]) if len(sys.argv) > 1 else None
+
     all_diffs = []
     unchanged = 0
 
     for slug_dir in sorted(DATA_DIR.iterdir()):
         if not slug_dir.is_dir():
+            continue
+        if filter_slugs and slug_dir.name not in filter_slugs:
             continue
         diff = diff_agency(slug_dir)
         if diff:
