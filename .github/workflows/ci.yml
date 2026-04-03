@@ -12,28 +12,41 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
 
       - name: Install dependencies
         run: uv sync
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
+
       - name: Install Chromium for Playwright
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
 
       - name: PII scan on changed PDFs
         run: |
-          uv run python scripts/pii_scan.py --files $(git diff --name-only origin/main...HEAD | grep -i '\.pdf$' || echo "")
+          PDF_FILES=$(git diff --name-only origin/main...HEAD | grep -i '\.pdf$' || true)
+          if [ -n "$PDF_FILES" ]; then
+            uv run python scripts/pii_scan.py --files $PDF_FILES
+          else
+            echo "No PDF changes, skipping PII scan"
+          fi
 
       - name: Parse transparency portal data
         run: uv run python scripts/flock_transparency.py parse
 
-      - name: Build sharing graph
-        run: uv run python scripts/build_sharing_graph.py
-
-      - name: Build map
-        run: uv run python scripts/build_map.py
-
-      - name: Build findings PDF
-        run: uv run python scripts/md_to_pdf.py
+      - name: Build sharing graph, map, and findings PDF
+        run: |
+          uv run python scripts/build_sharing_graph.py &
+          uv run python scripts/build_map.py &
+          uv run python scripts/md_to_pdf.py &
+          wait
 
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v

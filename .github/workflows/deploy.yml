@@ -22,11 +22,21 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
 
       - name: Install dependencies
         run: uv sync
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
+
       - name: Install Chromium for Playwright
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
 
       - name: Install Tesseract
@@ -35,14 +45,12 @@ jobs:
       - name: Parse transparency portal data
         run: uv run python scripts/flock_transparency.py parse
 
-      - name: Build sharing graph
-        run: uv run python scripts/build_sharing_graph.py
-
-      - name: Build map
-        run: uv run python scripts/build_map.py
-
-      - name: Build findings PDF
-        run: uv run python scripts/md_to_pdf.py
+      - name: Build sharing graph, map, and findings PDF
+        run: |
+          uv run python scripts/build_sharing_graph.py &
+          uv run python scripts/build_map.py &
+          uv run python scripts/md_to_pdf.py &
+          wait
 
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
