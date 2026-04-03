@@ -47,11 +47,6 @@ jobs:
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
 
-      - name: Assemble docs
-        run: |
-          cp outputs/SMPD_ALPR_Findings.pdf docs/SMPD_ALPR_Findings.pdf
-          cp outputs/SMPD_ALPR_Findings.md docs/SMPD_ALPR_Findings.md
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
