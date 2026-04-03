@@ -71,19 +71,46 @@ jobs:
           git commit -m "chore: refresh flock transparency data (batch of ${{ inputs.batch_size || '3' }})"
           git push origin flock-refresh
 
+      - name: Generate diff summary
+        id: diff
+        run: |
+          summary=$(uv run python scripts/diff_scrapes.py)
+          echo "$summary"
+          {
+            echo 'DIFF_SUMMARY<<EOF'
+            echo "$summary"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
       - name: Create or update PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           existing=$(gh pr list --head flock-refresh --state open --json number --jq '.[0].number')
           if [ -n "$existing" ]; then
-            echo "PR #$existing already open, pushed new commits to it"
+            gh pr comment "$existing" --body "$(cat <<'EOF'
+          ### Refresh batch — ${{ inputs.batch_size || '3' }} agencies
+
+          ```
+          ${{ steps.diff.outputs.DIFF_SUMMARY }}
+          ```
+          EOF
+          )"
           else
             gh pr create \
               --title "chore: refresh flock transparency data" \
-              --body "Automated rolling refresh of Flock Safety transparency portal data.
+              --body "$(cat <<EOF
+          Automated rolling refresh of Flock Safety transparency portal data.
 
-          This PR accumulates hourly batches. Merge when ready — the next run will create a fresh branch from main." \
+          This PR accumulates hourly batches. Merge when ready — the next run will create a fresh branch from main.
+
+          ### Initial batch
+
+          \`\`\`
+          ${{ steps.diff.outputs.DIFF_SUMMARY }}
+          \`\`\`
+          EOF
+          )" \
               --head flock-refresh \
               --base main
           fi
