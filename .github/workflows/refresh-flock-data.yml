@@ -40,11 +40,21 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
 
       - name: Install dependencies
         run: uv sync
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
+
       - name: Install Chromium for Playwright
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
 
       - name: Crawl oldest agencies
