@@ -19,6 +19,7 @@ concurrency:
 permissions:
   contents: write
   pull-requests: write
+  statuses: write
 
 jobs:
   refresh:
@@ -93,6 +94,16 @@ jobs:
           fi
           git commit -m "chore: refresh flock transparency data (batch of ${{ inputs.batch_size || '3' }})"
           git push origin flock-refresh
+
+      - name: Report validate status
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sha=$(git rev-parse HEAD)
+          gh api repos/${{ github.repository }}/statuses/$sha \
+            -f state=success \
+            -f context=validate \
+            -f description="Validated by refresh workflow"
 
       - name: Generate diff summary
         id: diff
