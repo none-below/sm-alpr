@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -39,11 +39,11 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
 
-      - name: Install Tesseract
-        run: sudo apt-get install -y tesseract-ocr
-
-      - name: Parse transparency portal data
-        run: uv run python scripts/flock_transparency.py parse
+      - name: Install Tesseract (cached)
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: tesseract-ocr
+          version: 1.0
 
       - name: Build sharing graph, map, and findings PDF
         run: |
@@ -54,6 +54,29 @@ jobs:
 
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
+
+      - name: Check if findings changed
+        id: findings-changed
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ github.event.before }}" ]; then
+            if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -qE '^(docs/SMPD_ALPR_Findings\.md|scripts/md_to_pdf\.py)$'; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      - name: Create findings release
+        if: steps.findings-changed.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="findings-$(date -u +%Y%m%d-%H%M%S)"
+          SUBJECT=$(head -1 docs/SMPD_ALPR_Findings.md | sed 's/^# //')
+          gh release create "$TAG" \
+            docs/SMPD_ALPR_Findings.pdf \
+            --title "$SUBJECT — $(date -u +%Y-%m-%d)" \
+            --notes "Auto-generated from docs/SMPD_ALPR_Findings.md at commit ${{ github.sha }}"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
