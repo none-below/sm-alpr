@@ -58,8 +58,12 @@ jobs:
       - name: Check if findings changed
         id: findings-changed
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -qE '^(docs/SMPD_ALPR_Findings\.md|scripts/md_to_pdf\.py)$'; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ github.event.before }}" ]; then
+            if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -qE '^(docs/SMPD_ALPR_Findings\.md|scripts/md_to_pdf\.py)$'; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
       - name: Create findings release
