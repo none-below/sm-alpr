@@ -234,22 +234,18 @@ class TestLayout:
         b.close()
         pw.stop()
 
-    def test_all_ui_elements_exist(self, browser):
-        """Every element in _UI_ELEMENTS must exist in the page."""
+    def test_ui_elements_and_overlays(self, browser):
+        """All UI elements exist, and no unregistered overlays are present."""
         page = browser.new_page(viewport={"width": 1440, "height": 900})
         page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
         page.wait_for_selector("#map", state="visible", timeout=10000)
+
+        # Every element in _UI_ELEMENTS must exist
         for sel in _UI_ELEMENTS:
             el = page.query_selector(sel)
             assert el is not None, f"UI element {sel} not found in page"
-        page.close()
 
-    def test_no_unregistered_overlays(self, browser):
-        """Catch new positioned overlays not yet in _UI_ELEMENTS."""
-        page = browser.new_page(viewport={"width": 1440, "height": 900})
-        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
-        page.wait_for_selector("#map", state="visible", timeout=10000)
-        # Find all direct children of body with position:absolute/fixed (overlays)
+        # Catch new positioned overlays not yet in _UI_ELEMENTS
         overlays = page.evaluate("""() => {
             const found = [];
             document.querySelectorAll('body > *').forEach(el => {
@@ -261,10 +257,7 @@ class TestLayout:
             });
             return found;
         }""")
-        known = set()
-        for sel in _UI_ELEMENTS:
-            known.add(sel)
-        # edge indicators are expected but not worth overlap-checking (they hide/show dynamically)
+        known = set(_UI_ELEMENTS)
         # Dynamically shown/hidden elements that don't need overlap checks in default state
         known.update(["#edge-left", "#edge-right", "#edge-top", "#edge-bottom",
                        "#offmap", "#infoToggle", "#search-results"])
@@ -278,18 +271,18 @@ class TestLayout:
         page.close()
 
     @pytest.mark.parametrize("vp", VIEWPORTS, ids=lambda v: v["name"])
-    def test_no_element_overlap(self, browser, vp):
+    def test_layout_at_viewport(self, browser, vp):
+        """No overlaps, all elements visible and within viewport bounds."""
         page = browser.new_page(viewport={"width": vp["width"], "height": vp["height"]})
         page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
-        # Wait for map to initialize
         page.wait_for_selector("#map", state="visible", timeout=10000)
 
+        # -- No element overlap --
         for sel_a, sel_b in _NO_OVERLAP_PAIRS:
             el_a = page.query_selector(sel_a)
             el_b = page.query_selector(sel_b)
             if not el_a or not el_b:
                 continue
-            # Skip hidden elements
             if not el_a.is_visible() or not el_b.is_visible():
                 continue
             box_a = el_a.bounding_box()
@@ -300,28 +293,16 @@ class TestLayout:
                 f"{sel_a} overlaps {sel_b} at {vp['name']} ({vp['width']}x{vp['height']}): "
                 f"{sel_a}={box_a}, {sel_b}={box_b}"
             )
-        page.close()
 
-    @pytest.mark.parametrize("vp", VIEWPORTS, ids=lambda v: v["name"])
-    def test_ui_elements_visible_and_in_viewport(self, browser, vp):
-        """All UI elements should be visible and fully within the viewport."""
-        page = browser.new_page(viewport={"width": vp["width"], "height": vp["height"]})
-        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
-        page.wait_for_selector("#map", state="visible", timeout=10000)
-
-        # Elements that are hidden by default (shown dynamically)
+        # -- All elements visible and in viewport --
         hidden_by_default = {"#violation-banner"}
-
         for sel in _UI_ELEMENTS:
             el = page.query_selector(sel)
             if not el:
                 continue
-            # Some elements are hidden on certain viewports by design
             if not el.is_visible():
-                # Legend hides on mobile — that's expected
                 if sel == ".legend" and vp["width"] < 769:
                     continue
-                # Violation banner hidden until agency is clicked
                 if sel in hidden_by_default:
                     continue
                 pytest.fail(f"{sel} not visible at {vp['name']} ({vp['width']}x{vp['height']})")
