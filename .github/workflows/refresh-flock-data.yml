@@ -33,7 +33,7 @@ jobs:
           git fetch origin flock-refresh || true
           if git rev-parse --verify origin/flock-refresh >/dev/null 2>&1; then
             git checkout flock-refresh
-            git merge origin/main --no-edit || true
+            git rebase origin/main || { git rebase --abort; git reset --hard origin/main; }
           else
             git checkout -b flock-refresh
           fi
@@ -72,7 +72,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout origin/main -- .github/workflows/
           git add assets/transparency.flocksafety.com/
           if git diff --cached --quiet; then
             echo "No changes to commit"
