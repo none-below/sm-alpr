@@ -1,4 +1,52 @@
 {
+  "meta": {
+    "state": "CA",
+    "agencies_in_registry": 467,
+    "agencies_crawled": 131,
+    "agencies_no_portal": 260
+  },
+  "no_sharing_published": [
+    {
+      "slug": "alameda-county-ca-so",
+      "name": "Alameda County CA SO"
+    },
+    {
+      "slug": "benicia-ca-pd",
+      "name": "Benicia CA PD"
+    },
+    {
+      "slug": "carmel-ca-pd",
+      "name": "Carmel CA PD"
+    },
+    {
+      "slug": "emeryville-ca-pd",
+      "name": "Emeryville CA PD"
+    },
+    {
+      "slug": "foster-city-ca-pd",
+      "name": "Foster City CA PD"
+    },
+    {
+      "slug": "grass-valley-ca-pd",
+      "name": "Grass Valley CA PD"
+    },
+    {
+      "slug": "marina-ca-pd",
+      "name": "Marina CA PD"
+    },
+    {
+      "slug": "nevada-county-ca-so",
+      "name": "Nevada County CA SO"
+    },
+    {
+      "slug": "oakland-ca-pd",
+      "name": "Oakland CA PD"
+    },
+    {
+      "slug": "oroville-ca-pd",
+      "name": "Oroville CA PD"
+    }
+  ],
   "categories": [
     {
       "id": "out_of_state",
@@ -213,7 +261,7 @@
           "rank": 2,
           "name": "NCRIC",
           "slug": "ncric",
-          "value": 3146
+          "value": 3037
         },
         {
           "rank": 3,
@@ -403,6 +451,19 @@
           "name": "Ventura County CA SO",
           "slug": "ventura-county-ca-so",
           "value": 365
+        }
+      ]
+    },
+    {
+      "id": "conflicts",
+      "title": "Most Conflicting Sharing Data",
+      "subtitle": "Other agencies claim to receive their data, but their outbound list disagrees",
+      "podium": [
+        {
+          "rank": 1,
+          "name": "Livingston CA PD",
+          "slug": "livingston-ca-pd",
+          "value": 1
         }
       ]
     }
