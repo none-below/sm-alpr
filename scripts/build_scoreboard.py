@@ -17,6 +17,9 @@ GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json"
 DATA_DIR = Path("assets/transparency.flocksafety.com")
 OUT_PATH = Path("docs/data/scoreboard_data.json")
 
+# Only CA agencies are ranked
+RANKED_STATE = "CA"
+
 
 def is_violation_entity(slug, registry_by_slug):
     """Match the violation logic from build_map.py."""
@@ -126,6 +129,64 @@ def main():
             "searches_30d": crawled_stats.get("searches_30d"),
         })
 
+    # ── Compute conflict / transparency-gap metrics ──
+
+    # Load the full graph (with mismatches) for conflict analysis
+    mismatches = graph.get("mismatches", [])
+
+    # Per-agency conflict count: cases where Agency B's inbound claims
+    # that Source A shares with it, but Source A publishes an outbound
+    # list that doesn't include B.  Rank by how many such claims point
+    # at a given source.  Self-references are excluded.
+    from collections import defaultdict
+    source_conflict_targets = defaultdict(list)  # source -> [receivers]
+    for m in mismatches:
+        if m["type"] == "inbound_not_confirmed" and m.get("source_has_outbound_list"):
+            source = m["claims_shared_by"]
+            receiver = m["agency"]
+            if source != receiver:
+                source_conflict_targets[source].append(receiver)
+
+    for a in agencies:
+        a["sharing_conflicts"] = len(source_conflict_targets.get(a["slug"], []))
+
+    # Agencies with a crawled portal but zero sharing list published
+    # (they have a transparency page but hide who they share with)
+    no_sharing_slugs = set()
+    for slug, data in graph["agencies"].items():
+        if data.get("crawled") and data.get("outbound_count", 0) == 0:
+            # Check they actually don't publish sharing data at all
+            if not data.get("outbound_slugs"):
+                no_sharing_slugs.add(slug)
+
+    no_sharing_list = []
+    for a in agencies:
+        if a["slug"] in no_sharing_slugs:
+            no_sharing_list.append({"slug": a["slug"], "name": a["name"]})
+    # Also include crawled agencies that weren't in the ranked set
+    # (they might have been filtered out for other reasons)
+    for slug in sorted(no_sharing_slugs):
+        if not any(ns["slug"] == slug for ns in no_sharing_list):
+            info = registry_by_slug.get(slug, {})
+            no_sharing_list.append({
+                "slug": slug,
+                "name": info.get("human_name", info.get("flock_name", slug)),
+            })
+
+    # ── Compute metadata for disclaimers ──
+
+    ca_in_registry = sum(1 for a in registry if a.get("state") == RANKED_STATE)
+    ca_crawled = sum(
+        1 for slug, d in graph["agencies"].items()
+        if d.get("crawled") and registry_by_slug.get(slug, {}).get("state") == RANKED_STATE
+    )
+    # Agencies known to use Flock (appear in other agencies' sharing lists)
+    # but have no findable transparency portal
+    ca_no_portal = sum(
+        1 for slug, d in graph["agencies"].items()
+        if not d.get("crawled") and registry_by_slug.get(slug, {}).get("state") == RANKED_STATE
+    )
+
     # Build categories — top 3 for each, spiciest first
     categories = [
         {
@@ -188,9 +249,24 @@ def main():
             "subtitle": "Agencies keeping your plate data the longest",
             "key": "retention_days",
         },
+        {
+            "id": "conflicts",
+            "title": "Most Conflicting Sharing Data",
+            "subtitle": "Other agencies claim to receive their data, but their outbound list disagrees",
+            "key": "sharing_conflicts",
+        },
     ]
 
-    scoreboard = {"categories": []}
+    scoreboard = {
+        "meta": {
+            "state": RANKED_STATE,
+            "agencies_in_registry": ca_in_registry,
+            "agencies_crawled": ca_crawled,
+            "agencies_no_portal": ca_no_portal,
+        },
+        "no_sharing_published": no_sharing_list,
+        "categories": [],
+    }
     for cat in categories:
         key = cat["key"]
         ranked = sorted(

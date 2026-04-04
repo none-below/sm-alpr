@@ -118,7 +118,7 @@ class TestScoreboardData:
         self.data = json.loads(SCOREBOARD_DATA.read_text())
 
     def test_has_categories(self):
-        assert len(self.data["categories"]) == 10
+        assert len(self.data["categories"]) == 11
 
     def test_category_ids_unique(self):
         ids = [c["id"] for c in self.data["categories"]]
@@ -178,6 +178,24 @@ class TestScoreboardData:
     def test_spicy_categories_first(self):
         ids = [c["id"] for c in self.data["categories"]]
         assert ids[:5] == ["out_of_state", "non_conforming", "indirect", "cameras", "outbound"]
+
+    def test_has_meta(self):
+        assert "meta" in self.data
+        meta = self.data["meta"]
+        assert meta["state"] == "CA"
+        assert meta["agencies_crawled"] > 0
+        assert meta["agencies_in_registry"] > meta["agencies_crawled"]
+        assert meta["agencies_no_portal"] >= 0
+
+    def test_has_no_sharing_published(self):
+        assert "no_sharing_published" in self.data
+        for entry in self.data["no_sharing_published"]:
+            assert "slug" in entry
+            assert "name" in entry
+
+    def test_conflicts_category_exists(self):
+        ids = [c["id"] for c in self.data["categories"]]
+        assert "conflicts" in ids
 
     def test_all_values_positive(self):
         for cat in self.data["categories"]:

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://gc.zgo.at;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at;">
 <title>ALPR Sharing Scoreboard — California</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -122,6 +122,52 @@
     font-size: 13px;
   }
   .back-link:hover { text-decoration: underline; }
+  .disclaimers {
+    max-width: 700px;
+    margin: 0 auto 8px;
+    padding: 0 20px;
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.6;
+  }
+  .disclaimers ul {
+    margin: 8px 0 0 20px;
+    padding: 0;
+    list-style: disc;
+  }
+  .disclaimers li { margin-bottom: 4px; }
+  .disclaimers .stat { color: #e2e8f0; font-weight: 600; }
+  .no-sharing-card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #334155;
+  }
+  .no-sharing-card .card-title { margin-bottom: 4px; }
+  .no-sharing-card .card-subtitle { margin-bottom: 16px; }
+  .no-sharing-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .no-sharing-list li {
+    font-size: 13px;
+    color: #cbd5e1;
+    padding: 4px 0;
+    border-bottom: 1px solid #334155;
+  }
+  .no-sharing-list li:last-child { border-bottom: none; }
+  .no-sharing-list a {
+    color: #cbd5e1;
+    text-decoration: none;
+  }
+  .no-sharing-list a:hover {
+    color: #60a5fa;
+    text-decoration: underline;
+  }
   @media (max-width: 720px) {
     .grid { grid-template-columns: 1fr; }
     .header h1 { font-size: 22px; }
@@ -134,9 +180,10 @@
   <a class="back-link" href="index.html">&larr; Back to investigation</a>
   <h1>ALPR Sharing Scoreboard</h1>
   <p>Top 3 California agencies in each category, based on data from
-    <a href="sharing_map.html">Flock Safety transparency portals</a>.
-    Only agencies with crawled portal data are ranked.</p>
+    <a href="sharing_map.html">Flock Safety transparency portals</a>.</p>
 </div>
+
+<div class="disclaimers" id="disclaimers"></div>
 
 <div class="grid" id="grid"></div>
 
@@ -184,12 +231,51 @@ function renderCategory(cat) {
   return card;
 }
 
+function renderDisclaimers(meta) {
+  var html = '<ul>';
+  html += '<li>Only <strong>California</strong> agencies are ranked.</li>';
+  html += '<li>Only agencies with a visible Flock Safety transparency portal are included &mdash; '
+    + '<span class="stat">' + meta.agencies_crawled + '</span> of '
+    + '<span class="stat">' + meta.agencies_in_registry + '</span> known California Flock agencies.</li>';
+  html += '<li><span class="stat">' + meta.agencies_no_portal
+    + '</span> California agencies appear in other agencies\u2019 sharing lists but have no findable transparency portal.</li>';
+  html += '</ul>';
+  return html;
+}
+
+function renderNoSharingCard(list) {
+  if (!list || list.length === 0) return null;
+  var card = document.createElement('div');
+  card.className = 'no-sharing-card';
+  var html = '<div class="card-title">Transparency Gaps</div>'
+    + '<div class="card-subtitle">' + list.length + ' agencies have a portal but publish no sharing data</div>'
+    + '<ul class="no-sharing-list">';
+  for (var i = 0; i < list.length; i++) {
+    html += '<li><a href="sharing_map.html#' + encodeURIComponent(list[i].slug)
+      + '" target="_blank">' + list[i].name + '</a></li>';
+  }
+  html += '</ul>';
+  card.innerHTML = html;
+  return card;
+}
+
 fetch('data/scoreboard_data.json')
   .then(function(r) { return r.json(); })
   .then(function(data) {
+    // Render disclaimers
+    if (data.meta) {
+      document.getElementById('disclaimers').innerHTML = renderDisclaimers(data.meta);
+    }
+
     var grid = document.getElementById('grid');
     for (var i = 0; i < data.categories.length; i++) {
       grid.appendChild(renderCategory(data.categories[i]));
+    }
+
+    // Render no-sharing card at the end
+    var noSharingCard = renderNoSharingCard(data.no_sharing_published);
+    if (noSharingCard) {
+      grid.appendChild(noSharingCard);
     }
   })
   .catch(function(err) {
