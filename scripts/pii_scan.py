@@ -37,6 +37,8 @@ ALLOWED_EMAIL_DOMAINS = {
     "pacific.edu",
     "lexipol.com",
     "mycusthelp.net",
+    "ncric.net",
+    "ncric.ca.gov",
 }
 
 # Known public SMPD phone numbers (650-522-xxxx)
