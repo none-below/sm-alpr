@@ -5,11 +5,17 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -29,6 +35,33 @@ jobs:
       - name: Install Chromium for Playwright
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
+
+      - name: Install Tesseract (cached)
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: tesseract-ocr
+          version: 1.0
+
+      - name: Generate OCR sidecars for changed PDFs
+        run: |
+          PDF_FILES=$(git diff --name-only origin/main...HEAD -- 'assets/' | grep -i '\.pdf$' || true)
+          if [ -n "$PDF_FILES" ]; then
+            uv run python scripts/ocr_sidecar.py --files $PDF_FILES
+          else
+            echo "No PDF changes in assets/, skipping OCR sidecars"
+          fi
+
+      - name: Commit OCR sidecars
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add 'assets/**/*.txt'
+          if git diff --cached --quiet; then
+            echo "No new sidecars to commit"
+          else
+            git commit -m "chore: generate OCR sidecars for new PDFs"
+            git push
+          fi
 
       - name: PII scan on changed PDFs
         run: |
