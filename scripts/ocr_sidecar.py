@@ -95,11 +95,6 @@ def generate_sidecar(pdf_path, force=False):
         else:
             pages.append(f"--- page {page_num + 1} ---\n{native}")
 
-    # Skip if OCR added no meaningful text — the PDF is already searchable
-    if ocr_chars == 0:
-        doc.close()
-        return None
-
     doc.close()
 
     full_text = "\n\n".join(pages)
