@@ -199,7 +199,7 @@ def main():
             return True
         if r.get("state") and r["state"] != "CA":
             return True
-        if r.get("agency_type") in ("federal", "decommissioned", "test"):
+        if r.get("agency_type") in ("federal", "fusion_center", "decommissioned", "test"):
             return True
         return False
 
@@ -424,7 +424,7 @@ def _generate_html(marker_count):
 <div class="legend">
   <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div> Public agency</div>
   <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Shares with non-conforming entity</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Non-conforming entity (private/out-of-state/decommissioned)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Non-conforming entity (private/out-of-state/fusion center)</div>
   <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div> Selected</div>
   <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div> No transparency page found</div>
   <div class="legend-item"><div style="width:20px;height:2px;background:#2563eb"></div> Shares with (outbound)</div>

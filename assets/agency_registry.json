@@ -3591,12 +3591,12 @@
     "federal": false,
     "state": "CA",
     "agency_role": "intelligence",
-    "agency_type": "state",
+    "agency_type": "fusion_center",
     "website": null,
     "crawled": true,
     "crawled_date": "2026-03-27",
     "needs_review": false,
-    "notes": "NCRIC is a re-sharing hub: agencies that share with NCRIC have their data redistributed to 318 entities, including private universities (Stanford, USF, UOP) that do not qualify as public agencies under SB 34. An agency sharing with NCRIC may not be aware its data reaches non-public entities. NCRIC's <a href=\"https://ncric.ca.gov/wp-content/uploads/2024/05/NCRIC-ALPR-POLICY-2024.pdf\">ALPR Policy</a> authorizes multi-agency sharing, integration, and access of ALPR data among participating agencies. See also: <a href=\"https://ncric.ca.gov/wp-content/uploads/2021/10/NCRIC-Data-Sharing-MOU.pdf\">NCRIC Data Sharing MOU</a>."
+    "notes": "NCRIC is a re-sharing hub: agencies that share with NCRIC have their data redistributed to 318 entities, including private universities (Stanford, USF, UOP) that do not qualify as public agencies under SB 34. An agency sharing with NCRIC may not be aware its data reaches non-public entities. NCRIC's <a href=\"https://ncric.ca.gov/wp-content/uploads/2024/05/NCRIC-ALPR-POLICY-2024.pdf\">ALPR Policy</a> authorizes multi-agency sharing, integration, and access of ALPR data among participating agencies. See also: <a href=\"https://ncric.ca.gov/wp-content/uploads/2021/10/NCRIC-Data-Sharing-MOU.pdf\">NCRIC Data Sharing MOU</a>.<br><br><strong>Federal characteristics:</strong> NCRIC may not qualify as a \u201cpublic agency\u201d under CA Civil Code \u00a71798.90.5(f). It was created by the NC HIDTA Executive Board \u2014 not by statute or executive order. It is housed in the Phillip Burton Federal Building (GSA-managed), staffed primarily with federal analysts under DHS/ODNI grants, and governed by an 18-member board where 9 of 18 seats are held by federal agencies (ATF, DEA, FBI, IRS-CI, U.S. Marshals, DHS, Postal Inspection, U.S. Forest Service, U.S. Attorney NDCA). It operates under 28 CFR Part 23, a federal regulation. Its Flock transparency page states it will not share with \u201cfederal law enforcement\u201d \u2014 yet federal law enforcement agencies hold half the seats on its governing board."
   },
   {
     "slug": "nevada-city-ca-pd",
@@ -6279,16 +6279,16 @@
     "human_name": "Western States Information Network (CA)",
     "lat": 38.59,
     "lng": -121.52,
-    "public": true,
-    "federal": true,
-    "state": null,
+    "public": false,
+    "federal": false,
+    "state": "CA",
     "agency_role": "intelligence",
-    "agency_type": "federal",
+    "agency_type": "fusion_center",
     "website": "https://oag.ca.gov/bi/wsin",
     "crawled": false,
     "crawled_date": null,
     "needs_review": false,
-    "notes": "Federally funded intelligence center. One of six <a href=\"https://www.riss.net/\" target=\"_blank\">RISS</a> centers funded by Congress through the U.S. DOJ. Serves Alaska, California, Hawaii, Oregon, and Washington. <a href=\"https://oag.ca.gov/bi/wsin\" target=\"_blank\">CA DOJ page</a>. Multi-state sharing hub \u2014 data shared with WSIN may be redistributed across five states and international partners."
+    "notes": "WSIN is a <strong>501(c)(3) nonprofit corporation</strong> (EIN 27-1453421), not a government agency. It is one of six <a href=\"https://www.riss.net/\" target=\"_blank\">RISS</a> centers, 100% funded by BJA (DOJ) grants. Serves Alaska, California, Hawaii, Oregon, and Washington. <a href=\"https://oag.ca.gov/bi/wsin\" target=\"_blank\">CA DOJ page</a>. Multi-state sharing hub \u2014 data shared with WSIN may be redistributed across five states and international partners.<br><br><strong>Not a public agency:</strong> WSIN incorporated as a California nonprofit in 2009 after separating from CA DOJ, which previously served as its fiscal agent. It employs 47 nonprofit employees (explicitly \u201cnot state positions\u201d). Its policy board is composed entirely of state/local officials from five states (no federal seats), but it operates under 28 CFR Part 23 (federal regulation) and is 100% federally funded (~$7.5M/yr from BJA). As a 501(c)(3) nonprofit, WSIN likely does not qualify as a \u201cpublic agency\u201d under CA Civil Code \u00a71798.90.5(f), which defines public agency as \u201cthe state, any city, county, or city and county, or any agency or political subdivision\u201d thereof."
   },
   {
     "slug": "westminster-ca-pd",

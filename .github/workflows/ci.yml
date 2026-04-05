@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
+  actions: read
 
 jobs:
   validate:
@@ -72,12 +74,82 @@ jobs:
             echo "No PDF changes, skipping PII scan"
           fi
 
-      - name: Build sharing graph, map, and findings PDF
+      - name: Build sharing graph, map, scoreboard, and findings PDF
         run: |
-          uv run python scripts/build_sharing_graph.py &
+          uv run python scripts/build_sharing_graph.py
           uv run python scripts/build_map.py &
+          uv run python scripts/build_scoreboard.py &
           uv run python scripts/md_to_pdf.py &
           wait
 
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
+
+      - name: Check for web content changes
+        id: web-changes
+        run: |
+          CHANGED=$(git diff --name-only origin/main...HEAD | grep -E '^(docs/|scripts/(build_map|build_scoreboard|map\.js|md_to_pdf))' || true)
+          if [ -n "$CHANGED" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Web content changed:"
+            echo "$CHANGED"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No web content changes, skipping screenshots"
+          fi
+
+      - name: Screenshot pages
+        if: steps.web-changes.outputs.changed == 'true'
+        run: uv run python scripts/screenshot_pages.py --out /tmp/screenshots
+
+      - name: Publish screenshots & comment on PR
+        if: steps.web-changes.outputs.changed == 'true' && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          PR_NUM="${{ github.event.pull_request.number }}"
+          REPO="${{ github.repository }}"
+          BRANCH="preview-assets/pr-${PR_NUM}"
+
+          # Push screenshots to an ephemeral branch (no CI trigger —
+          # workflows only fire on PRs to main, not branch pushes)
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan "${BRANCH}"
+          git rm -rf --quiet .
+          cp /tmp/screenshots/*.png .
+          git add *.png
+          git commit -m "page preview screenshots for PR #${PR_NUM}"
+          git push origin "${BRANCH}" --force
+
+          SHA=$(git rev-parse HEAD)
+          RAW="https://raw.githubusercontent.com/${REPO}/${SHA}"
+
+          # Delete previous preview comments
+          gh api "repos/${REPO}/issues/${PR_NUM}/comments" --paginate -q \
+            '.[] | select(.body | contains("<!-- page-preview -->")) | .id' | \
+            while read -r cid; do
+              gh api -X DELETE "repos/${REPO}/issues/comments/${cid}" || true
+            done
+
+          # Build comment with inline images
+          BODY="<!-- page-preview -->
+          ## Page Preview
+
+          ### index
+          ![index](${RAW}/index.png)
+
+          ### sharing map
+          ![sharing_map](${RAW}/sharing_map.png)
+
+          ### scoreboard
+          ![scoreboard](${RAW}/scoreboard.png)
+
+          *Updated $(date -u +%Y-%m-%dT%H:%M:%SZ)*
+          "
+
+          gh pr comment "${PR_NUM}" --body "${BODY}"
+
+          # Return to PR branch for any subsequent steps
+          git checkout "${{ github.head_ref }}"
