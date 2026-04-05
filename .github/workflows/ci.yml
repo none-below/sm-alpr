@@ -85,25 +85,11 @@ jobs:
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
 
-      - name: Check for web content changes
-        id: web-changes
-        run: |
-          CHANGED=$(git diff --name-only origin/main...HEAD | grep -E '^(docs/|assets/agency_registry\.json|scripts/(build_map|build_scoreboard|build_sharing_graph|map\.js|md_to_pdf))' || true)
-          if [ -n "$CHANGED" ]; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "Web content changed:"
-            echo "$CHANGED"
-          else
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No web content changes, skipping screenshots"
-          fi
-
       - name: Screenshot pages
-        if: steps.web-changes.outputs.changed == 'true'
         run: uv run python scripts/screenshot_pages.py --out /tmp/screenshots
 
       - name: Publish screenshots & comment on PR
-        if: steps.web-changes.outputs.changed == 'true' && github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
