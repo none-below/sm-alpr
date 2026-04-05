@@ -195,6 +195,7 @@ _UI_ELEMENTS = [
     "#violation-banner",
     ".info-panel",
     ".legend",
+    ".back-link",
 ]
 
 # Build all unique pairs
