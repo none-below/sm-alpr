@@ -17,7 +17,8 @@ from pathlib import Path
 DOCS_DIR = Path("docs")
 PAGES = [
     ("index.html", "index", {"width": 800, "height": 600}),
-    ("sharing_map.html", "sharing_map", {"width": 1280, "height": 900}),
+    # Map is 100vh so full_page won't extend it — use a tall viewport
+    ("sharing_map.html", "sharing_map", {"width": 1280, "height": 1800}),
     ("scoreboard.html", "scoreboard", {"width": 1280, "height": 900}),
 ]
 
@@ -56,7 +57,7 @@ def main():
                 if "map" in slug:
                     page.wait_for_timeout(2000)
                 out_path = args.out / f"{slug}.png"
-                page.screenshot(path=str(out_path), full_page=(slug == "index"))
+                page.screenshot(path=str(out_path), full_page=True)
                 print(f"Captured {out_path}")
                 page.close()
             browser.close()
