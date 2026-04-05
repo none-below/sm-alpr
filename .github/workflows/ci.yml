@@ -88,7 +88,7 @@ jobs:
       - name: Check for web content changes
         id: web-changes
         run: |
-          CHANGED=$(git diff --name-only origin/main...HEAD | grep -E '^(docs/|scripts/(build_map|build_scoreboard|map\.js|md_to_pdf))' || true)
+          CHANGED=$(git diff --name-only origin/main...HEAD | grep -E '^(docs/|assets/agency_registry\.json|scripts/(build_map|build_scoreboard|build_sharing_graph|map\.js|md_to_pdf))' || true)
           if [ -n "$CHANGED" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Web content changed:"
