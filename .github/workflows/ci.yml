@@ -101,72 +101,54 @@ jobs:
         if: steps.web-changes.outputs.changed == 'true'
         run: uv run python scripts/screenshot_pages.py --out /tmp/screenshots
 
-      - name: Upload screenshots & comment on PR
+      - name: Publish screenshots & comment on PR
         if: steps.web-changes.outputs.changed == 'true' && github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const path = require('path');
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          PR_NUM="${{ github.event.pull_request.number }}"
+          REPO="${{ github.repository }}"
+          BRANCH="preview-assets/pr-${PR_NUM}"
 
-            const marker = '<!-- page-preview -->';
-            const issue_number = context.issue.number;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
+          # Push screenshots to an ephemeral branch (no CI trigger —
+          # workflows only fire on PRs to main, not branch pushes)
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan "${BRANCH}"
+          git rm -rf --quiet .
+          cp /tmp/screenshots/*.png .
+          git add *.png
+          git commit -m "page preview screenshots for PR #${PR_NUM}"
+          git push origin "${BRANCH}" --force
 
-            // Delete previous preview comments
-            const comments = await github.rest.issues.listComments({
-              owner, repo, issue_number, per_page: 100,
-            });
-            for (const c of comments.data) {
-              if (c.body && c.body.includes(marker)) {
-                await github.rest.issues.deleteComment({
-                  owner, repo, comment_id: c.id,
-                });
-              }
-            }
+          SHA=$(git rev-parse HEAD)
+          RAW="https://raw.githubusercontent.com/${REPO}/${SHA}"
 
-            // Read screenshots and build comment
-            const dir = '/tmp/screenshots';
-            const files = fs.readdirSync(dir).filter(f => f.endsWith('.png')).sort();
-            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+          # Delete previous preview comments
+          gh api "repos/${REPO}/issues/${PR_NUM}/comments" --paginate -q \
+            '.[] | select(.body | contains("<!-- page-preview -->")) | .id' | \
+            while read -r cid; do
+              gh api -X DELETE "repos/${REPO}/issues/comments/${cid}" || true
+            done
 
-            let body = `${marker}\n## Page Preview\n\n`;
-            body += `This PR changes web content. Page screenshots captured at build time.\n\n`;
-            body += `| Page | Download |\n|---|---|\n`;
+          # Build comment with inline images
+          BODY="<!-- page-preview -->
+          ## Page Preview
 
-            for (const file of files) {
-              const name = path.basename(file, '.png');
-              const label = name.replace(/_/g, ' ');
-              body += `| ${label} | [preview-${name}.png](${runUrl}#artifacts) |\n`;
-            }
+          ### index
+          ![index](${RAW}/index.png)
 
-            body += `\n*Updated ${new Date().toISOString().slice(0,16)}Z*\n`;
+          ### sharing map
+          ![sharing_map](${RAW}/sharing_map.png)
 
-            await github.rest.issues.createComment({
-              owner, repo, issue_number, body,
-            });
+          ### scoreboard
+          ![scoreboard](${RAW}/scoreboard.png)
 
-      - name: Upload index screenshot
-        if: steps.web-changes.outputs.changed == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: preview-index
-          path: /tmp/screenshots/index.png
-          retention-days: 5
+          *Updated $(date -u +%Y-%m-%dT%H:%M:%SZ)*
+          "
 
-      - name: Upload sharing map screenshot
-        if: steps.web-changes.outputs.changed == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: preview-sharing-map
-          path: /tmp/screenshots/sharing_map.png
-          retention-days: 5
+          gh pr comment "${PR_NUM}" --body "${BODY}"
 
-      - name: Upload scoreboard screenshot
-        if: steps.web-changes.outputs.changed == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: preview-scoreboard
-          path: /tmp/screenshots/scoreboard.png
-          retention-days: 5
+          # Return to PR branch for any subsequent steps
+          git checkout "${{ github.head_ref }}"
