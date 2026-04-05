@@ -125,7 +125,7 @@ class TestRegistry:
 
     def test_no_null_public_for_known_types(self):
         """Entities with known types should have public set."""
-        known_types = {"city", "county", "state", "federal", "university", "private", "tribal"}
+        known_types = {"city", "county", "state", "federal", "fusion_center", "university", "private", "tribal"}
         for e in self.registry:
             if e.get("agency_type") in known_types:
                 assert e.get("public") is not None, f"{e['slug']} type={e['agency_type']} but public=None"

@@ -111,6 +111,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     if (info.public === false && info.type !== 'test') return true;  // private entity
     if (info.state && info.state !== 'CA') return true;               // out-of-state
     if (info.type === 'federal') return true;                         // federal — not "agency of the state" per §1798.90.5(f)
+    if (info.type === 'fusion_center') return true;                    // fusion center — may not qualify as public agency per §1798.90.5(f)
     if (info.type === 'decommissioned') return true;
     if (info.type === 'test') return true;
     return false;
@@ -141,6 +142,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     if (info.state && info.state !== 'CA') return 0;           // out-of-state
     if (info.public === false) return 1;                        // private
     if (info.type === 'federal') return 2;                      // federal — not agency of the state
+    if (info.type === 'fusion_center') return 2;                // fusion center — questionable public agency status
     if (info.type === 'decommissioned') return 3;               // decommissioned/DNU
     if (info.type === 'test') return 4;                         // test/demo
     if (info.notes && info.notes.indexOf('re-sharing') >= 0) return 5;  // re-sharing risk
@@ -174,6 +176,8 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Civil Code \u00a71798.90.55(b) restricts ALPR sharing to public agencies">[PRIVATE \u2014 likely violates SB 34]</span>';
     if (info.type === 'federal')
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Federal entity \u2014 not an agency of the state per CA Civil Code \u00a71798.90.5(f). AG Bulletin 2023-DLE-06 prohibits sharing with federal agencies.">[FEDERAL]</span>';
+    if (info.type === 'fusion_center')
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Fusion center \u2014 may not qualify as a \u201cpublic agency\u201d under CA Civil Code \u00a71798.90.5(f). See notes for details.">[FUSION CENTER]</span>';
     if ((info.type === 'decommissioned' || info.type === 'test') && info.public !== false)
       tag += ' <span style="color:#dc2626;font-weight:bold" title="' + (info.type === 'decommissioned' ? 'Decommissioned/DNU entry' : 'Test/demo entry') + ' \u2014 not a public agency. Sharing ALPR data with non-agency accounts likely violates CA Civil Code \u00a71798.90.55(b).">[NOT AN AGENCY \u2014 likely violates SB 34]</span>';
     // Flag agencies under AG lawsuit
@@ -596,6 +600,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       if (info.role) html += '<p class="stat">Role: ' + escapeHtml(info.role) + '</p>';
       if (info.type) html += '<p class="stat">Type: ' + escapeHtml(info.type) + '</p>';
       if (info.type === 'federal') html += '<p class="stat" style="color:#dc2626">Federal entity \u2014 not an \u201cagency of the state\u201d per \u00a71798.90.5(f). AG Bulletin prohibits sharing with federal agencies.</p>';
+      else if (info.type === 'fusion_center') html += '<p class="stat" style="color:#dc2626">Fusion center \u2014 may not qualify as a \u201cpublic agency\u201d under \u00a71798.90.5(f). See notes below.</p>';
       else if (info.public === true) html += '<p class="stat" style="color:#16a34a">Public agency</p>';
       if (info.public === false) html += '<p class="stat" style="color:#dc2626">Not a public agency \u2014 sharing likely violates SB 34</p>';
       if (info.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + info.notes + '</p>';
@@ -714,6 +719,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       let tag = '';
       if (info.public === false) tag = ' <span class="sr-tag">[private]</span>';
       else if (info.type === 'federal') tag = ' <span class="sr-tag">[federal]</span>';
+      else if (info.type === 'fusion_center') tag = ' <span class="sr-tag">[fusion center]</span>';
       else if (!m.lat) tag = ' <span class="sr-tag">[not mapped]</span>';
       html += '<div data-slug="' + escapeHtml(m.slug) + '">' + escapeHtml(info.name || m.slug) + tag + '</div>';
     });

@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
+  actions: read
 
 jobs:
   validate:
@@ -81,3 +83,90 @@ jobs:
 
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
+
+      - name: Check for web content changes
+        id: web-changes
+        run: |
+          CHANGED=$(git diff --name-only origin/main...HEAD | grep -E '^(docs/|scripts/(build_map|build_scoreboard|map\.js|md_to_pdf))' || true)
+          if [ -n "$CHANGED" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Web content changed:"
+            echo "$CHANGED"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No web content changes, skipping screenshots"
+          fi
+
+      - name: Screenshot pages
+        if: steps.web-changes.outputs.changed == 'true'
+        run: uv run python scripts/screenshot_pages.py --out /tmp/screenshots
+
+      - name: Upload screenshots & comment on PR
+        if: steps.web-changes.outputs.changed == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const marker = '<!-- page-preview -->';
+            const issue_number = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            // Delete previous preview comments
+            const comments = await github.rest.issues.listComments({
+              owner, repo, issue_number, per_page: 100,
+            });
+            for (const c of comments.data) {
+              if (c.body && c.body.includes(marker)) {
+                await github.rest.issues.deleteComment({
+                  owner, repo, comment_id: c.id,
+                });
+              }
+            }
+
+            // Read screenshots and build comment
+            const dir = '/tmp/screenshots';
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.png')).sort();
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+
+            let body = `${marker}\n## Page Preview\n\n`;
+            body += `This PR changes web content. Page screenshots captured at build time.\n\n`;
+            body += `| Page | Download |\n|---|---|\n`;
+
+            for (const file of files) {
+              const name = path.basename(file, '.png');
+              const label = name.replace(/_/g, ' ');
+              body += `| ${label} | [preview-${name}.png](${runUrl}#artifacts) |\n`;
+            }
+
+            body += `\n*Updated ${new Date().toISOString().slice(0,16)}Z*\n`;
+
+            await github.rest.issues.createComment({
+              owner, repo, issue_number, body,
+            });
+
+      - name: Upload index screenshot
+        if: steps.web-changes.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-index
+          path: /tmp/screenshots/index.png
+          retention-days: 5
+
+      - name: Upload sharing map screenshot
+        if: steps.web-changes.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-sharing-map
+          path: /tmp/screenshots/sharing_map.png
+          retention-days: 5
+
+      - name: Upload scoreboard screenshot
+        if: steps.web-changes.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-scoreboard
+          path: /tmp/screenshots/scoreboard.png
+          retention-days: 5
