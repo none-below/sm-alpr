@@ -377,6 +377,9 @@ def _generate_html(marker_count):
     #search-box {{
       left: 10px; right: 10px; transform: none;
     }}
+    .back-link {{
+      top: 52px; left: 10px;
+    }}
     #search-input {{ width: 100%; box-sizing: border-box; font-size: 13px; }}
     #search-results {{ left: 10px; right: 10px; transform: none; width: auto; }}
   }}
