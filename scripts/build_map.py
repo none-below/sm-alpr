@@ -294,6 +294,13 @@ def _generate_html(marker_count):
 <style>
   body {{ margin: 0; font-family: -apple-system, sans-serif; }}
   #map {{ height: 100vh; width: 100%; }}
+  .back-link {{
+    position: absolute; top: 10px; left: 60px; z-index: 1001;
+    background: white; padding: 6px 12px; border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2); font-size: 13px;
+    color: #2563eb; text-decoration: none; font-weight: 500;
+  }}
+  .back-link:hover {{ background: #eff6ff; }}
   .info-panel {{
     position: absolute; top: 10px; right: 10px; z-index: 1000;
     background: white; padding: 12px 16px; border-radius: 8px;
@@ -370,6 +377,9 @@ def _generate_html(marker_count):
     #search-box {{
       left: 10px; right: 10px; transform: none;
     }}
+    .back-link {{
+      top: 52px; left: 10px;
+    }}
     #search-input {{ width: 100%; box-sizing: border-box; font-size: 13px; }}
     #search-results {{ left: 10px; right: 10px; transform: none; width: auto; }}
   }}
@@ -405,6 +415,7 @@ def _generate_html(marker_count):
 </head>
 <body>
 <div id="map"></div>
+<a class="back-link" href="index.html">&larr; Back to investigation</a>
 <div id="search-box">
   <input type="text" id="search-input" placeholder="Search city, agency, or zip code" autocomplete="off">
   <button id="search-btn">\U0001f50d</button>
