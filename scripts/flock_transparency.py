@@ -168,41 +168,44 @@ _EXPECTS_CONTINUATION = re.compile(
 # If a heading isn't in this map (exact or prefix match), parsing will fail
 # so you know to update the map.
 _HEADING_MAP = {
-    # ── structural (no data, just section boundaries) ──
-    "Overview":                              None,
-    "Policies":                              None,
-    "Policy":                                None,
-    "Usage":                                 None,
-    "Transparency Portal":                   None,
-    "Additional Info":                       None,
-    "Additional Information":                None,
-    "Provided by Flock Safety":              None,
-    "Policy Documents":                      None,
-    "Policy Page":                           None,
-    "Policy Link":                           None,
-    "Documentation":                         None,
-    "ALPR Policy":                           None,
-    "ALPR":                                  None,
-    "ALPR POLICY":                           None,
-    "ALPR Manual":                           None,
-    "Alpr policy":                           None,
-    "Full ALPR Policy":                      None,
-    "Full ALPR Policy:":                     None,
-    "Full ALPR Policy Here:":                None,
-    "Full LPR Policy Here:":                 None,
-    "Complete ALPR Policy":                  None,
-    "OPD Policy: DGO I-12 - Automated License Plate Readers": None,
-    "Download CSV":                          None,
-    "Public Search Audit":                   None,
-    "Search Audit":                          None,
-    "Delivery address":                      None,
-    "Sharing":                               None,
-    "Success Story":                         None,
-    "Recent Success Story":                  None,
-    "Recent Success Stories":                None,
-    "Success Stories":                       None,
-    "Disclaimer":                            None,
-    "California SVS":                        None,
+    # ── section / overview headings ──
+    "Overview":                              "overview",
+    "Usage":                                 "overview",
+    "Transparency Portal":                   "overview",
+    "Provided by Flock Safety":              "overview",
+    # ── policy document links / text ──
+    "Policies":                              "policy_info",
+    "Policy":                                "policy_info",
+    "Policy Documents":                      "policy_info",
+    "Policy Page":                           "policy_info",
+    "Policy Link":                           "policy_info",
+    "Documentation":                         "policy_info",
+    "ALPR Policy":                           "alpr_policy",
+    "ALPR":                                  "alpr_policy",
+    "ALPR POLICY":                           "alpr_policy",
+    "ALPR Manual":                           "alpr_policy",
+    "Alpr policy":                           "alpr_policy",
+    "Full ALPR Policy":                      "alpr_policy",
+    "Full ALPR Policy:":                     "alpr_policy",
+    "Full ALPR Policy Here:":                "alpr_policy",
+    "Full LPR Policy Here:":                 "alpr_policy",
+    "Complete ALPR Policy":                  "alpr_policy",
+    "OPD Policy: DGO I-12 - Automated License Plate Readers": "alpr_policy",
+    # ── other structural fields ──
+    "Additional Info":                       "additional_info",
+    "Additional Information":                "additional_info",
+    "Download CSV":                          "download_csv",
+    "Public Search Audit":                   "search_audit",
+    "Search Audit":                          "search_audit",
+    "Delivery address":                      "delivery_address",
+    "Sharing":                               "sharing_info",
+    "Success Story":                         "success_stories",
+    "Recent Success Story":                  "success_stories",
+    "Recent Success Stories":                "success_stories",
+    "Success Stories":                       "success_stories",
+    "Disclaimer":                            "disclaimer",
+    "California SVS":                        "california_svs",
+    "SB54: California Values Act":           "sb54",
     # ── data fields ──
     "What's Detected":                       "whats_detected",
     "What's Not Detected":                   "whats_not_detected",
@@ -245,11 +248,11 @@ _HEADING_MAP = {
 # These are headings that contain variable text (agency names, URLs, etc.)
 # Map to a field name or None for structural.
 _DYNAMIC_HEADINGS = [
-    (re.compile(r"^Last Updated:"), None),
-    (re.compile(r"^(Link to |Link To |To view ).+"), None),
-    (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+"), None),
-    (re.compile(r"^.+ (ALPR|LPR) Policy.*$"), None),
-    (re.compile(r"^.+Police Department Policy Manual.*$"), None),
+    (re.compile(r"^Last Updated:"), "last_updated"),
+    (re.compile(r"^(Link to |Link To |To view ).+"), "policy_info"),
+    (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+"), "alpr_policy"),
+    (re.compile(r"^.+ (ALPR|LPR) Policy.*$"), "alpr_policy"),
+    (re.compile(r"^.+Police Department Policy Manual.*$"), "alpr_policy"),
 ]
 
 _MAX_HEADING_LEN = 120
@@ -378,16 +381,26 @@ def parse_portal_text(raw_text, slug, datestamp):
             f"Unrecognised headings in {slug}: {unknown}  — add them to _HEADING_MAP"
         )
 
-    # Build field_name -> body lookup (last match wins — when a page has
-    # both a specific and a general heading for the same field, the general
-    # one tends to appear later and be more complete, e.g. "Number of LPR
+    # Build field_name -> body lookup.
+    # For numeric/data fields, last match wins (when a page has both a
+    # specific and a general heading for the same field, the general one
+    # tends to appear later and be more complete, e.g. "Number of LPR
     # cameras" (44) followed by "Number of LPR and other cameras" (140)).
+    # For text fields that can appear under multiple aliased headings,
+    # concatenate with double-newline so nothing is lost.
+    _LAST_WINS = {
+        "data_retention", "camera_count", "vehicles_detected_30d",
+        "hotlist_hits_30d", "searches_30d",
+    }
     fields = {}
     for heading, body in sections:
         field_name = _match_heading(heading)
-        if field_name is None:
-            continue  # structural heading, no data
-        fields[field_name] = body
+        if field_name is _UNKNOWN:
+            continue
+        if field_name in _LAST_WINS or field_name not in fields:
+            fields[field_name] = body
+        elif body:
+            fields[field_name] = fields[field_name] + "\n\n" + body if fields[field_name] else body
 
     granted = _parse_org_names(fields.get("orgs_granted_access", ""))
     sharing_with = _parse_org_names(fields.get("orgs_sharing_with", ""))
@@ -415,6 +428,21 @@ def parse_portal_text(raw_text, slug, datestamp):
         "orgs_sharing_with_count": len(sharing_with),
         "orgs_sharing_with_names": sharing_with,
         "orgs_sharing_with_slugs": [name_to_slug(n) for n in sharing_with],
+        # ── newly captured fields (empty string when absent) ──
+        "overview": fields.get("overview", ""),
+        "policy_info": fields.get("policy_info", ""),
+        "alpr_policy": fields.get("alpr_policy", ""),
+        "additional_info": fields.get("additional_info", ""),
+        "download_csv": fields.get("download_csv", ""),
+        "search_audit": fields.get("search_audit", ""),
+        "delivery_address": fields.get("delivery_address", ""),
+        "sharing_info": fields.get("sharing_info", ""),
+        "success_stories": fields.get("success_stories", ""),
+        "disclaimer": fields.get("disclaimer", ""),
+        "california_svs": fields.get("california_svs", ""),
+        "sb54": fields.get("sb54", ""),
+        "last_updated": fields.get("last_updated", ""),
+        "restrictions_on_deployment": fields.get("restrictions_on_deployment", ""),
     }
 
 
