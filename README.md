@@ -2,7 +2,11 @@
 
 Tools and source documents for investigating the San Mateo Police Department's Automated License Plate Reader program.
 
-**[View the interactive sharing map](https://none-below.github.io/sm-alpr/sharing_map.html)** | **[Read the findings (PDF)](https://none-below.github.io/sm-alpr/SMPD_ALPR_Findings.pdf)**
+**[View the interactive sharing map](https://none-below.github.io/sm-alpr/sharing_map.html)** | **[Read the findings (PDF)](https://none-below.github.io/sm-alpr/SMPD_ALPR_Findings.pdf)** | **[Scoreboard](https://none-below.github.io/sm-alpr/scoreboard.html)**
+
+[![Sharing Map](https://raw.githubusercontent.com/none-below/sm-alpr/readme-assets/sharing_map.png)](https://none-below.github.io/sm-alpr/sharing_map.html)
+
+[![Scoreboard](https://raw.githubusercontent.com/none-below/sm-alpr/readme-assets/scoreboard.png)](https://none-below.github.io/sm-alpr/scoreboard.html)
 
 ## Publishing
 
