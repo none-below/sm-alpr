@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
   pull-requests: write
   actions: read
 
@@ -84,6 +85,42 @@ jobs:
 
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
+
+      - name: Check recipient coordinates
+        run: |
+          if ! uv run python scripts/check_recipient_coords.py > /tmp/coord-check.txt 2>&1; then
+            cat /tmp/coord-check.txt
+            echo "has_missing=true" >> "$GITHUB_ENV"
+          else
+            cat /tmp/coord-check.txt
+          fi
+
+      - name: Open issue for missing coordinates
+        if: env.has_missing == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BODY=$(cat /tmp/coord-check.txt)
+          # Don't duplicate — check for an existing open issue
+          EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "Updated from CI run:
+
+          \`\`\`
+          $BODY
+          \`\`\`"
+          else
+            gh issue create \
+              --title "Recipients missing coordinates in agency registry" \
+              --label geocoding \
+              --body "The following agencies receive data from public agencies but have no lat/lng in the registry:
+
+          \`\`\`
+          $BODY
+          \`\`\`
+
+          Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
+          fi
 
       - name: Screenshot pages
         run: uv run python scripts/screenshot_pages.py --out /tmp/screenshots
