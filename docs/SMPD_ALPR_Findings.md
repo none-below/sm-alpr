@@ -2,6 +2,7 @@
 
 *Prepared March 16, 2026*
 *Revised April 2, 2026: Earlier PRAs searched for contracts around the August 2023 Council approval, which presented the program as a new deployment. The original Flock service agreement was signed in 2020 — outside that scope — and was not discovered until PRA W012373 [34]. Claims of "pre-contract" deployment have been corrected throughout.*
+*Revised April 7, 2026: Added PRA W012460 [46] — city's response to a direct request for Council authorization of the 2020 Flock deployment.*
 
 Every factual claim below is traceable to a specific document, email, or public record. Bracketed numbers (e.g., [1]) refer to the numbered Source Documents table at the end. In the digital version, source links are clickable. In print, QR codes are provided for key sources.
 
@@ -137,7 +138,7 @@ This document presents eight findings across seven sections, grounded in the dep
 | Sharing scope | "NCRIC and allied County agencies" [8] | 283 agencies statewide [10] |
 | Devices | "40 LPRs, to be deployed" (2023) [8]; "+15 automated license plate readers" (2024) [9] | 40 included cameras already operating since 2020 [34] (see §4 device count timeline). |
 | Capabilities | Not disclosed in staff report [8] | Statewide/nationwide network, community cameras, Vehicle Fingerprint, audio [5, Exhibit A] |
-| Council approval date | "City council approval...in 2020" (audit memo) [17] | Flock activity began in 2020 (informational presentation June 2020 [40]; service agreement signed Aug 2020 [34]), but no Council vote or approval action appears in council records until Aug 2023 [8] |
+| Council approval date | "City council approval...in 2020" (audit memo) [17] | Flock activity began in 2020 (informational presentation June 2020 [40]; service agreement signed Aug 2020 [34]), but no Council vote or approval action appears in council records until Aug 2023 [8]. When asked directly for any Council vote, resolution, or motion authorizing 2020 Flock use, the city produced only the June 2020 informational presentation [46] |
 | Prior Flock relationship | Not disclosed [8] | 2020 service agreement (12 cameras, $24K/year) signed by Lt. Mefford; does not appear in Council agendas as an approval item [34]; by Jan 2022, 22 cameras deployed — exceeding the contract’s 12 [35]; 2023 staff report presented program as new |
 
 - During the September 1, 2020 Study Session on Police Accountability (File ID: 20-3547), SMPD presented to Council that "SMPD conducts regular audits to ensure access to the ALPR Databases are within policy" [7]. Kelly O’Keefe confirmed February 10, 2026 that no audit records exist prior to December 2025 [11].
@@ -173,6 +174,8 @@ This document presents eight findings across seven sections, grounded in the dep
 - Amendment No. 1 (March 2024, File ID: 24-8392, Consent Calendar) described 15 additional devices as "automated license plate readers." The order form lists 13 ALPR and 2 non-ALPR devices. Flock’s own Camera Manager classifies the two Condor devices as "Video Camera," not LPR [20]. The staff report does not mention "video," "surveillance," "PTZ," or "Condor" [9]. Council’s prior ALPR representations — audits, standards, sharing restrictions — do not apply to non-ALPR devices [6, Exhibit C].
 
 - The December 2025 audit memo states: "The San Mateo Police Department obtained city council approval for the use of Flock Automated License Plate Readers in 2020" [17]. Council received an informational presentation about Flock in June 2020 [40], and the department signed a service agreement in August 2020 [34]. No Council vote or approval action appears in Council agendas or minutes for that period; the agreement was signed by a lieutenant. The September 2020 study session [7] mentioned ALPRs but was not a Flock-specific agenda item. Council records indicate the first Flock vote was August 2023 [8].
+
+- PRA W012460 asked the city directly for "any record of a City Council vote, resolution, or motion authorizing the use of or expenditure on Flock Automated License Plate Readers in 2020." The city produced only the June 1 agenda report and the corresponding meeting minutes [46]. The agenda report's recommendation section reads "Review and provide feedback." Its budget impact section states: "There is no budget impact as a result of this informational item." No vote, resolution, or motion authorizing Flock was produced.
 
 ---
 
@@ -394,6 +397,7 @@ Device counts from department sources and public records:
 | 43 | EFF — "San Francisco Police Must End Irresponsible Relationship with Northern California Regional Intelligence Center" (Sep 2022) | Documented SFPD chief as chair of NCRIC executive board; SFPD had not signed a data-sharing MOU with NCRIC. [eff.org](https://www.eff.org/deeplinks/2022/09/san-francisco-police-must-end-irresponsible-relationship-northern-california) |
 | 44 | California State Auditor — Report 2026-134, "California Fusion Centers — State and Local Oversight" (approved Mar 2026) | Audit covers compliance with state law, data sharing practices (including with ICE), private sector involvement, funding sources, and performance metrics. Triggered by reporting on fusion centers sharing ALPR data with ICE. [auditor.ca.gov](https://www.auditor.ca.gov/reports-coming-soon/2026-134/) |
 | 45 | Flock Transparency Portal — NCRIC (archived Apr 3, 2026) | 24 cameras, 717,224 vehicles detected (30 days), 3,037 searches (30 days), 318 sharing partners. [Archived JSON](https://github.com/none-below/sm-alpr/blob/main/assets/transparency.flocksafety.com/ncric/2026-04-03.json) |
+| 46 | PRA W012460-040226 — Council authorization for 2020 Flock deployment (closed Apr 7, 2026) | Requested: (1) any Council vote, resolution, or motion authorizing the use of or expenditure on Flock ALPRs in 2020; (2) if none, documentation of the authorization under which the 2020 service agreement was executed. Response produced: June 1, 2020 council agenda report (File ID: 20-3025, informational item) and meeting minutes. The agenda report's recommendation section reads "Review and provide feedback"; its budget impact section states "There is no budget impact as a result of this informational item." No vote, resolution, or motion was produced. [PRA response](https://github.com/none-below/sm-alpr/blob/main/assets/san-mateo-public-records/W012460-040226/W012460-040226_Message_History.pdf) · [Agenda report](https://github.com/none-below/sm-alpr/blob/main/assets/san-mateo-public-records/W012460-040226/2020-06-01__18_.pdf) · [Minutes](https://github.com/none-below/sm-alpr/blob/main/assets/san-mateo-public-records/W012460-040226/Minutes_2020-06-01_-_Regular.pdf) |
 
 ---
 
@@ -416,7 +420,7 @@ Device counts from department sources and public records:
 - **Jillian Goshin** — ALPR Committee Meeting attendee. Email no longer valid. [14]
 - **Dave Norris** — Support Services Captain (9/9/18–4/9/21). [15]
 - **Dave Peruzzaro** — Support Services Captain (5/16/21–1/5/25). [15]
-- **Jennifer Maravillas** — Support Services Captain (6/22/25–present). [15]
+- **Jennifer Maravillas** — Support Services Captain (6/22/25–present). [15] Signed PRA W012460 response. [46]
 
 ---
 
