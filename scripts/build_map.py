@@ -69,6 +69,8 @@ def main():
     geocoded = 0
     ungeocodable = []
 
+    seen_slugs = set()
+
     for slug, data in graph["agencies"].items():
         # Skip alias slugs
         if slug in alias_to_primary:
@@ -81,6 +83,7 @@ def main():
             ungeocodable.append(slug)
             continue
         geocoded += 1
+        seen_slugs.add(slug)
 
         cameras = data.get("camera_count") or 0
         crawled = data.get("crawled", True)
@@ -95,6 +98,26 @@ def main():
             "retention_days": data.get("data_retention_days"),
             "outbound_slugs": data.get("outbound_slugs", []),
             "inbound_slugs": data.get("inbound_slugs", []),
+        })
+
+    # Add registry entries not yet in the sharing graph (e.g. uncrawled agencies)
+    for slug, reg in registry_by_slug.items():
+        if slug in seen_slugs or slug in alias_to_primary:
+            continue
+        if not reg.get("lat") or not reg.get("lng"):
+            continue
+        geocoded += 1
+        markers.append({
+            "slug": slug,
+            "lat": reg["lat"],
+            "lng": reg["lng"],
+            "cameras": 0,
+            "crawled": False,
+            "outbound_count": 0,
+            "inbound_count": 0,
+            "retention_days": None,
+            "outbound_slugs": [],
+            "inbound_slugs": [],
         })
 
     # Add Flock Safety vendor as an implicit outbound target for San Mateo PD.
