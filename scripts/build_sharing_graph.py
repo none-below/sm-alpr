@@ -85,9 +85,13 @@ def main():
         outbound_names = portal_data.get("shared_org_names", [])
         outbound_slugs = portal_data.get("shared_org_slugs", [])
 
-        inbound_names = extract_inbound_orgs(raw_text)
-        inbound_slugs = [flock_name_to_slug(n) for n in inbound_names]
-        inbound_slugs = [s for s in inbound_slugs if s]  # drop unresolved
+        # Prefer parsed JSON for inbound data; fall back to raw text extraction
+        inbound_slugs = portal_data.get("orgs_sharing_with_slugs", [])
+        inbound_names = portal_data.get("orgs_sharing_with_names", [])
+        if not inbound_slugs:
+            inbound_names = extract_inbound_orgs(raw_text)
+            inbound_slugs = [flock_name_to_slug(n) for n in inbound_names]
+            inbound_slugs = [s for s in inbound_slugs if s]  # drop unresolved
 
         agencies[slug] = {
             "slug": slug,
@@ -171,19 +175,27 @@ def main():
     most_shared_with = sorted(inbound_counts.items(), key=lambda x: -x[1])[:30]
 
     # ── Build entries for uncrawled entities ──
-    # We know they exist because crawled agencies list them as recipients.
+    # We know they exist because crawled agencies list them as recipients
+    # or as sources (via inbound claims).
+
+    # Reverse inbound_edges: if B says "A shares with B", then A -> B
+    inbound_claimed_outbound = defaultdict(set)  # source -> {targets}
+    for target, sources in inbound_edges.items():
+        for source in sources:
+            inbound_claimed_outbound[source].add(target)
 
     uncrawled = {}
     for entity in sorted(all_entities - set(agencies.keys())):
         received_from = sorted(s for s, targets in outbound_edges.items() if entity in targets)
+        sends_to = sorted(inbound_claimed_outbound.get(entity, set()))
         uncrawled[entity] = {
             "archived_date": None,
             "crawled": False,
             "camera_count": None,
             "data_retention_days": None,
-            "outbound_count": 0,
+            "outbound_count": len(sends_to),
             "inbound_count": inbound_counts.get(entity, 0),
-            "outbound_slugs": [],
+            "outbound_slugs": sends_to,
             "inbound_slugs": received_from,
         }
 

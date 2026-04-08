@@ -255,6 +255,18 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     lineLayer.clearLayers();
     clearTempMarkers();
 
+    // Reveal hidden markers connected to the selected agency
+    const connectedSlugs = new Set([
+      ...(m.outbound_slugs || []),
+      ...(m.inbound_slugs || []),
+    ]);
+    connectedSlugs.forEach(slug => {
+      const c = markersBySlug[slug];
+      if (c && !markerLayer.hasLayer(c)) {
+        markerLayer.addLayer(c);
+      }
+    });
+
     let outConnected = 0;
     let outViolations = 0;
     let outNotMapped = 0;
@@ -488,13 +500,19 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     map.setView(targetLatLng, 6);
   }
 
-  // Pre-compute which slugs are recipients (receive data from someone)
+  // Pre-compute marker data lookup and recipient set
+  const markerDataBySlug = {};
+  markers.forEach(m => { markerDataBySlug[m.slug] = m; });
+
   const recipientSlugs = new Set();
   markers.forEach(mm => {
     (mm.outbound_slugs || []).forEach(t => recipientSlugs.add(t));
   });
 
   function shouldShowByDefault(slug) {
+    const md = markerDataBySlug[slug];
+    if (md && md.visible !== undefined) return md.visible;
+    // Fallback for off-map entities added dynamically
     const info = agencyInfo[slug] || {};
     return info.public !== false || recipientSlugs.has(slug);
   }
@@ -578,8 +596,6 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   });
 
   // Navigate to slug from info panel
-  const markerDataBySlug = {};
-  markers.forEach(m => { markerDataBySlug[m.slug] = m; });
 
   window.clickSlug = function(slug) {
     // Update URL hash for shareable links

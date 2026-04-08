@@ -64,18 +64,46 @@ def main():
             print(f"  ... and {len(not_in_registry) - 10} more")
         print("Run build_agency_registry.py --merge to add them.\n")
 
-    # Build map data — only from registry entries
+    # Build map data.
+    #
+    # Visibility rules (applied by JS via the "visible" flag):
+    #   1. All crawled CA agencies — always shown
+    #   2. Agencies with any sharing relationship with a CA agency (either
+    #      direction) — shown regardless of crawl/state
+    #   3. Non-public CA agencies that only send (HOAs, businesses with no
+    #      CA-agency connection) — included in data but hidden by default;
+    #      JS reveals them when a connected agency is clicked
+
     markers = []
     geocoded = 0
     ungeocodable = []
-
     seen_slugs = set()
 
+    # Pre-compute which slugs receive data from a CA agency
+    # (i.e. a CA agency lists them in outbound_slugs)
+    ca_outbound_targets = set()
     for slug, data in graph["agencies"].items():
-        # Skip alias slugs
+        reg = registry_by_slug.get(slug, {})
+        if reg.get("state") == "CA":
+            for target in data.get("outbound_slugs", []):
+                ca_outbound_targets.add(target)
+
+    def should_show(slug, reg, data):
+        """Determine default visibility for a marker."""
+        crawled = data.get("crawled", False)
+        # Rule 1: all crawled CA agencies
+        if reg.get("state") == "CA" and crawled:
+            return True
+        # Rule 2: recipients of CA agency data — shown regardless of crawl
+        if slug in ca_outbound_targets:
+            return True
+        # Rule 3: everything else (senders-only, uncrawled non-recipients)
+        # hidden by default; JS reveals on click
+        return False
+
+    for slug, data in graph["agencies"].items():
         if slug in alias_to_primary:
             continue
-        # Skip slugs not in registry
         if slug not in registry_by_slug:
             continue
         reg = registry_by_slug[slug]
@@ -93,6 +121,7 @@ def main():
             "lng": reg["lng"],
             "cameras": cameras,
             "crawled": crawled,
+            "visible": should_show(slug, reg, data),
             "outbound_count": data["outbound_count"],
             "inbound_count": data["inbound_count"],
             "retention_days": data.get("data_retention_days"),
@@ -107,12 +136,15 @@ def main():
         if not reg.get("lat") or not reg.get("lng"):
             continue
         geocoded += 1
+        seen_slugs.add(slug)
+        empty_data = {"crawled": False}
         markers.append({
             "slug": slug,
             "lat": reg["lat"],
             "lng": reg["lng"],
             "cameras": 0,
             "crawled": False,
+            "visible": should_show(slug, reg, empty_data),
             "outbound_count": 0,
             "inbound_count": 0,
             "retention_days": None,
@@ -130,19 +162,27 @@ def main():
         flock_inbound = [s for s in FLOCK_53_AGENCIES if s in existing_slugs]
 
         if flock_inbound:
-            markers.append({
-                "slug": "flock-safety-vendor",
-                "lat": flock_reg["lat"],
-                "lng": flock_reg["lng"],
-                "cameras": 0,
-                "crawled": False,
-                "outbound_count": 0,
-                "inbound_count": len(flock_inbound),
-                "retention_days": None,
-                "outbound_slugs": [],
-                "inbound_slugs": flock_inbound,
-            })
-            geocoded += 1
+            # Update existing marker or create new one
+            flock_existing = next((m for m in markers if m["slug"] == "flock-safety-vendor"), None)
+            if flock_existing:
+                flock_existing["inbound_slugs"] = flock_inbound
+                flock_existing["inbound_count"] = len(flock_inbound)
+                flock_existing["visible"] = True
+            else:
+                markers.append({
+                    "slug": "flock-safety-vendor",
+                    "lat": flock_reg["lat"],
+                    "lng": flock_reg["lng"],
+                    "cameras": 0,
+                    "crawled": False,
+                    "visible": True,
+                    "outbound_count": 0,
+                    "inbound_count": len(flock_inbound),
+                    "retention_days": None,
+                    "outbound_slugs": [],
+                    "inbound_slugs": flock_inbound,
+                })
+                geocoded += 1
             # Add Flock to each confirmed agency's outbound
             for m in markers:
                 if m["slug"] in FLOCK_53_AGENCIES:
