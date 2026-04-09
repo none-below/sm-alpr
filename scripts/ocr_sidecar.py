@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
 """
-Generate .txt sidecar files for image-based PDFs via OCR.
+Generate .txt sidecar files for PDFs (via OCR) and .doc files (via text extraction).
 
 For each PDF, extracts text from every page (native text where available,
-OCR via tesseract for image-only pages). Writes the result to a hash-stamped
-.txt sidecar alongside the PDF (e.g. foo.pdf -> foo.pdf.a1b2c3d4.txt).
+OCR via tesseract for image-only pages). For .doc files, extracts text via
+textutil (macOS) or antiword (Linux).
 
-The sidecar filename includes the first 8 hex chars of the PDF's MD5, so a
-changed PDF always produces a new sidecar. Stale sidecars are cleaned up
+Writes the result to a hash-stamped .txt sidecar alongside the source file
+(e.g. foo.pdf -> foo.pdf.a1b2c3d4.txt, bar.doc -> bar.doc.e5f6a7b8.txt).
+
+The sidecar filename includes the first 8 hex chars of the file's MD5, so a
+changed file always produces a new sidecar. Stale sidecars are cleaned up
 automatically.
 
 Usage:
   uv run python scripts/ocr_sidecar.py                    # all assets
-  uv run python scripts/ocr_sidecar.py --staged            # staged PDFs in assets/
-  uv run python scripts/ocr_sidecar.py --files a.pdf b.pdf # specific files
+  uv run python scripts/ocr_sidecar.py --staged            # staged files in assets/
+  uv run python scripts/ocr_sidecar.py --files a.pdf b.doc # specific files
 """
 
 import argparse
@@ -26,6 +29,21 @@ import fitz  # pymupdf
 import pytesseract
 from PIL import Image
 import io
+
+
+def extract_text_from_doc(doc_path):
+    """Extract text from a .doc file using textutil (macOS) or antiword (Linux)."""
+    doc_path = Path(doc_path)
+    if sys.platform == "darwin":
+        cmd = ["textutil", "-convert", "txt", "-stdout", str(doc_path)]
+    else:
+        cmd = ["antiword", str(doc_path)]
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        return result.stdout
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"  WARNING: could not extract text from {doc_path}: {e}", file=sys.stderr)
+        return ""
 
 
 def extract_text_from_page(page):
@@ -42,39 +60,46 @@ def extract_text_from_page(page):
         return ""
 
 
-def pdf_hash(pdf_path):
-    """Return first 8 hex chars of the PDF's MD5."""
+def file_hash(file_path):
+    """Return first 8 hex chars of the file's MD5."""
     h = hashlib.md5()
-    with open(pdf_path, "rb") as f:
+    with open(file_path, "rb") as f:
         for chunk in iter(lambda: f.read(8192), b""):
             h.update(chunk)
     return h.hexdigest()[:8]
 
 
-def sidecar_path_for(pdf_path):
-    """Return the hash-stamped sidecar path for a PDF."""
-    pdf_path = Path(pdf_path)
-    digest = pdf_hash(pdf_path)
-    return pdf_path.parent / f"{pdf_path.name}.{digest}.txt"
+def sidecar_path_for(file_path):
+    """Return the hash-stamped sidecar path for a file."""
+    file_path = Path(file_path)
+    digest = file_hash(file_path)
+    return file_path.parent / f"{file_path.name}.{digest}.txt"
 
 
-def generate_sidecar(pdf_path, force=False):
-    """Generate a .txt sidecar for a PDF. Returns the sidecar path if written, else None."""
-    pdf_path = Path(pdf_path)
-    sidecar = sidecar_path_for(pdf_path)
+def generate_sidecar(file_path, force=False):
+    """Generate a .txt sidecar for a PDF or .doc file. Returns the sidecar path if written, else None."""
+    file_path = Path(file_path)
+    sidecar = sidecar_path_for(file_path)
 
     if not force and sidecar.exists():
         return None
 
-    # Clean up any stale sidecars for this PDF (different hash)
-    for old in pdf_path.parent.glob(f"{pdf_path.name}.*.txt"):
+    # Clean up any stale sidecars for this file (different hash)
+    for old in file_path.parent.glob(f"{file_path.name}.*.txt"):
         if old != sidecar:
             old.unlink()
 
+    if file_path.suffix.lower() == ".doc":
+        full_text = extract_text_from_doc(file_path)
+        if not full_text:
+            return None
+        sidecar.write_text(full_text, encoding="utf-8")
+        return sidecar
+
     try:
-        doc = fitz.open(pdf_path)
+        doc = fitz.open(file_path)
     except Exception as e:
-        print(f"  WARNING: could not open {pdf_path}: {e}", file=sys.stderr)
+        print(f"  WARNING: could not open {file_path}: {e}", file=sys.stderr)
         return None
 
     # Extract text from each page, tracking whether OCR added anything
@@ -102,8 +127,11 @@ def generate_sidecar(pdf_path, force=False):
     return sidecar
 
 
-def get_staged_asset_pdfs():
-    """Get list of staged PDF files under assets/."""
+SUPPORTED_EXTENSIONS = {".pdf", ".doc"}
+
+
+def get_staged_assets():
+    """Get list of staged PDF and .doc files under assets/."""
     result = subprocess.run(
         ["git", "diff", "--cached", "--name-only", "--diff-filter=ACM"],
         capture_output=True,
@@ -112,13 +140,13 @@ def get_staged_asset_pdfs():
     return [
         f
         for f in result.stdout.strip().splitlines()
-        if f.lower().endswith(".pdf") and f.startswith("assets/")
+        if Path(f).suffix.lower() in SUPPORTED_EXTENSIONS and f.startswith("assets/")
     ]
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Generate .txt sidecars for image-based PDFs"
+        description="Generate .txt sidecars for PDFs and .doc files"
     )
     parser.add_argument(
         "--dir",
@@ -128,7 +156,7 @@ def main():
     parser.add_argument(
         "--staged",
         action="store_true",
-        help="Process only git-staged PDFs in assets/",
+        help="Process only git-staged files in assets/",
     )
     parser.add_argument("--files", nargs="+", help="Process specific files")
     parser.add_argument(
@@ -139,7 +167,7 @@ def main():
     args = parser.parse_args()
 
     if args.staged:
-        pdfs = [Path(f) for f in get_staged_asset_pdfs()]
+        pdfs = [Path(f) for f in get_staged_assets()]
         if not pdfs:
             sys.exit(0)
     elif args.files:
@@ -149,7 +177,12 @@ def main():
         if not scan_dir.exists():
             print(f"Error: {scan_dir} not found", file=sys.stderr)
             sys.exit(1)
-        pdfs = sorted(scan_dir.rglob("*.pdf")) + sorted(scan_dir.rglob("*.PDF"))
+        pdfs = (
+            sorted(scan_dir.rglob("*.pdf"))
+            + sorted(scan_dir.rglob("*.PDF"))
+            + sorted(scan_dir.rglob("*.doc"))
+            + sorted(scan_dir.rglob("*.DOC"))
+        )
 
     written = []
     for pdf in pdfs:
@@ -159,11 +192,11 @@ def main():
             written.append(result)
 
     if not args.staged:
-        print(f"OCR sidecars: {len(written)} written, {len(pdfs) - len(written)} skipped.")
+        print(f"Text sidecars: {len(written)} written, {len(pdfs) - len(written)} skipped.")
 
     if args.staged and written:
         print(
-            f"\nOCR sidecars generated for {len(written)} PDF(s).\n"
+            f"\nText sidecars generated for {len(written)} file(s).\n"
             "Please stage them and re-commit:\n"
         )
         for s in written:

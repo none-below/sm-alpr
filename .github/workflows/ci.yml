@@ -42,16 +42,16 @@ jobs:
       - name: Install Tesseract (cached)
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          packages: tesseract-ocr
-          version: 1.0
+          packages: tesseract-ocr antiword
+          version: 1.1
 
-      - name: Generate OCR sidecars for changed PDFs
+      - name: Generate text sidecars for changed assets
         run: |
-          PDF_FILES=$(git diff --name-only origin/main...HEAD -- 'assets/' | grep -i '\.pdf$' || true)
-          if [ -n "$PDF_FILES" ]; then
-            uv run python scripts/ocr_sidecar.py --files $PDF_FILES
+          ASSET_FILES=$(git diff --name-only origin/main...HEAD -- 'assets/' | grep -iE '\.(pdf|doc)$' || true)
+          if [ -n "$ASSET_FILES" ]; then
+            uv run python scripts/ocr_sidecar.py --files $ASSET_FILES
           else
-            echo "No PDF changes in assets/, skipping OCR sidecars"
+            echo "No PDF/DOC changes in assets/, skipping text sidecars"
           fi
 
       - name: Commit OCR sidecars
@@ -62,7 +62,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No new sidecars to commit"
           else
-            git commit -m "chore: generate OCR sidecars for new PDFs"
+            git commit -m "chore: generate text sidecars for new assets"
             git push
           fi
 
