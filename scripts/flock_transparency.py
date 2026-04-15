@@ -106,6 +106,10 @@ def slug_variations(slug):
         variations.append(slug[:-3] + "-sheriffs-office")
         variations.append(re.sub(r"-ca-so$", "-so", slug))
 
+    # Try with "-ca-so": foo-sheriffs-office -> foo-ca-so
+    if "sheriffs-office" in slug:
+        variations.append(re.sub(r"-(?:ca-)?sheriffs-office(?:-ca)?$", "-ca-so", slug))
+
     # Try pd-ca instead of ca-pd: downey-pd-ca -> downey-ca-pd
     if re.search(r"-pd-ca$", slug):
         variations.append(re.sub(r"-pd-ca$", "-ca-pd", slug))
