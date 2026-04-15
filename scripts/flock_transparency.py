@@ -32,7 +32,10 @@ print = functools.partial(print, flush=True)
 
 import argparse
 import base64
+import csv
 import hashlib
+import html.parser
+import io
 import json
 import os
 import random
@@ -40,6 +43,7 @@ import re
 import sys
 import tempfile
 import time
+import urllib.parse
 from collections import Counter
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -447,6 +451,44 @@ def parse_portal_text(raw_text, slug, datestamp):
 
 
 # ═══════════════════════════════════════════════════════════
+# CSV extraction from HTML
+# ═══════════════════════════════════════════════════════════
+
+class _CSVLinkExtractor(html.parser.HTMLParser):
+    """Extract data-URI CSVs from <a download="*.csv" href="data:..."> tags."""
+
+    def __init__(self):
+        super().__init__()
+        self.csvs = []  # list of (filename, csv_text)
+
+    def handle_starttag(self, tag, attrs):
+        if tag != "a":
+            return
+        attrs_dict = dict(attrs)
+        download = attrs_dict.get("download", "")
+        href = attrs_dict.get("href", "")
+        if download.endswith(".csv") and href.startswith("data:"):
+            try:
+                _, encoded = href.split(",", 1)
+                csv_text = urllib.parse.unquote(encoded)
+                self.csvs.append((download, csv_text))
+            except (ValueError, UnicodeDecodeError):
+                pass
+
+
+def extract_csvs_from_html(html_text):
+    """Parse HTML and return list of (filename, [row_dicts]) for embedded CSVs."""
+    parser = _CSVLinkExtractor()
+    parser.feed(html_text)
+    results = []
+    for filename, csv_text in parser.csvs:
+        reader = csv.DictReader(io.StringIO(csv_text))
+        rows = list(reader)
+        results.append((filename, rows))
+    return results
+
+
+# ═══════════════════════════════════════════════════════════
 # Crawl: fetch pages, save .txt + .pdf
 # ═══════════════════════════════════════════════════════════
 
@@ -505,11 +547,18 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     # 1. Raw DOM text (source of truth for parsing)
     txt_path.write_text(page_text, encoding="utf-8")
 
-    # 1b. Full HTML (source of truth for re-rendering)
+    # 1b. Full HTML (source of truth for re-rendering + CSV extraction)
     html_path = slug_dir / f"{datestamp}.html"
-    html_path.write_text(page.content(), encoding="utf-8")
+    page_html = page.content()
+    html_path.write_text(page_html, encoding="utf-8")
 
-    # 2. Parsed JSON (derived from .txt)
+    # 1c. Extract embedded CSVs from HTML
+    for csv_name, csv_rows in extract_csvs_from_html(page_html):
+        field = csv_name.replace(".csv", "").replace("-", "_") + "_csv"
+        portal_data[field] = csv_rows
+        print(f"    extracted {csv_name}: {len(csv_rows)} rows")
+
+    # 2. Parsed JSON (derived from .txt + html)
     json_path.write_text(json.dumps(portal_data, indent=2) + "\n")
 
     # 3. PDF visual archive
@@ -760,6 +809,17 @@ def cmd_parse(args):
 
             raw_text = txt_path.read_text(encoding="utf-8")
             portal_data = parse_portal_text(raw_text, slug, datestamp)
+
+            # Extract embedded CSVs from HTML if available
+            html_path = slug_dir / f"{datestamp}.html"
+            if html_path.exists():
+                for csv_name, csv_rows in extract_csvs_from_html(
+                    html_path.read_text(encoding="utf-8")
+                ):
+                    field = csv_name.replace(".csv", "").replace("-", "_") + "_csv"
+                    portal_data[field] = csv_rows
+                    print(f"    extracted {csv_name}: {len(csv_rows)} rows")
+
             json_path.write_text(json.dumps(portal_data, indent=2) + "\n")
             cameras = portal_data.get("camera_count") or "?"
             orgs = portal_data.get("shared_org_count", 0)
