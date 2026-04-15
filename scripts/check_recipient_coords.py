@@ -13,8 +13,10 @@ import glob
 import json
 import os
 import sys
+from pathlib import Path
 
-REGISTRY = "assets/agency_registry.json"
+sys.path.insert(0, str(Path(__file__).parent))
+from lib import has_tag, registry_by_slug
 PORTAL_DIR = "assets/transparency.flocksafety.com"
 
 # Flock test/placeholder slugs — not real agencies
@@ -33,8 +35,7 @@ JUNK_SLUGS = frozenset(
 
 
 def main() -> int:
-    with open(REGISTRY) as f:
-        registry = {a["slug"]: a for a in json.load(f)}
+    registry = registry_by_slug()
 
     # For each public agency, find the latest crawl JSON and collect recipients
     missing: dict[str, set[str]] = {}  # slug -> set of public senders
@@ -42,7 +43,7 @@ def main() -> int:
     for agency_dir in sorted(glob.glob(os.path.join(PORTAL_DIR, "*/"))):
         slug = os.path.basename(agency_dir.rstrip("/"))
         reg = registry.get(slug, {})
-        if not reg.get("public"):
+        if not has_tag(reg, "public"):
             continue
 
         jsons = sorted(glob.glob(os.path.join(agency_dir, "*.json")))

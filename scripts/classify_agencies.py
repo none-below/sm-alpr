@@ -21,7 +21,9 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-REGISTRY_PATH = Path("assets/agency_registry.json")
+sys.path.insert(0, str(Path(__file__).parent))
+from lib import agency_display_name, has_tag, load_registry
+
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 
 
@@ -31,11 +33,10 @@ def main():
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()
 
-    if not REGISTRY_PATH.exists():
+    registry = load_registry()
+    if not registry:
         print("Error: agency registry not found. Run build_agency_registry.py first.", file=sys.stderr)
         sys.exit(1)
-
-    registry = json.loads(REGISTRY_PATH.read_text())
 
     # Collect sharing info — who shares with whom
     org_sources = {}
@@ -59,13 +60,11 @@ def main():
         slug = e["slug"]
         c = {
             "slug": slug,
-            "name": e.get("flock_name", slug),
-            "public": e.get("public"),
+            "name": agency_display_name(e, slug),
+            "tags": e.get("tags", []),
             "state": e.get("state"),
             "agency_type": e.get("agency_type"),
             "agency_role": e.get("agency_role"),
-            "federal": e.get("federal", False),
-            "needs_review": e.get("needs_review", False),
             "flags": [],
             "shared_by_count": len(org_sources.get(slug, set())),
             "shared_by": sorted(org_sources.get(slug, set())),
@@ -73,15 +72,15 @@ def main():
 
         if e.get("state") and e["state"] != "CA":
             c["flags"].append("OUT_OF_STATE")
-        if e.get("public") is False:
+        if has_tag(e, "private"):
             c["flags"].append("PRIVATE")
-        if e.get("federal"):
+        if has_tag(e, "federal"):
             c["flags"].append("FEDERAL")
         if e.get("agency_type") == "decommissioned":
             c["flags"].append("DECOMMISSIONED")
         if e.get("agency_type") == "test":
             c["flags"].append("TEST")
-        if e.get("needs_review"):
+        if has_tag(e, "needs-review"):
             c["flags"].append("NEEDS_REVIEW")
 
         classifications.append(c)
@@ -97,9 +96,9 @@ def main():
             "total": total,
             "california": sum(1 for c in classifications if c["state"] == "CA"),
             "out_of_state": sum(1 for c in classifications if c["state"] and c["state"] != "CA"),
-            "private": sum(1 for c in classifications if c["public"] is False),
-            "federal": sum(1 for c in classifications if c["federal"]),
-            "needs_review": sum(1 for c in classifications if c["needs_review"]),
+            "private": sum(1 for c in classifications if "private" in c["tags"]),
+            "federal": sum(1 for c in classifications if "federal" in c["tags"]),
+            "needs_review": sum(1 for c in classifications if "needs-review" in c["tags"]),
             "scopes": dict(scope_counts.most_common()),
             "roles": dict(role_counts.most_common()),
         },

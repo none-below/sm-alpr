@@ -18,9 +18,12 @@ import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from lib import agency_display_name, crawl_status, has_tag, load_registry
+
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 DEFAULT_OUT = Path("docs/sharing_map.html")
-REGISTRY_PATH = Path("assets/agency_registry.json")
+
 
 
 # All geocoding comes from the agency registry. If an agency has no
@@ -42,14 +45,13 @@ def main():
     graph = json.loads(graph_path.read_text())
 
     # Load agency registry for classification data
-    registry_path = Path("assets/agency_registry.json")
     registry_by_slug = {}
-    alias_to_primary = {}  # alias_slug -> primary_slug
-    if registry_path.exists():
-        for e in json.loads(registry_path.read_text()):
-            registry_by_slug[e["slug"]] = e
-            for aka in e.get("also_known_as", []):
-                alias_to_primary[aka] = e["slug"]
+    alias_to_primary = {}  # flock_slug -> primary slug
+    for e in load_registry():
+        registry_by_slug[e["slug"]] = e
+        for ps in e.get("flock_slugs", []):
+            if ps != e["slug"]:
+                alias_to_primary[ps] = e["slug"]
 
     # Validate: warn about graph slugs not in registry
     not_in_registry = []
@@ -228,16 +230,17 @@ def main():
     # Build classification lookup for JS
     slug_info = {}
     for slug, reg in registry_by_slug.items():
+        is_crawled, crawled_date = crawl_status(reg, args.data_dir)
         slug_info[slug] = {
-            "public": reg.get("public"),
+            "public": True if has_tag(reg, "public") else (False if has_tag(reg, "private") else None),
             "state": reg.get("state"),
-            "name": reg.get("flock_name", slug),
+            "name": agency_display_name(reg, slug),
             "role": reg.get("agency_role"),
             "type": reg.get("agency_type"),
-            "crawled": reg.get("crawled", False),
-            "crawled_date": reg.get("crawled_date"),
+            "crawled": is_crawled,
+            "crawled_date": crawled_date,
             "notes": reg.get("notes"),
-            "ag_lawsuit": reg.get("ag_lawsuit", False),
+            "ag_lawsuit": has_tag(reg, "ag-lawsuit"),
         }
 
     # Add alias entries pointing to primary's info
@@ -258,7 +261,7 @@ def main():
     # a violation entity V, then A has an indirect violation "V via B"
     def is_violation_entity(slug):
         r = registry_by_slug.get(slug, {})
-        if r.get("public") is False:
+        if has_tag(r, "private"):
             return True
         if r.get("state") and r["state"] != "CA":
             return True
@@ -287,8 +290,8 @@ def main():
                         indirects.append({
                             "violation": second_hop,
                             "via": target,
-                            "via_name": registry_by_slug.get(target, {}).get("flock_name", target),
-                            "violation_name": registry_by_slug.get(second_hop, {}).get("flock_name", second_hop),
+                            "via_name": agency_display_name(registry_by_slug.get(target, {}), target),
+                            "violation_name": agency_display_name(registry_by_slug.get(second_hop, {}), second_hop),
                         })
         if indirects:
             # Deduplicate by violation slug

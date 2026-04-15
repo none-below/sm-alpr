@@ -918,21 +918,20 @@ def cmd_parse(args):
 
 def _load_registry():
     """Load agency registry as slug->entry lookup."""
-    registry_path = Path("assets/agency_registry.json")
-    if not registry_path.exists():
-        return {}
-    return {e["slug"]: e for e in json.loads(registry_path.read_text())}
+    from lib import load_registry
+    return {e["slug"]: e for e in load_registry()}
 
 
 def classify_entity_from_registry(slug, registry):
     """Classify an entity using the registry (single source of truth)."""
+    from lib import has_tag
     e = registry.get(slug, {})
     flags = []
-    if e.get("public") is False:
+    if has_tag(e, "private"):
         flags.append("PRIVATE")
     if e.get("state") and e["state"] != "CA":
         flags.append("OUT_OF_STATE")
-    if e.get("federal"):
+    if has_tag(e, "federal"):
         flags.append("FEDERAL")
     if e.get("agency_type") == "decommissioned":
         flags.append("DECOMMISSIONED")
@@ -940,7 +939,7 @@ def classify_entity_from_registry(slug, registry):
         flags.append("TEST")
     if e.get("agency_role") == "fire":
         flags.append("NON_LAW_ENFORCEMENT")
-    if e.get("needs_review"):
+    if has_tag(e, "needs-review"):
         flags.append("NEEDS_REVIEW")
     return flags
 

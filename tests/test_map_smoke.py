@@ -67,6 +67,13 @@ class TestMapData:
         assert uop.get("public") is False
         assert uop.get("type") == "private"
 
+    def test_public_field_is_tristate(self):
+        """public should be True, False, or None — never just a boolean for unknown."""
+        for slug, info in self.data["agencyInfo"].items():
+            assert info.get("public") in (True, False, None), (
+                f"{slug}: public={info.get('public')!r}, expected True/False/None"
+            )
+
     def test_ncric_exists(self):
         ncric = self.data["agencyInfo"].get("ncric", {})
         assert ncric.get("crawled") is True
@@ -107,28 +114,133 @@ class TestRegistry:
 
     def test_flock_is_private(self):
         flock = self.by_slug["flock-safety-vendor"]
-        assert flock["public"] is False
+        assert "private" in flock.get("tags", [])
         assert flock["agency_role"] == "vendor"
 
     def test_uop_is_private(self):
         uop = self.by_slug.get("university-of-the-pacific-ca", {})
-        assert uop.get("public") is False
+        assert "private" in uop.get("tags", [])
 
     def test_no_duplicate_slugs(self):
         slugs = [e["slug"] for e in self.registry]
         assert len(slugs) == len(set(slugs)), "Duplicate slugs found"
 
-    def test_crawled_have_dates(self):
-        for e in self.registry:
-            if e.get("crawled"):
-                assert e.get("crawled_date"), f"{e['slug']} crawled but no date"
+    def test_no_duplicate_agency_ids(self):
+        ids = [e["agency_id"] for e in self.registry]
+        assert len(ids) == len(set(ids)), "Duplicate agency_ids found"
 
-    def test_no_null_public_for_known_types(self):
-        """Entities with known types should have public set."""
+    def test_agency_id_is_uuid(self):
+        """agency_id should be a valid UUID."""
+        import uuid
+        for e in self.registry:
+            try:
+                uuid.UUID(e["agency_id"])
+            except ValueError:
+                assert False, f"{e['slug']} has invalid UUID: {e['agency_id']}"
+
+    def test_has_flock_slugs(self):
+        for e in self.registry:
+            assert "flock_slugs" in e, f"{e['agency_id']} missing flock_slugs"
+            assert len(e["flock_slugs"]) >= 1
+            assert "flock_active_slug" in e
+            assert e["flock_active_slug"] in e["flock_slugs"]
+
+    def test_has_flock_names(self):
+        for e in self.registry:
+            assert "flock_names" in e, f"{e['agency_id']} missing flock_names"
+            assert len(e["flock_names"]) >= 1
+
+    def test_no_crawled_fields_in_registry(self):
+        """crawled/crawled_date are derived at runtime, not stored."""
+        for e in self.registry:
+            assert "crawled" not in e, f"{e['agency_id']} has stale 'crawled' field"
+            assert "crawled_date" not in e, f"{e['agency_id']} has stale 'crawled_date' field"
+
+    def test_no_stale_boolean_fields(self):
+        """Old boolean fields should not exist in registry entries."""
+        stale = {"public", "federal", "needs_review", "ag_lawsuit", "crawled", "crawled_date",
+                 "also_known_as", "also_known_as_names", "flock_name", "human_name"}
+        for e in self.registry:
+            found = stale & set(e.keys())
+            assert not found, f"{e['agency_id']} has stale fields: {found}"
+
+    def test_tags_no_conflicts(self):
+        """No entry should have both public and private tags."""
+        for e in self.registry:
+            tags = e.get("tags", [])
+            assert not ("public" in tags and "private" in tags), (
+                f"{e['agency_id']} has both public and private tags"
+            )
+
+    def test_known_types_have_public_or_private_tag(self):
+        """Entities with known types should be tagged public or private."""
         known_types = {"city", "county", "state", "federal", "fusion_center", "university", "private", "tribal"}
         for e in self.registry:
             if e.get("agency_type") in known_types:
-                assert e.get("public") is not None, f"{e['slug']} type={e['agency_type']} but public=None"
+                tags = e.get("tags", [])
+                assert "public" in tags or "private" in tags, (
+                    f"{e['agency_id']} type={e['agency_type']} but no public/private tag"
+                )
+
+
+# ── Lib accessor tests (unit tests, no data dependencies) ──
+
+class TestLibAccessors:
+    """Verify lib.py accessor functions handle edge cases."""
+
+    @pytest.fixture(autouse=True, scope="class")
+    def add_scripts_to_path(self):
+        import sys
+        scripts_dir = str(Path(__file__).parent.parent / "scripts")
+        if scripts_dir not in sys.path:
+            sys.path.insert(0, scripts_dir)
+
+    def test_has_tag(self):
+        from lib import has_tag
+        assert has_tag({"tags": ["public", "federal"]}, "public") is True
+        assert has_tag({"tags": ["public"]}, "private") is False
+        assert has_tag({}, "public") is False
+        assert has_tag({"tags": []}, "public") is False
+
+    def test_agency_display_name(self):
+        from lib import agency_display_name
+        assert agency_display_name({"display_name": "Custom", "flock_names": ["Flock"]}) == "Custom"
+        assert agency_display_name({"flock_names": ["Flock Name"]}) == "Flock Name"
+        assert agency_display_name({}, "fallback") == "fallback"
+        assert agency_display_name({}) == "?"
+
+    def test_agency_active_slug(self):
+        from lib import agency_active_slug
+        assert agency_active_slug({"flock_active_slug": "active", "flock_slugs": ["active", "old"]}) == "active"
+        assert agency_active_slug({"flock_slugs": ["first", "second"]}) == "first"
+        assert agency_active_slug({}, "fallback") == "fallback"
+        assert agency_active_slug({}) == "?"
+
+    def test_resolve_agency_by_slug(self):
+        from lib import resolve_agency
+        entry = resolve_agency(slug="san-mateo-ca-pd")
+        assert entry is not None
+        assert "san-mateo-ca-pd" in entry["flock_slugs"]
+
+    def test_resolve_agency_by_name(self):
+        from lib import resolve_agency
+        entry = resolve_agency(name="San Mateo CA PD")
+        assert entry is not None
+        assert "San Mateo CA PD" in entry["flock_names"]
+
+    def test_resolve_agency_not_found(self):
+        from lib import resolve_agency
+        assert resolve_agency(slug="nonexistent-agency-xyz") is None
+        assert resolve_agency(name="Nonexistent Agency XYZ") is None
+
+    def test_resolve_returns_full_entry(self):
+        """resolve_agency should return a complete registry entry."""
+        from lib import resolve_agency
+        entry = resolve_agency(slug="san-mateo-ca-pd")
+        assert entry is not None
+        assert "agency_id" in entry
+        assert "flock_active_slug" in entry
+        assert "tags" in entry
 
 
 # ── HTML tests ──
