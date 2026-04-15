@@ -243,12 +243,12 @@ function renderDisclaimers(meta) {
   return html;
 }
 
-function renderNoSharingCard(list) {
+function renderListCard(title, subtitle, list) {
   if (!list || list.length === 0) return null;
   var card = document.createElement('div');
   card.className = 'no-sharing-card';
-  var html = '<div class="card-title">Transparency Gaps</div>'
-    + '<div class="card-subtitle">' + list.length + ' agencies have a portal but publish no sharing data</div>'
+  var html = '<div class="card-title">' + title + '</div>'
+    + '<div class="card-subtitle">' + subtitle + '</div>'
     + '<ul class="no-sharing-list">';
   for (var i = 0; i < list.length; i++) {
     html += '<li><a href="sharing_map.html#' + encodeURIComponent(list[i].slug)
@@ -257,6 +257,14 @@ function renderNoSharingCard(list) {
   html += '</ul>';
   card.innerHTML = html;
   return card;
+}
+
+function renderNoSharingCard(list) {
+  return renderListCard(
+    'Transparency Gaps',
+    list.length + ' agencies have a portal but publish no sharing data',
+    list
+  );
 }
 
 fetch('data/scoreboard_data.json')
@@ -277,6 +285,28 @@ fetch('data/scoreboard_data.json')
     if (noSharingCard) {
       grid.appendChild(noSharingCard);
     }
+
+    // Render no-portal card from map data
+    fetch('data/map_data.json')
+      .then(function(r) { return r.json(); })
+      .then(function(mapData) {
+        var noPortal = [];
+        var ai = mapData.agencyInfo || {};
+        for (var slug in ai) {
+          var info = ai[slug];
+          if (info.state === 'CA' && !info.crawled && info.public !== false
+              && info.type !== 'test' && info.type !== 'decommissioned') {
+            noPortal.push({ slug: slug, name: info.name || slug });
+          }
+        }
+        noPortal.sort(function(a, b) { return a.name.localeCompare(b.name); });
+        var card = renderListCard(
+          'No Transparency Portal',
+          noPortal.length + ' California agencies appear in sharing lists but have no findable portal',
+          noPortal
+        );
+        if (card) grid.appendChild(card);
+      });
   })
   .catch(function(err) {
     document.getElementById('grid').innerHTML =

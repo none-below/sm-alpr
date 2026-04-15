@@ -1,3 +1,6 @@
+// Feature flags
+const SHOW_SHARES_WITH_TAGS = false; // [SHARES WITH NON-CONFORMING ENTITY] and [SHARES WITH SUED AGENCY]
+
 // Sanitization helpers
 function escapeHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -185,13 +188,13 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Attorney General lawsuit for illegal out-of-state ALPR data sharing in violation of SB 34">[AG LAWSUIT \u2014 illegal sharing]</span>';
     // Check if this agency re-shares to violations (from marker data)
     const mData = (typeof markerDataBySlug !== 'undefined') && markerDataBySlug[s];
-    if (mData && !isViolation(s)) {
+    if (SHOW_SHARES_WITH_TAGS && mData && !isViolation(s)) {
       const hasOutboundViol = (mData.outbound_slugs || []).some(t => isViolation(t));
       if (hasOutboundViol)
         tag += ' <span style="color:#d97706;font-weight:bold" title="This agency shares data with non-conforming entities (private, federal, test)">[SHARES WITH NON-CONFORMING ENTITY]</span>';
     }
     // Flag agencies sharing with a sued agency
-    if (mData && !info.ag_lawsuit) {
+    if (SHOW_SHARES_WITH_TAGS && mData && !info.ag_lawsuit) {
       const sharesWithSued = (mData.outbound_slugs || []).some(t => (agencyInfo[t] || {}).ag_lawsuit);
       if (sharesWithSued)
         tag += ' <span style="color:#d97706;font-weight:bold" title="This agency shares ALPR data with an agency under AG lawsuit for illegal sharing">[SHARES WITH SUED AGENCY]</span>';
