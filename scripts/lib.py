@@ -25,24 +25,95 @@ def load_registry():
     return _registry_cache
 
 
+def registry_by_id():
+    """Return agency_id -> registry entry lookup."""
+    return {e["agency_id"]: e for e in load_registry()}
+
+
 def registry_by_slug():
-    """Return slug -> registry entry lookup."""
+    """Return slug -> registry entry lookup. Backward compat."""
     return {e["slug"]: e for e in load_registry()}
 
 
-def flock_name_to_slug(name):
-    """Look up a Flock display name in the registry, return slug.
+DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 
-    Returns None if the name isn't in the registry. New names should be
-    added to the registry via build_agency_registry.py, not derived here.
+
+def crawl_status(entry, data_dir=None):
+    """Derive crawled/crawled_date from the filesystem for a registry entry.
+
+    Checks all directories in ``flock_slugs`` and returns the most recent
+    crawl date found across any of them.
+
+    Returns (crawled: bool, crawled_date: str|None).
+    """
+    data_dir = data_dir or DEFAULT_DATA_DIR
+    latest = None
+    slugs = entry.get("flock_slugs", []) or []
+    # Always check the slug field as fallback (it's the directory name)
+    base_slug = entry.get("slug")
+    if base_slug and base_slug not in slugs:
+        slugs = list(slugs) + [base_slug]
+    for slug in slugs:
+        slug_dir = data_dir / slug
+        if slug_dir.is_dir():
+            jsons = sorted(slug_dir.glob("*.json"))
+            if jsons:
+                date = jsons[-1].stem  # e.g. "2026-04-10"
+                if latest is None or date > latest:
+                    latest = date
+    return (True, latest) if latest else (False, None)
+
+
+def has_tag(entry, tag):
+    """Check if a registry entry has a specific tag."""
+    return tag in entry.get("tags", [])
+
+
+
+def agency_active_slug(entry, fallback=None):
+    """Return the current active Flock portal slug for a registry entry."""
+    if entry.get("flock_active_slug"):
+        return entry["flock_active_slug"]
+    slugs = entry.get("flock_slugs", [])
+    if slugs:
+        return slugs[0]
+    return fallback or entry.get("slug", "?")
+
+
+def agency_display_name(entry, fallback=None):
+    """Return the best display name for a registry entry."""
+    if entry.get("display_name"):
+        return entry["display_name"]
+    names = entry.get("flock_names", [])
+    if names:
+        return names[0]
+    return fallback or entry.get("slug", "?")
+
+
+def resolve_agency(*, slug=None, name=None):
+    """Find a registry entry by Flock slug or display name.
+
+    Pass exactly one of ``slug`` or ``name``. Searches ``flock_slugs``
+    (including legacy slugs) and ``flock_names`` respectively.
+
+    Returns the full registry entry dict, or None if not found.
     """
     for e in load_registry():
-        if e.get("flock_name") == name:
-            return e["slug"]
-        for aka_name in e.get("also_known_as_names", []):
-            if aka_name == name:
-                return e["slug"]
+        if slug is not None:
+            if slug in e.get("flock_slugs", []) or slug == e.get("slug"):
+                return e
+        if name is not None:
+            if name in e.get("flock_names", []):
+                return e
     return None
+
+
+# Backward-compat wrappers — callers migrating to resolve_agency()
+
+def flock_name_to_slug(name):
+    """Look up a Flock display name, return active slug. Use resolve_agency() instead."""
+    entry = resolve_agency(name=name)
+    return agency_active_slug(entry) if entry else None
 
 
 # ── Text parsing utilities ──
@@ -60,8 +131,8 @@ _EXPECTS_CONTINUATION = re.compile(
 def parse_org_list(orgs_text):
     """Parse a comma-separated org list from Flock portal text.
 
-    Returns a list of display names. Use flock_name_to_slug() to resolve
-    each name to a registry slug.
+    Returns a list of display names. Use resolve_agency(name=n) to look
+    up each name in the registry.
     """
     if not orgs_text:
         return []

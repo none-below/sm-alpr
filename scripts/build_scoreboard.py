@@ -10,9 +10,12 @@ Usage:
 """
 
 import json
+import sys
 from pathlib import Path
 
-REGISTRY_PATH = Path("assets/agency_registry.json")
+sys.path.insert(0, str(Path(__file__).parent))
+from lib import agency_display_name, has_tag, load_registry
+
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 DATA_DIR = Path("assets/transparency.flocksafety.com")
 OUT_PATH = Path("docs/data/scoreboard_data.json")
@@ -24,7 +27,7 @@ RANKED_STATE = "CA"
 def is_violation_entity(slug, registry_by_slug):
     """Match the violation logic from build_map.py."""
     r = registry_by_slug.get(slug, {})
-    if r.get("public") is False:
+    if has_tag(r, "private"):
         return "private"
     if r.get("state") and r["state"] != "CA":
         return "out_of_state"
@@ -51,8 +54,7 @@ def load_crawled_stats(slug):
 
 
 def main():
-    with open(REGISTRY_PATH) as f:
-        registry = json.load(f)
+    registry = load_registry()
     registry_by_slug = {a["slug"]: a for a in registry}
 
     with open(GRAPH_PATH) as f:
@@ -113,7 +115,7 @@ def main():
 
         agencies.append({
             "slug": slug,
-            "name": info.get("human_name", info.get("flock_name", slug)),
+            "name": agency_display_name(info, slug),
             "state": info.get("state", ""),
             "outbound": outbound_count,
             "inbound": inbound_count,
@@ -170,7 +172,7 @@ def main():
             info = registry_by_slug.get(slug, {})
             no_sharing_list.append({
                 "slug": slug,
-                "name": info.get("human_name", info.get("flock_name", slug)),
+                "name": agency_display_name(info, slug),
             })
 
     # ── Compute metadata for disclaimers ──
