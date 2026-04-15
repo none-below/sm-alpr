@@ -1,5 +1,6 @@
 {
-  "slug": "madera-ca-pd",
+  "crawled_slug": "madera-ca-pd",
+  "crawled_name": "Madera CA PD",
   "archived_date": "2026-03-28",
   "whats_detected": "License Plates, Vehicles",
   "whats_not_detected": "Facial recognition, People, Gender, Race",
@@ -15,8 +16,7 @@
   "vehicles_detected_30d": 106635,
   "hotlist_hits_30d": 387,
   "searches_30d": 52,
-  "shared_org_count": 174,
-  "shared_org_names": [
+  "sharing_outbound": [
     "San Jose State University CA",
     "Albany CA PD",
     "Anderson CA PD",
@@ -192,183 +192,385 @@
     "Yolo County CA SO",
     "Yuba City CA PD"
   ],
-  "shared_org_slugs": [
-    "san-jose-state-university-ca",
-    "albany-ca-pd",
-    "anderson-ca-pd",
-    "angels-camp-ca-pd",
-    "antioch-ca-pd",
-    "arcadia-ca-pd",
-    "barstow-ca-pd",
-    "bear-valley-springs-ca-pd",
-    "beaumont-ca-pd",
-    "bell-ca-pd",
-    "belvedere-ca-pd",
-    "benicia-ca-pd",
-    "bishop-ca-pd",
-    "buena-park-ca-pd",
-    "burlingame-ca-pd",
-    "butte-county-ca-so",
-    "cal-fire",
-    "california-department-of-fish-wildlife-ca",
-    "california-highway-patrol",
-    "california-state-parks",
-    "calistoga-ca-pd",
-    "carmel-ca-pd",
-    "cathedral-city-ca-pd",
-    "central-marin-ca-pd",
-    "cerritos-college-ca-pd",
-    "citrus-heights-ca-pd",
-    "city-of-lemoore-ca",
-    "clayton-ca-pd",
-    "cloverdale-ca-pd",
-    "colma-ca-pd",
-    "colusa-ca-pd",
-    "concord-ca-pd",
-    "contra-costa-county-ca-so",
-    "corcoran-ca-pd",
-    "corona-ca-pd",
-    "cotati-ca-pd",
-    "cypress-ca-pd",
-    "daly-city-ca-pd",
-    "danville-ca-pd",
-    "del-norte-county-ca-so",
-    "desert-hot-springs-ca-pd",
-    "dixon-ca-pd",
-    "dublin-ca-pd",
-    "east-bay-parks-ca-pd",
-    "east-palo-alto-ca-pd",
-    "-el-cajon-pd-ca",
-    "el-cerrito-ca-pd",
-    "el-dorado-county-ca-so",
-    "el-monte-ca-pd",
-    "el-segundo-ca-pd",
-    "elk-grove-ca-pd",
-    "fairfield-ca-pd",
-    "folsom-ca-pd",
-    "fort-bragg-ca-pd",
-    "fowler-ca-pd",
-    "fullerton-ca-pd",
-    "galt-ca-pd",
-    "gilroy-ca-pd",
-    "glendora-ca-pd",
-    "grass-valley-ca-pd",
-    "greenfield-ca-pd",
-    "hayward-ca-pd",
-    "hercules-ca-pd",
-    "hillsborough-ca-pd",
-    "hollister-ca-pd",
-    "imperial-county-ca-so",
-    "inglewood-ca-pd",
-    "kerman-ca-pd",
-    "kern-county-ca-so",
-    "kings-county-sheriffs-office-ca",
-    "kingsburg-ca-pd",
-    "la-habra-ca-pd",
-    "la-mesa-ca-pd",
-    "la-verne-ca-pd",
-    "lakeport-ca-pd",
-    "lancaster-ca-pd",
-    "lathrop-ca-pd",
-    "livermore-ca-pd",
-    "los-angeles-county-ca-sd",
-    "madera-county-so-ca",
-    "marin-county-ca-so",
-    "marina-ca-pd",
-    "mcfarland-ca-pd",
-    "mendocino-county-soca",
-    "menlo-park-ca-pd",
-    "merced-county-ca-so",
-    "monterey-county-ca-so",
-    "monterey-county-district-attorneys-office",
-    "moraga-ca-pd",
-    "murrieta-ca-pd",
-    "napa-ca-pd",
-    "napa-county-ca-so",
-    "ncric",
-    "nevada-city-ca-pd",
-    "newark-ca-pd",
-    "newport-beach-pd-ca",
-    "novato-ca-pd",
-    "oceanside-ca-pd",
-    "orange-ca-pd",
-    "orange-county-fire-authority-ca",
-    "orange-county-so-ca",
-    "pasadena-ca-pd",
-    "petaluma-ca-pd",
-    "placer-county-ca-so",
-    "pleasanton-ca-pd",
-    "port-of-stockton-ca-pd",
-    "redding-pd-ca",
-    "redwood-city-ca-pd",
-    "reedley-ca-pd",
-    "rio-hondo-college-pd-ca",
-    "riverside-county-ca-district-attorney",
-    "riverside-county-ca-sd",
-    "rocklin-ca-pd",
-    "rohnert-park-department-of-public-safety-ca",
-    "sacramento-ca-da",
-    "sacramento-county-parks-department-ca",
-    "salinas-ca-pd",
-    "san-benito-county-so-ca",
-    "san-bernardino-ca-pd",
-    "san-bernardino-community-college-ca-pd",
-    "san-bernardino-county-ca-so",
-    "san-bruno-ca-pd",
-    "san-diego-harbor-ca-pd",
-    "san-fernando-ca-pd",
-    "san-joaquin-ca-da",
-    "san-joaquin-county-ca-so",
-    "san-joaquin-delta-college-pd-ca",
-    "san-jose-evergreen-community-college-campus-pd-ca",
-    "san-jose-ca-pd",
-    "san-luis-obispo-ca-pd",
-    "san-luis-obispo-county-ca-sheriff",
-    "san-pablo-ca-pd",
-    "san-pasqual-ca-pd",
-    "sanger-ca-pd",
-    "santa-ana-ca-pd",
-    "santa-clara-ca-pd",
-    "santa-cruz-ca-pd",
-    "santa-rosa-ca-pd",
-    "sausalito-ca-pd",
-    "seal-beach-ca-pd",
-    "seaside-ca-pd",
-    "selma-ca-pd",
-    "shafter-pd-ca",
-    "shasta-county-so",
-    "signal-hill-ca-pd",
-    "simi-valley-ca-pd",
-    "solano-county-da-ca",
-    "soledad-ca-pd",
-    "sonoma-county-ca-so",
-    "stockton-ca-pd",
-    "sutter-county-ca-so",
-    "taft-ca-pd",
-    "tehama-county-ca-so",
-    "los-gatos-ca-pd",
-    "tracy-ca-pd",
-    "trinity-county-so-ca",
-    "tulare-ca-pd",
-    "tustin-ca-pd",
-    "union-city-ca-pd",
-    "university-of-the-pacific-ca",
-    "upland-ca-pd",
-    "vacaville-ca-pd",
-    "vallejo-ca-pd",
-    "visalia-ca-pd",
-    "walnut-creek-ca-pd",
-    "watsonville-ca-pd",
-    "west-covina-ca-pd",
-    "west-sacramento-ca-pd",
-    "whittier-ca-pd",
-    "williams-ca-pd",
-    "winters-ca-pd",
-    "woodlake-ca-pd",
-    "yolo-county-ca-so",
-    "yuba-city-ca-pd"
-  ],
-  "orgs_sharing_with_count": 0,
-  "orgs_sharing_with_names": [],
-  "orgs_sharing_with_slugs": []
+  "sharing_inbound": [],
+  "overview": "Madera CA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Madera CA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Madera CA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.",
+  "policy_info": "",
+  "alpr_policy": "",
+  "additional_info": "",
+  "download_csv": "",
+  "search_audit": "Download CSV",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": "",
+  "search_audit_csv": [
+    {
+      "id": "65917581-32a2-483f-9902-7e66bd86cc83",
+      "userId": "***",
+      "searchDate": "2026-02-27T21:02:47.433Z",
+      "networkCount": "0",
+      "reason": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "2f88610a-d985-415f-ba11-1195267ad4f7",
+      "userId": "***",
+      "searchDate": "2026-02-28T11:58:21.614Z",
+      "networkCount": "1",
+      "reason": "Justice"
+    },
+    {
+      "id": "bc1d15f4-469f-4638-898e-09340492592d",
+      "userId": "***",
+      "searchDate": "2026-02-28T12:00:48.006Z",
+      "networkCount": "1",
+      "reason": "Justice"
+    },
+    {
+      "id": "0323eb67-40ea-4d0f-9e9a-54c83111e66a",
+      "userId": "***",
+      "searchDate": "2026-02-28T12:14:04.316Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "361b220d-f998-4060-9429-0929ab2a8edd",
+      "userId": "***",
+      "searchDate": "2026-02-28T12:44:40.927Z",
+      "networkCount": "1",
+      "reason": "Suspect ID"
+    },
+    {
+      "id": "8b524b6e-3bbd-4aa0-9201-8d73067735a3",
+      "userId": "***",
+      "searchDate": "2026-03-01T16:48:22.382Z",
+      "networkCount": "398",
+      "reason": "investigation"
+    },
+    {
+      "id": "af8f3e84-2a9a-4d31-81e2-a7faf4b9caa2",
+      "userId": "***",
+      "searchDate": "2026-03-01T23:52:11.760Z",
+      "networkCount": "398",
+      "reason": "investigation"
+    },
+    {
+      "id": "55cf18f6-d35f-4946-a2fd-0d35ef9e3ce7",
+      "userId": "***",
+      "searchDate": "2026-03-02T03:55:54.232Z",
+      "networkCount": "0",
+      "reason": "Driving Under the Influence (DUI/DWI/OWI/OVI)"
+    },
+    {
+      "id": "d1568a4c-d745-4de1-b27c-6aa8209e82fd",
+      "userId": "***",
+      "searchDate": "2026-03-03T18:30:51.051Z",
+      "networkCount": "368",
+      "reason": "Investigation"
+    },
+    {
+      "id": "6a80cb8c-9253-467a-abb7-0b82e3afaf60",
+      "userId": "***",
+      "searchDate": "2026-03-04T08:40:06.147Z",
+      "networkCount": "1",
+      "reason": "Locating trailer"
+    },
+    {
+      "id": "7cccd44e-3e59-4c8a-b865-b61fd90eea91",
+      "userId": "***",
+      "searchDate": "2026-03-05T17:54:23.566Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "ae0e6d2b-d6af-478e-9d48-4126102456e1",
+      "userId": "***",
+      "searchDate": "2026-03-05T18:02:22.991Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "868af2c3-3b18-474f-87a1-336359925ab9",
+      "userId": "***",
+      "searchDate": "2026-03-05T18:24:07.914Z",
+      "networkCount": "1",
+      "reason": "PETTY THEFT FROM CVS WITH THE RO BEING ON FC PROB FOR THEFT AND NUMEROUS PRIOR THEFT CHARGES"
+    },
+    {
+      "id": "4e338c0d-d52f-4780-91de-80bccc243ba7",
+      "userId": "***",
+      "searchDate": "2026-03-06T01:00:46.380Z",
+      "networkCount": "1",
+      "reason": "211"
+    },
+    {
+      "id": "fc4a35e1-2c23-4d38-9d33-0cc4434dce05",
+      "userId": "***",
+      "searchDate": "2026-03-06T01:08:02.901Z",
+      "networkCount": "1",
+      "reason": "ELAW"
+    },
+    {
+      "id": "367b321b-1fdb-445b-a542-ce54fdefae6b",
+      "userId": "***",
+      "searchDate": "2026-03-06T02:04:47.187Z",
+      "networkCount": "0",
+      "reason": "Robbery"
+    },
+    {
+      "id": "892c44e2-8f9f-46f8-976e-3cdb31297315",
+      "userId": "***",
+      "searchDate": "2026-03-06T07:26:36.629Z",
+      "networkCount": "1",
+      "reason": "law enf"
+    },
+    {
+      "id": "fa1b0103-2aa9-4d81-a6c5-79f03450a584",
+      "userId": "***",
+      "searchDate": "2026-03-06T10:28:10.527Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "6808de4b-bcec-47a2-993c-419c3b616b14",
+      "userId": "***",
+      "searchDate": "2026-03-06T17:05:08.679Z",
+      "networkCount": "1",
+      "reason": "Shooting investigation"
+    },
+    {
+      "id": "a531b9b5-4288-496a-9bd5-800970fa7451",
+      "userId": "***",
+      "searchDate": "2026-03-06T19:44:49.175Z",
+      "networkCount": "416",
+      "reason": "investigation"
+    },
+    {
+      "id": "9445ad5d-0813-4a81-91d9-afaa3f5888a0",
+      "userId": "***",
+      "searchDate": "2026-03-07T05:09:20.453Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "17c4956a-f3cd-48ba-9ebf-d96b2558c005",
+      "userId": "***",
+      "searchDate": "2026-03-10T03:13:52.243Z",
+      "networkCount": "1",
+      "reason": "traffic collision"
+    },
+    {
+      "id": "c1a2b1de-3b9f-46be-b00d-4c2adee82a15",
+      "userId": "***",
+      "searchDate": "2026-03-10T19:12:13.915Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "956e6f54-1a06-48d4-8804-801fde0f7845",
+      "userId": "***",
+      "searchDate": "2026-03-11T00:06:43.941Z",
+      "networkCount": "0",
+      "reason": "Alcohol Offenses (Non-DUI)"
+    },
+    {
+      "id": "99be5ee4-36e5-42a8-ae27-07e19aff30c0",
+      "userId": "***",
+      "searchDate": "2026-03-11T15:07:01.197Z",
+      "networkCount": "398",
+      "reason": "ELAW"
+    },
+    {
+      "id": "9b9bc961-018f-4ba6-97d2-9ccc41a24daf",
+      "userId": "***",
+      "searchDate": "2026-03-16T05:36:34.027Z",
+      "networkCount": "1",
+      "reason": "Justice"
+    },
+    {
+      "id": "471b136f-6fed-413d-90c8-44e5527c84f4",
+      "userId": "***",
+      "searchDate": "2026-03-17T01:44:23.638Z",
+      "networkCount": "0",
+      "reason": "Alcohol Offenses (Non-DUI)"
+    },
+    {
+      "id": "7c79fd9d-b4f2-4360-a9d7-48f10222b4e3",
+      "userId": "***",
+      "searchDate": "2026-03-17T15:55:15.817Z",
+      "networkCount": "889",
+      "reason": "Stabbing investigation"
+    },
+    {
+      "id": "d8d53523-424b-4c76-9561-0be124379a5e",
+      "userId": "***",
+      "searchDate": "2026-03-17T20:43:50.762Z",
+      "networkCount": "398",
+      "reason": "Investigation"
+    },
+    {
+      "id": "17d86f0e-7c3c-470c-bb25-40f719f93ab0",
+      "userId": "***",
+      "searchDate": "2026-03-17T22:12:17.704Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "686e6ad5-620e-4022-b3dc-09b2d308e78d",
+      "userId": "***",
+      "searchDate": "2026-03-19T06:51:01.647Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "698f1c7a-d1fd-4dea-a312-a5bc095e80ca",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:46:35.197Z",
+      "networkCount": "1",
+      "reason": "HIT AND RUN SUSP VEH"
+    },
+    {
+      "id": "4ccfc77f-4d5e-43e4-869a-4ee5f0f90bfb",
+      "userId": "***",
+      "searchDate": "2026-03-20T19:05:40.274Z",
+      "networkCount": "1",
+      "reason": "POSSIBLE HIT AND RUN SUSP VEH"
+    },
+    {
+      "id": "68d1cf0d-f06d-4fb1-8a3e-dd31cf3fe5e4",
+      "userId": "***",
+      "searchDate": "2026-03-20T20:35:42.710Z",
+      "networkCount": "0",
+      "reason": "Alcohol Offenses (Non-DUI)"
+    },
+    {
+      "id": "c0248711-ca9e-4343-83af-cadb3100f6ef",
+      "userId": "***",
+      "searchDate": "2026-03-20T21:35:57.790Z",
+      "networkCount": "0",
+      "reason": "Alcohol Offenses (Non-DUI)"
+    },
+    {
+      "id": "af40ea78-9f6d-4daa-aa64-46f4d7b886a3",
+      "userId": "***",
+      "searchDate": "2026-03-21T21:37:22.644Z",
+      "networkCount": "1",
+      "reason": "FOLLOW UP"
+    },
+    {
+      "id": "518e5530-460c-40ac-8763-94b09d9044b0",
+      "userId": "***",
+      "searchDate": "2026-03-22T08:26:46.143Z",
+      "networkCount": "1",
+      "reason": "Justice"
+    },
+    {
+      "id": "2d0ce8b4-9372-4558-8bcf-423b0211cff7",
+      "userId": "***",
+      "searchDate": "2026-03-23T07:30:37.356Z",
+      "networkCount": "1",
+      "reason": "Justice"
+    },
+    {
+      "id": "61e69253-e762-4da1-8fff-01f855f11c5c",
+      "userId": "***",
+      "searchDate": "2026-03-23T08:53:45.719Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "90b8d65c-e251-4afb-bdfd-bd8b12704ded",
+      "userId": "***",
+      "searchDate": "2026-03-23T15:00:47.086Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "2bb8df79-4a2c-42ba-95ea-1e85b43dd08b",
+      "userId": "***",
+      "searchDate": "2026-03-24T16:19:51.735Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "1ac60df7-6004-41ff-905b-d0a35cc4a248",
+      "userId": "***",
+      "searchDate": "2026-03-24T22:01:10.517Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "fb412d75-2293-4d32-aebe-76306968e121",
+      "userId": "***",
+      "searchDate": "2026-03-24T22:09:27.957Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "b0952ec8-fb62-471f-89d3-a4029455d71b",
+      "userId": "***",
+      "searchDate": "2026-03-24T23:31:37.521Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "2f2de37c-6958-4cdf-8a0f-cbf1d136de8e",
+      "userId": "***",
+      "searchDate": "2026-03-25T16:43:06.275Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "6ff0ee77-305b-4b37-b134-4838a9fd4ab6",
+      "userId": "***",
+      "searchDate": "2026-03-25T17:17:20.910Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "42695ef6-9227-490a-b0a6-35692ea29993",
+      "userId": "***",
+      "searchDate": "2026-03-25T18:10:54.874Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "d3e47b29-5c32-44f7-bd79-81ae07e227f0",
+      "userId": "***",
+      "searchDate": "2026-03-25T19:00:57.873Z",
+      "networkCount": "398",
+      "reason": "Investigation"
+    },
+    {
+      "id": "fd23a5f1-e89c-4c41-9146-b1fe64913bbd",
+      "userId": "***",
+      "searchDate": "2026-03-25T19:02:41.954Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "6bebb468-d5bf-402a-8271-0da830d0a979",
+      "userId": "***",
+      "searchDate": "2026-03-25T19:34:57.923Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "2aaf276d-3c66-4774-8365-1031c5c2a951",
+      "userId": "***",
+      "searchDate": "2026-03-26T02:13:24.410Z",
+      "networkCount": "0",
+      "reason": "Alcohol Offenses (Non-DUI)"
+    },
+    {
+      "id": "022f7659-eb4a-4abd-b7c8-ae09a37f5dc6",
+      "userId": "***",
+      "searchDate": "2026-03-27T03:15:23.247Z",
+      "networkCount": "368",
+      "reason": "Investigation"
+    }
+  ]
 }

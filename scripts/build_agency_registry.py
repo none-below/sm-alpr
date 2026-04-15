@@ -199,9 +199,9 @@ def main():
             for ps in e.get("flock_slugs", []):
                 existing.setdefault(f"__slug__{ps}", e["agency_id"])
 
-    # Collect all entities from crawled data
-    slug_to_flock_name = {}
-    crawled_slugs = {}  # slug -> latest crawl date
+    # Collect all agency names from crawled data
+    all_names = set()    # every agency name we've seen
+    crawled_slugs = {}   # directory slug -> latest crawl date
 
     for slug_dir in sorted(data_dir.iterdir()):
         if not slug_dir.is_dir() or slug_dir.name.startswith("."):
@@ -212,28 +212,31 @@ def main():
         data = json.loads(jsons[-1].read_text())
         crawled_slugs[slug_dir.name] = jsons[-1].stem  # e.g. "2026-03-27"
 
-        # Collect name→slug pairs from both outbound and inbound lists
-        for names_key, slugs_key in [
-            ("shared_org_names", "shared_org_slugs"),
-            ("orgs_sharing_with_names", "orgs_sharing_with_slugs"),
-        ]:
-            for name, slug in zip(
-                data.get(names_key, []),
-                data.get(slugs_key, []),
-            ):
-                slug_to_flock_name[slug] = name
+        # Collect names from both old and new field names
+        for key in ("sharing_outbound", "sharing_inbound",
+                     "shared_org_names", "orgs_sharing_with_names"):
+            all_names.update(data.get(key, []))
 
+    # Build slug_to_flock_name for new entry creation
+    # Each crawled directory is an agency; use its registry name or slug
+    slug_to_flock_name = {}
     for slug in crawled_slugs:
-        if slug not in slug_to_flock_name:
+        entry = existing.get(f"__slug__{slug}")
+        if entry and entry in existing:
+            e = existing[entry]
+            names = e.get("flock_names", [])
+            slug_to_flock_name[slug] = names[0] if names else slug
+        else:
             slug_to_flock_name[slug] = slug
 
-    # Also pick up entities from the sharing graph (includes inbound, uncrawled refs)
-    graph_path = data_dir / ".sharing_graph_full.json"
-    if graph_path.exists():
-        graph = json.loads(graph_path.read_text())
-        for slug in graph.get("agencies", {}):
-            if slug not in slug_to_flock_name:
-                slug_to_flock_name[slug] = slug
+    # For each discovered name not already in the registry, derive a slug
+    from lib import resolve_agency, name_to_slug
+    for name in all_names:
+        if resolve_agency(name=name):
+            continue  # already known
+        slug = name_to_slug(name)
+        if slug not in slug_to_flock_name:
+            slug_to_flock_name[slug] = name
 
     # Build registry
     registry = []

@@ -2,14 +2,12 @@
 """
 Build a comprehensive sharing graph from Flock transparency portal data.
 
+Resolves agency display names to agency_ids via the registry. All graph
+keys and edges use agency_id (UUID).
+
 Extracts both outbound sharing ("Organizations granted access to X") and
 inbound sharing ("Organizations sharing their data with X") from stored
 .txt files. Validates consistency between the two directions.
-
-Outputs:
-  - Per-agency JSON with outbound/inbound lists
-  - Full graph with bidirectional edges and mismatch flags
-  - Summary statistics
 
 Usage:
   uv run python scripts/build_sharing_graph.py
@@ -26,7 +24,7 @@ from pathlib import Path
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import load_registry, flock_name_to_slug, parse_org_list
+from lib import resolve_agency, agency_display_name, parse_org_list
 
 
 def extract_inbound_orgs(raw_text):
@@ -37,7 +35,6 @@ def extract_inbound_orgs(raw_text):
         return []
 
     start = idx + len(label)
-    # Find the end — look for common boundaries
     end_markers = [
         "Additional Info", "Policy Documents", "Provided by Flock Safety",
         "Organizations granted access",
@@ -52,10 +49,19 @@ def extract_inbound_orgs(raw_text):
             end = pos
 
     section = raw_text[start:end]
-    # Strip "Agency Name\n\n" header
     section = re.sub(r"^.*?\n", "", section, count=1).strip()
 
     return parse_org_list(f"Organizations\n\n{section}" if section else "")
+
+
+def _resolve_names_to_ids(names):
+    """Resolve a list of agency display names to agency_ids."""
+    ids = []
+    for name in names:
+        entry = resolve_agency(name=name)
+        if entry:
+            ids.append(entry["agency_id"])
+    return ids
 
 
 def main():
@@ -67,150 +73,138 @@ def main():
     data_dir = args.data_dir
 
     # ── Collect data from all portals ──
-    agencies = {}  # slug -> {outbound_names, inbound_names, outbound_slugs, inbound_slugs, ...}
+    agencies = {}  # agency_id -> {...}
 
     for slug_dir in sorted(data_dir.iterdir()):
         if not slug_dir.is_dir() or slug_dir.name.startswith("."):
             continue
 
-        slug = slug_dir.name
+        dir_slug = slug_dir.name
         txts = sorted(slug_dir.glob("*.txt"))
         jsons = sorted(slug_dir.glob("*.json"))
         if not txts:
             continue
 
+        entry = resolve_agency(slug=dir_slug)
+        if not entry:
+            print(f"  WARNING: {dir_slug} not in registry, skipping")
+            continue
+        agency_id = entry["agency_id"]
+
         raw_text = txts[-1].read_text(encoding="utf-8")
         portal_data = json.loads(jsons[-1].read_text()) if jsons else {}
 
-        outbound_names = portal_data.get("shared_org_names", [])
-        outbound_slugs = portal_data.get("shared_org_slugs", [])
+        # Support both old and new field names during transition
+        outbound_names = portal_data.get("sharing_outbound") or portal_data.get("shared_org_names", [])
+        outbound_ids = _resolve_names_to_ids(outbound_names)
 
-        # Prefer parsed JSON for inbound data; fall back to raw text extraction
-        inbound_slugs = portal_data.get("orgs_sharing_with_slugs", [])
-        inbound_names = portal_data.get("orgs_sharing_with_names", [])
-        if not inbound_slugs:
+        inbound_names = portal_data.get("sharing_inbound") or portal_data.get("orgs_sharing_with_names", [])
+        if not inbound_names:
             inbound_names = extract_inbound_orgs(raw_text)
-            inbound_slugs = [flock_name_to_slug(n) for n in inbound_names]
-            inbound_slugs = [s for s in inbound_slugs if s]  # drop unresolved
+        inbound_ids = _resolve_names_to_ids(inbound_names)
 
-        agencies[slug] = {
-            "slug": slug,
+        agencies[agency_id] = {
+            "agency_id": agency_id,
+            "slug": dir_slug,
             "archived_date": portal_data.get("archived_date"),
             "camera_count": portal_data.get("camera_count"),
             "data_retention_days": portal_data.get("data_retention_days"),
-            "outbound_count": len(outbound_names),
-            "outbound_names": outbound_names,
-            "outbound_slugs": outbound_slugs,
-            "inbound_count": len(inbound_names),
-            "inbound_names": inbound_names,
-            "inbound_slugs": inbound_slugs,
+            "sharing_outbound_count": len(outbound_names),
+            "sharing_outbound_ids": outbound_ids,
+            "sharing_inbound_count": len(inbound_names),
+            "sharing_inbound_ids": inbound_ids,
         }
 
     # ── Build bidirectional graph ──
 
-    # Outbound edges: A shares with B (A's portal says "granted access to B")
-    outbound_edges = defaultdict(set)  # source -> {targets}
-    # Inbound edges: B receives from A (B's portal says "A shares with B")
-    inbound_edges = defaultdict(set)   # target -> {sources}
+    outbound_edges = defaultdict(set)  # source_id -> {target_ids}
+    inbound_edges = defaultdict(set)   # target_id -> {source_ids}
 
-    for slug, data in agencies.items():
-        for target in data["outbound_slugs"]:
-            outbound_edges[slug].add(target)
-        for source in data["inbound_slugs"]:
-            inbound_edges[slug].add(source)
+    for aid, data in agencies.items():
+        for target_id in data["sharing_outbound_ids"]:
+            outbound_edges[aid].add(target_id)
+        for source_id in data["sharing_inbound_ids"]:
+            inbound_edges[aid].add(source_id)
 
     # ── Validate consistency ──
 
     mismatches = []
-    crawled = set(agencies.keys())
+    crawled_ids = set(agencies.keys())
 
-    for slug in crawled:
-        data = agencies[slug]
+    for aid in crawled_ids:
+        data = agencies[aid]
 
-        # For agencies with inbound data: check if the claimed sources
-        # actually list this agency in their outbound
-        if data["inbound_slugs"]:
-            for source_slug in data["inbound_slugs"]:
-                if source_slug in crawled:
-                    source_outbound = outbound_edges.get(source_slug, set())
-                    if slug not in source_outbound:
-                        source_has_outbound = bool(agencies[source_slug]["outbound_slugs"])
+        if data["sharing_inbound_ids"]:
+            for source_id in data["sharing_inbound_ids"]:
+                if source_id in crawled_ids:
+                    source_outbound = outbound_edges.get(source_id, set())
+                    if aid not in source_outbound:
                         mismatches.append({
                             "type": "inbound_not_confirmed",
-                            "agency": slug,
-                            "claims_shared_by": source_slug,
-                            "source_has_outbound_list": source_has_outbound,
+                            "agency": aid,
+                            "claims_shared_by": source_id,
+                            "source_has_outbound_list": bool(agencies[source_id]["sharing_outbound_ids"]),
                             "source_outbound_count": len(source_outbound),
-                            "detail": f"{slug}'s portal says {source_slug} shares with it, "
-                                      f"but {source_slug}'s portal "
-                                      f"({'lists ' + str(len(source_outbound)) + ' agencies but not ' + slug if source_has_outbound else 'has no outbound sharing section'}",
                         })
 
-        # Check if agencies we share with list us in their inbound
-        for target_slug in data["outbound_slugs"]:
-            if target_slug in crawled and agencies[target_slug]["inbound_slugs"]:
-                if slug not in inbound_edges.get(target_slug, set()):
+        for target_id in data["sharing_outbound_ids"]:
+            if target_id in crawled_ids and agencies[target_id]["sharing_inbound_ids"]:
+                if aid not in inbound_edges.get(target_id, set()):
                     mismatches.append({
                         "type": "outbound_not_confirmed",
-                        "agency": slug,
-                        "shares_with": target_slug,
-                        "detail": f"{slug} shares with {target_slug}, "
-                                  f"but {target_slug}'s inbound list doesn't include {slug}",
+                        "agency": aid,
+                        "shares_with": target_id,
                     })
 
     # ── Compute stats ──
 
     all_entities = set()
-    for slug, data in agencies.items():
-        all_entities.add(slug)
-        all_entities.update(data["outbound_slugs"])
-        all_entities.update(data["inbound_slugs"])
+    for aid, data in agencies.items():
+        all_entities.add(aid)
+        all_entities.update(data["sharing_outbound_ids"])
+        all_entities.update(data["sharing_inbound_ids"])
 
-    # Inbound count per entity (how many agencies share with this entity)
     inbound_counts = defaultdict(int)
-    for slug, targets in outbound_edges.items():
+    for source_id, targets in outbound_edges.items():
         for t in targets:
             inbound_counts[t] += 1
 
-    most_shared_with = sorted(inbound_counts.items(), key=lambda x: -x[1])[:30]
+    most_sharing_inbound = sorted(inbound_counts.items(), key=lambda x: -x[1])[:30]
 
     # ── Build entries for uncrawled entities ──
-    # We know they exist because crawled agencies list them as recipients
-    # or as sources (via inbound claims).
 
-    # Reverse inbound_edges: if B says "A shares with B", then A -> B
-    inbound_claimed_outbound = defaultdict(set)  # source -> {targets}
+    inbound_claimed_outbound = defaultdict(set)
     for target, sources in inbound_edges.items():
         for source in sources:
             inbound_claimed_outbound[source].add(target)
 
     uncrawled = {}
-    for entity in sorted(all_entities - set(agencies.keys())):
-        received_from = sorted(s for s, targets in outbound_edges.items() if entity in targets)
-        sends_to = sorted(inbound_claimed_outbound.get(entity, set()))
-        uncrawled[entity] = {
+    for entity_id in sorted(all_entities - crawled_ids):
+        received_from = sorted(s for s, targets in outbound_edges.items() if entity_id in targets)
+        sends_to = sorted(inbound_claimed_outbound.get(entity_id, set()))
+        uncrawled[entity_id] = {
             "archived_date": None,
             "crawled": False,
             "camera_count": None,
             "data_retention_days": None,
-            "outbound_count": len(sends_to),
-            "inbound_count": inbound_counts.get(entity, 0),
-            "outbound_slugs": sends_to,
-            "inbound_slugs": received_from,
+            "sharing_outbound_count": len(sends_to),
+            "sharing_inbound_count": inbound_counts.get(entity_id, 0),
+            "sharing_outbound_ids": sends_to,
+            "sharing_inbound_ids": received_from,
         }
 
     # Merge crawled + uncrawled
     all_agencies = {}
-    for slug, d in sorted(agencies.items()):
-        all_agencies[slug] = {
+    for aid, d in sorted(agencies.items()):
+        all_agencies[aid] = {
             "archived_date": d["archived_date"],
             "crawled": True,
             "camera_count": d["camera_count"],
             "data_retention_days": d["data_retention_days"],
-            "outbound_count": d["outbound_count"],
-            "inbound_count": d["inbound_count"],
-            "outbound_slugs": d["outbound_slugs"],
-            "inbound_slugs": d["inbound_slugs"],
+            "sharing_outbound_count": d["sharing_outbound_count"],
+            "sharing_inbound_count": d["sharing_inbound_count"],
+            "sharing_outbound_ids": d["sharing_outbound_ids"],
+            "sharing_inbound_ids": d["sharing_inbound_ids"],
         }
     all_agencies.update(uncrawled)
 
@@ -220,15 +214,15 @@ def main():
             "agencies_uncrawled": len(uncrawled),
             "total_entities": len(all_entities),
             "agencies_with_inbound_data": sum(
-                1 for a in agencies.values() if a["inbound_count"] > 0
+                1 for a in agencies.values() if a["sharing_inbound_count"] > 0
             ),
             "mismatches_found": len(mismatches),
         },
         "agencies": dict(sorted(all_agencies.items())),
         "mismatches": mismatches,
-        "most_shared_with": [
-            {"slug": slug, "inbound_count": count}
-            for slug, count in most_shared_with
+        "most_sharing_inbound": [
+            {"agency_id": aid, "inbound_count": count}
+            for aid, count in most_sharing_inbound
         ],
     }
 
@@ -247,15 +241,15 @@ def main():
         print(f"\n{'─' * 70}")
         print(f"MISMATCHES ({len(mismatches)})\n")
         for m in mismatches[:30]:
-            print(f"  [{m['type']}] {m['detail']}")
+            print(f"  [{m['type']}] {m['agency']}")
         if len(mismatches) > 30:
             print(f"  ... and {len(mismatches) - 30} more")
 
     print(f"\n{'─' * 70}")
-    print(f"MOST SHARED WITH (top 20)\n")
-    for entry in results["most_shared_with"][:20]:
+    print(f"MOST SHARING INBOUND (top 20)\n")
+    for entry in results["most_sharing_inbound"][:20]:
         bar = "█" * min(entry["inbound_count"], 40)
-        print(f"  {entry['inbound_count']:3d}  {bar}  {entry['slug']}")
+        print(f"  {entry['inbound_count']:3d}  {bar}  {entry['agency_id']}")
 
     print(f"\n{'=' * 70}")
 

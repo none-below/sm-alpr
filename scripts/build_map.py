@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import agency_display_name, crawl_status, has_tag, load_registry
+from lib import agency_display_name, agency_active_slug, crawl_status, has_tag, load_registry, registry_by_id
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 DEFAULT_OUT = Path("docs/sharing_map.html")
@@ -44,26 +44,25 @@ def main():
 
     graph = json.loads(graph_path.read_text())
 
-    # Load agency registry for classification data
-    registry_by_slug = {}
-    alias_to_primary = {}  # flock_slug -> primary slug
-    for e in load_registry():
-        registry_by_slug[e["slug"]] = e
-        for ps in e.get("flock_slugs", []):
-            if ps != e["slug"]:
-                alias_to_primary[ps] = e["slug"]
+    # Load agency registry indexed by agency_id
+    reg_by_id = registry_by_id()
 
-    # Validate: warn about graph slugs not in registry
-    not_in_registry = []
-    for slug in graph["agencies"]:
-        if slug not in registry_by_slug and slug not in alias_to_primary:
-            not_in_registry.append(slug)
+    # Also build slug-based lookups for JS output
+    registry_by_slug = {}
+    id_to_slug = {}  # agency_id -> slug (for translating graph edges to JS)
+    for e in load_registry():
+        slug = e["slug"]
+        registry_by_slug[slug] = e
+        id_to_slug[e["agency_id"]] = slug
+
+    def _ids_to_slugs(ids):
+        """Translate a list of agency_ids to slugs for JS output."""
+        return [id_to_slug[i] for i in ids if i in id_to_slug]
+
+    # Validate: warn about graph agency_ids not in registry
+    not_in_registry = [aid for aid in graph["agencies"] if aid not in reg_by_id]
     if not_in_registry:
-        print(f"WARNING: {len(not_in_registry)} slugs in sharing graph not in registry:")
-        for s in sorted(not_in_registry)[:10]:
-            print(f"  {s}")
-        if len(not_in_registry) > 10:
-            print(f"  ... and {len(not_in_registry) - 10} more")
+        print(f"WARNING: {len(not_in_registry)} agency_ids in sharing graph not in registry")
         print("Run build_agency_registry.py --merge to add them.\n")
 
     # Build map data.
@@ -79,41 +78,37 @@ def main():
     markers = []
     geocoded = 0
     ungeocodable = []
-    seen_slugs = set()
+    seen_ids = set()
 
-    # Pre-compute which slugs receive data from a CA agency
-    # (i.e. a CA agency lists them in outbound_slugs)
+    # Pre-compute which agency_ids receive data from a CA agency
     ca_outbound_targets = set()
-    for slug, data in graph["agencies"].items():
-        reg = registry_by_slug.get(slug, {})
+    for aid, data in graph["agencies"].items():
+        reg = reg_by_id.get(aid, {})
         if reg.get("state") == "CA":
-            for target in data.get("outbound_slugs", []):
-                ca_outbound_targets.add(target)
+            for target_id in data.get("sharing_outbound_ids", []):
+                ca_outbound_targets.add(target_id)
 
-    def should_show(slug, reg, data):
+    def should_show(aid, reg, data):
         """Determine default visibility for a marker."""
         crawled = data.get("crawled", False)
-        # Rule 1: all crawled CA agencies
         if reg.get("state") == "CA" and crawled:
             return True
-        # Rule 2: recipients of CA agency data — shown regardless of crawl
-        if slug in ca_outbound_targets:
+        if aid in ca_outbound_targets:
             return True
-        # Rule 3: everything else (senders-only, uncrawled non-recipients)
-        # hidden by default; JS reveals on click
         return False
 
-    for slug, data in graph["agencies"].items():
-        if slug in alias_to_primary:
+    for aid, data in graph["agencies"].items():
+        if aid not in reg_by_id:
             continue
-        if slug not in registry_by_slug:
+        reg = reg_by_id[aid]
+        slug = id_to_slug.get(aid)
+        if not slug:
             continue
-        reg = registry_by_slug[slug]
         if not reg.get("lat") or not reg.get("lng"):
             ungeocodable.append(slug)
             continue
         geocoded += 1
-        seen_slugs.add(slug)
+        seen_ids.add(aid)
 
         cameras = data.get("camera_count") or 0
         crawled = data.get("crawled", True)
@@ -123,30 +118,32 @@ def main():
             "lng": reg["lng"],
             "cameras": cameras,
             "crawled": crawled,
-            "visible": should_show(slug, reg, data),
-            "outbound_count": data["outbound_count"],
-            "inbound_count": data["inbound_count"],
+            "visible": should_show(aid, reg, data),
+            "outbound_count": data.get("sharing_outbound_count", 0),
+            "inbound_count": data.get("sharing_inbound_count", 0),
             "retention_days": data.get("data_retention_days"),
-            "outbound_slugs": data.get("outbound_slugs", []),
-            "inbound_slugs": data.get("inbound_slugs", []),
+            "outbound_slugs": _ids_to_slugs(data.get("sharing_outbound_ids", [])),
+            "inbound_slugs": _ids_to_slugs(data.get("sharing_inbound_ids", [])),
         })
 
-    # Add registry entries not yet in the sharing graph (e.g. uncrawled agencies)
-    for slug, reg in registry_by_slug.items():
-        if slug in seen_slugs or slug in alias_to_primary:
+    # Add registry entries not yet in the sharing graph
+    for e in load_registry():
+        aid = e["agency_id"]
+        if aid in seen_ids:
             continue
-        if not reg.get("lat") or not reg.get("lng"):
+        slug = e["slug"]
+        if not e.get("lat") or not e.get("lng"):
             continue
         geocoded += 1
-        seen_slugs.add(slug)
+        seen_ids.add(aid)
         empty_data = {"crawled": False}
         markers.append({
             "slug": slug,
-            "lat": reg["lat"],
-            "lng": reg["lng"],
+            "lat": e["lat"],
+            "lng": e["lng"],
             "cameras": 0,
             "crawled": False,
-            "visible": should_show(slug, reg, empty_data),
+            "visible": should_show(aid, e, empty_data),
             "outbound_count": 0,
             "inbound_count": 0,
             "retention_days": None,
@@ -227,9 +224,15 @@ def main():
     # Resolve edges with coordinates
     slug_coords = {m["slug"]: (m["lat"], m["lng"]) for m in markers}
 
-    # Build classification lookup for JS
+    # Build classification lookup for JS — only agencies in graph or with markers
+    graph_slugs = {id_to_slug.get(aid) for aid in graph["agencies"]} - {None}
+    marker_slugs = {m["slug"] for m in markers}
+    relevant_slugs = graph_slugs | marker_slugs
     slug_info = {}
-    for slug, reg in registry_by_slug.items():
+    for slug in relevant_slugs:
+        reg = registry_by_slug.get(slug, {})
+        if not reg:
+            continue
         is_crawled, crawled_date = crawl_status(reg, args.data_dir)
         slug_info[slug] = {
             "public": True if has_tag(reg, "public") else (False if has_tag(reg, "private") else None),
@@ -243,24 +246,23 @@ def main():
             "ag_lawsuit": has_tag(reg, "ag-lawsuit"),
         }
 
-    # Add alias entries pointing to primary's info
-    for alias, primary in alias_to_primary.items():
-        if primary in slug_info and alias not in slug_info:
-            slug_info[alias] = slug_info[primary]
+    # slug_info covers all slugs via the registry; resolve_agency()
+    # handles alias lookups for any secondary flock_slugs
 
-    # Build mismatch lookup
+    # Build mismatch lookup (translate agency_ids to slugs for JS)
     mismatch_map = {}
     for m in graph.get("mismatches", []):
-        agency = m.get("agency")
-        partner = m.get("claims_shared_by") or m.get("shares_with")
-        if agency and partner:
-            mismatch_map.setdefault(agency, []).append(partner)
-            mismatch_map.setdefault(partner, []).append(agency)
+        agency_slug = id_to_slug.get(m.get("agency"))
+        partner_id = m.get("claims_shared_by") or m.get("shares_with")
+        partner_slug = id_to_slug.get(partner_id)
+        if agency_slug and partner_slug:
+            mismatch_map.setdefault(agency_slug, []).append(partner_slug)
+            mismatch_map.setdefault(partner_slug, []).append(agency_slug)
 
     # Compute indirect violations: if A shares with B, and B shares with
     # a violation entity V, then A has an indirect violation "V via B"
-    def is_violation_entity(slug):
-        r = registry_by_slug.get(slug, {})
+    def is_violation_entity(aid):
+        r = reg_by_id.get(aid, {})
         if has_tag(r, "private"):
             return True
         if r.get("state") and r["state"] != "CA":
@@ -269,29 +271,32 @@ def main():
             return True
         return False
 
-    # Build outbound lookup from graph
-    outbound_by_slug = {}
-    for slug, data in graph["agencies"].items():
-        outbound_by_slug[slug] = data.get("outbound_slugs", [])
+    # Build outbound lookup from graph (agency_id -> [target_ids])
+    outbound_by_id = {}
+    for aid, data in graph["agencies"].items():
+        outbound_by_id[aid] = data.get("sharing_outbound_ids", [])
 
     # For each agency, find indirect violations (depth 1: via intermediaries)
-    indirect_violations = {}  # slug -> [{"violation": v, "via": intermediary}]
-    for slug, data in graph["agencies"].items():
+    # Output uses slugs for JS consumption
+    indirect_violations = {}  # slug -> [{"violation": slug, "via": slug}]
+    for aid, data in graph["agencies"].items():
+        slug = id_to_slug.get(aid)
+        if not slug:
+            continue
         indirects = []
         direct_violations = set()
-        for target in data.get("outbound_slugs", []):
-            if is_violation_entity(target):
-                direct_violations.add(target)
-        # Check intermediaries
-        for target in data.get("outbound_slugs", []):
-            if target in outbound_by_slug:
-                for second_hop in outbound_by_slug[target]:
-                    if is_violation_entity(second_hop) and second_hop not in direct_violations:
+        for target_id in data.get("sharing_outbound_ids", []):
+            if is_violation_entity(target_id):
+                direct_violations.add(target_id)
+        for target_id in data.get("sharing_outbound_ids", []):
+            if target_id in outbound_by_id:
+                for second_hop_id in outbound_by_id[target_id]:
+                    if is_violation_entity(second_hop_id) and second_hop_id not in direct_violations:
                         indirects.append({
-                            "violation": second_hop,
-                            "via": target,
-                            "via_name": agency_display_name(registry_by_slug.get(target, {}), target),
-                            "violation_name": agency_display_name(registry_by_slug.get(second_hop, {}), second_hop),
+                            "violation": id_to_slug.get(second_hop_id, second_hop_id),
+                            "via": id_to_slug.get(target_id, target_id),
+                            "via_name": agency_display_name(reg_by_id.get(target_id, {})),
+                            "violation_name": agency_display_name(reg_by_id.get(second_hop_id, {})),
                         })
         if indirects:
             # Deduplicate by violation slug

@@ -1,5 +1,6 @@
 {
-  "slug": "butte-county-ca-so",
+  "crawled_slug": "butte-county-ca-so",
+  "crawled_name": "Butte County CA SO",
   "archived_date": "2026-03-28",
   "whats_detected": "License Plates, Vehicles",
   "whats_not_detected": "Facial recognition, People, Gender, Race",
@@ -15,8 +16,7 @@
   "vehicles_detected_30d": 375947,
   "hotlist_hits_30d": 797,
   "searches_30d": 792,
-  "shared_org_count": 305,
-  "shared_org_names": [
+  "sharing_outbound": [
     "San Jose State University CA",
     "Alameda County CA SO",
     "Albany CA PD",
@@ -323,314 +323,5565 @@
     "Yuba City CA PD",
     "Yuba County Sheriffs Office"
   ],
-  "shared_org_slugs": [
-    "san-jose-state-university-ca",
-    "alameda-county-ca-so",
-    "albany-ca-pd",
-    "alhambra-ca-pd",
-    "anaheim-ca-pd",
-    "angels-camp-ca-pd",
-    "antioch-ca-pd",
-    "arcadia-ca-pd",
-    "atwater-ca-pd",
-    "auburn-ca-pd",
-    "avenal-ca-pd",
-    "azusa-ca-pd",
-    "bakersfield-ca-pd",
-    "baldwin-park-ca-pd",
-    "barstow-ca-pd",
-    "bear-valley-springs-ca-pd",
-    "beaumont-ca-pd",
-    "bell-ca-pd",
-    "bell-gardens-ca-pd",
-    "belvedere-ca-pd",
-    "benicia-ca-pd",
-    "beverly-hills-ca-pd",
-    "bishop-ca-pd",
-    "blue-lake-rancheria-tribal-pd",
-    "blythe-ca-pd",
-    "brawley-ca-pd",
-    "brentwood-ca-pd",
-    "buena-park-ca-pd",
-    "burbank-airport-ca-pd",
-    "burbank-ca-pd",
-    "burlingame-ca-pd",
-    "ca-iipay-nation-of-santa-ysabel",
-    "cal-fire",
-    "cal-state-fullerton-ca",
-    "calexico-ca-pd",
-    "california-department-of-corrections",
-    "california-department-of-fish-wildlife-ca",
-    "california-highway-patrol",
-    "california-state-parks",
-    "california-state-university-long-beach-campus-pd",
-    "calistoga-ca-pd",
-    "capitola-ca-pd",
-    "carmel-ca-pd",
-    "cathedral-city-ca-pd",
-    "central-marin-ca-pd",
-    "cerritos-college-ca-pd",
-    "chino-ca-pd",
-    "chula-vista-ca-pd",
-    "citrus-heights-ca-pd",
-    "city-of-lemoore-ca",
-    "city-of-riverside-ca-pd",
-    "claremont-ca-pd",
-    "clayton-ca-pd",
-    "clearlake-ca-pd",
-    "cloverdale-ca-pd",
-    "colma-ca-pd",
-    "colton-ca-pd",
-    "colusa-ca-pd",
-    "concord-ca-pd",
-    "contra-costa-county-ca-so",
-    "corcoran-ca-pd",
-    "corona-ca-pd",
-    "coronado-ca-pd",
-    "costa-mesa-ca-pd",
-    "cotati-ca-pd",
-    "culver-city-ca-pd",
-    "cypress-ca-pd",
-    "danville-ca-pd",
-    "del-norte-county-ca-so",
-    "delano-ca-pd",
-    "desert-hot-springs-ca-pd",
-    "dinuba-ca-pd",
-    "dixon-ca-pd",
-    "downey-pd-ca",
-    "dublin-ca-pd",
-    "east-bay-parks-ca-pd",
-    "east-palo-alto-ca-pd",
-    "-el-cajon-pd-ca",
-    "el-centro-ca-pd",
-    "el-cerrito-ca-pd",
-    "el-dorado-county-ca-so",
-    "el-monte-ca-pd",
-    "el-segundo-ca-pd",
-    "elk-grove-ca-pd",
-    "emeryville-ca-pd",
-    "escalon-ca-pd",
-    "escondido-ca-pd",
-    "fairfield-ca-pd",
-    "folsom-ca-pd",
-    "fontana-ca-pd",
-    "foothilldeanza-ca-pd",
-    "fort-bragg-ca-pd",
-    "foster-city-ca-pd",
-    "fountain-valley-ca-pd",
-    "fowler-ca-pd",
-    "fremont-ca-pd",
-    "fresno-ca-pd",
-    "fullerton-ca-pd",
-    "galt-ca-pd",
-    "garden-grove-ca-pd",
-    "gilroy-ca-pd",
-    "glendora-ca-pd",
-    "grass-valley-ca-pd",
-    "greenfield-ca-pd",
-    "grover-beach-ca-pd",
-    "gustine-pd-ca",
-    "hanford-ca-pd",
-    "hayward-ca-pd",
-    "hemet-ca-pd",
-    "hercules-ca-pd",
-    "hermosa-beach-pd-ca",
-    "hillsborough-ca-pd",
-    "hollister-ca-pd",
-    "humboldt-county-ca-so",
-    "imperial-city-ca-pd",
-    "imperial-county-ca-so",
-    "indio-ca-pd",
-    "irvine-ca-pd",
-    "irwindale-ca-pd",
-    "kerman-ca-pd",
-    "kern-county-ca-so",
-    "kings-county-ca-das-office",
-    "kings-county-sheriffs-office-ca",
-    "la-habra-ca-pd",
-    "la-mesa-ca-pd",
-    "la-verne-ca-pd",
-    "laguna-beach-ca-pd",
-    "lake-county-ca-so",
-    "lakeport-ca-pd",
-    "lancaster-ca-pd",
-    "lathrop-ca-pd",
-    "lincoln-ca-pd",
-    "livermore-ca-pd",
-    "livingston-ca-pd",
-    "lodi-ca-pd",
-    "lompoc-ca-pd",
-    "los-alamitos-pd-ca",
-    "los-altos-ca-pd",
-    "los-angeles-ca-pd",
-    "los-angeles-county-ca-sd",
-    "los-angeles-port-police-ca",
-    "madera-ca-pd",
-    "madera-county-so-ca",
-    "manteca-ca-pd",
-    "marin-county-ca-da",
-    "marin-county-ca-so",
-    "marina-ca-pd",
-    "mcfarland-ca-pd",
-    "mendocino-county-soca",
-    "mendota-ca-pd",
-    "menifee-ca-pd",
-    "menlo-park-ca-pd",
-    "merced-county-ca-so",
-    "mill-valley-ca-pd",
-    "milpitas-ca-pd",
-    "modoc-county-ca-so",
-    "montclair-ca-pd",
-    "monterey-ca-pd",
-    "monterey-county-ca-so",
-    "monterey-county-district-attorneys-office",
-    "monterey-park-ca-pd",
-    "moraga-ca-pd",
-    "morgan-hill-ca-pd",
-    "murrieta-ca-pd",
-    "napa-ca-pd",
-    "napa-county-ca-so",
-    "national-city-ca-pd",
-    "ncric",
-    "nevada-city-ca-pd",
-    "nevada-county-ca-so",
-    "newark-ca-pd",
-    "newport-beach-pd-ca",
-    "novato-ca-pd",
-    "oakley-ca-pd",
-    "oceanside-ca-pd",
-    "ontario-ca-pd",
-    "orange-ca-pd",
-    "orange-county-ca-da-office",
-    "orange-county-fire-authority-ca",
-    "orange-county-so-ca",
-    "oroville-ca-pd",
-    "oxnard-ca-pd",
-    "pacific-grove-ca-pd",
-    "pacifica-ca-pd",
-    "palm-springs-ca-pd",
-    "palo-alto-ca-pd",
-    "pasadena-ca-pd",
-    "petaluma-ca-pd",
-    "piedmont-ca-pd",
-    "placentia-ca-pd",
-    "placer-county-ca-da-office",
-    "placer-county-ca-so",
-    "pleasant-hill-ca-pd",
-    "pleasanton-ca-pd",
-    "port-of-stockton-ca-pd",
-    "porterville-ca-pd",
-    "redding-pd-ca",
-    "redondo-beach-ca-pd",
-    "redwood-city-ca-pd",
-    "reedley-ca-pd",
-    "rialto-pd-ca",
-    "ridgecrest-ca-pd",
-    "rio-hondo-college-pd-ca",
-    "rio-vista-ca-pd",
-    "riv-co-arson-tf-ca-pd",
-    "riverside-county-ca-district-attorney",
-    "riverside-county-ca-sd",
-    "rocklin-ca-pd",
-    "rohnert-park-department-of-public-safety-ca",
-    "roseville-ca-pd",
-    "sacramento-ca-da",
-    "sacramento-ca-pd",
-    "salinas-ca-pd",
-    "san-benito-county-so-ca",
-    "san-bernardino-ca-pd",
-    "san-bernardino-community-college-ca-pd",
-    "san-bernardino-county-ca-human-services-law-enforcement",
-    "san-bernardino-county-ca-so",
-    "san-bruno-ca-pd",
-    "san-diego-ca-pd",
-    "san-diego-county-ca-sd",
-    "san-diego-harbor-ca-pd",
-    "san-fernando-ca-pd",
-    "san-francisco-ca-pd",
-    "san-francisco-district-attorney-ca",
-    "san-gabriel-ca-pd",
-    "san-joaquin-ca-da",
-    "san-joaquin-county-ca-so",
-    "san-joaquin-delta-college-pd-ca",
-    "san-jose-evergreen-community-college-campus-pd-ca",
-    "san-jose-ca-pd",
-    "san-leandro-pd-ca",
-    "san-luis-obispo-ca-pd",
-    "san-luis-obispo-county-ca-sheriff",
-    "san-mateo-ca-pd",
-    "san-mateo-county-ca-so",
-    "san-pablo-ca-pd",
-    "san-pasqual-ca-pd",
-    "san-rafael-ca-pd",
-    "sanger-ca-pd",
-    "santa-ana-ca-pd",
-    "santa-barbara-county-ca-so",
-    "santa-clara-ca-pd",
-    "santa-monica-ca-pd",
-    "santa-rosa-ca-pd",
-    "sausalito-ca-pd",
-    "seal-beach-ca-pd",
-    "seaside-ca-pd",
-    "selma-ca-pd",
-    "sequoias-community-college-district-ca-pd",
-    "shafter-pd-ca",
-    "shasta-county-so",
-    "simi-valley-ca-pd",
-    "solano-county-ca-so",
-    "solano-county-da-ca",
-    "soledad-ca-pd",
-    "sonoma-county-ca-so",
-    "south-gate-ca-pd",
-    "south-pasadena-ca-pd",
-    "stallion-springs-ca-pd",
-    "stockton-ca-pd",
-    "suisun-city-ca-pd",
-    "sunnyvale-ca-pd",
-    "sutter-county-ca-so",
-    "taft-ca-pd",
-    "tehachapi-ca-pd",
-    "tehama-county-ca-so",
-    "tiburon-ca-pd",
-    "los-gatos-ca-pd",
-    "tracy-ca-pd",
-    "trinity-county-so-ca",
-    "truckee-ca-pd",
-    "tulare-ca-pd",
-    "tulare-county-ca-so",
-    "turlock-ca-pd",
-    "tustin-ca-pd",
-    "ukiah-pd-ca",
-    "union-city-ca-pd",
-    "university-of-ca-santa-barbara-ca-pd",
-    "university-of-california-berkeley",
-    "university-of-san-francisco-ca-pd",
-    "university-of-the-pacific-ca",
-    "upland-ca-pd",
-    "vacaville-ca-pd",
-    "vallejo-ca-pd",
-    "ventura-ca-pd",
-    "ventura-county-ca-so",
-    "ventura-county-district-attorneys-office-ca",
-    "visalia-ca-pd",
-    "walnut-creek-ca-pd",
-    "watsonville-ca-pd",
-    "west-covina-ca-pd",
-    "west-sacramento-ca-pd",
-    "west-valley-mission-college-dist-campus-ca",
-    "westminster-ca-pd",
-    "wheatland-ca-pd",
-    "whittier-ca-pd",
-    "williams-ca-pd",
-    "willits-ca-pd",
-    "winters-ca-pd",
-    "woodlake-ca-pd",
-    "woodland-ca-pd",
-    "yolo-county-ca-so",
-    "yuba-city-ca-pd",
-    "yuba-county-ca-so"
-  ],
-  "orgs_sharing_with_count": 0,
-  "orgs_sharing_with_names": [],
-  "orgs_sharing_with_slugs": []
+  "sharing_inbound": [],
+  "overview": "Butte County CA SO uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Butte County CA SO utilizes retroactive search to solve crimes after they've occurred. Additionally, Butte County CA SO utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.",
+  "policy_info": "",
+  "alpr_policy": "",
+  "additional_info": "",
+  "download_csv": "",
+  "search_audit": "Download CSV",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": "",
+  "search_audit_csv": [
+    {
+      "id": "5365d3b0-6d40-4b19-a7b9-a43da38375ef",
+      "userId": "***",
+      "searchDate": "2026-02-25T01:23:38.079Z",
+      "networkCount": "1",
+      "reason": "fraud case"
+    },
+    {
+      "id": "a59ec58e-9aba-45b3-917b-4c151058f36d",
+      "userId": "***",
+      "searchDate": "2026-02-25T02:52:10.603Z",
+      "networkCount": "1",
+      "reason": "SO26-1286"
+    },
+    {
+      "id": "ad5b4073-316f-448f-bfde-2ffb510b4daa",
+      "userId": "***",
+      "searchDate": "2026-02-25T06:19:39.988Z",
+      "networkCount": "952",
+      "reason": "26-01149"
+    },
+    {
+      "id": "e4432d69-140d-42d2-b0bb-0765a0dacde2",
+      "userId": "***",
+      "searchDate": "2026-02-25T06:28:52.922Z",
+      "networkCount": "1",
+      "reason": "SO26-1286"
+    },
+    {
+      "id": "e0c444fc-19d4-4a19-b7a4-57ec9e59fb6e",
+      "userId": "***",
+      "searchDate": "2026-02-25T06:33:17.980Z",
+      "networkCount": "1",
+      "reason": "2602240416"
+    },
+    {
+      "id": "e27104c5-b62a-4276-a50d-1cb2974b1faa",
+      "userId": "***",
+      "searchDate": "2026-02-25T06:45:21.168Z",
+      "networkCount": "708",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "a3e11149-259b-4dc8-bba4-9ddd6ab19576",
+      "userId": "***",
+      "searchDate": "2026-02-25T07:20:07.452Z",
+      "networkCount": "760",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "b5e0a762-15cc-44a0-afa5-ea0f9a5ea364",
+      "userId": "***",
+      "searchDate": "2026-02-25T07:21:57.249Z",
+      "networkCount": "952",
+      "reason": "2602240416"
+    },
+    {
+      "id": "6380bd1a-2f20-4d56-b125-7e82695d8de1",
+      "userId": "***",
+      "searchDate": "2026-02-25T07:33:54.126Z",
+      "networkCount": "3",
+      "reason": "26-01152"
+    },
+    {
+      "id": "a72858c5-bd7c-4da2-a7cb-825576df2532",
+      "userId": "***",
+      "searchDate": "2026-02-25T07:47:41.707Z",
+      "networkCount": "760",
+      "reason": "2601152"
+    },
+    {
+      "id": "5f75cad3-a93c-447a-a551-f50717936bde",
+      "userId": "***",
+      "searchDate": "2026-02-25T07:53:30.396Z",
+      "networkCount": "1",
+      "reason": "2602240416"
+    },
+    {
+      "id": "de103982-5256-4742-beba-d2924e4c04f7",
+      "userId": "***",
+      "searchDate": "2026-02-25T07:59:51.221Z",
+      "networkCount": "760",
+      "reason": "2602240430"
+    },
+    {
+      "id": "0f0db5d7-dda0-4bbc-8350-feba9a725ae6",
+      "userId": "***",
+      "searchDate": "2026-02-25T08:00:03.515Z",
+      "networkCount": "760",
+      "reason": "2602240430"
+    },
+    {
+      "id": "af26a14c-1b9e-4846-aa5b-dd558a5ea562",
+      "userId": "***",
+      "searchDate": "2026-02-25T08:03:14.801Z",
+      "networkCount": "1",
+      "reason": "2602240430"
+    },
+    {
+      "id": "975407b7-7f71-4e44-a683-cc570d2908e0",
+      "userId": "***",
+      "searchDate": "2026-02-25T08:07:16.869Z",
+      "networkCount": "760",
+      "reason": "2601152"
+    },
+    {
+      "id": "4cade77a-3843-43a6-ac4b-d07fe7416791",
+      "userId": "***",
+      "searchDate": "2026-02-25T08:31:00.956Z",
+      "networkCount": "3",
+      "reason": "26-01152"
+    },
+    {
+      "id": "2a8f7c50-48c7-4bc2-b3ca-a515606b62e8",
+      "userId": "***",
+      "searchDate": "2026-02-25T09:54:39.131Z",
+      "networkCount": "760",
+      "reason": "26-01152"
+    },
+    {
+      "id": "b54ed427-978c-435c-8733-cb03f702e6f6",
+      "userId": "***",
+      "searchDate": "2026-02-25T09:59:14.195Z",
+      "networkCount": "952",
+      "reason": "26-01152"
+    },
+    {
+      "id": "12725423-48e0-4791-89ec-2a680591469c",
+      "userId": "***",
+      "searchDate": "2026-02-25T10:01:12.124Z",
+      "networkCount": "760",
+      "reason": "26-01152"
+    },
+    {
+      "id": "0bbdf6ab-4fda-41f8-b0c0-4133c1057545",
+      "userId": "***",
+      "searchDate": "2026-02-25T10:19:45.211Z",
+      "networkCount": "760",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "cfce47e3-e140-4e42-965f-4aacfb30a9ce",
+      "userId": "***",
+      "searchDate": "2026-02-25T11:58:34.295Z",
+      "networkCount": "1",
+      "reason": "26-01152"
+    },
+    {
+      "id": "2738467c-d68e-4da3-992b-9ae09ab1050e",
+      "userId": "***",
+      "searchDate": "2026-02-25T14:29:37.627Z",
+      "networkCount": "760",
+      "reason": "26-01152"
+    },
+    {
+      "id": "e51d9e3b-5dcf-4f6f-a3db-433319b26324",
+      "userId": "***",
+      "searchDate": "2026-02-25T15:32:28.535Z",
+      "networkCount": "1",
+      "reason": "26-001549"
+    },
+    {
+      "id": "fba46a61-2e5d-4b2c-8e8b-9f581f2f242e",
+      "userId": "***",
+      "searchDate": "2026-02-25T16:04:40.552Z",
+      "networkCount": "760",
+      "reason": "26-001549"
+    },
+    {
+      "id": "fd771ba0-e771-4384-977c-7affabe634d4",
+      "userId": "***",
+      "searchDate": "2026-02-25T17:18:14.224Z",
+      "networkCount": "708",
+      "reason": "2601050160"
+    },
+    {
+      "id": "e8f97050-5c3e-4506-9b74-85b30e33dacc",
+      "userId": "***",
+      "searchDate": "2026-02-25T17:34:19.815Z",
+      "networkCount": "708",
+      "reason": "26-001549"
+    },
+    {
+      "id": "07ce7256-48f9-45a6-8fbe-dfdc707ce6f2",
+      "userId": "***",
+      "searchDate": "2026-02-25T17:34:44.258Z",
+      "networkCount": "760",
+      "reason": "26-01152"
+    },
+    {
+      "id": "f832b016-9730-4ac1-b130-8301511a6ffc",
+      "userId": "***",
+      "searchDate": "2026-02-25T17:42:23.937Z",
+      "networkCount": "760",
+      "reason": "2601050160"
+    },
+    {
+      "id": "06e38c87-7170-4476-b7d3-ee9a7abfdacd",
+      "userId": "***",
+      "searchDate": "2026-02-25T17:47:56.396Z",
+      "networkCount": "1",
+      "reason": "26-01152"
+    },
+    {
+      "id": "26388474-2a73-426d-95dc-c276f252ce50",
+      "userId": "***",
+      "searchDate": "2026-02-25T19:43:13.203Z",
+      "networkCount": "708",
+      "reason": "2601050160"
+    },
+    {
+      "id": "5cec7e38-5920-489a-bf5f-14036a5b6617",
+      "userId": "***",
+      "searchDate": "2026-02-25T19:52:18.628Z",
+      "networkCount": "760",
+      "reason": "23-05173"
+    },
+    {
+      "id": "225ec982-63a9-4efb-81ab-f93a6ff148a9",
+      "userId": "***",
+      "searchDate": "2026-02-25T20:09:52.351Z",
+      "networkCount": "1",
+      "reason": "2601050160"
+    },
+    {
+      "id": "0a6f5207-f009-412e-8e99-82896dee4298",
+      "userId": "***",
+      "searchDate": "2026-02-25T20:26:48.146Z",
+      "networkCount": "708",
+      "reason": "2601050160"
+    },
+    {
+      "id": "db4f4644-d193-4a89-ae04-8d48a177db07",
+      "userId": "***",
+      "searchDate": "2026-02-25T20:51:28.569Z",
+      "networkCount": "760",
+      "reason": "23-05173"
+    },
+    {
+      "id": "11fb898e-3999-4f08-a4c4-a79fb7160b70",
+      "userId": "***",
+      "searchDate": "2026-02-25T21:03:12.447Z",
+      "networkCount": "760",
+      "reason": "26-00661"
+    },
+    {
+      "id": "a47603e1-59b3-4ab1-96b3-77a39ca81d1a",
+      "userId": "***",
+      "searchDate": "2026-02-25T22:23:50.157Z",
+      "networkCount": "760",
+      "reason": "23-05173"
+    },
+    {
+      "id": "b35d81a0-58e4-41d7-bbc9-0333bdb644bb",
+      "userId": "***",
+      "searchDate": "2026-02-25T22:28:36.074Z",
+      "networkCount": "708",
+      "reason": "24-04327"
+    },
+    {
+      "id": "8830fd46-7f12-4438-865e-65e677006896",
+      "userId": "***",
+      "searchDate": "2026-02-25T22:30:47.306Z",
+      "networkCount": "760",
+      "reason": "26-01040"
+    },
+    {
+      "id": "6453013e-b68f-41cc-9130-f341a17ca7be",
+      "userId": "***",
+      "searchDate": "2026-02-25T22:34:12.589Z",
+      "networkCount": "760",
+      "reason": "26-01040"
+    },
+    {
+      "id": "57d418d2-5cd6-43fd-894e-52ba62e9f670",
+      "userId": "***",
+      "searchDate": "2026-02-25T22:36:45.662Z",
+      "networkCount": "708",
+      "reason": "26-01040"
+    },
+    {
+      "id": "01fe3da9-2865-4cfe-96f4-9d66fa790ee7",
+      "userId": "***",
+      "searchDate": "2026-02-25T22:39:00.088Z",
+      "networkCount": "708",
+      "reason": "2601050160"
+    },
+    {
+      "id": "85f61866-9a70-405b-adc3-3f819584d2d0",
+      "userId": "***",
+      "searchDate": "2026-02-25T23:01:21.107Z",
+      "networkCount": "760",
+      "reason": "26-01040"
+    },
+    {
+      "id": "031c7a29-f567-4717-b6e0-67bbaf74ee1f",
+      "userId": "***",
+      "searchDate": "2026-02-25T23:02:26.378Z",
+      "networkCount": "760",
+      "reason": "26-01040"
+    },
+    {
+      "id": "4f095972-a66e-4cf7-9bdd-50a980851383",
+      "userId": "***",
+      "searchDate": "2026-02-25T23:05:14.936Z",
+      "networkCount": "1",
+      "reason": "26-01040"
+    },
+    {
+      "id": "607382a2-a18c-4817-9100-0e9d5a04f676",
+      "userId": "***",
+      "searchDate": "2026-02-25T23:24:13.547Z",
+      "networkCount": "1",
+      "reason": "26-01040"
+    },
+    {
+      "id": "5a096d59-6d0a-47af-8765-78d27cbf62e0",
+      "userId": "***",
+      "searchDate": "2026-02-25T23:44:29.367Z",
+      "networkCount": "708",
+      "reason": "24-04327"
+    },
+    {
+      "id": "4607f633-fd5a-4b14-a8c9-d2396d447b0a",
+      "userId": "***",
+      "searchDate": "2026-02-26T00:01:28.162Z",
+      "networkCount": "708",
+      "reason": "24-04327"
+    },
+    {
+      "id": "e1ed93d0-2e58-40d5-ac76-3b8218125348",
+      "userId": "***",
+      "searchDate": "2026-02-26T00:21:55.260Z",
+      "networkCount": "708",
+      "reason": "26-001549"
+    },
+    {
+      "id": "7907bcbc-55b3-4b59-8180-a782a62faa04",
+      "userId": "***",
+      "searchDate": "2026-02-26T00:38:27.771Z",
+      "networkCount": "1",
+      "reason": "2602250355"
+    },
+    {
+      "id": "e761a27e-f214-4f0e-8123-4ba82635166f",
+      "userId": "***",
+      "searchDate": "2026-02-26T00:46:27.136Z",
+      "networkCount": "708",
+      "reason": "26-01089"
+    },
+    {
+      "id": "41bce6fc-de51-48f1-8866-e24827a193e4",
+      "userId": "***",
+      "searchDate": "2026-02-26T00:47:24.992Z",
+      "networkCount": "760",
+      "reason": "26-01040"
+    },
+    {
+      "id": "e7cd3aae-78e8-45e9-8b03-8befc51109e8",
+      "userId": "***",
+      "searchDate": "2026-02-26T00:49:41.181Z",
+      "networkCount": "760",
+      "reason": "26-01089"
+    },
+    {
+      "id": "f093e766-e089-435a-ae83-c24cc0e24252",
+      "userId": "***",
+      "searchDate": "2026-02-26T01:00:39.048Z",
+      "networkCount": "708",
+      "reason": "2602250355"
+    },
+    {
+      "id": "92fe30a5-b164-4380-93de-9ad7f091c166",
+      "userId": "***",
+      "searchDate": "2026-02-26T01:02:28.741Z",
+      "networkCount": "708",
+      "reason": "26-01089"
+    },
+    {
+      "id": "8f687bb2-822f-4d5e-aecb-578a7c4487a8",
+      "userId": "***",
+      "searchDate": "2026-02-26T03:09:32.227Z",
+      "networkCount": "1",
+      "reason": "26-01040"
+    },
+    {
+      "id": "d76a5c61-3fc3-466f-b986-6f1f7952039f",
+      "userId": "***",
+      "searchDate": "2026-02-26T03:37:52.895Z",
+      "networkCount": "760",
+      "reason": "CPD 26-001549"
+    },
+    {
+      "id": "52e053c9-3b6f-4895-9a92-5ead5a53e48a",
+      "userId": "***",
+      "searchDate": "2026-02-26T04:05:23.321Z",
+      "networkCount": "952",
+      "reason": "26-01074"
+    },
+    {
+      "id": "acc1f0e0-54b2-4e02-966b-489a2cd90c9b",
+      "userId": "***",
+      "searchDate": "2026-02-26T04:27:37.219Z",
+      "networkCount": "760",
+      "reason": "23-05173"
+    },
+    {
+      "id": "88c0c8aa-b264-46c5-8d33-5427891180b9",
+      "userId": "***",
+      "searchDate": "2026-02-26T04:39:45.939Z",
+      "networkCount": "1",
+      "reason": "2602250448"
+    },
+    {
+      "id": "d7b23dd0-2cd0-4aae-b5eb-4271b2515250",
+      "userId": "***",
+      "searchDate": "2026-02-26T09:14:57.186Z",
+      "networkCount": "760",
+      "reason": "CPD 26-001549"
+    },
+    {
+      "id": "c7a1600a-04c1-4c59-a3e7-a5ebb337cb4a",
+      "userId": "***",
+      "searchDate": "2026-02-26T14:04:05.365Z",
+      "networkCount": "1",
+      "reason": "26-01170"
+    },
+    {
+      "id": "426245f9-014c-4bc2-9c82-5171805b26dd",
+      "userId": "***",
+      "searchDate": "2026-02-26T15:50:01.889Z",
+      "networkCount": "760",
+      "reason": "23-05173"
+    },
+    {
+      "id": "56c260c2-8187-4937-bf15-30094f985ec0",
+      "userId": "***",
+      "searchDate": "2026-02-26T15:56:41.050Z",
+      "networkCount": "708",
+      "reason": "26-001549"
+    },
+    {
+      "id": "68399b4f-5a99-4975-8879-75a8874be7ab",
+      "userId": "***",
+      "searchDate": "2026-02-26T17:28:44.634Z",
+      "networkCount": "707",
+      "reason": "2601050106"
+    },
+    {
+      "id": "e9254fb0-4d02-4668-9b91-f476f9300c49",
+      "userId": "***",
+      "searchDate": "2026-02-26T18:07:30.577Z",
+      "networkCount": "759",
+      "reason": "25-1128-01"
+    },
+    {
+      "id": "38644da3-38ea-4869-aed0-0b9ef3667bf8",
+      "userId": "***",
+      "searchDate": "2026-02-26T18:12:48.040Z",
+      "networkCount": "759",
+      "reason": "21-06522"
+    },
+    {
+      "id": "b9576fa8-0955-49f1-9975-4ecf1a18d981",
+      "userId": "***",
+      "searchDate": "2026-02-26T19:13:39.579Z",
+      "networkCount": "707",
+      "reason": "2601050106"
+    },
+    {
+      "id": "ab7e15c6-0c8c-4d6a-a8ad-12fb991e976f",
+      "userId": "***",
+      "searchDate": "2026-02-26T19:45:31.860Z",
+      "networkCount": "1",
+      "reason": "2601050160"
+    },
+    {
+      "id": "f6b068e3-8632-4a01-9bce-c3ecfcf0fcc4",
+      "userId": "***",
+      "searchDate": "2026-02-26T21:23:55.176Z",
+      "networkCount": "707",
+      "reason": "S04328525"
+    },
+    {
+      "id": "32bbde62-a734-4d22-a519-d6861bdb8f01",
+      "userId": "***",
+      "searchDate": "2026-02-26T21:24:24.317Z",
+      "networkCount": "707",
+      "reason": "26-001549"
+    },
+    {
+      "id": "113e4065-60f5-449b-940d-c8c99cb35611",
+      "userId": "***",
+      "searchDate": "2026-02-26T22:02:56.398Z",
+      "networkCount": "707",
+      "reason": "S04328525"
+    },
+    {
+      "id": "2d7fd17e-47e1-4392-98f9-9e1b63a84aad",
+      "userId": "***",
+      "searchDate": "2026-02-26T22:23:02.385Z",
+      "networkCount": "707",
+      "reason": "2601050106"
+    },
+    {
+      "id": "71635238-05d7-4716-9530-04a279351912",
+      "userId": "***",
+      "searchDate": "2026-02-26T23:13:38.489Z",
+      "networkCount": "707",
+      "reason": "2601050106"
+    },
+    {
+      "id": "9fdf7d15-0159-49f5-ae4e-a50eba1876bb",
+      "userId": "***",
+      "searchDate": "2026-02-26T23:41:24.959Z",
+      "networkCount": "707",
+      "reason": "2601050160"
+    },
+    {
+      "id": "02a7044c-1cdf-43e4-8826-fd0a00acaed3",
+      "userId": "***",
+      "searchDate": "2026-02-27T06:35:41.528Z",
+      "networkCount": "1",
+      "reason": "2602260357"
+    },
+    {
+      "id": "88a66b30-69a0-4512-8ae9-f6799bb9103e",
+      "userId": "***",
+      "searchDate": "2026-02-27T15:31:47.054Z",
+      "networkCount": "707",
+      "reason": "2601050106"
+    },
+    {
+      "id": "edd011d5-9970-46af-8e8f-7a0ae840eb2f",
+      "userId": "***",
+      "searchDate": "2026-02-27T15:39:51.745Z",
+      "networkCount": "707",
+      "reason": "S04328525"
+    },
+    {
+      "id": "b9fd7e95-746b-484e-99ef-a24591e99d27",
+      "userId": "***",
+      "searchDate": "2026-02-27T16:04:14.880Z",
+      "networkCount": "1",
+      "reason": "21-06522"
+    },
+    {
+      "id": "7527f346-ee3a-4ad3-8f35-9da8334566b1",
+      "userId": "***",
+      "searchDate": "2026-02-27T17:43:26.305Z",
+      "networkCount": "759",
+      "reason": "23-05173"
+    },
+    {
+      "id": "82bb30eb-2df4-40eb-82d7-de483c36dc6b",
+      "userId": "***",
+      "searchDate": "2026-02-27T18:30:21.483Z",
+      "networkCount": "759",
+      "reason": "23-05173"
+    },
+    {
+      "id": "6a358e31-1047-435c-9d46-2ff6b73ffe1f",
+      "userId": "***",
+      "searchDate": "2026-02-27T18:33:56.573Z",
+      "networkCount": "707",
+      "reason": "2601050160"
+    },
+    {
+      "id": "a2ccb712-a132-4993-83b1-47eae9de421f",
+      "userId": "***",
+      "searchDate": "2026-02-27T19:00:32.121Z",
+      "networkCount": "707",
+      "reason": "21-06522"
+    },
+    {
+      "id": "8462e515-64d3-468f-ad6c-b3deb70c7ff3",
+      "userId": "***",
+      "searchDate": "2026-02-27T19:46:20.587Z",
+      "networkCount": "707",
+      "reason": "2601050106"
+    },
+    {
+      "id": "b0155f5d-2b3d-41be-8414-30d054a9e355",
+      "userId": "***",
+      "searchDate": "2026-02-27T20:15:15.009Z",
+      "networkCount": "707",
+      "reason": "2601050106"
+    },
+    {
+      "id": "597161a9-c9df-4596-855f-b4a95c6f03fb",
+      "userId": "***",
+      "searchDate": "2026-02-27T21:29:40.726Z",
+      "networkCount": "706",
+      "reason": "26-01169"
+    },
+    {
+      "id": "286a5c2b-ccca-4ab2-9c77-6aeb9dcd2b1b",
+      "userId": "***",
+      "searchDate": "2026-02-27T22:28:17.416Z",
+      "networkCount": "706",
+      "reason": "26inv0149"
+    },
+    {
+      "id": "fe20172e-7c68-47ef-91ab-00175715a17c",
+      "userId": "***",
+      "searchDate": "2026-02-28T01:15:49.403Z",
+      "networkCount": "757",
+      "reason": "21-06522"
+    },
+    {
+      "id": "b3c926c2-9035-412c-aa82-57ac001000f2",
+      "userId": "***",
+      "searchDate": "2026-02-28T06:52:25.318Z",
+      "networkCount": "1",
+      "reason": "26-01207"
+    },
+    {
+      "id": "bd78022c-6374-4895-93f2-e3ac5436594a",
+      "userId": "***",
+      "searchDate": "2026-02-28T14:02:49.499Z",
+      "networkCount": "757",
+      "reason": "26-01207"
+    },
+    {
+      "id": "51a264d2-bcc0-4784-a9d5-230520300505",
+      "userId": "***",
+      "searchDate": "2026-02-28T15:51:36.523Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "9341c70f-8777-4f11-bf48-c1a668a2b5c7",
+      "userId": "***",
+      "searchDate": "2026-02-28T16:35:21.955Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "a0e497c3-138f-41d2-9018-480a6da2709e",
+      "userId": "***",
+      "searchDate": "2026-02-28T20:17:52.618Z",
+      "networkCount": "705",
+      "reason": "2602280189"
+    },
+    {
+      "id": "dc5e861a-18b0-4747-8fe0-2ee0466c707b",
+      "userId": "***",
+      "searchDate": "2026-02-28T20:20:07.706Z",
+      "networkCount": "1",
+      "reason": "459 SUSP"
+    },
+    {
+      "id": "f8dc87a3-5c73-4685-bc02-28d51c73cea7",
+      "userId": "***",
+      "searchDate": "2026-02-28T20:22:13.660Z",
+      "networkCount": "1",
+      "reason": "26-01207"
+    },
+    {
+      "id": "d555e56a-ce8c-477f-977b-719d41cc33dd",
+      "userId": "***",
+      "searchDate": "2026-02-28T20:44:23.223Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "cf965dfb-3a8a-4014-ac5b-4f7000a8c098",
+      "userId": "***",
+      "searchDate": "2026-02-28T22:39:40.619Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "45e784ac-d649-4b25-93c6-9c0fd0cb1a69",
+      "userId": "***",
+      "searchDate": "2026-03-01T00:19:53.099Z",
+      "networkCount": "1",
+      "reason": "26-01207"
+    },
+    {
+      "id": "05ea9dd2-c3b9-442d-9aa7-c8bec703adc3",
+      "userId": "***",
+      "searchDate": "2026-03-01T06:29:51.399Z",
+      "networkCount": "1",
+      "reason": "26-01224"
+    },
+    {
+      "id": "c6be2e53-20cd-4be0-b181-9d2069898fa1",
+      "userId": "***",
+      "searchDate": "2026-03-01T09:03:25.482Z",
+      "networkCount": "1",
+      "reason": "25-05777"
+    },
+    {
+      "id": "69d6b3c0-1b56-493f-9f80-d298c5405147",
+      "userId": "***",
+      "searchDate": "2026-03-01T16:30:34.826Z",
+      "networkCount": "757",
+      "reason": "26-01095"
+    },
+    {
+      "id": "8fa68145-1da0-44b2-a11a-7d6b9fc7e5dd",
+      "userId": "***",
+      "searchDate": "2026-03-01T19:59:42.293Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "f99f024c-f96f-4b46-878a-c0fa7e72fa02",
+      "userId": "***",
+      "searchDate": "2026-03-01T20:34:31.856Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "2c100edb-bce5-488a-9bef-7b487fa9e508",
+      "userId": "***",
+      "searchDate": "2026-03-01T22:07:39.444Z",
+      "networkCount": "757",
+      "reason": "26-01095"
+    },
+    {
+      "id": "f6007961-fbca-45f8-ba25-b61da40a484e",
+      "userId": "***",
+      "searchDate": "2026-03-01T22:48:23.443Z",
+      "networkCount": "757",
+      "reason": "2504210474"
+    },
+    {
+      "id": "727e3bf4-e169-4d4f-9518-400210666ce9",
+      "userId": "***",
+      "searchDate": "2026-03-01T23:04:53.665Z",
+      "networkCount": "757",
+      "reason": "2504210474"
+    },
+    {
+      "id": "9fa76a86-edae-4eba-a357-f29858adfc86",
+      "userId": "***",
+      "searchDate": "2026-03-02T00:25:46.275Z",
+      "networkCount": "757",
+      "reason": "2504210474"
+    },
+    {
+      "id": "dc783890-b705-4378-a3b6-8f9296cad03d",
+      "userId": "***",
+      "searchDate": "2026-03-02T01:03:48.507Z",
+      "networkCount": "757",
+      "reason": "2504210474"
+    },
+    {
+      "id": "1d06379f-a8ea-431b-aaf3-361b6a151e8a",
+      "userId": "***",
+      "searchDate": "2026-03-02T01:13:22.598Z",
+      "networkCount": "757",
+      "reason": "26-01169"
+    },
+    {
+      "id": "0e68a49e-b720-4f54-ad81-7fb92f2ad67e",
+      "userId": "***",
+      "searchDate": "2026-03-02T01:23:49.235Z",
+      "networkCount": "757",
+      "reason": "25-06980"
+    },
+    {
+      "id": "ded3c9ae-2f20-4703-ba6c-870d47f52552",
+      "userId": "***",
+      "searchDate": "2026-03-02T01:26:15.029Z",
+      "networkCount": "1",
+      "reason": "10851"
+    },
+    {
+      "id": "02a24feb-ecf4-4ac7-97d7-9c4abad2a1e6",
+      "userId": "***",
+      "searchDate": "2026-03-02T01:52:05.120Z",
+      "networkCount": "705",
+      "reason": "26-01239"
+    },
+    {
+      "id": "d5001b21-8972-4aa8-af88-9bcca5cdc493",
+      "userId": "***",
+      "searchDate": "2026-03-02T02:06:25.952Z",
+      "networkCount": "757",
+      "reason": "2504210474"
+    },
+    {
+      "id": "932ecc83-d11e-4d74-aae2-a28199e14bc7",
+      "userId": "***",
+      "searchDate": "2026-03-02T02:13:12.163Z",
+      "networkCount": "952",
+      "reason": "CPD 26-001034"
+    },
+    {
+      "id": "c39421ef-e319-4bab-8c99-25ae70d8f21e",
+      "userId": "***",
+      "searchDate": "2026-03-02T02:26:13.604Z",
+      "networkCount": "3",
+      "reason": "26-01241"
+    },
+    {
+      "id": "325b07e3-9f58-41ed-ae13-681d6c671a5a",
+      "userId": "***",
+      "searchDate": "2026-03-02T02:52:31.440Z",
+      "networkCount": "757",
+      "reason": "26-01241"
+    },
+    {
+      "id": "e7f232f0-7712-47b4-8f92-2d9f941b523e",
+      "userId": "***",
+      "searchDate": "2026-03-02T03:01:37.438Z",
+      "networkCount": "952",
+      "reason": "CPD 26-001034"
+    },
+    {
+      "id": "1567b56e-bc8d-4cc2-bd5d-d37c959387bc",
+      "userId": "***",
+      "searchDate": "2026-03-02T03:09:30.074Z",
+      "networkCount": "757",
+      "reason": "26-01241"
+    },
+    {
+      "id": "07b00b9d-cc70-41a9-8b7c-402c1326b4e2",
+      "userId": "***",
+      "searchDate": "2026-03-02T03:47:40.614Z",
+      "networkCount": "1",
+      "reason": "2603010333"
+    },
+    {
+      "id": "d8833aed-bc89-46e4-b131-e929fdd3d029",
+      "userId": "***",
+      "searchDate": "2026-03-02T04:03:39.743Z",
+      "networkCount": "952",
+      "reason": "CPD 26-001034"
+    },
+    {
+      "id": "fd1c07f6-6855-4228-845b-b5a5592c1ef6",
+      "userId": "***",
+      "searchDate": "2026-03-02T04:11:44.589Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "4d402ce5-7039-42d6-bc00-3ba816238829",
+      "userId": "***",
+      "searchDate": "2026-03-02T05:06:09.840Z",
+      "networkCount": "952",
+      "reason": "CPD 26-001034"
+    },
+    {
+      "id": "2e04722a-f35a-4421-a658-7389ccb60bb2",
+      "userId": "***",
+      "searchDate": "2026-03-02T06:02:08.522Z",
+      "networkCount": "952",
+      "reason": "CPD 26-001034"
+    },
+    {
+      "id": "acf1c8b1-b317-4564-8721-4784f30f451e",
+      "userId": "***",
+      "searchDate": "2026-03-02T16:35:04.668Z",
+      "networkCount": "757",
+      "reason": "23-05173"
+    },
+    {
+      "id": "d4087549-7a15-41ed-a2e8-b5c5a7ce4a74",
+      "userId": "***",
+      "searchDate": "2026-03-02T16:35:14.835Z",
+      "networkCount": "757",
+      "reason": "26-01089"
+    },
+    {
+      "id": "9b5abc1f-5df7-492c-9016-28f669fc35e6",
+      "userId": "***",
+      "searchDate": "2026-03-02T18:38:03.089Z",
+      "networkCount": "1",
+      "reason": "21-06522"
+    },
+    {
+      "id": "fdcce96b-5b84-40de-ab39-83f20fe26c41",
+      "userId": "***",
+      "searchDate": "2026-03-02T18:54:28.007Z",
+      "networkCount": "757",
+      "reason": "21-06522"
+    },
+    {
+      "id": "b1c34a13-b183-4227-8c15-7929e455e4e9",
+      "userId": "***",
+      "searchDate": "2026-03-02T19:16:38.652Z",
+      "networkCount": "757",
+      "reason": "21-06522"
+    },
+    {
+      "id": "d34a8368-12cf-40b3-9e49-2d39138b0014",
+      "userId": "***",
+      "searchDate": "2026-03-02T19:27:11.651Z",
+      "networkCount": "757",
+      "reason": "26-01089"
+    },
+    {
+      "id": "5c19456d-9255-4b57-8381-f9e3d58e4c3f",
+      "userId": "***",
+      "searchDate": "2026-03-02T19:43:19.294Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "a9b7c493-d9fa-46ff-b2e0-46d6529ef258",
+      "userId": "***",
+      "searchDate": "2026-03-02T19:48:52.963Z",
+      "networkCount": "705",
+      "reason": "22-00654"
+    },
+    {
+      "id": "2678ad06-d403-4e81-9f86-85d929cc1095",
+      "userId": "***",
+      "searchDate": "2026-03-02T20:11:58.807Z",
+      "networkCount": "757",
+      "reason": "21-06522"
+    },
+    {
+      "id": "a0aeaa88-94ba-437f-9094-e571af8257a7",
+      "userId": "***",
+      "searchDate": "2026-03-02T21:37:11.709Z",
+      "networkCount": "705",
+      "reason": "22-00654"
+    },
+    {
+      "id": "27e83107-619d-45e4-ab9c-33ff426cf8f2",
+      "userId": "***",
+      "searchDate": "2026-03-02T22:11:33.861Z",
+      "networkCount": "757",
+      "reason": "2504210474"
+    },
+    {
+      "id": "a9c8ab52-a50a-4398-a9e8-657a41a7a20b",
+      "userId": "***",
+      "searchDate": "2026-03-02T22:48:46.302Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "3a56e978-e509-4f6d-b6ee-4c4da787a4ce",
+      "userId": "***",
+      "searchDate": "2026-03-02T23:10:41.493Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "0d21babd-0a2e-43ed-9b90-5f67b9c1d2a5",
+      "userId": "***",
+      "searchDate": "2026-03-02T23:34:42.006Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "8759eef2-1e4a-493e-8aef-763600b3bf4e",
+      "userId": "***",
+      "searchDate": "2026-03-03T00:35:32.645Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "46d74e9b-ba85-42ea-98f5-bd6a96e3783c",
+      "userId": "***",
+      "searchDate": "2026-03-03T00:36:18.328Z",
+      "networkCount": "705",
+      "reason": "21-06522"
+    },
+    {
+      "id": "b57d04c7-494d-4624-a0e3-8736fcdc0b31",
+      "userId": "***",
+      "searchDate": "2026-03-03T00:42:12.098Z",
+      "networkCount": "1",
+      "reason": "25-01254"
+    },
+    {
+      "id": "8f8adbe6-d5f7-4736-9a30-ce3c91795d35",
+      "userId": "***",
+      "searchDate": "2026-03-03T00:45:05.028Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "23e9b16e-f4fc-48f8-91c7-654754575955",
+      "userId": "***",
+      "searchDate": "2026-03-03T01:00:07.743Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "67538a77-91f0-40c7-a043-1724e527a5ba",
+      "userId": "***",
+      "searchDate": "2026-03-03T01:00:08.384Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "16427edb-a536-42b3-b63f-2fdbe8880a70",
+      "userId": "***",
+      "searchDate": "2026-03-03T01:00:11.188Z",
+      "networkCount": "705",
+      "reason": "25-01254"
+    },
+    {
+      "id": "87597a64-deef-4d13-bbb3-1a062d1c8199",
+      "userId": "***",
+      "searchDate": "2026-03-03T01:09:05.751Z",
+      "networkCount": "705",
+      "reason": "21-06522"
+    },
+    {
+      "id": "d2e80024-ee33-4df0-9975-d97e3664cf3a",
+      "userId": "***",
+      "searchDate": "2026-03-03T02:04:43.206Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "f9d3afb1-b880-42c5-9518-667b1922333a",
+      "userId": "***",
+      "searchDate": "2026-03-03T02:21:38.074Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "c902701d-bd93-4de1-9ca1-2e568d0b86a9",
+      "userId": "***",
+      "searchDate": "2026-03-03T02:57:13.313Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "268a3ce2-8e83-4afa-b19f-ee2b9fec34ae",
+      "userId": "***",
+      "searchDate": "2026-03-03T03:00:42.180Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "c9914175-4432-49c1-9821-78ba56cad9b7",
+      "userId": "***",
+      "searchDate": "2026-03-03T03:06:17.753Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "23942ce3-6518-4e29-841a-db0b2c6ceda7",
+      "userId": "***",
+      "searchDate": "2026-03-03T05:37:28.391Z",
+      "networkCount": "1",
+      "reason": "2602220311"
+    },
+    {
+      "id": "39b912e4-d668-43b5-abad-a8722ed90d5c",
+      "userId": "***",
+      "searchDate": "2026-03-03T15:18:36.549Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "2d3cc93d-5edf-4ad4-a153-d111365d9025",
+      "userId": "***",
+      "searchDate": "2026-03-03T16:01:24.060Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "2a186882-e180-404e-a298-11111a51994c",
+      "userId": "***",
+      "searchDate": "2026-03-03T16:51:20.761Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "d7bbedd2-064c-43c8-9e84-f9f9e66f90cf",
+      "userId": "***",
+      "searchDate": "2026-03-03T16:56:46.567Z",
+      "networkCount": "705",
+      "reason": "26-00685"
+    },
+    {
+      "id": "6c560679-6277-4b88-a0b1-a379ff0a1156",
+      "userId": "***",
+      "searchDate": "2026-03-03T17:02:00.498Z",
+      "networkCount": "705",
+      "reason": "26-00685"
+    },
+    {
+      "id": "ad0d4dd9-f45c-4075-a5dd-c5ea378b5004",
+      "userId": "***",
+      "searchDate": "2026-03-03T17:02:59.273Z",
+      "networkCount": "1",
+      "reason": "2601050106"
+    },
+    {
+      "id": "4eea90d2-f86e-4793-ae75-55ed4145ced7",
+      "userId": "***",
+      "searchDate": "2026-03-03T17:03:29.529Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "b69f32cd-7a9d-4580-b832-d9474bf1acbf",
+      "userId": "***",
+      "searchDate": "2026-03-03T17:07:58.364Z",
+      "networkCount": "1",
+      "reason": "21-06522"
+    },
+    {
+      "id": "81667396-da14-490f-bda2-79bcb4bdc6d3",
+      "userId": "***",
+      "searchDate": "2026-03-03T17:09:22.020Z",
+      "networkCount": "705",
+      "reason": "25-01254"
+    },
+    {
+      "id": "af759569-3780-4bfc-8ddd-5fee49ce823f",
+      "userId": "***",
+      "searchDate": "2026-03-03T17:45:18.518Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "cb3e05f2-4ff3-4bc8-8a91-4a184c5ff6eb",
+      "userId": "***",
+      "searchDate": "2026-03-03T18:03:48.283Z",
+      "networkCount": "1",
+      "reason": "25-01254"
+    },
+    {
+      "id": "e1779649-1dfc-427d-8d72-aec2b1a7ee20",
+      "userId": "***",
+      "searchDate": "2026-03-03T18:16:15.373Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "17c3bcb0-5eb9-4f8c-a988-7207f77664a2",
+      "userId": "***",
+      "searchDate": "2026-03-03T18:17:06.182Z",
+      "networkCount": "705",
+      "reason": "26-00685"
+    },
+    {
+      "id": "df73fb1b-f2d6-4c28-b61b-1febc3db06c8",
+      "userId": "***",
+      "searchDate": "2026-03-03T19:41:39.042Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "fb7e2d53-4abd-4822-9770-72f60f0d52c9",
+      "userId": "***",
+      "searchDate": "2026-03-03T20:06:56.062Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "bda2f00a-cd6c-48ef-a92d-4c808edbe2d2",
+      "userId": "***",
+      "searchDate": "2026-03-03T20:30:52.943Z",
+      "networkCount": "1",
+      "reason": "26-00685"
+    },
+    {
+      "id": "f9fefb52-ddcc-4abc-bde8-88d313db906f",
+      "userId": "***",
+      "searchDate": "2026-03-03T23:12:07.826Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "7fdacd99-43ca-4c9b-bfb3-ac462d4b2052",
+      "userId": "***",
+      "searchDate": "2026-03-03T23:13:46.629Z",
+      "networkCount": "705",
+      "reason": "25-01254"
+    },
+    {
+      "id": "82cec433-faa1-4701-b61f-d40c2f722faa",
+      "userId": "***",
+      "searchDate": "2026-03-03T23:18:47.085Z",
+      "networkCount": "1",
+      "reason": "26-00685"
+    },
+    {
+      "id": "91198ecd-024e-4a98-a0ac-6175369d0ede",
+      "userId": "***",
+      "searchDate": "2026-03-04T00:25:21.794Z",
+      "networkCount": "705",
+      "reason": "25-01254"
+    },
+    {
+      "id": "a3fe5324-64ac-43d9-bec7-c672486874fe",
+      "userId": "***",
+      "searchDate": "2026-03-04T00:26:05.507Z",
+      "networkCount": "951",
+      "reason": "26-01254"
+    },
+    {
+      "id": "5f6e5df5-b41c-4117-9504-b68def608199",
+      "userId": "***",
+      "searchDate": "2026-03-04T01:36:26.919Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "fe52a01f-b521-466c-9a70-4967986c512d",
+      "userId": "***",
+      "searchDate": "2026-03-04T01:53:48.777Z",
+      "networkCount": "1",
+      "reason": "26-00685"
+    },
+    {
+      "id": "9f9a8d49-5fbc-44c1-8f21-bad6f5ebee49",
+      "userId": "***",
+      "searchDate": "2026-03-04T03:12:39.471Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "01775d28-97a8-4399-8fe1-a7e3b9c85b79",
+      "userId": "***",
+      "searchDate": "2026-03-04T14:49:26.207Z",
+      "networkCount": "1",
+      "reason": "26-00685"
+    },
+    {
+      "id": "2050a6d5-b1ba-4c46-abe3-9d5da7b7c99b",
+      "userId": "***",
+      "searchDate": "2026-03-04T14:58:25.452Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "0dbd7172-f84d-46ba-bf32-ab40fc419683",
+      "userId": "***",
+      "searchDate": "2026-03-04T15:20:27.091Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "d130d9b8-b3e9-4bff-a030-06ad510c2ac0",
+      "userId": "***",
+      "searchDate": "2026-03-04T16:05:02.194Z",
+      "networkCount": "705",
+      "reason": "2601050160"
+    },
+    {
+      "id": "9648c2a2-bdcb-47db-ba31-855b16307cee",
+      "userId": "***",
+      "searchDate": "2026-03-04T16:05:26.847Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "ee5b2e37-0d78-4212-9e78-cb007c0105e0",
+      "userId": "***",
+      "searchDate": "2026-03-04T16:19:57.201Z",
+      "networkCount": "757",
+      "reason": "26-01254"
+    },
+    {
+      "id": "a02f9d94-1cee-4a2b-81b7-5d3f58258dd8",
+      "userId": "***",
+      "searchDate": "2026-03-04T17:11:09.640Z",
+      "networkCount": "1",
+      "reason": "2601050106"
+    },
+    {
+      "id": "d98e4d44-fcbe-4453-8c85-bb59fe0f28a2",
+      "userId": "***",
+      "searchDate": "2026-03-04T17:41:13.065Z",
+      "networkCount": "755",
+      "reason": "26-01254"
+    },
+    {
+      "id": "5fd2ef1f-3476-4b1c-b933-e5433c98d42a",
+      "userId": "***",
+      "searchDate": "2026-03-04T18:02:55.052Z",
+      "networkCount": "755",
+      "reason": "21-06522"
+    },
+    {
+      "id": "5d758410-012c-4064-b879-2db8b2f0ee72",
+      "userId": "***",
+      "searchDate": "2026-03-04T18:16:48.368Z",
+      "networkCount": "703",
+      "reason": "26-00685"
+    },
+    {
+      "id": "16ef834e-a7b8-4751-985c-3bf607fff0c5",
+      "userId": "***",
+      "searchDate": "2026-03-04T19:35:50.068Z",
+      "networkCount": "703",
+      "reason": "26-00685"
+    },
+    {
+      "id": "fc417374-2169-400c-80cd-14f703f11941",
+      "userId": "***",
+      "searchDate": "2026-03-04T20:25:09.905Z",
+      "networkCount": "1",
+      "reason": "26-00685"
+    },
+    {
+      "id": "2d26978a-b8f2-40e1-b503-93efb33421f5",
+      "userId": "***",
+      "searchDate": "2026-03-04T20:35:11.177Z",
+      "networkCount": "703",
+      "reason": "25-06748"
+    },
+    {
+      "id": "2b82d4b7-5d2c-45b2-a103-a9072b2a5329",
+      "userId": "***",
+      "searchDate": "2026-03-04T20:57:45.245Z",
+      "networkCount": "755",
+      "reason": "26-01254"
+    },
+    {
+      "id": "ff0e28bf-fb66-4113-86ce-712309b3c87e",
+      "userId": "***",
+      "searchDate": "2026-03-04T21:01:17.190Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "ceb69950-324c-4732-9bca-c0df9447d980",
+      "userId": "***",
+      "searchDate": "2026-03-04T21:46:56.076Z",
+      "networkCount": "1",
+      "reason": "2601050106"
+    },
+    {
+      "id": "d970c9b4-7b1c-46d6-b1fd-2f54f416fd27",
+      "userId": "***",
+      "searchDate": "2026-03-04T23:18:31.844Z",
+      "networkCount": "755",
+      "reason": "21-06522"
+    },
+    {
+      "id": "85513d2e-0777-4ed7-a81b-f797ca5ed3a0",
+      "userId": "***",
+      "searchDate": "2026-03-05T00:09:37.837Z",
+      "networkCount": "755",
+      "reason": "21-06522"
+    },
+    {
+      "id": "2f12cc62-b244-4a99-92ba-bcfe55d19710",
+      "userId": "***",
+      "searchDate": "2026-03-05T00:19:36.890Z",
+      "networkCount": "1",
+      "reason": "25-01254"
+    },
+    {
+      "id": "7237f128-b94e-411e-9df8-5af9c9af444a",
+      "userId": "***",
+      "searchDate": "2026-03-05T00:21:30.910Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "4c1a180a-a822-4ea0-9c3b-2ee9cebb28a6",
+      "userId": "***",
+      "searchDate": "2026-03-05T00:39:57.772Z",
+      "networkCount": "1",
+      "reason": "26-01254"
+    },
+    {
+      "id": "6fe2d210-e0a4-49c1-a5af-325ab7d1e9a6",
+      "userId": "***",
+      "searchDate": "2026-03-05T01:07:55.174Z",
+      "networkCount": "755",
+      "reason": "21-06522"
+    },
+    {
+      "id": "848bd8e4-fb59-490a-ab79-3b0b566bb9be",
+      "userId": "***",
+      "searchDate": "2026-03-05T01:22:55.020Z",
+      "networkCount": "703",
+      "reason": "25-01254"
+    },
+    {
+      "id": "8c2bad0d-e7a9-4c12-8946-17ec9eb4dc4c",
+      "userId": "***",
+      "searchDate": "2026-03-05T01:23:02.864Z",
+      "networkCount": "755",
+      "reason": "25-02363"
+    },
+    {
+      "id": "ed583206-086d-40eb-82e8-e7f4fdf7b385",
+      "userId": "***",
+      "searchDate": "2026-03-05T02:12:03.320Z",
+      "networkCount": "755",
+      "reason": "26-01254"
+    },
+    {
+      "id": "18ed21ed-faee-4b56-8b6c-a8bc031f00ab",
+      "userId": "***",
+      "searchDate": "2026-03-05T04:56:05.977Z",
+      "networkCount": "755",
+      "reason": "26-01089"
+    },
+    {
+      "id": "7a195808-c702-4d58-9d1b-212d53df433a",
+      "userId": "***",
+      "searchDate": "2026-03-05T04:56:09.419Z",
+      "networkCount": "1",
+      "reason": "26-01089"
+    },
+    {
+      "id": "fa4bd2cc-0ab9-40db-be01-6bf89fddd131",
+      "userId": "***",
+      "searchDate": "2026-03-05T04:57:29.073Z",
+      "networkCount": "755",
+      "reason": "26-01089"
+    },
+    {
+      "id": "ba26ddd9-d839-42c3-9e8f-ada7e7732c00",
+      "userId": "***",
+      "searchDate": "2026-03-05T05:00:08.411Z",
+      "networkCount": "755",
+      "reason": "26-01089"
+    },
+    {
+      "id": "64ed4b67-f996-423e-b41b-79e1d9f9a387",
+      "userId": "***",
+      "searchDate": "2026-03-05T05:00:08.457Z",
+      "networkCount": "755",
+      "reason": "26-01089"
+    },
+    {
+      "id": "63cf1447-ca55-481d-b701-a4cb75727fe8",
+      "userId": "***",
+      "searchDate": "2026-03-05T05:25:00.988Z",
+      "networkCount": "755",
+      "reason": "26-01301"
+    },
+    {
+      "id": "134e47f6-7c92-476d-bb3c-97564093c2c1",
+      "userId": "***",
+      "searchDate": "2026-03-05T06:26:17.170Z",
+      "networkCount": "940",
+      "reason": "26-01301"
+    },
+    {
+      "id": "cd47e6d0-ba87-4b99-b590-fd18b7645642",
+      "userId": "***",
+      "searchDate": "2026-03-05T07:48:25.394Z",
+      "networkCount": "1",
+      "reason": "26-01301"
+    },
+    {
+      "id": "78efc1b0-21f8-4856-8cb5-ee2ebb613c58",
+      "userId": "***",
+      "searchDate": "2026-03-05T08:20:29.355Z",
+      "networkCount": "703",
+      "reason": "26-01301"
+    },
+    {
+      "id": "1c8d8050-dacd-4232-b8d5-c694ad18513b",
+      "userId": "***",
+      "searchDate": "2026-03-05T08:28:51.457Z",
+      "networkCount": "1",
+      "reason": "21-06522"
+    },
+    {
+      "id": "991f9b3a-a781-4729-8ebd-06839e053c60",
+      "userId": "***",
+      "searchDate": "2026-03-05T11:53:48.941Z",
+      "networkCount": "1",
+      "reason": "26-00909"
+    },
+    {
+      "id": "48a47b53-93dd-41ec-bc44-40fc1f71fcfd",
+      "userId": "***",
+      "searchDate": "2026-03-05T13:31:44.353Z",
+      "networkCount": "755",
+      "reason": "25-06748"
+    },
+    {
+      "id": "4a05e6a9-129e-4242-893f-eab8bdb1376a",
+      "userId": "***",
+      "searchDate": "2026-03-05T13:33:58.053Z",
+      "networkCount": "755",
+      "reason": "2603050069"
+    },
+    {
+      "id": "638ce036-784b-41aa-86f7-e65918f18561",
+      "userId": "***",
+      "searchDate": "2026-03-05T15:01:04.740Z",
+      "networkCount": "755",
+      "reason": "2603050069"
+    },
+    {
+      "id": "5d6cf39b-6382-448c-b969-3e7137f2a953",
+      "userId": "***",
+      "searchDate": "2026-03-05T16:21:21.135Z",
+      "networkCount": "755",
+      "reason": "25-07322"
+    },
+    {
+      "id": "b41b2990-3661-477f-8ab8-a53a065cb004",
+      "userId": "***",
+      "searchDate": "2026-03-05T17:16:02.333Z",
+      "networkCount": "755",
+      "reason": "21-06522"
+    },
+    {
+      "id": "9c5bbd3e-5c48-4787-b45a-6442d605da2a",
+      "userId": "***",
+      "searchDate": "2026-03-05T18:42:08.021Z",
+      "networkCount": "755",
+      "reason": "21-06522"
+    },
+    {
+      "id": "b0d08390-0977-408e-821c-d5fb9534a766",
+      "userId": "***",
+      "searchDate": "2026-03-05T18:42:43.160Z",
+      "networkCount": "755",
+      "reason": "2603050148"
+    },
+    {
+      "id": "85e76d8a-4a01-4672-aa79-c7096f49442f",
+      "userId": "***",
+      "searchDate": "2026-03-05T19:00:39.246Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "9e04f173-bdbe-4d3c-9918-72ffb06988b0",
+      "userId": "***",
+      "searchDate": "2026-03-05T19:04:14.878Z",
+      "networkCount": "1",
+      "reason": "LAW ENFORCEMENT"
+    },
+    {
+      "id": "1bc5950f-d7a1-4026-9f31-f2402cac8209",
+      "userId": "***",
+      "searchDate": "2026-03-05T20:08:53.060Z",
+      "networkCount": "1",
+      "reason": "test"
+    },
+    {
+      "id": "bfc08949-d4fb-42f8-b669-c2c97e131b6b",
+      "userId": "***",
+      "searchDate": "2026-03-05T21:18:51.771Z",
+      "networkCount": "1",
+      "reason": "LAW ENFORCEMENT"
+    },
+    {
+      "id": "9d592906-cc83-47e4-ba1b-24fb5fb09af3",
+      "userId": "***",
+      "searchDate": "2026-03-05T23:26:17.306Z",
+      "networkCount": "1",
+      "reason": "test"
+    },
+    {
+      "id": "8fb347c9-4682-4ac4-9b57-48d59a9bbad6",
+      "userId": "***",
+      "searchDate": "2026-03-06T02:19:39.131Z",
+      "networkCount": "1",
+      "reason": "TEST"
+    },
+    {
+      "id": "28e87ec6-87f4-4053-9956-611a157e761c",
+      "userId": "***",
+      "searchDate": "2026-03-06T07:07:43.468Z",
+      "networkCount": "755",
+      "reason": "25PCS02003"
+    },
+    {
+      "id": "e78bdd83-3986-44ba-8fdf-1062d1e40a13",
+      "userId": "***",
+      "searchDate": "2026-03-06T12:16:08.075Z",
+      "networkCount": "1",
+      "reason": "26-00909"
+    },
+    {
+      "id": "abb4f082-bac0-46f4-8378-e9ed01d7cb04",
+      "userId": "***",
+      "searchDate": "2026-03-06T12:43:46.597Z",
+      "networkCount": "1",
+      "reason": "2603060042 CPD"
+    },
+    {
+      "id": "22fe6b42-1dc9-47aa-9743-557a7503c12c",
+      "userId": "***",
+      "searchDate": "2026-03-06T15:38:19.738Z",
+      "networkCount": "703",
+      "reason": "26inv0149"
+    },
+    {
+      "id": "d377f562-83fe-4413-9630-f7b4cc61d364",
+      "userId": "***",
+      "searchDate": "2026-03-06T15:40:53.905Z",
+      "networkCount": "703",
+      "reason": "26001625"
+    },
+    {
+      "id": "438d9bf7-c20d-4d6c-a0e5-8e933a946a13",
+      "userId": "***",
+      "searchDate": "2026-03-06T15:53:01.787Z",
+      "networkCount": "703",
+      "reason": "2602160272"
+    },
+    {
+      "id": "9352012c-25db-4d12-8fc6-893d89b9d43e",
+      "userId": "***",
+      "searchDate": "2026-03-06T16:00:07.209Z",
+      "networkCount": "1",
+      "reason": "26001625"
+    },
+    {
+      "id": "709fe721-93b4-42a7-8554-30aec88a5247",
+      "userId": "***",
+      "searchDate": "2026-03-06T17:09:29.785Z",
+      "networkCount": "939",
+      "reason": "26-01254"
+    },
+    {
+      "id": "3fab0939-b3a8-4b74-9a2d-285c00fb3a71",
+      "userId": "***",
+      "searchDate": "2026-03-06T17:17:27.026Z",
+      "networkCount": "755",
+      "reason": "26-01254"
+    },
+    {
+      "id": "02df6844-e8f8-400f-8bd6-fe3e0bf261b1",
+      "userId": "***",
+      "searchDate": "2026-03-06T18:26:00.153Z",
+      "networkCount": "1",
+      "reason": "26001625"
+    },
+    {
+      "id": "5fb096fc-94bf-4c62-b921-5c1b4e07d6b3",
+      "userId": "***",
+      "searchDate": "2026-03-06T18:29:40.321Z",
+      "networkCount": "1",
+      "reason": "26prcw040"
+    },
+    {
+      "id": "ac7c87b5-5aa8-49ee-ac4a-0c23507a78fd",
+      "userId": "***",
+      "searchDate": "2026-03-06T18:39:07.842Z",
+      "networkCount": "1",
+      "reason": "25-05854"
+    },
+    {
+      "id": "f5fe6b4a-eaf1-408d-b815-4704e24cabf3",
+      "userId": "***",
+      "searchDate": "2026-03-06T18:41:35.757Z",
+      "networkCount": "755",
+      "reason": "26-01095"
+    },
+    {
+      "id": "b3a0baf9-6903-4232-a1a1-f56b5719e7c8",
+      "userId": "***",
+      "searchDate": "2026-03-06T19:11:11.942Z",
+      "networkCount": "703",
+      "reason": "25-05854"
+    },
+    {
+      "id": "4a5d5f14-7557-48eb-89de-673b150eab58",
+      "userId": "***",
+      "searchDate": "2026-03-06T20:53:28.871Z",
+      "networkCount": "703",
+      "reason": "25-05854"
+    },
+    {
+      "id": "0d3ee0f8-c192-42c0-af32-edf8a31b2012",
+      "userId": "***",
+      "searchDate": "2026-03-06T22:02:09.715Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "f3e6ba97-3c5a-49ad-a8cc-2a55b2dabc3c",
+      "userId": "***",
+      "searchDate": "2026-03-06T22:07:32.153Z",
+      "networkCount": "939",
+      "reason": "26-01254"
+    },
+    {
+      "id": "41d7d64a-8450-4896-8243-79d80f76c56f",
+      "userId": "***",
+      "searchDate": "2026-03-06T22:16:35.910Z",
+      "networkCount": "703",
+      "reason": "26-01254"
+    },
+    {
+      "id": "50f4a394-5490-4088-9483-a81073bc1db8",
+      "userId": "***",
+      "searchDate": "2026-03-06T22:18:58.696Z",
+      "networkCount": "703",
+      "reason": "25-05854"
+    },
+    {
+      "id": "bedc89b7-5602-4d80-92d0-02a040bff924",
+      "userId": "***",
+      "searchDate": "2026-03-06T23:02:27.943Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "61fd2dd9-8998-47e4-97c2-7b526569e44c",
+      "userId": "***",
+      "searchDate": "2026-03-06T23:02:41.142Z",
+      "networkCount": "703",
+      "reason": "25-05854"
+    },
+    {
+      "id": "8aaf32e1-8da6-45f8-acd2-fe601f97d09d",
+      "userId": "***",
+      "searchDate": "2026-03-06T23:06:20.495Z",
+      "networkCount": "755",
+      "reason": "26-01254"
+    },
+    {
+      "id": "f56eb6d8-1226-4ae4-ba1b-2cfcd07f282c",
+      "userId": "***",
+      "searchDate": "2026-03-06T23:19:12.665Z",
+      "networkCount": "703",
+      "reason": "26-00533"
+    },
+    {
+      "id": "18c8e371-f836-43b6-943e-961f96683c1d",
+      "userId": "***",
+      "searchDate": "2026-03-06T23:35:40.123Z",
+      "networkCount": "755",
+      "reason": "2601050160"
+    },
+    {
+      "id": "c542e04d-706e-4a83-a561-6d55ed977f89",
+      "userId": "***",
+      "searchDate": "2026-03-06T23:46:13.749Z",
+      "networkCount": "755",
+      "reason": "2061050160"
+    },
+    {
+      "id": "af99d43a-1285-49ba-bc01-eb9059fdce99",
+      "userId": "***",
+      "searchDate": "2026-03-06T23:56:00.935Z",
+      "networkCount": "703",
+      "reason": "2601050160"
+    },
+    {
+      "id": "f324e424-835d-4c68-822f-8bc7f7539ccf",
+      "userId": "***",
+      "searchDate": "2026-03-07T00:16:29.382Z",
+      "networkCount": "703",
+      "reason": "2601050160"
+    },
+    {
+      "id": "9fe0b020-125b-4ae1-a3b5-be42aab6aecc",
+      "userId": "***",
+      "searchDate": "2026-03-07T05:05:38.321Z",
+      "networkCount": "1",
+      "reason": "459"
+    },
+    {
+      "id": "18e75bda-f0d4-49b2-bc3d-920a06509444",
+      "userId": "***",
+      "searchDate": "2026-03-07T06:15:41.503Z",
+      "networkCount": "755",
+      "reason": "2603060490"
+    },
+    {
+      "id": "236971d4-e4df-44f2-a149-1c3378003ee4",
+      "userId": "***",
+      "searchDate": "2026-03-07T06:57:44.278Z",
+      "networkCount": "991",
+      "reason": "26-01241"
+    },
+    {
+      "id": "d5e9c544-0b0d-4310-a033-0d0e6ae77673",
+      "userId": "***",
+      "searchDate": "2026-03-07T07:06:59.573Z",
+      "networkCount": "991",
+      "reason": "26-01241"
+    },
+    {
+      "id": "ab291fa3-f748-46ef-a07d-8b307cc5a534",
+      "userId": "***",
+      "searchDate": "2026-03-07T07:27:51.432Z",
+      "networkCount": "703",
+      "reason": "2603060490"
+    },
+    {
+      "id": "cef58f2e-0e7e-4635-8a58-5a40d2f1734d",
+      "userId": "***",
+      "searchDate": "2026-03-07T11:56:24.439Z",
+      "networkCount": "1",
+      "reason": "2603070064"
+    },
+    {
+      "id": "9ba5d05a-136a-436f-845b-76df2a195f78",
+      "userId": "***",
+      "searchDate": "2026-03-07T12:06:35.124Z",
+      "networkCount": "991",
+      "reason": "26-01241"
+    },
+    {
+      "id": "474a3691-d602-4094-814a-dddcadb035c7",
+      "userId": "***",
+      "searchDate": "2026-03-07T12:29:45.292Z",
+      "networkCount": "1",
+      "reason": "2603070064"
+    },
+    {
+      "id": "0b123f44-5f0a-48ee-bbdd-a59b071103a1",
+      "userId": "***",
+      "searchDate": "2026-03-07T13:04:42.652Z",
+      "networkCount": "703",
+      "reason": "26-01351"
+    },
+    {
+      "id": "45b06447-6615-48d7-9d4b-7a6a172ebb26",
+      "userId": "***",
+      "searchDate": "2026-03-07T13:32:42.534Z",
+      "networkCount": "1",
+      "reason": "26-01351"
+    },
+    {
+      "id": "b9d1aec8-63be-4bba-8bb1-b3128dacfb94",
+      "userId": "***",
+      "searchDate": "2026-03-07T16:05:07.399Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "22faab44-43bd-4516-b8d0-362403790bae",
+      "userId": "***",
+      "searchDate": "2026-03-07T16:11:32.500Z",
+      "networkCount": "755",
+      "reason": "26-01341"
+    },
+    {
+      "id": "4c75d614-8cd8-41e2-a9a9-332e08720c67",
+      "userId": "***",
+      "searchDate": "2026-03-07T16:41:48.652Z",
+      "networkCount": "755",
+      "reason": "2603070107"
+    },
+    {
+      "id": "a96eb5b2-b05c-482e-83d3-2e6cef9499d9",
+      "userId": "***",
+      "searchDate": "2026-03-07T17:04:04.258Z",
+      "networkCount": "755",
+      "reason": "2504210474"
+    },
+    {
+      "id": "6a31712c-4770-40cc-b406-3be418db1f60",
+      "userId": "***",
+      "searchDate": "2026-03-07T17:19:51.707Z",
+      "networkCount": "755",
+      "reason": "26-01341"
+    },
+    {
+      "id": "c22892c4-f8e2-498b-bdc0-c3072386d014",
+      "userId": "***",
+      "searchDate": "2026-03-07T17:40:21.748Z",
+      "networkCount": "1",
+      "reason": "26-01354"
+    },
+    {
+      "id": "3277ff58-150d-4361-8334-22ed81da12d0",
+      "userId": "***",
+      "searchDate": "2026-03-07T17:41:40.152Z",
+      "networkCount": "755",
+      "reason": "26-01354"
+    },
+    {
+      "id": "9c907318-1967-4d3f-a0d7-a0f8c86f572a",
+      "userId": "***",
+      "searchDate": "2026-03-07T18:01:17.928Z",
+      "networkCount": "1",
+      "reason": "2603070107"
+    },
+    {
+      "id": "2a0706d5-69cf-4dfc-8b15-377674048aae",
+      "userId": "***",
+      "searchDate": "2026-03-07T18:05:48.913Z",
+      "networkCount": "755",
+      "reason": "2504210474"
+    },
+    {
+      "id": "30a07281-c8e2-4bb3-9907-2f72e74333f3",
+      "userId": "***",
+      "searchDate": "2026-03-07T18:14:44.739Z",
+      "networkCount": "703",
+      "reason": "26001625  chico pd"
+    },
+    {
+      "id": "1dcbcb4d-b854-44aa-b359-f1e45af29a08",
+      "userId": "***",
+      "searchDate": "2026-03-07T18:20:13.323Z",
+      "networkCount": "755",
+      "reason": "26-01341"
+    },
+    {
+      "id": "1a5e4e02-fd55-4c48-8fce-be6a198eca8a",
+      "userId": "***",
+      "searchDate": "2026-03-07T18:26:25.868Z",
+      "networkCount": "755",
+      "reason": "26-01354"
+    },
+    {
+      "id": "e391c503-f0e2-4fc6-b750-691af6e92126",
+      "userId": "***",
+      "searchDate": "2026-03-07T18:40:15.858Z",
+      "networkCount": "1",
+      "reason": "26-01354"
+    },
+    {
+      "id": "53670916-1bff-4e43-a14e-115e2bcfdaf9",
+      "userId": "***",
+      "searchDate": "2026-03-07T18:56:51.521Z",
+      "networkCount": "1",
+      "reason": "Chico pd 26001625"
+    },
+    {
+      "id": "e0737e98-71a4-41f0-a518-03a2c4a41826",
+      "userId": "***",
+      "searchDate": "2026-03-07T18:58:44.287Z",
+      "networkCount": "1",
+      "reason": "26-00952"
+    },
+    {
+      "id": "aa452d09-5dc1-403c-b610-7c20e7b78a58",
+      "userId": "***",
+      "searchDate": "2026-03-07T19:01:03.803Z",
+      "networkCount": "755",
+      "reason": "26-00952"
+    },
+    {
+      "id": "9e5b2ec0-49d5-421b-a8bb-2686fd4e2d25",
+      "userId": "***",
+      "searchDate": "2026-03-07T19:04:10.592Z",
+      "networkCount": "755",
+      "reason": "26-01341"
+    },
+    {
+      "id": "b699a1a9-eb74-48d2-9686-20a29090f9ed",
+      "userId": "***",
+      "searchDate": "2026-03-07T19:05:58.106Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "ff6f7fd5-6067-4e6a-82ec-812e47b4d8b3",
+      "userId": "***",
+      "searchDate": "2026-03-07T20:30:48.123Z",
+      "networkCount": "755",
+      "reason": "26-00952"
+    },
+    {
+      "id": "13626b6b-9361-4c7b-a41d-185ffc264452",
+      "userId": "***",
+      "searchDate": "2026-03-07T21:31:36.355Z",
+      "networkCount": "755",
+      "reason": "26-00952"
+    },
+    {
+      "id": "4292bda4-a83d-4c3e-b9d8-e5e22775e9ac",
+      "userId": "***",
+      "searchDate": "2026-03-07T21:37:56.873Z",
+      "networkCount": "755",
+      "reason": "26-01341"
+    },
+    {
+      "id": "8e201a87-fd32-4c3d-822c-b1386167b88b",
+      "userId": "***",
+      "searchDate": "2026-03-07T22:06:56.226Z",
+      "networkCount": "755",
+      "reason": "2504210474"
+    },
+    {
+      "id": "19a356b8-1d3d-4f22-b50c-a5dd8c6f66d3",
+      "userId": "***",
+      "searchDate": "2026-03-07T22:16:13.822Z",
+      "networkCount": "755",
+      "reason": "26-00952"
+    },
+    {
+      "id": "ec8494ed-b4ed-401f-b9b1-7b9c9b78bb27",
+      "userId": "***",
+      "searchDate": "2026-03-07T22:23:48.095Z",
+      "networkCount": "755",
+      "reason": "26-01341"
+    },
+    {
+      "id": "caaf7a21-9f7c-42bb-9caa-2de05b3e717e",
+      "userId": "***",
+      "searchDate": "2026-03-07T23:04:30.249Z",
+      "networkCount": "755",
+      "reason": "26-00952"
+    },
+    {
+      "id": "24c70c8d-a1b6-465c-a770-5666e7d2fa57",
+      "userId": "***",
+      "searchDate": "2026-03-07T23:43:38.048Z",
+      "networkCount": "755",
+      "reason": "26-01341"
+    },
+    {
+      "id": "b12aaa9a-c3c5-48b2-b815-29e1a31165c0",
+      "userId": "***",
+      "searchDate": "2026-03-08T00:00:13.001Z",
+      "networkCount": "755",
+      "reason": "26-01341"
+    },
+    {
+      "id": "92171325-42d1-44da-8e77-3a0f38d73983",
+      "userId": "***",
+      "searchDate": "2026-03-08T00:32:31.545Z",
+      "networkCount": "755",
+      "reason": "26-00952"
+    },
+    {
+      "id": "ab2e1c6d-a9bc-412b-8562-2e1bcb9a3203",
+      "userId": "***",
+      "searchDate": "2026-03-08T01:01:41.754Z",
+      "networkCount": "755",
+      "reason": "26-01341"
+    },
+    {
+      "id": "b8210bf3-f23f-4716-9f8c-8b8c23e633b1",
+      "userId": "***",
+      "searchDate": "2026-03-08T01:08:46.801Z",
+      "networkCount": "755",
+      "reason": "26-00952"
+    },
+    {
+      "id": "8f2315ef-d07b-4e55-a7b8-9c5d17c98f00",
+      "userId": "***",
+      "searchDate": "2026-03-08T03:05:44.292Z",
+      "networkCount": "703",
+      "reason": "26-001831"
+    },
+    {
+      "id": "5877445a-2a8d-4f19-bc2f-dccb744c7730",
+      "userId": "***",
+      "searchDate": "2026-03-08T03:07:41.874Z",
+      "networkCount": "703",
+      "reason": "26-0205"
+    },
+    {
+      "id": "9e48a6a0-bdf5-4e91-9c58-3fd2390e2ba3",
+      "userId": "***",
+      "searchDate": "2026-03-08T03:29:35.042Z",
+      "networkCount": "1",
+      "reason": "459"
+    },
+    {
+      "id": "532c382a-0302-491e-aae7-165f00f27973",
+      "userId": "***",
+      "searchDate": "2026-03-08T09:55:11.161Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "cb7dba00-3086-47f1-b9a2-d822a120802a",
+      "userId": "***",
+      "searchDate": "2026-03-08T10:15:00.492Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "c9bd21db-5f98-483d-9e98-97f809232b1e",
+      "userId": "***",
+      "searchDate": "2026-03-08T11:25:09.570Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "3825837f-de42-4eaa-b3a6-174ee05a6ab6",
+      "userId": "***",
+      "searchDate": "2026-03-08T14:20:37.688Z",
+      "networkCount": "755",
+      "reason": "2504210474"
+    },
+    {
+      "id": "c8cd18e6-46eb-4675-8d09-610d00f3ab71",
+      "userId": "***",
+      "searchDate": "2026-03-08T15:37:58.213Z",
+      "networkCount": "1",
+      "reason": "26-01354"
+    },
+    {
+      "id": "0f0a9475-74f0-4734-b8fa-b7b07cf7895f",
+      "userId": "***",
+      "searchDate": "2026-03-08T15:50:11.893Z",
+      "networkCount": "755",
+      "reason": "2504210474"
+    },
+    {
+      "id": "d9dbf4d6-5ab1-43ea-a719-0ff114f76693",
+      "userId": "***",
+      "searchDate": "2026-03-08T16:34:58.888Z",
+      "networkCount": "940",
+      "reason": "26-01354"
+    },
+    {
+      "id": "4da0e12c-9c81-4861-ae44-1d55f3848854",
+      "userId": "***",
+      "searchDate": "2026-03-08T16:35:12.073Z",
+      "networkCount": "1",
+      "reason": "26-01354"
+    },
+    {
+      "id": "d04cf312-5bc4-4400-9c99-5316cc087f8e",
+      "userId": "***",
+      "searchDate": "2026-03-08T17:36:14.357Z",
+      "networkCount": "755",
+      "reason": "24-04352"
+    },
+    {
+      "id": "4b6f6b63-2606-495f-a5f5-9e4f4e726469",
+      "userId": "***",
+      "searchDate": "2026-03-08T19:36:02.925Z",
+      "networkCount": "1",
+      "reason": "24-04352"
+    },
+    {
+      "id": "a38b5cff-70d8-4af4-aeec-90f6852d2c8d",
+      "userId": "***",
+      "searchDate": "2026-03-08T22:05:56.987Z",
+      "networkCount": "755",
+      "reason": "2504210474"
+    },
+    {
+      "id": "5822e2aa-7dcb-4ad4-ba76-c2d3e38dd9fa",
+      "userId": "***",
+      "searchDate": "2026-03-08T22:20:27.943Z",
+      "networkCount": "755",
+      "reason": "24-04352"
+    },
+    {
+      "id": "904c6db0-24f5-4992-ba2c-e3af09a4315a",
+      "userId": "***",
+      "searchDate": "2026-03-08T22:56:24.380Z",
+      "networkCount": "703",
+      "reason": "2504210474"
+    },
+    {
+      "id": "3af614bf-8b30-47df-81f8-276afba1c3ea",
+      "userId": "***",
+      "searchDate": "2026-03-08T23:15:11.048Z",
+      "networkCount": "755",
+      "reason": "24-04352"
+    },
+    {
+      "id": "34b79b6c-3bc1-4175-9830-98e78ec569b1",
+      "userId": "***",
+      "searchDate": "2026-03-08T23:34:27.235Z",
+      "networkCount": "755",
+      "reason": "2504210474"
+    },
+    {
+      "id": "1aab06de-4052-42f5-95db-379c6df788ef",
+      "userId": "***",
+      "searchDate": "2026-03-09T00:44:57.501Z",
+      "networkCount": "1",
+      "reason": "24-04352"
+    },
+    {
+      "id": "e080b188-e1ce-438f-a3c8-c11404b0a8a7",
+      "userId": "***",
+      "searchDate": "2026-03-09T01:05:55.174Z",
+      "networkCount": "1",
+      "reason": "245(a)(4)"
+    },
+    {
+      "id": "baffa6d6-802f-4d8b-b718-1496f79f7bff",
+      "userId": "***",
+      "searchDate": "2026-03-09T01:06:10.761Z",
+      "networkCount": "755",
+      "reason": "24-04352"
+    },
+    {
+      "id": "09b03177-e1ae-4e5d-ade8-f0bc092a67b1",
+      "userId": "***",
+      "searchDate": "2026-03-09T01:31:21.205Z",
+      "networkCount": "1",
+      "reason": "2603070310"
+    },
+    {
+      "id": "73dad599-0099-4745-b1fc-63c2456c3ec7",
+      "userId": "***",
+      "searchDate": "2026-03-09T01:42:10.043Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "8ab87f43-fb68-487a-90b1-bcf1b9cc71e5",
+      "userId": "***",
+      "searchDate": "2026-03-09T02:41:33.938Z",
+      "networkCount": "755",
+      "reason": "26-001853"
+    },
+    {
+      "id": "e9339b6c-ca81-45cc-83e4-a264edc40a28",
+      "userId": "***",
+      "searchDate": "2026-03-09T02:43:28.433Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "1fb1502e-38bf-4290-bf49-76f1082c7881",
+      "userId": "***",
+      "searchDate": "2026-03-09T02:49:14.326Z",
+      "networkCount": "1",
+      "reason": "2603070310"
+    },
+    {
+      "id": "8269171d-cb0b-460a-a910-9fba86d33487",
+      "userId": "***",
+      "searchDate": "2026-03-09T04:47:25.868Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "ac4acf90-dacc-41d5-bc10-8ebd8eacba94",
+      "userId": "***",
+      "searchDate": "2026-03-09T05:01:58.391Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "c7484038-6554-4918-8fdb-7d6dba282b94",
+      "userId": "***",
+      "searchDate": "2026-03-09T05:58:32.880Z",
+      "networkCount": "3",
+      "reason": "25-05777"
+    },
+    {
+      "id": "ecbecc03-cc62-45bd-9266-09c238aa72da",
+      "userId": "***",
+      "searchDate": "2026-03-09T06:05:35.036Z",
+      "networkCount": "1",
+      "reason": "25-05777"
+    },
+    {
+      "id": "470e2b27-5caa-46dd-9d74-2616e2e74b5a",
+      "userId": "***",
+      "searchDate": "2026-03-09T06:18:26.005Z",
+      "networkCount": "703",
+      "reason": "2603070310"
+    },
+    {
+      "id": "e7f431eb-01a8-4ccd-90a9-8db0112be16a",
+      "userId": "***",
+      "searchDate": "2026-03-09T08:27:50.658Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "bd139e7f-79a5-4f8b-a042-aeb970179ba0",
+      "userId": "***",
+      "searchDate": "2026-03-09T09:57:25.106Z",
+      "networkCount": "755",
+      "reason": "26-01384"
+    },
+    {
+      "id": "f119a99f-3048-491b-ae06-fbe9347854ca",
+      "userId": "***",
+      "searchDate": "2026-03-09T10:04:51.479Z",
+      "networkCount": "755",
+      "reason": "26-01384"
+    },
+    {
+      "id": "9e22034f-3d49-4797-93b0-ccd041d212cc",
+      "userId": "***",
+      "searchDate": "2026-03-09T11:00:49.236Z",
+      "networkCount": "940",
+      "reason": "26-01384"
+    },
+    {
+      "id": "55eff381-c2a0-4a5e-a6fd-912dc9b21cb2",
+      "userId": "***",
+      "searchDate": "2026-03-09T11:32:34.053Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "5d27a391-d9d3-43b4-a5e7-85e65a4611c2",
+      "userId": "***",
+      "searchDate": "2026-03-09T12:03:33.764Z",
+      "networkCount": "703",
+      "reason": "26-01384"
+    },
+    {
+      "id": "0eef8f36-77d6-4344-b21b-c145f0e1fe6a",
+      "userId": "***",
+      "searchDate": "2026-03-09T12:36:58.681Z",
+      "networkCount": "755",
+      "reason": "24-04352"
+    },
+    {
+      "id": "18dddf2e-21d1-4ecb-9366-8cf22feeffbc",
+      "userId": "***",
+      "searchDate": "2026-03-09T13:01:05.738Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "7a2a706e-b865-469f-94ef-5fb8e94e83ee",
+      "userId": "***",
+      "searchDate": "2026-03-09T14:40:45.347Z",
+      "networkCount": "755",
+      "reason": "24-04352"
+    },
+    {
+      "id": "4dfc1c60-c4ed-4114-b684-fd4fa11c86f7",
+      "userId": "***",
+      "searchDate": "2026-03-09T15:14:15.121Z",
+      "networkCount": "703",
+      "reason": "2603090087"
+    },
+    {
+      "id": "b92e178f-8ce9-4e72-bd5f-e5674a815e0b",
+      "userId": "***",
+      "searchDate": "2026-03-09T16:55:20.052Z",
+      "networkCount": "755",
+      "reason": "21-06522"
+    },
+    {
+      "id": "23e26f64-28cb-4393-850f-6857e2f16a62",
+      "userId": "***",
+      "searchDate": "2026-03-09T17:22:29.953Z",
+      "networkCount": "1",
+      "reason": "MISSING"
+    },
+    {
+      "id": "e07da597-83d9-422c-afd7-48c000b4a4f1",
+      "userId": "***",
+      "searchDate": "2026-03-09T17:28:12.080Z",
+      "networkCount": "703",
+      "reason": "Inc# 2603090137"
+    },
+    {
+      "id": "c3a6b016-b25f-4d21-8643-fc165c27c5f8",
+      "userId": "***",
+      "searchDate": "2026-03-09T17:49:27.613Z",
+      "networkCount": "755",
+      "reason": "26-00685"
+    },
+    {
+      "id": "8bf943cd-82ca-4e37-8e65-e1aeac1e9c69",
+      "userId": "***",
+      "searchDate": "2026-03-09T18:07:08.397Z",
+      "networkCount": "755",
+      "reason": "2504210474"
+    },
+    {
+      "id": "3a3b17b1-1bc7-4a14-a861-19d86a24c851",
+      "userId": "***",
+      "searchDate": "2026-03-09T18:08:28.126Z",
+      "networkCount": "755",
+      "reason": "2603090137"
+    },
+    {
+      "id": "1c1a5b45-eff0-4f39-9bf6-b80b271fe5d4",
+      "userId": "***",
+      "searchDate": "2026-03-09T18:09:14.462Z",
+      "networkCount": "1",
+      "reason": "Case follow up"
+    },
+    {
+      "id": "84022f2c-f64c-444c-a32f-7610d5ba1937",
+      "userId": "***",
+      "searchDate": "2026-03-09T18:56:11.110Z",
+      "networkCount": "703",
+      "reason": "26-00685"
+    },
+    {
+      "id": "a35f936b-ca69-430a-adcf-f88e6521ace8",
+      "userId": "***",
+      "searchDate": "2026-03-09T21:30:29.438Z",
+      "networkCount": "755",
+      "reason": "2504210474"
+    },
+    {
+      "id": "954f351f-f3eb-4f07-a4c0-9f52a96a7f72",
+      "userId": "***",
+      "searchDate": "2026-03-09T22:00:45.025Z",
+      "networkCount": "754",
+      "reason": "26-01389"
+    },
+    {
+      "id": "c97d7119-8ba8-46b0-839a-e28be83c5f78",
+      "userId": "***",
+      "searchDate": "2026-03-09T23:17:28.839Z",
+      "networkCount": "754",
+      "reason": "26-01254"
+    },
+    {
+      "id": "6c2dfa49-912b-44d1-82b4-6012d98a3de9",
+      "userId": "***",
+      "searchDate": "2026-03-09T23:38:11.560Z",
+      "networkCount": "702",
+      "reason": "21-06522"
+    },
+    {
+      "id": "f7d3d5a9-f94f-438b-8b26-5335d921baf0",
+      "userId": "***",
+      "searchDate": "2026-03-10T00:18:42.512Z",
+      "networkCount": "754",
+      "reason": "26-01254"
+    },
+    {
+      "id": "bf6842c4-9b7d-4086-be71-d8e9cb671ea4",
+      "userId": "***",
+      "searchDate": "2026-03-10T00:23:55.788Z",
+      "networkCount": "702",
+      "reason": "21-06522"
+    },
+    {
+      "id": "6a4c2a03-893d-420e-8839-10ba5a08037c",
+      "userId": "***",
+      "searchDate": "2026-03-10T01:01:35.121Z",
+      "networkCount": "754",
+      "reason": "26-01254"
+    },
+    {
+      "id": "bd720e88-8f97-44ae-8980-e39547e4f008",
+      "userId": "***",
+      "searchDate": "2026-03-10T01:47:26.357Z",
+      "networkCount": "754",
+      "reason": "2504210474"
+    },
+    {
+      "id": "8599d958-c092-4e8a-8842-f848a89db763",
+      "userId": "***",
+      "searchDate": "2026-03-10T02:10:57.128Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "8d307b38-3ee4-4b56-9ee3-6570a19010ee",
+      "userId": "***",
+      "searchDate": "2026-03-10T02:15:57.121Z",
+      "networkCount": "940",
+      "reason": "26-01384"
+    },
+    {
+      "id": "b6d52add-b925-487a-9769-8b5df1c9b628",
+      "userId": "***",
+      "searchDate": "2026-03-10T02:45:19.752Z",
+      "networkCount": "991",
+      "reason": "26-01389"
+    },
+    {
+      "id": "4fba25d3-30f6-4a00-94af-3c86d36d104f",
+      "userId": "***",
+      "searchDate": "2026-03-10T03:21:35.356Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "d067b031-2f23-4034-bed1-bd48e52b65e0",
+      "userId": "***",
+      "searchDate": "2026-03-10T04:22:24.140Z",
+      "networkCount": "940",
+      "reason": "26-01384"
+    },
+    {
+      "id": "b3229a44-b5e6-4611-9d28-11ed16a7d0c5",
+      "userId": "***",
+      "searchDate": "2026-03-10T04:53:24.761Z",
+      "networkCount": "1",
+      "reason": "26-0205"
+    },
+    {
+      "id": "1ec36a1a-01a6-4664-b29c-e2c949fe59c1",
+      "userId": "***",
+      "searchDate": "2026-03-10T05:28:47.945Z",
+      "networkCount": "1",
+      "reason": "26-01265"
+    },
+    {
+      "id": "86c832f1-b18e-4362-93dc-86433108d94e",
+      "userId": "***",
+      "searchDate": "2026-03-10T05:30:13.986Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "6acd72f8-cf63-4fd5-892d-cb2b45751034",
+      "userId": "***",
+      "searchDate": "2026-03-10T06:01:01.864Z",
+      "networkCount": "1",
+      "reason": "26-01265"
+    },
+    {
+      "id": "f36da0b5-dd78-4f62-9501-27842966a459",
+      "userId": "***",
+      "searchDate": "2026-03-10T08:04:46.325Z",
+      "networkCount": "754",
+      "reason": "26-0205"
+    },
+    {
+      "id": "97080f6a-ec4c-47c8-871c-22394247b591",
+      "userId": "***",
+      "searchDate": "2026-03-10T08:17:54.567Z",
+      "networkCount": "703",
+      "reason": "26-001853"
+    },
+    {
+      "id": "2ff83bb7-7f48-4601-8a79-1f5907ae2b79",
+      "userId": "***",
+      "searchDate": "2026-03-10T09:39:19.982Z",
+      "networkCount": "754",
+      "reason": "488"
+    },
+    {
+      "id": "25761f16-abef-4d15-91dd-58ac3e5f75b2",
+      "userId": "***",
+      "searchDate": "2026-03-10T14:40:20.602Z",
+      "networkCount": "1",
+      "reason": "488"
+    },
+    {
+      "id": "11341ca8-969f-4a8f-9636-9e439883f684",
+      "userId": "***",
+      "searchDate": "2026-03-10T16:37:08.573Z",
+      "networkCount": "754",
+      "reason": "21-05173"
+    },
+    {
+      "id": "0724ffd0-cd16-439d-8acc-a5e3249c7663",
+      "userId": "***",
+      "searchDate": "2026-03-10T17:58:13.853Z",
+      "networkCount": "754",
+      "reason": "21-05173"
+    },
+    {
+      "id": "eca0b249-4ff9-402d-a8f1-d24d908b237b",
+      "userId": "***",
+      "searchDate": "2026-03-10T18:39:43.430Z",
+      "networkCount": "703",
+      "reason": "26-00685"
+    },
+    {
+      "id": "d84628fa-39fb-4598-a313-caffd5519766",
+      "userId": "***",
+      "searchDate": "2026-03-10T19:01:33.034Z",
+      "networkCount": "703",
+      "reason": "26-00685"
+    },
+    {
+      "id": "22e9e418-4d42-43cd-8531-64f3871ba76f",
+      "userId": "***",
+      "searchDate": "2026-03-10T20:35:13.293Z",
+      "networkCount": "703",
+      "reason": "26-00685"
+    },
+    {
+      "id": "a3d4b12f-7d9a-44f7-8888-db5d415031a8",
+      "userId": "***",
+      "searchDate": "2026-03-10T21:18:49.977Z",
+      "networkCount": "754",
+      "reason": "21-05173"
+    },
+    {
+      "id": "3e9fdb25-819d-4414-aa8b-fb6dba150cd5",
+      "userId": "***",
+      "searchDate": "2026-03-10T22:43:55.118Z",
+      "networkCount": "703",
+      "reason": "S04828526"
+    },
+    {
+      "id": "a4a9b623-08c0-4941-88ff-5c37f65e670b",
+      "userId": "***",
+      "searchDate": "2026-03-10T22:49:25.309Z",
+      "networkCount": "754",
+      "reason": "2603100218"
+    },
+    {
+      "id": "49862ac0-7d0c-47a6-9619-635873944965",
+      "userId": "***",
+      "searchDate": "2026-03-10T22:51:25.827Z",
+      "networkCount": "703",
+      "reason": "26-00685"
+    },
+    {
+      "id": "e3b8546c-914e-44ce-834d-a1d80e6a30b0",
+      "userId": "***",
+      "searchDate": "2026-03-11T13:16:10.315Z",
+      "networkCount": "703",
+      "reason": "S04828526"
+    },
+    {
+      "id": "8588850e-edf5-4d27-b24d-b95da897424b",
+      "userId": "***",
+      "searchDate": "2026-03-11T16:01:13.528Z",
+      "networkCount": "754",
+      "reason": "21-05173"
+    },
+    {
+      "id": "7bfc3380-a57b-43a9-a17b-16ad4af9e1f4",
+      "userId": "***",
+      "searchDate": "2026-03-11T17:42:42.570Z",
+      "networkCount": "1",
+      "reason": "25-02363"
+    },
+    {
+      "id": "29a51492-daa4-47b1-a78a-7145e176fb2e",
+      "userId": "***",
+      "searchDate": "2026-03-11T17:52:14.913Z",
+      "networkCount": "703",
+      "reason": "26-00685"
+    },
+    {
+      "id": "b27fd0fe-a08e-4b6e-952c-fcd8d5916aeb",
+      "userId": "***",
+      "searchDate": "2026-03-11T19:01:59.216Z",
+      "networkCount": "754",
+      "reason": "21-05173"
+    },
+    {
+      "id": "46410817-5e7d-4818-a39c-77d5d03adcc9",
+      "userId": "***",
+      "searchDate": "2026-03-11T22:40:33.034Z",
+      "networkCount": "754",
+      "reason": "25-07334"
+    },
+    {
+      "id": "7a55a06f-d5c0-4ca9-a6d0-fca22da4c156",
+      "userId": "***",
+      "searchDate": "2026-03-12T02:52:26.927Z",
+      "networkCount": "1",
+      "reason": "26.03.11.0356"
+    },
+    {
+      "id": "61e7f8f4-e18a-4c04-8b0e-fd7127bb2e17",
+      "userId": "***",
+      "searchDate": "2026-03-12T02:58:59.583Z",
+      "networkCount": "1",
+      "reason": "More Like This: 26.03.11.0356"
+    },
+    {
+      "id": "dba1a6c7-25f2-4802-954f-3ab522999941",
+      "userId": "***",
+      "searchDate": "2026-03-12T03:00:12.432Z",
+      "networkCount": "1",
+      "reason": "26.03.11.0356"
+    },
+    {
+      "id": "e2294bd1-9f76-4b2e-8abf-927f850150c8",
+      "userId": "***",
+      "searchDate": "2026-03-12T03:27:25.140Z",
+      "networkCount": "1",
+      "reason": "2603110356"
+    },
+    {
+      "id": "5daf87d9-3768-42c4-a79c-aaf9cb8d42ac",
+      "userId": "***",
+      "searchDate": "2026-03-12T05:35:46.765Z",
+      "networkCount": "754",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "b5e520c8-07d2-4010-b38b-64bc52e722c8",
+      "userId": "***",
+      "searchDate": "2026-03-12T07:50:36.426Z",
+      "networkCount": "754",
+      "reason": "2603110489"
+    },
+    {
+      "id": "8d436bb9-c670-4686-b59b-1da90229f9ba",
+      "userId": "***",
+      "searchDate": "2026-03-12T08:01:40.060Z",
+      "networkCount": "1",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "97b47e15-c030-47c2-9ab5-4e2d6c43ca4d",
+      "userId": "***",
+      "searchDate": "2026-03-12T08:02:24.734Z",
+      "networkCount": "3",
+      "reason": "2603110489"
+    },
+    {
+      "id": "1783088e-4fb1-4e2b-ba29-32dcaf4fb42a",
+      "userId": "***",
+      "searchDate": "2026-03-12T11:36:37.434Z",
+      "networkCount": "1",
+      "reason": "26-01447"
+    },
+    {
+      "id": "e690e432-1344-4e92-bcf5-23b257b1c356",
+      "userId": "***",
+      "searchDate": "2026-03-12T15:24:05.930Z",
+      "networkCount": "703",
+      "reason": "25-01254"
+    },
+    {
+      "id": "f0cd2e22-4b8f-4403-b352-d66a5f82bd52",
+      "userId": "***",
+      "searchDate": "2026-03-12T16:17:09.283Z",
+      "networkCount": "1",
+      "reason": "25-02363"
+    },
+    {
+      "id": "c6ba71d3-ada6-4aa5-9025-a36db6df3110",
+      "userId": "***",
+      "searchDate": "2026-03-12T16:35:12.366Z",
+      "networkCount": "754",
+      "reason": "21-06522"
+    },
+    {
+      "id": "2d958168-f501-443d-945d-f3c41eafb1fb",
+      "userId": "***",
+      "searchDate": "2026-03-12T17:18:26.028Z",
+      "networkCount": "754",
+      "reason": "21-06522"
+    },
+    {
+      "id": "b9e30d1b-11dc-4d03-b08f-9e1e2d4d738c",
+      "userId": "***",
+      "searchDate": "2026-03-12T18:00:55.110Z",
+      "networkCount": "754",
+      "reason": "21-06522"
+    },
+    {
+      "id": "a500ccaa-c47b-41be-87f5-06f83bdf2eab",
+      "userId": "***",
+      "searchDate": "2026-03-12T18:21:16.844Z",
+      "networkCount": "1",
+      "reason": "25-02363"
+    },
+    {
+      "id": "23c31389-6b90-4555-86b8-1d1eccfc5c2e",
+      "userId": "***",
+      "searchDate": "2026-03-12T20:34:54.057Z",
+      "networkCount": "754",
+      "reason": "21-06522"
+    },
+    {
+      "id": "0e5b2ffc-7b7e-4c72-8792-6a91c0cd4456",
+      "userId": "***",
+      "searchDate": "2026-03-12T23:17:03.969Z",
+      "networkCount": "753",
+      "reason": "26-01254"
+    },
+    {
+      "id": "d97ac9ee-4dd0-4bc6-9b36-7cc35cf16b56",
+      "userId": "***",
+      "searchDate": "2026-03-13T05:54:01.935Z",
+      "networkCount": "753",
+      "reason": "26PRCW029"
+    },
+    {
+      "id": "430a73ac-1f1c-4a32-a968-657aed99c32b",
+      "userId": "***",
+      "searchDate": "2026-03-13T06:01:02.516Z",
+      "networkCount": "753",
+      "reason": "26PRCW029"
+    },
+    {
+      "id": "cab86f21-47fd-4012-9013-fe1764a2ce18",
+      "userId": "***",
+      "searchDate": "2026-03-13T08:29:45.408Z",
+      "networkCount": "1",
+      "reason": "26PRCW029"
+    },
+    {
+      "id": "82793d78-cf6f-485f-bec9-bdf8f655f0dd",
+      "userId": "***",
+      "searchDate": "2026-03-13T14:58:26.319Z",
+      "networkCount": "753",
+      "reason": "2601050160"
+    },
+    {
+      "id": "cafebe5d-a0ae-4cf6-93b9-53c8b5e016cf",
+      "userId": "***",
+      "searchDate": "2026-03-13T17:46:07.201Z",
+      "networkCount": "702",
+      "reason": "S04828526"
+    },
+    {
+      "id": "7fe98211-c0c7-4900-b4c0-c0108f11d899",
+      "userId": "***",
+      "searchDate": "2026-03-13T17:48:42.426Z",
+      "networkCount": "702",
+      "reason": "26-00685"
+    },
+    {
+      "id": "a1c55ff4-0336-4c4e-868b-17868d8e6e2f",
+      "userId": "***",
+      "searchDate": "2026-03-13T23:15:52.939Z",
+      "networkCount": "1",
+      "reason": "26-01991"
+    },
+    {
+      "id": "58fd1fd5-92de-46e9-b0a1-c7ce1fcf99be",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:38:16.639Z",
+      "networkCount": "1",
+      "reason": "LAW ENFORCEMENT"
+    },
+    {
+      "id": "e11aa50b-1825-4dbd-97cb-df76b9989777",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:38:27.007Z",
+      "networkCount": "702",
+      "reason": "SUSPECT VEH"
+    },
+    {
+      "id": "28104d8b-8cfa-4e75-b400-89f40905e45d",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:39:00.356Z",
+      "networkCount": "702",
+      "reason": "26-01991"
+    },
+    {
+      "id": "2d8fa649-3f98-450d-ad81-972a86e6ca57",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:39:14.389Z",
+      "networkCount": "1",
+      "reason": "ASSAULT"
+    },
+    {
+      "id": "5c2733fd-fc7e-466a-be47-2da3327a1484",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:40:24.949Z",
+      "networkCount": "702",
+      "reason": "SUSP VEH"
+    },
+    {
+      "id": "01ada3f6-2400-4ddd-b1ce-ea7701ba6dc0",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:41:41.037Z",
+      "networkCount": "1",
+      "reason": "242"
+    },
+    {
+      "id": "7f240ec0-b6a1-4baa-884b-bd278f423a1f",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:45:14.504Z",
+      "networkCount": "702",
+      "reason": "2603130340"
+    },
+    {
+      "id": "01c67cfb-e2c5-47bb-850f-14c03e5d6ee6",
+      "userId": "***",
+      "searchDate": "2026-03-14T01:21:33.825Z",
+      "networkCount": "1",
+      "reason": "ASSAULT"
+    },
+    {
+      "id": "814db39a-2106-42ba-9bba-0f6593e4ddb9",
+      "userId": "***",
+      "searchDate": "2026-03-14T01:21:48.565Z",
+      "networkCount": "702",
+      "reason": "26-01991"
+    },
+    {
+      "id": "e9c552aa-618f-4b79-a423-930ede3e261b",
+      "userId": "***",
+      "searchDate": "2026-03-14T01:23:03.133Z",
+      "networkCount": "702",
+      "reason": "2603130340"
+    },
+    {
+      "id": "edfec199-6cf0-4393-aa7f-39c500b8dd0f",
+      "userId": "***",
+      "searchDate": "2026-03-14T01:40:34.376Z",
+      "networkCount": "1",
+      "reason": "26-01478"
+    },
+    {
+      "id": "562ea87c-a950-4228-af8f-5cf57fad4300",
+      "userId": "***",
+      "searchDate": "2026-03-14T02:17:03.278Z",
+      "networkCount": "753",
+      "reason": "26-01478"
+    },
+    {
+      "id": "b3671963-8b1e-4e90-ba1b-ff5041655a72",
+      "userId": "***",
+      "searchDate": "2026-03-14T02:46:57.244Z",
+      "networkCount": "1",
+      "reason": "26-01478"
+    },
+    {
+      "id": "8f98ada1-71b2-4590-8cfc-e8a84af8e385",
+      "userId": "***",
+      "searchDate": "2026-03-14T03:22:57.700Z",
+      "networkCount": "753",
+      "reason": "26-01478"
+    },
+    {
+      "id": "193a0701-4f35-41e5-9b08-6be1a435d8ae",
+      "userId": "***",
+      "searchDate": "2026-03-14T04:25:43.403Z",
+      "networkCount": "702",
+      "reason": "26-01478"
+    },
+    {
+      "id": "42192f3f-0c15-4342-8a69-7c17f79a2369",
+      "userId": "***",
+      "searchDate": "2026-03-14T05:48:37.432Z",
+      "networkCount": "702",
+      "reason": "26-01478"
+    },
+    {
+      "id": "72dc6cae-fe60-4a9e-98cc-522a6b5f79d0",
+      "userId": "***",
+      "searchDate": "2026-03-14T06:13:27.122Z",
+      "networkCount": "702",
+      "reason": "26-01478"
+    },
+    {
+      "id": "8ccc7908-6331-4132-a9ab-6a68aa8580ec",
+      "userId": "***",
+      "searchDate": "2026-03-14T06:20:40.337Z",
+      "networkCount": "1",
+      "reason": "26-00422"
+    },
+    {
+      "id": "b4a1b667-ca9d-4a51-b6d6-ba67ba8f820d",
+      "userId": "***",
+      "searchDate": "2026-03-14T07:21:07.039Z",
+      "networkCount": "1",
+      "reason": "26-01478"
+    },
+    {
+      "id": "106cca63-ae7e-46bc-a349-fe1694205316",
+      "userId": "***",
+      "searchDate": "2026-03-14T07:34:31.369Z",
+      "networkCount": "1",
+      "reason": "26-00422"
+    },
+    {
+      "id": "49209d4d-9bc8-4567-942d-818bbe4b606d",
+      "userId": "***",
+      "searchDate": "2026-03-14T08:56:49.877Z",
+      "networkCount": "702",
+      "reason": "26-01478"
+    },
+    {
+      "id": "d2905063-9c67-424c-959a-cb545ab05594",
+      "userId": "***",
+      "searchDate": "2026-03-14T09:35:40.187Z",
+      "networkCount": "753",
+      "reason": "26-01478"
+    },
+    {
+      "id": "5a87b8db-e3ef-437f-92bb-425469fa9937",
+      "userId": "***",
+      "searchDate": "2026-03-14T14:20:23.313Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "1a6eb145-b652-43cb-a018-fab39f14c75c",
+      "userId": "***",
+      "searchDate": "2026-03-14T15:45:57.110Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "265c7e99-22d7-4372-acc9-f8a77febd3a5",
+      "userId": "***",
+      "searchDate": "2026-03-14T16:05:06.059Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "8e4f3b3c-be10-4b5c-b592-4cd0bbcfd7af",
+      "userId": "***",
+      "searchDate": "2026-03-14T16:11:25.401Z",
+      "networkCount": "702",
+      "reason": "26-01384"
+    },
+    {
+      "id": "59398234-6bd3-4304-86fe-2be4ad8120f7",
+      "userId": "***",
+      "searchDate": "2026-03-14T16:31:44.978Z",
+      "networkCount": "753",
+      "reason": "26-01485"
+    },
+    {
+      "id": "0f3e16f1-b6fa-4f83-9d15-d5bfedacba52",
+      "userId": "***",
+      "searchDate": "2026-03-14T16:36:59.649Z",
+      "networkCount": "702",
+      "reason": "26-01485"
+    },
+    {
+      "id": "65173878-2765-41da-a07e-88afbb4a19c1",
+      "userId": "***",
+      "searchDate": "2026-03-14T16:56:58.001Z",
+      "networkCount": "702",
+      "reason": "26-01485"
+    },
+    {
+      "id": "ab01a25a-c6b1-4ab5-8b15-b09b7a3bf5c7",
+      "userId": "***",
+      "searchDate": "2026-03-14T17:50:22.162Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "843398d0-c914-41c5-99db-3afc2155476f",
+      "userId": "***",
+      "searchDate": "2026-03-14T17:59:10.668Z",
+      "networkCount": "702",
+      "reason": "26-01485"
+    },
+    {
+      "id": "2dbfb5eb-f554-4259-a462-aa179bccdc13",
+      "userId": "***",
+      "searchDate": "2026-03-14T18:00:26.494Z",
+      "networkCount": "702",
+      "reason": "26-01384"
+    },
+    {
+      "id": "e67af06a-a1cd-4536-9bae-30bb060324a6",
+      "userId": "***",
+      "searchDate": "2026-03-14T18:18:17.933Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "dc65943b-26f9-4eb3-8cca-997ec618a8c9",
+      "userId": "***",
+      "searchDate": "2026-03-14T19:45:09.375Z",
+      "networkCount": "753",
+      "reason": "26-01485"
+    },
+    {
+      "id": "e70ab5a6-461b-41a1-93bf-d4e8382ccb04",
+      "userId": "***",
+      "searchDate": "2026-03-14T19:59:31.897Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "9025751f-7b2d-4f2c-9f84-4aabe9d21037",
+      "userId": "***",
+      "searchDate": "2026-03-14T20:22:23.010Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "40ad7c3c-c587-4342-88a5-a074f14368eb",
+      "userId": "***",
+      "searchDate": "2026-03-14T21:42:36.606Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "0b5b811a-9384-40da-9f29-4732da4ae5ea",
+      "userId": "***",
+      "searchDate": "2026-03-14T22:51:31.961Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "9a6798e1-0d2f-4a8f-a1ca-fb0e2149df6e",
+      "userId": "***",
+      "searchDate": "2026-03-14T23:02:18.695Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "7a49f505-c130-4ab0-89c8-9a78968b6c15",
+      "userId": "***",
+      "searchDate": "2026-03-14T23:57:33.373Z",
+      "networkCount": "753",
+      "reason": "26-01384"
+    },
+    {
+      "id": "7f1480eb-95de-418d-b9c4-90ad50f6d188",
+      "userId": "***",
+      "searchDate": "2026-03-15T00:31:16.642Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "103a7e48-7bd6-40de-bcbc-b7a14ec51492",
+      "userId": "***",
+      "searchDate": "2026-03-15T00:35:59.978Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "a377a29e-65c4-43fa-91e3-c05069bb0ce6",
+      "userId": "***",
+      "searchDate": "2026-03-15T00:42:40.550Z",
+      "networkCount": "753",
+      "reason": "26-01384"
+    },
+    {
+      "id": "07d3e9bf-654c-4d4d-9272-42141a48db1c",
+      "userId": "***",
+      "searchDate": "2026-03-15T01:52:11.798Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "ca293542-a217-4c8e-ba62-53bb28e35c16",
+      "userId": "***",
+      "searchDate": "2026-03-15T01:54:57.567Z",
+      "networkCount": "702",
+      "reason": "2504210474"
+    },
+    {
+      "id": "a9764718-2778-4411-8aa0-e0888b516655",
+      "userId": "***",
+      "searchDate": "2026-03-15T02:04:26.437Z",
+      "networkCount": "702",
+      "reason": "2504210474"
+    },
+    {
+      "id": "46e0051c-f740-4537-b89f-ac16a224ccd3",
+      "userId": "***",
+      "searchDate": "2026-03-15T03:13:30.579Z",
+      "networkCount": "702",
+      "reason": "2504210474"
+    },
+    {
+      "id": "29e5cbd5-70c6-4b20-80da-5742c03ebd90",
+      "userId": "***",
+      "searchDate": "2026-03-15T04:57:13.293Z",
+      "networkCount": "702",
+      "reason": "2504210474"
+    },
+    {
+      "id": "df3ed98a-726c-4f7c-81c2-e6fc0fa23359",
+      "userId": "***",
+      "searchDate": "2026-03-15T05:06:10.990Z",
+      "networkCount": "702",
+      "reason": "2504210474"
+    },
+    {
+      "id": "5e4fe8c6-20c9-4a45-a52a-5c1a0f62c413",
+      "userId": "***",
+      "searchDate": "2026-03-15T06:04:20.735Z",
+      "networkCount": "702",
+      "reason": "2504210474"
+    },
+    {
+      "id": "91893c72-8c7c-415b-a68b-5c80a3c071cf",
+      "userId": "***",
+      "searchDate": "2026-03-15T06:06:11.931Z",
+      "networkCount": "702",
+      "reason": "254210474"
+    },
+    {
+      "id": "fef7cbc1-2b01-4cd8-9fbe-7ab5b6f3aa26",
+      "userId": "***",
+      "searchDate": "2026-03-15T06:51:43.759Z",
+      "networkCount": "1",
+      "reason": "2603140432"
+    },
+    {
+      "id": "ff8c4255-e111-4e10-bb9c-8358550985c2",
+      "userId": "***",
+      "searchDate": "2026-03-15T07:23:28.272Z",
+      "networkCount": "1",
+      "reason": "2603140432"
+    },
+    {
+      "id": "3c3fb9a8-f6a1-4696-b64f-e6a8685da180",
+      "userId": "***",
+      "searchDate": "2026-03-15T07:50:41.805Z",
+      "networkCount": "702",
+      "reason": "2504210474"
+    },
+    {
+      "id": "a8a1e2f3-24cf-4bf6-8046-7c4d8c06cfbd",
+      "userId": "***",
+      "searchDate": "2026-03-15T08:13:51.266Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "b1418b8e-77da-4dc6-b4c0-abf37f60bb5b",
+      "userId": "***",
+      "searchDate": "2026-03-15T11:23:46.689Z",
+      "networkCount": "702",
+      "reason": "254210474"
+    },
+    {
+      "id": "2c6148dc-bd91-4585-881a-489b1db36ae1",
+      "userId": "***",
+      "searchDate": "2026-03-15T12:20:45.699Z",
+      "networkCount": "753",
+      "reason": "26-01170"
+    },
+    {
+      "id": "3d8c3020-5efd-432c-b28d-969ad3977bff",
+      "userId": "***",
+      "searchDate": "2026-03-15T21:00:59.137Z",
+      "networkCount": "1",
+      "reason": "26-01485"
+    },
+    {
+      "id": "40a01e11-be40-439a-aa7f-6568d8377ac1",
+      "userId": "***",
+      "searchDate": "2026-03-15T21:04:54.976Z",
+      "networkCount": "1",
+      "reason": "2603150123"
+    },
+    {
+      "id": "61d17610-189b-4d2d-9c0a-6588fa7890fd",
+      "userId": "***",
+      "searchDate": "2026-03-16T03:30:01.284Z",
+      "networkCount": "1",
+      "reason": "25006401"
+    },
+    {
+      "id": "17994055-0921-4f60-97be-2569a984c5aa",
+      "userId": "***",
+      "searchDate": "2026-03-16T03:54:11.503Z",
+      "networkCount": "1",
+      "reason": "26-01170"
+    },
+    {
+      "id": "327058f8-8be4-4bb7-8153-a9d1f4f6170e",
+      "userId": "***",
+      "searchDate": "2026-03-16T04:48:24.879Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "5e4a8718-7fa5-414c-a444-169c3ffc09ed",
+      "userId": "***",
+      "searchDate": "2026-03-16T04:59:43.634Z",
+      "networkCount": "753",
+      "reason": "25-006401"
+    },
+    {
+      "id": "3d17f512-7d14-4206-9d50-1c3b05659924",
+      "userId": "***",
+      "searchDate": "2026-03-16T05:00:00.690Z",
+      "networkCount": "753",
+      "reason": "25-006401"
+    },
+    {
+      "id": "6b512f48-6f19-4dda-ad18-ab28afd9bf85",
+      "userId": "***",
+      "searchDate": "2026-03-16T05:01:23.228Z",
+      "networkCount": "702",
+      "reason": "2504210474"
+    },
+    {
+      "id": "0e22f1fa-e273-4120-b6ac-099327d53ac3",
+      "userId": "***",
+      "searchDate": "2026-03-16T05:03:16.358Z",
+      "networkCount": "941",
+      "reason": "CPD 25-006401"
+    },
+    {
+      "id": "e1c5d750-963f-4185-b003-0b80c399fc1c",
+      "userId": "***",
+      "searchDate": "2026-03-16T07:12:42.033Z",
+      "networkCount": "1",
+      "reason": "26-01170"
+    },
+    {
+      "id": "affa71a4-9caa-4f7c-bb0a-4c603bf61aa8",
+      "userId": "***",
+      "searchDate": "2026-03-16T09:09:52.283Z",
+      "networkCount": "1",
+      "reason": "2603160028"
+    },
+    {
+      "id": "bbbd9a06-68cb-4cb0-be63-3806137d4810",
+      "userId": "***",
+      "searchDate": "2026-03-16T09:10:51.476Z",
+      "networkCount": "753",
+      "reason": "2603160028"
+    },
+    {
+      "id": "9d35aced-9544-47d0-a82c-702258af918d",
+      "userId": "***",
+      "searchDate": "2026-03-16T09:58:50.103Z",
+      "networkCount": "1",
+      "reason": "25006401"
+    },
+    {
+      "id": "55d521e3-8531-4ad1-b913-a3367723f900",
+      "userId": "***",
+      "searchDate": "2026-03-16T14:15:15.989Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "0016eac7-c586-4ee8-8f15-9ba406fc0926",
+      "userId": "***",
+      "searchDate": "2026-03-16T16:08:05.337Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "b39ce607-94d7-4747-81b5-3f4043871a4e",
+      "userId": "***",
+      "searchDate": "2026-03-16T17:01:18.142Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "08c14e16-c5df-4215-998c-60d2410af2c2",
+      "userId": "***",
+      "searchDate": "2026-03-16T18:34:57.744Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "5482d4e0-a9ef-4b52-ace2-d8a9a5638500",
+      "userId": "***",
+      "searchDate": "2026-03-16T19:00:12.699Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "cc5a78b1-2bca-41bc-95c8-a83fb754267e",
+      "userId": "***",
+      "searchDate": "2026-03-16T20:01:50.787Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "9dab0919-7890-4ff4-a055-c69bea6990e2",
+      "userId": "***",
+      "searchDate": "2026-03-16T20:29:35.006Z",
+      "networkCount": "1",
+      "reason": "26-00533"
+    },
+    {
+      "id": "304c47ab-6ffb-4e4b-83e9-ecd8cf66efc0",
+      "userId": "***",
+      "searchDate": "2026-03-16T20:51:24.704Z",
+      "networkCount": "753",
+      "reason": "26-00533"
+    },
+    {
+      "id": "1727835f-547f-4a3c-bc1b-6f7c4d9026e9",
+      "userId": "***",
+      "searchDate": "2026-03-16T21:01:11.825Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "173c9592-5c61-41b5-bc9a-3b09fe0220a6",
+      "userId": "***",
+      "searchDate": "2026-03-16T21:15:38.230Z",
+      "networkCount": "702",
+      "reason": "26-00533"
+    },
+    {
+      "id": "f10155ff-1244-4e9a-bc0c-a73653f7c1e2",
+      "userId": "***",
+      "searchDate": "2026-03-16T21:35:21.712Z",
+      "networkCount": "753",
+      "reason": "26CF00518"
+    },
+    {
+      "id": "cc692331-e601-4f91-8b81-b04c2ac0b2e9",
+      "userId": "***",
+      "searchDate": "2026-03-16T21:39:29.866Z",
+      "networkCount": "753",
+      "reason": "26-00533"
+    },
+    {
+      "id": "5871e938-5847-45bc-8b1e-a02dad7bb998",
+      "userId": "***",
+      "searchDate": "2026-03-16T22:12:12.459Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "e04c4268-14a5-48e0-8238-febe16def9d3",
+      "userId": "***",
+      "searchDate": "2026-03-16T23:19:30.794Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "1d9a6255-82a1-452c-b71d-a2c6e4a8136d",
+      "userId": "***",
+      "searchDate": "2026-03-16T23:42:19.263Z",
+      "networkCount": "753",
+      "reason": "26CF00518"
+    },
+    {
+      "id": "55370398-b25b-4d84-8291-d0596857171f",
+      "userId": "***",
+      "searchDate": "2026-03-17T00:09:38.603Z",
+      "networkCount": "753",
+      "reason": "26-00533"
+    },
+    {
+      "id": "03b18ec4-f2d9-409e-a5a3-f248c8bfdbb8",
+      "userId": "***",
+      "searchDate": "2026-03-17T00:09:46.237Z",
+      "networkCount": "753",
+      "reason": "26CF00518"
+    },
+    {
+      "id": "e1760c9c-50ca-47d3-ba00-e283f2187eed",
+      "userId": "***",
+      "searchDate": "2026-03-17T00:10:40.228Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "116c69a5-d37b-42e1-9b56-bb12aac4105c",
+      "userId": "***",
+      "searchDate": "2026-03-17T01:21:40.466Z",
+      "networkCount": "753",
+      "reason": "2504210474"
+    },
+    {
+      "id": "55f82a1d-1a78-4939-abc6-093daf8a8dfc",
+      "userId": "***",
+      "searchDate": "2026-03-17T02:07:46.654Z",
+      "networkCount": "1",
+      "reason": "26-01170"
+    },
+    {
+      "id": "1db4e79e-6a54-40bb-9a60-adc013b59f49",
+      "userId": "***",
+      "searchDate": "2026-03-17T04:07:33.734Z",
+      "networkCount": "753",
+      "reason": "26PRCW028"
+    },
+    {
+      "id": "15884af6-07f9-4cb6-b1f3-d0aa83b2f675",
+      "userId": "***",
+      "searchDate": "2026-03-17T07:32:57.879Z",
+      "networkCount": "977",
+      "reason": "26-00533"
+    },
+    {
+      "id": "5a3ab560-0164-45ae-b93e-7e47e4ef2b18",
+      "userId": "***",
+      "searchDate": "2026-03-17T10:20:48.643Z",
+      "networkCount": "1",
+      "reason": "26-2089 CPD"
+    },
+    {
+      "id": "57858905-3612-4c02-8e9b-ce977f102ead",
+      "userId": "***",
+      "searchDate": "2026-03-17T10:37:57.073Z",
+      "networkCount": "977",
+      "reason": "26-002089"
+    },
+    {
+      "id": "ad0db448-1e50-4421-9286-6dc37507f6a6",
+      "userId": "***",
+      "searchDate": "2026-03-17T10:38:25.468Z",
+      "networkCount": "1",
+      "reason": "10851"
+    },
+    {
+      "id": "d38f6a23-0de4-4082-b14a-d415ff0bd2d1",
+      "userId": "***",
+      "searchDate": "2026-03-17T12:23:26.176Z",
+      "networkCount": "702",
+      "reason": "26-01389"
+    },
+    {
+      "id": "7cfb72ad-afe2-4652-90c9-cc5a019bd782",
+      "userId": "***",
+      "searchDate": "2026-03-17T12:28:09.172Z",
+      "networkCount": "702",
+      "reason": "26-001164"
+    },
+    {
+      "id": "85770554-0482-4623-a971-1a299a66203a",
+      "userId": "***",
+      "searchDate": "2026-03-17T12:52:58.173Z",
+      "networkCount": "702",
+      "reason": "26-002089"
+    },
+    {
+      "id": "b0144e6b-9538-470f-9ab8-920be5dc6b68",
+      "userId": "***",
+      "searchDate": "2026-03-17T15:49:01.524Z",
+      "networkCount": "753",
+      "reason": "23-05173"
+    },
+    {
+      "id": "f118b0fd-f8e7-4e47-ae13-eefc0bd9d7b3",
+      "userId": "***",
+      "searchDate": "2026-03-17T16:17:20.024Z",
+      "networkCount": "702",
+      "reason": "26-01239"
+    },
+    {
+      "id": "50da8a58-ca5a-4350-a8ca-4d96de44ee65",
+      "userId": "***",
+      "searchDate": "2026-03-17T17:36:34.839Z",
+      "networkCount": "702",
+      "reason": "26-00533"
+    },
+    {
+      "id": "9ddef8fd-57a9-4fe0-9329-a105b26071a7",
+      "userId": "***",
+      "searchDate": "2026-03-17T20:24:34.823Z",
+      "networkCount": "702",
+      "reason": "26-00685"
+    },
+    {
+      "id": "f69e7126-7c3b-43ec-ba7c-4429e49af18d",
+      "userId": "***",
+      "searchDate": "2026-03-17T21:45:43.405Z",
+      "networkCount": "753",
+      "reason": "260105160"
+    },
+    {
+      "id": "1faf4fed-5291-4f0b-ae64-552278086964",
+      "userId": "***",
+      "searchDate": "2026-03-17T22:12:11.829Z",
+      "networkCount": "736",
+      "reason": "2601050160"
+    },
+    {
+      "id": "f91e9f1a-1602-4988-877e-d9050c305aaf",
+      "userId": "***",
+      "searchDate": "2026-03-17T23:02:19.410Z",
+      "networkCount": "572",
+      "reason": "2601050160"
+    },
+    {
+      "id": "7dfe0295-5401-4306-afd9-ee74d5ed2227",
+      "userId": "***",
+      "searchDate": "2026-03-17T23:32:54.005Z",
+      "networkCount": "572",
+      "reason": "26-00685"
+    },
+    {
+      "id": "36869874-51da-4365-b904-1106647e8d67",
+      "userId": "***",
+      "searchDate": "2026-03-18T00:01:55.174Z",
+      "networkCount": "572",
+      "reason": "26-00685"
+    },
+    {
+      "id": "5e39ba11-b958-4e5f-9f27-7115b66c6e05",
+      "userId": "***",
+      "searchDate": "2026-03-18T02:42:54.043Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "05ab333c-7921-4b2d-86b1-55ec24cf8e00",
+      "userId": "***",
+      "searchDate": "2026-03-18T03:48:15.683Z",
+      "networkCount": "572",
+      "reason": "2504210474"
+    },
+    {
+      "id": "29777dac-ff4a-4f1c-94f3-6ca556ec3bec",
+      "userId": "***",
+      "searchDate": "2026-03-18T04:10:17.300Z",
+      "networkCount": "572",
+      "reason": "2504210474"
+    },
+    {
+      "id": "b5ca6f21-dd69-4844-8492-b55bcd91bfb8",
+      "userId": "***",
+      "searchDate": "2026-03-18T05:05:40.988Z",
+      "networkCount": "572",
+      "reason": "2504210474"
+    },
+    {
+      "id": "5e270d9f-87cd-498b-9921-28889b621afc",
+      "userId": "***",
+      "searchDate": "2026-03-18T06:02:03.467Z",
+      "networkCount": "572",
+      "reason": "2504210474"
+    },
+    {
+      "id": "d06a5f1c-8b68-4896-a2a1-13ed83a9fa88",
+      "userId": "***",
+      "searchDate": "2026-03-18T07:15:53.281Z",
+      "networkCount": "572",
+      "reason": "2504210474"
+    },
+    {
+      "id": "12ee3b57-4766-4c4f-a575-0f333ed74d8f",
+      "userId": "***",
+      "searchDate": "2026-03-18T08:44:18.519Z",
+      "networkCount": "572",
+      "reason": "2504210474"
+    },
+    {
+      "id": "6157571f-747b-43c7-af4b-6f170d495690",
+      "userId": "***",
+      "searchDate": "2026-03-18T09:08:12.808Z",
+      "networkCount": "572",
+      "reason": "2504210474"
+    },
+    {
+      "id": "cb8d7f8c-a64c-4d36-8c9a-3efd79b17936",
+      "userId": "***",
+      "searchDate": "2026-03-18T16:00:29.831Z",
+      "networkCount": "1",
+      "reason": "fraud case"
+    },
+    {
+      "id": "c71077be-9a77-4a79-ae64-c09372aa3165",
+      "userId": "***",
+      "searchDate": "2026-03-18T16:07:56.624Z",
+      "networkCount": "1",
+      "reason": "Location"
+    },
+    {
+      "id": "54b12494-af86-47aa-a3dd-9f18b3e80f06",
+      "userId": "***",
+      "searchDate": "2026-03-18T17:07:10.869Z",
+      "networkCount": "572",
+      "reason": "2601310275"
+    },
+    {
+      "id": "e9cee607-f393-4a1d-9585-f2b05e584c6a",
+      "userId": "***",
+      "searchDate": "2026-03-18T17:53:39.850Z",
+      "networkCount": "623",
+      "reason": "26-00533"
+    },
+    {
+      "id": "0644cd53-c774-4d3f-b334-13f3281a6842",
+      "userId": "***",
+      "searchDate": "2026-03-18T18:10:55.021Z",
+      "networkCount": "1",
+      "reason": "26-01074"
+    },
+    {
+      "id": "bb983f8a-210c-479e-a1df-c31dabe1b0ec",
+      "userId": "***",
+      "searchDate": "2026-03-18T18:24:20.594Z",
+      "networkCount": "623",
+      "reason": "26-00533"
+    },
+    {
+      "id": "2d7a75e0-15a6-4302-a36d-408a61c1b5d9",
+      "userId": "***",
+      "searchDate": "2026-03-18T19:39:01.782Z",
+      "networkCount": "623",
+      "reason": "26-00533"
+    },
+    {
+      "id": "e726d5e7-520a-405b-bf0e-02520ab0a6f4",
+      "userId": "***",
+      "searchDate": "2026-03-18T20:00:25.940Z",
+      "networkCount": "572",
+      "reason": "2603160332"
+    },
+    {
+      "id": "0497ba2b-1ecd-40c6-b881-32bcf5824c73",
+      "userId": "***",
+      "searchDate": "2026-03-18T20:21:24.714Z",
+      "networkCount": "1",
+      "reason": "26-01074"
+    },
+    {
+      "id": "10a1f149-2b71-431c-9b0e-7be661bf19ee",
+      "userId": "***",
+      "searchDate": "2026-03-18T22:26:13.062Z",
+      "networkCount": "572",
+      "reason": "2603160332"
+    },
+    {
+      "id": "dac5cd37-7a27-4014-be74-2a3a7d67f5bd",
+      "userId": "***",
+      "searchDate": "2026-03-18T23:48:08.218Z",
+      "networkCount": "1",
+      "reason": "2603160332"
+    },
+    {
+      "id": "cfb2c051-1585-4060-b3f8-f0fb6b1df5ea",
+      "userId": "***",
+      "searchDate": "2026-03-18T23:50:38.561Z",
+      "networkCount": "572",
+      "reason": "21-06522"
+    },
+    {
+      "id": "838116fa-2b7f-4574-9f7a-809d953d6b8d",
+      "userId": "***",
+      "searchDate": "2026-03-19T01:56:37.221Z",
+      "networkCount": "1",
+      "reason": "2603160332"
+    },
+    {
+      "id": "0cee4e40-09e2-4db4-89ea-3c4c9c80eeff",
+      "userId": "***",
+      "searchDate": "2026-03-19T12:58:46.580Z",
+      "networkCount": "572",
+      "reason": "2603160332"
+    },
+    {
+      "id": "a23404be-21c8-4da8-b9f8-e74c9613c54d",
+      "userId": "***",
+      "searchDate": "2026-03-19T14:27:33.030Z",
+      "networkCount": "572",
+      "reason": "2603160332"
+    },
+    {
+      "id": "a6384849-e4aa-4634-9fce-fc09f2e41135",
+      "userId": "***",
+      "searchDate": "2026-03-19T16:34:15.906Z",
+      "networkCount": "572",
+      "reason": "2603160332"
+    },
+    {
+      "id": "daa264ed-ae64-4880-872d-c47beea64dd5",
+      "userId": "***",
+      "searchDate": "2026-03-19T16:34:39.479Z",
+      "networkCount": "572",
+      "reason": "26-00685"
+    },
+    {
+      "id": "f8d583cb-663f-4e6f-ae88-72873bae99ef",
+      "userId": "***",
+      "searchDate": "2026-03-19T16:50:08.173Z",
+      "networkCount": "623",
+      "reason": "23-05173"
+    },
+    {
+      "id": "733c0c7a-c068-42d4-a2ed-f388fa289b87",
+      "userId": "***",
+      "searchDate": "2026-03-19T17:02:30.457Z",
+      "networkCount": "623",
+      "reason": "23-05173"
+    },
+    {
+      "id": "8d896d4d-6a53-444d-8f44-ccadcfc4d793",
+      "userId": "***",
+      "searchDate": "2026-03-19T17:40:49.632Z",
+      "networkCount": "1",
+      "reason": "Test"
+    },
+    {
+      "id": "ce842c2d-92a8-4a96-97e9-e526a20bf620",
+      "userId": "***",
+      "searchDate": "2026-03-19T18:29:59.586Z",
+      "networkCount": "623",
+      "reason": "26-01477"
+    },
+    {
+      "id": "57c147ac-6ebc-4d9b-a01e-a11f43ec96c9",
+      "userId": "***",
+      "searchDate": "2026-03-19T18:50:29.322Z",
+      "networkCount": "623",
+      "reason": "23-05173"
+    },
+    {
+      "id": "1fbb545f-e88f-4648-abd2-e37ba0576667",
+      "userId": "***",
+      "searchDate": "2026-03-19T19:13:30.343Z",
+      "networkCount": "623",
+      "reason": "26-01477"
+    },
+    {
+      "id": "5ceec1f9-4071-4656-9b0b-66f959e02eb2",
+      "userId": "***",
+      "searchDate": "2026-03-19T19:39:51.145Z",
+      "networkCount": "572",
+      "reason": "2603160332"
+    },
+    {
+      "id": "76575733-2c91-4c7e-a11d-1da433e90cc6",
+      "userId": "***",
+      "searchDate": "2026-03-19T19:45:40.397Z",
+      "networkCount": "623",
+      "reason": "23-05173"
+    },
+    {
+      "id": "d15a13ba-3d4e-42ff-b6db-8ff1a46bdab0",
+      "userId": "***",
+      "searchDate": "2026-03-19T19:55:59.183Z",
+      "networkCount": "818",
+      "reason": "26-01254"
+    },
+    {
+      "id": "322c028c-c41a-45df-a191-00bd67a956cd",
+      "userId": "***",
+      "searchDate": "2026-03-19T20:34:01.652Z",
+      "networkCount": "1",
+      "reason": "2603160332"
+    },
+    {
+      "id": "4a2cdeeb-3b30-4773-9ca9-8a694e08b78f",
+      "userId": "***",
+      "searchDate": "2026-03-19T21:44:28.912Z",
+      "networkCount": "623",
+      "reason": "23-05173"
+    },
+    {
+      "id": "c2486c67-b5ce-4cb9-b013-a65b90d387f1",
+      "userId": "***",
+      "searchDate": "2026-03-19T22:12:10.064Z",
+      "networkCount": "1",
+      "reason": "2603160332"
+    },
+    {
+      "id": "66162040-1634-4aab-908a-6160a12c1f28",
+      "userId": "***",
+      "searchDate": "2026-03-19T23:10:48.689Z",
+      "networkCount": "1",
+      "reason": "2603160332"
+    },
+    {
+      "id": "3d911f98-a43f-41fb-bca0-e8400b84d6ea",
+      "userId": "***",
+      "searchDate": "2026-03-19T23:10:57.545Z",
+      "networkCount": "572",
+      "reason": "26-00685"
+    },
+    {
+      "id": "943fca9d-7244-478c-ad81-d398065a47ff",
+      "userId": "***",
+      "searchDate": "2026-03-20T01:15:09.057Z",
+      "networkCount": "1",
+      "reason": "ASSIST CHP"
+    },
+    {
+      "id": "5a81afff-616f-44fc-aad5-d52e532b8ba8",
+      "userId": "***",
+      "searchDate": "2026-03-20T16:17:36.028Z",
+      "networkCount": "623",
+      "reason": "26-01553"
+    },
+    {
+      "id": "3899c5ef-9eb5-47ee-b814-4ca600329260",
+      "userId": "***",
+      "searchDate": "2026-03-20T16:22:51.854Z",
+      "networkCount": "623",
+      "reason": "25-06980"
+    },
+    {
+      "id": "70c3ab07-04a4-4e80-93b8-e4835644ec42",
+      "userId": "***",
+      "searchDate": "2026-03-20T16:26:07.218Z",
+      "networkCount": "623",
+      "reason": "26-01384"
+    },
+    {
+      "id": "1577e0e7-c252-4b1e-b6c6-922c3d75af1a",
+      "userId": "***",
+      "searchDate": "2026-03-20T16:39:59.765Z",
+      "networkCount": "572",
+      "reason": "26-01239"
+    },
+    {
+      "id": "a68acf83-00fb-40d3-8d29-82bd9d963a0c",
+      "userId": "***",
+      "searchDate": "2026-03-20T16:40:56.255Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "1cf24453-9183-424c-be25-b5bcf7570a31",
+      "userId": "***",
+      "searchDate": "2026-03-20T17:00:41.165Z",
+      "networkCount": "623",
+      "reason": "26-01553"
+    },
+    {
+      "id": "dd222d58-9efc-422b-923c-12b868a8f093",
+      "userId": "***",
+      "searchDate": "2026-03-20T17:01:52.576Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "c814137b-59f5-46ae-9fc4-7215e2f10665",
+      "userId": "***",
+      "searchDate": "2026-03-20T17:21:31.790Z",
+      "networkCount": "572",
+      "reason": "26-0248"
+    },
+    {
+      "id": "ec0e9f76-a40c-4065-9bb2-55797f032e95",
+      "userId": "***",
+      "searchDate": "2026-03-20T17:36:18.014Z",
+      "networkCount": "623",
+      "reason": "26-01384"
+    },
+    {
+      "id": "132b03f4-bed3-418b-b857-f684c6b90674",
+      "userId": "***",
+      "searchDate": "2026-03-20T17:55:34.956Z",
+      "networkCount": "623",
+      "reason": "2601050160"
+    },
+    {
+      "id": "2bbd83f6-987d-46f5-b6ba-8c256e3fa21e",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:06:41.032Z",
+      "networkCount": "623",
+      "reason": "26-01553"
+    },
+    {
+      "id": "3df0934f-8a72-4ed1-892b-1423b287a9d1",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:16:15.528Z",
+      "networkCount": "623",
+      "reason": "26-0248"
+    },
+    {
+      "id": "dbb534a7-281b-4c02-a15e-0cae2b5836a0",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:39:49.977Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "e8796b79-2f99-41a2-a4c9-c47b38f30633",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:43:56.009Z",
+      "networkCount": "623",
+      "reason": "26-01384"
+    },
+    {
+      "id": "8dbd094c-5a7e-4073-9395-28575d09e826",
+      "userId": "***",
+      "searchDate": "2026-03-20T19:03:34.434Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "c65ccc10-42ad-4e5d-929d-91ba487e11d7",
+      "userId": "***",
+      "searchDate": "2026-03-20T19:27:27.723Z",
+      "networkCount": "623",
+      "reason": "26-01384"
+    },
+    {
+      "id": "8c7adb54-78bf-446b-82f9-31272931ce09",
+      "userId": "***",
+      "searchDate": "2026-03-20T19:56:36.147Z",
+      "networkCount": "623",
+      "reason": "26-0248"
+    },
+    {
+      "id": "fd4ad98b-4a4b-4d51-96e3-b7d706a845be",
+      "userId": "***",
+      "searchDate": "2026-03-20T20:01:44.676Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "351df04c-7679-44c0-9890-0422d8a61046",
+      "userId": "***",
+      "searchDate": "2026-03-20T20:06:10.223Z",
+      "networkCount": "623",
+      "reason": "26-01384"
+    },
+    {
+      "id": "ccae62e9-f98a-423a-a3bf-5c9880add484",
+      "userId": "***",
+      "searchDate": "2026-03-20T21:11:15.166Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "685eaf33-7c92-4ca2-80f7-8e78aad26544",
+      "userId": "***",
+      "searchDate": "2026-03-20T21:35:47.509Z",
+      "networkCount": "623",
+      "reason": "26-01384"
+    },
+    {
+      "id": "a068db2b-bc5a-47b1-938d-6686f947ff56",
+      "userId": "***",
+      "searchDate": "2026-03-20T21:36:39.578Z",
+      "networkCount": "623",
+      "reason": "2603200229"
+    },
+    {
+      "id": "4ad3b846-ece0-4986-8c4f-85fb26b95a38",
+      "userId": "***",
+      "searchDate": "2026-03-20T22:14:06.760Z",
+      "networkCount": "623",
+      "reason": "26-0248"
+    },
+    {
+      "id": "6910f75c-6d5c-4a19-91c4-279c535d07ce",
+      "userId": "***",
+      "searchDate": "2026-03-20T22:24:46.124Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "74cc1ab7-eb6d-4703-87f8-2b09486fe1e3",
+      "userId": "***",
+      "searchDate": "2026-03-20T23:04:00.363Z",
+      "networkCount": "623",
+      "reason": "2603200229"
+    },
+    {
+      "id": "3579b62c-404e-414e-ad76-e4a77ba21c45",
+      "userId": "***",
+      "searchDate": "2026-03-20T23:15:03.818Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "85e82b29-8196-4ca7-9462-7d899faa37d7",
+      "userId": "***",
+      "searchDate": "2026-03-21T00:02:48.494Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "983816cc-7024-48b7-92d6-522a96f7e36a",
+      "userId": "***",
+      "searchDate": "2026-03-21T00:06:00.843Z",
+      "networkCount": "623",
+      "reason": "2603200229"
+    },
+    {
+      "id": "507e19aa-a965-4204-8b2b-a32700a4a995",
+      "userId": "***",
+      "searchDate": "2026-03-21T00:47:45.665Z",
+      "networkCount": "623",
+      "reason": "2603200343"
+    },
+    {
+      "id": "633f7b7a-718e-49b4-bee2-e1cf31bd8329",
+      "userId": "***",
+      "searchDate": "2026-03-21T00:48:23.608Z",
+      "networkCount": "1",
+      "reason": "2603200343"
+    },
+    {
+      "id": "a875dae3-0f98-4a18-9e98-743ab80123a8",
+      "userId": "***",
+      "searchDate": "2026-03-21T01:03:10.883Z",
+      "networkCount": "623",
+      "reason": "2603200343"
+    },
+    {
+      "id": "ac2e8b1b-fff3-4ead-bd0a-4818bdf24fab",
+      "userId": "***",
+      "searchDate": "2026-03-21T01:06:03.572Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "437c60a2-e064-4dbb-9b15-ec97232bc12d",
+      "userId": "***",
+      "searchDate": "2026-03-21T01:41:47.040Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "bd7b9016-b526-4d3a-82bb-21e990ca5e23",
+      "userId": "***",
+      "searchDate": "2026-03-21T01:48:28.757Z",
+      "networkCount": "1",
+      "reason": "2603160028"
+    },
+    {
+      "id": "b764c82f-2208-4c17-94d1-4b8a41821f8d",
+      "userId": "***",
+      "searchDate": "2026-03-21T02:02:45.915Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "ce2861d3-4e56-4f50-9a86-27e01fc1fd2c",
+      "userId": "***",
+      "searchDate": "2026-03-21T14:15:45.323Z",
+      "networkCount": "623",
+      "reason": "2603210067"
+    },
+    {
+      "id": "0d2f5e33-24e3-4d5a-818a-fc51c60dee66",
+      "userId": "***",
+      "searchDate": "2026-03-21T14:18:41.965Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "e4e7bc04-5f0e-4669-89ae-939bf422807b",
+      "userId": "***",
+      "searchDate": "2026-03-21T14:20:47.443Z",
+      "networkCount": "623",
+      "reason": "26-1070"
+    },
+    {
+      "id": "362a756f-5eff-42fd-8e58-2ea8f83e4d05",
+      "userId": "***",
+      "searchDate": "2026-03-21T15:02:35.722Z",
+      "networkCount": "1",
+      "reason": "26-00361"
+    },
+    {
+      "id": "d8b4cfc4-408a-43d4-bca3-ec71fff2e664",
+      "userId": "***",
+      "searchDate": "2026-03-21T15:13:01.450Z",
+      "networkCount": "1",
+      "reason": "26prcw031"
+    },
+    {
+      "id": "71b39350-7c06-4591-bb31-77b53d81ef6e",
+      "userId": "***",
+      "searchDate": "2026-03-21T15:19:55.084Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "a898fb76-1b17-467b-afd3-97e1f48109ea",
+      "userId": "***",
+      "searchDate": "2026-03-21T16:01:21.756Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "f51dd60b-c531-4184-a2d5-9b15e8ed88b2",
+      "userId": "***",
+      "searchDate": "2026-03-21T17:02:39.478Z",
+      "networkCount": "623",
+      "reason": "26-0248"
+    },
+    {
+      "id": "b13cbcf1-69ed-4e05-85c5-60c76971c71b",
+      "userId": "***",
+      "searchDate": "2026-03-21T17:15:48.617Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "d825c4aa-2272-4890-9a10-476da7fb9d0e",
+      "userId": "***",
+      "searchDate": "2026-03-21T17:27:57.347Z",
+      "networkCount": "623",
+      "reason": "2603210067"
+    },
+    {
+      "id": "52f8a0d6-71ef-4c68-8839-ade6c6de1774",
+      "userId": "***",
+      "searchDate": "2026-03-21T18:04:26.058Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "5dd71634-602c-4674-a0c0-267a104f6a91",
+      "userId": "***",
+      "searchDate": "2026-03-21T19:17:01.889Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "f327d4c2-3a43-4d3f-a27f-3aa7ee293111",
+      "userId": "***",
+      "searchDate": "2026-03-21T19:30:56.868Z",
+      "networkCount": "1",
+      "reason": "26-1070  YCSO"
+    },
+    {
+      "id": "64049c97-3607-4383-8a4d-7f7676057db5",
+      "userId": "***",
+      "searchDate": "2026-03-21T20:08:28.868Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "80d3fb79-e6d5-413c-88b5-d478672c01d3",
+      "userId": "***",
+      "searchDate": "2026-03-21T21:07:14.799Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "7781425d-004b-4d2c-9244-ec21e8aef569",
+      "userId": "***",
+      "searchDate": "2026-03-21T21:22:48.442Z",
+      "networkCount": "623",
+      "reason": "2603210067"
+    },
+    {
+      "id": "47218783-6534-4e6e-9bd8-c00ea05ec7c1",
+      "userId": "***",
+      "searchDate": "2026-03-21T22:15:01.626Z",
+      "networkCount": "623",
+      "reason": "26-0248"
+    },
+    {
+      "id": "078a9936-9ba8-4929-a452-23795c97e65f",
+      "userId": "***",
+      "searchDate": "2026-03-21T23:01:34.219Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "5f31efb7-b43d-4338-a916-24c6e02c93de",
+      "userId": "***",
+      "searchDate": "2026-03-22T00:02:09.882Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "9cd1303d-981b-44ac-90b3-a3bd250603ae",
+      "userId": "***",
+      "searchDate": "2026-03-22T00:29:08.469Z",
+      "networkCount": "623",
+      "reason": "2601310275"
+    },
+    {
+      "id": "8642ba1c-7783-45e7-bd94-6faa5210a89a",
+      "userId": "***",
+      "searchDate": "2026-03-22T00:32:39.603Z",
+      "networkCount": "1",
+      "reason": "2603210305"
+    },
+    {
+      "id": "c297ec46-a4d5-49f7-814d-c941f56583fb",
+      "userId": "***",
+      "searchDate": "2026-03-22T00:33:52.381Z",
+      "networkCount": "623",
+      "reason": "2603210067"
+    },
+    {
+      "id": "c23dcf88-6091-464b-83b8-f15165f18d3a",
+      "userId": "***",
+      "searchDate": "2026-03-22T01:08:48.535Z",
+      "networkCount": "623",
+      "reason": "2603210067"
+    },
+    {
+      "id": "f559b413-e8c6-49e5-acee-b2d40e4c16b7",
+      "userId": "***",
+      "searchDate": "2026-03-22T01:16:28.201Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "90312c0e-8a4d-4467-a557-9f1b7ff03266",
+      "userId": "***",
+      "searchDate": "2026-03-22T02:38:11.488Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "babf6b28-d7e7-4248-92b6-5be4c819b3cd",
+      "userId": "***",
+      "searchDate": "2026-03-22T04:12:23.194Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "e8c3ca47-f69f-49fe-9266-b2c32945bea0",
+      "userId": "***",
+      "searchDate": "2026-03-22T06:44:09.287Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "66624b18-151f-4a37-abf1-b1d71c32eaff",
+      "userId": "***",
+      "searchDate": "2026-03-22T07:09:11.320Z",
+      "networkCount": "822",
+      "reason": "26-01651"
+    },
+    {
+      "id": "5dfc6165-465a-499e-8a1f-4d6622ae1e9a",
+      "userId": "***",
+      "searchDate": "2026-03-22T07:39:41.279Z",
+      "networkCount": "1",
+      "reason": "26-01652"
+    },
+    {
+      "id": "af2330a6-0686-44a9-bb3c-e18c464c3b76",
+      "userId": "***",
+      "searchDate": "2026-03-22T08:44:28.146Z",
+      "networkCount": "1",
+      "reason": "2603220016"
+    },
+    {
+      "id": "64f2e8a8-3fe3-4f3e-81e3-607f53463700",
+      "userId": "***",
+      "searchDate": "2026-03-22T08:47:02.627Z",
+      "networkCount": "822",
+      "reason": "26-01651"
+    },
+    {
+      "id": "2309d138-ce61-4b4e-a95c-0b0d9e85c419",
+      "userId": "***",
+      "searchDate": "2026-03-22T09:00:17.987Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "62454fec-334a-46d1-8a3b-3d50cba58a16",
+      "userId": "***",
+      "searchDate": "2026-03-22T10:21:03.742Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "51d93c10-f08b-44f6-bed4-2fbea2842688",
+      "userId": "***",
+      "searchDate": "2026-03-22T12:46:36.260Z",
+      "networkCount": "1",
+      "reason": "26-01652"
+    },
+    {
+      "id": "26fdb576-df0c-4e07-9668-e433dd610deb",
+      "userId": "***",
+      "searchDate": "2026-03-22T13:54:13.461Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "81f703d3-fdd5-44fd-88ca-45f6864dc022",
+      "userId": "***",
+      "searchDate": "2026-03-22T15:21:09.491Z",
+      "networkCount": "623",
+      "reason": "26-1070"
+    },
+    {
+      "id": "b07494cd-492c-4000-bf5d-92519c9429d1",
+      "userId": "***",
+      "searchDate": "2026-03-22T16:03:16.115Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "f6095790-9374-4a75-8518-506100fe72e1",
+      "userId": "***",
+      "searchDate": "2026-03-22T16:38:01.842Z",
+      "networkCount": "572",
+      "reason": "2601310275"
+    },
+    {
+      "id": "566b6b34-0ecd-4d01-a907-18e0fe55b47b",
+      "userId": "***",
+      "searchDate": "2026-03-22T16:51:46.779Z",
+      "networkCount": "623",
+      "reason": "26-1070"
+    },
+    {
+      "id": "f04025ca-e9a1-4d65-86ba-5db8a34e1a18",
+      "userId": "***",
+      "searchDate": "2026-03-22T18:18:19.766Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "970e5085-1237-429d-827b-e378930e7654",
+      "userId": "***",
+      "searchDate": "2026-03-22T19:07:08.840Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "bc6a7227-77b3-4638-81a1-850059d323fa",
+      "userId": "***",
+      "searchDate": "2026-03-22T19:11:24.090Z",
+      "networkCount": "623",
+      "reason": "26-1070"
+    },
+    {
+      "id": "b7018e79-1950-4434-87b6-1a234b8d32a9",
+      "userId": "***",
+      "searchDate": "2026-03-22T19:29:13.420Z",
+      "networkCount": "623",
+      "reason": "26-01384"
+    },
+    {
+      "id": "b1b730d7-2101-4fdb-99d3-7cabc4a5cff8",
+      "userId": "***",
+      "searchDate": "2026-03-22T20:40:29.580Z",
+      "networkCount": "623",
+      "reason": "26-1070"
+    },
+    {
+      "id": "399467a7-1790-4697-bd64-d72339d5d0f2",
+      "userId": "***",
+      "searchDate": "2026-03-22T22:14:24.116Z",
+      "networkCount": "623",
+      "reason": "26-01384"
+    },
+    {
+      "id": "6528904b-6291-4de9-904c-d725bb05f097",
+      "userId": "***",
+      "searchDate": "2026-03-22T22:24:34.394Z",
+      "networkCount": "1",
+      "reason": "2603220209"
+    },
+    {
+      "id": "baef1d6f-ecf9-41b6-93e6-c42a50dcc8be",
+      "userId": "***",
+      "searchDate": "2026-03-22T22:54:12.900Z",
+      "networkCount": "572",
+      "reason": "2603220238"
+    },
+    {
+      "id": "747a2294-c319-481e-bf87-cab06f7acbf6",
+      "userId": "***",
+      "searchDate": "2026-03-22T23:00:32.721Z",
+      "networkCount": "623",
+      "reason": "26-1070"
+    },
+    {
+      "id": "a86e150e-e189-4436-9de2-d3865afcf707",
+      "userId": "***",
+      "searchDate": "2026-03-23T00:47:11.281Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "b61cd85b-fb67-4129-88ab-8746929a8632",
+      "userId": "***",
+      "searchDate": "2026-03-23T04:52:22.467Z",
+      "networkCount": "572",
+      "reason": "26-01239"
+    },
+    {
+      "id": "15421dc0-7f65-46af-b31a-000be09bdfd2",
+      "userId": "***",
+      "searchDate": "2026-03-23T05:16:38.632Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "e3f02a10-f49c-4d2d-a9b0-092b28d0a9eb",
+      "userId": "***",
+      "searchDate": "2026-03-23T05:39:34.937Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "f8e6db11-73f0-4ede-b7ea-3f2e6161ee82",
+      "userId": "***",
+      "searchDate": "2026-03-23T06:47:11.018Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "0cee7d97-4375-4e6b-b31f-9550ff4d72bf",
+      "userId": "***",
+      "searchDate": "2026-03-23T07:33:48.983Z",
+      "networkCount": "1",
+      "reason": "26-01656"
+    },
+    {
+      "id": "e1383baa-617c-4b73-8cdc-7d7152062721",
+      "userId": "***",
+      "searchDate": "2026-03-23T10:05:05.005Z",
+      "networkCount": "1",
+      "reason": "26-01652"
+    },
+    {
+      "id": "558df706-8e02-4414-96da-4ee2daf4027f",
+      "userId": "***",
+      "searchDate": "2026-03-23T12:52:47.663Z",
+      "networkCount": "572",
+      "reason": "2603220192"
+    },
+    {
+      "id": "d751ba7e-f71a-47b0-adac-4bf64bc6b7ad",
+      "userId": "***",
+      "searchDate": "2026-03-23T13:12:25.566Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "61aaa404-2ed1-4563-85ba-4d348f7eff1c",
+      "userId": "***",
+      "searchDate": "2026-03-23T14:49:38.588Z",
+      "networkCount": "623",
+      "reason": "2603210067"
+    },
+    {
+      "id": "e6d87f3d-2e9a-4aa0-98cd-aba6eb6a59fd",
+      "userId": "***",
+      "searchDate": "2026-03-23T14:59:56.729Z",
+      "networkCount": "572",
+      "reason": "2504210474"
+    },
+    {
+      "id": "f6bb56c1-87bc-4c85-a956-e3df0938e234",
+      "userId": "***",
+      "searchDate": "2026-03-23T15:21:36.767Z",
+      "networkCount": "1",
+      "reason": "2603220192"
+    },
+    {
+      "id": "832287ea-5eb5-493f-a71f-d1dbc7d66e79",
+      "userId": "***",
+      "searchDate": "2026-03-23T16:52:39.364Z",
+      "networkCount": "1",
+      "reason": "2603220192"
+    },
+    {
+      "id": "9063a623-39cf-44b8-ba7f-bb2aea0461e2",
+      "userId": "***",
+      "searchDate": "2026-03-23T17:02:58.145Z",
+      "networkCount": "623",
+      "reason": "tes"
+    },
+    {
+      "id": "20fbcb58-3bc1-4d80-9204-973e2fe19e81",
+      "userId": "***",
+      "searchDate": "2026-03-23T17:13:00.846Z",
+      "networkCount": "623",
+      "reason": "2603210067"
+    },
+    {
+      "id": "dbdbb789-4f9e-4845-979f-ac2ad8cbb8ab",
+      "userId": "***",
+      "searchDate": "2026-03-23T17:39:11.459Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "bf4225ab-4126-419e-b1ce-1aa88b138625",
+      "userId": "***",
+      "searchDate": "2026-03-23T19:16:18.233Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "d71c241c-5e7a-4e9e-8edf-cd4f7081f27f",
+      "userId": "***",
+      "searchDate": "2026-03-23T19:21:09.310Z",
+      "networkCount": "1",
+      "reason": "test"
+    },
+    {
+      "id": "55ab1c5c-4a37-40a5-9603-f5c5bab2d836",
+      "userId": "***",
+      "searchDate": "2026-03-23T19:51:23.677Z",
+      "networkCount": "1",
+      "reason": "03010520160"
+    },
+    {
+      "id": "b93d979f-e991-459b-b7ac-06554ca16301",
+      "userId": "***",
+      "searchDate": "2026-03-23T20:03:12.237Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "93e54fe4-5422-4a36-b629-79f18fc1db70",
+      "userId": "***",
+      "searchDate": "2026-03-23T20:03:28.916Z",
+      "networkCount": "1",
+      "reason": "test"
+    },
+    {
+      "id": "38a93178-fe87-4f5b-9e0b-441725f58a48",
+      "userId": "***",
+      "searchDate": "2026-03-23T20:13:37.736Z",
+      "networkCount": "1",
+      "reason": "03010520160"
+    },
+    {
+      "id": "e59482f0-719b-434e-829e-d6978b4f73a9",
+      "userId": "***",
+      "searchDate": "2026-03-23T21:11:28.649Z",
+      "networkCount": "1",
+      "reason": "test"
+    },
+    {
+      "id": "27d8f5d3-c00c-4340-9df7-ea53d2cfe215",
+      "userId": "***",
+      "searchDate": "2026-03-23T22:03:09.516Z",
+      "networkCount": "1",
+      "reason": "test"
+    },
+    {
+      "id": "36d14823-f49d-4590-ab4a-955e8d533199",
+      "userId": "***",
+      "searchDate": "2026-03-23T22:15:03.709Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "7204300d-cb76-4983-a53f-3487f59b9af7",
+      "userId": "***",
+      "searchDate": "2026-03-23T22:46:31.163Z",
+      "networkCount": "623",
+      "reason": "26-01651"
+    },
+    {
+      "id": "00aa41a7-c5d8-4e21-b686-258dbc576224",
+      "userId": "***",
+      "searchDate": "2026-03-23T22:48:23.027Z",
+      "networkCount": "623",
+      "reason": "2603230323"
+    },
+    {
+      "id": "537cad12-8ef6-4733-b722-3532d0081626",
+      "userId": "***",
+      "searchDate": "2026-03-23T22:58:19.129Z",
+      "networkCount": "623",
+      "reason": "2603230323"
+    },
+    {
+      "id": "52ae2b3f-367d-4936-a23a-ba855163b6d2",
+      "userId": "***",
+      "searchDate": "2026-03-23T23:02:59.020Z",
+      "networkCount": "623",
+      "reason": "2603230323"
+    },
+    {
+      "id": "3311e9a3-9bc9-498c-8cd0-5fd09b8904f6",
+      "userId": "***",
+      "searchDate": "2026-03-23T23:53:48.096Z",
+      "networkCount": "623",
+      "reason": "2504210474"
+    },
+    {
+      "id": "f60b3060-c4c1-4ca3-bf4b-b1fb347ba3a4",
+      "userId": "***",
+      "searchDate": "2026-03-23T23:56:45.633Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "42f082ee-61e3-413f-b4bf-68c621679ca9",
+      "userId": "***",
+      "searchDate": "2026-03-24T01:06:21.633Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "7637c1fd-6cc9-46ee-9d52-0152941bd89d",
+      "userId": "***",
+      "searchDate": "2026-03-24T01:07:47.946Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "04055494-1d9f-490f-b729-77632d0b260c",
+      "userId": "***",
+      "searchDate": "2026-03-24T01:18:29.885Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "d1abe138-3dc8-4e05-a323-87c438bd54d4",
+      "userId": "***",
+      "searchDate": "2026-03-24T01:20:39.308Z",
+      "networkCount": "623",
+      "reason": "26-01254"
+    },
+    {
+      "id": "db05c6d1-5e10-4fb8-8821-1b09a250943d",
+      "userId": "***",
+      "searchDate": "2026-03-24T02:58:42.452Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "64ed66fc-f8f5-4625-bc68-bb94e8918ff2",
+      "userId": "***",
+      "searchDate": "2026-03-24T03:21:41.231Z",
+      "networkCount": "1",
+      "reason": "2504210474"
+    },
+    {
+      "id": "a556e947-d72e-4e77-bc85-a03c2e7d8485",
+      "userId": "***",
+      "searchDate": "2026-03-24T03:51:12.853Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "9231d560-5ac4-41bc-98ae-59d2177028df",
+      "userId": "***",
+      "searchDate": "2026-03-24T04:36:23.293Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "6560edb1-3ac8-40fb-b1c5-d53541cafb82",
+      "userId": "***",
+      "searchDate": "2026-03-24T04:47:11.634Z",
+      "networkCount": "853",
+      "reason": "26-002262"
+    },
+    {
+      "id": "2a4b5f7f-fc82-494f-a196-8333e35f6e75",
+      "userId": "***",
+      "searchDate": "2026-03-24T04:53:57.092Z",
+      "networkCount": "623",
+      "reason": "26-002284"
+    },
+    {
+      "id": "8fb2a8d6-6103-4b16-b2e2-fda7fda38e41",
+      "userId": "***",
+      "searchDate": "2026-03-24T04:55:03.585Z",
+      "networkCount": "1",
+      "reason": "10851"
+    },
+    {
+      "id": "a8cbb319-b5df-433a-a148-74271a821058",
+      "userId": "***",
+      "searchDate": "2026-03-24T05:12:46.202Z",
+      "networkCount": "623",
+      "reason": "26-01363"
+    },
+    {
+      "id": "7f072e2d-bc90-4aac-a410-72465e43c0e9",
+      "userId": "***",
+      "searchDate": "2026-03-24T05:13:56.471Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "ac374789-11f5-4242-acaa-b9178f689563",
+      "userId": "***",
+      "searchDate": "2026-03-24T05:22:50.489Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "c6e81f2b-79bb-4b84-a0d0-acdbd9657fc6",
+      "userId": "***",
+      "searchDate": "2026-03-24T06:03:31.091Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "7b78cf55-b580-4cc4-a1cb-ec7f7a42185a",
+      "userId": "***",
+      "searchDate": "2026-03-24T06:03:57.512Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "a4953717-4dd0-422b-93b3-87fe24e8cfcd",
+      "userId": "***",
+      "searchDate": "2026-03-24T06:32:34.135Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "9192f25a-efbf-4ccd-a22d-dfce883ceb50",
+      "userId": "***",
+      "searchDate": "2026-03-24T07:01:15.938Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "731c607a-cb32-4ed0-936e-697a6fd4c7fc",
+      "userId": "***",
+      "searchDate": "2026-03-24T07:05:37.984Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "ced77f77-1aba-4f6d-a198-1875f65514f2",
+      "userId": "***",
+      "searchDate": "2026-03-24T07:05:54.145Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "1f6f00a3-f82f-4087-b942-36520db9e207",
+      "userId": "***",
+      "searchDate": "2026-03-24T07:25:11.386Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "6d0806cb-afc8-4121-9d28-f251937dbea9",
+      "userId": "***",
+      "searchDate": "2026-03-24T07:44:59.643Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "b38b2af5-4d9d-43c0-964a-6cd69fcdc674",
+      "userId": "***",
+      "searchDate": "2026-03-24T07:47:07.165Z",
+      "networkCount": "572",
+      "reason": "2603160028"
+    },
+    {
+      "id": "d31c2a07-e8eb-49cf-b6ce-84f24e6c421b",
+      "userId": "***",
+      "searchDate": "2026-03-24T08:00:35.005Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "111f70d3-8ce5-4f14-9248-3c922426dea4",
+      "userId": "***",
+      "searchDate": "2026-03-24T08:01:43.478Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "14b37380-4f5d-49e7-b6ca-b74c879f6a6d",
+      "userId": "***",
+      "searchDate": "2026-03-24T08:05:34.092Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "b2a2fc61-23f7-4ed7-8aec-75f4bb0b35ad",
+      "userId": "***",
+      "searchDate": "2026-03-24T08:09:21.418Z",
+      "networkCount": "572",
+      "reason": "2603160028"
+    },
+    {
+      "id": "efa8f267-e521-4d94-8683-cbb838c1a51a",
+      "userId": "***",
+      "searchDate": "2026-03-24T08:29:59.439Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "6ace39e5-b365-4c00-b34b-ff3f616ea625",
+      "userId": "***",
+      "searchDate": "2026-03-24T09:00:34.632Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "2c14cec2-c837-4a42-98cb-fdd92dd0cb61",
+      "userId": "***",
+      "searchDate": "2026-03-24T09:06:39.642Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "6cca044d-a182-427b-8fab-7f74ceca217b",
+      "userId": "***",
+      "searchDate": "2026-03-24T09:11:00.774Z",
+      "networkCount": "572",
+      "reason": "26-01636"
+    },
+    {
+      "id": "556f0432-9823-425d-b91a-97360c5762b3",
+      "userId": "***",
+      "searchDate": "2026-03-24T09:19:22.876Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "d25208be-dcce-4550-81de-3f72f23ce0a2",
+      "userId": "***",
+      "searchDate": "2026-03-24T09:56:24.438Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "a4d9cbf1-440a-4f2b-8611-01459cf90b53",
+      "userId": "***",
+      "searchDate": "2026-03-24T10:01:29.458Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "b614f36e-8c8d-4f8d-9775-a17a6c44a73e",
+      "userId": "***",
+      "searchDate": "2026-03-24T10:02:42.051Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "7d0c1b91-1c2a-444c-8c9c-eb1ff5ece8a4",
+      "userId": "***",
+      "searchDate": "2026-03-24T10:10:34.006Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "1f091635-413b-470d-b9b2-fb34b1ce8e41",
+      "userId": "***",
+      "searchDate": "2026-03-24T10:25:19.296Z",
+      "networkCount": "572",
+      "reason": "26-01636"
+    },
+    {
+      "id": "262b73a8-7b22-48c9-b6ab-001570ffbdb7",
+      "userId": "***",
+      "searchDate": "2026-03-24T11:01:20.999Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "f4855589-e171-43e7-9085-1a438775ccbd",
+      "userId": "***",
+      "searchDate": "2026-03-24T11:30:33.079Z",
+      "networkCount": "623",
+      "reason": "26-0248"
+    },
+    {
+      "id": "058c3faf-ce8c-4e7d-a321-c52f5d766fcf",
+      "userId": "***",
+      "searchDate": "2026-03-24T12:06:45.986Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "e168d4b9-cf24-4b51-9de7-5d628193049a",
+      "userId": "***",
+      "searchDate": "2026-03-24T12:20:35.173Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "38249e80-cb4b-452d-87d3-f7b3b1be1b1f",
+      "userId": "***",
+      "searchDate": "2026-03-24T12:39:35.492Z",
+      "networkCount": "572",
+      "reason": "26-01651"
+    },
+    {
+      "id": "d358d345-dc78-419f-aed5-3ae695af3ebc",
+      "userId": "***",
+      "searchDate": "2026-03-24T13:20:00.974Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "79d02a13-1d47-41e2-bfab-f60e3d465b19",
+      "userId": "***",
+      "searchDate": "2026-03-24T13:48:28.513Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "8ca4f680-5689-4533-9de0-3b68827e426c",
+      "userId": "***",
+      "searchDate": "2026-03-24T14:23:29.554Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "d3184c9a-371e-4b3e-b957-664692b24270",
+      "userId": "***",
+      "searchDate": "2026-03-24T14:23:31.165Z",
+      "networkCount": "1",
+      "reason": "Suspect vehicle"
+    },
+    {
+      "id": "719d7ddb-b26a-4fb0-9b7a-637f46c92c98",
+      "userId": "***",
+      "searchDate": "2026-03-24T14:31:47.406Z",
+      "networkCount": "572",
+      "reason": "26-0248"
+    },
+    {
+      "id": "67b97259-208a-4e0b-80e2-d5a4be8259b0",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:01:19.471Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "ff251c78-98c2-4915-ae49-c0f71e9048b6",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:08:05.701Z",
+      "networkCount": "1",
+      "reason": "Suspect vehicle"
+    },
+    {
+      "id": "1b310768-dd6c-4c5d-850d-7d565f11f25c",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:14:45.467Z",
+      "networkCount": "623",
+      "reason": "21-06522"
+    },
+    {
+      "id": "df931555-4081-425f-895c-a1cbe90fa238",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:18:50.336Z",
+      "networkCount": "823",
+      "reason": "26-01254"
+    },
+    {
+      "id": "f6281abc-f381-497d-a006-e8185e35c928",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:18:59.208Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "018a54c4-8500-4090-b7fb-91668c305fd7",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:32:52.099Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "e82698d0-75d6-4668-b678-a2e280fe05ef",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:38:00.599Z",
+      "networkCount": "572",
+      "reason": "26-0248"
+    },
+    {
+      "id": "e3fbacf0-81fe-4820-82e7-b820be24f7e6",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:39:13.892Z",
+      "networkCount": "572",
+      "reason": "26-01651"
+    },
+    {
+      "id": "d775b91a-cdeb-457a-94a1-9dffcd9a96ce",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:40:49.542Z",
+      "networkCount": "823",
+      "reason": "26-01636"
+    },
+    {
+      "id": "f79a8fc6-a68a-456d-8b15-6ab0339cecbc",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:42:06.799Z",
+      "networkCount": "1",
+      "reason": "suspect vehicle"
+    },
+    {
+      "id": "b4c41285-4495-49ff-8d73-f2187def8508",
+      "userId": "***",
+      "searchDate": "2026-03-24T16:00:35.247Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "b50b455c-fa42-4a44-a7a4-62047805c02a",
+      "userId": "***",
+      "searchDate": "2026-03-24T16:00:48.631Z",
+      "networkCount": "1",
+      "reason": "26-01651"
+    },
+    {
+      "id": "d9ddf169-9861-46b0-bd04-bc72af4f243c",
+      "userId": "***",
+      "searchDate": "2026-03-24T16:10:29.191Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "617fd678-925d-4d8e-8626-b4e49f155d18",
+      "userId": "***",
+      "searchDate": "2026-03-24T16:11:12.823Z",
+      "networkCount": "572",
+      "reason": "26-01652"
+    },
+    {
+      "id": "885ad5ab-2f84-4d6b-8ea3-e663b92863c5",
+      "userId": "***",
+      "searchDate": "2026-03-24T16:24:36.710Z",
+      "networkCount": "623",
+      "reason": "26\u201301698"
+    },
+    {
+      "id": "540e22a7-a26d-4725-950d-39eeeedb5fd4",
+      "userId": "***",
+      "searchDate": "2026-03-24T17:05:54.622Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "f999086f-6e41-4559-9c87-21045ea10c7d",
+      "userId": "***",
+      "searchDate": "2026-03-24T17:14:07.946Z",
+      "networkCount": "1",
+      "reason": "2603230323"
+    },
+    {
+      "id": "8ecdd222-9f08-425c-a561-717a7f057af3",
+      "userId": "***",
+      "searchDate": "2026-03-24T17:17:28.699Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "fb31ad3f-296e-4206-9743-1696f7df6e65",
+      "userId": "***",
+      "searchDate": "2026-03-24T17:33:19.483Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "ad3a1637-7a69-426f-b13e-6f2d42274466",
+      "userId": "***",
+      "searchDate": "2026-03-24T17:34:18.835Z",
+      "networkCount": "572",
+      "reason": "26-0248"
+    },
+    {
+      "id": "58dee96f-58a0-48ab-b43e-264a060edc48",
+      "userId": "***",
+      "searchDate": "2026-03-24T18:03:51.392Z",
+      "networkCount": "572",
+      "reason": "26-0248"
+    },
+    {
+      "id": "fc601e74-d2bf-448e-9124-7ff87b5b3a2e",
+      "userId": "***",
+      "searchDate": "2026-03-24T18:19:18.091Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "45e09edf-494c-4800-ae77-fc89d3c5b654",
+      "userId": "***",
+      "searchDate": "2026-03-24T18:35:37.164Z",
+      "networkCount": "1",
+      "reason": "suspect vehicle"
+    },
+    {
+      "id": "8901d3be-333e-470d-a6dc-07928cddeabc",
+      "userId": "***",
+      "searchDate": "2026-03-24T18:57:14.864Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "8098e4b8-4c62-4b88-a8d5-b69cf911ad97",
+      "userId": "***",
+      "searchDate": "2026-03-24T19:22:23.638Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "4d5c81a0-740e-486f-8a27-67b84ade1a49",
+      "userId": "***",
+      "searchDate": "2026-03-24T19:26:19.812Z",
+      "networkCount": "1",
+      "reason": "test"
+    },
+    {
+      "id": "6236e509-d919-486f-9904-93531d92a6bd",
+      "userId": "***",
+      "searchDate": "2026-03-24T19:30:50.180Z",
+      "networkCount": "1",
+      "reason": "2603230323"
+    },
+    {
+      "id": "5447744a-5351-4063-be58-a2f9bee21ab5",
+      "userId": "***",
+      "searchDate": "2026-03-24T19:35:20.644Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "1e3ebfc9-e303-40f4-a828-2ee73c3fe76d",
+      "userId": "***",
+      "searchDate": "2026-03-24T19:35:38.416Z",
+      "networkCount": "823",
+      "reason": "26-01636"
+    },
+    {
+      "id": "d2c3e1da-02f0-465c-85a2-827e73d667e3",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:06:42.608Z",
+      "networkCount": "1",
+      "reason": "test"
+    },
+    {
+      "id": "426ed5f0-1d40-48f8-9ad6-1c2b8b2ee22f",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:06:57.037Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "f4bfe684-31f2-4584-b9ac-973d09b68b3c",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:15:37.645Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "48530aea-e390-407b-8174-60ccab3dbedc",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:16:30.019Z",
+      "networkCount": "623",
+      "reason": "26-01040"
+    },
+    {
+      "id": "dcedb97e-e3dc-4415-aa9f-ca7ace1a86ea",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:17:53.190Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "c7efa8f5-632a-4c16-93f9-68c8edd0718f",
+      "userId": "***",
+      "searchDate": "2026-03-24T21:00:00.977Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "37bfffcf-8290-49e0-94ac-53c1ef564562",
+      "userId": "***",
+      "searchDate": "2026-03-24T21:01:22.933Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "b32b8bb9-ec2e-4a94-a890-1158f6b7546d",
+      "userId": "***",
+      "searchDate": "2026-03-24T21:03:11.494Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "7f2e1133-a208-422b-b579-7138c0b1b935",
+      "userId": "***",
+      "searchDate": "2026-03-24T22:00:26.475Z",
+      "networkCount": "3",
+      "reason": "2601050160"
+    },
+    {
+      "id": "c579c81b-6097-470e-ace7-b01bd5e8f8d0",
+      "userId": "***",
+      "searchDate": "2026-03-24T22:04:06.527Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "c6d9f7a5-ded1-4b68-8706-d3a76dbbfa84",
+      "userId": "***",
+      "searchDate": "2026-03-24T22:12:21.984Z",
+      "networkCount": "1",
+      "reason": "2501280291"
+    },
+    {
+      "id": "815c81fb-c660-4aaa-ac78-5077f2220da1",
+      "userId": "***",
+      "searchDate": "2026-03-24T22:12:31.004Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "4222bf69-294c-4c05-a81e-89b29a4cd944",
+      "userId": "***",
+      "searchDate": "2026-03-24T22:18:32.490Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "90df78dc-43d2-4f4f-9aba-e4b218057a78",
+      "userId": "***",
+      "searchDate": "2026-03-24T23:01:46.361Z",
+      "networkCount": "824",
+      "reason": "26-01636"
+    },
+    {
+      "id": "7fd7c751-61e4-4529-8f1e-f5362001074d",
+      "userId": "***",
+      "searchDate": "2026-03-24T23:16:06.082Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "26d732c2-b8a9-4e58-b4c7-3f2a7f645cc1",
+      "userId": "***",
+      "searchDate": "2026-03-24T23:27:45.352Z",
+      "networkCount": "572",
+      "reason": "25-06980"
+    },
+    {
+      "id": "7fb58ba4-067a-4435-aefa-f316bd6c8e02",
+      "userId": "***",
+      "searchDate": "2026-03-24T23:29:57.439Z",
+      "networkCount": "1",
+      "reason": "2601050160"
+    },
+    {
+      "id": "144c3b80-0461-447e-a5c3-d139ddf647a6",
+      "userId": "***",
+      "searchDate": "2026-03-24T23:36:43.191Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "1cbe0356-e36a-45b8-ae44-26fda454181a",
+      "userId": "***",
+      "searchDate": "2026-03-25T00:00:29.964Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "c226f8d0-a09b-4a12-b03a-e2f5d68afdd4",
+      "userId": "***",
+      "searchDate": "2026-03-25T00:00:58.015Z",
+      "networkCount": "623",
+      "reason": "26-01636"
+    },
+    {
+      "id": "cabb95cb-d56d-4652-8a8c-ea87d0bfa024",
+      "userId": "***",
+      "searchDate": "2026-03-25T00:02:00.539Z",
+      "networkCount": "824",
+      "reason": "26-01636"
+    },
+    {
+      "id": "10f217d9-ceeb-4205-99a2-a19a8aa134c7",
+      "userId": "***",
+      "searchDate": "2026-03-25T00:04:12.550Z",
+      "networkCount": "1",
+      "reason": "26-01636"
+    },
+    {
+      "id": "8802a2b1-a6c4-43df-9f32-97a5009a4017",
+      "userId": "***",
+      "searchDate": "2026-03-25T00:48:32.119Z",
+      "networkCount": "572",
+      "reason": "26-009206"
+    },
+    {
+      "id": "2beb210f-a67b-4033-8570-95bdeed96572",
+      "userId": "***",
+      "searchDate": "2026-03-25T01:38:36.292Z",
+      "networkCount": "623",
+      "reason": "2603240347"
+    },
+    {
+      "id": "3deedb6b-aca9-4054-a810-49ae1f84114f",
+      "userId": "***",
+      "searchDate": "2026-03-25T02:03:26.639Z",
+      "networkCount": "623",
+      "reason": "2603240347"
+    },
+    {
+      "id": "d69c47fa-a0b9-4526-a3fc-df2f6b87c3a5",
+      "userId": "***",
+      "searchDate": "2026-03-25T02:05:01.260Z",
+      "networkCount": "623",
+      "reason": "2603240234"
+    },
+    {
+      "id": "60ce27f2-50f2-494d-b878-6450e222b11c",
+      "userId": "***",
+      "searchDate": "2026-03-25T03:51:16.585Z",
+      "networkCount": "1",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "6a2c8a3f-778a-4f95-9c5d-72cfafc3db33",
+      "userId": "***",
+      "searchDate": "2026-03-25T04:01:31.955Z",
+      "networkCount": "1",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "17f188e4-d174-4614-80eb-3092227f7bcc",
+      "userId": "***",
+      "searchDate": "2026-03-25T09:46:10.611Z",
+      "networkCount": "1",
+      "reason": "2603250033"
+    },
+    {
+      "id": "5a2db711-72e5-4104-8e7d-baeb96594d8d",
+      "userId": "***",
+      "searchDate": "2026-03-25T10:38:01.369Z",
+      "networkCount": "1",
+      "reason": "2603250033"
+    },
+    {
+      "id": "38d86211-e75e-4cfd-b40d-28290341a68f",
+      "userId": "***",
+      "searchDate": "2026-03-25T17:09:04.790Z",
+      "networkCount": "572",
+      "reason": "26-01254"
+    },
+    {
+      "id": "03af7fd4-5cfe-4e01-9664-59635451d35a",
+      "userId": "***",
+      "searchDate": "2026-03-25T18:04:49.073Z",
+      "networkCount": "572",
+      "reason": "2603250147"
+    },
+    {
+      "id": "eb7ab224-04ec-4e12-986d-95cc0a0a203f",
+      "userId": "***",
+      "searchDate": "2026-03-25T20:19:55.626Z",
+      "networkCount": "623",
+      "reason": "2603240234"
+    },
+    {
+      "id": "b8b065b0-7daf-464e-b26a-c379920eea62",
+      "userId": "***",
+      "searchDate": "2026-03-25T20:33:40.505Z",
+      "networkCount": "572",
+      "reason": "2603240234"
+    },
+    {
+      "id": "feb9ad1b-86b0-464e-8bc5-f4fd48e527ee",
+      "userId": "***",
+      "searchDate": "2026-03-25T21:06:53.101Z",
+      "networkCount": "1",
+      "reason": "2603240234"
+    },
+    {
+      "id": "61f70b0b-159e-42a3-aca5-adb388867292",
+      "userId": "***",
+      "searchDate": "2026-03-25T21:09:21.977Z",
+      "networkCount": "1",
+      "reason": "26-00213"
+    },
+    {
+      "id": "4a2a8879-6bad-43a4-adb3-c0f37fa47fc5",
+      "userId": "***",
+      "searchDate": "2026-03-25T21:14:23.544Z",
+      "networkCount": "1",
+      "reason": "21-06522"
+    },
+    {
+      "id": "b7b43956-e1a8-4bb3-a6ae-f8a9c8ef3a86",
+      "userId": "***",
+      "searchDate": "2026-03-25T22:42:24.624Z",
+      "networkCount": "623",
+      "reason": "2603240234"
+    },
+    {
+      "id": "68dcd153-cc8c-4ea9-b4df-19e97b4a1b96",
+      "userId": "***",
+      "searchDate": "2026-03-25T23:12:59.758Z",
+      "networkCount": "623",
+      "reason": "2603240234"
+    },
+    {
+      "id": "d27beb86-2b68-4b28-991d-a46f60c5b8c2",
+      "userId": "***",
+      "searchDate": "2026-03-25T23:48:29.337Z",
+      "networkCount": "3",
+      "reason": "test"
+    },
+    {
+      "id": "9f750011-9566-46bd-8852-52b885255707",
+      "userId": "***",
+      "searchDate": "2026-03-26T06:19:04.740Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "b119d127-85c7-4826-86c8-9472f6753e38",
+      "userId": "***",
+      "searchDate": "2026-03-26T06:27:40.624Z",
+      "networkCount": "623",
+      "reason": "21-06522"
+    },
+    {
+      "id": "e43a47ba-5501-45db-a0da-340d85355561",
+      "userId": "***",
+      "searchDate": "2026-03-26T13:07:47.807Z",
+      "networkCount": "572",
+      "reason": "2603240234"
+    },
+    {
+      "id": "6751b439-8c32-4efb-8fe2-b8ea5d8bebfb",
+      "userId": "***",
+      "searchDate": "2026-03-26T16:46:17.496Z",
+      "networkCount": "623",
+      "reason": "26-01768"
+    },
+    {
+      "id": "a3544593-cf7d-4fce-9bb0-46f295eba135",
+      "userId": "***",
+      "searchDate": "2026-03-26T17:25:38.824Z",
+      "networkCount": "623",
+      "reason": "26-01768"
+    },
+    {
+      "id": "a98ee7a7-eda6-4c51-899c-9e72cae3b875",
+      "userId": "***",
+      "searchDate": "2026-03-26T18:05:34.284Z",
+      "networkCount": "623",
+      "reason": "26-01768"
+    },
+    {
+      "id": "0bfecf72-48fa-4303-8a30-366b27ba262c",
+      "userId": "***",
+      "searchDate": "2026-03-26T20:06:56.277Z",
+      "networkCount": "572",
+      "reason": "1601050160"
+    },
+    {
+      "id": "5ddb9637-8f81-4c6d-8ec6-75d6b86a7358",
+      "userId": "***",
+      "searchDate": "2026-03-26T20:09:03.565Z",
+      "networkCount": "2",
+      "reason": "2601050160"
+    },
+    {
+      "id": "432879e6-96a4-478b-8f92-87faedfb06d1",
+      "userId": "***",
+      "searchDate": "2026-03-26T20:37:27.276Z",
+      "networkCount": "623",
+      "reason": "26-01768"
+    },
+    {
+      "id": "07e36db1-ab75-4028-98bf-e1d58c0db7e8",
+      "userId": "***",
+      "searchDate": "2026-03-26T21:09:06.294Z",
+      "networkCount": "623",
+      "reason": "26-01794"
+    },
+    {
+      "id": "73f3e843-263c-4d65-ba63-f63a6ea15948",
+      "userId": "***",
+      "searchDate": "2026-03-26T21:30:05.461Z",
+      "networkCount": "572",
+      "reason": "2603260237"
+    },
+    {
+      "id": "2805bd58-25d4-4ec9-a3f0-7dca754f8b98",
+      "userId": "***",
+      "searchDate": "2026-03-26T22:06:39.285Z",
+      "networkCount": "1",
+      "reason": "26-01794"
+    },
+    {
+      "id": "e8624783-fb54-4066-8c0c-a4b590eab316",
+      "userId": "***",
+      "searchDate": "2026-03-26T22:13:06.776Z",
+      "networkCount": "1",
+      "reason": "26-01768"
+    },
+    {
+      "id": "7095df51-5053-4864-8ca7-452e56792e57",
+      "userId": "***",
+      "searchDate": "2026-03-26T23:15:12.506Z",
+      "networkCount": "1",
+      "reason": "ivestigation"
+    },
+    {
+      "id": "15c1ec86-20af-4888-b163-362abd27bc9f",
+      "userId": "***",
+      "searchDate": "2026-03-26T23:58:44.624Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "cf8c5161-f8f0-4549-8bf2-6d083fb146a4",
+      "userId": "***",
+      "searchDate": "2026-03-26T23:59:59.087Z",
+      "networkCount": "623",
+      "reason": "26-01768"
+    }
+  ]
 }

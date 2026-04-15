@@ -1,5 +1,6 @@
 {
-  "slug": "pasadena-ca-pd",
+  "crawled_slug": "pasadena-ca-pd",
+  "crawled_name": "Pasadena CA PD",
   "archived_date": "2026-04-07",
   "whats_detected": "License Plates, Vehicles",
   "whats_not_detected": "Facial recognition, People, Gender, Race",
@@ -15,8 +16,7 @@
   "vehicles_detected_30d": 985309,
   "hotlist_hits_30d": 11001,
   "searches_30d": 466,
-  "shared_org_count": 320,
-  "shared_org_names": [
+  "sharing_outbound": [
     "San Jose State University CA",
     "Alameda County CA SO",
     "Albany CA PD",
@@ -338,331 +338,7 @@
     "Yuba City CA PD",
     "Yuba County Sheriffs Office"
   ],
-  "shared_org_slugs": [
-    "san-jose-state-university-ca",
-    "alameda-county-ca-so",
-    "albany-ca-pd",
-    "alhambra-ca-pd",
-    "amador-county-ca-sheriffs-office",
-    "anaheim-ca-pd",
-    "anderson-ca-pd",
-    "angels-camp-ca-pd",
-    "antioch-ca-pd",
-    "arcadia-ca-pd",
-    "atwater-ca-pd",
-    "auburn-ca-pd",
-    "avenal-ca-pd",
-    "azusa-ca-pd",
-    "bakersfield-ca-pd",
-    "baldwin-park-ca-pd",
-    "barstow-ca-pd",
-    "bear-valley-springs-ca-pd",
-    "beaumont-ca-pd",
-    "bell-ca-pd",
-    "bell-gardens-ca-pd",
-    "belmont-ca-pd",
-    "belvedere-ca-pd",
-    "benicia-ca-pd",
-    "beverly-hills-ca-pd",
-    "bishop-ca-pd",
-    "blythe-ca-pd",
-    "brawley-ca-pd",
-    "brentwood-ca-pd",
-    "buena-park-ca-pd",
-    "burbank-airport-ca-pd",
-    "burbank-ca-pd",
-    "burlingame-ca-pd",
-    "butte-county-ca-so",
-    "ca-iipay-nation-of-santa-ysabel",
-    "cal-fire",
-    "cal-state-fullerton-ca",
-    "cal-state-san-bernadino-ca-pd",
-    "calexico-ca-pd",
-    "california-department-of-corrections",
-    "california-department-of-fish-wildlife-ca",
-    "california-highway-patrol",
-    "california-state-parks",
-    "california-state-university-long-beach-campus-pd",
-    "calistoga-ca-pd",
-    "campbell-ca-pd",
-    "capitola-ca-pd",
-    "carmel-ca-pd",
-    "cathedral-city-ca-pd",
-    "central-marin-ca-pd",
-    "cerritos-college-ca-pd",
-    "chino-ca-pd",
-    "chula-vista-ca-pd",
-    "citrus-heights-ca-pd",
-    "city-of-lemoore-ca",
-    "city-of-riverside-ca-pd",
-    "claremont-ca-pd",
-    "clayton-ca-pd",
-    "cloverdale-ca-pd",
-    "colma-ca-pd",
-    "colton-ca-pd",
-    "colusa-ca-pd",
-    "concord-ca-pd",
-    "contra-costa-county-ca-so",
-    "corcoran-ca-pd",
-    "corona-ca-pd",
-    "coronado-ca-pd",
-    "costa-mesa-ca-pd",
-    "cotati-ca-pd",
-    "covina-ca-pd",
-    "culver-city-ca-pd",
-    "cypress-ca-pd",
-    "daly-city-ca-pd",
-    "danville-ca-pd",
-    "del-norte-county-ca-so",
-    "delano-ca-pd",
-    "desert-hot-springs-ca-pd",
-    "dinuba-ca-pd",
-    "dixon-ca-pd",
-    "downey-pd-ca",
-    "dublin-ca-pd",
-    "east-bay-parks-ca-pd",
-    "east-palo-alto-ca-pd",
-    "-el-cajon-pd-ca",
-    "el-centro-ca-pd",
-    "el-cerrito-ca-pd",
-    "el-dorado-county-ca-so",
-    "el-monte-ca-pd",
-    "el-segundo-ca-pd",
-    "elk-grove-ca-pd",
-    "emeryville-ca-pd",
-    "escalon-ca-pd",
-    "escondido-ca-pd",
-    "fairfield-ca-pd",
-    "folsom-ca-pd",
-    "fontana-ca-pd",
-    "foothilldeanza-ca-pd",
-    "fort-bragg-ca-pd",
-    "foster-city-ca-pd",
-    "fountain-valley-ca-pd",
-    "fowler-ca-pd",
-    "fremont-ca-pd",
-    "fresno-ca-pd",
-    "fullerton-ca-pd",
-    "galt-ca-pd",
-    "garden-grove-ca-pd",
-    "gilroy-ca-pd",
-    "glendale-ca-pd",
-    "glendora-ca-pd",
-    "grass-valley-ca-pd",
-    "greenfield-ca-pd",
-    "grover-beach-ca-pd",
-    "gustine-pd-ca",
-    "hanford-ca-pd",
-    "hayward-ca-pd",
-    "hemet-ca-pd",
-    "hercules-ca-pd",
-    "hermosa-beach-pd-ca",
-    "hillsborough-ca-pd",
-    "hollister-ca-pd",
-    "humboldt-county-ca-so",
-    "huntington-beach-ca-pd",
-    "imperial-city-ca-pd",
-    "imperial-county-ca-so",
-    "indio-ca-pd",
-    "inglewood-ca-pd",
-    "irvine-ca-pd",
-    "irwindale-ca-pd",
-    "kerman-ca-pd",
-    "kern-county-ca-so",
-    "kings-county-ca-das-office",
-    "kings-county-sheriffs-office-ca",
-    "la-habra-ca-pd",
-    "la-mesa-ca-pd",
-    "la-verne-ca-pd",
-    "laguna-beach-ca-pd",
-    "lake-county-ca-so",
-    "lakeport-ca-pd",
-    "lancaster-ca-pd",
-    "lasd-ca-san-dimas-station",
-    "lathrop-ca-pd",
-    "lincoln-ca-pd",
-    "livermore-ca-pd",
-    "lodi-ca-pd",
-    "lompoc-ca-pd",
-    "los-alamitos-pd-ca",
-    "los-altos-ca-pd",
-    "los-angeles-ca-pd",
-    "los-angeles-county-ca-sd",
-    "los-angeles-port-police-ca",
-    "madera-ca-pd",
-    "madera-county-so-ca",
-    "manteca-ca-pd",
-    "marin-county-ca-da",
-    "marin-county-ca-so",
-    "marina-ca-pd",
-    "mcfarland-ca-pd",
-    "mendocino-county-soca",
-    "mendota-ca-pd",
-    "menifee-ca-pd",
-    "menlo-park-ca-pd",
-    "merced-county-ca-so",
-    "mill-valley-ca-pd",
-    "milpitas-ca-pd",
-    "modoc-county-ca-so",
-    "montclair-ca-pd",
-    "montebello-ca-pd",
-    "monterey-ca-pd",
-    "monterey-county-ca-so",
-    "monterey-county-district-attorneys-office",
-    "monterey-park-ca-pd",
-    "moraga-ca-pd",
-    "morgan-hill-ca-pd",
-    "murrieta-ca-pd",
-    "napa-ca-pd",
-    "napa-county-ca-so",
-    "national-city-ca-pd",
-    "ncric",
-    "nevada-city-ca-pd",
-    "nevada-county-ca-so",
-    "newark-ca-pd",
-    "newport-beach-pd-ca",
-    "novato-ca-pd",
-    "oakland-ca-pd",
-    "oakley-ca-pd",
-    "oceanside-ca-pd",
-    "ontario-ca-pd",
-    "orange-ca-pd",
-    "orange-county-ca-da-office",
-    "orange-county-fire-authority-ca",
-    "orange-county-so-ca",
-    "oxnard-ca-pd",
-    "pacific-grove-ca-pd",
-    "pacifica-ca-pd",
-    "palm-springs-ca-pd",
-    "petaluma-ca-pd",
-    "placentia-ca-pd",
-    "placer-county-ca-da-office",
-    "placer-county-ca-so",
-    "pleasant-hill-ca-pd",
-    "pleasanton-ca-pd",
-    "pomona-ca-pd",
-    "port-of-stockton-ca-pd",
-    "porterville-ca-pd",
-    "redding-pd-ca",
-    "redlands-ca-pd",
-    "redondo-beach-ca-pd",
-    "redwood-city-ca-pd",
-    "reedley-ca-pd",
-    "rialto-pd-ca",
-    "ridgecrest-ca-pd",
-    "rio-hondo-college-pd-ca",
-    "rio-vista-ca-pd",
-    "riv-co-arson-tf-ca-pd",
-    "riverside-county-ca-district-attorney",
-    "riverside-county-ca-sd",
-    "rocklin-ca-pd",
-    "rohnert-park-department-of-public-safety-ca",
-    "sacramento-ca-da",
-    "sacramento-ca-pd",
-    "salinas-ca-pd",
-    "san-benito-county-so-ca",
-    "san-bernardino-ca-pd",
-    "san-bernardino-community-college-ca-pd",
-    "san-bernardino-county-ca-human-services-law-enforcement",
-    "san-bernardino-county-ca-so",
-    "san-bruno-ca-pd",
-    "san-diego-ca-pd",
-    "san-diego-county-ca-sd",
-    "san-diego-harbor-ca-pd",
-    "san-fernando-ca-pd",
-    "san-francisco-ca-pd",
-    "san-francisco-district-attorney-ca",
-    "san-gabriel-ca-pd",
-    "san-joaquin-ca-da",
-    "san-joaquin-county-ca-so",
-    "san-joaquin-delta-college-pd-ca",
-    "san-jose-evergreen-community-college-campus-pd-ca",
-    "san-jose-ca-pd",
-    "san-leandro-pd-ca",
-    "san-luis-obispo-ca-pd",
-    "san-luis-obispo-county-ca-sheriff",
-    "san-marino-ca-pd",
-    "san-mateo-ca-pd",
-    "san-mateo-county-ca-so",
-    "san-pablo-ca-pd",
-    "san-pasqual-ca-pd",
-    "san-rafael-ca-pd",
-    "sanger-ca-pd",
-    "santa-ana-ca-pd",
-    "santa-barbara-county-ca-so",
-    "santa-clara-ca-pd",
-    "santa-cruz-ca-pd",
-    "santa-monica-ca-pd",
-    "santa-rosa-ca-pd",
-    "sausalito-ca-pd",
-    "seal-beach-ca-pd",
-    "seaside-ca-pd",
-    "selma-ca-pd",
-    "sequoias-community-college-district-ca-pd",
-    "shafter-pd-ca",
-    "shasta-county-so",
-    "sierra-madre-ca-pd",
-    "simi-valley-ca-pd",
-    "solano-county-ca-so",
-    "solano-county-da-ca",
-    "soledad-ca-pd",
-    "sonoma-county-ca-so",
-    "south-gate-ca-pd",
-    "south-pasadena-ca-pd",
-    "stallion-springs-ca-pd",
-    "stanford-university-ca-pd",
-    "stockton-ca-pd",
-    "suisun-city-ca-pd",
-    "sunnyvale-ca-pd",
-    "sutter-county-ca-so",
-    "taft-ca-pd",
-    "tehachapi-ca-pd",
-    "tehama-county-ca-so",
-    "tiburon-ca-pd",
-    "los-gatos-ca-pd",
-    "tracy-ca-pd",
-    "trinity-county-so-ca",
-    "truckee-ca-pd",
-    "tulare-ca-pd",
-    "tulare-county-ca-so",
-    "turlock-ca-pd",
-    "tustin-ca-pd",
-    "uc-irvine-campus-pd-ca",
-    "ukiah-pd-ca",
-    "union-city-ca-pd",
-    "university-of-ca-santa-barbara-ca-pd",
-    "university-of-california-berkeley",
-    "university-of-san-francisco-ca-pd",
-    "university-of-the-pacific-ca",
-    "upland-ca-pd",
-    "vacaville-ca-pd",
-    "vallejo-ca-pd",
-    "ventura-ca-pd",
-    "ventura-county-ca-so",
-    "ventura-county-district-attorneys-office-ca",
-    "vernon-ca-pd",
-    "visalia-ca-pd",
-    "walnut-creek-ca-pd",
-    "watsonville-ca-pd",
-    "west-covina-ca-pd",
-    "west-sacramento-ca-pd",
-    "west-valley-mission-college-dist-campus-ca",
-    "westminster-ca-pd",
-    "wheatland-ca-pd",
-    "whittier-ca-pd",
-    "williams-ca-pd",
-    "willits-ca-pd",
-    "winters-ca-pd",
-    "woodlake-ca-pd",
-    "woodland-ca-pd",
-    "yolo-county-ca-so",
-    "yreka-ca-pd",
-    "yuba-city-ca-pd",
-    "yuba-county-ca-so"
-  ],
-  "orgs_sharing_with_count": 0,
-  "orgs_sharing_with_names": [],
-  "orgs_sharing_with_slugs": [],
+  "sharing_inbound": [],
   "overview": "Pasadena CA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Pasadena CA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Pasadena CA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.",
   "policy_info": "",
   "alpr_policy": "",
@@ -677,5 +353,3734 @@
   "sb54": "",
   "last_updated": "",
   "restrictions_on_deployment": "",
-  "crawled_at": "2026-04-07T23:55:47.285465+00:00"
+  "search_audit_csv": [
+    {
+      "id": "78b60ccc-d809-4c85-81ef-861f7c32f2dd",
+      "userId": "***",
+      "searchDate": "2026-03-08T06:04:13.276Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "Pa26-18859"
+    },
+    {
+      "id": "3fc93baa-3405-4a65-bf90-064751fa31e2",
+      "userId": "***",
+      "searchDate": "2026-03-08T16:43:53.908Z",
+      "networkCount": "1",
+      "reason": "gta",
+      "caseNumber": "pa2026-18974"
+    },
+    {
+      "id": "97039313-14df-495d-ba9f-b0223b21344a",
+      "userId": "***",
+      "searchDate": "2026-03-08T16:45:34.103Z",
+      "networkCount": "373",
+      "reason": "Gta",
+      "caseNumber": "Pa202618974"
+    },
+    {
+      "id": "4ef27b38-e507-449d-a340-9be76b39332a",
+      "userId": "***",
+      "searchDate": "2026-03-08T17:01:02.490Z",
+      "networkCount": "373",
+      "reason": "Gta",
+      "caseNumber": "Pa202618974"
+    },
+    {
+      "id": "67689720-86d6-48a9-9117-73067c08f1e0",
+      "userId": "***",
+      "searchDate": "2026-03-08T22:47:19.798Z",
+      "networkCount": "373",
+      "reason": "Investigation",
+      "caseNumber": "26-29876"
+    },
+    {
+      "id": "00b46ed6-a012-4e7d-a6bd-12dfc619ad96",
+      "userId": "***",
+      "searchDate": "2026-03-09T01:31:00.951Z",
+      "networkCount": "1",
+      "reason": "484",
+      "caseNumber": "pa26-17030"
+    },
+    {
+      "id": "f7079336-7ebe-4470-8e0f-97e236acce7d",
+      "userId": "***",
+      "searchDate": "2026-03-09T02:11:20.185Z",
+      "networkCount": "1",
+      "reason": "484",
+      "caseNumber": "pa26-17030"
+    },
+    {
+      "id": "477c47ad-3f63-4be4-9863-d8dd39a74780",
+      "userId": "***",
+      "searchDate": "2026-03-09T07:03:03.057Z",
+      "networkCount": "1",
+      "reason": "domestic",
+      "caseNumber": "26-19170"
+    },
+    {
+      "id": "39c76c61-2403-44d6-bac9-1f59b1f742f4",
+      "userId": "***",
+      "searchDate": "2026-03-09T16:07:43.587Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-17968"
+    },
+    {
+      "id": "2bf657db-0b24-4f7c-9973-d7d93e1b4bc3",
+      "userId": "***",
+      "searchDate": "2026-03-10T00:16:00.630Z",
+      "networkCount": "646",
+      "reason": "GTA",
+      "caseNumber": "26-19346"
+    },
+    {
+      "id": "dc47383f-c39d-4e93-bddc-24c18d10a468",
+      "userId": "***",
+      "searchDate": "2026-03-10T02:35:33.320Z",
+      "networkCount": "399",
+      "reason": "GTA Vehicle",
+      "caseNumber": "pa2026-19346"
+    },
+    {
+      "id": "67bb4154-9981-43f5-b7e2-43ec06a1bf65",
+      "userId": "***",
+      "searchDate": "2026-03-10T08:16:20.049Z",
+      "networkCount": "1",
+      "reason": "PA2025-92399",
+      "caseNumber": "PA2026-19423"
+    },
+    {
+      "id": "e2ef74f2-b92c-400c-961f-0e3679168e3c",
+      "userId": "***",
+      "searchDate": "2026-03-10T09:14:59.276Z",
+      "networkCount": "1",
+      "reason": "PA2025-92399",
+      "caseNumber": "PA2026-19423"
+    },
+    {
+      "id": "2d623adf-62d0-4afd-86d7-2499f319fe3c",
+      "userId": "***",
+      "searchDate": "2026-03-10T10:40:39.413Z",
+      "networkCount": "1",
+      "reason": "Vehicle theft",
+      "caseNumber": "PA26-19346"
+    },
+    {
+      "id": "2c2c25fa-738d-4b0a-a9d2-bb7f654b0227",
+      "userId": "***",
+      "searchDate": "2026-03-10T13:09:07.607Z",
+      "networkCount": "399",
+      "reason": "Investigation PA2026-15438",
+      "caseNumber": "PA2026-15438"
+    },
+    {
+      "id": "aa224463-f843-4d47-b650-0eff170d9d28",
+      "userId": "***",
+      "searchDate": "2026-03-10T16:12:04.397Z",
+      "networkCount": "1",
+      "reason": "Missing",
+      "caseNumber": "26-19486"
+    },
+    {
+      "id": "d3463a94-00c3-41b6-98e2-a6bca23c9dbe",
+      "userId": "***",
+      "searchDate": "2026-03-10T16:42:08.089Z",
+      "networkCount": "1",
+      "reason": "Wanted",
+      "caseNumber": "11930762"
+    },
+    {
+      "id": "fe53d075-c2a7-4ffd-8c1a-789e077872a0",
+      "userId": "***",
+      "searchDate": "2026-03-10T17:52:33.674Z",
+      "networkCount": "646",
+      "reason": "wanted",
+      "caseNumber": "11930762"
+    },
+    {
+      "id": "d01073e5-d431-47f0-aa2c-a80c49e51ef4",
+      "userId": "***",
+      "searchDate": "2026-03-10T17:53:00.177Z",
+      "networkCount": "399",
+      "reason": "narco investgiation",
+      "caseNumber": "26-115510"
+    },
+    {
+      "id": "5191dabe-5cbb-42ea-9346-aff931aecf59",
+      "userId": "***",
+      "searchDate": "2026-03-10T18:42:02.224Z",
+      "networkCount": "399",
+      "reason": "Investigation",
+      "caseNumber": "pa26-9525"
+    },
+    {
+      "id": "2714bc9e-3c55-44a5-ab3e-79102d77a0a7",
+      "userId": "***",
+      "searchDate": "2026-03-10T19:15:14.507Z",
+      "networkCount": "373",
+      "reason": "Pa2026-92994",
+      "caseNumber": "Pa2026-92994"
+    },
+    {
+      "id": "85887abc-58ab-462c-919f-c2e6c5115f8c",
+      "userId": "***",
+      "searchDate": "2026-03-10T19:25:11.178Z",
+      "networkCount": "373",
+      "reason": "Pa2026-13438",
+      "caseNumber": "Pa2026-14214"
+    },
+    {
+      "id": "255e8d4a-3635-4946-aa66-c30e584ef826",
+      "userId": "***",
+      "searchDate": "2026-03-10T19:30:30.748Z",
+      "networkCount": "373",
+      "reason": "Pa2026-13416",
+      "caseNumber": "Pa2026-13416"
+    },
+    {
+      "id": "eca5ae8f-29f4-4162-9a21-f30d2b69a92e",
+      "userId": "***",
+      "searchDate": "2026-03-10T19:30:56.136Z",
+      "networkCount": "373",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "0769c606-c173-4e3c-9c70-583f910344bf",
+      "userId": "***",
+      "searchDate": "2026-03-10T21:37:01.849Z",
+      "networkCount": "1",
+      "reason": "PC 242",
+      "caseNumber": "PA2026-16868"
+    },
+    {
+      "id": "dea51ee9-2cf6-42ad-ae2d-e5bd8848dcee",
+      "userId": "***",
+      "searchDate": "2026-03-10T21:49:12.439Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "26-19630"
+    },
+    {
+      "id": "b7cc6f19-dd49-4cd6-87b6-8958584b7d1e",
+      "userId": "***",
+      "searchDate": "2026-03-10T22:51:04.413Z",
+      "networkCount": "399",
+      "reason": "Investigation",
+      "caseNumber": "pa26-9525"
+    },
+    {
+      "id": "2d133070-ed97-439c-819b-0652f576347d",
+      "userId": "***",
+      "searchDate": "2026-03-11T00:32:52.403Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "pa26-19630"
+    },
+    {
+      "id": "599a1bb3-9a00-4ad2-8099-ad2c33b27334",
+      "userId": "***",
+      "searchDate": "2026-03-11T01:13:42.634Z",
+      "networkCount": "373",
+      "reason": "Investigation",
+      "caseNumber": "26-115510"
+    },
+    {
+      "id": "72fa90cc-0f88-4914-90f4-705ac99977f7",
+      "userId": "***",
+      "searchDate": "2026-03-11T01:15:05.806Z",
+      "networkCount": "399",
+      "reason": "Investigation",
+      "caseNumber": "pa26-9525"
+    },
+    {
+      "id": "28b20f9d-9348-4674-a7f9-a0ee328b494b",
+      "userId": "***",
+      "searchDate": "2026-03-11T03:11:21.858Z",
+      "networkCount": "399",
+      "reason": "stolen vehicle",
+      "caseNumber": "pa26-19710"
+    },
+    {
+      "id": "b98840e6-0b2c-4ac7-82aa-72587cb3e8d9",
+      "userId": "***",
+      "searchDate": "2026-03-11T06:16:26.826Z",
+      "networkCount": "1",
+      "reason": "gta",
+      "caseNumber": "pa26-19630"
+    },
+    {
+      "id": "6bfff72c-bedc-4949-ab5d-39e5487199fe",
+      "userId": "***",
+      "searchDate": "2026-03-11T13:26:24.773Z",
+      "networkCount": "399",
+      "reason": "Investigation",
+      "caseNumber": "pa26-9525"
+    },
+    {
+      "id": "599ea0fc-b977-4776-bcc1-d7cdaa43f823",
+      "userId": "***",
+      "searchDate": "2026-03-11T15:44:33.802Z",
+      "networkCount": "373",
+      "reason": "Pa2026-19710",
+      "caseNumber": "Pa2026-19710"
+    },
+    {
+      "id": "86ec1c03-fd45-4f94-8a65-9c36e54505b5",
+      "userId": "***",
+      "searchDate": "2026-03-11T15:46:54.896Z",
+      "networkCount": "373",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-19824"
+    },
+    {
+      "id": "6bed761c-7fcb-40d1-874e-242c4a0b16b6",
+      "userId": "***",
+      "searchDate": "2026-03-11T15:56:28.863Z",
+      "networkCount": "1",
+      "reason": "26-0030-07",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "135064d1-a507-48cf-b1eb-baf1f0688766",
+      "userId": "***",
+      "searchDate": "2026-03-11T15:56:43.262Z",
+      "networkCount": "373",
+      "reason": "Pa2026-92994",
+      "caseNumber": "Pa2026-92994"
+    },
+    {
+      "id": "bb4ebf9f-7f41-4fbd-96cb-9c7abca454fb",
+      "userId": "***",
+      "searchDate": "2026-03-11T16:01:20.484Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-11674"
+    },
+    {
+      "id": "647b8d43-7831-4715-b724-2c05dd74eccd",
+      "userId": "***",
+      "searchDate": "2026-03-11T17:10:14.010Z",
+      "networkCount": "399",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-11674"
+    },
+    {
+      "id": "138ba0fd-2646-4531-912e-443317437c0d",
+      "userId": "***",
+      "searchDate": "2026-03-11T17:25:14.205Z",
+      "networkCount": "399",
+      "reason": "Felony evading",
+      "caseNumber": "PA23-101759"
+    },
+    {
+      "id": "43cb15be-04d9-4a6b-8982-f8fb3c50621a",
+      "userId": "***",
+      "searchDate": "2026-03-11T17:49:11.970Z",
+      "networkCount": "1",
+      "reason": "evading",
+      "caseNumber": "PA2023-101759"
+    },
+    {
+      "id": "8d053dec-4e64-4a47-8672-0d67a5588a10",
+      "userId": "***",
+      "searchDate": "2026-03-11T18:05:02.851Z",
+      "networkCount": "1",
+      "reason": "evading",
+      "caseNumber": "PA2023-101759"
+    },
+    {
+      "id": "d8ff3b62-1c6c-444d-9ff4-9f5993d29a55",
+      "userId": "***",
+      "searchDate": "2026-03-11T18:20:15.352Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-17968"
+    },
+    {
+      "id": "49a50e56-afc4-4072-a168-dd990624df46",
+      "userId": "***",
+      "searchDate": "2026-03-11T19:27:10.265Z",
+      "networkCount": "1",
+      "reason": "Wanted",
+      "caseNumber": "26-182678"
+    },
+    {
+      "id": "fd52afd8-3b75-48b1-b423-ed16714491ec",
+      "userId": "***",
+      "searchDate": "2026-03-11T19:47:16.104Z",
+      "networkCount": "1",
+      "reason": "suspect",
+      "caseNumber": "pa26-8194"
+    },
+    {
+      "id": "949311b5-6dd2-4b40-9a56-96903624b1aa",
+      "userId": "***",
+      "searchDate": "2026-03-11T19:49:56.840Z",
+      "networkCount": "399",
+      "reason": "Investigation",
+      "caseNumber": "pa26-9525"
+    },
+    {
+      "id": "12a6050a-5083-438b-abb5-17e06ee9ad09",
+      "userId": "***",
+      "searchDate": "2026-03-11T20:08:55.374Z",
+      "networkCount": "648",
+      "reason": "Illegal fireworks",
+      "caseNumber": "26-23700"
+    },
+    {
+      "id": "4a00b3e7-c721-47da-9aa9-6476a2027070",
+      "userId": "***",
+      "searchDate": "2026-03-11T22:12:11.011Z",
+      "networkCount": "373",
+      "reason": "Pa2026-13438",
+      "caseNumber": "Pa2026-14214"
+    },
+    {
+      "id": "32aa5b65-02f6-4530-b40d-4110052e1f1f",
+      "userId": "***",
+      "searchDate": "2026-03-11T22:13:02.109Z",
+      "networkCount": "373",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "4608e0ce-dbdf-467f-a0ce-2d3a7ba7bb8a",
+      "userId": "***",
+      "searchDate": "2026-03-11T22:33:05.232Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "26-19942"
+    },
+    {
+      "id": "9442e989-731a-426f-ae3a-99950ba65196",
+      "userId": "***",
+      "searchDate": "2026-03-11T23:23:28.678Z",
+      "networkCount": "373",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "9385f49b-b319-4c43-9e51-0c2afa29a95a",
+      "userId": "***",
+      "searchDate": "2026-03-11T23:36:02.562Z",
+      "networkCount": "373",
+      "reason": "26-0030-07",
+      "caseNumber": "26-0030-07"
+    },
+    {
+      "id": "76ae26ab-a0f9-48c9-948f-69f4d3fb2679",
+      "userId": "***",
+      "searchDate": "2026-03-11T23:36:43.629Z",
+      "networkCount": "373",
+      "reason": "Pa2026-2570",
+      "caseNumber": "Pa2026-2570"
+    },
+    {
+      "id": "6d668f50-f1a3-482f-9840-750e61a42fd1",
+      "userId": "***",
+      "searchDate": "2026-03-11T23:37:02.479Z",
+      "networkCount": "373",
+      "reason": "Pa2026-13438",
+      "caseNumber": "Pa2026-13438"
+    },
+    {
+      "id": "1cfbacc5-89b3-42bc-a0e3-32057d69d050",
+      "userId": "***",
+      "searchDate": "2026-03-11T23:51:32.742Z",
+      "networkCount": "373",
+      "reason": "Wanted",
+      "caseNumber": "9903777"
+    },
+    {
+      "id": "0458a10c-6375-4095-816f-298a2f027e0e",
+      "userId": "***",
+      "searchDate": "2026-03-12T00:18:30.825Z",
+      "networkCount": "399",
+      "reason": "wanted",
+      "caseNumber": "9903777"
+    },
+    {
+      "id": "c86e5901-b7a4-4ce4-bc3f-f92e71791af3",
+      "userId": "***",
+      "searchDate": "2026-03-12T01:09:54.305Z",
+      "networkCount": "399",
+      "reason": "wanted",
+      "caseNumber": "9903777"
+    },
+    {
+      "id": "fb81689c-27c3-4e50-9d62-603fa2ffb086",
+      "userId": "***",
+      "searchDate": "2026-03-12T01:19:02.648Z",
+      "networkCount": "1",
+      "reason": "26-9295",
+      "caseNumber": "26-9295"
+    },
+    {
+      "id": "7aa4e6a0-8d06-4c86-8338-06101fcf9633",
+      "userId": "***",
+      "searchDate": "2026-03-12T04:21:21.708Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "PA26-17968"
+    },
+    {
+      "id": "9ef57e63-9caf-4b6c-aa3a-be6f23f1580b",
+      "userId": "***",
+      "searchDate": "2026-03-12T05:36:14.947Z",
+      "networkCount": "1",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-20045"
+    },
+    {
+      "id": "f23064f6-4f4f-4d92-85af-60cd37bcc4c1",
+      "userId": "***",
+      "searchDate": "2026-03-12T05:44:55.352Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "26-20049"
+    },
+    {
+      "id": "6c8f4491-0c87-423d-b46b-1930c24ab39f",
+      "userId": "***",
+      "searchDate": "2026-03-12T05:58:00.525Z",
+      "networkCount": "373",
+      "reason": "PA26-20049",
+      "caseNumber": "PA26-20049"
+    },
+    {
+      "id": "92459bad-b1cd-4b03-9395-9e45c644b116",
+      "userId": "***",
+      "searchDate": "2026-03-12T05:58:41.642Z",
+      "networkCount": "373",
+      "reason": "Wanted",
+      "caseNumber": "9903777"
+    },
+    {
+      "id": "332094e0-8b52-41c9-ab93-91901f193624",
+      "userId": "***",
+      "searchDate": "2026-03-12T10:56:57.834Z",
+      "networkCount": "373",
+      "reason": "Wanted",
+      "caseNumber": "9903777"
+    },
+    {
+      "id": "37574ede-f1e1-4a05-ba83-2e6a4fc4fa4c",
+      "userId": "***",
+      "searchDate": "2026-03-12T12:48:03.073Z",
+      "networkCount": "1",
+      "reason": "Wanted",
+      "caseNumber": "9903777"
+    },
+    {
+      "id": "a4c7a643-8e2f-4b13-bc7b-67c1d03e2351",
+      "userId": "***",
+      "searchDate": "2026-03-12T13:34:47.117Z",
+      "networkCount": "1",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "94156cd7-3bec-4bfb-861f-878b3a770409",
+      "userId": "***",
+      "searchDate": "2026-03-12T13:40:45.246Z",
+      "networkCount": "373",
+      "reason": "Wanted",
+      "caseNumber": "9930777"
+    },
+    {
+      "id": "00a201f1-013e-44ad-97b6-8bfe56c58db2",
+      "userId": "***",
+      "searchDate": "2026-03-12T14:17:58.660Z",
+      "networkCount": "373",
+      "reason": "Narcotics",
+      "caseNumber": "26-9015"
+    },
+    {
+      "id": "fad047b0-116b-4893-9bf6-2d8b8b42fb30",
+      "userId": "***",
+      "searchDate": "2026-03-12T15:19:37.755Z",
+      "networkCount": "399",
+      "reason": "narcotics sales",
+      "caseNumber": "26-009015"
+    },
+    {
+      "id": "a271b56c-ec99-44c9-a34e-0de18ca385bb",
+      "userId": "***",
+      "searchDate": "2026-03-12T16:13:01.846Z",
+      "networkCount": "373",
+      "reason": "Wanted",
+      "caseNumber": "9930777"
+    },
+    {
+      "id": "a3289273-a346-4670-95f1-56916f5c5385",
+      "userId": "***",
+      "searchDate": "2026-03-12T16:50:07.313Z",
+      "networkCount": "648",
+      "reason": "investigation",
+      "caseNumber": "PA 2026-19892"
+    },
+    {
+      "id": "aab220c7-cf29-404d-8477-603dcf9873cc",
+      "userId": "***",
+      "searchDate": "2026-03-12T17:32:52.162Z",
+      "networkCount": "373",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "56c14c39-40e8-4f51-9041-76a93be9284f",
+      "userId": "***",
+      "searchDate": "2026-03-12T17:33:43.582Z",
+      "networkCount": "373",
+      "reason": "Wanted",
+      "caseNumber": "9930777"
+    },
+    {
+      "id": "1f9e7426-d9fa-4c2b-b802-b0f74065240f",
+      "userId": "***",
+      "searchDate": "2026-03-12T18:02:36.528Z",
+      "networkCount": "399",
+      "reason": "Investigation PA2026-15438",
+      "caseNumber": "PA2026-15438"
+    },
+    {
+      "id": "499609f3-21d0-4486-9125-bd26dd33d2b4",
+      "userId": "***",
+      "searchDate": "2026-03-12T18:11:07.601Z",
+      "networkCount": "373",
+      "reason": "Wanted",
+      "caseNumber": "9930777"
+    },
+    {
+      "id": "20bbe2e5-a030-4636-bf08-0e0bb727d718",
+      "userId": "***",
+      "searchDate": "2026-03-12T18:20:57.256Z",
+      "networkCount": "399",
+      "reason": "narcotics",
+      "caseNumber": "2026-15133"
+    },
+    {
+      "id": "aa7195c1-5803-4ca6-943b-af33320ba3c3",
+      "userId": "***",
+      "searchDate": "2026-03-12T19:17:09.485Z",
+      "networkCount": "399",
+      "reason": "narco",
+      "caseNumber": "2026-15133"
+    },
+    {
+      "id": "62699cb1-7c3a-4cbd-b772-a05c8c799fbd",
+      "userId": "***",
+      "searchDate": "2026-03-12T19:26:17.518Z",
+      "networkCount": "373",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-20142"
+    },
+    {
+      "id": "3cc27c7d-69fe-471e-915f-a77b41d0f8fa",
+      "userId": "***",
+      "searchDate": "2026-03-12T20:39:48.699Z",
+      "networkCount": "373",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "bf769b4f-7021-457b-8e12-af90ba90fcfa",
+      "userId": "***",
+      "searchDate": "2026-03-12T20:41:20.881Z",
+      "networkCount": "1",
+      "reason": "PA2026-15532",
+      "caseNumber": "PA2026-15532"
+    },
+    {
+      "id": "48735475-0139-46af-8bcb-49f6619c0c03",
+      "userId": "***",
+      "searchDate": "2026-03-12T20:54:00.318Z",
+      "networkCount": "399",
+      "reason": "on going investigation",
+      "caseNumber": "25-36791"
+    },
+    {
+      "id": "252c14fc-db7e-41c4-a13b-6a34b95b0691",
+      "userId": "***",
+      "searchDate": "2026-03-12T21:04:06.222Z",
+      "networkCount": "648",
+      "reason": "on going investigation",
+      "caseNumber": "25-36791"
+    },
+    {
+      "id": "9ed91467-fee0-4221-8f66-4688a3ae9a0c",
+      "userId": "***",
+      "searchDate": "2026-03-12T21:31:32.019Z",
+      "networkCount": "373",
+      "reason": "Investigation",
+      "caseNumber": "25-25963"
+    },
+    {
+      "id": "7203b88d-3011-434a-ab95-fca213134a7e",
+      "userId": "***",
+      "searchDate": "2026-03-12T22:38:27.299Z",
+      "networkCount": "373",
+      "reason": "Wanted",
+      "caseNumber": "9930777"
+    },
+    {
+      "id": "3370b24c-22d8-434e-8fa8-1af07073fb67",
+      "userId": "***",
+      "searchDate": "2026-03-12T22:53:27.485Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "PA26-20049"
+    },
+    {
+      "id": "912a22fb-cec0-4b2b-80ad-b154e18e5a24",
+      "userId": "***",
+      "searchDate": "2026-03-12T23:03:48.871Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "25-25963"
+    },
+    {
+      "id": "48043e11-6cea-46e2-9bc5-8fdc767ffb3d",
+      "userId": "***",
+      "searchDate": "2026-03-12T23:13:58.677Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "PA26-20049"
+    },
+    {
+      "id": "d2ddfbdf-7110-461c-96cd-d0715be597e2",
+      "userId": "***",
+      "searchDate": "2026-03-13T01:33:23.738Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "PA26-20049"
+    },
+    {
+      "id": "5bd91cb3-6709-442b-9f03-fbf75bbdc5df",
+      "userId": "***",
+      "searchDate": "2026-03-13T03:04:23.944Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "PA26-20049"
+    },
+    {
+      "id": "e5da18fe-c66f-48c3-a5f1-d4e554f0104b",
+      "userId": "***",
+      "searchDate": "2026-03-13T03:29:13.028Z",
+      "networkCount": "1",
+      "reason": "Wanted",
+      "caseNumber": "9903777"
+    },
+    {
+      "id": "95ebf5df-7e68-4fb4-aeb2-ebc351d684b1",
+      "userId": "***",
+      "searchDate": "2026-03-13T05:10:34.242Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "9903777"
+    },
+    {
+      "id": "e9b5193f-3b3e-4af9-b535-a26713dea035",
+      "userId": "***",
+      "searchDate": "2026-03-13T05:51:04.506Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "PA26-20049"
+    },
+    {
+      "id": "dd25535e-3361-49eb-981d-e18309bab716",
+      "userId": "***",
+      "searchDate": "2026-03-13T06:18:05.873Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "PA26-20049"
+    },
+    {
+      "id": "8fd7f8e0-19b9-49b9-850f-292cf5a10814",
+      "userId": "***",
+      "searchDate": "2026-03-13T08:17:07.338Z",
+      "networkCount": "398",
+      "reason": "stolen",
+      "caseNumber": "pa26-20388"
+    },
+    {
+      "id": "2914fb2c-8b8e-4882-9dd0-39f694099117",
+      "userId": "***",
+      "searchDate": "2026-03-13T09:03:43.120Z",
+      "networkCount": "398",
+      "reason": "stolen",
+      "caseNumber": "pa26-20388"
+    },
+    {
+      "id": "e5c8a085-a8df-4e04-93da-4baeebbb127d",
+      "userId": "***",
+      "searchDate": "2026-03-13T09:22:34.224Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "PA2026-20393"
+    },
+    {
+      "id": "690fceea-cb47-4c3f-b291-c561b6d08e13",
+      "userId": "***",
+      "searchDate": "2026-03-13T10:55:45.035Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "PA26-19892"
+    },
+    {
+      "id": "13ea5e99-9154-48a1-8973-65bfc038fbfa",
+      "userId": "***",
+      "searchDate": "2026-03-13T11:03:17.489Z",
+      "networkCount": "1",
+      "reason": "stolen",
+      "caseNumber": "pa26-20388"
+    },
+    {
+      "id": "50b50925-b263-4d08-8f97-145e904fe0dd",
+      "userId": "***",
+      "searchDate": "2026-03-13T16:48:53.791Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "5a20afca-0a4c-49ce-ab43-51dcbd2946b8",
+      "userId": "***",
+      "searchDate": "2026-03-13T16:49:30.251Z",
+      "networkCount": "372",
+      "reason": "Pa2026-13438",
+      "caseNumber": "Pa2026-13438"
+    },
+    {
+      "id": "d0f4f07e-96c2-4eed-b40c-c719d76b7905",
+      "userId": "***",
+      "searchDate": "2026-03-13T18:58:31.917Z",
+      "networkCount": "1",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "51e328c6-8166-43d7-a34c-8295635dc642",
+      "userId": "***",
+      "searchDate": "2026-03-13T18:58:59.282Z",
+      "networkCount": "372",
+      "reason": "Pa2026-13438",
+      "caseNumber": "Pa2026-13438"
+    },
+    {
+      "id": "79677b41-d04c-4734-adf3-f7403d8ce0af",
+      "userId": "***",
+      "searchDate": "2026-03-13T18:59:10.798Z",
+      "networkCount": "372",
+      "reason": "Pa2026-2570",
+      "caseNumber": "Pa2026-2570"
+    },
+    {
+      "id": "c1959c5e-4a16-4bfc-9d0d-396acc95a934",
+      "userId": "***",
+      "searchDate": "2026-03-13T19:04:45.346Z",
+      "networkCount": "372",
+      "reason": "Pa2026-2570",
+      "caseNumber": "Pa2026-2570"
+    },
+    {
+      "id": "1e354051-e1af-4a61-9e16-fbdf2a2b20c9",
+      "userId": "***",
+      "searchDate": "2026-03-13T19:55:01.180Z",
+      "networkCount": "1",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "576b2c89-c599-4755-b36c-106d7b16dc26",
+      "userId": "***",
+      "searchDate": "2026-03-13T20:00:01.401Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "2e5a01ea-d494-47a4-bfa7-51d0f692903e",
+      "userId": "***",
+      "searchDate": "2026-03-13T20:19:40.685Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "9903777"
+    },
+    {
+      "id": "be29ae0c-199b-47ae-bc20-ecd5196552e8",
+      "userId": "***",
+      "searchDate": "2026-03-13T21:14:46.747Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "5c563495-a22e-434f-8274-83503ef6e314",
+      "userId": "***",
+      "searchDate": "2026-03-13T23:08:10.325Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "d3d1f5e9-9b5f-4e83-8fef-916f0102f9d0",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:41:13.501Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "PA2026-20613"
+    },
+    {
+      "id": "f9ea2ca3-ecf1-4ffa-a3f1-ff2bf496aedc",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:45:29.453Z",
+      "networkCount": "398",
+      "reason": "Investigation",
+      "caseNumber": "PA2026-18380"
+    },
+    {
+      "id": "3a2e6ff4-66ed-494d-a890-924f13e0652a",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:50:47.859Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "8ecffb3a-95f6-4c1e-af0b-aa700b2a09dc",
+      "userId": "***",
+      "searchDate": "2026-03-14T00:57:19.701Z",
+      "networkCount": "1",
+      "reason": "hit and run",
+      "caseNumber": "26-19643"
+    },
+    {
+      "id": "0d86c930-c592-4c84-a07a-3961888a07a9",
+      "userId": "***",
+      "searchDate": "2026-03-14T01:00:17.926Z",
+      "networkCount": "398",
+      "reason": "hit and run",
+      "caseNumber": "26-19643"
+    },
+    {
+      "id": "9eabb294-3716-4eb3-a018-62fb76c79b35",
+      "userId": "***",
+      "searchDate": "2026-03-14T01:04:17.573Z",
+      "networkCount": "398",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-20613"
+    },
+    {
+      "id": "81f5cc44-780e-48db-8be3-03b8150c4139",
+      "userId": "***",
+      "searchDate": "2026-03-14T01:49:09.518Z",
+      "networkCount": "372",
+      "reason": "GTA",
+      "caseNumber": "PA2026-20619"
+    },
+    {
+      "id": "a204d213-697b-4777-bb0c-feec7dd645b0",
+      "userId": "***",
+      "searchDate": "2026-03-14T02:00:51.029Z",
+      "networkCount": "398",
+      "reason": "hit and run",
+      "caseNumber": "26-18380"
+    },
+    {
+      "id": "e6065066-c2fe-4472-98a2-b74a8ba30e1f",
+      "userId": "***",
+      "searchDate": "2026-03-14T02:34:55.256Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "PA26-20613"
+    },
+    {
+      "id": "d1a29b64-b2a5-4647-af18-ea353f8103f6",
+      "userId": "***",
+      "searchDate": "2026-03-14T03:47:39.522Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-20687"
+    },
+    {
+      "id": "73cbf3ab-8711-47a1-bcc2-02f264a9622c",
+      "userId": "***",
+      "searchDate": "2026-03-14T04:29:27.479Z",
+      "networkCount": "1",
+      "reason": "417",
+      "caseNumber": "PA2026-20697"
+    },
+    {
+      "id": "1d046a57-b05a-4f68-a0fe-6b0c5d5a6fea",
+      "userId": "***",
+      "searchDate": "2026-03-14T04:52:16.619Z",
+      "networkCount": "1",
+      "reason": "LOCATE SUSPECT VEHICLE",
+      "caseNumber": "2026-20697"
+    },
+    {
+      "id": "0a059643-d868-4e18-ab97-772b4675dcc9",
+      "userId": "***",
+      "searchDate": "2026-03-14T05:52:39.126Z",
+      "networkCount": "1",
+      "reason": "417",
+      "caseNumber": "PA2026-20697"
+    },
+    {
+      "id": "9c2ba1a3-1fe6-4b31-8f33-f7c96c8b5f9c",
+      "userId": "***",
+      "searchDate": "2026-03-14T17:50:47.758Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-20697"
+    },
+    {
+      "id": "acc085bb-d406-4fec-a1b9-805f9d6f78d6",
+      "userId": "***",
+      "searchDate": "2026-03-14T20:13:50.403Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-20864"
+    },
+    {
+      "id": "de5ac2a4-5a4c-4527-a617-70119af05936",
+      "userId": "***",
+      "searchDate": "2026-03-14T20:54:23.585Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "pa2026-20864"
+    },
+    {
+      "id": "5c8bd47a-1820-441b-b399-55ab6755afed",
+      "userId": "***",
+      "searchDate": "2026-03-14T22:13:29.678Z",
+      "networkCount": "1",
+      "reason": "Arson",
+      "caseNumber": "PA2026-20881"
+    },
+    {
+      "id": "d29d683f-72c9-4591-aa40-e57944888653",
+      "userId": "***",
+      "searchDate": "2026-03-14T22:32:41.954Z",
+      "networkCount": "398",
+      "reason": "GTA",
+      "caseNumber": "pa2026-20864"
+    },
+    {
+      "id": "3e786bb0-cde8-43ad-bd9d-ed0af65903d6",
+      "userId": "***",
+      "searchDate": "2026-03-14T22:54:56.559Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-20697"
+    },
+    {
+      "id": "5d070c47-c5c7-4ad7-ae0b-5b3b39a588ce",
+      "userId": "***",
+      "searchDate": "2026-03-14T23:10:21.189Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-20697"
+    },
+    {
+      "id": "d808fa0b-55c5-448b-aa9b-d9ac9464140e",
+      "userId": "***",
+      "searchDate": "2026-03-14T23:25:23.417Z",
+      "networkCount": "1",
+      "reason": "PA2026-20864",
+      "caseNumber": "PA2026-20864"
+    },
+    {
+      "id": "ed0d4b05-d7ef-43e0-b73e-3b853e9a2be0",
+      "userId": "***",
+      "searchDate": "2026-03-15T00:02:20.612Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "PA2026-20864"
+    },
+    {
+      "id": "acf1a6eb-2980-46fa-950b-7cbe116b5139",
+      "userId": "***",
+      "searchDate": "2026-03-15T01:38:26.280Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "99b08691-a487-4e6a-b42b-28a0cc49e36b",
+      "userId": "***",
+      "searchDate": "2026-03-15T02:02:52.487Z",
+      "networkCount": "1",
+      "reason": "417",
+      "caseNumber": "PA2026-20957"
+    },
+    {
+      "id": "464133d5-d0b6-495d-acb8-eec8e1dfd5d0",
+      "userId": "***",
+      "searchDate": "2026-03-15T02:16:18.629Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-20697"
+    },
+    {
+      "id": "0d268d3a-939a-48a8-b039-6724861b8200",
+      "userId": "***",
+      "searchDate": "2026-03-15T02:44:28.919Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "fd25d48f-2ebe-4489-b908-4040c1ab6dab",
+      "userId": "***",
+      "searchDate": "2026-03-15T02:50:47.719Z",
+      "networkCount": "1",
+      "reason": "PA2026-20613",
+      "caseNumber": "PA2026-20613"
+    },
+    {
+      "id": "1e3c55c8-9320-4bf0-92fb-3420f2bbacba",
+      "userId": "***",
+      "searchDate": "2026-03-15T03:10:52.387Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "c224be9e-5387-49be-a913-af2980f0b2a8",
+      "userId": "***",
+      "searchDate": "2026-03-15T03:17:02.933Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "9e272a23-eb38-48a7-b1d2-1a25be2931a7",
+      "userId": "***",
+      "searchDate": "2026-03-15T09:28:59.267Z",
+      "networkCount": "1",
+      "reason": "Call for service",
+      "caseNumber": "26-21047"
+    },
+    {
+      "id": "13be7983-d4c7-4619-86df-d121044835bf",
+      "userId": "***",
+      "searchDate": "2026-03-15T15:09:27.141Z",
+      "networkCount": "1",
+      "reason": "PC 273.5",
+      "caseNumber": "PA2026-20775"
+    },
+    {
+      "id": "de7f3ff1-5b2c-4974-894c-eb0f2a098a51",
+      "userId": "***",
+      "searchDate": "2026-03-15T18:36:46.142Z",
+      "networkCount": "1",
+      "reason": "PC 273.5",
+      "caseNumber": "PA2026-21112"
+    },
+    {
+      "id": "2bb7640f-f3ac-47a5-bede-2f09cb4b8597",
+      "userId": "***",
+      "searchDate": "2026-03-15T23:03:46.567Z",
+      "networkCount": "398",
+      "reason": "GTA Vehicle",
+      "caseNumber": "2026-21116"
+    },
+    {
+      "id": "c2093220-e4fd-4e6e-980f-ac752c936e12",
+      "userId": "***",
+      "searchDate": "2026-03-16T00:50:57.130Z",
+      "networkCount": "1",
+      "reason": "locate",
+      "caseNumber": "26-21182"
+    },
+    {
+      "id": "5157ab84-5b67-47f4-ba14-5be0dde4fb96",
+      "userId": "***",
+      "searchDate": "2026-03-16T01:00:17.268Z",
+      "networkCount": "1",
+      "reason": "locate",
+      "caseNumber": "26-21182"
+    },
+    {
+      "id": "e4f47d9c-fab9-4c12-b999-f6ea04db465a",
+      "userId": "***",
+      "searchDate": "2026-03-16T01:24:46.632Z",
+      "networkCount": "372",
+      "reason": "GTA",
+      "caseNumber": "PA2026-21197"
+    },
+    {
+      "id": "379db57d-7686-41e7-9b0a-8bf77993929d",
+      "userId": "***",
+      "searchDate": "2026-03-16T09:45:03.920Z",
+      "networkCount": "1",
+      "reason": "Suspect vehicle",
+      "caseNumber": "PA 2026-21198"
+    },
+    {
+      "id": "bb9775e2-ad88-4ead-9b6d-5d31110b2b50",
+      "userId": "***",
+      "searchDate": "2026-03-16T13:50:09.568Z",
+      "networkCount": "398",
+      "reason": "hit and run",
+      "caseNumber": "26-18380"
+    },
+    {
+      "id": "68752d46-c0bd-4e22-9f37-8a1fa1da6d5d",
+      "userId": "***",
+      "searchDate": "2026-03-16T14:16:27.067Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "fc86677d-41e8-40e9-ae68-5e9878e2fb9f",
+      "userId": "***",
+      "searchDate": "2026-03-16T20:13:57.659Z",
+      "networkCount": "398",
+      "reason": "wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "e7021e79-4b6e-4154-982f-1deea9b62456",
+      "userId": "***",
+      "searchDate": "2026-03-16T20:29:34.725Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "7917b114-8b9c-4d1b-82fd-030d94385948",
+      "userId": "***",
+      "searchDate": "2026-03-16T21:18:23.807Z",
+      "networkCount": "398",
+      "reason": "wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "47662273-874e-445c-9f51-5ee5c5bebb93",
+      "userId": "***",
+      "searchDate": "2026-03-16T22:49:48.918Z",
+      "networkCount": "398",
+      "reason": "GTA Vehicle",
+      "caseNumber": "2026-21116"
+    },
+    {
+      "id": "d6c3e843-1de5-488b-a161-606d45e5be81",
+      "userId": "***",
+      "searchDate": "2026-03-17T03:46:05.981Z",
+      "networkCount": "398",
+      "reason": "ps26-21499",
+      "caseNumber": "pa26-21499"
+    },
+    {
+      "id": "1d3f72ea-c0d6-4bd9-952c-588b71465984",
+      "userId": "***",
+      "searchDate": "2026-03-17T04:05:42.884Z",
+      "networkCount": "398",
+      "reason": "ps26-21499",
+      "caseNumber": "pa26-21499"
+    },
+    {
+      "id": "b9c07f10-0eb6-43fd-a549-4b3960728527",
+      "userId": "***",
+      "searchDate": "2026-03-17T04:05:51.000Z",
+      "networkCount": "398",
+      "reason": "pa26-21499",
+      "caseNumber": "pa26-21499"
+    },
+    {
+      "id": "4e0b7315-11fb-45a4-b9bb-61f8fec3dcbb",
+      "userId": "***",
+      "searchDate": "2026-03-17T14:29:07.494Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11933379"
+    },
+    {
+      "id": "e58eff87-58ca-4a41-ad52-7af7b6af4bed",
+      "userId": "***",
+      "searchDate": "2026-03-17T14:34:18.265Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "25-84377"
+    },
+    {
+      "id": "52727895-555a-4a97-8eeb-bae45d0cf4b5",
+      "userId": "***",
+      "searchDate": "2026-03-17T15:52:36.601Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-21420"
+    },
+    {
+      "id": "0d783008-42a7-41cd-9b62-2c07e4e05493",
+      "userId": "***",
+      "searchDate": "2026-03-17T16:56:23.830Z",
+      "networkCount": "398",
+      "reason": "Investigation",
+      "caseNumber": "26-15249"
+    },
+    {
+      "id": "693453ec-4a1e-49fd-b015-88fcd89c4c73",
+      "userId": "***",
+      "searchDate": "2026-03-17T17:20:24.181Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-21420"
+    },
+    {
+      "id": "9ec315d2-fe13-4068-9f54-9795b1e94187",
+      "userId": "***",
+      "searchDate": "2026-03-17T17:29:39.971Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11933379"
+    },
+    {
+      "id": "7752f2d6-745a-4a3d-b4d5-b9dfd275f3ac",
+      "userId": "***",
+      "searchDate": "2026-03-17T17:33:37.522Z",
+      "networkCount": "1",
+      "reason": "Vandalism",
+      "caseNumber": "PA2026-13094"
+    },
+    {
+      "id": "66422921-1e50-4dbf-b52b-ae1bcbde6f76",
+      "userId": "***",
+      "searchDate": "2026-03-17T18:03:23.624Z",
+      "networkCount": "1",
+      "reason": "FAU",
+      "caseNumber": "FAU"
+    },
+    {
+      "id": "0cbd730b-e476-41f3-a6d9-1c3e74ea19a3",
+      "userId": "***",
+      "searchDate": "2026-03-17T18:54:31.461Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "26-20142"
+    },
+    {
+      "id": "6ec71b73-945e-40da-972c-67b25180a22f",
+      "userId": "***",
+      "searchDate": "2026-03-17T20:31:01.983Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11933392"
+    },
+    {
+      "id": "34df374b-6573-4fa3-ac65-600f243c0284",
+      "userId": "***",
+      "searchDate": "2026-03-17T21:24:59.948Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11933392"
+    },
+    {
+      "id": "2ef4082e-57c7-4ac2-a741-5394e3131d77",
+      "userId": "***",
+      "searchDate": "2026-03-17T21:52:06.120Z",
+      "networkCount": "1",
+      "reason": "Grand theft auto investigation",
+      "caseNumber": "PA2026-21703"
+    },
+    {
+      "id": "dfd338c9-9a60-4945-b24a-943be7032fc8",
+      "userId": "***",
+      "searchDate": "2026-03-17T22:02:30.095Z",
+      "networkCount": "398",
+      "reason": "26-19496",
+      "caseNumber": "26-19496"
+    },
+    {
+      "id": "79029a84-ebf6-443b-bf8d-b5941f7e306c",
+      "userId": "***",
+      "searchDate": "2026-03-17T22:02:39.534Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "119933379"
+    },
+    {
+      "id": "09b65aa2-2ad0-4895-8f46-bf01968f635c",
+      "userId": "***",
+      "searchDate": "2026-03-18T02:14:24.310Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "7d535c76-8f70-4d81-b66a-c9bd18ff8e34",
+      "userId": "***",
+      "searchDate": "2026-03-18T03:25:55.752Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "3e9c9dd1-65ec-445f-a0e2-a2c2240bf32e",
+      "userId": "***",
+      "searchDate": "2026-03-18T04:00:20.748Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "PA2026-21841"
+    },
+    {
+      "id": "40b3be77-1230-4f98-8145-2e655ea3d368",
+      "userId": "***",
+      "searchDate": "2026-03-18T04:20:05.536Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "aa85d368-6a36-479f-8bd4-e5832dd28bc9",
+      "userId": "***",
+      "searchDate": "2026-03-18T05:55:53.558Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "119933379"
+    },
+    {
+      "id": "bae7dba5-fbde-4085-8bd3-c6156d30171c",
+      "userId": "***",
+      "searchDate": "2026-03-18T05:57:25.208Z",
+      "networkCount": "1",
+      "reason": "416",
+      "caseNumber": "PA2026-21862"
+    },
+    {
+      "id": "3ca370eb-11b6-4f76-80e9-90403af11aad",
+      "userId": "***",
+      "searchDate": "2026-03-18T06:11:53.795Z",
+      "networkCount": "1",
+      "reason": "416",
+      "caseNumber": "PA2026-21862"
+    },
+    {
+      "id": "fc74fbed-4153-4290-877e-60fabb5f3383",
+      "userId": "***",
+      "searchDate": "2026-03-18T06:15:17.108Z",
+      "networkCount": "1",
+      "reason": "cfs",
+      "caseNumber": "pa26-21862"
+    },
+    {
+      "id": "5ee32cfd-a082-4b69-a3d5-b1342b2e1df7",
+      "userId": "***",
+      "searchDate": "2026-03-18T08:01:48.000Z",
+      "networkCount": "1",
+      "reason": "2026-21875",
+      "caseNumber": "26-21875"
+    },
+    {
+      "id": "c6f27fdc-3e6a-4abd-b187-b6b931078993",
+      "userId": "***",
+      "searchDate": "2026-03-18T09:14:52.349Z",
+      "networkCount": "619",
+      "reason": "2026-21875",
+      "caseNumber": "26-21875"
+    },
+    {
+      "id": "aa2d1dd9-4fb5-4913-8b2f-96b54e14d533",
+      "userId": "***",
+      "searchDate": "2026-03-18T16:18:28.316Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "991133379"
+    },
+    {
+      "id": "f9b25f4b-c7d6-4e3c-a3e7-6b1ffbde4c90",
+      "userId": "***",
+      "searchDate": "2026-03-18T17:04:48.631Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-21844"
+    },
+    {
+      "id": "4e45a883-294a-4098-8519-67da74d3a88c",
+      "userId": "***",
+      "searchDate": "2026-03-18T18:51:38.765Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "119933379"
+    },
+    {
+      "id": "b769d1a2-b3f7-4ef2-ae9b-fadaee9a1c0e",
+      "userId": "***",
+      "searchDate": "2026-03-18T19:36:09.179Z",
+      "networkCount": "398",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "1a8fc7da-8307-4653-8538-078d0194a98c",
+      "userId": "***",
+      "searchDate": "2026-03-18T20:20:03.096Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "4034b13b-735f-466f-8231-fe6e402ff3dc",
+      "userId": "***",
+      "searchDate": "2026-03-18T21:02:38.881Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "60658779-201c-42d4-9044-e4af1ef89b04",
+      "userId": "***",
+      "searchDate": "2026-03-18T21:07:06.056Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "2026-20858"
+    },
+    {
+      "id": "9b44ee0e-596e-4f68-8bae-18455eb6c1d4",
+      "userId": "***",
+      "searchDate": "2026-03-18T22:32:13.571Z",
+      "networkCount": "1",
+      "reason": "Catalytic converter theft",
+      "caseNumber": "PA2026-16387"
+    },
+    {
+      "id": "6c55741a-f170-413d-be11-13e6d396e22f",
+      "userId": "***",
+      "searchDate": "2026-03-18T23:52:09.593Z",
+      "networkCount": "1",
+      "reason": "26-9295",
+      "caseNumber": "26-9525"
+    },
+    {
+      "id": "3b771ce9-1b97-4e0a-a54b-4bec1a78645d",
+      "userId": "***",
+      "searchDate": "2026-03-18T23:53:42.289Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "2187ec94-8eef-4402-af05-357cfc14845c",
+      "userId": "***",
+      "searchDate": "2026-03-19T00:02:18.078Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "5fde7372-efb1-4d23-943c-9e0c86a9f255",
+      "userId": "***",
+      "searchDate": "2026-03-19T01:12:17.251Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "119933379"
+    },
+    {
+      "id": "56c62b57-a1f4-41b7-95cc-8d38f0b2e88b",
+      "userId": "***",
+      "searchDate": "2026-03-19T01:27:00.341Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "eeeea6ed-d26a-4e89-8960-67d0f9c87218",
+      "userId": "***",
+      "searchDate": "2026-03-19T02:03:49.694Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "f3a12f5b-7c81-4062-9e71-48d6469f9810",
+      "userId": "***",
+      "searchDate": "2026-03-19T03:35:15.069Z",
+      "networkCount": "372",
+      "reason": "Pa2026-2570",
+      "caseNumber": "Pa2026-2570"
+    },
+    {
+      "id": "18a7af81-8f04-4dae-a477-75902014ec71",
+      "userId": "***",
+      "searchDate": "2026-03-19T04:48:26.757Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "ea412e11-44b4-47ee-b339-8cbfb4a7dbdc",
+      "userId": "***",
+      "searchDate": "2026-03-19T07:39:07.746Z",
+      "networkCount": "1",
+      "reason": "Reported GTA",
+      "caseNumber": "PA2026-22228"
+    },
+    {
+      "id": "a6ce5df4-fb5d-459a-9a4d-5741acde0f49",
+      "userId": "***",
+      "searchDate": "2026-03-19T10:29:41.339Z",
+      "networkCount": "1",
+      "reason": "pa2026-22242",
+      "caseNumber": "pa2026-22242"
+    },
+    {
+      "id": "3e1e03e5-690c-4d8f-b87f-07c400f6b51b",
+      "userId": "***",
+      "searchDate": "2026-03-19T11:47:35.022Z",
+      "networkCount": "1",
+      "reason": "26-21875",
+      "caseNumber": "26-21875"
+    },
+    {
+      "id": "8f0e4373-96cc-4fcf-9eac-77c96318f1e5",
+      "userId": "***",
+      "searchDate": "2026-03-19T12:43:05.727Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "b0a3f140-96b4-43ac-8fd3-845a9c6306fb",
+      "userId": "***",
+      "searchDate": "2026-03-19T16:02:58.706Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "7afbcefc-78d4-4734-9a9b-5f04b09996a8",
+      "userId": "***",
+      "searchDate": "2026-03-19T17:22:31.868Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "e0c1ff70-d563-44a8-8680-954bbba2a4ca",
+      "userId": "***",
+      "searchDate": "2026-03-19T17:43:20.244Z",
+      "networkCount": "372",
+      "reason": "26-9295",
+      "caseNumber": "26-9525"
+    },
+    {
+      "id": "7220d32f-8f40-489e-b995-1a1de9b1dd8f",
+      "userId": "***",
+      "searchDate": "2026-03-19T18:00:33.744Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "a1033bac-13d0-4f5c-9960-ff971f18b88f",
+      "userId": "***",
+      "searchDate": "2026-03-19T18:05:59.212Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "c9a729a3-77b1-4bfb-bfc0-e3c543ff7ab1",
+      "userId": "***",
+      "searchDate": "2026-03-19T18:05:59.704Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "cfe0ddb9-d6bf-48d1-a77a-9daa920a50c8",
+      "userId": "***",
+      "searchDate": "2026-03-19T18:07:08.031Z",
+      "networkCount": "372",
+      "reason": "26-9295",
+      "caseNumber": "26-9525"
+    },
+    {
+      "id": "1abc0de8-84fc-4ae5-83a2-0c9e4828f4a7",
+      "userId": "***",
+      "searchDate": "2026-03-19T18:11:58.712Z",
+      "networkCount": "398",
+      "reason": "2026-1832 HBPD Catalytic AOI",
+      "caseNumber": "2026-1832 HBPD Catalytic"
+    },
+    {
+      "id": "bf894083-e431-4eba-a2fd-c9093aa1c7b3",
+      "userId": "***",
+      "searchDate": "2026-03-19T18:36:38.736Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA2026-18380"
+    },
+    {
+      "id": "087b63ce-5911-41ae-b3df-0200e19a662a",
+      "userId": "***",
+      "searchDate": "2026-03-19T19:18:15.363Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "aa2dd290-b686-48c3-aa91-34ae71ab9265",
+      "userId": "***",
+      "searchDate": "2026-03-19T19:59:59.037Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "9148783e-e973-4387-b098-a20e2f08863b",
+      "userId": "***",
+      "searchDate": "2026-03-19T20:00:01.823Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "6a516b29-54d4-46ce-b771-de80f228f7f5",
+      "userId": "***",
+      "searchDate": "2026-03-19T20:10:25.737Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "ac21a965-36e4-49b3-a77f-4e31cb7f518f",
+      "userId": "***",
+      "searchDate": "2026-03-19T20:15:14.639Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "790cb9c0-c576-4b57-a6eb-a6f8f414a3c0",
+      "userId": "***",
+      "searchDate": "2026-03-19T20:50:23.716Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "2026-20858"
+    },
+    {
+      "id": "9511078a-749e-48fa-adaf-67e7bd4e3939",
+      "userId": "***",
+      "searchDate": "2026-03-19T21:01:23.149Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "49715315-b1af-4b12-8305-2622a663db7e",
+      "userId": "***",
+      "searchDate": "2026-03-19T21:02:10.574Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9526"
+    },
+    {
+      "id": "88fb6e76-8ff6-45e0-bab7-6b2941622dcf",
+      "userId": "***",
+      "searchDate": "2026-03-19T21:29:27.221Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "25-25963"
+    },
+    {
+      "id": "7faa3af8-1fe5-4568-a0da-4d6d61fe3be4",
+      "userId": "***",
+      "searchDate": "2026-03-19T22:00:04.197Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9526"
+    },
+    {
+      "id": "93289c1e-ecba-47d3-8ff8-c4028fafd3e4",
+      "userId": "***",
+      "searchDate": "2026-03-19T22:00:45.271Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "41cb4069-edad-46bf-a721-9171c469bda1",
+      "userId": "***",
+      "searchDate": "2026-03-19T22:24:54.082Z",
+      "networkCount": "1",
+      "reason": "pa2026-22374",
+      "caseNumber": "pa2026-22374"
+    },
+    {
+      "id": "fbcea386-e561-4691-b21c-a7b7826c5453",
+      "userId": "***",
+      "searchDate": "2026-03-19T22:31:36.010Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-21844"
+    },
+    {
+      "id": "0913f18f-7f7e-4f36-a459-7899ea277d65",
+      "userId": "***",
+      "searchDate": "2026-03-19T23:04:19.893Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9526"
+    },
+    {
+      "id": "8909793a-8c41-41b4-b561-f7677ced6456",
+      "userId": "***",
+      "searchDate": "2026-03-19T23:05:19.898Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA2026-22374"
+    },
+    {
+      "id": "0c90b26f-f3f1-4a14-abc1-e8d3bdc17ed9",
+      "userId": "***",
+      "searchDate": "2026-03-20T00:17:47.473Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "fd2a0eef-3cc5-476e-9862-99d0dee41f6d",
+      "userId": "***",
+      "searchDate": "2026-03-20T00:28:29.675Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "c2b93449-8bdc-4766-b909-3c115334c1cb",
+      "userId": "***",
+      "searchDate": "2026-03-20T00:48:18.817Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "764eb078-8ba9-493c-be39-2aa13a15bc5a",
+      "userId": "***",
+      "searchDate": "2026-03-20T01:04:46.503Z",
+      "networkCount": "372",
+      "reason": "26-9295",
+      "caseNumber": "26-9525"
+    },
+    {
+      "id": "f7d5dfc8-2729-4f6b-a3df-1cff688c8b4a",
+      "userId": "***",
+      "searchDate": "2026-03-20T01:47:25.988Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9526"
+    },
+    {
+      "id": "12da49d3-6a2c-44b3-881b-01a406841ff7",
+      "userId": "***",
+      "searchDate": "2026-03-20T03:11:56.730Z",
+      "networkCount": "372",
+      "reason": "26-9295",
+      "caseNumber": "26-9525"
+    },
+    {
+      "id": "5e3e1319-a7d9-4269-a95a-589e8a79e040",
+      "userId": "***",
+      "searchDate": "2026-03-20T03:14:20.662Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA2026-22374"
+    },
+    {
+      "id": "ccb0efd5-4c36-41a9-9fb2-c6d469937318",
+      "userId": "***",
+      "searchDate": "2026-03-20T06:35:33.698Z",
+      "networkCount": "1",
+      "reason": "417",
+      "caseNumber": "PA2026-22621"
+    },
+    {
+      "id": "eb579678-15d3-44d0-a1cc-71fc6c8fdae4",
+      "userId": "***",
+      "searchDate": "2026-03-20T08:39:19.080Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "PA2026-22604"
+    },
+    {
+      "id": "d8738764-46ce-4361-916c-88b6e771a9df",
+      "userId": "***",
+      "searchDate": "2026-03-20T10:28:53.123Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "PA2026-65550"
+    },
+    {
+      "id": "87ae080e-6f68-4c60-b78c-9a89d13b53e8",
+      "userId": "***",
+      "searchDate": "2026-03-20T17:04:19.661Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9526"
+    },
+    {
+      "id": "8309a819-beb4-4abc-83f8-4783a977e790",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:20:37.854Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "eb6dd731-5f5d-4766-a5d5-c63b39a1e090",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:23:20.707Z",
+      "networkCount": "372",
+      "reason": "Pa2026-2570",
+      "caseNumber": "Pa2026-2570"
+    },
+    {
+      "id": "5117fae5-a928-4cce-9c77-635ade3c7ed9",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:23:51.701Z",
+      "networkCount": "372",
+      "reason": "Pa2026-13438",
+      "caseNumber": "Pa2026-13438"
+    },
+    {
+      "id": "d2797022-4f53-44c4-a6f1-3d6b616c7697",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:28:49.013Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9526"
+    },
+    {
+      "id": "f293e4bb-e2a6-4a51-bd8c-63075594f9a0",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:44:25.662Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-15515"
+    },
+    {
+      "id": "7a9ad235-2d9e-43f6-8642-a0f51ff52cf1",
+      "userId": "***",
+      "searchDate": "2026-03-20T19:03:48.309Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9526"
+    },
+    {
+      "id": "d2b18df3-74e5-4d76-836a-93bee832de65",
+      "userId": "***",
+      "searchDate": "2026-03-20T19:36:31.535Z",
+      "networkCount": "372",
+      "reason": "26-9525",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "0be37ec4-f7cd-4085-87a0-c333338b6c7b",
+      "userId": "***",
+      "searchDate": "2026-03-20T19:37:38.001Z",
+      "networkCount": "398",
+      "reason": "target Veh",
+      "caseNumber": "26-101501"
+    },
+    {
+      "id": "d74b6fa0-0d13-41af-af4d-abdb445f6a88",
+      "userId": "***",
+      "searchDate": "2026-03-20T20:08:03.879Z",
+      "networkCount": "372",
+      "reason": "Narcotics",
+      "caseNumber": "26-9015"
+    },
+    {
+      "id": "007575b6-27d5-46b5-ba3f-c05dc6a9947c",
+      "userId": "***",
+      "searchDate": "2026-03-20T20:36:11.899Z",
+      "networkCount": "372",
+      "reason": "26-9525",
+      "caseNumber": "26-9525"
+    },
+    {
+      "id": "bf68f8de-814f-44df-8ca4-dafaf953a567",
+      "userId": "***",
+      "searchDate": "2026-03-20T21:10:00.825Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "PA26-9526"
+    },
+    {
+      "id": "fca8e4c2-0c45-4dee-bf7d-2137c8f8fc7d",
+      "userId": "***",
+      "searchDate": "2026-03-20T21:17:54.903Z",
+      "networkCount": "372",
+      "reason": "26-9525",
+      "caseNumber": "9525"
+    },
+    {
+      "id": "830afd1e-d20d-4673-9470-c5ba6d558a2b",
+      "userId": "***",
+      "searchDate": "2026-03-20T21:28:36.436Z",
+      "networkCount": "372",
+      "reason": "Narcotics",
+      "caseNumber": "26-9015"
+    },
+    {
+      "id": "4d04d06c-cc35-463d-a13a-70db01df5ea8",
+      "userId": "***",
+      "searchDate": "2026-03-20T22:13:48.304Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-15515"
+    },
+    {
+      "id": "d8fd37ff-6ac6-46a3-98aa-e26649d1970a",
+      "userId": "***",
+      "searchDate": "2026-03-20T22:29:30.280Z",
+      "networkCount": "1",
+      "reason": "Catalytic converter theft",
+      "caseNumber": "PA2026-16387"
+    },
+    {
+      "id": "cbceec1d-44f1-42c8-bf78-7a7416d206c8",
+      "userId": "***",
+      "searchDate": "2026-03-21T03:58:41.643Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA2026-22973"
+    },
+    {
+      "id": "49419deb-bedd-4fb5-9c8b-08992b7a3f76",
+      "userId": "***",
+      "searchDate": "2026-03-21T05:09:48.529Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "Pa26-23011"
+    },
+    {
+      "id": "c0197c4f-6f7f-4325-b42c-676c79a0be0f",
+      "userId": "***",
+      "searchDate": "2026-03-21T06:03:43.070Z",
+      "networkCount": "372",
+      "reason": "26-0030-07",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "151395e2-3cf7-4ea8-bc7a-273001fc404c",
+      "userId": "***",
+      "searchDate": "2026-03-21T22:05:04.588Z",
+      "networkCount": "1",
+      "reason": "PC 245",
+      "caseNumber": "Pa 2026-23211"
+    },
+    {
+      "id": "5e53cd16-ccf2-4e83-b06b-30c08f89f1a2",
+      "userId": "***",
+      "searchDate": "2026-03-21T22:12:47.936Z",
+      "networkCount": "1",
+      "reason": "PA2026-23222",
+      "caseNumber": "PA2026-23222"
+    },
+    {
+      "id": "efc11fd8-ed08-41fc-a649-9d38a0d13f37",
+      "userId": "***",
+      "searchDate": "2026-03-22T00:44:58.295Z",
+      "networkCount": "1",
+      "reason": "Possible stolen vehickle",
+      "caseNumber": "Pa 2026-23254"
+    },
+    {
+      "id": "17aca10a-3740-4343-a638-095e081a2130",
+      "userId": "***",
+      "searchDate": "2026-03-22T10:18:34.114Z",
+      "networkCount": "372",
+      "reason": "GTA",
+      "caseNumber": "PA2026-23421"
+    },
+    {
+      "id": "81fbde1a-2544-4ecc-b0bf-bbd991db3a03",
+      "userId": "***",
+      "searchDate": "2026-03-22T14:49:12.592Z",
+      "networkCount": "1",
+      "reason": "PC487",
+      "caseNumber": "PA2026-23433"
+    },
+    {
+      "id": "a2785091-c7a5-4da8-b8b2-2a2ffb2aa92b",
+      "userId": "***",
+      "searchDate": "2026-03-22T18:12:01.691Z",
+      "networkCount": "1",
+      "reason": "Gta",
+      "caseNumber": "22727f2"
+    },
+    {
+      "id": "e182a19a-325b-4680-b958-eaeded9fdca2",
+      "userId": "***",
+      "searchDate": "2026-03-22T19:09:51.333Z",
+      "networkCount": "372",
+      "reason": "Gta",
+      "caseNumber": "Pa2026-23480"
+    },
+    {
+      "id": "b7e3ff9b-fd93-4a2d-ac7f-8cd3ac65443f",
+      "userId": "***",
+      "searchDate": "2026-03-22T20:02:54.517Z",
+      "networkCount": "372",
+      "reason": "Gta",
+      "caseNumber": "Pa2026-23480"
+    },
+    {
+      "id": "1c7458f5-cd20-4ed8-b0df-53438fd05785",
+      "userId": "***",
+      "searchDate": "2026-03-22T22:27:22.174Z",
+      "networkCount": "372",
+      "reason": "Gta",
+      "caseNumber": "Pa2026-23480"
+    },
+    {
+      "id": "4ab8f5d8-036b-4396-a7a4-0dee81eb06b3",
+      "userId": "***",
+      "searchDate": "2026-03-23T00:00:12.079Z",
+      "networkCount": "1",
+      "reason": "Gta",
+      "caseNumber": "Pa2026-23480"
+    },
+    {
+      "id": "3c176bd7-2c57-4b23-a450-d175518d3ccb",
+      "userId": "***",
+      "searchDate": "2026-03-23T02:18:22.768Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "PA2025-"
+    },
+    {
+      "id": "7b1b555a-0110-4e82-aa36-23d5577f1208",
+      "userId": "***",
+      "searchDate": "2026-03-23T05:48:52.109Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "PA2026-23421"
+    },
+    {
+      "id": "d6163f33-6510-4b70-abdb-6b51446e742d",
+      "userId": "***",
+      "searchDate": "2026-03-23T16:36:29.323Z",
+      "networkCount": "372",
+      "reason": "Suspect vehicle",
+      "caseNumber": "PA2026-23700"
+    },
+    {
+      "id": "a42c2597-97ea-4f22-8dbc-806006b719d2",
+      "userId": "***",
+      "searchDate": "2026-03-23T17:07:25.136Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "23715"
+    },
+    {
+      "id": "41ea6eec-6d4c-482d-b96b-f0dd7fb464ee",
+      "userId": "***",
+      "searchDate": "2026-03-23T17:39:28.586Z",
+      "networkCount": "1",
+      "reason": "Arson",
+      "caseNumber": "26-20881"
+    },
+    {
+      "id": "1681c1dc-f77c-4273-a8ba-4f92a3528476",
+      "userId": "***",
+      "searchDate": "2026-03-23T19:02:46.945Z",
+      "networkCount": "1",
+      "reason": "ARSON",
+      "caseNumber": "26-20881"
+    },
+    {
+      "id": "04c19216-e132-4a99-aee9-ec46669c25e2",
+      "userId": "***",
+      "searchDate": "2026-03-23T21:24:22.272Z",
+      "networkCount": "1",
+      "reason": "Arson",
+      "caseNumber": "24-38307"
+    },
+    {
+      "id": "5d07515d-b8d2-4a06-8b47-ceb166be3d0c",
+      "userId": "***",
+      "searchDate": "2026-03-23T22:52:00.503Z",
+      "networkCount": "398",
+      "reason": "GTA Vehicle",
+      "caseNumber": "2026-23715"
+    },
+    {
+      "id": "63a93a38-ab95-4b53-afeb-1cde672c5587",
+      "userId": "***",
+      "searchDate": "2026-03-23T23:13:14.140Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA2026-23715"
+    },
+    {
+      "id": "f1805f0b-4fb1-459c-8405-529ab1a4ab6b",
+      "userId": "***",
+      "searchDate": "2026-03-23T23:37:45.596Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "23820"
+    },
+    {
+      "id": "4b865f1f-de52-4fef-9e87-5cb02b634bf2",
+      "userId": "***",
+      "searchDate": "2026-03-24T04:25:30.218Z",
+      "networkCount": "398",
+      "reason": "pa26-23820",
+      "caseNumber": "pa26-23820"
+    },
+    {
+      "id": "38e47ea1-b157-4b07-bf31-2f8707c01df0",
+      "userId": "***",
+      "searchDate": "2026-03-24T06:39:24.301Z",
+      "networkCount": "398",
+      "reason": "pa26-23911",
+      "caseNumber": "pa26-23922"
+    },
+    {
+      "id": "ae1a7f44-19c9-4836-9726-0ef13a0ca98b",
+      "userId": "***",
+      "searchDate": "2026-03-24T07:23:47.899Z",
+      "networkCount": "398",
+      "reason": "pa26-23911",
+      "caseNumber": "pa26-23922"
+    },
+    {
+      "id": "a10dffa8-db03-40ec-a6c7-e3ad83429bb3",
+      "userId": "***",
+      "searchDate": "2026-03-24T14:56:19.304Z",
+      "networkCount": "398",
+      "reason": "Investigtion",
+      "caseNumber": "pa26-9525"
+    },
+    {
+      "id": "a45c3b9e-a12c-4318-8499-4da2682cf00a",
+      "userId": "***",
+      "searchDate": "2026-03-24T19:00:39.532Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "23-24049"
+    },
+    {
+      "id": "ea318895-32ab-447f-bf51-0a1110d46ada",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:19:37.550Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "2026-21095"
+    },
+    {
+      "id": "445d904e-7b12-4290-9d57-8bbfe6fc8abd",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:59:02.495Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-00115510"
+    },
+    {
+      "id": "9d7bb97c-3922-4f61-b46e-bfea20bb84cf",
+      "userId": "***",
+      "searchDate": "2026-03-24T21:06:05.391Z",
+      "networkCount": "398",
+      "reason": "narco investgiation",
+      "caseNumber": "26-115510"
+    },
+    {
+      "id": "11359f65-72f4-4562-9936-48a72fbd8914",
+      "userId": "***",
+      "searchDate": "2026-03-24T21:13:54.106Z",
+      "networkCount": "1",
+      "reason": "arson",
+      "caseNumber": "26-20881"
+    },
+    {
+      "id": "c59f7d4d-2de9-46b1-8029-0973ec72b359",
+      "userId": "***",
+      "searchDate": "2026-03-24T22:47:53.380Z",
+      "networkCount": "1",
+      "reason": "suicidal",
+      "caseNumber": "26-24097"
+    },
+    {
+      "id": "ccd901df-7bf1-4c99-bbd1-05f7ffeb911d",
+      "userId": "***",
+      "searchDate": "2026-03-24T23:05:27.261Z",
+      "networkCount": "1",
+      "reason": "WEAPONS INVESTIGATION",
+      "caseNumber": "PA2026-9525"
+    },
+    {
+      "id": "05eefa57-80ca-4c19-97cf-d4ae7aa86c22",
+      "userId": "***",
+      "searchDate": "2026-03-25T09:34:38.064Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "PA 2026-24145"
+    },
+    {
+      "id": "b44ff7c1-85cf-40cd-a571-45fdfb8e7b88",
+      "userId": "***",
+      "searchDate": "2026-03-25T10:07:21.030Z",
+      "networkCount": "1",
+      "reason": "Hit and Run",
+      "caseNumber": "pa2026-21499"
+    },
+    {
+      "id": "3a800b62-7b02-40c4-9bab-a51e5e92b736",
+      "userId": "***",
+      "searchDate": "2026-03-25T17:19:50.581Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-21095"
+    },
+    {
+      "id": "8ddae354-60a2-49e5-8392-379850fc5bc2",
+      "userId": "***",
+      "searchDate": "2026-03-25T17:42:36.718Z",
+      "networkCount": "398",
+      "reason": "Follow up investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "44a0e6c0-1445-4d50-92fd-b65b525296fb",
+      "userId": "***",
+      "searchDate": "2026-03-25T18:01:29.409Z",
+      "networkCount": "398",
+      "reason": "Follow up investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "46d23b83-c277-4695-9440-db53db03c771",
+      "userId": "***",
+      "searchDate": "2026-03-25T18:41:45.297Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-0115510"
+    },
+    {
+      "id": "5930279a-8290-423c-a9e4-b8c84917668c",
+      "userId": "***",
+      "searchDate": "2026-03-25T18:49:18.122Z",
+      "networkCount": "372",
+      "reason": "Coke sales invest",
+      "caseNumber": "2584377"
+    },
+    {
+      "id": "485d7f72-3073-49cd-9321-97b0168cf00f",
+      "userId": "***",
+      "searchDate": "2026-03-25T21:28:54.764Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-0115510"
+    },
+    {
+      "id": "4d878bf7-543b-4492-b061-f046370beb81",
+      "userId": "***",
+      "searchDate": "2026-03-25T22:26:21.387Z",
+      "networkCount": "1",
+      "reason": "Arson",
+      "caseNumber": "26-20881"
+    },
+    {
+      "id": "8e6901b1-bb6e-405d-a695-3e7915181a62",
+      "userId": "***",
+      "searchDate": "2026-03-26T03:30:39.569Z",
+      "networkCount": "1",
+      "reason": "pa26-24779",
+      "caseNumber": "pa26-24479"
+    },
+    {
+      "id": "fd00b251-5620-4708-9d34-c50d98f95103",
+      "userId": "***",
+      "searchDate": "2026-03-26T03:50:29.283Z",
+      "networkCount": "1",
+      "reason": "Dui investigation",
+      "caseNumber": "PA26-24479"
+    },
+    {
+      "id": "6997d7cc-bc60-48cb-8b5b-916cc428de98",
+      "userId": "***",
+      "searchDate": "2026-03-26T15:43:33.267Z",
+      "networkCount": "398",
+      "reason": "PA2026-24568",
+      "caseNumber": "PA2026-24568"
+    },
+    {
+      "id": "886c600b-78f9-405c-9010-a37ab80ed525",
+      "userId": "***",
+      "searchDate": "2026-03-26T15:56:52.812Z",
+      "networkCount": "372",
+      "reason": "Narco",
+      "caseNumber": "25-25963"
+    },
+    {
+      "id": "b59a8629-9bb5-4f3c-9eaf-2a1e00fdd6ee",
+      "userId": "***",
+      "searchDate": "2026-03-26T16:08:56.324Z",
+      "networkCount": "1",
+      "reason": "gta",
+      "caseNumber": "23-24590"
+    },
+    {
+      "id": "0c9e872a-f1f7-4292-abe8-58e7323a2b41",
+      "userId": "***",
+      "searchDate": "2026-03-26T16:33:13.950Z",
+      "networkCount": "398",
+      "reason": "Pa2026-24597",
+      "caseNumber": "Pa2026-24597"
+    },
+    {
+      "id": "ad26e322-bd34-4d3f-b409-dad2383e6ac9",
+      "userId": "***",
+      "searchDate": "2026-03-26T16:41:41.809Z",
+      "networkCount": "372",
+      "reason": "Pa2026-13438",
+      "caseNumber": "Pa2026-13438"
+    },
+    {
+      "id": "4df94d69-3c9d-40de-84e1-59056466fc45",
+      "userId": "***",
+      "searchDate": "2026-03-26T17:42:14.503Z",
+      "networkCount": "398",
+      "reason": "PA2026-24597 CVC 20002",
+      "caseNumber": "PA2026-24597"
+    },
+    {
+      "id": "237e7012-052a-456f-a2e9-bf6987d51471",
+      "userId": "***",
+      "searchDate": "2026-03-26T17:54:17.966Z",
+      "networkCount": "372",
+      "reason": "Narco",
+      "caseNumber": "25-25963"
+    },
+    {
+      "id": "a2785475-13aa-40f3-9e55-2887dd30f60e",
+      "userId": "***",
+      "searchDate": "2026-03-26T18:12:16.804Z",
+      "networkCount": "398",
+      "reason": "Follow up investigation",
+      "caseNumber": "PA26-9525"
+    },
+    {
+      "id": "262f5469-7ff4-49be-bda1-c300ed12817a",
+      "userId": "***",
+      "searchDate": "2026-03-26T18:30:09.683Z",
+      "networkCount": "372",
+      "reason": "Narco",
+      "caseNumber": "25-25963"
+    },
+    {
+      "id": "44be9040-1405-4720-944d-30b8bdf91700",
+      "userId": "***",
+      "searchDate": "2026-03-26T22:00:51.670Z",
+      "networkCount": "372",
+      "reason": "2584377",
+      "caseNumber": "2584377"
+    },
+    {
+      "id": "1a216fe6-3250-42d6-b581-abe36e061b3c",
+      "userId": "***",
+      "searchDate": "2026-03-26T22:39:13.707Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-21844"
+    },
+    {
+      "id": "b4851a77-429c-4961-b13f-ffc879168f80",
+      "userId": "***",
+      "searchDate": "2026-03-26T22:46:23.727Z",
+      "networkCount": "372",
+      "reason": "Coke sales",
+      "caseNumber": "2584377"
+    },
+    {
+      "id": "d653b927-f5ce-4f01-9e2c-2a69fba505b2",
+      "userId": "***",
+      "searchDate": "2026-03-27T01:02:50.127Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-24760"
+    },
+    {
+      "id": "7ea2a1df-ba71-443e-aa0a-5fa8a3c80e9c",
+      "userId": "***",
+      "searchDate": "2026-03-27T01:07:58.426Z",
+      "networkCount": "372",
+      "reason": "GTA",
+      "caseNumber": "PA2026-24760"
+    },
+    {
+      "id": "1b0d7bda-71c0-4fc9-8747-9ac4a556bd58",
+      "userId": "***",
+      "searchDate": "2026-03-27T01:19:36.144Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "26-24760"
+    },
+    {
+      "id": "50b22ade-a307-40ac-b29e-20d4cbe91e88",
+      "userId": "***",
+      "searchDate": "2026-03-27T06:10:51.360Z",
+      "networkCount": "1",
+      "reason": "inv",
+      "caseNumber": "PA 2026-24760"
+    },
+    {
+      "id": "e10db0a3-93ee-4c1d-83d2-239a2e421359",
+      "userId": "***",
+      "searchDate": "2026-03-27T10:17:48.996Z",
+      "networkCount": "398",
+      "reason": "battery inv",
+      "caseNumber": "0a2026-24868"
+    },
+    {
+      "id": "513acba7-0c61-46a7-9fdd-56915ca35a10",
+      "userId": "***",
+      "searchDate": "2026-03-27T10:38:59.230Z",
+      "networkCount": "398",
+      "reason": "Vandalism",
+      "caseNumber": "PA2026-24868"
+    },
+    {
+      "id": "086eaa28-965d-4ca1-a7c8-9efce87f2619",
+      "userId": "***",
+      "searchDate": "2026-03-27T13:59:41.239Z",
+      "networkCount": "398",
+      "reason": "Catalytic Concerter Theft",
+      "caseNumber": "PA2026-24885"
+    },
+    {
+      "id": "be99e868-f6ab-46a4-839e-b306680abe14",
+      "userId": "***",
+      "searchDate": "2026-03-27T14:00:10.338Z",
+      "networkCount": "398",
+      "reason": "Catalytic Concerter Theft",
+      "caseNumber": "PA2026-24885"
+    },
+    {
+      "id": "d5049190-bfa8-4b0c-9b54-c3c9adbd3c1c",
+      "userId": "***",
+      "searchDate": "2026-03-27T14:11:44.036Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "b82f8f67-1081-4db4-a0fe-5c14aea30918",
+      "userId": "***",
+      "searchDate": "2026-03-27T16:51:36.739Z",
+      "networkCount": "372",
+      "reason": "Pa2026-13438",
+      "caseNumber": "Pa2026-13438"
+    },
+    {
+      "id": "9b32aa7c-368c-4719-b321-b394a5df7bf8",
+      "userId": "***",
+      "searchDate": "2026-03-27T16:51:59.804Z",
+      "networkCount": "372",
+      "reason": "Pa2026-2570",
+      "caseNumber": "Pa2026-2570"
+    },
+    {
+      "id": "c00fadb0-ae43-4ef0-b317-ce62664a7a4b",
+      "userId": "***",
+      "searchDate": "2026-03-27T16:59:51.540Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "f058ec70-b507-459a-b619-f8a405835b86",
+      "userId": "***",
+      "searchDate": "2026-03-27T17:14:58.135Z",
+      "networkCount": "1",
+      "reason": "Suspect vehicle",
+      "caseNumber": "Pa 2026-24935"
+    },
+    {
+      "id": "7d456a9b-f2bd-4d7e-8216-ea2a1587f4fb",
+      "userId": "***",
+      "searchDate": "2026-03-27T17:23:42.387Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "54a883a0-474a-4ed3-ae00-94e7ff016be2",
+      "userId": "***",
+      "searchDate": "2026-03-27T17:47:39.417Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "25-24935"
+    },
+    {
+      "id": "10d7b686-ea31-4cc0-be9a-fd8e474833f0",
+      "userId": "***",
+      "searchDate": "2026-03-27T18:23:21.183Z",
+      "networkCount": "372",
+      "reason": "Suspect vehicle",
+      "caseNumber": "Pa 2026-24935"
+    },
+    {
+      "id": "a9d22590-51cc-4b2b-a7e9-4f728f32fdfc",
+      "userId": "***",
+      "searchDate": "2026-03-27T18:32:04.640Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "26-24938"
+    },
+    {
+      "id": "017799ca-95d7-44a7-bf0d-150ed937f539",
+      "userId": "***",
+      "searchDate": "2026-03-27T20:25:55.147Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "51555144-8f18-484a-95c1-9965e4544e25",
+      "userId": "***",
+      "searchDate": "2026-03-27T20:30:16.021Z",
+      "networkCount": "398",
+      "reason": "Felony evading",
+      "caseNumber": "PA23-101759"
+    },
+    {
+      "id": "a6e1d9b9-fff4-4ba7-8690-8bc48a0bd521",
+      "userId": "***",
+      "searchDate": "2026-03-27T20:47:10.555Z",
+      "networkCount": "398",
+      "reason": "Pa2026-2000",
+      "caseNumber": "Pa2026-2000"
+    },
+    {
+      "id": "b22b7b01-79ac-4c37-a737-77263feacef3",
+      "userId": "***",
+      "searchDate": "2026-03-27T20:48:00.217Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "2025029563"
+    },
+    {
+      "id": "5a390b00-1f70-4d00-a8d5-bcd6b760aef3",
+      "userId": "***",
+      "searchDate": "2026-03-27T20:51:17.910Z",
+      "networkCount": "1",
+      "reason": "Pa2026",
+      "caseNumber": "Pa2026"
+    },
+    {
+      "id": "ee75d49f-cd48-48c2-b30d-c837a865ce13",
+      "userId": "***",
+      "searchDate": "2026-03-27T20:52:46.009Z",
+      "networkCount": "1",
+      "reason": "Evading",
+      "caseNumber": "Pa23-101759"
+    },
+    {
+      "id": "63c2dbc9-b20f-496f-8341-4752ecbdc76a",
+      "userId": "***",
+      "searchDate": "2026-03-27T20:56:32.209Z",
+      "networkCount": "1",
+      "reason": "suspect vehicle",
+      "caseNumber": "2026-25011"
+    },
+    {
+      "id": "a6acfd48-e188-43da-aebb-f8d7a17e9b43",
+      "userId": "***",
+      "searchDate": "2026-03-27T20:56:37.747Z",
+      "networkCount": "398",
+      "reason": "Pa2026-25011",
+      "caseNumber": "Pa2026-25011"
+    },
+    {
+      "id": "d3e6799c-7690-4412-814c-3f62d30378bd",
+      "userId": "***",
+      "searchDate": "2026-03-27T21:00:30.688Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "af9e42e8-93a9-4e79-8bde-f542bb8128d2",
+      "userId": "***",
+      "searchDate": "2026-03-27T21:12:04.108Z",
+      "networkCount": "1",
+      "reason": "211",
+      "caseNumber": "PA2026-25011"
+    },
+    {
+      "id": "5dfadfdd-e29f-4b57-95bb-40e9f29252dd",
+      "userId": "***",
+      "searchDate": "2026-03-27T21:12:19.196Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-25011"
+    },
+    {
+      "id": "78f6284b-dc6e-4aad-81b0-13f9341d4e2f",
+      "userId": "***",
+      "searchDate": "2026-03-27T21:18:37.625Z",
+      "networkCount": "398",
+      "reason": "PA2023-101759 CVC  2800.1",
+      "caseNumber": "PA2023-101759"
+    },
+    {
+      "id": "ffe73260-7623-4f8c-9bee-e5d4b8d0f87c",
+      "userId": "***",
+      "searchDate": "2026-03-27T21:19:32.725Z",
+      "networkCount": "372",
+      "reason": "Evading",
+      "caseNumber": "23-101759"
+    },
+    {
+      "id": "09c5eedd-adaa-478e-ae1a-ec8ee1ce57f2",
+      "userId": "***",
+      "searchDate": "2026-03-27T21:45:35.822Z",
+      "networkCount": "1",
+      "reason": "Suspect vehicle",
+      "caseNumber": "pa 2026-25011"
+    },
+    {
+      "id": "d0c4afdc-483f-4fb6-bf64-fb2052210d33",
+      "userId": "***",
+      "searchDate": "2026-03-27T22:01:03.622Z",
+      "networkCount": "1",
+      "reason": "Suspect vehicle",
+      "caseNumber": "pa 2026-25011"
+    },
+    {
+      "id": "c88a1d2d-5d64-47cd-aec5-41eabeaa3601",
+      "userId": "***",
+      "searchDate": "2026-03-27T22:02:22.336Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "cd42acfb-eba3-4eb8-a3be-1014e15592a0",
+      "userId": "***",
+      "searchDate": "2026-03-27T22:36:19.971Z",
+      "networkCount": "1",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-25011"
+    },
+    {
+      "id": "ef6fe184-2eee-45df-bd30-ef3d6a6998a3",
+      "userId": "***",
+      "searchDate": "2026-03-27T23:02:33.233Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "2ababb64-f819-4d00-b90e-378c326498c4",
+      "userId": "***",
+      "searchDate": "2026-03-27T23:04:39.551Z",
+      "networkCount": "398",
+      "reason": "Suspect vehicle",
+      "caseNumber": "pa 2026-25011"
+    },
+    {
+      "id": "bc6aee44-ba89-4a26-a4c2-84e2fa0f4416",
+      "userId": "***",
+      "searchDate": "2026-03-27T23:16:25.919Z",
+      "networkCount": "1",
+      "reason": "pursuit",
+      "caseNumber": "PA2023-101759"
+    },
+    {
+      "id": "835bc5e6-e150-4132-a845-f38e0c4d287f",
+      "userId": "***",
+      "searchDate": "2026-03-27T23:44:38.698Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-25011"
+    },
+    {
+      "id": "366a7f31-0d78-461b-ba56-497338ab5023",
+      "userId": "***",
+      "searchDate": "2026-03-28T00:21:14.695Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-25011"
+    },
+    {
+      "id": "2d7b934b-1fa5-437b-a854-b71223c639a2",
+      "userId": "***",
+      "searchDate": "2026-03-28T01:11:21.702Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "ec0c2621-fad4-4a81-890a-04410c128412",
+      "userId": "***",
+      "searchDate": "2026-03-28T03:57:54.316Z",
+      "networkCount": "398",
+      "reason": "PA2026-12201",
+      "caseNumber": "pa2026-12201"
+    },
+    {
+      "id": "1075aa6e-7eb5-4d6b-bef0-46c57c085ba8",
+      "userId": "***",
+      "searchDate": "2026-03-28T03:59:26.809Z",
+      "networkCount": "1",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-25011"
+    },
+    {
+      "id": "718421bc-7257-4e47-9576-83cdc4508fa5",
+      "userId": "***",
+      "searchDate": "2026-03-28T04:11:54.932Z",
+      "networkCount": "398",
+      "reason": "PA2026-12201",
+      "caseNumber": "pa2026-12201"
+    },
+    {
+      "id": "9d0be3b9-a6ff-4bd2-865d-4fcf7004f048",
+      "userId": "***",
+      "searchDate": "2026-03-28T04:30:03.414Z",
+      "networkCount": "1",
+      "reason": "Suspect vehicle",
+      "caseNumber": "Pa 2026-25011"
+    },
+    {
+      "id": "a5f52ba7-ef95-483e-9b6d-e5ea9f64c451",
+      "userId": "***",
+      "searchDate": "2026-03-28T08:38:05.335Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA26-25205"
+    },
+    {
+      "id": "901417a4-4629-4f92-91d9-92116b58ee88",
+      "userId": "***",
+      "searchDate": "2026-03-28T15:18:35.053Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "26-"
+    },
+    {
+      "id": "9453a81f-d631-480a-8b6c-37296f116e61",
+      "userId": "***",
+      "searchDate": "2026-03-28T15:36:16.289Z",
+      "networkCount": "372",
+      "reason": "Suspect vehicle",
+      "caseNumber": "PA2026-25249"
+    },
+    {
+      "id": "6d8413dd-10d9-411e-aef3-78edd92a12b0",
+      "userId": "***",
+      "searchDate": "2026-03-28T15:43:37.029Z",
+      "networkCount": "1",
+      "reason": "stolen veh",
+      "caseNumber": "26-25246"
+    },
+    {
+      "id": "79626de0-b1fa-4689-95a1-ea4b6ce1927e",
+      "userId": "***",
+      "searchDate": "2026-03-28T15:57:22.194Z",
+      "networkCount": "1",
+      "reason": "Stolen vehicle",
+      "caseNumber": "PA26-25249"
+    },
+    {
+      "id": "b721ee3b-90b9-4c38-9ada-b8fbaa50ae61",
+      "userId": "***",
+      "searchDate": "2026-03-28T18:33:14.172Z",
+      "networkCount": "372",
+      "reason": "GTA",
+      "caseNumber": "PA2026-25249"
+    },
+    {
+      "id": "747c4ffd-f55c-45d2-89fe-1ff229d9db36",
+      "userId": "***",
+      "searchDate": "2026-03-28T20:48:12.897Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA2026-800269"
+    },
+    {
+      "id": "6f4deb2f-1c1f-45d2-b35a-956833abbc8b",
+      "userId": "***",
+      "searchDate": "2026-03-28T23:38:47.433Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-25390"
+    },
+    {
+      "id": "d172678e-8bae-4087-8d78-d9fc07ca5201",
+      "userId": "***",
+      "searchDate": "2026-03-28T23:52:53.722Z",
+      "networkCount": "1",
+      "reason": "UNABLE TO LOCATE VEH",
+      "caseNumber": "26-25390"
+    },
+    {
+      "id": "5195a43a-d12b-44f5-ae60-caec8e2b9638",
+      "userId": "***",
+      "searchDate": "2026-03-29T01:12:33.478Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-25416"
+    },
+    {
+      "id": "4705f749-d29b-45e8-981b-11c4e8a9b858",
+      "userId": "***",
+      "searchDate": "2026-03-29T01:53:21.895Z",
+      "networkCount": "1",
+      "reason": "WELFARE CHECK",
+      "caseNumber": "26-25431"
+    },
+    {
+      "id": "93f1de74-2793-4384-ab3e-f80e694017d8",
+      "userId": "***",
+      "searchDate": "2026-03-29T02:15:04.248Z",
+      "networkCount": "1",
+      "reason": "Mental health",
+      "caseNumber": "Pa2026-25431"
+    },
+    {
+      "id": "d69c535f-2186-4706-ab62-d0c2e9910378",
+      "userId": "***",
+      "searchDate": "2026-03-29T07:26:40.323Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "Pa26-25499"
+    },
+    {
+      "id": "1e43b735-7ead-4fc4-9810-0214868761d6",
+      "userId": "***",
+      "searchDate": "2026-03-29T10:01:20.541Z",
+      "networkCount": "1",
+      "reason": "Suspect vehicle",
+      "caseNumber": "Pa 2026-25523"
+    },
+    {
+      "id": "623a53ea-f46b-43b8-8f25-7ef7266f162d",
+      "userId": "***",
+      "searchDate": "2026-03-29T11:28:52.423Z",
+      "networkCount": "372",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-25530"
+    },
+    {
+      "id": "80b48151-421a-41e5-a6d8-45aad92086be",
+      "userId": "***",
+      "searchDate": "2026-03-29T17:11:00.042Z",
+      "networkCount": "371",
+      "reason": "GTA",
+      "caseNumber": "PA2026-25565"
+    },
+    {
+      "id": "58f78731-820f-4afa-9cbd-f5e2fe67b69e",
+      "userId": "***",
+      "searchDate": "2026-03-29T22:34:28.886Z",
+      "networkCount": "1",
+      "reason": "PA2026-25565",
+      "caseNumber": "PA2026-25565"
+    },
+    {
+      "id": "eb2525d0-4ff9-4031-8d0e-ae97bf18fd3a",
+      "userId": "***",
+      "searchDate": "2026-03-29T22:49:26.561Z",
+      "networkCount": "398",
+      "reason": "supsect vehicle pc 459 and stolen plate",
+      "caseNumber": "2026-25206"
+    },
+    {
+      "id": "d5978467-4d51-4def-9409-062b2b4fc98f",
+      "userId": "***",
+      "searchDate": "2026-03-30T01:52:42.235Z",
+      "networkCount": "398",
+      "reason": "PC 470",
+      "caseNumber": "PA2026-25660"
+    },
+    {
+      "id": "9d78e98d-0848-4dd2-b8c6-64c0d6f6dcf6",
+      "userId": "***",
+      "searchDate": "2026-03-30T03:14:16.539Z",
+      "networkCount": "625",
+      "reason": "Investigative",
+      "caseNumber": "2026-25684"
+    },
+    {
+      "id": "1e1ed28c-9ad9-475e-af60-cdbce9d2a2eb",
+      "userId": "***",
+      "searchDate": "2026-03-30T06:12:13.988Z",
+      "networkCount": "1",
+      "reason": "PA2026-453",
+      "caseNumber": "Pa2026-453"
+    },
+    {
+      "id": "e16a8d49-5ff6-4642-826e-2bdcf3bf9c9a",
+      "userId": "***",
+      "searchDate": "2026-03-30T08:21:10.615Z",
+      "networkCount": "398",
+      "reason": "PA2026-453",
+      "caseNumber": "PA2025-453"
+    },
+    {
+      "id": "ba291be1-d009-4cc4-bc37-aa96dd1423c1",
+      "userId": "***",
+      "searchDate": "2026-03-30T09:15:28.708Z",
+      "networkCount": "1",
+      "reason": "PC 470",
+      "caseNumber": "PA2026-25660"
+    },
+    {
+      "id": "af193ec8-33cf-4277-b665-3c16fb3e3813",
+      "userId": "***",
+      "searchDate": "2026-03-30T13:19:51.509Z",
+      "networkCount": "1",
+      "reason": "Pc 422",
+      "caseNumber": "Pa2026-25771"
+    },
+    {
+      "id": "35bad8a7-eadd-4fb0-a1e8-331222c0b129",
+      "userId": "***",
+      "searchDate": "2026-03-30T14:03:54.804Z",
+      "networkCount": "1",
+      "reason": "Suspect of PC 422",
+      "caseNumber": "PA2026-25771"
+    },
+    {
+      "id": "1b561575-2323-4205-869d-6574aa243d8f",
+      "userId": "***",
+      "searchDate": "2026-03-30T14:06:21.954Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "cc5fe514-ed94-44ae-94a8-4cf6fd0950d6",
+      "userId": "***",
+      "searchDate": "2026-03-30T14:12:54.938Z",
+      "networkCount": "1",
+      "reason": "pc 422",
+      "caseNumber": "pa2026-25771"
+    },
+    {
+      "id": "aa75d48b-ba56-49cf-8d0a-e268f9e0821d",
+      "userId": "***",
+      "searchDate": "2026-03-30T17:54:37.112Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "914c57b3-0db7-4a78-8aaa-8b61a31e5e53",
+      "userId": "***",
+      "searchDate": "2026-03-30T17:55:35.532Z",
+      "networkCount": "1",
+      "reason": "pc 422",
+      "caseNumber": "pa2026-25771"
+    },
+    {
+      "id": "ff5bac6c-c7ac-43fa-ae89-7f00c37916d7",
+      "userId": "***",
+      "searchDate": "2026-03-30T17:59:31.892Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "26-25826"
+    },
+    {
+      "id": "7c98303a-115a-43c6-9b78-463a160df74d",
+      "userId": "***",
+      "searchDate": "2026-03-30T18:13:42.367Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11903142"
+    },
+    {
+      "id": "a16b8b9d-544d-4b73-ad64-3ab662392971",
+      "userId": "***",
+      "searchDate": "2026-03-31T03:48:30.730Z",
+      "networkCount": "398",
+      "reason": "PA2026-25920",
+      "caseNumber": "PA2026-25920"
+    },
+    {
+      "id": "79b25f91-7794-42c0-a4b7-fa7871c6a248",
+      "userId": "***",
+      "searchDate": "2026-03-31T04:08:18.864Z",
+      "networkCount": "1",
+      "reason": "PA2026-25920",
+      "caseNumber": "PA2026-25920"
+    },
+    {
+      "id": "c7c709b2-fa52-4011-b0a2-5cd612a03e68",
+      "userId": "***",
+      "searchDate": "2026-03-31T08:27:25.947Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "dd9580e0-e87d-4d66-99f2-b952bf3adc64",
+      "userId": "***",
+      "searchDate": "2026-03-31T15:21:58.576Z",
+      "networkCount": "398",
+      "reason": "Evading Case",
+      "caseNumber": "PA23-101759"
+    },
+    {
+      "id": "1bccbd71-4cff-4162-bc04-cae2330f97ea",
+      "userId": "***",
+      "searchDate": "2026-03-31T15:56:59.814Z",
+      "networkCount": "1",
+      "reason": "Investigation PA2026-25206",
+      "caseNumber": "PA2026-25206"
+    },
+    {
+      "id": "c0abb54a-6814-47e6-9347-d472999c953a",
+      "userId": "***",
+      "searchDate": "2026-03-31T16:11:11.626Z",
+      "networkCount": "398",
+      "reason": "Investigation PA2026-25206",
+      "caseNumber": "PA2026-25206"
+    },
+    {
+      "id": "75ccc115-2994-48ce-9b48-34b9b8631344",
+      "userId": "***",
+      "searchDate": "2026-03-31T17:47:04.415Z",
+      "networkCount": "398",
+      "reason": "warrant",
+      "caseNumber": "2026-13495"
+    },
+    {
+      "id": "2cbe13fd-5b43-4921-8a60-c5b1b7cefd1c",
+      "userId": "***",
+      "searchDate": "2026-03-31T22:35:57.625Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA2026-21499"
+    },
+    {
+      "id": "1551486e-e516-466b-bf8e-2bba6783685a",
+      "userId": "***",
+      "searchDate": "2026-03-31T23:14:21.447Z",
+      "networkCount": "398",
+      "reason": "26-9525",
+      "caseNumber": "26-9525"
+    },
+    {
+      "id": "c67bdcaa-f899-4ddb-9903-4daf80c2c129",
+      "userId": "***",
+      "searchDate": "2026-04-01T02:00:19.111Z",
+      "networkCount": "1",
+      "reason": "GTA",
+      "caseNumber": "PA2026-26283"
+    },
+    {
+      "id": "9eaea3cb-8db6-40fd-90a1-5546b4657313",
+      "userId": "***",
+      "searchDate": "2026-04-01T02:30:05.224Z",
+      "networkCount": "398",
+      "reason": "pa26-26283",
+      "caseNumber": "pa26-26283"
+    },
+    {
+      "id": "716e9736-dbef-4868-961e-6d686a807824",
+      "userId": "***",
+      "searchDate": "2026-04-01T03:19:22.941Z",
+      "networkCount": "398",
+      "reason": "pa26-26283",
+      "caseNumber": "pa26-26283"
+    },
+    {
+      "id": "b21021b0-34bb-4cee-a55d-48bed6a7717e",
+      "userId": "***",
+      "searchDate": "2026-04-01T03:28:37.724Z",
+      "networkCount": "1",
+      "reason": "PA2026-26283",
+      "caseNumber": "PA2026-26283"
+    },
+    {
+      "id": "c0c938b8-4cba-4126-a963-9991ce3f36b6",
+      "userId": "***",
+      "searchDate": "2026-04-01T16:28:45.212Z",
+      "networkCount": "627",
+      "reason": "Investigtion",
+      "caseNumber": "pa26-9525"
+    },
+    {
+      "id": "fc034502-f5ab-4ad6-a417-a4607ddb42a1",
+      "userId": "***",
+      "searchDate": "2026-04-01T16:44:41.146Z",
+      "networkCount": "372",
+      "reason": "Narco",
+      "caseNumber": "26-24759"
+    },
+    {
+      "id": "89e4616f-2799-4484-9a9e-c6682f8020aa",
+      "userId": "***",
+      "searchDate": "2026-04-01T17:36:34.533Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "5cd77820-a9a6-4804-b0b2-44c36ea76d45",
+      "userId": "***",
+      "searchDate": "2026-04-01T17:44:23.607Z",
+      "networkCount": "627",
+      "reason": "Investigtion",
+      "caseNumber": "pa26-9525"
+    },
+    {
+      "id": "b2832ec4-93c5-48da-b6d7-dcfef1d4a105",
+      "userId": "***",
+      "searchDate": "2026-04-01T18:14:26.337Z",
+      "networkCount": "372",
+      "reason": "Narcotics",
+      "caseNumber": "25-9915"
+    },
+    {
+      "id": "43113900-4abb-415c-9baf-481fcef130ec",
+      "userId": "***",
+      "searchDate": "2026-04-01T18:55:14.674Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-24769"
+    },
+    {
+      "id": "85fa9537-72ea-40fc-8719-0caf128f2283",
+      "userId": "***",
+      "searchDate": "2026-04-01T19:00:54.384Z",
+      "networkCount": "372",
+      "reason": "Narcotics",
+      "caseNumber": "25-9915"
+    },
+    {
+      "id": "3fef967f-05ce-4d17-bb42-541c8abc9a34",
+      "userId": "***",
+      "searchDate": "2026-04-01T19:11:40.752Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-24769"
+    },
+    {
+      "id": "64d7a8c0-d121-4547-a8d4-26c0ed74e42f",
+      "userId": "***",
+      "searchDate": "2026-04-01T20:00:38.298Z",
+      "networkCount": "372",
+      "reason": "Narcotics",
+      "caseNumber": "25-9915"
+    },
+    {
+      "id": "60889c08-aec7-4cea-a9f2-b1ef648929b4",
+      "userId": "***",
+      "searchDate": "2026-04-01T22:24:29.369Z",
+      "networkCount": "372",
+      "reason": "Narcotics",
+      "caseNumber": "26-00915"
+    },
+    {
+      "id": "06ac1bf2-c7b2-436f-884a-237a1fb9ef42",
+      "userId": "***",
+      "searchDate": "2026-04-01T23:14:21.444Z",
+      "networkCount": "372",
+      "reason": "Narcotics",
+      "caseNumber": "26-00915"
+    },
+    {
+      "id": "9916b29a-aa74-4175-ae5c-543045aa71aa",
+      "userId": "***",
+      "searchDate": "2026-04-01T23:15:38.649Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-24769"
+    },
+    {
+      "id": "425acd8f-8dcc-48e6-804f-054b330a5780",
+      "userId": "***",
+      "searchDate": "2026-04-02T00:31:09.133Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-24769"
+    },
+    {
+      "id": "ec30e2c2-0303-47e2-a2b6-f232ca5d4f42",
+      "userId": "***",
+      "searchDate": "2026-04-02T00:32:56.779Z",
+      "networkCount": "1",
+      "reason": "Narcotics",
+      "caseNumber": "26-00914"
+    },
+    {
+      "id": "c36ccd8a-6184-4664-9eae-87617d9c546d",
+      "userId": "***",
+      "searchDate": "2026-04-02T05:50:09.490Z",
+      "networkCount": "1",
+      "reason": "Reported GTA",
+      "caseNumber": "Pa2026-26606"
+    },
+    {
+      "id": "07858618-433e-4324-bb88-27ede44172f3",
+      "userId": "***",
+      "searchDate": "2026-04-02T06:04:30.775Z",
+      "networkCount": "398",
+      "reason": "Stolen  vehicle",
+      "caseNumber": "Pa2026-26606"
+    },
+    {
+      "id": "5efed538-df04-4716-9094-c91d3119d747",
+      "userId": "***",
+      "searchDate": "2026-04-02T06:05:07.185Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "85b0dc2a-c256-4b49-b48e-d8e63a07b599",
+      "userId": "***",
+      "searchDate": "2026-04-02T08:41:30.619Z",
+      "networkCount": "372",
+      "reason": "Pa2026-9525",
+      "caseNumber": "Pa2026-9525"
+    },
+    {
+      "id": "7de92e04-8962-41d4-adf7-a847567e7032",
+      "userId": "***",
+      "searchDate": "2026-04-02T08:48:27.969Z",
+      "networkCount": "1",
+      "reason": "Suspect",
+      "caseNumber": "Pa26-8194"
+    },
+    {
+      "id": "f74cc0d3-995f-42c2-8582-c98863fa58c5",
+      "userId": "***",
+      "searchDate": "2026-04-02T10:19:29.806Z",
+      "networkCount": "372",
+      "reason": "Narcotics",
+      "caseNumber": "26-00915"
+    },
+    {
+      "id": "4f45abce-fc3f-4647-bff5-b7c1b27a0ed5",
+      "userId": "***",
+      "searchDate": "2026-04-02T11:46:02.274Z",
+      "networkCount": "372",
+      "reason": "Investigation",
+      "caseNumber": "26-26563"
+    },
+    {
+      "id": "9d8a9016-8df2-4a94-9c50-56efd2376ff0",
+      "userId": "***",
+      "searchDate": "2026-04-02T13:55:40.460Z",
+      "networkCount": "372",
+      "reason": "Wanted",
+      "caseNumber": "11936115"
+    },
+    {
+      "id": "19a5c313-8c65-4c8a-9c7e-d1d5e6f9078f",
+      "userId": "***",
+      "searchDate": "2026-04-02T19:09:47.096Z",
+      "networkCount": "1",
+      "reason": "Grand theft auto investigation",
+      "caseNumber": "PA2026-26739"
+    },
+    {
+      "id": "dff2dd93-faf9-40ba-bf26-c74018c065c5",
+      "userId": "***",
+      "searchDate": "2026-04-02T20:19:43.461Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "pA26-26795"
+    },
+    {
+      "id": "b42cc09b-f889-4763-a3f3-95c9d3c6d400",
+      "userId": "***",
+      "searchDate": "2026-04-02T20:51:07.753Z",
+      "networkCount": "372",
+      "reason": "suspect investigation  PA202626539",
+      "caseNumber": "PA202626539"
+    },
+    {
+      "id": "dc74bbe7-9e57-4296-8a26-1872111f433e",
+      "userId": "***",
+      "searchDate": "2026-04-02T21:09:09.614Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-17968"
+    },
+    {
+      "id": "4701e2a8-2516-4721-b3b1-0714beef81ff",
+      "userId": "***",
+      "searchDate": "2026-04-02T22:01:58.149Z",
+      "networkCount": "1",
+      "reason": "Hit run",
+      "caseNumber": "26-26827"
+    },
+    {
+      "id": "2a1f0c43-40a8-42a4-b34f-a8a5b56fb8df",
+      "userId": "***",
+      "searchDate": "2026-04-02T23:24:00.155Z",
+      "networkCount": "372",
+      "reason": "Pa2026-2570",
+      "caseNumber": "Pa2026-2570"
+    },
+    {
+      "id": "5b313fe0-8dd7-431f-972f-06de18019a3f",
+      "userId": "***",
+      "searchDate": "2026-04-03T03:26:28.250Z",
+      "networkCount": "398",
+      "reason": "wanted",
+      "caseNumber": "01-wr-2026-902651"
+    },
+    {
+      "id": "fdbbd039-fc1c-4900-bf47-dbc4f6f339f5",
+      "userId": "***",
+      "searchDate": "2026-04-03T21:37:27.206Z",
+      "networkCount": "1",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-25011"
+    },
+    {
+      "id": "3412465f-0571-4b0e-bd49-109ae1b1e213",
+      "userId": "***",
+      "searchDate": "2026-04-03T22:10:37.357Z",
+      "networkCount": "1",
+      "reason": "Wanted",
+      "caseNumber": "26-27147"
+    },
+    {
+      "id": "8f190264-e45d-46ea-8fdd-d54fdd1e1eb1",
+      "userId": "***",
+      "searchDate": "2026-04-03T22:11:17.317Z",
+      "networkCount": "1",
+      "reason": "Locate suspect vehicle",
+      "caseNumber": "2026-27147"
+    },
+    {
+      "id": "fcea1f12-3740-4033-ab99-0135c4c98893",
+      "userId": "***",
+      "searchDate": "2026-04-03T22:15:42.985Z",
+      "networkCount": "1",
+      "reason": "26-27147",
+      "caseNumber": "26-27147"
+    },
+    {
+      "id": "cc513b7f-0e70-4ab9-9fe0-0a742c8fac94",
+      "userId": "***",
+      "searchDate": "2026-04-03T22:18:51.035Z",
+      "networkCount": "1",
+      "reason": "LOCATE SUSPECT VEHICLE",
+      "caseNumber": "2026-27147"
+    },
+    {
+      "id": "648dafc5-90bc-4bb8-84d4-823f802ef2fb",
+      "userId": "***",
+      "searchDate": "2026-04-03T22:26:46.770Z",
+      "networkCount": "1",
+      "reason": "PA2026-27147",
+      "caseNumber": "PA2026-27147"
+    },
+    {
+      "id": "6edf1b31-46df-427e-a5ff-43f89b0755d3",
+      "userId": "***",
+      "searchDate": "2026-04-03T22:28:42.312Z",
+      "networkCount": "1",
+      "reason": "burglary",
+      "caseNumber": "PA2026-27147"
+    },
+    {
+      "id": "41bb4470-4f4c-44ac-bc69-6070156753e9",
+      "userId": "***",
+      "searchDate": "2026-04-03T22:36:42.169Z",
+      "networkCount": "1",
+      "reason": "211",
+      "caseNumber": "26-27147"
+    },
+    {
+      "id": "d63d4c87-9eb8-49a5-9028-d53e9201f340",
+      "userId": "***",
+      "searchDate": "2026-04-04T01:38:53.567Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "PA2026-60002"
+    },
+    {
+      "id": "cdbb4956-24c4-4cc7-abbe-0bce34ff1be3",
+      "userId": "***",
+      "searchDate": "2026-04-04T02:13:20.895Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "pa26-27147"
+    },
+    {
+      "id": "11e1955b-44ca-4388-a36b-be95bd5b62bc",
+      "userId": "***",
+      "searchDate": "2026-04-04T04:16:04.274Z",
+      "networkCount": "372",
+      "reason": "investigation",
+      "caseNumber": "Pa26-23011"
+    },
+    {
+      "id": "27f23cc1-f775-4fa1-a0d9-b3120e6de49c",
+      "userId": "***",
+      "searchDate": "2026-04-04T07:53:13.555Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "Pa26-27354"
+    },
+    {
+      "id": "c97ed126-f4e1-4554-8ee3-dd5856f52fd1",
+      "userId": "***",
+      "searchDate": "2026-04-04T08:00:50.598Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "Pa26-27354"
+    },
+    {
+      "id": "87deaae7-1539-4751-ae42-5ed07546a39f",
+      "userId": "***",
+      "searchDate": "2026-04-04T09:36:06.443Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "27381"
+    },
+    {
+      "id": "9966a5e0-02db-42c7-ac3e-1913dc19d314",
+      "userId": "***",
+      "searchDate": "2026-04-04T18:33:30.250Z",
+      "networkCount": "1",
+      "reason": "hit and run",
+      "caseNumber": "pa26-27455"
+    },
+    {
+      "id": "89fa15a6-93bc-4e8e-860e-ed42a3b354a0",
+      "userId": "***",
+      "searchDate": "2026-04-04T20:45:17.182Z",
+      "networkCount": "372",
+      "reason": "Gta",
+      "caseNumber": "PA2026-27487"
+    },
+    {
+      "id": "91475443-05fb-4208-aa22-36af7642e766",
+      "userId": "***",
+      "searchDate": "2026-04-05T06:20:39.860Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "Pa26-23011"
+    },
+    {
+      "id": "f68d6c32-b64b-4a99-ae8d-a48cacf9b929",
+      "userId": "***",
+      "searchDate": "2026-04-05T06:45:31.173Z",
+      "networkCount": "1",
+      "reason": "Inv.",
+      "caseNumber": "26-27613"
+    },
+    {
+      "id": "eb7b6cca-e2b2-4693-8a6d-34713ad4ea0e",
+      "userId": "***",
+      "searchDate": "2026-04-05T20:15:23.756Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "pa26-27714"
+    },
+    {
+      "id": "0e1c276c-387b-42c1-b0c5-f77ea6e98e10",
+      "userId": "***",
+      "searchDate": "2026-04-05T22:18:46.766Z",
+      "networkCount": "1",
+      "reason": "Pa2026-27788",
+      "caseNumber": "Pa2026-27788"
+    },
+    {
+      "id": "472a5b37-626b-4f68-a9bb-64f7c4d5f1e3",
+      "userId": "***",
+      "searchDate": "2026-04-05T22:23:34.505Z",
+      "networkCount": "1",
+      "reason": "investigation",
+      "caseNumber": "pa2026-27714"
+    },
+    {
+      "id": "6b926147-ad0d-4f2f-a62d-aef893310082",
+      "userId": "***",
+      "searchDate": "2026-04-05T22:42:33.444Z",
+      "networkCount": "398",
+      "reason": "Possible GTA",
+      "caseNumber": "PA2026-27788"
+    },
+    {
+      "id": "ad4b5368-67fa-4eb7-a6cf-090252dc3a3d",
+      "userId": "***",
+      "searchDate": "2026-04-05T23:15:48.736Z",
+      "networkCount": "398",
+      "reason": "Possible GTA",
+      "caseNumber": "PA2026-27788"
+    },
+    {
+      "id": "2d9d9117-213d-483b-81a6-2f349c0777c7",
+      "userId": "***",
+      "searchDate": "2026-04-05T23:27:49.427Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "Pa26-27354"
+    },
+    {
+      "id": "f4fb46b1-823c-4958-8dc6-ac6261b933aa",
+      "userId": "***",
+      "searchDate": "2026-04-06T01:01:40.151Z",
+      "networkCount": "1",
+      "reason": "pa2026-27788",
+      "caseNumber": "pa2026-27788"
+    },
+    {
+      "id": "c07e592a-c6ea-4dd7-bac6-f791204bd86f",
+      "userId": "***",
+      "searchDate": "2026-04-06T04:36:56.159Z",
+      "networkCount": "1",
+      "reason": "suspect veh",
+      "caseNumber": "26-27147"
+    },
+    {
+      "id": "827ed979-9a4b-400f-86da-7b1c9f6df2bd",
+      "userId": "***",
+      "searchDate": "2026-04-06T05:19:29.086Z",
+      "networkCount": "1",
+      "reason": "suspect veh",
+      "caseNumber": "26-27147"
+    },
+    {
+      "id": "39b8f11a-eb80-436b-948a-2aef0e86ef6a",
+      "userId": "***",
+      "searchDate": "2026-04-06T13:49:19.842Z",
+      "networkCount": "372",
+      "reason": "Felony Vehicle for DV",
+      "caseNumber": "PA2026-27945"
+    },
+    {
+      "id": "4bbf9942-3ef7-478b-a52a-9d27906b6983",
+      "userId": "***",
+      "searchDate": "2026-04-06T15:52:55.740Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-27147"
+    },
+    {
+      "id": "648849f1-7f8a-479e-9232-862fd5bd9db7",
+      "userId": "***",
+      "searchDate": "2026-04-06T17:00:45.328Z",
+      "networkCount": "1",
+      "reason": "Arson",
+      "caseNumber": "26-20881"
+    },
+    {
+      "id": "b1883010-9e67-470d-bc0c-b4d1be23c052",
+      "userId": "***",
+      "searchDate": "2026-04-06T17:13:33.735Z",
+      "networkCount": "398",
+      "reason": "investigation",
+      "caseNumber": "26-25920"
+    },
+    {
+      "id": "21ad0541-b86d-48d7-9f68-af820aea7103",
+      "userId": "***",
+      "searchDate": "2026-04-06T18:37:02.834Z",
+      "networkCount": "372",
+      "reason": "Inv.",
+      "caseNumber": "11944248"
+    },
+    {
+      "id": "687fb63d-2e0e-419c-a2f7-500b4eceb50b",
+      "userId": "***",
+      "searchDate": "2026-04-06T19:00:11.717Z",
+      "networkCount": "372",
+      "reason": "Inv.",
+      "caseNumber": "11944248"
+    },
+    {
+      "id": "605f0af3-73a3-4f5b-88eb-1479c5dfb814",
+      "userId": "***",
+      "searchDate": "2026-04-06T20:03:37.036Z",
+      "networkCount": "372",
+      "reason": "Inv.",
+      "caseNumber": "11944248"
+    },
+    {
+      "id": "81118cb1-b451-4289-9f9b-fb2b42f7a7f9",
+      "userId": "***",
+      "searchDate": "2026-04-06T20:19:47.150Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-27147"
+    },
+    {
+      "id": "a2d95fae-20f7-463a-a345-a50b9895639c",
+      "userId": "***",
+      "searchDate": "2026-04-06T21:00:12.756Z",
+      "networkCount": "372",
+      "reason": "Inv.",
+      "caseNumber": "11944248"
+    },
+    {
+      "id": "5e236b06-dfbc-4da0-abec-6c5f72f040c0",
+      "userId": "***",
+      "searchDate": "2026-04-06T21:10:00.411Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-27147"
+    },
+    {
+      "id": "1c40a533-c9b5-404a-be0c-f3eaee831000",
+      "userId": "***",
+      "searchDate": "2026-04-06T21:41:24.364Z",
+      "networkCount": "372",
+      "reason": "Theft",
+      "caseNumber": "Pa2026-28060"
+    },
+    {
+      "id": "e08dd712-9122-44e2-81c5-b2f17b3d8546",
+      "userId": "***",
+      "searchDate": "2026-04-06T22:04:54.989Z",
+      "networkCount": "372",
+      "reason": "Inv.",
+      "caseNumber": "11944248"
+    },
+    {
+      "id": "71259ae0-1ee0-4082-9285-b390e6a60b06",
+      "userId": "***",
+      "searchDate": "2026-04-06T22:41:15.095Z",
+      "networkCount": "372",
+      "reason": "Stolen license plate",
+      "caseNumber": "PA2026-28060"
+    },
+    {
+      "id": "91235f9b-14fa-4ed9-8c08-437160b25dcb",
+      "userId": "***",
+      "searchDate": "2026-04-06T22:53:22.234Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-27147"
+    },
+    {
+      "id": "11514376-37cd-4ed4-9db3-f595154e3bc3",
+      "userId": "***",
+      "searchDate": "2026-04-06T23:00:27.206Z",
+      "networkCount": "372",
+      "reason": "Inv.",
+      "caseNumber": "11944248"
+    },
+    {
+      "id": "1afc0202-771a-4301-b239-16030ff7d526",
+      "userId": "***",
+      "searchDate": "2026-04-06T23:01:41.202Z",
+      "networkCount": "1",
+      "reason": "PC 211",
+      "caseNumber": "PA2026-27147"
+    }
+  ]
 }

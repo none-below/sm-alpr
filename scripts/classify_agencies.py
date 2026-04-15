@@ -38,8 +38,9 @@ def main():
         print("Error: agency registry not found. Run build_agency_registry.py first.", file=sys.stderr)
         sys.exit(1)
 
-    # Collect sharing info — who shares with whom
-    org_sources = {}
+    # Collect sharing info — who shares with whom (resolve names to agency_ids)
+    from lib import resolve_agency
+    org_sources = {}  # agency_id -> set of source agency_ids
     for slug_dir in sorted(DEFAULT_DATA_DIR.iterdir()):
         if not slug_dir.is_dir() or slug_dir.name.startswith("."):
             continue
@@ -47,27 +48,31 @@ def main():
         if not jsons:
             continue
         data = json.loads(jsons[-1].read_text())
-        source_slug = slug_dir.name
-        for org_slug in data.get("shared_org_slugs", []):
-            org_sources.setdefault(org_slug, set()).add(source_slug)
-
-    # Build lookup
-    reg_by_slug = {e["slug"]: e for e in registry}
+        source_entry = resolve_agency(slug=slug_dir.name)
+        if not source_entry:
+            continue
+        source_id = source_entry["agency_id"]
+        # Support both old and new field names
+        outbound_names = data.get("sharing_outbound") or data.get("shared_org_names", [])
+        for name in outbound_names:
+            target = resolve_agency(name=name)
+            if target:
+                org_sources.setdefault(target["agency_id"], set()).add(source_id)
 
     # Classify from registry
     classifications = []
     for e in registry:
-        slug = e["slug"]
+        aid = e["agency_id"]
         c = {
-            "slug": slug,
-            "name": agency_display_name(e, slug),
+            "agency_id": aid,
+            "name": agency_display_name(e),
             "tags": e.get("tags", []),
             "state": e.get("state"),
             "agency_type": e.get("agency_type"),
             "agency_role": e.get("agency_role"),
             "flags": [],
-            "shared_by_count": len(org_sources.get(slug, set())),
-            "shared_by": sorted(org_sources.get(slug, set())),
+            "shared_by_count": len(org_sources.get(aid, set())),
+            "shared_by": sorted(org_sources.get(aid, set())),
         }
 
         if e.get("state") and e["state"] != "CA":
