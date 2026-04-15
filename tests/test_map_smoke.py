@@ -78,9 +78,9 @@ class TestMapData:
         ncric = self.data["agencyInfo"].get("ncric", {})
         assert ncric.get("crawled") is True
 
-    def test_indirect_violations_computed(self):
-        assert "indirectViolations" in self.data
-        assert len(self.data["indirectViolations"]) > 50
+    def test_indirect_flags_computed(self):
+        assert "indirectFlags" in self.data
+        assert len(self.data["indirectFlags"]) > 50
 
     def test_no_garbled_entries(self):
         """No ncmec-amber-alert parser artifacts."""
@@ -263,8 +263,8 @@ class TestHTML:
     def test_has_info_panel(self):
         assert 'id="info"' in self.html
 
-    def test_has_violation_banner(self):
-        assert 'id="violation-banner"' in self.html
+    def test_has_flag_banner(self):
+        assert 'id="flag-banner"' in self.html
 
     def test_has_search_box(self):
         assert 'id="search-input"' in self.html
@@ -304,7 +304,7 @@ def _boxes_overlap(a, b):
 # Add new elements here as they're created.
 _UI_ELEMENTS = [
     "#search-box",
-    "#violation-banner",
+    "#flag-banner",
     ".info-panel",
     ".legend",
     ".back-link",
@@ -408,7 +408,7 @@ class TestLayout:
             )
 
         # -- All elements visible and in viewport --
-        hidden_by_default = {"#violation-banner"}
+        hidden_by_default = {"#flag-banner"}
         for sel in _UI_ELEMENTS:
             el = page.query_selector(sel)
             if not el:
@@ -435,8 +435,8 @@ class TestLayout:
         page.close()
 
     @pytest.mark.parametrize("vp", VIEWPORTS, ids=lambda v: v["name"])
-    def test_violation_banner_after_click(self, browser, vp):
-        """After selecting an agency with violations, banner should not overlap search and be fully visible."""
+    def test_flag_banner_after_click(self, browser, vp):
+        """After selecting an agency with flags, banner should not overlap search and be fully visible."""
         page = browser.new_page(viewport={"width": vp["width"], "height": vp["height"]})
         page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html#san-mateo-ca-pd", wait_until="networkidle")
         page.wait_for_selector("#map", state="visible", timeout=10000)
@@ -444,14 +444,14 @@ class TestLayout:
         page.wait_for_timeout(500)
 
         search = page.query_selector("#search-box")
-        banner = page.query_selector("#violation-banner")
+        banner = page.query_selector("#flag-banner")
 
-        # Banner must be visible when an agency with violations is selected
-        assert banner is not None, "Violation banner element not found"
-        assert banner.is_visible(), f"Violation banner not visible at {vp['name']} after selecting agency with violations"
+        # Banner must be visible when an agency with flags is selected
+        assert banner is not None, "Flag banner element not found"
+        assert banner.is_visible(), f"Flag banner not visible at {vp['name']} after selecting agency with flags"
 
         box_b = banner.bounding_box()
-        assert box_b is not None, f"Violation banner has no bounding box at {vp['name']}"
+        assert box_b is not None, f"Flag banner has no bounding box at {vp['name']}"
 
         # Banner must be fully within viewport
         assert box_b["x"] >= 0, f"Banner clipped on left at {vp['name']}: x={box_b['x']}"
@@ -468,7 +468,7 @@ class TestLayout:
             box_s = search.bounding_box()
             if box_s:
                 assert not _boxes_overlap(box_s, box_b), (
-                    f"Search box overlaps violation banner at {vp['name']}: "
+                    f"Search box overlaps flag banner at {vp['name']}: "
                     f"search={box_s}, banner={box_b}"
                 )
         page.close()

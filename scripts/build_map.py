@@ -259,9 +259,9 @@ def main():
             mismatch_map.setdefault(agency_slug, []).append(partner_slug)
             mismatch_map.setdefault(partner_slug, []).append(agency_slug)
 
-    # Compute indirect violations: if A shares with B, and B shares with
-    # a violation entity V, then A has an indirect violation "V via B"
-    def is_violation_entity(aid):
+    # Compute indirect flags: if A shares with B, and B shares with
+    # a flagged entity V, then A has an indirect flag "V via B"
+    def is_flagged_entity(aid):
         r = reg_by_id.get(aid, {})
         if has_tag(r, "private"):
             return True
@@ -276,40 +276,39 @@ def main():
     for aid, data in graph["agencies"].items():
         outbound_by_id[aid] = data.get("sharing_outbound_ids", [])
 
-    # For each agency, find indirect violations (depth 1: via intermediaries)
+    # For each agency, find indirect flags (depth 1: via intermediaries)
     # Output uses slugs for JS consumption
-    indirect_violations = {}  # slug -> [{"violation": slug, "via": slug}]
+    indirect_flags = {}  # slug -> [{"flagged": slug, "via": slug}]
     for aid, data in graph["agencies"].items():
         slug = id_to_slug.get(aid)
         if not slug:
             continue
         indirects = []
-        direct_violations = set()
+        direct_flags = set()
         for target_id in data.get("sharing_outbound_ids", []):
-            if is_violation_entity(target_id):
-                direct_violations.add(target_id)
+            if is_flagged_entity(target_id):
+                direct_flags.add(target_id)
         for target_id in data.get("sharing_outbound_ids", []):
             if target_id in outbound_by_id:
                 for second_hop_id in outbound_by_id[target_id]:
-                    if is_violation_entity(second_hop_id) and second_hop_id not in direct_violations:
+                    if is_flagged_entity(second_hop_id) and second_hop_id not in direct_flags:
                         indirects.append({
-                            "violation": id_to_slug.get(second_hop_id, second_hop_id),
+                            "flagged": id_to_slug.get(second_hop_id, second_hop_id),
                             "via": id_to_slug.get(target_id, target_id),
                             "via_name": agency_display_name(reg_by_id.get(target_id, {})),
-                            "violation_name": agency_display_name(reg_by_id.get(second_hop_id, {})),
+                            "flagged_name": agency_display_name(reg_by_id.get(second_hop_id, {})),
                         })
         if indirects:
-            # Deduplicate by violation slug
             seen = set()
             deduped = []
             for iv in indirects:
-                if iv["violation"] not in seen:
-                    seen.add(iv["violation"])
+                if iv["flagged"] not in seen:
+                    seen.add(iv["flagged"])
                     deduped.append(iv)
-            indirect_violations[slug] = deduped
+            indirect_flags[slug] = deduped
 
-    indirect_count = sum(len(v) for v in indirect_violations.values())
-    print(f"Indirect violations: {indirect_count} across {len(indirect_violations)} agencies")
+    indirect_count = sum(len(v) for v in indirect_flags.values())
+    print(f"Indirect flags: {indirect_count} across {len(indirect_flags)} agencies")
 
     print(f"Geocoded: {geocoded}/{len(graph['agencies'])}")
     if ungeocodable:
@@ -328,7 +327,7 @@ def main():
         "coords": slug_coords,
         "agencyInfo": slug_info,
         "mismatches": mismatch_map,
-        "indirectViolations": indirect_violations,
+        "indirectFlags": indirect_flags,
     }
     (docs_dir / "data" / "map_data.json").write_text(json.dumps(map_data) + "\n")
     print(f"Data written to {docs_dir}/data/map_data.json")
@@ -437,7 +436,7 @@ def _generate_html(marker_count):
     .legend {{
       display: none;
     }}
-    #violation-banner {{
+    #flag-banner {{
       font-size: 11px !important;
       padding: 6px 10px !important;
       left: 10px !important;
@@ -471,8 +470,8 @@ def _generate_html(marker_count):
     cursor: pointer; white-space: nowrap;
     display: none;
   }}
-  .edge-indicator.has-violation {{ background: #dc2626; }}
-  #violation-banner {{
+  .edge-indicator.has-flag {{ background: #dc2626; }}
+  #flag-banner {{
     position: absolute; top: 58px; left: 50%; transform: translateX(-60%);
     z-index: 1000; background: #dc2626; color: white;
     padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: bold;
@@ -492,7 +491,7 @@ def _generate_html(marker_count):
   <button id="search-btn">\U0001f50d</button>
 </div>
 <div id="search-results"></div>
-<div id="violation-banner"></div>
+<div id="flag-banner"></div>
 <button class="info-toggle" id="infoToggle" onclick="
   var p = document.getElementById('info');
   p.classList.toggle('collapsed');
@@ -505,8 +504,8 @@ def _generate_html(marker_count):
 </div>
 <div class="legend">
   <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div> Public agency</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Shares with non-conforming entity</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Non-conforming entity (private/out-of-state/fusion center)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Shares with flagged entity</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Flagged entity (private/out-of-state/federal)</div>
   <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div> Selected</div>
   <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div> No transparency page found</div>
   <div class="legend-item"><div style="width:20px;height:2px;background:#2563eb"></div> Shares with (outbound)</div>
