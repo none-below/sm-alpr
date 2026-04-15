@@ -116,6 +116,47 @@ def slug_variations(slug):
     elif re.search(r"-ca-pd$", slug):
         variations.append(re.sub(r"-ca-pd$", "-pd-ca", slug))
 
+    # Try -ca-sd (sheriff's department): foo-ca-so -> foo-ca-sd
+    if slug.endswith("-ca-so"):
+        variations.append(slug[:-3] + "-sd")
+    elif slug.endswith("-ca-sd"):
+        variations.append(slug[:-3] + "-so")
+
+    # Try collapsed state suffix: mendocino-county-so-ca -> mendocino-county-soca
+    collapsed = re.sub(r"-so-ca$", "-soca", slug)
+    if collapsed != slug:
+        variations.append(collapsed)
+
+    # Try leading dash on all variations so far: el-cajon-ca-pd -> -el-cajon-pd-ca
+    if not slug.startswith("-"):
+        for v in list(variations):
+            variations.append("-" + v)
+
+    # Try removing hyphens in city name (compound names):
+    # foothill-deanza-ca-pd -> foothilldeanza-ca-pd
+    m = re.match(r"^(.+?)(-ca-(?:pd|so|sd|da)|-pd-ca|-so-ca|-soca)$", slug)
+    if m:
+        city, suffix = m.group(1), m.group(2)
+        dehyphenated = city.replace("-", "")
+        if dehyphenated != city:
+            variations.append(dehyphenated + suffix)
+
+    # Try city-of / town-of prefix removal/addition:
+    # city-of-monte-sereno-ca -> monte-sereno-ca-pd
+    # town-of-los-gatos-ca -> los-gatos-ca-pd
+    for prefix in ("city-of-", "town-of-"):
+        if slug.startswith(prefix):
+            bare = slug[len(prefix):]
+            variations.append(bare)
+            # Also try with -pd suffix: town-of-los-gatos-ca -> los-gatos-ca-pd
+            if bare.endswith("-ca"):
+                variations.append(bare + "-pd")
+
+    # Try -smcso suffix for woodside-style slugs: town-of-woodside-ca -> town-of-woodside-ca-smcso
+    if "woodside" in slug:
+        variations.append(slug + "-smcso")
+        variations.append("town-of-woodside-ca-smcso")
+
     return dedupe(variations)
 
 
