@@ -24,8 +24,8 @@ OUT_PATH = Path("docs/data/scoreboard_data.json")
 RANKED_STATE = "CA"
 
 
-def is_violation_entity(aid, reg_by_id):
-    """Match the violation logic from build_map.py."""
+def is_flagged_entity(aid, reg_by_id):
+    """Match the flag logic from build_map.py."""
     r = reg_by_id.get(aid, {})
     if has_tag(r, "private"):
         return "private"
@@ -61,7 +61,7 @@ def main():
     with open(GRAPH_PATH) as f:
         graph = json.load(f)
 
-    # Build outbound lookup for indirect violation computation
+    # Build outbound lookup for indirect flag computation
     outbound_by_id = {}
     for aid, data in graph["agencies"].items():
         outbound_by_id[aid] = data.get("sharing_outbound_ids", [])
@@ -81,11 +81,11 @@ def main():
         private = 0
         federal = 0
         universities = 0
-        non_conforming = 0
+        flagged = 0
 
-        direct_violations = set()
+        direct_flags = set()
         for target_id in outbound_ids:
-            v = is_violation_entity(target_id, reg_by_id)
+            v = is_flagged_entity(target_id, reg_by_id)
             if v == "out_of_state":
                 out_of_state += 1
             elif v == "private":
@@ -93,22 +93,22 @@ def main():
             elif v == "federal":
                 federal += 1
             if v:
-                non_conforming += 1
-                direct_violations.add(target_id)
+                flagged += 1
+                direct_flags.add(target_id)
 
             tr = reg_by_id.get(target_id, {})
             if tr.get("agency_type") == "university":
                 universities += 1
 
-        # Indirect violations: targets' outbound that are violation entities
-        indirect_violations = 0
+        # Indirect flags: targets' outbound that are flagged entities
+        indirect_flags = 0
         indirect_seen = set()
         for target_id in outbound_ids:
             if target_id in outbound_by_id:
                 for second_hop in outbound_by_id[target_id]:
-                    if second_hop not in direct_violations and second_hop not in indirect_seen:
-                        if is_violation_entity(second_hop, reg_by_id):
-                            indirect_violations += 1
+                    if second_hop not in direct_flags and second_hop not in indirect_seen:
+                        if is_flagged_entity(second_hop, reg_by_id):
+                            indirect_flags += 1
                             indirect_seen.add(second_hop)
 
         # Load crawled portal stats
@@ -121,12 +121,12 @@ def main():
             "state": info.get("state", ""),
             "outbound": outbound_count,
             "inbound": inbound_count,
-            "non_conforming": non_conforming,
+            "flagged": flagged,
             "out_of_state": out_of_state,
             "private": private,
             "federal": federal,
             "universities": universities,
-            "indirect_violations": indirect_violations,
+            "indirect_flags": indirect_flags,
             "cameras": data.get("camera_count") or 0,
             "retention_days": data.get("data_retention_days"),
             "vehicles_30d": crawled_stats.get("vehicles_detected_30d"),
@@ -197,16 +197,16 @@ def main():
             "key": "out_of_state",
         },
         {
-            "id": "non_conforming",
-            "title": "Most Direct Non-Conforming Shares",
+            "id": "flagged",
+            "title": "Most Flagged Sharing Partners",
             "subtitle": "Direct shares with private, out-of-state, or federal entities",
-            "key": "non_conforming",
+            "key": "flagged",
         },
         {
             "id": "indirect",
-            "title": "Most Indirect Non-Conforming Shares",
-            "subtitle": "Non-conforming exposure through sharing partners' networks",
-            "key": "indirect_violations",
+            "title": "Most Indirect Flagged Shares",
+            "subtitle": "Flagged exposure through sharing partners' networks",
+            "key": "indirect_flags",
         },
         {
             "id": "cameras",

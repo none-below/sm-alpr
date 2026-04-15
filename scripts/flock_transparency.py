@@ -903,6 +903,15 @@ def cmd_parse(args):
 
             portal_data = parse_portal_text(raw_text, slug, datestamp, bold_headings=bold_headings)
 
+            # Preserve crawled_at from existing JSON (set during crawl, not recoverable from .txt)
+            if json_path.exists():
+                try:
+                    existing = json.loads(json_path.read_text())
+                    if "crawled_at" in existing:
+                        portal_data["crawled_at"] = existing["crawled_at"]
+                except (json.JSONDecodeError, KeyError):
+                    pass
+
             # Extract embedded CSVs from HTML if available
             if page_html is not None:
                 for csv_name, csv_rows in extract_csvs_from_html(

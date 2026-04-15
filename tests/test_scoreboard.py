@@ -177,7 +177,7 @@ class TestScoreboardData:
 
     def test_spicy_categories_first(self):
         ids = [c["id"] for c in self.data["categories"]]
-        assert ids[:5] == ["out_of_state", "non_conforming", "indirect", "cameras", "outbound"]
+        assert ids[:5] == ["out_of_state", "flagged", "indirect", "cameras", "outbound"]
 
     def test_has_meta(self):
         assert "meta" in self.data

@@ -1,5 +1,5 @@
 // Feature flags
-const SHOW_SHARES_WITH_TAGS = false; // [SHARES WITH NON-CONFORMING ENTITY] and [SHARES WITH SUED AGENCY]
+const SHOW_SHARES_WITH_TAGS = false; // [SHARES WITH FLAGGED ENTITY] and [SHARES WITH SUED AGENCY]
 
 // Sanitization helpers
 function escapeHtml(s) {
@@ -14,7 +14,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
   const mismatches = data.mismatches;
-  const indirectViolations = data.indirectViolations || {};
+  const indirectFlags = data.indirectFlags || {};
 
   const map = L.map('map').setView([37.5, -121.5], 7);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {
@@ -38,8 +38,8 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
         const slug = cm.options.slug;
         if (!slug) { gray++; return; }
         const info = agencyInfo[slug] || {};
-        if (isViolation(slug)) red++;
-        else if (hasOutboundViolation(cm._markerData || {})) orange++;
+        if (isFlagged(slug)) red++;
+        else if (hasOutboundFlags(cm._markerData || {})) orange++;
         else if (info.crawled || cm.options.fillColor === '#2563eb') blue++;
         else gray++;
       });
@@ -91,7 +91,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       const slug = cm.options.slug;
       const info = agencyInfo[slug] || {};
       let name = info.name || slug;
-      if (isViolation(slug)) name = '\u26a0 ' + name;
+      if (isFlagged(slug)) name = '\u26a0 ' + name;
       return name;
     }).sort();
     e.layer.bindTooltip(names.join('<br>'), { direction: 'top' }).openTooltip();
@@ -109,7 +109,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     return 4;  // uncrawled: same base size as small cities
   }
 
-  function isViolation(slug) {
+  function isFlagged(slug) {
     const info = agencyInfo[slug] || {};
     if (info.public === false && info.type !== 'test') return true;  // private entity
     if (info.state && info.state !== 'CA') return true;               // out-of-state
@@ -120,14 +120,14 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     return false;
   }
 
-  // Does this agency share with any violation entities?
-  function hasOutboundViolation(m) {
-    return (m.outbound_slugs || []).some(s => isViolation(s));
+  // Does this agency share with any flagged entities?
+  function hasOutboundFlags(m) {
+    return (m.outbound_slugs || []).some(s => isFlagged(s));
   }
 
   function defaultColor(m) {
-    if (isViolation(m.slug)) return { fill: '#dc2626', border: '#991b1b', opacity: 0.8 };
-    if (hasOutboundViolation(m)) return { fill: '#f97316', border: '#c2410c', opacity: 0.7 };
+    if (isFlagged(m.slug)) return { fill: '#dc2626', border: '#991b1b', opacity: 0.8 };
+    if (hasOutboundFlags(m)) return { fill: '#f97316', border: '#c2410c', opacity: 0.7 };
     if (m.crawled) return { fill: '#2563eb', border: '#1e40af', opacity: 0.6 };
     return { fill: '#8b5cf6', border: '#6d28d9', opacity: 0.5 };
   }
@@ -186,12 +186,12 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     // Flag agencies under AG lawsuit
     if (info.ag_lawsuit)
       tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Attorney General lawsuit for illegal out-of-state ALPR data sharing in violation of SB 34">[AG LAWSUIT \u2014 illegal sharing]</span>';
-    // Check if this agency re-shares to violations (from marker data)
+    // Check if this agency re-shares to flagged entities (from marker data)
     const mData = (typeof markerDataBySlug !== 'undefined') && markerDataBySlug[s];
-    if (SHOW_SHARES_WITH_TAGS && mData && !isViolation(s)) {
-      const hasOutboundViol = (mData.outbound_slugs || []).some(t => isViolation(t));
+    if (SHOW_SHARES_WITH_TAGS && mData && !isFlagged(s)) {
+      const hasOutboundViol = (mData.outbound_slugs || []).some(t => isFlagged(t));
       if (hasOutboundViol)
-        tag += ' <span style="color:#d97706;font-weight:bold" title="This agency shares data with non-conforming entities (private, federal, test)">[SHARES WITH NON-CONFORMING ENTITY]</span>';
+        tag += ' <span style="color:#d97706;font-weight:bold" title="This agency shares data with flagged entities (private, federal, test)">[SHARES WITH FLAGGED ENTITY]</span>';
     }
     // Flag agencies sharing with a sued agency
     if (SHOW_SHARES_WITH_TAGS && mData && !info.ag_lawsuit) {
@@ -215,18 +215,18 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   // Non-public (private, test, decommissioned) only appear when an agency is selected.
   markers.forEach(m => {
     const col = defaultColor(m);
-    const radius = isViolation(m.slug) ? Math.max(6, defaultRadius(m)) : defaultRadius(m);
+    const radius = isFlagged(m.slug) ? Math.max(6, defaultRadius(m)) : defaultRadius(m);
     const circle = L.circleMarker([m.lat, m.lng], {
       radius: radius,
       fillColor: col.fill,
       color: col.border,
-      weight: isViolation(m.slug) ? 2 : 1,
+      weight: isFlagged(m.slug) ? 2 : 1,
       fillOpacity: col.opacity,
       slug: m.slug,
     });
     const info = agencyInfo[m.slug] || {};
     circle._markerData = m;
-    const tipName = (info.name || m.slug) + (isViolation(m.slug) ? ' \u26a0' : '');
+    const tipName = (info.name || m.slug) + (isFlagged(m.slug) ? ' \u26a0' : '');
     circle.bindTooltip(tipName, { direction: 'top', offset: [0, -8], sticky: true });
     circle.on('click', (e) => { L.DomEvent.stopPropagation(e); showAgency(m); });
     markersBySlug[m.slug] = circle;
@@ -239,7 +239,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     e.markers.forEach(cm => {
       const slug = cm.options.slug;
       const info = agencyInfo[slug] || {};
-      const tipName = (info.name || slug) + (isViolation(slug) ? ' \u26a0' : '');
+      const tipName = (info.name || slug) + (isFlagged(slug) ? ' \u26a0' : '');
       cm.bindTooltip(tipName, { direction: 'top', offset: [0, -8], sticky: true });
     });
   });
@@ -271,31 +271,31 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     });
 
     let outConnected = 0;
-    let outViolations = 0;
+    let outFlags = 0;
     let outNotMapped = 0;
-    const unmappedViolations = [];
+    const unmappedFlagged = [];
     (m.outbound_slugs || []).forEach(target => {
-      if (isViolation(target)) outViolations++;
+      if (isFlagged(target)) outFlags++;
       if (coords[target]) {
-        const lineColor = isViolation(target) ? '#dc2626' : '#2563eb';
-        const lineWeight = isViolation(target) ? 2 : 1.5;
+        const lineColor = isFlagged(target) ? '#dc2626' : '#2563eb';
+        const lineWeight = isFlagged(target) ? 2 : 1.5;
         L.polyline([[m.lat, m.lng], coords[target]], { color: lineColor, weight: lineWeight, opacity: 0.4 }).addTo(lineLayer);
         outConnected++;
-      } else if (isViolation(target)) {
-        unmappedViolations.push(target);
+      } else if (isFlagged(target)) {
+        unmappedFlagged.push(target);
       } else {
         outNotMapped++;
       }
     });
 
-    // Place unmapped violations as warning markers along the top edge
-    if (unmappedViolations.length > 0) {
-      const spread = Math.min(unmappedViolations.length, 20);
+    // Place unmapped flagged entities as warning markers along the top edge
+    if (unmappedFlagged.length > 0) {
+      const spread = Math.min(unmappedFlagged.length, 20);
       const startLng = m.lng - 2.5;
       const lngStep = 5.0 / Math.max(spread - 1, 1);
       const topLat = m.lat + 3.5;
 
-      unmappedViolations.slice(0, 20).forEach((slug, i) => {
+      unmappedFlagged.slice(0, 20).forEach((slug, i) => {
         const vLat = topLat + (Math.random() - 0.5) * 0.3;
         const vLng = startLng + i * lngStep + (Math.random() - 0.5) * 0.2;
         const vInfo = agencyInfo[slug] || {};
@@ -318,10 +318,10 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
         }).addTo(lineLayer);
       });
 
-      if (unmappedViolations.length > 20) {
+      if (unmappedFlagged.length > 20) {
         // Overflow indicator
         const overflowIcon = L.divIcon({
-          html: '<div style="background:#dc2626;color:white;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;white-space:nowrap">+' + (unmappedViolations.length - 20) + ' more</div>',
+          html: '<div style="background:#dc2626;color:white;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;white-space:nowrap">+' + (unmappedFlagged.length - 20) + ' more</div>',
           className: '',
           iconSize: [80, 20],
           iconAnchor: [40, 10],
@@ -365,12 +365,12 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       }
     });
 
-    // Show violation summary as a fixed banner at top of map
-    const bannerEl = document.getElementById('violation-banner');
-    const myIndirectCount = (indirectViolations[m.slug] || []).length;
-    const totalViolations = outViolations + myIndirectCount;
-    if (totalViolations > 0) {
-      let bannerText = '\u26a0 ' + outViolations + ' direct violation' + (outViolations !== 1 ? 's' : '');
+    // Show flag summary as a fixed banner at top of map
+    const bannerEl = document.getElementById('flag-banner');
+    const myIndirectCount = (indirectFlags[m.slug] || []).length;
+    const totalFlags = outFlags + myIndirectCount;
+    if (totalFlags > 0) {
+      let bannerText = '\u26a0 ' + outFlags + ' direct flag' + (outFlags !== 1 ? 's' : '');
       if (myIndirectCount > 0) {
         bannerText += ' + ' + myIndirectCount + ' indirect (via intermediaries)';
       }
@@ -414,27 +414,27 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
 
     if (m.outbound_slugs && m.outbound_slugs.length) {
       const sorted = sortOutbound(m.outbound_slugs, m.lat, m.lng);
-      const directViol = sorted.filter(s => isViolation(s));
-      const clean = sorted.filter(s => !isViolation(s));
-      const myIndirects = indirectViolations[m.slug] || [];
+      const directFlagged = sorted.filter(s => isFlagged(s));
+      const clean = sorted.filter(s => !isFlagged(s));
+      const myIndirects = indirectFlags[m.slug] || [];
 
-      // Direct violations first
-      if (directViol.length) {
-        html += '<div class="sharing-list"><strong style="color:#dc2626">\u26a0 Direct violations (' + directViol.length + '):</strong>';
-        directViol.forEach(function(s) {
+      // Direct flags first
+      if (directFlagged.length) {
+        html += '<div class="sharing-list"><strong style="color:#dc2626">\u26a0 Direct flags (' + directFlagged.length + '):</strong>';
+        directFlagged.forEach(function(s) {
           html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
         });
         html += '</div>';
       }
 
-      // Indirect violations
+      // Indirect flags
       if (myIndirects.length) {
         html += '<div class="sharing-list" style="border-top:1px solid #fecaca;padding-top:6px">';
-        html += '<strong style="color:#dc2626">\u26a0 Indirect violations (' + myIndirects.length + '):</strong>';
+        html += '<strong style="color:#dc2626">\u26a0 Indirect flags (' + myIndirects.length + '):</strong>';
         html += '<p class="stat" style="font-size:11px;color:#92400e;margin:2px 0 4px 0">Data reaches these entities through intermediaries.</p>';
         myIndirects.forEach(function(iv) {
-          html += '<div style="cursor:pointer;padding:2px 0" data-slug="' + escapeHtml(iv.violation) + '" onclick="clickSlug(this.dataset.slug)">';
-          html += slugLabel(iv.violation);
+          html += '<div style="cursor:pointer;padding:2px 0" data-slug="' + escapeHtml(iv.flagged) + '" onclick="clickSlug(this.dataset.slug)">';
+          html += slugLabel(iv.flagged);
           html += ' <span style="color:#6b7280;font-size:11px">via </span>';
           html += '<span style="cursor:pointer;color:#2563eb;font-size:11px" data-slug="' + escapeHtml(iv.via) + '" onclick="event.stopPropagation();clickSlug(this.dataset.slug)">' + escapeHtml(iv.via_name) + '</span>';
           html += '</div>';
@@ -527,9 +527,9 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       if (!c) return;
       if (!shouldShowByDefault(mm.slug)) return;
       const col = defaultColor(mm);
-      const radius = isViolation(mm.slug) ? Math.max(5, defaultRadius(mm)) : defaultRadius(mm);
+      const radius = isFlagged(mm.slug) ? Math.max(5, defaultRadius(mm)) : defaultRadius(mm);
       c.setRadius(radius);
-      c.setStyle({ fillColor: col.fill, fillOpacity: col.opacity, weight: isViolation(mm.slug) ? 2 : 1, color: col.border });
+      c.setStyle({ fillColor: col.fill, fillOpacity: col.opacity, weight: isFlagged(mm.slug) ? 2 : 1, color: col.border });
       markerLayer.addLayer(c);
     });
   }
@@ -543,7 +543,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     lineLayer.clearLayers();
     clearTempMarkers();
     resetMarkers();
-    document.getElementById('violation-banner').style.display = 'none';
+    document.getElementById('flag-banner').style.display = 'none';
     document.getElementById('info').innerHTML =
       '<h3>Flock ALPR Sharing Map</h3>' +
       '<p class="stat">Click an agency to see its sharing web.</p>' +
@@ -558,7 +558,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
 
     markers.forEach(m => {
       if (bounds.contains([m.lat, m.lng])) return;
-      const viol = isViolation(m.slug);
+      const viol = isFlagged(m.slug);
       if (m.lng < bounds.getWest()) { left++; if (viol) leftViol = true; }
       if (m.lng > bounds.getEast()) { right++; if (viol) rightViol = true; }
       if (m.lat > bounds.getNorth()) { top++; if (viol) topViol = true; }
@@ -569,7 +569,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       const el = document.getElementById(id);
       if (count > 0) {
         el.textContent = arrow + ' ' + count;
-        el.className = 'edge-indicator' + (hasViol ? ' has-violation' : '');
+        el.className = 'edge-indicator' + (hasViol ? ' has-flag' : '');
         el.style.display = '';
       } else {
         el.style.display = 'none';
@@ -638,20 +638,20 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     }
   };
 
-  // Place off-map violations as markers in the ocean west of California
+  // Place off-map flagged entities as markers in the ocean west of California
   document.getElementById('offmap').style.display = 'none';  // hide the old panel
 
   // Only show entities that RECEIVE data from CA agencies but have no map location
   // (test accounts, decommissioned entries, etc.) — not out-of-state sources
   const offmapEntities = Object.entries(agencyInfo).filter(([slug]) => {
-    if (!isViolation(slug)) return false;
+    if (!isFlagged(slug)) return false;
     if (coords[slug]) return false;
     // Must be a recipient — some agency shares outbound to this entity
     return recipientSlugs.has(slug);
   }).sort((a, b) => sortPriority(a[1]) - sortPriority(b[1]));
 
   if (offmapEntities.length) {
-    // Place all off-map violations at a single point in the ocean.
+    // Place all off-map flagged entities at a single point in the ocean.
     // MarkerCluster will group them into one clickable cluster.
     const offmapLat = 37.5;
     const offmapLng = -126.0;
