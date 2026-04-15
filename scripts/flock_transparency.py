@@ -285,6 +285,23 @@ def _match_heading(line):
 _UNKNOWN = object()  # sentinel — distinct from None (which means "structural")
 
 
+def extract_bold_headings(html):
+    """Extract bold text from HTML — these are the real section headings.
+
+    Flock transparency pages use font-weight: 700 on <p> and <h3> elements
+    for section headings.  Returns a set of stripped text strings.
+    """
+    return set(
+        re.sub(r"<[^>]+>", "", m).strip()
+        for m in re.findall(
+            r"<(?:p|h[1-6])[^>]*style=\"[^\"]*font-weight:\s*700[^\"]*\"[^>]*>(.*?)</(?:p|h[1-6])>",
+            html,
+            re.DOTALL,
+        )
+        if re.sub(r"<[^>]+>", "", m).strip()
+    )
+
+
 def _looks_like_heading(line):
     """Heuristic: could this line plausibly be a new/unknown section heading?
 
@@ -312,12 +329,16 @@ def _looks_like_heading(line):
     return True
 
 
-def parse_sections(text):
+def parse_sections(text, bold_headings=None):
     """Split raw DOM text into [(heading, body), ...] pairs.
 
     A heading is a line that either matches a known heading label or looks like
     a plausible new heading (short, title-like, no commas).  Headings must be
     followed by a blank line.  The body is everything up to the next heading.
+
+    When *bold_headings* is provided (a set of strings extracted from the HTML),
+    only lines that appear in that set are considered as potential headings.
+    This avoids false positives from agency-added content that looks heading-like.
 
     Returns a list of (heading_str, body_str) tuples and a list of
     unrecognised heading strings.
@@ -339,8 +360,13 @@ def parse_sections(text):
             # Known heading — accept even without preceding blank line
             # (handles "Hotlist Policy\nUsage" pattern)
             heading_indices.append(i)
+        elif bold_headings is not None:
+            # When HTML is available we know the real heading set —
+            # don't guess at unknown headings (bold content inside
+            # gray boxes can look heading-like but isn't)
+            pass
         elif len(stripped) <= _MAX_HEADING_LEN and prev_blank and _looks_like_heading(stripped):
-            # Unknown but plausible heading — length-limited, preceded by blank line
+            # No HTML available — fall back to heuristic for unknown headings
             heading_indices.append(i)
 
     # Second pass: extract (heading, body) pairs
@@ -379,9 +405,9 @@ def _parse_org_names(body):
     return names
 
 
-def parse_portal_text(raw_text, slug, datestamp):
+def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     """Parse structured data from raw DOM text."""
-    sections, unknown = parse_sections(raw_text)
+    sections, unknown = parse_sections(raw_text, bold_headings=bold_headings)
 
     if unknown:
         raise ValueError(
@@ -539,7 +565,9 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
 
     # Parse for shared slugs (needed for recursive crawling even if unchanged)
     crawled_at = datetime.now(timezone.utc).isoformat()
-    portal_data = parse_portal_text(page_text, slug, datestamp)
+    page_html = page.content()
+    bold_headings = extract_bold_headings(page_html)
+    portal_data = parse_portal_text(page_text, slug, datestamp, bold_headings=bold_headings)
     portal_data["crawled_at"] = crawled_at
     shared_slugs = portal_data.get("shared_org_slugs", [])
 
@@ -552,7 +580,6 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
 
     # 1b. Full HTML (source of truth for re-rendering + CSV extraction)
     html_path = slug_dir / f"{datestamp}.html"
-    page_html = page.content()
     html_path.write_text(page_html, encoding="utf-8")
 
     # 1c. Extract embedded CSVs from HTML
@@ -811,13 +838,21 @@ def cmd_parse(args):
                 continue
 
             raw_text = txt_path.read_text(encoding="utf-8")
-            portal_data = parse_portal_text(raw_text, slug, datestamp)
+
+            # Extract bold headings from HTML if available
+            html_path = slug_dir / f"{datestamp}.html"
+            bold_headings = None
+            page_html = None
+            if html_path.exists():
+                page_html = html_path.read_text(encoding="utf-8")
+                bold_headings = extract_bold_headings(page_html)
+
+            portal_data = parse_portal_text(raw_text, slug, datestamp, bold_headings=bold_headings)
 
             # Extract embedded CSVs from HTML if available
-            html_path = slug_dir / f"{datestamp}.html"
-            if html_path.exists():
+            if page_html is not None:
                 for csv_name, csv_rows in extract_csvs_from_html(
-                    html_path.read_text(encoding="utf-8")
+                    page_html
                 ):
                     field = csv_name.replace(".csv", "").replace("-", "_") + "_csv"
                     portal_data[field] = csv_rows
