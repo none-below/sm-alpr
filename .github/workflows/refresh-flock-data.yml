@@ -115,18 +115,22 @@ jobs:
           fi
 
       - name: Commit and push
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add assets/transparency.flocksafety.com/
           if git diff --cached --quiet; then
             echo "No changes to commit"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
           git commit -m "chore: refresh flock transparency data (batch of ${{ inputs.batch_size || '3' }})"
           git push --force-with-lease origin flock-refresh
 
       - name: Report validate status
+        if: steps.commit.outputs.has_changes == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -137,6 +141,7 @@ jobs:
             -f description="Validated by refresh workflow"
 
       - name: Generate diff summary
+        if: steps.commit.outputs.has_changes == 'true'
         id: diff
         run: |
           slugs=$(git diff HEAD~1 --name-only -- 'assets/transparency.flocksafety.com/' \
@@ -150,6 +155,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Create or update PR
+        if: steps.commit.outputs.has_changes == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
