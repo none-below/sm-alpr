@@ -48,6 +48,9 @@ from collections import Counter
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from lib import flock_name_to_slug
+
 BASE_URL = "https://transparency.flocksafety.com"
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 HASH_FILE = ".content_hashes.json"
@@ -428,10 +431,10 @@ def parse_portal_text(raw_text, slug, datestamp):
         "searches_30d": _parse_number(fields.get("searches_30d", "")),
         "shared_org_count": len(granted),
         "shared_org_names": granted,
-        "shared_org_slugs": [name_to_slug(n) for n in granted],
+        "shared_org_slugs": [flock_name_to_slug(n) or name_to_slug(n) for n in granted],
         "orgs_sharing_with_count": len(sharing_with),
         "orgs_sharing_with_names": sharing_with,
-        "orgs_sharing_with_slugs": [name_to_slug(n) for n in sharing_with],
+        "orgs_sharing_with_slugs": [flock_name_to_slug(n) or name_to_slug(n) for n in sharing_with],
         # ── newly captured fields (empty string when absent) ──
         "overview": fields.get("overview", ""),
         "policy_info": fields.get("policy_info", ""),
