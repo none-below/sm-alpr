@@ -1,5 +1,6 @@
 {
-  "slug": "delano-ca-pd",
+  "crawled_slug": "delano-ca-pd",
+  "crawled_name": "Delano CA PD",
   "archived_date": "2026-04-11",
   "whats_detected": "License Plates, Vehicles",
   "whats_not_detected": "Facial recognition, People, Gender, Race",
@@ -15,8 +16,7 @@
   "vehicles_detected_30d": 184002,
   "hotlist_hits_30d": 4036,
   "searches_30d": 212,
-  "shared_org_count": 346,
-  "shared_org_names": [
+  "sharing_outbound": [
     "San Jose State University CA",
     "Alameda CA PD",
     "Alameda County CA SO",
@@ -364,357 +364,7 @@
     "Yuba City CA PD",
     "Yuba County Sheriffs Office"
   ],
-  "shared_org_slugs": [
-    "san-jose-state-university-ca",
-    "alameda-ca-pd",
-    "alameda-county-ca-so",
-    "albany-ca-pd",
-    "alhambra-ca-pd",
-    "amador-county-ca-sheriffs-office",
-    "anaheim-ca-pd",
-    "anderson-ca-pd",
-    "angels-camp-ca-pd",
-    "antioch-ca-pd",
-    "arcadia-ca-pd",
-    "atherton-ca-pd",
-    "atwater-ca-pd",
-    "auburn-ca-pd",
-    "avenal-ca-pd",
-    "azusa-ca-pd",
-    "bakersfield-ca-pd",
-    "baldwin-park-ca-pd",
-    "barstow-ca-pd",
-    "bear-valley-springs-ca-pd",
-    "beaumont-ca-pd",
-    "bell-ca-pd",
-    "bell-gardens-ca-pd",
-    "belmont-ca-pd",
-    "belvedere-ca-pd",
-    "benicia-ca-pd",
-    "beverly-hills-ca-pd",
-    "bishop-ca-pd",
-    "blue-lake-rancheria-tribal-pd",
-    "blythe-ca-pd",
-    "brawley-ca-pd",
-    "brentwood-ca-pd",
-    "brisbane-ca-pd",
-    "buena-park-ca-pd",
-    "burbank-airport-ca-pd",
-    "burbank-ca-pd",
-    "burlingame-ca-pd",
-    "butte-county-ca-so",
-    "ca-napa-valley-college-campus",
-    "ca-wasco-pd",
-    "ca-iipay-nation-of-santa-ysabel",
-    "cal-fire",
-    "cal-state-fullerton-ca",
-    "calexico-ca-pd",
-    "california-department-of-corrections",
-    "california-department-of-fish-wildlife-ca",
-    "california-highway-patrol",
-    "california-state-parks",
-    "california-state-university-long-beach-campus-pd",
-    "calistoga-ca-pd",
-    "campbell-ca-pd",
-    "capitola-ca-pd",
-    "carmel-ca-pd",
-    "cathedral-city-ca-pd",
-    "central-marin-ca-pd",
-    "cerritos-college-ca-pd",
-    "chaffey-college-pd-ca",
-    "chino-ca-pd",
-    "chula-vista-ca-pd",
-    "citrus-heights-ca-pd",
-    "city-of-lemoore-ca",
-    "city-of-newman-ca-pd",
-    "city-of-riverside-ca-pd",
-    "claremont-ca-pd",
-    "clayton-ca-pd",
-    "clearlake-ca-pd",
-    "cloverdale-ca-pd",
-    "colma-ca-pd",
-    "colton-ca-pd",
-    "colusa-ca-pd",
-    "concord-ca-pd",
-    "contra-costa-county-ca-so",
-    "corcoran-ca-pd",
-    "corona-ca-pd",
-    "coronado-ca-pd",
-    "costa-mesa-ca-pd",
-    "cotati-ca-pd",
-    "covina-ca-pd",
-    "csu-long-beach-pd-ca",
-    "culver-city-ca-pd",
-    "cypress-ca-pd",
-    "daly-city-ca-pd",
-    "danville-ca-pd",
-    "decommissioned-org",
-    "del-norte-county-ca-so",
-    "desert-hot-springs-ca-pd",
-    "dinuba-ca-pd",
-    "dixon-ca-pd",
-    "downey-pd-ca",
-    "dublin-ca-pd",
-    "east-bay-parks-ca-pd",
-    "east-palo-alto-ca-pd",
-    "-el-cajon-pd-ca",
-    "el-centro-ca-pd",
-    "el-cerrito-ca-pd",
-    "el-dorado-county-ca-so",
-    "el-monte-ca-pd",
-    "el-segundo-ca-pd",
-    "elk-grove-ca-pd",
-    "emeryville-ca-pd",
-    "escalon-ca-pd",
-    "escondido-ca-pd",
-    "fairfield-ca-pd",
-    "farmersville-ca-pd",
-    "folsom-ca-pd",
-    "fontana-ca-pd",
-    "foothilldeanza-ca-pd",
-    "fort-bragg-ca-pd",
-    "foster-city-ca-pd",
-    "fountain-valley-ca-pd",
-    "fowler-ca-pd",
-    "fremont-ca-pd",
-    "fresno-ca-pd",
-    "fullerton-ca-pd",
-    "galt-ca-pd",
-    "garden-grove-ca-pd",
-    "gilroy-ca-pd",
-    "glendale-ca-pd",
-    "glendora-ca-pd",
-    "grass-valley-ca-pd",
-    "greenfield-ca-pd",
-    "grover-beach-ca-pd",
-    "gustine-pd-ca",
-    "hanford-ca-pd",
-    "hayward-ca-pd",
-    "healdsburg-ca-pd",
-    "hemet-ca-pd",
-    "hercules-ca-pd",
-    "hermosa-beach-pd-ca",
-    "hillsborough-ca-pd",
-    "hollister-ca-pd",
-    "humboldt-county-ca-so",
-    "huntington-beach-ca-pd",
-    "imperial-city-ca-pd",
-    "imperial-county-ca-so",
-    "indio-ca-pd",
-    "inglewood-ca-pd",
-    "irvine-ca-pd",
-    "irwindale-ca-pd",
-    "kensington-ca-pd",
-    "kerman-ca-pd",
-    "kern-county-ca-so",
-    "kings-county-ca-das-office",
-    "kings-county-sheriffs-office-ca",
-    "kingsburg-ca-pd",
-    "la-habra-ca-pd",
-    "la-mesa-ca-pd",
-    "la-verne-ca-pd",
-    "laguna-beach-ca-pd",
-    "lake-county-ca-so",
-    "lakeport-ca-pd",
-    "lancaster-ca-pd",
-    "lasd-ca-san-dimas-station",
-    "lathrop-ca-pd",
-    "lincoln-ca-pd",
-    "lindsay-public-safety-department-ca",
-    "livermore-ca-pd",
-    "livingston-ca-pd",
-    "lodi-ca-pd",
-    "lompoc-ca-pd",
-    "los-alamitos-pd-ca",
-    "los-altos-ca-pd",
-    "los-angeles-ca-pd",
-    "los-angeles-county-ca-sd",
-    "los-angeles-port-police-ca",
-    "madera-ca-pd",
-    "madera-county-so-ca",
-    "manteca-ca-pd",
-    "marin-county-ca-da",
-    "marin-county-ca-so",
-    "marina-ca-pd",
-    "mcfarland-ca-pd",
-    "mendocino-county-soca",
-    "mendota-ca-pd",
-    "menifee-ca-pd",
-    "menlo-park-ca-pd",
-    "merced-county-ca-so",
-    "mill-valley-ca-pd",
-    "milpitas-ca-pd",
-    "modoc-county-ca-so",
-    "monrovia-ca-pd",
-    "montclair-ca-pd",
-    "monterey-ca-pd",
-    "monterey-county-ca-so",
-    "monterey-county-district-attorneys-office",
-    "monterey-park-ca-pd",
-    "moraga-ca-pd",
-    "morgan-hill-ca-pd",
-    "murrieta-ca-pd",
-    "napa-ca-pd",
-    "napa-county-ca-so",
-    "national-city-ca-pd",
-    "ncric",
-    "nevada-city-ca-pd",
-    "nevada-county-ca-so",
-    "newark-ca-pd",
-    "newport-beach-pd-ca",
-    "novato-ca-pd",
-    "oakland-ca-pd",
-    "oakley-ca-pd",
-    "oceanside-ca-pd",
-    "ontario-ca-pd",
-    "orange-ca-pd",
-    "orange-county-ca-da-office",
-    "orange-county-fire-authority-ca",
-    "orange-county-so-ca",
-    "oroville-ca-pd",
-    "oxnard-ca-pd",
-    "pacific-grove-ca-pd",
-    "pacifica-ca-pd",
-    "palm-springs-ca-pd",
-    "pasadena-ca-pd",
-    "petaluma-ca-pd",
-    "piedmont-ca-pd",
-    "placentia-ca-pd",
-    "placer-county-ca-da-office",
-    "placer-county-ca-so",
-    "pleasant-hill-ca-pd",
-    "pleasanton-ca-pd",
-    "pomona-ca-pd",
-    "port-hueneme-ca-pd",
-    "port-of-stockton-ca-pd",
-    "porterville-ca-pd",
-    "redding-pd-ca",
-    "redlands-ca-pd",
-    "redondo-beach-ca-pd",
-    "redwood-city-ca-pd",
-    "reedley-ca-pd",
-    "rialto-pd-ca",
-    "richmond-ca-pd",
-    "ridgecrest-ca-pd",
-    "rio-hondo-college-pd-ca",
-    "rio-vista-ca-pd",
-    "riv-co-arson-tf-ca-pd",
-    "riverside-county-ca-district-attorney",
-    "riverside-county-ca-sd",
-    "rocklin-ca-pd",
-    "rohnert-park-department-of-public-safety-ca",
-    "roseville-ca-pd",
-    "sacramento-ca-da",
-    "sacramento-ca-pd",
-    "sacramento-county-parks-department-ca",
-    "salinas-ca-pd",
-    "san-benito-county-so-ca",
-    "san-bernardino-ca-pd",
-    "san-bernardino-community-college-ca-pd",
-    "san-bernardino-county-ca-human-services-law-enforcement",
-    "san-bernardino-county-ca-so",
-    "san-bruno-ca-pd",
-    "san-diego-ca-pd",
-    "san-diego-county-ca-sd",
-    "san-diego-harbor-ca-pd",
-    "san-fernando-ca-pd",
-    "san-francisco-ca-pd",
-    "san-francisco-district-attorney-ca",
-    "san-gabriel-ca-pd",
-    "san-joaquin-ca-da",
-    "san-joaquin-county-ca-so",
-    "san-joaquin-delta-college-pd-ca",
-    "san-jose-evergreen-community-college-campus-pd-ca",
-    "san-jose-ca-pd",
-    "san-leandro-pd-ca",
-    "san-luis-obispo-ca-pd",
-    "san-luis-obispo-county-ca-sheriff",
-    "san-mateo-ca-pd",
-    "san-mateo-county-ca-so",
-    "san-pablo-ca-pd",
-    "san-pasqual-ca-pd",
-    "san-rafael-ca-pd",
-    "san-ramon-ca-pd",
-    "sanger-ca-pd",
-    "santa-ana-ca-pd",
-    "santa-barbara-county-ca-so",
-    "santa-barbara-pd-ca",
-    "santa-clara-ca-pd",
-    "santa-clara-da-ca",
-    "santa-cruz-ca-pd",
-    "santa-maria-ca-pd",
-    "santa-monica-ca-pd",
-    "santa-rosa-ca-pd",
-    "sausalito-ca-pd",
-    "seal-beach-ca-pd",
-    "seaside-ca-pd",
-    "selma-ca-pd",
-    "sequoias-community-college-district-ca-pd",
-    "shafter-pd-ca",
-    "shasta-county-so",
-    "signal-hill-ca-pd",
-    "simi-valley-ca-pd",
-    "solano-county-ca-so",
-    "solano-county-da-ca",
-    "soledad-ca-pd",
-    "sonoma-county-ca-so",
-    "south-gate-ca-pd",
-    "south-pasadena-ca-pd",
-    "south-san-francisco-ca-pd",
-    "st-helena-ca-pd",
-    "stallion-springs-ca-pd",
-    "stanford-university-ca-pd",
-    "stockton-ca-pd",
-    "suisun-city-ca-pd",
-    "sunnyvale-ca-pd",
-    "sutter-county-ca-so",
-    "taft-ca-pd",
-    "tehachapi-ca-pd",
-    "tehama-county-ca-so",
-    "tiburon-ca-pd",
-    "los-gatos-ca-pd",
-    "town-of-woodside-ca-smcso",
-    "tracy-ca-pd",
-    "trinity-county-so-ca",
-    "truckee-ca-pd",
-    "tulare-ca-pd",
-    "tulare-county-ca-so",
-    "turlock-ca-pd",
-    "tustin-ca-pd",
-    "ukiah-pd-ca",
-    "union-city-ca-pd",
-    "university-of-ca-santa-barbara-ca-pd",
-    "university-of-california-berkeley",
-    "university-of-san-francisco-ca-pd",
-    "university-of-the-pacific-ca",
-    "upland-ca-pd",
-    "vacaville-ca-pd",
-    "vallejo-ca-pd",
-    "ventura-ca-pd",
-    "ventura-county-ca-so",
-    "ventura-county-district-attorneys-office-ca",
-    "vernon-ca-pd",
-    "visalia-ca-pd",
-    "walnut-creek-ca-pd",
-    "watsonville-ca-pd",
-    "west-covina-ca-pd",
-    "west-sacramento-ca-pd",
-    "west-valley-mission-college-dist-campus-ca",
-    "westminster-ca-pd",
-    "wheatland-ca-pd",
-    "whittier-ca-pd",
-    "williams-ca-pd",
-    "willits-ca-pd",
-    "winters-ca-pd",
-    "woodlake-ca-pd",
-    "woodland-ca-pd",
-    "yolo-county-ca-so",
-    "yuba-city-ca-pd",
-    "yuba-county-ca-so"
-  ],
-  "orgs_sharing_with_count": 0,
-  "orgs_sharing_with_names": [],
-  "orgs_sharing_with_slugs": [],
+  "sharing_inbound": [],
   "overview": "Delano CA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Delano CA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Delano CA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.",
   "policy_info": "",
   "alpr_policy": "",
@@ -729,5 +379,1490 @@
   "sb54": "",
   "last_updated": "",
   "restrictions_on_deployment": "",
-  "crawled_at": "2026-04-11T13:32:57.929732+00:00"
+  "search_audit_csv": [
+    {
+      "id": "7992e338-b33c-4fa6-9333-7751bb77726b",
+      "userId": "***",
+      "searchDate": "2026-03-11T00:47:15.838Z",
+      "networkCount": "631",
+      "reason": "2603100082"
+    },
+    {
+      "id": "9657d910-58bc-4143-b646-72514debbacd",
+      "userId": "***",
+      "searchDate": "2026-03-11T10:06:11.261Z",
+      "networkCount": "1",
+      "reason": "wanted"
+    },
+    {
+      "id": "4871cf2c-2c80-4e71-bd69-4d384b253f8f",
+      "userId": "***",
+      "searchDate": "2026-03-11T14:48:26.246Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "d7e82ff7-41f5-4ca2-ab74-e312c4a3bfe1",
+      "userId": "***",
+      "searchDate": "2026-03-11T15:50:06.234Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "06446aa6-a5c0-4711-9376-10dd0302751a",
+      "userId": "***",
+      "searchDate": "2026-03-11T16:03:17.072Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "1e6b05ad-0758-4c57-832c-de2d95ce3076",
+      "userId": "***",
+      "searchDate": "2026-03-11T17:01:45.962Z",
+      "networkCount": "1",
+      "reason": "dui"
+    },
+    {
+      "id": "3e6f4c83-6784-4d91-bfbb-2d1ef41cf865",
+      "userId": "***",
+      "searchDate": "2026-03-11T17:48:53.230Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "fcc6a76a-32bc-4270-a1ee-af1952abd04a",
+      "userId": "***",
+      "searchDate": "2026-03-11T19:37:11.179Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "5442c6e6-6b48-402d-acd2-daf410da580e",
+      "userId": "***",
+      "searchDate": "2026-03-11T19:46:24.827Z",
+      "networkCount": "849",
+      "reason": "REVIEW"
+    },
+    {
+      "id": "921f8fe6-9c60-417e-b08d-fd2e2dc28364",
+      "userId": "***",
+      "searchDate": "2026-03-11T21:39:21.461Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "1195fad3-33f8-4b89-8cca-0d7050553ace",
+      "userId": "***",
+      "searchDate": "2026-03-11T22:00:36.417Z",
+      "networkCount": "579",
+      "reason": "Investigation"
+    },
+    {
+      "id": "e7d2f649-820b-4b29-a0b4-e4ee6902ff10",
+      "userId": "***",
+      "searchDate": "2026-03-11T23:39:23.932Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "1c2a97f2-f9d4-4b32-be03-b666e964a4ee",
+      "userId": "***",
+      "searchDate": "2026-03-11T23:42:48.933Z",
+      "networkCount": "849",
+      "reason": "REVIEW"
+    },
+    {
+      "id": "8f42035b-63bc-4677-8c73-63d722d8ca87",
+      "userId": "***",
+      "searchDate": "2026-03-12T00:52:49.764Z",
+      "networkCount": "1",
+      "reason": "POSS 10851"
+    },
+    {
+      "id": "4fe8e923-383a-4bda-829c-257ea5e0ef57",
+      "userId": "***",
+      "searchDate": "2026-03-12T01:38:48.989Z",
+      "networkCount": "631",
+      "reason": "2603110086"
+    },
+    {
+      "id": "f8ae765b-2b43-4679-874a-dd77b37bab94",
+      "userId": "***",
+      "searchDate": "2026-03-12T03:12:47.170Z",
+      "networkCount": "631",
+      "reason": "2603110099"
+    },
+    {
+      "id": "fd1075cd-6b77-4e25-afdd-e672fcbad738",
+      "userId": "***",
+      "searchDate": "2026-03-12T03:19:51.855Z",
+      "networkCount": "1",
+      "reason": "WANTED"
+    },
+    {
+      "id": "b0abc533-7e0b-4895-842e-9ee5158242f3",
+      "userId": "***",
+      "searchDate": "2026-03-12T06:13:11.923Z",
+      "networkCount": "631",
+      "reason": "2603110118"
+    },
+    {
+      "id": "eff3888b-11e7-4ac1-9a9e-b5f888c8801c",
+      "userId": "***",
+      "searchDate": "2026-03-12T06:17:48.799Z",
+      "networkCount": "1",
+      "reason": "WANTED"
+    },
+    {
+      "id": "c441b442-b564-4c0e-821c-f1bb4b4e56f8",
+      "userId": "***",
+      "searchDate": "2026-03-12T06:27:55.061Z",
+      "networkCount": "631",
+      "reason": "26-00737"
+    },
+    {
+      "id": "58ad50f6-0d38-476e-b1d6-a1b14b04aa57",
+      "userId": "***",
+      "searchDate": "2026-03-12T15:50:07.969Z",
+      "networkCount": "631",
+      "reason": "investigation"
+    },
+    {
+      "id": "52f6ccda-6dd9-44e9-aa74-ac549d1deca9",
+      "userId": "***",
+      "searchDate": "2026-03-12T18:15:27.978Z",
+      "networkCount": "1",
+      "reason": "SUSP V"
+    },
+    {
+      "id": "0e633743-f5aa-4998-a942-a5d0b16d6172",
+      "userId": "***",
+      "searchDate": "2026-03-13T13:20:47.798Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "17241c70-ac79-4e21-8fda-af3235a5d072",
+      "userId": "***",
+      "searchDate": "2026-03-13T15:55:16.102Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "5bdc2e32-df61-460f-9c5a-90f7e0da283e",
+      "userId": "***",
+      "searchDate": "2026-03-13T16:57:05.542Z",
+      "networkCount": "630",
+      "reason": "theft"
+    },
+    {
+      "id": "b35b2cb0-0baa-4c24-8d64-1916ccfdbd03",
+      "userId": "***",
+      "searchDate": "2026-03-13T19:39:50.395Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "a6975a22-4e14-46c8-941f-e5e709d7eb31",
+      "userId": "***",
+      "searchDate": "2026-03-13T20:58:29.708Z",
+      "networkCount": "630",
+      "reason": "2603130045"
+    },
+    {
+      "id": "7264f3d0-fa29-4a9b-8c3c-c39a85cf748a",
+      "userId": "***",
+      "searchDate": "2026-03-13T21:09:23.787Z",
+      "networkCount": "630",
+      "reason": "2603130045"
+    },
+    {
+      "id": "f1b0cb23-7c88-4984-822a-b5cda12685bf",
+      "userId": "***",
+      "searchDate": "2026-03-13T21:47:49.036Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "54dac0b5-7512-45dc-88ac-40a6389b27c6",
+      "userId": "***",
+      "searchDate": "2026-03-15T13:48:59.212Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "9cb87ca9-a062-4abf-8ccb-f408f85e26a0",
+      "userId": "***",
+      "searchDate": "2026-03-15T14:26:51.529Z",
+      "networkCount": "630",
+      "reason": "2603150026"
+    },
+    {
+      "id": "77034e59-f4f2-4d39-96af-c145da0c1f10",
+      "userId": "***",
+      "searchDate": "2026-03-15T14:27:17.123Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "12d74a24-a229-4bcd-b210-1071ed04062e",
+      "userId": "***",
+      "searchDate": "2026-03-15T14:41:43.895Z",
+      "networkCount": "1",
+      "reason": "veh"
+    },
+    {
+      "id": "0c72f5f8-1a11-4195-a479-548528744a2a",
+      "userId": "***",
+      "searchDate": "2026-03-16T08:28:48.735Z",
+      "networkCount": "630",
+      "reason": "10851"
+    },
+    {
+      "id": "c1334b89-9ef8-4698-bde6-3c201b02d8a1",
+      "userId": "***",
+      "searchDate": "2026-03-16T09:00:29.290Z",
+      "networkCount": "630",
+      "reason": "10851"
+    },
+    {
+      "id": "620f9d7f-0312-4dd7-bbd6-30962e4699f5",
+      "userId": "***",
+      "searchDate": "2026-03-16T13:12:19.056Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "23831c1f-a7b2-40bd-9fcb-461d71e89063",
+      "userId": "***",
+      "searchDate": "2026-03-16T14:35:50.163Z",
+      "networkCount": "1",
+      "reason": "2603160015"
+    },
+    {
+      "id": "db253730-e394-4c63-89c9-82e19400db52",
+      "userId": "***",
+      "searchDate": "2026-03-16T14:36:40.961Z",
+      "networkCount": "1",
+      "reason": "stolen v"
+    },
+    {
+      "id": "cf51fe91-7ad1-4f4b-a010-62e4371020f8",
+      "userId": "***",
+      "searchDate": "2026-03-16T14:41:18.044Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "1e2facf4-d3de-49b3-a406-718bc982be1c",
+      "userId": "***",
+      "searchDate": "2026-03-16T14:43:12.182Z",
+      "networkCount": "630",
+      "reason": "case"
+    },
+    {
+      "id": "6e326be5-f279-4ba9-becb-f61ddf56b200",
+      "userId": "***",
+      "searchDate": "2026-03-16T14:43:40.206Z",
+      "networkCount": "1",
+      "reason": "REVIEW"
+    },
+    {
+      "id": "fee7394f-dc40-4d4d-a1d2-2b9c18340c8f",
+      "userId": "***",
+      "searchDate": "2026-03-16T14:50:38.587Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "2aee2f5e-81e2-4904-86fa-b26b330d2267",
+      "userId": "***",
+      "searchDate": "2026-03-16T14:50:43.226Z",
+      "networkCount": "816",
+      "reason": "Work"
+    },
+    {
+      "id": "4c1256de-3649-431b-bd29-24a238cdac2d",
+      "userId": "***",
+      "searchDate": "2026-03-16T15:00:49.605Z",
+      "networkCount": "630",
+      "reason": "REVIEW"
+    },
+    {
+      "id": "9007f69e-1696-484d-ba32-a820204a3283",
+      "userId": "***",
+      "searchDate": "2026-03-16T15:45:17.924Z",
+      "networkCount": "630",
+      "reason": "26-00797"
+    },
+    {
+      "id": "652a99d4-b34f-498e-8ee9-918a7c63e573",
+      "userId": "***",
+      "searchDate": "2026-03-16T15:49:50.451Z",
+      "networkCount": "1",
+      "reason": "veh"
+    },
+    {
+      "id": "d9320c0e-0c83-4224-afee-e4c0b5425f68",
+      "userId": "***",
+      "searchDate": "2026-03-17T00:16:29.842Z",
+      "networkCount": "1",
+      "reason": "veh"
+    },
+    {
+      "id": "ed71bb07-12f3-499f-b70d-962a887d60dd",
+      "userId": "***",
+      "searchDate": "2026-03-17T01:54:04.740Z",
+      "networkCount": "1",
+      "reason": "hit and run"
+    },
+    {
+      "id": "3596c797-5e68-4bde-9baf-86dcb91831dc",
+      "userId": "***",
+      "searchDate": "2026-03-17T02:04:12.821Z",
+      "networkCount": "1",
+      "reason": "hit and run"
+    },
+    {
+      "id": "f55cf89c-d8a7-4fba-ba73-a3ddf91ddd88",
+      "userId": "***",
+      "searchDate": "2026-03-17T03:21:59.407Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "82023657-2510-41f9-a2eb-ea8e7e2dc1f4",
+      "userId": "***",
+      "searchDate": "2026-03-17T16:37:18.396Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "b0063db8-3d63-4d84-bd2e-e575fa0d7c1e",
+      "userId": "***",
+      "searchDate": "2026-03-17T19:07:00.262Z",
+      "networkCount": "1",
+      "reason": "Plates"
+    },
+    {
+      "id": "4d99272b-b7e9-496e-b5c4-a5ce54d66bae",
+      "userId": "***",
+      "searchDate": "2026-03-18T16:19:16.653Z",
+      "networkCount": "1",
+      "reason": "crime analysis"
+    },
+    {
+      "id": "4733fb7d-f2dd-4f4f-a050-3eb6b1b7f62a",
+      "userId": "***",
+      "searchDate": "2026-03-19T02:43:21.526Z",
+      "networkCount": "1",
+      "reason": "hit and run"
+    },
+    {
+      "id": "331e4556-bf4c-435e-b4ff-8dd16c83b1a5",
+      "userId": "***",
+      "searchDate": "2026-03-19T03:24:05.570Z",
+      "networkCount": "820",
+      "reason": "investigation"
+    },
+    {
+      "id": "c1258b59-9619-4753-a269-47d276703fe7",
+      "userId": "***",
+      "searchDate": "2026-03-19T15:41:33.889Z",
+      "networkCount": "1",
+      "reason": "review"
+    },
+    {
+      "id": "47e386c5-9b1b-41a9-8830-df190afdcbde",
+      "userId": "***",
+      "searchDate": "2026-03-19T17:10:18.522Z",
+      "networkCount": "630",
+      "reason": "STOLEN"
+    },
+    {
+      "id": "c0e928d1-b137-415b-8d23-10c9dce03951",
+      "userId": "***",
+      "searchDate": "2026-03-19T17:31:32.762Z",
+      "networkCount": "630",
+      "reason": "10851"
+    },
+    {
+      "id": "74bc637a-a3e3-46c1-91c6-2685a78e5f38",
+      "userId": "***",
+      "searchDate": "2026-03-19T18:21:10.376Z",
+      "networkCount": "630",
+      "reason": "10851"
+    },
+    {
+      "id": "f5b042e1-8c2d-4129-a8da-3e0a0de4351c",
+      "userId": "***",
+      "searchDate": "2026-03-19T20:42:32.685Z",
+      "networkCount": "1",
+      "reason": "10851"
+    },
+    {
+      "id": "c9fe4fe2-452c-4311-891a-655136a5e2e1",
+      "userId": "***",
+      "searchDate": "2026-03-19T21:44:16.797Z",
+      "networkCount": "630",
+      "reason": "2603190057"
+    },
+    {
+      "id": "0385b742-9cba-437d-adb8-068844523fa6",
+      "userId": "***",
+      "searchDate": "2026-03-20T01:21:50.774Z",
+      "networkCount": "1",
+      "reason": "review"
+    },
+    {
+      "id": "09426284-abf1-4b9e-893e-bf7ac7c78faa",
+      "userId": "***",
+      "searchDate": "2026-03-20T15:36:07.055Z",
+      "networkCount": "1",
+      "reason": "review"
+    },
+    {
+      "id": "072f5ce0-6324-4f3a-b0b4-f80a9309e74c",
+      "userId": "***",
+      "searchDate": "2026-03-20T16:43:06.677Z",
+      "networkCount": "1",
+      "reason": "ABANDONED VEH"
+    },
+    {
+      "id": "dde2a72f-2a8c-42dd-ab04-396a913276f7",
+      "userId": "***",
+      "searchDate": "2026-03-20T19:45:13.582Z",
+      "networkCount": "1",
+      "reason": "review"
+    },
+    {
+      "id": "ed60b795-cb71-41b5-aa6e-8da65f42ec0d",
+      "userId": "***",
+      "searchDate": "2026-03-20T20:02:00.238Z",
+      "networkCount": "630",
+      "reason": "review"
+    },
+    {
+      "id": "0e0a02a9-570b-4510-ba02-5f428010d56d",
+      "userId": "***",
+      "searchDate": "2026-03-20T21:19:34.450Z",
+      "networkCount": "630",
+      "reason": "review"
+    },
+    {
+      "id": "1aff0fb3-25b1-4336-bfd8-6d1e240cbbcd",
+      "userId": "***",
+      "searchDate": "2026-03-20T22:17:14.153Z",
+      "networkCount": "1",
+      "reason": "2800"
+    },
+    {
+      "id": "c7954672-e8e4-4239-8d18-dfd2f7155106",
+      "userId": "***",
+      "searchDate": "2026-03-20T22:17:16.151Z",
+      "networkCount": "630",
+      "reason": "review"
+    },
+    {
+      "id": "dc649170-5b2d-43e0-b8f1-1af747a6316c",
+      "userId": "***",
+      "searchDate": "2026-03-20T22:44:24.563Z",
+      "networkCount": "1",
+      "reason": "FTY"
+    },
+    {
+      "id": "80857bd3-343a-4283-9678-b579fe2681ad",
+      "userId": "***",
+      "searchDate": "2026-03-21T00:39:45.599Z",
+      "networkCount": "1",
+      "reason": "review"
+    },
+    {
+      "id": "a17ecc9f-1306-4254-b909-e654fdcd9da9",
+      "userId": "***",
+      "searchDate": "2026-03-21T19:06:33.986Z",
+      "networkCount": "1",
+      "reason": "law enforcement"
+    },
+    {
+      "id": "91677498-1042-4b90-aaed-8e5aca8d192a",
+      "userId": "***",
+      "searchDate": "2026-03-21T20:27:50.092Z",
+      "networkCount": "823",
+      "reason": "law enforcement"
+    },
+    {
+      "id": "d3ecad37-2378-4d4e-bef8-078eb1b5649a",
+      "userId": "***",
+      "searchDate": "2026-03-21T20:49:20.752Z",
+      "networkCount": "630",
+      "reason": "review"
+    },
+    {
+      "id": "5f1cb00f-da2f-40df-a510-81255ad85b34",
+      "userId": "***",
+      "searchDate": "2026-03-22T07:36:15.428Z",
+      "networkCount": "1",
+      "reason": "possible suspect"
+    },
+    {
+      "id": "a621434b-f905-4edc-87b8-83497cf326ff",
+      "userId": "***",
+      "searchDate": "2026-03-22T07:56:37.499Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "528ee6f0-5912-4adf-a9f6-3b5de5f0d16f",
+      "userId": "***",
+      "searchDate": "2026-03-22T07:58:54.382Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "cb02d19f-fcdc-485d-9339-04503cc66d69",
+      "userId": "***",
+      "searchDate": "2026-03-22T10:18:07.544Z",
+      "networkCount": "1",
+      "reason": "suspect vehicle"
+    },
+    {
+      "id": "ac4444be-c777-401d-8679-e24a47133341",
+      "userId": "***",
+      "searchDate": "2026-03-22T18:41:15.992Z",
+      "networkCount": "1",
+      "reason": "2603220021"
+    },
+    {
+      "id": "5ed2a3c3-f1f5-4eec-a743-0e07ce37268a",
+      "userId": "***",
+      "searchDate": "2026-03-22T20:06:22.726Z",
+      "networkCount": "1",
+      "reason": "26-00860"
+    },
+    {
+      "id": "ba24cfed-d4de-4571-ad8b-80e9fbcb56f6",
+      "userId": "***",
+      "searchDate": "2026-03-23T03:51:51.423Z",
+      "networkCount": "1",
+      "reason": "LE"
+    },
+    {
+      "id": "c1aa279b-4c7f-40d8-9f2e-b501c16fba72",
+      "userId": "***",
+      "searchDate": "2026-03-23T03:56:56.956Z",
+      "networkCount": "1",
+      "reason": "suspect vehicle"
+    },
+    {
+      "id": "104cb635-09fb-4035-a3c0-e1652f7027b7",
+      "userId": "***",
+      "searchDate": "2026-03-23T04:00:00.740Z",
+      "networkCount": "1",
+      "reason": "LE"
+    },
+    {
+      "id": "61e84ee8-e97e-4710-a45f-f9e1e46956bf",
+      "userId": "***",
+      "searchDate": "2026-03-23T04:02:10.649Z",
+      "networkCount": "1",
+      "reason": "suspect vehicle"
+    },
+    {
+      "id": "262be52c-d2c2-449a-8748-007c0336f988",
+      "userId": "***",
+      "searchDate": "2026-03-23T04:21:51.852Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "b3735312-c35d-44b4-a10d-652996f675a2",
+      "userId": "***",
+      "searchDate": "2026-03-23T04:22:46.578Z",
+      "networkCount": "630",
+      "reason": "suspecrt"
+    },
+    {
+      "id": "b396155d-929d-4ed6-b084-2324e46a211e",
+      "userId": "***",
+      "searchDate": "2026-03-23T06:19:48.900Z",
+      "networkCount": "1",
+      "reason": "possible suspect"
+    },
+    {
+      "id": "b305b858-d036-463c-be2e-dc0c53ec4814",
+      "userId": "***",
+      "searchDate": "2026-03-23T11:29:52.691Z",
+      "networkCount": "1",
+      "reason": "suspect"
+    },
+    {
+      "id": "570e684e-3972-4fe8-8c24-63921cc9a864",
+      "userId": "***",
+      "searchDate": "2026-03-23T11:59:13.318Z",
+      "networkCount": "1",
+      "reason": "involved"
+    },
+    {
+      "id": "4aa13dc1-2962-412c-9683-846ef8433241",
+      "userId": "***",
+      "searchDate": "2026-03-23T12:26:22.353Z",
+      "networkCount": "1",
+      "reason": "suspect"
+    },
+    {
+      "id": "751871bd-ed12-4804-baa0-63150bc6037e",
+      "userId": "***",
+      "searchDate": "2026-03-23T20:23:38.558Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "fe1984eb-b9f9-44a8-bae2-681ea5e206fc",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:37:00.625Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "b7809d0b-9daa-4675-a029-87af86cbf42c",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:42:07.992Z",
+      "networkCount": "1",
+      "reason": "veh look up"
+    },
+    {
+      "id": "1eb084cd-444f-41ba-9aac-60d9b49b9590",
+      "userId": "***",
+      "searchDate": "2026-03-24T21:16:22.014Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "af63d424-dc63-4e50-b5bb-79b535805e35",
+      "userId": "***",
+      "searchDate": "2026-03-24T22:49:46.490Z",
+      "networkCount": "1",
+      "reason": "Arson investigation"
+    },
+    {
+      "id": "bd126e26-2869-406f-9786-9e302a264956",
+      "userId": "***",
+      "searchDate": "2026-03-24T23:24:21.526Z",
+      "networkCount": "1",
+      "reason": "Arson investigation"
+    },
+    {
+      "id": "bfbbb13a-8a3a-44a5-ac7e-0f892831cf60",
+      "userId": "***",
+      "searchDate": "2026-03-25T16:03:43.344Z",
+      "networkCount": "1",
+      "reason": "crime analysis"
+    },
+    {
+      "id": "c8c55657-7395-47dd-b3f7-ca3b9bdb1d71",
+      "userId": "***",
+      "searchDate": "2026-03-25T17:34:11.841Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "88ea5ac8-e585-462e-bc71-97dbd4d49133",
+      "userId": "***",
+      "searchDate": "2026-03-26T17:39:02.655Z",
+      "networkCount": "1",
+      "reason": "Investigative"
+    },
+    {
+      "id": "5188bfbd-7fb7-4cd0-a82f-3c6e9245ba73",
+      "userId": "***",
+      "searchDate": "2026-03-26T20:49:16.938Z",
+      "networkCount": "630",
+      "reason": "review"
+    },
+    {
+      "id": "d3ef9963-584d-47e3-bab6-c08acdcf74ad",
+      "userId": "***",
+      "searchDate": "2026-03-26T20:53:45.346Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "027aeb29-78d7-48d2-bfc1-9ba1ef62dc1b",
+      "userId": "***",
+      "searchDate": "2026-03-26T21:10:34.362Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "fd2167cf-a4c5-4ca9-a9f8-fc48efc390c6",
+      "userId": "***",
+      "searchDate": "2026-03-26T22:19:20.817Z",
+      "networkCount": "630",
+      "reason": "review"
+    },
+    {
+      "id": "e074b617-b4ce-4442-a03f-c1d8b4fdd0ef",
+      "userId": "***",
+      "searchDate": "2026-03-26T23:10:55.403Z",
+      "networkCount": "630",
+      "reason": "review"
+    },
+    {
+      "id": "59d384d3-01bb-4281-be2b-7c5fecd777e0",
+      "userId": "***",
+      "searchDate": "2026-03-27T01:05:25.742Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "5c874bda-771d-4bc1-91a7-958e9a769650",
+      "userId": "***",
+      "searchDate": "2026-03-27T09:52:05.155Z",
+      "networkCount": "630",
+      "reason": "STOLEN"
+    },
+    {
+      "id": "7daddc33-742d-45d1-b2b0-968116eb3f76",
+      "userId": "***",
+      "searchDate": "2026-03-27T10:19:55.181Z",
+      "networkCount": "630",
+      "reason": "STOLEN"
+    },
+    {
+      "id": "7cff6739-799f-4b9a-931c-b05839757804",
+      "userId": "***",
+      "searchDate": "2026-03-27T17:52:45.687Z",
+      "networkCount": "1",
+      "reason": "SUSP VEH"
+    },
+    {
+      "id": "2ed2b4f4-0cc4-4410-94e1-77edc9ae629f",
+      "userId": "***",
+      "searchDate": "2026-03-27T19:32:59.159Z",
+      "networkCount": "1",
+      "reason": "ATL"
+    },
+    {
+      "id": "930a2bdd-ce2e-491a-be99-769b6b01cd72",
+      "userId": "***",
+      "searchDate": "2026-03-27T21:31:12.367Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "de135d3f-6985-4d9b-989c-8614cf5fef4b",
+      "userId": "***",
+      "searchDate": "2026-03-27T23:34:15.287Z",
+      "networkCount": "630",
+      "reason": "INVES"
+    },
+    {
+      "id": "bb3d8319-d0a3-49ac-a1d3-c06e468db611",
+      "userId": "***",
+      "searchDate": "2026-03-28T00:39:48.263Z",
+      "networkCount": "1",
+      "reason": "Arson investigation"
+    },
+    {
+      "id": "c95cc91e-7d00-4f53-8090-87cc7471cc8a",
+      "userId": "***",
+      "searchDate": "2026-03-28T19:36:38.158Z",
+      "networkCount": "1",
+      "reason": "ASSAULT"
+    },
+    {
+      "id": "f51af67a-8dd6-412b-8431-169584ec7b85",
+      "userId": "***",
+      "searchDate": "2026-03-29T01:28:11.705Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "9d1bc7ca-bedb-4595-94d1-75a3e49c13a1",
+      "userId": "***",
+      "searchDate": "2026-03-29T02:46:04.233Z",
+      "networkCount": "1",
+      "reason": "suspec"
+    },
+    {
+      "id": "bf1c8c9e-72f8-480d-8fcd-41d3f1357fad",
+      "userId": "***",
+      "searchDate": "2026-03-29T05:48:51.871Z",
+      "networkCount": "1",
+      "reason": "suspect"
+    },
+    {
+      "id": "94c6fc4a-4932-44de-848e-1dfb4108d12d",
+      "userId": "***",
+      "searchDate": "2026-03-29T05:56:05.523Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "89576a30-9d93-4c22-820a-cc746b5a1176",
+      "userId": "***",
+      "searchDate": "2026-03-29T07:19:04.510Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "11339af7-b6aa-46d2-a0fc-bacce0d3cc98",
+      "userId": "***",
+      "searchDate": "2026-03-29T16:46:25.081Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "fbc3df80-da13-4308-8592-1e977f8b8a07",
+      "userId": "***",
+      "searchDate": "2026-03-29T17:00:35.618Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "51c4b169-7848-4b95-8093-d9fce5689257",
+      "userId": "***",
+      "searchDate": "2026-03-29T18:15:53.765Z",
+      "networkCount": "1",
+      "reason": "veh"
+    },
+    {
+      "id": "d0340a44-139c-45fc-8af4-76921646c868",
+      "userId": "***",
+      "searchDate": "2026-03-29T20:24:09.858Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "a460fac1-4dea-4876-b70e-9d5451c44ea2",
+      "userId": "***",
+      "searchDate": "2026-03-30T00:40:15.475Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "e24bb2e2-efe5-4ffd-886c-ec892c085f33",
+      "userId": "***",
+      "searchDate": "2026-03-30T02:30:11.745Z",
+      "networkCount": "1",
+      "reason": "suspec"
+    },
+    {
+      "id": "ae510451-428d-4a12-a54f-8965b793922a",
+      "userId": "***",
+      "searchDate": "2026-03-30T03:13:59.046Z",
+      "networkCount": "1",
+      "reason": "SUSPECT VEHICLE"
+    },
+    {
+      "id": "5bbd2610-4e11-4680-8942-c4e499521e6c",
+      "userId": "***",
+      "searchDate": "2026-03-30T04:45:39.658Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "2631d73f-3987-485a-9af9-5ff35f063495",
+      "userId": "***",
+      "searchDate": "2026-03-30T05:59:04.370Z",
+      "networkCount": "630",
+      "reason": "2800"
+    },
+    {
+      "id": "c2f3ac51-9ec2-4d34-b3a9-be92481edc84",
+      "userId": "***",
+      "searchDate": "2026-03-30T06:00:21.788Z",
+      "networkCount": "1",
+      "reason": "2800"
+    },
+    {
+      "id": "8783553b-10e9-4278-b8b7-f6224e4f4499",
+      "userId": "***",
+      "searchDate": "2026-03-30T06:07:38.019Z",
+      "networkCount": "1",
+      "reason": "pursuit"
+    },
+    {
+      "id": "46ede45e-18f7-4844-9ce4-20c1ec88fc15",
+      "userId": "***",
+      "searchDate": "2026-03-30T06:16:18.688Z",
+      "networkCount": "1",
+      "reason": "LE"
+    },
+    {
+      "id": "2ed4af25-19bf-4199-b0f6-31dc68dadc9d",
+      "userId": "***",
+      "searchDate": "2026-03-30T06:17:45.858Z",
+      "networkCount": "1",
+      "reason": "LAW ENFORCEMENT"
+    },
+    {
+      "id": "114c4df2-2e0b-41f1-a97d-b3d5ceeb231e",
+      "userId": "***",
+      "searchDate": "2026-03-30T06:25:15.196Z",
+      "networkCount": "1",
+      "reason": "2800"
+    },
+    {
+      "id": "00d42849-e1bf-4ffa-8e26-a2d3000ac813",
+      "userId": "***",
+      "searchDate": "2026-03-30T06:26:18.660Z",
+      "networkCount": "1",
+      "reason": "2800"
+    },
+    {
+      "id": "1710ad81-4a88-46cd-90f7-3a4b8d99a137",
+      "userId": "***",
+      "searchDate": "2026-03-30T07:09:06.160Z",
+      "networkCount": "630",
+      "reason": "10851"
+    },
+    {
+      "id": "e0fd502a-4e23-4d64-981b-8e8323bf47e9",
+      "userId": "***",
+      "searchDate": "2026-03-30T10:36:27.337Z",
+      "networkCount": "1",
+      "reason": "le"
+    },
+    {
+      "id": "649b54cf-e986-4036-b359-fa74d9326394",
+      "userId": "***",
+      "searchDate": "2026-03-30T16:09:59.012Z",
+      "networkCount": "1",
+      "reason": "SUSV"
+    },
+    {
+      "id": "ffb57c8f-51d1-449e-8891-a272edc16dba",
+      "userId": "***",
+      "searchDate": "2026-03-30T18:55:09.784Z",
+      "networkCount": "1",
+      "reason": "Case Investigation"
+    },
+    {
+      "id": "02e0530b-e6b6-40a1-95fa-873a8bca32f3",
+      "userId": "***",
+      "searchDate": "2026-03-31T02:36:37.339Z",
+      "networkCount": "1",
+      "reason": "suspec"
+    },
+    {
+      "id": "668c7218-f1ff-4a94-905c-65fcc308d379",
+      "userId": "***",
+      "searchDate": "2026-03-31T06:28:29.488Z",
+      "networkCount": "827",
+      "reason": "2800"
+    },
+    {
+      "id": "e0e49484-9aba-4639-a55d-f55961d9f9ab",
+      "userId": "***",
+      "searchDate": "2026-03-31T08:40:04.318Z",
+      "networkCount": "1",
+      "reason": "2800"
+    },
+    {
+      "id": "3a196477-92f9-444a-93e7-b4161625a103",
+      "userId": "***",
+      "searchDate": "2026-03-31T18:19:45.753Z",
+      "networkCount": "1",
+      "reason": "RESEARCH"
+    },
+    {
+      "id": "20afafa6-f3de-46d8-833e-67b802b78c8e",
+      "userId": "***",
+      "searchDate": "2026-03-31T21:01:16.377Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "112e5c70-e25e-4329-83d4-23c3b9c798b4",
+      "userId": "***",
+      "searchDate": "2026-03-31T23:22:14.190Z",
+      "networkCount": "1",
+      "reason": "CHP TEJON"
+    },
+    {
+      "id": "7bf15970-0847-4df6-9d77-119bf814977c",
+      "userId": "***",
+      "searchDate": "2026-04-01T11:53:29.571Z",
+      "networkCount": "1",
+      "reason": "2604010027"
+    },
+    {
+      "id": "df33d22b-367e-4b2e-9bba-ab2cf1bf03c0",
+      "userId": "***",
+      "searchDate": "2026-04-01T12:00:20.353Z",
+      "networkCount": "1",
+      "reason": "2604010027"
+    },
+    {
+      "id": "113b1700-228a-445c-a52e-fbcc3ca718ab",
+      "userId": "***",
+      "searchDate": "2026-04-01T18:27:33.088Z",
+      "networkCount": "1",
+      "reason": "traffic"
+    },
+    {
+      "id": "ec05f023-a47f-49a0-b189-ce87716a2c07",
+      "userId": "***",
+      "searchDate": "2026-04-01T20:07:53.996Z",
+      "networkCount": "630",
+      "reason": "SUSP VEH"
+    },
+    {
+      "id": "85c2dc25-c52c-4447-ad6f-025bfaff13da",
+      "userId": "***",
+      "searchDate": "2026-04-01T20:28:25.043Z",
+      "networkCount": "630",
+      "reason": "2604010070"
+    },
+    {
+      "id": "143b3987-3ce2-40da-b119-0177a308743e",
+      "userId": "***",
+      "searchDate": "2026-04-01T20:52:48.823Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "3ae405c1-2cae-44e6-a304-d0c9ddf16f96",
+      "userId": "***",
+      "searchDate": "2026-04-02T02:12:26.884Z",
+      "networkCount": "1",
+      "reason": "POSSIBLE SUSPECT VEHCILE"
+    },
+    {
+      "id": "ed83ccf0-c97e-472a-a069-fb1b278e0d1e",
+      "userId": "***",
+      "searchDate": "2026-04-02T03:15:41.228Z",
+      "networkCount": "1",
+      "reason": "2604010101"
+    },
+    {
+      "id": "8331ad65-f013-40e9-8019-204a03f30415",
+      "userId": "***",
+      "searchDate": "2026-04-02T03:41:09.933Z",
+      "networkCount": "630",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "471e7678-92d6-4040-845f-26b45f3450fc",
+      "userId": "***",
+      "searchDate": "2026-04-02T06:52:43.926Z",
+      "networkCount": "1",
+      "reason": "warrant subject"
+    },
+    {
+      "id": "462f2df4-b18d-420c-8b2c-52bf2d3584e5",
+      "userId": "***",
+      "searchDate": "2026-04-02T15:59:49.735Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "3b7ac5a2-bec7-42bc-b5d7-7e13f0723c85",
+      "userId": "***",
+      "searchDate": "2026-04-02T16:00:20.190Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "c2efdc0e-aec4-4b6d-90e0-4aeb5f9c7a91",
+      "userId": "***",
+      "searchDate": "2026-04-02T16:55:56.212Z",
+      "networkCount": "1",
+      "reason": "traffic"
+    },
+    {
+      "id": "366d7e68-537d-47dd-97f2-6491a2f36fa9",
+      "userId": "***",
+      "searchDate": "2026-04-02T18:04:50.610Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "b520a143-04f3-488b-9d49-a1363f8eb27a",
+      "userId": "***",
+      "searchDate": "2026-04-02T19:59:24.821Z",
+      "networkCount": "1",
+      "reason": "suspect vehicle"
+    },
+    {
+      "id": "7d4efbc1-d6ef-42a3-bb12-0ffc8df8c500",
+      "userId": "***",
+      "searchDate": "2026-04-02T20:01:10.235Z",
+      "networkCount": "1",
+      "reason": "Suspect veh"
+    },
+    {
+      "id": "7720b1d7-b921-4145-894f-4be008e7fdd7",
+      "userId": "***",
+      "searchDate": "2026-04-02T22:57:41.067Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "8c2b5770-4f0f-4911-9770-a27686f8a8f6",
+      "userId": "***",
+      "searchDate": "2026-04-03T16:49:25.225Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "a9236a47-4003-4de5-84dd-b3f39754d3e0",
+      "userId": "***",
+      "searchDate": "2026-04-04T02:08:52.149Z",
+      "networkCount": "630",
+      "reason": "10851"
+    },
+    {
+      "id": "999ba62a-d154-4f98-9a96-b17db9c1165c",
+      "userId": "***",
+      "searchDate": "2026-04-04T09:20:30.798Z",
+      "networkCount": "1",
+      "reason": "LE"
+    },
+    {
+      "id": "dfb26d0f-20f1-4481-b0e1-7063f9236684",
+      "userId": "***",
+      "searchDate": "2026-04-04T15:13:05.367Z",
+      "networkCount": "630",
+      "reason": "2604040022"
+    },
+    {
+      "id": "3285a520-e33f-4d22-9464-69b41a7c8833",
+      "userId": "***",
+      "searchDate": "2026-04-04T15:26:02.760Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "e4f3e54b-d07c-41b6-b9f0-2079e3a6e0b0",
+      "userId": "***",
+      "searchDate": "2026-04-04T17:38:40.916Z",
+      "networkCount": "1",
+      "reason": "CVC"
+    },
+    {
+      "id": "e7a701d4-fc95-4131-8eb7-6c4d700bb0bc",
+      "userId": "***",
+      "searchDate": "2026-04-04T20:27:54.805Z",
+      "networkCount": "1",
+      "reason": "CVC"
+    },
+    {
+      "id": "edd47925-9fc6-4b3e-bd71-b1dfd60cbca6",
+      "userId": "***",
+      "searchDate": "2026-04-05T00:39:45.224Z",
+      "networkCount": "630",
+      "reason": "10851"
+    },
+    {
+      "id": "c156254c-c3f8-4597-a5d1-b86e670f4932",
+      "userId": "***",
+      "searchDate": "2026-04-05T16:33:42.238Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "ad709048-d7bf-43e3-8e1c-4b445df22dfa",
+      "userId": "***",
+      "searchDate": "2026-04-05T16:39:21.325Z",
+      "networkCount": "1",
+      "reason": "veh"
+    },
+    {
+      "id": "3b5cbbe1-4512-443d-87e3-82332e612526",
+      "userId": "***",
+      "searchDate": "2026-04-05T16:41:51.943Z",
+      "networkCount": "1",
+      "reason": "Veh"
+    },
+    {
+      "id": "40e414ff-86b8-40ae-81c2-9624e7619235",
+      "userId": "***",
+      "searchDate": "2026-04-05T16:45:44.536Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "55488ed8-2d5c-4545-bc9e-a8461115d844",
+      "userId": "***",
+      "searchDate": "2026-04-05T17:01:30.993Z",
+      "networkCount": "845",
+      "reason": "Investigation"
+    },
+    {
+      "id": "ac218989-76cc-4259-a662-01bf909680ec",
+      "userId": "***",
+      "searchDate": "2026-04-05T17:05:14.183Z",
+      "networkCount": "630",
+      "reason": "REVIEW"
+    },
+    {
+      "id": "81e5dd58-1a9c-4714-90c5-c8c08edba3ec",
+      "userId": "***",
+      "searchDate": "2026-04-05T17:12:01.488Z",
+      "networkCount": "577",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "5a38f8c8-b622-4867-add4-c212b021cb6c",
+      "userId": "***",
+      "searchDate": "2026-04-05T19:40:46.899Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "03e23afe-8316-4c4c-a734-28d10c4485e3",
+      "userId": "***",
+      "searchDate": "2026-04-06T15:56:25.365Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "09661461-b470-454a-8109-dfb5c0d7776b",
+      "userId": "***",
+      "searchDate": "2026-04-06T16:01:16.181Z",
+      "networkCount": "845",
+      "reason": "Investigation"
+    },
+    {
+      "id": "7be900de-b273-482a-920d-3854a32e4634",
+      "userId": "***",
+      "searchDate": "2026-04-06T16:44:02.196Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "7390d990-ddd3-4dc9-a9bd-7e38e2dffb37",
+      "userId": "***",
+      "searchDate": "2026-04-06T21:32:44.640Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "f9d59458-adea-4145-a089-a908c1e57d4c",
+      "userId": "***",
+      "searchDate": "2026-04-06T22:28:38.215Z",
+      "networkCount": "630",
+      "reason": "INVES"
+    },
+    {
+      "id": "f9945a8f-1300-4608-bcc6-2e6668567b3a",
+      "userId": "***",
+      "searchDate": "2026-04-06T23:42:18.319Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "e398ea9c-dea5-49c2-aabb-b4f995584590",
+      "userId": "***",
+      "searchDate": "2026-04-07T00:02:33.761Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "35e4cdaa-e6ca-4a97-afd2-d158f6011f76",
+      "userId": "***",
+      "searchDate": "2026-04-07T00:04:23.184Z",
+      "networkCount": "630",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "c9bd9481-2132-4271-9d59-2e2adbb7f383",
+      "userId": "***",
+      "searchDate": "2026-04-07T00:06:16.264Z",
+      "networkCount": "1",
+      "reason": "2604060080"
+    },
+    {
+      "id": "e385214e-898c-48ed-aef9-b0a0b6cb73f0",
+      "userId": "***",
+      "searchDate": "2026-04-07T02:29:34.151Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "c7fd5723-1485-494d-8558-8bab7038b54a",
+      "userId": "***",
+      "searchDate": "2026-04-07T06:31:05.393Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "3cb12fd7-6263-4c7e-92e1-aacf3636b239",
+      "userId": "***",
+      "searchDate": "2026-04-07T07:51:30.989Z",
+      "networkCount": "1",
+      "reason": "Investigation"
+    },
+    {
+      "id": "ae3550e6-d558-4e75-ad48-cfd8babcb66c",
+      "userId": "***",
+      "searchDate": "2026-04-07T15:50:35.196Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "a8d38307-a13f-47d2-9f3d-2a26954a1a9d",
+      "userId": "***",
+      "searchDate": "2026-04-07T16:12:46.085Z",
+      "networkCount": "1",
+      "reason": "CRIME ANALYSIS"
+    },
+    {
+      "id": "4df98d63-e3fa-4297-a5e7-90059bbb1d05",
+      "userId": "***",
+      "searchDate": "2026-04-07T17:14:33.535Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "77ae4a89-dfba-44cc-b132-049e2526235b",
+      "userId": "***",
+      "searchDate": "2026-04-07T18:00:34.294Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "74198065-0860-474d-b11c-5beeed4f8a7d",
+      "userId": "***",
+      "searchDate": "2026-04-07T22:23:36.649Z",
+      "networkCount": "1",
+      "reason": "2604070047"
+    },
+    {
+      "id": "45b04867-c9a3-4ceb-bda4-3ae799d0ac86",
+      "userId": "***",
+      "searchDate": "2026-04-07T23:25:36.706Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "b8e99d77-0ba8-4065-bd4a-e4e765352adb",
+      "userId": "***",
+      "searchDate": "2026-04-08T11:13:05.923Z",
+      "networkCount": "1",
+      "reason": "sus vehicle"
+    },
+    {
+      "id": "65aa23ce-199d-49ea-81c3-63fffe70d193",
+      "userId": "***",
+      "searchDate": "2026-04-08T15:12:28.502Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "3a479d10-9f05-43b2-a575-2ee46b48637f",
+      "userId": "***",
+      "searchDate": "2026-04-08T19:26:27.905Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "98230f5c-feb4-4c8e-9a10-17ed7ace2ba5",
+      "userId": "***",
+      "searchDate": "2026-04-08T21:31:03.070Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "fefa3b8d-c1d4-46a8-bc49-82907808eba7",
+      "userId": "***",
+      "searchDate": "2026-04-08T22:00:54.368Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "53c22484-4683-4b37-963b-1f10d658d0c5",
+      "userId": "***",
+      "searchDate": "2026-04-08T22:17:15.888Z",
+      "networkCount": "1",
+      "reason": "investigation"
+    },
+    {
+      "id": "0dcd7829-aefe-4eaa-b5ea-f34bd59f5797",
+      "userId": "***",
+      "searchDate": "2026-04-08T22:19:49.918Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION"
+    },
+    {
+      "id": "b912da13-ee5c-49d2-8e94-ee476a10b422",
+      "userId": "***",
+      "searchDate": "2026-04-08T23:05:07.060Z",
+      "networkCount": "1",
+      "reason": "VIC VEH"
+    },
+    {
+      "id": "6030facb-6c64-44f5-81dd-ac95938e8be2",
+      "userId": "***",
+      "searchDate": "2026-04-09T14:50:30.112Z",
+      "networkCount": "1",
+      "reason": "901T"
+    },
+    {
+      "id": "1bcacd03-8bc4-4932-9e7c-c38b7fd6e030",
+      "userId": "***",
+      "searchDate": "2026-04-09T14:51:09.937Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "e4b8abbc-7d66-4074-95a8-60c6dd082b7f",
+      "userId": "***",
+      "searchDate": "2026-04-09T15:16:56.408Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "6a178728-da7a-40f1-8626-966adf05780f",
+      "userId": "***",
+      "searchDate": "2026-04-09T15:19:41.270Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "6fd94594-5e80-4958-a692-6ed52115ab5a",
+      "userId": "***",
+      "searchDate": "2026-04-09T15:21:37.829Z",
+      "networkCount": "1",
+      "reason": "901T"
+    },
+    {
+      "id": "d1e866fe-3034-4b74-adab-0517378fc065",
+      "userId": "***",
+      "searchDate": "2026-04-09T16:11:06.014Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "321b90ed-350b-4507-bce9-ef7e9cd9f130",
+      "userId": "***",
+      "searchDate": "2026-04-09T17:04:42.357Z",
+      "networkCount": "630",
+      "reason": "investigation"
+    },
+    {
+      "id": "a8ed2b79-fbeb-4cf4-8a3a-1468dd0943ec",
+      "userId": "***",
+      "searchDate": "2026-04-09T18:44:42.567Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "3f3f14ff-6675-47d7-b0c8-360aa8b46d0e",
+      "userId": "***",
+      "searchDate": "2026-04-09T19:00:39.365Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "87ce2450-7b8b-4a97-86c5-ff08bebb4e4e",
+      "userId": "***",
+      "searchDate": "2026-04-09T23:42:40.007Z",
+      "networkCount": "1",
+      "reason": "law enforcement"
+    }
+  ]
 }

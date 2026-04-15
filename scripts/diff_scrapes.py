@@ -11,7 +11,9 @@ DATA_DIR = Path("assets/transparency.flocksafety.com")
 SKIP_FIELDS = {"archived_date"}
 
 # Fields where we show set diffs instead of full values
-LIST_FIELDS = {"shared_org_names", "shared_org_slugs",
+# Support both old and new field names during transition
+LIST_FIELDS = {"sharing_outbound", "sharing_inbound",
+               "shared_org_names", "shared_org_slugs",
                "orgs_sharing_with_names", "orgs_sharing_with_slugs"}
 
 

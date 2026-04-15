@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import agency_display_name, has_tag, load_registry
+from lib import agency_display_name, has_tag, load_registry, registry_by_id
 
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 DATA_DIR = Path("assets/transparency.flocksafety.com")
@@ -24,9 +24,9 @@ OUT_PATH = Path("docs/data/scoreboard_data.json")
 RANKED_STATE = "CA"
 
 
-def is_violation_entity(slug, registry_by_slug):
+def is_violation_entity(aid, reg_by_id):
     """Match the violation logic from build_map.py."""
-    r = registry_by_slug.get(slug, {})
+    r = reg_by_id.get(aid, {})
     if has_tag(r, "private"):
         return "private"
     if r.get("state") and r["state"] != "CA":
@@ -55,25 +55,26 @@ def load_crawled_stats(slug):
 
 def main():
     registry = load_registry()
-    registry_by_slug = {a["slug"]: a for a in registry}
+    reg_by_id = registry_by_id()
+    id_to_slug = {e["agency_id"]: e["slug"] for e in registry}
 
     with open(GRAPH_PATH) as f:
         graph = json.load(f)
 
     # Build outbound lookup for indirect violation computation
-    outbound_by_slug = {}
-    for slug, data in graph["agencies"].items():
-        outbound_by_slug[slug] = data.get("outbound_slugs", [])
+    outbound_by_id = {}
+    for aid, data in graph["agencies"].items():
+        outbound_by_id[aid] = data.get("sharing_outbound_ids", [])
 
     agencies = []
-    for slug, data in graph["agencies"].items():
-        info = registry_by_slug.get(slug, {})
+    for aid, data in graph["agencies"].items():
+        info = reg_by_id.get(aid, {})
         if not data.get("crawled"):
             continue
 
-        outbound_slugs = data.get("outbound_slugs", [])
-        outbound_count = data.get("outbound_count", 0)
-        inbound_count = data.get("inbound_count", 0)
+        outbound_ids = data.get("sharing_outbound_ids", [])
+        outbound_count = data.get("sharing_outbound_count", 0)
+        inbound_count = data.get("sharing_inbound_count", 0)
 
         # Classify outbound targets
         out_of_state = 0
@@ -83,8 +84,8 @@ def main():
         non_conforming = 0
 
         direct_violations = set()
-        for target in outbound_slugs:
-            v = is_violation_entity(target, registry_by_slug)
+        for target_id in outbound_ids:
+            v = is_violation_entity(target_id, reg_by_id)
             if v == "out_of_state":
                 out_of_state += 1
             elif v == "private":
@@ -93,29 +94,30 @@ def main():
                 federal += 1
             if v:
                 non_conforming += 1
-                direct_violations.add(target)
+                direct_violations.add(target_id)
 
-            tr = registry_by_slug.get(target, {})
+            tr = reg_by_id.get(target_id, {})
             if tr.get("agency_type") == "university":
                 universities += 1
 
         # Indirect violations: targets' outbound that are violation entities
         indirect_violations = 0
         indirect_seen = set()
-        for target in outbound_slugs:
-            if target in outbound_by_slug:
-                for second_hop in outbound_by_slug[target]:
+        for target_id in outbound_ids:
+            if target_id in outbound_by_id:
+                for second_hop in outbound_by_id[target_id]:
                     if second_hop not in direct_violations and second_hop not in indirect_seen:
-                        if is_violation_entity(second_hop, registry_by_slug):
+                        if is_violation_entity(second_hop, reg_by_id):
                             indirect_violations += 1
                             indirect_seen.add(second_hop)
 
         # Load crawled portal stats
+        slug = id_to_slug.get(aid, aid)
         crawled_stats = load_crawled_stats(slug)
 
         agencies.append({
             "slug": slug,
-            "name": agency_display_name(info, slug),
+            "name": agency_display_name(info),
             "state": info.get("state", ""),
             "outbound": outbound_count,
             "inbound": inbound_count,
@@ -140,36 +142,35 @@ def main():
     # that Source A shares with it, but Source A publishes an outbound
     # list that doesn't include B.  Rank by how many such claims point
     # at a given source.  Self-references are excluded.
+    # Mismatch analysis — graph uses agency_ids, translate to slugs for output
     from collections import defaultdict
-    source_conflict_targets = defaultdict(list)  # source -> [receivers]
+    source_conflict_targets = defaultdict(list)
     for m in mismatches:
         if m["type"] == "inbound_not_confirmed" and m.get("source_has_outbound_list"):
-            source = m["claims_shared_by"]
-            receiver = m["agency"]
-            if source != receiver:
-                source_conflict_targets[source].append(receiver)
+            source_slug = id_to_slug.get(m["claims_shared_by"])
+            receiver_slug = id_to_slug.get(m["agency"])
+            if source_slug and receiver_slug and source_slug != receiver_slug:
+                source_conflict_targets[source_slug].append(receiver_slug)
 
     for a in agencies:
         a["sharing_conflicts"] = len(source_conflict_targets.get(a["slug"], []))
 
-    # Agencies with a crawled portal but zero sharing list published
-    # (they have a transparency page but hide who they share with)
+    # Agencies with a crawled portal but zero sharing published
     no_sharing_slugs = set()
-    for slug, data in graph["agencies"].items():
-        if data.get("crawled") and data.get("outbound_count", 0) == 0:
-            # Check they actually don't publish sharing data at all
-            if not data.get("outbound_slugs"):
-                no_sharing_slugs.add(slug)
+    for aid, data in graph["agencies"].items():
+        if data.get("crawled") and data.get("sharing_outbound_count", 0) == 0:
+            if not data.get("sharing_outbound_ids"):
+                slug = id_to_slug.get(aid)
+                if slug:
+                    no_sharing_slugs.add(slug)
 
     no_sharing_list = []
     for a in agencies:
         if a["slug"] in no_sharing_slugs:
             no_sharing_list.append({"slug": a["slug"], "name": a["name"]})
-    # Also include crawled agencies that weren't in the ranked set
-    # (they might have been filtered out for other reasons)
     for slug in sorted(no_sharing_slugs):
         if not any(ns["slug"] == slug for ns in no_sharing_list):
-            info = registry_by_slug.get(slug, {})
+            info = reg_by_id.get(next((e["agency_id"] for e in registry if e["slug"] == slug), ""), {})
             no_sharing_list.append({
                 "slug": slug,
                 "name": agency_display_name(info, slug),
@@ -179,14 +180,12 @@ def main():
 
     ca_in_registry = sum(1 for a in registry if a.get("state") == RANKED_STATE)
     ca_crawled = sum(
-        1 for slug, d in graph["agencies"].items()
-        if d.get("crawled") and registry_by_slug.get(slug, {}).get("state") == RANKED_STATE
+        1 for aid, d in graph["agencies"].items()
+        if d.get("crawled") and reg_by_id.get(aid, {}).get("state") == RANKED_STATE
     )
-    # Agencies known to use Flock (appear in other agencies' sharing lists)
-    # but have no findable transparency portal
     ca_no_portal = sum(
-        1 for slug, d in graph["agencies"].items()
-        if not d.get("crawled") and registry_by_slug.get(slug, {}).get("state") == RANKED_STATE
+        1 for aid, d in graph["agencies"].items()
+        if not d.get("crawled") and reg_by_id.get(aid, {}).get("state") == RANKED_STATE
     )
 
     # Build categories — top 3 for each, spiciest first

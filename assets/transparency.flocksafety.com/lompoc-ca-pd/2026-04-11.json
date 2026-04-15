@@ -1,5 +1,6 @@
 {
-  "slug": "lompoc-ca-pd",
+  "crawled_slug": "lompoc-ca-pd",
+  "crawled_name": "Lompoc CA PD",
   "archived_date": "2026-04-11",
   "whats_detected": "License Plates, Vehicles",
   "whats_not_detected": "Facial recognition, People, Gender, Race",
@@ -15,8 +16,7 @@
   "vehicles_detected_30d": 115335,
   "hotlist_hits_30d": 1938,
   "searches_30d": 153,
-  "shared_org_count": 319,
-  "shared_org_names": [
+  "sharing_outbound": [
     "San Jose State University CA",
     "Alameda CA PD",
     "Alameda County CA SO",
@@ -337,330 +337,7 @@
     "Yuba City CA PD",
     "Yuba County Sheriffs Office"
   ],
-  "shared_org_slugs": [
-    "san-jose-state-university-ca",
-    "alameda-ca-pd",
-    "alameda-county-ca-so",
-    "albany-ca-pd",
-    "alhambra-ca-pd",
-    "amador-county-ca-sheriffs-office",
-    "anaheim-ca-pd",
-    "anderson-ca-pd",
-    "angels-camp-ca-pd",
-    "antioch-ca-pd",
-    "arcadia-ca-pd",
-    "atwater-ca-pd",
-    "auburn-ca-pd",
-    "avenal-ca-pd",
-    "azusa-ca-pd",
-    "bakersfield-ca-pd",
-    "baldwin-park-ca-pd",
-    "barstow-ca-pd",
-    "bear-valley-springs-ca-pd",
-    "beaumont-ca-pd",
-    "bell-ca-pd",
-    "bell-gardens-ca-pd",
-    "belmont-ca-pd",
-    "belvedere-ca-pd",
-    "benicia-ca-pd",
-    "beverly-hills-ca-pd",
-    "bishop-ca-pd",
-    "blue-lake-rancheria-tribal-pd",
-    "blythe-ca-pd",
-    "brawley-ca-pd",
-    "brentwood-ca-pd",
-    "brisbane-ca-pd",
-    "buena-park-ca-pd",
-    "burbank-airport-ca-pd",
-    "burbank-ca-pd",
-    "burlingame-ca-pd",
-    "butte-county-ca-so",
-    "ca-iipay-nation-of-santa-ysabel",
-    "cal-fire",
-    "cal-state-fullerton-ca",
-    "calexico-ca-pd",
-    "california-department-of-corrections",
-    "california-department-of-fish-wildlife-ca",
-    "california-highway-patrol",
-    "california-state-parks",
-    "california-state-university-long-beach-campus-pd",
-    "calistoga-ca-pd",
-    "campbell-ca-pd",
-    "capitola-ca-pd",
-    "carmel-ca-pd",
-    "cathedral-city-ca-pd",
-    "central-marin-ca-pd",
-    "cerritos-college-ca-pd",
-    "chino-ca-pd",
-    "chula-vista-ca-pd",
-    "citrus-heights-ca-pd",
-    "city-of-lemoore-ca",
-    "city-of-riverside-ca-pd",
-    "claremont-ca-pd",
-    "clayton-ca-pd",
-    "cloverdale-ca-pd",
-    "colma-ca-pd",
-    "colton-ca-pd",
-    "colusa-ca-pd",
-    "concord-ca-pd",
-    "contra-costa-county-ca-so",
-    "corcoran-ca-pd",
-    "corona-ca-pd",
-    "coronado-ca-pd",
-    "costa-mesa-ca-pd",
-    "cotati-ca-pd",
-    "covina-ca-pd",
-    "culver-city-ca-pd",
-    "cypress-ca-pd",
-    "danville-ca-pd",
-    "del-norte-county-ca-so",
-    "delano-ca-pd",
-    "desert-hot-springs-ca-pd",
-    "dinuba-ca-pd",
-    "dixon-ca-pd",
-    "downey-pd-ca",
-    "dublin-ca-pd",
-    "east-bay-parks-ca-pd",
-    "east-palo-alto-ca-pd",
-    "-el-cajon-pd-ca",
-    "el-centro-ca-pd",
-    "el-cerrito-ca-pd",
-    "el-dorado-county-ca-so",
-    "el-monte-ca-pd",
-    "el-segundo-ca-pd",
-    "elk-grove-ca-pd",
-    "emeryville-ca-pd",
-    "escalon-ca-pd",
-    "escondido-ca-pd",
-    "fairfield-ca-pd",
-    "folsom-ca-pd",
-    "fontana-ca-pd",
-    "foothilldeanza-ca-pd",
-    "fort-bragg-ca-pd",
-    "foster-city-ca-pd",
-    "fountain-valley-ca-pd",
-    "fowler-ca-pd",
-    "fremont-ca-pd",
-    "fresno-ca-pd",
-    "fullerton-ca-pd",
-    "garden-grove-ca-pd",
-    "gilroy-ca-pd",
-    "glendora-ca-pd",
-    "grass-valley-ca-pd",
-    "greenfield-ca-pd",
-    "grover-beach-ca-pd",
-    "gustine-pd-ca",
-    "hanford-ca-pd",
-    "hayward-ca-pd",
-    "hemet-ca-pd",
-    "hercules-ca-pd",
-    "hermosa-beach-pd-ca",
-    "hillsborough-ca-pd",
-    "hollister-ca-pd",
-    "humboldt-county-ca-so",
-    "imperial-city-ca-pd",
-    "imperial-county-ca-so",
-    "indio-ca-pd",
-    "inglewood-ca-pd",
-    "irvine-ca-pd",
-    "irwindale-ca-pd",
-    "kerman-ca-pd",
-    "kern-county-ca-so",
-    "kings-county-ca-das-office",
-    "kings-county-sheriffs-office-ca",
-    "kingsburg-ca-pd",
-    "la-habra-ca-pd",
-    "la-mesa-ca-pd",
-    "la-verne-ca-pd",
-    "laguna-beach-ca-pd",
-    "lake-county-ca-so",
-    "lakeport-ca-pd",
-    "lancaster-ca-pd",
-    "lasd-ca-san-dimas-station",
-    "lathrop-ca-pd",
-    "lincoln-ca-pd",
-    "livermore-ca-pd",
-    "lodi-ca-pd",
-    "los-alamitos-pd-ca",
-    "los-altos-ca-pd",
-    "los-angeles-ca-pd",
-    "los-angeles-county-ca-sd",
-    "los-angeles-port-police-ca",
-    "madera-ca-pd",
-    "madera-county-so-ca",
-    "manteca-ca-pd",
-    "marin-county-ca-da",
-    "marin-county-ca-so",
-    "marina-ca-pd",
-    "mcfarland-ca-pd",
-    "mendocino-county-soca",
-    "mendota-ca-pd",
-    "menifee-ca-pd",
-    "menlo-park-ca-pd",
-    "merced-county-ca-so",
-    "mill-valley-ca-pd",
-    "milpitas-ca-pd",
-    "modoc-county-ca-so",
-    "montclair-ca-pd",
-    "monterey-ca-pd",
-    "monterey-county-ca-so",
-    "monterey-county-district-attorneys-office",
-    "monterey-park-ca-pd",
-    "moraga-ca-pd",
-    "morgan-hill-ca-pd",
-    "murrieta-ca-pd",
-    "napa-ca-pd",
-    "napa-county-ca-so",
-    "national-city-ca-pd",
-    "ncric",
-    "nevada-city-ca-pd",
-    "nevada-county-ca-so",
-    "newark-ca-pd",
-    "newport-beach-pd-ca",
-    "novato-ca-pd",
-    "oakland-ca-pd",
-    "oakley-ca-pd",
-    "oceanside-ca-pd",
-    "ontario-ca-pd",
-    "orange-ca-pd",
-    "orange-county-ca-da-office",
-    "orange-county-fire-authority-ca",
-    "orange-county-so-ca",
-    "oxnard-ca-pd",
-    "pacifica-ca-pd",
-    "palm-springs-ca-pd",
-    "pasadena-ca-pd",
-    "petaluma-ca-pd",
-    "piedmont-ca-pd",
-    "placer-county-ca-da-office",
-    "placer-county-ca-so",
-    "pleasant-hill-ca-pd",
-    "pleasanton-ca-pd",
-    "pomona-ca-pd",
-    "port-of-stockton-ca-pd",
-    "porterville-ca-pd",
-    "redding-pd-ca",
-    "redondo-beach-ca-pd",
-    "redwood-city-ca-pd",
-    "reedley-ca-pd",
-    "rialto-pd-ca",
-    "ridgecrest-ca-pd",
-    "rio-hondo-college-pd-ca",
-    "rio-vista-ca-pd",
-    "riv-co-arson-tf-ca-pd",
-    "riverside-county-ca-district-attorney",
-    "riverside-county-ca-sd",
-    "rocklin-ca-pd",
-    "rohnert-park-department-of-public-safety-ca",
-    "sacramento-ca-da",
-    "sacramento-ca-pd",
-    "sacramento-county-parks-department-ca",
-    "salinas-ca-pd",
-    "san-benito-county-so-ca",
-    "san-bernardino-ca-pd",
-    "san-bernardino-community-college-ca-pd",
-    "san-bernardino-county-ca-human-services-law-enforcement",
-    "san-bernardino-county-ca-so",
-    "san-bruno-ca-pd",
-    "san-diego-ca-pd",
-    "san-diego-county-ca-sd",
-    "san-diego-harbor-ca-pd",
-    "san-fernando-ca-pd",
-    "san-francisco-ca-pd",
-    "san-francisco-district-attorney-ca",
-    "san-gabriel-ca-pd",
-    "san-joaquin-ca-da",
-    "san-joaquin-county-ca-so",
-    "san-joaquin-delta-college-pd-ca",
-    "san-jose-evergreen-community-college-campus-pd-ca",
-    "san-jose-ca-pd",
-    "san-leandro-pd-ca",
-    "san-luis-obispo-ca-pd",
-    "san-luis-obispo-county-ca-sheriff",
-    "san-mateo-ca-pd",
-    "san-mateo-county-ca-so",
-    "san-pablo-ca-pd",
-    "san-pasqual-ca-pd",
-    "san-rafael-ca-pd",
-    "sand-city-ca-pd",
-    "sanger-ca-pd",
-    "santa-ana-ca-pd",
-    "santa-barbara-county-ca-so",
-    "santa-barbara-pd-ca",
-    "santa-clara-ca-pd",
-    "santa-cruz-ca-pd",
-    "santa-maria-ca-pd",
-    "santa-monica-ca-pd",
-    "santa-rosa-ca-pd",
-    "sausalito-ca-pd",
-    "seal-beach-ca-pd",
-    "seaside-ca-pd",
-    "selma-ca-pd",
-    "sequoias-community-college-district-ca-pd",
-    "shafter-pd-ca",
-    "shasta-county-so",
-    "signal-hill-ca-pd",
-    "simi-valley-ca-pd",
-    "solano-county-ca-so",
-    "solano-county-da-ca",
-    "soledad-ca-pd",
-    "sonoma-county-ca-so",
-    "south-gate-ca-pd",
-    "south-pasadena-ca-pd",
-    "stallion-springs-ca-pd",
-    "stanford-university-ca-pd",
-    "stockton-ca-pd",
-    "suisun-city-ca-pd",
-    "sunnyvale-ca-pd",
-    "sutter-county-ca-so",
-    "taft-ca-pd",
-    "tehachapi-ca-pd",
-    "tehama-county-ca-so",
-    "tiburon-ca-pd",
-    "los-gatos-ca-pd",
-    "tracy-ca-pd",
-    "trinity-county-so-ca",
-    "truckee-ca-pd",
-    "tulare-ca-pd",
-    "tulare-county-ca-so",
-    "turlock-ca-pd",
-    "tustin-ca-pd",
-    "uc-irvine-campus-pd-ca",
-    "ukiah-pd-ca",
-    "union-city-ca-pd",
-    "university-of-ca-santa-barbara-ca-pd",
-    "university-of-california-berkeley",
-    "university-of-san-francisco-ca-pd",
-    "university-of-the-pacific-ca",
-    "upland-ca-pd",
-    "vacaville-ca-pd",
-    "vallejo-ca-pd",
-    "ventura-ca-pd",
-    "ventura-county-ca-so",
-    "ventura-county-district-attorneys-office-ca",
-    "vernon-ca-pd",
-    "visalia-ca-pd",
-    "walnut-creek-ca-pd",
-    "watsonville-ca-pd",
-    "west-covina-ca-pd",
-    "west-sacramento-ca-pd",
-    "west-valley-mission-college-dist-campus-ca",
-    "westminster-ca-pd",
-    "wheatland-ca-pd",
-    "whittier-ca-pd",
-    "williams-ca-pd",
-    "willits-ca-pd",
-    "winters-ca-pd",
-    "woodlake-ca-pd",
-    "woodland-ca-pd",
-    "yolo-county-ca-so",
-    "yreka-ca-pd",
-    "yuba-city-ca-pd",
-    "yuba-county-ca-so"
-  ],
-  "orgs_sharing_with_count": 0,
-  "orgs_sharing_with_names": [],
-  "orgs_sharing_with_slugs": [],
+  "sharing_inbound": [],
   "overview": "Lompoc CA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Lompoc CA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Lompoc CA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.",
   "policy_info": "",
   "alpr_policy": "",
@@ -675,5 +352,1077 @@
   "sb54": "",
   "last_updated": "",
   "restrictions_on_deployment": "",
-  "crawled_at": "2026-04-11T22:54:30.497068+00:00"
+  "search_audit_csv": [
+    {
+      "id": "09e01c96-6a3e-4f7d-891a-5ea5d5d23c63",
+      "userId": "***",
+      "searchDate": "2026-03-12T00:21:34.433Z",
+      "networkCount": "1",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "21ca7b93-756d-4940-9db4-6ea37df02045",
+      "userId": "***",
+      "searchDate": "2026-03-12T10:54:39.935Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "97d45514-9e41-44ac-9f2b-192bd909f431",
+      "userId": "***",
+      "searchDate": "2026-03-12T14:32:09.213Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ff04751f-de45-422f-8264-ee0b12573859",
+      "userId": "***",
+      "searchDate": "2026-03-12T20:08:12.197Z",
+      "networkCount": "619",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "35161cde-bedf-4bf9-9b92-30a59b41a075",
+      "userId": "***",
+      "searchDate": "2026-03-13T18:58:39.330Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "49c5a078-bf0e-4ba1-ad3d-fe61cae94a59",
+      "userId": "***",
+      "searchDate": "2026-03-14T07:56:58.612Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "fa673f06-0aa1-46d4-b205-61b7d12ad77e",
+      "userId": "***",
+      "searchDate": "2026-03-14T10:55:22.095Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "86661c7a-3f02-4409-a8a1-340e946f18e9",
+      "userId": "***",
+      "searchDate": "2026-03-15T07:15:11.921Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ac966328-8613-4c9f-b068-23c36bbe7e0c",
+      "userId": "***",
+      "searchDate": "2026-03-16T00:44:35.585Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "4cd90a42-e643-4d48-a3de-ee71ac3f2f9a",
+      "userId": "***",
+      "searchDate": "2026-03-16T05:10:20.319Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "8ee089d1-1d9f-4b3d-837b-0e4168904159",
+      "userId": "***",
+      "searchDate": "2026-03-16T15:51:48.152Z",
+      "networkCount": "1",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "a1d93fe7-0c67-4a94-bf0b-82b50adfe627",
+      "userId": "***",
+      "searchDate": "2026-03-16T20:05:46.999Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "75e04d87-e89e-48e1-b94c-9d365af5ce49",
+      "userId": "***",
+      "searchDate": "2026-03-16T20:35:43.786Z",
+      "networkCount": "1",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "d9259993-a4fd-4792-a0e3-e9e0dd9d18ef",
+      "userId": "***",
+      "searchDate": "2026-03-17T16:38:57.701Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "0c95b737-d556-4a89-893f-c0b7865079fa",
+      "userId": "***",
+      "searchDate": "2026-03-17T16:55:26.214Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "b9e2c7a6-60e7-4e38-b28b-39b42fe08b08",
+      "userId": "***",
+      "searchDate": "2026-03-18T03:13:32.071Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "91ffaf47-0d35-4b41-b01d-2c7b4a87ccb4",
+      "userId": "***",
+      "searchDate": "2026-03-18T14:46:08.987Z",
+      "networkCount": "618",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "6553f139-c78e-4cd7-8e52-8f5674e2d27d",
+      "userId": "***",
+      "searchDate": "2026-03-18T15:31:30.932Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "312fd1bf-08fe-424f-8d28-85947a5ac646",
+      "userId": "***",
+      "searchDate": "2026-03-18T16:13:16.063Z",
+      "networkCount": "616",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "92d8b682-d444-4eaa-8d7a-0aa48b432956",
+      "userId": "***",
+      "searchDate": "2026-03-18T18:19:28.065Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "6d647845-47bb-4541-987c-e981a3a53fd7",
+      "userId": "***",
+      "searchDate": "2026-03-18T18:31:06.837Z",
+      "networkCount": "618",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "d7331a23-4400-4326-8133-5c249eaa82b0",
+      "userId": "***",
+      "searchDate": "2026-03-18T19:48:25.681Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "262f26d8-ae19-481d-a0b4-cc29c4cd503c",
+      "userId": "***",
+      "searchDate": "2026-03-18T21:18:54.434Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "40aac3fa-d41f-4ce2-bea8-f06639e6c22c",
+      "userId": "***",
+      "searchDate": "2026-03-18T22:08:04.210Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "69ca2305-2836-4ba3-9f53-1fde6970d63c",
+      "userId": "***",
+      "searchDate": "2026-03-18T22:08:09.113Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "63bdd3db-1962-4729-b8e9-85d7fe92f6a7",
+      "userId": "***",
+      "searchDate": "2026-03-18T22:09:09.623Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "12999caf-2182-47e5-a440-f473b28a04d6",
+      "userId": "***",
+      "searchDate": "2026-03-19T12:53:58.181Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "a45ac9ae-530f-4b85-9ece-07b85204217f",
+      "userId": "***",
+      "searchDate": "2026-03-19T16:34:53.194Z",
+      "networkCount": "4",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "fc849b5c-29a2-48bd-bdfb-7d792ebcff74",
+      "userId": "***",
+      "searchDate": "2026-03-19T16:35:15.821Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "03ebcba1-d27a-4a11-9b75-72deb32a719e",
+      "userId": "***",
+      "searchDate": "2026-03-19T20:35:25.252Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "a77e1086-232b-4219-a7d0-46547dea46c8",
+      "userId": "***",
+      "searchDate": "2026-03-19T21:21:18.142Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "4ff726c9-fa09-4c94-a7d9-6a5dd60ae118",
+      "userId": "***",
+      "searchDate": "2026-03-20T04:22:23.138Z",
+      "networkCount": "1",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "1c548d77-687c-4625-9b6f-ecb3c166d55c",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:09:55.351Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "4c680263-00a2-4718-a70a-0eddda0d1b64",
+      "userId": "***",
+      "searchDate": "2026-03-20T18:19:49.547Z",
+      "networkCount": "5",
+      "reason": "At Risk Missing Person"
+    },
+    {
+      "id": "060bd3e9-beeb-4b39-b8ae-bd554d0e06c4",
+      "userId": "***",
+      "searchDate": "2026-03-21T00:10:30.392Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "3d31860b-c8d0-4bc2-afa8-517ff35e7f3d",
+      "userId": "***",
+      "searchDate": "2026-03-21T00:23:03.324Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ffc3ee32-1507-4adb-ad2f-c003c60bfa32",
+      "userId": "***",
+      "searchDate": "2026-03-21T01:57:46.755Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "85281a42-b976-454b-89f9-bbce8f4c33e0",
+      "userId": "***",
+      "searchDate": "2026-03-21T02:09:25.903Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "24655d5e-49fa-41b1-a787-b7bce13b62ea",
+      "userId": "***",
+      "searchDate": "2026-03-21T05:39:23.780Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "482a81e3-f4d9-48a2-8a36-8910b8dd2c9a",
+      "userId": "***",
+      "searchDate": "2026-03-21T07:54:42.993Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "eb8b7341-123a-43de-822a-6fa5e8eec212",
+      "userId": "***",
+      "searchDate": "2026-03-21T08:00:02.706Z",
+      "networkCount": "830",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "4e12c0e9-ae1a-4015-bc6d-035b0124c02b",
+      "userId": "***",
+      "searchDate": "2026-03-21T09:04:33.397Z",
+      "networkCount": "830",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "6645c39d-51cd-4f05-883e-20e40438f191",
+      "userId": "***",
+      "searchDate": "2026-03-21T10:28:11.048Z",
+      "networkCount": "830",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "34e79782-01be-4537-b219-5c9b33676e83",
+      "userId": "***",
+      "searchDate": "2026-03-21T16:46:37.553Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "edd0f52e-f353-4f89-b68a-370b6abae531",
+      "userId": "***",
+      "searchDate": "2026-03-21T19:56:54.756Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "35dbc600-920b-43d3-8794-01b6a9b0a926",
+      "userId": "***",
+      "searchDate": "2026-03-21T20:22:02.405Z",
+      "networkCount": "4",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "b7b7a037-2e30-4067-b5ad-db7767599b63",
+      "userId": "***",
+      "searchDate": "2026-03-22T01:55:44.368Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "84ced41b-9e29-42ef-8398-709578d78fb9",
+      "userId": "***",
+      "searchDate": "2026-03-22T02:22:37.689Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "8c2bfd51-7d6d-46a1-b5f0-2902ad3c7127",
+      "userId": "***",
+      "searchDate": "2026-03-22T14:24:15.272Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "d2a7cac2-4e98-4f9d-b62e-c3b352932930",
+      "userId": "***",
+      "searchDate": "2026-03-22T21:27:53.141Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "e296530a-5ea6-49b1-92dc-79448fc8a638",
+      "userId": "***",
+      "searchDate": "2026-03-22T21:36:37.560Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "36066b61-8399-40d5-8c62-98a5d71bc420",
+      "userId": "***",
+      "searchDate": "2026-03-23T00:40:34.483Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "d52ec031-3794-47bb-94de-94baaa081e7d",
+      "userId": "***",
+      "searchDate": "2026-03-23T16:09:50.575Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "438b34e3-3661-4a6b-9060-ffcc53d527cb",
+      "userId": "***",
+      "searchDate": "2026-03-23T17:05:55.025Z",
+      "networkCount": "616",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "0cf700e0-9670-454b-9601-f058793ef6fc",
+      "userId": "***",
+      "searchDate": "2026-03-23T17:07:03.640Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "59867165-87e4-47dc-b483-5fc41a33ee95",
+      "userId": "***",
+      "searchDate": "2026-03-23T20:32:34.616Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "72f8043b-1043-4676-9d39-0107d8bf0a47",
+      "userId": "***",
+      "searchDate": "2026-03-23T21:13:42.444Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "1292bcea-cacc-4315-8068-be2920bb5f09",
+      "userId": "***",
+      "searchDate": "2026-03-23T23:49:04.720Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "46ce5141-d62f-4b82-9ef4-71a186e49e8c",
+      "userId": "***",
+      "searchDate": "2026-03-24T04:27:06.751Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "333d83d7-00dd-4bf2-8dd5-409994f8f6a7",
+      "userId": "***",
+      "searchDate": "2026-03-24T10:01:04.069Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "c7c54e98-a55f-45c2-9460-798999310192",
+      "userId": "***",
+      "searchDate": "2026-03-24T11:17:06.651Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "6d38540e-e84f-4f79-a3ef-8fe31d69a5a3",
+      "userId": "***",
+      "searchDate": "2026-03-24T14:55:34.944Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ec3eaea8-a663-44ce-a5fc-8d6efc158267",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:01:49.848Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ef948fbc-8748-47bd-b777-b01fccff4293",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:09:35.646Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "d2cd0550-a048-4c40-8268-449297100ba4",
+      "userId": "***",
+      "searchDate": "2026-03-24T15:29:33.662Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "cc09c5ec-d498-4668-8bc4-dd562b931f04",
+      "userId": "***",
+      "searchDate": "2026-03-24T16:08:31.766Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "38ad0f4a-3bbd-4bf1-a4ad-65a162f165df",
+      "userId": "***",
+      "searchDate": "2026-03-24T18:11:55.310Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ad8816e4-9be4-42b9-a2ec-a82faaba86bc",
+      "userId": "***",
+      "searchDate": "2026-03-24T20:00:52.397Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "f604d269-89c9-4980-bf89-71feb37ffa44",
+      "userId": "***",
+      "searchDate": "2026-03-24T23:41:58.391Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "dbcddaa7-4511-4c53-9318-304290731a9f",
+      "userId": "***",
+      "searchDate": "2026-03-25T13:40:47.082Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "aaecf8fd-d711-4f14-9790-e48d05371127",
+      "userId": "***",
+      "searchDate": "2026-03-25T14:25:08.530Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "0391dfcd-752c-47bb-8a90-fcc77c79ae2d",
+      "userId": "***",
+      "searchDate": "2026-03-25T15:57:00.321Z",
+      "networkCount": "616",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "7e08ca03-8241-4be0-8bda-c2dbbe81d3da",
+      "userId": "***",
+      "searchDate": "2026-03-25T16:01:00.641Z",
+      "networkCount": "616",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "ca882704-c469-428f-8853-7e5b9e2b3eaf",
+      "userId": "***",
+      "searchDate": "2026-03-26T01:13:18.219Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "a94bed0a-6a3d-4abf-8e3c-3566c68af036",
+      "userId": "***",
+      "searchDate": "2026-03-26T01:14:32.797Z",
+      "networkCount": "4",
+      "reason": "At Risk Missing Person"
+    },
+    {
+      "id": "4f5dd2af-d610-4737-80c1-8e64cf6622ae",
+      "userId": "***",
+      "searchDate": "2026-03-26T03:42:06.149Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "767bc4a0-b366-4922-9c2f-7295f0ed4978",
+      "userId": "***",
+      "searchDate": "2026-03-26T08:42:04.708Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ab0b66c3-581c-4d8a-b29e-519a4d9ccf97",
+      "userId": "***",
+      "searchDate": "2026-03-26T17:47:16.927Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "0a4cb7de-7658-4463-9db8-8ce27c084ff4",
+      "userId": "***",
+      "searchDate": "2026-03-27T02:47:35.149Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ca5e7911-5445-4907-9032-1be10f5ba18f",
+      "userId": "***",
+      "searchDate": "2026-03-28T19:22:56.854Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "569a8341-8269-4226-be10-ee6f44d5dfe2",
+      "userId": "***",
+      "searchDate": "2026-03-28T20:12:53.130Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "977d06e9-2dd3-43d8-947d-359d42300d97",
+      "userId": "***",
+      "searchDate": "2026-03-29T18:21:59.451Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "198278e5-b5d0-48aa-8c75-5ee0a84d50f0",
+      "userId": "***",
+      "searchDate": "2026-03-29T19:30:00.585Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "196a6211-6f5f-4c92-9794-0c871f27e2ff",
+      "userId": "***",
+      "searchDate": "2026-03-30T03:27:51.176Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "97350c8b-d97d-4973-996f-b943890666a0",
+      "userId": "***",
+      "searchDate": "2026-03-30T03:46:41.817Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "3e7bf7a1-00f9-490f-af3e-e00731bda975",
+      "userId": "***",
+      "searchDate": "2026-03-30T07:20:46.218Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "f69876e2-37e9-4a74-a15a-59669007fe6c",
+      "userId": "***",
+      "searchDate": "2026-03-30T16:04:41.228Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "d92c20e6-8af2-4743-b36a-a6d715710053",
+      "userId": "***",
+      "searchDate": "2026-03-30T16:11:13.359Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "c4911b40-5774-458c-a1cd-4b57811dbc49",
+      "userId": "***",
+      "searchDate": "2026-03-30T16:44:05.482Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "bed49a90-4a5e-4be7-b641-db9c2a6c6e93",
+      "userId": "***",
+      "searchDate": "2026-03-30T16:45:18.813Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "7a75a118-872f-4dbd-88a3-69ea135b1a56",
+      "userId": "***",
+      "searchDate": "2026-03-30T18:36:26.215Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "82aa800f-b923-47e0-acc7-e1f95873fd92",
+      "userId": "***",
+      "searchDate": "2026-03-30T19:06:06.094Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "db616931-7406-428a-aa5a-9deb528ab63e",
+      "userId": "***",
+      "searchDate": "2026-03-30T19:07:50.834Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "611673b0-c275-4afe-a725-d9005842ddcc",
+      "userId": "***",
+      "searchDate": "2026-03-30T23:12:36.061Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "c811c5c7-62c6-4467-8244-78fb31c49beb",
+      "userId": "***",
+      "searchDate": "2026-04-01T11:37:33.707Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "eacc5c16-d1d0-4e8f-97ae-e72576c4375c",
+      "userId": "***",
+      "searchDate": "2026-04-01T11:59:21.759Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ccd3db7d-5d9e-47c7-af90-9d0adc6d5557",
+      "userId": "***",
+      "searchDate": "2026-04-01T12:02:25.940Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "a8993406-cc93-400e-b776-9683a5ac0b56",
+      "userId": "***",
+      "searchDate": "2026-04-01T12:02:44.979Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "c4e0be21-1ba4-4112-8e99-d93c441fac5c",
+      "userId": "***",
+      "searchDate": "2026-04-01T16:23:45.231Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "9b77d77b-bff4-46fd-8f64-7c3f6836acfe",
+      "userId": "***",
+      "searchDate": "2026-04-01T22:07:53.384Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "e6f033f9-91a3-40ca-90fa-b118f437e7c4",
+      "userId": "***",
+      "searchDate": "2026-04-02T14:35:17.234Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "ba4de714-f524-4067-8e78-a9e36f92ec11",
+      "userId": "***",
+      "searchDate": "2026-04-02T23:51:49.926Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "e73208d4-0019-4bd7-8787-2e6f038956d4",
+      "userId": "***",
+      "searchDate": "2026-04-03T04:37:04.839Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "b4a010f1-8284-4d30-b0e7-543b70d89dff",
+      "userId": "***",
+      "searchDate": "2026-04-03T05:42:51.212Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "a1a47924-760c-43fb-bdca-2ea115821b47",
+      "userId": "***",
+      "searchDate": "2026-04-03T16:21:35.221Z",
+      "networkCount": "616",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "9d0c3b71-893a-4af5-a19e-4cd749fca48b",
+      "userId": "***",
+      "searchDate": "2026-04-03T20:52:10.365Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "6cb6574f-288b-4e30-98c5-43080748f7a7",
+      "userId": "***",
+      "searchDate": "2026-04-03T20:53:44.143Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "d19d753d-1c07-4f68-9801-ee96b1ad0b59",
+      "userId": "***",
+      "searchDate": "2026-04-04T18:12:29.960Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "73c334e1-136f-42db-b6ab-2d943a6533eb",
+      "userId": "***",
+      "searchDate": "2026-04-05T01:05:05.600Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "a549d22d-1d81-4eb5-b425-3d948b30eb8a",
+      "userId": "***",
+      "searchDate": "2026-04-05T02:50:12.941Z",
+      "networkCount": "618",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "a5a635c4-dffe-425f-9ff8-5e0806b1d9b5",
+      "userId": "***",
+      "searchDate": "2026-04-05T03:11:42.848Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "3f43c045-8045-476f-b055-7abae2689ce7",
+      "userId": "***",
+      "searchDate": "2026-04-06T06:36:22.006Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "7dd8e38d-5228-4748-967f-76d3081891af",
+      "userId": "***",
+      "searchDate": "2026-04-06T07:51:21.648Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "f617f367-b7c6-4838-b4d0-1742002cf540",
+      "userId": "***",
+      "searchDate": "2026-04-06T15:53:15.054Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "e0e2fed3-1b94-4156-9c0e-73b2a3535f02",
+      "userId": "***",
+      "searchDate": "2026-04-06T16:10:54.059Z",
+      "networkCount": "616",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "3321c161-80eb-437a-90b2-b636ec1648ec",
+      "userId": "***",
+      "searchDate": "2026-04-06T20:56:39.607Z",
+      "networkCount": "618",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "b7c52751-d93c-4b9b-88c4-12abf7f0fb37",
+      "userId": "***",
+      "searchDate": "2026-04-06T21:28:09.960Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "d62e192f-d510-4595-b5ff-ec3c682d1115",
+      "userId": "***",
+      "searchDate": "2026-04-07T13:06:42.942Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "60acd9b3-1f3b-4e5e-b233-1e763b6680d4",
+      "userId": "***",
+      "searchDate": "2026-04-07T14:59:31.296Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "b544a527-9056-4191-a0f0-de90acfe4ce7",
+      "userId": "***",
+      "searchDate": "2026-04-07T15:08:04.536Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "6b11f199-f60e-47a9-a81d-7468207e5ba8",
+      "userId": "***",
+      "searchDate": "2026-04-07T15:12:43.982Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "a39be54a-45b8-4c69-94a2-8a1947d453a7",
+      "userId": "***",
+      "searchDate": "2026-04-07T15:24:47.021Z",
+      "networkCount": "4",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "b3435e10-ec38-462e-bcdb-a9a5d7667df9",
+      "userId": "***",
+      "searchDate": "2026-04-07T15:25:48.948Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "74e9413f-2ed0-4e76-8b9d-8b532eb5eeae",
+      "userId": "***",
+      "searchDate": "2026-04-07T15:30:46.536Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "6cfa5666-4030-4a61-aaba-cee7c100b41d",
+      "userId": "***",
+      "searchDate": "2026-04-07T16:42:50.056Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "d564bb4d-1a1b-4826-b447-38d31a4249c3",
+      "userId": "***",
+      "searchDate": "2026-04-07T17:51:13.091Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "e989e261-f783-4dcf-9ea5-8a4d15bb44f6",
+      "userId": "***",
+      "searchDate": "2026-04-07T18:51:57.473Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "9b92f5d2-2298-4e3f-82a1-689f4eb6921b",
+      "userId": "***",
+      "searchDate": "2026-04-07T21:55:57.133Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "004cca67-d71d-4150-bac6-9cbef48a7ec2",
+      "userId": "***",
+      "searchDate": "2026-04-08T14:25:50.712Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "d3f46acc-22b5-4325-92a2-f70a36f2f252",
+      "userId": "***",
+      "searchDate": "2026-04-08T16:41:42.678Z",
+      "networkCount": "4",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "9f75a681-7255-47b0-ac74-3e626a787190",
+      "userId": "***",
+      "searchDate": "2026-04-08T18:41:35.730Z",
+      "networkCount": "4",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "364baed9-babf-45d7-8ae6-80819a54f708",
+      "userId": "***",
+      "searchDate": "2026-04-08T18:41:45.401Z",
+      "networkCount": "618",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "35316b39-1740-43ee-9f3c-42930f6d12fc",
+      "userId": "***",
+      "searchDate": "2026-04-08T18:42:14.393Z",
+      "networkCount": "618",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "86fa94a7-91ef-4aab-a6aa-cba1886dffdb",
+      "userId": "***",
+      "searchDate": "2026-04-08T18:43:02.180Z",
+      "networkCount": "618",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "ff0ed5e3-db5d-4387-bd78-87056e7c6c4e",
+      "userId": "***",
+      "searchDate": "2026-04-08T19:11:53.853Z",
+      "networkCount": "4",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "42fa89d9-27eb-4094-bd5e-6a4db5de2e82",
+      "userId": "***",
+      "searchDate": "2026-04-08T19:33:37.772Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "d2d32b95-1da7-4ac1-ab87-ad34a7cbb6f0",
+      "userId": "***",
+      "searchDate": "2026-04-08T21:50:09.177Z",
+      "networkCount": "618",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "1955133b-8713-44cd-b5c2-97f25b9d9447",
+      "userId": "***",
+      "searchDate": "2026-04-08T22:37:23.769Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "01e6ebbe-c596-4cc6-b178-93a78b74243a",
+      "userId": "***",
+      "searchDate": "2026-04-09T06:31:36.347Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "9defc804-a26b-41fa-9761-a780dec22f95",
+      "userId": "***",
+      "searchDate": "2026-04-09T14:27:07.355Z",
+      "networkCount": "618",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "beb4ddf1-1135-4d10-8d87-10f0fdf4eed2",
+      "userId": "***",
+      "searchDate": "2026-04-10T01:29:35.207Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "dff7e3bb-08a9-45c7-9221-c9c1c0eab756",
+      "userId": "***",
+      "searchDate": "2026-04-10T04:55:22.652Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "abda0c2a-d9f4-4824-a05a-3d454757acbd",
+      "userId": "***",
+      "searchDate": "2026-04-10T08:10:59.069Z",
+      "networkCount": "5",
+      "reason": "Victim Vehicle"
+    },
+    {
+      "id": "ee442159-9bd1-4f3d-ad0e-8c4709297f20",
+      "userId": "***",
+      "searchDate": "2026-04-10T17:45:54.326Z",
+      "networkCount": "5",
+      "reason": "Reported Stolen Vehicle"
+    },
+    {
+      "id": "e346cc9e-e510-4dd6-ae8d-062162fd6c91",
+      "userId": "***",
+      "searchDate": "2026-04-10T17:46:13.898Z",
+      "networkCount": "617",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "f982ba61-0a71-45c7-985c-0cf3ac245a7e",
+      "userId": "***",
+      "searchDate": "2026-04-10T19:32:16.023Z",
+      "networkCount": "617",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "7babb587-f01c-4bd6-964d-18389658f9b0",
+      "userId": "***",
+      "searchDate": "2026-04-10T21:53:40.377Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "0562fb4e-b51c-4dd4-9ed9-7d336b87ac95",
+      "userId": "***",
+      "searchDate": "2026-04-10T21:54:21.445Z",
+      "networkCount": "617",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "7a06ac2f-78c2-4cf0-bb3d-118fbabeb02e",
+      "userId": "***",
+      "searchDate": "2026-04-10T21:56:53.055Z",
+      "networkCount": "4",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "27c3cb1d-3d0d-42ea-9708-1c09ca5cc86a",
+      "userId": "***",
+      "searchDate": "2026-04-10T22:01:18.248Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "1acd098f-8714-4a9b-983f-def36dedfae5",
+      "userId": "***",
+      "searchDate": "2026-04-10T22:02:14.099Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "5e8c6092-3302-4e35-a04a-67164a469839",
+      "userId": "***",
+      "searchDate": "2026-04-10T22:04:59.331Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    },
+    {
+      "id": "2c66c74b-feaa-424f-9019-06e1de0ed3bf",
+      "userId": "***",
+      "searchDate": "2026-04-10T23:57:06.525Z",
+      "networkCount": "5",
+      "reason": "Suspect Vehicle"
+    }
+  ]
 }

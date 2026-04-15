@@ -1,76 +1,64 @@
 #!/usr/bin/env python3
 """Check that every recipient of public-agency data has coordinates.
 
-Scans the latest parsed portal JSON for each public agency and reports
-any shared_org_slugs that exist in the registry but lack lat/lng.
+Reads the sharing graph and registry to find agencies that receive
+shared data but lack lat/lng for the map.
 
 Exit codes:
   0 — all recipients geocoded
   1 — one or more recipients missing coordinates (prints list to stdout)
 """
 
-import glob
 import json
-import os
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import has_tag, registry_by_slug
-PORTAL_DIR = "assets/transparency.flocksafety.com"
+from lib import has_tag, registry_by_id, agency_display_name
 
-# Flock test/placeholder slugs — not real agencies
-JUNK_SLUGS = frozenset(
-    [
-        "decommissioned-org",
-        "delete",
-        "demo",
-        "dnu",
-        "duplicate-please-delete",
-        "jaime-le-training",
-        "old",
-        "test-demo-1234",
-    ]
-)
+GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
+
+# Junk agency_ids / tags to skip
+JUNK_TAGS = {"test", "decommissioned"}
 
 
 def main() -> int:
-    registry = registry_by_slug()
+    if not GRAPH_PATH.exists():
+        print("Sharing graph not found. Run build_sharing_graph.py first.", file=sys.stderr)
+        return 1
 
-    # For each public agency, find the latest crawl JSON and collect recipients
-    missing: dict[str, set[str]] = {}  # slug -> set of public senders
+    graph = json.loads(GRAPH_PATH.read_text())
+    reg = registry_by_id()
 
-    for agency_dir in sorted(glob.glob(os.path.join(PORTAL_DIR, "*/"))):
-        slug = os.path.basename(agency_dir.rstrip("/"))
-        reg = registry.get(slug, {})
-        if not has_tag(reg, "public"):
+    # Find agencies that receive data but lack coordinates
+    missing: dict[str, set[str]] = {}  # agency_id -> set of source agency_ids
+
+    for aid, data in graph["agencies"].items():
+        if not data.get("crawled"):
+            continue
+        entry = reg.get(aid, {})
+        if not has_tag(entry, "public"):
             continue
 
-        jsons = sorted(glob.glob(os.path.join(agency_dir, "*.json")))
-        if not jsons:
-            continue
-
-        with open(jsons[-1]) as f:
-            data = json.load(f)
-
-        for recipient in data.get("shared_org_slugs", []):
-            if recipient in JUNK_SLUGS:
+        for target_id in data.get("sharing_outbound_ids", []):
+            target = reg.get(target_id, {})
+            if any(has_tag(target, t) for t in JUNK_TAGS):
                 continue
-            r = registry.get(recipient)
-            if r and (r.get("lat") is None or r.get("lng") is None):
-                missing.setdefault(recipient, set()).add(slug)
+            if target and (target.get("lat") is None or target.get("lng") is None):
+                missing.setdefault(target_id, set()).add(aid)
 
     if not missing:
         print("All public-agency recipients have coordinates.")
         return 0
 
     print(f"{len(missing)} recipient(s) missing coordinates:\n")
-    for slug in sorted(missing):
-        senders = sorted(missing[slug])
+    for aid in sorted(missing, key=lambda a: agency_display_name(reg.get(a, {}), a)):
+        name = agency_display_name(reg.get(aid, {}), aid)
+        senders = sorted(agency_display_name(reg.get(s, {}), s) for s in missing[aid])
         preview = ", ".join(senders[:3])
         if len(senders) > 3:
             preview += f" (+{len(senders) - 3} more)"
-        print(f"  {slug}  <- {preview}")
+        print(f"  {name}  <- {preview}")
 
     return 1
 

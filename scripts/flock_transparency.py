@@ -49,7 +49,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import flock_name_to_slug
+from lib import resolve_agency, name_to_slug
 
 BASE_URL = "https://transparency.flocksafety.com"
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
@@ -73,18 +73,6 @@ RELATED_SLUGS = DEFAULT_SLUGS + [
     "menlo-park-ca-pd", "east-palo-alto-ca-pd", "burlingame-ca-pd",
     "san-bruno-ca-pd", "pacifica-ca-pd", "colma-ca-pd", "brisbane-ca-pd",
 ]
-
-
-def name_to_slug(name):
-    s = name.strip().lower()
-    s = re.sub(r"\(acso\)", "", s)
-    s = re.sub(r"\(ca\)", "ca", s)
-    s = re.sub(r"\(smcso\)", "", s)
-    s = re.sub(r"[''']s\b", "s", s)
-    s = re.sub(r"[^a-z0-9\s-]", "", s)
-    s = re.sub(r"\s+", "-", s.strip())
-    s = re.sub(r"-+", "-", s)
-    return s
 
 
 def slug_variations(slug):
@@ -480,11 +468,20 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
         elif body:
             fields[field_name] = fields[field_name] + "\n\n" + body if fields[field_name] else body
 
-    granted = _parse_org_names(fields.get("orgs_granted_access", ""))
-    sharing_with = _parse_org_names(fields.get("orgs_sharing_with", ""))
+    outbound_names = _parse_org_names(fields.get("orgs_granted_access", ""))
+    inbound_names = _parse_org_names(fields.get("orgs_sharing_with", ""))
+
+    # Extract the agency name from the overview text
+    # Pattern: "<Agency Name> uses Flock Safety technology..."
+    overview = fields.get("overview", "")
+    crawled_name = None
+    flock_marker = " uses Flock Safety technology"
+    if flock_marker in overview:
+        crawled_name = overview[:overview.index(flock_marker)].strip()
 
     return {
-        "slug": slug,
+        "crawled_slug": slug,
+        "crawled_name": crawled_name,
         "archived_date": datestamp,
         "whats_detected": fields.get("whats_detected", ""),
         "whats_not_detected": fields.get("whats_not_detected", ""),
@@ -500,12 +497,8 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
         "vehicles_detected_30d": _parse_number(fields.get("vehicles_detected_30d", "")),
         "hotlist_hits_30d": _parse_number(fields.get("hotlist_hits_30d", "")),
         "searches_30d": _parse_number(fields.get("searches_30d", "")),
-        "shared_org_count": len(granted),
-        "shared_org_names": granted,
-        "shared_org_slugs": [flock_name_to_slug(n) or name_to_slug(n) for n in granted],
-        "orgs_sharing_with_count": len(sharing_with),
-        "orgs_sharing_with_names": sharing_with,
-        "orgs_sharing_with_slugs": [flock_name_to_slug(n) or name_to_slug(n) for n in sharing_with],
+        "sharing_outbound": outbound_names,
+        "sharing_inbound": inbound_names,
         # ── newly captured fields (empty string when absent) ──
         "overview": fields.get("overview", ""),
         "policy_info": fields.get("policy_info", ""),
@@ -567,7 +560,7 @@ def extract_csvs_from_html(html_text):
 # ═══════════════════════════════════════════════════════════
 
 def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
-    """Returns (status, shared_org_slugs).
+    """Returns (status, discovered_slugs).
 
     status: Path (saved), "unchanged", "rate_limited", or None (failed).
     """
@@ -608,17 +601,26 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     current_hash = content_hash(page_text)
     prev_hash = (hashes or {}).get(slug)
 
-    # Parse for shared slugs (needed for recursive crawling even if unchanged)
+    # Parse for sharing names (needed for recursive crawling even if unchanged)
     crawled_at = datetime.now(timezone.utc).isoformat()
     page_html = page.content()
     bold_headings = extract_bold_headings(page_html)
     portal_data = parse_portal_text(page_text, slug, datestamp, bold_headings=bold_headings)
     portal_data["crawled_at"] = crawled_at
-    shared_slugs = portal_data.get("shared_org_slugs", [])
+    # Resolve sharing names to slugs for depth crawling
+    discovered_slugs = []
+    for name in portal_data.get("sharing_outbound", []):
+        entry = resolve_agency(name=name)
+        if entry and entry.get("flock_active_slug"):
+            discovered_slugs.append(entry["flock_active_slug"])
+        else:
+            guessed = name_to_slug(name)
+            if guessed:
+                discovered_slugs.append(guessed)
 
     if not force and prev_hash == current_hash:
         print(f"    unchanged since last capture, skipping")
-        return "unchanged", shared_slugs
+        return "unchanged", discovered_slugs
 
     # 1. Raw DOM text (source of truth for parsing)
     txt_path.write_text(page_text, encoding="utf-8")
@@ -661,7 +663,7 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     if hashes is not None:
         hashes[slug] = current_hash
 
-    return pdf_path, shared_slugs
+    return pdf_path, discovered_slugs
 
 
 def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
@@ -679,13 +681,13 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             results.append((slug, None))
             continue
 
-        status, shared_slugs = archive_agency(page, slug, data_dir, force, hashes, progress=progress)
+        status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes, progress=progress)
 
         # Try slug variations on 404
         if try_variations and isinstance(status, tuple) and status[0] == "failed" and status[1] == "http_404":
             for alt in slug_variations(slug)[1:]:
                 print(f"    trying variation: {alt}")
-                status, shared_slugs = archive_agency(page, alt, data_dir, force, hashes)
+                status, discovered_slugs = archive_agency(page, alt, data_dir, force, hashes)
                 if not (isinstance(status, tuple) and status[0] == "failed"):
                     print(f"    found working slug: {alt}")
                     slug = alt
@@ -698,7 +700,7 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                 backoff = max(delay, 30) * (2 ** (attempt + 1))
                 print(f"    rate limited, backing off {backoff}s (attempt {attempt + 1}/4)...")
                 time.sleep(backoff)
-                status, shared_slugs = archive_agency(page, slug, data_dir, force, hashes)
+                status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
                 if status != "rate_limited":
                     break
             if status == "rate_limited":
@@ -708,8 +710,8 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                 continue
 
         results.append((slug, status))
-        if shared_slugs:
-            discovered.extend(shared_slugs)
+        if discovered_slugs:
+            discovered.extend(discovered_slugs)
         if isinstance(status, tuple) and status[0] == "failed":
             failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
@@ -799,9 +801,16 @@ def cmd_crawl(args):
                         jsons = sorted(slug_dir.glob("*.json"))
                         if jsons:
                             stored = json.loads(jsons[-1].read_text())
-                            discovered_from_existing.extend(
-                                stored.get("shared_org_slugs", [])
-                            )
+                            # Support both old and new field names
+                            names = stored.get("sharing_outbound") or stored.get("shared_org_names", [])
+                            for name in names:
+                                entry = resolve_agency(name=name)
+                                if entry and entry.get("flock_active_slug"):
+                                    discovered_from_existing.append(entry["flock_active_slug"])
+                                else:
+                                    guessed = name_to_slug(name)
+                                    if guessed:
+                                        discovered_from_existing.append(guessed)
 
                 new_slugs = [s for s in slugs if s not in visited]
                 # Prioritize agencies that have succeeded before (stale refresh)
@@ -905,7 +914,7 @@ def cmd_parse(args):
 
             json_path.write_text(json.dumps(portal_data, indent=2) + "\n")
             cameras = portal_data.get("camera_count") or "?"
-            orgs = portal_data.get("shared_org_count", 0)
+            orgs = len(portal_data.get("sharing_outbound", []))
             print(f"  {slug}/{datestamp}.json — {cameras} cameras, {orgs} orgs")
             count += 1
 
@@ -916,52 +925,39 @@ def cmd_parse(args):
 # Aggregate: build sharing graph + analysis from .json files
 # ═══════════════════════════════════════════════════════════
 
-def _load_registry():
-    """Load agency registry as slug->entry lookup."""
-    from lib import load_registry
-    return {e["slug"]: e for e in load_registry()}
-
-
-def classify_entity_from_registry(slug, registry):
-    """Classify an entity using the registry (single source of truth)."""
-    from lib import has_tag
-    e = registry.get(slug, {})
-    flags = []
-    if has_tag(e, "private"):
-        flags.append("PRIVATE")
-    if e.get("state") and e["state"] != "CA":
-        flags.append("OUT_OF_STATE")
-    if has_tag(e, "federal"):
-        flags.append("FEDERAL")
-    if e.get("agency_type") == "decommissioned":
-        flags.append("DECOMMISSIONED")
-    if e.get("agency_type") == "test":
-        flags.append("TEST")
-    if e.get("agency_role") == "fire":
-        flags.append("NON_LAW_ENFORCEMENT")
-    if has_tag(e, "needs-review"):
-        flags.append("NEEDS_REVIEW")
-    return flags
-
 
 def cmd_aggregate(args):
     data_dir = args.data_dir
+    from lib import resolve_agency, agency_display_name, registry_by_id, has_tag
 
-    # Load the latest JSON for each agency
-    agencies = {}
-    sharing_graph = {}
+    # Load the latest JSON for each agency, resolve to agency_id
+    agencies = {}         # agency_id -> crawled data
+    sharing_graph = {}    # agency_id -> [target_agency_ids]
+
     for slug_dir in sorted(data_dir.iterdir()):
         if not slug_dir.is_dir() or slug_dir.name.startswith("."):
             continue
         jsons = sorted(slug_dir.glob("*.json"))
         if not jsons:
             continue
-        latest = jsons[-1]
-        data = json.loads(latest.read_text())
-        slug = slug_dir.name
-        agencies[slug] = data
-        if data.get("shared_org_slugs"):
-            sharing_graph[slug] = data["shared_org_slugs"]
+        data = json.loads(jsons[-1].read_text())
+        dir_slug = slug_dir.name
+
+        entry = resolve_agency(slug=dir_slug)
+        if not entry:
+            continue
+        agency_id = entry["agency_id"]
+        agencies[agency_id] = data
+
+        # Resolve outbound names to agency_ids (support old + new field names)
+        outbound_names = data.get("sharing_outbound") or data.get("shared_org_names", [])
+        outbound_ids = []
+        for name in outbound_names:
+            target = resolve_agency(name=name)
+            if target:
+                outbound_ids.append(target["agency_id"])
+        if outbound_ids:
+            sharing_graph[agency_id] = outbound_ids
 
     if not agencies:
         print("No parsed data found. Run 'parse' first.", file=sys.stderr)
@@ -969,25 +965,42 @@ def cmd_aggregate(args):
 
     # Collect all entities
     all_entities = set(sharing_graph.keys())
-    for slugs in sharing_graph.values():
-        all_entities.update(slugs)
+    for ids in sharing_graph.values():
+        all_entities.update(ids)
 
     # Inbound counts
     inbound = Counter()
-    for src, targets in sharing_graph.items():
+    for _, targets in sharing_graph.items():
         for t in targets:
             inbound[t] += 1
 
     # Classify and flag using registry
-    registry = _load_registry()
+    reg_by_id = registry_by_id()
     flagged = []
-    for entity in sorted(all_entities):
-        flags = classify_entity_from_registry(entity, registry)
+    for entity_id in sorted(all_entities):
+        e = reg_by_id.get(entity_id, {})
+        flags = []
+        if has_tag(e, "private"):
+            flags.append("PRIVATE")
+        if e.get("state") and e["state"] != "CA":
+            flags.append("OUT_OF_STATE")
+        if has_tag(e, "federal"):
+            flags.append("FEDERAL")
+        if e.get("agency_type") == "decommissioned":
+            flags.append("DECOMMISSIONED")
+        if e.get("agency_type") == "test":
+            flags.append("TEST")
+        if e.get("agency_role") == "fire":
+            flags.append("NON_LAW_ENFORCEMENT")
+        if has_tag(e, "needs-review"):
+            flags.append("NEEDS_REVIEW")
         if not flags:
             continue
-        shared_by = [src for src, targets in sharing_graph.items() if entity in targets]
+        shared_by = [src for src, targets in sharing_graph.items() if entity_id in targets]
         flagged.append({
-            "entity": entity, "flags": flags,
+            "entity": entity_id,
+            "name": agency_display_name(e, entity_id),
+            "flags": flags,
             "shared_by": shared_by, "shared_by_count": len(shared_by),
         })
 
@@ -1016,19 +1029,19 @@ def cmd_aggregate(args):
             "total_cameras": sum(a.get("camera_count") or 0 for a in agencies.values()),
             "total_vehicles_30d": sum(a.get("vehicles_detected_30d") or 0 for a in agencies.values()),
         },
-        "agencies": {slug: {
+        "agencies": {aid: {
             "camera_count": a.get("camera_count"),
             "data_retention_days": a.get("data_retention_days"),
             "vehicles_detected_30d": a.get("vehicles_detected_30d"),
             "hotlist_hits_30d": a.get("hotlist_hits_30d"),
             "searches_30d": a.get("searches_30d"),
-            "shared_org_count": a.get("shared_org_count"),
+            "sharing_outbound_count": len(a.get("sharing_outbound") or a.get("shared_org_names") or []),
             "archived_date": a.get("archived_date"),
-        } for slug, a in sorted(agencies.items())},
+        } for aid, a in sorted(agencies.items())},
         "flagged_entities": flagged,
         "asymmetric_sharing": asymmetric,
-        "most_connected": [
-            {"entity": s, "inbound_count": c} for s, c in inbound.most_common(30)
+        "most_sharing_inbound": [
+            {"agency_id": aid, "inbound_count": c} for aid, c in inbound.most_common(30)
         ],
         "shared_by_all": shared_by_all,
         "sharing_graph": sharing_graph,
@@ -1064,7 +1077,7 @@ def _print_report(r):
     for slug, info in r["agencies"].items():
         cam = info.get("camera_count") or "?"
         ret = info.get("data_retention_days") or "?"
-        orgs = info.get("shared_org_count") or "?"
+        orgs = len(info.get("sharing_outbound") or info.get("shared_org_names") or []) or "?"
         dt = info.get("archived_date") or "?"
         print(f"  {slug:<40} {cam:>4} {ret:>4} {orgs:>5} {dt:<12}")
 
@@ -1075,7 +1088,7 @@ def _print_report(r):
         print(f"PRIVATE ENTITIES ({len(private)})")
         print(f"  CA law (§1798.90.55(b)) restricts sharing to public agencies\n")
         for e in sorted(private, key=lambda x: -x["shared_by_count"]):
-            print(f"  {e['entity']}  [{', '.join(e['flags'])}]")
+            print(f"  {e.get('name', e['entity'])}  [{', '.join(e['flags'])}]")
             if e["shared_by"]:
                 print(f"    shared by: {', '.join(e['shared_by'])}")
             print()
@@ -1086,7 +1099,7 @@ def _print_report(r):
         print(f"{'─' * 60}")
         print(f"OUT-OF-STATE ENTITIES ({len(oos)})\n")
         for e in sorted(oos, key=lambda x: -x["shared_by_count"]):
-            print(f"  {e['entity']}")
+            print(f"  {e.get('name', e['entity'])}")
             if e["shared_by"]:
                 print(f"    shared by: {', '.join(e['shared_by'])}")
             print()
@@ -1097,7 +1110,7 @@ def _print_report(r):
         print(f"{'─' * 60}")
         print(f"FEDERAL ENTITIES ({len(federal)})\n")
         for e in sorted(federal, key=lambda x: -x["shared_by_count"]):
-            print(f"  {e['entity']}")
+            print(f"  {e.get('name', e['entity'])}")
             if e["shared_by"]:
                 print(f"    shared by: {', '.join(e['shared_by'])}")
             print()
@@ -1108,7 +1121,7 @@ def _print_report(r):
         print(f"{'─' * 60}")
         print(f"NON-LAW-ENFORCEMENT ENTITIES\n")
         for e in sorted(non_le, key=lambda x: -x["shared_by_count"]):
-            print(f"  {e['entity']}")
+            print(f"  {e.get('name', e['entity'])}")
             if e["shared_by"]:
                 print(f"    shared by: {', '.join(e['shared_by'])}")
             print()
@@ -1127,9 +1140,9 @@ def _print_report(r):
     # Most connected
     print(f"{'─' * 60}")
     print(f"MOST CONNECTED (top 20 by inbound sharing count)\n")
-    for e in r["most_connected"][:20]:
+    for e in r["most_sharing_inbound"][:20]:
         bar = "█" * min(e["inbound_count"], 40)
-        print(f"  {e['inbound_count']:3d}  {bar}  {e['entity']}")
+        print(f"  {e['inbound_count']:3d}  {bar}  {e['agency_id']}")
 
     print(f"\n{'=' * 60}")
 

@@ -117,10 +117,25 @@ def flock_name_to_slug(name):
 
 
 # ── Text parsing utilities ──
-# These parse raw Flock portal text. They don't derive identity —
-# that comes from the registry.
 
 import re
+
+
+def name_to_slug(name):
+    """Heuristic: derive a plausible Flock portal slug from a display name.
+
+    This is a guess — the result may not be a real portal URL. Use
+    resolve_agency() to check if it's in the registry first.
+    """
+    s = name.strip().lower()
+    s = re.sub(r"\(acso\)", "", s)
+    s = re.sub(r"\(ca\)", "ca", s)
+    s = re.sub(r"\(smcso\)", "", s)
+    s = re.sub(r"['''\u2019]s\b", "s", s)
+    s = re.sub(r"[^a-z0-9\s-]", "", s)
+    s = re.sub(r"\s+", "-", s.strip())
+    s = re.sub(r"-+", "-", s)
+    return s
 
 _EXPECTS_CONTINUATION = re.compile(
     r"University of California$",

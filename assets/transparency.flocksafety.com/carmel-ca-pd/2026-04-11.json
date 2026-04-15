@@ -1,5 +1,6 @@
 {
-  "slug": "carmel-ca-pd",
+  "crawled_slug": "carmel-ca-pd",
+  "crawled_name": "Carmel CA PD",
   "archived_date": "2026-04-11",
   "whats_detected": "License Plates, Vehicles",
   "whats_not_detected": "Facial recognition, People, Gender, Race",
@@ -15,12 +16,8 @@
   "vehicles_detected_30d": 160238,
   "hotlist_hits_30d": 44,
   "searches_30d": 35,
-  "shared_org_count": 0,
-  "shared_org_names": [],
-  "shared_org_slugs": [],
-  "orgs_sharing_with_count": 0,
-  "orgs_sharing_with_names": [],
-  "orgs_sharing_with_slugs": [],
+  "sharing_outbound": [],
+  "sharing_inbound": [],
   "overview": "Carmel CA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Carmel CA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Carmel CA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.",
   "policy_info": "",
   "alpr_policy": "https://ci.carmel.ca.us/sites/main/files/file-attachments/policy_462_automated_licenseplate_reader_policy.pdf?1689800923",
@@ -35,5 +32,251 @@
   "sb54": "",
   "last_updated": "",
   "restrictions_on_deployment": "",
-  "crawled_at": "2026-04-11T10:56:51.693724+00:00"
+  "search_audit_csv": [
+    {
+      "id": "8dae5955-2d3b-4d9e-85ca-105dc6b7cb4e",
+      "userId": "***",
+      "searchDate": "2026-03-12T00:35:11.747Z",
+      "networkCount": "1",
+      "reason": "H&R suspect veh."
+    },
+    {
+      "id": "2b0e8779-55ef-44f6-afa2-cd901cd45bd4",
+      "userId": "***",
+      "searchDate": "2026-03-12T20:01:17.549Z",
+      "networkCount": "1",
+      "reason": "Stolen vehicle"
+    },
+    {
+      "id": "2f27843c-1094-4af7-b7b8-b1a656743ebb",
+      "userId": "***",
+      "searchDate": "2026-03-12T20:24:36.900Z",
+      "networkCount": "1",
+      "reason": "10855"
+    },
+    {
+      "id": "bda4c802-5b8b-4387-bf7a-d01a0bef0b4f",
+      "userId": "***",
+      "searchDate": "2026-03-12T23:17:49.598Z",
+      "networkCount": "1",
+      "reason": "Wanted person (OJ)"
+    },
+    {
+      "id": "1a09953b-44de-44b0-a531-b5b32fcc6f53",
+      "userId": "***",
+      "searchDate": "2026-03-12T23:27:21.839Z",
+      "networkCount": "1",
+      "reason": "welfare check"
+    },
+    {
+      "id": "ea7a85e5-9f21-4b91-9241-33932b4beb61",
+      "userId": "***",
+      "searchDate": "2026-03-12T23:32:42.993Z",
+      "networkCount": "1",
+      "reason": "PDO"
+    },
+    {
+      "id": "14be8b4d-042b-42ef-9f08-bfc8d3d4a768",
+      "userId": "***",
+      "searchDate": "2026-03-13T01:55:57.336Z",
+      "networkCount": "1",
+      "reason": "Wanted Person"
+    },
+    {
+      "id": "0f3e32fd-4c06-44a5-96d5-7e5bb52d076c",
+      "userId": "***",
+      "searchDate": "2026-03-14T22:46:01.239Z",
+      "networkCount": "1",
+      "reason": "Hit and run"
+    },
+    {
+      "id": "aea2f56d-314b-4380-af2e-cc792b9932ae",
+      "userId": "***",
+      "searchDate": "2026-03-15T14:44:07.965Z",
+      "networkCount": "358",
+      "reason": "26-0198"
+    },
+    {
+      "id": "6f8baca3-fe50-4221-822c-7fc2e10d7002",
+      "userId": "***",
+      "searchDate": "2026-03-16T16:50:17.497Z",
+      "networkCount": "358",
+      "reason": "10851"
+    },
+    {
+      "id": "e8ca0a66-e75f-4e6e-aeb8-0c770cdc154d",
+      "userId": "***",
+      "searchDate": "2026-03-17T18:43:48.344Z",
+      "networkCount": "370",
+      "reason": "CG2600156"
+    },
+    {
+      "id": "23666b88-0cbf-4e70-971b-6768b25fe4ea",
+      "userId": "***",
+      "searchDate": "2026-03-17T20:39:39.703Z",
+      "networkCount": "1",
+      "reason": "CG2600156"
+    },
+    {
+      "id": "46a911eb-a458-4365-a3cd-f476c62ecaef",
+      "userId": "***",
+      "searchDate": "2026-03-20T02:48:28.708Z",
+      "networkCount": "1",
+      "reason": "Possible threats"
+    },
+    {
+      "id": "1d004cdc-2c5e-45d7-a629-3a825a4a6bd2",
+      "userId": "***",
+      "searchDate": "2026-03-21T21:04:29.608Z",
+      "networkCount": "1",
+      "reason": "Lost/stolen veh"
+    },
+    {
+      "id": "ade1b3df-d8a0-4837-8940-d88eeb070611",
+      "userId": "***",
+      "searchDate": "2026-03-23T01:28:36.838Z",
+      "networkCount": "358",
+      "reason": "26-6016"
+    },
+    {
+      "id": "e4014fea-5041-40b9-80fa-b9c8b2e08be9",
+      "userId": "***",
+      "searchDate": "2026-03-23T03:02:34.515Z",
+      "networkCount": "358",
+      "reason": "26-3122"
+    },
+    {
+      "id": "29e47a0d-429c-4404-ae73-5c510232c9a5",
+      "userId": "***",
+      "searchDate": "2026-03-23T13:03:54.680Z",
+      "networkCount": "358",
+      "reason": "26-794"
+    },
+    {
+      "id": "c9243ffe-09a9-4c70-86b8-e4e1986dcf7d",
+      "userId": "***",
+      "searchDate": "2026-03-23T16:48:30.000Z",
+      "networkCount": "1",
+      "reason": "Theft Investigation"
+    },
+    {
+      "id": "ef5c9f05-f3d5-440f-8aea-bcbf6371a858",
+      "userId": "***",
+      "searchDate": "2026-03-23T19:56:54.866Z",
+      "networkCount": "1",
+      "reason": "CA26-175"
+    },
+    {
+      "id": "ebd7a39b-a08d-4856-9afc-6abae417d76a",
+      "userId": "***",
+      "searchDate": "2026-03-24T01:11:02.627Z",
+      "networkCount": "370",
+      "reason": "CG2600178"
+    },
+    {
+      "id": "3b04344d-1199-421a-b926-afdd18344e07",
+      "userId": "***",
+      "searchDate": "2026-03-24T21:54:00.045Z",
+      "networkCount": "1",
+      "reason": "SG26-96"
+    },
+    {
+      "id": "c04c8a95-3495-44f6-a15e-dd94c370f24c",
+      "userId": "***",
+      "searchDate": "2026-03-24T21:56:42.966Z",
+      "networkCount": "357",
+      "reason": "EG26-707"
+    },
+    {
+      "id": "8425118e-9ac7-4d7f-a953-b08905914457",
+      "userId": "***",
+      "searchDate": "2026-03-28T23:16:13.374Z",
+      "networkCount": "357",
+      "reason": "10851"
+    },
+    {
+      "id": "4af1d24b-cf4e-4a06-81b1-a6996590ea97",
+      "userId": "***",
+      "searchDate": "2026-03-29T14:14:27.980Z",
+      "networkCount": "357",
+      "reason": "10851"
+    },
+    {
+      "id": "e516d9b8-0d6c-4478-afab-c0b98370f86c",
+      "userId": "***",
+      "searchDate": "2026-03-29T17:43:39.029Z",
+      "networkCount": "369",
+      "reason": "CG2600128"
+    },
+    {
+      "id": "e61be726-2956-45f9-87b5-89b538781712",
+      "userId": "***",
+      "searchDate": "2026-03-29T22:43:17.438Z",
+      "networkCount": "1",
+      "reason": ""
+    },
+    {
+      "id": "fbf9397c-2a26-456d-ba5c-172e59e1dd83",
+      "userId": "***",
+      "searchDate": "2026-03-31T14:30:10.341Z",
+      "networkCount": "1",
+      "reason": "Fraud"
+    },
+    {
+      "id": "a7af5ae2-755f-4fd3-8bb7-e2ff5b31193d",
+      "userId": "***",
+      "searchDate": "2026-04-01T21:49:26.747Z",
+      "networkCount": "1",
+      "reason": "hit run"
+    },
+    {
+      "id": "5ce8c87a-9f37-4deb-86bd-e1ab02a9ca07",
+      "userId": "***",
+      "searchDate": "2026-04-02T22:37:39.059Z",
+      "networkCount": "1",
+      "reason": "Hit and run"
+    },
+    {
+      "id": "c0775eec-14d8-492e-a2df-f015782127b3",
+      "userId": "***",
+      "searchDate": "2026-04-05T19:32:41.109Z",
+      "networkCount": "356",
+      "reason": "10851"
+    },
+    {
+      "id": "848a7702-f970-40e4-a89e-d78ea889c11d",
+      "userId": "***",
+      "searchDate": "2026-04-05T21:47:02.488Z",
+      "networkCount": "356",
+      "reason": "20002"
+    },
+    {
+      "id": "538748ff-7fe5-49f2-be06-31866ee26275",
+      "userId": "***",
+      "searchDate": "2026-04-06T16:22:27.265Z",
+      "networkCount": "368",
+      "reason": "CG2500832"
+    },
+    {
+      "id": "4c9192c6-0663-46df-b859-51e03586844c",
+      "userId": "***",
+      "searchDate": "2026-04-06T20:26:00.177Z",
+      "networkCount": "1",
+      "reason": "Seaside 459 pc"
+    },
+    {
+      "id": "f90e4e43-5aae-4597-943f-9f429a3e46e1",
+      "userId": "***",
+      "searchDate": "2026-04-07T18:43:39.356Z",
+      "networkCount": "1",
+      "reason": "20002"
+    },
+    {
+      "id": "c5e1f72e-074e-4e14-8e25-adebcceb651b",
+      "userId": "***",
+      "searchDate": "2026-04-08T19:04:28.188Z",
+      "networkCount": "4",
+      "reason": "Grand theft inv."
+    }
+  ]
 }

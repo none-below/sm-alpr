@@ -1,5 +1,6 @@
 {
-  "slug": "south-san-francisco-ca-pd",
+  "crawled_slug": "south-san-francisco-ca-pd",
+  "crawled_name": "South San Francisco PD",
   "archived_date": "2026-03-27",
   "whats_detected": "License Plates, Vehicles",
   "whats_not_detected": "Facial recognition, People, Gender, Race",
@@ -15,8 +16,7 @@
   "vehicles_detected_30d": 710841,
   "hotlist_hits_30d": 3070,
   "searches_30d": 490,
-  "shared_org_count": 15,
-  "shared_org_names": [
+  "sharing_outbound": [
     "Atherton CA PD",
     "Belmont CA PD",
     "Brisbane CA PD",
@@ -33,24 +33,19 @@
     "San Mateo CA PD",
     "San Mateo County CA SO"
   ],
-  "shared_org_slugs": [
-    "atherton-ca-pd",
-    "belmont-ca-pd",
-    "brisbane-ca-pd",
-    "burlingame-ca-pd",
-    "colma-ca-pd",
-    "daly-city-ca-pd",
-    "east-palo-alto-ca-pd",
-    "foster-city-ca-pd",
-    "hillsborough-ca-pd",
-    "pacifica-ca-pd",
-    "redwood-city-ca-pd",
-    "san-bruno-ca-pd",
-    "san-francisco-ca-pd",
-    "san-mateo-ca-pd",
-    "san-mateo-county-ca-so"
-  ],
-  "orgs_sharing_with_count": 0,
-  "orgs_sharing_with_names": [],
-  "orgs_sharing_with_slugs": []
+  "sharing_inbound": [],
+  "overview": "South San Francisco PD uses Flock Safety technology to capture objective evidence without compromising individual privacy. South San Francisco PD utilizes retroactive searches to solve crimes after they've occurred. Additionally, South San Francisco CA PD utilizes real-time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.",
+  "policy_info": "",
+  "alpr_policy": "https://public.powerdms.com/SSFPD/tree/documents/1769337",
+  "additional_info": "",
+  "download_csv": "",
+  "search_audit": "Download CSV",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": ""
 }
