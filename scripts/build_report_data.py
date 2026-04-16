@@ -533,11 +533,16 @@ def main():
     checklist_pass_by_type = defaultdict(lambda: defaultdict(int))
     checklist_applicable_by_type = defaultdict(lambda: defaultdict(int))
     type_totals = defaultdict(int)  # agency_type -> total CA-registry count
+    # Cache per-agency results so we can roll them up for local peer
+    # comparisons on each report (e.g. "X of 13 agencies in the same
+    # county pass this check").
+    checklist_results_by_aid = {}
     for a in ca_all:
         type_totals[a["type"]] += 1
         results = evaluate_checklist(
             a["portal"], a["reg"], a["crawled"], a["outbound_ids"], reg_by_id
         )
+        checklist_results_by_aid[a["agency_id"]] = results
         for cid, v in results.items():
             if v is True:
                 checklist_pass_all[cid] += 1

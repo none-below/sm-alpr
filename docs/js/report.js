@@ -253,65 +253,32 @@
       // don't publish search counts. Surface that as a visible
       // sublabel (not just a tooltip) so councils understand the
       // reported number is a floor, not the full volume.
-      (function() {
-        const ds = report.downstream_searches;
-        if (!ds) {
-          return {
-            metric: "downstream",
-            label: "Searches reaching this data",
-            sublabel: "agency + recipients that publish counts",
-            value: report.downstream_total,
-            isDownstream: true,
-          };
-        }
-        // Build the caveat by splitting "not counted" into two reasons
-        // (no portal at all vs. portal without the search field) so
-        // the reader can tell why the denominator is what it is. This
-        // also reconciles with the Transparency checklist upstream:
-        // 96% of CA peers PUBLISH searches — but this agency's
-        // outbound pool spans uncrawled out-of-state agencies,
-        // universities, fusion centers etc. that mostly have no
-        // portal at all.
-        const selfExcluded = ds.self_included === false;
-        let parts = [];
-        if (ds.recipients_no_portal > 0) {
-          parts.push(`${fmtInt(ds.recipients_no_portal)} have no transparency portal`);
-        }
-        if (ds.recipients_portal_no_search_field > 0) {
-          parts.push(`${fmtInt(ds.recipients_portal_no_search_field)} have a portal but don\u2019t publish a search count`);
-        }
-        if (selfExcluded) {
-          parts.push("this agency doesn\u2019t publish its own search count either");
-        }
-        const covered = ds.recipients_with_data;
-        const total = ds.recipients_total;
-        const caveatCore = parts.length
-          ? `Of ${fmtInt(total)} recipients, ${fmtInt(covered)} publish a search count; ${parts.join("; ")}`
-          : `All ${fmtInt(total)} recipients publish search counts`;
-        const sublabel = caveatCore + " \u2014 real total is likely higher.";
-        return {
-          metric: "downstream",
-          label: "Searches reaching this data",
-          sublabel: sublabel,
-          tooltip: `${fmtInt(report.downstream_total || 0)} = searches this agency publishes + searches published by ${covered} of its ${total} recipients.`,
-          value: report.downstream_total,
-          isDownstream: true,
-        };
-      })(),
+      // Compound: this agency's own searches plus all crawled
+      // recipients' searches. The coverage breakdown lives in the
+      // value cell (coverage-tag) rather than as a metric sublabel —
+      // keeps the label clean and puts the caveat next to the number
+      // it qualifies.
+      {
+        metric: "downstream",
+        label: "Searches reaching this data",
+        tooltip: (report.downstream_searches
+          ? `${fmtInt(report.downstream_total || 0)} = searches this agency publishes + searches published by ${report.downstream_searches.recipients_with_data} of its ${report.downstream_searches.recipients_total} recipients.`
+          : undefined),
+        value: report.downstream_total,
+        isDownstream: true,
+      },
       { metric: "outbound", label: "Agencies it shares to", value: stats.outbound_count },
       { metric: "cameras", label: "Cameras", value: stats.cameras },
       { metric: "vehicles_30d", label: "Vehicles detected", value: stats.vehicles_30d },
       {
         metric: "hotlist_hits_30d",
         label: "Hotlist hits",
-        // "Hotlists" in Flock can mix several kinds of lists — stolen
-        // vehicles and CA DOJ wanted-plate feeds, AMBER/Silver alerts,
-        // but also custom department-created lists. A "hit" is any
-        // moment a camera detects a plate on any of those lists; it
-        // doesn't mean the plate was verified or the hit led to
-        // action, and agencies don't usually break the number down.
-        sublabel: "camera detections on any list an agency subscribes to or maintains (stolen vehicles, AMBER alerts, DOJ feeds, custom lists) — unverified",
-        tooltip: "A \"hotlist\" is any plate list that triggers an alert. Flock makes DOJ-provided feeds (stolen vehicles, AMBER/Silver alerts, wanted persons) available to agencies, and departments can also upload and maintain their own custom lists. A \"hit\" is just a camera detection against one of those lists. The agency may or may not act on any given hit; hits are not necessarily arrests, convictions, or even verified matches.",
+        // Factual description only — no editorial on whether hits
+        // are verified/acted on. Lists that contribute: DOJ feeds
+        // the agency is subscribed to (stolen vehicles, AMBER/Silver
+        // alerts, wanted persons) plus any custom lists the agency
+        // has uploaded or maintains.
+        sublabel: "camera detection of a plate on a hotlist the agency subscribes to or maintains (DOJ feeds, stolen vehicles, AMBER/Silver alerts, custom lists)",
         value: stats.hotlist_hits_30d,
       },
     ];
@@ -421,15 +388,35 @@
       }
       const sparkHist = peerHistogramFor(sparkMetric, report.agency_type, meta);
       const sparkHtml = sparkHist ? `<div class="spark-wrap">${sparklineSvg(sparkHist, sparkValue)}</div>` : "";
-      // Downstream row: print an explicit coverage line under the
-      // number so the reader sees "this is X% of recipients" alongside
-      // the raw total. Avoids the floor-vs-actual ambiguity.
+      // Downstream row: coverage tag explains the floor number AND
+      // why it's a floor. Breaks "not counted" into (a) recipients
+      // with no transparency portal and (b) recipients with a portal
+      // but no published search count, so the reader can see at a
+      // glance why the denominator is what it is. Also notes when
+      // this agency itself doesn't publish its own search count.
       let coverageHtml = "";
       if (r.isDownstream && report.downstream_searches) {
         const ds = report.downstream_searches;
         if (ds.recipients_total > 0) {
           const pctStr = pct(ds.recipients_with_data, ds.recipients_total);
-          coverageHtml = `<div class="coverage-tag">Based on ${pctStr}% of recipients (${fmtInt(ds.recipients_with_data)} of ${fmtInt(ds.recipients_total)})${ds.self_included === false ? "; agency itself doesn\u2019t report either" : ""} \u2014 floor, not full</div>`;
+          let lines = [
+            `<strong>Based on ${pctStr}% of recipients</strong> (${fmtInt(ds.recipients_with_data)} of ${fmtInt(ds.recipients_total)}).`,
+          ];
+          const notCounted = [];
+          if (ds.recipients_no_portal > 0) {
+            notCounted.push(`${fmtInt(ds.recipients_no_portal)} have no transparency portal`);
+          }
+          if (ds.recipients_portal_no_search_field > 0) {
+            notCounted.push(`${fmtInt(ds.recipients_portal_no_search_field)} have a portal but don\u2019t publish a search count`);
+          }
+          if (notCounted.length) {
+            lines.push("Not counted: " + notCounted.join("; ") + ".");
+          }
+          if (ds.self_included === false) {
+            lines.push("This agency also doesn\u2019t publish its own search count.");
+          }
+          lines.push("<em>The real total is likely higher.</em>");
+          coverageHtml = `<div class="coverage-tag">${lines.join(" ")}</div>`;
         }
       }
       html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}${coverageHtml}${sparkHtml}</td>`;
@@ -582,7 +569,7 @@
     });
     if (!recipients.length) return "";
 
-    const W = 540, H = 240;
+    const W = 540, H = 320;
     const PAD_L = 6, PAD_R = 6, PAD_T = 6, PAD_B = 22;  // extra bottom pad for caption
 
     // Bounding box — include subject + every geocoded recipient, plus
@@ -596,19 +583,42 @@
       if (r.lng > maxLng) maxLng = r.lng;
     });
     // Cushion relative to range so edges aren't clipped
-    const latRange = Math.max(maxLat - minLat, 0.2);
-    const lngRange = Math.max(maxLng - minLng, 0.2);
+    let latRange = Math.max(maxLat - minLat, 0.2);
+    let lngRange = Math.max(maxLng - minLng, 0.2);
     minLat -= latRange * 0.05;
     maxLat += latRange * 0.05;
     minLng -= lngRange * 0.05;
     maxLng += lngRange * 0.05;
+    latRange = maxLat - minLat;
+    lngRange = maxLng - minLng;
 
-    // Equirectangular projection — fine for scales up to continental.
-    // Horizontal flip because longitude increases east but x increases
-    // right; latitude increases north but y increases down.
+    // Equirectangular-style projection with a latitude-dependent
+    // longitude correction. Without the cos(mid_lat) scaling, 1° of
+    // longitude occupies the same horizontal pixels as 1° of
+    // latitude, which stretches east-west distances at mid-latitudes
+    // — e.g., Calexico (south-east of San Mateo) ends up visually
+    // too far east. Pre-scale lngRange by cos(mid_lat) so the two
+    // axes use proportional geographic distance per pixel.
+    const midLat = (minLat + maxLat) / 2;
+    const lngScale = Math.cos(midLat * Math.PI / 180);
+    const effectiveLngRange = lngRange * lngScale;
+
+    // Now fit the aspect-correct data into the viewport without
+    // squishing either axis: pick the tighter scale, center the
+    // shorter axis with padding.
+    const viewW = W - PAD_L - PAD_R;
+    const viewH = H - PAD_T - PAD_B;
+    const xScalePerLng = viewW / effectiveLngRange;
+    const yScalePerLat = viewH / latRange;
+    const scale = Math.min(xScalePerLng, yScalePerLat);
+    const usedW = effectiveLngRange * scale;
+    const usedH = latRange * scale;
+    const offX = PAD_L + (viewW - usedW) / 2;
+    const offY = PAD_T + (viewH - usedH) / 2;
+
     function proj(lat, lng) {
-      const x = PAD_L + (lng - minLng) / (maxLng - minLng) * (W - PAD_L - PAD_R);
-      const y = PAD_T + (maxLat - lat) / (maxLat - minLat) * (H - PAD_T - PAD_B);
+      const x = offX + (lng - minLng) * lngScale * scale;
+      const y = offY + (maxLat - lat) * scale;
       return [x, y];
     }
 
