@@ -735,7 +735,11 @@
     // Background
     svg += `<rect x="0" y="0" width="${W}" height="${H}" fill="#f8fafc" stroke="#e2e8f0"/>`;
 
-    // Faint lat/lng gridlines at round degrees for scale reference
+    // Faint lat/lng gridlines at round degrees for scale reference.
+    // (The mini-map itself is currently unused — we link out to the
+    // full sharing map instead — but this function is kept so a
+    // future revision can re-enable it without rewriting the
+    // projection.)
     const latStep = latRange > 15 ? 5 : latRange > 5 ? 2 : 1;
     const lngStep = lngRange > 15 ? 5 : lngRange > 5 ? 2 : 1;
     for (let la = Math.ceil(minLat); la <= maxLat; la += latStep) {
@@ -1128,14 +1132,19 @@
       html += '</p>';
     }
 
-    // Mini regional map — shows the agency at the center and every
-    // geocoded outbound recipient as a dot. Red dots / lines for
-    // flagged recipients and the farthest one. Makes geographic
-    // reach tangible: "your data goes to these specific places."
-    const subjLat = (report.geo && report.geo.lat) || null;
-    const subjLng = (report.geo && report.geo.lng) || null;
-    if (subjLat != null && subjLng != null) {
-      html += miniMapHtml(report, subjLat, subjLng, farthest);
+    // Link to the full sharing map (already rendered elsewhere with
+    // tiles, state outlines, interactive panning). A static mini-map
+    // would always be a weaker version of that, and bloats the
+    // printable PDF. Keep a call-out box in the report instead,
+    // deep-linked to this agency on the live map.
+    const recipientCount = (report.outbound || []).filter(function(r) {
+      return r.lat != null && r.lng != null;
+    }).length;
+    if (recipientCount > 0) {
+      html += `<div class="sharing-map-box"><a href="sharing_map.html#${escapeHtml(report.slug)}" target="_blank" rel="noopener">` +
+        `<strong>\u2192 View this agency on the sharing map</strong>` +
+        `<div class="sharing-map-box-sub">Interactive map of the ${fmtInt(recipientCount)} geocoded recipients, with pan/zoom, flagged-entity highlights, and drill-through to any recipient's own report.</div>` +
+        `</a></div>`;
     }
 
 

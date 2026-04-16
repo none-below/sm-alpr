@@ -240,16 +240,43 @@
   .data-concerns-index { margin: 4px 0 0 0; padding-left: 22px; }
   .data-concerns-index li { margin: 2px 0; color: #991b1b; }
   .data-concerns-index a { color: #991b1b; }
-  /* Inline variant: appears under a stats row / checklist item,
-     not in the top block. Slightly softer border so it doesn't
-     overwhelm the surrounding context. */
+  /* Inline variant: integrated visually into the surrounding box
+     (stats cell or checklist item) rather than rendering as a
+     separate callout beneath it. Lighter styling so the concern
+     reads as part of the cell's own content, not an attached
+     footnote. A red left bar is still present for the concern-
+     level signal; the top-of-report block keeps the full callout
+     treatment. */
   .data-concerns-inline {
-    margin: 6px 0 2px 0;
-    padding: 8px 10px;
-    border-left-width: 3px;
+    margin: 6px 0 0 0;
+    padding: 6px 0 6px 8px;
+    background: transparent;
+    border: none;
+    border-left: 3px solid #dc2626;
+    border-radius: 0;
   }
-  .data-concerns-inline .data-concern-title { font-size: 10pt; }
-  .data-concerns-inline .data-concern-desc { font-size: 9.5pt; }
+  .data-concerns-inline .data-concern-title {
+    font-size: 9.5pt;
+    color: #991b1b;
+    font-weight: 700;
+  }
+  .data-concerns-inline .data-concern-title::before {
+    content: "\26A0  ";
+    color: #dc2626;
+  }
+  .data-concerns-inline .data-concern-desc {
+    font-size: 9pt;
+    color: #450a0a;
+  }
+  .data-concerns-inline .data-concern { border-top: none; padding-top: 0; }
+  .data-concerns-inline .data-concern-source { font-size: 8.5pt; }
+  /* For the checklist-item variant, we need even tighter styling
+     so it fits the already-small list row (especially the two-column
+     transparency list). */
+  .checklist li .data-concerns-inline {
+    margin-top: 4px;
+    padding: 4px 0 4px 6px;
+  }
   .data-concern {
     padding: 4px 0;
     border-top: 1px dashed #fca5a5;
@@ -274,19 +301,30 @@
     margin-top: 3px;
   }
   .data-concern-source a { color: #b91c1c; }
-  /* Mini regional map — inline SVG showing subject agency centered
-     among its geocoded outbound recipients. Dots = recipients, red =
-     flagged, amber dashed = farthest. Caps at ~5.5" × 2.5" so it
-     reads like an inline figure, not a hero element. */
-  .mini-map-wrap {
-    margin: 8px 0 12px 0;
-    text-align: center;
+  /* Link box to the live sharing map. Replaces the earlier mini-map
+     SVG — the full map renders the same info better with state
+     outlines and pan/zoom, and this keeps the printable PDF
+     shorter. */
+  .sharing-map-box {
+    margin: 10px 0 14px 0;
   }
-  .mini-map {
-    max-width: 100%;
-    width: 100%;
-    max-height: 260px;
-    border-radius: 4px;
+  .sharing-map-box a {
+    display: block;
+    padding: 12px 16px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    color: #1e3a8a;
+    text-decoration: none;
+    line-height: 1.35;
+  }
+  .sharing-map-box a:hover { background: #dbeafe; }
+  .sharing-map-box strong { font-size: 11pt; }
+  .sharing-map-box-sub {
+    font-size: 9.5pt;
+    color: #1e40af;
+    margin-top: 3px;
+    font-weight: normal;
   }
   /* Coverage tag under the downstream-searches value — pairs with
      the amber sublabel on the metric label column to hammer home
