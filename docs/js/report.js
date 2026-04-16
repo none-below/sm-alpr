@@ -241,7 +241,13 @@
     const rows = [
       { metric: "cameras", label: "Cameras", value: stats.cameras },
       { metric: "vehicles_30d", label: "Vehicles detected", value: stats.vehicles_30d },
-      { metric: "hotlist_hits_30d", label: "Hotlist hits", value: stats.hotlist_hits_30d },
+      {
+        metric: "hotlist_hits_30d",
+        label: "Hotlist hits",
+        sublabel: "matches against wanted-plate lists",
+        tooltip: "A hotlist is a list of plates flagged for an alert (stolen vehicles, AMBER alerts, warrants, etc.). A hotlist hit is a moment a camera detected a plate on one of those lists.",
+        value: stats.hotlist_hits_30d,
+      },
       { metric: "searches_30d", label: "Searches performed", value: stats.searches_30d },
       { metric: "outbound", label: "Agencies it shares to", value: stats.outbound_count },
       // Compound metric — this agency's searches plus all its crawled
@@ -345,15 +351,17 @@
       html += labelCell;
       html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}</td>`;
       if (report.population) {
-        // Per-capita doesn't apply to cameras/sqmi or downstream-
-        // searches (neither is a count-of-people metric). Repurpose
-        // the right cell on the downstream row to list the top re-
-        // searchers — the recipient agencies that query this data
-        // the most — which is far more informative than a dash.
+        // Per-capita doesn't apply to every metric:
+        //  - cameras/sqmi: a density is already a ratio
+        //  - downstream-searches: shown with a top re-searchers list
+        //  - outbound (agencies shared to): a count of entities, not
+        //    a count of events/people; "agencies shared to per 1,000
+        //    residents" isn't a meaningful measure
+        // For these, leave the cell blank (no value, no color, no tag).
         if (r.isDownstream) {
           html += `<td class="downstream-researchers">${topResearchersHtml(report.downstream_searches)}</td>`;
-        } else if (r.isDensity) {
-          html += `<td class="num"><span class="null">&mdash;</span></td>`;
+        } else if (r.isDensity || r.metric === "outbound") {
+          html += `<td class="num"></td>`;
         } else {
           html += `<td class="num ${cellClassFor(perPct, r.metric)}">${valueBlockHtml(per, perMed, lperMed, perPct, lperPct, lsamp)}</td>`;
         }
@@ -380,7 +388,7 @@
       (report.population
         ? `"Per 1,000 residents" normalizes by city population so small towns and big cities can be compared on the same scale. `
         : ``) +
-      `Green cells indicate ranks favoring more oversight (fewer cameras / fewer shares); red cells indicate ranks that warrant scrutiny.</p>`;
+      `A percentile is read as "X% of peers have a lower value" &mdash; so 80th percentile means this agency is higher than 80% of its peers. Red cells flag percentiles that warrant scrutiny; below-median values are left uncolored because a low rank relative to peers doesn't mean the absolute number is acceptable.</p>`;
 
     return html;
   }
@@ -467,23 +475,16 @@
     return html;
   }
 
-  // For metrics where "more" is a potential concern (cameras, detections,
-  // hotlist hits, searches, outbound sharing), high percentile is red and
-  // low percentile is green. Thresholds align with the rank-description
-  // buckets so a cell that reads "above average" is colored light red,
-  // "higher than most" deeper red, etc. If we add metrics where "more"
-  // is better (e.g., "audit frequency"), we'd invert here.
-  //
-  // Returns a CSS class name for the cell background.
+  // Cell coloring policy: the report should raise concerns, not
+  // reassure. High percentiles get colored red (concerning); low
+  // percentiles get NO color — we don't want councils looking at a
+  // green cell and concluding "we're fine." Absolute numbers may
+  // still be concerning even when this agency is below its peers.
   function cellClassFor(pctile, metric) {
     if (pctile == null) return "";
-    // Match rankDescription buckets: 90+, 75+, 60+ concerning; 40-59
-    // near median; 25+, 10+, <10 favorable.
     if (pctile >= 75) return "cell-high";       // "higher than most / nearly all"
     if (pctile >= 60) return "cell-mid-high";   // "above average"
-    if (pctile <= 25) return "cell-low";         // "lower than most / nearly all"
-    if (pctile <= 40) return "cell-mid-low";     // "below average"
-    return "";  // near median — no color
+    return "";  // median or below — no color, no pat on the back
   }
 
   // Short plain-English rank label for table cells (paired with a percentile
@@ -495,6 +496,12 @@
   // the statewide and local lines at a glance — if one is "statewide:
   // near the median" (neutral) and the other is "local (25 miles):
   // higher than most" (red), the divergence pops out.
+  // Short plain-English rank label. High percentiles get red because
+  // they're concerning. Below-median cases are described neutrally —
+  // no celebratory "lower than most" framing, no green color — so
+  // councils reviewing the report don't conclude "we're fine" from a
+  // low-percentile metric. The agency may still operate a large
+  // surveillance program in absolute terms.
   function rankDescription(pctile) {
     let label;
     let cls = "";
@@ -502,9 +509,7 @@
     else if (pctile >= 75) { label = "higher than most"; cls = "rank-high"; }
     else if (pctile >= 60) { label = "above average"; cls = "rank-mid-high"; }
     else if (pctile >= 40) { label = "near the median"; cls = "rank-mid"; }
-    else if (pctile >= 25) { label = "below average"; cls = "rank-mid-low"; }
-    else if (pctile >= 10) { label = "lower than most"; cls = "rank-low"; }
-    else { label = "lower than nearly all"; cls = "rank-low-strong"; }
+    else { label = "below the peer median"; cls = "rank-mid"; }
     return `<span class="${cls}">${label}</span> <span class="muted">(${pctile}${nthSuffix(pctile)} percentile)</span>`;
   }
 
@@ -1184,6 +1189,25 @@
           </div>`;
       });
   }
+
+  // Open every <details> on beforeprint so the PDF shows full
+  // sharing lists, not "Show all N recipients" collapsed hints. We
+  // remember which were open before so the screen version can restore
+  // on afterprint.
+  window.addEventListener("beforeprint", function() {
+    document.querySelectorAll("details").forEach(function(d) {
+      if (!d.open) {
+        d.dataset.wasClosed = "1";
+        d.open = true;
+      }
+    });
+  });
+  window.addEventListener("afterprint", function() {
+    document.querySelectorAll("details[data-was-closed]").forEach(function(d) {
+      d.open = false;
+      delete d.dataset.wasClosed;
+    });
+  });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

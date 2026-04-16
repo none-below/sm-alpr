@@ -184,22 +184,19 @@
   }
   td .rank-tag-state { background: #dbeafe; color: #1e40af; }
   td .rank-tag-local { background: #dcfce7; color: #166534; }
-  /* Rank descriptions: visually separate "this agency is higher/lower
-     than its peers" at a glance. Same color semantics as the cell
-     backgrounds — red = concerning, green = favorable. */
+  /* Rank descriptions: red for concerning (above-median) ranks, muted
+     gray for at-or-below-median. No green — a low peer rank doesn't
+     mean the absolute number is fine. */
   .rank-high-strong { color: #991b1b; font-weight: bold; }
   .rank-high        { color: #b91c1c; font-weight: 600; }
   .rank-mid-high    { color: #b45309; }
   .rank-mid         { color: #555; }
-  .rank-mid-low     { color: #166534; }
-  .rank-low         { color: #15803d; font-weight: 600; }
-  .rank-low-strong  { color: #14532d; font-weight: bold; }
-  /* Colour bands for metric cells vs. peer median. Higher = more concerning
-     for cameras/detections/searches/sharing, so red. Lower = green. */
+  /* Colour bands for metric cells vs. peer median. Only high percentiles
+     get colored — we don't celebrate low percentiles because a low
+     rank relative to peers doesn't mean the absolute number is
+     acceptable. */
   td.cell-high     { background: #fee2e2; }
   td.cell-mid-high { background: #fef3c7; }
-  td.cell-mid-low  { background: #dcfce7; }
-  td.cell-low      { background: #bbf7d0; }
 
   ul { margin: 4px 0 0 0; padding-left: 20px; }
   li { margin: 2px 0; }
@@ -412,6 +409,11 @@
     h2 { page-break-after: avoid; break-after: avoid; }
     h3 { page-break-after: avoid; break-after: avoid; }
     table, .flag-section, .questions, .checklist li { page-break-inside: avoid; break-inside: avoid; }
+    /* <details> elements are expanded on beforeprint (see report.js)
+       so their body is visible in the PDF. Hide the disclosure
+       triangle/summary — on paper the "Show all N recipients" hint
+       no longer applies. */
+    details > summary { display: none !important; }
   }
 
   @media (max-width: 720px) {
