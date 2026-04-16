@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
-"""Refresh Census population estimates for places and counties.
+"""Refresh Census population + household-vehicle estimates for places and counties.
 
-Downloads the latest ACS 5-year population estimates from the Census API
-and saves them as TSVs keyed by FIPS code. Run periodically (annually)
-to keep the per-capita calculations current.
+Downloads the latest ACS 5-year estimates from the Census API and saves
+them as TSVs keyed by FIPS code. Run periodically (annually) to keep
+the per-capita / per-vehicle calculations current.
 
 Source: https://api.census.gov/data/{year}/acs/acs5
 
-  - B01003_001E = total population (ACS 5-year estimate)
-  - Places: queried by state:* + place:*
-  - Counties: queried by state:* + county:*
+  - B01003_001E = total population
+  - B25046_001E = aggregate number of vehicles available across all
+    households in the geography. Counts vehicles kept at home for
+    household use (ACS survey estimate); excludes commercial/fleet
+    vehicles that aren't assigned to a household. It's the closest
+    per-city vehicle count available from Census — DMV doesn't
+    publish registrations at the place level.
 
 Usage:
   uv run python scripts/refresh_census_population.py              # most-recent ACS vintage
@@ -31,9 +35,14 @@ META_OUT = DATA_DIR / "population_meta.json"
 
 BASE = "https://api.census.gov/data/{year}/acs/acs5"
 
+# ACS variables we fetch alongside population.
+#   population: B01003_001E — total population
+#   vehicles:   B25046_001E — aggregate household vehicles available
+VARIABLES = "NAME,B01003_001E,B25046_001E"
+
 
 def fetch_places(year):
-    """Fetch place-level population for every state, concatenated.
+    """Fetch place-level population + vehicles for every state, concatenated.
 
     The Census API caps some queries at the state level; places must be
     fetched per-state because `for=place:*&in=state:*` returns a single
@@ -44,7 +53,7 @@ def fetch_places(year):
     state_fips = _state_fips_list()
     rows = []
     for sf in state_fips:
-        url = (f"{BASE.format(year=year)}?get=NAME,B01003_001E"
+        url = (f"{BASE.format(year=year)}?get={VARIABLES}"
                f"&for=place:*&in=state:{sf}")
         data = _fetch_json(url)
         if not data:
@@ -52,6 +61,7 @@ def fetch_places(year):
         header = data[0]
         name_idx = header.index("NAME")
         pop_idx = header.index("B01003_001E")
+        veh_idx = header.index("B25046_001E")
         state_idx = header.index("state")
         place_idx = header.index("place")
         for row in data[1:]:
@@ -60,14 +70,18 @@ def fetch_places(year):
                 pop = int(row[pop_idx])
             except (ValueError, TypeError):
                 continue
-            rows.append((fips, row[name_idx], pop))
+            try:
+                veh = int(row[veh_idx])
+            except (ValueError, TypeError):
+                veh = ""
+            rows.append((fips, row[name_idx], pop, veh))
         print(f"  state FIPS {sf}: {len(data) - 1} places")
     return rows
 
 
 def fetch_counties(year):
-    """Fetch county-level population (one request — all counties fit)."""
-    url = (f"{BASE.format(year=year)}?get=NAME,B01003_001E"
+    """Fetch county-level population + vehicles (one request — all counties fit)."""
+    url = (f"{BASE.format(year=year)}?get={VARIABLES}"
            f"&for=county:*&in=state:*")
     data = _fetch_json(url)
     if not data:
@@ -75,6 +89,7 @@ def fetch_counties(year):
     header = data[0]
     name_idx = header.index("NAME")
     pop_idx = header.index("B01003_001E")
+    veh_idx = header.index("B25046_001E")
     state_idx = header.index("state")
     county_idx = header.index("county")
     rows = []
@@ -84,7 +99,11 @@ def fetch_counties(year):
             pop = int(row[pop_idx])
         except (ValueError, TypeError):
             continue
-        rows.append((fips, row[name_idx], pop))
+        try:
+            veh = int(row[veh_idx])
+        except (ValueError, TypeError):
+            veh = ""
+        rows.append((fips, row[name_idx], pop, veh))
     return rows
 
 
@@ -137,12 +156,12 @@ def main():
     print("Places:")
     place_rows = fetch_places(args.year)
     place_rows.sort(key=lambda r: r[0])
-    write_tsv(PLACES_OUT, place_rows, ["fips", "name", "population"])
+    write_tsv(PLACES_OUT, place_rows, ["fips", "name", "population", "vehicles"])
 
     print("Counties:")
     county_rows = fetch_counties(args.year)
     county_rows.sort(key=lambda r: r[0])
-    write_tsv(COUNTIES_OUT, county_rows, ["fips", "name", "population"])
+    write_tsv(COUNTIES_OUT, county_rows, ["fips", "name", "population", "vehicles"])
 
     META_OUT.write_text(json.dumps({
         "vintage": args.year,

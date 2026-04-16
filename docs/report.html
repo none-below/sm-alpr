@@ -212,6 +212,50 @@
     font-weight: normal;
   }
   td .metric-caveat a { color: #b45309; }
+  /* Known data-reporting concerns: a callout on the report header
+     for agency-specific documented discrepancies. Distinct from the
+     generic SB 34 compliance checklist — these are hand-curated,
+     cite public records, and call out "the agency says X but we have
+     evidence of Y." Styled red/amber so it reads as a first-order
+     concern, not a passing note. */
+  .data-concerns {
+    background: #fef2f2;
+    border: 1px solid #dc2626;
+    border-left: 4px solid #dc2626;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 10px 0 16px 0;
+  }
+  .data-concerns-header {
+    font-weight: bold;
+    color: #991b1b;
+    font-size: 11pt;
+    margin-bottom: 6px;
+  }
+  .data-concern {
+    padding: 4px 0;
+    border-top: 1px dashed #fca5a5;
+  }
+  .data-concerns .data-concern:first-of-type {
+    border-top: none;
+    padding-top: 0;
+  }
+  .data-concern-title {
+    font-weight: 600;
+    color: #991b1b;
+    font-size: 10.5pt;
+  }
+  .data-concern-desc {
+    font-size: 10pt;
+    color: #450a0a;
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .data-concern-source {
+    font-size: 9pt;
+    margin-top: 3px;
+  }
+  .data-concern-source a { color: #b91c1c; }
   /* Mini regional map — inline SVG showing subject agency centered
      among its geocoded outbound recipients. Dots = recipients, red =
      flagged, amber dashed = farthest. Caps at ~5.5" × 2.5" so it

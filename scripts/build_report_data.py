@@ -43,6 +43,7 @@ from gazetteer import (
     lookup_area_sqmi,
     lookup_place,
     lookup_population,
+    lookup_vehicles,
     population_meta,
 )
 
@@ -835,23 +836,32 @@ def main():
         state = agency_state(reg)
         geo_fips = (reg.get("geo") or {}).get("fips")
         population = lookup_population(geo_fips) if geo_fips else None
+        # ACS B25046 — vehicles available to households in this geo.
+        # Used as a denominator for per-vehicle rates (plates
+        # detected per household vehicle, etc.).
+        household_vehicles = lookup_vehicles(geo_fips) if geo_fips else None
         # Land area in square miles (for per-sqmi camera-density metric).
         # Only meaningful for place/county-FIPS agencies; manual and
         # state-only entries get None.
         land_sqmi = lookup_area_sqmi(geo_fips) if geo_fips else None
         # Fallback: if the registry has no FIPS (e.g. kind=manual hand-
         # curated before geocoding), try looking up the place by name so
-        # we can still report population. This is a read-time fallback;
-        # the proper fix is to upgrade the registry entry to kind=place
-        # with a FIPS code via geocode_agencies.py.
-        if population is None and state:
+        # we can still report population / vehicles. This is a read-time
+        # fallback; the proper fix is to upgrade the registry entry to
+        # kind=place with a FIPS code via geocode_agencies.py.
+        if (population is None or household_vehicles is None) and state:
             candidate = _place_name_from_agency(agency_display_name(reg, slug))
             if candidate:
                 place = lookup_place(candidate, state)
                 if place:
-                    p = lookup_population(place["fips"])
-                    if p:
-                        population = p
+                    if population is None:
+                        p = lookup_population(place["fips"])
+                        if p:
+                            population = p
+                    if household_vehicles is None:
+                        v = lookup_vehicles(place["fips"])
+                        if v:
+                            household_vehicles = v
 
         # ── Core stats ──
         cameras = gdata.get("camera_count")
@@ -1339,11 +1349,17 @@ def main():
             "agency_role": reg.get("agency_role"),
             "tags": reg.get("tags") or [],
             "notes": reg.get("notes"),
+            # Agency-specific documented discrepancies or
+            # misrepresentations we've found in public records
+            # (e.g., portal says X but internal dashboard says Y).
+            # Renders as a warning callout on the report header.
+            "data_concerns": reg.get("data_concerns") or [],
             "ag_lawsuit": has_tag(reg, "ag-lawsuit"),
             "geo": reg.get("geo") or {},
             "crawled": crawled,
             "crawled_date": crawl_status(reg, DATA_DIR)[1],
             "population": population,
+            "household_vehicles": household_vehicles,
             "land_sqmi": land_sqmi,
             "cameras_per_sqmi": cameras_per_sqmi,
             "percentile_density": percentile_density,

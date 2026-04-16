@@ -302,12 +302,20 @@ def county_fips_for_place(place_fips):
     return result
 
 
+_vehicles_cache = None
+
+
 def _load_population():
-    """Lazy-load the population TSVs into a single fips -> int dict."""
-    global _population_cache
+    """Lazy-load the population + vehicle TSVs into fips-keyed dicts.
+
+    Single read populates both _population_cache and _vehicles_cache,
+    so lookup_vehicles shares the same pass.
+    """
+    global _population_cache, _vehicles_cache
     if _population_cache is not None:
         return _population_cache
     pop = {}
+    veh = {}
     for path in (POPULATION_PLACES_PATH, POPULATION_COUNTIES_PATH):
         if not path.exists():
             continue
@@ -318,8 +326,15 @@ def _load_population():
                 try:
                     pop[fips] = int(row["population"])
                 except (ValueError, KeyError, TypeError):
-                    continue
+                    pass
+                v = (row.get("vehicles") or "").strip() if row else ""
+                try:
+                    if v:
+                        veh[fips] = int(v)
+                except (ValueError, TypeError):
+                    pass
     _population_cache = pop
+    _vehicles_cache = veh
     return pop
 
 
@@ -351,6 +366,21 @@ def lookup_population(fips):
     if not fips:
         return None
     return _load_population().get(fips)
+
+
+def lookup_vehicles(fips):
+    """Return ACS aggregate household vehicles (B25046) for a FIPS, or None.
+
+    Counts vehicles kept at home for household use. Excludes fleet /
+    commercial vehicles not attached to a household, so it underestimates
+    total registered vehicles — but it's the closest per-city number
+    Census publishes. Use it as a denominator for "plates detected per
+    household vehicle" or similar rate metrics.
+    """
+    _load_population()  # populates _vehicles_cache as a side effect
+    if not fips or _vehicles_cache is None:
+        return None
+    return _vehicles_cache.get(fips)
 
 
 def population_meta():

@@ -208,6 +208,12 @@
     if (report.land_sqmi) {
       addMeta("Land area", `${Number(report.land_sqmi).toLocaleString(undefined, { maximumFractionDigits: 1 })} sq mi`);
     }
+    // Household vehicles (ACS B25046) — denominator for per-vehicle
+    // rates. Caveat: excludes commercial fleets. Still the best
+    // per-city vehicle count Census publishes.
+    if (report.household_vehicles) {
+      addMeta("Household vehicles", Number(report.household_vehicles).toLocaleString());
+    }
     // "No transparency portal" is a meaningful compliance signal on its
     // own — color it red so it stands out in the metadata block.
     if (report.crawled) {
@@ -221,6 +227,28 @@
 
     if (report.notes) {
       html += `<p class="legal-note">${report.notes}</p>`;
+    }
+
+    // Agency-specific data concerns: documented discrepancies
+    // between what the agency publishes and what other records show
+    // (internal dashboards, PRA responses, testimony). Distinct from
+    // the generic SB 34 checks — these are hand-curated facts tied
+    // to the specific agency, pulled from the project's findings.
+    if (report.data_concerns && report.data_concerns.length) {
+      html += '<div class="data-concerns">';
+      html += `<div class="data-concerns-header">\u26a0 Known data-reporting concerns</div>`;
+      report.data_concerns.forEach(function(c) {
+        html += '<div class="data-concern">';
+        if (c.title) html += `<div class="data-concern-title">${escapeHtml(c.title)}</div>`;
+        // description is curated HTML (may contain tags) — same trust
+        // model as registry notes.
+        if (c.description) html += `<div class="data-concern-desc">${c.description}</div>`;
+        if (c.source_url) {
+          html += `<div class="data-concern-source"><a href="${escapeHtml(c.source_url)}" target="_blank" rel="noopener">Source</a></div>`;
+        }
+        html += '</div>';
+      });
+      html += '</div>';
     }
 
     return html;

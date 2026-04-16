@@ -2936,6 +2936,13 @@
     "tags": [
       "public"
     ],
+    "data_concerns": [
+      {
+        "title": "Reported camera count disagrees with internal dashboard",
+        "description": "The Flock transparency page reports <strong>66 devices</strong>, but the department's internal Flock Camera Manager dashboard shows <strong>80 devices</strong> (PRA response). Not all 80 are ALPR cameras \u2014 14 are non-ALPR, including 10 privately-owned community cameras operating without a governing policy framework.",
+        "source_url": "SMPD_ALPR_Findings.pdf"
+      }
+    ],
     "geo": {
       "kind": "place",
       "fips": "0668252",
