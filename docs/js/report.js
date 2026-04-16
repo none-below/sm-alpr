@@ -273,15 +273,23 @@
       {
         metric: "hotlist_hits_30d",
         label: "Hotlist hits",
-        // Per Flock's own description (Flock Blog, "Vehicle and
-        // Catalytic Converter Theft: Flock Safety's Solutions for
-        // Businesses," May 14, 2025), a Hot List match is triggered
-        // when a plate the system detects matches an entry in the
-        // FBI's National Crime Information Center (NCIC) feed — which
-        // covers stolen vehicles, wanted persons, etc. — or in a
-        // custom hot list the customer has configured (e.g. a
-        // business flagging an at-risk vehicle).
-        sublabel: "plate match against the FBI NCIC feed (stolen vehicles, wanted persons, etc.) or a custom list the operator has configured",
+        // Per Flock's own description (Flock Blog, May 14, 2025), a
+        // Hot List match fires when a detected plate matches either
+        // the FBI NCIC feed or a custom list the operator has
+        // configured. Known data-quality issues documented in public
+        // audits: high NCIC false-positive rates (e.g., 77% wrong-
+        // state matches in a Story County, IA audit) and custom
+        // lists frequently lacking case numbers or expiration dates
+        // (Harris County, TX: > 50% of 800 entries had no case
+        // number, 73% never expire). See
+        // haveibeenflocked.com/news/hotlist-mess.
+        sublabel: "a plate detection matching the FBI NCIC feed or a custom list the operator has configured",
+        caveatHtml: (
+          "Hotlist hits are <strong>not a vetted crime indicator</strong>. " +
+          "NCIC matches include known false positives (e.g., 77% wrong-state matches in one Iowa audit), " +
+          "and custom lists are frequently added without case numbers or expirations. " +
+          "See <a href=\"https://haveibeenflocked.com/news/hotlist-mess\" target=\"_blank\" rel=\"noopener\">haveibeenflocked.com/news/hotlist-mess</a>."
+        ),
         value: stats.hotlist_hits_30d,
       },
     ];
@@ -370,6 +378,14 @@
       if (r.sublabel) {
         const subCls = r.isDownstream ? "metric-sublabel warn" : "metric-sublabel";
         labelCell += `<div class="${subCls}">${escapeHtml(r.sublabel)}</div>`;
+      }
+      // caveatHtml is a trusted-source HTML fragment (code-supplied,
+      // not user input) for metrics that need a citation/link the
+      // sublabel can't carry inline. Rendered in a distinct amber
+      // box below the sublabel so it reads as a caveat, not a
+      // definition.
+      if (r.caveatHtml) {
+        labelCell += `<div class="metric-caveat">${r.caveatHtml}</div>`;
       }
       labelCell += `</td>`;
       html += labelCell;

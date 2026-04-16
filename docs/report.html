@@ -198,6 +198,20 @@
     color: #78350f;
     margin-top: 3px;
   }
+  /* Caveat block under the sublabel — carries citations and
+     links. Distinct from metric-sublabel.warn so a row can have both
+     (a neutral factual sublabel AND a caveat about data quality). */
+  td .metric-caveat {
+    background: #fef3c7;
+    border-left: 2px solid #fbbf24;
+    padding: 4px 8px;
+    color: #78350f;
+    font-size: 8.5pt;
+    line-height: 1.35;
+    margin-top: 4px;
+    font-weight: normal;
+  }
+  td .metric-caveat a { color: #b45309; }
   /* Mini regional map — inline SVG showing subject agency centered
      among its geocoded outbound recipients. Dots = recipients, red =
      flagged, amber dashed = farthest. Caps at ~5.5" × 2.5" so it
