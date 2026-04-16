@@ -923,7 +923,9 @@
   // Phrases peer stats concretely, always leading with the "how many
   // agencies pass" number. Uncrawled agencies are excluded from the
   // denominator (we can't verify what isn't public) — that context is
-  // included as a separate sentence when relevant.
+  // included as a separate sentence when relevant. For SB 34 items
+  // (non-compact), also renders a statewide line underneath so the
+  // reader sees if the concern is type-specific or CA-wide.
   function formatPeerStat(item, peerTypeLabel, compact) {
     const applicable = item.peer_applicable != null ? item.peer_applicable : item.peer_total;
     const total = item.peer_total;
@@ -948,6 +950,18 @@
     if (applicable < total) {
       const unknown = total - applicable;
       line += ` (${unknown} more ${peerTypeLabel} don't publish enough to evaluate.)`;
+    }
+
+    // Statewide line: shown when the item carries state-wide counts
+    // (added for SB 34). Only include when the state numbers differ
+    // meaningfully from the type numbers — otherwise it's redundant.
+    if (item.state_applicable != null && item.state_total != null) {
+      const sApp = item.state_applicable;
+      const sPass = item.state_count;
+      if (sApp > applicable) {
+        const sPct = pct(sPass, sApp);
+        line += `<br><span class="muted">Statewide: ${sPass} of ${sApp} CA agencies (${sPct}%) pass this check.</span>`;
+      }
     }
     return line;
   }

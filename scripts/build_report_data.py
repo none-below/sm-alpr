@@ -954,6 +954,14 @@ def main():
                         "peer_applicable": peer_applicable,
                         "peer_total": total_peers,
                         "peer_type": peer_t,
+                        # Statewide (all CA agencies, not type-scoped).
+                        # Lets the UI show "X% of CA city police pass
+                        # AND Y% of all CA agencies pass" so the reader
+                        # sees whether the concern is widespread or
+                        # specific to this agency's peer group.
+                        "state_count": checklist_pass_all[cid],
+                        "state_applicable": checklist_applicable_all[cid],
+                        "state_total": sum(type_totals.values()),
                     })
 
         # ── Percentiles (only for CA crawled) ──
