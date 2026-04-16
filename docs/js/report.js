@@ -388,10 +388,12 @@
     // Each value cell stacks the number on top and the statewide/local
     // rank lines beneath, so everything about one metric fits on one
     // row without pushing past the page width.
+    // Use <thead> so browsers repeat the column headers on each
+    // page when the table breaks across pages in print.
     html += '<div class="stats-table-wrap"><table class="stats-table">';
-    html += '<tr><th>Metric</th><th class="num">This agency</th>';
+    html += '<thead><tr><th>Metric</th><th class="num">This agency</th>';
     if (report.population) html += '<th class="num">Per 1,000 residents</th>';
-    html += '</tr>';
+    html += '</tr></thead><tbody>';
 
     rowsWithDensity.forEach(function(r) {
       // Route each row to the right percentile/median fields. Most
@@ -545,7 +547,7 @@
       html += '</tr>';
     });
 
-    html += '</table></div>';
+    html += '</tbody></table></div>';
 
     // Caption: explain what "state" and "local" mean. The local scope
     // can be either "county" or "nearby" (50 miles); pick the scope
@@ -1277,6 +1279,28 @@
       }
     }
 
+    // Print-only block: replaces the collapsed <details> lists above
+    // with a short sentence + QR code to the live sharing map for
+    // this agency. Screen view keeps the expandable details (for
+    // interactivity); print shows the QR so a reader with a printed
+    // copy can still reach the full list.
+    const outboundCountForPrint = (report.outbound || []).length;
+    const inboundCountForPrint = (report.inbound || []).length;
+    if (outboundCountForPrint > 0 || inboundCountForPrint > 0) {
+      const mapUrlAbs = new URL(
+        `sharing_map.html#${report.slug}`,
+        location.href
+      ).toString();
+      html += `<div class="print-only sharing-print-qr">`;
+      html += `<div class="sharing-print-qr-text">`;
+      html += `Full list of recipients and sources: scan the QR code to open this agency on the live sharing map.`;
+      html += `<div class="sharing-print-qr-url">${escapeHtml(mapUrlAbs)}</div>`;
+      html += `</div>`;
+      html += `<div class="sharing-print-qr-code" id="sharing-print-qr"></div>`;
+      html += `</div>`;
+      setTimeout(function() { renderQrCode("sharing-print-qr", mapUrlAbs, { size: 90 }); }, 0);
+    }
+
     // Inbound
     const inbound = report.inbound || [];
     html += `<h3>Receives from (inbound): ${inbound.length} ${inbound.length === 1 ? "agency" : "agencies"}</h3>`;
@@ -1753,24 +1777,10 @@
       });
   }
 
-  // Open every <details> on beforeprint so the PDF shows full
-  // sharing lists, not "Show all N recipients" collapsed hints. We
-  // remember which were open before so the screen version can restore
-  // on afterprint.
-  window.addEventListener("beforeprint", function() {
-    document.querySelectorAll("details").forEach(function(d) {
-      if (!d.open) {
-        d.dataset.wasClosed = "1";
-        d.open = true;
-      }
-    });
-  });
-  window.addEventListener("afterprint", function() {
-    document.querySelectorAll("details[data-was-closed]").forEach(function(d) {
-      d.open = false;
-      delete d.dataset.wasClosed;
-    });
-  });
+  // (Previously: opened every <details> on beforeprint so the PDF
+  // would include the full sharing list as a wall of text. Removed:
+  // the expanded lists are now hidden entirely in print and replaced
+  // with a QR code to the live sharing map — see .sharing-print-qr.)
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

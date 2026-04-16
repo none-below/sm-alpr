@@ -611,44 +611,57 @@
     body { background: white; padding: 0; }
     .toolbar { display: none !important; }
     .page { box-shadow: none; max-width: 100%; margin: 0; padding: 0.5in 0.6in; }
-    h2 { page-break-after: avoid; break-after: avoid; }
-    h3 { page-break-after: avoid; break-after: avoid; }
-    table, .flag-section, .questions, .checklist li { page-break-inside: avoid; break-inside: avoid; }
-    /* <details> elements are expanded on beforeprint (see report.js)
-       so their body is visible in the PDF. Hide the disclosure
-       triangle/summary — on paper the "Show all N recipients" hint
-       no longer applies. */
-    details > summary { display: none !important; }
-    /* For the long outbound/inbound lists inside <details>, render
-       as a compact wall-of-text instead of one row per name — 279+
-       line-per-recipient entries add pages to the PDF. Inline each
-       list item, separate with a comma + space via ::after, drop
-       bullets. The recipient links still work as live hyperlinks in
-       the PDF; individual flag tags still stand out visually. */
-    details > ul {
-      list-style: none;
-      padding: 0;
-      margin: 4px 0;
-      font-size: 8pt;
-      line-height: 1.4;
-      color: #333;
+    /* Keep every section heading with at least the next block of
+       content so headers don't strand at the bottom of a page. */
+    h2, h3 {
+      page-break-after: avoid; break-after: avoid;
+      page-break-inside: avoid; break-inside: avoid;
     }
-    details > ul > li {
-      display: inline;
-      page-break-inside: auto;
-      break-inside: auto;
-    }
-    details > ul > li:not(:last-child)::after {
-      content: "; ";
-      color: #999;
-    }
-    /* Keep flag tags visible/bold even in wall-of-text so readers
-       can spot concerning recipients without following each name. */
-    details > ul .flag-tag {
-      font-size: 7pt;
-      padding: 0 3px;
-    }
+    /* Don't try to keep the entire stats table on one page — it's
+       tall enough (sparklines + ranks + colored cells) that forcing
+       it to stay whole leaves huge trailing whitespace on page 1
+       and pushes the table to start on page 2. Instead: let the
+       table flow, ensure no ROW breaks across pages, and repeat the
+       thead on each page so column labels stay readable. */
+    table { page-break-inside: auto; break-inside: auto; }
+    thead { display: table-header-group; }
+    tr { page-break-inside: avoid; break-inside: avoid; }
+    .flag-section, .questions, .checklist li { page-break-inside: avoid; break-inside: avoid; }
+    /* Hide the expandable lists entirely in print — the wall-of-
+       text version bloated PDFs and wasn't the right medium for
+       that data anyway. Instead, show a print-only block with a
+       QR code pointing at the live sharing map (see
+       .sharing-print-qr below). Readers with a printed copy can
+       scan to reach the interactive list. */
+    details { display: none !important; }
+    .print-only { display: flex !important; }
   }
+  /* Print-only QR block replacing the outbound/inbound lists. On
+     screen it's hidden (.print-only default). The @media print
+     block above flips it on. */
+  .print-only { display: none; }
+  .sharing-print-qr {
+    gap: 14px;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+  }
+  .sharing-print-qr-text {
+    flex: 1;
+    font-size: 10pt;
+    color: #334155;
+    line-height: 1.4;
+  }
+  .sharing-print-qr-url {
+    font-size: 8pt;
+    color: #64748b;
+    margin-top: 4px;
+    word-break: break-all;
+  }
+  .sharing-print-qr-code { flex: 0 0 auto; }
 
   @media (max-width: 720px) {
     body { padding: 12px 6px; }
