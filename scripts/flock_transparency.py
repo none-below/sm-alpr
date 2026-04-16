@@ -301,18 +301,26 @@ _MAX_HEADING_LEN = 120
 def _match_heading(line):
     """Return canonical field name if line is a known heading, None if it's a
     known structural heading, or the sentinel _UNKNOWN if unrecognised."""
-    # Exact match
+    field, _kind = _match_heading_kind(line)
+    return field
+
+
+def _match_heading_kind(line):
+    """Same as _match_heading but also returns how it matched:
+    'exact', 'prefix', 'dynamic', or 'unknown'.
+    Needed by parse_sections to gate prefix matches on bold-heading evidence —
+    prefix matching can otherwise promote body text to a heading (e.g.
+    "California SVS, NCMEC Amber Alert" matches the "California SVS" prefix).
+    """
     if line in _HEADING_MAP:
-        return _HEADING_MAP[line]
-    # Prefix match (for "Organizations granted access to X data", etc.)
+        return _HEADING_MAP[line], "exact"
     for prefix, field_name in _HEADING_MAP.items():
         if line.startswith(prefix):
-            return field_name
-    # Dynamic patterns
+            return field_name, "prefix"
     for pattern, field_name in _DYNAMIC_HEADINGS:
         if pattern.match(line):
-            return field_name
-    return _UNKNOWN
+            return field_name, "dynamic"
+    return _UNKNOWN, "unknown"
 
 
 _UNKNOWN = object()  # sentinel — distinct from None (which means "structural")
@@ -388,8 +396,16 @@ def parse_sections(text, bold_headings=None):
         if not next_blank:
             continue
         prev_blank = (i == 0) or not lines[i - 1].strip()
-        match = _match_heading(stripped)
+        match, kind = _match_heading_kind(stripped)
         if match is not _UNKNOWN:
+            # Gate prefix matches on bold-heading evidence — body text like
+            # "California SVS, NCMEC Amber Alert" should not be promoted to
+            # a heading just because it starts with a known heading prefix.
+            # Exact and dynamic matches are trusted (structural section
+            # dividers like "Policies"/"Usage" are exact matches that
+            # aren't styled as bold headings).
+            if kind == "prefix" and bold_headings is not None and stripped not in bold_headings:
+                continue
             # Known heading — accept even without preceding blank line
             # (handles "Hotlist Policy\nUsage" pattern)
             heading_indices.append(i)
