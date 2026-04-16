@@ -139,6 +139,13 @@ SB34_CHECKLIST = [
         "detail": "Federal agencies are not \u201cagencies of the state\u201d under \u00a71798.90.5(f).",
     },
     {
+        "id": "no_fusion_center_sharing",
+        "label_pass": "Does not share with fusion centers",
+        "label_fail": "Shares with at least one fusion center",
+        "label_unknown": "Fusion-center sharing not verifiable (no public transparency page)",
+        "detail": "Fusion centers (e.g., NCRIC) re-distribute ALPR data to their member networks. Their status as \u201cpublic agencies\u201d under \u00a71798.90.5(f) varies by charter; NCRIC in particular has federal staffing and funding ties. Sharing with a fusion center forwards this agency's data to every member of that center.",
+    },
+    {
         "id": "no_ag_lawsuit_sharing",
         "label_pass": "Does not share with agencies the CA AG has sued",
         "label_fail": "Shares with an agency the CA AG has sued for illegal sharing",
@@ -201,6 +208,13 @@ def evaluate_checklist(portal, reg, crawled, outbound_ids, reg_by_id):
         results["no_federal_sharing"] = not any(
             is_flagged_entity(t, reg_by_id) == "federal" for t in outbound_ids
         )
+        # Fusion centers are their own kind — distinct from federal,
+        # but still frequently tied to federal staffing and funding.
+        # A separate check surfaces this so readers see the signal
+        # even when the federal-sharing check passes.
+        results["no_fusion_center_sharing"] = not any(
+            is_flagged_entity(t, reg_by_id) == "fusion_center" for t in outbound_ids
+        )
         # AG-lawsuit check: any recipient tagged ag-lawsuit. These are
         # specific CA agencies the AG sued over illegal out-of-state
         # sharing — distinct from the flag categories above.
@@ -212,12 +226,14 @@ def evaluate_checklist(portal, reg, crawled, outbound_ids, reg_by_id):
         results["no_private_sharing"] = None
         results["no_out_of_state_sharing"] = None
         results["no_federal_sharing"] = None
+        results["no_fusion_center_sharing"] = None
         results["no_ag_lawsuit_sharing"] = None
     else:
         # Uncrawled — no way to verify
         results["no_private_sharing"] = None
         results["no_out_of_state_sharing"] = None
         results["no_federal_sharing"] = None
+        results["no_fusion_center_sharing"] = None
         results["no_ag_lawsuit_sharing"] = None
 
     # Policy published — requires a portal to verify (uncrawled => None)
@@ -866,15 +882,13 @@ def main():
                 "no_private_sharing": names_by_kind["private"],
                 "no_out_of_state_sharing": names_by_kind["out_of_state"],
                 "no_federal_sharing": names_by_kind["federal"],
+                "no_fusion_center_sharing": names_by_kind["fusion_center"],
                 "no_ag_lawsuit_sharing": ag_lawsuit_names,
             }
-            caveat_details = {
-                # Fusion centers flagged as a federal-adjacent concern
-                # on the federal-sharing check. Only meaningful when the
-                # check passes (value=True); the UI suppresses the
-                # caveat when the check already fails.
-                "no_federal_sharing": names_by_kind["fusion_center"],
-            }
+            # Fusion-center sharing is now its own standalone check, so
+            # we no longer piggyback it as a caveat on the federal
+            # check. Caveat dict kept in case future checks need it.
+            caveat_details = {}
             peer_t = atype if type_totals.get(atype, 0) >= MIN_PEER_SAMPLE else "all"
             if peer_t == "all":
                 total_peers = sum(type_totals.values())

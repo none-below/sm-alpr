@@ -248,16 +248,43 @@
       // Compound metric — this agency's searches plus all its crawled
       // recipients' searches. Shows data-exposure scale even when the
       // agency itself is a light searcher.
-      {
-        metric: "downstream",
-        label: "Searches reaching this data",
-        sublabel: "agency + all recipients that publish counts",
-        tooltip: (report.downstream_searches
-          ? `${fmtInt(report.downstream_total || 0)} = searches this agency publishes + searches published by ${report.downstream_searches.recipients_with_data} of its ${report.downstream_searches.recipients_total} recipients. Recipients that don't publish search counts are excluded, so the real number is higher.`
-          : undefined),
-        value: report.downstream_total,
-        isDownstream: true,
-      },
+      //
+      // Coverage is usually far below 100% because many Flock portals
+      // don't publish search counts. Surface that as a visible
+      // sublabel (not just a tooltip) so councils understand the
+      // reported number is a floor, not the full volume.
+      (function() {
+        const ds = report.downstream_searches;
+        if (!ds) {
+          return {
+            metric: "downstream",
+            label: "Searches reaching this data",
+            sublabel: "agency + recipients that publish counts",
+            value: report.downstream_total,
+            isDownstream: true,
+          };
+        }
+        const hidden = ds.recipients_total - ds.recipients_with_data;
+        const selfExcluded = ds.self_included === false;
+        let parts = [];
+        if (hidden > 0) {
+          parts.push(`${fmtInt(hidden)} of ${fmtInt(ds.recipients_total)} recipients don't report searches`);
+        } else {
+          parts.push(`all ${fmtInt(ds.recipients_total)} recipients report searches`);
+        }
+        if (selfExcluded) {
+          parts.push("this agency doesn't publish its own search count either");
+        }
+        const sublabel = parts.join("; ") + " \u2014 real total is higher";
+        return {
+          metric: "downstream",
+          label: "Searches reaching this data",
+          sublabel: sublabel,
+          tooltip: `${fmtInt(report.downstream_total || 0)} = searches this agency publishes + searches published by ${ds.recipients_with_data} of its ${ds.recipients_total} recipients. Recipients that don't publish search counts are excluded, so the real number is higher.`,
+          value: report.downstream_total,
+          isDownstream: true,
+        };
+      })(),
       { metric: "outbound", label: "Agencies it shares to", value: stats.outbound_count },
       { metric: "cameras", label: "Cameras", value: stats.cameras },
       { metric: "vehicles_30d", label: "Vehicles detected", value: stats.vehicles_30d },
@@ -345,11 +372,16 @@
       // Label cell can include a sublabel (small gray clarifier) and
       // a title= tooltip on hover for the composition of a metric.
       // Used for "Searches reaching this data" so the reader doesn't
-      // misread it as the agency's own search count.
+      // misread it as the agency's own search count. Downstream row
+      // gets amber `.warn` styling on the sublabel — its undercount
+      // caveat needs to land, not blend in.
       let labelCell = `<td`;
       if (r.tooltip) labelCell += ` title="${escapeHtml(r.tooltip)}"`;
       labelCell += `>${escapeHtml(r.label)}`;
-      if (r.sublabel) labelCell += `<div class="metric-sublabel">${escapeHtml(r.sublabel)}</div>`;
+      if (r.sublabel) {
+        const subCls = r.isDownstream ? "metric-sublabel warn" : "metric-sublabel";
+        labelCell += `<div class="${subCls}">${escapeHtml(r.sublabel)}</div>`;
+      }
       labelCell += `</td>`;
       html += labelCell;
       html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}</td>`;
