@@ -127,7 +127,10 @@
      number on top, small rank lines beneath. Right-aligned like other
      numeric cells but the rank text itself is left-aligned inside the
      block so it reads naturally. */
-  /* Top re-searchers list in the downstream-searches row's right cell */
+  /* Top-searchers bar chart in the downstream-searches row's right cell.
+     Each row has a name (with a bar behind it scaled to the max value
+     in the visible set) and a right-justified raw count. Lets the eye
+     land on the heaviest searcher at a glance. */
   td.downstream-researchers {
     font-size: 9pt;
     text-align: left !important;
@@ -138,15 +141,46 @@
     font-size: 9pt;
     margin-bottom: 3px;
   }
-  td.downstream-researchers ol {
-    margin: 0; padding-left: 20px;
-    list-style-position: outside;
+  td.downstream-researchers .researchers-bars { margin: 0; }
+  td.downstream-researchers .rb-row {
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    column-gap: 8px;
+    align-items: center;
+    margin: 2px 0;
   }
-  td.downstream-researchers li { margin: 1px 0; }
+  td.downstream-researchers .rb-name {
+    position: relative;
+    padding: 2px 6px;
+    z-index: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  td.downstream-researchers .rb-bar {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: #dbeafe;
+    border-left: 2px solid #2563eb;
+    border-radius: 2px;
+    z-index: -1;
+  }
+  td.downstream-researchers .rb-name a {
+    color: #1d4ed8;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+  }
+  td.downstream-researchers .rb-count {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: #444;
+    font-size: 9pt;
+  }
   td.downstream-researchers .researchers-footer {
     font-size: 8.5pt;
     color: var(--muted);
-    margin-top: 2px;
+    margin-top: 4px;
   }
   td .metric-sublabel {
     font-size: 8.5pt;

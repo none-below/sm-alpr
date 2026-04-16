@@ -238,23 +238,16 @@
 
     let html = `<h2>30-Day Activity</h2>`;
 
+    // Row order prioritises "what this agency does with the data"
+    // (searches, shared searches, agencies shared to) before "what
+    // the agency has" (cameras and derivatives) and the raw activity
+    // metrics (vehicles, hotlist hits). Councils asking accountability
+    // questions care most about query and distribution behaviour.
     const rows = [
-      { metric: "cameras", label: "Cameras", value: stats.cameras },
-      { metric: "vehicles_30d", label: "Vehicles detected", value: stats.vehicles_30d },
-      {
-        metric: "hotlist_hits_30d",
-        label: "Hotlist hits",
-        sublabel: "matches against wanted-plate lists",
-        tooltip: "A hotlist is a list of plates flagged for an alert (stolen vehicles, AMBER alerts, warrants, etc.). A hotlist hit is a moment a camera detected a plate on one of those lists.",
-        value: stats.hotlist_hits_30d,
-      },
       { metric: "searches_30d", label: "Searches performed", value: stats.searches_30d },
-      { metric: "outbound", label: "Agencies it shares to", value: stats.outbound_count },
       // Compound metric — this agency's searches plus all its crawled
       // recipients' searches. Shows data-exposure scale even when the
-      // agency itself is a light searcher. Tooltip spells out the
-      // composition because the raw label could be misread as "this
-      // agency's own searches."
+      // agency itself is a light searcher.
       {
         metric: "downstream",
         label: "Searches reaching this data",
@@ -264,6 +257,16 @@
           : undefined),
         value: report.downstream_total,
         isDownstream: true,
+      },
+      { metric: "outbound", label: "Agencies it shares to", value: stats.outbound_count },
+      { metric: "cameras", label: "Cameras", value: stats.cameras },
+      { metric: "vehicles_30d", label: "Vehicles detected", value: stats.vehicles_30d },
+      {
+        metric: "hotlist_hits_30d",
+        label: "Hotlist hits",
+        sublabel: "matches against wanted-plate lists",
+        tooltip: "A hotlist is a list of plates flagged for an alert (stolen vehicles, AMBER alerts, warrants, etc.). A hotlist hit is a moment a camera detected a plate on one of those lists.",
+        value: stats.hotlist_hits_30d,
       },
     ];
 
@@ -353,7 +356,7 @@
       if (report.population) {
         // Per-capita doesn't apply to every metric:
         //  - cameras/sqmi: a density is already a ratio
-        //  - downstream-searches: shown with a top re-searchers list
+        //  - downstream-searches: shown with a top-searchers list
         //  - outbound (agencies shared to): a count of entities, not
         //    a count of events/people; "agencies shared to per 1,000
         //    residents" isn't a meaningful measure
@@ -434,20 +437,29 @@
     return fmtInt(Math.round(n));
   }
 
-  // Compact list of the top recipients by search volume, for the
-  // right-hand cell of the downstream-searches row. Helps the reader
-  // understand *who* is driving the big downstream number.
+  // Horizontal bar chart of top recipients by search volume, for the
+  // right-hand cell of the downstream-searches row. Bar width is
+  // scaled to the max in the visible set so the eye lands on the
+  // heaviest searcher; the exact count sits in the right gutter.
   function topResearchersHtml(ds) {
     if (!ds || !ds.top_researchers || !ds.top_researchers.length) {
       return '<span class="null">&mdash;</span>';
     }
     const shown = ds.top_researchers.slice(0, 5);
-    let html = '<div class="researchers-header">Top re-searchers</div>';
-    html += '<ol class="researchers-list">';
+    const max = shown.reduce(function(m, r) { return r.searches > m ? r.searches : m; }, 0) || 1;
+    let html = '<div class="researchers-header">Top searchers among recipients</div>';
+    html += '<div class="researchers-bars">';
     shown.forEach(function(r) {
-      html += `<li><a href="?agency=${escapeHtml(r.slug)}">${escapeHtml(r.name)}</a> <span class="paren-median">${fmtInt(r.searches)}</span></li>`;
+      const pct = Math.max(4, Math.round(100 * r.searches / max));
+      html += '<div class="rb-row">';
+      html += '<div class="rb-name">';
+      html += `<span class="rb-bar" style="width:${pct}%"></span>`;
+      html += `<a href="?agency=${escapeHtml(r.slug)}">${escapeHtml(r.name)}</a>`;
+      html += '</div>';
+      html += `<div class="rb-count">${fmtInt(r.searches)}</div>`;
+      html += '</div>';
     });
-    html += '</ol>';
+    html += '</div>';
     if (ds.recipients_with_data > 5) {
       html += `<div class="researchers-footer">+ ${ds.recipients_with_data - 5} more</div>`;
     }
@@ -581,11 +593,40 @@
     return item.label_unknown || item.label_pass || item.label;
   }
 
+  // Items where ≥ this fraction of verifiable peers also pass are
+  // considered "common baseline" and hidden by default unless THIS
+  // agency fails them. Keeps the printable report focused on the
+  // distinguishing signals rather than listing universal practices
+  // that tell the reader nothing.
+  const UNIVERSAL_PASS_THRESHOLD = 0.90;
+
+  function isUniversalPass(item) {
+    const applicable = item.peer_applicable != null ? item.peer_applicable : item.peer_total;
+    if (!applicable) return false;
+    return (item.peer_count / applicable) >= UNIVERSAL_PASS_THRESHOLD;
+  }
+
   function renderChecklistItems(items, opts) {
     opts = opts || {};
     const cls = "checklist" + (opts.multiCol ? " multi-col" : "");
-    let html = `<ul class="${cls}">`;
+
+    // Split: always-show (fail/unknown OR pass on a distinguishing
+    // check) versus common-baseline (pass on a check ≥90% of peers
+    // also pass). Common items get a one-line summary at the end.
+    const visibleItems = [];
+    const hiddenPassItems = [];
     items.forEach(function(item) {
+      if (item.value !== true) {
+        visibleItems.push(item);
+      } else if (isUniversalPass(item)) {
+        hiddenPassItems.push(item);
+      } else {
+        visibleItems.push(item);
+      }
+    });
+
+    let html = `<ul class="${cls}">`;
+    visibleItems.forEach(function(item) {
       const cls = item.value === true ? "yes" : item.value === false ? "no" : "unknown";
       const peerTypeLabel = item.peer_type === "all" ? "CA agencies" : `CA ${agencyTypeLabel(item.peer_type)} agencies`;
       html += `<li class="${cls}">`;
@@ -617,6 +658,17 @@
       html += '</li>';
     });
     html += '</ul>';
+
+    // One-line summary of the items we hid because they're near-
+    // universal (this agency does them AND > 90% of peers do them).
+    // Names the items so the reader knows what was skipped, without
+    // reserving full UI real estate for each.
+    if (hiddenPassItems.length) {
+      const names = hiddenPassItems.map(function(i) { return labelFor(i); }).join(", ");
+      html += `<p class="muted baseline-note" style="font-size:9pt; margin:4px 0 0 0">` +
+        `<strong>Also passing</strong> (\u2265 90% of peers also pass &mdash; baseline, not distinguishing): ${escapeHtml(names)}.` +
+        `</p>`;
+    }
     return html;
   }
 
@@ -720,8 +772,15 @@
         if (explanation) {
           html += `<div class="detail" style="margin:2px 0 4px 0;color:#555;font-size:9.5pt">${explanation}</div>`;
         }
+        // Cap each flag group at a reasonable number of inline entries.
+        // AG-lawsuit targets (the most urgent signal) get more room;
+        // bulk groups like out-of-state get a shorter list plus a
+        // count. Without this, a lawsuit target like El Cajon with 600+
+        // out-of-state recipients bloats the PDF by tens of pages.
+        const GROUP_LIMIT = 15;
+        const visibleGroup = group.slice(0, GROUP_LIMIT);
         html += '<ul style="margin-top:2px">';
-        group.forEach(function(f) {
+        visibleGroup.forEach(function(f) {
           html += `<li>${escapeHtml(f.name)}`;
           if (f.ag_lawsuit) html += ` <span class="flag-tag lawsuit">AG LAWSUIT</span>`;
           // Registry notes are curated HTML (may contain anchor tags);
@@ -732,12 +791,21 @@
           }
           html += '</li>';
         });
+        if (group.length > GROUP_LIMIT) {
+          html += `<li class="muted">&hellip; and ${group.length - GROUP_LIMIT} more ${escapeHtml(label.toLowerCase())} recipient${group.length - GROUP_LIMIT === 1 ? "" : "s"}. See the live report for the full list.</li>`;
+        }
         html += '</ul>';
         html += '</div>';
       });
       html += '</div>';
     }
 
+    // Outbound list: flagged entities are always shown inline (the
+    // concerning signal). For long tail of non-flagged recipients,
+    // cap the printed/expanded list at PRINT_LIST_LIMIT and show a
+    // "... + N more" note pointing at the live URL. Prevents El
+    // Cajon-style agencies (684 outbound) from ballooning the PDF.
+    const PRINT_LIST_LIMIT = 50;
     if (outbound.length === 0) {
       if (report.crawled) {
         html += '<p class="muted">This agency publishes no outbound sharing relationships.</p>';
@@ -753,14 +821,18 @@
       });
       html += '</ul>';
     } else {
-      // Long list: show flagged + top N, with count
       const clean = outbound.filter(function(o) { return !o.kind; });
       html += `<details><summary>Show all ${outbound.length} recipients</summary><ul>`;
-      outbound.forEach(function(o) {
+      const visible = outbound.slice(0, PRINT_LIST_LIMIT);
+      visible.forEach(function(o) {
         const line = formatRelationship(o)
           + (o.inferred ? ' <span class="inferred">[inferred from their portal]</span>' : "");
         html += '<li>' + line + '</li>';
       });
+      if (outbound.length > PRINT_LIST_LIMIT) {
+        const remaining = outbound.length - PRINT_LIST_LIMIT;
+        html += `<li class="muted">&hellip; and ${remaining} more. Full list at <a href="?agency=${escapeHtml(report.slug)}#full-outbound">the live report</a>.</li>`;
+      }
       html += '</ul></details>';
       if (!flagged.length) {
         html += `<p class="muted">${clean.length} recipients with no flags.</p>`;
@@ -781,12 +853,18 @@
       });
       html += '</ul>';
     } else {
+      // Same cap as outbound: don't let a long tail bloat the PDF.
       html += `<details><summary>Show all ${inbound.length} sources</summary><ul>`;
-      inbound.forEach(function(i) {
+      const visibleIn = inbound.slice(0, PRINT_LIST_LIMIT);
+      visibleIn.forEach(function(i) {
         html += '<li>' + formatRelationship(i);
         if (i.inferred) html += ' <span class="inferred">[inferred from their portal]</span>';
         html += '</li>';
       });
+      if (inbound.length > PRINT_LIST_LIMIT) {
+        const remaining = inbound.length - PRINT_LIST_LIMIT;
+        html += `<li class="muted">&hellip; and ${remaining} more. Full list at the live report.</li>`;
+      }
       html += '</ul></details>';
     }
 
@@ -822,8 +900,13 @@
     const radiusKm = meta.regional_radius_km || 50;
     const radiusMi = Math.round(kmToMi(radiusKm));
 
+    // Cap the visible regional table to the 12 closest agencies (was
+    // 20). Most readers only need the immediate neighborhood; for the
+    // full list they can click through to any row's agency page.
+    const REGIONAL_ROW_LIMIT = 12;
+
     let html = `<h2>Regional Context</h2>`;
-    html += `<p class="muted">Crawled California agencies within ${radiusMi} miles. Per-capita columns normalize by city population so small towns and big cities can be compared on the same scale.</p>`;
+    html += `<p class="muted">${Math.min(REGIONAL_ROW_LIMIT, regional.length)} closest crawled California agencies within ${radiusMi} miles (of ${regional.length} total). Per-capita columns normalize by city population so small towns and big cities can be compared on the same scale.</p>`;
     html += '<table>';
     // Collapsed: the per-1,000-residents rates live in parens inside
     // their parent cell ("66 (0.64/1k)"), not as separate columns.
@@ -857,7 +940,9 @@
     //   data-sort-rate: the parenthetical per-1k rate if present
     // Columns with a per-1k rate cycle primary-asc → primary-desc →
     // rate-asc → rate-desc; columns without one toggle only asc/desc.
-    regional.forEach(function(r) {
+    // Render up to REGIONAL_ROW_LIMIT rows by default. Sorting (via
+    // click-to-sort) then operates within that visible set.
+    regional.slice(0, REGIONAL_ROW_LIMIT).forEach(function(r) {
       html += `<tr>`;
       html += `<td data-sort-value="${escapeHtml(r.name.toLowerCase())}"><a href="?agency=${escapeHtml(r.slug)}">${escapeHtml(r.name)}</a></td>`;
       html += `<td class="num" data-sort-value="${r.distance_km}">${fmtNum(kmToMi(r.distance_km), 1)} mi</td>`;
