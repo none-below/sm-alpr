@@ -16,7 +16,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 from lib import load_registry, agency_display_name
-from gazetteer import lookup_by_place_fips, lookup_by_county_fips, _load_cousubs
+from gazetteer import lookup_by_place_fips, lookup_by_county_fips, _load_cousubs, lookup_state
 
 COORD_TOLERANCE = 0.0001  # ~10 meters
 
@@ -123,12 +123,35 @@ class TestGeoCache:
 
     def test_kind_valid(self):
         """geo.kind must be one of the known values."""
-        valid = {"place", "county", "cousub", "state", "state-only", "manual"}
+        valid = {"place", "county", "cousub", "state", "state-only",
+                 "ambiguous", "manual"}
         for e in self.registry:
             geo = e.get("geo")
             if not geo:
                 continue
             assert geo.get("kind") in valid, f"{e['slug']}: invalid geo kind {geo.get('kind')!r}"
+
+    def test_state_fips_valid(self):
+        """Every kind=state entry has a 2-digit FIPS matching the state centroid."""
+        mismatches = []
+        for e in self.registry:
+            geo = e.get("geo") or {}
+            if geo.get("kind") != "state":
+                continue
+            fips = geo.get("fips")
+            state = geo.get("state")
+            assert fips, f"{e['slug']}: kind=state but no fips"
+            assert len(fips) == 2, f"{e['slug']}: state fips {fips!r} is not 2 digits"
+            assert state, f"{e['slug']}: kind=state but no state"
+            s = lookup_state(state)
+            assert s, f"{e['slug']}: could not compute state centroid for {state}"
+            if s["state_fips"] != fips:
+                mismatches.append(f"{e['slug']}: fips {fips} != expected {s['state_fips']}")
+            if abs(geo.get("lat", 0) - s["lat"]) > COORD_TOLERANCE:
+                mismatches.append(f"{e['slug']}: lat {geo.get('lat')} != {s['lat']}")
+            if abs(geo.get("lng", 0) - s["lng"]) > COORD_TOLERANCE:
+                mismatches.append(f"{e['slug']}: lng {geo.get('lng')} != {s['lng']}")
+        assert not mismatches, "State-kind cache out of sync:\n" + "\n".join(mismatches[:20])
 
     def test_cousub_fips_valid(self):
         """Every kind=cousub entry has a valid 10-digit FIPS."""

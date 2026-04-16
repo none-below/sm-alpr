@@ -41,23 +41,78 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from lib import load_registry, agency_display_name, agency_state, has_tag
-from gazetteer import lookup_place, lookup_county, lookup_cousub
+from gazetteer import lookup_place, lookup_county, lookup_cousub, lookup_state
 
 REGISTRY_PATH = Path("assets/agency_registry.json")
 
 
 # Patterns to strip from an agency name to get a place/county candidate
 _AGENCY_SUFFIXES = re.compile(
-    r"\s*\b(PD|SO|SD|DA|FD|DPS|Police Department|Sheriff'?s? Office|"
-    r"Sheriff'?s? Department|District Attorney|Fire Department|"
+    r"\s*\b(PD|SO|SD|DA|FD|DPS|Police Department|Police Services|"
+    r"Division of Police|Sheriff'?s? Office|"
+    r"Sheriff'?s? Department|Prosecutor'?s? Office|"
+    r"District Attorney|Fire Department|"
     r"Department of Public Safety|"
     r"Public Safety|Parks Department|Marshal'?s? Office)\b\s*",
     re.IGNORECASE,
 )
 
 _STATE_TOKEN = re.compile(r"\s*\b[A-Z]{2}\b\s*")  # Strip " CA " etc.
-_PARENS = re.compile(r"\s*\([^)]*\)\s*")  # Strip "(CA)" etc.
+_PARENS = re.compile(r"\s*\[[^\]]*\]\s*|\s*\([^)]*\)\s*")  # Strip "(CA)" and "[Inactive]"
 _CITY_OF = re.compile(r"^(City|Town|Village|Borough)\s+of\s+", re.IGNORECASE)
+_STATE_PREFIX = re.compile(r"^[A-Z]{2}\s*-\s*", re.IGNORECASE)  # "KS - Meade County SO"
+_DASH_SUFFIX = re.compile(r"\s*-\s*(original|[A-Z]{2})$", re.IGNORECASE)  # "Oxford PD - OH", "Harrah OK PD - original"
+_ABBREV_CO = re.compile(r"\bCo\.", re.IGNORECASE)  # "Schuyler Co. IL SO"
+_ABBREV_INTL = re.compile(r"\bIntl\b", re.IGNORECASE)  # "Nashville Intl Airport"
+_SAINT_VARIANTS = re.compile(r"^Saint\s+", re.IGNORECASE)  # "Saint Johns AZ" -> "St. Johns AZ"
+
+# State-level agency patterns (state police, highway patrol, DMV, etc.)
+_STATE_AGENCY_PATTERN = re.compile(
+    r"\b(State Patrol|State Police|Highway Patrol|Department of Public Safety|"
+    r"Department of Motor Vehicles|State Highway Patrol|"
+    r"Department of Conservation|Crime Analysis Center)\b",
+    re.IGNORECASE,
+)
+
+# State names to USPS codes (for "Colorado State Patrol" etc.)
+_STATE_NAMES = {
+    "alabama": "AL", "alaska": "AK", "arizona": "AZ", "arkansas": "AR",
+    "california": "CA", "colorado": "CO", "connecticut": "CT", "delaware": "DE",
+    "florida": "FL", "georgia": "GA", "hawaii": "HI", "idaho": "ID",
+    "illinois": "IL", "indiana": "IN", "iowa": "IA", "kansas": "KS",
+    "kentucky": "KY", "louisiana": "LA", "maine": "ME", "maryland": "MD",
+    "massachusetts": "MA", "michigan": "MI", "minnesota": "MN", "mississippi": "MS",
+    "missouri": "MO", "montana": "MT", "nebraska": "NE", "nevada": "NV",
+    "new hampshire": "NH", "new jersey": "NJ", "new mexico": "NM", "new york": "NY",
+    "north carolina": "NC", "north dakota": "ND", "ohio": "OH", "oklahoma": "OK",
+    "oregon": "OR", "pennsylvania": "PA", "rhode island": "RI", "south carolina": "SC",
+    "south dakota": "SD", "tennessee": "TN", "texas": "TX", "utah": "UT",
+    "vermont": "VT", "virginia": "VA", "washington": "WA", "west virginia": "WV",
+    "wisconsin": "WI", "wyoming": "WY",
+    "nys": "NY",  # "NYS Crime Analysis Center"
+}
+
+
+def normalize_agency_name(name):
+    """Normalize an agency name before extraction — strip brackets,
+    state prefixes/suffixes, abbreviations."""
+    # Strip [Inactive], [DEACTIVATED], (NFTA), etc.
+    name = _PARENS.sub(" ", name)
+    # Strip "XX - " state prefix at start
+    name = _STATE_PREFIX.sub("", name)
+    # Strip "- OH" or "- original" suffix
+    name = _DASH_SUFFIX.sub(" ", name)
+    # "Co." -> "County"
+    name = _ABBREV_CO.sub("County", name)
+    # "Intl" -> "International" (will be stripped by other patterns)
+    name = _ABBREV_INTL.sub("International", name)
+    # "Saint" -> "St." for gazetteer matching
+    name = _SAINT_VARIANTS.sub("St. ", name)
+    # Strip "Metro" suffix (Louisville Metro, Cumberland Metro) — usually denotes
+    # a consolidated gov or metro area but the bare name is what we want
+    name = re.sub(r"\s+Metro\b", "", name, flags=re.IGNORECASE)
+    name = re.sub(r"\s+", " ", name).strip()
+    return name
 
 
 def extract_place_candidate(agency_name):
@@ -68,10 +123,10 @@ def extract_place_candidate(agency_name):
       "City of Menifee CA PD" -> "Menifee"
       "Foster City CA PD" -> "Foster City"
       "Akron OH PD" -> "Akron"
+      "Oxford PD - OH" -> "Oxford"
+      "KS - Meade County SO" -> "Meade County"
     """
-    name = agency_name
-    # Remove parenthetical tags like "(CA)"
-    name = _PARENS.sub(" ", name)
+    name = normalize_agency_name(agency_name)
     # Strip agency-role suffixes (PD, SO, DPS, etc.)
     name = _AGENCY_SUFFIXES.sub(" ", name)
     # Strip state codes (now standalone)
@@ -83,6 +138,19 @@ def extract_place_candidate(agency_name):
     return name
 
 
+def is_state_level_agency(name):
+    """Does this name describe a state-level agency (state patrol, etc.)?"""
+    return bool(_STATE_AGENCY_PATTERN.search(name))
+
+
+def infer_state_from_name(name):
+    """Extract state USPS code from a name like 'Colorado State Patrol' or 'NYS ...'."""
+    for word, usps in _STATE_NAMES.items():
+        if re.search(rf"\b{re.escape(word)}\b", name, re.IGNORECASE):
+            return usps
+    return None
+
+
 def extract_township_candidate(agency_name):
     """Derive a township candidate from an agency name.
 
@@ -91,10 +159,9 @@ def extract_township_candidate(agency_name):
       "Butler Township OH PD" -> "Butler"
       "Mahoning Twp PA PD" -> "Mahoning"
     """
-    name = agency_name
-    name = _PARENS.sub(" ", name)           # drop "(Stark County)"
-    name = _AGENCY_SUFFIXES.sub(" ", name)  # drop "PD"
-    name = _STATE_TOKEN.sub(" ", name)      # drop "OH"
+    name = normalize_agency_name(agency_name)
+    name = _AGENCY_SUFFIXES.sub(" ", name)
+    name = _STATE_TOKEN.sub(" ", name)
     name = re.sub(r"\b(Township|Twp)\b", "", name, flags=re.IGNORECASE)
     name = re.sub(r"\s+", " ", name).strip()
     return name
@@ -107,10 +174,11 @@ def extract_county_candidate(agency_name):
       "Alameda County CA SO" -> "Alameda"
       "Butte County CA SO" -> "Butte"
       "San Mateo County CA SO" -> "San Mateo"
+      "Schuyler Co. IL SO" -> "Schuyler County"
+      "St. John Parish LA SO" -> "St. John Parish"
     """
-    name = agency_name
-    name = _PARENS.sub(" ", name)
-    # Only match if "County" appears (or Parish etc.)
+    name = normalize_agency_name(agency_name)
+    # Only match if "County" / "Parish" / etc. appears
     if not re.search(r"\b(County|Parish|Borough|Census Area)\b", name, re.IGNORECASE):
         return None
     name = _AGENCY_SUFFIXES.sub(" ", name)
@@ -125,7 +193,8 @@ def geocode_entry(entry):
     Uses the entry's display name and state. Skips entries with no state
     or that are tagged as private/federal/test/etc.
     """
-    state = agency_state(entry)
+    name = agency_display_name(entry)
+    state = agency_state(entry) or infer_state_from_name(name)
     if not state:
         return None
 
@@ -133,12 +202,23 @@ def geocode_entry(entry):
     if has_tag(entry, "federal"):
         return None
     if entry.get("agency_type") in ("federal", "test", "decommissioned", "private",
-                                     "community", "other"):
-        # Keep trying for "other" since some are real cities
-        if entry.get("agency_type") != "other":
-            return None
+                                     "community"):
+        return None
 
-    name = agency_display_name(entry)
+    # State-level agencies (state patrol, highway patrol, etc.)
+    # → point to state centroid
+    if is_state_level_agency(name):
+        s = lookup_state(state)
+        if s:
+            return {
+                "kind": "state",
+                "fips": s["state_fips"],
+                "name": state,
+                "state": state,
+                "lat": s["lat"],
+                "lng": s["lng"],
+            }
+
     role = entry.get("agency_role")
     kind = entry.get("agency_type")
 
@@ -164,7 +244,20 @@ def geocode_entry(entry):
                     "lat": cousub["lat"],
                     "lng": cousub["lng"],
                 }
-        # Don't fall through to place lookup — township != same-named city
+        # Ambiguous township (multiple in state, no county hint) — fall back
+        # to state centroid but mark as "ambiguous" to signal this is a local
+        # agency whose specific location couldn't be determined.
+        s = lookup_state(state)
+        if s:
+            return {
+                "kind": "ambiguous",
+                "fips": s["state_fips"],
+                "name": state,
+                "state": state,
+                "lat": s["lat"],
+                "lng": s["lng"],
+                "note": "township name matches multiple county subdivisions in state",
+            }
         return None
 
     # County-level agencies (sheriff, DA, etc.) — always try county first
@@ -211,6 +304,19 @@ def geocode_entry(entry):
                 "state": state,
                 "lat": place["lat"],
                 "lng": place["lng"],
+            }
+        # Fall back to county subdivisions — handles cases like
+        # Scarborough ME (a town), Chippewa PA (a township) where the
+        # agency doesn't explicitly say "Township" but the place is a cousub.
+        cousub = lookup_cousub(candidate, state)
+        if cousub:
+            return {
+                "kind": "cousub",
+                "fips": cousub["fips"],
+                "name": cousub["bare_name"],
+                "state": state,
+                "lat": cousub["lat"],
+                "lng": cousub["lng"],
             }
 
     # Fall back to county lookup for non-county-typed agencies (last resort)
