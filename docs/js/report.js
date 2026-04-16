@@ -104,7 +104,7 @@
       return;
     }
 
-    document.title = `${report.name} — ALPR Report`;
+    document.title = `${report.name} — ALPR Scorecard`;
 
     let html = "";
     html += renderHeader(report);
@@ -146,7 +146,7 @@
     let html = '<div class="report-header">';
     html += '<div class="report-header-main">';
     html += `<h1>${escapeHtml(report.name)}</h1>`;
-    html += `<p class="subtitle">Flock ALPR Program Report &mdash; Generated ${new Date().toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric"})}</p>`;
+    html += `<p class="subtitle">ALPR Scorecard &middot; Flock transparency data &middot; generated ${new Date().toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric"})}</p>`;
     html += '</div>';
     html += '<div class="report-header-qr">';
     html += '<div id="top-qrcode" aria-label="QR code linking to the live online version of this report"></div>';
@@ -1132,19 +1132,16 @@
       html += '</p>';
     }
 
-    // Link to the full sharing map (already rendered elsewhere with
-    // tiles, state outlines, interactive panning). A static mini-map
-    // would always be a weaker version of that, and bloats the
-    // printable PDF. Keep a call-out box in the report instead,
-    // deep-linked to this agency on the live map.
-    const recipientCount = (report.outbound || []).filter(function(r) {
-      return r.lat != null && r.lng != null;
-    }).length;
-    if (recipientCount > 0) {
-      html += `<div class="sharing-map-box"><a href="sharing_map.html#${escapeHtml(report.slug)}" target="_blank" rel="noopener">` +
-        `<strong>\u2192 View this agency on the sharing map</strong>` +
-        `<div class="sharing-map-box-sub">Interactive map of the ${fmtInt(recipientCount)} geocoded recipients, with pan/zoom, flagged-entity highlights, and drill-through to any recipient's own report.</div>` +
-        `</a></div>`;
+    // Mini regional map — shows the agency at the center and every
+    // geocoded outbound recipient as a dot. Red dots/lines for
+    // flagged recipients, amber dashed for the farthest. Rendered
+    // inline so it prints as part of the PDF (a live sharing-map
+    // link would be useless on paper). A QR code in the footer
+    // already points readers to the interactive version.
+    const subjLat = (report.geo && report.geo.lat) || null;
+    const subjLng = (report.geo && report.geo.lng) || null;
+    if (subjLat != null && subjLng != null) {
+      html += miniMapHtml(report, subjLat, subjLng, farthest);
     }
 
 
@@ -1487,12 +1484,13 @@
 
   function renderLegalSummary(report, meta) {
     if (report.state !== "CA") return "";
-    // QR codes for the two source documents so a printed report can be
-    // scanned to pull up the full text on a phone. Rendered in a side
-    // column so the body text flows normally.
+    // Two subsections, each with its own QR code aligned next to the
+    // relevant body text. Previously the two QRs were bundled in a
+    // single right-hand column — the AG Bulletin QR ended up far
+    // from its mention, which was confusing for readers holding a
+    // printed copy.
     const sb34Url = "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CIV&division=3.&title=1.81.23.&part=4.&chapter=&article=";
     const agBulletinUrl = "https://oag.ca.gov/system/files/media/alpr-bulletin.pdf";
-    // Deferred render — IDs populated after innerHTML is set.
     setTimeout(function() {
       renderQrCode("sb34-qr", sb34Url, { size: 70 });
       renderQrCode("ag-bulletin-qr", agBulletinUrl, { size: 70 });
@@ -1509,13 +1507,24 @@
             <li><strong>End-user obligations</strong> (<a href="${calCodeUrl("1798.90.53")}" target="_blank" rel="noopener">&sect;1798.90.53</a>): agencies accessing ALPR data must maintain a usage policy, even if they don't operate cameras.</li>
             <li><strong>\u201cAgency\u201d defined</strong> (<a href="${calCodeUrl("1798.90.5")}" target="_blank" rel="noopener">&sect;1798.90.5(f)</a>): \u201cpublic agency\u201d is narrowly defined and does not include federal agencies.</li>
           </ul>
-          <p><strong>AG Bulletin 2023-DLE-06</strong> (<a href="${agBulletinUrl}" target="_blank" rel="noopener">PDF</a>, October 2023) directed all California agencies to review vendor contracts for SB 34 compliance, conspicuously post ALPR policies, and address audit deficiencies.</p>
         </div>
         <div class="legal-qr-col">
           <div class="legal-qr-block">
             <div id="sb34-qr" aria-label="QR code linking to SB 34 full text"></div>
             <div class="qr-caption">SB 34 full text</div>
           </div>
+        </div>
+      </div>
+      <div class="legal-with-qr">
+        <div class="legal-text">
+          <p><strong>AG Bulletin 2023-DLE-06</strong> (<a href="${agBulletinUrl}" target="_blank" rel="noopener">PDF</a>, October 2023) directed all California agencies to:</p>
+          <ul>
+            <li>Review vendor contracts for SB 34 compliance, particularly provisions allowing non-agency access to ALPR data.</li>
+            <li>Conspicuously post ALPR usage and privacy policies.</li>
+            <li>Address audit deficiencies identified by the CA State Auditor.</li>
+          </ul>
+        </div>
+        <div class="legal-qr-col">
           <div class="legal-qr-block">
             <div id="ag-bulletin-qr" aria-label="QR code linking to AG Bulletin 2023-DLE-06"></div>
             <div class="qr-caption">AG Bulletin 2023-DLE-06</div>

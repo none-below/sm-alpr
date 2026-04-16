@@ -301,30 +301,21 @@
     margin-top: 3px;
   }
   .data-concern-source a { color: #b91c1c; }
-  /* Link box to the live sharing map. Replaces the earlier mini-map
-     SVG — the full map renders the same info better with state
-     outlines and pan/zoom, and this keeps the printable PDF
-     shorter. */
-  .sharing-map-box {
-    margin: 10px 0 14px 0;
+  /* Mini regional map — inline SVG showing subject agency centered
+     among its geocoded outbound recipients. Dots = recipients, red =
+     flagged, amber dashed = farthest. Rendered inline so it prints
+     as part of the PDF (for readers holding a printed copy, a live
+     sharing-map link would be useless). Caps at ~5.5" × 2.5" so it
+     reads like an inline figure, not a hero element. */
+  .mini-map-wrap {
+    margin: 8px 0 12px 0;
+    text-align: center;
   }
-  .sharing-map-box a {
-    display: block;
-    padding: 12px 16px;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 6px;
-    color: #1e3a8a;
-    text-decoration: none;
-    line-height: 1.35;
-  }
-  .sharing-map-box a:hover { background: #dbeafe; }
-  .sharing-map-box strong { font-size: 11pt; }
-  .sharing-map-box-sub {
-    font-size: 9.5pt;
-    color: #1e40af;
-    margin-top: 3px;
-    font-weight: normal;
+  .mini-map {
+    max-width: 100%;
+    width: 100%;
+    max-height: 320px;
+    border-radius: 4px;
   }
   /* Coverage tag under the downstream-searches value — pairs with
      the amber sublabel on the metric label column to hammer home
@@ -616,6 +607,35 @@
        triangle/summary — on paper the "Show all N recipients" hint
        no longer applies. */
     details > summary { display: none !important; }
+    /* For the long outbound/inbound lists inside <details>, render
+       as a compact wall-of-text instead of one row per name — 279+
+       line-per-recipient entries add pages to the PDF. Inline each
+       list item, separate with a comma + space via ::after, drop
+       bullets. The recipient links still work as live hyperlinks in
+       the PDF; individual flag tags still stand out visually. */
+    details > ul {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0;
+      font-size: 8pt;
+      line-height: 1.4;
+      color: #333;
+    }
+    details > ul > li {
+      display: inline;
+      page-break-inside: auto;
+      break-inside: auto;
+    }
+    details > ul > li:not(:last-child)::after {
+      content: "; ";
+      color: #999;
+    }
+    /* Keep flag tags visible/bold even in wall-of-text so readers
+       can spot concerning recipients without following each name. */
+    details > ul .flag-tag {
+      font-size: 7pt;
+      padding: 0 3px;
+    }
   }
 
   @media (max-width: 720px) {
