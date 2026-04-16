@@ -286,81 +286,192 @@
   }
 
   // ── Stats ──
+  // ── Metric-block layout helpers ────────────────────────────────
+  //
+  // The 30-Day Activity section used to be a three-column table. With
+  // the metric-block layout each metric is a self-contained block with
+  // a title, up to two data cells (left/right), optional caveats, and
+  // rank pills that embed tiny sparklines. Lets each metric shape its
+  // right-side cell differently — e.g. cameras shows a stack of per-X
+  // rates, "searches reaching this data" shows a top-searchers bar
+  // chart, "agencies it shares to" shows reach stats.
+
+  // Small inline histogram (peer distribution) with a red marker at
+  // the agency's value. Narrow enough to embed next to a rank number
+  // inside a rank pill.
+  function inlinePillSparkSvg(hist, value) {
+    if (!hist || !hist.bins || !hist.bins.length) return "";
+    const bins = hist.bins;
+    const mn = hist.min, mx = hist.max;
+    const W = 44, H = 10, PAD = 0.5;
+    const barW = (W - 2 * PAD) / bins.length;
+    const maxCount = bins.reduce(function(m, c) { return c > m ? c : m; }, 0) || 1;
+    const barMaxH = H - 2;
+    let svg = `<svg class="pill-spark" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">`;
+    for (let i = 0; i < bins.length; i++) {
+      const h = Math.max(1, Math.round(barMaxH * bins[i] / maxCount));
+      const x = PAD + i * barW;
+      const y = H - 1 - h;
+      svg += `<rect x="${x.toFixed(2)}" y="${y}" width="${Math.max(0.8, barW - 0.3).toFixed(2)}" height="${h}" fill="currentColor" opacity="0.35"/>`;
+    }
+    if (value != null && mx > mn) {
+      let t = (value - mn) / (mx - mn);
+      if (t < 0) t = 0;
+      if (t > 1) t = 1;
+      const x = PAD + t * (W - 2 * PAD);
+      svg += `<line x1="${x.toFixed(2)}" x2="${x.toFixed(2)}" y1="0" y2="${H}" stroke="#dc2626" stroke-width="1.25"/>`;
+    }
+    svg += `</svg>`;
+    return svg;
+  }
+
+  // Renders a rank pill showing a scope tag (STATE / COUNTY / 25 mi),
+  // the rank phrase ("higher than most"), percentile, peer median,
+  // and an embedded mini sparkline. Color class comes from
+  // rankDescription so the whole pill reads as concerning / neutral
+  // consistently.
+  function rankPillHtml(opts) {
+    const { scopeLabel, pctile, median: med, sample, hist, value } = opts;
+    if (pctile == null) return "";
+    let cls = "";
+    let phrase;
+    if (pctile >= 90) { phrase = "higher than nearly all"; cls = "concern strong"; }
+    else if (pctile >= 75) { phrase = "higher than most"; cls = "concern"; }
+    else if (pctile >= 60) { phrase = "above average"; cls = "concern-mild"; }
+    else if (pctile >= 40) { phrase = "near median"; cls = ""; }
+    else { phrase = "below median"; cls = ""; }
+    const spark = inlinePillSparkSvg(hist, value);
+    const medHtml = med != null ? ` <span class="pill-med">med ${fmtNumSmart(med)}</span>` : "";
+    return `<span class="rank-pill ${cls}">` +
+      `<span class="scope">${escapeHtml(scopeLabel)}</span> ` +
+      `<span class="pill-phrase">${phrase}</span> ` +
+      `<span class="pill-pctile">${pctile}${nthSuffix(pctile)}</span>` +
+      medHtml +
+      (spark ? ` ${spark}` : "") +
+      `</span>`;
+  }
+
+  // Renders the two rank pills (statewide + local) side by side.
+  // Returns an empty string if neither rank is available.
+  function rankPillsForMetric(opts) {
+    const {
+      pctile, med, lpctile, lmed, lsamp, sparkHist, value, agencyType, meta, sparkMetricKey,
+    } = opts;
+    if (pctile == null && lpctile == null) return "";
+    const hist = sparkHist || peerHistogramFor(sparkMetricKey, agencyType, meta);
+    let html = '<div class="rank-pill-row">';
+    if (pctile != null) {
+      html += rankPillHtml({
+        scopeLabel: "STATE",
+        pctile: pctile, median: med, hist: hist, value: value,
+      });
+    }
+    if (lpctile != null) {
+      const scopeLabel = lsamp && lsamp.scope === "county" ? "COUNTY" : "25 mi";
+      html += rankPillHtml({
+        scopeLabel: scopeLabel,
+        pctile: lpctile, median: lmed, hist: hist, value: value,
+      });
+    }
+    html += "</div>";
+    return html;
+  }
+
+  // A single stats cell (raw or per-capita or whatever else) — label
+  // header, big value, optional extras (caveats, additional rates),
+  // and rank pills at the bottom.
+  function statsCellHtml(opts) {
+    const {
+      cellClass = "",
+      label,
+      value,
+      valueSuffix = "",
+      valueIsNotReported = false,
+      notReportedHint = "",
+      extrasHtml = "",
+      rankPillsHtml: pillsHtml = "",
+      concernClass = "",
+    } = opts;
+
+    let html = `<div class="metric-cell ${cellClass} ${concernClass}">`;
+    if (label) html += `<div class="cell-label">${escapeHtml(label)}</div>`;
+    if (valueIsNotReported) {
+      html += `<div class="cell-value not-reported">not reported</div>`;
+      if (notReportedHint) html += notReportedHint;
+    } else if (value == null) {
+      html += `<div class="cell-value cell-na"><span class="null">&mdash;</span></div>`;
+    } else {
+      const display = typeof value === "number" && value < 10 && value % 1 !== 0
+        ? fmtNum(value, 2)
+        : (typeof value === "number" ? fmtInt(value) : value);
+      html += `<div class="cell-value">${display}${valueSuffix ? `<span class="cell-value-suffix">${valueSuffix}</span>` : ""}</div>`;
+    }
+    if (extrasHtml) html += extrasHtml;
+    if (pillsHtml) html += pillsHtml;
+    html += `</div>`;
+    return html;
+  }
+
+  // Wraps a set of cells in a full metric block with title/subtitle
+  // header. `concern` adds a red left bar.
+  function metricBlockHtml(opts) {
+    const {
+      title,
+      subtitle = "",
+      titleTooltip = "",
+      concern = false,
+      cellsHtml,
+      caveatHtml: caveat = "",
+      inlineConcernHtml: concernHtml = "",
+    } = opts;
+
+    let html = `<div class="metric-block${concern ? " concern" : ""}">`;
+    html += `<div class="metric-head">`;
+    html += `<span class="metric-title"${titleTooltip ? ` title="${escapeHtml(titleTooltip)}"` : ""}>${escapeHtml(title)}</span>`;
+    if (subtitle) html += ` <span class="metric-subtitle">${escapeHtml(subtitle)}</span>`;
+    html += `</div>`;
+    if (caveat) html += `<div class="metric-caveat">${caveat}</div>`;
+    html += `<div class="metric-body">${cellsHtml}</div>`;
+    if (concernHtml) html += concernHtml;
+    html += `</div>`;
+    return html;
+  }
+
+  // Build the "not reported" hint string for a metric where the agency
+  // doesn't publish but its peers do. Returns empty if there's no
+  // corresponding transparency check or the peer rate is 0.
+  function notReportedHintFor(report, metric) {
+    const checkId = TRANSPARENCY_CHECK_FOR_METRIC[metric];
+    if (!checkId) return "";
+    const item = (report.checklist_transparency || []).find(function(x) { return x.id === checkId; });
+    if (!item || !item.peer_applicable) return "";
+    const p = Math.round(100 * item.peer_count / item.peer_applicable);
+    const peerGroup = item.peer_type === "all" ? "California agencies" : `California ${agencyTypeLabel(item.peer_type)} agencies`;
+    return `<div class="not-reported-hint">${p}% of ${peerGroup} with a transparency portal publish this field.</div>`;
+  }
+
+  // Short name for personalising prose — "San Mateo CA PD" → "San
+  // Mateo", "San Mateo County CA SO" → "San Mateo County", "NCRIC"
+  // stays "NCRIC". Prefers the Census place/county name from the geo
+  // block; falls back to stripping agency-role suffixes from the
+  // display name.
+  function shortAgencyName(report) {
+    const geo = report.geo || {};
+    if (geo.name) return geo.name;
+    let n = report.name || "";
+    n = n.replace(/\s+(CA|NV|AZ|OR|WA|ID|UT|NY|TX|FL|NH|MA|CT|NJ|PA|MD|VA|NC|SC|GA|OH|MI|IL|IN|KY|TN|AL|MS|LA|AR|OK|MO|KS|NE|IA|MN|WI|ND|SD|MT|WY|CO|NM|AK|HI|ME|VT|RI|DE|WV|DC)\s+(PD|SO|SD|DA|FD|DPS|Police|Sheriff|Police Department|Sheriff'?s? Office|District Attorney)\b.*$/i, "").trim();
+    return n || report.name || "This agency";
+  }
+
   function renderStats(report, meta) {
     if (!report.crawled) return "";
 
     const stats = report.stats || {};
     const per1k = report.per_1000 || {};
+    const perVeh = report.per_1000_vehicles || {};
     const medians = report.medians || {};
     const percentiles = report.percentiles || {};
     const peerSample = report.peer_sample || {};
-
-    let html = `<h2>30-Day Activity</h2>`;
-
-    // Row order prioritises "what this agency does with the data"
-    // (searches, shared searches, agencies shared to) before "what
-    // the agency has" (cameras and derivatives) and the raw activity
-    // metrics (vehicles, hotlist hits). Councils asking accountability
-    // questions care most about query and distribution behaviour.
-    const rows = [
-      { metric: "searches_30d", label: "Searches performed", value: stats.searches_30d },
-      // Compound metric — this agency's searches plus all its crawled
-      // recipients' searches. Shows data-exposure scale even when the
-      // agency itself is a light searcher.
-      //
-      // Coverage is usually far below 100% because many Flock portals
-      // don't publish search counts. Surface that as a visible
-      // sublabel (not just a tooltip) so councils understand the
-      // reported number is a floor, not the full volume.
-      // Compound: this agency's own searches plus all crawled
-      // recipients' searches. The coverage breakdown lives in the
-      // value cell (coverage-tag) rather than as a metric sublabel —
-      // keeps the label clean and puts the caveat next to the number
-      // it qualifies.
-      {
-        metric: "downstream",
-        label: "Searches reaching this data",
-        tooltip: (report.downstream_searches
-          ? `${fmtInt(report.downstream_total || 0)} = searches this agency publishes + searches published by ${report.downstream_searches.recipients_with_data} of its ${report.downstream_searches.recipients_total} recipients.`
-          : undefined),
-        value: report.downstream_total,
-        isDownstream: true,
-      },
-      { metric: "outbound", label: "Agencies it shares to", value: stats.outbound_count },
-      { metric: "cameras", label: "Cameras", value: stats.cameras },
-      { metric: "vehicles_30d", label: "Vehicles detected", value: stats.vehicles_30d },
-      {
-        metric: "hotlist_hits_30d",
-        label: "Hotlist hits",
-        // Per Flock's own description (Flock Blog, May 14, 2025), a
-        // Hot List match fires when a detected plate matches either
-        // the FBI NCIC feed or a custom list the operator has
-        // configured. Known data-quality issues documented in public
-        // audits: high NCIC false-positive rates (e.g., 77% wrong-
-        // state matches in a Story County, IA audit) and custom
-        // lists frequently lacking case numbers or expiration dates
-        // (Harris County, TX: > 50% of 800 entries had no case
-        // number, 73% never expire). See
-        // haveibeenflocked.com/news/hotlist-mess.
-        sublabel: "a plate detection matching the FBI NCIC feed or a custom list the operator has configured",
-        caveatHtml: (
-          "Hotlist hits are <strong>not a vetted crime indicator</strong>. " +
-          "NCIC matches include known false positives (e.g., 77% wrong-state matches in one Iowa audit), " +
-          "and custom lists are frequently added without case numbers or expirations. " +
-          "See <a href=\"https://haveibeenflocked.com/news/hotlist-mess\" target=\"_blank\" rel=\"noopener\">haveibeenflocked.com/news/hotlist-mess</a>."
-        ),
-        value: stats.hotlist_hits_30d,
-      },
-    ];
-
-    // Peer sample note above the table — explicitly names who we're comparing to.
-    const firstPeer = Object.values(peerSample)[0];
-    if (firstPeer) {
-      const fallback = firstPeer.fallback;
-      const typeLabel = firstPeer.type === "all" ? "California agencies" : `California ${agencyTypeLabel(firstPeer.type)} agencies`;
-      html += `<p class="muted" style="font-size:9.5pt">Comparisons below are against <strong>${firstPeer.size} ${typeLabel}</strong> with public transparency pages${fallback ? " (too few peers of the same type; falling back to all CA agencies)" : ""}. The median is the peer at the 50th percentile.</p>`;
-    }
-
     const per1kPct = report.percentiles_per_1000 || {};
     const per1kMed = report.medians_per_1000 || {};
     const localPct = report.percentiles_local || {};
@@ -368,124 +479,88 @@
     const localSample = report.peer_sample_local || {};
     const localPerPct = report.percentiles_per_1000_local || {};
     const localPerMed = report.medians_per_1000_local || {};
+    const short = shortAgencyName(report);
 
-    // Add cameras-per-sqmi as its own row, slotted right after cameras.
-    // This keeps density in the same table as the other comparisons.
-    const rowsWithDensity = [];
-    rows.forEach(function(r) {
-      rowsWithDensity.push(r);
-      if (r.metric === "cameras" && report.cameras_per_sqmi != null) {
-        rowsWithDensity.push({
-          metric: "cameras_per_sqmi",
-          label: "Cameras per square mile",
-          value: report.cameras_per_sqmi,
-          isDensity: true,
-        });
-      }
-    });
+    let html = `<h2>30-Day Activity</h2>`;
 
-    // Collapsed 3-column layout: Metric | This agency | Per 1,000 residents.
-    // Each value cell stacks the number on top and the statewide/local
-    // rank lines beneath, so everything about one metric fits on one
-    // row without pushing past the page width.
-    // Use <thead> so browsers repeat the column headers on each
-    // page when the table breaks across pages in print.
-    html += '<div class="stats-table-wrap"><table class="stats-table">';
-    html += '<thead><tr><th>Metric</th><th class="num">Agency raw</th>';
-    // Second column is the same agency's per-capita variant — calling
-    // it "Agency per capita" reads as a parallel stat rather than
-    // "some other agencies" which the previous "Per 1,000 residents"
-    // header could be misread as.
-    if (report.population) html += '<th class="num">Agency per capita<br><span class="muted-head">(per 1,000 residents)</span></th>';
-    html += '</tr></thead><tbody>';
+    // Peer sample note above the blocks — explicitly names who we're
+    // comparing to.
+    const firstPeer = Object.values(peerSample)[0];
+    if (firstPeer) {
+      const fallback = firstPeer.fallback;
+      const typeLabel = firstPeer.type === "all" ? "California agencies" : `California ${agencyTypeLabel(firstPeer.type)} agencies`;
+      html += `<p class="muted" style="font-size:9.5pt">Ranked against <strong>${firstPeer.size} ${typeLabel}</strong> with transparency pages${fallback ? " (too few peers of the same type; all CA agencies)" : ""}. Red-bordered blocks flag above-median metrics; below-median ones stay neutral (a low peer rank doesn\u2019t mean the absolute number is acceptable).</p>`;
+    }
 
-    rowsWithDensity.forEach(function(r) {
-      // Route each row to the right percentile/median fields. Most
-      // metrics use the standard "percentiles" / "medians" dicts;
-      // density and downstream are top-level scalars on the report.
-      let pctile, med, lpctile, lmed, lsamp;
-      if (r.isDensity) {
-        pctile = report.percentile_density;
-        med = report.median_density;
-        lpctile = report.percentile_density_local;
-        lmed = report.median_density_local;
-        lsamp = report.peer_sample_density_local;
-      } else if (r.isDownstream) {
-        pctile = report.percentile_downstream;
-        med = report.median_downstream;
-        lpctile = report.percentile_downstream_local;
-        lmed = report.median_downstream_local;
-        lsamp = report.peer_sample_downstream_local;
-      } else {
-        pctile = percentiles[r.metric];
-        med = medians[r.metric];
-        lpctile = localPct[r.metric];
-        lmed = localMed[r.metric];
-        lsamp = localSample[r.metric];
-      }
+    // ── Metric 1: Searches performed ─────────────────────────────
+    {
+      const v = stats.searches_30d;
+      const notReported = v == null;
+      const pctile = percentiles.searches_30d;
+      const lpctile = localPct.searches_30d;
+      const pills = rankPillsForMetric({
+        pctile, med: medians.searches_30d,
+        lpctile, lmed: localMed.searches_30d,
+        lsamp: localSample.searches_30d,
+        value: v, agencyType: report.agency_type, meta,
+        sparkMetricKey: "searches_30d",
+      });
+      const rawCell = statsCellHtml({
+        cellClass: "raw",
+        concernClass: notReported ? "" : (cellClassFor(pctile, "searches_30d")),
+        label: "Agency raw",
+        value: v,
+        valueIsNotReported: notReported,
+        notReportedHint: notReported ? notReportedHintFor(report, "searches_30d") : "",
+        rankPillsHtml: pills,
+      });
+      // Per-capita cell
+      const per = per1k.searches_30d;
+      const pvPills = rankPillsForMetric({
+        pctile: per1kPct.searches_30d, med: per1kMed.searches_30d,
+        lpctile: localPerPct.searches_30d, lmed: localPerMed.searches_30d,
+        lsamp: localSample.searches_30d,
+        value: per, agencyType: report.agency_type, meta,
+        sparkMetricKey: "searches_30d_per_1000",
+      });
+      const pvExtras = perVeh.searches_30d != null
+        ? `<div class="per-vehicle"><strong>${fmtNum(perVeh.searches_30d, perVeh.searches_30d < 10 ? 2 : 0)}</strong> <span class="muted">per 1,000 household vehicles</span></div>`
+        : "";
+      const perCell = statsCellHtml({
+        cellClass: "per-capita",
+        concernClass: cellClassFor(per1kPct.searches_30d, "searches_30d"),
+        label: "Per 1,000 residents",
+        value: per,
+        valueIsNotReported: notReported,
+        extrasHtml: pvExtras,
+        rankPillsHtml: pvPills,
+      });
+      html += metricBlockHtml({
+        title: `Searches performed by ${short}`,
+        concern: !notReported && (pctile >= 60 || lpctile >= 60),
+        cellsHtml: rawCell + perCell,
+        inlineConcernHtml: concernsForSection(report, "stat:searches_30d"),
+      });
+    }
 
-      const per = per1k[r.metric];
-      const perPct = per1kPct[r.metric];
-      const perMed = per1kMed[r.metric];
-      const lperPct = localPerPct[r.metric];
-      const lperMed = localPerMed[r.metric];
-
-      html += '<tr>';
-      // Label cell can include a sublabel (small gray clarifier) and
-      // a title= tooltip on hover for the composition of a metric.
-      // Used for "Searches reaching this data" so the reader doesn't
-      // misread it as the agency's own search count. Downstream row
-      // gets amber `.warn` styling on the sublabel — its undercount
-      // caveat needs to land, not blend in.
-      let labelCell = `<td`;
-      if (r.tooltip) labelCell += ` title="${escapeHtml(r.tooltip)}"`;
-      labelCell += `>${escapeHtml(r.label)}`;
-      if (r.sublabel) {
-        const subCls = r.isDownstream ? "metric-sublabel warn" : "metric-sublabel";
-        labelCell += `<div class="${subCls}">${escapeHtml(r.sublabel)}</div>`;
-      }
-      // caveatHtml is a trusted-source HTML fragment (code-supplied,
-      // not user input) for metrics that need a citation/link the
-      // sublabel can't carry inline. Rendered in a distinct amber
-      // box below the sublabel so it reads as a caveat, not a
-      // definition.
-      if (r.caveatHtml) {
-        labelCell += `<div class="metric-caveat">${r.caveatHtml}</div>`;
-      }
-      labelCell += `</td>`;
-      html += labelCell;
-      // Sparkline: statewide peer distribution for this metric, with
-      // a triangle marking where this agency falls on the same axis.
-      // Metric key differs between the metadata and the report data
-      // (e.g. "cameras_per_sqmi" lives under report.cameras_per_sqmi),
-      // so resolve the right (key, value) pair for each row.
-      let sparkMetric, sparkValue;
-      if (r.isDensity) {
-        sparkMetric = "cameras_per_sqmi";
-        sparkValue = report.cameras_per_sqmi;
-      } else if (r.isDownstream) {
-        sparkMetric = "downstream";
-        sparkValue = report.downstream_total;
-      } else {
-        sparkMetric = r.metric;
-        sparkValue = r.value;
-      }
-      const sparkHist = peerHistogramFor(sparkMetric, report.agency_type, meta);
-      const sparkHtml = sparkHist ? `<div class="spark-wrap">${sparklineSvg(sparkHist, sparkValue)}</div>` : "";
-      // Downstream row: coverage tag explains the floor number AND
-      // why it's a floor. Breaks "not counted" into (a) recipients
-      // with no transparency portal and (b) recipients with a portal
-      // but no published search count, so the reader can see at a
-      // glance why the denominator is what it is. Also notes when
-      // this agency itself doesn't publish its own search count.
-      let coverageHtml = "";
-      if (r.isDownstream && report.downstream_searches) {
+    // ── Metric 2: Searches reaching this data (downstream) ───────
+    {
+      const v = report.downstream_total;
+      const pctile = report.percentile_downstream;
+      const lpctile = report.percentile_downstream_local;
+      const pills = rankPillsForMetric({
+        pctile, med: report.median_downstream,
+        lpctile, lmed: report.median_downstream_local,
+        lsamp: report.peer_sample_downstream_local,
+        value: v, agencyType: report.agency_type, meta,
+        sparkMetricKey: "downstream",
+      });
+      // Coverage caveat
+      let coverage = "";
+      if (report.downstream_searches) {
         const ds = report.downstream_searches;
         if (ds.recipients_total > 0) {
           const pctStr = pct(ds.recipients_with_data, ds.recipients_total);
-          let lines = [
-            `<strong>Based on ${pctStr}% of recipients</strong> (${fmtInt(ds.recipients_with_data)} of ${fmtInt(ds.recipients_total)}).`,
-          ];
           const notCounted = [];
           if (ds.recipients_no_portal > 0) {
             notCounted.push(`${fmtInt(ds.recipients_no_portal)} have no transparency portal`);
@@ -493,94 +568,214 @@
           if (ds.recipients_portal_no_search_field > 0) {
             notCounted.push(`${fmtInt(ds.recipients_portal_no_search_field)} have a portal but don\u2019t publish a search count`);
           }
-          if (notCounted.length) {
-            lines.push("Not counted: " + notCounted.join("; ") + ".");
-          }
-          if (ds.self_included === false) {
-            lines.push("This agency also doesn\u2019t publish its own search count.");
-          }
-          lines.push("<em>The real total is likely higher.</em>");
-          coverageHtml = `<div class="coverage-tag">${lines.join(" ")}</div>`;
+          const parts = [`<strong>Based on ${pctStr}%</strong> of ${fmtInt(ds.recipients_total)} recipients.`];
+          if (notCounted.length) parts.push("Not counted: " + notCounted.join("; ") + ".");
+          if (ds.self_included === false) parts.push("Agency also doesn\u2019t publish its own.");
+          parts.push("<em>Real total likely higher.</em>");
+          coverage = `<div class="coverage-tag">${parts.join(" ")}</div>`;
         }
       }
-      // Inline data-concern for this metric row (e.g. SMPD's 66 vs
-      // 80 device discrepancy is tagged section="stat:cameras" and
-      // appears attached to the Cameras row).
-      const concernSectionKey = r.isDensity
-        ? "stat:cameras_per_sqmi"
-        : r.isDownstream
-        ? "stat:downstream"
-        : `stat:${r.metric}`;
-      const inlineConcern = concernsForSection(report, concernSectionKey);
-      // When the agency doesn't publish this metric, add a hint
-      // showing what fraction of peers DO — tells the reader
-      // whether the omission is typical or unusual.
-      let notReportedHint = "";
-      if (r.value == null && r.metric) {
-        const checkId = TRANSPARENCY_CHECK_FOR_METRIC[r.metric];
-        if (checkId) {
-          const item = (report.checklist_transparency || []).find(function(x) { return x.id === checkId; });
-          if (item && item.peer_applicable > 0) {
-            const p = Math.round(100 * item.peer_count / item.peer_applicable);
-            const peerGroup = item.peer_type === "all" ? "California agencies" : `California ${agencyTypeLabel(item.peer_type)} agencies`;
-            notReportedHint = `<div class="not-reported-hint">${p}% of ${peerGroup} with a transparency portal publish this field.</div>`;
-          }
-        }
-      }
-      html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}${notReportedHint}${coverageHtml}${sparkHtml}${inlineConcern}</td>`;
-      if (report.population) {
-        // Per-capita doesn't apply to every metric:
-        //  - cameras/sqmi: a density is already a ratio
-        //  - downstream-searches: shown with a top-searchers list
-        //  - outbound (agencies shared to): a count of entities, not
-        //    a count of events/people; "agencies shared to per 1,000
-        //    residents" isn't a meaningful measure
-        // For these, leave the cell blank (no value, no color, no tag).
-        if (r.isDownstream) {
-          html += `<td class="downstream-researchers">${topResearchersHtml(report.downstream_searches)}</td>`;
-        } else if (r.isDensity || r.metric === "outbound") {
-          html += `<td class="num"></td>`;
-        } else {
-          // Per-capita cell: same shape as primary, including a
-          // sparkline for the per-1,000 peer distribution.
-          const perSparkHist = peerHistogramFor(r.metric + "_per_1000", report.agency_type, meta);
-          const perSparkHtml = perSparkHist ? `<div class="spark-wrap">${sparklineSvg(perSparkHist, per)}</div>` : "";
-          // Append an alternate-denominator line using ACS household
-          // vehicles (B25046). "Per 1,000 vehicles" is a more
-          // defensible denominator than "per 1,000 residents" for
-          // plate-detection metrics — residents don't get scanned,
-          // their vehicles do. Keep it as a secondary line so the
-          // primary cell stays legible.
-          const perVeh = (report.per_1000_vehicles || {})[r.metric];
-          let perVehHtml = "";
-          if (perVeh != null) {
-            perVehHtml = `<div class="per-vehicle">${fmtNum(perVeh, perVeh < 10 ? 2 : 0)} <span class="muted">per 1,000 household vehicles</span></div>`;
-          }
-          html += `<td class="num ${cellClassFor(perPct, r.metric)}">${valueBlockHtml(per, perMed, lperMed, perPct, lperPct, lsamp)}${perVehHtml}${perSparkHtml}</td>`;
-        }
-      }
-      html += '</tr>';
-    });
-
-    html += '</tbody></table></div>';
-
-    // Caption: explain what "state" and "local" mean. The local scope
-    // can be either "county" or "nearby" (50 miles); pick the scope
-    // that's actually being used for this agency.
-    let localScopeNote = "";
-    const anyLocalSample = Object.values(localSample)[0];
-    if (anyLocalSample) {
-      if (anyLocalSample.scope === "county") {
-        localScopeNote = `Local rank is against other crawled California agencies in the same county (${anyLocalSample.size} peers).`;
-      } else if (anyLocalSample.scope === "nearby") {
-        localScopeNote = `Local rank is against other crawled California agencies within 50 miles (${anyLocalSample.size} peers). The agency's county doesn't have enough crawled peers for a same-county comparison.`;
-      }
+      const rawCell = statsCellHtml({
+        cellClass: "raw",
+        concernClass: cellClassFor(pctile, "downstream"),
+        label: "Combined total",
+        value: v,
+        extrasHtml: coverage,
+        rankPillsHtml: pills,
+      });
+      // Right cell: top searchers bar chart
+      const rightCell = `<div class="metric-cell downstream-researchers"><div class="cell-label">Top searchers among recipients</div>${topResearchersHtml(report.downstream_searches)}</div>`;
+      html += metricBlockHtml({
+        title: `Searches reaching ${short}'s data`,
+        subtitle: `${short} + its recipients`,
+        titleTooltip: report.downstream_searches
+          ? `${fmtInt(v || 0)} = searches this agency publishes + searches published by ${report.downstream_searches.recipients_with_data} of its ${report.downstream_searches.recipients_total} recipients.`
+          : "",
+        concern: pctile != null && pctile >= 60,
+        cellsHtml: rawCell + rightCell,
+        inlineConcernHtml: concernsForSection(report, "stat:downstream"),
+      });
     }
-    html += `<p class="muted" style="font-size:9.5pt">` +
-      `Compared against California ${agencyTypeLabel(report.agency_type)} agencies with transparency pages` +
-      (localScopeNote ? ` and ${localScopeNote.replace(/\.$/, "").replace(/^Local rank is against /, "")}` : "") +
-      `. Percentile: 80th = higher than 80% of peers. Red cells flag above-median values; below-median cells aren\u2019t colored (a low peer rank doesn\u2019t mean the absolute number is acceptable).` +
-      `</p>`;
+
+    // ── Metric 3: Agencies it shares to ──────────────────────────
+    {
+      const v = stats.outbound_count;
+      const pctile = percentiles.outbound;
+      const lpctile = localPct.outbound;
+      const pills = rankPillsForMetric({
+        pctile, med: medians.outbound,
+        lpctile, lmed: localMed.outbound,
+        lsamp: localSample.outbound,
+        value: v, agencyType: report.agency_type, meta,
+        sparkMetricKey: "outbound",
+      });
+      const rawCell = statsCellHtml({
+        cellClass: "raw",
+        concernClass: cellClassFor(pctile, "outbound"),
+        label: "Agency raw",
+        value: v,
+        rankPillsHtml: pills,
+      });
+      // Right cell: reach metrics
+      const bits = [];
+      if (report.outbound_avg_km != null) {
+        bits.push(`<div><strong>${fmtNum(kmToMi(report.outbound_avg_km), 0)}</strong> <span class="muted">miles — average distance to a recipient</span></div>`);
+      }
+      if (report.farthest_outbound) {
+        const farMi = fmtNum(kmToMi(report.farthest_outbound.distance_km), 0);
+        bits.push(`<div><strong>${farMi}</strong> <span class="muted">miles — farthest:</span> ${escapeHtml(report.farthest_outbound.name)}${report.farthest_outbound.state && report.farthest_outbound.state !== report.state ? ` (${escapeHtml(report.farthest_outbound.state)})` : ""}</div>`);
+      }
+      const reachCell = `<div class="metric-cell reach"><div class="cell-label">Reach</div><div class="reach-lines">${bits.join("")}</div></div>`;
+      html += metricBlockHtml({
+        title: `Agencies ${short} shares to`,
+        concern: pctile != null && pctile >= 60,
+        cellsHtml: rawCell + reachCell,
+        inlineConcernHtml: concernsForSection(report, "stat:outbound"),
+      });
+    }
+
+    // ── Metric 4: Cameras ────────────────────────────────────────
+    {
+      const v = stats.cameras;
+      const pctile = percentiles.cameras;
+      const lpctile = localPct.cameras;
+      const rawPills = rankPillsForMetric({
+        pctile, med: medians.cameras,
+        lpctile, lmed: localMed.cameras,
+        lsamp: localSample.cameras,
+        value: v, agencyType: report.agency_type, meta,
+        sparkMetricKey: "cameras",
+      });
+      const rawCell = statsCellHtml({
+        cellClass: "raw",
+        concernClass: cellClassFor(pctile, "cameras"),
+        label: "Agency raw",
+        value: v,
+        rankPillsHtml: rawPills,
+      });
+      // Right cell: density rates (per-capita, per-vehicle, per-sqmi)
+      // with rank pills for density (per-sqmi) since we have peer data
+      const densityLines = [];
+      if (per1k.cameras != null) {
+        densityLines.push(`<div><strong>${fmtNum(per1k.cameras, per1k.cameras < 10 ? 2 : 0)}</strong> <span class="muted">per 1,000 residents</span></div>`);
+      }
+      if (perVeh.cameras != null) {
+        densityLines.push(`<div><strong>${fmtNum(perVeh.cameras, perVeh.cameras < 10 ? 2 : 0)}</strong> <span class="muted">per 1,000 household vehicles</span></div>`);
+      }
+      if (report.cameras_per_sqmi != null) {
+        densityLines.push(`<div><strong>${fmtNum(report.cameras_per_sqmi, report.cameras_per_sqmi < 10 ? 2 : 0)}</strong> <span class="muted">per square mile</span></div>`);
+      }
+      const densityPills = rankPillsForMetric({
+        pctile: report.percentile_density, med: report.median_density,
+        lpctile: report.percentile_density_local, lmed: report.median_density_local,
+        lsamp: report.peer_sample_density_local,
+        value: report.cameras_per_sqmi, agencyType: report.agency_type, meta,
+        sparkMetricKey: "cameras_per_sqmi",
+      });
+      const densityCell = `<div class="metric-cell density ${cellClassFor(report.percentile_density, "cameras_per_sqmi")}"><div class="cell-label">Density</div><div class="reach-lines">${densityLines.join("")}</div>${densityPills}</div>`;
+      html += metricBlockHtml({
+        title: `${short}'s cameras`,
+        concern: (pctile != null && pctile >= 60) || (report.percentile_density != null && report.percentile_density >= 60),
+        cellsHtml: rawCell + densityCell,
+        inlineConcernHtml: concernsForSection(report, "stat:cameras"),
+      });
+    }
+
+    // ── Metric 5: Vehicles detected ──────────────────────────────
+    {
+      const v = stats.vehicles_30d;
+      const pctile = percentiles.vehicles_30d;
+      const lpctile = localPct.vehicles_30d;
+      const pills = rankPillsForMetric({
+        pctile, med: medians.vehicles_30d,
+        lpctile, lmed: localMed.vehicles_30d,
+        lsamp: localSample.vehicles_30d,
+        value: v, agencyType: report.agency_type, meta,
+        sparkMetricKey: "vehicles_30d",
+      });
+      const rawCell = statsCellHtml({
+        cellClass: "raw",
+        concernClass: cellClassFor(pctile, "vehicles_30d"),
+        label: "Agency raw",
+        value: v,
+        rankPillsHtml: pills,
+      });
+      const per = per1k.vehicles_30d;
+      const pvPills = rankPillsForMetric({
+        pctile: per1kPct.vehicles_30d, med: per1kMed.vehicles_30d,
+        lpctile: localPerPct.vehicles_30d, lmed: localPerMed.vehicles_30d,
+        lsamp: localSample.vehicles_30d,
+        value: per, agencyType: report.agency_type, meta,
+        sparkMetricKey: "vehicles_30d_per_1000",
+      });
+      const pvExtras = perVeh.vehicles_30d != null
+        ? `<div class="per-vehicle"><strong>${fmtNum(perVeh.vehicles_30d, perVeh.vehicles_30d < 10 ? 2 : 0)}</strong> <span class="muted">per 1,000 household vehicles</span></div>`
+        : "";
+      const perCell = statsCellHtml({
+        cellClass: "per-capita",
+        concernClass: cellClassFor(per1kPct.vehicles_30d, "vehicles_30d"),
+        label: "Per 1,000 residents",
+        value: per,
+        extrasHtml: pvExtras,
+        rankPillsHtml: pvPills,
+      });
+      html += metricBlockHtml({
+        title: `Vehicles detected by ${short}`,
+        subtitle: "last 30 days",
+        concern: (pctile != null && pctile >= 60) || (per1kPct.vehicles_30d != null && per1kPct.vehicles_30d >= 60),
+        cellsHtml: rawCell + perCell,
+        inlineConcernHtml: concernsForSection(report, "stat:vehicles_30d"),
+      });
+    }
+
+    // ── Metric 6: Hotlist hits ───────────────────────────────────
+    {
+      const v = stats.hotlist_hits_30d;
+      const pctile = percentiles.hotlist_hits_30d;
+      const lpctile = localPct.hotlist_hits_30d;
+      const pills = rankPillsForMetric({
+        pctile, med: medians.hotlist_hits_30d,
+        lpctile, lmed: localMed.hotlist_hits_30d,
+        lsamp: localSample.hotlist_hits_30d,
+        value: v, agencyType: report.agency_type, meta,
+        sparkMetricKey: "hotlist_hits_30d",
+      });
+      const rawCell = statsCellHtml({
+        cellClass: "raw",
+        concernClass: cellClassFor(pctile, "hotlist_hits_30d"),
+        label: "Agency raw",
+        value: v,
+        rankPillsHtml: pills,
+      });
+      const per = per1k.hotlist_hits_30d;
+      const pvPills = rankPillsForMetric({
+        pctile: per1kPct.hotlist_hits_30d, med: per1kMed.hotlist_hits_30d,
+        lpctile: localPerPct.hotlist_hits_30d, lmed: localPerMed.hotlist_hits_30d,
+        lsamp: localSample.hotlist_hits_30d,
+        value: per, agencyType: report.agency_type, meta,
+        sparkMetricKey: "hotlist_hits_30d_per_1000",
+      });
+      const pvExtras = perVeh.hotlist_hits_30d != null
+        ? `<div class="per-vehicle"><strong>${fmtNum(perVeh.hotlist_hits_30d, perVeh.hotlist_hits_30d < 10 ? 2 : 0)}</strong> <span class="muted">per 1,000 household vehicles</span></div>`
+        : "";
+      const perCell = statsCellHtml({
+        cellClass: "per-capita",
+        concernClass: cellClassFor(per1kPct.hotlist_hits_30d, "hotlist_hits_30d"),
+        label: "Per 1,000 residents",
+        value: per,
+        extrasHtml: pvExtras,
+        rankPillsHtml: pvPills,
+      });
+      const hotlistCaveat = `<strong>Hotlist hits are not a vetted crime indicator.</strong> NCIC matches include known false positives (e.g., 77% wrong-state matches in one Iowa audit), and custom lists are frequently added without case numbers or expirations. See <a href="https://haveibeenflocked.com/news/hotlist-mess" target="_blank" rel="noopener">haveibeenflocked.com/news/hotlist-mess</a>.`;
+      html += metricBlockHtml({
+        title: `${short}'s hotlist hits`,
+        subtitle: "plate match against FBI NCIC or a custom list the operator has configured",
+        concern: (pctile != null && pctile >= 60) || (per1kPct.hotlist_hits_30d != null && per1kPct.hotlist_hits_30d >= 60),
+        cellsHtml: rawCell + perCell,
+        caveatHtml: hotlistCaveat,
+        inlineConcernHtml: concernsForSection(report, "stat:hotlist_hits_30d"),
+      });
+    }
 
     return html;
   }

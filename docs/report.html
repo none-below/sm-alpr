@@ -366,12 +366,134 @@
   /* Secondary per-vehicle rate (ACS B25046 household vehicles) below
      the per-capita value. Muted/smaller so the primary per-capita
      reading remains the focal point; this is supplementary context. */
-  td .per-vehicle {
+  td .per-vehicle, .metric-cell .per-vehicle {
     font-size: 9pt;
     color: #444;
     margin-top: 4px;
     font-variant-numeric: tabular-nums;
   }
+
+  /* ── Metric-block layout (30-Day Activity) ──────────────────── */
+  .metric-block {
+    margin: 10px 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+    background: white;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .metric-block.concern { border-left: 4px solid #dc2626; }
+  .metric-head {
+    padding: 6px 12px;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .metric-head .metric-title {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #111;
+  }
+  .metric-head .metric-subtitle {
+    font-size: 9pt;
+    color: #666;
+    font-weight: normal;
+  }
+  .metric-block .metric-caveat {
+    background: #fef3c7;
+    border-top: 1px solid #fbbf24;
+    padding: 4px 12px;
+    font-size: 9pt;
+    color: #78350f;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: normal;
+  }
+  .metric-block .metric-caveat a { color: #b45309; }
+  .metric-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .metric-cell {
+    padding: 10px 12px;
+    border-right: 1px solid #f3f4f6;
+  }
+  .metric-cell:last-child { border-right: none; }
+  .metric-cell.per-capita,
+  .metric-cell.density,
+  .metric-cell.reach,
+  .metric-cell.downstream-researchers {
+    background: #fafafa;
+  }
+  .metric-cell.cell-high { background: #fee2e2; }
+  .metric-cell.cell-mid-high { background: #fef3c7; }
+  .cell-label {
+    font-size: 8pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .cell-value {
+    font-size: 16pt;
+    font-weight: bold;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .cell-value.not-reported {
+    font-size: 10pt;
+    color: #b45309;
+    font-style: italic;
+    font-weight: 600;
+  }
+  .cell-value.cell-na { font-size: 12pt; color: #999; }
+  .reach-lines > div,
+  .metric-cell.density .reach-lines > div {
+    font-size: 10pt;
+    margin: 3px 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .reach-lines strong { font-size: 11pt; }
+
+  /* Rank pills (inside metric blocks) */
+  .rank-pill-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .rank-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #f3f4f6;
+    color: #444;
+    font-size: 9pt;
+    white-space: nowrap;
+  }
+  .rank-pill.concern-mild { background: #fef3c7; color: #92400e; }
+  .rank-pill.concern { background: #fee2e2; color: #991b1b; font-weight: 600; }
+  .rank-pill.concern.strong { background: #fecaca; color: #7f1d1d; font-weight: 700; }
+  .rank-pill .scope {
+    font-weight: 700;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .rank-pill .pill-phrase {}
+  .rank-pill .pill-pctile { opacity: 0.75; font-size: 8pt; }
+  .rank-pill .pill-med { opacity: 0.6; font-size: 8pt; }
+  .rank-pill .pill-spark { margin-left: 2px; }
+
+  /* Hide legacy table styles that are no longer used but CSS kept
+     around for defensiveness. */
   td .value-primary {
     font-size: 13pt;
     font-weight: bold;
@@ -625,11 +747,22 @@
     .toolbar { display: none !important; }
     .page { box-shadow: none; max-width: 100%; margin: 0; padding: 0.5in 0.6in; }
     /* Keep every section heading with at least the next block of
-       content so headers don't strand at the bottom of a page. */
+       content so headers don't strand at the bottom of a page.
+       `break-after: avoid-page` is more forceful than `avoid` for
+       browsers that otherwise let heavy following content push the
+       heading onto a new page anyway. The sibling rule catches the
+       other side — tells the following element not to start a new
+       page right before itself when preceded by a heading. */
     h2, h3 {
-      page-break-after: avoid; break-after: avoid;
+      page-break-after: avoid; break-after: avoid-page;
       page-break-inside: avoid; break-inside: avoid;
     }
+    h2 + *, h3 + * {
+      page-break-before: avoid; break-before: avoid-page;
+    }
+    /* Widows/orphans control for prose blocks (not directly headings,
+       but prevents hanging single lines). */
+    p, li { widows: 3; orphans: 3; }
     /* Don't try to keep the entire stats table on one page — it's
        tall enough (sparklines + ranks + colored cells) that forcing
        it to stay whole leaves huge trailing whitespace on page 1
