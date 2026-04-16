@@ -1143,12 +1143,21 @@ def main():
         # the aggregate number.
         ds_total = searches_30d if isinstance(searches_30d, (int, float)) else 0
         ds_outbound_with_data = 0
+        # Split the "why aren't we counting this recipient?" into two
+        # populations so the caveat can distinguish "no portal at all"
+        # from "has portal but didn't publish searches". These are
+        # different accountability stories: the first is the recipient
+        # not operating a transparency page, the second is the page
+        # existing but omitting the number.
+        ds_no_portal = 0
+        ds_portal_no_field = 0
         top_researchers = []
         for target_id in outbound_ids:
             t_gdata = graph_agencies.get(target_id, {})
-            if not t_gdata.get("crawled"):
-                continue
             tr = reg_by_id.get(target_id, {})
+            if not t_gdata.get("crawled"):
+                ds_no_portal += 1
+                continue
             t_portal = _load_portal_json(tr)
             t_searches = t_portal.get("searches_30d")
             if isinstance(t_searches, (int, float)):
@@ -1159,11 +1168,15 @@ def main():
                     "name": agency_display_name(tr, id_to_slug.get(target_id, target_id)),
                     "searches": int(t_searches),
                 })
+            else:
+                ds_portal_no_field += 1
         top_researchers.sort(key=lambda r: -r["searches"])
         downstream_searches = {
             "total": int(ds_total) if ds_total else 0,
             "recipients_total": len(outbound_ids),
             "recipients_with_data": ds_outbound_with_data,
+            "recipients_no_portal": ds_no_portal,
+            "recipients_portal_no_search_field": ds_portal_no_field,
             "self_included": isinstance(searches_30d, (int, float)),
             "top_researchers": top_researchers[:10],
         } if outbound_ids else None

@@ -264,23 +264,36 @@
             isDownstream: true,
           };
         }
-        const hidden = ds.recipients_total - ds.recipients_with_data;
+        // Build the caveat by splitting "not counted" into two reasons
+        // (no portal at all vs. portal without the search field) so
+        // the reader can tell why the denominator is what it is. This
+        // also reconciles with the Transparency checklist upstream:
+        // 96% of CA peers PUBLISH searches — but this agency's
+        // outbound pool spans uncrawled out-of-state agencies,
+        // universities, fusion centers etc. that mostly have no
+        // portal at all.
         const selfExcluded = ds.self_included === false;
         let parts = [];
-        if (hidden > 0) {
-          parts.push(`${fmtInt(hidden)} of ${fmtInt(ds.recipients_total)} recipients don't report searches`);
-        } else {
-          parts.push(`all ${fmtInt(ds.recipients_total)} recipients report searches`);
+        if (ds.recipients_no_portal > 0) {
+          parts.push(`${fmtInt(ds.recipients_no_portal)} have no transparency portal`);
+        }
+        if (ds.recipients_portal_no_search_field > 0) {
+          parts.push(`${fmtInt(ds.recipients_portal_no_search_field)} have a portal but don\u2019t publish a search count`);
         }
         if (selfExcluded) {
-          parts.push("this agency doesn't publish its own search count either");
+          parts.push("this agency doesn\u2019t publish its own search count either");
         }
-        const sublabel = parts.join("; ") + " \u2014 real total is likely higher";
+        const covered = ds.recipients_with_data;
+        const total = ds.recipients_total;
+        const caveatCore = parts.length
+          ? `Of ${fmtInt(total)} recipients, ${fmtInt(covered)} publish a search count; ${parts.join("; ")}`
+          : `All ${fmtInt(total)} recipients publish search counts`;
+        const sublabel = caveatCore + " \u2014 real total is likely higher.";
         return {
           metric: "downstream",
           label: "Searches reaching this data",
           sublabel: sublabel,
-          tooltip: `${fmtInt(report.downstream_total || 0)} = searches this agency publishes + searches published by ${ds.recipients_with_data} of its ${ds.recipients_total} recipients. Recipients that don't publish search counts are excluded, so the real number is higher.`,
+          tooltip: `${fmtInt(report.downstream_total || 0)} = searches this agency publishes + searches published by ${covered} of its ${total} recipients.`,
           value: report.downstream_total,
           isDownstream: true,
         };
