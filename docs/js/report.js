@@ -275,7 +275,7 @@
         if (selfExcluded) {
           parts.push("this agency doesn't publish its own search count either");
         }
-        const sublabel = parts.join("; ") + " \u2014 real total is higher";
+        const sublabel = parts.join("; ") + " \u2014 real total is likely higher";
         return {
           metric: "downstream",
           label: "Searches reaching this data",
@@ -384,7 +384,25 @@
       }
       labelCell += `</td>`;
       html += labelCell;
-      html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}</td>`;
+      // Sparkline: statewide peer distribution for this metric, with
+      // a triangle marking where this agency falls on the same axis.
+      // Metric key differs between the metadata and the report data
+      // (e.g. "cameras_per_sqmi" lives under report.cameras_per_sqmi),
+      // so resolve the right (key, value) pair for each row.
+      let sparkMetric, sparkValue;
+      if (r.isDensity) {
+        sparkMetric = "cameras_per_sqmi";
+        sparkValue = report.cameras_per_sqmi;
+      } else if (r.isDownstream) {
+        sparkMetric = "downstream";
+        sparkValue = report.downstream_total;
+      } else {
+        sparkMetric = r.metric;
+        sparkValue = r.value;
+      }
+      const sparkHist = peerHistogramFor(sparkMetric, report.agency_type, meta);
+      const sparkHtml = sparkHist ? `<div class="spark-wrap">${sparklineSvg(sparkHist, sparkValue)}</div>` : "";
+      html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}${sparkHtml}</td>`;
       if (report.population) {
         // Per-capita doesn't apply to every metric:
         //  - cameras/sqmi: a density is already a ratio
@@ -426,6 +444,50 @@
       `A percentile is read as "X% of peers have a lower value" &mdash; so 80th percentile means this agency is higher than 80% of its peers. Red cells flag percentiles that warrant scrutiny; below-median values are left uncolored because a low rank relative to peers doesn't mean the absolute number is acceptable.</p>`;
 
     return html;
+  }
+
+  // Tiny SVG sparkline of the statewide peer distribution. Each bar
+  // represents a histogram bin; a small triangle marks where THIS
+  // agency falls on the same axis. Helps the reader see "80th
+  // percentile" intuitively without having to interpret the number.
+  //
+  // hist: {bins: [int,...], min, max} from metadata.sparkline_state
+  // value: this agency's raw value (null renders no marker)
+  function sparklineSvg(hist, value) {
+    if (!hist || !hist.bins || !hist.bins.length) return "";
+    const bins = hist.bins;
+    const mn = hist.min, mx = hist.max;
+    const W = 120, H = 22, PAD = 1;
+    const barW = (W - 2 * PAD) / bins.length;
+    const maxCount = bins.reduce(function(m, c) { return c > m ? c : m; }, 0) || 1;
+    const barMaxH = H - 6;
+    let svg = `<svg class="sparkline" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">`;
+    // Histogram bars
+    for (let i = 0; i < bins.length; i++) {
+      const h = Math.max(1, Math.round(barMaxH * bins[i] / maxCount));
+      const x = PAD + i * barW;
+      const y = H - 3 - h;
+      svg += `<rect x="${x.toFixed(2)}" y="${y}" width="${Math.max(1, barW - 0.5).toFixed(2)}" height="${h}" fill="#cbd5e1"/>`;
+    }
+    // Agency marker: a vertical line + triangle at the top
+    if (value != null && mx > mn) {
+      let t = (value - mn) / (mx - mn);
+      if (t < 0) t = 0;
+      if (t > 1) t = 1;
+      const x = PAD + t * (W - 2 * PAD);
+      svg += `<line x1="${x.toFixed(2)}" x2="${x.toFixed(2)}" y1="0" y2="${H}" stroke="#dc2626" stroke-width="1.5"/>`;
+      svg += `<polygon points="${(x-3).toFixed(2)},0 ${(x+3).toFixed(2)},0 ${x.toFixed(2)},4" fill="#dc2626"/>`;
+    }
+    svg += `</svg>`;
+    return svg;
+  }
+
+  // Pick the right peer distribution: prefer this agency's type,
+  // fall back to the all-CA bucket if the type-specific one is missing.
+  function peerHistogramFor(metric, agencyType, meta) {
+    const dists = meta && meta.sparkline_state && meta.sparkline_state[metric];
+    if (!dists) return null;
+    return dists[agencyType] || dists["all"] || null;
   }
 
   // Renders a single stats-table value cell: the primary number on top,
@@ -1217,7 +1279,16 @@
     if (outCount && outCount > 0) {
       qs.push(`This agency shares ALPR data with <strong>${outCount}</strong> other agencies. What is the process for one of those partnered agencies to perform a search on this data? Does the department need to approve each request, or is access automatic once a sharing relationship is established? Is every such search logged, and is that log accessible to the department?`);
     }
-    qs.push("Do the city's posted ALPR policies meet the SB 34 requirements outlined above?");
+    qs.push(
+      "Do the city's posted ALPR policies actually meet the SB 34 requirements outlined above? " +
+      "The transparency checks above only verify that a policy URL is posted &mdash; " +
+      "they don't read the policy itself. Posted policies commonly fall short in concrete ways, for example: " +
+      "(a) end-user audit procedures that apply only to a legacy system and were never extended to cover Flock; " +
+      "(b) no defined process for revoking user accounts when personnel leave; " +
+      "(c) audits that review sharing configuration but not search activity or case-number compliance; " +
+      "(d) retained policy text that describes platforms the department no longer uses. " +
+      "A council member should ask to see the <em>text</em> of the policy and compare it item-by-item against &sect;1798.90.51\u2013.55."
+    );
     qs.push("How many users currently have access to the city's Flock pages? Are there any inactive users who still have access? What is the process for revoking accounts when personnel leave the department?");
     qs.push("Does the Flock contract contain an independent disclosure clause (such as &sect;5.3 in the standard MSA)?");
 

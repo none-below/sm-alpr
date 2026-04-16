@@ -198,6 +198,19 @@
     color: #78350f;
     margin-top: 3px;
   }
+  /* Peer-distribution sparkline inside the value cell. Gray bars =
+     histogram of peer values; red triangle = this agency's position.
+     Small enough to slot under the rank lines without bloating row
+     height; the shape of the distribution + the marker position
+     carry the "am I an outlier?" read at a glance. */
+  td .spark-wrap {
+    margin-top: 4px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  td .sparkline {
+    display: block;
+  }
   td .value-primary {
     font-size: 13pt;
     font-weight: bold;

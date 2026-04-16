@@ -400,6 +400,30 @@ def _place_name_from_agency(agency_name):
     return n
 
 
+def histogram(sorted_values, bins=20):
+    """Bin a sorted numeric series for sparkline rendering.
+
+    Returns {bins: [count, ...], min, max}. When min == max (all values
+    equal), the single bin holds the whole series. Empty series → None.
+    Fixed bin count so the rendered sparkline has a predictable width.
+    """
+    if not sorted_values:
+        return None
+    mn = sorted_values[0]
+    mx = sorted_values[-1]
+    if mn == mx:
+        return {"bins": [len(sorted_values)], "min": mn, "max": mx}
+    counts = [0] * bins
+    width = (mx - mn) / bins
+    for v in sorted_values:
+        # Put values at the max edge into the last bin, not bin+1.
+        idx = int((v - mn) / width)
+        if idx >= bins:
+            idx = bins - 1
+        counts[idx] += 1
+    return {"bins": counts, "min": mn, "max": mx}
+
+
 def _per_1000(metrics, population):
     """Convert raw metrics to per-1,000-residents rates.
 
@@ -1347,11 +1371,38 @@ def main():
         }
 
     # ── Metadata ──
+    # ── Sparkline distributions ──
+    # One histogram per (metric, agency_type) for the statewide peer
+    # distribution. Per-agency local histograms are computed
+    # per-report (see peer_sample_local above) — they depend on
+    # which peers are within 25 miles of each agency.
+    sparkline_state = {}  # metric -> { type: {bins, min, max} }
+    for metric in ["cameras", "vehicles_30d", "hotlist_hits_30d", "searches_30d", "outbound"]:
+        sparkline_state[metric] = {}
+        for t, series in series_by_type[metric].items():
+            if len(series) >= MIN_PEER_SAMPLE:
+                sparkline_state[metric][t] = histogram(sorted(series))
+        if series_all[metric]:
+            sparkline_state[metric]["all"] = histogram(sorted(series_all[metric]))
+    sparkline_state["cameras_per_sqmi"] = {}
+    for t, series in density_series_by_type.items():
+        if len(series) >= MIN_PEER_SAMPLE:
+            sparkline_state["cameras_per_sqmi"][t] = histogram(sorted(series))
+    if density_series_all:
+        sparkline_state["cameras_per_sqmi"]["all"] = histogram(sorted(density_series_all))
+    sparkline_state["downstream"] = {}
+    for t, series in downstream_series_by_type.items():
+        if len(series) >= MIN_PEER_SAMPLE:
+            sparkline_state["downstream"][t] = histogram(sorted(series))
+    if downstream_series_all:
+        sparkline_state["downstream"]["all"] = histogram(sorted(downstream_series_all))
+
     metadata = {
         "ca_crawled_total": len(ca_crawled),
         "ca_all_total": len(ca_all),
         "population_source": population_meta(),
         "type_totals": dict(type_totals),
+        "sparkline_state": sparkline_state,
         "checklist_sb34": [
             {
                 "id": item["id"],
