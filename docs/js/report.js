@@ -737,12 +737,14 @@
       if (report.crawled) {
         html += '<p class="muted">This agency publishes no outbound sharing relationships.</p>';
       } else {
-        html += '<div class="no-data-box" style="background:#f3f4f6;border-left-color:#6b7280">Unknown &mdash; outbound sharing requires <em>this</em> agency\'s transparency page to verify.</div>';
+        html += '<div class="no-data-box" style="background:#f3f4f6;border-left-color:#6b7280">Unknown &mdash; outbound sharing requires <em>this</em> agency\'s transparency page to verify. A small number of outbound edges may be inferable when other agencies publish an inbound list that names this one; none were found here.</div>';
       }
     } else if (outbound.length <= 25) {
       html += '<ul>';
       outbound.forEach(function(o) {
-        html += '<li>' + formatRelationship(o) + '</li>';
+        const line = formatRelationship(o)
+          + (o.inferred ? ' <span class="inferred">[inferred from their portal]</span>' : "");
+        html += '<li>' + line + '</li>';
       });
       html += '</ul>';
     } else {
@@ -750,7 +752,9 @@
       const clean = outbound.filter(function(o) { return !o.kind; });
       html += `<details><summary>Show all ${outbound.length} recipients</summary><ul>`;
       outbound.forEach(function(o) {
-        html += '<li>' + formatRelationship(o) + '</li>';
+        const line = formatRelationship(o)
+          + (o.inferred ? ' <span class="inferred">[inferred from their portal]</span>' : "");
+        html += '<li>' + line + '</li>';
       });
       html += '</ul></details>';
       if (!flagged.length) {

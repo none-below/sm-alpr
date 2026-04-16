@@ -763,6 +763,19 @@ def main():
             if target_id != source_id:
                 inbound_inferred_by_id[target_id].add(source_id)
 
+    # Inverse: "agency X shares with Y" inferred from Y publishing an
+    # inbound list that names X. Only ~10% of CA portals populate the
+    # inbound section, so this yields far fewer edges than inferred
+    # inbound — but when an uncrawled agency is named in someone's
+    # inbound list we can actually tell one of its outbound partners.
+    outbound_inferred_by_id = defaultdict(set)
+    for target_id, gdata in graph_agencies.items():
+        if not gdata.get("crawled"):
+            continue
+        for source_id in gdata.get("sharing_inbound_ids", []):
+            if source_id != target_id:
+                outbound_inferred_by_id[source_id].add(target_id)
+
     reports = {}
     for e in registry:
         aid = e["agency_id"]
@@ -1184,7 +1197,13 @@ def main():
                 "inferred": source_id not in inbound_ids,
             })
 
-        # Outbound list (for display)
+        # Outbound list (for display). Combines direct (agency's own
+        # portal) with inferred (agencies that name this one in their
+        # inbound list). For crawled agencies the direct list is the
+        # canonical source; inferred edges are rare. For uncrawled
+        # agencies, direct is empty and inferred is the only signal.
+        direct_out_ids = set(outbound_ids)
+        inferred_out_ids = outbound_inferred_by_id.get(aid, set()) - direct_out_ids - {aid}
         outbound_list = []
         for target_id in outbound_ids:
             tr = reg_by_id.get(target_id, {})
@@ -1194,6 +1213,17 @@ def main():
                 "slug": t_slug,
                 "name": agency_display_name(tr, t_slug),
                 "kind": is_flagged_entity(target_id, reg_by_id),
+                "inferred": False,
+            })
+        for target_id in sorted(inferred_out_ids):
+            tr = reg_by_id.get(target_id, {})
+            t_slug = id_to_slug.get(target_id, target_id)
+            outbound_list.append({
+                "agency_id": target_id,
+                "slug": t_slug,
+                "name": agency_display_name(tr, t_slug),
+                "kind": is_flagged_entity(target_id, reg_by_id),
+                "inferred": True,
             })
 
         # ── Regional context: crawled CA agencies within 50 km ──
