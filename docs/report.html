@@ -109,6 +109,18 @@
   /* "not reported" means the agency's portal omits a metric that most
      peers publish — a transparency gap. Styled amber/warn so it reads
      as a signal alongside the other warning indicators in the report. */
+  /* "X% of peers publish this field" hint shown under a
+     not-reported stats value. Helps the reader gauge whether the
+     omission is typical or unusual without flipping back to the
+     Transparency checklist. */
+  td .not-reported-hint {
+    font-size: 8.5pt;
+    color: #78350f;
+    margin-top: 4px;
+    font-weight: normal;
+    font-style: italic;
+    text-align: right;
+  }
   td .not-reported {
     color: #b45309;
     background: #fef3c7;

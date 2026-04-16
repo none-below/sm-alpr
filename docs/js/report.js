@@ -47,6 +47,17 @@
     test: "Test/demo account, not a real public agency \u2014 ALPR data should not be routed here.",
   };
 
+  // Maps a stats-table metric key to the corresponding transparency
+  // checklist id. When the agency doesn't publish a given stat, we
+  // use this to look up the peer publish-rate and show it as a
+  // "X% of peers report this" hint next to "not reported".
+  const TRANSPARENCY_CHECK_FOR_METRIC = {
+    cameras: "camera_count",
+    vehicles_30d: "vehicles_30d",
+    hotlist_hits_30d: "hotlist_hits",
+    searches_30d: "searches_30d",
+  };
+
   const METRIC_LABELS = {
     cameras: "Cameras",
     vehicles_30d: "Vehicles detected (30d)",
@@ -495,7 +506,22 @@
         ? "stat:downstream"
         : `stat:${r.metric}`;
       const inlineConcern = concernsForSection(report, concernSectionKey);
-      html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}${coverageHtml}${sparkHtml}${inlineConcern}</td>`;
+      // When the agency doesn't publish this metric, add a hint
+      // showing what fraction of peers DO — tells the reader
+      // whether the omission is typical or unusual.
+      let notReportedHint = "";
+      if (r.value == null && r.metric) {
+        const checkId = TRANSPARENCY_CHECK_FOR_METRIC[r.metric];
+        if (checkId) {
+          const item = (report.checklist_transparency || []).find(function(x) { return x.id === checkId; });
+          if (item && item.peer_applicable > 0) {
+            const p = Math.round(100 * item.peer_count / item.peer_applicable);
+            const peerGroup = item.peer_type === "all" ? "California agencies" : `California ${agencyTypeLabel(item.peer_type)} agencies`;
+            notReportedHint = `<div class="not-reported-hint">${p}% of ${peerGroup} with a transparency portal publish this field.</div>`;
+          }
+        }
+      }
+      html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}${notReportedHint}${coverageHtml}${sparkHtml}${inlineConcern}</td>`;
       if (report.population) {
         // Per-capita doesn't apply to every metric:
         //  - cameras/sqmi: a density is already a ratio
@@ -509,7 +535,11 @@
         } else if (r.isDensity || r.metric === "outbound") {
           html += `<td class="num"></td>`;
         } else {
-          html += `<td class="num ${cellClassFor(perPct, r.metric)}">${valueBlockHtml(per, perMed, lperMed, perPct, lperPct, lsamp)}</td>`;
+          // Per-capita cell: same shape as primary, including a
+          // sparkline for the per-1,000 peer distribution.
+          const perSparkHist = peerHistogramFor(r.metric + "_per_1000", report.agency_type, meta);
+          const perSparkHtml = perSparkHist ? `<div class="spark-wrap">${sparklineSvg(perSparkHist, per)}</div>` : "";
+          html += `<td class="num ${cellClassFor(perPct, r.metric)}">${valueBlockHtml(per, perMed, lperMed, perPct, lperPct, lsamp)}${perSparkHtml}</td>`;
         }
       }
       html += '</tr>';
@@ -657,10 +687,20 @@
     return fmtInt(Math.round(n));
   }
 
+  // California state outline, simplified to ~2KB. Sourced from the
+  // PublicaMundi/MappingAPI us-states GeoJSON (public domain). Drawn
+  // behind the recipient dots in the mini map for geographic
+  // orientation — much more legible than a lat/lng grid. If the map
+  // zooms out to show multi-state reach (El Cajon → Braintree MA),
+  // CA appears as a small shape on the left and still serves as an
+  // anchor. A full 50-state outline would be 80+ KB; CA-only is the
+  // right tradeoff for the project's CA focus.
+  const CA_OUTLINE = [[[-123.233256,42.006186],[-122.378853,42.011663],[-121.037003,41.995232],[-120.001861,41.995232],[-119.996384,40.264519],[-120.001861,38.999346],[-118.71478,38.101128],[-117.498899,37.21934],[-116.540435,36.501861],[-115.85034,35.970598],[-114.634459,35.00118],[-114.634459,34.87521],[-114.470151,34.710902],[-114.333228,34.448009],[-114.136058,34.305608],[-114.256551,34.174162],[-114.415382,34.108438],[-114.535874,33.933176],[-114.497536,33.697668],[-114.524921,33.54979],[-114.727567,33.40739],[-114.661844,33.034958],[-114.524921,33.029481],[-114.470151,32.843265],[-114.524921,32.755634],[-114.72209,32.717295],[-116.04751,32.624187],[-117.126467,32.536556],[-117.24696,32.668003],[-117.252437,32.876127],[-117.329114,33.122589],[-117.471515,33.297851],[-117.7837,33.538836],[-118.183517,33.763391],[-118.260194,33.703145],[-118.413548,33.741483],[-118.391641,33.840068],[-118.566903,34.042715],[-118.802411,33.998899],[-119.218659,34.146777],[-119.278905,34.26727],[-119.558229,34.415147],[-119.875891,34.40967],[-120.138784,34.475393],[-120.472878,34.448009],[-120.64814,34.579455],[-120.609801,34.858779],[-120.670048,34.902595],[-120.631709,35.099764],[-120.894602,35.247642],[-120.905556,35.450289],[-121.004141,35.461243],[-121.168449,35.636505],[-121.283465,35.674843],[-121.332757,35.784382],[-121.716143,36.195153],[-121.896882,36.315645],[-121.935221,36.638785],[-121.858544,36.6114],[-121.787344,36.803093],[-121.929744,36.978355],[-122.105006,36.956447],[-122.335038,37.115279],[-122.417192,37.241248],[-122.400761,37.361741],[-122.515777,37.520572],[-122.515777,37.783465],[-122.329561,37.783465],[-122.406238,38.15042],[-122.488392,38.112082],[-122.504823,37.931343],[-122.701993,37.893004],[-122.937501,38.029928],[-122.97584,38.265436],[-123.129194,38.451652],[-123.331841,38.566668],[-123.44138,38.698114],[-123.737134,38.95553],[-123.687842,39.032208],[-123.824765,39.366301],[-123.764519,39.552517],[-123.85215,39.831841],[-124.109566,40.105688],[-124.361506,40.259042],[-124.410798,40.439781],[-124.158859,40.877937],[-124.109566,41.025814],[-124.158859,41.14083],[-124.065751,41.442061],[-124.147905,41.715908],[-124.257444,41.781632],[-124.213628,42.000709],[-123.233256,42.006186]]];
+
   // Mini regional map: a lightweight inline SVG showing the agency's
   // outbound sharing footprint. No tiles, no basemap — just dots on
   // an equirectangular projection autofitted to the subject + all
-  // geocoded recipients, with a lat/lng grid for rough orientation.
+  // geocoded recipients, with a CA state outline for orientation.
   //
   // Design:
   //   - subject: solid cyan dot with ring
@@ -735,21 +775,17 @@
     // Background
     svg += `<rect x="0" y="0" width="${W}" height="${H}" fill="#f8fafc" stroke="#e2e8f0"/>`;
 
-    // Faint lat/lng gridlines at round degrees for scale reference.
-    // (The mini-map itself is currently unused — we link out to the
-    // full sharing map instead — but this function is kept so a
-    // future revision can re-enable it without rewriting the
-    // projection.)
-    const latStep = latRange > 15 ? 5 : latRange > 5 ? 2 : 1;
-    const lngStep = lngRange > 15 ? 5 : lngRange > 5 ? 2 : 1;
-    for (let la = Math.ceil(minLat); la <= maxLat; la += latStep) {
-      const [, y] = proj(la, minLng);
-      svg += `<line x1="0" x2="${W}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#f1f5f9" stroke-width="0.5"/>`;
-    }
-    for (let ln = Math.ceil(minLng); ln <= maxLng; ln += lngStep) {
-      const [x] = proj(minLat, ln);
-      svg += `<line x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="0" y2="${H - PAD_B}" stroke="#f1f5f9" stroke-width="0.5"/>`;
-    }
+    // CA state outline drawn behind everything else as orientation
+    // anchor. If the viewport doesn't overlap CA (unusual — this
+    // project is CA-focused), the polygon simply clips outside the
+    // visible area.
+    CA_OUTLINE.forEach(function(ring) {
+      const points = ring.map(function(pt) {
+        const [x, y] = proj(pt[1], pt[0]);
+        return x.toFixed(1) + "," + y.toFixed(1);
+      }).join(" ");
+      svg += `<polygon points="${points}" fill="#eef2ff" stroke="#c7d2fe" stroke-width="0.8"/>`;
+    });
 
     const [sx, sy] = proj(subjLat, subjLng);
 
@@ -1566,7 +1602,26 @@
     }
 
     if (flagged.length) {
-      qs.push(`This report shows <strong>${flagged.length} flagged recipient${flagged.length === 1 ? "" : "s"}</strong> in the sharing list. Has the department conducted an entity-type review of all recipients? Who performs it, and how often?`);
+      // Expand the question with category-specific addenda when the
+      // agency hits certain high-signal categories (AG-lawsuit
+      // targets, fusion centers). Keeps the base question identical
+      // for agencies without those specifics; adds pointed follow-up
+      // text when they apply.
+      let q = `This report shows <strong>${flagged.length} flagged recipient${flagged.length === 1 ? "" : "s"}</strong> in the sharing list. Has the department conducted an entity-type review of all recipients? Who performs it, and how often?`;
+      const sb34 = report.checklist_sb34 || [];
+      const failsAgLawsuit = sb34.some(function(i) { return i.id === "no_ag_lawsuit_sharing" && i.value === false; });
+      const failsFusion = sb34.some(function(i) { return i.id === "no_fusion_center_sharing" && i.value === false; });
+      const addenda = [];
+      if (failsAgLawsuit) {
+        addenda.push("the list includes <strong>an agency the CA Attorney General has sued</strong> for illegal out-of-state ALPR sharing in violation of SB 34");
+      }
+      if (failsFusion) {
+        addenda.push("the list includes <strong>a fusion center</strong> whose governance includes federal law enforcement agencies (see the Flagged Recipients section for specifics)");
+      }
+      if (addenda.length) {
+        q += " In particular, " + addenda.join("; and ") + ".";
+      }
+      qs.push(q);
     }
 
     // Sharing size

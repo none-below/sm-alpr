@@ -1420,6 +1420,7 @@ def main():
     # per-report (see peer_sample_local above) — they depend on
     # which peers are within 25 miles of each agency.
     sparkline_state = {}  # metric -> { type: {bins, min, max} }
+    # Raw metrics (what the agency reports).
     for metric in ["cameras", "vehicles_30d", "hotlist_hits_30d", "searches_30d", "outbound"]:
         sparkline_state[metric] = {}
         for t, series in series_by_type[metric].items():
@@ -1427,6 +1428,16 @@ def main():
                 sparkline_state[metric][t] = histogram(sorted(series))
         if series_all[metric]:
             sparkline_state[metric]["all"] = histogram(sorted(series_all[metric]))
+    # Per-1,000-residents rates. Keyed with a `_per_1000` suffix so
+    # the UI can pick the right distribution for the per-capita cell.
+    for metric, rate_by_type in rate_series_by_type.items():
+        key = metric + "_per_1000"
+        sparkline_state[key] = {}
+        for t, series in rate_by_type.items():
+            if len(series) >= MIN_PEER_SAMPLE:
+                sparkline_state[key][t] = histogram(sorted(series))
+        if rate_series_all[metric]:
+            sparkline_state[key]["all"] = histogram(sorted(rate_series_all[metric]))
     sparkline_state["cameras_per_sqmi"] = {}
     for t, series in density_series_by_type.items():
         if len(series) >= MIN_PEER_SAMPLE:
