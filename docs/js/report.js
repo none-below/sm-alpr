@@ -584,7 +584,9 @@
         rankPillsHtml: pills,
       });
       // Right cell: top searchers bar chart
-      const rightCell = `<div class="metric-cell downstream-researchers"><div class="cell-label">Top searchers among recipients</div>${topResearchersHtml(report.downstream_searches)}</div>`;
+      // topResearchersHtml already renders its own header — don't
+      // duplicate it with a cell-label.
+      const rightCell = `<div class="metric-cell downstream-researchers">${topResearchersHtml(report.downstream_searches)}</div>`;
       html += metricBlockHtml({
         title: `Searches reaching ${short}'s data`,
         subtitle: `${short} + its recipients`,
