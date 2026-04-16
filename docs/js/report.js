@@ -391,8 +391,12 @@
     // Use <thead> so browsers repeat the column headers on each
     // page when the table breaks across pages in print.
     html += '<div class="stats-table-wrap"><table class="stats-table">';
-    html += '<thead><tr><th>Metric</th><th class="num">This agency</th>';
-    if (report.population) html += '<th class="num">Per 1,000 residents</th>';
+    html += '<thead><tr><th>Metric</th><th class="num">Agency raw</th>';
+    // Second column is the same agency's per-capita variant — calling
+    // it "Agency per capita" reads as a parallel stat rather than
+    // "some other agencies" which the previous "Per 1,000 residents"
+    // header could be misread as.
+    if (report.population) html += '<th class="num">Agency per capita<br><span class="muted-head">(per 1,000 residents)</span></th>';
     html += '</tr></thead><tbody>';
 
     rowsWithDensity.forEach(function(r) {
@@ -561,12 +565,11 @@
         localScopeNote = `Local rank is against other crawled California agencies within 50 miles (${anyLocalSample.size} peers). The agency's county doesn't have enough crawled peers for a same-county comparison.`;
       }
     }
-    html += `<p class="muted" style="font-size:9.5pt">State rank compares this agency against California ${agencyTypeLabel(report.agency_type)} agencies with transparency pages. ` +
-      (localScopeNote ? localScopeNote + " " : "Local rank omitted: too few local peers to compute. ") +
-      (report.population
-        ? `"Per 1,000 residents" normalizes by city population so small towns and big cities can be compared on the same scale. `
-        : ``) +
-      `A percentile is read as "X% of peers have a lower value" &mdash; so 80th percentile means this agency is higher than 80% of its peers. Red cells flag percentiles that warrant scrutiny; below-median values are left uncolored because a low rank relative to peers doesn't mean the absolute number is acceptable.</p>`;
+    html += `<p class="muted" style="font-size:9.5pt">` +
+      `Compared against California ${agencyTypeLabel(report.agency_type)} agencies with transparency pages` +
+      (localScopeNote ? ` and ${localScopeNote.replace(/\.$/, "").replace(/^Local rank is against /, "")}` : "") +
+      `. Percentile: 80th = higher than 80% of peers. Red cells flag above-median values; below-median cells aren\u2019t colored (a low peer rank doesn\u2019t mean the absolute number is acceptable).` +
+      `</p>`;
 
     return html;
   }
@@ -975,7 +978,7 @@
     // Several investigations (including the project's SMPD findings)
     // show agencies that pass every heuristic signal while having
     // substantial compliance gaps.
-    html += `<p class="legal-note" style="border-left: 3px solid var(--warn-border); background: var(--warn-bg); color: #78350f; margin: 6px 0 10px 0"><strong>Important:</strong> These are surface-signal checks. A green check means the minimum signal appears on the agency's transparency page &mdash; not that the agency substantively complies with the law. A posted policy may be out of date or incomplete; a documented audit process may not actually be executed; a clean sharing list may include recipients never reviewed for eligibility. Use this as a <em>starting point</em> for council questions, not a certification of compliance.</p>`;
+    html += `<p class="legal-note" style="border-left: 3px solid var(--warn-border); background: var(--warn-bg); color: #78350f; margin: 6px 0 10px 0"><strong>Surface-signal checks only.</strong> A green check means the signal appears on the transparency page &mdash; not that the agency substantively complies. A posted policy may be stale, an &ldquo;audit process&rdquo; may not be executed, a clean sharing list may include unvetted recipients. Starting point for questions, not a compliance certification.</p>`;
     html += renderChecklistItems(items, { report: report });
     return html;
   }
@@ -1303,6 +1306,9 @@
 
     // Inbound
     const inbound = report.inbound || [];
+    // Clear the mini-map's left float so the inbound heading starts
+    // on its own line rather than flowing next to the map.
+    html += `<div style="clear:both"></div>`;
     html += `<h3>Receives from (inbound): ${inbound.length} ${inbound.length === 1 ? "agency" : "agencies"}</h3>`;
     if (inbound.length === 0) {
       html += '<p class="muted">No inbound sharing relationships found.</p>';
