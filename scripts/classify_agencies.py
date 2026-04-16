@@ -22,7 +22,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import agency_display_name, has_tag, load_registry
+from lib import agency_display_name, agency_state, has_tag, load_registry
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 
@@ -67,7 +67,7 @@ def main():
             "agency_id": aid,
             "name": agency_display_name(e),
             "tags": e.get("tags", []),
-            "state": e.get("state"),
+            "state": agency_state(e),
             "agency_type": e.get("agency_type"),
             "agency_role": e.get("agency_role"),
             "flags": [],
@@ -75,7 +75,8 @@ def main():
             "shared_by": sorted(org_sources.get(aid, set())),
         }
 
-        if e.get("state") and e["state"] != "CA":
+        e_state = agency_state(e)
+        if e_state and e_state != "CA":
             c["flags"].append("OUT_OF_STATE")
         if has_tag(e, "private"):
             c["flags"].append("PRIVATE")

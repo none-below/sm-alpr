@@ -69,6 +69,22 @@ def has_tag(entry, tag):
     return tag in entry.get("tags", [])
 
 
+def agency_coords(entry):
+    """Return (lat, lng) from entry's geo block, or (None, None)."""
+    geo = entry.get("geo") or {}
+    lat = geo.get("lat")
+    lng = geo.get("lng")
+    if lat is None or lng is None:
+        return None, None
+    return lat, lng
+
+
+def agency_state(entry):
+    """Return the 2-letter state code for an entry, or None."""
+    geo = entry.get("geo") or {}
+    return geo.get("state") or entry.get("state")
+
+
 
 def agency_active_slug(entry, fallback=None):
     """Return the current active Flock portal slug for a registry entry."""

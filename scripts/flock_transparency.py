@@ -937,7 +937,7 @@ def cmd_parse(args):
 
 def cmd_aggregate(args):
     data_dir = args.data_dir
-    from lib import resolve_agency, agency_display_name, registry_by_id, has_tag
+    from lib import resolve_agency, agency_display_name, agency_state, registry_by_id, has_tag
 
     # Load the latest JSON for each agency, resolve to agency_id
     agencies = {}         # agency_id -> crawled data
@@ -991,7 +991,8 @@ def cmd_aggregate(args):
         flags = []
         if has_tag(e, "private"):
             flags.append("PRIVATE")
-        if e.get("state") and e["state"] != "CA":
+        e_state = agency_state(e)
+        if e_state and e_state != "CA":
             flags.append("OUT_OF_STATE")
         if has_tag(e, "federal"):
             flags.append("FEDERAL")

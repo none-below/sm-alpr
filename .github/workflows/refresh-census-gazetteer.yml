@@ -1,0 +1,83 @@
+name: Refresh Census Gazetteer
+
+# Census publishes new gazetteer files annually (typically Nov-Dec).
+# Run quarterly so we catch any updates within a few months.
+
+on:
+  schedule:
+    - cron: '0 7 15 1,4,7,10 *'  # 07:00 UTC on the 15th of Jan, Apr, Jul, Oct
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Gazetteer vintage year (default: previous calendar year)'
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Fetch latest Census gazetteer
+        run: |
+          if [ -n "${{ inputs.year }}" ]; then
+            uv run python scripts/refresh_census_gazetteer.py --year ${{ inputs.year }}
+          else
+            uv run python scripts/refresh_census_gazetteer.py
+          fi
+
+      - name: Re-run geocoder to pick up any changes
+        run: uv run python scripts/geocode_agencies.py --apply
+
+      - name: Validate geo cache
+        run: uv run pytest tests/test_geo_cache.py -v
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet data/census/ assets/agency_registry.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="chore/refresh-census-gazetteer"
+          git checkout -B "$BRANCH"
+          git add data/census/ assets/agency_registry.json
+          git commit -m "chore: refresh Census gazetteer"
+          git push --force-with-lease origin "$BRANCH"
+
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            gh pr create \
+              --title "chore: refresh Census gazetteer" \
+              --body "Automated quarterly refresh of Census gazetteer TSVs.
+
+          Any changes here are driven by:
+          - New annual Census place/county/cousub data
+          - Re-running the geocoder against updated data
+
+          The geo cache tests pass, meaning cached lat/lng/name still match the new gazetteer (or have been updated)." \
+              --head "$BRANCH" \
+              --base main
+          fi
