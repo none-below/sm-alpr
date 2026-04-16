@@ -2938,9 +2938,22 @@
     ],
     "data_concerns": [
       {
-        "title": "Reported camera count disagrees with internal dashboard",
-        "description": "The Flock transparency page reports <strong>66 devices</strong>, but the department's internal Flock Camera Manager dashboard shows <strong>80 devices</strong> (PRA response). Not all 80 are ALPR cameras \u2014 14 are non-ALPR, including 10 privately-owned community cameras operating without a governing policy framework.",
-        "source_url": "SMPD_ALPR_Findings.pdf"
+        "title": "Reported device count disagrees with internal dashboard",
+        "description": "The Flock transparency page reports <strong>66 devices</strong>, but the department's internal Flock Camera Manager dashboard reports <strong>80 devices</strong> (PRA response).",
+        "source_url": "SMPD_ALPR_Findings.pdf",
+        "section": "stat:cameras"
+      },
+      {
+        "title": "Policy posted, but not in full",
+        "description": "The transparency page links to the department's <strong>internal Policy Manual</strong>, which delegates several ALPR-specific items (audit criteria, committee structure, end-user procedures, annual review) to <strong>SOP 205</strong>. SOP 205 itself is <strong>not publicly posted</strong>, despite being required to be conspicuously posted by its own text and CA Civil Code \u00a71798.90.51(a). The city acknowledged this gap on March 3, 2026 and stated it was \u201cactively working\u201d to publish SOP 205. As of the findings doc revision, it remains unavailable.",
+        "source_url": "SMPD_ALPR_Findings.pdf",
+        "section": "check:published_policy"
+      },
+      {
+        "title": "Policy documents audits the department did not perform",
+        "description": "Policy 462/463 and SOP 205 have required quarterly operator audits (and NCRIC end-user audits) since at least October 2019. A PRA for audit records returned \u201cno records responsive\u201d for any period before December 2025. Kelly O\u2019Keefe confirmed in February 2026: \u201cWe do not have any records of audits prior to December [2025].\u201d SMPD had separately told Council on September 1, 2020 that \u201cSMPD conducts regular audits to ensure access to the ALPR Databases are within policy\u201d \u2014 a statement not supported by any records the department was able to produce.",
+        "source_url": "SMPD_ALPR_Findings.pdf",
+        "section": "check:documented_audit"
       }
     ],
     "geo": {

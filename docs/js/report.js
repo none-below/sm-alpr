@@ -229,25 +229,45 @@
       html += `<p class="legal-note">${report.notes}</p>`;
     }
 
-    // Agency-specific data concerns: documented discrepancies
-    // between what the agency publishes and what other records show
-    // (internal dashboards, PRA responses, testimony). Distinct from
-    // the generic SB 34 checks — these are hand-curated facts tied
-    // to the specific agency, pulled from the project's findings.
+    // Agency-specific data concerns: documented discrepancies between
+    // what the agency publishes and what other records show (internal
+    // dashboards, PRA responses, testimony). Concerns are tagged with
+    // a `section` field (e.g. "stat:cameras", "check:documented_audit")
+    // so the full body renders near the relevant section; here we show
+    // a TL;DR index at the top of the report listing the titles with
+    // jump links. Concerns without a section (or with section="general")
+    // render fully here.
     if (report.data_concerns && report.data_concerns.length) {
-      html += '<div class="data-concerns">';
-      html += `<div class="data-concerns-header">\u26a0 Known data-reporting concerns</div>`;
-      report.data_concerns.forEach(function(c) {
-        html += '<div class="data-concern">';
-        if (c.title) html += `<div class="data-concern-title">${escapeHtml(c.title)}</div>`;
-        // description is curated HTML (may contain tags) — same trust
-        // model as registry notes.
-        if (c.description) html += `<div class="data-concern-desc">${c.description}</div>`;
-        if (c.source_url) {
-          html += `<div class="data-concern-source"><a href="${escapeHtml(c.source_url)}" target="_blank" rel="noopener">Source</a></div>`;
-        }
-        html += '</div>';
+      const generalConcerns = report.data_concerns.filter(function(c) {
+        return !c.section || c.section === "general";
       });
+      const taggedConcerns = report.data_concerns.filter(function(c) {
+        return c.section && c.section !== "general";
+      });
+      // Header makes the agency-specific nature explicit — these are
+      // NOT generic data-quality notes about the transparency program;
+      // they're documented discrepancies and gaps specific to THIS
+      // agency, pulled from the project's findings for it.
+      html += '<div class="data-concerns">';
+      html += `<div class="data-concerns-header">\u26a0 Known concerns specific to ${escapeHtml(report.name)}</div>`;
+      html += `<div class="data-concerns-sub">Documented discrepancies between what this agency publishes and what other public records (internal dashboards, PRA responses, testimony) show. Each concern below links to the relevant section further down the report.</div>`;
+      // Fully-inline rendering for untagged concerns
+      generalConcerns.forEach(function(c) {
+        html += renderDataConcernBody(c);
+      });
+      // Tagged: index only (title + "↓ see below" jump link). Anchor
+      // id uses the concern's index in the full data_concerns array
+      // so the inline renderer (which iterates that same array) can
+      // produce matching ids.
+      if (taggedConcerns.length) {
+        html += '<ul class="data-concerns-index">';
+        report.data_concerns.forEach(function(c, i) {
+          if (!c.section || c.section === "general") return;
+          const anchorId = `concern-${i}`;
+          html += `<li><a href="#${anchorId}">${escapeHtml(c.title || "(concern)")}</a> <span class="muted">&mdash; see below</span></li>`;
+        });
+        html += '</ul>';
+      }
       html += '</div>';
     }
 
@@ -466,7 +486,16 @@
           coverageHtml = `<div class="coverage-tag">${lines.join(" ")}</div>`;
         }
       }
-      html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}${coverageHtml}${sparkHtml}</td>`;
+      // Inline data-concern for this metric row (e.g. SMPD's 66 vs
+      // 80 device discrepancy is tagged section="stat:cameras" and
+      // appears attached to the Cameras row).
+      const concernSectionKey = r.isDensity
+        ? "stat:cameras_per_sqmi"
+        : r.isDownstream
+        ? "stat:downstream"
+        : `stat:${r.metric}`;
+      const inlineConcern = concernsForSection(report, concernSectionKey);
+      html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}${coverageHtml}${sparkHtml}${inlineConcern}</td>`;
       if (report.population) {
         // Per-capita doesn't apply to every metric:
         //  - cameras/sqmi: a density is already a ratio
@@ -544,6 +573,39 @@
     }
     svg += `</svg>`;
     return svg;
+  }
+
+  // Render the body of a single data_concern (title + description +
+  // source link). Factored out so both the top-of-page block and the
+  // inline anchored callouts use the same markup.
+  function renderDataConcernBody(c, anchorId) {
+    let html = '<div class="data-concern"';
+    if (anchorId) html += ` id="${escapeHtml(anchorId)}"`;
+    html += '>';
+    if (c.title) html += `<div class="data-concern-title">${escapeHtml(c.title)}</div>`;
+    if (c.description) html += `<div class="data-concern-desc">${c.description}</div>`;
+    if (c.source_url) {
+      html += `<div class="data-concern-source"><a href="${escapeHtml(c.source_url)}" target="_blank" rel="noopener">Source</a></div>`;
+    }
+    html += '</div>';
+    return html;
+  }
+
+  // Return the HTML for any data_concerns on `report` whose section
+  // tag matches `sectionKey`. Each concern gets an anchor id matching
+  // the top-of-page index so "↓ see below" links jump to the right
+  // block. Concerns already rendered at the top (section="general" or
+  // unset) are skipped.
+  function concernsForSection(report, sectionKey) {
+    if (!report.data_concerns || !report.data_concerns.length) return "";
+    let html = "";
+    report.data_concerns.forEach(function(c, i) {
+      if (!c.section || c.section === "general") return;
+      if (c.section !== sectionKey) return;
+      html += renderDataConcernBody(c, `concern-${i}`);
+    });
+    if (!html) return "";
+    return `<div class="data-concerns data-concerns-inline">${html}</div>`;
   }
 
   // Pick the right peer distribution: prefer this agency's type,
@@ -864,6 +926,9 @@
 
     let html = `<h2>SB 34 Compliance Concerns</h2>`;
     html += `<p class="muted">Signals tied to California Civil Code &sect;1798.90.51&ndash;.55. Red items indicate potential compliance concerns a council member may want to raise.</p>`;
+    // Pass the current report through so inline data-concern callouts
+    // can be attached to specific checklist items.
+    // (Opt `report` consumed by renderChecklistItems below.)
     // Substantive vs. surface-signal disclaimer. Passing these checks
     // only means the minimum signal is present on the transparency
     // page — it does NOT mean the agency substantively complies with
@@ -874,7 +939,7 @@
     // show agencies that pass every heuristic signal while having
     // substantial compliance gaps.
     html += `<p class="legal-note" style="border-left: 3px solid var(--warn-border); background: var(--warn-bg); color: #78350f; margin: 6px 0 10px 0"><strong>Important:</strong> These are surface-signal checks. A green check means the minimum signal appears on the agency's transparency page &mdash; not that the agency substantively complies with the law. A posted policy may be out of date or incomplete; a documented audit process may not actually be executed; a clean sharing list may include recipients never reviewed for eligibility. Use this as a <em>starting point</em> for council questions, not a certification of compliance.</p>`;
-    html += renderChecklistItems(items);
+    html += renderChecklistItems(items, { report: report });
     return html;
   }
 
@@ -885,7 +950,7 @@
 
     let html = `<h2>Transparency</h2>`;
     html += `<p class="muted">What this agency publishes on its Flock transparency page, compared to California peers.</p>`;
-    html += renderChecklistItems(items, { multiCol: true, compact: true });
+    html += renderChecklistItems(items, { multiCol: true, compact: true, report: report });
     return html;
   }
 
@@ -960,6 +1025,12 @@
         html += `<span class="detail">${escapeHtml(item.detail)}</span>`;
       }
       html += `<span class="peer-stat">${formatPeerStat(item, peerTypeLabel, opts.compact)}</span>`;
+      // Inline data-concern anchored to this check (e.g. SMPD's
+      // "Policy posted but not in full" under published_policy).
+      if (opts.report) {
+        const inline = concernsForSection(opts.report, `check:${item.id}`);
+        if (inline) html += inline;
+      }
       html += '</li>';
     });
     html += '</ul>';
