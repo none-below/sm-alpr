@@ -273,12 +273,15 @@
       {
         metric: "hotlist_hits_30d",
         label: "Hotlist hits",
-        // Factual description only — no editorial on whether hits
-        // are verified/acted on. Lists that contribute: DOJ feeds
-        // the agency is subscribed to (stolen vehicles, AMBER/Silver
-        // alerts, wanted persons) plus any custom lists the agency
-        // has uploaded or maintains.
-        sublabel: "camera detection of a plate on a hotlist the agency subscribes to or maintains (DOJ feeds, stolen vehicles, AMBER/Silver alerts, custom lists)",
+        // Per Flock's own description (Flock Blog, "Vehicle and
+        // Catalytic Converter Theft: Flock Safety's Solutions for
+        // Businesses," May 14, 2025), a Hot List match is triggered
+        // when a plate the system detects matches an entry in the
+        // FBI's National Crime Information Center (NCIC) feed — which
+        // covers stolen vehicles, wanted persons, etc. — or in a
+        // custom hot list the customer has configured (e.g. a
+        // business flagging an at-risk vehicle).
+        sublabel: "plate match against the FBI NCIC feed (stolen vehicles, wanted persons, etc.) or a custom list the operator has configured",
         value: stats.hotlist_hits_30d,
       },
     ];
