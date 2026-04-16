@@ -798,15 +798,10 @@
       }
     });
 
-    // Farthest line — highlight in amber even if clean, since reach
-    // itself is a signal worth seeing.
-    if (farthest) {
-      const fr = recipients.find(function(r) { return r.slug === farthest.slug; });
-      if (fr) {
-        const [fx, fy] = proj(fr.lat, fr.lng);
-        svg += `<line x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${fx.toFixed(1)}" y2="${fy.toFixed(1)}" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>`;
-      }
-    }
+    // (Previously: a dashed amber line from the subject to the
+    // farthest recipient. Removed — the label already calls it out
+    // and the line added clutter, especially on big-reach maps like
+    // El Cajon where nearly every flagged line runs out of state.)
 
     // Clean recipients first (underneath), then flagged on top so
     // the red dots aren't obscured
