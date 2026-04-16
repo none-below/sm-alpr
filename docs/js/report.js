@@ -291,8 +291,14 @@
       {
         metric: "hotlist_hits_30d",
         label: "Hotlist hits",
-        sublabel: "matches against wanted-plate lists",
-        tooltip: "A hotlist is a list of plates flagged for an alert (stolen vehicles, AMBER alerts, warrants, etc.). A hotlist hit is a moment a camera detected a plate on one of those lists.",
+        // "Hotlists" in Flock can mix several kinds of lists — stolen
+        // vehicles and CA DOJ wanted-plate feeds, AMBER/Silver alerts,
+        // but also custom department-created lists. A "hit" is any
+        // moment a camera detects a plate on any of those lists; it
+        // doesn't mean the plate was verified or the hit led to
+        // action, and agencies don't usually break the number down.
+        sublabel: "camera detections on any list an agency subscribes to or maintains (stolen vehicles, AMBER alerts, DOJ feeds, custom lists) — unverified",
+        tooltip: "A \"hotlist\" is any plate list that triggers an alert. Flock makes DOJ-provided feeds (stolen vehicles, AMBER/Silver alerts, wanted persons) available to agencies, and departments can also upload and maintain their own custom lists. A \"hit\" is just a camera detection against one of those lists. The agency may or may not act on any given hit; hits are not necessarily arrests, convictions, or even verified matches.",
         value: stats.hotlist_hits_30d,
       },
     ];
@@ -402,7 +408,18 @@
       }
       const sparkHist = peerHistogramFor(sparkMetric, report.agency_type, meta);
       const sparkHtml = sparkHist ? `<div class="spark-wrap">${sparklineSvg(sparkHist, sparkValue)}</div>` : "";
-      html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}${sparkHtml}</td>`;
+      // Downstream row: print an explicit coverage line under the
+      // number so the reader sees "this is X% of recipients" alongside
+      // the raw total. Avoids the floor-vs-actual ambiguity.
+      let coverageHtml = "";
+      if (r.isDownstream && report.downstream_searches) {
+        const ds = report.downstream_searches;
+        if (ds.recipients_total > 0) {
+          const pctStr = pct(ds.recipients_with_data, ds.recipients_total);
+          coverageHtml = `<div class="coverage-tag">Based on ${pctStr}% of recipients (${fmtInt(ds.recipients_with_data)} of ${fmtInt(ds.recipients_total)})${ds.self_included === false ? "; agency itself doesn\u2019t report either" : ""} \u2014 floor, not full</div>`;
+        }
+      }
+      html += `<td class="num ${cellClassFor(pctile, r.metric)}">${valueBlockHtml(r.value, med, lmed, pctile, lpctile, lsamp)}${coverageHtml}${sparkHtml}</td>`;
       if (report.population) {
         // Per-capita doesn't apply to every metric:
         //  - cameras/sqmi: a density is already a ratio
@@ -529,6 +546,130 @@
     if (n == null) return "";
     if (Math.abs(n) < 10 && n % 1 !== 0) return fmtNum(n, 2);
     return fmtInt(Math.round(n));
+  }
+
+  // Mini regional map: a lightweight inline SVG showing the agency's
+  // outbound sharing footprint. No tiles, no basemap — just dots on
+  // an equirectangular projection autofitted to the subject + all
+  // geocoded recipients, with a lat/lng grid for rough orientation.
+  //
+  // Design:
+  //   - subject: solid cyan dot with ring
+  //   - flagged recipients (private/out-of-state/federal/fusion/etc):
+  //     red dots, connected to subject with a red line
+  //   - clean recipients: small gray dots
+  //   - farthest recipient labeled
+  //   - a few lat/lng gridlines drawn in very faint gray as scale
+  //
+  // Size is about 5.5" × 2.5" — fits under the reach-metrics sentence
+  // without dominating the page.
+  function miniMapHtml(report, subjLat, subjLng, farthest) {
+    const recipients = (report.outbound || []).filter(function(r) {
+      return r.lat != null && r.lng != null;
+    });
+    if (!recipients.length) return "";
+
+    const W = 540, H = 240;
+    const PAD_L = 6, PAD_R = 6, PAD_T = 6, PAD_B = 22;  // extra bottom pad for caption
+
+    // Bounding box — include subject + every geocoded recipient, plus
+    // a small cushion so dots at the edge aren't clipped.
+    let minLat = subjLat, maxLat = subjLat;
+    let minLng = subjLng, maxLng = subjLng;
+    recipients.forEach(function(r) {
+      if (r.lat < minLat) minLat = r.lat;
+      if (r.lat > maxLat) maxLat = r.lat;
+      if (r.lng < minLng) minLng = r.lng;
+      if (r.lng > maxLng) maxLng = r.lng;
+    });
+    // Cushion relative to range so edges aren't clipped
+    const latRange = Math.max(maxLat - minLat, 0.2);
+    const lngRange = Math.max(maxLng - minLng, 0.2);
+    minLat -= latRange * 0.05;
+    maxLat += latRange * 0.05;
+    minLng -= lngRange * 0.05;
+    maxLng += lngRange * 0.05;
+
+    // Equirectangular projection — fine for scales up to continental.
+    // Horizontal flip because longitude increases east but x increases
+    // right; latitude increases north but y increases down.
+    function proj(lat, lng) {
+      const x = PAD_L + (lng - minLng) / (maxLng - minLng) * (W - PAD_L - PAD_R);
+      const y = PAD_T + (maxLat - lat) / (maxLat - minLat) * (H - PAD_T - PAD_B);
+      return [x, y];
+    }
+
+    let svg = `<svg class="mini-map" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mini map of outbound sharing recipients">`;
+    // Background
+    svg += `<rect x="0" y="0" width="${W}" height="${H}" fill="#f8fafc" stroke="#e2e8f0"/>`;
+
+    // Faint lat/lng gridlines at round degrees for scale reference
+    const latStep = latRange > 15 ? 5 : latRange > 5 ? 2 : 1;
+    const lngStep = lngRange > 15 ? 5 : lngRange > 5 ? 2 : 1;
+    for (let la = Math.ceil(minLat); la <= maxLat; la += latStep) {
+      const [, y] = proj(la, minLng);
+      svg += `<line x1="0" x2="${W}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#f1f5f9" stroke-width="0.5"/>`;
+    }
+    for (let ln = Math.ceil(minLng); ln <= maxLng; ln += lngStep) {
+      const [x] = proj(minLat, ln);
+      svg += `<line x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="0" y2="${H - PAD_B}" stroke="#f1f5f9" stroke-width="0.5"/>`;
+    }
+
+    const [sx, sy] = proj(subjLat, subjLng);
+
+    // Draw lines to flagged recipients first (behind dots) so red
+    // connections pop without overlapping the dots.
+    recipients.forEach(function(r) {
+      if (r.kind) {
+        const [rx, ry] = proj(r.lat, r.lng);
+        svg += `<line x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${rx.toFixed(1)}" y2="${ry.toFixed(1)}" stroke="#dc2626" stroke-width="0.5" opacity="0.35"/>`;
+      }
+    });
+
+    // Farthest line — highlight in amber even if clean, since reach
+    // itself is a signal worth seeing.
+    if (farthest) {
+      const fr = recipients.find(function(r) { return r.slug === farthest.slug; });
+      if (fr) {
+        const [fx, fy] = proj(fr.lat, fr.lng);
+        svg += `<line x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${fx.toFixed(1)}" y2="${fy.toFixed(1)}" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>`;
+      }
+    }
+
+    // Clean recipients first (underneath), then flagged on top so
+    // the red dots aren't obscured
+    recipients.filter(function(r) { return !r.kind; }).forEach(function(r) {
+      const [x, y] = proj(r.lat, r.lng);
+      svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.8" fill="#94a3b8" opacity="0.7"/>`;
+    });
+    recipients.filter(function(r) { return r.kind; }).forEach(function(r) {
+      const [x, y] = proj(r.lat, r.lng);
+      svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.8" fill="#dc2626"/>`;
+    });
+
+    // Subject: larger cyan ring
+    svg += `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="6" fill="none" stroke="#06b6d4" stroke-width="2"/>`;
+    svg += `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="3" fill="#06b6d4"/>`;
+
+    // Farthest label
+    if (farthest) {
+      const fr = recipients.find(function(r) { return r.slug === farthest.slug; });
+      if (fr) {
+        const [fx, fy] = proj(fr.lat, fr.lng);
+        const labelX = fx < W / 2 ? fx + 6 : fx - 6;
+        const anchor = fx < W / 2 ? "start" : "end";
+        svg += `<text x="${labelX.toFixed(1)}" y="${(fy - 5).toFixed(1)}" font-size="9" fill="#92400e" text-anchor="${anchor}">${escapeHtml(farthest.name)}</text>`;
+      }
+    }
+
+    // Caption — count + legend. Separate from SVG so text flow is
+    // native HTML (easier styling, selectable).
+    const flaggedCount = recipients.filter(function(r) { return r.kind; }).length;
+    const cleanCount = recipients.length - flaggedCount;
+    svg += `<text x="${PAD_L}" y="${H - 6}" font-size="9" fill="#475569">${recipients.length} geocoded recipients (${cleanCount} clean, ${flaggedCount} flagged). Red lines: sharing to flagged entities. Amber dashed: farthest.</text>`;
+    svg += `</svg>`;
+
+    return `<div class="mini-map-wrap">${svg}</div>`;
   }
 
   // Horizontal bar chart of top recipients by search volume, for the
@@ -831,6 +972,17 @@
       html += bits.join(" &middot; ") + ".";
       html += '</p>';
     }
+
+    // Mini regional map — shows the agency at the center and every
+    // geocoded outbound recipient as a dot. Red dots / lines for
+    // flagged recipients and the farthest one. Makes geographic
+    // reach tangible: "your data goes to these specific places."
+    const subjLat = (report.geo && report.geo.lat) || null;
+    const subjLng = (report.geo && report.geo.lng) || null;
+    if (subjLat != null && subjLng != null) {
+      html += miniMapHtml(report, subjLat, subjLng, farthest);
+    }
+
 
 
     // The 30-Day Activity stats table above already shows state + local

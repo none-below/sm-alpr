@@ -1243,26 +1243,27 @@ def main():
         direct_out_ids = set(outbound_ids)
         inferred_out_ids = outbound_inferred_by_id.get(aid, set()) - direct_out_ids - {aid}
         outbound_list = []
+        def _outbound_entry(target_id, is_inferred):
+            tr = reg_by_id.get(target_id, {})
+            t_slug = id_to_slug.get(target_id, target_id)
+            # Lat/lng needed for the mini regional map. Not every
+            # recipient is geocoded (e.g. HOAs, shopping centers);
+            # missing coords simply omit the recipient from the map.
+            t_lat, t_lng = agency_coords(tr)
+            return {
+                "agency_id": target_id,
+                "slug": t_slug,
+                "name": agency_display_name(tr, t_slug),
+                "kind": is_flagged_entity(target_id, reg_by_id),
+                "inferred": is_inferred,
+                "lat": t_lat,
+                "lng": t_lng,
+                "state": agency_state(tr),
+            }
         for target_id in outbound_ids:
-            tr = reg_by_id.get(target_id, {})
-            t_slug = id_to_slug.get(target_id, target_id)
-            outbound_list.append({
-                "agency_id": target_id,
-                "slug": t_slug,
-                "name": agency_display_name(tr, t_slug),
-                "kind": is_flagged_entity(target_id, reg_by_id),
-                "inferred": False,
-            })
+            outbound_list.append(_outbound_entry(target_id, False))
         for target_id in sorted(inferred_out_ids):
-            tr = reg_by_id.get(target_id, {})
-            t_slug = id_to_slug.get(target_id, target_id)
-            outbound_list.append({
-                "agency_id": target_id,
-                "slug": t_slug,
-                "name": agency_display_name(tr, t_slug),
-                "kind": is_flagged_entity(target_id, reg_by_id),
-                "inferred": True,
-            })
+            outbound_list.append(_outbound_entry(target_id, True))
 
         # ── Regional context: crawled CA agencies within 50 km ──
         regional = []
