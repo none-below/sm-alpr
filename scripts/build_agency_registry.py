@@ -84,6 +84,28 @@ TEST_NAMES = [
 ]
 
 
+def detect_flags(name):
+    """Extract display flags from an agency name.
+
+    These become a list on the registry entry and are shown as UI badges
+    (alongside dynamic flags like out-of-state). Unlike tags, these are
+    curated status indicators — not classification.
+    """
+    flags = []
+    n_lower = name.lower()
+    if "[inactive]" in n_lower:
+        flags.append("inactive")
+    if "[deactivated]" in n_lower or "deactivated-org" in n_lower:
+        flags.append("deactivated")
+    if "duplicate" in n_lower:
+        flags.append("duplicate")
+    if re.search(r"^DNU\b", name):
+        flags.append("dnu")
+    if re.search(r"\[decommissioned\]", n_lower) or n_lower == "decommissioned org":
+        flags.append("decommissioned")
+    return flags
+
+
 def classify(name):
     """Auto-classify an agency. Returns dict with agency_role, agency_type, tags."""
     n = name
@@ -264,6 +286,7 @@ def main():
         cls = classify(flock_name)
 
         state = detect_state(flock_name)
+        flags = detect_flags(flock_name)
         entry = {
             "agency_id": str(uuid.uuid5(uuid.NAMESPACE_DNS, "flock-registry:" + slug)),
             "slug": slug,
@@ -275,6 +298,7 @@ def main():
             "agency_type": cls["agency_type"],
             "website": None,
             "tags": sorted(cls["tags"]),
+            "flags": flags,
             "geo": {"kind": "state-only", "state": state} if state else None,
         }
         registry.append(entry)

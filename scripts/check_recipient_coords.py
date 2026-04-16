@@ -18,8 +18,8 @@ from lib import agency_coords, has_tag, registry_by_id, agency_display_name
 
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 
-# Junk agency_ids / tags to skip
-JUNK_TAGS = {"test", "decommissioned"}
+# Junk agency_types to skip (not real agencies worth geocoding)
+JUNK_TYPES = {"test", "decommissioned"}
 
 
 def main() -> int:
@@ -42,12 +42,16 @@ def main() -> int:
 
         for target_id in data.get("sharing_outbound_ids", []):
             target = reg.get(target_id, {})
-            if any(has_tag(target, t) for t in JUNK_TAGS):
+            if not target:
                 continue
-            if target:
-                lat, lng = agency_coords(target)
-                if lat is None or lng is None:
-                    missing.setdefault(target_id, set()).add(aid)
+            if target.get("agency_type") in JUNK_TYPES:
+                continue
+            # Also skip federal agencies (national, no specific location to geocode)
+            if target.get("agency_type") == "federal" or has_tag(target, "federal"):
+                continue
+            lat, lng = agency_coords(target)
+            if lat is None or lng is None:
+                missing.setdefault(target_id, set()).add(aid)
 
     if not missing:
         print("All public-agency recipients have coordinates.")

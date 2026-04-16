@@ -247,6 +247,7 @@ def main():
             "crawled_date": crawled_date,
             "notes": reg.get("notes"),
             "ag_lawsuit": has_tag(reg, "ag-lawsuit"),
+            "flags": reg.get("flags", []),
         }
 
     # slug_info covers all slugs via the registry; resolve_agency()

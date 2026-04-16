@@ -186,6 +186,18 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     // Flag agencies under AG lawsuit
     if (info.ag_lawsuit)
       tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Attorney General lawsuit for illegal out-of-state ALPR data sharing in violation of SB 34">[AG LAWSUIT \u2014 illegal sharing]</span>';
+    // Curated status flags from the registry (inactive, deactivated, dnu, duplicate, decommissioned)
+    const FLAG_BADGES = {
+      inactive: { color: '#6b7280', label: 'INACTIVE', title: 'Marked inactive on Flock\'s portal' },
+      deactivated: { color: '#6b7280', label: 'DEACTIVATED', title: 'Marked deactivated on Flock\'s portal' },
+      dnu: { color: '#dc2626', label: 'DNU', title: 'Do Not Use — flagged on Flock\'s portal' },
+      duplicate: { color: '#dc2626', label: 'DUPLICATE', title: 'Marked as duplicate entry on Flock\'s portal' },
+      decommissioned: { color: '#6b7280', label: 'DECOMMISSIONED', title: 'Decommissioned entry on Flock\'s portal' },
+    };
+    (info.flags || []).forEach(f => {
+      const b = FLAG_BADGES[f];
+      if (b) tag += ' <span style="color:' + b.color + ';font-weight:bold" title="' + b.title + '">[' + b.label + ']</span>';
+    });
     // Check if this agency re-shares to flagged entities (from marker data)
     const mData = (typeof markerDataBySlug !== 'undefined') && markerDataBySlug[s];
     if (SHOW_SHARES_WITH_TAGS && mData && !isFlagged(s)) {
