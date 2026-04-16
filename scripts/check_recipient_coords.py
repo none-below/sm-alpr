@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import has_tag, registry_by_id, agency_display_name
+from lib import agency_coords, has_tag, registry_by_id, agency_display_name
 
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 
@@ -44,8 +44,10 @@ def main() -> int:
             target = reg.get(target_id, {})
             if any(has_tag(target, t) for t in JUNK_TAGS):
                 continue
-            if target and (target.get("lat") is None or target.get("lng") is None):
-                missing.setdefault(target_id, set()).add(aid)
+            if target:
+                lat, lng = agency_coords(target)
+                if lat is None or lng is None:
+                    missing.setdefault(target_id, set()).add(aid)
 
     if not missing:
         print("All public-agency recipients have coordinates.")

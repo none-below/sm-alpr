@@ -263,6 +263,7 @@ def main():
 
         cls = classify(flock_name)
 
+        state = detect_state(flock_name)
         entry = {
             "agency_id": str(uuid.uuid5(uuid.NAMESPACE_DNS, "flock-registry:" + slug)),
             "slug": slug,
@@ -270,13 +271,11 @@ def main():
             "flock_slugs": [slug],
             "flock_names": [flock_name],
             "display_name": None,
-            "lat": None,
-            "lng": None,
-            "state": detect_state(flock_name),
             "agency_role": cls["agency_role"],
             "agency_type": cls["agency_type"],
             "website": None,
             "tags": sorted(cls["tags"]),
+            "geo": {"kind": "state-only", "state": state} if state else None,
         }
         registry.append(entry)
         seen_ids.add(slug)
@@ -292,6 +291,16 @@ def main():
                 seen_ids.add(aid)
                 kept_count += 1
 
+    # Auto-geocode new entries via the Census gazetteer
+    from geocode_agencies import geocode_entry, needs_geocoding
+    geocoded_new = 0
+    for entry in registry:
+        if needs_geocoding(entry):
+            geo = geocode_entry(entry)
+            if geo:
+                entry["geo"] = geo
+                geocoded_new += 1
+
     # Save
     REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
     REGISTRY_PATH.write_text(json.dumps(registry, indent=2) + "\n")
@@ -302,12 +311,13 @@ def main():
     public = sum(1 for e in registry if "public" in e.get("tags", []))
     private = sum(1 for e in registry if "private" in e.get("tags", []))
     null_public = total - public - private
-    geocoded = sum(1 for e in registry if e.get("lat"))
+    geocoded = sum(1 for e in registry if (e.get("geo") or {}).get("lat"))
 
     print(f"Registry: {total} agencies -> {REGISTRY_PATH}")
     if args.merge:
         print(f"  New:          {new_count}")
         print(f"  Kept:         {kept_count}")
+    print(f"  New geocoded: {geocoded_new}")
     print(f"  Crawled:      {len(crawled_slugs)}")
     print(f"  Geocoded:     {geocoded}")
     print(f"  Public:       {public}")

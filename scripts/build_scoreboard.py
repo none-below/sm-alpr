@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import agency_display_name, has_tag, load_registry, registry_by_id
+from lib import agency_display_name, agency_state, has_tag, load_registry, registry_by_id
 
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 DATA_DIR = Path("assets/transparency.flocksafety.com")
@@ -29,7 +29,8 @@ def is_flagged_entity(aid, reg_by_id):
     r = reg_by_id.get(aid, {})
     if has_tag(r, "private"):
         return "private"
-    if r.get("state") and r["state"] != "CA":
+    r_state = agency_state(r)
+    if r_state and r_state != "CA":
         return "out_of_state"
     if r.get("agency_type") in ("federal", "decommissioned", "test"):
         return r["agency_type"]
@@ -118,7 +119,7 @@ def main():
         agencies.append({
             "slug": slug,
             "name": agency_display_name(info),
-            "state": info.get("state", ""),
+            "state": agency_state(info) or "",
             "outbound": outbound_count,
             "inbound": inbound_count,
             "flagged": flagged,
@@ -178,14 +179,14 @@ def main():
 
     # ── Compute metadata for disclaimers ──
 
-    ca_in_registry = sum(1 for a in registry if a.get("state") == RANKED_STATE)
+    ca_in_registry = sum(1 for a in registry if agency_state(a) == RANKED_STATE)
     ca_crawled = sum(
         1 for aid, d in graph["agencies"].items()
-        if d.get("crawled") and reg_by_id.get(aid, {}).get("state") == RANKED_STATE
+        if d.get("crawled") and agency_state(reg_by_id.get(aid, {})) == RANKED_STATE
     )
     ca_no_portal = sum(
         1 for aid, d in graph["agencies"].items()
-        if not d.get("crawled") and reg_by_id.get(aid, {}).get("state") == RANKED_STATE
+        if not d.get("crawled") and agency_state(reg_by_id.get(aid, {})) == RANKED_STATE
     )
 
     # Build categories — top 3 for each, spiciest first

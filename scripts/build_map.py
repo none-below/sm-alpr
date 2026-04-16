@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import agency_display_name, agency_active_slug, crawl_status, has_tag, load_registry, registry_by_id
+from lib import agency_coords, agency_display_name, agency_active_slug, agency_state, crawl_status, has_tag, load_registry, registry_by_id
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 DEFAULT_OUT = Path("docs/sharing_map.html")
@@ -84,14 +84,14 @@ def main():
     ca_outbound_targets = set()
     for aid, data in graph["agencies"].items():
         reg = reg_by_id.get(aid, {})
-        if reg.get("state") == "CA":
+        if agency_state(reg) == "CA":
             for target_id in data.get("sharing_outbound_ids", []):
                 ca_outbound_targets.add(target_id)
 
     def should_show(aid, reg, data):
         """Determine default visibility for a marker."""
         crawled = data.get("crawled", False)
-        if reg.get("state") == "CA" and crawled:
+        if agency_state(reg) == "CA" and crawled:
             return True
         if aid in ca_outbound_targets:
             return True
@@ -104,7 +104,8 @@ def main():
         slug = id_to_slug.get(aid)
         if not slug:
             continue
-        if not reg.get("lat") or not reg.get("lng"):
+        lat, lng = agency_coords(reg)
+        if lat is None or lng is None:
             ungeocodable.append(slug)
             continue
         geocoded += 1
@@ -114,8 +115,8 @@ def main():
         crawled = data.get("crawled", True)
         markers.append({
             "slug": slug,
-            "lat": reg["lat"],
-            "lng": reg["lng"],
+            "lat": lat,
+            "lng": lng,
             "cameras": cameras,
             "crawled": crawled,
             "visible": should_show(aid, reg, data),
@@ -132,15 +133,16 @@ def main():
         if aid in seen_ids:
             continue
         slug = e["slug"]
-        if not e.get("lat") or not e.get("lng"):
+        lat, lng = agency_coords(e)
+        if lat is None or lng is None:
             continue
         geocoded += 1
         seen_ids.add(aid)
         empty_data = {"crawled": False}
         markers.append({
             "slug": slug,
-            "lat": e["lat"],
-            "lng": e["lng"],
+            "lat": lat,
+            "lng": lng,
             "cameras": 0,
             "crawled": False,
             "visible": should_show(aid, e, empty_data),
@@ -156,7 +158,8 @@ def main():
     # Other agencies likely have similar contracts but we haven't confirmed yet.
     FLOCK_53_AGENCIES = ["san-mateo-ca-pd"]
     flock_reg = registry_by_slug.get("flock-safety-vendor")
-    if flock_reg and flock_reg.get("lat") and flock_reg.get("lng"):
+    flock_lat, flock_lng = agency_coords(flock_reg or {})
+    if flock_reg and flock_lat and flock_lng:
         existing_slugs = {m["slug"] for m in markers}
         flock_inbound = [s for s in FLOCK_53_AGENCIES if s in existing_slugs]
 
@@ -170,8 +173,8 @@ def main():
             else:
                 markers.append({
                     "slug": "flock-safety-vendor",
-                    "lat": flock_reg["lat"],
-                    "lng": flock_reg["lng"],
+                    "lat": flock_lat,
+                    "lng": flock_lng,
                     "cameras": 0,
                     "crawled": False,
                     "visible": True,
@@ -236,7 +239,7 @@ def main():
         is_crawled, crawled_date = crawl_status(reg, args.data_dir)
         slug_info[slug] = {
             "public": True if has_tag(reg, "public") else (False if has_tag(reg, "private") else None),
-            "state": reg.get("state"),
+            "state": agency_state(reg),
             "name": agency_display_name(reg, slug),
             "role": reg.get("agency_role"),
             "type": reg.get("agency_type"),
@@ -265,7 +268,8 @@ def main():
         r = reg_by_id.get(aid, {})
         if has_tag(r, "private"):
             return True
-        if r.get("state") and r["state"] != "CA":
+        r_state = agency_state(r)
+        if r_state and r_state != "CA":
             return True
         if r.get("agency_type") in ("federal", "fusion_center", "decommissioned", "test"):
             return True
