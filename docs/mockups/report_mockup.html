@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ALPR Agency Report — Mockup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  /* Screen view — use a "paper" look so the mockup feels like a document.
+     The real implementation will render via @media print CSS and
+     window.print(). This mockup just shows the layout. */
+  body {
+    margin: 0;
+    background: #e5e7eb;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    color: #111;
+    padding: 30px 0;
+  }
+  .page {
+    max-width: 7.5in;
+    margin: 20px auto;
+    background: white;
+    padding: 0.75in 0.8in;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+  .mockup-banner {
+    max-width: 7.5in;
+    margin: 0 auto 20px auto;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #78350f;
+  }
+  h1 { font-size: 20pt; margin: 0 0 2px 0; border-bottom: 2px solid #111; padding-bottom: 8px; }
+  .subtitle { font-size: 10pt; color: #555; margin: 0 0 20px 0; }
+  h2 { font-size: 13pt; margin: 22px 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+  h3 { font-size: 11pt; margin: 14px 0 4px 0; }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+    margin: 12px 0 8px 0;
+    font-size: 10.5pt;
+  }
+  .meta-grid .label { color: #666; }
+  .meta-grid .value { font-weight: bold; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    margin: 6px 0;
+  }
+  th, td { border: 1px solid #ccc; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #f3f4f6; font-weight: bold; font-size: 9.5pt; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  ul { margin: 4px 0 0 0; padding-left: 20px; }
+  li { margin: 2px 0; }
+
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { margin: 4px 0; padding-left: 28px; position: relative; }
+  .checklist li::before {
+    position: absolute; left: 0; top: 0;
+    font-weight: bold; font-size: 12pt;
+  }
+  .checklist li.yes::before { content: "\2713"; color: #059669; }
+  .checklist li.no::before { content: "\2717"; color: #9ca3af; }
+  .checklist .stat {
+    color: #666;
+    font-size: 9pt;
+    margin-left: 8px;
+  }
+
+  .flag-section {
+    background: #fef2f2;
+    padding: 8px 12px;
+    border-left: 3px solid #dc2626;
+    margin: 6px 0;
+  }
+  .flag-tag {
+    display: inline-block;
+    font-size: 8.5pt;
+    font-weight: bold;
+    padding: 1px 6px;
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: 3px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  .percentile-bar {
+    display: inline-block;
+    width: 120px;
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    overflow: hidden;
+    vertical-align: middle;
+    margin: 0 6px;
+  }
+  .percentile-bar .fill {
+    display: block;
+    height: 100%;
+    background: #2563eb;
+  }
+  .percentile-label {
+    font-size: 9pt;
+    color: #666;
+    vertical-align: middle;
+  }
+
+  .questions {
+    background: #f9fafb;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin: 6px 0;
+  }
+  .questions li { margin: 4px 0; font-size: 10.5pt; }
+
+  .footer {
+    margin-top: 28px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    font-size: 9pt;
+    color: #666;
+  }
+
+  .legal-note {
+    font-size: 10pt;
+    background: #f3f4f6;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 6px 0;
+  }
+
+  .inferred {
+    color: #6b7280;
+    font-size: 9pt;
+    font-style: italic;
+  }
+
+  .section-intro {
+    font-size: 10pt;
+    color: #555;
+    margin: 4px 0 8px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-banner">
+  <strong>Mockup preview.</strong> This is a static demo of the printable city report. Final version will render via the interactive map's Print Report button and use <code>@media print</code> CSS for browser Save-as-PDF. Numbers shown here are real (San Mateo PD, April 2026 data) except where noted.
+</div>
+
+<div class="page">
+
+<h1>San Mateo Police Department</h1>
+<p class="subtitle">Flock ALPR Program Report &mdash; Generated April 15, 2026</p>
+
+<div class="meta-grid">
+  <div><span class="label">Cameras:</span> <span class="value">66</span></div>
+  <div><span class="label">Retention:</span> <span class="value">30 days</span></div>
+  <div><span class="label">Agency type:</span> <span class="value">City police</span></div>
+  <div><span class="label">State / County:</span> <span class="value">CA / San Mateo</span></div>
+  <div><span class="label">Last crawled:</span> <span class="value">April 10, 2026</span></div>
+  <div><span class="label">Transparency portal:</span> <span class="value">Yes (crawled)</span></div>
+</div>
+
+<h2>30-Day Activity</h2>
+<table>
+  <tr>
+    <th>Metric</th>
+    <th class="num">This Agency</th>
+    <th class="num">State Median</th>
+    <th class="num">State Percentile</th>
+    <th>Per 1,000 Residents <span style="font-weight:normal;color:#6b7280;font-size:8pt">(est.)</span></th>
+  </tr>
+  <tr>
+    <td>Vehicles detected</td>
+    <td class="num">815,380</td>
+    <td class="num">245,000</td>
+    <td class="num">82nd</td>
+    <td class="num">7,900</td>
+  </tr>
+  <tr>
+    <td>Hotlist hits</td>
+    <td class="num">5,964</td>
+    <td class="num">1,850</td>
+    <td class="num">78th</td>
+    <td class="num">58</td>
+  </tr>
+  <tr>
+    <td>Searches</td>
+    <td class="num"><em style="color:#999">not reported</em></td>
+    <td class="num">1,200</td>
+    <td class="num">&mdash;</td>
+    <td class="num">&mdash;</td>
+  </tr>
+  <tr>
+    <td>Cameras</td>
+    <td class="num">66</td>
+    <td class="num">12</td>
+    <td class="num">94th</td>
+    <td class="num">0.64</td>
+  </tr>
+</table>
+<p class="section-intro">Population estimate: 103,200 (San Mateo, 2024 Census). Percentiles computed against 132 crawled California agencies.</p>
+
+<h2>Transparency &amp; Best-Practices Checklist</h2>
+<p class="section-intro">What this agency publishes vs. what other California agencies publish on their Flock transparency pages.</p>
+<ul class="checklist">
+  <li class="yes">Public Flock transparency page <span class="stat">(132 of 132 agencies in this report &mdash; required for inclusion)</span></li>
+  <li class="yes">Reports camera count <span class="stat">(128 of 132 CA agencies)</span></li>
+  <li class="yes">Reports data retention days <span class="stat">(130 of 132 CA agencies)</span></li>
+  <li class="yes">Reports 30-day vehicle detections <span class="stat">(119 of 132 CA agencies)</span></li>
+  <li class="yes">Reports hotlist hits <span class="stat">(119 of 132 CA agencies)</span></li>
+  <li class="no">Reports search counts <span class="stat">(54 of 132 CA agencies)</span></li>
+  <li class="no">Publishes downloadable audit CSV <span class="stat">(12 of 132 CA agencies)</span></li>
+  <li class="no">Publishes search audit policy <span class="stat">(48 of 132 CA agencies)</span></li>
+  <li class="yes">Publishes SB 54 compliance statement <span class="stat">(62 of 132 CA agencies)</span></li>
+  <li class="yes">Publishes access policy <span class="stat">(96 of 132 CA agencies)</span></li>
+  <li class="no">Publishes full ALPR policy document <span class="stat">(71 of 132 CA agencies)</span></li>
+</ul>
+
+<h2>Data Sharing</h2>
+
+<h3>Shares With (outbound): 283 agencies</h3>
+<p class="section-intro">
+  State percentile: <strong>99th</strong>
+  <span class="percentile-bar"><span class="fill" style="width:99%"></span></span>
+  <span class="percentile-label">median CA agency: 42</span>
+</p>
+
+<div class="flag-section">
+  <strong>3 flagged recipients</strong> &mdash; entities whose inclusion raises compliance questions under <a href="#">CA Civil Code &sect;1798.90.55(b)</a>:
+  <ul>
+    <li>University of the Pacific <span class="flag-tag">PRIVATE</span> &mdash; removed from list after public inquiry in Feb 2026</li>
+    <li>Reno PD <span class="flag-tag">NV &mdash; OUT OF STATE</span></li>
+    <li>Flock Safety (vendor) <span class="flag-tag">VENDOR &mdash; &sect;5.3 disclosure authority</span></li>
+  </ul>
+</div>
+
+<h3>Receives From (inbound): 12 agencies</h3>
+<ul>
+  <li>Burlingame PD</li>
+  <li>Redwood City PD <span class="inferred">[inferred from Redwood City portal]</span></li>
+  <li>Hillsborough PD</li>
+  <li>San Mateo County Sheriff</li>
+  <li>&hellip; and 8 more</li>
+</ul>
+
+<h2>Regional Context</h2>
+<p class="section-intro">Crawled California agencies within 50 km of this agency.</p>
+<table>
+  <tr>
+    <th>Agency</th>
+    <th class="num">Cameras</th>
+    <th class="num">Vehicles/30d</th>
+    <th class="num">Shares With</th>
+    <th class="num">Flagged</th>
+  </tr>
+  <tr><td>Burlingame PD</td><td class="num">18</td><td class="num">215,400</td><td class="num">174</td><td class="num">1</td></tr>
+  <tr><td>Redwood City PD</td><td class="num">32</td><td class="num">398,200</td><td class="num">211</td><td class="num">2</td></tr>
+  <tr><td>Hillsborough PD</td><td class="num">8</td><td class="num">72,100</td><td class="num">96</td><td class="num">0</td></tr>
+  <tr><td>San Mateo County SO</td><td class="num">45</td><td class="num">612,800</td><td class="num">198</td><td class="num">1</td></tr>
+  <tr><td>Menlo Park PD</td><td class="num">14</td><td class="num">187,300</td><td class="num">142</td><td class="num">0</td></tr>
+  <tr><td>Atherton PD</td><td class="num">22</td><td class="num">134,900</td><td class="num">89</td><td class="num">0</td></tr>
+  <tr><td>&hellip; and 11 more</td><td></td><td></td><td></td><td></td></tr>
+</table>
+
+<h2>California ALPR Law &mdash; Key Requirements</h2>
+
+<p><strong>CA Civil Code &sect;&sect;1798.90.51&ndash;.55 (SB 34)</strong> governs ALPR use by California agencies:</p>
+<ul>
+  <li><strong>Sharing restricted to public agencies</strong> (&sect;.55(b)): ALPR data may only be shared with public agencies. Private universities, HOAs, and vendors in a sharing list likely violate this provision.</li>
+  <li><strong>Usage and privacy policy required</strong> (&sect;.51(a)): Operators must conspicuously post a policy covering uses, access, retention, auditing, and accountability.</li>
+  <li><strong>Audit requirements</strong> (&sect;.51(b)(5)): Policies must include provisions for auditing access.</li>
+  <li><strong>End-user obligations</strong> (&sect;.53): Agencies accessing ALPR data must maintain a usage policy, even if they don't operate cameras.</li>
+</ul>
+
+<p style="margin-top:10px"><strong>Common compliance gaps observed across California agencies:</strong></p>
+<ul>
+  <li>Private entities (private universities, HOAs) appearing in sharing lists</li>
+  <li>No downloadable audit CSV despite &sect;.51(b)(5) audit requirement (~91% of CA agencies)</li>
+  <li>No published search audit policy (~64% of CA agencies)</li>
+  <li>Vendor contracts granting independent disclosure authority (e.g., Flock MSA &sect;5.3)</li>
+  <li>No user offboarding procedures when personnel leave</li>
+</ul>
+
+<h2>Questions for Your Agency</h2>
+<p class="section-intro">Based on the data above, council members may wish to ask:</p>
+<div class="questions">
+<ul>
+  <li>This report shows <strong>3 flagged recipients</strong> in the sharing list. Has the department conducted an entity-type review of all 283 recipients? Who performs it, and how often?</li>
+  <li>Does the Flock contract grant the vendor independent disclosure authority (e.g., a &sect;5.3-style clause)?</li>
+  <li>How often are ALPR access audits conducted, and what do they review (sharing configuration vs. search activity)?</li>
+  <li>Only <strong>9% of California agencies</strong> publish a downloadable audit CSV. Will the department commit to publishing one?</li>
+  <li>The department reports <strong>66 cameras</strong> (94th percentile in CA). How does the department justify this density to the public?</li>
+  <li>Vehicle detections are <strong>7,900 per 1,000 residents per month</strong>. What is the department's policy on retention of non-hit data?</li>
+  <li>What is the process for revoking agency user accounts when personnel leave?</li>
+  <li>Does the department access community cameras, and if so, under what policy framework?</li>
+</ul>
+</div>
+<p class="legal-note"><em>This is informational context derived from public records, not legal advice.</em></p>
+
+<div class="footer">
+  <p><strong>Source:</strong> Flock Safety transparency portals, compiled by the sm-alpr project.</p>
+  <p><strong>Interactive map:</strong> https://none-below.github.io/sm-alpr/sharing_map.html#san-mateo-ca-pd</p>
+  <p><strong>Report generated:</strong> April 15, 2026</p>
+  <p>This report reflects data at the time of the last portal crawl. Sharing relationships and stats may have changed. Population estimate from U.S. Census Bureau.</p>
+</div>
+
+</div>
+
+</body>
+</html>

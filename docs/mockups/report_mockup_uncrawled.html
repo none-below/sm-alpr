@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ALPR Agency Report (Uncrawled) — Mockup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="report_mockup.html" disabled>
+<style>
+  body { margin: 0; background: #e5e7eb; font-family: -apple-system, Helvetica, Arial, sans-serif; color: #111; padding: 30px 0; }
+  .page { max-width: 7.5in; margin: 20px auto; background: white; padding: 0.75in 0.8in; box-shadow: 0 4px 20px rgba(0,0,0,0.1); font-size: 11pt; line-height: 1.4; }
+  .mockup-banner { max-width: 7.5in; margin: 0 auto 20px auto; background: #fef3c7; border: 1px solid #f59e0b; padding: 12px 20px; border-radius: 6px; font-size: 13px; color: #78350f; }
+  h1 { font-size: 20pt; margin: 0 0 2px 0; border-bottom: 2px solid #111; padding-bottom: 8px; }
+  .subtitle { font-size: 10pt; color: #555; margin: 0 0 20px 0; }
+  h2 { font-size: 13pt; margin: 22px 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+  h3 { font-size: 11pt; margin: 14px 0 4px 0; }
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; margin: 12px 0 8px 0; font-size: 10.5pt; }
+  .meta-grid .label { color: #666; }
+  .meta-grid .value { font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; font-size: 10pt; margin: 6px 0; }
+  th, td { border: 1px solid #ccc; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #f3f4f6; font-weight: bold; font-size: 9.5pt; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  ul { margin: 4px 0 0 0; padding-left: 20px; }
+  li { margin: 2px 0; }
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { margin: 4px 0; padding-left: 28px; position: relative; }
+  .checklist li::before { position: absolute; left: 0; top: 0; font-weight: bold; font-size: 12pt; }
+  .checklist li.yes::before { content: "\2713"; color: #059669; }
+  .checklist li.no::before { content: "\2717"; color: #9ca3af; }
+  .checklist li.unknown::before { content: "?"; color: #d97706; }
+  .checklist .stat { color: #666; font-size: 9pt; margin-left: 8px; }
+  .flag-section { background: #fef2f2; padding: 8px 12px; border-left: 3px solid #dc2626; margin: 6px 0; }
+  .flag-tag { display: inline-block; font-size: 8.5pt; font-weight: bold; padding: 1px 6px; background: #fee2e2; color: #991b1b; border-radius: 3px; margin-left: 4px; vertical-align: middle; }
+  .questions { background: #f9fafb; padding: 10px 16px; border-radius: 6px; margin: 6px 0; }
+  .questions li { margin: 4px 0; font-size: 10.5pt; }
+  .footer { margin-top: 28px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 9pt; color: #666; }
+  .legal-note { font-size: 10pt; background: #f3f4f6; padding: 8px 12px; border-radius: 4px; margin: 6px 0; }
+  .inferred { color: #6b7280; font-size: 9pt; font-style: italic; }
+  .section-intro { font-size: 10pt; color: #555; margin: 4px 0 8px 0; }
+  .no-data-box { background: #fef3c7; padding: 10px 14px; border-radius: 4px; border-left: 3px solid #f59e0b; margin: 8px 0; font-size: 10.5pt; }
+</style>
+</head>
+<body>
+
+<div class="mockup-banner">
+  <strong>Mockup preview &mdash; "No transparency portal" variant.</strong> This is the report layout for a city that does <em>not</em> publish a Flock transparency page. Data is reverse-engineered from sharing lists on other agencies' portals. (Hypothetical city shown.)
+</div>
+
+<div class="page">
+
+<h1>Example City Police Department</h1>
+<p class="subtitle">Flock ALPR Program Report &mdash; Generated April 15, 2026</p>
+
+<div class="no-data-box">
+  <strong>This agency does not publish a Flock transparency page.</strong> The information below is derived entirely from sharing lists on <em>other</em> agencies' transparency pages. Cameras, retention policy, 30-day activity, and most sharing data are not knowable without their own transparency page.
+</div>
+
+<div class="meta-grid">
+  <div><span class="label">Cameras:</span> <span class="value" style="color:#999">Not disclosed</span></div>
+  <div><span class="label">Retention:</span> <span class="value" style="color:#999">Not disclosed</span></div>
+  <div><span class="label">Agency type:</span> <span class="value">City police</span></div>
+  <div><span class="label">State / County:</span> <span class="value">CA / Example County</span></div>
+  <div><span class="label">Last crawled:</span> <span class="value" style="color:#999">N/A &mdash; no portal</span></div>
+  <div><span class="label">Transparency portal:</span> <span class="value" style="color:#dc2626">No</span></div>
+</div>
+
+<h2>Transparency &amp; Best-Practices Checklist</h2>
+<p class="section-intro">What this agency publishes vs. what other California agencies publish.</p>
+<ul class="checklist">
+  <li class="no">Public Flock transparency page <span class="stat">(132 of ~200 CA agencies with Flock cameras)</span></li>
+  <li class="unknown">Reports camera count <span class="stat">(cannot verify without portal)</span></li>
+  <li class="unknown">Reports data retention days <span class="stat">(cannot verify without portal)</span></li>
+  <li class="unknown">Reports 30-day vehicle detections <span class="stat">(cannot verify without portal)</span></li>
+  <li class="unknown">Reports hotlist hits <span class="stat">(cannot verify without portal)</span></li>
+  <li class="unknown">Reports search counts <span class="stat">(cannot verify without portal)</span></li>
+  <li class="unknown">Publishes downloadable audit CSV <span class="stat">(cannot verify without portal)</span></li>
+  <li class="unknown">Publishes search audit policy <span class="stat">(cannot verify without portal)</span></li>
+  <li class="unknown">Publishes SB 54 compliance statement <span class="stat">(cannot verify without portal)</span></li>
+  <li class="unknown">Publishes access policy <span class="stat">(cannot verify without portal)</span></li>
+  <li class="unknown">Publishes full ALPR policy document <span class="stat">(cannot verify without portal)</span></li>
+</ul>
+
+<h2>Data Sharing (Inferred from Other Agencies' Portals)</h2>
+
+<h3>Shares With (outbound)</h3>
+<div class="no-data-box" style="background:#f3f4f6;border-left-color:#6b7280">
+  <strong>Unknown.</strong> Outbound sharing cannot be inferred &mdash; we would need <em>their</em> transparency page to see who they share with.
+</div>
+
+<h3>Receives From (inbound): 4 agencies <span class="inferred">[all inferred]</span></h3>
+<p class="section-intro">The following agencies list Example City PD in <em>their</em> outbound sharing list:</p>
+<ul>
+  <li>Neighbor City PD</li>
+  <li>Example County Sheriff</li>
+  <li>Adjacent Town PD</li>
+  <li>Regional Task Force</li>
+</ul>
+
+<h2>Regional Context</h2>
+<p class="section-intro">Crawled California agencies within 50 km of Example City. Use these as reference points for what transparency looks like in this region.</p>
+<table>
+  <tr>
+    <th>Agency</th>
+    <th class="num">Cameras</th>
+    <th class="num">Vehicles/30d</th>
+    <th class="num">Shares With</th>
+    <th class="num">Flagged</th>
+  </tr>
+  <tr><td>Neighbor City PD</td><td class="num">24</td><td class="num">312,000</td><td class="num">198</td><td class="num">1</td></tr>
+  <tr><td>Example County SO</td><td class="num">52</td><td class="num">684,000</td><td class="num">224</td><td class="num">2</td></tr>
+  <tr><td>Adjacent Town PD</td><td class="num">8</td><td class="num">98,500</td><td class="num">142</td><td class="num">0</td></tr>
+  <tr><td>&hellip; and 7 more</td><td></td><td></td><td></td><td></td></tr>
+</table>
+
+<h2>California ALPR Law &mdash; Key Requirements</h2>
+<p><strong>CA Civil Code &sect;&sect;1798.90.51&ndash;.55 (SB 34)</strong> requires California ALPR operators to:</p>
+<ul>
+  <li><strong>Maintain and conspicuously post</strong> a usage and privacy policy (&sect;.51(a)) covering authorized uses, data access, retention, auditing, and accountability.</li>
+  <li><strong>Share only with public agencies</strong> (&sect;.55(b)).</li>
+  <li><strong>Implement audit provisions</strong> (&sect;.51(b)(5)) for access to ALPR information.</li>
+</ul>
+<p style="margin-top:8px">A public transparency page is the most visible way agencies demonstrate this compliance. 132 California agencies currently publish one through Flock Safety's transparency program.</p>
+
+<h2>Questions for Your Agency</h2>
+<div class="questions">
+<ul>
+  <li>Does the department operate an ALPR program? How many cameras, and where?</li>
+  <li>If the department operates ALPR cameras, why doesn't it publish a public Flock transparency page as its peers do?</li>
+  <li>What is the department's data retention policy for ALPR data?</li>
+  <li>Who does the department share ALPR data with? (We know of <strong>4 agencies</strong> that list this department as a recipient &mdash; does this match the department's records?)</li>
+  <li>Does the department conduct audits of ALPR access?</li>
+  <li>Will the department commit to publishing a transparency page matching the &sect;1798.90.51(a) requirements?</li>
+</ul>
+</div>
+<p class="legal-note"><em>This is informational context derived from public records, not legal advice.</em></p>
+
+<div class="footer">
+  <p><strong>Source:</strong> Sharing lists on other California agencies' Flock transparency portals, compiled by the sm-alpr project.</p>
+  <p><strong>Interactive map:</strong> https://none-below.github.io/sm-alpr/sharing_map.html#example-city-ca-pd</p>
+  <p><strong>Report generated:</strong> April 15, 2026</p>
+  <p>Because this agency does not publish a transparency page, all information is derived from sharing lists on neighboring agencies' portals. Data may be incomplete or out of date.</p>
+</div>
+
+</div>
+
+</body>
+</html>

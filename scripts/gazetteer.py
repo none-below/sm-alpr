@@ -17,6 +17,9 @@ from pathlib import Path
 PLACES_PATH = Path("data/census/places.tsv")
 COUNTIES_PATH = Path("data/census/counties.tsv")
 COUSUBS_PATH = Path("data/census/cousubs.tsv")  # county subdivisions (townships, CCDs)
+POPULATION_PLACES_PATH = Path("data/census/population_places.tsv")
+POPULATION_COUNTIES_PATH = Path("data/census/population_counties.tsv")
+POPULATION_META_PATH = Path("data/census/population_meta.json")
 
 # Common suffixes in Census place names to strip for matching
 _PLACE_SUFFIXES = re.compile(
@@ -29,6 +32,8 @@ _PLACE_SUFFIXES = re.compile(
 _places_cache = None
 _counties_cache = None
 _cousubs_cache = None
+_population_cache = None
+_population_meta_cache = None
 
 
 _COUNTY_SUFFIX = re.compile(
@@ -78,6 +83,10 @@ def _load_places():
             # Also strip MA-style "Town" that appears before the LSAD
             # (e.g. "Braintree Town city" -> "Braintree Town" -> "Braintree")
             bare_key = re.sub(r"\s+Town$", "", bare, flags=re.IGNORECASE)
+            try:
+                land_sqmi = float(row.get("ALAND_SQMI") or 0) or None
+            except (ValueError, TypeError):
+                land_sqmi = None
             places.append({
                 "state": row["USPS"],
                 "fips": row["GEOID"],
@@ -85,6 +94,7 @@ def _load_places():
                 "name": bare,
                 "lat": float(row["INTPTLAT"]),
                 "lng": float(row["INTPTLONG"]),
+                "land_sqmi": land_sqmi,
                 "_key": _normalize(bare_key),
             })
     _places_cache = places
@@ -103,6 +113,10 @@ def _load_counties():
             if not row.get("INTPTLAT") or not row.get("INTPTLONG"):
                 continue
             bare = _strip_county_suffix(row["NAME"])
+            try:
+                land_sqmi = float(row.get("ALAND_SQMI") or 0) or None
+            except (ValueError, TypeError):
+                land_sqmi = None
             counties.append({
                 "state": row["USPS"],
                 "fips": row["GEOID"],
@@ -111,6 +125,7 @@ def _load_counties():
                 "bare_name": bare,
                 "lat": float(row["INTPTLAT"]),
                 "lng": float(row["INTPTLONG"]),
+                "land_sqmi": land_sqmi,
                 "_key": _normalize(bare),
             })
     _counties_cache = counties
@@ -238,3 +253,116 @@ def lookup_by_county_fips(fips):
         if c["fips"] == fips:
             return c
     return None
+
+
+_place_to_county_cache = {}
+
+
+def county_fips_for_place(place_fips):
+    """Return the county FIPS that a place is located in, or None.
+
+    Place FIPS codes are state(2) + place(5) — they don't encode county.
+    To find the county for a place we compare the place centroid against
+    every county in the same state and pick the nearest. Results are
+    memoized across calls.
+
+    For non-place FIPS (counties, cousubs), callers can just take the
+    first 5 characters directly; this helper is only for places.
+    """
+    if not place_fips:
+        return None
+    if place_fips in _place_to_county_cache:
+        return _place_to_county_cache[place_fips]
+
+    place = lookup_by_place_fips(place_fips)
+    if not place:
+        _place_to_county_cache[place_fips] = None
+        return None
+
+    state = place["state"]
+    p_lat, p_lng = place["lat"], place["lng"]
+
+    # Haversine isn't strictly needed — we're just finding the nearest
+    # county centroid within one state. Squared-degree distance is fine
+    # and much cheaper.
+    best = None
+    best_d2 = float("inf")
+    for c in _load_counties():
+        if c["state"] != state:
+            continue
+        dlat = c["lat"] - p_lat
+        dlng = c["lng"] - p_lng
+        d2 = dlat * dlat + dlng * dlng
+        if d2 < best_d2:
+            best_d2 = d2
+            best = c
+
+    result = best["fips"] if best else None
+    _place_to_county_cache[place_fips] = result
+    return result
+
+
+def _load_population():
+    """Lazy-load the population TSVs into a single fips -> int dict."""
+    global _population_cache
+    if _population_cache is not None:
+        return _population_cache
+    pop = {}
+    for path in (POPULATION_PLACES_PATH, POPULATION_COUNTIES_PATH):
+        if not path.exists():
+            continue
+        with path.open() as f:
+            reader = csv.DictReader(f, delimiter="\t")
+            for row in reader:
+                fips = (row.get("fips") or "").strip()
+                try:
+                    pop[fips] = int(row["population"])
+                except (ValueError, KeyError, TypeError):
+                    continue
+    _population_cache = pop
+    return pop
+
+
+def lookup_area_sqmi(fips):
+    """Return land area in square miles for a FIPS (place or county), or None.
+
+    Uses the Census gazetteer's ALAND_SQMI. Useful for per-sq-mi rates.
+    """
+    if not fips:
+        return None
+    if len(fips) == 7:
+        for p in _load_places():
+            if p["fips"] == fips:
+                return p.get("land_sqmi")
+    elif len(fips) == 5:
+        for c in _load_counties():
+            if c["fips"] == fips:
+                return c.get("land_sqmi")
+    return None
+
+
+def lookup_population(fips):
+    """Return the population for a FIPS code (place or county), or None.
+
+    Requires data/census/population_places.tsv and
+    data/census/population_counties.tsv (produced by
+    refresh_census_population.py).
+    """
+    if not fips:
+        return None
+    return _load_population().get(fips)
+
+
+def population_meta():
+    """Return population vintage metadata dict, or None if unavailable."""
+    global _population_meta_cache
+    if _population_meta_cache is not None:
+        return _population_meta_cache
+    import json as _json
+    if not POPULATION_META_PATH.exists():
+        return None
+    try:
+        _population_meta_cache = _json.loads(POPULATION_META_PATH.read_text())
+        return _population_meta_cache
+    except (OSError, _json.JSONDecodeError):
+        return None
