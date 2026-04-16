@@ -363,6 +363,15 @@
   td .sparkline {
     display: block;
   }
+  /* Secondary per-vehicle rate (ACS B25046 household vehicles) below
+     the per-capita value. Muted/smaller so the primary per-capita
+     reading remains the focal point; this is supplementary context. */
+  td .per-vehicle {
+    font-size: 9pt;
+    color: #444;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
   td .value-primary {
     font-size: 13pt;
     font-weight: bold;

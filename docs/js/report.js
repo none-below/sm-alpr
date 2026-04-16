@@ -545,7 +545,18 @@
           // sparkline for the per-1,000 peer distribution.
           const perSparkHist = peerHistogramFor(r.metric + "_per_1000", report.agency_type, meta);
           const perSparkHtml = perSparkHist ? `<div class="spark-wrap">${sparklineSvg(perSparkHist, per)}</div>` : "";
-          html += `<td class="num ${cellClassFor(perPct, r.metric)}">${valueBlockHtml(per, perMed, lperMed, perPct, lperPct, lsamp)}${perSparkHtml}</td>`;
+          // Append an alternate-denominator line using ACS household
+          // vehicles (B25046). "Per 1,000 vehicles" is a more
+          // defensible denominator than "per 1,000 residents" for
+          // plate-detection metrics — residents don't get scanned,
+          // their vehicles do. Keep it as a secondary line so the
+          // primary cell stays legible.
+          const perVeh = (report.per_1000_vehicles || {})[r.metric];
+          let perVehHtml = "";
+          if (perVeh != null) {
+            perVehHtml = `<div class="per-vehicle">${fmtNum(perVeh, perVeh < 10 ? 2 : 0)} <span class="muted">per 1,000 household vehicles</span></div>`;
+          }
+          html += `<td class="num ${cellClassFor(perPct, r.metric)}">${valueBlockHtml(per, perMed, lperMed, perPct, lperPct, lsamp)}${perVehHtml}${perSparkHtml}</td>`;
         }
       }
       html += '</tr>';

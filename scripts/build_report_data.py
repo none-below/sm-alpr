@@ -1390,6 +1390,16 @@ def main():
                 "hotlist_hits_30d": hotlist_hits,
                 "searches_30d": searches_30d,
             }, population),
+            # Per-1,000-household-vehicles rates. Denominator is
+            # ACS B25046 "aggregate household vehicles available."
+            # More defensible than per-capita for plate-detection
+            # rates — residents don't get scanned, their vehicles do.
+            "per_1000_vehicles": _per_1000({
+                "cameras": cameras,
+                "vehicles_30d": vehicles_30d,
+                "hotlist_hits_30d": hotlist_hits,
+                "searches_30d": searches_30d,
+            }, household_vehicles),
             "percentiles": percentiles,
             "medians": medians,
             "peer_sample": peer_sample,
