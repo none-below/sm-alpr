@@ -454,10 +454,12 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
         html += '</div>';
       }
 
-      // Indirect flags
+      // Indirect flags — collapsed by default. For hub-adjacent agencies the
+      // list runs into the hundreds and dominates the panel; the count in the
+      // summary is the useful signal, the full list is on-demand detail.
       if (myIndirects.length) {
-        html += '<div class="sharing-list" style="border-top:1px solid #fecaca;padding-top:6px">';
-        html += '<strong style="color:#dc2626">\u26a0 Indirect flags (' + myIndirects.length + '):</strong>';
+        html += '<details class="sharing-list" style="border-top:1px solid #fecaca;padding-top:6px">';
+        html += '<summary style="cursor:pointer;color:#dc2626;font-weight:bold">\u26a0 Indirect flags (' + myIndirects.length + ')</summary>';
         html += '<p class="stat" style="font-size:11px;color:#92400e;margin:2px 0 4px 0">Data reaches these entities through intermediaries.</p>';
         myIndirects.forEach(function(iv) {
           // Inner span's [data-slug] wins via .closest() — clicking the
@@ -468,7 +470,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
           html += '<span style="cursor:pointer;color:#2563eb;font-size:11px" data-slug="' + escapeHtml(iv.via) + '">' + escapeHtml(iv.via_name) + '</span>';
           html += '</div>';
         });
-        html += '</div>';
+        html += '</details>';
       }
 
       // Clean agencies
