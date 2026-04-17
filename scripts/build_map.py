@@ -524,7 +524,7 @@ def _generate_html(marker_count):
 <script src="data/map_data.json" type="application/json" id="mapData"></script>
 <script src="js/map.js?v=JSCACHEBUST"></script>
 <script data-goatcounter="https://none-below.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+        async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>"""
 
