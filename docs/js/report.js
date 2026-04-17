@@ -1020,13 +1020,7 @@
 
     svg += `</svg>`;
 
-    // Caption in HTML so the legend wraps with the text column next
-    // to the map rather than overflowing the cropped SVG width.
-    const flaggedCount = recipients.filter(function(r) { return r.kind; }).length;
-    const cleanCount = recipients.length - flaggedCount;
-    const caption = `<div class="mini-map-caption">${recipients.length} geocoded recipients &mdash; ${cleanCount} clean (orange), ${flaggedCount} flagged (red). Red lines: sharing to flagged entities.</div>`;
-
-    return `<div class="mini-map-wrap">${svg}${caption}</div>`;
+    return `<div class="mini-map-wrap">${svg}</div>`;
   }
 
   // Horizontal bar chart of top recipients by search volume, for the
