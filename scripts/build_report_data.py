@@ -126,6 +126,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with at least one private entity",
         "label_unknown": "Private sharing not verifiable (no public transparency page)",
         "detail": "CA Civil Code \u00a71798.90.55(b) restricts ALPR sharing to public agencies.",
+        "peer_phrase": "share only with public agencies",
     },
     {
         "id": "no_out_of_state_sharing",
@@ -133,6 +134,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with at least one out-of-state entity",
         "label_unknown": "Out-of-state sharing not verifiable (no public transparency page)",
         "detail": "CA Civil Code \u00a71798.90.55(b) and AG Bulletin 2023-DLE-06 prohibit out-of-state sharing.",
+        "peer_phrase": "avoid out-of-state sharing",
     },
     {
         "id": "no_federal_sharing",
@@ -140,6 +142,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with at least one federal agency",
         "label_unknown": "Federal sharing not verifiable (no public transparency page)",
         "detail": "Federal agencies are not \u201cagencies of the state\u201d under \u00a71798.90.5(f).",
+        "peer_phrase": "avoid sharing with federal agencies",
     },
     {
         "id": "no_fusion_center_sharing",
@@ -147,6 +150,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with at least one fusion center",
         "label_unknown": "Fusion-center sharing not verifiable (no public transparency page)",
         "detail": "Fusion centers (e.g., NCRIC) re-distribute ALPR data to their member networks. Their status as \u201cpublic agencies\u201d under \u00a71798.90.5(f) varies by charter; NCRIC in particular has federal staffing and funding ties. Sharing with a fusion center forwards this agency's data to every member of that center.",
+        "peer_phrase": "avoid sharing with fusion centers",
     },
     {
         "id": "no_ag_lawsuit_sharing",
@@ -154,6 +158,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with an agency the CA AG has sued for illegal sharing",
         "label_unknown": "Cannot verify (no public transparency page)",
         "detail": "The CA Attorney General has sued specific CA agencies for illegal out-of-state ALPR sharing in violation of SB 34. Sending data to those agencies continues the same illegal flow.",
+        "peer_phrase": "avoid sharing with AG-sued agencies",
     },
     {
         "id": "published_policy",
@@ -161,6 +166,7 @@ SB34_CHECKLIST = [
         "label_fail": "Does not publish an ALPR usage and privacy policy",
         "label_unknown": "Policy publication not verifiable (no public transparency page)",
         "detail": "\u00a71798.90.51(a) requires conspicuously posting a usage and privacy policy.",
+        "peer_phrase": "publish an ALPR policy",
     },
     {
         "id": "documented_audit",
@@ -168,26 +174,27 @@ SB34_CHECKLIST = [
         "label_fail": "No documented audit process",
         "label_unknown": "Audit process not verifiable (no public transparency page)",
         "detail": "\u00a71798.90.51(b)(5) requires audit provisions for ALPR access.",
+        "peer_phrase": "document an audit process",
     },
 ]
 
 # Transparency checks — what they publish on the Flock portal.
 # Same pass/fail/unknown label structure as SB34_CHECKLIST above.
 TRANSPARENCY_CHECKLIST = [
-    {"id": "has_portal",       "label_pass": "Has a public Flock transparency page",   "label_fail": "No public Flock transparency page"},
-    {"id": "camera_count",     "label_pass": "Reports camera count",                    "label_fail": "Does not report camera count"},
-    {"id": "retention",        "label_pass": "Reports data retention days",              "label_fail": "Does not report data retention"},
-    {"id": "vehicles_30d",     "label_pass": "Reports 30-day vehicle detections",        "label_fail": "Does not report 30-day vehicle detections"},
-    {"id": "hotlist_hits",     "label_pass": "Reports 30-day hotlist hits",              "label_fail": "Does not report 30-day hotlist hits"},
-    {"id": "searches_30d",     "label_pass": "Reports 30-day search counts",             "label_fail": "Does not report 30-day search counts"},
-    {"id": "policy_link",      "label_pass": "Links to a full ALPR/department policy",    "label_fail": "No link to a full policy document"},
-    {"id": "access_policy",    "label_pass": "Publishes access policy",                  "label_fail": "Does not publish access policy"},
-    {"id": "hotlist_policy",   "label_pass": "Publishes hotlist policy",                  "label_fail": "Does not publish hotlist policy"},
-    {"id": "acceptable_use",   "label_pass": "Publishes acceptable-use policy",          "label_fail": "Does not publish acceptable-use policy"},
-    {"id": "prohibited_uses",  "label_pass": "Publishes prohibited-uses statement",       "label_fail": "Does not publish prohibited-uses statement"},
-    {"id": "sb54_statement",   "label_pass": "Publishes SB 54 compliance statement",     "label_fail": "Does not publish SB 54 compliance statement"},
-    {"id": "outbound_list",    "label_pass": "Publishes full outbound sharing list",     "label_fail": "Does not publish outbound sharing list"},
-    {"id": "inbound_list",     "label_pass": "Publishes full inbound sharing list",      "label_fail": "Does not publish inbound sharing list"},
+    {"id": "has_portal",       "label_pass": "Has a public Flock transparency page",   "label_fail": "No public Flock transparency page", "peer_phrase": "have a public transparency page"},
+    {"id": "camera_count",     "label_pass": "Reports camera count",                    "label_fail": "Does not report camera count", "peer_phrase": "report their camera count"},
+    {"id": "retention",        "label_pass": "Reports data retention days",              "label_fail": "Does not report data retention", "peer_phrase": "report their data-retention policy"},
+    {"id": "vehicles_30d",     "label_pass": "Reports 30-day vehicle detections",        "label_fail": "Does not report 30-day vehicle detections", "peer_phrase": "report 30-day vehicle detections"},
+    {"id": "hotlist_hits",     "label_pass": "Reports 30-day hotlist hits",              "label_fail": "Does not report 30-day hotlist hits", "peer_phrase": "report 30-day hotlist hits"},
+    {"id": "searches_30d",     "label_pass": "Reports 30-day search counts",             "label_fail": "Does not report 30-day search counts", "peer_phrase": "report 30-day search counts"},
+    {"id": "policy_link",      "label_pass": "Links to a full ALPR/department policy",    "label_fail": "No link to a full policy document", "peer_phrase": "link to a full policy document"},
+    {"id": "access_policy",    "label_pass": "Publishes access policy",                  "label_fail": "Does not publish access policy", "peer_phrase": "publish an access policy"},
+    {"id": "hotlist_policy",   "label_pass": "Publishes hotlist policy",                  "label_fail": "Does not publish hotlist policy", "peer_phrase": "publish a hotlist policy"},
+    {"id": "acceptable_use",   "label_pass": "Publishes acceptable-use policy",          "label_fail": "Does not publish acceptable-use policy", "peer_phrase": "publish an acceptable-use policy"},
+    {"id": "prohibited_uses",  "label_pass": "Publishes prohibited-uses statement",       "label_fail": "Does not publish prohibited-uses statement", "peer_phrase": "publish a prohibited-uses statement"},
+    {"id": "sb54_statement",   "label_pass": "Publishes SB 54 compliance statement",     "label_fail": "Does not publish SB 54 compliance statement", "peer_phrase": "publish an SB 54 statement"},
+    {"id": "outbound_list",    "label_pass": "Publishes full outbound sharing list",     "label_fail": "Does not publish outbound sharing list", "peer_phrase": "publish an outbound sharing list"},
+    {"id": "inbound_list",     "label_pass": "Publishes full inbound sharing list",      "label_fail": "Does not publish inbound sharing list", "peer_phrase": "publish an inbound sharing list"},
 ]
 
 
@@ -646,6 +653,13 @@ def main():
     # totals from it. Peer percentiles come from this series.
     downstream_series_by_type = defaultdict(list)
     downstream_series_all = []
+    # Reach series: average / farthest km across outbound recipients.
+    # Included so the reach cell can show "this agency vs peer" on
+    # the same pill treatment we use for cameras, searches, etc.
+    reach_avg_series_by_type = defaultdict(list)
+    reach_avg_series_all = []
+    reach_far_series_by_type = defaultdict(list)
+    reach_far_series_all = []
     searches_by_aid = {}
     for a in ca_crawled:
         s = a["portal"].get("searches_30d")
@@ -687,7 +701,28 @@ def main():
                 downstream_total += int(searches_by_aid[t_id])
         downstream_series_by_type[a["type"]].append(downstream_total)
         downstream_series_all.append(downstream_total)
+        # Reach: avg + farthest km over geocoded outbound recipients.
+        # Same calc the per-report loop uses later; duplicated here so
+        # it contributes to the peer series without requiring a third
+        # pass through the data.
         a_lat, a_lng = agency_coords(a["reg"])
+        reach_avg_km = None
+        reach_far_km = None
+        if a_lat is not None and a_lng is not None:
+            dists = []
+            for tid in a["graph"].get("sharing_outbound_ids", []):
+                tr = reg_by_id.get(tid, {})
+                tlat, tlng = agency_coords(tr)
+                if tlat is None or tlng is None:
+                    continue
+                dists.append(dist_km(a_lat, a_lng, tlat, tlng))
+            if dists:
+                reach_avg_km = round(sum(dists) / len(dists), 1)
+                reach_far_km = round(max(dists), 1)
+                reach_avg_series_by_type[a["type"]].append(reach_avg_km)
+                reach_avg_series_all.append(reach_avg_km)
+                reach_far_series_by_type[a["type"]].append(reach_far_km)
+                reach_far_series_all.append(reach_far_km)
         a_county_fips = _county_fips_from_geo(a["reg"].get("geo"))
         crawled_agency_metrics.append({
             "agency_id": a["agency_id"],
@@ -701,6 +736,8 @@ def main():
             # "cameras" key to mirror the other metric-keyed dicts.
             "density": {"cameras": density} if density is not None else {},
             "downstream_searches": downstream_total,
+            "reach_avg_km": reach_avg_km,
+            "reach_far_km": reach_far_km,
         })
     for metric in list(series_all.keys()):
         series_all[metric].sort()
@@ -716,6 +753,12 @@ def main():
     downstream_series_all.sort()
     for t in downstream_series_by_type:
         downstream_series_by_type[t].sort()
+    reach_avg_series_all.sort()
+    for t in reach_avg_series_by_type:
+        reach_avg_series_by_type[t].sort()
+    reach_far_series_all.sort()
+    for t in reach_far_series_by_type:
+        reach_far_series_by_type[t].sort()
     # Index crawled_agency_metrics by agency_id for O(1) lookup below.
     crawled_metrics_by_aid = {m["agency_id"]: m for m in crawled_agency_metrics}
 
@@ -747,6 +790,18 @@ def main():
         if len(s) >= MIN_PEER_SAMPLE:
             return s, False, atype
         return density_series_all, True, "all"
+
+    def peer_reach_series(kind, atype):
+        """Return (series, is_fallback, peer_type) for reach km.
+        kind = 'avg' or 'far'."""
+        if kind == "avg":
+            by_type, all_series = reach_avg_series_by_type, reach_avg_series_all
+        else:
+            by_type, all_series = reach_far_series_by_type, reach_far_series_all
+        s = by_type.get(atype, [])
+        if len(s) >= MIN_PEER_SAMPLE:
+            return s, False, atype
+        return all_series, True, "all"
 
     def peer_downstream_series(atype):
         """Return (series, is_fallback, peer_type) for downstream-search totals."""
@@ -795,6 +850,11 @@ def main():
         key = "rates" if per_capita else "values"
         s = sorted(p[key].get(metric) for p in peers if p[key].get(metric) is not None)
         return s
+
+    def local_reach_series(peers, kind):
+        """Sorted series of peer reach_avg_km or reach_far_km."""
+        k = "reach_avg_km" if kind == "avg" else "reach_far_km"
+        return sorted(p[k] for p in peers if p.get(k) is not None)
 
     # ── Build graph-wide flag classification cache ──
     outbound_by_id = {aid: d.get("sharing_outbound_ids", []) for aid, d in graph_agencies.items()}
@@ -958,6 +1018,11 @@ def main():
                         "label_fail": item.get("label_fail") or item.get("label"),
                         "label_unknown": item.get("label_unknown")
                             or (item.get("label_fail") or item.get("label")),
+                        # Short third-person-plural phrase naming the
+                        # action, used in "XX% of peers <peer_phrase>"
+                        # so the peer stat reads as a specific behavior
+                        # rather than an abstract "pass".
+                        "peer_phrase": item.get("peer_phrase"),
                         "detail": item.get("detail"),
                         "value": checklist_results.get(cid),  # True/False/None
                         # For sharing-based failures, list of entity names
@@ -1018,6 +1083,13 @@ def main():
         percentile_downstream_local = None
         median_downstream_local = None
         peer_sample_downstream_local = None
+        # Reach (avg + farthest km) vs peers.
+        reach_percentiles = {}
+        reach_medians = {}
+        reach_peer_samples = {}
+        reach_percentiles_local = {}
+        reach_medians_local = {}
+        reach_peer_samples_local = {}
         if state == RANKED_STATE and crawled:
             metric_values = {
                 "cameras": cameras,
@@ -1106,6 +1178,31 @@ def main():
                             "size": len(l_ds),
                             "scope": local_scope,
                         }
+
+            # ── Reach (avg/far km) peer comparison ──
+            cm_reach = crawled_metrics_by_aid.get(aid)
+            if cm_reach is not None:
+                for kind, val in (("avg", cm_reach.get("reach_avg_km")),
+                                  ("far", cm_reach.get("reach_far_km"))):
+                    if val is None:
+                        continue
+                    rseries, rfb, rpt = peer_reach_series(kind, atype)
+                    reach_percentiles[kind] = percentile_of(val, rseries)
+                    reach_medians[kind] = median(rseries)
+                    reach_peer_samples[kind] = {
+                        "size": len(rseries),
+                        "type": rpt,
+                        "fallback": rfb,
+                    }
+                    if local_scope:
+                        l_rseries = local_reach_series(local_peers, kind)
+                        if l_rseries:
+                            reach_percentiles_local[kind] = percentile_of(val, l_rseries)
+                            reach_medians_local[kind] = median(l_rseries)
+                            reach_peer_samples_local[kind] = {
+                                "size": len(l_rseries),
+                                "scope": local_scope,
+                            }
 
             # ── Camera density (cameras per sq mi) ──
             # Name-based fallback for land area on manual-geocoded entries,
@@ -1368,6 +1465,15 @@ def main():
             "percentile_downstream_local": percentile_downstream_local,
             "median_downstream_local": median_downstream_local,
             "peer_sample_downstream_local": peer_sample_downstream_local,
+            # Reach (outbound distance) peer comparisons. Keyed by
+            # "avg" (mean distance across geocoded recipients) and
+            # "far" (single farthest recipient). Both state + local.
+            "reach_percentiles": reach_percentiles,
+            "reach_medians": reach_medians,
+            "reach_peer_samples": reach_peer_samples,
+            "reach_percentiles_local": reach_percentiles_local,
+            "reach_medians_local": reach_medians_local,
+            "reach_peer_samples_local": reach_peer_samples_local,
             "stats": {
                 "cameras": cameras,
                 "retention_days": retention,

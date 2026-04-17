@@ -312,11 +312,11 @@
     if (pctile == null) return "";
     let cls = "";
     let phrase;
-    if (pctile >= 90) { phrase = "higher than nearly all"; cls = "concern strong"; }
-    else if (pctile >= 75) { phrase = "higher than most"; cls = "concern"; }
-    else if (pctile >= 60) { phrase = "above average"; cls = "concern-mild"; }
-    else if (pctile >= 40) { phrase = "near median"; cls = ""; }
-    else { phrase = "below median"; cls = ""; }
+    if (pctile >= 90) { phrase = "higher than nearly all peers"; cls = "concern strong"; }
+    else if (pctile >= 75) { phrase = "higher than most peers"; cls = "concern"; }
+    else if (pctile >= 60) { phrase = "above peer average"; cls = "concern-mild"; }
+    else if (pctile >= 40) { phrase = "near peer median"; cls = ""; }
+    else { phrase = "below peer median"; cls = ""; }
     const spark = inlinePillSparkSvg(hist, value);
     const medHtml = med != null ? ` <span class="pill-med">med ${fmtNumSmart(med)}</span>` : "";
     return `<span class="rank-pill ${cls}">` +
@@ -339,12 +339,12 @@
     let html = '<div class="rank-pill-row">';
     if (pctile != null) {
       html += rankPillHtml({
-        scopeLabel: "STATE",
+        scopeLabel: "vs state",
         pctile: pctile, median: med, hist: hist, value: value,
       });
     }
     if (lpctile != null) {
-      const scopeLabel = lsamp && lsamp.scope === "county" ? "COUNTY" : "25 mi";
+      const scopeLabel = lsamp && lsamp.scope === "county" ? "vs county" : "vs 25 mi";
       html += rankPillHtml({
         scopeLabel: scopeLabel,
         pctile: lpctile, median: lmed, hist: hist, value: value,
@@ -597,14 +597,42 @@
         value: v,
         rankPillsHtml: pills,
       });
-      // Right cell: reach metrics
+      // Right cell: reach metrics + state/local comparison pills so
+      // the reader sees how this agency's geographic reach stacks up.
+      const reachPcts = report.reach_percentiles || {};
+      const reachMeds = report.reach_medians || {};
+      const reachPctsLocal = report.reach_percentiles_local || {};
+      const reachMedsLocal = report.reach_medians_local || {};
+      const reachSampleLocal = report.reach_peer_samples_local || {};
+      function reachPillsFor(kind, value) {
+        return rankPillsForMetric({
+          pctile: reachPcts[kind],
+          med: reachMeds[kind] != null ? kmToMi(reachMeds[kind]) : null,
+          lpctile: reachPctsLocal[kind],
+          lmed: reachMedsLocal[kind] != null ? kmToMi(reachMedsLocal[kind]) : null,
+          lsamp: reachSampleLocal[kind],
+          value: value, agencyType: report.agency_type, meta,
+          sparkMetricKey: null,
+        });
+      }
       const bits = [];
       if (report.outbound_avg_km != null) {
-        bits.push(`<div><strong>${fmtNum(kmToMi(report.outbound_avg_km), 0)}</strong> <span class="muted">miles — average distance to a recipient</span></div>`);
+        const avgMi = kmToMi(report.outbound_avg_km);
+        bits.push(
+          `<div><strong>${fmtNum(avgMi, 0)}</strong> <span class="muted">mi &mdash; avg distance to a recipient</span>` +
+          reachPillsFor("avg", avgMi) +
+          `</div>`
+        );
       }
       if (report.farthest_outbound) {
-        const farMi = fmtNum(kmToMi(report.farthest_outbound.distance_km), 0);
-        bits.push(`<div><strong>${farMi}</strong> <span class="muted">miles — farthest:</span> ${escapeHtml(report.farthest_outbound.name)}${report.farthest_outbound.state && report.farthest_outbound.state !== report.state ? ` (${escapeHtml(report.farthest_outbound.state)})` : ""}</div>`);
+        const farMi = kmToMi(report.farthest_outbound.distance_km);
+        const stateSuffix = report.farthest_outbound.state && report.farthest_outbound.state !== report.state
+          ? ` (${escapeHtml(report.farthest_outbound.state)})` : "";
+        bits.push(
+          `<div><strong>${fmtNum(farMi, 0)}</strong> <span class="muted">mi &mdash; farthest:</span> ${escapeHtml(report.farthest_outbound.name)}${stateSuffix}` +
+          reachPillsFor("far", farMi) +
+          `</div>`
+        );
       }
       const reachCell = `<div class="metric-cell reach"><div class="cell-label">Reach</div><div class="reach-lines">${bits.join("")}</div></div>`;
       html += metricBlockHtml({
@@ -1144,7 +1172,7 @@
     if (!items.length) return "";
 
     let html = `<h2>SB 34 Compliance Concerns</h2>`;
-    html += `<p class="muted">Signals tied to California Civil Code &sect;1798.90.51&ndash;.55. Red items indicate potential compliance concerns a council member may want to raise.</p>`;
+    html += `<p class="muted">Signals tied to California Civil Code &sect;1798.90.51&ndash;.55. Red items indicate potential compliance concerns a council member may want to raise with their agency.</p>`;
     // Pass the current report through so inline data-concern callouts
     // can be attached to specific checklist items.
     // (Opt `report` consumed by renderChecklistItems below.)
@@ -1254,50 +1282,43 @@
     });
     html += '</ul>';
 
-    // One-line summary of the items we hid because they're near-
-    // universal (this agency does them AND > 90% of peers do them).
-    // Names the items so the reader knows what was skipped, without
-    // reserving full UI real estate for each.
-    if (hiddenPassItems.length) {
-      const names = hiddenPassItems.map(function(i) { return labelFor(i); }).join(", ");
-      html += `<p class="muted baseline-note" style="font-size:9pt; margin:4px 0 0 0">` +
-        `<strong>Also passing</strong> (\u2265 90% of peers also pass &mdash; baseline, not distinguishing): ${escapeHtml(names)}.` +
-        `</p>`;
-    }
+    // (Previously: a "Also passing — ≥ 90% of peers also pass" blurb
+    // listed the items we hid as near-universal baseline. Removed —
+    // the checklist already shows only distinguishing signals, so
+    // naming the hidden baseline items just added noise.)
     return html;
   }
 
-  // Phrases peer stats concretely, always leading with the "how many
-  // agencies pass" number. Uncrawled agencies are excluded from the
-  // denominator (we can't verify what isn't public) — that context is
-  // included as a separate sentence when relevant. For SB 34 items
-  // (non-compact), also renders a statewide line underneath so the
-  // reader sees if the concern is type-specific or CA-wide.
+  // Phrases peer stats concretely, using a per-check action phrase
+  // (e.g. "publish an access policy", "avoid out-of-state sharing")
+  // so the reader sees the specific behavior instead of an abstract
+  // "pass". Falls back to "do this" if no peer_phrase is set.
+  // Uncrawled agencies are excluded from the denominator — we can't
+  // verify what isn't public. For SB 34 items (non-compact), adds a
+  // statewide line when the type-scoped numbers differ.
   function formatPeerStat(item, peerTypeLabel, compact) {
     const applicable = item.peer_applicable != null ? item.peer_applicable : item.peer_total;
-    const total = item.peer_total;
     const pass = item.peer_count;
-    const fail = applicable - pass;
+    const phrase = item.peer_phrase || "do this";
 
     if (applicable === 0) {
       return `No ${peerTypeLabel} publish enough info to evaluate.`;
     }
 
     const passPct = pct(pass, applicable);
-    const failPct = pct(fail, applicable);
 
     if (compact) {
-      return `${pass}/${applicable} peers pass (${passPct}%).`;
+      return `${passPct}% of peers ${escapeHtml(phrase)} (${pass}/${applicable}).`;
     }
 
-    let line = `<strong>${pass} of ${applicable} ${peerTypeLabel}</strong> pass (${passPct}%).`;
+    let line = `<strong>${passPct}%</strong> of ${applicable} ${peerTypeLabel} ${escapeHtml(phrase)} (${pass}/${applicable}).`;
 
     if (item.state_applicable != null && item.state_total != null) {
       const sApp = item.state_applicable;
       const sPass = item.state_count;
       if (sApp > applicable) {
         const sPct = pct(sPass, sApp);
-        line += ` <span class="muted">Statewide: ${sPass}/${sApp} (${sPct}%).</span>`;
+        line += ` <span class="muted">Statewide: ${sPct}% (${sPass}/${sApp}).</span>`;
       }
     }
     return line;
@@ -1865,7 +1886,10 @@
       "A council member should ask to see the <em>text</em> of the policy and compare it item-by-item against &sect;1798.90.51\u2013.55."
     );
     qs.push("How many users currently have access to the city's Flock pages? Are there any inactive users who still have access? What is the process for revoking accounts when personnel leave the department?");
-    qs.push("Does the Flock contract contain an independent disclosure clause (such as &sect;5.3 in the standard MSA)?");
+    qs.push(
+      "Does the Flock contract contain an independent disclosure clause (such as &sect;5.3 in the standard MSA)? " +
+      "<span class=\"muted\">Such clauses let Flock (the company) access and share the city's ALPR data outside the protections of the city's configured sharing settings.</span>"
+    );
 
     return qs;
   }
@@ -1887,12 +1911,22 @@
     html += '<div style="flex:1">';
     html += `<p><strong>Source:</strong> Flock Safety transparency portals, compiled by the sm-alpr project.</p>`;
     if (popSrc) {
-      html += `<p><strong>Population data:</strong> ${escapeHtml(popSrc.source || "U.S. Census Bureau")}.</p>`;
+      // Link the ACS product + Census Bureau so readers can click
+      // through to source. Print CSS strips underlines so the PDF
+      // stays clean — the source text still appears verbatim.
+      const vintage = popSrc.vintage || 2023;
+      const acsUrl = "https://www.census.gov/programs-surveys/acs";
+      const censusUrl = "https://www.census.gov/";
+      html += `<p><strong>Population data:</strong> ` +
+        `<a href="${acsUrl}" target="_blank" rel="noopener">ACS 5-Year Estimates (${vintage})</a>` +
+        `, <a href="${censusUrl}" target="_blank" rel="noopener">U.S. Census Bureau</a>.</p>`;
     }
     html += `<p><strong>Interactive map:</strong> <a href="${escapeHtml(mapUrlAbs)}">${escapeHtml(mapUrlAbs)}</a></p>`;
     html += `<p><strong>This report:</strong> <a href="${escapeHtml(thisUrlAbs)}">${escapeHtml(thisUrlAbs)}</a></p>`;
     html += `<p><strong>Report generated:</strong> ${new Date().toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric"})}</p>`;
-    html += `<p>This report reflects data at the time of the last portal crawl. Sharing relationships and stats may have changed.</p>`;
+    const crawlDate = report.crawled_date;
+    const crawlPhrase = crawlDate ? `the ${escapeHtml(crawlDate)} portal crawl` : "the last portal crawl";
+    html += `<p>This report reflects data from ${crawlPhrase}. Sharing relationships and stats may have changed since.</p>`;
     html += '</div>';
     // QR code block (right column)
     html += '<div style="flex:0 0 auto;text-align:center">';
