@@ -336,10 +336,17 @@
   }
   .mini-map {
     max-width: 100%;
-    width: 100%;
+    width: auto;
+    height: auto;
     max-height: 260px;
     display: block;
     border-radius: 4px;
+  }
+  .mini-map-caption {
+    font-size: 8.5pt;
+    color: #475569;
+    margin-top: 4px;
+    line-height: 1.35;
   }
   /* Coverage tag under the downstream-searches value — pairs with
      the amber sublabel on the metric label column to hammer home
@@ -393,6 +400,7 @@
     break-inside: avoid;
   }
   .metric-block.concern { border-left: 4px solid #dc2626; }
+  .metric-block.concern-mild { border-left: 4px solid #f59e0b; }
   .metric-block.has-data-concern { border-left: 4px solid #dc2626; }
   .metric-head .concern-flag {
     color: #dc2626;
@@ -445,8 +453,12 @@
   .metric-cell.downstream-researchers {
     background: #fafafa;
   }
-  .metric-cell.cell-high { background: #fee2e2; }
-  .metric-cell.cell-mid-high { background: #fef3c7; }
+  /* Cell-level concern = tint the value only. Block-level concern
+     (red left bar on the whole block) does the heavy visual lifting
+     so individual cells don't need a colored fill that would obscure
+     the embedded sparklines. */
+  .metric-cell.cell-high .cell-value { color: #991b1b; }
+  .metric-cell.cell-mid-high .cell-value { color: #92400e; }
   .cell-label {
     font-size: 8pt;
     color: #888;

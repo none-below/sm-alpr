@@ -915,7 +915,7 @@
     if (!recipients.length) return "";
 
     const MAX_W = 540, MAX_H = 320;
-    const PAD_L = 6, PAD_R = 6, PAD_T = 6, PAD_B = 22;  // extra bottom pad for caption
+    const PAD_L = 6, PAD_R = 6, PAD_T = 6, PAD_B = 6;
 
     // Bounding box — include subject + every geocoded recipient, plus
     // a small cushion so dots at the edge aren't clipped.
@@ -1003,10 +1003,11 @@
     // El Cajon where nearly every flagged line runs out of state.)
 
     // Clean recipients first (underneath), then flagged on top so
-    // the red dots aren't obscured
+    // the red dots aren't obscured. Orange for clean so they stand
+    // out against the pale-blue CA fill (gray blended in too much).
     recipients.filter(function(r) { return !r.kind; }).forEach(function(r) {
       const [x, y] = proj(r.lat, r.lng);
-      svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.8" fill="#94a3b8" opacity="0.7"/>`;
+      svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2" fill="#f97316" opacity="0.85"/>`;
     });
     recipients.filter(function(r) { return r.kind; }).forEach(function(r) {
       const [x, y] = proj(r.lat, r.lng);
@@ -1017,25 +1018,15 @@
     svg += `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="6" fill="none" stroke="#06b6d4" stroke-width="2"/>`;
     svg += `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="3" fill="#06b6d4"/>`;
 
-    // Farthest label
-    if (farthest) {
-      const fr = recipients.find(function(r) { return r.slug === farthest.slug; });
-      if (fr) {
-        const [fx, fy] = proj(fr.lat, fr.lng);
-        const labelX = fx < W / 2 ? fx + 6 : fx - 6;
-        const anchor = fx < W / 2 ? "start" : "end";
-        svg += `<text x="${labelX.toFixed(1)}" y="${(fy - 5).toFixed(1)}" font-size="9" fill="#92400e" text-anchor="${anchor}">${escapeHtml(farthest.name)}</text>`;
-      }
-    }
-
-    // Caption — count + legend. Separate from SVG so text flow is
-    // native HTML (easier styling, selectable).
-    const flaggedCount = recipients.filter(function(r) { return r.kind; }).length;
-    const cleanCount = recipients.length - flaggedCount;
-    svg += `<text x="${PAD_L}" y="${H - 6}" font-size="9" fill="#475569">${recipients.length} geocoded recipients (${cleanCount} clean, ${flaggedCount} flagged). Red lines: sharing to flagged entities. Amber dashed: farthest.</text>`;
     svg += `</svg>`;
 
-    return `<div class="mini-map-wrap">${svg}</div>`;
+    // Caption in HTML so the legend wraps with the text column next
+    // to the map rather than overflowing the cropped SVG width.
+    const flaggedCount = recipients.filter(function(r) { return r.kind; }).length;
+    const cleanCount = recipients.length - flaggedCount;
+    const caption = `<div class="mini-map-caption">${recipients.length} geocoded recipients &mdash; ${cleanCount} clean (orange), ${flaggedCount} flagged (red). Red lines: sharing to flagged entities.</div>`;
+
+    return `<div class="mini-map-wrap">${svg}${caption}</div>`;
   }
 
   // Horizontal bar chart of top recipients by search volume, for the
@@ -1811,24 +1802,21 @@
     }
 
     if (flagged.length) {
-      // Expand the question with category-specific addenda when the
-      // agency hits certain high-signal categories (AG-lawsuit
-      // targets, fusion centers). Keeps the base question identical
-      // for agencies without those specifics; adds pointed follow-up
-      // text when they apply.
-      let q = `This report shows <strong>${flagged.length} flagged recipient${flagged.length === 1 ? "" : "s"}</strong> in the sharing list. Has the department conducted an entity-type review of all recipients? Who performs it, and how often?`;
+      const n = flagged.length;
+      const noun = n === 1 ? "recipient is" : "recipients are";
+      let q = `<strong>${n} sharing ${noun} flagged.</strong> Who reviews the recipient list, and how often?`;
       const sb34 = report.checklist_sb34 || [];
       const failsAgLawsuit = sb34.some(function(i) { return i.id === "no_ag_lawsuit_sharing" && i.value === false; });
       const failsFusion = sb34.some(function(i) { return i.id === "no_fusion_center_sharing" && i.value === false; });
       const addenda = [];
       if (failsAgLawsuit) {
-        addenda.push("the list includes <strong>an agency the CA Attorney General has sued</strong> for illegal out-of-state ALPR sharing in violation of SB 34");
+        addenda.push("an agency the CA Attorney General has sued over out-of-state ALPR sharing");
       }
       if (failsFusion) {
-        addenda.push("the list includes <strong>a fusion center</strong> whose governance includes federal law enforcement agencies (see the Flagged Recipients section for specifics)");
+        addenda.push("a fusion center with federal law-enforcement participation");
       }
       if (addenda.length) {
-        q += " In particular, " + addenda.join("; and ") + ".";
+        q += " The list includes " + addenda.join(" and ") + " &mdash; see Flagged Recipients for details.";
       }
       qs.push(q);
     }
