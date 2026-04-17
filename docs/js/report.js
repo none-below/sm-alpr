@@ -303,23 +303,23 @@
     if (!hist || !hist.bins || !hist.bins.length) return "";
     const bins = hist.bins;
     const mn = hist.min, mx = hist.max;
-    const W = 44, H = 10, PAD = 0.5;
+    const W = 68, H = 16, PAD = 1;
     const barW = (W - 2 * PAD) / bins.length;
     const maxCount = bins.reduce(function(m, c) { return c > m ? c : m; }, 0) || 1;
-    const barMaxH = H - 2;
+    const barMaxH = H - 3;
     let svg = `<svg class="pill-spark" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">`;
     for (let i = 0; i < bins.length; i++) {
-      const h = Math.max(1, Math.round(barMaxH * bins[i] / maxCount));
+      const h = Math.max(1.5, barMaxH * bins[i] / maxCount);
       const x = PAD + i * barW;
-      const y = H - 1 - h;
-      svg += `<rect x="${x.toFixed(2)}" y="${y}" width="${Math.max(0.8, barW - 0.3).toFixed(2)}" height="${h}" fill="currentColor" opacity="0.35"/>`;
+      const y = H - 1.5 - h;
+      svg += `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${Math.max(1, barW - 0.4).toFixed(2)}" height="${h.toFixed(2)}" fill="currentColor" opacity="0.45"/>`;
     }
     if (value != null && mx > mn) {
       let t = (value - mn) / (mx - mn);
       if (t < 0) t = 0;
       if (t > 1) t = 1;
       const x = PAD + t * (W - 2 * PAD);
-      svg += `<line x1="${x.toFixed(2)}" x2="${x.toFixed(2)}" y1="0" y2="${H}" stroke="#dc2626" stroke-width="1.25"/>`;
+      svg += `<line x1="${x.toFixed(2)}" x2="${x.toFixed(2)}" y1="0" y2="${H}" stroke="#dc2626" stroke-width="1.5"/>`;
     }
     svg += `</svg>`;
     return svg;
