@@ -241,45 +241,22 @@
     }
 
     // Agency-specific data concerns: documented discrepancies between
-    // what the agency publishes and what other records show (internal
-    // dashboards, PRA responses, testimony). Concerns are tagged with
-    // a `section` field (e.g. "stat:cameras", "check:documented_audit")
-    // so the full body renders near the relevant section; here we show
-    // a TL;DR index at the top of the report listing the titles with
-    // jump links. Concerns without a section (or with section="general")
-    // render fully here.
+    // what the agency publishes and what other records show. Section-
+    // tagged concerns render inline next to the relevant stat/check
+    // (with a warning-triangle marker in the stat header). Only
+    // untagged/general concerns render here, since they have no other
+    // home.
     if (report.data_concerns && report.data_concerns.length) {
       const generalConcerns = report.data_concerns.filter(function(c) {
         return !c.section || c.section === "general";
       });
-      const taggedConcerns = report.data_concerns.filter(function(c) {
-        return c.section && c.section !== "general";
-      });
-      // Header makes the agency-specific nature explicit — these are
-      // NOT generic data-quality notes about the transparency program;
-      // they're documented discrepancies and gaps specific to THIS
-      // agency, pulled from the project's findings for it.
-      html += '<div class="data-concerns">';
-      html += `<div class="data-concerns-header">\u26a0 Known concerns specific to ${escapeHtml(report.name)}</div>`;
-      html += `<div class="data-concerns-sub">Documented discrepancies between what this agency publishes and what other public records (internal dashboards, PRA responses, testimony) show. Each concern below links to the relevant section further down the report.</div>`;
-      // Fully-inline rendering for untagged concerns
-      generalConcerns.forEach(function(c) {
-        html += renderDataConcernBody(c);
-      });
-      // Tagged: index only (title + "↓ see below" jump link). Anchor
-      // id uses the concern's index in the full data_concerns array
-      // so the inline renderer (which iterates that same array) can
-      // produce matching ids.
-      if (taggedConcerns.length) {
-        html += '<ul class="data-concerns-index">';
-        report.data_concerns.forEach(function(c, i) {
-          if (!c.section || c.section === "general") return;
-          const anchorId = `concern-${i}`;
-          html += `<li><a href="#${anchorId}">${escapeHtml(c.title || "(concern)")}</a> <span class="muted">&mdash; see below</span></li>`;
+      if (generalConcerns.length) {
+        html += '<div class="data-concerns">';
+        generalConcerns.forEach(function(c) {
+          html += renderDataConcernBody(c);
         });
-        html += '</ul>';
+        html += '</div>';
       }
-      html += '</div>';
     }
 
     return html;
@@ -425,8 +402,10 @@
       inlineConcernHtml: concernHtml = "",
     } = opts;
 
-    let html = `<div class="metric-block${concern ? " concern" : ""}">`;
+    const hasConcern = !!concernHtml;
+    let html = `<div class="metric-block${concern ? " concern" : ""}${hasConcern ? " has-data-concern" : ""}">`;
     html += `<div class="metric-head">`;
+    if (hasConcern) html += `<span class="concern-flag" aria-label="Has documented concern">\u26A0</span> `;
     html += `<span class="metric-title"${titleTooltip ? ` title="${escapeHtml(titleTooltip)}"` : ""}>${escapeHtml(title)}</span>`;
     if (subtitle) html += ` <span class="metric-subtitle">${escapeHtml(subtitle)}</span>`;
     html += `</div>`;
