@@ -821,10 +821,13 @@
   // Render the body of a single data_concern (title + description +
   // source link). Factored out so both the top-of-page block and the
   // inline anchored callouts use the same markup.
-  function renderDataConcernBody(c, anchorId) {
+  function renderDataConcernBody(c, anchorId, inlineAgencyLabel) {
     let html = '<div class="data-concern"';
     if (anchorId) html += ` id="${escapeHtml(anchorId)}"`;
     html += '>';
+    if (inlineAgencyLabel) {
+      html += `<div class="data-concern-scope">${inlineAgencyLabel}-specific finding</div>`;
+    }
     if (c.title) html += `<div class="data-concern-title">${escapeHtml(c.title)}</div>`;
     if (c.description) html += `<div class="data-concern-desc">${c.description}</div>`;
     if (c.source_url) {
@@ -842,10 +845,11 @@
   function concernsForSection(report, sectionKey) {
     if (!report.data_concerns || !report.data_concerns.length) return "";
     let html = "";
+    const agencyLabel = escapeHtml(shortAgencyName(report) || report.name || "this agency");
     report.data_concerns.forEach(function(c, i) {
       if (!c.section || c.section === "general") return;
       if (c.section !== sectionKey) return;
-      html += renderDataConcernBody(c, `concern-${i}`);
+      html += renderDataConcernBody(c, `concern-${i}`, agencyLabel);
     });
     if (!html) return "";
     return `<div class="data-concerns data-concerns-inline">${html}</div>`;
@@ -1316,27 +1320,17 @@
     const failPct = pct(fail, applicable);
 
     if (compact) {
-      // Multi-column cards: keep it one short sentence.
-      return `${pass}/${applicable} peers pass (${passPct}%). ${fail} fail (${failPct}%).`;
+      return `${pass}/${applicable} peers pass (${passPct}%).`;
     }
 
-    let line = `Among ${applicable} ${peerTypeLabel} we can verify: ` +
-      `<strong>${pass} (${passPct}%) pass this check</strong>; ` +
-      `${fail} (${failPct}%) do not.`;
-    if (applicable < total) {
-      const unknown = total - applicable;
-      line += ` (${unknown} more ${peerTypeLabel} don't publish enough to evaluate.)`;
-    }
+    let line = `<strong>${pass} of ${applicable} ${peerTypeLabel}</strong> pass (${passPct}%).`;
 
-    // Statewide line: shown when the item carries state-wide counts
-    // (added for SB 34). Only include when the state numbers differ
-    // meaningfully from the type numbers — otherwise it's redundant.
     if (item.state_applicable != null && item.state_total != null) {
       const sApp = item.state_applicable;
       const sPass = item.state_count;
       if (sApp > applicable) {
         const sPct = pct(sPass, sApp);
-        line += `<br><span class="muted">Statewide: ${sPass} of ${sApp} CA agencies (${sPct}%) pass this check.</span>`;
+        line += ` <span class="muted">Statewide: ${sPass}/${sApp} (${sPct}%).</span>`;
       }
     }
     return line;
