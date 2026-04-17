@@ -1610,6 +1610,13 @@
     return html;
   }
 
+  // Default sort direction for a given column. Name/distance sort
+  // ascending (A-Z, nearest first); numeric columns start descending
+  // since the interesting signal is big numbers.
+  function defaultDirFor(key) {
+    return (key === "name" || key === "distance") ? 1 : -1;
+  }
+
   // Attach click-to-sort to each sortable header of the regional
   // context table. For columns where each cell carries a per-1k rate
   // in parentheses, clicks cycle through four states:
@@ -1642,16 +1649,15 @@
           && sampleRow.cells[colIdx].dataset.sortRate !== "");
 
         if (activeKey !== key) {
-          // New column: default direction — numeric desc (interesting =
-          // big numbers), text/distance asc.
+          // New column: use the column's default direction.
           activeKey = key;
           activeMode = "primary";
-          activeDir = (key === "name" || key === "distance") ? 1 : -1;
+          activeDir = defaultDirFor(key);
         } else {
           // Same column: advance through the cycle. For rate-bearing
           // columns: primary-asc → primary-desc → rate-asc → rate-desc
           // → primary-asc. For plain columns: asc → desc → asc.
-          if (activeMode === "primary" && activeDir === (key === "name" || key === "distance" ? 1 : -1)) {
+          if (activeMode === "primary" && activeDir === defaultDirFor(key)) {
             activeDir = -activeDir;  // primary desc (or asc after flip)
           } else if (activeMode === "primary" && hasRate) {
             activeMode = "rate";
@@ -1661,7 +1667,7 @@
           } else {
             // Back to primary default
             activeMode = "primary";
-            activeDir = (key === "name" || key === "distance") ? 1 : -1;
+            activeDir = defaultDirFor(key);
           }
         }
         sortRegionalRows(table, headers, key, activeMode, activeDir);

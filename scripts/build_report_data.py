@@ -370,6 +370,26 @@ def dist_km(lat1, lng1, lat2, lng2):
     return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 
+def _county_fips_from_geo(geo):
+    """Return the 5-digit county FIPS for a registry geo dict, or "".
+
+    Kind-specific:
+      - county / cousub: first 5 chars ARE the county FIPS
+      - place: first 5 chars are state(2) + place(3), not county; look
+        up the county via nearest-centroid in the same state
+      - state-only / manual / state / ambiguous / absent: no county data
+    """
+    if not geo:
+        return ""
+    fips = geo.get("fips") or ""
+    kind = geo.get("kind")
+    if kind in ("county", "cousub") and len(fips) >= 5:
+        return fips[:5]
+    if kind == "place" and len(fips) == 7:
+        return county_fips_for_place(fips) or ""
+    return ""
+
+
 # ── Percentile helper ──
 
 import re as _re_mod
@@ -663,31 +683,17 @@ def main():
         # Downstream searches total (self + crawled recipients that
         # publish search counts). Always defined for crawled agencies,
         # even if the agency itself doesn't publish searches.
-        ds_total = 0
+        downstream_total = 0
         self_s = a["portal"].get("searches_30d")
         if isinstance(self_s, (int, float)):
-            ds_total += int(self_s)
+            downstream_total += int(self_s)
         for t_id in a["graph"].get("sharing_outbound_ids", []):
             if t_id in searches_by_aid:
-                ds_total += int(searches_by_aid[t_id])
-        downstream_total = ds_total
+                downstream_total += int(searches_by_aid[t_id])
         downstream_series_by_type[a["type"]].append(downstream_total)
         downstream_series_all.append(downstream_total)
         a_lat, a_lng = agency_coords(a["reg"])
-        a_geo = a["reg"].get("geo") or {}
-        a_fips = a_geo.get("fips") or ""
-        a_kind = a_geo.get("kind")
-        # County FIPS extraction depends on the geo kind:
-        #   - county / cousub: first 5 chars ARE the county FIPS
-        #   - place: first 5 chars are state(2) + place(3), not county;
-        #     look up the county via nearest-centroid in the same state
-        #   - state-only / manual / absent: no county data
-        if a_kind in ("county", "cousub") and len(a_fips) >= 5:
-            a_county_fips = a_fips[:5]
-        elif a_kind == "place" and len(a_fips) == 7:
-            a_county_fips = county_fips_for_place(a_fips) or ""
-        else:
-            a_county_fips = ""
+        a_county_fips = _county_fips_from_geo(a["reg"].get("geo"))
         crawled_agency_metrics.append({
             "agency_id": a["agency_id"],
             "slug": a["slug"],
@@ -1025,17 +1031,8 @@ def main():
             }
 
             # Compute the local peer pool once for this agency. The same
-            # pool is reused for raw and per-capita rankings. See the
-            # county_fips extraction above for the kind-specific logic.
-            geo = reg.get("geo") or {}
-            fips = geo.get("fips") or ""
-            kind = geo.get("kind")
-            if kind in ("county", "cousub") and len(fips) >= 5:
-                source_county = fips[:5]
-            elif kind == "place" and len(fips) == 7:
-                source_county = county_fips_for_place(fips) or ""
-            else:
-                source_county = ""
+            # pool is reused for raw and per-capita rankings.
+            source_county = _county_fips_from_geo(reg.get("geo"))
             local_peers, local_scope = local_peers_for(
                 aid, lat, lng, source_county
             )
