@@ -6,7 +6,7 @@ For each CA agency, precomputes:
   - Core stats (cameras, retention, 30-day activity)
   - Transparency/best-practices checklist (what they publish vs. peers)
   - Sharing summary (outbound/inbound counts, flagged recipients)
-  - Regional context (neighbors within 50 km)
+  - Regional context (neighbors within 25 miles)
   - Peer-group percentiles (by agency_type within CA)
 
 Reads:
@@ -23,6 +23,7 @@ Usage:
 
 import json
 import math
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -71,7 +72,15 @@ MIN_PEER_SAMPLE = 10  # fall back to all-CA if peer group is smaller
 # common each practice is. Uncrawled agencies get X for every item (no
 # transparency page → no signals available).
 
-_URL_RE = __import__("re").compile(r"https?://", __import__("re").IGNORECASE)
+_URL_RE = re.compile(r"https?://", re.IGNORECASE)
+
+# Audit-related terms scanned in policy text fields as part of the
+# "documented_audit" SB 34 check. Module-level so we compile once
+# instead of on every evaluate_checklist() call.
+_AUDIT_TERMS_RE = re.compile(
+    r"\baudit|\breview\b|oversight|accountability",
+    re.IGNORECASE,
+)
 
 
 def _has_value(portal, key):
@@ -83,7 +92,7 @@ def _has_value(portal, key):
 def _has_number(portal, key):
     """True if the portal field is a non-null number."""
     v = portal.get(key)
-    return isinstance(v, (int, float)) and v is not None
+    return isinstance(v, (int, float))
 
 
 def _field_has_url(portal, key):
@@ -96,13 +105,6 @@ def _field_has_url(portal, key):
 
 def _any_field_has_url(portal, keys):
     return any(_field_has_url(portal, k) for k in keys)
-
-
-def _no_flagged_outbound(portal, reg, crawled, *, outbound_ids, reg_by_id):
-    if not crawled or not outbound_ids:
-        # Uncrawled agencies don't get credit — we can't verify
-        return False if not crawled else True
-    return not any(is_flagged_entity(t, reg_by_id) for t in outbound_ids)
 
 
 # SB 34 compliance checks. Each item carries three labels so the UI can
@@ -251,11 +253,7 @@ def evaluate_checklist(portal, reg, crawled, outbound_ids, reg_by_id):
     #   - the dedicated search_audit field has content, OR
     #   - policy_info links to an external policy document, OR
     #   - any free-form text field mentions audit-related terms
-    #     (audit, review, oversight, accountability)
-    _AUDIT_TERMS = __import__("re").compile(
-        r"\baudit|\breview\b|oversight|accountability",
-        __import__("re").IGNORECASE,
-    )
+    #     (audit, review, oversight, accountability — see _AUDIT_TERMS_RE)
     if crawled:
         audit_documented = False
         if _has_value(portal, "search_audit"):
@@ -267,7 +265,7 @@ def evaluate_checklist(portal, reg, crawled, outbound_ids, reg_by_id):
                           "policy_info", "overview", "additional_info",
                           "hotlist_policy", "restrictions_on_deployment"):
                 v = portal.get(field)
-                if isinstance(v, str) and _AUDIT_TERMS.search(v):
+                if isinstance(v, str) and _AUDIT_TERMS_RE.search(v):
                     audit_documented = True
                     break
         results["documented_audit"] = audit_documented
@@ -392,17 +390,16 @@ def _county_fips_from_geo(geo):
 
 # ── Percentile helper ──
 
-import re as _re_mod
-_AGENCY_SUFFIXES_RE = _re_mod.compile(
+_AGENCY_SUFFIXES_RE = re.compile(
     r"\s*\b(PD|SO|SD|DA|FD|DPS|Police Department|Sheriff'?s? Office|"
     r"Sheriff'?s? Department|District Attorney|Fire Department|"
     r"Department of Public Safety|Public Safety|Parks Department|"
     r"Marshal'?s? Office)\b\s*",
-    _re_mod.IGNORECASE,
+    re.IGNORECASE,
 )
-_STATE_TOKEN_RE = _re_mod.compile(r"\s*\b[A-Z]{2}\b\s*")
-_PARENS_RE = _re_mod.compile(r"\s*\([^)]*\)\s*")
-_CITY_OF_RE = _re_mod.compile(r"^(City|Town|Village|Borough)\s+of\s+", _re_mod.IGNORECASE)
+_STATE_TOKEN_RE = re.compile(r"\s*\b[A-Z]{2}\b\s*")
+_PARENS_RE = re.compile(r"\s*\([^)]*\)\s*")
+_CITY_OF_RE = re.compile(r"^(City|Town|Village|Borough)\s+of\s+", re.IGNORECASE)
 
 
 def _place_name_from_agency(agency_name):
@@ -417,7 +414,7 @@ def _place_name_from_agency(agency_name):
     n = _AGENCY_SUFFIXES_RE.sub(" ", n)
     n = _STATE_TOKEN_RE.sub(" ", n)
     n = _CITY_OF_RE.sub("", n)
-    n = _re_mod.sub(r"\s+", " ", n).strip()
+    n = re.sub(r"\s+", " ", n).strip()
     return n
 
 
@@ -635,7 +632,7 @@ def main():
     rate_series_by_type = defaultdict(lambda: defaultdict(list))
     rate_series_all = defaultdict(list)
     # Local ranking requires per-agency metric snapshots so we can
-    # filter to "peers in the same county / within 50 miles" at
+    # filter to "peers in the same county / within 25 miles" at
     # report-build time. Cache each crawled agency's raw + per-capita +
     # density (per-sqmi) metric values along with geography.
     LOCAL_RADIUS_MI = 25
@@ -721,6 +718,8 @@ def main():
     downstream_series_all.sort()
     for t in downstream_series_by_type:
         downstream_series_by_type[t].sort()
+    # Index crawled_agency_metrics by agency_id for O(1) lookup below.
+    crawled_metrics_by_aid = {m["agency_id"]: m for m in crawled_agency_metrics}
 
     def median(values):
         if not values:
@@ -1084,10 +1083,9 @@ def main():
             # ── Downstream-searches peer comparison ──
             # Read the pre-computed total from our pass-1 cache — keeps
             # this block O(peers) instead of re-iterating recipients.
-            for cm in crawled_agency_metrics:
-                if cm["agency_id"] == aid:
-                    downstream_total = cm["downstream_searches"]
-                    break
+            cm = crawled_metrics_by_aid.get(aid)
+            if cm is not None:
+                downstream_total = cm["downstream_searches"]
             if downstream_total is not None:
                 ds_series, ds_fb, ds_pt = peer_downstream_series(atype)
                 percentile_downstream = percentile_of(downstream_total, ds_series)
@@ -1298,7 +1296,7 @@ def main():
         for target_id in sorted(inferred_out_ids):
             outbound_list.append(_outbound_entry(target_id, True))
 
-        # ── Regional context: crawled CA agencies within 50 km ──
+        # ── Regional context: crawled CA agencies within REGIONAL_RADIUS_KM ──
         regional = []
         if lat is not None and lng is not None:
             for a in ca_crawled:
