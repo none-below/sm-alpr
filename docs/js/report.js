@@ -768,7 +768,7 @@
         extrasHtml: pvExtras,
         rankPillsHtml: pvPills,
       });
-      const hotlistCaveat = `<strong>Hotlist hits are not a vetted crime indicator.</strong> NCIC matches include known false positives (e.g., 77% wrong-state matches in one Iowa audit), and custom lists are frequently added without case numbers or expirations. See <a href="https://haveibeenflocked.com/news/hotlist-mess" target="_blank" rel="noopener">haveibeenflocked.com/news/hotlist-mess</a>.`;
+      const hotlistCaveat = `A hit is a possible match, not a confirmed crime — NCIC matches can include false positives, and custom lists vary in how they're curated. More at <a href="https://haveibeenflocked.com/news/hotlist-mess" target="_blank" rel="noopener">haveibeenflocked.com/news/hotlist-mess</a>.`;
       html += metricBlockHtml({
         title: `${short}'s hotlist hits`,
         subtitle: "plate match against FBI NCIC or a custom list the operator has configured",
