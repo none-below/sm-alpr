@@ -144,9 +144,6 @@ def _load_cousubs():
     global _cousubs_cache
     if _cousubs_cache is not None:
         return _cousubs_cache
-    if not COUSUBS_PATH.exists():
-        _cousubs_cache = []
-        return _cousubs_cache
     cousubs = []
     with COUSUBS_PATH.open() as f:
         reader = csv.DictReader(f, delimiter="\t")

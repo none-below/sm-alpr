@@ -77,10 +77,12 @@ class TestGeoCache:
                 mismatches.append(f"{fips}: state {geo.get('state')!r} != {place['state']!r}")
             if geo.get("name") != place["name"]:
                 mismatches.append(f"{fips}: name {geo.get('name')!r} != {place['name']!r}")
-            if abs(geo.get("lat", 0) - place["lat"]) > COORD_TOLERANCE:
-                mismatches.append(f"{fips}: lat {geo.get('lat')} != {place['lat']}")
-            if abs(geo.get("lng", 0) - place["lng"]) > COORD_TOLERANCE:
-                mismatches.append(f"{fips}: lng {geo.get('lng')} != {place['lng']}")
+            lat, lng = geo.get("lat"), geo.get("lng")
+            assert lat is not None and lng is not None, f"{fips}: missing lat/lng"
+            if abs(lat - place["lat"]) > COORD_TOLERANCE:
+                mismatches.append(f"{fips}: lat {lat} != {place['lat']}")
+            if abs(lng - place["lng"]) > COORD_TOLERANCE:
+                mismatches.append(f"{fips}: lng {lng} != {place['lng']}")
         assert not mismatches, (
             "Registry geo cache out of sync with gazetteer:\n"
             + "\n".join(mismatches[:20])
@@ -102,10 +104,12 @@ class TestGeoCache:
                 mismatches.append(f"{fips}: state {geo.get('state')!r} != {county['state']!r}")
             if geo.get("name") != county["bare_name"]:
                 mismatches.append(f"{fips}: name {geo.get('name')!r} != {county['bare_name']!r}")
-            if abs(geo.get("lat", 0) - county["lat"]) > COORD_TOLERANCE:
-                mismatches.append(f"{fips}: lat {geo.get('lat')} != {county['lat']}")
-            if abs(geo.get("lng", 0) - county["lng"]) > COORD_TOLERANCE:
-                mismatches.append(f"{fips}: lng {geo.get('lng')} != {county['lng']}")
+            lat, lng = geo.get("lat"), geo.get("lng")
+            assert lat is not None and lng is not None, f"{fips}: missing lat/lng"
+            if abs(lat - county["lat"]) > COORD_TOLERANCE:
+                mismatches.append(f"{fips}: lat {lat} != {county['lat']}")
+            if abs(lng - county["lng"]) > COORD_TOLERANCE:
+                mismatches.append(f"{fips}: lng {lng} != {county['lng']}")
         assert not mismatches, (
             "Registry geo cache out of sync with gazetteer:\n"
             + "\n".join(mismatches[:20])
@@ -147,10 +151,12 @@ class TestGeoCache:
             assert s, f"{e['slug']}: could not compute state centroid for {state}"
             if s["state_fips"] != fips:
                 mismatches.append(f"{e['slug']}: fips {fips} != expected {s['state_fips']}")
-            if abs(geo.get("lat", 0) - s["lat"]) > COORD_TOLERANCE:
-                mismatches.append(f"{e['slug']}: lat {geo.get('lat')} != {s['lat']}")
-            if abs(geo.get("lng", 0) - s["lng"]) > COORD_TOLERANCE:
-                mismatches.append(f"{e['slug']}: lng {geo.get('lng')} != {s['lng']}")
+            lat, lng = geo.get("lat"), geo.get("lng")
+            assert lat is not None and lng is not None, f"{e['slug']}: missing lat/lng"
+            if abs(lat - s["lat"]) > COORD_TOLERANCE:
+                mismatches.append(f"{e['slug']}: lat {lat} != {s['lat']}")
+            if abs(lng - s["lng"]) > COORD_TOLERANCE:
+                mismatches.append(f"{e['slug']}: lng {lng} != {s['lng']}")
         assert not mismatches, "State-kind cache out of sync:\n" + "\n".join(mismatches[:20])
 
     def test_cousub_fips_valid(self):
@@ -170,8 +176,10 @@ class TestGeoCache:
                 mismatches.append(f"{fips}: state mismatch")
             if geo.get("name") != cousub["bare_name"]:
                 mismatches.append(f"{fips}: name {geo.get('name')!r} != {cousub['bare_name']!r}")
-            if abs(geo.get("lat", 0) - cousub["lat"]) > COORD_TOLERANCE:
+            lat, lng = geo.get("lat"), geo.get("lng")
+            assert lat is not None and lng is not None, f"{fips}: missing lat/lng"
+            if abs(lat - cousub["lat"]) > COORD_TOLERANCE:
                 mismatches.append(f"{fips}: lat mismatch")
-            if abs(geo.get("lng", 0) - cousub["lng"]) > COORD_TOLERANCE:
+            if abs(lng - cousub["lng"]) > COORD_TOLERANCE:
                 mismatches.append(f"{fips}: lng mismatch")
         assert not mismatches, "Cousub cache out of sync:\n" + "\n".join(mismatches[:20])
