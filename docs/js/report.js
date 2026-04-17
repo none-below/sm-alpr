@@ -1948,7 +1948,10 @@
 
     fetch("data/report_data.json?v=" + Date.now())
       .then(function(r) { return r.json(); })
-      .then(function(data) { render(data, slug); })
+      .then(function(data) {
+        render(data, slug);
+        wireAgencySearch(data, slug);
+      })
       .catch(function(err) {
         document.getElementById("report").innerHTML = `
           <div class="error-box">
@@ -1956,6 +1959,103 @@
             <p>${escapeHtml(err.message || String(err))}</p>
           </div>`;
       });
+  }
+
+  // Toolbar "Jump to another agency" search. Filters by case-
+  // insensitive substring, ranks exact > startsWith > contains, caps
+  // at 12 results. Navigating follows report.html?agency=<slug>.
+  // Keyboard: ↓/↑ to move highlight, Enter to open, Esc to close.
+  function wireAgencySearch(data, currentSlug) {
+    const input = document.getElementById("agency-search-input");
+    const results = document.getElementById("agency-search-results");
+    if (!input || !results) return;
+    const index = Object.entries(data.reports || {}).map(function(entry) {
+      const [slug, r] = entry;
+      return {
+        slug: slug,
+        name: r.name || slug,
+        state: r.state || "",
+        _nameLower: (r.name || slug).toLowerCase(),
+      };
+    });
+    let highlightIdx = -1;
+
+    function doSearch(q) {
+      q = q.trim().toLowerCase();
+      if (!q) { results.classList.remove("open"); results.innerHTML = ""; highlightIdx = -1; return; }
+      const matches = [];
+      for (let i = 0; i < index.length; i++) {
+        const e = index[i];
+        if (e.slug === currentSlug) continue;
+        const n = e._nameLower;
+        let score = 0;
+        if (n === q) score = 100;
+        else if (n.startsWith(q)) score = 50;
+        else if (n.includes(q)) score = 10;
+        if (score > 0) matches.push({ e: e, score: score });
+      }
+      matches.sort(function(a, b) {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.e._nameLower.localeCompare(b.e._nameLower);
+      });
+      const shown = matches.slice(0, 12);
+      if (!shown.length) {
+        results.innerHTML = '<div class="sr-empty">No matching agencies</div>';
+      } else {
+        results.innerHTML = shown.map(function(m) {
+          const state = m.e.state ? `<span class="sr-state">${escapeHtml(m.e.state)}</span>` : "";
+          return `<a href="report.html?agency=${encodeURIComponent(m.e.slug)}" data-slug="${escapeHtml(m.e.slug)}">${escapeHtml(m.e.name)}${state}</a>`;
+        }).join("");
+      }
+      results.classList.add("open");
+      highlightIdx = -1;
+    }
+
+    function updateHighlight() {
+      const links = results.querySelectorAll("a");
+      links.forEach(function(a, i) { a.classList.toggle("hl", i === highlightIdx); });
+      if (highlightIdx >= 0 && links[highlightIdx]) {
+        links[highlightIdx].scrollIntoView({ block: "nearest" });
+      }
+    }
+
+    input.addEventListener("input", function() { doSearch(input.value); });
+    input.addEventListener("keydown", function(e) {
+      const links = results.querySelectorAll("a");
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (!results.classList.contains("open")) doSearch(input.value);
+        if (links.length) {
+          highlightIdx = Math.min(highlightIdx + 1, links.length - 1);
+          updateHighlight();
+        }
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (links.length) {
+          highlightIdx = Math.max(highlightIdx - 1, 0);
+          updateHighlight();
+        }
+      } else if (e.key === "Enter") {
+        if (highlightIdx >= 0 && links[highlightIdx]) {
+          e.preventDefault();
+          window.location.href = links[highlightIdx].href;
+        } else if (links.length === 1) {
+          e.preventDefault();
+          window.location.href = links[0].href;
+        }
+      } else if (e.key === "Escape") {
+        results.classList.remove("open");
+        input.blur();
+      }
+    });
+    input.addEventListener("focus", function() {
+      if (input.value.trim()) doSearch(input.value);
+    });
+    document.addEventListener("click", function(e) {
+      if (!e.target.closest("#agency-search")) {
+        results.classList.remove("open");
+      }
+    });
   }
 
   // (Previously: opened every <details> on beforeprint so the PDF
