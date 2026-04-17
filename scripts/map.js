@@ -402,9 +402,11 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
     const shareUrl = window.location.href.split('#')[0] + '#' + m.slug;
     let html = '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="' + escapeHtml(shareUrl) + '" data-share-url="' + escapeHtml(shareUrl) + '" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
+    html += '<p class="stat"><a href="report.html?agency=' + encodeURIComponent(m.slug) + '" style="color:#2563eb;font-weight:600">View full report \u2192</a>';
     if (m.crawled) {
-      html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + safeSlug(m.slug) + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
+      html += ' &middot; <a href="https://transparency.flocksafety.com/' + safeSlug(m.slug) + '" target="_blank" style="color:#2563eb">Transparency portal \u2197</a>';
     }
+    html += '</p>';
     html += '<p class="stat" style="color:' + statusColor + '">' + status + '</p>';
     if (m.cameras) html += '<p class="stat">Cameras: ' + m.cameras + '</p>';
     if (m.retention_days) html += '<p class="stat">Retention: ' + m.retention_days + ' days</p>';
@@ -626,9 +628,11 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       const panel = document.getElementById('info');
       let html = '<h3>' + escapeHtml(info.name || slug) + '</h3>';
       html += '<p class="stat" style="color:#f97316">No map location</p>';
+      html += '<p class="stat"><a href="report.html?agency=' + encodeURIComponent(slug) + '" style="color:#2563eb;font-weight:600">View full report \u2192</a>';
       if (info.crawled) {
-        html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + safeSlug(slug) + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
+        html += ' &middot; <a href="https://transparency.flocksafety.com/' + safeSlug(slug) + '" target="_blank" style="color:#2563eb">Transparency portal \u2197</a>';
       }
+      html += '</p>';
       if (info.state) html += '<p class="stat">State: ' + escapeHtml(info.state) + '</p>';
       if (info.role) html += '<p class="stat">Role: ' + escapeHtml(info.role) + '</p>';
       if (info.type) html += '<p class="stat">Type: ' + escapeHtml(info.type) + '</p>';
