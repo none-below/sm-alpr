@@ -653,6 +653,13 @@ def main():
     # totals from it. Peer percentiles come from this series.
     downstream_series_by_type = defaultdict(list)
     downstream_series_all = []
+    # Reach series: average / farthest km across outbound recipients.
+    # Included so the reach cell can show "this agency vs peer" on
+    # the same pill treatment we use for cameras, searches, etc.
+    reach_avg_series_by_type = defaultdict(list)
+    reach_avg_series_all = []
+    reach_far_series_by_type = defaultdict(list)
+    reach_far_series_all = []
     searches_by_aid = {}
     for a in ca_crawled:
         s = a["portal"].get("searches_30d")
@@ -694,7 +701,28 @@ def main():
                 downstream_total += int(searches_by_aid[t_id])
         downstream_series_by_type[a["type"]].append(downstream_total)
         downstream_series_all.append(downstream_total)
+        # Reach: avg + farthest km over geocoded outbound recipients.
+        # Same calc the per-report loop uses later; duplicated here so
+        # it contributes to the peer series without requiring a third
+        # pass through the data.
         a_lat, a_lng = agency_coords(a["reg"])
+        reach_avg_km = None
+        reach_far_km = None
+        if a_lat is not None and a_lng is not None:
+            dists = []
+            for tid in a["graph"].get("sharing_outbound_ids", []):
+                tr = reg_by_id.get(tid, {})
+                tlat, tlng = agency_coords(tr)
+                if tlat is None or tlng is None:
+                    continue
+                dists.append(dist_km(a_lat, a_lng, tlat, tlng))
+            if dists:
+                reach_avg_km = round(sum(dists) / len(dists), 1)
+                reach_far_km = round(max(dists), 1)
+                reach_avg_series_by_type[a["type"]].append(reach_avg_km)
+                reach_avg_series_all.append(reach_avg_km)
+                reach_far_series_by_type[a["type"]].append(reach_far_km)
+                reach_far_series_all.append(reach_far_km)
         a_county_fips = _county_fips_from_geo(a["reg"].get("geo"))
         crawled_agency_metrics.append({
             "agency_id": a["agency_id"],
@@ -708,6 +736,8 @@ def main():
             # "cameras" key to mirror the other metric-keyed dicts.
             "density": {"cameras": density} if density is not None else {},
             "downstream_searches": downstream_total,
+            "reach_avg_km": reach_avg_km,
+            "reach_far_km": reach_far_km,
         })
     for metric in list(series_all.keys()):
         series_all[metric].sort()
@@ -723,6 +753,12 @@ def main():
     downstream_series_all.sort()
     for t in downstream_series_by_type:
         downstream_series_by_type[t].sort()
+    reach_avg_series_all.sort()
+    for t in reach_avg_series_by_type:
+        reach_avg_series_by_type[t].sort()
+    reach_far_series_all.sort()
+    for t in reach_far_series_by_type:
+        reach_far_series_by_type[t].sort()
     # Index crawled_agency_metrics by agency_id for O(1) lookup below.
     crawled_metrics_by_aid = {m["agency_id"]: m for m in crawled_agency_metrics}
 
@@ -754,6 +790,18 @@ def main():
         if len(s) >= MIN_PEER_SAMPLE:
             return s, False, atype
         return density_series_all, True, "all"
+
+    def peer_reach_series(kind, atype):
+        """Return (series, is_fallback, peer_type) for reach km.
+        kind = 'avg' or 'far'."""
+        if kind == "avg":
+            by_type, all_series = reach_avg_series_by_type, reach_avg_series_all
+        else:
+            by_type, all_series = reach_far_series_by_type, reach_far_series_all
+        s = by_type.get(atype, [])
+        if len(s) >= MIN_PEER_SAMPLE:
+            return s, False, atype
+        return all_series, True, "all"
 
     def peer_downstream_series(atype):
         """Return (series, is_fallback, peer_type) for downstream-search totals."""
@@ -802,6 +850,11 @@ def main():
         key = "rates" if per_capita else "values"
         s = sorted(p[key].get(metric) for p in peers if p[key].get(metric) is not None)
         return s
+
+    def local_reach_series(peers, kind):
+        """Sorted series of peer reach_avg_km or reach_far_km."""
+        k = "reach_avg_km" if kind == "avg" else "reach_far_km"
+        return sorted(p[k] for p in peers if p.get(k) is not None)
 
     # ── Build graph-wide flag classification cache ──
     outbound_by_id = {aid: d.get("sharing_outbound_ids", []) for aid, d in graph_agencies.items()}
@@ -1030,6 +1083,13 @@ def main():
         percentile_downstream_local = None
         median_downstream_local = None
         peer_sample_downstream_local = None
+        # Reach (avg + farthest km) vs peers.
+        reach_percentiles = {}
+        reach_medians = {}
+        reach_peer_samples = {}
+        reach_percentiles_local = {}
+        reach_medians_local = {}
+        reach_peer_samples_local = {}
         if state == RANKED_STATE and crawled:
             metric_values = {
                 "cameras": cameras,
@@ -1118,6 +1178,31 @@ def main():
                             "size": len(l_ds),
                             "scope": local_scope,
                         }
+
+            # ── Reach (avg/far km) peer comparison ──
+            cm_reach = crawled_metrics_by_aid.get(aid)
+            if cm_reach is not None:
+                for kind, val in (("avg", cm_reach.get("reach_avg_km")),
+                                  ("far", cm_reach.get("reach_far_km"))):
+                    if val is None:
+                        continue
+                    rseries, rfb, rpt = peer_reach_series(kind, atype)
+                    reach_percentiles[kind] = percentile_of(val, rseries)
+                    reach_medians[kind] = median(rseries)
+                    reach_peer_samples[kind] = {
+                        "size": len(rseries),
+                        "type": rpt,
+                        "fallback": rfb,
+                    }
+                    if local_scope:
+                        l_rseries = local_reach_series(local_peers, kind)
+                        if l_rseries:
+                            reach_percentiles_local[kind] = percentile_of(val, l_rseries)
+                            reach_medians_local[kind] = median(l_rseries)
+                            reach_peer_samples_local[kind] = {
+                                "size": len(l_rseries),
+                                "scope": local_scope,
+                            }
 
             # ── Camera density (cameras per sq mi) ──
             # Name-based fallback for land area on manual-geocoded entries,
@@ -1380,6 +1465,15 @@ def main():
             "percentile_downstream_local": percentile_downstream_local,
             "median_downstream_local": median_downstream_local,
             "peer_sample_downstream_local": peer_sample_downstream_local,
+            # Reach (outbound distance) peer comparisons. Keyed by
+            # "avg" (mean distance across geocoded recipients) and
+            # "far" (single farthest recipient). Both state + local.
+            "reach_percentiles": reach_percentiles,
+            "reach_medians": reach_medians,
+            "reach_peer_samples": reach_peer_samples,
+            "reach_percentiles_local": reach_percentiles_local,
+            "reach_medians_local": reach_medians_local,
+            "reach_peer_samples_local": reach_peer_samples_local,
             "stats": {
                 "cameras": cameras,
                 "retention_days": retention,

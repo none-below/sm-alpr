@@ -386,14 +386,16 @@
   /* Mini regional map — inline SVG showing subject agency surrounded
      by geocoded outbound recipients. Floated left so the surrounding
      sharing-section text (reach metrics, flagged recipients) wraps
-     along the right side rather than consuming a full page-width
-     strip. Caps the map width at ~55% so there's room for the text
-     without the map getting too small to read. The next h3 (inbound)
-     clears the float so the inbound list starts on its own baseline. */
+     along the left side rather than consuming a full page-width
+     strip. Right-floated so the reader's eye stays on the
+     left-aligned prose. Caps the map width at ~55% so there's room
+     for the text without the map getting too small to read. The
+     next h3 (inbound) clears the float so the inbound list starts
+     on its own baseline. */
   .mini-map-wrap {
-    float: left;
+    float: right;
     max-width: 55%;
-    margin: 4px 16px 8px 0;
+    margin: 4px 0 8px 16px;
   }
   .mini-map {
     max-width: 100%;

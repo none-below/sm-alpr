@@ -597,14 +597,42 @@
         value: v,
         rankPillsHtml: pills,
       });
-      // Right cell: reach metrics
+      // Right cell: reach metrics + state/local comparison pills so
+      // the reader sees how this agency's geographic reach stacks up.
+      const reachPcts = report.reach_percentiles || {};
+      const reachMeds = report.reach_medians || {};
+      const reachPctsLocal = report.reach_percentiles_local || {};
+      const reachMedsLocal = report.reach_medians_local || {};
+      const reachSampleLocal = report.reach_peer_samples_local || {};
+      function reachPillsFor(kind, value) {
+        return rankPillsForMetric({
+          pctile: reachPcts[kind],
+          med: reachMeds[kind] != null ? kmToMi(reachMeds[kind]) : null,
+          lpctile: reachPctsLocal[kind],
+          lmed: reachMedsLocal[kind] != null ? kmToMi(reachMedsLocal[kind]) : null,
+          lsamp: reachSampleLocal[kind],
+          value: value, agencyType: report.agency_type, meta,
+          sparkMetricKey: null,
+        });
+      }
       const bits = [];
       if (report.outbound_avg_km != null) {
-        bits.push(`<div><strong>${fmtNum(kmToMi(report.outbound_avg_km), 0)}</strong> <span class="muted">miles — average distance to a recipient</span></div>`);
+        const avgMi = kmToMi(report.outbound_avg_km);
+        bits.push(
+          `<div><strong>${fmtNum(avgMi, 0)}</strong> <span class="muted">mi &mdash; avg distance to a recipient</span>` +
+          reachPillsFor("avg", avgMi) +
+          `</div>`
+        );
       }
       if (report.farthest_outbound) {
-        const farMi = fmtNum(kmToMi(report.farthest_outbound.distance_km), 0);
-        bits.push(`<div><strong>${farMi}</strong> <span class="muted">miles — farthest:</span> ${escapeHtml(report.farthest_outbound.name)}${report.farthest_outbound.state && report.farthest_outbound.state !== report.state ? ` (${escapeHtml(report.farthest_outbound.state)})` : ""}</div>`);
+        const farMi = kmToMi(report.farthest_outbound.distance_km);
+        const stateSuffix = report.farthest_outbound.state && report.farthest_outbound.state !== report.state
+          ? ` (${escapeHtml(report.farthest_outbound.state)})` : "";
+        bits.push(
+          `<div><strong>${fmtNum(farMi, 0)}</strong> <span class="muted">mi &mdash; farthest:</span> ${escapeHtml(report.farthest_outbound.name)}${stateSuffix}` +
+          reachPillsFor("far", farMi) +
+          `</div>`
+        );
       }
       const reachCell = `<div class="metric-cell reach"><div class="cell-label">Reach</div><div class="reach-lines">${bits.join("")}</div></div>`;
       html += metricBlockHtml({
@@ -1883,7 +1911,15 @@
     html += '<div style="flex:1">';
     html += `<p><strong>Source:</strong> Flock Safety transparency portals, compiled by the sm-alpr project.</p>`;
     if (popSrc) {
-      html += `<p><strong>Population data:</strong> ${escapeHtml(popSrc.source || "U.S. Census Bureau")}.</p>`;
+      // Link the ACS product + Census Bureau so readers can click
+      // through to source. Print CSS strips underlines so the PDF
+      // stays clean — the source text still appears verbatim.
+      const vintage = popSrc.vintage || 2023;
+      const acsUrl = "https://www.census.gov/programs-surveys/acs";
+      const censusUrl = "https://www.census.gov/";
+      html += `<p><strong>Population data:</strong> ` +
+        `<a href="${acsUrl}" target="_blank" rel="noopener">ACS 5-Year Estimates (${vintage})</a>` +
+        `, <a href="${censusUrl}" target="_blank" rel="noopener">U.S. Census Bureau</a>.</p>`;
     }
     html += `<p><strong>Interactive map:</strong> <a href="${escapeHtml(mapUrlAbs)}">${escapeHtml(mapUrlAbs)}</a></p>`;
     html += `<p><strong>This report:</strong> <a href="${escapeHtml(thisUrlAbs)}">${escapeHtml(thisUrlAbs)}</a></p>`;
