@@ -463,9 +463,14 @@ def main():
                 # Soft upgrade — replace fips/kind/name but preserve
                 # the curated lat/lng. Catches cases like SF where the
                 # Census centroid is offshore (Farallon Islands).
+                # manual_coords=True tells downstream code (and the
+                # geo-cache tests) that the coords here intentionally
+                # diverge from the FIPS centroid; don't try to
+                # validate them against the gazetteer.
                 geo_soft = dict(geo)
                 geo_soft["lat"] = current_geo["lat"]
                 geo_soft["lng"] = current_geo["lng"]
+                geo_soft["manual_coords"] = True
                 entry["geo"] = geo_soft
                 soft_matches.append((entry, geo_soft, d))
                 soft_matched += 1

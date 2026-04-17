@@ -63,7 +63,13 @@ class TestGeoCache:
             assert county, f"{name}: county fips {fips} not found in gazetteer"
 
     def test_place_cached_fields_match(self):
-        """Cached name, state, lat, lng must match the gazetteer for kind=place."""
+        """Cached name, state, lat, lng must match the gazetteer for kind=place.
+
+        Entries flagged geo.manual_coords=True (e.g. soft-upgraded from
+        kind=manual by geocode_agencies.py --upgrade-manual) keep
+        hand-curated lat/lng on purpose; only the FIPS-derived fields
+        are validated for those.
+        """
         mismatches = []
         for e in self.registry:
             geo = e.get("geo") or {}
@@ -77,6 +83,8 @@ class TestGeoCache:
                 mismatches.append(f"{fips}: state {geo.get('state')!r} != {place['state']!r}")
             if geo.get("name") != place["name"]:
                 mismatches.append(f"{fips}: name {geo.get('name')!r} != {place['name']!r}")
+            if geo.get("manual_coords"):
+                continue
             lat, lng = geo.get("lat"), geo.get("lng")
             assert lat is not None and lng is not None, f"{fips}: missing lat/lng"
             if abs(lat - place["lat"]) > COORD_TOLERANCE:
@@ -104,6 +112,8 @@ class TestGeoCache:
                 mismatches.append(f"{fips}: state {geo.get('state')!r} != {county['state']!r}")
             if geo.get("name") != county["bare_name"]:
                 mismatches.append(f"{fips}: name {geo.get('name')!r} != {county['bare_name']!r}")
+            if geo.get("manual_coords"):
+                continue
             lat, lng = geo.get("lat"), geo.get("lng")
             assert lat is not None and lng is not None, f"{fips}: missing lat/lng"
             if abs(lat - county["lat"]) > COORD_TOLERANCE:
@@ -151,6 +161,8 @@ class TestGeoCache:
             assert s, f"{e['slug']}: could not compute state centroid for {state}"
             if s["state_fips"] != fips:
                 mismatches.append(f"{e['slug']}: fips {fips} != expected {s['state_fips']}")
+            if geo.get("manual_coords"):
+                continue
             lat, lng = geo.get("lat"), geo.get("lng")
             assert lat is not None and lng is not None, f"{e['slug']}: missing lat/lng"
             if abs(lat - s["lat"]) > COORD_TOLERANCE:
