@@ -935,7 +935,7 @@
     });
     if (!recipients.length) return "";
 
-    const W = 540, H = 320;
+    const MAX_W = 540, MAX_H = 320;
     const PAD_L = 6, PAD_R = 6, PAD_T = 6, PAD_B = 22;  // extra bottom pad for caption
 
     // Bounding box — include subject + every geocoded recipient, plus
@@ -969,18 +969,21 @@
     const lngScale = Math.cos(midLat * Math.PI / 180);
     const effectiveLngRange = lngRange * lngScale;
 
-    // Now fit the aspect-correct data into the viewport without
-    // squishing either axis: pick the tighter scale, center the
-    // shorter axis with padding.
-    const viewW = W - PAD_L - PAD_R;
-    const viewH = H - PAD_T - PAD_B;
-    const xScalePerLng = viewW / effectiveLngRange;
-    const yScalePerLat = viewH / latRange;
+    // Pick the tighter scale so the data fits inside MAX_W/MAX_H,
+    // then size the actual SVG viewport to the used dimensions. This
+    // avoids huge left/right whitespace when the data is tall-and-
+    // narrow (or top/bottom whitespace when short-and-wide).
+    const maxViewW = MAX_W - PAD_L - PAD_R;
+    const maxViewH = MAX_H - PAD_T - PAD_B;
+    const xScalePerLng = maxViewW / effectiveLngRange;
+    const yScalePerLat = maxViewH / latRange;
     const scale = Math.min(xScalePerLng, yScalePerLat);
     const usedW = effectiveLngRange * scale;
     const usedH = latRange * scale;
-    const offX = PAD_L + (viewW - usedW) / 2;
-    const offY = PAD_T + (viewH - usedH) / 2;
+    const W = Math.round(usedW + PAD_L + PAD_R);
+    const H = Math.round(usedH + PAD_T + PAD_B);
+    const offX = PAD_L;
+    const offY = PAD_T;
 
     function proj(lat, lng) {
       const x = offX + (lng - minLng) * lngScale * scale;
