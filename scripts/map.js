@@ -173,19 +173,32 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     let tag = '';
     if (info.state && info.state !== 'CA')
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Out-of-state sharing may violate CA Civil Code \u00a71798.90.55(b)">[' + info.state + ' \u2014 out of state]</span>';
-    if (info.role === 'vendor')
+    // Category tag — one per entity, picked by the most specific concern.
+    // Each label names the actual concern rather than a blanket "violates SB 34"
+    // claim, since the problem differs by category (access controls, custodian
+    // of record, statutory status, re-sharing scope, etc.).
+    if (info.role === 'vendor') {
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Private vendor. Flock MSA \u00a75.3 grants Flock independent authority to disclose agency data to third parties without agency approval. AG Bulletin 2023-DLE-06 directed agencies to review vendor contracts for exactly this type of provision. \u00a75.3 survives contract termination (\u00a77.3).">[VENDOR \u2014 \u00a75.3 disclosure authority]</span>';
-    else if (info.public === false)
-      tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Civil Code \u00a71798.90.55(b) restricts ALPR sharing to public agencies">[PRIVATE \u2014 likely violates SB 34]</span>';
-    if (info.type === 'federal')
+    } else if (info.type === 'federal') {
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Federal entity \u2014 not an agency of the state per CA Civil Code \u00a71798.90.5(f). AG Bulletin 2023-DLE-06 prohibits sharing with federal agencies.">[FEDERAL]</span>';
-    if (info.type === 'fusion_center')
-      tag += ' <span style="color:#dc2626;font-weight:bold" title="Fusion center \u2014 may not qualify as a \u201cpublic agency\u201d under CA Civil Code \u00a71798.90.5(f). See notes for details.">[FUSION CENTER]</span>';
-    if ((info.type === 'decommissioned' || info.type === 'test') && info.public !== false)
-      tag += ' <span style="color:#dc2626;font-weight:bold" title="' + (info.type === 'decommissioned' ? 'Decommissioned/DNU entry' : 'Test/demo entry') + ' \u2014 not a public agency. Sharing ALPR data with non-agency accounts likely violates CA Civil Code \u00a71798.90.55(b).">[NOT AN AGENCY \u2014 likely violates SB 34]</span>';
-    // Flag agencies under AG lawsuit
+    } else if (info.type === 'fusion_center') {
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Multi-agency re-sharing hub. Data sent here is redistributed to many downstream entities, some of which may not qualify as &ldquo;public agencies&rdquo; under CA Civil Code \u00a71798.90.5(f). See notes for per-hub specifics.">[RE-SHARING HUB]</span>';
+    } else if (info.type === 'test') {
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Test or demo account. Access controls are unknown and there is no agency of record accountable for queries against this data.">[TEST/FIXTURE \u2014 access controls unknown]</span>';
+    } else if (info.type === 'decommissioned') {
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Decommissioned or DNU entry on Flock\u2019s portal. No current custodian of record \u2014 who still holds credentials to query this data is unknown.">[INACTIVE \u2014 no current custodian]</span>';
+    } else if (info.type === 'private') {
+      const nm = (info.name || '').toLowerCase();
+      if (nm.indexOf('university') >= 0 || nm.indexOf('college') >= 0) {
+        tag += ' <span style="color:#dc2626;font-weight:bold" title="Private university police departments are authorized under CA Education Code \u00a776400 but their qualification as &ldquo;public agencies&rdquo; under CA Civil Code \u00a71798.90.5(f) is contested.">[PRIVATE UNIVERSITY PD \u2014 contested]</span>';
+      } else {
+        tag += ' <span style="color:#dc2626;font-weight:bold" title="Private entity \u2014 not a &ldquo;public agency&rdquo; under CA Civil Code \u00a71798.90.5(f). Sharing ALPR data with a private entity likely violates \u00a71798.90.55(b).">[PRIVATE ENTITY \u2014 not a public agency]</span>';
+      }
+    } else if (info.public === false) {
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Not a &ldquo;public agency&rdquo; under CA Civil Code \u00a71798.90.5(f). Sharing ALPR data with non-agency recipients likely violates \u00a71798.90.55(b).">[PRIVATE ENTITY \u2014 not a public agency]</span>';
+    }
     if (info.ag_lawsuit)
-      tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Attorney General lawsuit for illegal out-of-state ALPR data sharing in violation of SB 34">[AG LAWSUIT \u2014 illegal sharing]</span>';
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Attorney General lawsuit for illegal out-of-state ALPR data sharing in violation of SB 34.">[OUT-OF-STATE \u2014 AG litigation]</span>';
     // Curated status flags from the registry (inactive, deactivated, dnu, duplicate, decommissioned)
     const FLAG_BADGES = {
       inactive: { color: '#6b7280', label: 'INACTIVE', title: 'Marked inactive on Flock\'s portal' },
@@ -637,9 +650,18 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       if (info.role) html += '<p class="stat">Role: ' + escapeHtml(info.role) + '</p>';
       if (info.type) html += '<p class="stat">Type: ' + escapeHtml(info.type) + '</p>';
       if (info.type === 'federal') html += '<p class="stat" style="color:#dc2626">Federal entity \u2014 not an \u201cagency of the state\u201d per \u00a71798.90.5(f). AG Bulletin prohibits sharing with federal agencies.</p>';
-      else if (info.type === 'fusion_center') html += '<p class="stat" style="color:#dc2626">Fusion center \u2014 may not qualify as a \u201cpublic agency\u201d under \u00a71798.90.5(f). See notes below.</p>';
+      else if (info.type === 'fusion_center') html += '<p class="stat" style="color:#dc2626">Re-sharing hub \u2014 data redistributed to many downstream entities; may not qualify as a \u201cpublic agency\u201d under \u00a71798.90.5(f). See notes below.</p>';
+      else if (info.type === 'test') html += '<p class="stat" style="color:#dc2626">Test/fixture account \u2014 access controls unknown; no agency of record accountable for queries.</p>';
+      else if (info.type === 'decommissioned') html += '<p class="stat" style="color:#dc2626">Inactive / decommissioned \u2014 no current custodian of record; who still holds credentials is unknown.</p>';
+      else if (info.type === 'private') {
+        const nm = (info.name || '').toLowerCase();
+        if (nm.indexOf('university') >= 0 || nm.indexOf('college') >= 0)
+          html += '<p class="stat" style="color:#dc2626">Private university PD \u2014 qualification as a \u201cpublic agency\u201d under \u00a71798.90.5(f) is contested.</p>';
+        else
+          html += '<p class="stat" style="color:#dc2626">Private entity \u2014 not a \u201cpublic agency\u201d under \u00a71798.90.5(f). Sharing likely violates \u00a71798.90.55(b).</p>';
+      }
       else if (info.public === true) html += '<p class="stat" style="color:#16a34a">Public agency</p>';
-      if (info.public === false) html += '<p class="stat" style="color:#dc2626">Not a public agency \u2014 sharing likely violates SB 34</p>';
+      else if (info.public === false) html += '<p class="stat" style="color:#dc2626">Not a \u201cpublic agency\u201d under \u00a71798.90.5(f). Sharing likely violates \u00a71798.90.55(b).</p>';
       if (info.notes) html += '<p class="stat" style="background:#fef3c7;padding:6px 8px;border-radius:4px;color:#92400e;margin-top:6px">' + info.notes + '</p>';
 
       const sharedBy = markers.filter(mm => (mm.outbound_slugs || []).includes(slug));

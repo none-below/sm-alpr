@@ -24,28 +24,37 @@
     decommissioned: "decommissioned",
   };
 
+  // Category labels name the actual concern rather than a blanket "violates SB 34"
+  // claim — the problem differs by category. `private` is split at display time
+  // into `private_entity` (companies, HOAs, towing) and `private_university`
+  // (Stanford, USF, UOP) because their statutory situations differ. See
+  // refineKind() below.
   const FLAG_LABELS = {
-    private: "PRIVATE",
+    private_entity: "PRIVATE ENTITY \u2014 not a public agency",
+    private_university: "PRIVATE UNIVERSITY PD \u2014 contested",
     out_of_state: "OUT OF STATE",
     federal: "FEDERAL",
-    fusion_center: "FUSION CENTER",
-    decommissioned: "DECOMMISSIONED",
-    test: "TEST/DEMO",
+    fusion_center: "RE-SHARING HUB",
+    decommissioned: "INACTIVE \u2014 no current custodian",
+    test: "TEST/FIXTURE \u2014 access controls unknown",
   };
 
-  // Short tooltips explaining why each flag kind is a concern. Shown on
-  // hover and spelled out in-line where flagged recipients are listed.
-  // Fusion centers in particular vary: NCRIC's concerns are federal
-  // entanglement, others raise different concerns. Per-entity specifics
-  // come from the agency's `notes` field in the registry.
   const FLAG_EXPLANATIONS = {
-    private: "Private entities are not \u201cpublic agencies\u201d under CA Civil Code \u00a71798.90.5(f). Sharing ALPR data with them likely violates \u00a71798.90.55(b).",
-    out_of_state: "CA Civil Code \u00a71798.90.55(b) and AG Bulletin 2023-DLE-06 prohibit sharing with non-California agencies.",
+    private_entity: "Not a \u201cpublic agency\u201d under CA Civil Code \u00a71798.90.5(f), which limits that term to the state or a city/county/political subdivision. Sharing ALPR data with a private entity likely violates \u00a71798.90.55(b).",
+    private_university: "Private university police departments are authorized under CA Education Code \u00a776400, but their qualification as \u201cpublic agencies\u201d under CA Civil Code \u00a71798.90.5(f) is contested \u2014 the statute defines \u201cpublic agency\u201d as the state or a city/county/political subdivision, which does not clearly include private universities.",
+    out_of_state: "CA Civil Code \u00a71798.90.55(b) and AG Bulletin 2023-DLE-06 prohibit sharing ALPR data with non-California agencies.",
     federal: "Federal agencies are not \u201cagencies of the state\u201d under \u00a71798.90.5(f). AG Bulletin 2023-DLE-06 prohibits sharing with federal agencies.",
-    fusion_center: "Fusion centers are multi-agency information-sharing hubs. Whether they qualify as \u201cpublic agencies\u201d under CA Civil Code \u00a71798.90.5(f) depends on their specific charter, governance, funding, and staffing \u2014 see the per-entity notes below for the concerns specific to each one.",
-    decommissioned: "Decommissioned / do-not-use account \u2014 ALPR data should not be going to an inactive entity.",
-    test: "Test/demo account, not a real public agency \u2014 ALPR data should not be routed here.",
+    fusion_center: "Multi-agency re-sharing hub \u2014 data sent here is redistributed to many downstream entities, some of which may not qualify as \u201cpublic agencies.\u201d Whether the hub itself qualifies under \u00a71798.90.5(f) depends on its specific charter, governance, funding, and staffing \u2014 see the per-entity notes below for concerns specific to each one.",
+    decommissioned: "Marked decommissioned or do-not-use on Flock\u2019s portal. No current custodian of record \u2014 who still holds credentials to query this data is unknown.",
+    test: "Test or demo account. Access controls are unknown and there is no agency of record accountable for queries against this data.",
   };
+
+  function refineKind(kind, name) {
+    if (kind !== 'private') return kind;
+    const nm = (name || '').toLowerCase();
+    return (nm.indexOf('university') >= 0 || nm.indexOf('college') >= 0)
+      ? 'private_university' : 'private_entity';
+  }
 
   // Maps a stats-table metric key to the corresponding transparency
   // checklist id. When the agency doesn't publish a given stat, we
@@ -1381,14 +1390,15 @@
       // type once instead of repeating the explanation per row.
       const kindGroups = {};
       flagged.forEach(function(f) {
-        (kindGroups[f.kind] = kindGroups[f.kind] || []).push(f);
+        const k = refineKind(f.kind, f.name);
+        (kindGroups[k] = kindGroups[k] || []).push(f);
       });
 
-      // Deliberate render order: private (direct SB 34 violation) first,
-      // then out-of-state, federal, fusion centers (indirect federal
-      // concern), then decommissioned/test accounts. Groups not in this
-      // list (shouldn't happen, but be safe) append at the end.
-      const KIND_ORDER = ["private", "out_of_state", "federal", "fusion_center", "decommissioned", "test"];
+      // Deliberate render order: private entities and contested university PDs
+      // first (direct statutory concerns), then out-of-state, federal, then
+      // re-sharing hubs (multi-hop concern), then inactive and test accounts.
+      // Groups not in this list (shouldn't happen, but be safe) append at the end.
+      const KIND_ORDER = ["private_entity", "private_university", "out_of_state", "federal", "fusion_center", "decommissioned", "test"];
       const orderedKinds = KIND_ORDER.filter(function(k) { return kindGroups[k]; });
       Object.keys(kindGroups).forEach(function(k) {
         if (orderedKinds.indexOf(k) < 0) orderedKinds.push(k);
@@ -1533,8 +1543,9 @@
     const kind = r.kind;
     let html = escapeHtml(r.name);
     if (kind) {
-      const label = FLAG_LABELS[kind] || kind.toUpperCase();
-      html += ` <span class="flag-tag kind-${escapeHtml(kind)}">${escapeHtml(label)}</span>`;
+      const refined = refineKind(kind, r.name);
+      const label = FLAG_LABELS[refined] || refined.toUpperCase();
+      html += ` <span class="flag-tag kind-${escapeHtml(refined)}">${escapeHtml(label)}</span>`;
     }
     return html;
   }
