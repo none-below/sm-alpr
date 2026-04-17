@@ -126,6 +126,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with at least one private entity",
         "label_unknown": "Private sharing not verifiable (no public transparency page)",
         "detail": "CA Civil Code \u00a71798.90.55(b) restricts ALPR sharing to public agencies.",
+        "peer_phrase": "share only with public agencies",
     },
     {
         "id": "no_out_of_state_sharing",
@@ -133,6 +134,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with at least one out-of-state entity",
         "label_unknown": "Out-of-state sharing not verifiable (no public transparency page)",
         "detail": "CA Civil Code \u00a71798.90.55(b) and AG Bulletin 2023-DLE-06 prohibit out-of-state sharing.",
+        "peer_phrase": "avoid out-of-state sharing",
     },
     {
         "id": "no_federal_sharing",
@@ -140,6 +142,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with at least one federal agency",
         "label_unknown": "Federal sharing not verifiable (no public transparency page)",
         "detail": "Federal agencies are not \u201cagencies of the state\u201d under \u00a71798.90.5(f).",
+        "peer_phrase": "avoid sharing with federal agencies",
     },
     {
         "id": "no_fusion_center_sharing",
@@ -147,6 +150,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with at least one fusion center",
         "label_unknown": "Fusion-center sharing not verifiable (no public transparency page)",
         "detail": "Fusion centers (e.g., NCRIC) re-distribute ALPR data to their member networks. Their status as \u201cpublic agencies\u201d under \u00a71798.90.5(f) varies by charter; NCRIC in particular has federal staffing and funding ties. Sharing with a fusion center forwards this agency's data to every member of that center.",
+        "peer_phrase": "avoid sharing with fusion centers",
     },
     {
         "id": "no_ag_lawsuit_sharing",
@@ -154,6 +158,7 @@ SB34_CHECKLIST = [
         "label_fail": "Shares with an agency the CA AG has sued for illegal sharing",
         "label_unknown": "Cannot verify (no public transparency page)",
         "detail": "The CA Attorney General has sued specific CA agencies for illegal out-of-state ALPR sharing in violation of SB 34. Sending data to those agencies continues the same illegal flow.",
+        "peer_phrase": "avoid sharing with AG-sued agencies",
     },
     {
         "id": "published_policy",
@@ -161,6 +166,7 @@ SB34_CHECKLIST = [
         "label_fail": "Does not publish an ALPR usage and privacy policy",
         "label_unknown": "Policy publication not verifiable (no public transparency page)",
         "detail": "\u00a71798.90.51(a) requires conspicuously posting a usage and privacy policy.",
+        "peer_phrase": "publish an ALPR policy",
     },
     {
         "id": "documented_audit",
@@ -168,26 +174,27 @@ SB34_CHECKLIST = [
         "label_fail": "No documented audit process",
         "label_unknown": "Audit process not verifiable (no public transparency page)",
         "detail": "\u00a71798.90.51(b)(5) requires audit provisions for ALPR access.",
+        "peer_phrase": "document an audit process",
     },
 ]
 
 # Transparency checks — what they publish on the Flock portal.
 # Same pass/fail/unknown label structure as SB34_CHECKLIST above.
 TRANSPARENCY_CHECKLIST = [
-    {"id": "has_portal",       "label_pass": "Has a public Flock transparency page",   "label_fail": "No public Flock transparency page"},
-    {"id": "camera_count",     "label_pass": "Reports camera count",                    "label_fail": "Does not report camera count"},
-    {"id": "retention",        "label_pass": "Reports data retention days",              "label_fail": "Does not report data retention"},
-    {"id": "vehicles_30d",     "label_pass": "Reports 30-day vehicle detections",        "label_fail": "Does not report 30-day vehicle detections"},
-    {"id": "hotlist_hits",     "label_pass": "Reports 30-day hotlist hits",              "label_fail": "Does not report 30-day hotlist hits"},
-    {"id": "searches_30d",     "label_pass": "Reports 30-day search counts",             "label_fail": "Does not report 30-day search counts"},
-    {"id": "policy_link",      "label_pass": "Links to a full ALPR/department policy",    "label_fail": "No link to a full policy document"},
-    {"id": "access_policy",    "label_pass": "Publishes access policy",                  "label_fail": "Does not publish access policy"},
-    {"id": "hotlist_policy",   "label_pass": "Publishes hotlist policy",                  "label_fail": "Does not publish hotlist policy"},
-    {"id": "acceptable_use",   "label_pass": "Publishes acceptable-use policy",          "label_fail": "Does not publish acceptable-use policy"},
-    {"id": "prohibited_uses",  "label_pass": "Publishes prohibited-uses statement",       "label_fail": "Does not publish prohibited-uses statement"},
-    {"id": "sb54_statement",   "label_pass": "Publishes SB 54 compliance statement",     "label_fail": "Does not publish SB 54 compliance statement"},
-    {"id": "outbound_list",    "label_pass": "Publishes full outbound sharing list",     "label_fail": "Does not publish outbound sharing list"},
-    {"id": "inbound_list",     "label_pass": "Publishes full inbound sharing list",      "label_fail": "Does not publish inbound sharing list"},
+    {"id": "has_portal",       "label_pass": "Has a public Flock transparency page",   "label_fail": "No public Flock transparency page", "peer_phrase": "have a public transparency page"},
+    {"id": "camera_count",     "label_pass": "Reports camera count",                    "label_fail": "Does not report camera count", "peer_phrase": "report their camera count"},
+    {"id": "retention",        "label_pass": "Reports data retention days",              "label_fail": "Does not report data retention", "peer_phrase": "report their data-retention policy"},
+    {"id": "vehicles_30d",     "label_pass": "Reports 30-day vehicle detections",        "label_fail": "Does not report 30-day vehicle detections", "peer_phrase": "report 30-day vehicle detections"},
+    {"id": "hotlist_hits",     "label_pass": "Reports 30-day hotlist hits",              "label_fail": "Does not report 30-day hotlist hits", "peer_phrase": "report 30-day hotlist hits"},
+    {"id": "searches_30d",     "label_pass": "Reports 30-day search counts",             "label_fail": "Does not report 30-day search counts", "peer_phrase": "report 30-day search counts"},
+    {"id": "policy_link",      "label_pass": "Links to a full ALPR/department policy",    "label_fail": "No link to a full policy document", "peer_phrase": "link to a full policy document"},
+    {"id": "access_policy",    "label_pass": "Publishes access policy",                  "label_fail": "Does not publish access policy", "peer_phrase": "publish an access policy"},
+    {"id": "hotlist_policy",   "label_pass": "Publishes hotlist policy",                  "label_fail": "Does not publish hotlist policy", "peer_phrase": "publish a hotlist policy"},
+    {"id": "acceptable_use",   "label_pass": "Publishes acceptable-use policy",          "label_fail": "Does not publish acceptable-use policy", "peer_phrase": "publish an acceptable-use policy"},
+    {"id": "prohibited_uses",  "label_pass": "Publishes prohibited-uses statement",       "label_fail": "Does not publish prohibited-uses statement", "peer_phrase": "publish a prohibited-uses statement"},
+    {"id": "sb54_statement",   "label_pass": "Publishes SB 54 compliance statement",     "label_fail": "Does not publish SB 54 compliance statement", "peer_phrase": "publish an SB 54 statement"},
+    {"id": "outbound_list",    "label_pass": "Publishes full outbound sharing list",     "label_fail": "Does not publish outbound sharing list", "peer_phrase": "publish an outbound sharing list"},
+    {"id": "inbound_list",     "label_pass": "Publishes full inbound sharing list",      "label_fail": "Does not publish inbound sharing list", "peer_phrase": "publish an inbound sharing list"},
 ]
 
 
@@ -958,6 +965,11 @@ def main():
                         "label_fail": item.get("label_fail") or item.get("label"),
                         "label_unknown": item.get("label_unknown")
                             or (item.get("label_fail") or item.get("label")),
+                        # Short third-person-plural phrase naming the
+                        # action, used in "XX% of peers <peer_phrase>"
+                        # so the peer stat reads as a specific behavior
+                        # rather than an abstract "pass".
+                        "peer_phrase": item.get("peer_phrase"),
                         "detail": item.get("detail"),
                         "value": checklist_results.get(cid),  # True/False/None
                         # For sharing-based failures, list of entity names
