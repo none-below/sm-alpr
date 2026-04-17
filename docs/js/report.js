@@ -1530,102 +1530,76 @@
     const regional = report.regional || [];
     if (!regional.length) return "";
 
+    // Any regional agency has population data? If none, skip the
+    // per-capita columns entirely.
     const anyPopulation = regional.some(function(r) { return r.population; });
+
     const radiusKm = meta.regional_radius_km || 50;
     const radiusMi = Math.round(kmToMi(radiusKm));
+
+    // Cap the visible regional table to the 12 closest agencies (was
+    // 20). Most readers only need the immediate neighborhood; for the
+    // full list they can click through to any row's agency page.
     const REGIONAL_ROW_LIMIT = 12;
 
-    // Subject synthesized as a row so it charts on the same scale as
-    // its neighbors. Per-capita columns prefer per-1000 rates (so
-    // small and large cities compare fairly); outbound/flagged stay
-    // raw counts since they're already population-independent.
-    const per1k = report.per_1000 || {};
-    const subjStats = report.stats || {};
-    const subjectRow = {
-      slug: report.slug,
-      name: report.name,
-      isSubject: true,
-      distance_km: 0,
-      population: report.population,
-      cameras: subjStats.cameras,
-      vehicles_30d: subjStats.vehicles_30d,
-      searches_30d: subjStats.searches_30d,
-      outbound: subjStats.outbound_count || 0,
-      flagged: (report.flagged_recipients || []).length,
-      cameras_per_1000: per1k.cameras,
-      vehicles_per_1000: per1k.vehicles_30d,
-      searches_per_1000: per1k.searches_30d,
-    };
-    const visible = regional.slice(0, REGIONAL_ROW_LIMIT);
-    const allRows = [subjectRow].concat(visible);
-
-    function maxOf(key) {
-      return allRows.reduce(function(m, r) {
-        return r[key] != null && r[key] > m ? r[key] : m;
-      }, 0);
-    }
-    const maxCam = maxOf(anyPopulation ? "cameras_per_1000" : "cameras");
-    const maxVeh = maxOf(anyPopulation ? "vehicles_per_1000" : "vehicles_30d");
-    const maxSrch = maxOf(anyPopulation ? "searches_per_1000" : "searches_30d");
-    const maxOut = maxOf("outbound");
-    const maxFlg = maxOf("flagged");
-
     let html = `<h2>Regional Context</h2>`;
-    html += `<p class="muted">This agency (top, blue) plotted against the ${visible.length} closest crawled California agencies within ${radiusMi} miles (of ${regional.length} total). Each dot's position shows this row's value relative to the highest in the visible set for that metric. ${anyPopulation ? "Camera/vehicle/search metrics normalize by city population (per 1,000 residents)." : ""}</p>`;
-    html += '<table class="regional-dots">';
+    html += `<p class="muted">${Math.min(REGIONAL_ROW_LIMIT, regional.length)} closest crawled California agencies within ${radiusMi} miles (of ${regional.length} total). Per-capita columns normalize by city population so small towns and big cities can be compared on the same scale.</p>`;
+    html += '<table>';
+    // Collapsed: the per-1,000-residents rates live in parens inside
+    // their parent cell ("66 (0.64/1k)"), not as separate columns.
+    // Keeps the table narrow enough to fit the page even when sharing
+    // plus flagged columns are present.
+    //
+    // Sortable: each header has data-sort-key; a click handler (wired
+    // in after the report renders) reorders the rows in place.
     html += '<tr>';
     html += '<th data-sort-key="name" class="sortable">Agency <span class="sort-arrow"></span></th>';
     html += '<th data-sort-key="distance" class="sortable">Distance <span class="sort-arrow"></span></th>';
-    html += '<th data-sort-key="cameras" class="sortable num">Cameras' + (anyPopulation ? '<br><span class="muted-head">per 1k</span>' : '') + ' <span class="sort-arrow"></span></th>';
-    html += '<th data-sort-key="vehicles" class="sortable num">Vehicles/30d' + (anyPopulation ? '<br><span class="muted-head">per 1k</span>' : '') + ' <span class="sort-arrow"></span></th>';
-    html += '<th data-sort-key="searches" class="sortable num">Searches/30d' + (anyPopulation ? '<br><span class="muted-head">per 1k</span>' : '') + ' <span class="sort-arrow"></span></th>';
+    html += '<th data-sort-key="cameras" class="sortable num">Cameras' + (anyPopulation ? '<br><span class="muted-head">(per 1k)</span>' : '') + ' <span class="sort-arrow"></span></th>';
+    html += '<th data-sort-key="vehicles" class="sortable num">Vehicles/30d' + (anyPopulation ? '<br><span class="muted-head">(per 1k)</span>' : '') + ' <span class="sort-arrow"></span></th>';
+    html += '<th data-sort-key="searches" class="sortable num">Searches/30d' + (anyPopulation ? '<br><span class="muted-head">(per 1k)</span>' : '') + ' <span class="sort-arrow"></span></th>';
     html += '<th data-sort-key="outbound" class="sortable num">Shares to <span class="sort-arrow"></span></th>';
     html += '<th data-sort-key="flagged" class="sortable num">Flagged recipients <span class="sort-arrow"></span></th>';
     html += '</tr>';
 
-    function dotCell(value, maxVal, isSubject, decimals) {
-      const sortVal = value == null ? "" : value;
-      if (value == null || maxVal <= 0) {
-        return `<td class="num dot-cell" data-sort-value="${sortVal}"><span class="null">&mdash;</span></td>`;
-      }
-      const W = 90, H = 14, PAD = 3;
-      const t = Math.max(0, Math.min(1, value / maxVal));
-      const x = PAD + t * (W - 2 * PAD);
-      const trackColor = "#e2e8f0";
-      const dotColor = isSubject ? "#0891b2" : "#f97316";
-      const dotStroke = isSubject ? "#0e7490" : "#c2410c";
-      const r = isSubject ? 4 : 3;
-      let svg = `<svg class="dot-strip" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">`;
-      svg += `<line x1="${PAD}" y1="${H/2}" x2="${W-PAD}" y2="${H/2}" stroke="${trackColor}" stroke-width="1"/>`;
-      svg += `<circle cx="${x.toFixed(1)}" cy="${H/2}" r="${r}" fill="${dotColor}" stroke="${dotStroke}" stroke-width="0.5"/>`;
-      svg += `</svg>`;
-      const fmt = fmtNum(value, typeof decimals === "number" ? decimals : (value < 10 ? 2 : 0));
-      return `<td class="num dot-cell" data-sort-value="${sortVal}">${svg}<span class="dot-val">${fmt}</span></td>`;
+    // Helper: value with parenthetical per-1k rate. Em-dash for null
+    // value; skip the paren if we don't have a rate for this agency.
+    function valueWithRate(value, rate, decimals) {
+      if (value == null) return '<span class="null">&mdash;</span>';
+      const main = fmtNum(value, decimals || 0);
+      if (!anyPopulation || rate == null) return main;
+      const rateFmt = fmtNum(rate, rate < 10 ? 2 : 0);
+      return `${main} <span class="paren-median">(${rateFmt})</span>`;
     }
 
-    allRows.forEach(function(r) {
-      const rowCls = r.isSubject ? "subject-row" : "";
-      html += `<tr class="${rowCls}">`;
-      const agencyCellLabel = r.isSubject ? `<strong>${escapeHtml(r.name)}</strong> <span class="muted">(this agency)</span>` : `<a href="?agency=${escapeHtml(r.slug)}">${escapeHtml(r.name)}</a>`;
-      html += `<td data-sort-value="${escapeHtml(r.name.toLowerCase())}">${agencyCellLabel}</td>`;
-      const distLabel = r.isSubject ? "&mdash;" : `${fmtNum(kmToMi(r.distance_km), 1)} mi`;
-      html += `<td class="num" data-sort-value="${r.distance_km}">${distLabel}</td>`;
-      const camVal = anyPopulation ? r.cameras_per_1000 : r.cameras;
-      const vehVal = anyPopulation ? r.vehicles_per_1000 : r.vehicles_30d;
-      const srchVal = anyPopulation ? r.searches_per_1000 : r.searches_30d;
-      html += dotCell(camVal, maxCam, r.isSubject, null);
-      html += dotCell(vehVal, maxVeh, r.isSubject, 0);
-      html += dotCell(srchVal, maxSrch, r.isSubject, 0);
-      if (r.isSubject || r.outbound > 0) {
-        html += dotCell(r.outbound || 0, maxOut, r.isSubject, 0);
-        html += dotCell(r.flagged || 0, maxFlg, r.isSubject, 0);
+    // Each sortable cell carries up to two sort keys:
+    //   data-sort-value: the primary number (e.g. cameras = 20)
+    //   data-sort-rate: the parenthetical per-1k rate if present
+    // Columns with a per-1k rate cycle primary-asc → primary-desc →
+    // rate-asc → rate-desc; columns without one toggle only asc/desc.
+    // Render up to REGIONAL_ROW_LIMIT rows by default. Sorting (via
+    // click-to-sort) then operates within that visible set.
+    regional.slice(0, REGIONAL_ROW_LIMIT).forEach(function(r) {
+      html += `<tr>`;
+      html += `<td data-sort-value="${escapeHtml(r.name.toLowerCase())}"><a href="?agency=${escapeHtml(r.slug)}">${escapeHtml(r.name)}</a></td>`;
+      html += `<td class="num" data-sort-value="${r.distance_km}">${fmtNum(kmToMi(r.distance_km), 1)} mi</td>`;
+      html += `<td class="num" data-sort-value="${r.cameras == null ? '' : r.cameras}" data-sort-rate="${r.cameras_per_1000 == null ? '' : r.cameras_per_1000}">${valueWithRate(r.cameras, r.cameras_per_1000, 0)}</td>`;
+      html += `<td class="num" data-sort-value="${r.vehicles_30d == null ? '' : r.vehicles_30d}" data-sort-rate="${r.vehicles_per_1000 == null ? '' : r.vehicles_per_1000}">${valueWithRate(r.vehicles_30d, r.vehicles_per_1000, 0)}</td>`;
+      html += `<td class="num" data-sort-value="${r.searches_30d == null ? '' : r.searches_30d}" data-sort-rate="${r.searches_per_1000 == null ? '' : r.searches_per_1000}">${valueWithRate(r.searches_30d, r.searches_per_1000, 0)}</td>`;
+      if (r.outbound > 0) {
+        html += `<td class="num" data-sort-value="${r.outbound}">${fmtInt(r.outbound)}</td>`;
+        html += `<td class="num" data-sort-value="${r.flagged || 0}">${r.flagged || 0}</td>`;
       } else {
-        html += '<td class="num dot-cell" data-sort-value=""><span class="null">N/A</span></td>';
-        html += '<td class="num dot-cell" data-sort-value=""><span class="null">N/A</span></td>';
+        // N/A entries sort to the end; use an empty sort-value so the
+        // sorter handles them consistently with other blanks.
+        html += `<td class="num" data-sort-value=""><span class="null">N/A</span></td>`;
+        html += `<td class="num" data-sort-value=""><span class="null">N/A</span></td>`;
       }
       html += `</tr>`;
     });
     html += '</table>';
+    // Click-to-sort: deferred because we need the DOM to exist first.
+    // Default sort is distance ascending (already the order we rendered).
     setTimeout(function() { wireRegionalSort(); }, 0);
     return html;
   }
