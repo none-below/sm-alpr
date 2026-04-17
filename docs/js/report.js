@@ -970,7 +970,7 @@
       return [x, y];
     }
 
-    let svg = `<svg class="mini-map" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mini map of outbound sharing recipients">`;
+    let svg = `<svg class="mini-map" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mini map of outbound sharing recipients">`;
     // Background
     svg += `<rect x="0" y="0" width="${W}" height="${H}" fill="#f8fafc" stroke="#e2e8f0"/>`;
 
@@ -1798,19 +1798,11 @@
     if (flagged.length) {
       const n = flagged.length;
       const noun = n === 1 ? "recipient is" : "recipients are";
-      let q = `<strong>${n} sharing ${noun} flagged.</strong> Who reviews the recipient list, and how often?`;
+      let q = `<strong>${n} sharing ${noun} flagged</strong> (see Flagged Recipients for details). Who reviews the recipient list, and how often?`;
       const sb34 = report.checklist_sb34 || [];
       const failsAgLawsuit = sb34.some(function(i) { return i.id === "no_ag_lawsuit_sharing" && i.value === false; });
-      const failsFusion = sb34.some(function(i) { return i.id === "no_fusion_center_sharing" && i.value === false; });
-      const addenda = [];
       if (failsAgLawsuit) {
-        addenda.push("an agency the CA Attorney General has sued over out-of-state ALPR sharing");
-      }
-      if (failsFusion) {
-        addenda.push("a fusion center with federal law-enforcement participation");
-      }
-      if (addenda.length) {
-        q += " The list includes " + addenda.join(" and ") + " &mdash; see Flagged Recipients for details.";
+        q += " Separately, the list includes an agency the CA Attorney General has sued over out-of-state ALPR sharing &mdash; not flagged by this report's automated rules, but worth asking about.";
       }
       qs.push(q);
     }
