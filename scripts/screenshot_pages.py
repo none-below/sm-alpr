@@ -20,6 +20,13 @@ PAGES = [
     # Map is 100vh so full_page won't extend it — use a tall viewport
     ("sharing_map.html", "sharing_map", {"width": 1280, "height": 1800}),
     ("scoreboard.html", "scoreboard", {"width": 1280, "height": 900}),
+    # Per-agency report renders client-side from report_data.json.
+    # SMPD is the project's canonical subject so it's the natural
+    # example for PR previews. Alameda covers the non-crawled case —
+    # useful to eyeball that uncrawled reports still render sensibly
+    # (red "No" portal badge, inferred inbound, regional context).
+    ("report.html?agency=san-mateo-ca-pd", "report_san-mateo-ca-pd", {"width": 1000, "height": 1400}),
+    ("report.html?agency=alameda-ca-pd", "report_alameda-ca-pd", {"width": 1000, "height": 1400}),
 ]
 
 

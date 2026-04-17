@@ -97,12 +97,18 @@ def agency_active_slug(entry, fallback=None):
 
 
 def agency_display_name(entry, fallback=None):
-    """Return the best display name for a registry entry."""
+    """Return the best display name for a registry entry.
+
+    Falls back to the LAST entry in flock_names so state transitions
+    captured over time (e.g. "Agency X" → "Agency X [Inactive]") show
+    the current name rather than the historical one. Explicit
+    display_name still wins when set.
+    """
     if entry.get("display_name"):
         return entry["display_name"]
     names = entry.get("flock_names", [])
     if names:
-        return names[0]
+        return names[-1]
     return fallback or entry.get("slug", "?")
 
 

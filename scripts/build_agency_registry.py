@@ -15,7 +15,7 @@ Fields per entry:
   flock_active_slug  Current active Flock portal URL slug
   flock_slugs        All known Flock portal URL slugs [active, ...old]
   flock_names        All observed Flock display names [primary, ...variants]
-  display_name       Curated display name (null = use flock_names[0])
+  display_name       Curated display name (null = use flock_names[-1], the most recent)
   lat           Latitude (null if unknown)
   lng           Longitude (null if unknown)
   state         Two-letter state code (null if unknown)

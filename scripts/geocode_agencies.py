@@ -60,7 +60,10 @@ _AGENCY_SUFFIXES = re.compile(
 _STATE_TOKEN = re.compile(r"\s*\b[A-Z]{2}\b\s*")  # Strip " CA " etc.
 _PARENS = re.compile(r"\s*\[[^\]]*\]\s*|\s*\([^)]*\)\s*")  # Strip "(CA)" and "[Inactive]"
 _CITY_OF = re.compile(r"^(City|Town|Village|Borough)\s+of\s+", re.IGNORECASE)
-_STATE_PREFIX = re.compile(r"^[A-Z]{2}\s*-\s*", re.IGNORECASE)  # "KS - Meade County SO"
+# Leading "CA - Wasco PD" / "KS - Meade County SO" naming artifact.
+# Main's version uses a simple ASCII hyphen; accepts an en-dash too
+# for robustness.
+_STATE_PREFIX = re.compile(r"^[A-Z]{2}\s*[-\u2013]\s*", re.IGNORECASE)
 _DASH_SUFFIX = re.compile(r"\s*-\s*(original|[A-Z]{2})$", re.IGNORECASE)  # "Oxford PD - OH", "Harrah OK PD - original"
 _ABBREV_CO = re.compile(r"\bCo\.", re.IGNORECASE)  # "Schuyler Co. IL SO"
 _ABBREV_INTL = re.compile(r"\bIntl\b", re.IGNORECASE)  # "Nashville Intl Airport"
@@ -114,6 +117,16 @@ def normalize_agency_name(name):
     name = re.sub(r"\s+", " ", name).strip()
     return name
 
+# Known name mismatches between common usage and Census place names.
+# After the usual cleanup, if the extracted candidate matches a key
+# here, the value gets used for the gazetteer lookup. Keep this list
+# short and targeted — the registry also has a flock_names alias
+# mechanism that can be used for trickier cases.
+CITY_ALIASES = {
+    "Carmel": "Carmel-by-the-Sea",  # Census has the hyphenated form
+    "Angels Camp": "Angels",         # Census place is "Angels city"
+}
+
 
 def extract_place_candidate(agency_name):
     """Derive a candidate place name from an agency name.
@@ -125,6 +138,8 @@ def extract_place_candidate(agency_name):
       "Akron OH PD" -> "Akron"
       "Oxford PD - OH" -> "Oxford"
       "KS - Meade County SO" -> "Meade County"
+      "CA - Wasco PD" -> "Wasco"
+      "Carmel CA PD" -> "Carmel-by-the-Sea" (via CITY_ALIASES)
     """
     name = normalize_agency_name(agency_name)
     # Strip agency-role suffixes (PD, SO, DPS, etc.)
@@ -135,6 +150,10 @@ def extract_place_candidate(agency_name):
     name = _CITY_OF.sub("", name)
     # Collapse whitespace
     name = re.sub(r"\s+", " ", name).strip()
+    # Apply targeted alias mapping last, so the cleaned candidate is
+    # what we alias against (not the raw agency name).
+    if name in CITY_ALIASES:
+        name = CITY_ALIASES[name]
     return name
 
 
@@ -347,46 +366,154 @@ def needs_geocoding(entry):
     return False
 
 
+def _haversine_km(lat1, lng1, lat2, lng2):
+    """Great-circle distance between two points, in kilometers."""
+    import math
+    R = 6371.0
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlam = math.radians(lng2 - lng1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlam / 2) ** 2
+    return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+
 def main():
     parser = argparse.ArgumentParser(description="Geocode agencies via Census gazetteer")
     parser.add_argument("--apply", action="store_true", help="Write changes to registry")
     parser.add_argument("--slug", help="Geocode a single agency by slug")
+    parser.add_argument(
+        "--upgrade-manual",
+        action="store_true",
+        help=(
+            "Also try to upgrade entries with geo.kind='manual' to place/county if "
+            "the Census match falls within --manual-threshold-km of the existing "
+            "manual lat/lng. Protects deliberate manual placements (federal "
+            "buildings, colleges, tribal HQ, etc.) by requiring the match to be "
+            "geographically close to the curated point."
+        ),
+    )
+    parser.add_argument(
+        "--manual-threshold-km",
+        type=float,
+        default=16.0,  # ~10 miles
+        help=(
+            "Full-upgrade threshold: match within this distance of the curated "
+            "manual lat/lng fully replaces the entry's coords with the Census "
+            "centroid."
+        ),
+    )
+    parser.add_argument(
+        "--manual-soft-threshold-km",
+        type=float,
+        default=150.0,  # county centroids can be ~130 km from county seat; tighter than that catches name collisions
+        help=(
+            "Soft-upgrade threshold: if the match is between --manual-threshold-km "
+            "and this value, adopt the match's FIPS/kind/name but KEEP the curated "
+            "manual lat/lng. Catches cases like San Francisco where the Census "
+            "centroid sits offshore (Farallon Islands) and the curated point is "
+            "the real HQ location. Matches beyond this distance are rejected as "
+            "probable name collisions."
+        ),
+    )
     args = parser.parse_args()
 
     registry = json.loads(REGISTRY_PATH.read_text())
 
     matched = 0
+    soft_matched = 0
     missed = 0
     matches = []
+    soft_matches = []  # (entry, geo_with_preserved_coords, distance_km)
+    # In --upgrade-manual mode we also track rejections where the
+    # gazetteer DID match something but it was too far from the
+    # curated manual coords. Useful for reviewing what we're choosing
+    # not to auto-upgrade.
+    manual_kept = []  # (entry, geo_match, distance_km)
 
     for entry in registry:
         if args.slug and entry.get("slug") != args.slug:
             continue
-        if not needs_geocoding(entry):
+
+        current_geo = entry.get("geo") or {}
+        is_manual_upgrade_candidate = (
+            args.upgrade_manual and current_geo.get("kind") == "manual"
+            and current_geo.get("lat") is not None and current_geo.get("lng") is not None
+        )
+        if not needs_geocoding(entry) and not is_manual_upgrade_candidate:
             continue
 
         geo = geocode_entry(entry)
-        if geo:
-            matched += 1
-            matches.append((entry, geo))
-            entry["geo"] = geo
-        else:
+        if not geo:
             missed += 1
+            continue
+
+        # For manual upgrades, apply one of three rules based on how
+        # far the Census match is from the curated point:
+        #   - < threshold_km            : FULL upgrade (use Census coords)
+        #   - < soft_threshold_km       : SOFT upgrade (keep curated
+        #                                 coords, adopt FIPS/kind/name)
+        #   - >= soft_threshold_km      : SKIP (likely a name collision)
+        if is_manual_upgrade_candidate:
+            d = _haversine_km(
+                current_geo["lat"], current_geo["lng"],
+                geo["lat"], geo["lng"],
+            )
+            if d > args.manual_threshold_km and d <= args.manual_soft_threshold_km:
+                # Soft upgrade — replace fips/kind/name but preserve
+                # the curated lat/lng. Catches cases like SF where the
+                # Census centroid is offshore (Farallon Islands).
+                # manual_coords=True tells downstream code (and the
+                # geo-cache tests) that the coords here intentionally
+                # diverge from the FIPS centroid; don't try to
+                # validate them against the gazetteer.
+                geo_soft = dict(geo)
+                geo_soft["lat"] = current_geo["lat"]
+                geo_soft["lng"] = current_geo["lng"]
+                geo_soft["manual_coords"] = True
+                entry["geo"] = geo_soft
+                soft_matches.append((entry, geo_soft, d))
+                soft_matched += 1
+                continue
+            if d > args.manual_soft_threshold_km:
+                manual_kept.append((entry, geo, d))
+                missed += 1
+                continue
+
+        matched += 1
+        matches.append((entry, geo))
+        entry["geo"] = geo
 
     print(f"Matched: {matched}")
+    if args.upgrade_manual:
+        print(f"Soft-upgraded (kept curated coords): {soft_matched}")
     print(f"Missed:  {missed}")
 
     if matches:
-        print("\nSample matches:")
-        for entry, geo in matches[:20]:
+        print("\nSample matches (full upgrade — replaced lat/lng with Census centroid):")
+        for entry, geo in matches[:25]:
             name = agency_display_name(entry)
             fips = geo.get("fips") or "?"
             print(f"  {name:<55} -> {geo['name']:<30} [{fips}] @ {geo['lat']:.4f}, {geo['lng']:.4f}")
 
-    if args.apply and matched > 0:
+    if soft_matches:
+        print("\nSoft-upgraded (adopted FIPS/kind/name; kept curated lat/lng):")
+        for entry, geo, d in soft_matches[:25]:
+            name = agency_display_name(entry)
+            fips = geo.get("fips") or "?"
+            print(f"  {name:<55} -> {geo['name']:<30} [{fips}] (Census centroid was {d:.1f} km off)")
+
+    if args.upgrade_manual and manual_kept:
+        print(f"\nSkipped {len(manual_kept)} manual entries (match was > {args.manual_soft_threshold_km} km — likely name collision):")
+        for entry, geo, d in manual_kept[:25]:
+            name = agency_display_name(entry)
+            print(f"  {name:<55} (would match {geo['name']}, {d:.1f} km away)")
+
+    total_changed = matched + soft_matched
+    if args.apply and total_changed > 0:
         REGISTRY_PATH.write_text(json.dumps(registry, indent=2) + "\n")
-        print(f"\nUpdated {matched} entries in {REGISTRY_PATH}")
-    elif matched > 0:
+        print(f"\nUpdated {total_changed} entries ({matched} full, {soft_matched} soft) in {REGISTRY_PATH}")
+    elif total_changed > 0:
         print(f"\nDry run. Use --apply to write changes.")
 
 

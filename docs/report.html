@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ALPR Agency Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com;">
+<style>
+  :root {
+    --border: #ccc;
+    --border-light: #e5e7eb;
+    --muted: #666;
+    --flag: #dc2626;
+    --flag-bg: #fef2f2;
+    --check-yes: #059669;
+    --check-no: #9ca3af;
+    --check-unknown: #d97706;
+    --warn-bg: #fef3c7;
+    --warn-border: #f59e0b;
+    --accent: #2563eb;
+  }
+  body {
+    margin: 0;
+    background: #f3f4f6;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    color: #111;
+    padding: 30px 12px;
+  }
+  .toolbar {
+    max-width: 7.5in;
+    margin: 0 auto 12px auto;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 0 8px;
+  }
+  .toolbar a, .toolbar button {
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid #d1d5db;
+    background: white;
+    color: #111;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .toolbar a:hover, .toolbar button:hover { background: #eff6ff; }
+  .toolbar .spacer { flex: 1; }
+
+  .page {
+    max-width: 7.5in;
+    margin: 0 auto;
+    background: white;
+    padding: 0.6in 0.7in;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+  h1 { font-size: 20pt; margin: 0 0 2px 0; border-bottom: 2px solid #111; padding-bottom: 8px; }
+  .subtitle { font-size: 10pt; color: var(--muted); margin: 0 0 18px 0; }
+  .report-header {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .report-header-main { flex: 1; min-width: 0; }
+  .report-header-qr {
+    flex: 0 0 auto;
+    text-align: center;
+    padding-top: 4px;
+  }
+  .report-header-qr .qr-caption {
+    font-size: 8pt;
+    color: var(--muted);
+    margin-top: 2px;
+    max-width: 100px;
+  }
+  @media (max-width: 720px) {
+    .report-header-qr { display: none; }
+  }
+  h2 { font-size: 13pt; margin: 22px 0 8px 0; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+  h3 { font-size: 11pt; margin: 14px 0 4px 0; }
+  p { margin: 6px 0; }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+    margin: 10px 0;
+    font-size: 10.5pt;
+  }
+  .meta-grid .label { color: var(--muted); }
+  .meta-grid .value { font-weight: bold; }
+  .meta-grid .value.missing { color: #9ca3af; font-weight: normal; font-style: italic; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 10pt; margin: 6px 0; table-layout: auto; }
+  th, td { border: 1px solid var(--border); padding: 5px 8px; text-align: left; vertical-align: top; word-wrap: break-word; overflow-wrap: anywhere; }
+  th { background: #f9fafb; font-weight: bold; font-size: 9.5pt; }
+  th .muted-head { display: block; font-weight: normal; color: var(--muted); font-size: 8.5pt; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  /* Stats table has 5 columns including long per-capita rank cells.
+     Let it horizontally scroll on narrow views rather than overflowing
+     the page. */
+  .stats-table-wrap { overflow-x: auto; }
+  td .null { color: #999; font-style: italic; }
+  /* "not reported" means the agency's portal omits a metric that most
+     peers publish — a transparency gap. Styled amber/warn so it reads
+     as a signal alongside the other warning indicators in the report. */
+  /* "X% of peers publish this field" hint shown under a
+     not-reported stats value. Helps the reader gauge whether the
+     omission is typical or unusual without flipping back to the
+     Transparency checklist. */
+  td .not-reported-hint {
+    font-size: 8.5pt;
+    color: #78350f;
+    margin-top: 4px;
+    font-weight: normal;
+    font-style: italic;
+    text-align: right;
+  }
+  td .not-reported {
+    color: #b45309;
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-style: italic;
+    font-size: 10pt;
+    font-weight: 600;
+    display: inline-block;
+  }
+  td .paren-median { color: var(--muted); font-size: 9pt; font-weight: normal; }
+  /* Highlight the subject's row in the Regional Context table so the
+     reader can trace across its metrics without losing it in the list. */
+  tr.subject-row { background: #ecfeff; }
+  tr.subject-row td { border-bottom: 2px solid #0891b2; }
+  td .rank-line { font-size: 9.5pt; line-height: 1.4; }
+  td .rank-line + .rank-line { margin-top: 2px; }
+  /* Stacked value cell for the collapsed 3-col stats table. Big
+     number on top, small rank lines beneath. Right-aligned like other
+     numeric cells but the rank text itself is left-aligned inside the
+     block so it reads naturally. */
+  /* Top-searchers bar chart in the downstream-searches row's right cell.
+     Each row has a name (with a bar behind it scaled to the max value
+     in the visible set) and a right-justified raw count. Lets the eye
+     land on the heaviest searcher at a glance. */
+  .downstream-researchers {
+    font-size: 9pt;
+    text-align: left !important;
+    line-height: 1.3;
+  }
+  .downstream-researchers .researchers-header {
+    font-weight: bold;
+    font-size: 9pt;
+    margin-bottom: 3px;
+  }
+  .downstream-researchers .researchers-bars { margin: 0; }
+  .downstream-researchers .rb-row {
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    column-gap: 8px;
+    align-items: center;
+    margin: 2px 0;
+  }
+  .downstream-researchers .rb-name {
+    position: relative;
+    padding: 2px 6px;
+    z-index: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .downstream-researchers .rb-bar {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: #dbeafe;
+    border-left: 2px solid #2563eb;
+    border-radius: 2px;
+    z-index: -1;
+  }
+  .downstream-researchers .rb-name a {
+    color: #1d4ed8;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+  }
+  .downstream-researchers .rb-count {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: #444;
+    font-size: 9pt;
+  }
+  .downstream-researchers .researchers-footer {
+    font-size: 8.5pt;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  td .metric-sublabel {
+    font-size: 8.5pt;
+    color: var(--muted);
+    font-weight: normal;
+    margin-top: 1px;
+  }
+  /* Amber-highlight sublabels that carry a "this is a floor, not the
+     full number" warning. Used on the downstream-searches row when
+     coverage is partial. */
+  td .metric-sublabel.warn {
+    background: #fef3c7;
+    border-left: 2px solid #fbbf24;
+    padding: 2px 6px;
+    color: #78350f;
+    margin-top: 3px;
+  }
+  /* Caveat block under the sublabel — carries citations and
+     links. Distinct from metric-sublabel.warn so a row can have both
+     (a neutral factual sublabel AND a caveat about data quality). */
+  td .metric-caveat {
+    background: #fef3c7;
+    border-left: 2px solid #fbbf24;
+    padding: 4px 8px;
+    color: #78350f;
+    font-size: 8.5pt;
+    line-height: 1.35;
+    margin-top: 4px;
+    font-weight: normal;
+  }
+  td .metric-caveat a { color: #b45309; }
+  /* Known data-reporting concerns: a callout on the report header
+     for agency-specific documented discrepancies. Distinct from the
+     generic SB 34 compliance checklist — these are hand-curated,
+     cite public records, and call out "the agency says X but we have
+     evidence of Y." Styled red/amber so it reads as a first-order
+     concern, not a passing note. */
+  .data-concerns {
+    background: #fef2f2;
+    border: 1px solid #dc2626;
+    border-left: 4px solid #dc2626;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 10px 0 16px 0;
+  }
+  .data-concerns-header {
+    font-weight: bold;
+    color: #991b1b;
+    font-size: 11pt;
+    margin-bottom: 4px;
+  }
+  .data-concerns-sub {
+    font-size: 9.5pt;
+    color: #7f1d1d;
+    margin-bottom: 8px;
+  }
+  .data-concerns-index { margin: 4px 0 0 0; padding-left: 22px; }
+  .data-concerns-index li { margin: 2px 0; color: #991b1b; }
+  .data-concerns-index a { color: #991b1b; }
+  /* Inline variant: integrated visually into the surrounding box
+     (stats cell or checklist item) rather than rendering as a
+     separate callout beneath it. Lighter styling so the concern
+     reads as part of the cell's own content, not an attached
+     footnote. A red left bar is still present for the concern-
+     level signal; the top-of-report block keeps the full callout
+     treatment. */
+  .data-concerns-inline {
+    margin: 6px 0 0 0;
+    padding: 6px 0 6px 8px;
+    background: transparent;
+    border: none;
+    border-left: 3px solid #dc2626;
+    border-radius: 0;
+  }
+  .data-concerns-inline .data-concern-scope {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #991b1b;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 1px;
+  }
+  .data-concerns-inline .data-concern-title {
+    font-size: 9.5pt;
+    color: #991b1b;
+    font-weight: 700;
+  }
+  .data-concerns-inline .data-concern-title::before {
+    content: "\26A0  ";
+    color: #dc2626;
+  }
+  .data-concerns-inline .data-concern-desc {
+    font-size: 9pt;
+    color: #450a0a;
+  }
+  .data-concerns-inline .data-concern { border-top: none; padding-top: 0; }
+  .data-concerns-inline .data-concern-source { font-size: 8.5pt; }
+  /* For the checklist-item variant, we need even tighter styling
+     so it fits the already-small list row (especially the two-column
+     transparency list). */
+  .checklist li .data-concerns-inline {
+    margin-top: 4px;
+    padding: 4px 0 4px 6px;
+  }
+  .data-concern {
+    padding: 4px 0;
+    border-top: 1px dashed #fca5a5;
+  }
+  .data-concerns .data-concern:first-of-type {
+    border-top: none;
+    padding-top: 0;
+  }
+  .data-concern-title {
+    font-weight: 600;
+    color: #991b1b;
+    font-size: 10.5pt;
+  }
+  .data-concern-desc {
+    font-size: 10pt;
+    color: #450a0a;
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .data-concern-source {
+    font-size: 9pt;
+    margin-top: 3px;
+  }
+  .data-concern-source a { color: #b91c1c; }
+  /* Mini regional map — inline SVG showing subject agency surrounded
+     by geocoded outbound recipients. Floated left so the surrounding
+     sharing-section text (reach metrics, flagged recipients) wraps
+     along the right side rather than consuming a full page-width
+     strip. Caps the map width at ~55% so there's room for the text
+     without the map getting too small to read. The next h3 (inbound)
+     clears the float so the inbound list starts on its own baseline. */
+  .mini-map-wrap {
+    float: left;
+    max-width: 55%;
+    margin: 4px 16px 8px 0;
+  }
+  .mini-map {
+    max-width: 100%;
+    height: auto;
+    max-height: 260px;
+    display: block;
+    border-radius: 4px;
+  }
+  .mini-map-caption {
+    font-size: 8.5pt;
+    color: #475569;
+    margin-top: 4px;
+    line-height: 1.35;
+  }
+  /* Coverage tag under the downstream-searches value — pairs with
+     the amber sublabel on the metric label column to hammer home
+     that the total is a floor (not the full volume). */
+  td .coverage-tag {
+    display: inline-block;
+    font-size: 8pt;
+    font-weight: 600;
+    color: #78350f;
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-top: 3px;
+    text-align: left;
+    white-space: normal;
+    max-width: 100%;
+  }
+  /* Peer-distribution sparkline inside the value cell. Gray bars =
+     histogram of peer values; red triangle = this agency's position.
+     Small enough to slot under the rank lines without bloating row
+     height; the shape of the distribution + the marker position
+     carry the "am I an outlier?" read at a glance. */
+  td .spark-wrap {
+    margin-top: 4px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  td .sparkline {
+    display: block;
+  }
+  /* Secondary per-vehicle rate (ACS B25046 household vehicles) below
+     the per-capita value. Muted/smaller so the primary per-capita
+     reading remains the focal point; this is supplementary context. */
+  td .per-vehicle, .metric-cell .per-vehicle {
+    font-size: 9pt;
+    color: #444;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Metric-block layout (30-Day Activity) ──────────────────── */
+  .metric-block {
+    margin: 12px 0;
+    border: 1px solid #9ca3af;
+    border-radius: 6px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .metric-block.concern { border-left: 4px solid #dc2626; }
+  .metric-block.concern-mild { border-left: 4px solid #f59e0b; }
+  .metric-block.has-data-concern { border-left: 4px solid #dc2626; }
+  .metric-head .concern-flag {
+    color: #dc2626;
+    font-weight: 700;
+    font-size: 12pt;
+    margin-right: 2px;
+  }
+  .metric-head {
+    padding: 6px 12px;
+    background: #eef2f7;
+    border-bottom: 1px solid #9ca3af;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .metric-head .metric-title {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #111;
+  }
+  .metric-head .metric-subtitle {
+    font-size: 9pt;
+    color: #666;
+    font-weight: normal;
+  }
+  .metric-block .metric-caveat {
+    background: #fef3c7;
+    border-top: 1px solid #fbbf24;
+    padding: 4px 12px;
+    font-size: 9pt;
+    color: #78350f;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: normal;
+  }
+  .metric-block .metric-caveat a { color: #b45309; }
+  .metric-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .metric-cell {
+    padding: 10px 12px;
+    border-right: 1px solid #d1d5db;
+  }
+  .metric-cell:last-child { border-right: none; }
+  .metric-cell.per-capita,
+  .metric-cell.density,
+  .metric-cell.reach,
+  .metric-cell.downstream-researchers {
+    background: #fafafa;
+  }
+  /* Cell-level concern = tint the value only. Block-level concern
+     (red left bar on the whole block) does the heavy visual lifting
+     so individual cells don't need a colored fill that would obscure
+     the embedded sparklines. */
+  .metric-cell.cell-high .cell-value { color: #991b1b; }
+  .metric-cell.cell-mid-high .cell-value { color: #92400e; }
+  .cell-label {
+    font-size: 8pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .cell-value {
+    font-size: 16pt;
+    font-weight: bold;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .cell-value.not-reported {
+    font-size: 10pt;
+    color: #b45309;
+    font-style: italic;
+    font-weight: 600;
+  }
+  .cell-value.cell-na { font-size: 12pt; color: #999; }
+  .reach-lines > div,
+  .metric-cell.density .reach-lines > div {
+    font-size: 10pt;
+    margin: 3px 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .reach-lines strong { font-size: 11pt; }
+
+  /* Rank pills (inside metric blocks) */
+  .rank-pill-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .rank-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #f3f4f6;
+    color: #444;
+    font-size: 9pt;
+    white-space: nowrap;
+  }
+  .rank-pill.concern-mild { background: #fef3c7; color: #92400e; }
+  .rank-pill.concern { background: #fee2e2; color: #991b1b; font-weight: 600; }
+  .rank-pill.concern.strong { background: #fecaca; color: #7f1d1d; font-weight: 700; }
+  .rank-pill .scope {
+    font-weight: 700;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .rank-pill .pill-phrase {}
+  .rank-pill .pill-pctile { opacity: 0.75; font-size: 8pt; }
+  .rank-pill .pill-med { opacity: 0.6; font-size: 8pt; }
+  .rank-pill .pill-spark { margin-left: 2px; }
+
+  /* Hide legacy table styles that are no longer used but CSS kept
+     around for defensiveness. */
+  td .value-primary {
+    font-size: 13pt;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 3px;
+    /* Center the primary number so it's easy to find across rows
+       regardless of variable-width rank text beneath it. */
+    text-align: center;
+  }
+  td.num .rank-line { text-align: left; }
+  /* Sortable headers: cursor + arrow indicator. */
+  th.sortable { cursor: pointer; user-select: none; }
+  th.sortable:hover { background: #f3f4f6; }
+  th .sort-arrow {
+    display: inline-block;
+    min-width: 0.8em;
+    color: var(--accent);
+    font-size: 9pt;
+  }
+  td .rank-tag {
+    display: inline-block;
+    font-size: 8.5pt;
+    font-weight: bold;
+    padding: 0 5px;
+    border-radius: 3px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  td .rank-tag-state { background: #dbeafe; color: #1e40af; }
+  td .rank-tag-local { background: #dcfce7; color: #166534; }
+  /* Rank descriptions: red for concerning (above-median) ranks, muted
+     gray for at-or-below-median. No green — a low peer rank doesn't
+     mean the absolute number is fine. */
+  .rank-high-strong { color: #991b1b; font-weight: bold; }
+  .rank-high        { color: #b91c1c; font-weight: 600; }
+  .rank-mid-high    { color: #b45309; }
+  .rank-mid         { color: #555; }
+  /* Colour bands for metric cells vs. peer median. Only high percentiles
+     get colored — we don't celebrate low percentiles because a low
+     rank relative to peers doesn't mean the absolute number is
+     acceptable. */
+  td.cell-high     { background: #fee2e2; }
+  td.cell-mid-high { background: #fef3c7; }
+
+  ul { margin: 4px 0 0 0; padding-left: 20px; }
+  li { margin: 2px 0; }
+
+  .checklist { list-style: none; padding-left: 0; margin: 6px 0; }
+  .checklist.multi-col {
+    column-count: 2;
+    column-gap: 18px;
+  }
+  .checklist.multi-col li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  /* Simplified peer stat for multi-column layout: terse, fits in narrow column */
+  .checklist.multi-col .peer-stat { font-size: 8.5pt; }
+  @media (max-width: 720px) {
+    .checklist.multi-col { column-count: 1; }
+  }
+  .checklist li {
+    margin: 5px 0;
+    padding: 6px 10px 6px 34px;
+    position: relative;
+    border-radius: 4px;
+    border-left: 3px solid transparent;
+    background: #fafafa;
+  }
+  .checklist li::before {
+    position: absolute; left: 10px; top: 5px;
+    font-weight: bold; font-size: 14pt;
+    line-height: 1;
+  }
+  .checklist li.yes {
+    background: #f0fdf4;
+    border-left-color: var(--check-yes);
+  }
+  .checklist li.yes::before { content: "\2713"; color: var(--check-yes); }
+  /* Caveat: a pass-state check with a related-concern note (e.g. "no
+     federal sharing" passes but the agency shares with a fusion center
+     that has federal entanglements). Styled with an amber accent so
+     it's noticeable without overriding the green "pass" bar. */
+  .checklist li.yes .detail.caveat {
+    background: #fef3c7;
+    border-left: 2px solid var(--warn-border);
+    padding: 4px 8px;
+    margin-top: 4px;
+    color: #78350f;
+    display: block;
+  }
+  .checklist li.no {
+    background: #fef2f2;
+    border-left-color: var(--flag);
+    color: #991b1b;
+  }
+  .checklist li.no::before { content: "\2717"; color: var(--flag); }
+  .checklist li.no .label { color: #991b1b; font-weight: 600; }
+  .checklist li.no .detail { color: #b91c1c; }
+  .checklist li.no .peer-stat { color: #b91c1c; }
+  .checklist li.unknown {
+    background: #fffbeb;
+    border-left-color: var(--check-unknown);
+  }
+  .checklist li.unknown::before { content: "?"; color: var(--check-unknown); }
+  .checklist .label { font-weight: 500; }
+  .checklist .detail { display: block; color: var(--muted); font-size: 9.5pt; margin-top: 2px; }
+  .checklist .peer-stat {
+    display: block;
+    color: var(--muted);
+    font-size: 9pt;
+    margin-top: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .percentile-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+    font-size: 10pt;
+  }
+  .percentile-bar {
+    flex: 0 0 120px;
+    height: 6px;
+    background: var(--border-light);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .percentile-bar .fill {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+  }
+
+  .flag-tag {
+    display: inline-block;
+    font-size: 8.5pt;
+    font-weight: bold;
+    padding: 1px 6px;
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: 3px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  .flag-tag.kind-private { background: #fce7f3; color: #9f1239; }
+  .flag-tag.kind-out_of_state { background: #fef3c7; color: #92400e; }
+  .flag-tag.kind-federal { background: #e0e7ff; color: #3730a3; }
+  .flag-tag.kind-fusion_center { background: #ede9fe; color: #5b21b6; }
+  .flag-tag.kind-decommissioned, .flag-tag.kind-test { background: #f3f4f6; color: #374151; }
+  .flag-tag.lawsuit { background: #dc2626; color: white; }
+
+  .flag-section {
+    background: var(--flag-bg);
+    padding: 8px 12px;
+    border-left: 3px solid var(--flag);
+    margin: 6px 0;
+  }
+  .entity-notes {
+    font-size: 9.5pt;
+    color: #555;
+    margin: 4px 0 0 0;
+    padding: 6px 10px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 3px;
+  }
+  .entity-notes a { color: #1d4ed8; }
+
+  .questions {
+    background: #f9fafb;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin: 6px 0;
+  }
+  .questions li { margin: 4px 0; font-size: 10.5pt; }
+
+  .footer {
+    margin-top: 28px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 9pt;
+    color: var(--muted);
+  }
+  .footer a { color: var(--muted); }
+
+  .legal-note {
+    font-size: 10pt;
+    background: #f3f4f6;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 6px 0;
+  }
+  /* Legal-requirements section: text on the left, QR codes for source
+     docs on the right so a printed report can be scanned to pull up the
+     law text and AG bulletin on a phone. */
+  .legal-with-qr {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .legal-with-qr .legal-text { flex: 1; min-width: 0; }
+  .legal-with-qr .legal-qr-col {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 4px;
+  }
+  .legal-qr-block { text-align: center; }
+  .legal-qr-block .qr-caption {
+    font-size: 8pt;
+    color: var(--muted);
+    margin-top: 2px;
+    max-width: 80px;
+  }
+  @media (max-width: 720px) {
+    .legal-with-qr { flex-direction: column; }
+    .legal-with-qr .legal-qr-col {
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+  }
+
+  .inferred, .muted {
+    color: var(--muted);
+    font-size: 9.5pt;
+    font-style: italic;
+  }
+
+  .no-data-box {
+    background: var(--warn-bg);
+    padding: 10px 14px;
+    border-radius: 4px;
+    border-left: 3px solid var(--warn-border);
+    margin: 10px 0;
+    font-size: 10.5pt;
+  }
+
+  .error-box {
+    background: var(--flag-bg);
+    padding: 14px 18px;
+    border-radius: 6px;
+    border-left: 3px solid var(--flag);
+    margin: 10px 0;
+  }
+
+  /* -- Print styles -- */
+  @media print {
+    body { background: white; padding: 0; }
+    .toolbar { display: none !important; }
+    .page { box-shadow: none; max-width: 100%; margin: 0; padding: 0.5in 0.6in; }
+    /* Keep every section heading with at least the next block of
+       content so headers don't strand at the bottom of a page.
+       `break-after: avoid-page` is more forceful than `avoid` for
+       browsers that otherwise let heavy following content push the
+       heading onto a new page anyway. The sibling rule catches the
+       other side — tells the following element not to start a new
+       page right before itself when preceded by a heading. */
+    h2, h3 {
+      page-break-after: avoid; break-after: avoid-page;
+      page-break-inside: avoid; break-inside: avoid;
+    }
+    h2 + *, h3 + * {
+      page-break-before: avoid; break-before: avoid-page;
+    }
+    /* Widows/orphans control for prose blocks (not directly headings,
+       but prevents hanging single lines). */
+    p, li { widows: 3; orphans: 3; }
+    /* Don't try to keep the entire stats table on one page — it's
+       tall enough (sparklines + ranks + colored cells) that forcing
+       it to stay whole leaves huge trailing whitespace on page 1
+       and pushes the table to start on page 2. Instead: let the
+       table flow, ensure no ROW breaks across pages, and repeat the
+       thead on each page so column labels stay readable. */
+    table { page-break-inside: auto; break-inside: auto; }
+    thead { display: table-header-group; }
+    tr { page-break-inside: avoid; break-inside: avoid; }
+    .flag-section, .questions, .checklist li { page-break-inside: avoid; break-inside: avoid; }
+    /* Hide the expandable lists entirely in print — the wall-of-
+       text version bloated PDFs and wasn't the right medium for
+       that data anyway. Instead, show a print-only block with a
+       QR code pointing at the live sharing map (see
+       .sharing-print-qr below). Readers with a printed copy can
+       scan to reach the interactive list. */
+    details { display: none !important; }
+    .print-only { display: flex !important; }
+  }
+  /* Print-only QR block replacing the outbound/inbound lists. On
+     screen it's hidden (.print-only default). The @media print
+     block above flips it on. */
+  .print-only { display: none; }
+  .sharing-print-qr {
+    gap: 14px;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+  }
+  .sharing-print-qr-text {
+    flex: 1;
+    font-size: 10pt;
+    color: #334155;
+    line-height: 1.4;
+  }
+  .sharing-print-qr-url {
+    font-size: 8pt;
+    color: #64748b;
+    margin-top: 4px;
+    word-break: break-all;
+  }
+  .sharing-print-qr-code { flex: 0 0 auto; }
+
+  @media (max-width: 720px) {
+    body { padding: 12px 6px; }
+    .page { padding: 20px 16px; }
+    .meta-grid { grid-template-columns: 1fr; }
+    .percentile-line { flex-wrap: wrap; }
+    /* On narrow viewports, let the mini map take full width instead
+       of floating and squishing adjacent text. */
+    .mini-map-wrap { float: none; max-width: 100%; width: 100%; margin: 8px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <a href="sharing_map.html" title="Back to the interactive map">&larr; Back to Map</a>
+  <a href="index.html">Investigation home</a>
+  <div class="spacer"></div>
+  <button id="print-btn">Print / Save as PDF</button>
+</div>
+
+<div id="report" class="page">
+  <p class="muted">Loading...</p>
+</div>
+
+<script src="js/qrcode.min.js"></script>
+<script src="js/report.js"></script>
+<script data-goatcounter="https://none-below.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

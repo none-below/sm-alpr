@@ -401,10 +401,12 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     const status = m.crawled ? ('Crawled' + (crawlDate ? ' ' + crawlDate : '')) : 'No transparency page found (inferred from other portals)';
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
     const shareUrl = window.location.href.split('#')[0] + '#' + m.slug;
-    let html = '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="' + escapeHtml(shareUrl) + '" data-share-url="' + escapeHtml(shareUrl) + '" onclick="event.preventDefault();navigator.clipboard.writeText(this.dataset.shareUrl).then(()=>{this.textContent=\'copied!\';setTimeout(()=>{this.textContent=\'\ud83d\udd17\'},1500)})" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
+    let html = '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="' + escapeHtml(shareUrl) + '" data-share-url="' + escapeHtml(shareUrl) + '" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
+    html += '<p class="stat"><a href="report.html?agency=' + encodeURIComponent(m.slug) + '" style="color:#2563eb;font-weight:600">View full report \u2192</a>';
     if (m.crawled) {
-      html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + safeSlug(m.slug) + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
+      html += ' &middot; <a href="https://transparency.flocksafety.com/' + safeSlug(m.slug) + '" target="_blank" style="color:#2563eb">Transparency portal \u2197</a>';
     }
+    html += '</p>';
     html += '<p class="stat" style="color:' + statusColor + '">' + status + '</p>';
     if (m.cameras) html += '<p class="stat">Cameras: ' + m.cameras + '</p>';
     if (m.retention_days) html += '<p class="stat">Retention: ' + m.retention_days + ' days</p>';
@@ -434,7 +436,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       if (directFlagged.length) {
         html += '<div class="sharing-list"><strong style="color:#dc2626">\u26a0 Direct flags (' + directFlagged.length + '):</strong>';
         directFlagged.forEach(function(s) {
-          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
         });
         html += '</div>';
       }
@@ -445,10 +447,12 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
         html += '<strong style="color:#dc2626">\u26a0 Indirect flags (' + myIndirects.length + '):</strong>';
         html += '<p class="stat" style="font-size:11px;color:#92400e;margin:2px 0 4px 0">Data reaches these entities through intermediaries.</p>';
         myIndirects.forEach(function(iv) {
-          html += '<div style="cursor:pointer;padding:2px 0" data-slug="' + escapeHtml(iv.flagged) + '" onclick="clickSlug(this.dataset.slug)">';
+          // Inner span's [data-slug] wins via .closest() — clicking the
+          // "via X" link navigates to X, not to the flagged recipient.
+          html += '<div style="cursor:pointer;padding:2px 0" data-slug="' + escapeHtml(iv.flagged) + '">';
           html += slugLabel(iv.flagged);
           html += ' <span style="color:#6b7280;font-size:11px">via </span>';
-          html += '<span style="cursor:pointer;color:#2563eb;font-size:11px" data-slug="' + escapeHtml(iv.via) + '" onclick="event.stopPropagation();clickSlug(this.dataset.slug)">' + escapeHtml(iv.via_name) + '</span>';
+          html += '<span style="cursor:pointer;color:#2563eb;font-size:11px" data-slug="' + escapeHtml(iv.via) + '">' + escapeHtml(iv.via_name) + '</span>';
           html += '</div>';
         });
         html += '</div>';
@@ -458,7 +462,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       if (clean.length) {
         html += '<div class="sharing-list" style="border-top:1px solid #e5e7eb;padding-top:6px"><strong>Shares with (' + clean.length + '):</strong>';
         clean.forEach(function(s) {
-          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
         });
         html += '</div>';
       }
@@ -469,7 +473,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       m.inbound_slugs.forEach(function(s) {
         const sInfo = agencyInfo[s] || {};
         const sName = escapeHtml(sInfo.name || s);
-        html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '" onclick="clickSlug(this.dataset.slug)">' + sName + (inferredIn.has(s) ? inferTag : '') + '</div>';
+        html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '">' + sName + (inferredIn.has(s) ? inferTag : '') + '</div>';
       });
       html += '</div>';
     }
@@ -624,9 +628,11 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       const panel = document.getElementById('info');
       let html = '<h3>' + escapeHtml(info.name || slug) + '</h3>';
       html += '<p class="stat" style="color:#f97316">No map location</p>';
+      html += '<p class="stat"><a href="report.html?agency=' + encodeURIComponent(slug) + '" style="color:#2563eb;font-weight:600">View full report \u2192</a>';
       if (info.crawled) {
-        html += '<p class="stat"><a href="https://transparency.flocksafety.com/' + safeSlug(slug) + '" target="_blank" style="color:#2563eb">View transparency portal \u2197</a></p>';
+        html += ' &middot; <a href="https://transparency.flocksafety.com/' + safeSlug(slug) + '" target="_blank" style="color:#2563eb">Transparency portal \u2197</a>';
       }
+      html += '</p>';
       if (info.state) html += '<p class="stat">State: ' + escapeHtml(info.state) + '</p>';
       if (info.role) html += '<p class="stat">Role: ' + escapeHtml(info.role) + '</p>';
       if (info.type) html += '<p class="stat">Type: ' + escapeHtml(info.type) + '</p>';
@@ -642,13 +648,38 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
         sharedBy.forEach(function(mm) {
           const sInfo = agencyInfo[mm.slug] || {};
           const sName = escapeHtml(sInfo.name || mm.slug);
-          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(mm.slug) + '" onclick="clickSlug(this.dataset.slug)">' + sName + '</div>';
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(mm.slug) + '">' + sName + '</div>';
         });
         html += '</div>';
       }
       panel.innerHTML = html;
     }
   };
+
+  // Delegated click handler on the #info agency panel. Covers:
+  //   - [data-share-url] on the copy-link glyph (prevents navigation,
+  //     copies URL to clipboard, flashes "copied!")
+  //   - [data-slug] on outbound / inbound / indirect-flag rows
+  //     (.closest() picks the innermost match, so clicking the "via X"
+  //     sub-span routes to X rather than bubbling to the parent slug)
+  // One listener replaces many per-element inline handlers so the
+  // page can drop 'unsafe-inline' from script-src.
+  const infoPanel = document.getElementById('info');
+  infoPanel.addEventListener('click', (e) => {
+    const shareEl = e.target.closest('[data-share-url]');
+    if (shareEl) {
+      e.preventDefault();
+      navigator.clipboard.writeText(shareEl.dataset.shareUrl).then(() => {
+        shareEl.textContent = 'copied!';
+        setTimeout(() => { shareEl.textContent = '\ud83d\udd17'; }, 1500);
+      });
+      return;
+    }
+    const slugEl = e.target.closest('[data-slug]');
+    if (slugEl) {
+      clickSlug(slugEl.dataset.slug);
+    }
+  });
 
   // Place off-map flagged entities as markers in the ocean west of California
   document.getElementById('offmap').style.display = 'none';  // hide the old panel
@@ -720,7 +751,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
 
     // Check if it looks like a zip code (5 digits)
     if (/^\d{5}$/.test(q)) {
-      searchResults.innerHTML = '<div onclick="searchZip(\'' + escapeHtml(q) + '\')">Zoom to zip code <strong>' + escapeHtml(q) + '</strong></div>';
+      searchResults.innerHTML = '<div data-zip="' + escapeHtml(q) + '">Zoom to zip code <strong>' + escapeHtml(q) + '</strong></div>';
       searchResults.style.display = 'block';
       return;
     }
@@ -756,16 +787,25 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     });
     searchResults.innerHTML = html;
     searchResults.style.display = 'block';
-
-    // Attach click handlers
-    searchResults.querySelectorAll('[data-slug]').forEach(el => {
-      el.addEventListener('click', () => {
-        searchResults.style.display = 'none';
-        searchInput.value = '';
-        clickSlug(el.dataset.slug);
-      });
-    });
   }
+
+  // Delegated click handler on #search-results: one listener covers
+  // both the agency-suggestion rows ([data-slug]) and the "Zoom to
+  // zip code" row ([data-zip]). The per-render listener loop it
+  // replaces was redundant — the container is stable.
+  searchResults.addEventListener('click', (e) => {
+    const zipEl = e.target.closest('[data-zip]');
+    if (zipEl) {
+      window.searchZip(zipEl.dataset.zip);
+      return;
+    }
+    const slugEl = e.target.closest('[data-slug]');
+    if (slugEl) {
+      searchResults.style.display = 'none';
+      searchInput.value = '';
+      clickSlug(slugEl.dataset.slug);
+    }
+  });
 
   window.searchZip = function(zip) {
     searchResults.innerHTML = '<div style="color:#6b7280;cursor:default">Looking up zip code...</div>';

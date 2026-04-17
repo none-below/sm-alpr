@@ -613,10 +613,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0611250",
+      "name": "Carmel-by-the-Sea",
       "state": "CA",
-      "lat": 36.5554,
-      "lng": -121.9233
+      "lat": 36.552881,
+      "lng": -121.921919
     },
     "flags": []
   },
@@ -638,10 +640,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0612048",
+      "name": "Cathedral City",
       "state": "CA",
-      "lat": 33.7797,
-      "lng": -116.4653
+      "lat": 33.835487,
+      "lng": -116.463103
     },
     "flags": []
   },
@@ -1229,10 +1233,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0625338",
+      "name": "Foster City",
       "state": "CA",
-      "lat": 37.5585,
-      "lng": -122.2711
+      "lat": 37.56482,
+      "lng": -122.250782
     },
     "flags": []
   },
@@ -1900,10 +1906,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "06045",
+      "name": "Mendocino",
       "state": "CA",
       "lat": 39.3076,
-      "lng": -123.7995
+      "lng": -123.7995,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -2195,10 +2204,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0650398",
+      "name": "National City",
       "state": "CA",
-      "lat": 32.6781,
-      "lng": -117.0992
+      "lat": 32.665862,
+      "lng": -117.097361
     },
     "flags": []
   },
@@ -2784,10 +2795,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0660102",
+      "name": "Redwood City",
       "state": "CA",
-      "lat": 37.4852,
-      "lng": -122.2364
+      "lat": 37.515274,
+      "lng": -122.213672
     },
     "flags": []
   },
@@ -2944,10 +2957,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0667000",
+      "name": "San Francisco",
       "state": "CA",
       "lat": 37.7749,
-      "lng": -122.4194
+      "lng": -122.4194,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -3048,6 +3064,26 @@
     "website": null,
     "tags": [
       "public"
+    ],
+    "data_concerns": [
+      {
+        "title": "Reported device count disagrees with internal dashboard",
+        "description": "The Flock transparency page reports <strong>66 devices</strong>, but the department's internal Flock Camera Manager dashboard reports <strong>80 devices</strong> (PRA response).",
+        "source_url": "SMPD_ALPR_Findings.pdf",
+        "section": "stat:cameras"
+      },
+      {
+        "title": "Policy posted, but not in full",
+        "description": "The transparency page links to the department's <strong>internal Policy Manual</strong>, which delegates several ALPR-specific items (audit criteria, committee structure, end-user procedures, annual review) to <strong>SOP 205</strong>. SOP 205 itself is <strong>not publicly posted</strong>, despite being required to be conspicuously posted by its own text and CA Civil Code \u00a71798.90.51(a). The city acknowledged this gap on March 3, 2026 and stated it was \u201cactively working\u201d to publish SOP 205. As of the findings doc revision, it remains unavailable.",
+        "source_url": "SMPD_ALPR_Findings.pdf",
+        "section": "check:published_policy"
+      },
+      {
+        "title": "Policy documents audits the department did not perform",
+        "description": "Policy 462/463 and SOP 205 have required quarterly operator audits (and NCRIC end-user audits) since at least October 2019. A PRA for audit records returned \u201cno records responsive\u201d for any period before December 2025. Kelly O\u2019Keefe confirmed in February 2026: \u201cWe do not have any records of audits prior to December [2025].\u201d A September 1, 2020 staff report to Council (File ID 20-3547) presented that \u201cSMPD conducts regular audits to ensure access to the ALPR Databases are within policy\u201d \u2014 a representation not supported by any records the department was able to produce.",
+        "source_url": "SMPD_ALPR_Findings.pdf",
+        "section": "check:documented_audit"
+      }
     ],
     "geo": {
       "kind": "place",
@@ -3509,10 +3545,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0681204",
+      "name": "Union City",
       "state": "CA",
-      "lat": 37.5934,
-      "lng": -122.0439
+      "lat": 37.602759,
+      "lng": -122.01884
     },
     "flags": []
   },
@@ -3831,10 +3869,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0686972",
+      "name": "Yuba City",
       "state": "CA",
-      "lat": 39.1404,
-      "lng": -121.6169
+      "lat": 39.129842,
+      "lng": -121.641549
     },
     "flags": []
   },
@@ -4278,33 +4318,7 @@
       "arizona-department-of-public-safety"
     ],
     "flock_names": [
-      "Arizona Department of Public Safety"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "state",
-      "fips": "04",
-      "name": "AZ",
-      "state": "AZ",
-      "lat": 33.6782536,
-      "lng": -111.47089133333334
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "426c80b6-39bb-542a-87fc-a73fb5b1806e",
-    "slug": "arizona-department-of-public-safety-inactive",
-    "flock_active_slug": "arizona-department-of-public-safety-inactive",
-    "flock_slugs": [
-      "arizona-department-of-public-safety-inactive"
-    ],
-    "flock_names": [
+      "Arizona Department of Public Safety",
       "Arizona Department of Public Safety [Inactive]"
     ],
     "display_name": null,
@@ -16299,10 +16313,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0602112",
+      "name": "Angels",
       "state": "CA",
-      "lat": 38.0685,
-      "lng": -120.5396
+      "lat": 38.071037,
+      "lng": -120.551729
     },
     "flags": []
   },
@@ -17046,10 +17062,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0683542",
+      "name": "Wasco",
       "state": "CA",
-      "lat": 35.5944,
-      "lng": -119.3406
+      "lat": 35.593785,
+      "lng": -119.367101
     },
     "flags": []
   },
@@ -17271,10 +17289,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0609780",
+      "name": "California City",
       "state": "CA",
-      "lat": 35.1258,
-      "lng": -117.9859
+      "lat": 35.14659,
+      "lng": -117.869346
     },
     "flags": []
   },
@@ -17372,10 +17392,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "state",
+      "fips": "06",
+      "name": "CA",
       "state": "CA",
       "lat": 38.56,
-      "lng": -121.51
+      "lng": -121.51,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -17681,33 +17704,6 @@
     "tags": [
       "needs-review"
     ],
-    "flags": []
-  },
-  {
-    "agency_id": "4df8ea7d-7b9b-5ece-9184-0e1dbf236060",
-    "slug": "city-of-menifee-ca-pd",
-    "flock_active_slug": "city-of-menifee-ca-pd",
-    "flock_slugs": [
-      "city-of-menifee-ca-pd"
-    ],
-    "flock_names": [
-      "City of Menifee CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0646842",
-      "name": "Menifee",
-      "state": "CA",
-      "lat": 33.689858,
-      "lng": -117.184383
-    },
     "flags": []
   },
   {
@@ -18326,10 +18322,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0617568",
+      "name": "Culver City",
       "state": "CA",
-      "lat": 34.0211,
-      "lng": -118.3965
+      "lat": 34.00582,
+      "lng": -118.396781
     },
     "flags": []
   },
@@ -18405,10 +18403,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0617918",
+      "name": "Daly City",
       "state": "CA",
-      "lat": 37.6879,
-      "lng": -122.4702
+      "lat": 37.686193,
+      "lng": -122.468669
     },
     "flags": []
   },
@@ -18814,33 +18814,6 @@
       "state": "CA",
       "lat": 37.82,
       "lng": -122.26
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "38d99e7e-45b3-5c40-807b-6729c8b7e37c",
-    "slug": "el-cajon-ca-pd",
-    "flock_active_slug": "el-cajon-ca-pd",
-    "flock_slugs": [
-      "el-cajon-ca-pd"
-    ],
-    "flock_names": [
-      "El Cajon CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0621712",
-      "name": "El Cajon",
-      "state": "CA",
-      "lat": 32.801673,
-      "lng": -116.960468
     },
     "flags": []
   },
@@ -20889,10 +20862,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0439370",
+      "name": "Lake Havasu City",
       "state": "AZ",
-      "lat": 34.4839,
-      "lng": -114.3224
+      "lat": 34.499809,
+      "lng": -114.310943
     },
     "flags": []
   },
@@ -20987,10 +20962,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "3240000",
+      "name": "Las Vegas",
       "state": "NV",
-      "lat": 36.1699,
-      "lng": -115.1398
+      "lat": 36.233499,
+      "lng": -115.264037
     },
     "flags": []
   },
@@ -21268,34 +21245,6 @@
       "state": "CA",
       "lat": 33.7361,
       "lng": -118.2639
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "0f6fb381-e42b-5b54-8e4b-9fca368f3693",
-    "slug": "los-gatos-ca-pd",
-    "flock_active_slug": "los-gatos-ca-pd",
-    "flock_slugs": [
-      "los-gatos-ca-pd"
-    ],
-    "flock_names": [
-      "Town of Los Gatos CA"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0644112",
-      "name": "Los Gatos",
-      "state": "CA",
-      "lat": 37.229912,
-      "lng": -121.956814
     },
     "flags": []
   },
@@ -21650,33 +21599,6 @@
     "flags": []
   },
   {
-    "agency_id": "c71beb26-95bc-5f26-b69f-8af96173cb66",
-    "slug": "mendocino-county-so-ca",
-    "flock_active_slug": "mendocino-county-so-ca",
-    "flock_slugs": [
-      "mendocino-county-so-ca"
-    ],
-    "flock_names": [
-      "Mendocino County SO-CA"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "county",
-      "fips": "06045",
-      "name": "Mendocino",
-      "state": "CA",
-      "lat": 39.432388,
-      "lng": -123.442881
-    },
-    "flags": []
-  },
-  {
     "agency_id": "e30ffc94-490f-502f-be3b-5a2b873c0bf1",
     "slug": "mendota-ca-pd",
     "flock_active_slug": "mendota-ca-pd",
@@ -21948,10 +21870,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "04015",
+      "name": "Mohave",
       "state": "AZ",
       "lat": 35.2047,
-      "lng": -114.0285
+      "lng": -114.0285,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -22135,10 +22060,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "06053",
+      "name": "Monterey",
       "state": "CA",
       "lat": 36.61,
-      "lng": -121.88
+      "lng": -121.88,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -22265,10 +22193,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "04017",
+      "name": "Navajo",
       "state": "AZ",
       "lat": 34.5322,
-      "lng": -110.2352
+      "lng": -110.2352,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -22317,10 +22248,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0650874",
+      "name": "Nevada City",
       "state": "CA",
-      "lat": 39.2616,
-      "lng": -121.016
+      "lat": 39.259608,
+      "lng": -121.033326
     },
     "flags": []
   },
@@ -23150,10 +23083,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0659920",
+      "name": "Redding",
       "state": "CA",
-      "lat": 40.5865,
-      "lng": -122.3917
+      "lat": 40.570277,
+      "lng": -122.366766
     },
     "flags": []
   },
@@ -23455,35 +23390,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "06065",
+      "name": "Riverside",
       "state": "CA",
       "lat": 33.9806,
-      "lng": -117.3755
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "dba49a24-b558-503f-b4b7-5c54450da30e",
-    "slug": "riverside-county-ca-sd",
-    "flock_active_slug": "riverside-county-ca-sd",
-    "flock_slugs": [
-      "riverside-county-ca-sd"
-    ],
-    "flock_names": [
-      "Riverside County CA SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "manual",
-      "state": "CA",
-      "lat": 33.9806,
-      "lng": -117.3755
+      "lng": -117.3755,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -23897,10 +23810,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "06071",
+      "name": "San Bernardino",
       "state": "CA",
       "lat": 34.1119,
-      "lng": -117.263
+      "lng": -117.263,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -23949,10 +23865,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "06073",
+      "name": "San Diego",
       "state": "CA",
       "lat": 32.734,
-      "lng": -117.1933
+      "lng": -117.1933,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -24026,10 +23945,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "06075",
+      "name": "San Francisco",
       "state": "CA",
       "lat": 37.78,
-      "lng": -122.415
+      "lng": -122.415,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -24051,10 +23973,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "06077",
+      "name": "San Joaquin",
       "state": "CA",
-      "lat": 37.9577,
-      "lng": -121.2908
+      "lat": 37.934982,
+      "lng": -121.272244
     },
     "flags": []
   },
@@ -24169,33 +24093,6 @@
     "flock_active_slug": "san-leandro-ca-pd",
     "flock_slugs": [
       "san-leandro-ca-pd"
-    ],
-    "flock_names": [
-      "San Leandro CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0668084",
-      "name": "San Leandro",
-      "state": "CA",
-      "lat": 37.703368,
-      "lng": -122.163036
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "25e82ba5-e684-517c-a175-5ab9342292db",
-    "slug": "san-leandro-pd-ca",
-    "flock_active_slug": "san-leandro-pd-ca",
-    "flock_slugs": [
-      "san-leandro-pd-ca"
     ],
     "flock_names": [
       "San Leandro CA PD"
@@ -24420,10 +24317,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0665112",
+      "name": "Sand City",
       "state": "CA",
-      "lat": 36.62,
-      "lng": -121.85
+      "lat": 36.62177,
+      "lng": -121.847668
     },
     "flags": []
   },
@@ -24620,6 +24519,7 @@
       "santa-cruz-ca-pd"
     ],
     "flock_names": [
+      "Santa Cruz CA PD",
       "Santa Cruz CA PD (deactivated)"
     ],
     "display_name": null,
@@ -24637,34 +24537,9 @@
       "lat": 36.974385,
       "lng": -122.035268
     },
-    "flags": []
-  },
-  {
-    "agency_id": "a51bc7af-d8f6-50b5-8504-9b8ea53331d8",
-    "slug": "santa-cruz-ca-pd-deactivated",
-    "flock_active_slug": "santa-cruz-ca-pd-deactivated",
-    "flock_slugs": [
-      "santa-cruz-ca-pd-deactivated"
-    ],
-    "flock_names": [
-      "Santa Cruz CA PD (deactivated)"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0669112",
-      "name": "Santa Cruz",
-      "state": "CA",
-      "lat": 36.974385,
-      "lng": -122.035268
-    },
-    "flags": []
+    "flags": [
+      "inactive"
+    ]
   },
   {
     "agency_id": "6c6b2202-9b87-5c04-b232-040a4f6e1468",
@@ -25257,10 +25132,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "3146030",
+      "name": "South Sioux City",
       "state": "NE",
-      "lat": 42.4711,
-      "lng": -96.4136
+      "lat": 42.463048,
+      "lng": -96.413248
     },
     "flags": []
   },
@@ -25442,10 +25319,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "0675630",
+      "name": "Suisun City",
       "state": "CA",
-      "lat": 38.2383,
-      "lng": -122.04
+      "lat": 38.248334,
+      "lng": -122.010066
     },
     "flags": []
   },
@@ -25748,10 +25627,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "place",
+      "fips": "4872392",
+      "name": "Texas City",
       "state": "TX",
-      "lat": 29.3838,
-      "lng": -94.9027
+      "lat": 29.433717,
+      "lng": -94.892695
     },
     "flags": []
   },
@@ -26073,10 +25954,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "06107",
+      "name": "Tulare",
       "state": "CA",
       "lat": 36.23,
-      "lng": -119.32
+      "lng": -119.32,
+      "manual_coords": true
     },
     "flags": []
   },
@@ -26232,33 +26116,6 @@
       "state": "CA",
       "lat": 39.1502,
       "lng": -123.2078
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "463bf304-0555-5d48-ba00-b4bb05816b67",
-    "slug": "ukiah-pd-ca",
-    "flock_active_slug": "ukiah-pd-ca",
-    "flock_slugs": [
-      "ukiah-pd-ca"
-    ],
-    "flock_names": [
-      "Ukiah CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0681134",
-      "name": "Ukiah",
-      "state": "CA",
-      "lat": 39.146614,
-      "lng": -123.210326
     },
     "flags": []
   },
@@ -26552,10 +26409,12 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "cousub",
+      "fips": "0611193550",
+      "name": "Ventura",
       "state": "CA",
-      "lat": 34.2805,
-      "lng": -119.2945
+      "lat": 34.318544,
+      "lng": -119.307693
     },
     "flags": []
   },
@@ -26748,10 +26607,13 @@
       "public"
     ],
     "geo": {
-      "kind": "manual",
+      "kind": "county",
+      "fips": "32031",
+      "name": "Washoe",
       "state": "NV",
       "lat": 39.5296,
-      "lng": -119.8138
+      "lng": -119.8138,
+      "manual_coords": true
     },
     "flags": []
   },
