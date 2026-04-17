@@ -1930,6 +1930,11 @@
 
   // ── Bootstrap ──
   function init() {
+    const printBtn = document.getElementById("print-btn");
+    if (printBtn) {
+      printBtn.addEventListener("click", function() { window.print(); });
+    }
+
     const params = new URLSearchParams(location.search);
     const slug = params.get("agency");
     if (!slug) {
