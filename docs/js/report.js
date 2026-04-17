@@ -445,7 +445,12 @@
   // display name.
   function shortAgencyName(report) {
     const geo = report.geo || {};
-    if (geo.name) return geo.name;
+    if (geo.name) {
+      if (geo.kind === "county" && !/\bCounty$/i.test(geo.name)) {
+        return geo.name + " County";
+      }
+      return geo.name;
+    }
     let n = report.name || "";
     n = n.replace(/\s+(CA|NV|AZ|OR|WA|ID|UT|NY|TX|FL|NH|MA|CT|NJ|PA|MD|VA|NC|SC|GA|OH|MI|IL|IN|KY|TN|AL|MS|LA|AR|OK|MO|KS|NE|IA|MN|WI|ND|SD|MT|WY|CO|NM|AK|HI|ME|VT|RI|DE|WV|DC)\s+(PD|SO|SD|DA|FD|DPS|Police|Sheriff|Police Department|Sheriff'?s? Office|District Attorney)\b.*$/i, "").trim();
     return n || report.name || "This agency";

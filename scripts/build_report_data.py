@@ -1101,10 +1101,20 @@ def main():
 
             # Compute the local peer pool once for this agency. The same
             # pool is reused for raw and per-capita rankings.
-            source_county = _county_fips_from_geo(reg.get("geo"))
-            local_peers, local_scope = local_peers_for(
-                aid, lat, lng, source_county
-            )
+            #
+            # County-scope agencies (sheriffs) are skipped: their "same
+            # county" pool is the city PDs they overlay, which is
+            # structurally apples-to-oranges — the sheriff's jurisdiction
+            # covers unincorporated areas + overlays every city, so raw
+            # numbers trivially dominate and per-capita uses a denominator
+            # that already contains every peer's population.
+            if atype == "county":
+                local_peers, local_scope = [], None
+            else:
+                source_county = _county_fips_from_geo(reg.get("geo"))
+                local_peers, local_scope = local_peers_for(
+                    aid, lat, lng, source_county
+                )
 
             for metric, v in metric_values.items():
                 series, fallback, peer_type = peer_series(metric, atype)
