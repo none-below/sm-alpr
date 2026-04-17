@@ -133,6 +133,10 @@
     display: inline-block;
   }
   td .paren-median { color: var(--muted); font-size: 9pt; font-weight: normal; }
+  /* Highlight the subject's row in the Regional Context table so the
+     reader can trace across its metrics without losing it in the list. */
+  tr.subject-row { background: #ecfeff; }
+  tr.subject-row td { border-bottom: 2px solid #0891b2; }
   td .rank-line { font-size: 9.5pt; line-height: 1.4; }
   td .rank-line + .rank-line { margin-top: 2px; }
   /* Stacked value cell for the collapsed 3-col stats table. Big

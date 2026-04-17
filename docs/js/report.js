@@ -1537,21 +1537,35 @@
     const radiusKm = meta.regional_radius_km || 50;
     const radiusMi = Math.round(kmToMi(radiusKm));
 
-    // Cap the visible regional table to the 12 closest agencies (was
-    // 20). Most readers only need the immediate neighborhood; for the
-    // full list they can click through to any row's agency page.
-    const REGIONAL_ROW_LIMIT = 12;
+    // Cap the visible regional table to the 8 closest agencies (plus
+    // the subject agency itself pinned at the top as a comparison
+    // row). Most readers only need the immediate neighborhood; for
+    // the full list they can click through to any row's agency page.
+    const REGIONAL_ROW_LIMIT = 8;
+
+    // Synthesize the subject as a row so the reader can compare it
+    // against the neighbors on the same scale. Per-capita rates come
+    // from report.per_1000; raw values from report.stats.
+    const per1k = report.per_1000 || {};
+    const subjStats = report.stats || {};
+    const subjectRow = {
+      slug: report.slug,
+      name: report.name,
+      isSubject: true,
+      distance_km: 0,
+      population: report.population,
+      cameras: subjStats.cameras,
+      vehicles_30d: subjStats.vehicles_30d,
+      searches_30d: subjStats.searches_30d,
+      outbound: subjStats.outbound_count || 0,
+      cameras_per_1000: per1k.cameras,
+      vehicles_per_1000: per1k.vehicles_30d,
+      searches_per_1000: per1k.searches_30d,
+    };
 
     let html = `<h2>Regional Context</h2>`;
-    html += `<p class="muted">${Math.min(REGIONAL_ROW_LIMIT, regional.length)} closest crawled California agencies within ${radiusMi} miles (of ${regional.length} total). Per-capita columns normalize by city population so small towns and big cities can be compared on the same scale.</p>`;
+    html += `<p class="muted">This agency (highlighted) vs. the ${Math.min(REGIONAL_ROW_LIMIT, regional.length)} closest crawled California agencies within ${radiusMi} miles (of ${regional.length} total). Per-capita columns normalize by city population so small towns and big cities can be compared on the same scale.</p>`;
     html += '<table>';
-    // Collapsed: the per-1,000-residents rates live in parens inside
-    // their parent cell ("66 (0.64/1k)"), not as separate columns.
-    // Keeps the table narrow enough to fit the page even when sharing
-    // plus flagged columns are present.
-    //
-    // Sortable: each header has data-sort-key; a click handler (wired
-    // in after the report renders) reorders the rows in place.
     html += '<tr>';
     html += '<th data-sort-key="name" class="sortable">Agency <span class="sort-arrow"></span></th>';
     html += '<th data-sort-key="distance" class="sortable">Distance <span class="sort-arrow"></span></th>';
@@ -1559,11 +1573,8 @@
     html += '<th data-sort-key="vehicles" class="sortable num">Vehicles/30d' + (anyPopulation ? '<br><span class="muted-head">(per 1k)</span>' : '') + ' <span class="sort-arrow"></span></th>';
     html += '<th data-sort-key="searches" class="sortable num">Searches/30d' + (anyPopulation ? '<br><span class="muted-head">(per 1k)</span>' : '') + ' <span class="sort-arrow"></span></th>';
     html += '<th data-sort-key="outbound" class="sortable num">Shares to <span class="sort-arrow"></span></th>';
-    html += '<th data-sort-key="flagged" class="sortable num">Flagged recipients <span class="sort-arrow"></span></th>';
     html += '</tr>';
 
-    // Helper: value with parenthetical per-1k rate. Em-dash for null
-    // value; skip the paren if we don't have a rate for this agency.
     function valueWithRate(value, rate, decimals) {
       if (value == null) return '<span class="null">&mdash;</span>';
       const main = fmtNum(value, decimals || 0);
@@ -1572,27 +1583,22 @@
       return `${main} <span class="paren-median">(${rateFmt})</span>`;
     }
 
-    // Each sortable cell carries up to two sort keys:
-    //   data-sort-value: the primary number (e.g. cameras = 20)
-    //   data-sort-rate: the parenthetical per-1k rate if present
-    // Columns with a per-1k rate cycle primary-asc → primary-desc →
-    // rate-asc → rate-desc; columns without one toggle only asc/desc.
-    // Render up to REGIONAL_ROW_LIMIT rows by default. Sorting (via
-    // click-to-sort) then operates within that visible set.
-    regional.slice(0, REGIONAL_ROW_LIMIT).forEach(function(r) {
-      html += `<tr>`;
-      html += `<td data-sort-value="${escapeHtml(r.name.toLowerCase())}"><a href="?agency=${escapeHtml(r.slug)}">${escapeHtml(r.name)}</a></td>`;
-      html += `<td class="num" data-sort-value="${r.distance_km}">${fmtNum(kmToMi(r.distance_km), 1)} mi</td>`;
+    const rows = [subjectRow].concat(regional.slice(0, REGIONAL_ROW_LIMIT));
+    rows.forEach(function(r) {
+      const trCls = r.isSubject ? ' class="subject-row"' : '';
+      html += `<tr${trCls}>`;
+      const agencyCell = r.isSubject
+        ? `<strong>${escapeHtml(r.name)}</strong> <span class="muted">(this agency)</span>`
+        : `<a href="?agency=${escapeHtml(r.slug)}">${escapeHtml(r.name)}</a>`;
+      html += `<td data-sort-value="${escapeHtml(r.name.toLowerCase())}">${agencyCell}</td>`;
+      const distCell = r.isSubject ? '&mdash;' : `${fmtNum(kmToMi(r.distance_km), 1)} mi`;
+      html += `<td class="num" data-sort-value="${r.distance_km}">${distCell}</td>`;
       html += `<td class="num" data-sort-value="${r.cameras == null ? '' : r.cameras}" data-sort-rate="${r.cameras_per_1000 == null ? '' : r.cameras_per_1000}">${valueWithRate(r.cameras, r.cameras_per_1000, 0)}</td>`;
       html += `<td class="num" data-sort-value="${r.vehicles_30d == null ? '' : r.vehicles_30d}" data-sort-rate="${r.vehicles_per_1000 == null ? '' : r.vehicles_per_1000}">${valueWithRate(r.vehicles_30d, r.vehicles_per_1000, 0)}</td>`;
       html += `<td class="num" data-sort-value="${r.searches_30d == null ? '' : r.searches_30d}" data-sort-rate="${r.searches_per_1000 == null ? '' : r.searches_per_1000}">${valueWithRate(r.searches_30d, r.searches_per_1000, 0)}</td>`;
-      if (r.outbound > 0) {
-        html += `<td class="num" data-sort-value="${r.outbound}">${fmtInt(r.outbound)}</td>`;
-        html += `<td class="num" data-sort-value="${r.flagged || 0}">${r.flagged || 0}</td>`;
+      if (r.isSubject || r.outbound > 0) {
+        html += `<td class="num" data-sort-value="${r.outbound || 0}">${fmtInt(r.outbound || 0)}</td>`;
       } else {
-        // N/A entries sort to the end; use an empty sort-value so the
-        // sorter handles them consistently with other blanks.
-        html += `<td class="num" data-sort-value=""><span class="null">N/A</span></td>`;
         html += `<td class="num" data-sort-value=""><span class="null">N/A</span></td>`;
       }
       html += `</tr>`;
