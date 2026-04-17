@@ -186,7 +186,6 @@ TRANSPARENCY_CHECKLIST = [
     {"id": "acceptable_use",   "label_pass": "Publishes acceptable-use policy",          "label_fail": "Does not publish acceptable-use policy"},
     {"id": "prohibited_uses",  "label_pass": "Publishes prohibited-uses statement",       "label_fail": "Does not publish prohibited-uses statement"},
     {"id": "sb54_statement",   "label_pass": "Publishes SB 54 compliance statement",     "label_fail": "Does not publish SB 54 compliance statement"},
-    {"id": "svs_statement",    "label_pass": "Publishes CA SVS statement",              "label_fail": "Does not publish CA SVS statement"},
     {"id": "outbound_list",    "label_pass": "Publishes full outbound sharing list",     "label_fail": "Does not publish outbound sharing list"},
     {"id": "inbound_list",     "label_pass": "Publishes full inbound sharing list",      "label_fail": "Does not publish inbound sharing list"},
 ]
@@ -292,7 +291,6 @@ def evaluate_checklist(portal, reg, crawled, outbound_ids, reg_by_id):
         results["acceptable_use"] = _has_value(portal, "acceptable_use_policy")
         results["prohibited_uses"] = _has_value(portal, "prohibited_uses")
         results["sb54_statement"] = _has_value(portal, "sb54")
-        results["svs_statement"] = _has_value(portal, "california_svs")
         results["outbound_list"] = bool(
             isinstance(portal.get("sharing_outbound"), list)
             and len(portal.get("sharing_outbound", [])) > 0
@@ -305,7 +303,7 @@ def evaluate_checklist(portal, reg, crawled, outbound_ids, reg_by_id):
         for cid in ("camera_count", "retention", "vehicles_30d", "hotlist_hits",
                     "searches_30d", "policy_link", "access_policy", "hotlist_policy",
                     "acceptable_use", "prohibited_uses", "sb54_statement",
-                    "svs_statement", "outbound_list", "inbound_list"):
+                    "outbound_list", "inbound_list"):
             results[cid] = None
 
     return results
