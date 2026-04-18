@@ -201,7 +201,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       tag += ' <span style="color:#dc2626;font-weight:bold" title="Not a &ldquo;public agency&rdquo; under CA Civil Code \u00a71798.90.5(f). Sharing ALPR data with non-agency recipients likely violates \u00a71798.90.55(b).">[PRIVATE ENTITY \u2014 not a public agency]</span>';
     }
     if (info.ag_lawsuit)
-      tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Attorney General lawsuit for illegal out-of-state ALPR data sharing in violation of SB 34.">[OUT-OF-STATE \u2014 AG litigation]</span>';
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="CA Attorney General lawsuit for illegally resharing ALPR data to out-of-state agencies in violation of SB 34.">[RESHARES OUT-OF-STATE \u2014 AG litigation]</span>';
     // Curated status flags from the registry (inactive, deactivated, dnu, duplicate, decommissioned)
     const FLAG_BADGES = {
       inactive: { color: '#6b7280', label: 'INACTIVE', title: 'Marked inactive on Flock\'s portal' },
