@@ -21,6 +21,8 @@
       when: "Tue, Apr 21 2026",
       expires: "2026-04-22",
       links: [
+        { label: "Council agenda", url: "https://sunnyvaleca.legistar.com/MeetingDetail.aspx?ID=1351612&GUID=8D95399B-F698-47D0-A65E-09D6CBC92106" },
+        { label: "Flock agenda item", url: "https://sunnyvaleca.legistar.com/LegislationDetail.aspx?ID=7986124&GUID=6726AE42-4486-4796-B885-A7155BDDE804" },
         { label: "Flyer: No Flock in Sunnyvale", url: "https://tinyurl.com/no-flock-in-sunnyvale" },
       ],
     },
@@ -40,6 +42,7 @@
       when: "Tue, Apr 21 2026",
       expires: "2026-04-22",
       links: [
+        { label: "Council agenda", url: "https://www.elcerrito.gov/Calendar.aspx?EID=11171" },
         { label: "Flyer", url: "https://drive.proton.me/urls/RMFT9WY8N4#2EloSEBOnNtg" },
       ],
     },
@@ -49,6 +52,7 @@
       when: "Tue, Apr 21 2026",
       expires: "2026-04-22",
       links: [
+        { label: "Council agendas", url: "https://www.cityofepa.org/citycouncil/page/agenda-and-minutes" },
         { label: "Organizer doc", url: "https://docs.google.com/document/d/1l1sNmOQKw2kBzTw-Ww2nrugmMceaL9t7ZzJzI0A0ZRs/edit" },
       ],
     },
