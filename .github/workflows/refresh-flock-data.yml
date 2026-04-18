@@ -6,11 +6,14 @@ on:
   workflow_dispatch:
     inputs:
       batch_size:
-        description: 'Number of agencies to refresh'
+        description: 'Number of agencies to refresh (ignored when slugs set)'
         default: '3'
       max_age:
-        description: 'Re-crawl if older than N days'
+        description: 'Re-crawl if older than N days (ignored when slugs set)'
         default: '7'
+      slugs:
+        description: 'Specific slug(s) to crawl, space-separated. Bypasses --all/--batch/--max-age when set.'
+        default: ''
 
 concurrency:
   group: flock-refresh
@@ -61,11 +64,18 @@ jobs:
 
       - name: Crawl oldest agencies
         run: |
-          uv run python scripts/flock_transparency.py crawl \
-            --all \
-            --batch ${{ inputs.batch_size || '3' }} \
-            --max-age ${{ inputs.max_age || '7' }} \
-            --delay 1
+          if [ -n "${{ inputs.slugs }}" ]; then
+            # shellcheck disable=SC2086
+            uv run python scripts/flock_transparency.py crawl \
+              ${{ inputs.slugs }} \
+              --delay 1
+          else
+            uv run python scripts/flock_transparency.py crawl \
+              --all \
+              --batch ${{ inputs.batch_size || '3' }} \
+              --max-age ${{ inputs.max_age || '7' }} \
+              --delay 1
+          fi
 
       - name: Parse new data
         run: uv run python scripts/flock_transparency.py parse
