@@ -540,6 +540,7 @@
       });
       html += metricBlockHtml({
         title: `Searches performed by ${short}`,
+        subtitle: "last 30 days",
         concern: !notReported && (pctile >= 60 || lpctile >= 60),
         cellsHtml: rawCell + perCell,
         inlineConcernHtml: concernsForSection(report, "stat:searches_30d"),
@@ -592,7 +593,7 @@
       const rightCell = `<div class="metric-cell downstream-researchers">${topResearchersHtml(report.downstream_searches)}</div>`;
       html += metricBlockHtml({
         title: `Searches reaching ${short}'s data`,
-        subtitle: `${short} + its recipients`,
+        subtitle: `last 30 days · ${short} + its recipients`,
         titleTooltip: report.downstream_searches
           ? `${fmtInt(v || 0)} = searches this agency publishes + searches published by ${report.downstream_searches.recipients_with_data} of its ${report.downstream_searches.recipients_total} recipients.`
           : "",
@@ -799,13 +800,17 @@
         extrasHtml: pvExtras,
         rankPillsHtml: pvPills,
       });
-      const hotlistCaveat = `A hit is a possible match, not a confirmed crime — NCIC matches can include false positives, and custom lists vary in how they're curated.`;
+      const hotlistCaveat = `A hit is a notification, not a confirmed crime. Agencies subscribe to watchlists — FBI NCIC (stolen vehicles, felony wants, missing persons) or custom lists the operator maintains — and a camera pings when it sees a plate on one of them.`;
+      const subscribed = (report.stats && report.stats.hotlists_alerted_on) || [];
+      const subscribedHtml = subscribed.length
+        ? `<div class="hotlist-subscriptions"><span class="muted">Subscribed to:</span> ${subscribed.map(escapeHtml).join(", ")}</div>`
+        : "";
       html += metricBlockHtml({
         title: `${short}'s hotlist hits`,
-        subtitle: "plate match against FBI NCIC or a custom list the operator has configured",
+        subtitle: "last 30 days",
         concern: (pctile != null && pctile >= 60) || (per1kPct.hotlist_hits_30d != null && per1kPct.hotlist_hits_30d >= 60),
         cellsHtml: rawCell + perCell,
-        caveatHtml: hotlistCaveat,
+        caveatHtml: hotlistCaveat + subscribedHtml,
         inlineConcernHtml: concernsForSection(report, "stat:hotlist_hits_30d"),
       });
     }
