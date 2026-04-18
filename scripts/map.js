@@ -8,6 +8,9 @@ function escapeHtml(s) {
 const SLUG_RE = /^[a-z0-9][a-z0-9\-]*$/;
 function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
 
+// Meeting-banner data + helpers live in docs/js/meeting_banners.js, loaded
+// from sharing_map.html before this script. Call window.renderMeetingBannerHtml.
+
 // Load data
 fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   const markers = data.markers;
@@ -414,7 +417,11 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
     const status = m.crawled ? ('Crawled' + (crawlDate ? ' ' + crawlDate : '')) : 'No transparency page found (inferred from other portals)';
     const statusColor = m.crawled ? '#16a34a' : '#f97316';
     const shareUrl = window.location.href.split('#')[0] + '#' + m.slug;
-    let html = '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="' + escapeHtml(shareUrl) + '" data-share-url="' + escapeHtml(shareUrl) + '" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
+    const mInfoForBanner = agencyInfo[m.slug] || {};
+    let html = (typeof window.renderMeetingBannerHtml === 'function')
+      ? window.renderMeetingBannerHtml([m.agency_id, m.slug, mInfoForBanner.name])
+      : '';
+    html += '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="' + escapeHtml(shareUrl) + '" data-share-url="' + escapeHtml(shareUrl) + '" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
     html += '<p class="stat"><a href="report.html?agency=' + encodeURIComponent(m.slug) + '" style="color:#2563eb;font-weight:600">View full report \u2192</a>';
     if (m.crawled) {
       html += ' &middot; <a href="https://transparency.flocksafety.com/' + safeSlug(m.slug) + '" target="_blank" style="color:#2563eb">Transparency portal \u2197</a>';

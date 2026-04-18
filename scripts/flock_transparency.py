@@ -72,6 +72,7 @@ RELATED_SLUGS = DEFAULT_SLUGS + [
     "south-san-francisco-ca-pd", "atherton-ca-pd", "hillsborough-ca-pd",
     "menlo-park-ca-pd", "east-palo-alto-ca-pd", "burlingame-ca-pd",
     "san-bruno-ca-pd", "pacifica-ca-pd", "colma-ca-pd", "brisbane-ca-pd",
+    "sunnyvale-ca-pd",
 ]
 
 

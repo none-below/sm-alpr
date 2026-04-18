@@ -522,6 +522,7 @@ def _generate_html(marker_count):
 <div id="edge-bottom" class="edge-indicator"></div>
 <div class="offmap-panel" id="offmap"></div>
 <script src="data/map_data.json" type="application/json" id="mapData"></script>
+<script src="js/meeting_banners.js?v=JSCACHEBUST"></script>
 <script src="js/map.js?v=JSCACHEBUST"></script>
 <script data-goatcounter="https://none-below.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>

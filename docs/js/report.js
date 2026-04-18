@@ -75,6 +75,9 @@
     outbound: "Agencies it shares to",
   };
 
+  // Meeting banner data + helpers live in docs/js/meeting_banners.js
+  // (loaded from report.html before this script).
+
   function escapeHtml(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;")
@@ -127,6 +130,7 @@
     document.title = `${report.name} — ALPR Scorecard`;
 
     let html = "";
+    html += renderMeetingBanner(report);
     html += renderHeader(report);
     html += renderStats(report, meta);
     html += renderSB34Checklist(report, meta);
@@ -150,6 +154,12 @@
         <p class="muted">Example slugs: ${agencyList.map(s => `<a href="?agency=${escapeHtml(s)}">${escapeHtml(s)}</a>`).join(", ")}${agencyList.length >= 10 ? ", ..." : ""}</p>
       </div>
     `;
+  }
+
+  // ── Meeting banner (time-limited, per-agency) ──
+  function renderMeetingBanner(report) {
+    if (typeof window.renderMeetingBannerHtml !== "function") return "";
+    return window.renderMeetingBannerHtml([report.agency_id, report.slug, report.name]);
   }
 
   // ── Header ──
