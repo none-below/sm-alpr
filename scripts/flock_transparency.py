@@ -193,6 +193,24 @@ def has_prior_success(slug, data_dir):
     return any(slug_dir.glob("*.json"))
 
 
+def latest_capture_date(slug, data_dir):
+    """Return the latest successful capture date for a slug, or None.
+
+    A capture exists when a parsed .json is present — .txt alone can be a
+    failure stub. None means never successfully captured.
+    """
+    slug_dir = data_dir / slug
+    if not slug_dir.is_dir():
+        return None
+    jsons = sorted(slug_dir.glob("*.json"))
+    if not jsons:
+        return None
+    try:
+        return datetime.strptime(jsons[-1].stem, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
 # ═══════════════════════════════════════════════════════════
 # Parsing: raw DOM text -> structured JSON
 # ═══════════════════════════════════════════════════════════
@@ -829,10 +847,25 @@ def cmd_crawl(args):
                                     if guessed:
                                         discovered_from_existing.append(guessed)
 
-                new_slugs = [s for s in slugs if s not in visited]
-                # Prioritize agencies that have succeeded before (stale refresh)
-                # over never-tried ones (unlikely to suddenly appear)
-                new_slugs.sort(key=lambda s: (0 if has_prior_success(s, data_dir) else 1))
+                # Eligible candidates this level = the current seed list plus
+                # anything discovered in the outbound of fresh neighbors. Merging
+                # `discovered_from_existing` here is what lets a known-but-never-
+                # crawled agency (e.g. a newly seeded registry entry that first
+                # appears in some peer's outbound list) get picked up on the same
+                # level it's discovered, instead of waiting for a deeper run.
+                candidates = dedupe(list(slugs) + discovered_from_existing)
+                new_slugs = [s for s in candidates if s not in visited]
+                # Crawl order: never-crawled first (fills gaps like newly-seeded
+                # registry entries), then previously-captured agencies sorted by
+                # oldest capture (refresh the stalest first). Both tiers sort
+                # together via a (tier, date) key — tier 0 = uncrawled, tier 1
+                # = by oldest capture date.
+                def _order(s):
+                    last = latest_capture_date(s, data_dir)
+                    if last is None:
+                        return (0, date.min)
+                    return (1, last)
+                new_slugs.sort(key=_order)
                 if args.batch:
                     new_slugs = new_slugs[:int(batch_remaining)]
 
