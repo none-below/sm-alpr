@@ -779,6 +779,10 @@ def cmd_crawl(args):
     data_dir.mkdir(parents=True, exist_ok=True)
     hashes = load_json(data_dir / HASH_FILE)
     failed_slugs = load_json(data_dir / FAILED_FILE)
+    # Snapshot the previously-failed set before --retry-failed wipes it — we
+    # still want the sort to deprioritize retries of prior 404s below fresh
+    # uncrawled slugs.
+    previously_failed = set(failed_slugs.keys())
 
     if args.retry_failed:
         failed_slugs.clear()
@@ -847,24 +851,32 @@ def cmd_crawl(args):
                                     if guessed:
                                         discovered_from_existing.append(guessed)
 
-                # Eligible candidates this level = the current seed list plus
+                # Eligible candidate slugs this level = the current seed list plus
                 # anything discovered in the outbound of fresh neighbors. Merging
                 # `discovered_from_existing` here is what lets a known-but-never-
-                # crawled agency (e.g. a newly seeded registry entry that first
+                # crawled slug (e.g. a newly seeded registry entry that first
                 # appears in some peer's outbound list) get picked up on the same
                 # level it's discovered, instead of waiting for a deeper run.
                 candidates = dedupe(list(slugs) + discovered_from_existing)
                 new_slugs = [s for s in candidates if s not in visited]
-                # Crawl order: never-crawled first (fills gaps like newly-seeded
-                # registry entries), then previously-captured agencies sorted by
-                # oldest capture (refresh the stalest first). Both tiers sort
-                # together via a (tier, date) key — tier 0 = uncrawled, tier 1
-                # = by oldest capture date.
+                # Crawl order by tier:
+                #   0 never attempted — fills gaps like newly-seeded registry
+                #     entries
+                #   1 previously captured — refresh stalest first (by capture
+                #     date)
+                #   2 attempted before but no successful capture (was in
+                #     failed_slugs.json) — lowest priority so retries of prior
+                #     404s/parse-failures don't starve fresh slugs. Normal runs
+                #     already exclude these via `visited`; this tier only fires
+                #     under --retry-failed, where we still want the retry to
+                #     happen *after* genuinely new slugs.
                 def _order(s):
                     last = latest_capture_date(s, data_dir)
-                    if last is None:
-                        return (0, date.min)
-                    return (1, last)
+                    if last is not None:
+                        return (1, last)
+                    if s in previously_failed:
+                        return (2, date.min)
+                    return (0, date.min)
                 new_slugs.sort(key=_order)
                 if args.batch:
                     new_slugs = new_slugs[:int(batch_remaining)]
