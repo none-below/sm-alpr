@@ -1137,6 +1137,33 @@
     "flags": []
   },
   {
+    "agency_id": "0e444576-90a6-5c9d-8cf1-fbb6664f54b1",
+    "slug": "el-segundo-ca-pd",
+    "flock_active_slug": "el-segundo-ca-pd",
+    "flock_slugs": [
+      "el-segundo-ca-pd"
+    ],
+    "flock_names": [
+      "El Segundo CA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "0622412",
+      "name": "El Segundo",
+      "state": "CA",
+      "lat": 33.910367,
+      "lng": -118.425079
+    },
+    "flags": []
+  },
+  {
     "agency_id": "15b98a3b-bfa1-58d9-a3ae-5a7edf5e4792",
     "slug": "emeryville-ca-pd",
     "flock_active_slug": "emeryville-ca-pd",
@@ -1671,6 +1698,33 @@
       "state": "CA",
       "lat": 36.855599,
       "lng": -121.398598
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "e881b333-fb53-5bec-9510-9d3c68095e89",
+    "slug": "humboldt-county-ca-so",
+    "flock_active_slug": "humboldt-county-ca-so",
+    "flock_slugs": [
+      "humboldt-county-ca-so"
+    ],
+    "flock_names": [
+      "Humboldt County CA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "county",
+      "fips": "06023",
+      "name": "Humboldt",
+      "state": "CA",
+      "lat": 40.706655,
+      "lng": -123.926176
     },
     "flags": []
   },
@@ -19003,33 +19057,6 @@
     "flags": []
   },
   {
-    "agency_id": "0e444576-90a6-5c9d-8cf1-fbb6664f54b1",
-    "slug": "el-segundo-ca-pd",
-    "flock_active_slug": "el-segundo-ca-pd",
-    "flock_slugs": [
-      "el-segundo-ca-pd"
-    ],
-    "flock_names": [
-      "El Segundo CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0622412",
-      "name": "El Segundo",
-      "state": "CA",
-      "lat": 33.910367,
-      "lng": -118.425079
-    },
-    "flags": []
-  },
-  {
     "agency_id": "16449917-ee53-5406-ade9-4b7361ec7ba2",
     "slug": "elk-grove-ca-pd",
     "flock_active_slug": "elk-grove-ca-pd",
@@ -20213,33 +20240,6 @@
       "state": "TX",
       "lat": 29.785743,
       "lng": -95.388806
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "e881b333-fb53-5bec-9510-9d3c68095e89",
-    "slug": "humboldt-county-ca-so",
-    "flock_active_slug": "humboldt-county-ca-so",
-    "flock_slugs": [
-      "humboldt-county-ca-so"
-    ],
-    "flock_names": [
-      "Humboldt County CA SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "county",
-      "fips": "06023",
-      "name": "Humboldt",
-      "state": "CA",
-      "lat": 40.706655,
-      "lng": -123.926176
     },
     "flags": []
   },
