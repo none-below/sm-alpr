@@ -515,29 +515,6 @@
     "flags": []
   },
   {
-    "agency_id": "be76e9a2-87fb-5a46-9a71-2147f2e1cffa",
-    "slug": "cal-poly-ca-pd",
-    "flock_active_slug": "cal-poly-ca-pd",
-    "flock_slugs": [
-      "cal-poly-ca-pd"
-    ],
-    "flock_names": [
-      "Cal Poly CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "CA"
-    }
-  },
-  {
     "agency_id": "b6d82e23-bb59-50ab-a318-86edd1e4daa6",
     "slug": "calistoga-ca-pd",
     "flock_active_slug": "calistoga-ca-pd",
@@ -2936,33 +2913,6 @@
     "flags": []
   },
   {
-    "agency_id": "ccfcb8c7-bf3b-56de-9182-cfaadfe01336",
-    "slug": "san-bernardino-county-ca-fd",
-    "flock_active_slug": "san-bernardino-county-ca-fd",
-    "flock_slugs": [
-      "san-bernardino-county-ca-fd"
-    ],
-    "flock_names": [
-      "San Bernardino County CA FD"
-    ],
-    "display_name": null,
-    "agency_role": "fire",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "06071",
-      "name": "San Bernardino",
-      "state": "CA",
-      "lat": 34.856661,
-      "lng": -116.181571
-    }
-  },
-  {
     "agency_id": "294a2f8e-cad6-5439-b849-ed2ff73ec216",
     "slug": "san-bruno-ca-pd",
     "flock_active_slug": "san-bruno-ca-pd",
@@ -3981,6 +3931,56 @@
       "lng": -121.344259
     },
     "flags": []
+  },
+  {
+    "agency_id": "be76e9a2-87fb-5a46-9a71-2147f2e1cffa",
+    "slug": "cal-poly-ca-pd",
+    "flock_active_slug": "cal-poly-ca-pd",
+    "flock_slugs": [
+      "cal-poly-ca-pd"
+    ],
+    "flock_names": [
+      "Cal Poly CA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
+  },
+  {
+    "agency_id": "ccfcb8c7-bf3b-56de-9182-cfaadfe01336",
+    "slug": "san-bernardino-county-ca-fd",
+    "flock_active_slug": "san-bernardino-county-ca-fd",
+    "flock_slugs": [
+      "san-bernardino-county-ca-fd"
+    ],
+    "flock_names": [
+      "San Bernardino County CA FD"
+    ],
+    "display_name": null,
+    "agency_role": "fire",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "06071",
+      "name": "San Bernardino",
+      "state": "CA",
+      "lat": 34.856661,
+      "lng": -116.181571
+    }
   },
   {
     "agency_id": "4df8ea7d-7b9b-5ece-9184-0e1dbf236060",
