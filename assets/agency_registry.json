@@ -17411,10 +17411,8 @@
       "needs-review"
     ],
     "geo": {
-      "kind": "manual",
-      "state": "CA",
-      "lat": 38.0694,
-      "lng": -122.2336
+      "kind": "state-only",
+      "state": "CA"
     },
     "flags": []
   },
@@ -17486,8 +17484,10 @@
       "needs-review"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "CA"
+      "kind": "manual",
+      "state": "CA",
+      "lat": 38.0694,
+      "lng": -122.2336
     },
     "flags": []
   },
