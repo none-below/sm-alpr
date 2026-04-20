@@ -76,8 +76,13 @@ def sidecar_path_for(file_path):
     return file_path.parent / f"{file_path.name}.{digest}.txt"
 
 
-def generate_sidecar(file_path, force=False):
-    """Generate a .txt sidecar for a PDF or .doc file. Returns the sidecar path if written, else None."""
+def generate_sidecar(file_path, force=False, removed_stale=None):
+    """Generate a .txt sidecar for a PDF or .doc file.
+
+    Returns the sidecar path if written, else None.
+    If `removed_stale` is a list, any stale sidecars cleaned up along the way
+    are appended to it (so callers can stage the deletions in git).
+    """
     file_path = Path(file_path)
     sidecar = sidecar_path_for(file_path)
 
@@ -88,6 +93,8 @@ def generate_sidecar(file_path, force=False):
     for old in file_path.parent.glob(f"{file_path.name}.*.txt"):
         if old != sidecar:
             old.unlink()
+            if removed_stale is not None:
+                removed_stale.append(old)
 
     if file_path.suffix.lower() == ".doc":
         full_text = extract_text_from_doc(file_path)
@@ -185,8 +192,9 @@ def main():
         )
 
     written = []
+    removed_stale: list[Path] = []
     for pdf in pdfs:
-        result = generate_sidecar(pdf, force=args.force)
+        result = generate_sidecar(pdf, force=args.force, removed_stale=removed_stale)
         if result:
             print(f"  wrote {result}")
             written.append(result)
@@ -194,15 +202,15 @@ def main():
     if not args.staged:
         print(f"Text sidecars: {len(written)} written, {len(pdfs) - len(written)} skipped.")
 
-    if args.staged and written:
-        print(
-            f"\nText sidecars generated for {len(written)} file(s).\n"
-            "Please stage them and re-commit:\n"
-        )
+    if args.staged and (written or removed_stale):
+        # Stage new sidecars and deletions of stale ones so the in-flight
+        # commit picks them up. Exit 0 so git proceeds with the commit.
         for s in written:
-            print(f'  git add "{s}"')
-        print()
-        sys.exit(1)
+            subprocess.run(["git", "add", "--", str(s)], check=False)
+        for s in removed_stale:
+            subprocess.run(["git", "add", "--", str(s)], check=False)
+        added = len(written) + len(removed_stale)
+        print(f"\nAuto-staged {added} sidecar change(s) for this commit.")
 
 
 if __name__ == "__main__":
