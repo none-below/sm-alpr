@@ -60,6 +60,31 @@ def extract_text_from_page(page):
         return ""
 
 
+def extract_annotations(doc):
+    """Return a list of 'p{N} [author]: content' strings for PDF comment annotations.
+
+    Filters out annotations with no content (decorative highlights) and
+    AutoCAD-generated labels that carry no review value.
+    """
+    out = []
+    for page_num, page in enumerate(doc, start=1):
+        for annot in (page.annots() or []):
+            info = annot.info
+            author = (info.get("title") or "").strip()
+            content = (info.get("content") or "").strip()
+            subject = (info.get("subject") or "").strip()
+            if not content:
+                continue
+            if author.startswith("AutoCAD"):
+                continue
+            line = f"p{page_num} [{author or '(no author)'}]"
+            if subject and subject != content:
+                line += f" ({subject})"
+            line += f": {content}"
+            out.append(line)
+    return out
+
+
 def file_hash(file_path):
     """Return first 8 hex chars of the file's MD5."""
     h = hashlib.md5()
@@ -127,9 +152,12 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
         else:
             pages.append(f"--- page {page_num + 1} ---\n{native}")
 
+    annotations = extract_annotations(doc)
     doc.close()
 
     full_text = "\n\n".join(pages)
+    if annotations:
+        full_text += "\n\n--- annotations ---\n" + "\n".join(annotations)
     sidecar.write_text(full_text, encoding="utf-8")
     return sidecar
 
