@@ -8,6 +8,7 @@ echo "Building docs..."
 uv run python scripts/build_sharing_graph.py
 uv run python scripts/build_map.py
 uv run python scripts/build_scoreboard.py
+uv run python scripts/build_audit_log.py
 
 # Copy findings
 cp outputs/SMPD_ALPR_Findings.pdf docs/SMPD_ALPR_Findings.pdf
