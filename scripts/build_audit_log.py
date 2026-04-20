@@ -9,10 +9,14 @@ drop off over time. This tool unions rows by `id` across every scrape we have,
 preserving the earliest-seen scrape date, and writes a stable per-portal JSON
 log that can extend beyond Flock's rolling cutoff.
 
-Output: data/audit/<portal-slug>.json (one file per portal that has ever
-published an audit CSV). Rows sorted by (searchDate, id) for diff-friendly
-output. Columns preserved as-present: id, userId, searchDate, networkCount,
-reason, caseNumber, offenseType.
+Output: docs/data/audit/<portal-slug>.json (one file per portal that has
+ever published an audit CSV). Rebuilt from scratch on every run; the
+committed scrape archive is the source of truth. The output dir is
+gitignored and published via GitHub Pages in scripts/publish_docs.sh.
+
+Rows sorted by (searchDate, id) for deterministic output. Columns preserved
+as-present: id, userId, searchDate, networkCount, reason, caseNumber,
+offenseType.
 
 Usage:
   uv run python scripts/build_audit_log.py
@@ -25,7 +29,7 @@ import sys
 from pathlib import Path
 
 SCRAPE_DIR = Path("assets/transparency.flocksafety.com")
-OUT_DIR = Path("data/audit")
+OUT_DIR = Path("docs/data/audit")
 
 # Preferred column order. Rows only include columns that have data.
 COLUMN_ORDER = [
@@ -114,50 +118,6 @@ def load_portal_rows(portal):
     return normalized, meta
 
 
-def merge_with_existing(portal, rows, meta):
-    """Merge new rows with any existing log, preserving older first_seen dates.
-
-    If a row exists in the current log but not in current scrapes (i.e. it
-    aged out of the rolling window after we archived it), keep it.
-    """
-    out_path = OUT_DIR / f"{portal}.json"
-    if not out_path.exists():
-        return rows, meta
-
-    with open(out_path) as f:
-        existing = json.load(f)
-    existing_rows = {r["id"]: r for r in existing.get("rows", [])}
-    new_rows = {r["id"]: r for r in rows}
-
-    merged = {}
-    for rid, r in existing_rows.items():
-        merged[rid] = dict(r)
-    for rid, r in new_rows.items():
-        if rid in merged:
-            # Preserve earliest first_seen; update other fields from newer scrape.
-            old_first = merged[rid].get("first_seen")
-            new_first = r.get("first_seen")
-            merged[rid] = dict(r)
-            if old_first and (not new_first or old_first < new_first):
-                merged[rid]["first_seen"] = old_first
-        else:
-            merged[rid] = dict(r)
-
-    merged_list = sorted(
-        merged.values(),
-        key=lambda r: (r.get("searchDate", ""), r.get("id", "")),
-    )
-    search_dates = [r.get("searchDate", "")[:10] for r in merged_list if r.get("searchDate")]
-    first_seens = [r.get("first_seen") for r in merged_list if r.get("first_seen")]
-    merged_meta = dict(meta)
-    merged_meta["row_count"] = len(merged_list)
-    merged_meta["search_date_min"] = min(search_dates) if search_dates else None
-    merged_meta["search_date_max"] = max(search_dates) if search_dates else None
-    if first_seens:
-        merged_meta["first_scrape"] = min(first_seens)
-    return merged_list, merged_meta
-
-
 def write_log(portal, rows, meta):
     out_path = OUT_DIR / f"{portal}.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -209,7 +169,6 @@ def main():
             skipped += 1
             print(f"  {portal}: no audit data, skipping")
             continue
-        rows, meta = merge_with_existing(portal, rows, meta)
         path = write_log(portal, rows, meta)
         print(
             f"  {portal}: {meta['row_count']} rows, "
