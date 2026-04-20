@@ -4248,8 +4248,10 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CA"
+      "kind": "manual",
+      "state": "CA",
+      "lat": 35.305,
+      "lng": -120.6625
     }
   },
   {
@@ -17482,8 +17484,10 @@
       "needs-review"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "CA"
+      "kind": "manual",
+      "state": "CA",
+      "lat": 38.0694,
+      "lng": -122.2336
     },
     "flags": []
   },
@@ -18024,6 +18028,14 @@
     "tags": [
       "needs-review"
     ],
+    "geo": {
+      "kind": "place",
+      "fips": "0631708",
+      "name": "Half Moon Bay",
+      "state": "CA",
+      "lat": 37.467319,
+      "lng": -122.440485
+    },
     "flags": []
   },
   {
