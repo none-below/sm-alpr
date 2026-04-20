@@ -41,8 +41,12 @@ ALLOWED_EMAIL_DOMAINS = {
     "ncric.ca.gov",
 }
 
-# Known public SMPD phone numbers (650-522-xxxx)
+# Known public phone numbers from published City of San Mateo records.
+# SMPD: 650-522-xxxx. Other City staff contacts appear in published Council
+# packets (see W012459-040226 strategic-plan attachments).
 ALLOWED_PHONES = {
+    "6505227003",  # City staff (Council packet, Strategic Plan updates 2020-09-21)
+    "6505227044",  # M. McTaggart, City staff (Council packet, Blue Sky 2024-02-03)
     "6505227600",
     "6505227608",
     "6505227627",
@@ -53,6 +57,7 @@ ALLOWED_PHONES = {
     "6505227709",
     "6505227710",
     "6505227711",
+    "6505333539",  # San Mateo County community chapter (Council packet, 2022-04-04)
 }
 
 # ── Patterns ──
