@@ -467,13 +467,19 @@ def _per_1000(metrics, population):
 def percentile_of(value, sorted_values):
     """Return the percentile (0-100) for ``value`` within ``sorted_values``.
 
-    Uses rank-based percentile: pct of values strictly less than ``value``.
-    Returns None for value=None or empty sample.
+    Uses midpoint-rank percentile: the average of strictly-below and
+    at-or-below counts. Handles ties by placing each tied group at the
+    middle of its rank range, so neither end of a tied cluster gets
+    pinned to 0 or 100. Important for metrics like retention days where
+    most agencies share the same value (e.g. 30 days). Returns None for
+    value=None or empty sample.
     """
     if value is None or not sorted_values:
         return None
+    n = len(sorted_values)
     below = sum(1 for v in sorted_values if v < value)
-    return round(100 * below / len(sorted_values))
+    at_or_below = sum(1 for v in sorted_values if v <= value)
+    return round(100 * (below + at_or_below) / (2 * n))
 
 
 # ── Main build ──
@@ -628,6 +634,7 @@ def main():
         ("hotlist_hits_30d", lambda a: a["portal"].get("hotlist_hits_30d")),
         ("searches_30d", lambda a: a["portal"].get("searches_30d")),
         ("outbound", lambda a: a["graph"].get("sharing_outbound_count") or 0),
+        ("retention_days", lambda a: a["portal"].get("data_retention_days")),
     ]
 
     # {metric: {type: sorted_list}}
@@ -1097,6 +1104,7 @@ def main():
                 "hotlist_hits_30d": hotlist_hits,
                 "searches_30d": searches_30d,
                 "outbound": outbound_count,
+                "retention_days": retention,
             }
 
             # Compute the local peer pool once for this agency. The same
@@ -1540,7 +1548,7 @@ def main():
     # which peers are within 25 miles of each agency.
     sparkline_state = {}  # metric -> { type: {bins, min, max} }
     # Raw metrics (what the agency reports).
-    for metric in ["cameras", "vehicles_30d", "hotlist_hits_30d", "searches_30d", "outbound"]:
+    for metric in ["cameras", "vehicles_30d", "hotlist_hits_30d", "searches_30d", "outbound", "retention_days"]:
         sparkline_state[metric] = {}
         for t, series in series_by_type[metric].items():
             if len(series) >= MIN_PEER_SAMPLE:

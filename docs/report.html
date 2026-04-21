@@ -110,7 +110,7 @@
     max-width: 7.5in;
     margin: 0 auto;
     background: white;
-    padding: 0.6in 0.7in;
+    padding: 0.55in 0.5in;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     font-size: 11pt;
     line-height: 1.45;
@@ -560,14 +560,15 @@
   .rank-pill {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    flex-wrap: wrap;
+    gap: 3px 5px;
     padding: 2px 8px;
     border-radius: 10px;
     background: #f3f4f6;
     color: #444;
     font-size: 9pt;
-    white-space: nowrap;
   }
+  .rank-pill > * { white-space: nowrap; }
   .rank-pill.concern-mild { background: #fef3c7; color: #92400e; }
   .rank-pill.concern { background: #fee2e2; color: #991b1b; font-weight: 600; }
   .rank-pill.concern.strong { background: #fecaca; color: #7f1d1d; font-weight: 700; }
