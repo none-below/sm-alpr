@@ -24,6 +24,33 @@
     decommissioned: "decommissioned",
   };
 
+  // Short singular/plural nouns for rank-pill phrasing. "higher than
+  // nearly all peers" reads fine but leaves readers wondering "all
+  // peers of what kind?" — the peer pool is type-filtered, so name it.
+  const PEER_NOUNS = {
+    all:             { sing: "CA agency",       plu: "CA agencies" },
+    city:            { sing: "city",             plu: "cities" },
+    county:          { sing: "county",           plu: "counties" },
+    state:           { sing: "state agency",     plu: "state agencies" },
+    federal:         { sing: "federal agency",   plu: "federal agencies" },
+    university:      { sing: "university",       plu: "universities" },
+    fusion_center:   { sing: "fusion center",    plu: "fusion centers" },
+    private:         { sing: "private entity",   plu: "private entities" },
+    transit:         { sing: "transit agency",   plu: "transit agencies" },
+    school_district: { sing: "school district",  plu: "school districts" },
+  };
+  function peerNounsFor(peerSample) {
+    if (!peerSample || !peerSample.type) return null;
+    return PEER_NOUNS[peerSample.type] || null;
+  }
+  // Full pool name for prose contexts ("among CA counties"). The
+  // rank pill uses a shorter form.
+  function peerPoolName(peerSample) {
+    const nouns = peerNounsFor(peerSample);
+    if (!nouns) return "CA agencies";
+    return nouns.plu.startsWith("CA ") ? nouns.plu : `CA ${nouns.plu}`;
+  }
+
   // Category labels name the actual concern rather than a blanket "violates SB 34"
   // claim — the problem differs by category. `private` is split at display time
   // into `private_entity` (companies, HOAs, towing) and `private_university`
@@ -65,6 +92,7 @@
     vehicles_30d: "vehicles_30d",
     hotlist_hits_30d: "hotlist_hits",
     searches_30d: "searches_30d",
+    retention_days: "retention",
   };
 
   const METRIC_LABELS = {
@@ -295,7 +323,7 @@
   // Small inline histogram (peer distribution) with a red marker at
   // the agency's value. Narrow enough to embed next to a rank number
   // inside a rank pill.
-  function inlinePillSparkSvg(hist, value) {
+  function inlinePillSparkSvg(hist, value, markerColor) {
     if (!hist || !hist.bins || !hist.bins.length) return "";
     const bins = hist.bins;
     const mn = hist.min, mx = hist.max;
@@ -315,7 +343,8 @@
       if (t < 0) t = 0;
       if (t > 1) t = 1;
       const x = PAD + t * (W - 2 * PAD);
-      svg += `<line x1="${x.toFixed(2)}" x2="${x.toFixed(2)}" y1="0" y2="${H}" stroke="#dc2626" stroke-width="1.5"/>`;
+      const stroke = markerColor || "#dc2626";
+      svg += `<line x1="${x.toFixed(2)}" x2="${x.toFixed(2)}" y1="0" y2="${H}" stroke="${stroke}" stroke-width="1.5"/>`;
     }
     svg += `</svg>`;
     return svg;
@@ -327,16 +356,19 @@
   // rankDescription so the whole pill reads as concerning / neutral
   // consistently.
   function rankPillHtml(opts) {
-    const { scopeLabel, pctile, median: med, sample, hist, value } = opts;
+    const { scopeLabel, pctile, median: med, sample, hist, value, markerColor, atMax, peerNouns } = opts;
     if (pctile == null) return "";
+    const plu = (peerNouns && peerNouns.plu) || "peers";
+    const sing = (peerNouns && peerNouns.sing) || "peer";
     let cls = "";
     let phrase;
-    if (pctile >= 90) { phrase = "higher than nearly all peers"; cls = "concern strong"; }
-    else if (pctile >= 75) { phrase = "higher than most peers"; cls = "concern"; }
-    else if (pctile >= 60) { phrase = "above peer average"; cls = "concern-mild"; }
-    else if (pctile >= 40) { phrase = "near peer median"; cls = ""; }
-    else { phrase = "below peer median"; cls = ""; }
-    const spark = inlinePillSparkSvg(hist, value);
+    if (atMax) { phrase = `at ${sing} maximum`; cls = "concern strong"; }
+    else if (pctile >= 90) { phrase = `higher than nearly all ${plu}`; cls = "concern strong"; }
+    else if (pctile >= 75) { phrase = `higher than most ${plu}`; cls = "concern"; }
+    else if (pctile >= 60) { phrase = `above typical ${sing}`; cls = "concern-mild"; }
+    else if (pctile >= 40) { phrase = `near ${sing} median`; cls = ""; }
+    else { phrase = `below ${sing} median`; cls = ""; }
+    const spark = inlinePillSparkSvg(hist, value, markerColor);
     const medHtml = med != null ? ` <span class="pill-med">med ${fmtNumSmart(med)}</span>` : "";
     return `<span class="rank-pill ${cls}">` +
       `<span class="scope">${escapeHtml(scopeLabel)}</span> ` +
@@ -351,15 +383,22 @@
   // Returns an empty string if neither rank is available.
   function rankPillsForMetric(opts) {
     const {
-      pctile, med, lpctile, lmed, lsamp, sparkHist, value, agencyType, meta, sparkMetricKey,
+      pctile, med, lpctile, lmed, lsamp, sparkHist, value, agencyType, meta, sparkMetricKey, statePeer,
     } = opts;
     if (pctile == null && lpctile == null) return "";
     const hist = sparkHist || peerHistogramFor(sparkMetricKey, agencyType, meta);
+    const stateNouns = peerNounsFor(statePeer);
     let html = '<div class="rank-pill-row">';
     if (pctile != null) {
+      // Scope label names the comparison pool concretely — "vs
+      // counties" not "vs state" — so readers don't have to wonder
+      // "peers of what kind?" and don't assume we're comparing
+      // counties against cities.
+      const scopeLabel = stateNouns ? `vs ${stateNouns.plu}` : "vs state";
       html += rankPillHtml({
-        scopeLabel: "vs state",
+        scopeLabel: scopeLabel,
         pctile: pctile, median: med, hist: hist, value: value,
+        peerNouns: stateNouns,
       });
     }
     if (lpctile != null) {
@@ -409,20 +448,25 @@
   }
 
   // Wraps a set of cells in a full metric block with title/subtitle
-  // header. `concern` adds a red left bar.
+  // header. `concern` adds a red left bar; `concernMild` adds an
+  // amber left bar (used when the metric is misleading rather than
+  // worrying — e.g., rank is artificially low because the agency
+  // didn't publish a required input).
   function metricBlockHtml(opts) {
     const {
       title,
       subtitle = "",
       titleTooltip = "",
       concern = false,
+      concernMild = false,
       cellsHtml,
       caveatHtml: caveat = "",
       inlineConcernHtml: concernHtml = "",
     } = opts;
 
     const hasConcern = !!concernHtml;
-    let html = `<div class="metric-block${concern ? " concern" : ""}${hasConcern ? " has-data-concern" : ""}">`;
+    const concernCls = concern ? " concern" : (concernMild ? " concern-mild" : "");
+    let html = `<div class="metric-block${concernCls}${hasConcern ? " has-data-concern" : ""}">`;
     html += `<div class="metric-head">`;
     if (hasConcern) html += `<span class="concern-flag" aria-label="Has documented concern">\u26A0</span> `;
     html += `<span class="metric-title"${titleTooltip ? ` title="${escapeHtml(titleTooltip)}"` : ""}>${escapeHtml(title)}</span>`;
@@ -477,6 +521,7 @@
     const peerSample = report.peer_sample || {};
     const per1kPct = report.percentiles_per_1000 || {};
     const per1kMed = report.medians_per_1000 || {};
+    const per1kSample = report.peer_sample_per_1000 || {};
     const localPct = report.percentiles_local || {};
     const localMed = report.medians_local || {};
     const localSample = report.peer_sample_local || {};
@@ -495,6 +540,53 @@
       html += `<p class="muted" style="font-size:9.5pt">Ranked against <strong>${firstPeer.size} ${typeLabel}</strong> with transparency pages${fallback ? " (too few peers of the same type; all CA agencies)" : ""}. Red-bordered blocks flag above-median metrics; below-median ones stay neutral (a low peer rank doesn\u2019t mean the absolute number is acceptable).</p>`;
     }
 
+    // ── Metric 0: Data retention policy ──────────────────────────
+    // Not a 30-day activity stat, but fits the same peer-compare
+    // layout. Most agencies report 30 days, so anything higher lands
+    // in the top of the distribution — the sparkline marker goes red
+    // only for outliers (pctile ≥ 75) and gray otherwise so 30-day
+    // baselines don't visually flag.
+    {
+      const v = stats.retention_days;
+      const notReported = v == null;
+      const pctile = percentiles.retention_days;
+      const med = medians.retention_days;
+      const sample = peerSample.retention_days;
+      const hist = peerHistogramFor("retention_days", report.agency_type, meta);
+      // Tied-at-max detection: the rank-based percentile counts
+      // strictly-below values, so an agency tied with others at the
+      // top of the distribution gets an 87th-ish pctile even though
+      // nobody retains longer. Override the phrase when that happens.
+      const atMax = hist && v != null && v === hist.max;
+      const isOutlier = atMax || (pctile != null && pctile >= 75);
+      const markerColor = isOutlier ? "#dc2626" : "#94a3b8";
+      const retNouns = peerNounsFor(sample);
+      const pillHtml = pctile != null
+        ? `<div class="rank-pill-row">${rankPillHtml({
+            scopeLabel: retNouns ? `vs ${retNouns.plu}` : "vs state",
+            pctile: pctile, median: med, hist: hist, value: v,
+            markerColor: markerColor, atMax: atMax,
+            peerNouns: retNouns,
+          })}</div>`
+        : "";
+      const rawCell = statsCellHtml({
+        cellClass: "raw",
+        concernClass: isOutlier ? "concern" : "",
+        label: "Agency raw",
+        value: v != null ? `${fmtInt(v)} days` : null,
+        valueIsNotReported: notReported,
+        notReportedHint: notReported ? notReportedHintFor(report, "retention_days") : "",
+        rankPillsHtml: pillHtml,
+      });
+      html += metricBlockHtml({
+        title: `${short}'s data retention policy`,
+        subtitle: "how long ALPR data is kept before deletion",
+        concern: isOutlier,
+        cellsHtml: rawCell,
+        inlineConcernHtml: concernsForSection(report, "stat:retention_days"),
+      });
+    }
+
     // ── Metric 1: Searches performed ─────────────────────────────
     {
       const v = stats.searches_30d;
@@ -507,6 +599,7 @@
         lsamp: localSample.searches_30d,
         value: v, agencyType: report.agency_type, meta,
         sparkMetricKey: "searches_30d",
+        statePeer: peerSample.searches_30d,
       });
       const rawCell = statsCellHtml({
         cellClass: "raw",
@@ -525,6 +618,7 @@
         lsamp: localSample.searches_30d,
         value: per, agencyType: report.agency_type, meta,
         sparkMetricKey: "searches_30d_per_1000",
+        statePeer: per1kSample.searches_30d,
       });
       const pvExtras = perVeh.searches_30d != null
         ? `<div class="per-vehicle"><strong>${fmtNum(perVeh.searches_30d, perVeh.searches_30d < 10 ? 2 : 0)}</strong> <span class="muted">per 1,000 household vehicles</span></div>`
@@ -541,6 +635,7 @@
       html += metricBlockHtml({
         title: `Searches performed by ${short}`,
         concern: !notReported && (pctile >= 60 || lpctile >= 60),
+        concernMild: notReported,
         cellsHtml: rawCell + perCell,
         inlineConcernHtml: concernsForSection(report, "stat:searches_30d"),
       });
@@ -551,12 +646,18 @@
       const v = report.downstream_total;
       const pctile = report.percentile_downstream;
       const lpctile = report.percentile_downstream_local;
-      const pills = rankPillsForMetric({
+      // Suppress rank pills + sparkline entirely when the agency
+      // hasn't published a sharing list — the downstream total is
+      // missing recipient contributions, so any rank is a comparison
+      // against an incomplete number and would mislead.
+      const noSharingList = !report.downstream_searches;
+      const pills = noSharingList ? "" : rankPillsForMetric({
         pctile, med: report.median_downstream,
         lpctile, lmed: report.median_downstream_local,
         lsamp: report.peer_sample_downstream_local,
         value: v, agencyType: report.agency_type, meta,
         sparkMetricKey: "downstream",
+        statePeer: report.peer_sample_downstream,
       });
       // Coverage caveat
       let coverage = "";
@@ -577,12 +678,23 @@
           parts.push("<em>Real total likely higher.</em>");
           coverage = `<div class="coverage-tag">${parts.join(" ")}</div>`;
         }
+      } else {
+        // Agency doesn't publish an outbound sharing list, so no
+        // recipients contribute to the downstream total — the rank
+        // reflects only their own searches and is not comparable to
+        // peers who do publish. Flag this so a low percentile doesn't
+        // read as "small network footprint" when it's really
+        // "undisclosed network footprint."
+        coverage = `<div class="coverage-tag" style="color:var(--flag)"><strong>No published sharing list.</strong> Total reflects only this agency\u2019s own searches; downstream queries from recipients can\u2019t be counted. Rank understates actual reach.</div>`;
       }
+      const downstreamDisplay = noSharingList
+        ? `<span style="color:#9ca3af">${fmtInt(v)}</span>`
+        : v;
       const rawCell = statsCellHtml({
         cellClass: "raw",
-        concernClass: cellClassFor(pctile, "downstream"),
+        concernClass: noSharingList ? "" : cellClassFor(pctile, "downstream"),
         label: "Combined total",
-        value: v,
+        value: downstreamDisplay,
         extrasHtml: coverage,
         rankPillsHtml: pills,
       });
@@ -596,7 +708,8 @@
         titleTooltip: report.downstream_searches
           ? `${fmtInt(v || 0)} = searches this agency publishes + searches published by ${report.downstream_searches.recipients_with_data} of its ${report.downstream_searches.recipients_total} recipients.`
           : "",
-        concern: pctile != null && pctile >= 60,
+        concern: !noSharingList && pctile != null && pctile >= 60,
+        concernMild: noSharingList,
         cellsHtml: rawCell + rightCell,
         inlineConcernHtml: concernsForSection(report, "stat:downstream"),
       });
@@ -607,18 +720,48 @@
       const v = stats.outbound_count;
       const pctile = percentiles.outbound;
       const lpctile = localPct.outbound;
-      const pills = rankPillsForMetric({
+      // 0 outbound is ambiguous: "we share with nobody" (good) or
+      // "we don't publish our sharing list" (transparency gap). When
+      // the agency hasn't published an outbound list, suppress the
+      // peer rank (the "0" isn't comparable) and amber-flag the
+      // block so a 0 doesn't read as compliant.
+      const noSharingList = !report.downstream_searches;
+      const pills = noSharingList ? "" : rankPillsForMetric({
         pctile, med: medians.outbound,
         lpctile, lmed: localMed.outbound,
         lsamp: localSample.outbound,
         value: v, agencyType: report.agency_type, meta,
         sparkMetricKey: "outbound",
+        statePeer: peerSample.outbound,
       });
+      // Peer-publish rate — how many peers actually publish an
+      // outbound sharing list. Gives the reader context for whether
+      // "not publishing" is common baseline or an outlier.
+      const outList = (report.checklist_transparency || []).find(
+        function(x) { return x.id === "outbound_list"; }
+      );
+      let peerPublishNote = "";
+      if (noSharingList && outList && outList.peer_applicable) {
+        const p = Math.round(100 * outList.peer_count / outList.peer_applicable);
+        const peerGroup = outList.peer_type === "all"
+          ? "CA agencies"
+          : `CA ${agencyTypeLabel(outList.peer_type)} agencies`;
+        peerPublishNote = ` <span class="muted">(${p}% of ${peerGroup} with a transparency portal do publish one.)</span>`;
+      }
+      const noListNote = noSharingList
+        ? `<div class="coverage-tag" style="color:var(--flag)"><strong>No published sharing list.</strong> Count is unknown, not zero. Inferred edges may still appear in the recipient table below.${peerPublishNote}</div>`
+        : "";
+      // Show "N/A" when the list is unpublished — a bare "0" reads as
+      // "shares with nobody" (compliant), which inverts the signal.
+      const displayValue = noSharingList
+        ? `<span style="color:#9ca3af; font-size:14pt">N/A</span>`
+        : v;
       const rawCell = statsCellHtml({
         cellClass: "raw",
-        concernClass: cellClassFor(pctile, "outbound"),
+        concernClass: noSharingList ? "" : cellClassFor(pctile, "outbound"),
         label: "Agency raw",
-        value: v,
+        value: displayValue,
+        extrasHtml: noListNote,
         rankPillsHtml: pills,
       });
       // Right cell: reach metrics + state/local comparison pills so
@@ -658,10 +801,25 @@
           `</div>`
         );
       }
-      const reachCell = `<div class="metric-cell reach"><div class="cell-label">Reach</div><div class="reach-lines">${bits.join("")}</div></div>`;
+      // When the agency doesn't publish its outbound list, the reach
+      // cell becomes meaningless (no distances to measure). Replace it
+      // with the count of inferred edges — agencies that NAME this one
+      // in their own inbound list. Those inferred edges are our only
+      // evidence of actual sharing partners when the agency withholds.
+      let reachCell;
+      if (noSharingList) {
+        const inferredCount = (report.outbound || []).filter(function(e) { return e.inferred; }).length;
+        const inferredHtml = inferredCount > 0
+          ? `<div><strong>${fmtInt(inferredCount)}</strong> other ${inferredCount === 1 ? "agency claims" : "agencies claim"} to receive data from ${escapeHtml(short)}.</div><div class="muted" style="margin-top:4px">From those agencies\u2019 published inbound lists. Actual count is likely higher — most agencies only publish outbound lists.</div>`
+          : `<div class="muted">No agencies\u2019 inbound lists name ${escapeHtml(short)} as a source. Actual sharing partners are unknown.</div>`;
+        reachCell = `<div class="metric-cell reach"><div class="cell-label">Inferred edges</div>${inferredHtml}</div>`;
+      } else {
+        reachCell = `<div class="metric-cell reach"><div class="cell-label">Reach</div><div class="reach-lines">${bits.join("")}</div></div>`;
+      }
       html += metricBlockHtml({
         title: `Agencies ${short} shares to`,
-        concern: pctile != null && pctile >= 60,
+        concern: !noSharingList && pctile != null && pctile >= 60,
+        concernMild: noSharingList,
         cellsHtml: rawCell + reachCell,
         inlineConcernHtml: concernsForSection(report, "stat:outbound"),
       });
@@ -678,6 +836,7 @@
         lsamp: localSample.cameras,
         value: v, agencyType: report.agency_type, meta,
         sparkMetricKey: "cameras",
+        statePeer: peerSample.cameras,
       });
       const rawCell = statsCellHtml({
         cellClass: "raw",
@@ -704,6 +863,7 @@
         lsamp: report.peer_sample_density_local,
         value: report.cameras_per_sqmi, agencyType: report.agency_type, meta,
         sparkMetricKey: "cameras_per_sqmi",
+        statePeer: report.peer_sample_density,
       });
       const densityCell = `<div class="metric-cell density ${cellClassFor(report.percentile_density, "cameras_per_sqmi")}"><div class="cell-label">Density</div><div class="reach-lines">${densityLines.join("")}</div>${densityPills}</div>`;
       html += metricBlockHtml({
@@ -725,6 +885,7 @@
         lsamp: localSample.vehicles_30d,
         value: v, agencyType: report.agency_type, meta,
         sparkMetricKey: "vehicles_30d",
+        statePeer: peerSample.vehicles_30d,
       });
       const rawCell = statsCellHtml({
         cellClass: "raw",
@@ -740,6 +901,7 @@
         lsamp: localSample.vehicles_30d,
         value: per, agencyType: report.agency_type, meta,
         sparkMetricKey: "vehicles_30d_per_1000",
+        statePeer: per1kSample.vehicles_30d,
       });
       const pvExtras = perVeh.vehicles_30d != null
         ? `<div class="per-vehicle"><strong>${fmtNum(perVeh.vehicles_30d, perVeh.vehicles_30d < 10 ? 2 : 0)}</strong> <span class="muted">per 1,000 household vehicles</span></div>`
@@ -772,6 +934,7 @@
         lsamp: localSample.hotlist_hits_30d,
         value: v, agencyType: report.agency_type, meta,
         sparkMetricKey: "hotlist_hits_30d",
+        statePeer: peerSample.hotlist_hits_30d,
       });
       const rawCell = statsCellHtml({
         cellClass: "raw",
@@ -787,6 +950,7 @@
         lsamp: localSample.hotlist_hits_30d,
         value: per, agencyType: report.agency_type, meta,
         sparkMetricKey: "hotlist_hits_30d_per_1000",
+        statePeer: per1kSample.hotlist_hits_30d,
       });
       const pvExtras = perVeh.hotlist_hits_30d != null
         ? `<div class="per-vehicle"><strong>${fmtNum(perVeh.hotlist_hits_30d, perVeh.hotlist_hits_30d < 10 ? 2 : 0)}</strong> <span class="muted">per 1,000 household vehicles</span></div>`
@@ -1332,7 +1496,7 @@
     const passPct = pct(pass, applicable);
 
     if (compact) {
-      return `${passPct}% of peers ${escapeHtml(phrase)} (${pass}/${applicable}).`;
+      return `${passPct}% of ${peerTypeLabel} ${escapeHtml(phrase)} (${pass}/${applicable}).`;
     }
 
     let line = `<strong>${passPct}%</strong> of ${applicable} ${peerTypeLabel} ${escapeHtml(phrase)} (${pass}/${applicable}).`;
@@ -1870,7 +2034,8 @@
     const out = report.stats && report.stats.outbound_count;
     const pctile = report.percentiles && report.percentiles.outbound;
     if (out && pctile != null && pctile >= 75) {
-      qs.push(`The department shares with <strong>${out}</strong> agencies (${pctile}${nthSuffix(pctile)} percentile). What criteria determine who is added to this list?`);
+      const pool = peerPoolName(report.peer_sample && report.peer_sample.outbound);
+      qs.push(`The department shares with <strong>${out}</strong> agencies (${pctile}${nthSuffix(pctile)} percentile among ${pool}). What criteria determine who is added to this list?`);
     }
 
     // SB 34 failures
@@ -1890,7 +2055,8 @@
     // Camera density
     const cameraPctile = report.percentiles && report.percentiles.cameras;
     if (cameraPctile != null && cameraPctile >= 85) {
-      qs.push(`The department reports <strong>${report.stats.cameras} cameras</strong> (${cameraPctile}${nthSuffix(cameraPctile)} percentile). How does the department justify this density?`);
+      const pool = peerPoolName(report.peer_sample && report.peer_sample.cameras);
+      qs.push(`The department reports <strong>${report.stats.cameras} cameras</strong> (${cameraPctile}${nthSuffix(cameraPctile)} percentile among ${pool}). How does the department justify this density?`);
     }
 
     // Downstream-access question: shares-to partners can typically
