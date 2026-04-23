@@ -12,12 +12,19 @@ function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
 // from sharing_map.html before this script. Call window.renderMeetingBannerHtml.
 
 // Load data
-fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
+Promise.all([
+  fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()),
+  fetch('data/agency_changelog.json?v=CACHE_BUST').then(r => r.ok ? r.json() : null).catch(() => null),
+]).then(([data, changelog]) => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
   const mismatches = data.mismatches;
   const indirectFlags = data.indirectFlags || {};
+  const changelogBySlug = (changelog && changelog.by_slug) || {};
+  const changelogMeta = changelog || { window_days: 90, tracking_days: null, window_complete: false };
+  let showChanges = localStorage.getItem('smalpr-show-changes') !== 'false';
+  let currentSelectionSlug = null;
 
   const map = L.map('map').setView([37.5, -121.5], 7);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {
@@ -285,6 +292,7 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
   function showAgency(m) {
     lineLayer.clearLayers();
     clearTempMarkers();
+    currentSelectionSlug = m.slug;
 
     // Reveal hidden markers connected to the selected agency
     const connectedSlugs = new Set([
@@ -356,6 +364,45 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
         });
         L.marker([topLat + 0.4, m.lng], { icon: overflowIcon }).addTo(lineLayer);
       }
+    }
+
+    // Overlay recent sharing changes for the selected agency (last 90d)
+    const chg = showChanges ? changelogBySlug[m.slug] : null;
+    if (chg) {
+      (chg.sharing_outbound_added || []).forEach(it => {
+        if (it.slug && coords[it.slug]) {
+          L.polyline([[m.lat, m.lng], coords[it.slug]], {
+            color: '#16a34a', weight: 4, opacity: 0.55,
+          }).addTo(lineLayer).bindTooltip(
+            'Started sharing on/around ' + it.date,
+            { direction: 'top', sticky: true }
+          );
+        }
+      });
+      (chg.sharing_outbound_removed || []).forEach(it => {
+        if (it.slug && coords[it.slug]) {
+          const tCoord = coords[it.slug];
+          L.polyline([[m.lat, m.lng], tCoord], {
+            color: '#9ca3af', weight: 1.5, opacity: 0.6, dashArray: '6 5',
+          }).addTo(lineLayer).bindTooltip(
+            'Stopped sharing on/around ' + it.date,
+            { direction: 'top', sticky: true }
+          );
+          const xIcon = L.divIcon({
+            html: '<div style="font-size:18px;font-weight:bold;color:#dc2626;text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 2px #fff;line-height:1">\u2716</div>',
+            className: '',
+            iconSize: [20, 20],
+            iconAnchor: [10, 10],
+          });
+          const tName = (agencyInfo[it.slug] || {}).name || it.name;
+          L.marker(tCoord, { icon: xIcon, zIndexOffset: 500 })
+            .addTo(lineLayer)
+            .bindTooltip(
+              escapeHtml(tName) + ' \u2014 sharing stopped on/around ' + it.date,
+              { direction: 'top', offset: [0, -8], sticky: true }
+            );
+        }
+      });
     }
 
     let inConnected = 0;
@@ -882,6 +929,50 @@ fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()).then(data => {
       searchResults.style.display = 'none';
     }
   });
+
+  // Change-overlay toggle in the legend
+  const legendEl = document.querySelector('.legend');
+  if (legendEl) {
+    const divider = document.createElement('div');
+    divider.style.cssText = 'border-top:1px solid #e5e7eb;margin:6px 0 4px';
+    legendEl.appendChild(divider);
+
+    const addedItem = document.createElement('div');
+    addedItem.className = 'legend-item';
+    addedItem.innerHTML = '<div style="width:20px;height:3px;background:#16a34a"></div> Sharing started (last 90d)';
+    legendEl.appendChild(addedItem);
+
+    const removedItem = document.createElement('div');
+    removedItem.className = 'legend-item';
+    removedItem.innerHTML = '<div style="width:20px;height:2px;background:repeating-linear-gradient(90deg,#9ca3af 0,#9ca3af 4px,transparent 4px,transparent 7px)"></div> <span style="color:#dc2626;font-weight:bold;margin:0 2px">\u2716</span> Sharing stopped (last 90d)';
+    legendEl.appendChild(removedItem);
+
+    const toggleWrap = document.createElement('label');
+    toggleWrap.className = 'legend-item';
+    toggleWrap.style.cssText = 'cursor:pointer;user-select:none';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = showChanges;
+    cb.style.cssText = 'margin:0 6px 0 0';
+    toggleWrap.appendChild(cb);
+    toggleWrap.appendChild(document.createTextNode('Show recent changes'));
+    cb.addEventListener('change', () => {
+      showChanges = cb.checked;
+      localStorage.setItem('smalpr-show-changes', String(showChanges));
+      if (currentSelectionSlug) {
+        const md = markerDataBySlug[currentSelectionSlug];
+        if (md) showAgency(md);
+      }
+    });
+    legendEl.appendChild(toggleWrap);
+
+    if (!changelogMeta.window_complete && changelogMeta.tracking_days != null) {
+      const note = document.createElement('div');
+      note.style.cssText = 'font-size:10px;color:#6b7280;margin-top:2px;font-style:italic;line-height:1.3';
+      note.textContent = 'Only ' + changelogMeta.tracking_days + ' days tracked so far — window will grow to 90.';
+      legendEl.appendChild(note);
+    }
+  }
 
   // Auto-select agency from URL hash (e.g. #san-mateo-ca-pd)
   const hashSlug = decodeURIComponent(window.location.hash.replace('#', ''));
