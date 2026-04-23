@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Generate .txt sidecar files for PDFs (via OCR) and .doc files (via text extraction).
+Generate .txt sidecar files for PDFs, Word docs, and image attachments.
 
 For each PDF, extracts text from every page (native text where available,
-OCR via tesseract for image-only pages). For .doc files, extracts text via
-textutil (macOS) or antiword (Linux).
+OCR via tesseract for image-only pages). For .doc/.docx files, extracts
+text via textutil (macOS) or antiword/pandoc (Linux). For images
+(.png/.jpg/.jpeg), runs tesseract directly.
 
 Writes the result to a hash-stamped .txt sidecar alongside the source file
 (e.g. foo.pdf -> foo.pdf.a1b2c3d4.txt, bar.doc -> bar.doc.e5f6a7b8.txt).
@@ -14,7 +15,7 @@ changed file always produces a new sidecar. Stale sidecars are cleaned up
 automatically.
 
 Usage:
-  uv run python scripts/ocr_sidecar.py                    # all assets
+  uv run python scripts/ocr_sidecar.py                     # all assets
   uv run python scripts/ocr_sidecar.py --staged            # staged files in assets/
   uv run python scripts/ocr_sidecar.py --files a.pdf b.doc # specific files
 """
@@ -32,10 +33,17 @@ import io
 
 
 def extract_text_from_doc(doc_path):
-    """Extract text from a .doc file using textutil (macOS) or antiword (Linux)."""
+    """Extract text from a .doc/.docx file.
+
+    macOS: textutil handles both formats natively.
+    Linux: antiword for .doc, pandoc for .docx.
+    """
     doc_path = Path(doc_path)
+    suffix = doc_path.suffix.lower()
     if sys.platform == "darwin":
         cmd = ["textutil", "-convert", "txt", "-stdout", str(doc_path)]
+    elif suffix == ".docx":
+        cmd = ["pandoc", "-t", "plain", str(doc_path)]
     else:
         cmd = ["antiword", str(doc_path)]
     try:
@@ -43,6 +51,16 @@ def extract_text_from_doc(doc_path):
         return result.stdout
     except (subprocess.CalledProcessError, FileNotFoundError) as e:
         print(f"  WARNING: could not extract text from {doc_path}: {e}", file=sys.stderr)
+        return ""
+
+
+def extract_text_from_image(img_path):
+    """OCR an image file (png/jpg/jpeg) with tesseract."""
+    try:
+        img = Image.open(img_path)
+        return pytesseract.image_to_string(img)
+    except Exception as e:
+        print(f"  WARNING: could not OCR {img_path}: {e}", file=sys.stderr)
         return ""
 
 
@@ -126,8 +144,16 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
             if removed_stale is not None:
                 removed_stale.append(old)
 
-    if file_path.suffix.lower() == ".doc":
+    suffix = file_path.suffix.lower()
+    if suffix in (".doc", ".docx"):
         full_text = extract_text_from_doc(file_path)
+        if not full_text:
+            return None
+        sidecar.write_text(full_text, encoding="utf-8")
+        return sidecar
+
+    if suffix in (".png", ".jpg", ".jpeg"):
+        full_text = extract_text_from_image(file_path)
         if not full_text:
             return None
         sidecar.write_text(full_text, encoding="utf-8")
@@ -167,7 +193,7 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
     return sidecar
 
 
-SUPPORTED_EXTENSIONS = {".pdf", ".doc"}
+SUPPORTED_EXTENSIONS = {".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg"}
 
 
 def get_staged_assets():
@@ -217,12 +243,10 @@ def main():
         if not scan_dir.exists():
             print(f"Error: {scan_dir} not found", file=sys.stderr)
             sys.exit(1)
-        pdfs = (
-            sorted(scan_dir.rglob("*.pdf"))
-            + sorted(scan_dir.rglob("*.PDF"))
-            + sorted(scan_dir.rglob("*.doc"))
-            + sorted(scan_dir.rglob("*.DOC"))
-        )
+        pdfs = []
+        for ext in ("pdf", "doc", "docx", "png", "jpg", "jpeg"):
+            pdfs.extend(sorted(scan_dir.rglob(f"*.{ext}")))
+            pdfs.extend(sorted(scan_dir.rglob(f"*.{ext.upper()}")))
 
     written = []
     removed_stale: list[Path] = []
