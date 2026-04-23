@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
+      - name: Lint findings source numbering
+        run: python3 scripts/lint_findings.py
+
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         id: playwright-cache
