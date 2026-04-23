@@ -28,6 +28,9 @@ import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from lib import portal_jsons
+
 SCRAPE_DIR = Path("assets/transparency.flocksafety.com")
 OUT_DIR = Path("docs/data/audit")
 
@@ -64,7 +67,7 @@ def scrape_files_for_portal(portal):
     portal_dir = SCRAPE_DIR / portal
     if not portal_dir.is_dir():
         return []
-    return sorted(portal_dir.glob("*.json"))
+    return portal_jsons(portal_dir)
 
 
 def load_portal_rows(portal):
@@ -135,7 +138,7 @@ def discover_portals():
     for portal_dir in sorted(SCRAPE_DIR.iterdir()):
         if not portal_dir.is_dir():
             continue
-        for path in portal_dir.glob("*.json"):
+        for path in portal_jsons(portal_dir):
             try:
                 with open(path) as f:
                     data = json.load(f)

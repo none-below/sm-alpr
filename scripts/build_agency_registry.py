@@ -225,10 +225,11 @@ def main():
     all_names = set()    # every agency name we've seen
     crawled_slugs = {}   # directory slug -> latest crawl date
 
+    from lib import portal_jsons
     for slug_dir in sorted(data_dir.iterdir()):
         if not slug_dir.is_dir() or slug_dir.name.startswith("."):
             continue
-        jsons = sorted(slug_dir.glob("*.json"))
+        jsons = portal_jsons(slug_dir)
         if not jsons:
             continue
         data = json.loads(jsons[-1].read_text())

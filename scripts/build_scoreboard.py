@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import agency_display_name, agency_state, has_tag, load_registry, registry_by_id
+from lib import agency_display_name, agency_state, has_tag, load_registry, portal_jsons, registry_by_id
 
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 DATA_DIR = Path("assets/transparency.flocksafety.com")
@@ -42,10 +42,10 @@ def load_crawled_stats(slug):
     agency_dir = DATA_DIR / slug
     if not agency_dir.is_dir():
         return {}
-    json_files = sorted(agency_dir.glob("*.json"), reverse=True)
+    json_files = portal_jsons(agency_dir)
     if not json_files:
         return {}
-    with open(json_files[0]) as f:
+    with open(json_files[-1]) as f:
         data = json.load(f)
     return {
         "vehicles_detected_30d": data.get("vehicles_detected_30d"),

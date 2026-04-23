@@ -109,6 +109,11 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
     are appended to it (so callers can stage the deletions in git).
     """
     file_path = Path(file_path)
+    # Transparency portal PDFs are rendered from the HTML we already save as
+    # YYYY-MM-DD.txt during the crawl. A hash-suffixed sidecar next to them
+    # collides with the portal parser's strict date-keyed file layout.
+    if "assets/transparency.flocksafety.com/" in file_path.as_posix():
+        return None
     sidecar = sidecar_path_for(file_path)
 
     if not force and sidecar.exists():

@@ -49,7 +49,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import resolve_agency, name_to_slug
+from lib import resolve_agency, name_to_slug, portal_jsons, portal_txts
 
 BASE_URL = "https://transparency.flocksafety.com"
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
@@ -173,7 +173,7 @@ def is_stale(slug, data_dir, max_age_days=STALE_DAYS):
     slug_dir = data_dir / slug
     if not slug_dir.is_dir():
         return True
-    txts = sorted(slug_dir.glob("*.txt"))
+    txts = portal_txts(slug_dir)
     if not txts:
         return True
     latest_date_str = txts[-1].stem  # e.g. "2026-03-27"
@@ -190,7 +190,7 @@ def has_prior_success(slug, data_dir):
     slug_dir = data_dir / slug
     if not slug_dir.is_dir():
         return False
-    return any(slug_dir.glob("*.json"))
+    return bool(portal_jsons(slug_dir))
 
 
 def latest_capture_date(slug, data_dir):
@@ -202,7 +202,7 @@ def latest_capture_date(slug, data_dir):
     slug_dir = data_dir / slug
     if not slug_dir.is_dir():
         return None
-    jsons = sorted(slug_dir.glob("*.json"))
+    jsons = portal_jsons(slug_dir)
     if not jsons:
         return None
     try:
@@ -837,7 +837,7 @@ def cmd_crawl(args):
                 for s in slugs:
                     if s in visited:
                         slug_dir = data_dir / s
-                        jsons = sorted(slug_dir.glob("*.json"))
+                        jsons = portal_jsons(slug_dir)
                         if jsons:
                             stored = json.loads(jsons[-1].read_text())
                             # Support both old and new field names
@@ -946,7 +946,7 @@ def cmd_parse(args):
             continue
 
         slug = slug_dir.name
-        for txt_path in sorted(slug_dir.glob("*.txt")):
+        for txt_path in portal_txts(slug_dir):
             datestamp = txt_path.stem  # e.g. "2026-03-27"
             json_path = slug_dir / f"{datestamp}.json"
 
@@ -1008,7 +1008,7 @@ def cmd_aggregate(args):
     for slug_dir in sorted(data_dir.iterdir()):
         if not slug_dir.is_dir() or slug_dir.name.startswith("."):
             continue
-        jsons = sorted(slug_dir.glob("*.json"))
+        jsons = portal_jsons(slug_dir)
         if not jsons:
             continue
         data = json.loads(jsons[-1].read_text())

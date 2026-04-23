@@ -5,6 +5,9 @@ import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from lib import portal_jsons
+
 DATA_DIR = Path("assets/transparency.flocksafety.com")
 
 # Fields to skip in diffs (always change between scrapes)
@@ -18,7 +21,7 @@ LIST_FIELDS = {"sharing_outbound", "sharing_inbound",
 
 
 def diff_agency(slug_dir: Path) -> list[str]:
-    jsons = sorted(slug_dir.glob("*.json"))
+    jsons = portal_jsons(slug_dir)
     if len(jsons) < 2:
         return []
 
@@ -79,6 +82,7 @@ def main():
     filter_slugs = set(sys.argv[1:]) if len(sys.argv) > 1 else None
 
     all_diffs = []
+    new_agencies = []  # slugs scraped for the first time (only one capture)
     unchanged = 0
 
     for slug_dir in sorted(DATA_DIR.iterdir()):
@@ -86,18 +90,26 @@ def main():
             continue
         if filter_slugs and slug_dir.name not in filter_slugs:
             continue
+        jsons = portal_jsons(slug_dir)
+        if len(jsons) == 1:
+            new_agencies.append(slug_dir.name)
+            continue
         diff = diff_agency(slug_dir)
         if diff:
             all_diffs.extend(diff)
             all_diffs.append("")
-        elif len(sorted(slug_dir.glob("*.json"))) >= 2:
+        elif len(jsons) >= 2:
             unchanged += 1
 
+    if new_agencies:
+        print(f"New agencies scraped: {', '.join(new_agencies)}")
+        if all_diffs or unchanged:
+            print()
     if all_diffs:
         print("\n".join(all_diffs))
     if unchanged:
         print(f"({unchanged} agencies unchanged)")
-    if not all_diffs and not unchanged:
+    if not all_diffs and not unchanged and not new_agencies:
         print("No agencies with multiple scrapes to compare.")
 
 

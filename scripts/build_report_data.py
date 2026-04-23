@@ -37,6 +37,7 @@ from lib import (
     crawl_status,
     has_tag,
     load_registry,
+    portal_jsons,
     registry_by_id,
 )
 from gazetteer import (
@@ -349,7 +350,7 @@ def _load_portal_json(reg_entry):
         slug_dir = DATA_DIR / slug
         if not slug_dir.is_dir():
             continue
-        for p in slug_dir.glob("*.json"):
+        for p in portal_jsons(slug_dir):
             if p.stem > latest_date:
                 latest_date = p.stem
                 latest_path = p
