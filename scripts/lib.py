@@ -7,9 +7,27 @@ lookup helpers against the registry.
 """
 
 import json
+import re
 from pathlib import Path
 
 REGISTRY_PATH = Path("assets/agency_registry.json")
+
+# Portal captures are named exactly YYYY-MM-DD.{txt,json} — nothing else.
+# OCR sidecars (YYYY-MM-DD.pdf.HASH.txt) and any .pdf.HASH.json artifacts
+# left over from past parser bugs must not be treated as captures.
+_PORTAL_TXT_RE = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}\.txt$")
+_PORTAL_JSON_RE = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}\.json$")
+
+
+def portal_txts(slug_dir):
+    """Sorted YYYY-MM-DD.txt portal captures in a slug dir (excludes sidecars)."""
+    return sorted(p for p in slug_dir.iterdir() if _PORTAL_TXT_RE.match(p.name))
+
+
+def portal_jsons(slug_dir):
+    """Sorted YYYY-MM-DD.json portal parses in a slug dir (excludes sidecar artifacts)."""
+    return sorted(p for p in slug_dir.iterdir() if _PORTAL_JSON_RE.match(p.name))
+
 
 _registry_cache = None
 
@@ -56,7 +74,7 @@ def crawl_status(entry, data_dir=None):
     for slug in slugs:
         slug_dir = data_dir / slug
         if slug_dir.is_dir():
-            jsons = sorted(slug_dir.glob("*.json"))
+            jsons = portal_jsons(slug_dir)
             if jsons:
                 date = jsons[-1].stem  # e.g. "2026-04-10"
                 if latest is None or date > latest:

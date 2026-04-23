@@ -24,7 +24,7 @@ from pathlib import Path
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import resolve_agency, agency_display_name, parse_org_list
+from lib import resolve_agency, agency_display_name, parse_org_list, portal_jsons, portal_txts
 
 
 def extract_inbound_orgs(raw_text):
@@ -80,8 +80,8 @@ def main():
             continue
 
         dir_slug = slug_dir.name
-        txts = sorted(slug_dir.glob("*.txt"))
-        jsons = sorted(slug_dir.glob("*.json"))
+        txts = portal_txts(slug_dir)
+        jsons = portal_jsons(slug_dir)
         if not txts:
             continue
 

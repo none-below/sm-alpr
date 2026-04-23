@@ -22,7 +22,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import agency_display_name, agency_state, has_tag, load_registry
+from lib import agency_display_name, agency_state, has_tag, load_registry, portal_jsons
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 
@@ -44,7 +44,7 @@ def main():
     for slug_dir in sorted(DEFAULT_DATA_DIR.iterdir()):
         if not slug_dir.is_dir() or slug_dir.name.startswith("."):
             continue
-        jsons = sorted(slug_dir.glob("*.json"))
+        jsons = portal_jsons(slug_dir)
         if not jsons:
             continue
         data = json.loads(jsons[-1].read_text())

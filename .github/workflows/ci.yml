@@ -47,11 +47,16 @@ jobs:
 
       - name: Generate text sidecars for changed assets
         run: |
-          ASSET_FILES=$(git diff --name-only origin/main...HEAD -- 'assets/' | grep -iE '\.(pdf|doc)$' || true)
+          # Transparency portal PDFs are rendered from the HTML we already save
+          # as YYYY-MM-DD.txt; OCRing them produces sidecars that break the
+          # portal parser's date-keyed layout. Skip that subtree.
+          ASSET_FILES=$(git diff --name-only origin/main...HEAD -- 'assets/' \
+            | grep -iE '\.(pdf|doc)$' \
+            | grep -v '^assets/transparency\.flocksafety\.com/' || true)
           if [ -n "$ASSET_FILES" ]; then
             uv run python scripts/ocr_sidecar.py --files $ASSET_FILES
           else
-            echo "No PDF/DOC changes in assets/, skipping text sidecars"
+            echo "No OCR-eligible PDF/DOC changes in assets/, skipping text sidecars"
           fi
 
       - name: Commit OCR sidecars
