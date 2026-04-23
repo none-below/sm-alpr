@@ -837,6 +837,12 @@ def cmd_crawl(args):
                 for s in slugs:
                     if s in visited:
                         slug_dir = data_dir / s
+                        # No dir means this slug is in `visited` via failed_slugs
+                        # (never successfully captured). Nothing to harvest from.
+                        # Whether it gets crawled is decided below at `new_slugs`;
+                        # skipping here only opts out of the outbound-sharing read.
+                        if not slug_dir.is_dir():
+                            continue
                         jsons = portal_jsons(slug_dir)
                         if jsons:
                             stored = json.loads(jsons[-1].read_text())
