@@ -106,26 +106,31 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          BODY=$(cat /tmp/coord-check.txt)
           # Don't duplicate — check for an existing open issue
           EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
           if [ -n "$EXISTING" ]; then
-            gh issue comment "$EXISTING" --body "Updated from CI run:
-
-          \`\`\`
-          $BODY
-          \`\`\`"
+            {
+              echo "Updated from CI run:"
+              echo
+              echo '```'
+              cat /tmp/coord-check.txt
+              echo '```'
+            } > /tmp/coord-issue-body.md
+            gh issue comment "$EXISTING" --body-file /tmp/coord-issue-body.md
           else
+            {
+              echo "The following agencies receive data from public agencies but have no lat/lng in the registry:"
+              echo
+              echo '```'
+              cat /tmp/coord-check.txt
+              echo '```'
+              echo
+              echo "Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
+            } > /tmp/coord-issue-body.md
             gh issue create \
               --title "Recipients missing coordinates in agency registry" \
               --label geocoding \
-              --body "The following agencies receive data from public agencies but have no lat/lng in the registry:
-
-          \`\`\`
-          $BODY
-          \`\`\`
-
-          Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
+              --body-file /tmp/coord-issue-body.md
           fi
 
       - name: Screenshot pages
@@ -163,7 +168,8 @@ jobs:
             done
 
           # Build comment with inline images
-          BODY="<!-- page-preview -->
+          cat > /tmp/preview-body.md <<EOF
+          <!-- page-preview -->
           ## Page Preview
 
           ### index
@@ -182,9 +188,9 @@ jobs:
           ![report_alameda-ca-pd](${RAW}/report_alameda-ca-pd.png)
 
           *Updated $(date -u +%Y-%m-%dT%H:%M:%SZ)*
-          "
+          EOF
 
-          gh pr comment "${PR_NUM}" --body "${BODY}"
+          gh pr comment "${PR_NUM}" --body-file /tmp/preview-body.md
 
           # Return to PR branch for any subsequent steps
           git checkout "${{ github.head_ref }}"
