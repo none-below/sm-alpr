@@ -87,13 +87,15 @@ def filename_from_response(resp, url: str) -> str | None:
 def save_pdf_via_click(page: Page, element, *,
                       target_path: Path | None = None,
                       folder: Path | None = None,
-                      fallback_name: str | None = None) -> Path | None:
+                      fallback_name: str | None = None) -> tuple[Path | None, bool]:
     """Click `element`; handle whichever of these the portal returns:
        (a) Content-Disposition: attachment -> Chromium download event
        (b) inline PDF in a new tab -> popup with URL we fetch via request API
        (c) direct href on the anchor -> fetch URL straight via request API.
 
-    Returns the saved path on success, else None.
+    Returns (path, wrote): path is the saved path (or None on failure);
+    wrote is True if bytes actually landed on disk this call, False if the
+    existing on-disk file matched and was left alone.
     """
     ctx = page.context
 
@@ -181,19 +183,32 @@ def save_pdf_via_click(page: Page, element, *,
             target_path.name if target_path
             else (dl.suggested_filename or fallback_name or "unnamed.pdf")
         )
-        out = target_path if target_path else (folder / sanitize(name))
+        out: Path | None = target_path if target_path else (folder / sanitize(name))
+        # Stage to a sibling temp path so we can apply the same
+        # text-fingerprint skip as _write_pdf (avoids metadata-only churn
+        # on MH PDFs, which arrive via Content-Disposition attachment).
+        tmp_out = out.with_name(out.name + ".new")
+        wrote = False
         try:
-            dl.save_as(str(out))
+            dl.save_as(str(tmp_out))
         except Exception as exc:
             print(f"   download.save_as failed: {exc}")
+            tmp_out.unlink(missing_ok=True)
             out = None
+        else:
+            new_bytes = tmp_out.read_bytes()
+            if _equivalent_to_existing(out, new_bytes):
+                tmp_out.unlink(missing_ok=True)
+            else:
+                tmp_out.replace(out)
+                wrote = True
         # Close any popup we opened on the way.
         for p in extra_popups:
             try:
                 p.close()
             except Exception:
                 pass
-        return out
+        return out, wrote
 
     popup = captured["popup"]
     if popup is not None:
@@ -216,13 +231,27 @@ def save_pdf_via_click(page: Page, element, *,
                     return _write_pdf(resp, pdf_url, target_path, folder, fallback_name)
             except Exception:
                 pass
-    return None
+    return None, False
+
+
+def _equivalent_to_existing(out: Path, new_bytes: bytes) -> bool:
+    """True if `out` already holds bytes whose text content matches new_bytes
+    (byte-identical or same text fingerprint). Used to suppress metadata-only
+    churn on re-downloaded PDFs."""
+    if not out.exists():
+        return False
+    existing_bytes = out.read_bytes()
+    if existing_bytes == new_bytes:
+        return True
+    new_fp = pdf_text_fingerprint(new_bytes)
+    old_fp = pdf_text_fingerprint(existing_bytes)
+    return new_fp is not None and new_fp == old_fp
 
 
 def _write_pdf(resp, url: str,
                target_path: Path | None,
                folder: Path | None,
-               fallback_name: str | None) -> Path:
+               fallback_name: str | None) -> tuple[Path, bool]:
     new_bytes = resp.body()
     if target_path is not None:
         out = target_path
@@ -231,20 +260,10 @@ def _write_pdf(resp, url: str,
         assert folder is not None, "folder required when target_path is None"
         out = folder / sanitize(name)
 
-    # Skip rewriting if the existing file has byte-identical content OR
-    # text-content equivalent (same semantic text, only PDF metadata differs).
-    # Lets --all runs refresh MH PDFs without spamming git with metadata churn.
-    if out.exists():
-        existing_bytes = out.read_bytes()
-        if existing_bytes == new_bytes:
-            return out
-        new_fp = pdf_text_fingerprint(new_bytes)
-        old_fp = pdf_text_fingerprint(existing_bytes)
-        if new_fp is not None and new_fp == old_fp:
-            return out  # same text content; leave the on-disk file untouched
-
+    if _equivalent_to_existing(out, new_bytes):
+        return out, False
     out.write_bytes(new_bytes)
-    return out
+    return out, True
 
 
 REPO = Path(__file__).resolve().parent.parent
@@ -331,8 +350,12 @@ def discover_requests() -> list[str]:
     )
 
 
-def local_pdf_names(folder: Path) -> set[str]:
-    return {p.name for p in folder.glob("*.pdf")}
+def local_attachment_names(folder: Path) -> set[str]:
+    """Every file already on disk — used to skip re-fetching attachments we
+    already have. Includes non-PDF types (.doc, .docx, .png, etc.) so the
+    label-match skip in process_request works for all attachment kinds, not
+    just PDFs."""
+    return {p.name for p in folder.iterdir() if p.is_file()}
 
 
 DOCLIKE_EXTS = (".pdf", ".doc", ".docx", ".xls", ".xlsx", ".zip", ".csv",
@@ -806,8 +829,8 @@ def process_request(page: Page, home_url: str, request_id: str,
     request API (shares cookies) — no further navigation needed."""
     folder = PRA_ROOT / request_id
     folder.mkdir(parents=True, exist_ok=True)
-    existing = local_pdf_names(folder)
-    print(f"→ {request_id}: {len(existing)} existing PDF(s)")
+    existing = local_attachment_names(folder)
+    print(f"→ {request_id}: {len(existing)} existing file(s)")
 
     if not _goto_request_section(page, home_url, request_id, "details"):
         print(f"   could not open Details for {request_id} — skipping")
@@ -828,9 +851,10 @@ def process_request(page: Page, home_url: str, request_id: str,
         if mh_link is None:
             print(f"   WARN: no Print Messages (PDF) link found")
         else:
-            saved = save_pdf_via_click(page, mh_link, target_path=mh_target)
+            saved, wrote = save_pdf_via_click(page, mh_link, target_path=mh_target)
             if saved:
-                print(f"     + {mh_target.name}")
+                glyph = "+" if wrote else "="
+                print(f"     {glyph} {mh_target.name}")
             else:
                 print(f"   ERR: Print Messages fetch failed")
 
@@ -842,7 +866,7 @@ def process_request(page: Page, home_url: str, request_id: str,
             _dump_page_diag(page)
             return
         print(f"   {len(anchors)} attachment anchor(s)")
-        downloaded = skipped = failed = 0
+        downloaded = unchanged = skipped = failed = 0
         # Track by label to survive DOM re-render between clicks.
         processed: set[str] = set()
         while True:
@@ -864,16 +888,21 @@ def process_request(page: Page, home_url: str, request_id: str,
                 skipped += 1
                 continue
 
-            saved = save_pdf_via_click(page, target_el, folder=folder,
-                                       fallback_name=target_label)
+            saved, wrote = save_pdf_via_click(page, target_el, folder=folder,
+                                              fallback_name=target_label)
             if saved is None:
                 failed += 1
                 continue
             existing.add(saved.name)
-            print(f"     + {saved.name}")
-            downloaded += 1
+            if wrote:
+                print(f"     + {saved.name}")
+                downloaded += 1
+            else:
+                print(f"     = {saved.name}")
+                unchanged += 1
 
-        print(f"   downloaded {downloaded}, skipped {skipped}, {failed} failed")
+        print(f"   downloaded {downloaded}, unchanged {unchanged}, "
+              f"skipped {skipped}, {failed} failed")
 
 
 def run(targets: list[str], config: dict, headed: bool,
