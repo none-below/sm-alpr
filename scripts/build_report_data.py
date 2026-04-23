@@ -424,6 +424,29 @@ def _place_name_from_agency(agency_name):
     return n
 
 
+def _clean_hotlists(raw):
+    """Parse the portal's `hotlists_alerted_on` string into a clean list.
+
+    The scraped value is a comma-separated label list (e.g. "California
+    SVS, NCMEC Amber Alert"), but at least one portal has bleed-through
+    from the adjacent section (newlines + stray numbers). Drop items
+    containing newlines or that are pure numeric, dedupe, preserve order.
+    """
+    if not raw or not isinstance(raw, str):
+        return []
+    out = []
+    seen = set()
+    for item in raw.split(","):
+        s = item.strip()
+        if not s or "\n" in s or s.replace(",", "").replace(".", "").isdigit():
+            continue
+        if s in seen:
+            continue
+        seen.add(s)
+        out.append(s)
+    return out
+
+
 def histogram(sorted_values, bins=20):
     """Bin a sorted numeric series for sparkline rendering.
 
@@ -939,6 +962,7 @@ def main():
         retention = gdata.get("data_retention_days")
         vehicles_30d = portal.get("vehicles_detected_30d")
         hotlist_hits = portal.get("hotlist_hits_30d")
+        hotlists_alerted_on = _clean_hotlists(portal.get("hotlists_alerted_on"))
         searches_30d = portal.get("searches_30d")
         outbound_count = gdata.get("sharing_outbound_count", 0)
         inbound_count = gdata.get("sharing_inbound_count", 0)
@@ -1498,6 +1522,7 @@ def main():
                 "retention_days": retention,
                 "vehicles_30d": vehicles_30d,
                 "hotlist_hits_30d": hotlist_hits,
+                "hotlists_alerted_on": hotlists_alerted_on,
                 "searches_30d": searches_30d,
                 "outbound_count": outbound_count,
                 "inbound_count": inbound_count,
