@@ -46,3 +46,11 @@ The PDF generator (`scripts/md_to_pdf.py`) parses the findings markdown by split
 - Pushing changes to `docs/SMPD_ALPR_Findings.md` or `scripts/md_to_pdf.py`
   triggers a GitHub release with the built PDF attached.
 - The Pages site links to the latest release download.
+
+**Source-numbering integrity:**
+- Every source row must have a unique `| N |` number; every inline `[N]`
+  in prose must resolve to an existing source row.
+- Parallel PRs can auto-merge into duplicate source numbers without a git
+  conflict (no line-level overlap), so CI runs `scripts/lint_findings.py`
+  on every PR to catch that. Run it locally before pushing when adding a
+  source row: `python3 scripts/lint_findings.py`.
