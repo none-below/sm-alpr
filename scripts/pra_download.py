@@ -30,6 +30,7 @@ print = functools.partial(print, flush=True)
 import argparse
 import hashlib
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -38,6 +39,52 @@ from urllib.parse import urljoin, urlparse, parse_qs
 import fitz  # pymupdf, for PDF text fingerprinting
 
 from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout, Page
+
+
+VERBOSE = False
+_USE_COLOR = sys.stdout.isatty() and not os.environ.get("NO_COLOR")
+_ANSI = {
+    "reset": "\033[0m", "bold": "\033[1m", "dim": "\033[2m",
+    "red": "\033[31m", "green": "\033[32m", "yellow": "\033[33m",
+    "blue": "\033[34m", "cyan": "\033[36m",
+}
+
+
+def _c(text: str, *styles: str) -> str:
+    if not _USE_COLOR:
+        return text
+    return "".join(_ANSI[s] for s in styles if s in _ANSI) + text + _ANSI["reset"]
+
+
+def diag(msg: str) -> None:
+    if VERBOSE:
+        print(msg)
+
+
+def warn(msg: str) -> None:
+    print(_c(msg, "yellow"))
+
+
+def err(msg: str) -> None:
+    print(_c(msg, "red"))
+
+
+# Per-file status glyphs/colors. "new" is green +, "updated" cyan ~,
+# "unchanged" is dim = (shown only under --verbose).
+_STATUS_STYLE = {
+    "new":       ("+", ("green", "bold")),
+    "updated":   ("~", ("cyan", "bold")),
+    "unchanged": ("=", ("dim",)),
+    "skipped":   ("-", ("dim",)),
+    "failed":    ("x", ("red", "bold")),
+}
+
+
+def file_status(state: str, name: str, *, indent: str = "     ") -> None:
+    glyph, styles = _STATUS_STYLE[state]
+    if state == "unchanged" and not VERBOSE:
+        return
+    print(f"{indent}{_c(glyph, *styles)} {name}")
 
 
 def pdf_text_fingerprint(pdf_bytes: bytes) -> str | None:
@@ -87,15 +134,15 @@ def filename_from_response(resp, url: str) -> str | None:
 def save_pdf_via_click(page: Page, element, *,
                       target_path: Path | None = None,
                       folder: Path | None = None,
-                      fallback_name: str | None = None) -> tuple[Path | None, bool]:
+                      fallback_name: str | None = None
+                      ) -> tuple[Path, str] | None:
     """Click `element`; handle whichever of these the portal returns:
        (a) Content-Disposition: attachment -> Chromium download event
        (b) inline PDF in a new tab -> popup with URL we fetch via request API
        (c) direct href on the anchor -> fetch URL straight via request API.
 
-    Returns (path, wrote): path is the saved path (or None on failure);
-    wrote is True if bytes actually landed on disk this call, False if the
-    existing on-disk file matched and was left alone.
+    Returns (path, state) on success where state is "new"|"updated"|"unchanged",
+    else None.
     """
     ctx = page.context
 
@@ -142,7 +189,7 @@ def save_pdf_via_click(page: Page, element, *,
         try:
             element.evaluate("el => el.click()")
         except Exception as exc:
-            print(f"   click error: {exc}")
+            err(f"   click error: {exc}")
             return None
 
         # Wait up to DOWNLOAD_TIMEOUT_MS for a download. If only a popup fires
@@ -183,32 +230,33 @@ def save_pdf_via_click(page: Page, element, *,
             target_path.name if target_path
             else (dl.suggested_filename or fallback_name or "unnamed.pdf")
         )
-        out: Path | None = target_path if target_path else (folder / sanitize(name))
-        # Stage to a sibling temp path so we can apply the same
-        # text-fingerprint skip as _write_pdf (avoids metadata-only churn
-        # on MH PDFs, which arrive via Content-Disposition attachment).
-        tmp_out = out.with_name(out.name + ".new")
-        wrote = False
+        out = target_path if target_path else (folder / sanitize(name))
+        result: tuple[Path, str] | None = None
         try:
-            dl.save_as(str(tmp_out))
-        except Exception as exc:
-            print(f"   download.save_as failed: {exc}")
-            tmp_out.unlink(missing_ok=True)
-            out = None
-        else:
-            new_bytes = tmp_out.read_bytes()
-            if _equivalent_to_existing(out, new_bytes):
-                tmp_out.unlink(missing_ok=True)
+            tmp_path = dl.path()
+        except Exception:
+            tmp_path = None
+        try:
+            if tmp_path:
+                new_bytes = Path(tmp_path).read_bytes()
+                state = _write_bytes_with_dedup(new_bytes, out)
+                result = (out, state)
             else:
-                tmp_out.replace(out)
-                wrote = True
+                # No local tmp path; fall back to save_as. We can't dedup, so
+                # treat as new/updated depending on whether the target existed.
+                was_present = out.exists()
+                dl.save_as(str(out))
+                result = (out, "updated" if was_present else "new")
+        except Exception as exc:
+            err(f"   download.save_as failed: {exc}")
+            result = None
         # Close any popup we opened on the way.
         for p in extra_popups:
             try:
                 p.close()
             except Exception:
                 pass
-        return out, wrote
+        return result
 
     popup = captured["popup"]
     if popup is not None:
@@ -231,27 +279,34 @@ def save_pdf_via_click(page: Page, element, *,
                     return _write_pdf(resp, pdf_url, target_path, folder, fallback_name)
             except Exception:
                 pass
-    return None, False
+    return None
 
 
-def _equivalent_to_existing(out: Path, new_bytes: bytes) -> bool:
-    """True if `out` already holds bytes whose text content matches new_bytes
-    (byte-identical or same text fingerprint). Used to suppress metadata-only
-    churn on re-downloaded PDFs."""
-    if not out.exists():
-        return False
-    existing_bytes = out.read_bytes()
-    if existing_bytes == new_bytes:
-        return True
-    new_fp = pdf_text_fingerprint(new_bytes)
-    old_fp = pdf_text_fingerprint(existing_bytes)
-    return new_fp is not None and new_fp == old_fp
+def _write_bytes_with_dedup(new_bytes: bytes, out: Path) -> str:
+    """Write `new_bytes` to `out`, skipping if content is unchanged.
+
+    Returns "new" (file didn't exist), "updated" (content differs), or
+    "unchanged" (byte-identical or semantically-equivalent text content —
+    avoids spamming git history with metadata-only churn on MH PDFs).
+    """
+    if out.exists():
+        existing = out.read_bytes()
+        if existing == new_bytes:
+            return "unchanged"
+        new_fp = pdf_text_fingerprint(new_bytes)
+        old_fp = pdf_text_fingerprint(existing)
+        if new_fp is not None and new_fp == old_fp:
+            return "unchanged"
+        out.write_bytes(new_bytes)
+        return "updated"
+    out.write_bytes(new_bytes)
+    return "new"
 
 
 def _write_pdf(resp, url: str,
                target_path: Path | None,
                folder: Path | None,
-               fallback_name: str | None) -> tuple[Path, bool]:
+               fallback_name: str | None) -> tuple[Path, str]:
     new_bytes = resp.body()
     if target_path is not None:
         out = target_path
@@ -259,11 +314,8 @@ def _write_pdf(resp, url: str,
         name = filename_from_response(resp, url) or fallback_name or "unnamed.pdf"
         assert folder is not None, "folder required when target_path is None"
         out = folder / sanitize(name)
-
-    if _equivalent_to_existing(out, new_bytes):
-        return out, False
-    out.write_bytes(new_bytes)
-    return out, True
+    state = _write_bytes_with_dedup(new_bytes, out)
+    return out, state
 
 
 REPO = Path(__file__).resolve().parent.parent
@@ -350,12 +402,8 @@ def discover_requests() -> list[str]:
     )
 
 
-def local_attachment_names(folder: Path) -> set[str]:
-    """Every file already on disk — used to skip re-fetching attachments we
-    already have. Includes non-PDF types (.doc, .docx, .png, etc.) so the
-    label-match skip in process_request works for all attachment kinds, not
-    just PDFs."""
-    return {p.name for p in folder.iterdir() if p.is_file()}
+def local_pdf_names(folder: Path) -> set[str]:
+    return {p.name for p in folder.glob("*.pdf")}
 
 
 DOCLIKE_EXTS = (".pdf", ".doc", ".docx", ".xls", ".xlsx", ".zip", ".csv",
@@ -400,13 +448,13 @@ def find_download_links(page: Page) -> list[tuple[str, str]]:
         except Exception:
             continue
         if found:
-            print(f"   attachment scope: {sel} ({len(found)} anchors)")
-            # Dump a sample so we can see the DOM pattern (text / href / onclick).
-            for i, a in enumerate(found[:6]):
-                txt = (a.inner_text() or "").strip()[:60]
-                href = (a.get_attribute("href") or "")[:100]
-                onclick = (a.get_attribute("onclick") or "")[:100]
-                print(f"     sample[{i}] text={txt!r} href={href!r} onclick={onclick!r}")
+            diag(f"   attachment scope: {sel} ({len(found)} anchors)")
+            if VERBOSE:
+                for i, a in enumerate(found[:6]):
+                    txt = (a.inner_text() or "").strip()[:60]
+                    href = (a.get_attribute("href") or "")[:100]
+                    onclick = (a.get_attribute("onclick") or "")[:100]
+                    diag(f"     sample[{i}] text={txt!r} href={href!r} onclick={onclick!r}")
             anchors = found
             break
     if not anchors:
@@ -575,7 +623,7 @@ def search_for_request(page: Page, request_id: str) -> bool:
     try:
         page.evaluate(SEARCH_JS, request_id)
     except Exception as exc:
-        print(f"   search form setup failed: {exc}")
+        err(f"   search form setup failed: {exc}")
         return False
 
     clicked = False
@@ -583,7 +631,7 @@ def search_for_request(page: Page, request_id: str) -> bool:
         loc = page.locator(sel).first
         if loc.count() == 0:
             continue
-        print(f"   clicking Go via {sel}")
+        diag(f"   clicking Go via {sel}")
         try:
             with page.expect_navigation(timeout=NAV_TIMEOUT_MS):
                 loc.click(force=True)
@@ -598,7 +646,7 @@ def search_for_request(page: Page, request_id: str) -> bool:
             clicked = True
             break
         except Exception as exc:
-            print(f"   click via {sel} failed: {exc}")
+            diag(f"   click via {sel} failed: {exc}")
             continue
 
     if not clicked:
@@ -606,10 +654,10 @@ def search_for_request(page: Page, request_id: str) -> bool:
         try:
             key = page.evaluate(CLICK_GO_DEVEX_JS)
         except Exception as exc:
-            print(f"   DevExpress Go fallback failed: {exc}")
+            err(f"   DevExpress Go fallback failed: {exc}")
             key = None
         if key:
-            print(f"   clicked Go via DevExpress client object: {key}")
+            diag(f"   clicked Go via DevExpress client object: {key}")
             try:
                 page.wait_for_load_state("networkidle", timeout=NAV_TIMEOUT_MS)
             except PWTimeout:
@@ -617,7 +665,7 @@ def search_for_request(page: Page, request_id: str) -> bool:
             clicked = True
 
     if not clicked:
-        print("   could not trigger 'Go' button")
+        err("   could not trigger 'Go' button")
         return False
 
     # Verify the card for `request_id` is present after search.
@@ -646,10 +694,12 @@ def _looks_like_requests_list(page: Page) -> bool:
 
 def _dump_page_diag(page: Page, limit: int = 40) -> None:
     """Print a compact snapshot of the page so we can see why list detection failed."""
-    print(f"   [diag] url={page.url}")
+    if not VERBOSE:
+        return
+    diag(f"   [diag] url={page.url}")
     try:
         title = page.title()
-        print(f"   [diag] title={title!r}")
+        diag(f"   [diag] title={title!r}")
     except Exception:
         pass
     try:
@@ -657,7 +707,7 @@ def _dump_page_diag(page: Page, limit: int = 40) -> None:
         snippet = " | ".join(
             line.strip() for line in text.splitlines() if line.strip()
         )[:500]
-        print(f"   [diag] body text: {snippet}")
+        diag(f"   [diag] body text: {snippet}")
     except Exception:
         pass
 
@@ -682,7 +732,7 @@ def ensure_on_requests_list(page: Page) -> bool:
             pass
         if href:
             target = urljoin(page.url, href)
-            print(f"   navigating to: {target}")
+            diag(f"   navigating to: {target}")
             page.goto(target, wait_until="domcontentloaded")
         else:
             try:
@@ -713,7 +763,7 @@ def open_request_from_home(page: Page, home_url: str, request_id: str,
         pass
 
     if not ensure_on_requests_list(page):
-        print(f"   could not navigate to My Requests list from {home_url}")
+        err(f"   could not navigate to My Requests list from {home_url}")
         return False
 
     page_num = 1
@@ -721,9 +771,9 @@ def open_request_from_home(page: Page, home_url: str, request_id: str,
         locator, sel = locate_request_on_page(page, request_id, button_label)
         if locator is not None:
             if page_num > 1:
-                print(f"   found on page {page_num} via {sel}")
+                diag(f"   found on page {page_num} via {sel}")
             else:
-                print(f"   matched selector: {sel}")
+                diag(f"   matched selector: {sel}")
             try:
                 with page.expect_navigation(timeout=NAV_TIMEOUT_MS):
                     locator.click()
@@ -741,15 +791,15 @@ def open_request_from_home(page: Page, home_url: str, request_id: str,
             break
         page_num = next_num
 
-    # Diagnostic dump — help us iterate on selectors.
-    anchors = page.query_selector_all("a")
-    print(f"   could not locate '{request_id}' after {page_num} page(s). "
-          f"last page has {len(anchors)} anchors; first 30:")
-    for a in anchors[:30]:
-        text = (a.inner_text() or "").strip()
-        href = a.get_attribute("href") or ""
-        if text or href:
-            print(f"     a[{text[:60]!r}] href={href[:100]}")
+    err(f"   could not locate '{request_id}' after {page_num} page(s)")
+    if VERBOSE:
+        anchors = page.query_selector_all("a")
+        diag(f"   last page has {len(anchors)} anchors; first 30:")
+        for a in anchors[:30]:
+            text = (a.inner_text() or "").strip()
+            href = a.get_attribute("href") or ""
+            if text or href:
+                diag(f"     a[{text[:60]!r}] href={href[:100]}")
     return False
 
 
@@ -779,7 +829,7 @@ def _goto_request_section(page: Page, home_url: str, request_id: str,
     except PWTimeout:
         pass
     if not ensure_on_requests_list(page):
-        print(f"   could not reach requests list")
+        err(f"   could not reach requests list")
         return False
 
     button_label = "View File" if section == "view_files" else "Details"
@@ -795,7 +845,7 @@ def _goto_request_section(page: Page, home_url: str, request_id: str,
         try:
             btn.wait_for(state="attached", timeout=5_000)
         except PWTimeout:
-            print(f"   {button_label} button not attached after search")
+            err(f"   {button_label} button not attached after search")
             return False
         # Invoke the native HTMLElement.click() via JS: fires the click event
         # AND triggers default actions (anchor nav, form submit, onclick),
@@ -813,8 +863,8 @@ def _goto_request_section(page: Page, home_url: str, request_id: str,
         except PWTimeout:
             pass
         if not nav_happened:
-            print(f"   [diag] no nav after {button_label} click; "
-                  f"current url={page.url}")
+            diag(f"   [diag] no nav after {button_label} click; "
+                 f"current url={page.url}")
         return True
 
     # Fallback: old paginate-and-click.
@@ -829,11 +879,12 @@ def process_request(page: Page, home_url: str, request_id: str,
     request API (shares cookies) — no further navigation needed."""
     folder = PRA_ROOT / request_id
     folder.mkdir(parents=True, exist_ok=True)
-    existing = local_attachment_names(folder)
-    print(f"→ {request_id}: {len(existing)} existing file(s)")
+    existing = local_pdf_names(folder)
+    print(f"{_c('→', 'bold')} {_c(request_id, 'bold')}: "
+          f"{len(existing)} existing PDF(s)")
 
     if not _goto_request_section(page, home_url, request_id, "details"):
-        print(f"   could not open Details for {request_id} — skipping")
+        err(f"   could not open Details for {request_id} — skipping")
         return
 
     # Message History
@@ -849,14 +900,14 @@ def process_request(page: Page, home_url: str, request_id: str,
             mh_link = link
             break
         if mh_link is None:
-            print(f"   WARN: no Print Messages (PDF) link found")
+            warn(f"   WARN: no Print Messages (PDF) link found")
         else:
-            saved, wrote = save_pdf_via_click(page, mh_link, target_path=mh_target)
-            if saved:
-                glyph = "+" if wrote else "="
-                print(f"     {glyph} {mh_target.name}")
+            result = save_pdf_via_click(page, mh_link, target_path=mh_target)
+            if result:
+                _, state = result
+                file_status(state, mh_target.name)
             else:
-                print(f"   ERR: Print Messages fetch failed")
+                err(f"   ERR: Print Messages fetch failed")
 
     # Attachments
     if do_files:
@@ -866,7 +917,8 @@ def process_request(page: Page, home_url: str, request_id: str,
             _dump_page_diag(page)
             return
         print(f"   {len(anchors)} attachment anchor(s)")
-        downloaded = unchanged = skipped = failed = 0
+        counts = {"new": 0, "updated": 0, "unchanged": 0,
+                  "skipped": 0, "failed": 0}
         # Track by label to survive DOM re-render between clicks.
         processed: set[str] = set()
         while True:
@@ -885,24 +937,41 @@ def process_request(page: Page, home_url: str, request_id: str,
             processed.add(target_label)
 
             if target_label in existing or sanitize(target_label) in existing:
-                skipped += 1
+                counts["skipped"] += 1
+                file_status("skipped", target_label)
                 continue
 
-            saved, wrote = save_pdf_via_click(page, target_el, folder=folder,
-                                              fallback_name=target_label)
-            if saved is None:
-                failed += 1
+            result = save_pdf_via_click(page, target_el, folder=folder,
+                                        fallback_name=target_label)
+            if result is None:
+                counts["failed"] += 1
+                file_status("failed", target_label)
                 continue
+            saved, state = result
             existing.add(saved.name)
-            if wrote:
-                print(f"     + {saved.name}")
-                downloaded += 1
-            else:
-                print(f"     = {saved.name}")
-                unchanged += 1
+            counts[state] += 1
+            file_status(state, saved.name)
 
-        print(f"   downloaded {downloaded}, unchanged {unchanged}, "
-              f"skipped {skipped}, {failed} failed")
+        _print_summary(counts)
+
+
+def _print_summary(counts: dict[str, int]) -> None:
+    """One-line colorized summary. Zero-valued buckets are dimmed."""
+    parts = []
+    order = [
+        ("new",       "new",       "green"),
+        ("updated",   "updated",   "cyan"),
+        ("unchanged", "unchanged", "dim"),
+        ("skipped",   "skipped",   "dim"),
+        ("failed",    "failed",    "red"),
+    ]
+    for key, label, color in order:
+        n = counts.get(key, 0)
+        if n == 0:
+            parts.append(_c(f"{n} {label}", "dim"))
+        else:
+            parts.append(_c(f"{n} {label}", color, "bold"))
+    print("   " + ", ".join(parts))
 
 
 def run(targets: list[str], config: dict, headed: bool,
@@ -953,9 +1022,14 @@ def main() -> int:
                         help="Only download attachments, skip message history")
     parser.add_argument("--messages-only", action="store_true",
                         help="Only refresh message-history PDFs, skip attachments")
+    parser.add_argument("-v", "--verbose", action="store_true",
+                        help="Show diagnostic output (selector matches, page dumps, etc.)")
     parser.add_argument("requests", nargs="*",
                         help="Specific request ids (e.g. W012297-030826)")
     args = parser.parse_args()
+
+    global VERBOSE
+    VERBOSE = args.verbose
 
     if args.login:
         return login()
