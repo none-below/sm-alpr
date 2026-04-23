@@ -42,8 +42,8 @@ jobs:
       - name: Install Tesseract (cached)
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          packages: tesseract-ocr antiword
-          version: 1.1
+          packages: tesseract-ocr antiword pandoc
+          version: 1.2
 
       - name: Generate text sidecars for changed assets
         run: |
