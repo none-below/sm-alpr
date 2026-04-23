@@ -837,6 +837,8 @@ def cmd_crawl(args):
                 for s in slugs:
                     if s in visited:
                         slug_dir = data_dir / s
+                        if not slug_dir.is_dir():
+                            continue
                         jsons = portal_jsons(slug_dir)
                         if jsons:
                             stored = json.loads(jsons[-1].read_text())
