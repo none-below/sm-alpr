@@ -26,6 +26,7 @@ import math
 import re
 import sys
 from collections import defaultdict
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -39,6 +40,7 @@ from lib import (
     load_registry,
     portal_jsons,
     registry_by_id,
+    resolve_agency,
 )
 from gazetteer import (
     county_fips_for_place,
@@ -51,7 +53,57 @@ from gazetteer import (
 
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 DATA_DIR = Path("assets/transparency.flocksafety.com")
+HISTORY_DIR = Path("docs/data/history")
 OUT_PATH = Path("docs/data/report_data.json")
+RECENT_ADD_WINDOW_DAYS = 90
+
+
+def _load_sharing_history(reg_entry):
+    """Return (outbound_added_by_aid, outbound_removed_events) from history files.
+
+    outbound_added_by_aid: {target_agency_id: iso_date} — most recent add date
+    outbound_removed_events: [{agency_id, name, date, kind}] — one per removal event
+    """
+    slugs = list(reg_entry.get("flock_slugs") or [])
+    base = reg_entry.get("slug")
+    if base and base not in slugs:
+        slugs.append(base)
+    added_by_aid = {}
+    removed_events = []
+    for slug in slugs:
+        hist_path = HISTORY_DIR / f"{slug}.json"
+        if not hist_path.exists():
+            continue
+        try:
+            hist = json.loads(hist_path.read_text())
+        except json.JSONDecodeError:
+            continue
+        for ev in hist.get("events", []):
+            if ev.get("field") != "sharing_outbound" or ev.get("kind") != "set":
+                continue
+            ev_date = ev.get("date", "")
+            for name in ev.get("added", []):
+                target = resolve_agency(name=name)
+                if target:
+                    aid = target["agency_id"]
+                    prev = added_by_aid.get(aid)
+                    if prev is None or ev_date > prev:
+                        added_by_aid[aid] = ev_date
+            for name in ev.get("removed", []):
+                target = resolve_agency(name=name)
+                if target:
+                    removed_events.append({
+                        "agency_id": target["agency_id"],
+                        "name": name,
+                        "date": ev_date,
+                    })
+                else:
+                    removed_events.append({
+                        "agency_id": None,
+                        "name": name,
+                        "date": ev_date,
+                    })
+    return added_by_aid, removed_events
 
 RANKED_STATE = "CA"
 # 25 miles, expressed in km (the native unit of dist_km). Matches the
@@ -1375,19 +1427,67 @@ def main():
         # XSS surface. Source is the curated agency_registry.json (not
         # user input), but anyone editing the registry must avoid script
         # content — there's no sanitizer layer.
+        # Pull per-agency sharing history so we can annotate flagged
+        # recipients with "sharing started N days ago" (for recently-added
+        # flagged targets) and surface a "previously shared with X,
+        # removed DATE" list for flagged targets the agency has since
+        # dropped. Build_history.py must have run first.
+        added_on_by_aid, removed_events = _load_sharing_history(reg)
+        today = date.today()
+
         flagged_recipients = []
         for target_id in outbound_ids:
             kind = is_flagged_entity(target_id, reg_by_id)
             if kind:
                 tr = reg_by_id.get(target_id, {})
-                flagged_recipients.append({
+                entry_out = {
                     "agency_id": target_id,
                     "slug": id_to_slug.get(target_id, target_id),
                     "name": agency_display_name(tr, id_to_slug.get(target_id, target_id)),
                     "kind": kind,
                     "ag_lawsuit": has_tag(tr, "ag-lawsuit"),
                     "notes": tr.get("notes"),
-                })
+                }
+                added_on = added_on_by_aid.get(target_id)
+                if added_on:
+                    try:
+                        days_since = (today - date.fromisoformat(added_on)).days
+                        if days_since <= RECENT_ADD_WINDOW_DAYS:
+                            entry_out["added_on"] = added_on
+                            entry_out["days_since_added"] = days_since
+                    except ValueError:
+                        pass
+                flagged_recipients.append(entry_out)
+
+        # Removed-flagged: targets that were in sharing at some point,
+        # have since been removed, and would be flagged by current
+        # registry classification. Dedupe by agency_id keeping the most
+        # recent removal date.
+        current_outbound_set = set(outbound_ids)
+        removed_flagged_by_aid = {}
+        for ev in removed_events:
+            aid_r = ev["agency_id"]
+            if not aid_r or aid_r in current_outbound_set:
+                continue
+            kind = is_flagged_entity(aid_r, reg_by_id)
+            if not kind:
+                continue
+            existing = removed_flagged_by_aid.get(aid_r)
+            if existing is None or ev["date"] > existing["removed_on"]:
+                tr = reg_by_id.get(aid_r, {})
+                removed_flagged_by_aid[aid_r] = {
+                    "agency_id": aid_r,
+                    "slug": id_to_slug.get(aid_r, aid_r),
+                    "name": agency_display_name(tr, id_to_slug.get(aid_r, aid_r)),
+                    "kind": kind,
+                    "ag_lawsuit": has_tag(tr, "ag-lawsuit"),
+                    "removed_on": ev["date"],
+                }
+        removed_flagged_recipients = sorted(
+            removed_flagged_by_aid.values(),
+            key=lambda x: x["removed_on"],
+            reverse=True,
+        )
 
         # ── Inferred inbound (for uncrawled agencies mostly) ──
         inbound_source_ids = set(inbound_ids) | inbound_inferred_by_id.get(aid, set())
@@ -1561,6 +1661,7 @@ def main():
             "checklist_sb34": checklist_sb34,
             "checklist_transparency": checklist_transparency,
             "flagged_recipients": flagged_recipients,
+            "removed_flagged_recipients": removed_flagged_recipients,
             "outbound": outbound_list,
             "inbound": inbound_list,
             "regional": regional,

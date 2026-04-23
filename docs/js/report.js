@@ -1610,6 +1610,11 @@
         visibleGroup.forEach(function(f) {
           html += `<li>${escapeHtml(f.name)}`;
           if (f.ag_lawsuit) html += ` <span class="flag-tag lawsuit">AG LAWSUIT</span>`;
+          if (f.days_since_added != null) {
+            const days = f.days_since_added;
+            const ago = days === 0 ? "today" : days === 1 ? "1 day ago" : `${days} days ago`;
+            html += ` <span class="flag-tag" style="background:#fef3c7;color:#92400e" title="Sharing first appeared on ${escapeHtml(f.added_on)}">NEW &mdash; started ${ago}</span>`;
+          }
           // Registry notes are curated HTML (may contain anchor tags);
           // inserted as-is. Editors of the registry must avoid script
           // content — there is no sanitizer.
@@ -1624,6 +1629,25 @@
         html += '</ul>';
         html += '</div>';
       });
+      html += '</div>';
+    }
+
+    // Previously-flagged recipients: entities the agency dropped from
+    // its sharing list. Surfaced so cleanup is visible (and so the
+    // record doesn't disappear when a portal update removes a row).
+    const removedFlagged = report.removed_flagged_recipients || [];
+    if (removedFlagged.length) {
+      html += '<div class="flag-section" style="margin-top:12px;border-left-color:#9ca3af">';
+      html += `<strong>${removedFlagged.length} previously flagged recipient${removedFlagged.length === 1 ? "" : "s"} removed</strong> &mdash; entities that were in this agency\'s sharing list at some point during our tracking window and have since been removed.`;
+      html += '<ul style="margin-top:6px">';
+      removedFlagged.forEach(function(r) {
+        const label = FLAG_LABELS[r.kind] || r.kind.toUpperCase();
+        html += `<li>${escapeHtml(r.name)} <span class="flag-tag kind-${escapeHtml(r.kind)}">${escapeHtml(label)}</span>`;
+        if (r.ag_lawsuit) html += ` <span class="flag-tag lawsuit">AG LAWSUIT</span>`;
+        html += ` <span class="muted" style="font-size:9.5pt">&mdash; removed on/around ${escapeHtml(r.removed_on)}</span>`;
+        html += '</li>';
+      });
+      html += '</ul>';
       html += '</div>';
     }
 
