@@ -32,6 +32,12 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main
+          # Using a PAT (if configured) makes git push + gh pr create attribute
+          # to the PAT owner, so the resulting pull_request event's
+          # triggering_actor is a human. Without this, GITHUB_TOKEN-authored
+          # events get triggering_actor=github-actions[bot], which trips the
+          # "approval required for non-committers" setting on every run.
+          token: ${{ secrets.REFRESH_PAT || github.token }}
 
       - name: Set up refresh branch
         run: |
@@ -171,7 +177,10 @@ jobs:
       - name: Create or update PR
         if: steps.commit.outputs.has_changes == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use the PAT (if set) so the PR is created by a human identity,
+          # which keeps the next CI run on this PR from requiring manual
+          # approval. Falls back to GITHUB_TOKEN when PAT isn't configured.
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
         run: |
           existing=$(gh pr list --head flock-refresh --state open --json number --jq '.[0].number')
           if [ -n "$existing" ]; then
