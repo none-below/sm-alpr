@@ -110,25 +110,30 @@ jobs:
         run: |
           if ! uv run python scripts/check_recipient_coords.py > /tmp/coord-check.txt 2>&1; then
             cat /tmp/coord-check.txt
-            BODY=$(cat /tmp/coord-check.txt)
             EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
             if [ -n "$EXISTING" ]; then
-              gh issue comment "$EXISTING" --body "Updated from flock refresh:
-
-          \`\`\`
-          $BODY
-          \`\`\`"
+              {
+                echo "Updated from flock refresh:"
+                echo
+                echo '```'
+                cat /tmp/coord-check.txt
+                echo '```'
+              } > /tmp/coord-issue-body.md
+              gh issue comment "$EXISTING" --body-file /tmp/coord-issue-body.md
             else
+              {
+                echo "The following agencies receive data from public agencies but have no lat/lng in the registry:"
+                echo
+                echo '```'
+                cat /tmp/coord-check.txt
+                echo '```'
+                echo
+                echo "Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
+              } > /tmp/coord-issue-body.md
               gh issue create \
                 --title "Recipients missing coordinates in agency registry" \
                 --label geocoding \
-                --body "The following agencies receive data from public agencies but have no lat/lng in the registry:
-
-          \`\`\`
-          $BODY
-          \`\`\`
-
-          Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
+                --body-file /tmp/coord-issue-body.md
             fi
           else
             cat /tmp/coord-check.txt
@@ -162,17 +167,11 @@ jobs:
 
       - name: Generate diff summary
         if: steps.commit.outputs.has_changes == 'true'
-        id: diff
         run: |
           slugs=$(git diff HEAD~1 --name-only -- 'assets/transparency.flocksafety.com/' \
             | sed 's|assets/transparency.flocksafety.com/||' | cut -d/ -f1 | sort -u)
-          summary=$(uv run python scripts/diff_scrapes.py $slugs)
-          echo "$summary"
-          {
-            echo 'DIFF_SUMMARY<<EOF'
-            echo "$summary"
-            echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
+          uv run python scripts/diff_scrapes.py $slugs > /tmp/diff-summary.txt
+          cat /tmp/diff-summary.txt
 
       - name: Create or update PR
         if: steps.commit.outputs.has_changes == 'true'
@@ -181,32 +180,33 @@ jobs:
           # which keeps the next CI run on this PR from requiring manual
           # approval. Falls back to GITHUB_TOKEN when PAT isn't configured.
           GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
+          BATCH_SIZE: ${{ inputs.batch_size || '3' }}
         run: |
           existing=$(gh pr list --head flock-refresh --state open --json number --jq '.[0].number')
           if [ -n "$existing" ]; then
-            gh pr comment "$existing" --body "$(cat <<'EOF'
-          ### Refresh batch — ${{ inputs.batch_size || '3' }} agencies
-
-          ```
-          ${{ steps.diff.outputs.DIFF_SUMMARY }}
-          ```
-          EOF
-          )"
+            {
+              echo "### Refresh batch — ${BATCH_SIZE} agencies"
+              echo
+              echo '```'
+              cat /tmp/diff-summary.txt
+              echo '```'
+            } > /tmp/pr-body.md
+            gh pr comment "$existing" --body-file /tmp/pr-body.md
           else
+            {
+              echo "Automated rolling refresh of Flock Safety transparency portal data."
+              echo
+              echo "This PR accumulates hourly batches. Merge when ready — the next run will create a fresh branch from main."
+              echo
+              echo "### Initial batch"
+              echo
+              echo '```'
+              cat /tmp/diff-summary.txt
+              echo '```'
+            } > /tmp/pr-body.md
             gh pr create \
               --title "chore: refresh flock transparency data" \
-              --body "$(cat <<EOF
-          Automated rolling refresh of Flock Safety transparency portal data.
-
-          This PR accumulates hourly batches. Merge when ready — the next run will create a fresh branch from main.
-
-          ### Initial batch
-
-          \`\`\`
-          ${{ steps.diff.outputs.DIFF_SUMMARY }}
-          \`\`\`
-          EOF
-          )" \
+              --body-file /tmp/pr-body.md \
               --head flock-refresh \
               --base main
           fi

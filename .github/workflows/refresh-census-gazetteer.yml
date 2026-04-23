@@ -69,15 +69,18 @@ jobs:
 
           existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
           if [ -z "$existing" ]; then
-            gh pr create \
-              --title "chore: refresh Census gazetteer" \
-              --body "Automated quarterly refresh of Census gazetteer TSVs.
+            cat > /tmp/pr-body.md <<'EOF'
+          Automated quarterly refresh of Census gazetteer TSVs.
 
           Any changes here are driven by:
           - New annual Census place/county/cousub data
           - Re-running the geocoder against updated data
 
-          The geo cache tests pass, meaning cached lat/lng/name still match the new gazetteer (or have been updated)." \
+          The geo cache tests pass, meaning cached lat/lng/name still match the new gazetteer (or have been updated).
+          EOF
+            gh pr create \
+              --title "chore: refresh Census gazetteer" \
+              --body-file /tmp/pr-body.md \
               --head "$BRANCH" \
               --base main
           fi
