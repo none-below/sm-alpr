@@ -122,7 +122,11 @@ class TestRegistry:
         assert "private" in uop.get("tags", [])
 
     def test_no_duplicate_slugs(self):
-        slugs = [e["slug"] for e in self.registry]
+        # slug may be null for registry entries that represent an agency
+        # we track without a verified Flock portal (non-Flock vendor, or
+        # a slug-guesser hasn't confirmed the real slug yet). Only check
+        # uniqueness among entries that actually carry a slug.
+        slugs = [e["slug"] for e in self.registry if e.get("slug")]
         assert len(slugs) == len(set(slugs)), "Duplicate slugs found"
 
     def test_no_duplicate_agency_ids(self):

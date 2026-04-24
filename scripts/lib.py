@@ -49,8 +49,12 @@ def registry_by_id():
 
 
 def registry_by_slug():
-    """Return slug -> registry entry lookup. Backward compat."""
-    return {e["slug"]: e for e in load_registry()}
+    """Return slug -> registry entry lookup. Backward compat.
+
+    Entries without a slug (non-Flock agencies or not-yet-verified slugs)
+    are excluded — use registry_by_id() instead for those.
+    """
+    return {e["slug"]: e for e in load_registry() if e.get("slug")}
 
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
