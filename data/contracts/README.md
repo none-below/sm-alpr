@@ -69,6 +69,7 @@ added there first — see the workflow below.
   "outlet": "San Francisco Chronicle",
   "author": "Jane Doe",
   "published_date": "2025-06-15",
+  "quote": "This program does not best reflect our community's priorities.",
   "summary": null,
   "tags": []
 }
@@ -76,6 +77,10 @@ added there first — see the workflow below.
 
 - `id`: stable slug. Convention: `<outlet-slug>-<YYYY-MM-DD>-<shortkey>`.
 - `url`, `title`, `outlet`, `published_date` required.
+- `quote` optional — a verbatim one-liner to highlight in the UI
+  (official statement, council-member remark, etc.). Use direct quotes
+  only; editorial paraphrases do not belong here. Rendered as a
+  pull-quote below the title in the agency side panel.
 - `author`, `summary`, `tags` optional.
 
 ## Adding a new case

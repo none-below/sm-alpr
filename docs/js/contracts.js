@@ -172,7 +172,10 @@ function renderArticleList(articles) {
     const link = url
       ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${title}</a>`
       : title;
-    return `<li>${link}<br><span class="outlet">${outlet}${date ? ' &middot; ' + date : ''}</span></li>`;
+    const quote = a.quote
+      ? `<div class="pull-quote">${escapeHtml(a.quote)}</div>`
+      : '';
+    return `<li>${link}${quote}<div class="outlet">${outlet}${date ? ' &middot; ' + date : ''}</div></li>`;
   }).join('');
   return `
     <div class="section-title">Articles (${articles.length})</div>

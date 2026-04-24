@@ -6,8 +6,8 @@
     "vendor": "flock",
     "cameras_affected": 40,
     "article_ids": ["eff-2025-06-austin-cancel", "kut-2025-06-04-austin-ends"],
-    "reasons": ["federal-access", "sanctuary-conflict", "privacy-general"],
-    "notes": "Council ended the ALPR program after community pressure. 40 fixed cameras plus ~500 mobile cams. APD later found a loophole accessing neighbor agencies' Flock data."
+    "reasons": ["federal-access-risk", "sanctuary-conflict", "privacy-general"],
+    "notes": "Council ended the ALPR program after community pressure. 40 fixed cameras plus ~500 mobile cams. Council and residents cited risks of data sharing with ICE and TX AG (abortion enforcement). APD later found a loophole accessing neighbor agencies' Flock data."
   },
   {
     "agency_id": "b78b4a4c-e8ea-5a96-9edd-585d0b0d1ce1",
@@ -46,7 +46,7 @@
     "vendor": "flock",
     "cameras_affected": null,
     "article_ids": ["lookout-2025-12-05-eugene", "opb-2025-12-06-eugene-springfield"],
-    "reasons": ["federal-access", "privacy-general"],
+    "reasons": ["federal-access-risk", "privacy-general"],
     "notes": "Eugene PD announced immediate termination. Springfield PD followed within the hour."
   },
   {
@@ -56,7 +56,7 @@
     "vendor": "flock",
     "cameras_affected": null,
     "article_ids": ["lookout-2025-12-05-eugene", "opb-2025-12-06-eugene-springfield"],
-    "reasons": ["federal-access", "privacy-general"],
+    "reasons": ["federal-access-risk", "privacy-general"],
     "notes": "Announced termination same day as Eugene PD."
   },
   {
@@ -66,7 +66,7 @@
     "vendor": "flock",
     "cameras_affected": 15,
     "article_ids": ["jolt-2025-12-olympia", "waretail-2025-12-olympia-redmond"],
-    "reasons": ["federal-access", "sanctuary-conflict", "privacy-general"],
+    "reasons": ["federal-access-risk", "sanctuary-conflict", "privacy-general"],
     "notes": "Two-year pilot suspended; hoods installed over all 15 cameras. Interim Chief cited sanctuary-city status and data-access risks."
   },
   {
@@ -76,8 +76,8 @@
     "vendor": "flock",
     "cameras_affected": null,
     "article_ids": ["waretail-2025-12-olympia-redmond"],
-    "reasons": ["federal-access", "privacy-general"],
-    "notes": "Paused alongside Olympia amid WA-wide privacy debate."
+    "reasons": ["federal-access-risk", "privacy-general"],
+    "notes": "Paused alongside Olympia amid WA-wide privacy debate. Sourced from aggregator — primary coverage not yet verified."
   },
   {
     "agency_id": "a6ee05fe-842e-512c-9cae-13bb118682c0",
@@ -86,7 +86,7 @@
     "vendor": "flock",
     "cameras_affected": 16,
     "article_ids": ["cambridgema-2025-12-statement", "bostoncom-2025-12-11-cambridge"],
-    "reasons": ["vendor-misconduct", "federal-access"],
+    "reasons": ["vendor-misconduct"],
     "notes": "City cited 'breach of trust' after discovering Flock installed two cameras without authorization. 16 cameras deactivated late October; formal termination Dec 11."
   },
   {
@@ -116,7 +116,7 @@
     "vendor": "flock",
     "cameras_affected": null,
     "article_ids": ["flagstaff-2025-12-20-removed", "azfamily-2025-12-20-flagstaff"],
-    "reasons": ["federal-access", "privacy-general"],
+    "reasons": ["federal-access-risk", "privacy-general"],
     "notes": "Unanimous council vote. Flock portal for Flagstaff marked inactive post-cancellation."
   },
   {
@@ -185,9 +185,9 @@
     "date": "2026-03-04",
     "vendor": "flock",
     "cameras_affected": 22,
-    "article_ids": ["ithacavoice-2026-03-ends"],
-    "reasons": ["federal-access", "sanctuary-conflict"],
-    "notes": "Unanimous Common Council vote to decommission 22 ALPRs. Mayor cited civil liberties concerns about immigration use."
+    "article_ids": ["ithacavoice-2026-03-ends", "ithacacom-2026-03-exit"],
+    "reasons": ["federal-access-risk", "sanctuary-conflict"],
+    "notes": "Unanimous Common Council vote to decommission 22 ALPRs. Resolution sponsored by Alderperson Robin Trumble. Residents and council cited Ithaca's sanctuary status and risk of data sharing with federal agencies including ICE; no Ithaca-specific federal-access incident has been demonstrated."
   },
   {
     "agency_id": "2cc3a31d-7f98-5714-bc85-927815444575",
@@ -196,8 +196,8 @@
     "vendor": "flock",
     "cameras_affected": null,
     "article_ids": ["ithacacom-tompkins-terminates"],
-    "reasons": ["federal-access"],
-    "notes": "County legislature followed the City of Ithaca in terminating."
+    "reasons": ["federal-access-risk", "sanctuary-conflict"],
+    "notes": "County legislature followed the City of Ithaca in terminating, same sanctuary-related rationale."
   },
   {
     "agency_id": "5448e966-a286-5dac-a301-1ed74914217e",
@@ -226,7 +226,7 @@
     "vendor": "flock",
     "cameras_affected": null,
     "article_ids": ["wosu-2026-03-columbus"],
-    "reasons": ["privacy-general", "federal-access"],
+    "reasons": ["privacy-general"],
     "notes": "Council working on an updated comprehensive policy governing Flock use."
   },
   {

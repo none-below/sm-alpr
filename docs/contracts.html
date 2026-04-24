@@ -177,11 +177,19 @@
   .reason-legend .reason-chip { margin-bottom: 3px; }
 
   .articles { list-style: none; padding: 0; margin: 0; }
-  .articles li { padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+  .articles li { padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
   .articles li:last-child { border-bottom: none; }
   .articles .outlet { color: #6b7280; font-size: 12px; }
   .articles a { color: #2563eb; text-decoration: none; }
   .articles a:hover { text-decoration: underline; }
+  .articles .pull-quote {
+    margin: 4px 0 2px; padding: 4px 10px;
+    border-left: 3px solid #cbd5e1; background: #f8fafc;
+    color: #334155; font-style: italic; font-size: 12.5px;
+    line-height: 1.45;
+  }
+  .articles .pull-quote::before { content: "\201C"; margin-right: 1px; }
+  .articles .pull-quote::after { content: "\201D"; margin-left: 1px; }
 
   .legend {
     position: absolute; bottom: 16px; left: 16px; z-index: 1000;

@@ -68,10 +68,16 @@ KNOWN_VENDORS = {"flock", "vigilant", "axon-fusus", "rekor", "other"}
 # The UI renders each as a colored chip with a short letter-badge icon.
 REASONS = {
     "federal-access": {
-        "label": "Federal / ICE access",
+        "label": "Federal / ICE access (confirmed)",
         "icon": "F",
         "color": "#b91c1c",
-        "description": "Data accessed by federal immigration enforcement (ICE, CBP, DHS) or shared without local authorization.",
+        "description": "Documented incident: ICE, CBP, DHS, or other federal enforcement accessed the jurisdiction's ALPR data, or data was demonstrably shared without local authorization. Reserved for cases with an audit finding, investigative report, or direct disclosure. For preemptive cancellations motivated by the risk of such access, use federal-access-risk.",
+    },
+    "federal-access-risk": {
+        "label": "Federal / ICE access (risk)",
+        "icon": "F",
+        "color": "#f59e0b",
+        "description": "Jurisdiction cited the risk of federal immigration access as a reason for canceling or pausing, but no incident was demonstrated. Typical for preemptive cancellations by sanctuary jurisdictions or cities responding to national reporting.",
     },
     "unauthorized-access": {
         "label": "Unauthorized searches",
