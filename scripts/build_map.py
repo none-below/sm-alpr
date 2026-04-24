@@ -47,11 +47,15 @@ def main():
     # Load agency registry indexed by agency_id
     reg_by_id = registry_by_id()
 
-    # Also build slug-based lookups for JS output
+    # Also build slug-based lookups for JS output. Skip entries without a
+    # slug — the JS keys all its lookups by slug, so null-slug agencies
+    # can't participate in the sharing map.
     registry_by_slug = {}
     id_to_slug = {}  # agency_id -> slug (for translating graph edges to JS)
     for e in load_registry():
-        slug = e["slug"]
+        slug = e.get("slug")
+        if not slug:
+            continue
         registry_by_slug[slug] = e
         id_to_slug[e["agency_id"]] = slug
 
@@ -132,7 +136,12 @@ def main():
         aid = e["agency_id"]
         if aid in seen_ids:
             continue
-        slug = e["slug"]
+        slug = e.get("slug")
+        if not slug:
+            # Registry entries without a verified Flock slug don't belong
+            # on the sharing map — they have no crawlable portal and can't
+            # be interacted with via the JS (which keys by slug).
+            continue
         lat, lng = agency_coords(e)
         if lat is None or lng is None:
             continue
