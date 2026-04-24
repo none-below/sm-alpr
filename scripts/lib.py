@@ -12,6 +12,31 @@ from pathlib import Path
 
 REGISTRY_PATH = Path("assets/agency_registry.json")
 
+# Flock portal constants — shared by flock_transparency.py and slug_probe.py
+BASE_URL = "https://transparency.flocksafety.com"
+USER_AGENT = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/131.0.0.0 Safari/537.36"
+)
+FAILED_FILE = ".failed_slugs.json"
+
+
+def load_json(path):
+    if path.exists():
+        return json.loads(path.read_text())
+    return {}
+
+
+def save_json(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+
+
+def dedupe(items):
+    seen = set()
+    return [x for x in items if not (x in seen or seen.add(x))]
+
 # Portal captures are named exactly YYYY-MM-DD.{txt,json} — nothing else.
 # OCR sidecars (YYYY-MM-DD.pdf.HASH.txt) and any .pdf.HASH.json artifacts
 # left over from past parser bugs must not be treated as captures.
