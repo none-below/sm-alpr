@@ -49,12 +49,14 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from lib import resolve_agency, name_to_slug, portal_jsons, portal_txts
+from lib import (
+    BASE_URL, FAILED_FILE, USER_AGENT,
+    dedupe, load_json, save_json,
+    name_to_slug, portal_jsons, portal_txts, resolve_agency,
+)
 
-BASE_URL = "https://transparency.flocksafety.com"
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 HASH_FILE = ".content_hashes.json"
-FAILED_FILE = ".failed_slugs.json"
 VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
 STALE_DAYS = 14
@@ -149,23 +151,8 @@ def slug_variations(slug):
     return dedupe(variations)
 
 
-def load_json(path):
-    if path.exists():
-        return json.loads(path.read_text())
-    return {}
-
-
-def save_json(path, data):
-    path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
-
-
 def content_hash(text):
     return hashlib.sha256(text.encode()).hexdigest()
-
-
-def dedupe(slugs):
-    seen = set()
-    return [s for s in slugs if not (s in seen or seen.add(s))]
 
 
 def is_stale(slug, data_dir, max_age_days=STALE_DAYS):
@@ -795,11 +782,7 @@ def cmd_crawl(args):
             browser = p.chromium.launch(headless=True, args=launch_args)
         context = browser.new_context(
             viewport=VIEWPORT,
-            user_agent=(
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/131.0.0.0 Safari/537.36"
-            ),
+            user_agent=USER_AGENT,
         )
         page = context.new_page()
 

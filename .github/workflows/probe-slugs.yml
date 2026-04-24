@@ -1,0 +1,115 @@
+name: Probe Unknown Flock Slugs
+
+# Looks for working Flock transparency portal slugs for agencies whose
+# current slug 404s. Runs on its own rate budget (default 3 probes per run)
+# separate from refresh-flock-data so neither starves the other.
+
+on:
+  schedule:
+    - cron: '47 * * * *'   # hourly at :47 (offset from refresh-flock-data at :17)
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Max HTTP probes this run'
+        default: '3'
+      agency:
+        description: 'Force probe a single agency_id (skips failed_slugs filter)'
+        default: ''
+      delay:
+        description: 'Seconds between probes (jittered)'
+        default: '90'
+
+concurrency:
+  group: slug-probe
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          # PAT (if configured) attributes the resulting PR to a human so
+          # CI doesn't require approval-for-bots on every run.
+          token: ${{ secrets.REFRESH_PAT || github.token }}
+
+      - name: Set up probe branch
+        run: |
+          git fetch origin slug-probe || true
+          if git rev-parse --verify origin/slug-probe >/dev/null 2>&1; then
+            git checkout slug-probe
+            git rebase origin/main || { git rebase --abort; git reset --hard origin/main; }
+          else
+            git checkout -b slug-probe
+          fi
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
+
+      - name: Install Chromium for Playwright
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: uv run playwright install chromium
+
+      - name: Probe candidate slugs
+        id: probe
+        run: |
+          ARGS="--limit ${{ inputs.limit || '3' }} --delay ${{ inputs.delay || '90' }}"
+          if [ -n "${{ inputs.agency }}" ]; then
+            ARGS="$ARGS --agency ${{ inputs.agency }}"
+          fi
+          # shellcheck disable=SC2086
+          uv run python scripts/slug_probe.py $ARGS
+
+      - name: Commit and push
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add \
+            assets/agency_registry.json \
+            assets/transparency.flocksafety.com/.slug_probe_state.json \
+            assets/transparency.flocksafety.com/.failed_slugs.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          # Detect hit vs. pure state bookkeeping for commit message
+          if git diff --cached --quiet assets/agency_registry.json; then
+            git commit -m "chore: slug probe state update (no hits)"
+          else
+            git commit -m "chore: slug probe found new Flock portal slug(s)"
+          fi
+          git push --force-with-lease origin slug-probe
+
+      - name: Create or update PR
+        if: steps.commit.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh pr list --head slug-probe --state open --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            gh pr create \
+              --title "chore: slug probe finds" \
+              --body "Automated rolling slug probe. Each run attempts up to 3 candidate slugs for agencies whose current Flock portal slug 404s. On a hit, the registry is updated (flock_slugs += found, flock_active_slug := found) and the old slug is removed from failed_slugs.json so the primary crawler will try it. Probe state persists so candidates aren't retried." \
+              --head slug-probe \
+              --base main
+          fi
