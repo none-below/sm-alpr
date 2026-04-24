@@ -17,7 +17,7 @@ on:
         default: ''
       delay:
         description: 'Seconds between probes (jittered)'
-        default: '90'
+        default: '5'
 
 concurrency:
   group: slug-probe
@@ -70,7 +70,7 @@ jobs:
       - name: Probe candidate slugs
         id: probe
         run: |
-          ARGS="--limit ${{ inputs.limit || '3' }} --delay ${{ inputs.delay || '90' }}"
+          ARGS="--limit ${{ inputs.limit || '3' }} --delay ${{ inputs.delay || '5' }}"
           if [ -n "${{ inputs.agency }}" ]; then
             ARGS="$ARGS --agency ${{ inputs.agency }}"
           fi

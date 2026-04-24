@@ -377,8 +377,8 @@ def main():
     parser = argparse.ArgumentParser(description="Probe Flock portal for missing agency slugs")
     parser.add_argument("--limit", type=int, default=3,
                         help="Max number of HTTP probes per run (default: 3)")
-    parser.add_argument("--delay", type=int, default=90,
-                        help="Seconds between probes, jittered (default: 90)")
+    parser.add_argument("--delay", type=int, default=5,
+                        help="Seconds between probes, jittered (default: 5)")
     parser.add_argument("--data-dir", type=Path, default=DEFAULT_DATA_DIR)
     parser.add_argument("--dry-run", action="store_true",
                         help="List candidates for targets, make no HTTP calls")
