@@ -11,9 +11,18 @@
     "02126911-e73c-519e-b23b-8bc1cfb0d92d": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-24T12:46:32.963404+00:00",
+      "last_probed": "2026-04-24T20:31:23.442769+00:00",
       "tried": {
-        "redondo-beach-ca-po": "http_404"
+        "redondo-beach-ca-po": "http_404",
+        "redondo-beach-ca-police-department": "http_404"
+      }
+    },
+    "332407d3-a475-546c-88c0-b2046bb47ca7": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-24T20:31:11.421470+00:00",
+      "tried": {
+        "san-luis-obispo-ca-po": "http_404"
       }
     },
     "46022a7f-7efe-5f30-9695-ef9a6c9f2093": {
@@ -115,9 +124,10 @@
     "76ffd436-962c-5842-92bc-1fb2c82f20dd": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-24T17:39:10.433779+00:00",
+      "last_probed": "2026-04-24T20:31:17.024133+00:00",
       "tried": {
-        "rialto-ca-pd": "http_404"
+        "rialto-ca-pd": "http_404",
+        "rialto-ca-po": "http_404"
       }
     },
     "8bbdbc6d-a0cb-51af-bdbe-f3fef9a95cb5": {
@@ -265,6 +275,6 @@
       }
     }
   },
-  "updated": "2026-04-24T19:40:29.963701+00:00",
+  "updated": "2026-04-24T20:31:23.476901+00:00",
   "version": 1
 }
