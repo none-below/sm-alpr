@@ -57,7 +57,9 @@ def load_crawled_stats(slug):
 def main():
     registry = load_registry()
     reg_by_id = registry_by_id()
-    id_to_slug = {e["agency_id"]: e["slug"] for e in registry}
+    # Filter out null-slug entries (agencies without a verified Flock portal).
+    # Scoreboard links use slugs to form report.html?agency=<slug> URLs.
+    id_to_slug = {e["agency_id"]: e["slug"] for e in registry if e.get("slug")}
 
     with open(GRAPH_PATH) as f:
         graph = json.load(f)

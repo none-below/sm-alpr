@@ -104,7 +104,9 @@ class TestRegistry:
         p = Path("assets/agency_registry.json")
         assert p.exists()
         self.registry = json.loads(p.read_text())
-        self.by_slug = {e["slug"]: e for e in self.registry}
+        # Only slug-keyed tests need this lookup; non-slugged entries
+        # (non-Flock agencies from the contract map) are unreachable here.
+        self.by_slug = {e["slug"]: e for e in self.registry if e.get("slug")}
 
     def test_has_entries(self):
         assert len(self.registry) > 300

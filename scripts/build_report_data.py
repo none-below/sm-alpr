@@ -563,8 +563,11 @@ def percentile_of(value, sorted_values):
 def main():
     registry = load_registry()
     reg_by_id = registry_by_id()
-    id_to_slug = {e["agency_id"]: e["slug"] for e in registry}
-    slug_to_id = {e["slug"]: e["agency_id"] for e in registry}
+    # Filter out entries with null slug — those agencies have no crawlable
+    # Flock portal and can't produce per-agency reports (reports are keyed
+    # by slug for the report.html?agency=<slug> URL pattern).
+    id_to_slug = {e["agency_id"]: e["slug"] for e in registry if e.get("slug")}
+    slug_to_id = {e["slug"]: e["agency_id"] for e in registry if e.get("slug")}
     # Also handle legacy flock_slugs → primary slug
     for e in registry:
         for fs in e.get("flock_slugs", []):
@@ -971,7 +974,11 @@ def main():
     reports = {}
     for e in registry:
         aid = e["agency_id"]
-        slug = e["slug"]
+        slug = e.get("slug")
+        if not slug:
+            # Per-agency reports are keyed by slug (URL: report.html?agency=<slug>).
+            # Agencies without a verified Flock slug can't produce a report.
+            continue
         reg = e
         gdata = graph_agencies.get(aid, {})
         crawled = bool(gdata.get("crawled"))
