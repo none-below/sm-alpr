@@ -1,0 +1,282 @@
+[
+  {
+    "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+    "type": "canceled",
+    "date": "2025-06-04",
+    "vendor": "flock",
+    "cameras_affected": 40,
+    "article_ids": ["eff-2025-06-austin-cancel", "kut-2025-06-04-austin-ends"],
+    "reasons": ["federal-access-risk", "sanctuary-conflict", "privacy-general"],
+    "notes": "Council ended the ALPR program after community pressure. 40 fixed cameras plus ~500 mobile cams. Council and residents cited risks of data sharing with ICE and TX AG (abortion enforcement). APD later found a loophole accessing neighbor agencies' Flock data."
+  },
+  {
+    "agency_id": "b78b4a4c-e8ea-5a96-9edd-585d0b0d1ce1",
+    "type": "canceled",
+    "date": "2025-08-05",
+    "vendor": "flock",
+    "cameras_affected": 8,
+    "article_ids": ["oakpark-2025-08-07-terminates", "oakpark-2025-08-28-state-broke-law"],
+    "reasons": ["federal-access", "sanctuary-conflict"],
+    "notes": "5-2 board vote. Trustees cited conflicts with village sanctuary ordinance. IL Sec. of State audit two weeks later found Flock had shared data with CBP in violation of state law."
+  },
+  {
+    "agency_id": "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+    "type": "canceled",
+    "date": "2025-08-26",
+    "vendor": "flock",
+    "cameras_affected": 19,
+    "article_ids": ["abc7-2025-08-27-evanston-oakpark", "patch-2025-08-27-evanston-deactivates"],
+    "reasons": ["federal-access", "data-breach"],
+    "notes": "Deactivated 19 cameras after IL Sec. of State confirmed Flock had shared Evanston data with CBP in a pilot Flock leadership said they were unaware of. Contract termination effective Sept 26."
+  },
+  {
+    "agency_id": "b994e41b-23e6-5392-ba7b-821af80978f0",
+    "type": "canceled",
+    "date": "2025-10-27",
+    "vendor": "flock",
+    "cameras_affected": 10,
+    "article_ids": ["hillsboroughnc-2025-10-cancel", "dth-2025-11-11-hillsborough"],
+    "reasons": ["broad-disclosure"],
+    "notes": "Board of Commissioners terminated after closer review of contract language permitting disclosure to any government entity or third party on Flock's 'good faith belief.'"
+  },
+  {
+    "agency_id": "68f11e4a-7a56-5692-a0a2-558de9117210",
+    "type": "canceled",
+    "date": "2025-12-05",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["lookout-2025-12-05-eugene", "opb-2025-12-06-eugene-springfield"],
+    "reasons": ["federal-access-risk", "privacy-general"],
+    "notes": "Eugene PD announced immediate termination. Springfield PD followed within the hour."
+  },
+  {
+    "agency_id": "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+    "type": "canceled",
+    "date": "2025-12-05",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["lookout-2025-12-05-eugene", "opb-2025-12-06-eugene-springfield"],
+    "reasons": ["federal-access-risk", "privacy-general"],
+    "notes": "Announced termination same day as Eugene PD."
+  },
+  {
+    "agency_id": "80fc5e77-78d4-5499-abf4-9cda8cfb284d",
+    "type": "paused",
+    "date": "2025-12-03",
+    "vendor": "flock",
+    "cameras_affected": 15,
+    "article_ids": ["jolt-2025-12-olympia", "waretail-2025-12-olympia-redmond"],
+    "reasons": ["federal-access-risk", "sanctuary-conflict", "privacy-general"],
+    "notes": "Two-year pilot suspended; hoods installed over all 15 cameras. Interim Chief cited sanctuary-city status and data-access risks."
+  },
+  {
+    "agency_id": "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+    "type": "paused",
+    "date": "2025-12-05",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["waretail-2025-12-olympia-redmond"],
+    "reasons": ["federal-access-risk", "privacy-general"],
+    "notes": "Paused alongside Olympia amid WA-wide privacy debate. Sourced from aggregator — primary coverage not yet verified."
+  },
+  {
+    "agency_id": "a6ee05fe-842e-512c-9cae-13bb118682c0",
+    "type": "canceled",
+    "date": "2025-12-11",
+    "vendor": "flock",
+    "cameras_affected": 16,
+    "article_ids": ["cambridgema-2025-12-statement", "bostoncom-2025-12-11-cambridge"],
+    "reasons": ["vendor-misconduct"],
+    "notes": "City cited 'breach of trust' after discovering Flock installed two cameras without authorization. 16 cameras deactivated late October; formal termination Dec 11."
+  },
+  {
+    "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+    "type": "canceled",
+    "date": "2025-12-17",
+    "vendor": "flock",
+    "cameras_affected": 10,
+    "article_ids": ["29news-2025-12-17-cville", "wvtf-2026-01-15-cville-staunton"],
+    "reasons": ["federal-access", "privacy-general"],
+    "notes": "One-year pilot ended. VA Center for Investigative Journalism found ~3,000 immigration-related queries of VA Flock cameras between Jun 2024 and Jun 2025."
+  },
+  {
+    "agency_id": "4cec1b92-d54e-5ef1-aebb-11d93521b4a5",
+    "type": "canceled",
+    "date": "2025-12-19",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["staunton-2025-12-19-terminate", "wvtf-2026-01-15-cville-staunton"],
+    "reasons": ["vendor-misconduct", "privacy-general"],
+    "notes": "City terminated citing Flock CEO's activist remarks and privacy concerns."
+  },
+  {
+    "agency_id": "86e9b8be-f02d-50c0-a0f8-9ed7b2b378a4",
+    "type": "canceled",
+    "date": "2025-12-20",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["flagstaff-2025-12-20-removed", "azfamily-2025-12-20-flagstaff"],
+    "reasons": ["federal-access-risk", "privacy-general"],
+    "notes": "Unanimous council vote. Flock portal for Flagstaff marked inactive post-cancellation."
+  },
+  {
+    "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+    "type": "canceled",
+    "date": "2026-01-13",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["santacruzlocal-2026-01-13", "kqed-2026-01-santa-cruz-first"],
+    "reasons": ["federal-access", "unauthorized-access", "data-breach"],
+    "notes": "6-1 vote. First CA city to terminate. Followed reports that data from Santa Cruz, Capitola, and Watsonville had been accessed by outside agencies for federal purposes."
+  },
+  {
+    "agency_id": "40521632-8a29-5e5d-a064-1b57410743b5",
+    "type": "canceled",
+    "date": "2026-02-10",
+    "vendor": "flock",
+    "cameras_affected": 2,
+    "article_ids": ["littlevillage-2026-02-coralville"],
+    "reasons": ["privacy-general"],
+    "notes": "Council reversed a contract signed unilaterally by the police chief after community backlash."
+  },
+  {
+    "agency_id": "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+    "type": "canceled",
+    "date": "2026-02-18",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["yahoo-2026-02-lynnwood"],
+    "reasons": ["privacy-general"],
+    "notes": "Unanimous council vote."
+  },
+  {
+    "agency_id": "50dc11c1-7f4e-557f-b65c-6666d43832a0",
+    "type": "paused",
+    "date": "2026-02-20",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["carscoops-2026-02-termination"],
+    "reasons": ["privacy-general"],
+    "notes": "Town Council voted 8-1 to shut off cameras pending revisions aligned with a new ALPR privacy and security policy."
+  },
+  {
+    "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "type": "canceled",
+    "date": "2026-02-24",
+    "vendor": "flock",
+    "cameras_affected": 110,
+    "article_ids": ["denverite-2026-02-24-fires-flock", "9news-2026-02-24-denver-removes"],
+    "reasons": ["federal-access"],
+    "notes": "Contract expired; 110+ cameras removed. Denver replaced Flock with Axon ALPR (~50 cameras) by a single-vote council margin."
+  },
+  {
+    "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+    "type": "canceled",
+    "date": "2026-02-24",
+    "vendor": "flock",
+    "cameras_affected": 30,
+    "article_ids": ["mvgov-2026-02-25-terminates", "kqed-2026-02-mv-shuts-off"],
+    "reasons": ["unauthorized-access", "privacy-general"],
+    "notes": "Unanimous vote. Police audit found National/Statewide Lookup enabled from day one; 250+ unapproved agencies ran ~600,000 searches on MV data Dec 2024–Dec 2025. Cameras off since Feb 2."
+  },
+  {
+    "agency_id": "d22f3264-52b5-5139-ad7c-849564e02eb1",
+    "type": "canceled",
+    "date": "2026-03-04",
+    "vendor": "flock",
+    "cameras_affected": 22,
+    "article_ids": ["ithacavoice-2026-03-ends", "ithacacom-2026-03-exit"],
+    "reasons": ["federal-access-risk", "sanctuary-conflict"],
+    "notes": "Unanimous Common Council vote to decommission 22 ALPRs. Resolution sponsored by Alderperson Robin Trumble. Residents and council cited Ithaca's sanctuary status and risk of data sharing with federal agencies including ICE; no Ithaca-specific federal-access incident has been demonstrated."
+  },
+  {
+    "agency_id": "2cc3a31d-7f98-5714-bc85-927815444575",
+    "type": "canceled",
+    "date": "2026-03-18",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["ithacacom-tompkins-terminates"],
+    "reasons": ["federal-access-risk", "sanctuary-conflict"],
+    "notes": "County legislature followed the City of Ithaca in terminating, same sanctuary-related rationale."
+  },
+  {
+    "agency_id": "5448e966-a286-5dac-a301-1ed74914217e",
+    "type": "canceled",
+    "date": "2026-03-19",
+    "vendor": "flock",
+    "cameras_affected": 14,
+    "article_ids": ["laist-2026-03-south-pas"],
+    "reasons": ["unauthorized-access", "federal-access"],
+    "notes": "4-1 vote to end one of two contracts and let the other expire in ~5 months. Triggered by reports that data from Santa Cruz / Mountain View / Oxnard had been obtained by out-of-state agencies via a Flock software feature."
+  },
+  {
+    "agency_id": "25a4e15f-c0b8-5fc4-9aea-4990fdb4a712",
+    "type": "paused",
+    "date": "2026-04-22",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["fox11-2026-04-oshkosh-rescind"],
+    "reasons": ["vendor-misconduct", "privacy-general"],
+    "notes": "Council voted 7-0 to rescind a renewal approved the day before, after Chief Smith said Flock had misrepresented that the cameras do not collect heat maps of travelers."
+  },
+  {
+    "agency_id": "356e30e5-12d3-5ff7-b563-6de8c10c553b",
+    "type": "reviewing",
+    "date": "2026-03-16",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["wosu-2026-03-columbus"],
+    "reasons": ["privacy-general"],
+    "notes": "Council working on an updated comprehensive policy governing Flock use."
+  },
+  {
+    "agency_id": "eca5a0e5-4ab4-5868-a688-c03da1dff9b1",
+    "type": "reviewing",
+    "date": "2026-03-25",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["lnm-2026-03-berkeley-delay"],
+    "reasons": ["privacy-general"],
+    "notes": "Council deferred a proposed expansion of Flock-based surveillance (cameras, drones, investigative software)."
+  },
+  {
+    "agency_id": "5b574464-e076-5bc0-8c62-e3052ecf8723",
+    "type": "reviewing",
+    "date": "2026-03-02",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["elpasomatters-2026-03-reconsider"],
+    "reasons": ["privacy-general"],
+    "notes": "Council debate on contract renewal amid privacy and surveillance concerns."
+  },
+  {
+    "agency_id": "97f69d1e-5db1-5a4d-a95a-7314e28d0ad1",
+    "type": "reviewing",
+    "date": "2026-03-19",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["ids-2026-03-bloomington"],
+    "reasons": ["privacy-general"],
+    "notes": "Unanimous passage of a Flock limits resolution."
+  },
+  {
+    "agency_id": "9c1c5b61-7dec-5fce-a5ec-a3be9ed47c86",
+    "type": "reviewing",
+    "date": "2026-02-11",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["lnm-2026-02-alameda-county"],
+    "reasons": ["privacy-general"],
+    "notes": "Board considering whether to extend ~$300K Flock contract covering unincorporated communities."
+  },
+  {
+    "agency_id": "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+    "type": "signed",
+    "date": "2026-02-27",
+    "vendor": "flock",
+    "cameras_affected": null,
+    "article_ids": ["vpm-2026-02-27-richmond-extends"],
+    "reasons": [],
+    "notes": "Richmond PD extended Flock contract despite regional debate — contrast point for the map."
+  }
+]

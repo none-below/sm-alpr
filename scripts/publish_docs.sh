@@ -9,6 +9,7 @@ uv run python scripts/build_sharing_graph.py
 uv run python scripts/build_map.py
 uv run python scripts/build_scoreboard.py
 uv run python scripts/build_audit_log.py
+uv run python scripts/build_contract_map.py
 
 # Copy findings
 cp outputs/SMPD_ALPR_Findings.pdf docs/SMPD_ALPR_Findings.pdf
@@ -18,5 +19,6 @@ echo "Done. docs/ ready for GitHub Pages."
 echo "  docs/index.html"
 echo "  docs/sharing_map.html"
 echo "  docs/scoreboard.html"
+echo "  docs/contracts.html"
 echo "  docs/SMPD_ALPR_Findings.pdf"
 echo "  docs/SMPD_ALPR_Findings.md"

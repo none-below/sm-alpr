@@ -104,7 +104,9 @@ class TestRegistry:
         p = Path("assets/agency_registry.json")
         assert p.exists()
         self.registry = json.loads(p.read_text())
-        self.by_slug = {e["slug"]: e for e in self.registry}
+        # Only slug-keyed tests need this lookup; non-slugged entries
+        # (non-Flock agencies from the contract map) are unreachable here.
+        self.by_slug = {e["slug"]: e for e in self.registry if e.get("slug")}
 
     def test_has_entries(self):
         assert len(self.registry) > 300
@@ -122,7 +124,11 @@ class TestRegistry:
         assert "private" in uop.get("tags", [])
 
     def test_no_duplicate_slugs(self):
-        slugs = [e["slug"] for e in self.registry]
+        # slug may be null for registry entries that represent an agency
+        # we track without a verified Flock portal (non-Flock vendor, or
+        # a slug-guesser hasn't confirmed the real slug yet). Only check
+        # uniqueness among entries that actually carry a slug.
+        slugs = [e["slug"] for e in self.registry if e.get("slug")]
         assert len(slugs) == len(set(slugs)), "Duplicate slugs found"
 
     def test_no_duplicate_agency_ids(self):
@@ -139,16 +145,25 @@ class TestRegistry:
                 assert False, f"{e['slug']} has invalid UUID: {e['agency_id']}"
 
     def test_has_flock_slugs(self):
+        # Every entry carries the keys, but the arrays are only required to
+        # be non-empty for agencies with an actively-crawled Flock portal.
+        # Non-Flock agencies (used by the contract-map feature) have
+        # flock_active_slug=None and empty slug/name lists.
         for e in self.registry:
             assert "flock_slugs" in e, f"{e['agency_id']} missing flock_slugs"
-            assert len(e["flock_slugs"]) >= 1
+            assert isinstance(e["flock_slugs"], list)
             assert "flock_active_slug" in e
-            assert e["flock_active_slug"] in e["flock_slugs"]
+            if e["flock_active_slug"]:
+                assert e["flock_active_slug"] in e["flock_slugs"], (
+                    f"{e['agency_id']}: flock_active_slug not in flock_slugs"
+                )
 
     def test_has_flock_names(self):
+        # Same relaxation as test_has_flock_slugs: non-Flock registry entries
+        # have an empty flock_names list.
         for e in self.registry:
             assert "flock_names" in e, f"{e['agency_id']} missing flock_names"
-            assert len(e["flock_names"]) >= 1
+            assert isinstance(e["flock_names"], list)
 
     def test_no_crawled_fields_in_registry(self):
         """crawled/crawled_date are derived at runtime, not stored."""
