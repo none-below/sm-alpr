@@ -3905,6 +3905,33 @@
     "flags": []
   },
   {
+    "agency_id": "aa08a005-0a8d-51b3-9229-4e5f8a544e8d",
+    "slug": "solano-county-ca-so",
+    "flock_active_slug": "solano-county-ca-so",
+    "flock_slugs": [
+      "solano-county-ca-so"
+    ],
+    "flock_names": [
+      "Solano County CA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "county",
+      "fips": "06095",
+      "name": "Solano",
+      "state": "CA",
+      "lat": 38.267226,
+      "lng": -121.939594
+    },
+    "flags": []
+  },
+  {
     "agency_id": "c7d1aa56-2092-5b32-bba9-1a9765cfc18e",
     "slug": "south-gate-ca-pd",
     "flock_active_slug": "south-gate-ca-pd",
@@ -3982,6 +4009,59 @@
       "state": "CA",
       "lat": 37.655104,
       "lng": -122.376234
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "8b8e35cd-c8ac-51a2-9f4f-2aa18b5d0028",
+    "slug": "st-helena-ca-pd",
+    "flock_active_slug": "st-helena-ca-pd",
+    "flock_slugs": [
+      "st-helena-ca-pd"
+    ],
+    "flock_names": [
+      "St. Helena CA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "0664140",
+      "name": "St. Helena",
+      "state": "CA",
+      "lat": 38.512806,
+      "lng": -122.468076
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "61659896-6870-5421-9b6c-8edf08f0e86b",
+    "slug": "stanford-university-ca-pd",
+    "flock_active_slug": "stanford-university-ca-pd",
+    "flock_slugs": [
+      "stanford-university-ca-pd"
+    ],
+    "flock_names": [
+      "Stanford University CA PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "private",
+    "website": null,
+    "notes": "Private university. Sharing ALPR data with this entity likely violates <a href=\"https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.90.55.&lawCode=CIV\" target=\"_blank\">CA Civil Code \u00a71798.90.55(b)</a>, which restricts ALPR data sharing to public agencies only. Stanford is not a public agency under <a href=\"https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.90.5.&lawCode=CIV\" target=\"_blank\">\u00a71798.90.5(f)</a>.",
+    "tags": [
+      "private"
+    ],
+    "geo": {
+      "kind": "manual",
+      "state": "CA",
+      "lat": 37.4275,
+      "lng": -122.1697
     },
     "flags": []
   },
@@ -25682,33 +25762,6 @@
     "flags": []
   },
   {
-    "agency_id": "aa08a005-0a8d-51b3-9229-4e5f8a544e8d",
-    "slug": "solano-county-ca-so",
-    "flock_active_slug": "solano-county-ca-so",
-    "flock_slugs": [
-      "solano-county-ca-so"
-    ],
-    "flock_names": [
-      "Solano County CA SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "county",
-      "fips": "06095",
-      "name": "Solano",
-      "state": "CA",
-      "lat": 38.267226,
-      "lng": -121.939594
-    },
-    "flags": []
-  },
-  {
     "agency_id": "81e727b4-f1d6-5aea-8cd4-db0cf88a7306",
     "slug": "solano-county-da-ca",
     "flock_active_slug": "solano-county-da-ca",
@@ -25923,33 +25976,6 @@
     "flags": []
   },
   {
-    "agency_id": "8b8e35cd-c8ac-51a2-9f4f-2aa18b5d0028",
-    "slug": "st-helena-ca-pd",
-    "flock_active_slug": "st-helena-ca-pd",
-    "flock_slugs": [
-      "st-helena-ca-pd"
-    ],
-    "flock_names": [
-      "St. Helena CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0664140",
-      "name": "St. Helena",
-      "state": "CA",
-      "lat": 38.512806,
-      "lng": -122.468076
-    },
-    "flags": []
-  },
-  {
     "agency_id": "08bd5589-6ad6-5be4-bea5-60bd90bf6883",
     "slug": "stallion-springs-ca-pd",
     "flock_active_slug": "stallion-springs-ca-pd",
@@ -25973,32 +25999,6 @@
       "state": "CA",
       "lat": 35.092016,
       "lng": -118.657649
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "61659896-6870-5421-9b6c-8edf08f0e86b",
-    "slug": "stanford-university-ca-pd",
-    "flock_active_slug": "stanford-university-ca-pd",
-    "flock_slugs": [
-      "stanford-university-ca-pd"
-    ],
-    "flock_names": [
-      "Stanford University CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "campus_safety",
-    "agency_type": "private",
-    "website": null,
-    "notes": "Private university. Sharing ALPR data with this entity likely violates <a href=\"https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.90.55.&lawCode=CIV\" target=\"_blank\">CA Civil Code \u00a71798.90.55(b)</a>, which restricts ALPR data sharing to public agencies only. Stanford is not a public agency under <a href=\"https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.90.5.&lawCode=CIV\" target=\"_blank\">\u00a71798.90.5(f)</a>.",
-    "tags": [
-      "private"
-    ],
-    "geo": {
-      "kind": "manual",
-      "state": "CA",
-      "lat": 37.4275,
-      "lng": -122.1697
     },
     "flags": []
   },
