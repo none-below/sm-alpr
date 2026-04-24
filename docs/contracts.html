@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org data:; connect-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://unpkg.com https://gc.zgo.at https://none-below.goatcounter.com;">
+<title>ALPR Contract Status Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, system-ui, sans-serif; color: #1f2937; }
+  #map { height: calc(100vh - 30px); width: 100%; background: #f1f5f9; margin-top: 30px; }
+
+  .draft-banner {
+    position: fixed; top: 0; left: 0; right: 0; height: 30px;
+    background: repeating-linear-gradient(
+      -45deg, #fde68a 0 14px, #fbbf24 14px 28px
+    );
+    border-bottom: 1px solid #d97706;
+    z-index: 2000; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: #78350f; letter-spacing: 0.2px;
+    padding: 0 12px;
+  }
+  .draft-banner a { color: #78350f; text-decoration: underline; margin-left: 8px; }
+
+  .gate-overlay {
+    position: fixed; inset: 0; z-index: 3000;
+    background: #0f172a; color: #e2e8f0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px; text-align: center;
+  }
+  .gate-overlay h1 { font-size: 20px; margin: 0 0 12px; }
+  .gate-overlay p { max-width: 440px; margin: 0 0 16px; font-size: 14px; color: #94a3b8; line-height: 1.5; }
+  .gate-overlay input {
+    padding: 10px 12px; border-radius: 6px; border: 1px solid #334155;
+    background: #1e293b; color: #e2e8f0; font-size: 14px; width: 240px;
+  }
+  .gate-overlay button {
+    margin-top: 10px; padding: 10px 18px; border-radius: 6px;
+    background: #2563eb; color: #fff; border: none; cursor: pointer;
+    font-size: 14px; font-weight: 600;
+  }
+  .gate-overlay .gate-error { color: #f87171; font-size: 13px; margin-top: 10px; min-height: 18px; }
+
+  .back-link {
+    position: absolute; top: 42px; left: 12px; z-index: 1000;
+    background: #fff; padding: 6px 10px; border-radius: 6px;
+    text-decoration: none; color: #1a2744; font-size: 13px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .back-link:hover { background: #f1f5f9; }
+
+  .page-title {
+    position: absolute; top: 42px; left: 50%; transform: translateX(-50%);
+    z-index: 1000; background: #fff; padding: 8px 16px; border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    font-weight: 600; font-size: 14px; color: #1a2744;
+  }
+
+  .search-wrap {
+    position: absolute; top: 86px; left: 50%; transform: translateX(-50%);
+    z-index: 1000; width: min(340px, calc(100% - 24px));
+  }
+  #search-box {
+    width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1;
+    border-radius: 6px; font-size: 14px; background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  #search-results {
+    background: #fff; border: 1px solid #cbd5e1; border-top: none;
+    border-radius: 0 0 6px 6px; max-height: 280px; overflow-y: auto;
+    display: none;
+  }
+  #search-results .result {
+    padding: 8px 12px; cursor: pointer; font-size: 13px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  #search-results .result:hover { background: #eff6ff; }
+  #search-results .result small { color: #6b7280; }
+
+  .info-panel {
+    position: absolute; top: 30px; right: 0; bottom: 0; width: min(420px, 100%);
+    background: #fff; border-left: 1px solid #e5e7eb; z-index: 1000;
+    overflow-y: auto; padding: 20px; display: none;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.08);
+  }
+  .info-panel.open { display: block; }
+  .info-panel .close-btn {
+    position: absolute; top: 12px; right: 12px; background: none;
+    border: none; font-size: 20px; cursor: pointer; color: #6b7280;
+    line-height: 1; padding: 4px 8px;
+  }
+  .info-panel h2 { margin: 0 0 4px; font-size: 18px; color: #1a2744; padding-right: 32px; }
+  .info-panel .locality { color: #6b7280; font-size: 13px; margin-bottom: 14px; }
+  .info-panel .section-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+    color: #6b7280; margin: 18px 0 8px; font-weight: 600;
+  }
+  .status-chip {
+    display: inline-block; padding: 3px 8px; border-radius: 10px;
+    font-size: 12px; font-weight: 600; margin-right: 6px; margin-bottom: 4px;
+    color: #fff;
+  }
+  .status-chip.canceled { background: #dc2626; }
+  .status-chip.paused { background: #ea580c; }
+  .status-chip.reviewing { background: #f59e0b; color: #1f2937; }
+  .status-chip.considering { background: #fbbf24; color: #1f2937; }
+  .status-chip.reinstated { background: #2563eb; }
+  .status-chip.signed { background: #6b7280; }
+  .vendor-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; margin-bottom: 4px;
+  }
+  .vendor-name { text-transform: capitalize; color: #374151; font-weight: 500; }
+
+  .flock-snapshot {
+    background: #f8fafc; border-radius: 6px; padding: 12px;
+    font-size: 13px; border-left: 3px solid #2563eb;
+  }
+  .flock-snapshot .stat { display: inline-block; margin-right: 14px; color: #374151; }
+  .flock-snapshot .stat b { color: #0f172a; font-size: 15px; }
+  .flock-snapshot .delta-down { color: #dc2626; font-weight: 600; }
+  .flock-snapshot .delta-same { color: #6b7280; }
+  .flock-snapshot .portal-link { margin-top: 8px; display: inline-block; font-size: 12px; }
+
+  .timeline { list-style: none; padding: 0; margin: 0; }
+  .timeline li {
+    display: flex; gap: 10px; padding: 8px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .timeline li:last-child { border-bottom: none; }
+  .timeline .event-dot {
+    width: 10px; height: 10px; border-radius: 50%; margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .timeline .event-dot.canceled { background: #dc2626; }
+  .timeline .event-dot.paused { background: #ea580c; }
+  .timeline .event-dot.reviewing { background: #f59e0b; }
+  .timeline .event-dot.considering { background: #fbbf24; }
+  .timeline .event-dot.reinstated { background: #2563eb; }
+  .timeline .event-dot.signed { background: #6b7280; }
+  .timeline .event-body { flex: 1; font-size: 13px; }
+  .timeline .event-head {
+    font-weight: 600; color: #0f172a; text-transform: capitalize;
+  }
+  .timeline .event-date { color: #6b7280; font-weight: normal; font-size: 12px; margin-left: 6px; }
+  .timeline .event-vendor { color: #6b7280; font-size: 11px; }
+  .timeline .event-notes { margin-top: 2px; color: #374151; line-height: 1.4; }
+  .timeline .event-cameras { font-size: 12px; color: #6b7280; margin-top: 2px; }
+  .timeline .event-articles { margin-top: 4px; font-size: 12px; }
+  .timeline .event-reasons { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px; }
+
+  .reason-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 2px 8px 2px 2px; border-radius: 10px;
+    font-size: 11px; font-weight: 600; color: #fff;
+    line-height: 1.5;
+  }
+  .reason-chip .reason-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    font-size: 10px; font-weight: 700; font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+
+  .reason-legend {
+    position: absolute; bottom: 16px; right: 16px; z-index: 1000;
+    background: #fff; padding: 10px 12px; border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15); font-size: 11px;
+    max-width: 260px;
+  }
+  .reason-legend-title {
+    font-weight: 600; color: #1a2744; margin-bottom: 6px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .reason-legend .reason-chip { margin-bottom: 3px; }
+
+  .articles { list-style: none; padding: 0; margin: 0; }
+  .articles li { padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+  .articles li:last-child { border-bottom: none; }
+  .articles .outlet { color: #6b7280; font-size: 12px; }
+  .articles a { color: #2563eb; text-decoration: none; }
+  .articles a:hover { text-decoration: underline; }
+
+  .legend {
+    position: absolute; bottom: 16px; left: 16px; z-index: 1000;
+    background: #fff; padding: 10px 12px; border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15); font-size: 12px;
+  }
+  .legend-row { display: flex; align-items: center; gap: 8px; margin: 3px 0; }
+  .legend-dot {
+    width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+  }
+  .legend-x {
+    width: 14px; height: 14px; display: inline-flex; align-items: center;
+    justify-content: center; font-weight: 900; color: #dc2626; flex-shrink: 0;
+  }
+
+  .empty-state {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: #fff; padding: 20px 28px; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;
+    font-size: 14px; color: #6b7280; max-width: 360px;
+  }
+
+  @media (max-width: 720px) {
+    .legend, .reason-legend { display: none; }
+    .info-panel { width: 100%; }
+    .page-title { font-size: 12px; padding: 6px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="draft-banner" id="draft-banner">
+  PREVIEW — sample data, not for citation. Data is being actively curated and may be inaccurate or incomplete.
+</div>
+
+<div class="gate-overlay" id="gate-overlay">
+  <h1>Preview access</h1>
+  <p>This page is a work-in-progress preview with sample data. If you've been given an access phrase, enter it below. If you landed here by accident, please check back later.</p>
+  <input type="password" id="gate-input" placeholder="Access phrase" autofocus>
+  <button type="button" id="gate-submit">Continue</button>
+  <div class="gate-error" id="gate-error"></div>
+</div>
+
+<a class="back-link" href="index.html">&larr; Back</a>
+<div class="page-title">ALPR Contract Status</div>
+
+<div class="search-wrap">
+  <input type="text" id="search-box" placeholder="Search city or agency..." autocomplete="off">
+  <div id="search-results"></div>
+</div>
+
+<div id="map"></div>
+
+<div class="legend">
+  <div class="legend-row"><span class="legend-x">✕</span> Canceled</div>
+  <div class="legend-row"><span class="legend-dot" style="background:#ea580c"></span> Paused</div>
+  <div class="legend-row"><span class="legend-dot" style="background:#f59e0b"></span> Reviewing</div>
+  <div class="legend-row"><span class="legend-dot" style="background:#fbbf24"></span> Considering</div>
+  <div class="legend-row"><span class="legend-dot" style="background:#2563eb"></span> Reinstated</div>
+</div>
+
+<div class="info-panel" id="info">
+  <button class="close-btn" type="button" aria-label="Close" id="info-close">&times;</button>
+  <div id="info-body"></div>
+</div>
+
+<div class="reason-legend" id="reason-legend" style="display:none">
+  <div class="reason-legend-title">Why contracts ended</div>
+  <div id="reason-legend-body"></div>
+</div>
+
+<script src="js/contracts.js"></script>
+<script data-goatcounter="https://none-below.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
