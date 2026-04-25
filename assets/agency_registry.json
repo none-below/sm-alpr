@@ -674,6 +674,31 @@
     "flags": []
   },
   {
+    "agency_id": "be76e9a2-87fb-5a46-9a71-2147f2e1cffa",
+    "slug": "cal-poly-ca-pd",
+    "flock_active_slug": "cal-poly-ca-pd",
+    "flock_slugs": [
+      "cal-poly-ca-pd"
+    ],
+    "flock_names": [
+      "Cal Poly CA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "manual",
+      "state": "CA",
+      "lat": 35.305,
+      "lng": -120.6625
+    }
+  },
+  {
     "agency_id": "b6d82e23-bb59-50ab-a318-86edd1e4daa6",
     "slug": "calistoga-ca-pd",
     "flock_active_slug": "calistoga-ca-pd",
@@ -2450,6 +2475,34 @@
       "state": "CA",
       "lat": 34.071493,
       "lng": -117.69808
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "4f6bc272-61fc-51e5-a0b4-e3de97e105d5",
+    "slug": "monte-sereno-ca-pd",
+    "flock_active_slug": "monte-sereno-ca-pd",
+    "flock_slugs": [
+      "monte-sereno-ca-pd"
+    ],
+    "flock_names": [
+      "City of Monte Sereno CA"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "0648956",
+      "name": "Monte Sereno",
+      "state": "CA",
+      "lat": 37.24041,
+      "lng": -121.988235
     },
     "flags": []
   },
@@ -5393,31 +5446,6 @@
     "geo": {
       "kind": "state-only",
       "state": "CA"
-    }
-  },
-  {
-    "agency_id": "be76e9a2-87fb-5a46-9a71-2147f2e1cffa",
-    "slug": "cal-poly-ca-pd",
-    "flock_active_slug": "cal-poly-ca-pd",
-    "flock_slugs": [
-      "cal-poly-ca-pd"
-    ],
-    "flock_names": [
-      "Cal Poly CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "manual",
-      "state": "CA",
-      "lat": 35.305,
-      "lng": -120.6625
     }
   },
   {
@@ -23134,34 +23162,6 @@
       "state": "CA",
       "lat": 33.9425,
       "lng": -117.2297
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "4f6bc272-61fc-51e5-a0b4-e3de97e105d5",
-    "slug": "monte-sereno-ca-pd",
-    "flock_active_slug": "monte-sereno-ca-pd",
-    "flock_slugs": [
-      "monte-sereno-ca-pd"
-    ],
-    "flock_names": [
-      "City of Monte Sereno CA"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0648956",
-      "name": "Monte Sereno",
-      "state": "CA",
-      "lat": 37.24041,
-      "lng": -121.988235
     },
     "flags": []
   },
