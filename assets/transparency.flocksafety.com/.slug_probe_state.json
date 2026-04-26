@@ -71,11 +71,12 @@
     "13422e46-1750-5a1f-865c-a7219949a2ef": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T04:47:30.814912+00:00",
+      "last_probed": "2026-04-26T22:21:42.380544+00:00",
       "tried": {
         "hemet-ca-po": "http_404",
         "hemet-ca-police": "http_404",
-        "hemet-ca-police-department": "http_404"
+        "hemet-ca-police-department": "http_404",
+        "hemet-ca-ps": "http_404"
       }
     },
     "1360ff78-db4c-529a-b889-81746642325e": {
@@ -723,9 +724,10 @@
     "de913a80-ceee-5eef-a74c-0093e8dcc033": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T09:40:01.216843+00:00",
+      "last_probed": "2026-04-26T22:21:38.452759+00:00",
       "tried": {
         "brentwood-ca-po": "http_404",
+        "brentwood-ca-police": "http_404",
         "brentwood-ca-police-department": "http_404"
       }
     },
@@ -788,6 +790,14 @@
         "ca-wasco-ca-pd": "http_404"
       }
     },
+    "ef0c3682-0153-527c-a973-0bb7b07056be": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-26T22:21:33.039988+00:00",
+      "tried": {
+        "bishop-ca-po": "http_404"
+      }
+    },
     "ef91b9f5-4ab8-5c30-b42f-3ef0a4e88ec4": {
       "exhausted": false,
       "found": null,
@@ -841,6 +851,6 @@
       }
     }
   },
-  "updated": "2026-04-26T21:23:18.221035+00:00",
+  "updated": "2026-04-26T22:21:42.416618+00:00",
   "version": 1
 }
