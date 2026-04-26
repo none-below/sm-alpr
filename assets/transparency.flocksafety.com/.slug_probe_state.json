@@ -61,9 +61,10 @@
     "13422e46-1750-5a1f-865c-a7219949a2ef": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T09:38:03.255108+00:00",
+      "last_probed": "2026-04-26T04:47:30.814912+00:00",
       "tried": {
         "hemet-ca-po": "http_404",
+        "hemet-ca-police": "http_404",
         "hemet-ca-police-department": "http_404"
       }
     },
@@ -276,8 +277,9 @@
     "6a2741a1-b6d5-5537-9963-9f2fb2b2447e": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-24T19:40:24.420157+00:00",
+      "last_probed": "2026-04-26T04:47:35.036083+00:00",
       "tried": {
+        "sacramento-ca": "http_404",
         "sacramento-ca-district-attorney": "http_404"
       }
     },
@@ -554,6 +556,14 @@
         "wheatland-ca-police-department": "http_404"
       }
     },
+    "d9342287-962b-509a-9861-e44e0172394e": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-26T04:47:39.114516+00:00",
+      "tried": {
+        "sutter-county-ca-sd": "http_404"
+      }
+    },
     "dbfeb93f-10ea-5aaf-8862-a6b186764b79": {
       "exhausted": false,
       "found": null,
@@ -663,6 +673,6 @@
       }
     }
   },
-  "updated": "2026-04-26T01:14:53.327963+00:00",
+  "updated": "2026-04-26T04:47:39.151234+00:00",
   "version": 1
 }
