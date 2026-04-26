@@ -166,6 +166,14 @@
         "la-habra-ca-po": "http_404"
       }
     },
+    "42ac4d61-32cd-5fa4-aa11-b6713123a5c7": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-26T07:12:40.336062+00:00",
+      "tried": {
+        "irvine-ca-po": "http_404"
+      }
+    },
     "458b707c-5b99-5ec3-95c8-f7c9ae95ee0d": {
       "exhausted": false,
       "found": null,
@@ -203,9 +211,10 @@
     "589597b2-0d45-5add-ac97-bf6a042fceae": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T07:55:30.950190+00:00",
+      "last_probed": "2026-04-26T07:12:34.053064+00:00",
       "tried": {
-        "cal-state-san-bernadino-ca-po": "http_404"
+        "cal-state-san-bernadino-ca-po": "http_404",
+        "cal-state-san-bernadino-ca-police-department": "http_404"
       }
     },
     "59158344-4894-55be-bc8a-de15bcb986f0": {
@@ -541,10 +550,11 @@
     "d0843cde-d450-5617-b977-103218524b39": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-24T21:34:50.443571+00:00",
+      "last_probed": "2026-04-26T07:12:28.633759+00:00",
       "tried": {
         "gustine-ca-pd": "http_404",
-        "gustine-ca-po": "http_404"
+        "gustine-ca-po": "http_404",
+        "gustine-ca-police-department": "http_404"
       }
     },
     "d8a94e88-50c9-5801-aa66-3716e0f4b648": {
@@ -673,6 +683,6 @@
       }
     }
   },
-  "updated": "2026-04-26T04:47:39.151234+00:00",
+  "updated": "2026-04-26T07:12:40.369762+00:00",
   "version": 1
 }
