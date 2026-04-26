@@ -223,9 +223,10 @@
     "4d51cf25-3dd8-5b26-ae54-6c0b50511be2": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T16:25:41.751870+00:00",
+      "last_probed": "2026-04-26T17:26:20.408145+00:00",
       "tried": {
-        "lakeport-ca-po": "http_404"
+        "lakeport-ca-po": "http_404",
+        "lakeport-ca-police-department": "http_404"
       }
     },
     "4e5ef2cb-d1e8-5393-8d5f-e614a6d230c3": {
@@ -260,6 +261,14 @@
       "last_probed": "2026-04-24T18:32:01.439811+00:00",
       "tried": {
         "pleasant-hill-ca-po": "http_404"
+      }
+    },
+    "5aad1905-8ff9-5a45-931a-7298f983153a": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-26T17:26:31.161009+00:00",
+      "tried": {
+        "newark-ca-po": "http_404"
       }
     },
     "5b3abf70-5581-5412-8165-b9b12db5a69b": {
@@ -725,6 +734,14 @@
         "university-of-california-berkeley-ca-pd": "http_404"
       }
     },
+    "ec0349b0-2d81-546b-acf9-ded505a551a7": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-26T17:26:25.161720+00:00",
+      "tried": {
+        "ca-wasco-ca-pd": "http_404"
+      }
+    },
     "ef91b9f5-4ab8-5c30-b42f-3ef0a4e88ec4": {
       "exhausted": false,
       "found": null,
@@ -777,6 +794,6 @@
       }
     }
   },
-  "updated": "2026-04-26T16:25:41.781849+00:00",
+  "updated": "2026-04-26T17:26:31.199830+00:00",
   "version": 1
 }
