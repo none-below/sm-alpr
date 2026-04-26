@@ -21,9 +21,10 @@
     "03c310c0-6e05-5ad2-872a-d4e8b804358f": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T20:22:33.780812+00:00",
+      "last_probed": "2026-04-26T21:23:18.184984+00:00",
       "tried": {
-        "selma-ca-po": "http_404"
+        "selma-ca-po": "http_404",
+        "selma-ca-police-department": "http_404"
       }
     },
     "0649c75b-a49d-5ec7-a240-18692dea2047": {
@@ -441,6 +442,14 @@
         "lathrop-ca-po": "http_404"
       }
     },
+    "79d1a399-1db1-5b50-aaa9-b4bbc64d8dd2": {
+      "exhausted": false,
+      "found": "los-gatos-ca-pd",
+      "last_probed": "2026-04-26T21:23:07.425470+00:00",
+      "tried": {
+        "los-gatos-ca-pd": "http_200"
+      }
+    },
     "7d2b8047-a15b-524a-bc77-627e8eeab00a": {
       "exhausted": false,
       "found": null,
@@ -635,9 +644,10 @@
     "ba6dffec-c362-5bc4-b042-eef688d730a2": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T18:28:27.326321+00:00",
+      "last_probed": "2026-04-26T21:23:11.830314+00:00",
       "tried": {
         "east-bay-parks-ca-po": "http_404",
+        "east-bay-parks-ca-police": "http_404",
         "east-bay-parks-ca-police-department": "http_404"
       }
     },
@@ -831,6 +841,6 @@
       }
     }
   },
-  "updated": "2026-04-26T20:23:35.806523+00:00",
+  "updated": "2026-04-26T21:23:18.221035+00:00",
   "version": 1
 }
