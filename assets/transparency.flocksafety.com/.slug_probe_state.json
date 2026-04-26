@@ -82,9 +82,10 @@
     "1360ff78-db4c-529a-b889-81746642325e": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T23:23:45.896536+00:00",
+      "last_probed": "2026-04-26T23:25:11.776062+00:00",
       "tried": {
-        "kern-county-ca-sd": "http_404"
+        "kern-county-ca-sd": "http_404",
+        "kern-county-ca-sheriffs-office": "http_404"
       }
     },
     "16449917-ee53-5406-ade9-4b7361ec7ba2": {
@@ -252,9 +253,10 @@
     "4e5ef2cb-d1e8-5393-8d5f-e614a6d230c3": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T22:18:59.050830+00:00",
+      "last_probed": "2026-04-26T23:25:15.602614+00:00",
       "tried": {
         "indio-ca-po": "http_404",
+        "indio-ca-police": "http_404",
         "indio-ca-police-department": "http_404"
       }
     },
@@ -790,6 +792,14 @@
         "ca-wasco-ca-pd": "http_404"
       }
     },
+    "eef11480-824c-5b76-9049-541470c862b1": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-26T23:25:06.673286+00:00",
+      "tried": {
+        "cal-ca-fd": "http_404"
+      }
+    },
     "ef0c3682-0153-527c-a973-0bb7b07056be": {
       "exhausted": false,
       "found": null,
@@ -851,6 +861,6 @@
       }
     }
   },
-  "updated": "2026-04-26T22:21:42.416618+00:00",
+  "updated": "2026-04-26T23:25:15.639930+00:00",
   "version": 1
 }
