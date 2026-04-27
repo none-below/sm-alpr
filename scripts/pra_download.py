@@ -230,7 +230,6 @@ def save_pdf_via_click(page: Page, element, *,
             target_path.name if target_path
             else (dl.suggested_filename or fallback_name or "unnamed.pdf")
         )
-        out = target_path if target_path else (folder / sanitize(name))
         result: tuple[Path, str] | None = None
         try:
             tmp_path = dl.path()
@@ -239,11 +238,17 @@ def save_pdf_via_click(page: Page, element, *,
         try:
             if tmp_path:
                 new_bytes = Path(tmp_path).read_bytes()
+                if target_path is not None:
+                    out = target_path
+                else:
+                    assert folder is not None, "folder required when target_path is None"
+                    out = _resolve_collision_path(folder, name, new_bytes)
                 state = _write_bytes_with_dedup(new_bytes, out)
                 result = (out, state)
             else:
                 # No local tmp path; fall back to save_as. We can't dedup, so
                 # treat as new/updated depending on whether the target existed.
+                out = target_path if target_path else (folder / sanitize(name))
                 was_present = out.exists()
                 dl.save_as(str(out))
                 result = (out, "updated" if was_present else "new")
@@ -282,6 +287,46 @@ def save_pdf_via_click(page: Page, element, *,
     return None
 
 
+def _resolve_collision_path(folder: Path, name: str, new_bytes: bytes) -> Path:
+    """Pick a write path for `new_bytes` that won't clobber an unrelated
+    attachment with the same suggested filename.
+
+    Two attachments on a single PRA can share a filename (e.g., both
+    `search_audit.csv`). Prior versions silently overwrote. To preserve
+    both, on collision both files move to hash-suffixed siblings
+    `stem.<8hex>.ext`. The hash is per-content, so on re-runs each file
+    finds its sibling regardless of download order.
+    """
+    out = folder / sanitize(name)
+    new_hash = hashlib.md5(new_bytes).hexdigest()[:8]
+    hashed = folder / f"{out.stem}.{new_hash}{out.suffix}"
+
+    if hashed.exists():
+        return hashed
+
+    if out.exists():
+        existing = out.read_bytes()
+        if existing == new_bytes:
+            return out
+        new_fp = pdf_text_fingerprint(new_bytes)
+        old_fp = pdf_text_fingerprint(existing)
+        if new_fp is not None and new_fp == old_fp:
+            return out
+        existing_hash = hashlib.md5(existing).hexdigest()[:8]
+        existing_hashed = folder / f"{out.stem}.{existing_hash}{out.suffix}"
+        if existing_hashed != hashed and not existing_hashed.exists():
+            out.rename(existing_hashed)
+        return hashed
+
+    peer_pattern = re.compile(
+        rf"^{re.escape(out.stem)}\.[0-9a-f]{{8}}{re.escape(out.suffix)}$"
+    )
+    if any(peer_pattern.match(p.name) for p in folder.iterdir()):
+        return hashed
+
+    return out
+
+
 def _write_bytes_with_dedup(new_bytes: bytes, out: Path) -> str:
     """Write `new_bytes` to `out`, skipping if content is unchanged.
 
@@ -313,7 +358,7 @@ def _write_pdf(resp, url: str,
     else:
         name = filename_from_response(resp, url) or fallback_name or "unnamed.pdf"
         assert folder is not None, "folder required when target_path is None"
-        out = folder / sanitize(name)
+        out = _resolve_collision_path(folder, name, new_bytes)
     state = _write_bytes_with_dedup(new_bytes, out)
     return out, state
 
@@ -919,22 +964,31 @@ def process_request(page: Page, home_url: str, request_id: str,
         print(f"   {len(anchors)} attachment anchor(s)")
         counts = {"new": 0, "updated": 0, "unchanged": 0,
                   "skipped": 0, "failed": 0}
-        # Track by label to survive DOM re-render between clicks.
-        processed: set[str] = set()
+        # Track by (label, onclick, href) to survive DOM re-render between
+        # clicks while still distinguishing two anchors that share a label
+        # (e.g. two attachments uploaded with the same filename).
+        processed: set[tuple[str, str, str]] = set()
         while True:
             current = _get_attachment_anchors(page)
             target_el = None
             target_label = ""
+            target_key: tuple[str, str, str] | None = None
             for a in current:
                 lbl = (a.inner_text() or "").strip()
-                if lbl in processed or not lbl:
+                if not lbl:
+                    continue
+                key = (lbl,
+                       a.get_attribute("onclick") or "",
+                       a.get_attribute("href") or "")
+                if key in processed:
                     continue
                 target_el = a
                 target_label = lbl
+                target_key = key
                 break
-            if target_el is None:
+            if target_el is None or target_key is None:
                 break
-            processed.add(target_label)
+            processed.add(target_key)
 
             if target_label in existing or sanitize(target_label) in existing:
                 counts["skipped"] += 1
@@ -948,7 +1002,6 @@ def process_request(page: Page, home_url: str, request_id: str,
                 file_status("failed", target_label)
                 continue
             saved, state = result
-            existing.add(saved.name)
             counts[state] += 1
             file_status(state, saved.name)
 
