@@ -272,6 +272,33 @@
     "flags": []
   },
   {
+    "agency_id": "ab8f096c-5091-5b76-b9a0-1c0cd5c9bfe7",
+    "slug": "arlington-pd-wa",
+    "flock_active_slug": "arlington-pd-wa",
+    "flock_slugs": [
+      "arlington-pd-wa"
+    ],
+    "flock_names": [
+      "Arlington PD (WA)"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "5302585",
+      "name": "Arlington",
+      "state": "WA",
+      "lat": 48.170372,
+      "lng": -122.144553
+    },
+    "flags": []
+  },
+  {
     "agency_id": "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed",
     "slug": "atherton-ca-pd",
     "flock_active_slug": "atherton-ca-pd",
@@ -2258,6 +2285,35 @@
       "state": "CA",
       "lat": 37.368431,
       "lng": -122.09657
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "79d1a399-1db1-5b50-aaa9-b4bbc64d8dd2",
+    "slug": "town-of-los-gatos-ca",
+    "flock_active_slug": "los-gatos-ca-pd",
+    "flock_slugs": [
+      "town-of-los-gatos-ca",
+      "los-gatos-ca-pd"
+    ],
+    "flock_names": [
+      "Town of Los Gatos CA"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "0644112",
+      "name": "Los Gatos",
+      "state": "CA",
+      "lat": 37.229912,
+      "lng": -121.956814
     },
     "flags": []
   },
@@ -24679,33 +24735,6 @@
     ]
   },
   {
-    "agency_id": "ab8f096c-5091-5b76-b9a0-1c0cd5c9bfe7",
-    "slug": "arlington-pd-wa",
-    "flock_active_slug": "arlington-pd-wa",
-    "flock_slugs": [
-      "arlington-pd-wa"
-    ],
-    "flock_names": [
-      "Arlington PD (WA)"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "5302585",
-      "name": "Arlington",
-      "state": "WA",
-      "lat": 48.170372,
-      "lng": -122.144553
-    },
-    "flags": []
-  },
-  {
     "agency_id": "8eecf7c2-1efa-5c96-9386-beb802c1407b",
     "slug": "arlington-tx-pd",
     "flock_active_slug": "arlington-tx-pd",
@@ -45284,35 +45313,6 @@
     "tags": [
       "needs-review"
     ],
-    "flags": []
-  },
-  {
-    "agency_id": "79d1a399-1db1-5b50-aaa9-b4bbc64d8dd2",
-    "slug": "town-of-los-gatos-ca",
-    "flock_active_slug": "los-gatos-ca-pd",
-    "flock_slugs": [
-      "town-of-los-gatos-ca",
-      "los-gatos-ca-pd"
-    ],
-    "flock_names": [
-      "Town of Los Gatos CA"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0644112",
-      "name": "Los Gatos",
-      "state": "CA",
-      "lat": 37.229912,
-      "lng": -121.956814
-    },
     "flags": []
   },
   {
