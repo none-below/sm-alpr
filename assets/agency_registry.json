@@ -1051,6 +1051,27 @@
     "flags": []
   },
   {
+    "agency_id": "13d2b7c9-b19d-542b-890a-f8a417f50fab",
+    "slug": "city-of-moreno-valley",
+    "flock_active_slug": "city-of-moreno-valley",
+    "flock_slugs": [
+      "city-of-moreno-valley"
+    ],
+    "flock_names": [
+      "City of Moreno Valley"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
     "agency_id": "c50df642-b9d6-5b24-b8f9-a0b16371f97c",
     "slug": "clearlake-ca-pd",
     "flock_active_slug": "clearlake-ca-pd",
@@ -3584,6 +3605,34 @@
     "flags": []
   },
   {
+    "agency_id": "ae8c6210-8473-5a62-96af-7ea959cb19ff",
+    "slug": "riverside-county-ca-so",
+    "flock_active_slug": "riverside-county-ca-sd",
+    "flock_slugs": [
+      "riverside-county-ca-so",
+      "riverside-county-ca-sd"
+    ],
+    "flock_names": [
+      "Riverside County CA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "county",
+      "fips": "06065",
+      "name": "Riverside",
+      "state": "CA",
+      "lat": 33.729828,
+      "lng": -116.002239
+    },
+    "flags": []
+  },
+  {
     "agency_id": "ccff4f65-09ac-5ed3-b1ba-36f43bcce935",
     "slug": "rohnert-park-department-of-public-safety-ca",
     "flock_active_slug": "rohnert-park-department-of-public-safety-ca",
@@ -4607,6 +4656,33 @@
     "flags": []
   },
   {
+    "agency_id": "7ef569b7-a705-54be-bfa6-7e115991bd53",
+    "slug": "uc-riverside-pd-ca",
+    "flock_active_slug": "uc-riverside-pd-ca",
+    "flock_slugs": [
+      "uc-riverside-pd-ca"
+    ],
+    "flock_names": [
+      "UC Riverside PD (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0662000",
+      "name": "Riverside",
+      "state": "CA",
+      "lat": 33.938143,
+      "lng": -117.393168
+    }
+  },
+  {
     "agency_id": "7f5089e9-3b53-5442-b628-865e85940409",
     "slug": "union-city-ca-pd",
     "flock_active_slug": "union-city-ca-pd",
@@ -4875,6 +4951,29 @@
       "lng": -122.138968
     },
     "flags": []
+  },
+  {
+    "agency_id": "b3dffa5b-120c-53d2-ab5a-d6c367597b21",
+    "slug": "winchester-trails-ca",
+    "flock_active_slug": "winchester-trails-ca",
+    "flock_slugs": [
+      "winchester-trails-ca"
+    ],
+    "flock_names": [
+      "Winchester Trails (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
   },
   {
     "agency_id": "950988b0-50de-5366-8f7d-46b0add309de",
@@ -43138,34 +43237,6 @@
       "lat": 33.9806,
       "lng": -117.3755,
       "manual_coords": true
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "ae8c6210-8473-5a62-96af-7ea959cb19ff",
-    "slug": "riverside-county-ca-so",
-    "flock_active_slug": "riverside-county-ca-sd",
-    "flock_slugs": [
-      "riverside-county-ca-so",
-      "riverside-county-ca-sd"
-    ],
-    "flock_names": [
-      "Riverside County CA SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "county",
-      "fips": "06065",
-      "name": "Riverside",
-      "state": "CA",
-      "lat": 33.729828,
-      "lng": -116.002239
     },
     "flags": []
   },
