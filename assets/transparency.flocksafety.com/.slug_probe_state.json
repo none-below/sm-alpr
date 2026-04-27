@@ -52,6 +52,14 @@
         "san-luis-obispo-county-ca-so": "http_404"
       }
     },
+    "098c0089-e37c-50d0-bafc-0387298e7108": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-27T01:16:23.753158+00:00",
+      "tried": {
+        "del-norte-county-ca-sd": "http_404"
+      }
+    },
     "11949eb7-26df-5b98-a23d-ac249879ec01": {
       "exhausted": false,
       "found": null,
@@ -136,9 +144,10 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T04:22:52.141856+00:00",
+      "last_probed": "2026-04-27T01:16:29.210234+00:00",
       "tried": {
-        "national-city-ca-po": "http_404"
+        "national-city-ca-po": "http_404",
+        "national-city-ca-police-department": "http_404"
       }
     },
     "270aae46-f0d1-558e-bb3f-249d03b0510f": {
@@ -365,8 +374,9 @@
     "6be9f842-1658-5490-8be4-14b77cc1e96d": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T17:26:21.667431+00:00",
+      "last_probed": "2026-04-27T01:16:35.177588+00:00",
       "tried": {
+        "santa-clara-ca": "http_404",
         "santa-clara-ca-da": "http_404",
         "santa-clara-ca-district-attorney": "http_404"
       }
@@ -861,6 +871,6 @@
       }
     }
   },
-  "updated": "2026-04-26T23:25:15.639930+00:00",
+  "updated": "2026-04-27T01:16:35.216882+00:00",
   "version": 1
 }
