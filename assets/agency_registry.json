@@ -5087,7 +5087,14 @@
       "public"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "0649270",
+      "name": "Moreno Valley",
+      "state": "CA",
+      "lat": 33.923253,
+      "lng": -117.205685
+    }
   },
   {
     "agency_id": "7ef569b7-a705-54be-bfa6-7e115991bd53",
@@ -5135,8 +5142,10 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CA"
+      "kind": "manual",
+      "state": "CA",
+      "lat": 33.71463,
+      "lng": -117.077398
     }
   },
   {
