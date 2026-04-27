@@ -54,6 +54,7 @@ from gazetteer import (
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 DATA_DIR = Path("assets/transparency.flocksafety.com")
 HISTORY_DIR = Path("docs/data/history")
+AUDIT_DIR = Path("docs/data/audit")
 OUT_PATH = Path("docs/data/report_data.json")
 RECENT_ADD_WINDOW_DAYS = 90
 
@@ -177,7 +178,7 @@ SB34_CHECKLIST = [
         "id": "no_private_sharing",
         "label_pass": "Shares only with public agencies",
         "label_fail": "Shares with at least one private entity",
-        "label_unknown": "Private sharing not verifiable (no public transparency page)",
+        "label_unknown": "Private sharing not verifiable (no published outbound sharing list)",
         "detail": "CA Civil Code \u00a71798.90.55(b) restricts ALPR sharing to public agencies.",
         "peer_phrase": "share only with public agencies",
     },
@@ -185,7 +186,7 @@ SB34_CHECKLIST = [
         "id": "no_out_of_state_sharing",
         "label_pass": "Does not share with out-of-state entities",
         "label_fail": "Shares with at least one out-of-state entity",
-        "label_unknown": "Out-of-state sharing not verifiable (no public transparency page)",
+        "label_unknown": "Out-of-state sharing not verifiable (no published outbound sharing list)",
         "detail": "CA Civil Code \u00a71798.90.55(b) and AG Bulletin 2023-DLE-06 prohibit out-of-state sharing.",
         "peer_phrase": "avoid out-of-state sharing",
     },
@@ -193,7 +194,7 @@ SB34_CHECKLIST = [
         "id": "no_federal_sharing",
         "label_pass": "Does not share with federal agencies",
         "label_fail": "Shares with at least one federal agency",
-        "label_unknown": "Federal sharing not verifiable (no public transparency page)",
+        "label_unknown": "Federal sharing not verifiable (no published outbound sharing list)",
         "detail": "Federal agencies are not \u201cagencies of the state\u201d under \u00a71798.90.5(f).",
         "peer_phrase": "avoid sharing with federal agencies",
     },
@@ -201,7 +202,7 @@ SB34_CHECKLIST = [
         "id": "no_fusion_center_sharing",
         "label_pass": "Does not share with fusion centers",
         "label_fail": "Shares with at least one fusion center",
-        "label_unknown": "Fusion-center sharing not verifiable (no public transparency page)",
+        "label_unknown": "Fusion-center sharing not verifiable (no published outbound sharing list)",
         "detail": "Fusion centers (e.g., NCRIC) re-distribute ALPR data to their member networks. Their status as \u201cpublic agencies\u201d under \u00a71798.90.5(f) varies by charter; NCRIC in particular has federal staffing and funding ties. Sharing with a fusion center forwards this agency's data to every member of that center.",
         "peer_phrase": "avoid sharing with fusion centers",
     },
@@ -209,7 +210,7 @@ SB34_CHECKLIST = [
         "id": "no_ag_lawsuit_sharing",
         "label_pass": "Does not share with agencies the CA AG has sued",
         "label_fail": "Shares with an agency the CA AG has sued for illegal sharing",
-        "label_unknown": "Cannot verify (no public transparency page)",
+        "label_unknown": "Cannot verify (no published outbound sharing list)",
         "detail": "The CA Attorney General has sued specific CA agencies for illegal out-of-state ALPR sharing in violation of SB 34. Sending data to those agencies continues the same illegal flow.",
         "peer_phrase": "avoid sharing with AG-sued agencies",
     },
@@ -412,6 +413,80 @@ def _load_portal_json(reg_entry):
         return json.loads(latest_path.read_text())
     except (OSError, json.JSONDecodeError):
         return {}
+
+
+def _load_audit_json(reg_entry):
+    """Return the audit-log JSON for an agency, or {} if not published.
+
+    Audits are produced by build_audit_log.py from the search_audit CSV
+    embedded in the agency's transparency portal. Only ~70 of 1,500+
+    CA agencies publish one. Resolves by primary slug first, then
+    legacy flock_slugs.
+    """
+    slugs = []
+    base_slug = reg_entry.get("slug")
+    if base_slug:
+        slugs.append(base_slug)
+    for fs in reg_entry.get("flock_slugs") or []:
+        if fs not in slugs:
+            slugs.append(fs)
+    for slug in slugs:
+        path = AUDIT_DIR / f"{slug}.json"
+        if path.exists():
+            try:
+                return json.loads(path.read_text())
+            except (OSError, json.JSONDecodeError):
+                return {}
+    return {}
+
+
+def _audit_vs_inbound(audit, direct_inbound):
+    """Compare audit-log row networkCounts against the agency's own
+    published inbound list size.
+
+    A search row's networkCount is how many agency networks that one
+    query touched. If networkCount routinely exceeds the agency's
+    own published inbound list, the agency is using Flock's
+    statewide / nationwide lookup features — capabilities not granted
+    by bilateral sharing. That's the disclosure question.
+
+    We only compare against the agency's DIRECT inbound (the count
+    published on its own transparency portal), not against inferred
+    inbound from peer outbound lists. The question's bite is that the
+    agency's own numbers don't add up; pulling in cross-portal
+    inference would make us assert a number the department itself
+    didn't publish, which weakens the question. The cost is that this
+    only fires for agencies that publish both an inbound list and a
+    search audit (about half a dozen CA agencies as of writing).
+
+    Returns None if no usable rows or direct_inbound is zero/missing.
+    """
+    rows = audit.get("rows") or []
+    if not direct_inbound:
+        return None
+    network_counts = []
+    for r in rows:
+        nc = r.get("networkCount")
+        if nc in (None, ""):
+            continue
+        try:
+            network_counts.append(int(nc))
+        except (TypeError, ValueError):
+            continue
+    if not network_counts:
+        return None
+    total = len(network_counts)
+    over = sum(1 for x in network_counts if x > direct_inbound)
+    return {
+        "rows_analyzed": total,
+        "max_network_count": max(network_counts),
+        "median_network_count": int(sorted(network_counts)[total // 2]),
+        "exceeding_inbound_count": over,
+        "exceeding_inbound_pct": round(100.0 * over / total, 1),
+        "inbound_count": direct_inbound,
+        "search_date_min": audit.get("search_date_min"),
+        "search_date_max": audit.get("search_date_max"),
+    }
 
 
 # ── Geography ──
@@ -1496,6 +1571,81 @@ def main():
             reverse=True,
         )
 
+        # ── Recent outbound additions / removals (all kinds) ──
+        # Mirrors removed_flagged_recipients but covers ALL recent
+        # outbound changes — not just flagged ones. Drives the
+        # "you recently added N partners; show us the approval
+        # records" question, which can fire even when the additions
+        # are not themselves flagged. The flagged ones are still
+        # individually surfaced via flagged_recipients[i].added_on
+        # — this list is the broader picture.
+        recent_outbound_additions = []
+        for target_id, added_on_date in added_on_by_aid.items():
+            if target_id not in current_outbound_set:
+                continue
+            try:
+                days_since = (today - date.fromisoformat(added_on_date)).days
+            except ValueError:
+                continue
+            if days_since > RECENT_ADD_WINDOW_DAYS:
+                continue
+            tr = reg_by_id.get(target_id, {})
+            kind = is_flagged_entity(target_id, reg_by_id)
+            recent_outbound_additions.append({
+                "agency_id": target_id,
+                "slug": id_to_slug.get(target_id, target_id),
+                "name": agency_display_name(tr, id_to_slug.get(target_id, target_id)),
+                "kind": kind,
+                "ag_lawsuit": has_tag(tr, "ag-lawsuit"),
+                "added_on": added_on_date,
+                "days_since_added": days_since,
+            })
+        recent_outbound_additions.sort(
+            key=lambda x: x["added_on"], reverse=True
+        )
+
+        recent_outbound_removals = []
+        seen_removed = set()
+        for ev in removed_events:
+            aid_r = ev["agency_id"]
+            if not aid_r or aid_r in current_outbound_set or aid_r in seen_removed:
+                continue
+            try:
+                days_since = (today - date.fromisoformat(ev["date"])).days
+            except ValueError:
+                continue
+            if days_since > RECENT_ADD_WINDOW_DAYS:
+                continue
+            seen_removed.add(aid_r)
+            tr = reg_by_id.get(aid_r, {})
+            kind = is_flagged_entity(aid_r, reg_by_id)
+            recent_outbound_removals.append({
+                "agency_id": aid_r,
+                "slug": id_to_slug.get(aid_r, aid_r),
+                "name": agency_display_name(tr, id_to_slug.get(aid_r, aid_r)),
+                "kind": kind,
+                "ag_lawsuit": has_tag(tr, "ag-lawsuit"),
+                "removed_on": ev["date"],
+                "days_since_removed": days_since,
+            })
+        recent_outbound_removals.sort(
+            key=lambda x: x["removed_on"], reverse=True
+        )
+
+        # ── Audit-log vs. inbound check ──
+        # If the agency publishes a search audit, compare per-search
+        # networkCount against the effective inbound size. Searches
+        # that touch more networks than the agency receives data from
+        # imply use of Flock's statewide/nationwide lookup features.
+        # Effective inbound = max(direct portal-listed, inferred from
+        # other agencies' outbound) — the bigger of the two is the
+        # most charitable read.
+        audit_vs_inbound = None
+        if crawled and inbound_count:
+            audit_json = _load_audit_json(reg)
+            if audit_json:
+                audit_vs_inbound = _audit_vs_inbound(audit_json, inbound_count)
+
         # ── Inferred inbound (for uncrawled agencies mostly) ──
         inbound_source_ids = set(inbound_ids) | inbound_inferred_by_id.get(aid, set())
         inbound_list = []
@@ -1672,6 +1822,9 @@ def main():
             "outbound": outbound_list,
             "inbound": inbound_list,
             "regional": regional,
+            "audit_vs_inbound": audit_vs_inbound,
+            "recent_outbound_additions": recent_outbound_additions,
+            "recent_outbound_removals": recent_outbound_removals,
         }
 
     # ── Metadata ──

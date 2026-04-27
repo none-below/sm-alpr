@@ -2023,8 +2023,9 @@
     const questions = buildQuestions(report);
     if (!questions.length) return "";
 
-    let html = `<h2>Questions for Your Agency</h2>`;
-    html += `<p class="muted">Based on the data above, council members may wish to ask:</p>`;
+    const nameForHeader = escapeHtml(agencyName(report));
+    let html = `<h2>Questions for the ${nameForHeader}</h2>`;
+    html += `<p class="muted">These questions have been tailored to the ${nameForHeader}'s specific usage patterns:</p>`;
     html += '<div class="questions"><ul>';
     questions.forEach(function(q) {
       html += `<li>${q}</li>`;
@@ -2034,29 +2035,203 @@
     return html;
   }
 
+  // Expand the registry's terse "Belmont CA PD" / "Butte County CA SO"
+  // form into prose-friendly "Belmont Police Department" /
+  // "Butte County Sheriff's Office". Names render in council-tailored
+  // questions so each report reads like it was written for that city,
+  // not a canned generic prompt.
+  function agencyName(report) {
+    let n = (report && report.name) || "this department";
+    n = n.replace(/ CA PD$/, " Police Department");
+    n = n.replace(/ CA SO$/, " Sheriff's Office");
+    n = n.replace(/ CA DA$/, " District Attorney's Office");
+    n = n.replace(/ CA SD$/, " Sheriff's Department");
+    return n;
+  }
+
   function buildQuestions(report) {
     const qs = [];
     const flagged = report.flagged_recipients || [];
+    // Tailored agency-name forms used throughout the questions list.
+    // `dept` is mid-sentence ("Will the Belmont PD commit..."), `Dept`
+    // is sentence-initial ("The Belmont PD reports...").
+    const nameRaw = escapeHtml(agencyName(report));
+    const dept = `the ${nameRaw}`;
+    const Dept = `The ${nameRaw}`;
+    // Short form for second/later references within a single question.
+    // City PDs and county sheriffs are "the department" (sheriffs use
+    // both "the office" and "the department"; the latter reads
+    // universally). Everything else falls back to "the agency".
+    const deptShort = (report.agency_type === "city" || report.agency_type === "county")
+      ? "the department"
+      : "the agency";
+    const DeptShort = (report.agency_type === "city" || report.agency_type === "county")
+      ? "The department"
+      : "The agency";
+    // localPlace: use the agency's own jurisdiction name when available
+    // (e.g. "San Mateo", "Butte County"). Avoids "this jurisdiction"
+    // ambiguity when questions reference remote sharing partners.
+    const localPlace = (report.geo && report.geo.name)
+      ? escapeHtml(report.geo.name)
+      : `${dept}'s jurisdiction`;
+    // Question priorities (0-100): higher renders first. Static
+    // priorities for always-on or single-trigger questions; dynamic
+    // priorities (computed inline) scale with magnitude (e.g. high
+    // search count = higher priority). Goal: highest-impact questions
+    // surface at the top so a council member skimming the list lands
+    // on the most damning items first.
+    const add = function(pri, text) { qs.push({pri: pri, text: text}); };
+    // Cap at 10 — beyond that the list overwhelms a council member
+    // skimming for action items. Sort highest-priority first.
+    const QUESTION_CAP = 10;
+    const finalize = function(items) {
+      return items
+        .slice()
+        .sort(function(a, b) { return b.pri - a.pri; })
+        .slice(0, QUESTION_CAP)
+        .map(function(q) { return q.text; });
+    };
 
     if (!report.crawled) {
-      qs.push("Does the department operate an ALPR program? How many cameras, and where?");
-      qs.push("If so, why doesn't the department publish a public Flock transparency page as its peers do?");
-      qs.push("What is the department's data retention policy for ALPR data?");
-      qs.push("Does the department conduct audits of ALPR access? Are those records public?");
-      qs.push("Will the department commit to publishing a transparency page matching the &sect;1798.90.51(a) requirements?");
-      return qs;
+      // Peer-pressure clause: "X% of California city PDs publish a
+      // transparency page; this one does not." Pulled from the
+      // has_portal transparency check, which is already evaluated
+      // for every CA agency (crawled or not). For non-CA agencies
+      // the checklist is empty — fall back to a generic clause.
+      const transparency = report.checklist_transparency || [];
+      const hasPortal = transparency.find(function(i) { return i.id === "has_portal"; });
+      let peerClause = `Other California agencies publish this. ${Dept} does not.`;
+      if (hasPortal && hasPortal.peer_total) {
+        const pctStr = pct(hasPortal.peer_count, hasPortal.peer_total);
+        peerClause = `<strong>${pctStr}%</strong> of California ${agencyTypeLabel(hasPortal.peer_type)} agencies publish a transparency page like this; ${dept} does not.`;
+      }
+      add(95, `Why can't a resident of ${localPlace} go to a public website today and see, for ${dept}: where the ALPR cameras are, what the ALPR policy says, how long the data is kept, who else has access, and what audits have been performed? ${peerClause}`);
+      add(85, `Does ${dept} operate an ALPR program at all? If yes, please share: the number of cameras in service, their locations, the data retention period, the current sharing list, and any audit records from the past three years.`);
+      add(75, `Will ${dept} commit &mdash; by a specific date &mdash; to publishing a complete public transparency page covering cameras, policy, retention, audits, and sharing partners? If there is no plan to publish, please share the reasoning.`);
+      return finalize(qs);
     }
 
-    if (flagged.length) {
-      const n = flagged.length;
-      const noun = n === 1 ? "recipient is" : "recipients are";
-      let q = `<strong>${n} sharing ${noun} flagged</strong> (see Flagged Recipients for details). Who reviews the recipient list, and how often?`;
-      const sb34 = report.checklist_sb34 || [];
-      const failsAgLawsuit = sb34.some(function(i) { return i.id === "no_ag_lawsuit_sharing" && i.value === false; });
-      if (failsAgLawsuit) {
-        q += " Separately, the list includes an agency the CA Attorney General has sued over out-of-state ALPR sharing &mdash; not flagged by this report's automated rules, but worth asking about.";
+    // Generic flagged-recipient prompt covers kinds that don't have
+    // their own specific question below. Private-entity recipients
+    // are handled by the §1798.90.55(b) "public agency" question
+    // further down — counting them here would double-ask. Same idea
+    // will apply as we add specific prompts for other flag kinds.
+    const flaggedNonPrivate = flagged.filter(function(r) {
+      return r.kind !== "private";
+    });
+    // Generic flagged-recipient prompt only fires for >= 2 recipients.
+    // A single flag (typical case: lone fusion-center sharing with NCRIC,
+    // a longstanding relationship) makes the "produce records for each"
+    // demand feel pedantic. The lawsuit, private-entity, and recent-
+    // additions questions handle the more pointed single-agency cases.
+    if (flaggedNonPrivate.length >= 2) {
+      const n = flaggedNonPrivate.length;
+      const q = `<strong>${n}</strong> of the agencies receiving ${dept}'s ALPR data are flagged below as out-of-state, federal, or fusion-center recipients. For each one, what does ${dept}'s approval process look like &mdash; who reviewed the sharing request, when, and what vetting of the recipient was performed?`;
+      // Pri scales with count of flagged non-private recipients.
+      const flaggedPri = n >= 10 ? 78 : n >= 5 ? 70 : 55;
+      add(flaggedPri, q);
+    }
+
+    // Lawsuit-recipient question: CA AG has filed suit against specific
+    // agencies over illegal ALPR sharing (e.g., El Cajon — for sharing
+    // with out-of-state agencies in violation of §1798.90.55(b)). Every
+    // agency that continues to share with the lawsuit defendant is
+    // participating in the same activity the AG has sued over.
+    const sb34 = report.checklist_sb34 || [];
+    const lawsuitItem = sb34.find(function(i) { return i.id === "no_ag_lawsuit_sharing"; });
+    if (lawsuitItem && lawsuitItem.value === false && (lawsuitItem.failure_entities || []).length) {
+      const lawsuitNames = lawsuitItem.failure_entities.map(escapeHtml);
+      let nameList;
+      if (lawsuitNames.length === 1) {
+        nameList = `<strong>${lawsuitNames[0]}</strong>`;
+      } else if (lawsuitNames.length === 2) {
+        nameList = `<strong>${lawsuitNames[0]}</strong> and <strong>${lawsuitNames[1]}</strong>`;
+      } else {
+        const shown = lawsuitNames.slice(0, 3).map(function(n) { return `<strong>${n}</strong>`; }).join(", ");
+        const remL = lawsuitNames.length - 3;
+        nameList = remL > 0 ? `${shown}, and ${remL} other${remL === 1 ? "" : "s"}` : shown;
       }
-      qs.push(q);
+      const isOne = lawsuitNames.length === 1;
+      add(95,
+        `${Dept} shares ALPR data with ${nameList}. The California Attorney General has filed a lawsuit against ${isOne ? "this agency" : "these agencies"} for illegally sharing ALPR data with out-of-state agencies in violation of CA Civil Code &sect;1798.90.55(b). What review has ${deptShort} performed of the lawsuit's allegations, and what was the outcome &mdash; will ${deptShort} suspend sharing pending resolution, or has ${deptShort} concluded continued sharing is appropriate?`
+      );
+    }
+
+    // Private-entity recipients: name them explicitly and ask the
+    // §1798.90.55(b) "public agency" question + records question.
+    // Pairs with the UOP/Stockton story in the findings doc §6:
+    // when a peer was asked whether it had vetted UOP's status, it
+    // confirmed it had not — and that no records of what was shared
+    // are retained by either side, since all paperwork lives in
+    // Flock's platform and is not subject to the CPRA.
+    const privates = (report.flagged_recipients || []).filter(function(r) {
+      return r.kind === "private";
+    });
+    if (privates.length) {
+      const names = privates.map(function(r) { return escapeHtml(r.name); });
+      let nameList;
+      if (names.length === 1) {
+        nameList = `<strong>${names[0]}</strong>`;
+      } else if (names.length === 2) {
+        nameList = `<strong>${names[0]}</strong> and <strong>${names[1]}</strong>`;
+      } else {
+        const shown = names.slice(0, 3).map(function(n) { return `<strong>${n}</strong>`; }).join(", ");
+        const rem = names.length - 3;
+        nameList = rem > 0
+          ? `${shown}, and ${rem} other${rem === 1 ? "" : "s"}`
+          : shown;
+      }
+      const isOne = privates.length === 1;
+      add(92,
+        `${Dept} shares ALPR data with ${nameList} &mdash; ` +
+        `${isOne ? "an entity" : "entities"} whose status as a "public agency" under CA Civil Code ` +
+        `&sect;1798.90.55(b) is not self-evident. Does ${deptShort} consider ` +
+        `${isOne ? "this recipient to be a public agency" : "these recipients to be public agencies"}, ` +
+        `and what records does ${deptShort} maintain of the ALPR data ` +
+        `shared with ${isOne ? "it" : "them"}?`
+      );
+    }
+
+    // Recent outbound additions: forces a "produce the approval
+    // record" question for each new sharing partner. A single
+    // addition is enough to fire — the city should be able to
+    // produce the approval record for any addition. If recent
+    // additions include flagged recipients, we call that out
+    // explicitly.
+    const recentAdds = report.recent_outbound_additions || [];
+    if (recentAdds.length) {
+      const flaggedAdds = recentAdds.filter(function(a) { return a.kind; });
+      const nonFlaggedAdds = recentAdds.filter(function(a) { return !a.kind; });
+      // Surface flagged recent additions by name first — they're the
+      // most interesting case and shouldn't get buried in "and N others".
+      const orderedAdds = flaggedAdds.concat(nonFlaggedAdds);
+      const namesShown = orderedAdds.slice(0, 3).map(function(a) { return `<strong>${escapeHtml(a.name)}</strong>`; }).join(", ");
+      const remainder = orderedAdds.length - 3;
+      const namesList = remainder > 0
+        ? `${namesShown}, and ${remainder} other${remainder === 1 ? "" : "s"}`
+        : namesShown;
+      let q = `In the last 90 days, ${dept} added <strong>${recentAdds.length}</strong> agenc${recentAdds.length === 1 ? "y" : "ies"} to its ALPR sharing list (${namesList}). For each one, what does ${deptShort}'s approval process look like &mdash; who at ${deptShort} reviewed the request, when, and what review of the recipient was performed?`;
+      if (flaggedAdds.length) {
+        const isOneFlagged = flaggedAdds.length === 1;
+        q += ` <span class="muted">(<strong>${flaggedAdds.length}</strong> of the recent additions ${isOneFlagged ? "is" : "are"} flagged in this report &mdash; see Flagged Recipients section.)</span>`;
+      }
+      // Recent additions with flagged kinds bump the priority — adding
+      // a private/lawsuit-tagged agency in the last 90 days is the
+      // sharpest version of this question.
+      const addPri = flaggedAdds.length ? 80 : (recentAdds.length >= 5 ? 65 : 50);
+      add(addPri, q);
+    }
+
+    // Recent outbound removals: implies the agency is now reviewing
+    // sharing partners. The implicit follow-up is "if these turned
+    // out not to belong, why are the others still on the list?"
+    const recentRemovals = report.recent_outbound_removals || [];
+    if (recentRemovals.length) {
+      // Big housekeeping (Vacaville-style) is the strongest signal —
+      // the question "if you just realized N agencies didn't belong,
+      // what about the rest of your list?" has real bite.
+      const rmPri = recentRemovals.length >= 50 ? 80 : recentRemovals.length >= 5 ? 60 : 40;
+      add(rmPri, `In the last 90 days, ${dept} removed <strong>${recentRemovals.length}</strong> agenc${recentRemovals.length === 1 ? "y" : "ies"} from its ALPR sharing list. What review prompted the removals, and what records exist of that review? If those agencies were not appropriate to share with, is the same review now being applied to the agencies still on ${dept}'s sharing list?`);
     }
 
     // Sharing size
@@ -2064,28 +2239,191 @@
     const pctile = report.percentiles && report.percentiles.outbound;
     if (out && pctile != null && pctile >= 75) {
       const pool = peerPoolName(report.peer_sample && report.peer_sample.outbound);
-      qs.push(`The department shares with <strong>${out}</strong> agencies (${pctile}${nthSuffix(pctile)} percentile among ${pool}). What criteria determine who is added to this list?`);
+      const sizePri = pctile >= 95 ? 75 : pctile >= 85 ? 60 : 45;
+      add(sizePri, `${Dept} shares ALPR data with <strong>${out}</strong> other agencies &mdash; more than ${pctile}% of comparable California ${pool}. What does ${dept}'s process look like for adding a new sharing partner &mdash; who approves, what review of the recipient is performed, and where are those records kept? <span class="muted">Decisions made inside Flock's platform are not subject to the California Public Records Act; only records the city itself maintains can be produced under a CPRA request.</span>`);
+    }
+
+    // Generic transparency-checklist failures: for each transparency
+    // item the agency doesn't publish AND a meaningful share of CA
+    // peers does, ask "X% of peers publish this; will you?". Skips
+    // checks with low peer adoption (where the question would feel
+    // like nitpicking) and items that have their own dedicated
+    // questions (has_portal, outbound_list, inbound_list).
+    const transparency = report.checklist_transparency || [];
+    transparency.forEach(function(item) {
+      if (item.value !== false) return;
+      if (!item.peer_total) return;
+      const pctPass = 100 * item.peer_count / item.peer_total;
+      if (pctPass < 25) return;
+      if (item.id === "has_portal") return;
+      if (item.id === "outbound_list" || item.id === "inbound_list") return;
+      const pctStr = pct(item.peer_count, item.peer_total);
+      const phrase = item.peer_phrase || "publish this";
+      // Higher pri when more peers do publish it (gap looks worse).
+      const transPri = pctPass >= 60 ? 50 : pctPass >= 40 ? 40 : 30;
+      add(transPri, `<strong>${pctStr}%</strong> of California ${agencyTypeLabel(item.peer_type)} agencies ${phrase}; ${dept} does not. Will ${deptShort} commit to adding this to its transparency page?`);
+    });
+
+    // Portal exists, but agency publishes no sharing lists at all.
+    // Other agencies' published outbound lists indicate sharing
+    // relationships exist, suggesting the gap is incomplete disclosure
+    // rather than a genuinely empty list. (Oakland is the canonical
+    // case: 112 inferred inbound edges, 0 published.)
+    const allOut = report.outbound || [];
+    const allIn = report.inbound || [];
+    const directOutCount = allOut.filter(function(o) { return !o.inferred; }).length;
+    const inferredOutCount = allOut.filter(function(o) { return o.inferred; }).length;
+    const directInCount = allIn.filter(function(o) { return !o.inferred; }).length;
+    const inferredInCount = allIn.filter(function(o) { return o.inferred; }).length;
+    // Lead with inferred-inbound count only — that's the reliable
+    // signal (most agencies publish outbound, so seeing this dept on
+    // their lists yields a meaningful floor). Inferred-outbound is
+    // structurally noisy because most agencies don't publish inbound,
+    // so it under-counts; quoting a small number there reads as
+    // "they barely share" when actually we just can't see most of it.
+    if (directOutCount === 0 && directInCount === 0 && inferredInCount >= 5) {
+      add(78,
+        `${Dept} publishes a transparency page, but it does not list any sharing partners &mdash; ` +
+        `neither inbound nor outbound. Other California agencies' published sharing lists report ` +
+        `sending and/or receiving data with ${dept}. Why aren't those relationships disclosed ` +
+        `on ${deptShort}'s own transparency page?`
+      );
     }
 
     // SB 34 failures
-    const sb34 = report.checklist_sb34 || [];
     const sb34Fails = sb34.filter(function(i) { return i.value === false; });
     sb34Fails.forEach(function(item) {
       if (item.id === "documented_audit") {
-        qs.push("How often are ALPR access audits conducted, and what do they review (sharing configuration vs. search activity)?");
+        add(70, `${Dept}'s transparency page describes no audit process for ALPR access. What does ${dept}'s audit process look like &mdash; how often are audits conducted, what is reviewed (sharing configuration vs. search activity vs. case justifications), and where are the audit records?`);
       } else if (item.id === "downloadable_audit") {
         const pctStr = pct(item.peer_count, item.peer_total);
-        qs.push(`Only <strong>${pctStr}%</strong> of CA ${agencyTypeLabel(item.peer_type)} agencies publish downloadable audit records. Will the department commit to publishing one?`);
+        add(55, `<strong>${pctStr}%</strong> of California ${agencyTypeLabel(item.peer_type)} agencies publish their ALPR search-audit records publicly; ${dept} does not. Will ${dept} commit to publishing the same &mdash; by a specific date &mdash; or confirm publicly that ${dept} maintains no such audit log?`);
       } else if (item.id === "published_policy") {
-        qs.push("Is the department's ALPR usage and privacy policy conspicuously posted as required by &sect;1798.90.51(a)?");
+        add(75, `${Dept}'s transparency page does not include a posted ALPR policy. State law (Civil Code &sect;1798.90.51(a)) requires the policy to be posted publicly. Will ${dept} post the policy by a specific date, or confirm publicly that no current ALPR policy exists?`);
       }
     });
 
-    // Camera density
+    // Camera density. When local percentile is available and stronger
+    // than statewide, lead with the local number — "more than every
+    // nearby agency" lands harder than "more than 85% of state peers"
+    // because the council member reads it as a comparison they
+    // recognize.
     const cameraPctile = report.percentiles && report.percentiles.cameras;
+    const cameraPctileLocal = report.percentiles_local && report.percentiles_local.cameras;
+    const localCamSample = report.peer_sample_local && report.peer_sample_local.cameras;
     if (cameraPctile != null && cameraPctile >= 85) {
       const pool = peerPoolName(report.peer_sample && report.peer_sample.cameras);
-      qs.push(`The department reports <strong>${report.stats.cameras} cameras</strong> (${cameraPctile}${nthSuffix(cameraPctile)} percentile among ${pool}). How does the department justify this density?`);
+      const scopeWord = (localCamSample && localCamSample.scope === "county") ? "county" : "area";
+      let stat;
+      if (cameraPctileLocal === 100 && localCamSample && localCamSample.size) {
+        stat = `more than every other agency in the same ${scopeWord} (${localCamSample.size} peers) &mdash; and more than <strong>${cameraPctile}%</strong> of California ${pool}`;
+      } else if (cameraPctileLocal != null && cameraPctileLocal > cameraPctile && localCamSample) {
+        stat = `more than <strong>${cameraPctileLocal}%</strong> of agencies in the same ${scopeWord} and more than <strong>${cameraPctile}%</strong> of California ${pool}`;
+      } else {
+        stat = `more than <strong>${cameraPctile}%</strong> of comparable California ${pool}`;
+      }
+      // Local 100% pctile is the strongest version (every nearby
+      // agency has fewer); treat that as a higher pri.
+      const camPri = (cameraPctileLocal === 100) ? 85 : (cameraPctile >= 95 ? 75 : 65);
+      add(camPri, `${Dept} operates <strong>${report.stats.cameras}</strong> ALPR cameras &mdash; ${stat}. What deployment plan, study, or staff report documented why this number of cameras is appropriate for ${localPlace}, and where is it publicly available?`);
+    }
+
+    // Outbound geographic reach: question fires when the average
+    // distance to recipients exceeds 150 miles. The farthest recipient
+    // is also surfaced for emphasis. Most CA crawled agencies trip
+    // this — sharing with statewide / interstate agencies is
+    // widespread and rarely justified at the local level. The
+    // "produce a record of crimes solved at distance" demand is
+    // potent because almost no agency tracks this; the answer is
+    // either "we don't track" or specific-and-small numbers.
+    const avgKm = report.outbound_avg_km;
+    const farthest = report.farthest_outbound;
+    if (avgKm != null && avgKm > 241) {
+      const avgMi = Math.round(avgKm / 1.60934);
+      let farPart = "";
+      if (farthest && farthest.distance_km) {
+        const farMi = Math.round(farthest.distance_km / 1.60934);
+        const farState = farthest.state ? `, ${escapeHtml(farthest.state)},` : "";
+        farPart = ` &mdash; the farthest recipient is <strong>${escapeHtml(farthest.name)}</strong>${farState} <strong>${fmtInt(farMi)}</strong> miles away`;
+      }
+      // Pri scales with avg distance — 300+ mi is striking, 150-200 mi
+      // is meaningful but routine for CA agencies sharing into NCRIC etc.
+      const distPri = avgMi >= 300 ? 75 : avgMi >= 200 ? 60 : 50;
+      add(distPri,
+        `${Dept} shares ALPR data with other agencies an average of <strong>${fmtInt(avgMi)}</strong> miles away${farPart}. ` +
+        `How does ${deptShort} track when ${localPlace} benefits from data sent to those remote agencies &mdash; ` +
+        `i.e., crimes in ${localPlace} that get solved or closed because of that sharing &mdash; ` +
+        `and what does that count look like?`
+      );
+    }
+
+    // No-portal recipients: how many of the agencies receiving this
+    // department's data have NO public transparency page of their own.
+    // The implication is sharp: ~half of {dept}'s sharing partners
+    // don't tell their own residents what they're doing with the data
+    // {dept} sends them. Fires when the count is meaningful (>= 10);
+    // small numbers don't justify the question.
+    const ds = report.downstream_searches || {};
+    const noPortal = ds.recipients_no_portal || 0;
+    const recipTotal = ds.recipients_total || 0;
+    if (noPortal >= 10 && recipTotal > 0) {
+      const pctNoPortal = Math.round(100 * noPortal / recipTotal);
+      // Pri scales with raw count of opaque recipients.
+      const noPortalPri = noPortal >= 100 ? 75 : noPortal >= 50 ? 65 : 50;
+      add(noPortalPri,
+        `Of the <strong>${fmtInt(recipTotal)}</strong> agencies receiving ${dept}'s ALPR data, ` +
+        `<strong>${fmtInt(noPortal)}</strong> (<strong>${pctNoPortal}%</strong>) do not appear to publish a Flock transparency page. ` +
+        `How would I verify what those <strong>${fmtInt(noPortal)}</strong> agencies are doing with ${deptShort}'s ALPR data: what they retain, how long, who they re-share it with, and how they use it? ` +
+        `What review of each of the <strong>${fmtInt(recipTotal)}</strong> recipient agencies' ALPR practices did ${deptShort} perform before sharing?`
+      );
+    }
+
+    // High-search-volume recipients: total searches across all
+    // recipients that publish search counts. Forces the question
+    // "how many of those queries hit data sourced from your cameras?"
+    // Almost no agency tracks this — answer is either "we don't" or
+    // a specific count, both of which are accountable.
+    const dsTotal = ds.total || 0;
+    const dsWithData = ds.recipients_with_data || 0;
+    const topR = (ds.top_researchers || [])[0];
+    if (dsTotal >= 1000 && dsWithData > 0) {
+      const recipTotalForRatio = ds.recipients_total || 0;
+      // Note: this number is a floor. Most recipients don't publish
+      // search counts, so the actual total is higher.
+      const floorClause = recipTotalForRatio
+        ? ` (this is a floor &mdash; only <strong>${fmtInt(dsWithData)}</strong> of ${fmtInt(recipTotalForRatio)} recipients publish their search counts)`
+        : ` (across the <strong>${fmtInt(dsWithData)}</strong> recipients that publish search counts)`;
+      // Pri scales with magnitude. Tens of thousands of searches is
+      // genuinely striking; a few thousand reads as routine.
+      const searchPri = dsTotal >= 50000 ? 88 : dsTotal >= 10000 ? 70 : 50;
+      add(searchPri,
+        `Agencies receiving ${dept}'s ALPR data collectively performed at least <strong>${fmtInt(dsTotal)}</strong> ALPR searches in the last 30 days${floorClause}. ` +
+        `How does ${deptShort} verify that <em>each of</em> those partner-agency searches complies with ${deptShort}'s ALPR usage and privacy policies &mdash; ` +
+        `does each search require ${deptShort}'s approval or an approved case number, do partner agencies submit search logs back to ${deptShort} for review, or does ${deptShort} rely on each partner agency's own internal policies? ` +
+        `How much staff time does ${deptShort} spend verifying these searches each month?`
+      );
+    }
+
+    // Audit log shows searches spanning more networks than inbound list.
+    // Implies use of Flock's statewide/nationwide lookup features —
+    // capabilities not granted by bilateral sharing. The 10% floor
+    // filters out a handful of low-signal cases (e.g. one stray
+    // statewide query) where the question would lack force.
+    // Only fires when the agency publishes BOTH an inbound sharing
+    // list AND a search audit on its own transparency portal. The
+    // question relies on the agency's own numbers not adding up;
+    // cross-portal inference would weaken that claim.
+    const avi = report.audit_vs_inbound;
+    if (avi && avi.exceeding_inbound_pct >= 10) {
+      add(90,
+        `${Dept}'s published search audit shows searches reaching more agency ` +
+        `networks than ${deptShort}'s transparency portal lists as sharing data inbound &mdash; ` +
+        `<strong>${avi.exceeding_inbound_pct}%</strong> of audited searches ` +
+        `(${fmtInt(avi.exceeding_inbound_count)} of ${fmtInt(avi.rows_analyzed)}) ` +
+        `reached more than the <strong>${fmtInt(avi.inbound_count)}</strong> agencies ` +
+        `on the inbound list, with at least one search reaching <strong>${fmtInt(avi.max_network_count)}</strong> networks. ` +
+        `Could ${deptShort} help reconcile the two numbers, and update the transparency page so a resident can see the actual scope of ${deptShort}'s sharing relationships?`
+      );
     }
 
     // Downstream-access question: shares-to partners can typically
@@ -2094,25 +2432,34 @@
     // harder than a generic prompt.
     const outCount = report.stats && report.stats.outbound_count;
     if (outCount && outCount > 0) {
-      qs.push(`This agency shares ALPR data with <strong>${outCount}</strong> other agencies. What is the process for one of those partnered agencies to perform a search on this data? Does the department need to approve each request, or is access automatic once a sharing relationship is established? Is every such search logged, and is that log accessible to the department?`);
+      add(50, `${Dept} shares ALPR data with <strong>${outCount}</strong> other agencies. When one of those partner agencies runs a search against ${deptShort}'s ALPR data, how long does it take them to receive the results, and does anyone at ${deptShort} review the request before results are returned? If reviews are required, who handles them after-hours, on weekends, or during shift changes &mdash; where is that on-call coverage documented, and what does it cost the city each month?`);
     }
-    qs.push(
-      "Do the city's posted ALPR policies actually meet the SB 34 requirements outlined above? " +
-      "The transparency checks above only verify that a policy URL is posted &mdash; " +
-      "they don't read the policy itself. Posted policies commonly fall short in concrete ways, for example: " +
-      "(a) end-user audit procedures that apply only to a legacy system and were never extended to cover Flock; " +
-      "(b) no defined process for revoking user accounts when personnel leave; " +
-      "(c) audits that review sharing configuration but not search activity or case-number compliance; " +
-      "(d) retained policy text that describes platforms the department no longer uses. " +
-      "A council member should ask to see the <em>text</em> of the policy and compare it item-by-item against &sect;1798.90.51\u2013.55."
-    );
-    qs.push("How many users currently have access to the city's Flock pages? Are there any inactive users who still have access? What is the process for revoking accounts when personnel leave the department?");
-    qs.push(
-      "Does the Flock contract contain an independent disclosure clause (such as &sect;5.3 in the standard MSA)? " +
-      "<span class=\"muted\">Such clauses let Flock (the company) access and share the city's ALPR data outside the protections of the city's configured sharing settings.</span>"
+    // Generic "do your posted policies meet SB 34?" prompt is only
+    // worth raising when the agency hasn't already cleared the basic
+    // posting bar. If they posted a policy link, the SB 34 check is
+    // green and the next-level critique requires actually reading
+    // the policy text — that's a council member's job, not a prompt
+    // worth canning here.
+    const publishedPolicyItem = sb34.find(function(i) { return i.id === "published_policy"; });
+    const policyPosted = publishedPolicyItem && publishedPolicyItem.value === true;
+    if (!policyPosted) {
+      add(40,
+        `When ${dept} posts its ALPR policy publicly, the policy itself must address specific items state law calls for. Common gaps in posted ALPR policies include: ` +
+      "(a) audits that review search activity, not just sharing configuration; " +
+      "(b) a defined process for revoking user accounts when personnel leave or change roles; " +
+      "(c) a clear definition of authorized purposes and authorized users; " +
+      `(d) policy text that describes the platforms ${dept} actually uses today, not legacy systems. ` +
+      `Will ${dept} confirm publicly that its posted policy &mdash; once published &mdash; covers each of these items, and produce the policy text for review?`
+      );
+    }
+    add(30, `How many user accounts currently have access to ${dept}'s Flock platform, and what are the current roles of those users within the city?`);
+    add(65,
+      `The standard Flock master service agreement (&sect;5.3) lets Flock &mdash; the vendor &mdash; disclose the city's ALPR data to third parties on its own "good faith belief," without ${dept}'s approval or notification. A February 2026 ` +
+      `<a href="https://stateofsurveillance.org/news/flock-safety-class-action-lawsuit-california-federal-data-sharing-2026/" target="_blank" rel="noopener">California class action</a> ` +
+      `alleges Flock used such authority to let federal and out-of-state agencies search SFPD's database 1.6 million times and Los Altos's over 1 million times without local approval, in alleged violation of SB 34. Is &sect;5.3 in the city's contract, how often does ${deptShort} audit for unauthorized vendor-side access &mdash; and what happens if such a change occurs between audits?`
     );
 
-    return qs;
+    return finalize(qs);
   }
 
   // ── Footer ──
