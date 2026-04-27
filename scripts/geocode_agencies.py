@@ -50,12 +50,21 @@ REGISTRY_PATH = Path("assets/agency_registry.json")
 _AGENCY_SUFFIXES = re.compile(
     r"\s*\b(PD|SO|SD|DA|FD|DPS|Police Department|Police Services|"
     r"Division of Police|Sheriff'?s? Office|"
-    r"Sheriff'?s? Department|Prosecutor'?s? Office|"
+    r"Sheriff'?s? Department|Sheriff|"
+    r"Prosecutor'?s? Office|Prosecutor|"
     r"District Attorney|Fire Department|"
-    r"Department of Public Safety|"
-    r"Public Safety|Parks Department|Marshal'?s? Office)\b\s*",
+    r"Department of Public Safety|Public Safety Dept\.?|"
+    r"Dept\.? of Pub(?:lic)? Safety|"
+    r"Public Safety|Parks Department|Marshal'?s? Office|"
+    r"Junior College|Community College)\b\s*",
     re.IGNORECASE,
 )
+
+# Lone trailing "Dept" / "Department" left over after _AGENCY_SUFFIXES has
+# already stripped the contextual phrase (e.g. "Cottage Grove Public Safety
+# Dept" → "Cottage Grove Dept" → "Cottage Grove"). End-of-string only, to
+# avoid stripping mid-name uses.
+_TRAILING_DEPT = re.compile(r"\s+(Dept\.?|Department)\s*$", re.IGNORECASE)
 
 _STATE_TOKEN = re.compile(r"\s*\b[A-Z]{2}\b\s*")  # Strip " CA " etc.
 _PARENS = re.compile(r"\s*\[[^\]]*\]\s*|\s*\([^)]*\)\s*")  # Strip "(CA)" and "[Inactive]"
@@ -64,17 +73,31 @@ _CITY_OF = re.compile(r"^(City|Town|Village|Borough)\s+of\s+", re.IGNORECASE)
 # Main's version uses a simple ASCII hyphen; accepts an en-dash too
 # for robustness.
 _STATE_PREFIX = re.compile(r"^[A-Z]{2}\s*[-\u2013]\s*", re.IGNORECASE)
-_DASH_SUFFIX = re.compile(r"\s*-\s*(original|[A-Z]{2})$", re.IGNORECASE)  # "Oxford PD - OH", "Harrah OK PD - original"
-_ABBREV_CO = re.compile(r"\bCo\.", re.IGNORECASE)  # "Schuyler Co. IL SO"
+# "Oxford PD - OH", "Harrah OK PD - original", "LaSalle Co. IL SO - New"
+_DASH_SUFFIX = re.compile(r"\s*-\s*(original|new|old|[A-Z]{2})$", re.IGNORECASE)
+_ABBREV_CO = re.compile(r"\bCo\b\.?", re.IGNORECASE)  # "Schuyler Co. IL SO" / "Gasconade Co MO SO"
 _ABBREV_INTL = re.compile(r"\bIntl\b", re.IGNORECASE)  # "Nashville Intl Airport"
-_SAINT_VARIANTS = re.compile(r"^Saint\s+", re.IGNORECASE)  # "Saint Johns AZ" -> "St. Johns AZ"
+# "Saint" → "St." anywhere in the name (Census uses "St."; Flock data
+# sometimes spells it out, e.g. "South Saint Paul MN PD").
+_SAINT_VARIANTS = re.compile(r"\bSaint\s+", re.IGNORECASE)
+_MOUNT_VARIANTS = re.compile(r"\bMt\.\s+", re.IGNORECASE)  # "Mt. Zion" → "Mount Zion"
 
 # State-level agency patterns (state police, highway patrol, DMV, etc.)
 _STATE_AGENCY_PATTERN = re.compile(
     r"\b(State Patrol|State Police|Highway Patrol|Department of Public Safety|"
     r"Department of Motor Vehicles|State Highway Patrol|"
-    r"Department of Conservation|Crime Analysis Center)\b",
+    r"Department of Conservation|Crime Analysis Center|"
+    r"Department of Corrections|Bureau of Investigation|"
+    r"Information Analysis Center|"
+    r"Financial Crimes Intelligence Center|"
+    r"Division of Criminal Investigation|"
+    r"Attorney General)\b",
     re.IGNORECASE,
+)
+# State-level agency abbreviations. "X Bureau of Investigation" is often
+# carried in the registry only as the abbreviation (KBI, GBI, etc.).
+_STATE_AGENCY_ABBREV = re.compile(
+    r"\b(KBI|FDLE|TBI|GBI|SBI|CBI|BCI|MIAC)\b"
 )
 
 # State names to USPS codes (for "Colorado State Patrol" etc.)
@@ -105,12 +128,13 @@ def normalize_agency_name(name):
     name = _STATE_PREFIX.sub("", name)
     # Strip "- OH" or "- original" suffix
     name = _DASH_SUFFIX.sub(" ", name)
-    # "Co." -> "County"
+    # "Co." or "Co" -> "County"
     name = _ABBREV_CO.sub("County", name)
     # "Intl" -> "International" (will be stripped by other patterns)
     name = _ABBREV_INTL.sub("International", name)
-    # "Saint" -> "St." for gazetteer matching
+    # "Saint" -> "St." anywhere; "Mt." -> "Mount" (Census uses these forms)
     name = _SAINT_VARIANTS.sub("St. ", name)
+    name = _MOUNT_VARIANTS.sub("Mount ", name)
     # Strip "Metro" suffix (Louisville Metro, Cumberland Metro) — usually denotes
     # a consolidated gov or metro area but the bare name is what we want
     name = re.sub(r"\s+Metro\b", "", name, flags=re.IGNORECASE)
@@ -125,10 +149,19 @@ def normalize_agency_name(name):
 CITY_ALIASES = {
     "Carmel": "Carmel-by-the-Sea",  # Census has the hyphenated form
     "Angels Camp": "Angels",         # Census place is "Angels city"
+    "Depue": "De Pue",               # Census place is "De Pue village"
+}
+
+# State-aware aliases. Disambiguates names that need different remappings
+# depending on the state (e.g. "Lexington" exists in many states but only
+# the KY one is the consolidated "Lexington-Fayette" gov).
+STATE_CITY_ALIASES = {
+    ("Lexington", "KY"): "Lexington-Fayette",
+    ("Metropolitan Washington", "DC"): "Washington",
 }
 
 
-def extract_place_candidate(agency_name):
+def extract_place_candidate(agency_name, state=None):
     """Derive a candidate place name from an agency name.
 
     Examples:
@@ -140,6 +173,7 @@ def extract_place_candidate(agency_name):
       "KS - Meade County SO" -> "Meade County"
       "CA - Wasco PD" -> "Wasco"
       "Carmel CA PD" -> "Carmel-by-the-Sea" (via CITY_ALIASES)
+      "Lexington KY PD" -> "Lexington-Fayette" (via STATE_CITY_ALIASES, when state=KY)
     """
     name = normalize_agency_name(agency_name)
     # Strip agency-role suffixes (PD, SO, DPS, etc.)
@@ -150,16 +184,86 @@ def extract_place_candidate(agency_name):
     name = _CITY_OF.sub("", name)
     # Collapse whitespace
     name = re.sub(r"\s+", " ", name).strip()
+    # Strip a lone trailing "Dept" / "Department" left over from compound
+    # phrases like "X Public Safety Dept" where _AGENCY_SUFFIXES took the
+    # contextual part but left the standalone word.
+    name = _TRAILING_DEPT.sub("", name).strip()
+    # Strip dashes that have whitespace on at least one side, or that hang
+    # off the start/end of the string. These are artifacts from messy names
+    # like "Windsor- IL- PD" or "X - " separators left after suffix stripping.
+    # Internal hyphens like "Carmel-by-the-Sea" have no adjacent whitespace
+    # and are preserved.
+    name = re.sub(r"\s+-\s*|\s*-\s+|^-+\s*|\s*-+$", " ", name)
+    name = re.sub(r"\s+", " ", name).strip()
     # Apply targeted alias mapping last, so the cleaned candidate is
     # what we alias against (not the raw agency name).
-    if name in CITY_ALIASES:
+    if state and (name, state) in STATE_CITY_ALIASES:
+        name = STATE_CITY_ALIASES[(name, state)]
+    elif name in CITY_ALIASES:
         name = CITY_ALIASES[name]
     return name
 
 
+# Match a single capital-word immediately before County/Parish/etc.
+# Multi-word counties (St. Louis, Salt Lake) usually appear adjacent to
+# a county-suffix agency name and are handled by the primary path.
+_COUNTY_WINDOW = re.compile(
+    r"\b([A-Z][\w.'\-]+)\s+(County|Parish|Borough|Census Area)\b",
+)
+
+
+def extract_county_window(agency_name):
+    """Find an "X County" / "X Parish" substring anywhere in the name.
+
+    Useful for special-purpose county-level agencies where the county
+    name is buried in the middle of the agency name:
+
+      "Forest Preserve District Will County PD (IL)" -> "Will County"
+      "Lake County Forest Preserves IL PD"           -> "Lake County"
+      "Grundy County IL 911"                          -> "Grundy County"
+      "Whitley County IN Prosector"                   -> "Whitley County"
+      "Racine County WI Communications Center"        -> "Racine County"
+    """
+    norm = normalize_agency_name(agency_name)
+    norm = _STATE_TOKEN.sub(" ", norm)
+    m = _COUNTY_WINDOW.search(norm)
+    if not m:
+        return None
+    return f"{m.group(1).strip()} {m.group(2)}"
+
+
+def extract_university_campus(agency_name):
+    """Extract a campus city from a multi-campus university name.
+
+    Splits on " - " / " at " / "- " and returns the rightmost segment
+    after the "University of …" stem. Returns None for single-campus
+    universities, where no separator is present.
+
+      "University of Wisconsin - Madison WI PD"        -> "Madison"
+      "University of Illinois - Chicago IL PD"          -> "Chicago"
+      "University of Illinois at Urbana-Champaign IL PD"-> "Urbana-Champaign"
+      "University of Illinois- Springfield"             -> "Springfield"
+      "University of Minnesota MN PD (Twin Cities)"     -> None  (no separator)
+      "Grand Valley State University MI"                -> None  (not "University of …")
+    """
+    name = normalize_agency_name(agency_name)
+    name = _AGENCY_SUFFIXES.sub(" ", name)
+    name = _STATE_TOKEN.sub(" ", name)
+    name = re.sub(r"\s+", " ", name).strip()
+    if not re.match(r"^University of\b", name, re.IGNORECASE):
+        return None
+    for sep_re in (r"\s+at\s+", r"\s*[-–]\s*"):
+        parts = re.split(sep_re, name, maxsplit=1, flags=re.IGNORECASE)
+        if len(parts) == 2:
+            campus = parts[1].strip()
+            if campus and not re.match(r"^University\b", campus, re.IGNORECASE):
+                return campus
+    return None
+
+
 def is_state_level_agency(name):
     """Does this name describe a state-level agency (state patrol, etc.)?"""
-    return bool(_STATE_AGENCY_PATTERN.search(name))
+    return bool(_STATE_AGENCY_PATTERN.search(name)) or bool(_STATE_AGENCY_ABBREV.search(name))
 
 
 def infer_state_from_name(name):
@@ -220,9 +324,11 @@ def geocode_entry(entry):
     # Skip entries that shouldn't be geocoded
     if has_tag(entry, "federal"):
         return None
-    if entry.get("agency_type") in ("federal", "test", "decommissioned", "private",
-                                     "community"):
+    if entry.get("agency_type") in ("federal", "test", "decommissioned", "private"):
         return None
+    # type=community covers HOAs but also some misclassified incorporated
+    # places (e.g. "MI - Village of Middleville" tagged community/hoa).
+    # Allow them to try place lookup; if no match, return None below.
 
     # State-level agencies (state patrol, highway patrol, etc.)
     # → point to state centroid
@@ -282,7 +388,7 @@ def geocode_entry(entry):
     # County-level agencies (sheriff, DA, etc.) — always try county first
     # Strip role-suffix from name; the remainder is the county name
     if kind == "county" or role in ("sheriff", "da"):
-        county_candidate = extract_place_candidate(name)  # strips role/state
+        county_candidate = extract_place_candidate(name, state)  # strips role/state
         if county_candidate:
             county = lookup_county(county_candidate, state)
             if county:
@@ -307,12 +413,74 @@ def geocode_entry(entry):
                     "lat": county["lat"],
                     "lng": county["lng"],
                 }
-        # Don't fall through — county-semantic agency in a same-named place
-        # is almost always wrong (e.g. "Sacramento DA" = county DA, not city)
+        # Window extraction: pull "X County" out of the middle of the name.
+        # Handles special-purpose county agencies like "Forest Preserve
+        # District Will County PD" or "Grundy County 911".
+        windowed = extract_county_window(name)
+        if windowed:
+            county = lookup_county(windowed, state)
+            if county:
+                return {
+                    "kind": "county",
+                    "fips": county["fips"],
+                    "name": county["bare_name"],
+                    "state": state,
+                    "lat": county["lat"],
+                    "lng": county["lng"],
+                }
+        # Mistyped city PDs: a few entries are tagged type=county/role=sheriff
+        # but the agency name explicitly says " PD" (e.g. "Sioux Falls SD PD").
+        # In those cases fall through to a place lookup. Restricted to names
+        # containing " PD" to avoid breaking e.g. "Sacramento DA" cases where
+        # the city/county name collision would mis-map a county DA to a city.
+        if kind == "county" and role == "sheriff" and re.search(r"\bPD\b", name):
+            place_candidate = extract_place_candidate(name, state)
+            if place_candidate:
+                place = lookup_place(place_candidate, state)
+                if place:
+                    return {
+                        "kind": "place",
+                        "fips": place["fips"],
+                        "name": place["name"],
+                        "state": state,
+                        "lat": place["lat"],
+                        "lng": place["lng"],
+                    }
         return None
 
+    # University with named campus — extract the campus city before
+    # falling through to the generic place candidate (which would just
+    # see "University of Wisconsin - Madison" and miss).
+    if kind == "university":
+        campus = extract_university_campus(name)
+        if campus:
+            place = lookup_place(campus, state)
+            if place:
+                return {
+                    "kind": "place",
+                    "fips": place["fips"],
+                    "name": place["name"],
+                    "state": state,
+                    "lat": place["lat"],
+                    "lng": place["lng"],
+                }
+            # Two-city campuses ("Urbana-Champaign", "Tri-Cities") often
+            # appear as a hyphenated pair. Try the first half.
+            if "-" in campus:
+                first = campus.split("-", 1)[0].strip()
+                place = lookup_place(first, state)
+                if place:
+                    return {
+                        "kind": "place",
+                        "fips": place["fips"],
+                        "name": place["name"],
+                        "state": state,
+                        "lat": place["lat"],
+                        "lng": place["lng"],
+                    }
+
     # Try as a place (city/town)
-    candidate = extract_place_candidate(name)
+    candidate = extract_place_candidate(name, state)
     if candidate:
         place = lookup_place(candidate, state)
         if place:
@@ -350,6 +518,22 @@ def geocode_entry(entry):
                 "state": state,
                 "lat": county["lat"],
                 "lng": county["lng"],
+            }
+
+    # State agencies (Department of Corrections, Information Analysis Center,
+    # etc.) with no specific city — point at the state centroid as a final
+    # fallback. The named-pattern check at the top handles most of these,
+    # but type=state catches the rest by classification rather than name.
+    if kind == "state":
+        s = lookup_state(state)
+        if s:
+            return {
+                "kind": "state",
+                "fips": s["state_fips"],
+                "name": state,
+                "state": state,
+                "lat": s["lat"],
+                "lng": s["lng"],
             }
 
     return None
