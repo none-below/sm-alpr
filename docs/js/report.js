@@ -197,22 +197,32 @@
     const combinedType = [typeLabel, roleLabel].filter(Boolean).join(" — ");
     const geoName = (report.geo && report.geo.name) || "";
     const thisUrlAbs = new URL(`report.html?agency=${report.slug}`, location.href).toString();
+    const topMapUrlAbs = new URL(`sharing_map.html#${report.slug}`, location.href).toString();
 
-    // Header layout: name/subtitle on the left, QR on the right. The QR
-    // links to the live dynamic report — prints as scannable, clicks as
-    // link on screen.
+    // Header layout: name/subtitle on the left, two QRs on the right
+    // (live report + interactive sharing map). Both link via wrapping
+    // anchor (clickable on screen) and scan from print.
     let html = '<div class="report-header">';
     html += '<div class="report-header-main">';
     html += `<h1>${escapeHtml(report.name)}</h1>`;
     html += `<p class="subtitle">ALPR Scorecard &middot; Flock transparency data &middot; generated ${new Date().toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric"})}</p>`;
     html += '</div>';
     html += '<div class="report-header-qr">';
+    html += '<div class="report-header-qr-block">';
     html += '<div id="top-qrcode" aria-label="QR code linking to the live online version of this report"></div>';
     html += '<div class="qr-caption">Scan for live version</div>';
     html += '</div>';
+    html += '<div class="report-header-qr-block">';
+    html += '<div id="top-map-qrcode" aria-label="QR code linking to the interactive sharing map"></div>';
+    html += '<div class="qr-caption">Scan for sharing map</div>';
+    html += '</div>';
+    html += '</div>';
     html += '</div>';
     // Defer QR render until the HTML is inserted.
-    setTimeout(function() { renderQrCode("top-qrcode", thisUrlAbs, { size: 90 }); }, 0);
+    setTimeout(function() {
+      renderQrCode("top-qrcode", thisUrlAbs, { size: 90 });
+      renderQrCode("top-map-qrcode", topMapUrlAbs, { size: 90 });
+    }, 0);
 
     if (!report.crawled) {
       html += `<div class="no-data-box">
@@ -2100,14 +2110,52 @@
       // the checklist is empty — fall back to a generic clause.
       const transparency = report.checklist_transparency || [];
       const hasPortal = transparency.find(function(i) { return i.id === "has_portal"; });
-      let peerClause = `Other California agencies publish this. ${Dept} does not.`;
-      if (hasPortal && hasPortal.peer_total) {
-        const pctStr = pct(hasPortal.peer_count, hasPortal.peer_total);
-        peerClause = `<strong>${pctStr}%</strong> of California ${agencyTypeLabel(hasPortal.peer_type)} agencies publish a transparency page like this; ${dept} does not.`;
+      const typeLabel = (hasPortal && hasPortal.peer_total)
+        ? agencyTypeLabel(hasPortal.peer_type)
+        : "agencies";
+      add(95, `Many California ${typeLabel} publish a public Flock transparency page covering ALPR cameras, policy, retention, sharing partners, and audits. Where is ${dept}'s?`);
+      // Outbound recipients we know about even without a current
+      // crawled portal — either from a past crawl that's still in the
+      // sharing graph, or from other agencies' published inbound lists
+      // naming this dept as a source. Either way: we can prove sharing
+      // happens, which makes "what data is being sent and how is its
+      // use governed" a sharp question to ask.
+      const outRecips = report.outbound || [];
+      if (outRecips.length > 0) {
+        const exampleNames = outRecips.slice(0, 3).map(function(o) {
+          return `<strong>${escapeHtml(o.name)}</strong>`;
+        });
+        const remainder = outRecips.length - 3;
+        const namesList = remainder > 0
+          ? `${exampleNames.join(", ")}, and ${remainder} other${remainder === 1 ? "" : "s"}`
+          : exampleNames.join(", ");
+        add(90, `Other California agencies' transparency pages indicate that ${dept} shares ALPR data with at least <strong>${outRecips.length}</strong> agencies (including ${namesList}). What data is ${deptShort} sending to these recipients, and how is its use governed once it leaves ${deptShort}'s control?`);
       }
-      add(95, `Why can't a resident of ${localPlace} go to a public website today and see, for ${dept}: where the ALPR cameras are, what the ALPR policy says, how long the data is kept, who else has access, and what audits have been performed? ${peerClause}`);
-      add(85, `Does ${dept} operate an ALPR program at all? If yes, please share: the number of cameras in service, their locations, the data retention period, the current sharing list, and any audit records from the past three years.`);
-      add(75, `Will ${dept} commit &mdash; by a specific date &mdash; to publishing a complete public transparency page covering cameras, policy, retention, audits, and sharing partners? If there is no plan to publish, please share the reasoning.`);
+      // Examples of nearby crawled-portal agencies — rendered as a
+      // block list beneath the question prose so each link and its
+      // QR code stay together (inline-flowing the QRs through prose
+      // produces awkward line breaks). Flock transparency URLs are
+      // deterministic: https://transparency.flocksafety.com/<slug>
+      const regional = report.regional || [];
+      const peerQrUrls = [];
+      const exampleEntries = regional.slice(0, 3).map(function(r) {
+        const url = `https://transparency.flocksafety.com/${r.slug}`;
+        const qrId = `peer-qr-${r.slug}`;
+        peerQrUrls.push({ id: qrId, url: url });
+        return `<span class="peer-example"><span class="peer-qr" id="${qrId}" aria-label="QR code for ${escapeHtml(r.name)} transparency page"></span><a href="${url}" target="_blank" rel="noopener">${escapeHtml(r.name)}</a></span>`;
+      });
+      const examplesBlock = exampleEntries.length
+        ? `<div class="peer-examples-block"><div class="peer-examples-label">Nearby agencies that publish this kind of page:</div><div class="peer-examples-list">${exampleEntries.join("")}</div></div>`
+        : "";
+      add(75, `If ${dept} doesn't yet publish a public ALPR transparency page, when does ${deptShort} plan to &mdash; and will it cover cameras, policy, retention, audits, and sharing partners?${examplesBlock}`);
+      // Defer QR renders until the question HTML is in the DOM.
+      if (peerQrUrls.length) {
+        setTimeout(function() {
+          peerQrUrls.forEach(function(p) {
+            renderQrCode(p.id, p.url, { size: 40 });
+          });
+        }, 0);
+      }
       return finalize(qs);
     }
 

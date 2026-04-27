@@ -127,9 +127,44 @@
   .report-header-main { flex: 1; min-width: 0; }
   .report-header-qr {
     flex: 0 0 auto;
-    text-align: center;
+    display: flex;
+    gap: 12px;
     padding-top: 4px;
   }
+  .report-header-qr-block { text-align: center; }
+  /* Peer-agency examples (used in uncrawled-agency questions to
+     surface nearby transparency pages). Block-level so QR codes
+     don't disrupt the question's prose flow. */
+  .peer-examples-block {
+    margin-top: 8px;
+    padding: 6px 0;
+  }
+  .peer-examples-label {
+    font-size: 9pt;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .peer-examples-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .peer-example {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-subtle, #fafafa);
+    white-space: nowrap;
+  }
+  .peer-qr {
+    display: inline-block;
+    line-height: 0;
+    flex: 0 0 auto;
+  }
+  .peer-qr svg { display: block; }
   .report-header-qr .qr-caption {
     font-size: 8pt;
     color: var(--muted);
