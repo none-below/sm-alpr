@@ -144,9 +144,10 @@
     "23deb1ec-b95d-59ba-b737-ecbaf3bc9c2c": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T08:45:29.435161+00:00",
+      "last_probed": "2026-04-28T23:40:05.440451+00:00",
       "tried": {
         "suisun-city-ca-po": "http_404",
+        "suisun-city-ca-police": "http_404",
         "suisun-city-ca-police-department": "http_404"
       }
     },
@@ -484,11 +485,12 @@
     "6be9f842-1658-5490-8be4-14b77cc1e96d": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-27T01:16:35.177588+00:00",
+      "last_probed": "2026-04-28T23:40:15.292085+00:00",
       "tried": {
         "santa-clara-ca": "http_404",
         "santa-clara-ca-da": "http_404",
-        "santa-clara-ca-district-attorney": "http_404"
+        "santa-clara-ca-district-attorney": "http_404",
+        "santa-clara-district-attorney-ca": "http_404"
       }
     },
     "6c6b2202-9b87-5c04-b232-040a4f6e1468": {
@@ -539,6 +541,14 @@
       "last_probed": "2026-04-26T15:29:46.877101+00:00",
       "tried": {
         "orange-county-da-office-ca-da": "http_404"
+      }
+    },
+    "76cb73e9-49c4-5198-bf3e-a1c921e65231": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-28T23:40:10.844713+00:00",
+      "tried": {
+        "riverside-ca-pd": "http_404"
       }
     },
     "76ffd436-962c-5842-92bc-1fb2c82f20dd": {
@@ -1115,6 +1125,6 @@
       }
     }
   },
-  "updated": "2026-04-28T22:41:43.638408+00:00",
+  "updated": "2026-04-28T23:40:15.328132+00:00",
   "version": 1
 }
