@@ -213,11 +213,12 @@
     "270fd3ce-aefb-503a-82e0-36ea52c1ba28": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T10:31:33.074227+00:00",
+      "last_probed": "2026-04-29T17:11:14.163439+00:00",
       "tried": {
         "greenfield-ca-po": "http_404",
         "greenfield-ca-police": "http_404",
-        "greenfield-ca-police-department": "http_404"
+        "greenfield-ca-police-department": "http_404",
+        "greenfield-ca-ps": "http_404"
       }
     },
     "27d3370c-1004-57a6-b76f-c2efedaefc53": {
@@ -308,6 +309,14 @@
       "last_probed": "2026-04-28T21:44:48.896557+00:00",
       "tried": {
         "yreka-ca-po": "http_404"
+      }
+    },
+    "3f7eb8d2-ed50-5eac-9b8c-ac66584c00aa": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-04-29T17:11:03.682645+00:00",
+      "tried": {
+        "ukiah-ca-po": "http_404"
       }
     },
     "3fc7d46a-3f58-5638-a86a-182bbaf116b4": {
@@ -966,9 +975,10 @@
     "cc1000e2-0754-5577-95b3-76649924222d": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-28T05:03:31.901238+00:00",
+      "last_probed": "2026-04-29T17:11:09.686806+00:00",
       "tried": {
-        "csu-long-beach-ca-pd": "http_404"
+        "csu-long-beach-ca-pd": "http_404",
+        "csu-long-beach-ca-po": "http_404"
       }
     },
     "cc269287-49ca-5831-af72-f6dacf356bd1": {
@@ -1199,6 +1209,6 @@
       }
     }
   },
-  "updated": "2026-04-29T14:58:30.906151+00:00",
+  "updated": "2026-04-29T17:11:14.204548+00:00",
   "version": 1
 }
