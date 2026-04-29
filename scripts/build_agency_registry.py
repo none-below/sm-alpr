@@ -211,15 +211,20 @@ def main():
         print("       without --merge would destroy UUIDs, tags, and manual edits.", file=sys.stderr)
         sys.exit(1)
 
-    # Load existing registry for merge mode
+    # Load existing registry for merge mode.
+    #   existing    — agency_id -> entry
+    #   slug_index  — slug -> agency_id, covers active slug + historical flock_slugs.
+    #                 Falsy slugs are skipped (seed entries with slug=None).
     existing = {}
+    slug_index = {}
     if args.merge and REGISTRY_PATH.exists():
         for e in json.loads(REGISTRY_PATH.read_text()):
             existing[e["agency_id"]] = e
-            # Index by slug and flock_slugs so we can find existing entries
-            existing.setdefault(f"__slug__{e['slug']}", e["agency_id"])
+            if e.get("slug"):
+                slug_index.setdefault(e["slug"], e["agency_id"])
             for ps in e.get("flock_slugs", []):
-                existing.setdefault(f"__slug__{ps}", e["agency_id"])
+                if ps:
+                    slug_index.setdefault(ps, e["agency_id"])
 
     # Collect all agency names from crawled data
     all_names = set()    # every agency name we've seen
@@ -244,10 +249,9 @@ def main():
     # Each crawled directory is an agency; use its registry name or slug
     slug_to_flock_name = {}
     for slug in crawled_slugs:
-        entry = existing.get(f"__slug__{slug}")
-        if entry and entry in existing:
-            e = existing[entry]
-            names = e.get("flock_names", [])
+        aid = slug_index.get(slug)
+        if aid and aid in existing:
+            names = existing[aid].get("flock_names", [])
             slug_to_flock_name[slug] = names[0] if names else slug
         else:
             slug_to_flock_name[slug] = slug
@@ -269,13 +273,20 @@ def main():
 
     for slug in sorted(slug_to_flock_name.keys()):
         flock_name = slug_to_flock_name[slug]
+        # agency_id is uuid5("flock-registry:" + slug). seed_contract_registry.py
+        # uses the same scheme keyed on its seed_key, so seeded null-slug entries
+        # whose seed_key matches a discovered slug share an agency_id with what
+        # we'd otherwise mint here. Detect that collision before creating a
+        # duplicate row.
+        candidate_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, "flock-registry:" + slug))
 
-        # In merge mode, check if this slug maps to an existing agency
         if args.merge:
-            existing_id = existing.get(f"__slug__{slug}")
+            existing_id = slug_index.get(slug)
+            if not existing_id and candidate_id in existing:
+                existing_id = candidate_id
+
             if existing_id and existing_id in existing:
                 entry = existing[existing_id]
-                # Add new name if we haven't seen it
                 if flock_name not in entry.get("flock_names", []):
                     entry.setdefault("flock_names", []).append(flock_name)
                 if existing_id not in seen_ids:
@@ -289,7 +300,7 @@ def main():
         state = detect_state(flock_name)
         flags = detect_flags(flock_name)
         entry = {
-            "agency_id": str(uuid.uuid5(uuid.NAMESPACE_DNS, "flock-registry:" + slug)),
+            "agency_id": candidate_id,
             "slug": slug,
             "flock_active_slug": slug,
             "flock_slugs": [slug],
@@ -303,18 +314,32 @@ def main():
             "geo": {"kind": "state-only", "state": state} if state else None,
         }
         registry.append(entry)
-        seen_ids.add(slug)
+        seen_ids.add(candidate_id)
         new_count += 1
 
     # In merge mode, preserve manually-added entries not in discovered data
     if args.merge:
         for aid, entry in existing.items():
-            if aid.startswith("__slug__"):
-                continue
             if aid not in seen_ids:
                 registry.append(entry)
                 seen_ids.add(aid)
                 kept_count += 1
+
+    # Invariant: agency_id must be unique. The merge logic above tries hard
+    # to dedupe, but if a future edge case slips through we want a loud
+    # failure with the offending IDs rather than a silently-broken registry.
+    ids = [e["agency_id"] for e in registry]
+    if len(ids) != len(set(ids)):
+        from collections import Counter
+        dups = [aid for aid, count in Counter(ids).items() if count > 1]
+        print(f"ERROR: duplicate agency_ids in built registry: {dups}", file=sys.stderr)
+        for aid in dups:
+            for i, e in enumerate(registry):
+                if e["agency_id"] == aid:
+                    print(f"  [{i}] slug={e.get('slug')!r} "
+                          f"flock_slugs={e.get('flock_slugs')} "
+                          f"display_name={e.get('display_name')!r}", file=sys.stderr)
+        sys.exit(1)
 
     # Auto-geocode new entries via the Census gazetteer
     from geocode_agencies import geocode_entry, needs_geocoding
