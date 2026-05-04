@@ -121,6 +121,21 @@ HIDDEN_CSS = re.compile(
     r"color\s*:\s*(?:white|#fff(?:fff)?|rgb\(\s*255\s*,\s*255\s*,\s*255))",
     re.IGNORECASE,
 )
+
+# Vendor pseudo-elements that target browser UI chrome (scrollbars,
+# resizers, file-upload buttons, etc.). A hiding rule scoped only to
+# these cannot hide document text content, so it isn't a prompt-
+# injection signal. Flock portals legitimately use
+# `::-webkit-scrollbar { display: none }` to suppress the scrollbar.
+SAFE_UI_PSEUDO = re.compile(
+    r"::?-(?:webkit|moz|ms|o)-(?:scrollbar(?:-[\w-]+)?|"
+    r"resizer|slider-thumb|slider-runnable-track|"
+    r"progress-(?:bar|value)|meter-(?:bar|inner-element)|"
+    r"file-upload-button|search-(?:cancel|decoration)-button|"
+    r"inner-spin-button|outer-spin-button|placeholder|"
+    r"calendar-picker-indicator|color-swatch|details-marker)",
+    re.IGNORECASE,
+)
 HTML_COMMENT = re.compile(r"<!--(.*?)-->", re.DOTALL)
 SUSPICIOUS_ATTRS = re.compile(
     r'\b(?:alt|title|aria-label|aria-describedby|data-[\w-]+)\s*='
@@ -316,6 +331,32 @@ def emit_decoded(findings, severity, category, decoded, start, end):
     ))
 
 
+def _stylesheet_hides_content(body: str) -> bool:
+    """Return True if a <style> body contains a hiding rule whose
+    selector could hide document text content (not just UI chrome).
+
+    Splits on `}` rule boundaries — over-matches on nested @-rules in
+    the conservative direction (still flags content-hiding inside
+    @media). For each rule with a hiding declaration, accept it as
+    benign only if every comma-separated selector targets a known
+    browser UI pseudo-element (scrollbar, resizer, etc.).
+    """
+    cleaned = re.sub(r"/\*.*?\*/", "", body, flags=re.DOTALL)
+    for rule in cleaned.split("}"):
+        if not HIDDEN_CSS.search(rule):
+            continue
+        if "{" not in rule:
+            continue
+        selector_part = rule.split("{", 1)[0]
+        selectors = [s.strip() for s in selector_part.split(",") if s.strip()]
+        if not selectors:
+            return True
+        if all(SAFE_UI_PSEUDO.search(s) for s in selectors):
+            continue
+        return True
+    return False
+
+
 def scan_text(text: str, *, html: bool) -> list[Finding]:
     findings: list[Finding] = []
 
@@ -404,7 +445,7 @@ def scan_text(text: str, *, html: bool) -> list[Finding]:
 
         for m in STYLE_BLOCK.finditer(text):
             if capped(): return findings
-            if HIDDEN_CSS.search(m.group(1)):
+            if _stylesheet_hides_content(m.group(1)):
                 emit(findings, HIGH, "hidden-css-rule-with-content",
                      text, m.start(), m.end())
 
