@@ -1,12 +1,38 @@
 #!/bin/sh
+set -eu
 # Pre-commit hook:
 #   1. Generate OCR text sidecars for staged PDFs (aborts if new sidecars created)
-#   2. Scan staged PDFs for PII (blocks commit if found)
+#   2. Scan staged PDFs for PII (advisory)
+#   3. Scan staged transparency-portal scrapes for prompt injection (advisory)
 #
 # Note: PDF generation from findings MD is handled by GitHub Actions (CI + deploy).
+#
+# Advisory caveat: the --staged scanners (pii_scan, check_injection) read
+# from the working tree, not the git index. A contributor who stages file A
+# and then modifies A on disk before running `git commit` will see the on-
+# disk version scanned (TOCTOU). CI re-runs both scans against the actual
+# committed content — the local hook is fast feedback, not a hard gate.
 
-# Generate sidecars — exits 1 if new sidecars were written, prompting re-stage
+# OCR sidecar generation — exits 1 if new sidecars were written, prompting
+# re-stage. Run unconditionally first because it can mutate the working tree.
 uv run python scripts/ocr_sidecar.py --staged || exit 1
 
-# PII scan
-exec uv run python scripts/pii_scan.py --staged
+# Run both content scans, capture both exit codes, report all findings.
+# Failing fast on PII would hide same-commit injection findings from the
+# contributor — unhelpful when both classes are advisory.
+pii_ec=0
+inj_ec=0
+uv run python scripts/pii_scan.py --staged || pii_ec=$?
+uv run python scripts/check_injection.py --staged || inj_ec=$?
+
+# Block on PII (any exit) and HIGH/CRITICAL injection findings (exit >= 2).
+# LOW/MEDIUM injection warnings (exit 1) pass through.
+if [ "$pii_ec" -ne 0 ]; then
+  echo "Pre-commit aborted: PII scan flagged content." >&2
+  exit 1
+fi
+if [ "$inj_ec" -ge 2 ]; then
+  echo "Pre-commit aborted: prompt-injection scan flagged HIGH/CRITICAL content." >&2
+  exit 1
+fi
+exit 0
