@@ -202,9 +202,20 @@ def latest_capture_date(slug, data_dir):
 # Parsing: raw DOM text -> structured JSON
 # ═══════════════════════════════════════════════════════════
 
-# Pattern for names that expect a comma continuation (e.g. "University of California, Berkeley")
+# Pattern for names that expect a comma continuation (e.g. "University
+# of California, Berkeley"). Used when the previous-name end signals
+# that more-name follows.
 _EXPECTS_CONTINUATION = re.compile(
     r"University of California$",
+    re.IGNORECASE,
+)
+
+# Pattern for standalone tokens that are clearly a continuation *of* a
+# previous name (e.g. "LLC", "Inc."). Flock's data has split entries
+# like ["CA - Topgolf USA El Segundo", "LLC", ...] from un-escaped
+# commas in their source — re-attach the suffix to the prior entry.
+_IS_CONTINUATION_SUFFIX = re.compile(
+    r"^(LLC|L\.L\.C\.?|Inc\.?|Corp\.?|Ltd\.?|Co\.?)$",
     re.IGNORECASE,
 )
 
@@ -263,6 +274,7 @@ _HEADING_MAP = {
     "Restrictions on Deployment":            "restrictions_on_deployment",
     "Sharing with Partners":                 "sharing_with_partners",
     "Network Sharing Policy":                "sharing_with_partners",
+    "Sharing Policy":                        "sharing_with_partners",
     "Sharing Restrictions":                  "sharing_restrictions",
     "Data retention (in days)":              "data_retention",
     "Data retention":                        "data_retention",
@@ -289,6 +301,7 @@ _HEADING_MAP = {
     # org sharing — prefix match handles "Organizations granted access to X data"
     "Organizations granted access":          "orgs_granted_access",
     "External Organizations with Access":    "orgs_granted_access",
+    "Sharing Network Data With":             "orgs_granted_access",
     "Approved NCRIC Share With":             "orgs_granted_access",
     "Agencies NCRIC Shares With":            "orgs_granted_access",
     "External agencies who have access":     "orgs_granted_access",
@@ -325,9 +338,14 @@ _MAX_HEADING_LEN = 120
 # becomes case-insensitive — Flock has at least three case variants of
 # the same heading across agencies ("Number of LPR cameras", "Number of
 # LPR Cameras", "LPR Cameras"), and explicitly listing every casing
-# bloats the map. Iteration order preserves _HEADING_MAP insertion order
-# so prefix-match precedence stays predictable.
+# bloats the map.
 _HEADING_MAP_LOWER = {k.lower(): v for k, v in _HEADING_MAP.items()}
+
+# Prefix-match candidates sorted longest-first. Necessary because some
+# headings are extensions of others — "Sharing Network Data With" must
+# match before the generic "Sharing" prefix, which would otherwise route
+# 12 agencies' partner lists into sharing_info instead of orgs_granted_access.
+_HEADING_PREFIXES = sorted(_HEADING_MAP_LOWER.items(), key=lambda kv: -len(kv[0]))
 
 
 def _match_heading(line):
@@ -348,7 +366,7 @@ def _match_heading_kind(line):
     lowered = line.lower()
     if lowered in _HEADING_MAP_LOWER:
         return _HEADING_MAP_LOWER[lowered], "exact"
-    for prefix_lower, field_name in _HEADING_MAP_LOWER.items():
+    for prefix_lower, field_name in _HEADING_PREFIXES:
         if lowered.startswith(prefix_lower):
             return field_name, "prefix"
     for pattern, field_name in _DYNAMIC_HEADINGS:
@@ -565,7 +583,11 @@ def _parse_org_names(body):
         raw = [n.strip() for n in body.replace("\n", " ").split(", ") if n.strip()]
     names = []
     for part in raw:
-        if names and _EXPECTS_CONTINUATION.search(names[-1]):
+        merge = names and (
+            _EXPECTS_CONTINUATION.search(names[-1])
+            or _IS_CONTINUATION_SUFFIX.match(part)
+        )
+        if merge:
             names[-1] = f"{names[-1]}, {part}"
         else:
             names.append(part)
@@ -734,12 +756,24 @@ class _CSVLinkExtractor(html.parser.HTMLParser):
                 pass
 
 
+# Flock renamed embedded CSV files in the 2026 redesign. Normalize at
+# extraction so downstream field names stay stable across the format
+# change (otherwise an agency's diff shows search_audit_csv → null AND
+# public_search_audit_csv null → rows on the format-flip scrape).
+# Verified: no portal serves both filenames simultaneously.
+_CSV_FILENAME_ALIASES = {
+    "public_search_audit.csv": "search_audit.csv",
+    "public-search-audit.csv": "search_audit.csv",
+}
+
+
 def extract_csvs_from_html(html_text):
     """Parse HTML and return list of (filename, [row_dicts]) for embedded CSVs."""
     parser = _CSVLinkExtractor()
     parser.feed(html_text)
     results = []
     for filename, csv_text in parser.csvs:
+        filename = _CSV_FILENAME_ALIASES.get(filename, filename)
         reader = csv.DictReader(io.StringIO(csv_text))
         rows = list(reader)
         results.append((filename, rows))

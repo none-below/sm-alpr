@@ -136,6 +136,28 @@ def test_parse_number_legacy_value_only_body():
     assert _parse_number("30 days") == 30
 
 
+def test_parse_org_names_merges_company_suffix():
+    """Flock's data has un-escaped commas in company names like
+    "CA - Topgolf USA El Segundo, LLC". On the new grid layout the
+    suffix lands in its own cell ("LLC" alone) — re-attach it.
+    """
+    body_new = (
+        "CA - Topgolf USA El Segundo\n"
+        "LLC\n"
+        "CA - Wasco PD\n"
+        "Extended Stay America (ESA) Management\n"
+        "LLC\n"
+        "Fairfield CA PD\n"
+    )
+    names = _parse_org_names(body_new)
+    assert "CA - Topgolf USA El Segundo, LLC" in names
+    assert "Extended Stay America (ESA) Management, LLC" in names
+    assert "LLC" not in names, "standalone LLC should never survive merge"
+    # Adjacent real entries stay intact
+    assert "CA - Wasco PD" in names
+    assert "Fairfield CA PD" in names
+
+
 def test_parse_org_names_handles_one_per_line_layout():
     """The 2026 layout renders the partner list with one agency per
     line (was: comma-separated paragraph). Both must work, including
@@ -318,6 +340,18 @@ def test_unrecognized_bold_heading_raises():
             text, "test-agency", "2026-05-03",
             bold_headings={"What's Detected", "Some Brand New Field"},
         )
+
+
+def test_prefix_matching_prefers_longest_match():
+    """When two prefixes both match (e.g. "Sharing" and "Sharing
+    Network Data With"), the longer one wins. Otherwise 12 agencies'
+    org lists get silently routed to sharing_info instead of
+    orgs_granted_access — a bug we hit on PR 170 reparse.
+    """
+    from flock_transparency import _match_heading
+    assert _match_heading("Sharing Network Data With") == "orgs_granted_access"
+    assert _match_heading("Sharing Policy") == "sharing_with_partners"
+    assert _match_heading("Sharing Restrictions") == "sharing_restrictions"
 
 
 def test_month_year_bold_heading_does_not_raise():
