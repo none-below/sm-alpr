@@ -55,10 +55,11 @@ jobs:
         run: uv run playwright install chromium
 
       - name: Install Tesseract (cached)
-        # Floating @latest is a supply-chain liability; pin to v1 semver-major
-        # at minimum. SHA-pinning is the audit-friendly default — follow up
-        # via dependabot when this workflow gets a security audit.
-        uses: awalsh128/cache-apt-pkgs-action@v1
+        # SHA-pinned to v1.5.3 (annotated tag v1 → commit
+        # 2c09a5e66da6c8016428a2172bd76e5e4f14bb17). A floating tag
+        # could be repointed to malicious code; the SHA can't.
+        # Update via dependabot.
+        uses: awalsh128/cache-apt-pkgs-action@2c09a5e66da6c8016428a2172bd76e5e4f14bb17 # v1.5.3
         with:
           packages: tesseract-ocr antiword pandoc
           version: 1.2
