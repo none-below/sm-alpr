@@ -33,6 +33,7 @@ import functools
 import hashlib
 import html
 import json
+import os
 import random
 import re
 import subprocess
@@ -264,6 +265,162 @@ def run_scanner(paths: list[Path]) -> dict:
 # ───────────────────────── archival ─────────────────────────
 
 
+def _ia_keys() -> tuple[str, str] | None:
+    """Return (access, secret) IA SPN credentials, or None if unset.
+
+    With keys we use the async Save Page Now API: submit returns a
+    job_id in ~1s, status polled at end of run. Without keys we fall
+    back to the slower anonymous Availability + sync save path.
+    """
+    a = os.environ.get("IA_ACCESS_KEY")
+    s = os.environ.get("IA_SECRET_KEY")
+    return (a, s) if a and s else None
+
+
+def wayback_submit(url: str) -> dict:
+    """Submit a Save Page Now job. Authenticated path is async; anonymous
+    falls back to wayback_lookup_or_save (sync, blocking).
+
+    The authenticated path uses ``if_not_archived_within=86400`` so
+    re-runs of the same URL within 24h get the existing snapshot back
+    server-side rather than triggering a redundant save — eliminates
+    the Availability-API indexing-lag false negative.
+
+    Returns: wayback_url + wayback_timestamp (set if existing snapshot),
+    wayback_source ("submitted" | "existing" | "submit-failed"),
+    wayback_job_id (set if a poll is needed), wayback_error.
+    """
+    keys = _ia_keys()
+    if not keys:
+        return wayback_lookup_or_save(url)
+
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "application/json",
+        "Authorization": f"LOW {keys[0]}:{keys[1]}",
+        "Spn-Async": "1",
+    }
+    data = {
+        "url": url,
+        "if_not_archived_within": "86400",
+    }
+    out = {
+        "wayback_url": None,
+        "wayback_timestamp": None,
+        "wayback_source": None,
+        "wayback_job_id": None,
+        "wayback_error": None,
+    }
+    try:
+        resp = requests.post(
+            "https://web.archive.org/save",
+            headers=headers, data=data, timeout=15,
+        )
+        resp.raise_for_status()
+        body = resp.json()
+    except (requests.RequestException, ValueError) as e:
+        out["wayback_source"] = "submit-failed"
+        out["wayback_error"] = f"{type(e).__name__}: {e}"
+        return out
+
+    if body.get("job_id"):
+        out["wayback_job_id"] = body["job_id"]
+        out["wayback_source"] = "submitted"
+    elif body.get("url"):
+        # if_not_archived_within served back an existing snapshot.
+        out["wayback_url"] = body["url"]
+        out["wayback_source"] = "existing"
+        m = re.search(r"/web/(\d{14})/", body["url"])
+        if m:
+            out["wayback_timestamp"] = m.group(1)
+    else:
+        out["wayback_source"] = "submit-failed"
+        out["wayback_error"] = f"unexpected SPN response: {str(body)[:300]}"
+    return out
+
+
+def wayback_poll(job_id: str, *, deadline: float,
+                 poll_interval: float = 3.0) -> dict:
+    """Poll SPN status until done or `deadline` (monotonic time.time())
+    elapses. Returns wayback_url/timestamp/source/error suitable for
+    merging into a record. On timeout, source="pending" — the job is
+    still running server-side and a follow-up workflow can finalize it.
+    """
+    keys = _ia_keys()
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/json"}
+    if keys:
+        headers["Authorization"] = f"LOW {keys[0]}:{keys[1]}"
+
+    out = {
+        "wayback_url": None,
+        "wayback_timestamp": None,
+        "wayback_source": None,
+        "wayback_error": None,
+    }
+    while time.time() < deadline:
+        try:
+            resp = requests.get(
+                f"https://web.archive.org/save/status/{job_id}",
+                headers=headers, timeout=10,
+            )
+            data = resp.json()
+        except (requests.RequestException, ValueError) as e:
+            out["wayback_source"] = "poll-failed"
+            out["wayback_error"] = f"{type(e).__name__}: {e}"
+            return out
+
+        status = data.get("status")
+        if status == "success":
+            ts = data.get("timestamp")
+            orig = data.get("original_url") or ""
+            if ts and orig:
+                out["wayback_url"] = f"https://web.archive.org/web/{ts}/{orig}"
+                out["wayback_timestamp"] = ts
+            out["wayback_source"] = "saved"
+            return out
+        if status == "error":
+            out["wayback_source"] = "save-failed"
+            out["wayback_error"] = data.get("message") or "unknown SPN error"
+            return out
+        # status == "pending" — keep polling
+        time.sleep(poll_interval)
+
+    out["wayback_source"] = "pending"
+    out["wayback_error"] = "poll deadline elapsed; job may still complete"
+    return out
+
+
+def wayback_poll_pending(pending: list[tuple[dict, Path]], *,
+                         total_timeout: int = 90) -> None:
+    """Finalize all submitted-but-pending wayback jobs.
+
+    Single shared deadline across all jobs — Wayback runs them all in
+    parallel server-side, so sequential polling on one shared budget is
+    equivalent in wall-clock time to parallel polling. Updates each
+    record in place and rewrites its meta sidecar.
+    """
+    if not pending:
+        return
+    print(f"wayback: polling {len(pending)} pending save(s) "
+          f"(deadline {total_timeout}s)...")
+    deadline = time.time() + total_timeout
+    for record, meta_path in pending:
+        job_id = record.get("wayback_job_id")
+        if not job_id:
+            continue
+        result = wayback_poll(job_id, deadline=deadline)
+        record["wayback_url"] = result.get("wayback_url")
+        record["wayback_timestamp"] = result.get("wayback_timestamp")
+        record["wayback_source"] = result.get("wayback_source")
+        if result.get("wayback_error"):
+            record["wayback_error"] = result["wayback_error"]
+        else:
+            record.pop("wayback_error", None)
+        save_json(meta_path, record)
+        wb = record.get("wayback_url") or record.get("wayback_source")
+        print(f"  {record['url']}: {wb}")
+
+
 def wayback_lookup_or_save(url: str) -> dict:
     """Get a Wayback Machine snapshot URL for `url`, saving only if needed.
 
@@ -471,16 +628,21 @@ def crawl_once(entry: dict, *, dry_run: bool,
         "scanner_score": scanner.get("total_score", 0),
     })
 
-    # Wayback snapshot — query first, save only if missing. The final_url
-    # (post-redirects) is what we want to archive, since that's the
-    # canonical address of the content we actually fetched.
+    # Wayback snapshot — final_url (post-redirects) is what we want to
+    # archive, since that's the canonical address of the content we
+    # actually fetched. With IA credentials this submits an async SPN
+    # job and returns a job_id in ~1s; status polling happens after all
+    # crawls complete. Without credentials it falls back to the slower
+    # sync availability+save path.
     if skip_wayback:
         record["wayback_source"] = "skipped"
     else:
-        wayback = wayback_lookup_or_save(final_url)
+        wayback = wayback_submit(final_url)
         record["wayback_url"] = wayback.get("wayback_url")
         record["wayback_timestamp"] = wayback.get("wayback_timestamp")
         record["wayback_source"] = wayback.get("wayback_source")
+        if wayback.get("wayback_job_id"):
+            record["wayback_job_id"] = wayback["wayback_job_id"]
         if wayback.get("wayback_error"):
             record["wayback_error"] = wayback["wayback_error"]
 
@@ -592,6 +754,18 @@ def main() -> int:
             f["error"] = rec.get("error")
             if f["attempts"] >= MAX_RETRIES_PER_URL:
                 remove_from_queue(url)
+
+    # Wayback async: submit happens inline in crawl_once and returns
+    # immediately; poll all pending jobs here at the tail of the run.
+    # All jobs are running concurrently server-side so a single shared
+    # 90s deadline polls them efficiently.
+    if not args.dry_run and not args.skip_wayback:
+        pending = []
+        for rec in results:
+            if rec.get("wayback_job_id") and not rec.get("wayback_url"):
+                meta_path = ROOT / rec["paths"]["meta"]
+                pending.append((rec, meta_path))
+        wayback_poll_pending(pending, total_timeout=90)
 
     if not args.dry_run:
         state["last_run"] = now_iso()

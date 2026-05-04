@@ -135,3 +135,65 @@ uv run playwright install chromium
 ```
 
 Tesseract is required for OCR: `brew install tesseract`
+
+## Secrets (for the article-registry pipeline)
+
+The hourly `Crawl & Curate Articles` workflow runs the article pipeline
+in CI and reads two optional credentials from repo secrets. Both have
+graceful no-op fallbacks — the workflow won't fail if either is unset,
+it just runs in a degraded mode for that integration.
+
+### `ANTHROPIC_API_KEY` — Phase 2 semantic enrichment
+
+Without it the workflow runs Phase 1 (mechanical curation, free) only;
+articles land in the registry as `curation_status: "mechanical"` with
+no summary/quotes/genre fields.
+
+Recommended setup:
+
+1. Sign in at <https://console.anthropic.com>
+2. Create a dedicated workspace (sidebar workspace dropdown → "Create
+   workspace"), e.g. `sm-alpr`. This isolates spend from any other
+   work in your org and bounds blast-radius if the key leaks.
+3. Set a monthly spend cap on the new workspace under **Manage →
+   Limits** (or org Billing for the default workspace). Recommended:
+   $50/month — comfortably above the ~$0.05/article enrichment cost,
+   well below typical credit balances.
+4. Generate the key under **Manage → API keys** (in the new
+   workspace, not Default). Key is shown once; copy it.
+5. Plant in repo secrets:
+
+   ```sh
+   gh secret set ANTHROPIC_API_KEY -R none-below/sm-alpr
+   ```
+
+Defaults to Claude Opus 4.7. Override with `SM_ALPR_CURATE_MODEL` env
+var (set in the workflow or locally) for `claude-sonnet-4-6` or
+`claude-haiku-4-5` if you want cheaper enrichment.
+
+### `IA_ACCESS_KEY` + `IA_SECRET_KEY` — Wayback async SPN
+
+Without them the crawler falls back to the slower anonymous Wayback
+flow (Availability API check + sync save with up to 90s blocking
+wait). With them it uses the authenticated async Save Page Now API:
+submit returns a job_id in ~1s, status polled at the tail of the run,
+and `if_not_archived_within=86400` does server-side dedup so we don't
+re-trigger saves of URLs archived in the last 24 hours.
+
+Setup:
+
+1. Get keys at <https://archive.org/account/s3.php> (logged in to your
+   Internet Archive account). Returns an access key + secret pair.
+   Secret is shown once; copy both.
+2. Plant both in repo secrets:
+
+   ```sh
+   gh secret set IA_ACCESS_KEY -R none-below/sm-alpr
+   gh secret set IA_SECRET_KEY -R none-below/sm-alpr
+   ```
+
+Saves submitted with auth show up under your IA account — useful for
+attribution/integrity ("zero-below saved this on date X" beats
+"anonymous"). The keys carry no payment authority, only rate limits
+and identity; if leaked the worst case is rate-limited Wayback abuse,
+not money.

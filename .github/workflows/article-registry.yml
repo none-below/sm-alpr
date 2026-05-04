@@ -78,6 +78,12 @@ jobs:
 
       - name: Crawl queued URLs
         if: ${{ inputs.phase2_only != 'true' }}
+        # IA_ACCESS_KEY + IA_SECRET_KEY enable async Wayback Machine SPN
+        # saves with server-side dedup. Without them the crawler falls
+        # back to slower anonymous availability+sync-save behavior.
+        env:
+          IA_ACCESS_KEY: ${{ secrets.IA_ACCESS_KEY }}
+          IA_SECRET_KEY: ${{ secrets.IA_SECRET_KEY }}
         run: |
           uv run python scripts/article_crawl.py \
             --limit ${{ inputs.crawl_limit || '3' }} \
