@@ -371,11 +371,12 @@
     "4e5ef2cb-d1e8-5393-8d5f-e614a6d230c3": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T23:25:15.602614+00:00",
+      "last_probed": "2026-05-04T10:50:27.234385+00:00",
       "tried": {
         "indio-ca-po": "http_404",
         "indio-ca-police": "http_404",
-        "indio-ca-police-department": "http_404"
+        "indio-ca-police-department": "http_404",
+        "indio-ca-ps": "http_404"
       }
     },
     "5077b862-25fa-52a7-9ead-bb712a54b7af": {
@@ -451,9 +452,10 @@
     "62f9d91a-99cb-5428-8312-38718e2196ed": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T12:32:28.434900+00:00",
+      "last_probed": "2026-05-04T10:50:22.284149+00:00",
       "tried": {
-        "pomona-ca-po": "http_404"
+        "pomona-ca-po": "http_404",
+        "pomona-ca-police-department": "http_404"
       }
     },
     "64da8ade-ab72-5519-8f11-b65be44e0387": {
@@ -657,6 +659,14 @@
       "last_probed": "2026-04-25T19:34:17.104825+00:00",
       "tried": {
         "san-jose-evergreen-community-college-campus-ca-pd": "http_404"
+      }
+    },
+    "84006518-b4f2-528e-9094-f7a94132223f": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-04T10:50:18.662720+00:00",
+      "tried": {
+        "woodlake-ca-po": "http_404"
       }
     },
     "844ec58f-3abf-5a88-a280-2ba0f235264a": {
@@ -1166,6 +1176,6 @@
       }
     }
   },
-  "updated": "2026-05-04T08:09:18.380269+00:00",
+  "updated": "2026-05-04T10:50:27.271126+00:00",
   "version": 1
 }
