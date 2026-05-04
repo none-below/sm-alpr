@@ -211,6 +211,15 @@ _EXPECTS_CONTINUATION = re.compile(
     re.IGNORECASE,
 )
 
+# Standalone company-suffix tokens that should re-attach to the prior
+# entry. Flock's source has un-escaped commas like "Foo Corp, LLC" that
+# get split during ingest. Mirrors _IS_CONTINUATION_SUFFIX in
+# flock_transparency.py — keep these in sync.
+_IS_CONTINUATION_SUFFIX = re.compile(
+    r"^(LLC|L\.L\.C\.?|Inc\.?|Corp\.?|Ltd\.?|Co\.?)$",
+    re.IGNORECASE,
+)
+
 
 def parse_org_list(orgs_text):
     """Parse a comma-separated org list from Flock portal text.
@@ -226,7 +235,11 @@ def parse_org_list(orgs_text):
     raw = [n.strip() for n in body.split(", ") if n.strip()]
     names = []
     for part in raw:
-        if names and _EXPECTS_CONTINUATION.search(names[-1]):
+        merge = names and (
+            _EXPECTS_CONTINUATION.search(names[-1])
+            or _IS_CONTINUATION_SUFFIX.match(part)
+        )
+        if merge:
             names[-1] = f"{names[-1]}, {part}"
         else:
             names.append(part)

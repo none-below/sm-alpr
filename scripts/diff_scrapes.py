@@ -61,7 +61,11 @@ def diff_agency(slug_dir: Path) -> list[str]:
         else:
             old_str = json.dumps(old_val) if not isinstance(old_val, str) else old_val
             new_str = json.dumps(new_val) if not isinstance(new_val, str) else new_val
-            if len(old_str) > 80 or len(new_str) > 80:
+            # Multi-line scalar values render with embedded newlines, which
+            # made later lines look like bare agency names in the partner-
+            # list section above. Collapse to "(changed)" so each diff line
+            # stays self-contained.
+            if len(old_str) > 80 or len(new_str) > 80 or "\n" in old_str or "\n" in new_str:
                 changes.append(f"  {key}: (changed)")
             else:
                 changes.append(f"  {key}: {old_str} -> {new_str}")
