@@ -45,6 +45,15 @@ from urllib.parse import urlparse
 
 import requests
 
+# Playwright is used for PDF rendering. Heavy import + needs Chromium
+# installed at runtime; treat as optional so the rest of the crawler
+# works even if Playwright isn't set up locally.
+try:
+    from playwright.sync_api import sync_playwright
+    _PLAYWRIGHT_AVAILABLE = True
+except ImportError:
+    _PLAYWRIGHT_AVAILABLE = False
+
 print = functools.partial(print, flush=True)
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -227,7 +236,12 @@ def run_scanner(paths: list[Path]) -> dict:
     """
     if not paths:
         return {"verdict": "no-files", "total_score": 0, "files": []}
-    cmd = ["python3", str(CHECK_INJECTION), "--json", "--files",
+    # Use the same interpreter we're running under so the scanner picks up
+    # the project venv if one is active. Hardcoding `python3` was breaking
+    # in CI because the runner's `python3` resolved to a different
+    # interpreter than `uv run python ...` and the file path wasn't relative
+    # to its working directory.
+    cmd = [sys.executable, str(CHECK_INJECTION), "--json", "--files",
            *[str(p) for p in paths]]
     try:
         result = subprocess.run(cmd, capture_output=True, text=True,
@@ -245,6 +259,124 @@ def run_scanner(paths: list[Path]) -> dict:
                 "stdout": result.stdout[:1000],
                 "stderr": result.stderr[:1000],
                 "total_score": 0, "files": []}
+
+
+# ───────────────────────── archival ─────────────────────────
+
+
+def wayback_lookup_or_save(url: str) -> dict:
+    """Get a Wayback Machine snapshot URL for `url`, saving only if needed.
+
+    Always checks the Availability API first
+    (https://archive.org/wayback/available?url=...) — most articles from
+    EFF/ACLU/NPR etc. are already heavily archived, and there's no reason
+    to spam the Save endpoint when a snapshot already exists.
+
+    Only when no snapshot is found do we trigger
+    https://web.archive.org/save/<URL>. The save can take 30+ seconds for
+    long pages; we cap at 60s and record the partial state if it
+    times out — server-side save may still complete.
+
+    Returns a dict suitable for merging into a meta record:
+      wayback_url, wayback_timestamp (YYYYMMDDHHMMSS), wayback_source
+      ("existing" | "saved" | "save-failed"), wayback_error (or None).
+    """
+    out = {
+        "wayback_url": None,
+        "wayback_timestamp": None,
+        "wayback_source": None,
+        "wayback_error": None,
+    }
+    headers = {"User-Agent": USER_AGENT}
+
+    try:
+        avail = requests.get(
+            "https://archive.org/wayback/available",
+            params={"url": url},
+            headers=headers, timeout=10,
+        )
+        avail.raise_for_status()
+        closest = (avail.json().get("archived_snapshots") or {}).get("closest")
+        if closest and closest.get("available"):
+            out["wayback_url"] = closest.get("url")
+            out["wayback_timestamp"] = closest.get("timestamp")
+            out["wayback_source"] = "existing"
+            return out
+    except (requests.RequestException, ValueError) as e:
+        out["wayback_error"] = f"availability check: {type(e).__name__}: {e}"
+        # Fall through and still attempt the save.
+
+    try:
+        # 90s — fresh saves of never-archived pages can take this long
+        # while Wayback fetches and ingests. We accept the cost because
+        # the availability check filtered out the common case (already
+        # archived); only never-seen URLs reach this branch.
+        save_resp = requests.get(
+            f"https://web.archive.org/save/{url}",
+            headers=headers, timeout=90, allow_redirects=True,
+        )
+        if save_resp.status_code in (200, 302):
+            out["wayback_url"] = save_resp.url
+            out["wayback_source"] = "saved"
+            m = re.search(r"/web/(\d{14})/", save_resp.url)
+            if m:
+                out["wayback_timestamp"] = m.group(1)
+        else:
+            out["wayback_source"] = "save-failed"
+            out["wayback_error"] = (out["wayback_error"] or "") + \
+                f"; save HTTP {save_resp.status_code}"
+    except requests.RequestException as e:
+        out["wayback_source"] = "save-failed"
+        out["wayback_error"] = (out["wayback_error"] or "") + \
+            f"; save: {type(e).__name__}: {e}"
+    return out
+
+
+def render_pdf(url: str, pdf_path: Path) -> dict:
+    """Render `url` to PDF via headless Chromium. Save to pdf_path.
+
+    Returns: pdf_status ("rendered" | "skipped" | "failed"),
+             pdf_byte_size, pdf_error (or None).
+    """
+    out = {"pdf_status": None, "pdf_byte_size": None, "pdf_error": None}
+    if not _PLAYWRIGHT_AVAILABLE:
+        out["pdf_status"] = "skipped"
+        out["pdf_error"] = "playwright not available"
+        return out
+    pdf_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            try:
+                ctx = browser.new_context(
+                    user_agent=USER_AGENT,
+                    viewport={"width": 1280, "height": 1024},
+                )
+                page = ctx.new_page()
+                # `domcontentloaded` is faster than `networkidle` and good
+                # enough for static news pages; some sites (advocacy
+                # blogs with embedded media) never reach networkidle.
+                page.goto(url, wait_until="domcontentloaded", timeout=45000)
+                page.pdf(
+                    path=str(pdf_path),
+                    format="Letter",
+                    margin={"top": "0.5in", "bottom": "0.5in",
+                            "left": "0.5in", "right": "0.5in"},
+                    print_background=False,
+                )
+            finally:
+                browser.close()
+    except Exception as e:
+        out["pdf_status"] = "failed"
+        out["pdf_error"] = f"{type(e).__name__}: {str(e)[:300]}"
+        return out
+    if pdf_path.exists():
+        out["pdf_status"] = "rendered"
+        out["pdf_byte_size"] = pdf_path.stat().st_size
+    else:
+        out["pdf_status"] = "failed"
+        out["pdf_error"] = "pdf not written"
+    return out
 
 
 # ───────────────────────── fetch ─────────────────────────
@@ -279,7 +411,9 @@ def remove_from_queue(url: str) -> None:
             write_jsonl(path, kept)
 
 
-def crawl_once(entry: dict, *, dry_run: bool) -> dict:
+def crawl_once(entry: dict, *, dry_run: bool,
+               skip_wayback: bool = False,
+               skip_pdf: bool = False) -> dict:
     url = entry["url"]
     domain = entry.get("source_domain") or urlparse(url).netloc
     source = load_source_for(domain)
@@ -287,6 +421,7 @@ def crawl_once(entry: dict, *, dry_run: bool) -> dict:
     out_dir = article_dir(domain)
     html_path = out_dir / f"{slug}.html"
     txt_path = out_dir / f"{slug}.txt"
+    pdf_path = out_dir / f"{slug}.pdf"
     meta_path = out_dir / f"{slug}.meta.json"
 
     record = {
@@ -336,6 +471,33 @@ def crawl_once(entry: dict, *, dry_run: bool) -> dict:
         "scanner_score": scanner.get("total_score", 0),
     })
 
+    # Wayback snapshot — query first, save only if missing. The final_url
+    # (post-redirects) is what we want to archive, since that's the
+    # canonical address of the content we actually fetched.
+    if skip_wayback:
+        record["wayback_source"] = "skipped"
+    else:
+        wayback = wayback_lookup_or_save(final_url)
+        record["wayback_url"] = wayback.get("wayback_url")
+        record["wayback_timestamp"] = wayback.get("wayback_timestamp")
+        record["wayback_source"] = wayback.get("wayback_source")
+        if wayback.get("wayback_error"):
+            record["wayback_error"] = wayback["wayback_error"]
+
+    # Local PDF render via Playwright — separate path, never gated by
+    # check_untrusted_read.sh (PDFs are in the trusted-format whitelist
+    # alongside parsed JSON).
+    if skip_pdf or not _PLAYWRIGHT_AVAILABLE:
+        record["pdf_status"] = "skipped"
+    else:
+        pdf_result = render_pdf(final_url, pdf_path)
+        record["pdf_status"] = pdf_result.get("pdf_status")
+        record["pdf_byte_size"] = pdf_result.get("pdf_byte_size")
+        if pdf_result.get("pdf_error"):
+            record["pdf_error"] = pdf_result["pdf_error"]
+        if pdf_path.exists():
+            record["paths"]["pdf"] = str(pdf_path.relative_to(ROOT))
+
     save_json(meta_path, record)
     return record
 
@@ -349,6 +511,10 @@ def main() -> int:
                    help="base seconds between fetches; ±25%% jitter (default: 90)")
     p.add_argument("--dry-run", action="store_true",
                    help="list candidates, no HTTP")
+    p.add_argument("--skip-wayback", action="store_true",
+                   help="skip Wayback Machine archival lookup/save")
+    p.add_argument("--skip-pdf", action="store_true",
+                   help="skip Playwright PDF render (e.g. local runs without Chromium)")
     p.add_argument("--url", action="append", default=[],
                    help="force-process a specific URL "
                         "(repeatable; bypasses queue, still recorded)")
@@ -397,7 +563,9 @@ def main() -> int:
             sleep_s = random.uniform(base * 0.75, base * 1.25)
             print(f"sleep {sleep_s:.0f}s ...")
             time.sleep(sleep_s)
-        rec = crawl_once(entry, dry_run=args.dry_run)
+        rec = crawl_once(entry, dry_run=args.dry_run,
+                         skip_wayback=args.skip_wayback,
+                         skip_pdf=args.skip_pdf)
         results.append(rec)
         status = rec.get("status")
         line = f"  [{status}] {rec['url']}"
