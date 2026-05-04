@@ -282,3 +282,50 @@ def test_empty_overview_does_not_raise():
     result = parse_portal_text(text, "test-agency", "2026-05-03",
                                bold_headings={"Overview"})
     assert result["crawled_name"] is None
+
+
+def test_heading_match_is_case_insensitive():
+    """Flock has multiple case variants of the same heading across
+    agencies ("Number of LPR cameras" / "Number of LPR Cameras" /
+    "LPR Cameras"). Matching must be case-insensitive so we don't
+    bloat _HEADING_MAP with every casing and silently miss new ones.
+    """
+    from flock_transparency import _match_heading
+    assert _match_heading("Hotlist Policy") == "hotlist_policy"
+    assert _match_heading("HOTLIST POLICY") == "hotlist_policy"
+    assert _match_heading("hotlist policy") == "hotlist_policy"
+    assert _match_heading("Number of Hotlist Hits") == "hotlist_hits_30d"
+    assert _match_heading("NUMBER OF HOTLIST HITS") == "hotlist_hits_30d"
+
+
+def test_unrecognized_bold_heading_raises():
+    """A bold heading that isn't in _HEADING_MAP and doesn't match a
+    dynamic noise pattern (month-year, *Transparency Portal) should
+    raise — silently dropping it would lose that field's body."""
+    import pytest
+    text = "\n".join([
+        "What's Detected",
+        "",
+        "License Plates",
+        "",
+        "Some Brand New Field",
+        "",
+        "value goes here",
+        "",
+    ])
+    with pytest.raises(ValueError, match="not in _HEADING_MAP"):
+        parse_portal_text(
+            text, "test-agency", "2026-05-03",
+            bold_headings={"What's Detected", "Some Brand New Field"},
+        )
+
+
+def test_month_year_bold_heading_does_not_raise():
+    """Success-stories sections often have month-year subheadings
+    ("April 2026"). Those are styled bold but aren't field headings —
+    the dynamic noise pattern should swallow them."""
+    text = "What's Detected\n\nLicense Plates\n\n"
+    parse_portal_text(
+        text, "test-agency", "2026-05-03",
+        bold_headings={"What's Detected", "April 2026", "January 2026"},
+    )
