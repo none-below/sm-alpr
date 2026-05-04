@@ -132,6 +132,10 @@ jobs:
           fi
           git push --force-with-lease origin article-registry-bot
 
+      - name: Build PR body
+        if: steps.commit.outputs.has_changes == 'true'
+        run: uv run python scripts/article_pr_body.py > /tmp/pr-body.md
+
       - name: Create or update PR
         if: steps.commit.outputs.has_changes == 'true'
         env:
@@ -142,7 +146,9 @@ jobs:
           if [ -z "$existing" ]; then
             gh pr create \
               --title "chore: article registry updates" \
-              --body "Automated rolling article crawl + curation. Each run fetches a few queued URLs, runs the injection scanner, builds mechanical registry entries (Phase 1), and optionally enriches with summary/quotes/genre/agency-link via the Anthropic API (Phase 2, gated by ANTHROPIC_API_KEY)." \
+              --body-file /tmp/pr-body.md \
               --head article-registry-bot \
               --base main
+          else
+            gh pr edit "$existing" --body-file /tmp/pr-body.md
           fi
