@@ -320,6 +320,18 @@ def test_unrecognized_bold_heading_raises():
         )
 
 
+def test_prefix_matching_prefers_longest_match():
+    """When two prefixes both match (e.g. "Sharing" and "Sharing
+    Network Data With"), the longer one wins. Otherwise 12 agencies'
+    org lists get silently routed to sharing_info instead of
+    orgs_granted_access — a bug we hit on PR 170 reparse.
+    """
+    from flock_transparency import _match_heading
+    assert _match_heading("Sharing Network Data With") == "orgs_granted_access"
+    assert _match_heading("Sharing Policy") == "sharing_with_partners"
+    assert _match_heading("Sharing Restrictions") == "sharing_restrictions"
+
+
 def test_month_year_bold_heading_does_not_raise():
     """Success-stories sections often have month-year subheadings
     ("April 2026"). Those are styled bold but aren't field headings —

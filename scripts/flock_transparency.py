@@ -263,6 +263,7 @@ _HEADING_MAP = {
     "Restrictions on Deployment":            "restrictions_on_deployment",
     "Sharing with Partners":                 "sharing_with_partners",
     "Network Sharing Policy":                "sharing_with_partners",
+    "Sharing Policy":                        "sharing_with_partners",
     "Sharing Restrictions":                  "sharing_restrictions",
     "Data retention (in days)":              "data_retention",
     "Data retention":                        "data_retention",
@@ -289,6 +290,7 @@ _HEADING_MAP = {
     # org sharing — prefix match handles "Organizations granted access to X data"
     "Organizations granted access":          "orgs_granted_access",
     "External Organizations with Access":    "orgs_granted_access",
+    "Sharing Network Data With":             "orgs_granted_access",
     "Approved NCRIC Share With":             "orgs_granted_access",
     "Agencies NCRIC Shares With":            "orgs_granted_access",
     "External agencies who have access":     "orgs_granted_access",
@@ -325,9 +327,14 @@ _MAX_HEADING_LEN = 120
 # becomes case-insensitive — Flock has at least three case variants of
 # the same heading across agencies ("Number of LPR cameras", "Number of
 # LPR Cameras", "LPR Cameras"), and explicitly listing every casing
-# bloats the map. Iteration order preserves _HEADING_MAP insertion order
-# so prefix-match precedence stays predictable.
+# bloats the map.
 _HEADING_MAP_LOWER = {k.lower(): v for k, v in _HEADING_MAP.items()}
+
+# Prefix-match candidates sorted longest-first. Necessary because some
+# headings are extensions of others — "Sharing Network Data With" must
+# match before the generic "Sharing" prefix, which would otherwise route
+# 12 agencies' partner lists into sharing_info instead of orgs_granted_access.
+_HEADING_PREFIXES = sorted(_HEADING_MAP_LOWER.items(), key=lambda kv: -len(kv[0]))
 
 
 def _match_heading(line):
@@ -348,7 +355,7 @@ def _match_heading_kind(line):
     lowered = line.lower()
     if lowered in _HEADING_MAP_LOWER:
         return _HEADING_MAP_LOWER[lowered], "exact"
-    for prefix_lower, field_name in _HEADING_MAP_LOWER.items():
+    for prefix_lower, field_name in _HEADING_PREFIXES:
         if lowered.startswith(prefix_lower):
             return field_name, "prefix"
     for pattern, field_name in _DYNAMIC_HEADINGS:
