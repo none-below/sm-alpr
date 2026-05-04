@@ -56,8 +56,19 @@ _AGENCY_SUFFIXES = re.compile(
     r"Department of Public Safety|Public Safety Dept\.?|"
     r"Dept\.? of Pub(?:lic)? Safety|"
     r"Public Safety|Parks Department|Marshal'?s? Office|"
-    r"Junior College|Community College)\b\s*",
+    r"Constable|"
+    r"Independent School District|"
+    r"ISD|School District(?:\s+\d+)?|"
+    r"International Airport|Regional Airport|Intl Airport|Airport|"
+    r"Campus)\b\s*",
     re.IGNORECASE,
+)
+
+# Trailing decorative tags left after suffix stripping. "Inactive" tags
+# deactivated agencies; "Insight" is a Flock product label appended to
+# some customer names ("Troy University - Insight").
+_TRAILING_DECORATIVE = re.compile(
+    r"\s+(Inactive|Insight|Decommissioned)\s*$", re.IGNORECASE,
 )
 
 # Lone trailing "Dept" / "Department" left over after _AGENCY_SUFFIXES has
@@ -84,20 +95,25 @@ _MOUNT_VARIANTS = re.compile(r"\bMt\.\s+", re.IGNORECASE)  # "Mt. Zion" → "Mou
 
 # State-level agency patterns (state police, highway patrol, DMV, etc.)
 _STATE_AGENCY_PATTERN = re.compile(
-    r"\b(State Patrol|State Police|Highway Patrol|Department of Public Safety|"
-    r"Department of Motor Vehicles|State Highway Patrol|"
-    r"Department of Conservation|Crime Analysis Center|"
-    r"Department of Corrections|Bureau of Investigation|"
+    r"\b(State Patrol|State Police|State\s+(?:[A-Z]{2}\s+)?PD|Highway Patrol|"
+    r"Department of Public Safety|Department of Motor Vehicles|"
+    r"State Highway Patrol|Department of Conservation|"
+    r"Crime Analysis Center|"
+    r"(?:Department|Dept\.?) of Corrections|"
+    r"(?:Department|Dept\.?) of Revenue|"
+    r"(?:Department|Dept\.?) of Natural Resources|"
+    r"Bureau of Investigation|"
     r"Information Analysis Center|"
     r"Financial Crimes Intelligence Center|"
     r"Division of Criminal Investigation|"
+    r"Law Enforcement Agency|Law Enforcement Division|"
     r"Attorney General)\b",
     re.IGNORECASE,
 )
 # State-level agency abbreviations. "X Bureau of Investigation" is often
 # carried in the registry only as the abbreviation (KBI, GBI, etc.).
 _STATE_AGENCY_ABBREV = re.compile(
-    r"\b(KBI|FDLE|TBI|GBI|SBI|CBI|BCI|MIAC)\b"
+    r"\b(KBI|FDLE|TBI|GBI|SBI|CBI|BCI|MIAC|ALEA|SLED)\b"
 )
 
 # State names to USPS codes (for "Colorado State Patrol" etc.)
@@ -155,9 +171,57 @@ CITY_ALIASES = {
 # State-aware aliases. Disambiguates names that need different remappings
 # depending on the state (e.g. "Lexington" exists in many states but only
 # the KY one is the consolidated "Lexington-Fayette" gov).
+#
+# University-campus entries map a normalized university token to the
+# city where the main campus sits — extract_place_candidate runs the
+# alias *after* role/state stripping, so the bare institution name is
+# what matches here.
 STATE_CITY_ALIASES = {
     ("Lexington", "KY"): "Lexington-Fayette",
     ("Metropolitan Washington", "DC"): "Washington",
+
+    # Consolidated city-county Census names that don't accept the bare
+    # form on lookup.
+    ("Indianapolis", "IN"): "Indianapolis city (balance)",
+    ("Athens", "GA"): "Athens-Clarke County unified government (balance)",
+
+    # University / college campuses (single-campus institutions whose
+    # name doesn't contain the campus city). Targets are Census place
+    # names, except where noted as a county subdivision (cousub) — those
+    # rely on the cousub fallback in geocode_entry.
+    ("University of Georgia", "GA"): "Athens-Clarke County unified government (balance)",
+    ("University of Kentucky", "KY"): "Lexington-Fayette",
+    ("University of Louisville", "KY"): "Louisville",
+    ("University of Memphis", "TN"): "Memphis",
+    ("University of Tennessee", "TN"): "Knoxville",
+    ("University of Tennessee Health Science Center Memphis", "TN"): "Memphis",
+    ("University of South Florida", "FL"): "Tampa",
+    ("University of West Georgia", "GA"): "Carrollton",
+    ("University of North Georgia", "GA"): "Dahlonega",
+    ("University of Central Arkansas", "AR"): "Conway",
+    ("University of Oklahoma Health Science Center", "OK"): "Oklahoma City",
+    ("Emory University", "GA"): "Atlanta",
+    ("Florida State University", "FL"): "Tallahassee",
+    ("Wichita State University", "KS"): "Wichita",
+    ("Midwestern State University", "TX"): "Wichita Falls",
+    ("Southern Illinois University", "IL"): "Carbondale",
+    ("Georgia Southwestern State University", "GA"): "Americus",
+    ("Georgia Piedmont Technical College", "GA"): "Clarkston",
+    ("Itawamba Community College", "MS"): "Fulton",
+    ("Walters State Community College", "TN"): "Morristown",
+    ("Prairie View A & M University", "TX"): "Prairie View",
+    ("Troy University", "AL"): "Troy",
+    ("UNC Asheville", "NC"): "Asheville",
+    # UMMC normalize_agency_name strips parens, leaving "UMMC MS PD" — so
+    # the candidate after suffix-strip is "UMMC".
+    ("UMMC", "MS"): "Jackson",
+
+    # Multi-city / colloquial city names.
+    ("Lakeside Park-Crestview Hills", "KY"): "Lakeside Park",  # adjacent KY cities; pick larger
+    ("Middleboro", "MA"): "Middleborough",  # cousub; falls through to lookup_cousub
+    ("Marta", "GA"): "Atlanta",  # MARTA is the Atlanta transit authority
+    ("Wyandotte Nation", "OK"): "Wyandotte",
+    ("Port of Seattle", "WA"): "Seattle",
 }
 
 
@@ -178,6 +242,9 @@ def extract_place_candidate(agency_name, state=None):
     name = normalize_agency_name(agency_name)
     # Strip agency-role suffixes (PD, SO, DPS, etc.)
     name = _AGENCY_SUFFIXES.sub(" ", name)
+    # Strip trailing decorative tags ("Inactive", "Insight") so they
+    # don't bleed into the place candidate.
+    name = _TRAILING_DECORATIVE.sub("", name)
     # Strip state codes (now standalone)
     name = _STATE_TOKEN.sub(" ", name)
     # Strip "City of" / "Town of" prefix
@@ -188,6 +255,9 @@ def extract_place_candidate(agency_name, state=None):
     # phrases like "X Public Safety Dept" where _AGENCY_SUFFIXES took the
     # contextual part but left the standalone word.
     name = _TRAILING_DEPT.sub("", name).strip()
+    # Re-strip in case the candidate ends with a decorative tag that was
+    # only exposed after the agency suffix came off.
+    name = _TRAILING_DECORATIVE.sub("", name).strip()
     # Strip dashes that have whitespace on at least one side, or that hang
     # off the start/end of the string. These are artifacts from messy names
     # like "Windsor- IL- PD" or "X - " separators left after suffix stripping.
@@ -266,6 +336,26 @@ def is_state_level_agency(name):
     return bool(_STATE_AGENCY_PATTERN.search(name)) or bool(_STATE_AGENCY_ABBREV.search(name))
 
 
+# Match "<Word> CO <STATE>" where CO is the County abbreviation and the
+# trailing 2-letter token is the actual state. Some registry rows
+# ("Caldwell CO TX SO", "Reeves CO TX SO") have this shape and ended up
+# stored with state="CO" because the slug parser took CO as Colorado.
+# Used to override the entry's state during geocoding.
+_CO_COUNTY_STATE = re.compile(r"\b[A-Z][\w]+\s+CO\s+([A-Z]{2})\b")
+
+
+def detect_county_co_state(name):
+    """If name has 'X CO YY' pattern (CO=County), return YY.
+    Returns None when no match, or when YY is itself 'CO'."""
+    m = _CO_COUNTY_STATE.search(name)
+    if not m:
+        return None
+    code = m.group(1)
+    if code == "CO":
+        return None
+    return code
+
+
 def infer_state_from_name(name):
     """Extract state USPS code from a name like 'Colorado State Patrol' or 'NYS ...'."""
     for word, usps in _STATE_NAMES.items():
@@ -310,14 +400,167 @@ def extract_county_candidate(agency_name):
     return name
 
 
+# Hand-curated geo blocks for entries that the Census-based geocoder
+# can't reasonably resolve (tribal HQs, regional drug task forces,
+# private hospital systems, airports without an inferable state, TX
+# CDPs the Census places gazetteer doesn't index, etc.). Keyed by
+# agency_id; the geocoder applies these before falling back to the
+# Census pipeline. Entries whose location can't be confidently pinned
+# down (e.g. "OK - 477", "Elm Ridge TX PD", multi-county precincts
+# without a county hint) are deliberately omitted — they stay flagged
+# in the CI recipient-coords check until someone narrows them down.
+MANUAL_OVERRIDES = {
+    # 18th Judicial District DTF — Sumner County, TN; based in Gallatin.
+    "c9811955-3e45-5ff9-bd62-25a4f54afa6a": {
+        "kind": "manual", "name": "Gallatin", "state": "TN",
+        "lat": 36.388, "lng": -86.450,
+    },
+    # Baylor Scott & White Health PD — Dallas-Fort Worth HQ.
+    "bc36858b-ad3b-59d8-84ec-719a6c34de87": {
+        "kind": "manual", "name": "Dallas", "state": "TX",
+        "lat": 32.7767, "lng": -96.7970,
+    },
+    # CSX Railroad PD — corporate HQ Jacksonville, FL.
+    "ddad36ac-3cf9-58aa-b0c4-ec087280450b": {
+        "kind": "manual", "name": "Jacksonville", "state": "FL",
+        "lat": 30.3322, "lng": -81.6557,
+    },
+    # Chatham-Savannah Counter Narcotics Team — Savannah/Chatham County, GA.
+    "fec2b9a0-ee16-5d0a-948b-0b58ed4d1c48": {
+        "kind": "manual", "name": "Savannah", "state": "GA",
+        "lat": 32.0809, "lng": -81.0912,
+    },
+    # Chehalis Tribe Law Enforcement — Confederated Tribes of the
+    # Chehalis Reservation HQ in Oakville, WA.
+    "a2c33b5c-16a8-52e3-8c8a-5be75694d3ed": {
+        "kind": "manual", "name": "Oakville", "state": "WA",
+        "lat": 46.8482, "lng": -123.2293,
+    },
+    # Columbia River DTF — covers Cowlitz County WA; based in Longview.
+    "8661b49d-944f-56c2-924b-decfbca1a0ef": {
+        "kind": "manual", "name": "Longview", "state": "WA",
+        "lat": 46.1382, "lng": -122.9382,
+    },
+    # Cypress-Fairbanks ISD PD — Cypress, TX (NW Harris County). Census
+    # places gazetteer doesn't index the Cypress CDP.
+    "ff35f6c5-112e-5970-b59f-47dcef6947e5": {
+        "kind": "manual", "name": "Cypress", "state": "TX",
+        "lat": 29.9691, "lng": -95.6972,
+    },
+    # Huffman ISD PD — Huffman, TX (NE Harris County CDP, not in
+    # Census places gazetteer).
+    "fe2ade2a-15d6-5074-8593-c2f5c8f2c590": {
+        "kind": "manual", "name": "Huffman", "state": "TX",
+        "lat": 30.0152, "lng": -95.0919,
+    },
+    # Gwinnett County School PD — Gwinnett County, GA. Registry has no
+    # state set so the standard county branch can't fire.
+    "4c431642-2f5c-5c7c-9c69-6587fff1becf": {
+        "kind": "manual", "name": "Gwinnett County", "state": "GA",
+        "lat": 33.9588, "lng": -84.0257,
+    },
+    # Louisville Muhammad Ali International Airport PD — Louisville KY.
+    "8383db21-74c6-5054-a618-f23bc75390ac": {
+        "kind": "manual", "name": "Louisville", "state": "KY",
+        "lat": 38.1744, "lng": -85.7361,
+    },
+    # Memphis International Airport (MEM) — Memphis, TN.
+    "d5100c71-2e81-53cc-9c6c-d96e89abd32d": {
+        "kind": "manual", "name": "Memphis", "state": "TN",
+        "lat": 35.0424, "lng": -89.9767,
+    },
+    # Methodist Health System PD — Dallas, TX (system HQ).
+    "1d8cb468-cbbb-535f-a315-a79da4dd4f16": {
+        "kind": "manual", "name": "Dallas", "state": "TX",
+        "lat": 32.7457, "lng": -96.8285,
+    },
+    # Mineral Area Drug Task Force — covers St. Francois / Iron / etc.;
+    # based in Park Hills, MO.
+    "28893c8b-2b9b-5d85-a0a8-6a404cdab8b0": {
+        "kind": "manual", "name": "Park Hills", "state": "MO",
+        "lat": 37.8553, "lng": -90.5178,
+    },
+    # Montgomery County Constable — Montgomery County, TX (Conroe).
+    # The registry has no state; multiple states have a Montgomery
+    # County, but in context (Cabot AR PD shares with TX agencies and
+    # the Constable role is a Texas-specific institution) TX is the
+    # safe call.
+    "a876b7c8-45b2-53a9-a8a6-460d19bdfc51": {
+        "kind": "manual", "name": "Conroe", "state": "TX",
+        "lat": 30.3119, "lng": -95.4561,
+    },
+    # Northwest Arkansas Regional Airport (XNA) — Highfill, AR (serves
+    # Bentonville/Fayetteville).
+    "ee18a416-bc7f-5307-83e7-cfc14adac657": {
+        "kind": "manual", "name": "Bentonville", "state": "AR",
+        "lat": 36.2819, "lng": -94.3068,
+    },
+    # Orleans Levee District PD — New Orleans, LA.
+    "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0": {
+        "kind": "manual", "name": "New Orleans", "state": "LA",
+        "lat": 29.9511, "lng": -90.0715,
+    },
+    # Ozarks Drug Enforcement Team — Greene County, MO; Springfield.
+    "b6e5f1da-fdb5-5b48-95b9-18c3137f2545": {
+        "kind": "manual", "name": "Springfield", "state": "MO",
+        "lat": 37.2090, "lng": -93.2923,
+    },
+    # Port Fourchon Harbor PD — Port Fourchon, LA.
+    "2be084dc-fee8-51fe-b1f4-5acbd9d6da03": {
+        "kind": "manual", "name": "Port Fourchon", "state": "LA",
+        "lat": 29.1067, "lng": -90.1928,
+    },
+    # SEMO Drug Task Force — Southeast Missouri; based in Cape Girardeau.
+    "23e43879-4b61-5c96-8abd-488f90536244": {
+        "kind": "manual", "name": "Cape Girardeau", "state": "MO",
+        "lat": 37.3059, "lng": -89.5181,
+    },
+    # South Central Missouri DTF — Texas County, MO; HQ in Houston, MO.
+    "13052a9b-73e7-54ac-8289-6818f7a23de0": {
+        "kind": "manual", "name": "Houston", "state": "MO",
+        "lat": 37.3239, "lng": -91.9557,
+    },
+    # Southern Regional PD — York County PA, based in Shrewsbury.
+    "07ccfe8f-7915-59fd-b090-280305bdee32": {
+        "kind": "manual", "name": "Shrewsbury", "state": "PA",
+        "lat": 39.7666, "lng": -76.6797,
+    },
+    # Spokane Tribal PD — Spokane Indian Reservation HQ in Wellpinit, WA.
+    "3fb2e1f2-434a-5a2b-b79e-64c927bc461e": {
+        "kind": "manual", "name": "Wellpinit", "state": "WA",
+        "lat": 47.8907, "lng": -118.0651,
+    },
+    # Tennessee Regional Organized Crime Information Center — Nashville HQ.
+    "c745e651-a0bd-543e-a69c-2a9741b766de": {
+        "kind": "manual", "name": "Nashville", "state": "TN",
+        "lat": 36.1627, "lng": -86.7816,
+    },
+    # Tupelo Regional Airport (TUP) — Tupelo, MS.
+    "e0905266-5997-5468-a68a-55abc5e49065": {
+        "kind": "manual", "name": "Tupelo", "state": "MS",
+        "lat": 34.2581, "lng": -88.7037,
+    },
+}
+
+
 def geocode_entry(entry):
     """Attempt to geocode a single entry. Returns a geo dict or None.
 
     Uses the entry's display name and state. Skips entries with no state
     or that are tagged as private/federal/test/etc.
     """
+    aid = entry.get("agency_id")
+    if aid in MANUAL_OVERRIDES:
+        return dict(MANUAL_OVERRIDES[aid])
+
     name = agency_display_name(entry)
     state = agency_state(entry) or infer_state_from_name(name)
+    # "X CO YY" naming (CO=County abbrev) overrides any state inferred
+    # from the entry, since the registry sometimes mistakenly records
+    # CO as Colorado for these.
+    co_override = detect_county_co_state(name)
+    if co_override:
+        state = co_override
     if not state:
         return None
 
