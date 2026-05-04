@@ -18,8 +18,8 @@ on:
         description: 'Max URLs to fetch this run'
         default: '3'
       crawl_delay:
-        description: 'Seconds between fetches (jittered ±25%)'
-        default: '90'
+        description: 'Seconds between fetches (jittered ±25%). Hourly cron is the real rate limit; this just avoids bursting.'
+        default: '5'
       phase2_limit:
         description: 'Max articles to enrich via Anthropic API this run'
         default: '5'
