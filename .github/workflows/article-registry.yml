@@ -53,7 +53,18 @@ jobs:
           git fetch origin article-registry-bot || true
           if git rev-parse --verify origin/article-registry-bot >/dev/null 2>&1; then
             git checkout article-registry-bot
-            git rebase origin/main || { git rebase --abort; git reset --hard origin/main; }
+            # NOTE: previously this fell back to `git reset --hard origin/main`
+            # on rebase failure. That destroyed accumulated bot work
+            # (curated articles, scanner state) when a queue.jsonl conflict
+            # surfaced — we recovered once via cherry-pick from local
+            # reflog but it was a real save. Now: abort the rebase, leave
+            # the bot branch untouched, and fail this run loudly. A human
+            # resolves and force-pushes.
+            git rebase origin/main || {
+              git rebase --abort
+              echo "::error::rebase against origin/main conflicts. Bot branch left untouched — resolve manually. NOT auto-resetting (would destroy unmerged work)."
+              exit 1
+            }
           else
             git checkout -b article-registry-bot
           fi
