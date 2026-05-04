@@ -97,8 +97,9 @@
     "13422e46-1750-5a1f-865c-a7219949a2ef": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T22:21:42.380544+00:00",
+      "last_probed": "2026-05-04T15:33:26.790589+00:00",
       "tried": {
+        "hemet-ca": "http_404",
         "hemet-ca-po": "http_404",
         "hemet-ca-police": "http_404",
         "hemet-ca-police-department": "http_404",
@@ -932,6 +933,14 @@
         "east-bay-parks-ca-police-department": "http_404"
       }
     },
+    "c11a14ff-0bc7-5a6d-9876-c5932d05c38e": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-04T15:33:20.291190+00:00",
+      "tried": {
+        "butler-township-oh-po": "http_404"
+      }
+    },
     "c246371a-5810-5428-b861-52b526e54678": {
       "exhausted": false,
       "found": null,
@@ -1072,9 +1081,10 @@
     "e9d63958-c540-592f-aeb5-6fc9953296ef": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T15:27:27.301633+00:00",
+      "last_probed": "2026-05-04T15:33:30.576985+00:00",
       "tried": {
-        "hermosa-beach-ca-pd": "http_404"
+        "hermosa-beach-ca-pd": "http_404",
+        "hermosa-beach-ca-po": "http_404"
       }
     },
     "ea91bafe-b935-5f29-bf40-896f155a1d1c": {
@@ -1193,6 +1203,6 @@
       }
     }
   },
-  "updated": "2026-05-04T13:13:22.134463+00:00",
+  "updated": "2026-05-04T15:33:30.607560+00:00",
   "version": 1
 }
