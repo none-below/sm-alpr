@@ -4,11 +4,13 @@ version = "0.1.0"
 description = "SMPD ALPR investigation — findings report and tooling"
 requires-python = ">=3.14"
 dependencies = [
+    "anthropic>=0.97.0",
     "pillow>=12.1.1",
     "playwright>=1.52.0",
     "pymupdf>=1.27.2.2",
     "pytesseract>=0.3.13",
     "reportlab>=4.4.10",
+    "requests>=2.33.1",
 ]
 
 [dependency-groups]

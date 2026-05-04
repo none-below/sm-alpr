@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "_schema": {
+    "id": "namespace:slug — colon-separated, lowercase, dashes for word breaks",
+    "description": "what the tag means / when to apply it",
+    "aliases": "(optional, vendor tags only) surface forms the matcher should fold into this tag"
+  },
+  "_rules": [
+    "Adding a tag is a deliberate commit. lint_articles.py rejects unknown tags on registry entries.",
+    "A registry entry should carry at most one stance:* and at most one genre:* tag.",
+    "Vendor and agency tags can repeat per article (an article can be vendor:flock + vendor:axon).",
+    "agency:* tags are a soft denormalization for filtering; the canonical link is article.agencies[] -> agency_registry."
+  ],
+  "topics": {
+    "vendor:flock":      {"description": "Article references Flock Safety products, contracts, or policies.", "aliases": ["Flock", "Flock Safety", "Flock cameras", "the Flock system", "Flock LPR"]},
+    "vendor:axon":       {"description": "Article references Axon (BWC, evidence.com, ALPR offerings).",     "aliases": ["Axon", "Axon Enterprise"]},
+    "vendor:fusus":      {"description": "Article references Fusus / RTIC integration platform.",            "aliases": ["Fusus", "FUSUS"]},
+    "vendor:vigilant":   {"description": "Article references Vigilant Solutions / Motorola ALPR.",            "aliases": ["Vigilant", "Vigilant Solutions"]},
+    "vendor:motorola":   {"description": "Article references Motorola Solutions surveillance products.",      "aliases": ["Motorola", "Motorola Solutions"]},
+
+    "policy:audit":              {"description": "Audit obligations, audit logs, audit cadence."},
+    "policy:retention":          {"description": "Data retention windows, deletion policies."},
+    "policy:purpose-limitation": {"description": "Permitted uses, purpose-limitation clauses."},
+    "policy:sharing":            {"description": "Data-sharing arrangements between agencies / with private actors."},
+    "policy:hotlist":            {"description": "Hotlist sourcing, NCIC integration, custom hot lists."},
+
+    "incident:wrongful-stop":    {"description": "ALPR misread or stale data leading to a wrongful stop or detention."},
+    "incident:ice-cooperation":  {"description": "ALPR data flowing to ICE / federal immigration enforcement."},
+    "incident:misuse":           {"description": "Personnel misuse of ALPR (stalking, personal queries, etc.)."},
+    "incident:data-breach":      {"description": "Breach or leak of ALPR data."},
+    "incident:false-positive":   {"description": "False match leading to enforcement action short of a stop."},
+
+    "legal:ag-bulletin":     {"description": "California (or other state) AG bulletin / guidance."},
+    "legal:ag-lawsuit":      {"description": "AG lawsuit against an agency (e.g., El Cajon)."},
+    "legal:legislation":     {"description": "Bills, statutes, ordinances regulating ALPR."},
+    "legal:court-ruling":    {"description": "Judicial decision touching ALPR."},
+    "legal:pra":             {"description": "PRA / FOIA-related coverage."},
+
+    "scope:national":   {"description": "Article covers the issue at a national level, not a specific agency."},
+    "scope:state":      {"description": "Statewide coverage."},
+    "scope:local":      {"description": "Single-agency / single-jurisdiction coverage."}
+  },
+  "editorial": {
+    "stance:neutral":    {"description": "Straight news reporting; no editorial posture."},
+    "stance:critical":   {"description": "Frames ALPR / surveillance as a civil-liberties or accountability problem."},
+    "stance:supportive": {"description": "Frames ALPR as an effective or appropriate law-enforcement tool."},
+    "stance:industry":   {"description": "Vendor or trade publication; promotional posture."},
+
+    "genre:investigative":  {"description": "Original reporting that surfaces non-public facts."},
+    "genre:explainer":      {"description": "Background / explanatory piece, not original reporting."},
+    "genre:opinion":        {"description": "Editorial / op-ed / commentary."},
+    "genre:press-release":  {"description": "Press release or thinly-rewritten press release."},
+    "genre:analysis":       {"description": "Analytical piece (think-tank report, policy brief, advocacy whitepaper)."}
+  }
+}

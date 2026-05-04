@@ -1,0 +1,128 @@
+name: Crawl & Curate Articles
+
+# Drains the article queue, fetches a small batch per run, runs the
+# injection scanner on each fetch, mechanically curates registry entries
+# (Phase 1 — no LLM), then optionally enriches with semantic fields via
+# the Anthropic API (Phase 2 — only if ANTHROPIC_API_KEY is set).
+#
+# Cron offset: :07 — staggered from refresh-flock-data (:17) and
+# probe-slugs (:47) so the three rate-budget-separated workflows don't
+# pile up in the same minute.
+
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+    inputs:
+      crawl_limit:
+        description: 'Max URLs to fetch this run'
+        default: '3'
+      crawl_delay:
+        description: 'Seconds between fetches (jittered ±25%)'
+        default: '90'
+      phase2_limit:
+        description: 'Max articles to enrich via Anthropic API this run'
+        default: '5'
+      phase2_only:
+        description: 'Skip crawl + Phase 1; run Phase 2 only'
+        default: 'false'
+
+concurrency:
+  group: article-registry
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          # PAT (if configured) attributes the resulting PR to a human
+          # so CI doesn't require approval-for-bots on every run.
+          token: ${{ secrets.REFRESH_PAT || github.token }}
+
+      - name: Set up long-lived branch
+        run: |
+          git fetch origin article-registry-bot || true
+          if git rev-parse --verify origin/article-registry-bot >/dev/null 2>&1; then
+            git checkout article-registry-bot
+            git rebase origin/main || { git rebase --abort; git reset --hard origin/main; }
+          else
+            git checkout -b article-registry-bot
+          fi
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Crawl queued URLs
+        if: ${{ inputs.phase2_only != 'true' }}
+        run: |
+          uv run python scripts/article_crawl.py \
+            --limit ${{ inputs.crawl_limit || '3' }} \
+            --delay ${{ inputs.crawl_delay || '90' }}
+
+      - name: Phase 1 — mechanical curation
+        if: ${{ inputs.phase2_only != 'true' }}
+        run: uv run python scripts/article_curate.py --phase 1
+
+      - name: Phase 2 — semantic enrichment
+        # Script no-ops when ANTHROPIC_API_KEY is unset, so this step
+        # always runs but spends only when the secret is present.
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          uv run python scripts/article_curate.py \
+            --phase 2 \
+            --limit ${{ inputs.phase2_limit || '5' }}
+
+      - name: Lint registry
+        run: uv run python scripts/lint_articles.py
+
+      - name: Commit and push
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add \
+            assets/article_registry.json \
+            assets/articles/ \
+            || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          # Distinguish state-only updates (queue drain, scanner state)
+          # from substantive registry changes for commit-message clarity.
+          if git diff --cached --quiet assets/article_registry.json; then
+            git commit -m "chore: article crawl state update (no registry changes)"
+          else
+            git commit -m "chore: article registry update"
+          fi
+          git push --force-with-lease origin article-registry-bot
+
+      - name: Create or update PR
+        if: steps.commit.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh pr list --head article-registry-bot --state open \
+                       --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            gh pr create \
+              --title "chore: article registry updates" \
+              --body "Automated rolling article crawl + curation. Each run fetches a few queued URLs, runs the injection scanner, builds mechanical registry entries (Phase 1), and optionally enriches with summary/quotes/genre/agency-link via the Anthropic API (Phase 2, gated by ANTHROPIC_API_KEY)." \
+              --head article-registry-bot \
+              --base main
+          fi

@@ -31,6 +31,9 @@ jobs:
       - name: Lint findings source numbering
         run: python3 scripts/lint_findings.py
 
+      - name: Lint article registry
+        run: python3 scripts/lint_articles.py
+
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         id: playwright-cache
