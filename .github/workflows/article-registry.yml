@@ -28,7 +28,9 @@ on:
         default: 'false'
 
 concurrency:
-  group: article-registry
+  # Shared with discover-articles.yml — both push to article-registry-bot
+  # so they need to serialize to avoid force-with-lease conflicts.
+  group: article-pipeline
   cancel-in-progress: false
 
 permissions:

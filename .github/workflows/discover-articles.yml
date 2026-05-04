@@ -1,0 +1,99 @@
+name: Discover Articles via RSS
+
+# Polls RSS feeds declared in assets/sources.json (entries with a
+# `feed_url` field), filters items by ALPR/Flock keywords, and appends
+# matching URLs to the article queue. The dedup in article_queue_add.py
+# means re-running over the same feed is a no-op.
+#
+# Shares the article-registry-bot branch with the hourly crawl
+# workflow — both push to the same branch under one PR. They share a
+# concurrency group so they don't race.
+
+on:
+  schedule:
+    - cron: '37 5 * * *'   # daily at 05:37 UTC (off-peak, between cron ticks)
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Single source domain to process (default all)'
+        default: ''
+      dry_run:
+        description: 'Print would-queue without writing'
+        default: 'false'
+
+concurrency:
+  group: article-pipeline
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          token: ${{ secrets.REFRESH_PAT || github.token }}
+
+      - name: Set up long-lived branch
+        run: |
+          git fetch origin article-registry-bot || true
+          if git rev-parse --verify origin/article-registry-bot >/dev/null 2>&1; then
+            git checkout article-registry-bot
+            git rebase origin/main || { git rebase --abort; git reset --hard origin/main; }
+          else
+            git checkout -b article-registry-bot
+          fi
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Discover via RSS
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.source }}" ]; then
+            ARGS="$ARGS --source ${{ inputs.source }}"
+          fi
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          # shellcheck disable=SC2086
+          uv run python scripts/discover_articles.py $ARGS
+
+      - name: Commit and push
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/articles/queue.jsonl assets/articles/queue_priority.jsonl 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No new URLs discovered"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          git commit -m "chore: rss-discovered article URLs"
+          git push --force-with-lease origin article-registry-bot
+
+      - name: Create or update PR
+        if: steps.commit.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh pr list --head article-registry-bot --state open \
+                       --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            gh pr create \
+              --title "chore: article registry updates" \
+              --body "Automated rolling article crawl + curation + RSS discovery." \
+              --head article-registry-bot \
+              --base main
+          fi
