@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "_schema": {
+    "domain": "lowercase apex domain (no scheme, no path, no www)",
+    "tier": "1 = wire/papers of record / professional editorial, 2 = beat/advocacy outlets, 3 = blogs/social/uncurated",
+    "name": "human-readable publisher name",
+    "stance": "neutral | critical | supportive | industry | unknown — posture toward law-enforcement surveillance",
+    "last_reviewed": "YYYY-MM-DD when tier/stance was last confirmed by a human",
+    "notes": "free-form"
+  },
+  "_handler_policy": {
+    "tier_1_clean": "in-context read by Claude allowed (one-shot, scanner-clean only)",
+    "tier_1_flagged": "subagent-jail (Read-only, JSON schema output)",
+    "tier_2_clean": "subagent-jail (Read-only, JSON schema output)",
+    "tier_2_flagged": "deterministic extraction only; quotes hand-pasted",
+    "tier_3_any": "deterministic extraction only; quotes hand-pasted"
+  },
+  "sources": [
+    {"domain": "nytimes.com",            "tier": 1, "name": "The New York Times",          "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "washingtonpost.com",     "tier": 1, "name": "The Washington Post",         "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "reuters.com",            "tier": 1, "name": "Reuters",                     "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "apnews.com",             "tier": 1, "name": "Associated Press",            "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "sfchronicle.com",        "tier": 1, "name": "San Francisco Chronicle",     "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "mercurynews.com",        "tier": 1, "name": "San Jose Mercury News",       "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "latimes.com",            "tier": 1, "name": "Los Angeles Times",           "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "sacbee.com",             "tier": 1, "name": "Sacramento Bee",              "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "smdailyjournal.com",     "tier": 1, "name": "San Mateo Daily Journal",     "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": "Local paper for SMPD coverage."},
+    {"domain": "kqed.org",               "tier": 1, "name": "KQED",                        "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "npr.org",                "tier": 1, "name": "NPR",                         "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+
+    {"domain": "eff.org",                "tier": 2, "name": "Electronic Frontier Foundation", "stance": "critical", "last_reviewed": "2026-04-27", "notes": "Privacy/surveillance advocacy."},
+    {"domain": "aclu.org",               "tier": 2, "name": "ACLU (national)",             "stance": "critical",   "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "aclunc.org",             "tier": 2, "name": "ACLU of Northern California",  "stance": "critical",   "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "epic.org",               "tier": 2, "name": "Electronic Privacy Information Center", "stance": "critical", "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "themarkup.org",          "tier": 2, "name": "The Markup",                  "stance": "critical",   "last_reviewed": "2026-04-27", "notes": "Accountability journalism, tech/algorithm beat."},
+    {"domain": "404media.co",            "tier": 2, "name": "404 Media",                   "stance": "critical",   "last_reviewed": "2026-04-27", "notes": "Tech/surveillance reporting; covers prompt-injection beats — scanner-flagged content may be a quoted attack, not a real one."},
+    {"domain": "propublica.org",         "tier": 2, "name": "ProPublica",                  "stance": "critical",   "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "wired.com",              "tier": 2, "name": "Wired",                       "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "arstechnica.com",        "tier": 2, "name": "Ars Technica",                "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "brennancenter.org",      "tier": 2, "name": "Brennan Center for Justice",  "stance": "critical",   "last_reviewed": "2026-04-27", "notes": ""},
+
+    {"domain": "flocksafety.com",        "tier": 2, "name": "Flock Safety (vendor)",       "stance": "industry",   "last_reviewed": "2026-04-27", "notes": "Vendor blog/press releases. Counterweight value: their own framing of products and policy."},
+    {"domain": "axon.com",               "tier": 2, "name": "Axon (vendor)",               "stance": "industry",   "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "policeexecutive.org",    "tier": 2, "name": "Police Executive Research Forum (PERF)", "stance": "supportive", "last_reviewed": "2026-04-27", "notes": "Industry/practitioner research."},
+    {"domain": "theiacp.org",            "tier": 2, "name": "International Association of Chiefs of Police", "stance": "supportive", "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "police1.com",            "tier": 2, "name": "Police1",                     "stance": "supportive", "last_reviewed": "2026-04-27", "notes": "Trade publication for law enforcement."}
+  ]
+}

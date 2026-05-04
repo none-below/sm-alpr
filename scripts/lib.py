@@ -163,7 +163,8 @@ def resolve_agency(*, slug=None, name=None):
     """Find a registry entry by Flock slug or display name.
 
     Pass exactly one of ``slug`` or ``name``. Searches ``flock_slugs``
-    (including legacy slugs) and ``flock_names`` respectively.
+    (including legacy slugs) for slug lookups, and ``flock_names`` +
+    ``aliases`` for name lookups.
 
     Returns the full registry entry dict, or None if not found.
     """
@@ -172,9 +173,57 @@ def resolve_agency(*, slug=None, name=None):
             if slug in e.get("flock_slugs", []) or slug == e.get("slug"):
                 return e
         if name is not None:
-            if name in e.get("flock_names", []):
+            if name in e.get("flock_names", []) or name in e.get("aliases", []):
                 return e
     return None
+
+
+# Mirror of docs/js/report.js → shortAgencyName(): strip role+state suffix
+# from a display name when geo.name isn't available. Keep aligned.
+_NAME_SUFFIX_STRIP = re.compile(
+    r"\s+(CA|NV|AZ|OR|WA|ID|UT|NY|TX|FL|NH|MA|CT|NJ|PA|MD|VA|NC|SC|GA|"
+    r"OH|MI|IL|IN|KY|TN|AL|MS|LA|AR|OK|MO|KS|NE|IA|MN|WI|ND|SD|MT|WY|"
+    r"CO|NM|AK|HI|ME|VT|RI|DE|WV|DC)\s+"
+    r"(PD|SO|SD|DA|FD|DPS|Police|Sheriff|Police Department|"
+    r"Sheriff'?s? Office|District Attorney)\b.*$",
+    re.IGNORECASE,
+)
+
+
+def canonical_place_name(entry):
+    """Authoritative place name for an agency, mirroring report.js's
+    shortAgencyName(): prefer geo.name (FIPS-derived), append 'County' if
+    geo.kind is county and the name isn't already suffixed, else fall
+    back to stripping the role+state suffix off agency_display_name().
+
+    Returns None if no usable place name can be derived.
+    """
+    geo = entry.get("geo") or {}
+    name = geo.get("name")
+    if name:
+        if geo.get("kind") == "county" and not re.search(r"\bCounty$", name, re.IGNORECASE):
+            return f"{name} County"
+        return name
+    n = agency_display_name(entry) or ""
+    n = _NAME_SUFFIX_STRIP.sub("", n).strip()
+    return n or None
+
+
+def agency_surface_forms(entry):
+    """Every name an agency may be referenced by, for fuzzy matching.
+
+    Combines display_name, flock_names (Flock portal's spellings), and
+    aliases (article-found references). Order: longest-first so the
+    matcher prefers specific forms ('San Mateo Police Department') over
+    short ones ('San Mateo') that could collide across entries.
+    """
+    forms = set()
+    if entry.get("display_name"):
+        forms.add(entry["display_name"])
+    forms.update(entry.get("flock_names", []) or [])
+    forms.update(entry.get("aliases", []) or [])
+    return sorted((f for f in forms if f and f.strip()),
+                  key=lambda s: (-len(s), s.lower()))
 
 
 # Backward-compat wrappers — callers migrating to resolve_agency()
