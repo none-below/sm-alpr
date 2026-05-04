@@ -198,6 +198,25 @@ def latest_capture_date(slug, data_dir):
         return None
 
 
+def latest_capture_attempt_date(slug, data_dir):
+    """Return the latest *attempted* capture date — date of the latest .txt
+    even if parsing failed afterwards. Used only for crawl-queue ordering
+    so a slug whose parser is broken doesn't stay pinned to queue position
+    #1 forever. Downstream consumers should keep using latest_capture_date,
+    which only counts successful captures.
+    """
+    slug_dir = data_dir / slug
+    if not slug_dir.is_dir():
+        return None
+    txts = portal_txts(slug_dir)
+    if not txts:
+        return None
+    try:
+        return datetime.strptime(txts[-1].stem, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
 # ═══════════════════════════════════════════════════════════
 # Parsing: raw DOM text -> structured JSON
 # ═══════════════════════════════════════════════════════════
@@ -641,26 +660,18 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     try:
         portal_data = parse_portal_text(page_text, slug, datestamp, bold_headings=bold_headings)
     except ValueError as e:
-        # Parser hit a new format variant. Files are saved above; surface
-        # the error but don't abort the whole crawl run — let other
-        # agencies continue, and re-parse this slug after a parser fix
-        # via `parse --force --slug <slug>`.
+        # Parser hit a new format variant. The .txt and .html were saved
+        # above so latest_capture_attempt_date sees today's date and the
+        # slug ages out of tier 0 in the crawl queue (no stub JSON
+        # needed — that would pollute downstream consumers like
+        # build_history with bogus zeroed-out fields). The stub-free
+        # design lets `parse --force --slug <slug>` produce a correct
+        # JSON later once the parser is fixed.
         # Structured marker line so the workflow can grep crawl logs
         # and surface PARSE_ERROR: <slug> as a GitHub issue.
         print(f"    PARSE_ERROR: {slug} {datestamp} :: {e}")
         if not force and prev_hash == current_hash:
             return "unchanged", []
-        # Write a stub JSON so latest_capture_date sees a date for this
-        # slug — otherwise a slug whose parser is permanently broken
-        # stays in tier 0 (uncaptured) forever and blocks the front of
-        # every crawl batch. The stub is overwritten by a successful
-        # `parse --force` once the parser is fixed.
-        json_path.write_text(json.dumps({
-            "crawled_slug": slug,
-            "archived_date": datestamp,
-            "crawled_at": crawled_at,
-            "_parse_error": str(e),
-        }, indent=2) + "\n")
         return ("failed", "parse_error"), []
 
     portal_data["crawled_at"] = crawled_at
@@ -893,7 +904,11 @@ def cmd_crawl(args):
                 #     under --retry-failed, where we still want the retry to
                 #     happen *after* genuinely new slugs.
                 def _order(s):
-                    last = latest_capture_date(s, data_dir)
+                    # Use attempt date (.txt presence) so a slug whose
+                    # parser is broken still ages out of tier 0 — its
+                    # .txt got saved on the failed attempt, even though
+                    # no .json was produced.
+                    last = latest_capture_attempt_date(s, data_dir)
                     if last is not None:
                         return (1, last)
                     if s in previously_failed:
