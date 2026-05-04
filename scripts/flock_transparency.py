@@ -228,9 +228,8 @@ _HEADING_MAP = {
     "Documentation":                         "policy_info",
     "ALPR Policy":                           "alpr_policy",
     "ALPR":                                  "alpr_policy",
-    "ALPR POLICY":                           "alpr_policy",
     "ALPR Manual":                           "alpr_policy",
-    "Alpr policy":                           "alpr_policy",
+    "Automated License Plate Reader Usage and Privacy Policy": "alpr_policy",
     "Full ALPR Policy":                      "alpr_policy",
     "Full ALPR Policy:":                     "alpr_policy",
     "Full ALPR Policy Here:":                "alpr_policy",
@@ -240,6 +239,7 @@ _HEADING_MAP = {
     # ── other structural fields ──
     "Additional Info":                       "additional_info",
     "Additional Information":                "additional_info",
+    "Community Safeguards":                  "additional_info",
     "Download CSV":                          "download_csv",
     "Public Search Audit":                   "search_audit",
     "Search Audit":                          "search_audit",
@@ -249,6 +249,7 @@ _HEADING_MAP = {
     "Recent Success Story":                  "success_stories",
     "Recent Success Stories":                "success_stories",
     "Success Stories":                       "success_stories",
+    "Safe City Success Stories":             "success_stories",
     "Disclaimer":                            "disclaimer",
     "California SVS":                        "california_svs",
     "SB54: California Values Act":           "sb54",
@@ -261,47 +262,72 @@ _HEADING_MAP = {
     "Hotlist Policy":                        "hotlist_policy",
     "Restrictions on Deployment":            "restrictions_on_deployment",
     "Sharing with Partners":                 "sharing_with_partners",
+    "Network Sharing Policy":                "sharing_with_partners",
     "Sharing Restrictions":                  "sharing_restrictions",
     "Data retention (in days)":              "data_retention",
     "Data retention":                        "data_retention",
+    "Data Retention":                        "data_retention",
     "Data Retention (days)":                 "data_retention",
     "Data Retention for Flock Devices":      "data_retention",
     "Flock Data retention (in days)":        "data_retention",
     "Number of LPR and other cameras":       "camera_count",
     "Number of LPR cameras":                 "camera_count",
-    "Number of LPR Cameras":                 "camera_count",
     "Number of Active LPR cameras":          "camera_count",
     "Number of Owned Cameras":               "camera_count",
+    "Number of Owned LPR Cameras":           "camera_count",
+    "LPR Cameras":                           "camera_count",
+    "Total Cameras":                         "camera_count",
     "Hotlists Alerted On":                   "hotlists_alerted_on",
     "Vehicles detected in the last 30 days": "vehicles_detected_30d",
-    "Vehicles Detected in the Last 30 Days": "vehicles_detected_30d",
     "Unique vehicles detected in the last 30 days": "vehicles_detected_30d",
+    "Unique Vehicles Detected":              "vehicles_detected_30d",
     "Hotlist hits in the last 30 days":      "hotlist_hits_30d",
-    "Hotlist Hits in the Last 30 Days":      "hotlist_hits_30d",
+    "Number of Hotlist Hits":                "hotlist_hits_30d",
     "Searches in the last 30 days":          "searches_30d",
-    "Searches in the Last 30 Days":          "searches_30d",
+    "Number of Searches":                    "searches_30d",
     "Livermore PD searches in the last 30 days": "searches_30d",
     # org sharing — prefix match handles "Organizations granted access to X data"
     "Organizations granted access":          "orgs_granted_access",
+    "External Organizations with Access":    "orgs_granted_access",
     "Approved NCRIC Share With":             "orgs_granted_access",
     "Agencies NCRIC Shares With":            "orgs_granted_access",
     "External agencies who have access":     "orgs_granted_access",
     "Only Agencies With External Access":    "orgs_granted_access",
     "Organizations sharing their data":      "orgs_sharing_with",
+    "Receiving Network Data From":           "orgs_sharing_with",
 }
 
 # Dynamic heading patterns — matched after exact/prefix lookup fails.
 # These are headings that contain variable text (agency names, URLs, etc.)
 # Map to a field name or None for structural.
 _DYNAMIC_HEADINGS = [
-    (re.compile(r"^Last Updated:"), "last_updated"),
-    (re.compile(r"^(Link to |Link To |To view ).+"), "policy_info"),
-    (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+"), "alpr_policy"),
-    (re.compile(r"^.+ (ALPR|LPR) Policy.*$"), "alpr_policy"),
-    (re.compile(r"^.+Police Department Policy Manual.*$"), "alpr_policy"),
+    (re.compile(r"^Last Updated:", re.IGNORECASE), "last_updated"),
+    (re.compile(r"^(Link to |To view ).+", re.IGNORECASE), "policy_info"),
+    (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+", re.IGNORECASE), "alpr_policy"),
+    (re.compile(r"^.+ (ALPR|LPR) Policy.*$", re.IGNORECASE), "alpr_policy"),
+    (re.compile(r"^.+Police Department Policy Manual.*$", re.IGNORECASE), "alpr_policy"),
+    # Success-story subheadings — agencies post titled excerpts under
+    # "Success Stories" (e.g. "Yuba County SO - Facebook Post - …").
+    (re.compile(r"^.+ - Facebook Post - .+$", re.IGNORECASE), "success_stories"),
+    # Page chrome / structural noise — explicit None so these don't trip
+    # the bold-heading fail-loud check downstream.
+    (re.compile(
+        r"^(January|February|March|April|May|June|"
+        r"July|August|September|October|November|December)\s+\d{4}$",
+        re.IGNORECASE,
+    ), None),
+    (re.compile(r".+Transparency Portal$", re.IGNORECASE), None),
 ]
 
 _MAX_HEADING_LEN = 120
+
+# Case-insensitive view of _HEADING_MAP, built once. Heading match
+# becomes case-insensitive — Flock has at least three case variants of
+# the same heading across agencies ("Number of LPR cameras", "Number of
+# LPR Cameras", "LPR Cameras"), and explicitly listing every casing
+# bloats the map. Iteration order preserves _HEADING_MAP insertion order
+# so prefix-match precedence stays predictable.
+_HEADING_MAP_LOWER = {k.lower(): v for k, v in _HEADING_MAP.items()}
 
 
 def _match_heading(line):
@@ -317,11 +343,13 @@ def _match_heading_kind(line):
     Needed by parse_sections to gate prefix matches on bold-heading evidence —
     prefix matching can otherwise promote body text to a heading (e.g.
     "California SVS, NCMEC Amber Alert" matches the "California SVS" prefix).
+    Matching is case-insensitive: heading text varies in case across agencies.
     """
-    if line in _HEADING_MAP:
-        return _HEADING_MAP[line], "exact"
-    for prefix, field_name in _HEADING_MAP.items():
-        if line.startswith(prefix):
+    lowered = line.lower()
+    if lowered in _HEADING_MAP_LOWER:
+        return _HEADING_MAP_LOWER[lowered], "exact"
+    for prefix_lower, field_name in _HEADING_MAP_LOWER.items():
+        if lowered.startswith(prefix_lower):
             return field_name, "prefix"
     for pattern, field_name in _DYNAMIC_HEADINGS:
         if pattern.match(line):
@@ -335,18 +363,41 @@ _UNKNOWN = object()  # sentinel — distinct from None (which means "structural"
 def extract_bold_headings(html):
     """Extract bold text from HTML — these are the real section headings.
 
-    Flock transparency pages use font-weight: 700 on <p> and <h3> elements
-    for section headings.  Returns a set of stripped text strings.
+    Flock transparency pages style section headings two ways:
+      - Field headings (e.g. "What's Detected", "Acceptable Use Policy")
+        use a heavier font-weight than body text. Body is 400 across the
+        page; headings have been 700 (legacy) and 600 (2026 redesign).
+        Match 500–900 to absorb future drift (CSS standardizes weights
+        to 100/200/.../900) without false-positiving on body text.
+      - Section dividers (Overview / Policies / Usage / Additional Info)
+        in the 2026 redesign live in <h3> with text-transform: uppercase,
+        so the rendered .txt sees them upper-cased even though the HTML
+        carries title case. Add both forms so .txt matching works either way.
+
+    Returns a set of stripped text strings.
     """
-    return set(
-        re.sub(r"<[^>]+>", "", m).strip()
-        for m in re.findall(
-            r"<(?:p|h[1-6])[^>]*style=\"[^\"]*font-weight:\s*700[^\"]*\"[^>]*>(.*?)</(?:p|h[1-6])>",
-            html,
-            re.DOTALL,
-        )
-        if re.sub(r"<[^>]+>", "", m).strip()
-    )
+    headings = set()
+    # Field headings live in <p> or <h2>–<h6>. <h1> is the page title
+    # ("San Francisco CA PD") and isn't a field heading — exclude it so
+    # the unrecognized-bold-heading defense doesn't trip on every page.
+    for m in re.findall(
+        r"<(?:p|h[2-6])[^>]*style=\"[^\"]*font-weight:\s*[5-9]\d\d[^\"]*\"[^>]*>(.*?)</(?:p|h[2-6])>",
+        html,
+        re.DOTALL,
+    ):
+        text = re.sub(r"<[^>]+>", "", m).strip()
+        if text:
+            headings.add(text)
+    for m in re.findall(
+        r"<h[2-6][^>]*style=\"[^\"]*text-transform:\s*uppercase[^\"]*\"[^>]*>(.*?)</h[2-6]>",
+        html,
+        re.DOTALL,
+    ):
+        text = re.sub(r"<[^>]+>", "", m).strip()
+        if text:
+            headings.add(text)
+            headings.add(text.upper())
+    return headings
 
 
 def _looks_like_heading(line):
@@ -439,18 +490,79 @@ def parse_sections(text, bold_headings=None):
     return sections, unknown
 
 
-def _parse_number(s):
-    if not s:
+def _parse_number(s, *, field=None, slug=None):
+    """Extract a numeric stat from a section body.
+
+    The 2026 Flock redesign added a description line above each stat value
+    (e.g. "Number of unique plate reads over the last 30 days.\\n\\n341,081"),
+    so a naive "first integer" search grabs "30" out of "30 days" instead
+    of the real value. Resolution order:
+
+      1. A line that is *only* a number (canonical 2026 layout).
+      2. A line that is "N day(s)" (data_retention legacy + 2026).
+      3. Single-paragraph body — fall back to first numeric token (legacy).
+
+    If none of these match a multi-paragraph body, raise — the layout has
+    drifted again and silently picking a digit out of prose would produce
+    bogus stats (the bug we hit on 2026-04-29). Pass field/slug for a
+    helpful error message.
+    """
+    if not s or not s.strip():
         return None
-    m = re.search(r"[\d,]+", s)
-    return int(m.group(0).replace(",", "")) if m else None
+    for line in s.split("\n"):
+        stripped = line.strip()
+        if re.fullmatch(r"[\d,]+", stripped):
+            return int(stripped.replace(",", ""))
+    for line in s.split("\n"):
+        stripped = line.strip()
+        m = re.fullmatch(r"([\d,]+)\s*days?", stripped, re.IGNORECASE)
+        if m:
+            return int(m.group(1).replace(",", ""))
+    paragraphs = [p for p in re.split(r"\n\s*\n", s) if p.strip()]
+    if len(paragraphs) <= 1:
+        m = re.search(r"[\d,]+", s)
+        return int(m.group(0).replace(",", "")) if m else None
+    raise ValueError(
+        f"Numeric field {field!r}"
+        + (f" in {slug}" if slug else "")
+        + f" has multi-paragraph body without a pure-number line — Flock "
+        f"layout may have changed. Body: {s[:300]!r}"
+    )
+
+
+def _strip_leading_description(body):
+    """If body has a sentence-style description as its first paragraph
+    followed by the real value in a later paragraph, return just the value
+    paragraphs. Used by text fields the 2026 redesign added boilerplate to
+    (e.g. "Hotlists Alerted On" gained "National and statewide hotlist sources.").
+    """
+    if not body:
+        return body
+    paragraphs = [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()]
+    if len(paragraphs) >= 2 and paragraphs[0].endswith(".") and "\n" not in paragraphs[0]:
+        return "\n\n".join(paragraphs[1:])
+    return body
 
 
 def _parse_org_names(body):
-    """Extract org names from a shared-orgs section body."""
+    """Extract org names from a shared-orgs section body.
+
+    Handles three layouts:
+      - 2026 redesign: one agency per line, optionally preceded by a
+        description sentence ("Organizations granted access to … data.").
+      - Legacy: comma-separated within a single paragraph.
+      - Mixed: a description paragraph followed by a comma list.
+    """
     if not body:
         return []
-    raw = [n.strip() for n in body.split(", ") if n.strip()]
+    body = _strip_leading_description(body)
+    # If body has multiple non-blank lines and most lack commas, treat as
+    # one-agency-per-line (2026 layout). Otherwise fall back to comma split.
+    lines = [L.strip() for L in body.split("\n") if L.strip()]
+    if len(lines) >= 3 and sum(1 for L in lines if "," not in L) >= len(lines) * 0.8:
+        raw = lines
+    else:
+        raw = [n.strip() for n in body.replace("\n", " ").split(", ") if n.strip()]
     names = []
     for part in raw:
         if names and _EXPECTS_CONTINUATION.search(names[-1]):
@@ -460,6 +572,13 @@ def _parse_org_names(body):
     return names
 
 
+_PORTAL_CONTENT_MARKERS = (
+    "What's Detected",
+    "Acceptable Use Policy",
+    "Hotlist Policy",
+)
+
+
 def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     """Parse structured data from raw DOM text."""
     sections, unknown = parse_sections(raw_text, bold_headings=bold_headings)
@@ -467,6 +586,26 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     if unknown:
         raise ValueError(
             f"Unrecognised headings in {slug}: {unknown}  — add them to _HEADING_MAP"
+        )
+
+    # Fail-loud: the page has portal content but the HTML returned zero
+    # styled headings, meaning Flock changed the heading CSS in a way
+    # extract_bold_headings doesn't recognize. Without bold evidence, every
+    # prefix-match heading is silently rejected, so most fields would come
+    # back empty. This is the cascade we hit on 2026-04-29 — surface it
+    # instead of saving bogus data. Stub/disabled portals lack the markers
+    # and don't trip this; empty value boxes still have styled heading
+    # wrappers and don't trip it either.
+    if (
+        bold_headings is not None
+        and not bold_headings
+        and any(m in raw_text for m in _PORTAL_CONTENT_MARKERS)
+    ):
+        raise ValueError(
+            f"{slug} {datestamp}: portal content present but no styled "
+            f"headings extracted — Flock heading CSS may have drifted "
+            f"(extract_bold_headings is gated on font-weight 500-900). "
+            f"Update extract_bold_headings before re-parsing."
         )
 
     # Build field_name -> body lookup.
@@ -493,13 +632,43 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     outbound_names = _parse_org_names(fields.get("orgs_granted_access", ""))
     inbound_names = _parse_org_names(fields.get("orgs_sharing_with", ""))
 
-    # Extract the agency name from the overview text
-    # Pattern: "<Agency Name> uses Flock Safety technology..."
+    # Extract the agency name from the overview text. Pattern:
+    #   "<Agency Name> uses Flock Safety [LPR ][Tt]echnology..."
+    # Some agencies (e.g. Casa Grande AZ PD) have "LPR Technology" in the
+    # boilerplate, others have plain "technology" — match both.
     overview = fields.get("overview", "")
     crawled_name = None
-    flock_marker = " uses Flock Safety technology"
-    if flock_marker in overview:
-        crawled_name = overview[:overview.index(flock_marker)].strip()
+    flock_marker_re = re.compile(r" uses Flock Safety (?:LPR )?[Tt]echnology")
+    m = flock_marker_re.search(overview)
+    if m:
+        crawled_name = overview[:m.start()].strip()
+    elif overview.strip():
+        raise ValueError(
+            f"{slug} {datestamp}: overview is non-empty but agency-name "
+            f"marker (' uses Flock Safety [LPR] [Tt]echnology') not found — "
+            f"Flock may have rephrased the overview boilerplate. Update "
+            f"parse_portal_text."
+        )
+
+    # Fail-loud: each bold heading should resolve to something in
+    # _HEADING_MAP or a _DYNAMIC_HEADINGS pattern. Anything else is a
+    # field heading we don't know about — silently skipping it would
+    # drop that field's body (e.g. "LPR Cameras" → camera_count). Better
+    # to surface and add the alias than to lose data quietly.
+    # Filter out the agency-name page title (some templates render it as
+    # a standalone bold <h1>; others concatenate with "Transparency Portal"
+    # which the dynamic noise regex catches).
+    if bold_headings:
+        unrecognized_bold = [
+            h for h in bold_headings
+            if _match_heading(h) is _UNKNOWN and h != crawled_name
+        ]
+        if unrecognized_bold:
+            raise ValueError(
+                f"{slug} {datestamp}: bold headings not in _HEADING_MAP: "
+                f"{sorted(unrecognized_bold)} — add them as aliases or "
+                f"as _DYNAMIC_HEADINGS noise patterns."
+            )
 
     return {
         "crawled_slug": slug,
@@ -513,12 +682,12 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
         "hotlist_policy": fields.get("hotlist_policy", ""),
         "sharing_with_partners": fields.get("sharing_with_partners", ""),
         "sharing_restrictions": fields.get("sharing_restrictions", ""),
-        "data_retention_days": _parse_number(fields.get("data_retention", "")),
-        "camera_count": _parse_number(fields.get("camera_count", "")),
-        "hotlists_alerted_on": fields.get("hotlists_alerted_on", ""),
-        "vehicles_detected_30d": _parse_number(fields.get("vehicles_detected_30d", "")),
-        "hotlist_hits_30d": _parse_number(fields.get("hotlist_hits_30d", "")),
-        "searches_30d": _parse_number(fields.get("searches_30d", "")),
+        "data_retention_days": _parse_number(fields.get("data_retention", ""), field="data_retention", slug=slug),
+        "camera_count": _parse_number(fields.get("camera_count", ""), field="camera_count", slug=slug),
+        "hotlists_alerted_on": _strip_leading_description(fields.get("hotlists_alerted_on", "")),
+        "vehicles_detected_30d": _parse_number(fields.get("vehicles_detected_30d", ""), field="vehicles_detected_30d", slug=slug),
+        "hotlist_hits_30d": _parse_number(fields.get("hotlist_hits_30d", ""), field="hotlist_hits_30d", slug=slug),
+        "searches_30d": _parse_number(fields.get("searches_30d", ""), field="searches_30d", slug=slug),
         "sharing_outbound": outbound_names,
         "sharing_inbound": inbound_names,
         # ── newly captured fields (empty string when absent) ──
