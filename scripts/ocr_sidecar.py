@@ -22,6 +22,7 @@ Usage:
 
 import argparse
 import hashlib
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -30,6 +31,49 @@ import fitz  # pymupdf
 import pytesseract
 from PIL import Image
 import io
+
+
+# Minimum fraction of 3+ char alpha tokens that must be in the system wordlist
+# for an image-OCR sidecar to be considered worth keeping. Garbled
+# portal-UI screenshots come in around 35-45% even when partially readable;
+# clean email screenshots cluster at 58%+ even when laden with proper nouns.
+OCR_QUALITY_THRESHOLD = 0.50
+
+_DICT_WORDS: set[str] | None = None
+_TOKEN_RE = re.compile(r"[A-Za-z]{3,}")
+
+
+def _load_dict_words() -> set[str]:
+    global _DICT_WORDS
+    if _DICT_WORDS is not None:
+        return _DICT_WORDS
+    for path in ("/usr/share/dict/words", "/usr/share/dict/american-english"):
+        p = Path(path)
+        if p.exists():
+            _DICT_WORDS = {
+                w.strip().lower()
+                for w in p.read_text(errors="replace").splitlines()
+                if w.strip()
+            }
+            return _DICT_WORDS
+    _DICT_WORDS = set()
+    return _DICT_WORDS
+
+
+def text_quality_ratio(text: str) -> float:
+    """Fraction of 3+ char alpha tokens that match a system wordlist.
+
+    Returns 1.0 when there are no alpha tokens (e.g. numeric-only tables) or
+    no dictionary is available, so callers don't reject those cases.
+    """
+    tokens = _TOKEN_RE.findall(text.lower())
+    if not tokens:
+        return 1.0
+    words = _load_dict_words()
+    if not words:
+        return 1.0
+    hits = sum(1 for t in tokens if t in words)
+    return hits / len(tokens)
 
 
 def extract_text_from_doc(doc_path):
@@ -155,6 +199,17 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
     if suffix in (".png", ".jpg", ".jpeg"):
         full_text = extract_text_from_image(file_path)
         if not full_text:
+            return None
+        ratio = text_quality_ratio(full_text)
+        if ratio < OCR_QUALITY_THRESHOLD:
+            print(
+                f"  SKIP (low OCR quality, {ratio:.0%} dict-hit): {file_path}",
+                file=sys.stderr,
+            )
+            if sidecar.exists():
+                sidecar.unlink()
+                if removed_stale is not None:
+                    removed_stale.append(sidecar)
             return None
         sidecar.write_text(full_text, encoding="utf-8")
         return sidecar
