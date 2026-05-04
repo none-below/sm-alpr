@@ -16,6 +16,7 @@ Regular use:
   uv run python scripts/pra_download.py W012297-030826     # one request
   uv run python scripts/pra_download.py --all              # every request folder
   uv run python scripts/pra_download.py                    # same as --all
+  uv run python scripts/pra_download.py --discover         # stub new portal ids, then scrape all
 
 After downloading, run OCR to refresh sidecars:
   uv run python scripts/ocr_sidecar.py --staged
@@ -370,6 +371,7 @@ AUTH_STATE = CONFIG_DIR / "pra_auth.json"
 CONFIG_PATH = CONFIG_DIR / "pra_config.json"
 
 REQUEST_ID_RE = re.compile(r"^W\d{6}-\d{6}$")
+W_REQUEST_ID_RE = re.compile(r"\bW\d{6}-\d{6}\b")
 SESSION_TOKEN_RE = re.compile(r"/\(S\([^)]+\)\)/")
 SSESSIONID_RE = re.compile(r"[?&]sSessionID=[^&]*")
 DOWNLOAD_TIMEOUT_MS = 60_000  # portal pre-signs S3 URLs; can take several seconds
@@ -445,6 +447,55 @@ def discover_requests() -> list[str]:
         d.name for d in PRA_ROOT.iterdir()
         if d.is_dir() and REQUEST_ID_RE.match(d.name)
     )
+
+
+def discover_portal_ids(page: Page, home_url: str,
+                        max_pages: int = 30) -> set[str]:
+    """Walk the My Requests list, paging forward to enumerate every visible
+    W-request id. Best-effort: returns whatever we collected if list nav fails."""
+    page.goto(home_url, wait_until="domcontentloaded")
+    try:
+        page.wait_for_load_state("networkidle", timeout=NAV_TIMEOUT_MS)
+    except PWTimeout:
+        pass
+    if not ensure_on_requests_list(page):
+        err("   could not reach requests list for discovery")
+        return set()
+
+    found: set[str] = set()
+    page_num = 1
+    while True:
+        try:
+            text = page.evaluate(
+                "() => (document.body && document.body.innerText) || ''"
+            )
+        except Exception:
+            text = ""
+        page_ids = set(W_REQUEST_ID_RE.findall(text))
+        new_count = len(page_ids - found)
+        found |= page_ids
+        diag(f"   discover page {page_num}: {len(page_ids)} ids "
+             f"({new_count} new), running total {len(found)}")
+        if page_num >= max_pages:
+            warn(f"   discovery hit page limit ({max_pages}); "
+                 f"some requests may be missed")
+            break
+        if not click_page_number(page, page_num + 1):
+            break
+        page_num += 1
+    return found
+
+
+def discover_and_stub_new_requests(page: Page, home_url: str) -> list[str]:
+    """Enumerate portal request ids and mkdir an empty folder for any that
+    don't yet exist on disk. Returns the sorted list of newly-stubbed ids."""
+    print(_c("Discovering portal request ids...", "bold"))
+    portal_ids = discover_portal_ids(page, home_url)
+    existing = set(discover_requests())
+    new_ids = sorted(portal_ids - existing)
+    for rid in new_ids:
+        (PRA_ROOT / rid).mkdir(parents=True, exist_ok=True)
+    return new_ids
 
 
 def local_pdf_names(folder: Path) -> set[str]:
@@ -1027,15 +1078,17 @@ def _print_summary(counts: dict[str, int]) -> None:
     print("   " + ", ".join(parts))
 
 
-def run(targets: list[str], config: dict, headed: bool,
-        do_files: bool, do_messages: bool) -> None:
+def run(args, config: dict) -> None:
     home_url = config.get("support_home_url")
     if not home_url:
         print("No support home URL configured. Run --login first.", file=sys.stderr)
         return
 
+    do_files = not args.messages_only
+    do_messages = not args.files_only
+
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=not headed)
+        browser = p.chromium.launch(headless=not args.headed)
         context = browser.new_context(
             storage_state=str(AUTH_STATE), accept_downloads=True,
             viewport={"width": 1280, "height": 1600},
@@ -1047,6 +1100,24 @@ def run(targets: list[str], config: dict, headed: bool,
         body = (page.content() or "").lower()
         if "login" in page.url.lower() or "sign in" in body[:5000]:
             print("session appears expired — re-run with --login", file=sys.stderr)
+            browser.close()
+            return
+
+        if args.discover:
+            new_ids = discover_and_stub_new_requests(page, home_url)
+            if new_ids:
+                print(f"{_c('+', 'green', 'bold')} "
+                      f"discovered {len(new_ids)} new request(s):")
+                for rid in new_ids:
+                    print(f"     {_c('+', 'green', 'bold')} {rid}")
+            else:
+                print("no new requests on portal")
+
+        targets = list(args.requests)
+        if args.all or not targets:
+            targets = discover_requests()
+        if not targets:
+            print("No target requests.", file=sys.stderr)
             browser.close()
             return
 
@@ -1069,6 +1140,9 @@ def main() -> int:
                         help="Interactive login / refresh saved session")
     parser.add_argument("--all", action="store_true",
                         help="Iterate every W* folder (default when no ids given)")
+    parser.add_argument("--discover", action="store_true",
+                        help="Walk the portal list and create stub folders for "
+                             "any new request ids before scraping")
     parser.add_argument("--headed", action="store_true",
                         help="Show the browser window (default: headless)")
     parser.add_argument("--files-only", action="store_true",
@@ -1093,17 +1167,7 @@ def main() -> int:
         return 1
 
     config = load_config()
-    targets = list(args.requests)
-    if args.all or not targets:
-        targets = discover_requests()
-    if not targets:
-        print("No target requests.", file=sys.stderr)
-        return 1
-
-    do_files = not args.messages_only
-    do_messages = not args.files_only
-    run(targets, config, headed=args.headed,
-        do_files=do_files, do_messages=do_messages)
+    run(args, config)
 
     print()
     print("Done. To OCR newly downloaded files:")
