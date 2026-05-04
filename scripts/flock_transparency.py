@@ -198,6 +198,25 @@ def latest_capture_date(slug, data_dir):
         return None
 
 
+def latest_capture_attempt_date(slug, data_dir):
+    """Return the latest *attempted* capture date — date of the latest .txt
+    even if parsing failed afterwards. Used only for crawl-queue ordering
+    so a slug whose parser is broken doesn't stay pinned to queue position
+    #1 forever. Downstream consumers should keep using latest_capture_date,
+    which only counts successful captures.
+    """
+    slug_dir = data_dir / slug
+    if not slug_dir.is_dir():
+        return None
+    txts = portal_txts(slug_dir)
+    if not txts:
+        return None
+    try:
+        return datetime.strptime(txts[-1].stem, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
 # ═══════════════════════════════════════════════════════════
 # Parsing: raw DOM text -> structured JSON
 # ═══════════════════════════════════════════════════════════
@@ -825,15 +844,41 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
 
     current_hash = content_hash(page_text)
     prev_hash = (hashes or {}).get(slug)
+    page_html = page.content()
+    crawled_at = datetime.now(timezone.utc).isoformat()
+
+    # Save source-of-truth files BEFORE parsing — if the parser fails
+    # (e.g. Flock added a new heading variant), we still have the .txt
+    # and .html on disk to debug from and to re-parse later via
+    # `parse --force`. Otherwise a parser failure means we lose the
+    # captured page entirely and have to wait for the next crawl.
+    if force or prev_hash != current_hash:
+        txt_path.write_text(page_text, encoding="utf-8")
+        html_path = slug_dir / f"{datestamp}.html"
+        html_path.write_text(page_html, encoding="utf-8")
 
     # Parse for sharing names (needed for recursive crawling even if unchanged)
-    crawled_at = datetime.now(timezone.utc).isoformat()
-    page_html = page.content()
     bold_headings = extract_bold_headings(page_html)
-    portal_data = parse_portal_text(page_text, slug, datestamp, bold_headings=bold_headings)
+    discovered_slugs = []
+    try:
+        portal_data = parse_portal_text(page_text, slug, datestamp, bold_headings=bold_headings)
+    except ValueError as e:
+        # Parser hit a new format variant. The .txt and .html were saved
+        # above so latest_capture_attempt_date sees today's date and the
+        # slug ages out of tier 0 in the crawl queue (no stub JSON
+        # needed — that would pollute downstream consumers like
+        # build_history with bogus zeroed-out fields). The stub-free
+        # design lets `parse --force --slug <slug>` produce a correct
+        # JSON later once the parser is fixed.
+        # Structured marker line so the workflow can grep crawl logs
+        # and surface PARSE_ERROR: <slug> as a GitHub issue.
+        print(f"    PARSE_ERROR: {slug} {datestamp} :: {e}")
+        if not force and prev_hash == current_hash:
+            return "unchanged", []
+        return ("failed", "parse_error"), []
+
     portal_data["crawled_at"] = crawled_at
     # Resolve sharing names to slugs for depth crawling
-    discovered_slugs = []
     for name in portal_data.get("sharing_outbound", []):
         entry = resolve_agency(name=name)
         if entry and entry.get("flock_active_slug"):
@@ -846,13 +891,6 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     if not force and prev_hash == current_hash:
         print(f"    unchanged since last capture, skipping")
         return "unchanged", discovered_slugs
-
-    # 1. Raw DOM text (source of truth for parsing)
-    txt_path.write_text(page_text, encoding="utf-8")
-
-    # 1b. Full HTML (source of truth for re-rendering + CSV extraction)
-    html_path = slug_dir / f"{datestamp}.html"
-    html_path.write_text(page_html, encoding="utf-8")
 
     # 1c. Extract embedded CSVs from HTML
     for csv_name, csv_rows in extract_csvs_from_html(page_html):
@@ -938,7 +976,13 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
         if discovered_slugs:
             discovered.extend(discovered_slugs)
         if isinstance(status, tuple) and status[0] == "failed":
-            failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
+            # parse_error means we got the page but the parser tripped on
+            # a new format variant. The .txt/.html were saved by archive_agency,
+            # so re-parsing locally fixes it without re-crawling. Don't
+            # permanently quarantine these — let the next crawl retry, so
+            # if the parser is updated meanwhile the slug self-heals.
+            if status[1] != "parse_error":
+                failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
         save_json(data_dir / HASH_FILE, hashes)
         save_json(data_dir / FAILED_FILE, failed_slugs)
@@ -1063,7 +1107,11 @@ def cmd_crawl(args):
                 #     under --retry-failed, where we still want the retry to
                 #     happen *after* genuinely new slugs.
                 def _order(s):
-                    last = latest_capture_date(s, data_dir)
+                    # Use attempt date (.txt presence) so a slug whose
+                    # parser is broken still ages out of tier 0 — its
+                    # .txt got saved on the failed attempt, even though
+                    # no .json was produced.
+                    last = latest_capture_attempt_date(s, data_dir)
                     if last is not None:
                         return (1, last)
                     if s in previously_failed:
@@ -1071,7 +1119,16 @@ def cmd_crawl(args):
                     return (0, date.min)
                 new_slugs.sort(key=_order)
                 if args.batch:
-                    new_slugs = new_slugs[:int(batch_remaining)]
+                    # Pick a random sample from the top 3*batch oldest
+                    # candidates instead of strictly the top N. Preserves
+                    # "oldest first" intent but spreads attention so a
+                    # single failing slug at position #1 doesn't waste
+                    # the same crawl slot on every run — over a few
+                    # cycles the failing slug just becomes one of many
+                    # candidates for the slot.
+                    n = int(batch_remaining)
+                    pool = new_slugs[:n * 3]
+                    new_slugs = random.sample(pool, min(n, len(pool)))
 
                 if not new_slugs and not discovered_from_existing:
                     print(f"\nDepth {level}: no new agencies to check, stopping.\n")
