@@ -345,8 +345,10 @@ def main() -> int:
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--limit", type=int, default=3,
                    help="max URLs to process this run (default: 3)")
-    p.add_argument("--delay", type=int, default=90,
-                   help="base seconds between fetches; ±25%% jitter (default: 90)")
+    p.add_argument("--delay", type=int, default=5,
+                   help="base seconds between fetches; ±25%% jitter (default: 5). "
+                        "The hourly cron schedule is the real rate limit; this "
+                        "delay is just so back-to-back fetches don't burst.")
     p.add_argument("--dry-run", action="store_true",
                    help="list candidates, no HTTP")
     p.add_argument("--url", action="append", default=[],
