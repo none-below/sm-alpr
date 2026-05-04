@@ -43,7 +43,13 @@ jobs:
           git fetch origin article-registry-bot || true
           if git rev-parse --verify origin/article-registry-bot >/dev/null 2>&1; then
             git checkout article-registry-bot
-            git rebase origin/main || { git rebase --abort; git reset --hard origin/main; }
+            # See article-registry.yml for context — never auto-reset to
+            # main on rebase failure (it destroys accumulated bot work).
+            git rebase origin/main || {
+              git rebase --abort
+              echo "::error::rebase against origin/main conflicts. Bot branch left untouched — resolve manually. NOT auto-resetting (would destroy unmerged work)."
+              exit 1
+            }
           else
             git checkout -b article-registry-bot
           fi
