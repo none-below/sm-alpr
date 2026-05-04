@@ -2,7 +2,8 @@ name: Probe Unknown Flock Slugs
 
 # Looks for working Flock transparency portal slugs for agencies whose
 # current slug 404s. Runs on its own rate budget (default 3 probes per run)
-# separate from refresh-flock-data so neither starves the other.
+# separate from refresh-flock-data so neither starves the other. Flock
+# rate-limits aggressively, so keep the per-run limit small.
 
 on:
   schedule:
@@ -34,6 +35,12 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main
+          # Need full history so the rebase below can find a common ancestor
+          # with origin/slug-probe. With the default shallow clone, rebase
+          # replays slug-probe's entire history (back to the initial commit)
+          # onto main and conflicts on every binary file added since then;
+          # the fallback `reset --hard` then wipes accumulated probe state.
+          fetch-depth: 0
           # PAT (if configured) attributes the resulting PR to a human so
           # CI doesn't require approval-for-bots on every run.
           token: ${{ secrets.REFRESH_PAT || github.token }}
