@@ -197,3 +197,25 @@ attribution/integrity ("zero-below saved this on date X" beats
 "anonymous"). The keys carry no payment authority, only rate limits
 and identity; if leaked the worst case is rate-limited Wayback abuse,
 not money.
+
+## Adding sources to the discoverer
+
+`scripts/discover_articles.py` polls RSS feeds declared in
+`assets/sources.json` (any source with a `feed_url` field) and
+auto-appends ALPR/Flock-related items to the queue. Runs daily via
+`.github/workflows/discover-articles.yml`. To add a new feed:
+
+1. Confirm the publisher's domain is in `sources.json` with a tier
+   and stance. Add it if not.
+2. Add `"feed_url": "https://..."` to that entry.
+3. Optionally test locally:
+   ```sh
+   uv run python scripts/discover_articles.py --source <domain> --dry-run
+   ```
+4. Commit. Next daily tick will start polling it.
+
+The keyword filter (in `discover_articles.py` → `KEYWORDS`) is
+hardcoded. Adjust it there if you want to broaden/narrow the topic
+scope. The discoverer is state-free: re-running over the same feed
+produces no new queue entries because `article_queue_add.py` dedupes
+URLs.

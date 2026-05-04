@@ -6,6 +6,7 @@
     "name": "human-readable publisher name",
     "stance": "neutral | critical | supportive | industry | unknown — posture toward law-enforcement surveillance",
     "last_reviewed": "YYYY-MM-DD when tier/stance was last confirmed by a human",
+    "feed_url": "(optional) RSS/Atom feed URL — scripts/discover_articles.py polls this and auto-queues items matching ALPR keywords",
     "notes": "free-form"
   },
   "_handler_policy": {
@@ -28,13 +29,13 @@
     {"domain": "kqed.org",               "tier": 1, "name": "KQED",                        "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
     {"domain": "npr.org",                "tier": 1, "name": "NPR",                         "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
 
-    {"domain": "eff.org",                "tier": 2, "name": "Electronic Frontier Foundation", "stance": "critical", "last_reviewed": "2026-04-27", "notes": "Privacy/surveillance advocacy."},
+    {"domain": "eff.org",                "tier": 2, "name": "Electronic Frontier Foundation", "stance": "critical", "last_reviewed": "2026-04-27", "feed_url": "https://www.eff.org/rss/updates.xml", "notes": "Privacy/surveillance advocacy."},
     {"domain": "aclu.org",               "tier": 2, "name": "ACLU (national)",             "stance": "critical",   "last_reviewed": "2026-04-27", "notes": ""},
     {"domain": "aclunc.org",             "tier": 2, "name": "ACLU of Northern California",  "stance": "critical",   "last_reviewed": "2026-04-27", "notes": ""},
     {"domain": "epic.org",               "tier": 2, "name": "Electronic Privacy Information Center", "stance": "critical", "last_reviewed": "2026-04-27", "notes": ""},
-    {"domain": "themarkup.org",          "tier": 2, "name": "The Markup",                  "stance": "critical",   "last_reviewed": "2026-04-27", "notes": "Accountability journalism, tech/algorithm beat."},
-    {"domain": "404media.co",            "tier": 2, "name": "404 Media",                   "stance": "critical",   "last_reviewed": "2026-04-27", "notes": "Tech/surveillance reporting; covers prompt-injection beats — scanner-flagged content may be a quoted attack, not a real one."},
-    {"domain": "propublica.org",         "tier": 2, "name": "ProPublica",                  "stance": "critical",   "last_reviewed": "2026-04-27", "notes": ""},
+    {"domain": "themarkup.org",          "tier": 2, "name": "The Markup",                  "stance": "critical",   "last_reviewed": "2026-04-27", "feed_url": "https://themarkup.org/feeds/rss.xml", "notes": "Accountability journalism, tech/algorithm beat."},
+    {"domain": "404media.co",            "tier": 2, "name": "404 Media",                   "stance": "critical",   "last_reviewed": "2026-04-27", "feed_url": "https://www.404media.co/rss/", "notes": "Tech/surveillance reporting; covers prompt-injection beats — scanner-flagged content may be a quoted attack, not a real one."},
+    {"domain": "propublica.org",         "tier": 2, "name": "ProPublica",                  "stance": "critical",   "last_reviewed": "2026-04-27", "feed_url": "https://www.propublica.org/feeds/propublica/main", "notes": ""},
     {"domain": "wired.com",              "tier": 2, "name": "Wired",                       "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
     {"domain": "arstechnica.com",        "tier": 2, "name": "Ars Technica",                "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
     {"domain": "brennancenter.org",      "tier": 2, "name": "Brennan Center for Justice",  "stance": "critical",   "last_reviewed": "2026-04-27", "notes": ""},
