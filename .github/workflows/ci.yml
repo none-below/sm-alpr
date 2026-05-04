@@ -3,17 +3,26 @@ name: CI
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
+# Default to least privilege at the workflow level. Each job re-declares
+# its own narrower permissions; the validate job runs everything that
+# touches PR-branch code under contents: read, so a malicious PR-branch
+# script cannot push commits or comment on issues. Writes happen only in
+# the publish job, after validate has passed.
 permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-  actions: read
+  contents: read
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      have-new-sidecars: ${{ steps.sidecars.outputs.have_new }}
+      coord-missing: ${{ steps.coords.outputs.has_missing }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -46,13 +55,19 @@ jobs:
         run: uv run playwright install chromium
 
       - name: Install Tesseract (cached)
-        uses: awalsh128/cache-apt-pkgs-action@latest
+        # SHA-pinned to v1.5.3 (annotated tag v1 → commit
+        # 2c09a5e66da6c8016428a2172bd76e5e4f14bb17). A floating tag
+        # could be repointed to malicious code; the SHA can't.
+        # Update via dependabot.
+        uses: awalsh128/cache-apt-pkgs-action@2c09a5e66da6c8016428a2172bd76e5e4f14bb17 # v1.5.3
         with:
           packages: tesseract-ocr antiword pandoc
           version: 1.2
 
       - name: Generate text sidecars for changed assets
+        id: sidecars
         run: |
+          set -euo pipefail
           # Transparency portal PDFs are rendered from the HTML we already save
           # as YYYY-MM-DD.txt; OCRing them produces sidecars that break the
           # portal parser's date-keyed layout. Skip that subtree.
@@ -64,27 +79,93 @@ jobs:
           else
             echo "No OCR-eligible PDF/DOC changes in assets/, skipping text sidecars"
           fi
-
-      - name: Commit OCR sidecars
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add 'assets/**/*.txt'
-          if git diff --cached --quiet; then
-            echo "No new sidecars to commit"
+          # Bundle any new sidecars for the publish job. Use porcelain status
+          # so we capture untracked + modified .txt files under assets/.
+          NEW_SIDECARS=$(git status --porcelain -- 'assets/**/*.txt' \
+            | awk 'match($0, /^(\?\?| M| A) /) {print substr($0, RLENGTH+1)}')
+          if [ -z "$NEW_SIDECARS" ]; then
+            echo "have_new=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "chore: generate text sidecars for new assets"
-            git push
+            echo "have_new=true" >> "$GITHUB_OUTPUT"
+            tar -czf /tmp/new-sidecars.tar.gz $NEW_SIDECARS
           fi
 
       - name: PII scan on changed PDFs
+        shell: bash
         run: |
-          PDF_FILES=$(git diff --name-only origin/main...HEAD | grep -i '\.pdf$' || true)
-          if [ -n "$PDF_FILES" ]; then
-            uv run python scripts/pii_scan.py --files $PDF_FILES
-          else
+          set -euo pipefail
+          # Process-substitution swallows exit codes — if `git diff` itself
+          # fails (e.g. origin/main missing in a shallow checkout), mapfile
+          # would see empty input and the step would silently pass.
+          # Pre-flight the ref so failures fail closed.
+          git rev-parse --verify origin/main >/dev/null 2>&1 \
+            || { echo "::error::origin/main not present in checkout"; exit 1; }
+          # NUL-delimited collection so paths with whitespace can't break
+          # word-splitting. (No `--` separator: pii_scan.py only accepts
+          # `--files` with nargs="+", which is incompatible with `--`.
+          # A dash-prefixed filename would still be misinterpreted; fix
+          # would require teaching pii_scan.py positional args, out of
+          # scope here.)
+          mapfile -d '' -t PDF_FILES < <(
+            git diff --name-only -z origin/main...HEAD \
+              | { grep -ziE '\.pdf$' || true; }
+          )
+          if [ "${#PDF_FILES[@]}" -eq 0 ]; then
             echo "No PDF changes, skipping PII scan"
+            exit 0
           fi
+          uv run python scripts/pii_scan.py --files "${PDF_FILES[@]}"
+
+      - name: Prompt-injection scan on changed transparency scrapes
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Process-substitution swallows exit codes — pre-flight the
+          # ref so a missing origin/main fails closed instead of an empty
+          # mapfile silently passing the scan.
+          git rev-parse --verify origin/main >/dev/null 2>&1 \
+            || { echo "::error::origin/main not present in checkout"; exit 1; }
+          # Collect changed at-risk files NUL-delimited so paths with whitespace
+          # cannot break shell word-splitting.
+          mapfile -d '' -t SCRAPE_FILES < <(
+            git diff --name-only -z origin/main...HEAD \
+              | { grep -zE '^assets/transparency\.flocksafety\.com/.*\.(html|txt)$' || true; }
+          )
+          if [ "${#SCRAPE_FILES[@]}" -eq 0 ]; then
+            echo "No transparency portal scrape changes, skipping injection scan"
+            exit 0
+          fi
+          # Bracket scanner output with ::stop-commands::TOKEN so any attacker
+          # bytes that survive sanitisation cannot inject GHA workflow commands.
+          STOP_TOKEN="stop-$(date +%s)-$RANDOM"
+          echo "::stop-commands::${STOP_TOKEN}"
+          set +e
+          # `--` separator so a future filename starting with `-` cannot be
+          # interpreted as a flag (e.g. a path named `-h` would silently
+          # print help and exit 0). Today the AT_RISK regex anchors paths
+          # to assets/transparency.flocksafety.com/ so this is defence-in-
+          # depth, but the cost is zero.
+          uv run python scripts/check_injection.py -- "${SCRAPE_FILES[@]}"
+          ec=$?
+          set -e
+          echo "::${STOP_TOKEN}::"
+          # Disambiguate the script's exit-code contract:
+          #   2 = HIGH/CRITICAL injection findings present
+          #   3 = read / IO / git failure (now possible since expand_paths
+          #       fails closed on missing files)
+          # Conflating these would print a misleading "injection content
+          # detected" message on a vanished input.
+          if [ "$ec" -eq 2 ]; then
+            echo "::error::HIGH/CRITICAL prompt-injection content detected in changed transparency scrapes"
+            exit 1
+          elif [ "$ec" -eq 3 ]; then
+            echo "::error::Scanner read/IO error (rc=3) — see preceding stderr"
+            exit 1
+          elif [ "$ec" -ne 0 ] && [ "$ec" -ne 1 ]; then
+            echo "::error::Scanner exited with unexpected rc=${ec}"
+            exit 1
+          fi
+          exit 0
 
       - name: Build sharing graph, map, scoreboard, report data, and findings PDF
         run: |
@@ -100,19 +181,91 @@ jobs:
         run: uv run pytest tests/test_map_smoke.py -v
 
       - name: Check recipient coordinates
+        id: coords
         run: |
           if ! uv run python scripts/check_recipient_coords.py > /tmp/coord-check.txt 2>&1; then
             cat /tmp/coord-check.txt
-            echo "has_missing=true" >> "$GITHUB_ENV"
+            echo "has_missing=true" >> "$GITHUB_OUTPUT"
           else
             cat /tmp/coord-check.txt
+            echo "has_missing=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Screenshot pages
+        run: uv run python scripts/screenshot_pages.py --out /tmp/screenshots
+
+      - name: Bundle publish artifacts
+        run: |
+          mkdir -p /tmp/publish-artifacts
+          # New sidecars bundle (only if any were produced)
+          if [ -f /tmp/new-sidecars.tar.gz ]; then
+            cp /tmp/new-sidecars.tar.gz /tmp/publish-artifacts/
+          fi
+          # Coord check output (always) for the issue-creation step
+          cp /tmp/coord-check.txt /tmp/publish-artifacts/coord-check.txt
+          # Screenshots (always) for the PR-comment step
+          if [ -d /tmp/screenshots ]; then
+            cp -r /tmp/screenshots /tmp/publish-artifacts/screenshots
+          fi
+
+      - name: Upload publish artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-artifacts
+          path: /tmp/publish-artifacts/
+          if-no-files-found: ignore
+          retention-days: 1
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: validate
+    # Only run if validate passed AND this is a same-repo event (not a fork PR).
+    # Fork PRs run with a read-only GITHUB_TOKEN regardless of declared
+    # permissions, so the writes here would fail anyway.
+    if: |
+      needs.validate.result == 'success' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Download publish artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: publish-artifacts
+          path: /tmp/publish-artifacts
+
+      - name: Commit OCR sidecars
+        if: needs.validate.outputs.have-new-sidecars == 'true'
+        run: |
+          set -euo pipefail
+          if [ -f /tmp/publish-artifacts/new-sidecars.tar.gz ]; then
+            tar -xzf /tmp/publish-artifacts/new-sidecars.tar.gz
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add 'assets/**/*.txt'
+            if git diff --cached --quiet; then
+              echo "No new sidecars to commit"
+            else
+              git commit -m "chore: generate text sidecars for new assets"
+              git push
+            fi
           fi
 
       - name: Open issue for missing coordinates
-        if: env.has_missing == 'true'
+        if: needs.validate.outputs.coord-missing == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
+          COORD_FILE=/tmp/publish-artifacts/coord-check.txt
           # Don't duplicate — check for an existing open issue
           EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
           if [ -n "$EXISTING" ]; then
@@ -120,7 +273,7 @@ jobs:
               echo "Updated from CI run:"
               echo
               echo '```'
-              cat /tmp/coord-check.txt
+              cat "$COORD_FILE"
               echo '```'
             } > /tmp/coord-issue-body.md
             gh issue comment "$EXISTING" --body-file /tmp/coord-issue-body.md
@@ -129,7 +282,7 @@ jobs:
               echo "The following agencies receive data from public agencies but have no lat/lng in the registry:"
               echo
               echo '```'
-              cat /tmp/coord-check.txt
+              cat "$COORD_FILE"
               echo '```'
               echo
               echo "Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
@@ -139,9 +292,6 @@ jobs:
               --label geocoding \
               --body-file /tmp/coord-issue-body.md
           fi
-
-      - name: Screenshot pages
-        run: uv run python scripts/screenshot_pages.py --out /tmp/screenshots
 
       - name: Publish screenshots & comment on PR
         if: github.event_name == 'pull_request'
@@ -159,7 +309,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout --orphan "${BRANCH}"
           git rm -rf --quiet .
-          cp /tmp/screenshots/*.png .
+          cp /tmp/publish-artifacts/screenshots/*.png .
           git add *.png
           git commit -m "page preview screenshots for PR #${PR_NUM}"
           git push origin "${BRANCH}" --force
@@ -198,6 +348,3 @@ jobs:
           EOF
 
           gh pr comment "${PR_NUM}" --body-file /tmp/preview-body.md
-
-          # Return to PR branch for any subsequent steps
-          git checkout "${{ github.head_ref }}"
