@@ -741,12 +741,24 @@ class _CSVLinkExtractor(html.parser.HTMLParser):
                 pass
 
 
+# Flock renamed embedded CSV files in the 2026 redesign. Normalize at
+# extraction so downstream field names stay stable across the format
+# change (otherwise an agency's diff shows search_audit_csv → null AND
+# public_search_audit_csv null → rows on the format-flip scrape).
+# Verified: no portal serves both filenames simultaneously.
+_CSV_FILENAME_ALIASES = {
+    "public_search_audit.csv": "search_audit.csv",
+    "public-search-audit.csv": "search_audit.csv",
+}
+
+
 def extract_csvs_from_html(html_text):
     """Parse HTML and return list of (filename, [row_dicts]) for embedded CSVs."""
     parser = _CSVLinkExtractor()
     parser.feed(html_text)
     results = []
     for filename, csv_text in parser.csvs:
+        filename = _CSV_FILENAME_ALIASES.get(filename, filename)
         reader = csv.DictReader(io.StringIO(csv_text))
         rows = list(reader)
         results.append((filename, rows))
