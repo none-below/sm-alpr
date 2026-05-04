@@ -202,9 +202,20 @@ def latest_capture_date(slug, data_dir):
 # Parsing: raw DOM text -> structured JSON
 # ═══════════════════════════════════════════════════════════
 
-# Pattern for names that expect a comma continuation (e.g. "University of California, Berkeley")
+# Pattern for names that expect a comma continuation (e.g. "University
+# of California, Berkeley"). Used when the previous-name end signals
+# that more-name follows.
 _EXPECTS_CONTINUATION = re.compile(
     r"University of California$",
+    re.IGNORECASE,
+)
+
+# Pattern for standalone tokens that are clearly a continuation *of* a
+# previous name (e.g. "LLC", "Inc."). Flock's data has split entries
+# like ["CA - Topgolf USA El Segundo", "LLC", ...] from un-escaped
+# commas in their source — re-attach the suffix to the prior entry.
+_IS_CONTINUATION_SUFFIX = re.compile(
+    r"^(LLC|L\.L\.C\.?|Inc\.?|Corp\.?|Ltd\.?|Co\.?)$",
     re.IGNORECASE,
 )
 
@@ -572,7 +583,11 @@ def _parse_org_names(body):
         raw = [n.strip() for n in body.replace("\n", " ").split(", ") if n.strip()]
     names = []
     for part in raw:
-        if names and _EXPECTS_CONTINUATION.search(names[-1]):
+        merge = names and (
+            _EXPECTS_CONTINUATION.search(names[-1])
+            or _IS_CONTINUATION_SUFFIX.match(part)
+        )
+        if merge:
             names[-1] = f"{names[-1]}, {part}"
         else:
             names.append(part)
