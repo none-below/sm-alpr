@@ -69,18 +69,52 @@ jobs:
         run: uv run playwright install chromium
 
       - name: Crawl oldest agencies
+        id: crawl
         run: |
           if [ -n "${{ inputs.slugs }}" ]; then
             # shellcheck disable=SC2086
             uv run python scripts/flock_transparency.py crawl \
               ${{ inputs.slugs }} \
-              --delay 1
+              --delay 1 | tee /tmp/crawl.log
           else
             uv run python scripts/flock_transparency.py crawl \
               --all \
               --batch ${{ inputs.batch_size || '3' }} \
               --max-age ${{ inputs.max_age || '7' }} \
-              --delay 1
+              --delay 1 | tee /tmp/crawl.log
+          fi
+
+      - name: Surface parser failures as an issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Crawl logs `PARSE_ERROR: <slug> <date> :: <error>` whenever
+          # the parser trips on a new format variant (the .txt/.html are
+          # still saved, the slug is not permanently quarantined).
+          # Surface those into a single rolling issue so we notice.
+          if [ ! -f /tmp/crawl.log ]; then exit 0; fi
+          ERRORS=$(grep -E "^\s+PARSE_ERROR: " /tmp/crawl.log || true)
+          if [ -z "$ERRORS" ]; then exit 0; fi
+          {
+            echo "Parser tripped on one or more agency portals. Files were"
+            echo "saved; re-parse via \`parse --force --slug <slug>\` after"
+            echo "fixing the parser."
+            echo
+            echo '```'
+            echo "$ERRORS"
+            echo '```'
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } > /tmp/parse-issue-body.md
+          EXISTING=$(gh issue list --label parser --state open --json number -q '.[0].number' || true)
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body-file /tmp/parse-issue-body.md
+          else
+            gh issue create \
+              --title "Parser tripped on a new Flock portal variant" \
+              --label parser \
+              --body-file /tmp/parse-issue-body.md
           fi
 
       - name: Parse new data
