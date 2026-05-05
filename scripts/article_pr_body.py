@@ -114,10 +114,15 @@ def render_article(a: dict) -> list[str]:
 
 def render_stats(all_articles: list[dict],
                  queue_count: int, priority_count: int) -> list[str]:
-    """Aggregate stats block."""
+    """Aggregate stats block. Queue depth always renders (independent of
+    registry contents) since pending work is meaningful even when no
+    articles have been curated yet."""
     lines = ["## Stats", ""]
     lines.append(f"- **Total articles in registry:** {len(all_articles)}")
+    queue_line = (f"- Queue remaining: {priority_count} priority + "
+                  f"{queue_count} auto = {priority_count + queue_count}")
     if not all_articles:
+        lines.append(queue_line)
         return lines
 
     status_counts = Counter(a.get("curation_status") for a in all_articles)
@@ -157,8 +162,7 @@ def render_stats(all_articles: list[dict],
     top = ", ".join(f"{d} ({n})" for d, n in by_source.most_common(8))
     lines.append(f"- Top sources: {top}")
 
-    lines.append(f"- Queue remaining: {priority_count} priority + "
-                 f"{queue_count} auto = {priority_count + queue_count}")
+    lines.append(queue_line)
     return lines
 
 
