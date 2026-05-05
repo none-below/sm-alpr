@@ -2,11 +2,20 @@
 """Append URLs to the article-fetch queue.
 
 Validates each URL against assets/sources.json (publisher allowlist) and
-deduplicates against existing queue files and the article registry. Designed
-for two callers:
+deduplicates against existing queued URLs and the article registry.
 
-  - Claude (or a human) running searches, batching URLs into queue.jsonl
-  - A human deliberately prioritizing a URL into queue_priority.jsonl
+The queue is a directory of one-file-per-URL, named ``<urlhash>.json``
+where urlhash is the first 8 hex chars of sha256(url):
+
+  assets/articles/queue/
+    <urlhash>.json              # auto queue
+    priority/
+      <urlhash>.json            # priority queue, drained first by crawler
+
+This layout sidesteps the merge-conflict class that broke us when the
+queue lived in a single jsonl file: different URLs are different files,
+so concurrent add/remove operations on different URLs commute trivially
+through git's 3-way merge.
 
 Usage:
   scripts/article_queue_add.py URL [URL ...]
@@ -22,6 +31,7 @@ Exit codes:
 
 import argparse
 import functools
+import hashlib
 import json
 import sys
 from datetime import datetime, timezone
@@ -33,8 +43,14 @@ print = functools.partial(print, flush=True)
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES_PATH = ROOT / "assets" / "sources.json"
 REGISTRY_PATH = ROOT / "assets" / "article_registry.json"
-QUEUE_PATH = ROOT / "assets" / "articles" / "queue.jsonl"
-PRIORITY_PATH = ROOT / "assets" / "articles" / "queue_priority.jsonl"
+QUEUE_DIR = ROOT / "assets" / "articles" / "queue"
+PRIORITY_DIR = QUEUE_DIR / "priority"
+
+
+def url_filename(url: str) -> str:
+    """Per-URL queue file name. First 8 hex chars of sha256(url) — short
+    enough to read, wide enough that 4B URLs would only collide ~once."""
+    return hashlib.sha256(url.encode()).hexdigest()[:8] + ".json"
 
 
 def load_allowed_domains() -> set[str]:
@@ -71,17 +87,20 @@ def domain_matches(host: str, allowed: set[str]) -> str | None:
 
 
 def load_known_urls() -> set[str]:
-    """All URLs that are already queued or in the registry."""
+    """All URLs that are already queued or in the registry.
+
+    For the queue: presence of the per-URL file in QUEUE_DIR or
+    PRIORITY_DIR is the dedup signal. We still load the JSON content to
+    get the canonical URL string (the filename hash is opaque), but we
+    can short-circuit later by checking file existence first.
+    """
     seen: set[str] = set()
-    for p in (QUEUE_PATH, PRIORITY_PATH):
-        if p.exists():
-            for line in p.read_text().splitlines():
-                line = line.strip()
-                if not line:
-                    continue
+    for d in (QUEUE_DIR, PRIORITY_DIR):
+        if d.is_dir():
+            for f in d.glob("*.json"):
                 try:
-                    seen.add(json.loads(line)["url"])
-                except (json.JSONDecodeError, KeyError):
+                    seen.add(json.loads(f.read_text())["url"])
+                except (json.JSONDecodeError, KeyError, OSError):
                     pass
     if REGISTRY_PATH.exists():
         for entry in json.loads(REGISTRY_PATH.read_text() or "[]"):
@@ -115,7 +134,8 @@ def main() -> int:
     p.add_argument("--stdin", action="store_true",
                    help="read additional URLs from stdin (one per line)")
     p.add_argument("--priority", action="store_true",
-                   help="append to queue_priority.jsonl instead of queue.jsonl")
+                   help="write into queue/priority/ instead of queue/ "
+                        "(crawler drains priority first)")
     p.add_argument("--discovered-by", default="manual",
                    help="provenance string stored on each entry "
                         "(e.g. 'search: foo', 'activist-network: bar')")
@@ -131,47 +151,52 @@ def main() -> int:
 
     allowed = load_allowed_domains()
     known = load_known_urls()
-    target = PRIORITY_PATH if args.priority else QUEUE_PATH
-    target.parent.mkdir(parents=True, exist_ok=True)
+    target_dir = PRIORITY_DIR if args.priority else QUEUE_DIR
+    target_dir.mkdir(parents=True, exist_ok=True)
 
     appended = 0
     rejected = 0
     skipped_dup = 0
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    with target.open("a") as fh:
-        for raw in urls:
-            url, err = validate_url(raw)
-            if err:
-                print(f"REJECT {raw}: {err}", file=sys.stderr)
-                rejected += 1
-                continue
-            host = urlparse(url).netloc
-            matched = domain_matches(host, allowed)
-            if matched is None:
-                print(
-                    f"REJECT {url}: domain {normalize_domain(host)!r} not in "
-                    f"sources.json. Add the domain (with tier/stance) and re-run.",
-                    file=sys.stderr,
-                )
-                rejected += 1
-                continue
-            if url in known:
-                skipped_dup += 1
-                continue
-            entry = {
-                "url": url,
-                "source_domain": matched,
-                "discovered_at": now,
-                "discovered_by": args.discovered_by,
-            }
-            if args.tags_hint:
-                entry["tags_hint"] = args.tags_hint
-            fh.write(json.dumps(entry) + "\n")
-            known.add(url)
-            appended += 1
+    for raw in urls:
+        url, err = validate_url(raw)
+        if err:
+            print(f"REJECT {raw}: {err}", file=sys.stderr)
+            rejected += 1
+            continue
+        host = urlparse(url).netloc
+        matched = domain_matches(host, allowed)
+        if matched is None:
+            print(
+                f"REJECT {url}: domain {normalize_domain(host)!r} not in "
+                f"sources.json. Add the domain (with tier/stance) and re-run.",
+                file=sys.stderr,
+            )
+            rejected += 1
+            continue
+        if url in known:
+            skipped_dup += 1
+            continue
+        entry = {
+            "url": url,
+            "source_domain": matched,
+            "discovered_at": now,
+            "discovered_by": args.discovered_by,
+        }
+        if args.tags_hint:
+            entry["tags_hint"] = args.tags_hint
+        # Write atomically: write to a tempfile then rename, so a partial
+        # file never appears under the queue directory (the crawler treats
+        # any *.json file as a queued URL).
+        target = target_dir / url_filename(url)
+        tmp = target.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(entry, indent=2) + "\n")
+        tmp.replace(target)
+        known.add(url)
+        appended += 1
 
-    where = "queue_priority.jsonl" if args.priority else "queue.jsonl"
+    where = "queue/priority/" if args.priority else "queue/"
     print(
         f"appended={appended} duplicate={skipped_dup} rejected={rejected} "
         f"-> {where}"

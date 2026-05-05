@@ -29,8 +29,8 @@ print = functools.partial(print, flush=True)
 
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY_PATH = ROOT / "assets" / "article_registry.json"
-QUEUE_PATH = ROOT / "assets" / "articles" / "queue.jsonl"
-PRIORITY_PATH = ROOT / "assets" / "articles" / "queue_priority.jsonl"
+QUEUE_DIR = ROOT / "assets" / "articles" / "queue"
+PRIORITY_DIR = QUEUE_DIR / "priority"
 
 
 def load_registry_at(ref: str) -> list[dict]:
@@ -59,10 +59,13 @@ def load_registry_local() -> list[dict]:
         return []
 
 
-def count_jsonl(path: Path) -> int:
-    if not path.exists():
+def count_queue_files(d: Path) -> int:
+    """Count *.json files directly under d (non-recursive). The nested
+    priority/ subdir is counted separately by its own caller."""
+    if not d.is_dir():
         return 0
-    return sum(1 for line in path.read_text().splitlines() if line.strip())
+    return sum(1 for p in d.iterdir()
+               if p.is_file() and p.suffix == ".json")
 
 
 def fmt_summary_line(article: dict, max_len: int = 220) -> str | None:
@@ -204,8 +207,8 @@ def main() -> int:
     new_articles = [a for a in head_articles
                     if a.get("article_id") not in base_ids]
 
-    queue_count = count_jsonl(QUEUE_PATH)
-    priority_count = count_jsonl(PRIORITY_PATH)
+    queue_count = count_queue_files(QUEUE_DIR)
+    priority_count = count_queue_files(PRIORITY_DIR)
 
     sys.stdout.write(render_body(
         new_articles, head_articles, queue_count, priority_count,

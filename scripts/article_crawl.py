@@ -59,8 +59,8 @@ print = functools.partial(print, flush=True)
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "assets" / "articles"
-QUEUE_PATH = DATA_DIR / "queue.jsonl"
-PRIORITY_PATH = DATA_DIR / "queue_priority.jsonl"
+QUEUE_DIR = DATA_DIR / "queue"
+PRIORITY_DIR = QUEUE_DIR / "priority"
 STATE_PATH = DATA_DIR / ".crawl_state.json"
 FAILED_PATH = DATA_DIR / ".failed_urls.json"
 CHECK_INJECTION = ROOT / "scripts" / "check_injection.py"
@@ -77,24 +77,28 @@ MAX_RETRIES_PER_URL = 3
 # ───────────────────────── data plumbing ─────────────────────────
 
 
-def load_jsonl(path: Path) -> list[dict]:
-    if not path.exists():
+def url_filename(url: str) -> str:
+    """Per-URL queue file name. Matches scripts/article_queue_add.py.
+    First 8 hex chars of sha256(url) — same convention article_crawl
+    already uses for the slug-uniqueness suffix."""
+    return hashlib.sha256(url.encode()).hexdigest()[:8] + ".json"
+
+
+def load_queue_dir(d: Path) -> list[dict]:
+    """Read every *.json file directly under d (non-recursive). Sorted
+    by mtime ascending so older URLs get processed first (FIFO)."""
+    if not d.is_dir():
         return []
+    files = [p for p in d.iterdir() if p.suffix == ".json" and p.is_file()]
+    files.sort(key=lambda p: (p.stat().st_mtime, p.name))
     out = []
-    for line in path.read_text().splitlines():
-        line = line.strip()
-        if not line:
-            continue
+    for f in files:
         try:
-            out.append(json.loads(line))
-        except json.JSONDecodeError as e:
-            print(f"WARN: skipping malformed queue line: {e}", file=sys.stderr)
+            out.append(json.loads(f.read_text()))
+        except (json.JSONDecodeError, OSError) as e:
+            print(f"WARN: skipping malformed queue file {f.name}: {e}",
+                  file=sys.stderr)
     return out
-
-
-def write_jsonl(path: Path, entries: list[dict]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("".join(json.dumps(e) + "\n" for e in entries))
 
 
 def load_json(path: Path, default):
@@ -555,17 +559,28 @@ def now_iso() -> str:
 
 
 def merge_queue() -> tuple[list[dict], list[dict]]:
-    """Load (priority, auto). Drain priority first."""
-    return load_jsonl(PRIORITY_PATH), load_jsonl(QUEUE_PATH)
+    """Load (priority, auto). Drain priority first.
+
+    The queue is a directory of one-file-per-URL: priority lives in
+    PRIORITY_DIR, auto in QUEUE_DIR. load_queue_dir lists QUEUE_DIR
+    non-recursively so the nested priority/ subdir doesn't
+    double-count.
+    """
+    return load_queue_dir(PRIORITY_DIR), load_queue_dir(QUEUE_DIR)
 
 
 def remove_from_queue(url: str) -> None:
-    """Remove a URL from whichever queue file holds it. Idempotent."""
-    for path in (PRIORITY_PATH, QUEUE_PATH):
-        entries = load_jsonl(path)
-        kept = [e for e in entries if e.get("url") != url]
-        if len(kept) != len(entries):
-            write_jsonl(path, kept)
+    """Remove a URL from the queue. Idempotent — silently no-ops if
+    the file doesn't exist (e.g. force-processed URL via --url that
+    wasn't in the queue)."""
+    fn = url_filename(url)
+    for d in (PRIORITY_DIR, QUEUE_DIR):
+        f = d / fn
+        if f.exists():
+            try:
+                f.unlink()
+            except OSError as e:
+                print(f"WARN: failed to remove {f}: {e}", file=sys.stderr)
 
 
 def crawl_once(entry: dict, *, dry_run: bool,
