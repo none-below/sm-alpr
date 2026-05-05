@@ -196,12 +196,106 @@ def classify(name):
 
 
 
+def confirmed_slugs(data_dir, probe_state=None):
+    """Return the set of slugs we have evidence are real Flock portals.
+
+    A slug is confirmed when:
+      - there's a parsed `.json` capture under `<data_dir>/<slug>/`
+        (main crawler archived it cleanly), OR
+      - there's a `.txt` under `<data_dir>/<slug>/` (the crawler hit
+        a real portal page; the parser may have failed downstream
+        but the slug itself is real — Flock served a 200), OR
+      - slug_probe declared it `found` in its state file.
+
+    Anything else is speculative — a `name_to_slug` guess that nobody
+    has actually verified.
+    """
+    confirmed = set()
+    if data_dir.is_dir():
+        from lib import portal_jsons, portal_txts
+        for slug_dir in data_dir.iterdir():
+            if not slug_dir.is_dir() or slug_dir.name.startswith("."):
+                continue
+            if portal_jsons(slug_dir) or portal_txts(slug_dir):
+                confirmed.add(slug_dir.name)
+    if probe_state:
+        for ag in probe_state.get("agencies", {}).values():
+            found = ag.get("found")
+            if found:
+                confirmed.add(found)
+    return confirmed
+
+
+def prune_speculative_slugs(registry, confirmed):
+    """Mutate `registry` in place: set `flock_active_slug` to None and
+    trim `flock_slugs` for entries whose slugs aren't in `confirmed`.
+
+    Returns a dict of stats: {pruned_active, pruned_slugs, kept}.
+    """
+    pruned_active = 0
+    pruned_slugs_total = 0
+    kept = 0
+    for e in registry:
+        original_slugs = list(e.get("flock_slugs", []))
+        confirmed_for_entry = [s for s in original_slugs if s in confirmed]
+        active = e.get("flock_active_slug")
+        if active in confirmed:
+            new_active = active
+        elif confirmed_for_entry:
+            # Active wasn't confirmed but some other historical slug is —
+            # promote that one. Rare but possible (e.g. Flock renamed
+            # the slug, we captured under the new one but the registry
+            # still pointed at the old).
+            new_active = confirmed_for_entry[0]
+        else:
+            new_active = None
+        if new_active != active:
+            pruned_active += 1
+        pruned_slugs_total += len(original_slugs) - len(confirmed_for_entry)
+        e["flock_active_slug"] = new_active
+        e["flock_slugs"] = confirmed_for_entry
+        if confirmed_for_entry:
+            kept += 1
+    return {
+        "pruned_active": pruned_active,
+        "pruned_slugs": pruned_slugs_total,
+        "kept": kept,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Build agency registry")
     parser.add_argument("--merge", action="store_true",
                         help="Merge new agencies into existing registry, keeping manual edits")
+    parser.add_argument("--prune", action="store_true",
+                        help="Nullify speculative flock_active_slug / flock_slugs (only confirmed slugs survive). Mutually exclusive with --merge.")
     parser.add_argument("--data-dir", type=Path, default=DEFAULT_DATA_DIR)
     args = parser.parse_args()
+
+    if args.prune:
+        if args.merge:
+            print("ERROR: --prune and --merge are mutually exclusive", file=sys.stderr)
+            sys.exit(1)
+        if not REGISTRY_PATH.exists():
+            print("ERROR: registry doesn't exist; nothing to prune", file=sys.stderr)
+            sys.exit(1)
+        registry = json.loads(REGISTRY_PATH.read_text())
+        # Probe state contributes confirmed slugs even when no .json is
+        # on disk yet — happens when probe just hit but hasn't run
+        # archive_agency, or when the captured artifact wasn't committed.
+        probe_state_path = args.data_dir / ".slug_probe_state.json"
+        probe_state = (
+            json.loads(probe_state_path.read_text())
+            if probe_state_path.exists() else None
+        )
+        confirmed = confirmed_slugs(args.data_dir, probe_state)
+        print(f"Confirmed slugs (have .txt/.json or probe-found): {len(confirmed)}")
+        stats = prune_speculative_slugs(registry, confirmed)
+        print(f"Pruned flock_active_slug on {stats['pruned_active']} entries")
+        print(f"Removed {stats['pruned_slugs']} speculative entries from flock_slugs")
+        print(f"Entries with at least one confirmed slug: {stats['kept']}")
+        REGISTRY_PATH.write_text(json.dumps(registry, indent=2) + "\n")
+        return
 
     data_dir = args.data_dir
 
@@ -299,11 +393,16 @@ def main():
 
         state = detect_state(flock_name)
         flags = detect_flags(flock_name)
+        # New entries from peer-outbound names start with no confirmed
+        # Flock slug — `slug` is a stable internal key derived from the
+        # name (used for dedup), but flock_active_slug / flock_slugs only
+        # get populated by a successful capture or a slug_probe hit.
+        # Speculative guesses don't claim to be slugs.
         entry = {
             "agency_id": candidate_id,
             "slug": slug,
-            "flock_active_slug": slug,
-            "flock_slugs": [slug],
+            "flock_active_slug": None,
+            "flock_slugs": [],
             "flock_names": [flock_name],
             "display_name": None,
             "agency_role": cls["agency_role"],
@@ -313,6 +412,14 @@ def main():
             "flags": flags,
             "geo": {"kind": "state-only", "state": state} if state else None,
         }
+        # If `slug` (the internal key) happens to match a directory we
+        # captured, the slug IS confirmed and should populate the flock
+        # fields. The discovery side of build_agency_registry already
+        # iterates crawled_slugs upstream; this is for the case where
+        # the resolved-from-name slug coincidentally matches.
+        if slug in crawled_slugs:
+            entry["flock_active_slug"] = slug
+            entry["flock_slugs"] = [slug]
         registry.append(entry)
         seen_ids.add(candidate_id)
         new_count += 1
