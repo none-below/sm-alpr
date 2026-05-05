@@ -695,9 +695,10 @@
     "844ec58f-3abf-5a88-a280-2ba0f235264a": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-28T16:02:17.452877+00:00",
+      "last_probed": "2026-05-05T12:58:32.587157+00:00",
       "tried": {
-        "salinas-ca-po": "http_404"
+        "salinas-ca-po": "http_404",
+        "salinas-ca-police-department": "http_404"
       }
     },
     "862d352e-a1e3-5445-b9ad-abb1a479b8bf": {
@@ -716,6 +717,14 @@
       "last_probed": "2026-05-04T19:07:44.306438+00:00",
       "tried": {
         "branson-mo-po": "http_404"
+      }
+    },
+    "8a88be54-e69a-5e38-88f2-02bc79b89ebe": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-05T12:58:39.126437+00:00",
+      "tried": {
+        "california-city-ca-pd": "http_404"
       }
     },
     "8bbdbc6d-a0cb-51af-bdbe-f3fef9a95cb5": {
@@ -861,6 +870,14 @@
       "tried": {
         "vernon-ca-po": "http_404",
         "vernon-ca-police-department": "http_404"
+      }
+    },
+    "a752d5bb-a9d8-575f-a5fd-b9c605074330": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-05T12:58:27.509295+00:00",
+      "tried": {
+        "aurora-oh-po": "http_404"
       }
     },
     "a76f1a12-ea0c-5138-9c77-57a4e6b510ca": {
@@ -1225,6 +1242,6 @@
       }
     }
   },
-  "updated": "2026-05-05T11:06:55.696416+00:00",
+  "updated": "2026-05-05T12:58:39.161178+00:00",
   "version": 1
 }
