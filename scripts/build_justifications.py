@@ -41,10 +41,20 @@ from lib import load_registry, portal_jsons  # noqa: E402
 
 AUDIT_DIR = Path("docs/data/audit")
 PORTAL_DIR = Path("assets/transparency.flocksafety.com")
+SHARING_GRAPH_PATH = PORTAL_DIR / ".sharing_graph_full.json"
 OUT_PATH = Path("docs/data/justifications.json")
 
 TOP_VERBATIM = 50
 TOP_TOKENS = 50
+
+# Threshold for "this search probably touched the subject agency's data".
+# Flock doesn't expose which networks each search actually hit, so the
+# heuristic is: a high networkCount means the search reached most of the
+# state, which would in practice include any given agency's data. The
+# UI surfaces this as a caveat, not a precise count.
+BROAD_REACH_THRESHOLD = 100
+TOP_EXTERNAL = 50
+TOP_SOURCES_PER_PHRASE = 4
 
 # Words that don't carry signal in a justification cloud — common
 # English stopwords plus ALPR-specific filler ("vehicle", "search",
@@ -590,19 +600,197 @@ def process_agency(audit_path):
     }
 
 
+def load_sharing_graph():
+    """Return the sharing graph as {agency_id: graph_entry}, or {} if missing.
+
+    The graph is built by build_sharing_graph.py and stored at
+    .sharing_graph_full.json under the portal-data directory. Each
+    agency entry has sharing_outbound_ids / sharing_inbound_ids
+    arrays of agency UUIDs.
+    """
+    if not SHARING_GRAPH_PATH.exists():
+        return {}
+    try:
+        g = json.loads(SHARING_GRAPH_PATH.read_text())
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return g.get("agencies") or {}
+
+
+def gather_external_aggregated(slug, agency_id, graph, by_id, by_slug):
+    """For each agency this agency shares to (its outbound list), pull
+    that agency's broad-reach audit rows and aggregate them by phrase.
+
+    The framing: "agencies with shared access to your data also search
+    that data." We can't tell from Flock which networks each search
+    actually hit, so the proxy is networkCount >= BROAD_REACH_THRESHOLD
+    (statewide-or-broader reach) — those searches almost certainly
+    included the subject agency's data.
+
+    Returns None if the subject agency has no outbound list or no
+    audit-publishing recipients. Otherwise returns a dict with:
+      - rows: top phrases by count, each as
+        [phrase, total_count, [[source_name, count], ...]]
+      - sources_with_data: count of recipient agencies that contributed
+      - outbound_total: count of all outbound recipients (whether or
+        not they publish an audit)
+      - threshold: the networkCount cutoff used
+    """
+    if not agency_id:
+        return None
+    graph_entry = graph.get(agency_id) or {}
+    outbound_ids = graph_entry.get("sharing_outbound_ids") or []
+    if not outbound_ids:
+        return None
+    by_phrase = {}
+    sources_with_data = 0
+    sources_total_searches = 0
+    # Per-source broad-reach counts (for median + extrapolation).
+    broad_counts_per_reporter = []
+    # Partner categorization for the magnitude-estimation note: not
+    # every outbound recipient publishes an audit; some publish only a
+    # 30-day total; some publish nothing. Surfacing these breakdowns
+    # tells the reader how undercounted the visible numbers are.
+    partners_searches_only_count = 0
+    partners_searches_only_total = 0
+    partners_silent_count = 0
+
+    for tid in outbound_ids:
+        treg = by_id.get(tid)
+        if not treg:
+            partners_silent_count += 1
+            continue
+        candidate_slugs = []
+        if treg.get("slug"):
+            candidate_slugs.append(treg["slug"])
+        for fs in treg.get("flock_slugs") or []:
+            if fs not in candidate_slugs:
+                candidate_slugs.append(fs)
+        target_audit_path = None
+        target_slug = None
+        for cs in candidate_slugs:
+            ap = AUDIT_DIR / f"{cs}.json"
+            if ap.exists():
+                target_audit_path = ap
+                target_slug = cs
+                break
+        if target_audit_path:
+            try:
+                tdata = json.loads(target_audit_path.read_text())
+            except (OSError, json.JSONDecodeError):
+                tdata = None
+            if tdata is None:
+                partners_silent_count += 1
+                continue
+            rows = tdata.get("rows") or []
+            broad_count_for_source = 0
+            target_name = treg.get("display_name") or target_slug
+            for r in rows:
+                try:
+                    nc = int(r.get("networkCount") or 0)
+                except (TypeError, ValueError):
+                    nc = 0
+                if nc < BROAD_REACH_THRESHOLD:
+                    continue
+                raw = r.get("reason")
+                if raw is None or not str(raw).strip():
+                    raw = r.get("offenseType")
+                if raw is None or not str(raw).strip():
+                    raw = r.get("caseNumber")
+                norm = normalize_reason(raw)
+                if norm is None:
+                    continue
+                entry = by_phrase.setdefault(
+                    norm, {"count": 0, "by_source": Counter()}
+                )
+                entry["count"] += 1
+                entry["by_source"][target_name] += 1
+                broad_count_for_source += 1
+            if broad_count_for_source > 0:
+                sources_with_data += 1
+                sources_total_searches += broad_count_for_source
+                broad_counts_per_reporter.append(broad_count_for_source)
+            else:
+                # Audit exists but has no broad-reach rows. Treat as
+                # silent for magnitude purposes — broad-reach is the
+                # signal we care about here.
+                partners_silent_count += 1
+            continue
+
+        # No audit data — try the portal for a 30-day total.
+        portal_s30 = None
+        for cs in candidate_slugs:
+            pd_dir = PORTAL_DIR / cs
+            if not pd_dir.is_dir():
+                continue
+            paths = portal_jsons(pd_dir)
+            if not paths:
+                continue
+            try:
+                pj = json.loads(paths[-1].read_text())
+            except (OSError, json.JSONDecodeError):
+                continue
+            s30 = pj.get("searches_30d")
+            if s30 in (None, ""):
+                continue
+            try:
+                portal_s30 = int(s30)
+                break
+            except (TypeError, ValueError):
+                continue
+        if portal_s30 is not None:
+            partners_searches_only_count += 1
+            partners_searches_only_total += portal_s30
+        else:
+            partners_silent_count += 1
+
+    if not by_phrase:
+        return None
+
+    sorted_phrases = sorted(
+        by_phrase.items(), key=lambda kv: -kv[1]["count"]
+    )[:TOP_EXTERNAL]
+    out_rows = []
+    for phrase, data in sorted_phrases:
+        sources = data["by_source"].most_common(TOP_SOURCES_PER_PHRASE)
+        out_rows.append([phrase, data["count"], sources])
+
+    median_broad = None
+    if broad_counts_per_reporter:
+        sc = sorted(broad_counts_per_reporter)
+        median_broad = sc[len(sc) // 2]
+
+    return {
+        "rows": out_rows,
+        "sources_with_data": sources_with_data,
+        "outbound_total": len(outbound_ids),
+        "total_broad_searches": sources_total_searches,
+        "threshold": BROAD_REACH_THRESHOLD,
+        "median_broad_per_reporter": median_broad,
+        "partners_searches_only_count": partners_searches_only_count,
+        "partners_searches_only_total": partners_searches_only_total,
+        "partners_silent_count": partners_silent_count,
+    }
+
+
 def main():
     if not AUDIT_DIR.exists():
         print(f"missing {AUDIT_DIR}; run build_audit_log.py first", file=sys.stderr)
         return 1
     registry = load_registry()
     by_slug = {}
+    by_id = {}
     for entry in registry:
+        aid = entry.get("agency_id")
+        if aid:
+            by_id[aid] = entry
         slug = entry.get("slug")
         if not slug:
             continue
         by_slug[slug] = entry
         for fs in entry.get("flock_slugs") or []:
             by_slug.setdefault(fs, entry)
+    graph = load_sharing_graph()
 
     out = {}
     skipped = 0
@@ -623,6 +811,10 @@ def main():
             agency_data["acceptable_use_policy"] = aup
         if pu:
             agency_data["prohibited_uses"] = pu
+        agency_id = entry.get("agency_id") if entry else None
+        ext = gather_external_aggregated(slug, agency_id, graph, by_id, by_slug)
+        if ext:
+            agency_data["external_aggregated"] = ext
         out[slug] = agency_data
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)

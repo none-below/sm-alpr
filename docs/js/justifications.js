@@ -454,6 +454,122 @@
     return html;
   }
 
+  // External-search section: aggregated broad-reach searches by
+  // agencies with shared access to this agency's data. The "broad
+  // reach" threshold is networkCount >= 100 — Flock doesn't expose
+  // which networks each search actually hit, so we use that as a
+  // proxy for "this search probably touched this agency's data."
+  // Each bar row totals across contributing source agencies and
+  // attributes the top N sources inline.
+  var hideExternal = false;
+
+  function renderExternalSection(agencyData) {
+    var ext = agencyData.external_aggregated;
+    if (!ext || !ext.rows || !ext.rows.length) return '';
+    if (hideExternal) {
+      return '<h2>Searches by agencies with shared access</h2>' +
+        '<p class="external-hidden-note">' +
+        'Hidden &mdash; toggle <em>Show only this agency&rsquo;s own searches</em> ' +
+        'off above to reveal partner searches that likely touched this data.' +
+        '</p>';
+    }
+    var threshold = ext.threshold || 100;
+    var rows = ext.rows;
+    var totalSearches = ext.total_broad_searches || 0;
+    var sources = ext.sources_with_data || 0;
+    var outboundTotal = ext.outbound_total || 0;
+    var s30Only = ext.partners_searches_only_count || 0;
+    var s30OnlyTotal = ext.partners_searches_only_total || 0;
+    var silent = ext.partners_silent_count || 0;
+    var medianBroad = ext.median_broad_per_reporter || 0;
+    var nonAudit = s30Only + silent;
+    // If non-reporting partners are similarly active to reporters,
+    // each contributes ~medianBroad broad-reach searches that this
+    // page can't see. The estimate is order-of-magnitude, not precise.
+    var estimatedTotal = totalSearches + medianBroad * nonAudit;
+    var totalForPct = totalSearches || 1;
+    var breakdown = '';
+    if (nonAudit > 0) {
+      breakdown = '<div class="external-breakdown">' +
+        '<div class="external-breakdown-head">' +
+        'How undercounted is this number?' +
+        '</div>' +
+        '<ul>' +
+        '<li><strong>' + sources.toLocaleString() + '</strong> partners ' +
+        'publish full audit detail &mdash; the bars below sum their ' +
+        'broad-reach activity (' + totalSearches.toLocaleString() + ').</li>';
+      if (s30Only > 0) {
+        breakdown += '<li><strong>' + s30Only.toLocaleString() + '</strong> ' +
+          'partners publish a 30-day total but no per-search detail ' +
+          '(' + s30OnlyTotal.toLocaleString() + ' total searches combined; ' +
+          'broad-reach share isn&rsquo;t visible).</li>';
+      }
+      if (silent > 0) {
+        breakdown += '<li><strong>' + silent.toLocaleString() + '</strong> ' +
+          'partners publish neither &mdash; search volume entirely unknown.</li>';
+      }
+      breakdown += '</ul>';
+      if (medianBroad > 0 && estimatedTotal > totalSearches) {
+        breakdown += '<div class="external-breakdown-est">' +
+          'The median audit-publishing partner ran <strong>' +
+          medianBroad.toLocaleString() + '</strong> broad-reach searches ' +
+          'in this window. If the ' + nonAudit.toLocaleString() +
+          ' non-detail partners are similarly active, the actual broad-reach ' +
+          'volume against this data is closer to <strong>~' +
+          estimatedTotal.toLocaleString() + '</strong> than the visible ' +
+          totalSearches.toLocaleString() + '.' +
+          '</div>';
+      }
+      breakdown += '</div>';
+    }
+    var html = '<h2>Searches by agencies with shared access</h2>' +
+      '<div class="external-summary">' +
+      '<strong>' + totalSearches.toLocaleString() + '</strong> broad-reach ' +
+      'searches by <strong>' + sources + '</strong> of ' + outboundTotal +
+      ' agencies that ' + escapeHTML(agencyData.display_name) +
+      ' shares its data to. ' +
+      'Each is a search that reached &ge; ' + threshold +
+      ' networks &mdash; broad enough that this agency&rsquo;s data was ' +
+      'almost certainly included.' +
+      breakdown +
+      '</div>' +
+      '<p class="bars-disclaimer external-caveat">' +
+      'Heuristic: Flock doesn&rsquo;t expose which networks each search ' +
+      'hit, so we treat any search reaching &ge; ' + threshold +
+      ' networks as having likely touched this agency&rsquo;s data. ' +
+      'A search reaching exactly 99 networks would be excluded; one ' +
+      'reaching 100+ is included regardless of which networks it actually ' +
+      'queried.' +
+      '</p>' +
+      '<div class="bar-list bar-list-external">';
+    for (var i = 0; i < rows.length; i++) {
+      var phrase = rows[i][0];
+      var count = rows[i][1];
+      var topSources = rows[i][2] || [];
+      var sharePct = (100 * count / totalForPct);
+      var w = Math.max(1, Math.round(sharePct));
+      var srcHtml = '';
+      for (var s = 0; s < topSources.length; s++) {
+        srcHtml += '<span class="ext-source">' +
+          escapeHTML(topSources[s][0]) + ' (' +
+          topSources[s][1].toLocaleString() + ')</span>';
+      }
+      html += '<div class="bar-item bar-item-external">' +
+        '<div class="bar-item-main">' +
+        '<span class="bar-track">' +
+        '<span class="bar bar-external" style="width:' + w + '%"></span>' +
+        '<span class="bar-pct">' + sharePct.toFixed(1) + '%</span>' +
+        '</span>' +
+        '<span class="bar-count">' + count.toLocaleString() + '</span>' +
+        '<span class="phrase-text">' + escapeHTML(phrase) + '</span>' +
+        '</div>' +
+        (srcHtml ? '<div class="ext-sources">' + srcHtml + '</div>' : '') +
+        '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
   // For the small set of agencies whose audit CSV schema entirely
   // omits any justification field — not even an empty column — we
   // render a structural-transparency callout instead of bars.
@@ -1071,6 +1187,15 @@
   // for the clicked phrase. Single delegated listener attached at
   // init time.
   function handleExpandClick(ev) {
+    // Local-only toggle — flip the global flag and re-render.
+    if (ev.target && ev.target.id === 'local-only-toggle') {
+      hideExternal = !!ev.target.checked;
+      if (currentAgencyData) {
+        document.getElementById('page').innerHTML =
+          renderAgency(currentAgencyData, currentSlug);
+      }
+      return;
+    }
     // View-mode toggle buttons — change mode and re-render.
     var modeBtn = ev.target.closest('.view-mode-btn');
     if (modeBtn) {
@@ -1431,14 +1556,30 @@
           : '') +
       '</div>';
 
+    var hasExternal = agencyData.external_aggregated &&
+      agencyData.external_aggregated.rows &&
+      agencyData.external_aggregated.rows.length;
+    var localToggle = hasExternal
+      ? '<div class="local-toggle">' +
+        '<label>' +
+        '<input type="checkbox" id="local-only-toggle"' +
+        (hideExternal ? ' checked' : '') + '> ' +
+        'Show only this agency&rsquo;s own searches ' +
+        '<span class="local-toggle-hint">(hide partner searches that ' +
+        'likely touched this data)</span>' +
+        '</label>' +
+        '</div>'
+      : '';
+
     return '<h1>' + escapeHTML(agencyData.display_name) + '</h1>' +
       '<p class="subtitle">ALPR search justifications</p>' +
       windowBanner +
       blurb +
       stats +
+      localToggle +
       renderUses(agencyData) +
       renderLongActiveCases(agencyData.long_active_cases, agencyData.display_name) +
-      '<h2>Top reasons by count</h2>' +
+      '<h2>Top reasons (this agency&rsquo;s own searches)</h2>' +
       (agencyData.has_justification_column === false
         ? renderNoJustificationCallout(agencyData)
         : '<p class="bars-disclaimer">' +
@@ -1447,6 +1588,7 @@
           'reason for the search, or that the search was authorized.' +
           '</p>' +
           renderBars(agencyData.verbatim, agencyData.row_count)) +
+      renderExternalSection(agencyData) +
       '<h2>Search timing (day &times; hour, Pacific Time)</h2>' +
       renderHeatmap(agencyData.hour_dow, agencyData.timed_rows) +
       '<h2>Detected California penal / vehicle codes</h2>' +
@@ -1469,31 +1611,109 @@
       '</div>';
   }
 
-  function populateSelect(agencies, currentSlug) {
-    var sel = document.getElementById('agency-select');
-    sel.innerHTML = '';
-    var slugs = Object.keys(agencies);
-    slugs.sort(function (a, b) {
-      return agencies[a].display_name.localeCompare(agencies[b].display_name);
+  // Type-ahead "jump to agency" search. Mirrors report.js's selector
+  // so users moving between the per-agency report and this page get
+  // the same affordance. Ranks exact > startsWith > contains, caps at
+  // 12 results. ↓/↑ to move, Enter to open, Esc to close.
+  function wireAgencySearch(agencies, currentSlug) {
+    var input = document.getElementById('agency-search-input');
+    var results = document.getElementById('agency-search-results');
+    if (!input || !results) return;
+    var index = Object.keys(agencies).map(function (slug) {
+      var a = agencies[slug];
+      return {
+        slug: slug,
+        name: a.display_name || slug,
+        rowCount: a.row_count || 0,
+        _nameLower: (a.display_name || slug).toLowerCase(),
+      };
     });
-    for (var i = 0; i < slugs.length; i++) {
-      var s = slugs[i];
-      var opt = document.createElement('option');
-      opt.value = s;
-      opt.textContent = agencies[s].display_name +
-        ' (' + agencies[s].row_count.toLocaleString() + ' searches)';
-      if (s === currentSlug) opt.selected = true;
-      sel.appendChild(opt);
+    var highlightIdx = -1;
+
+    function doSearch(q) {
+      q = q.trim().toLowerCase();
+      if (!q) {
+        results.classList.remove('open');
+        results.innerHTML = '';
+        highlightIdx = -1;
+        return;
+      }
+      var matches = [];
+      for (var i = 0; i < index.length; i++) {
+        var e = index[i];
+        if (e.slug === currentSlug) continue;
+        var n = e._nameLower;
+        var score = 0;
+        if (n === q) score = 100;
+        else if (n.startsWith(q)) score = 50;
+        else if (n.indexOf(q) !== -1) score = 10;
+        if (score > 0) matches.push({ e: e, score: score });
+      }
+      matches.sort(function (a, b) {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.e._nameLower.localeCompare(b.e._nameLower);
+      });
+      var shown = matches.slice(0, 12);
+      if (!shown.length) {
+        results.innerHTML = '<div class="sr-empty">No matching agencies</div>';
+      } else {
+        results.innerHTML = shown.map(function (m) {
+          return '<a href="justifications.html?agency=' +
+            encodeURIComponent(m.e.slug) + '">' +
+            escapeHTML(m.e.name) + '</a>';
+        }).join('');
+      }
+      results.classList.add('open');
+      highlightIdx = -1;
     }
-    sel.addEventListener('change', function () {
-      var newSlug = sel.value;
-      // Use replaceState rather than pushState so back-button doesn't
-      // cycle through every agency the user previewed.
-      history.replaceState(null, '', '?agency=' + encodeURIComponent(newSlug));
-      var data = agencies[newSlug];
-      installPhraseContext(data);
-      document.getElementById('page').innerHTML =
-        renderAgency(data, newSlug);
+
+    function updateHighlight() {
+      var links = results.querySelectorAll('a');
+      for (var i = 0; i < links.length; i++) {
+        if (i === highlightIdx) links[i].classList.add('hl');
+        else links[i].classList.remove('hl');
+      }
+      if (highlightIdx >= 0 && links[highlightIdx]) {
+        links[highlightIdx].scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    input.addEventListener('input', function () { doSearch(input.value); });
+    input.addEventListener('keydown', function (e) {
+      var links = results.querySelectorAll('a');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!results.classList.contains('open')) doSearch(input.value);
+        if (links.length) {
+          highlightIdx = Math.min(highlightIdx + 1, links.length - 1);
+          updateHighlight();
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (links.length) {
+          highlightIdx = Math.max(highlightIdx - 1, 0);
+          updateHighlight();
+        }
+      } else if (e.key === 'Enter') {
+        if (highlightIdx >= 0 && links[highlightIdx]) {
+          e.preventDefault();
+          window.location.href = links[highlightIdx].href;
+        } else if (links.length === 1) {
+          e.preventDefault();
+          window.location.href = links[0].href;
+        }
+      } else if (e.key === 'Escape') {
+        results.classList.remove('open');
+        input.blur();
+      }
+    });
+    input.addEventListener('focus', function () {
+      if (input.value.trim()) doSearch(input.value);
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('#agency-search')) {
+        results.classList.remove('open');
+      }
     });
   }
 
@@ -1516,7 +1736,7 @@
         var agencies = data.agencies || {};
         currentAgencyCount = data.agency_count || Object.keys(agencies).length;
         var slug = getInitialSlug(agencies);
-        populateSelect(agencies, slug);
+        wireAgencySearch(agencies, slug);
         installPhraseContext(slug ? agencies[slug] : null);
         document.getElementById('page').innerHTML =
           renderAgency(slug ? agencies[slug] : null, slug || '');

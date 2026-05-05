@@ -23,7 +23,7 @@
     padding: 0 8px;
     flex-wrap: wrap;
   }
-  .toolbar a, .toolbar select {
+  .toolbar a {
     font-size: 13px;
     padding: 6px 12px;
     border-radius: 6px;
@@ -34,8 +34,60 @@
     font-family: inherit;
   }
   .toolbar a:hover { background: #eff6ff; }
-  .toolbar select { min-width: 280px; }
   .toolbar .spacer { flex: 1; }
+  .toolbar .agency-search {
+    position: relative;
+    flex: 0 1 300px;
+    min-width: 180px;
+  }
+  .toolbar .agency-search input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    box-sizing: border-box;
+    background: white;
+  }
+  .toolbar .agency-search input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+  }
+  .toolbar .agency-search .search-results {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+  }
+  .toolbar .agency-search .search-results.open { display: block; }
+  .toolbar .agency-search .search-results a {
+    display: block;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 0;
+    text-decoration: none;
+    color: #111;
+    font-size: 13px;
+  }
+  .toolbar .agency-search .search-results a:hover,
+  .toolbar .agency-search .search-results a.hl {
+    background: #eff6ff;
+  }
+  .toolbar .agency-search .search-results .sr-empty {
+    padding: 6px 10px;
+    color: #6b7280;
+    font-size: 13px;
+  }
   .page {
     max-width: 960px;
     margin: 0 auto;
@@ -480,6 +532,125 @@
   .no-justification-schema {
     font-size: 10pt;
     margin: 6px 0 !important;
+  }
+
+  .local-toggle {
+    margin: 12px 0 4px;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 10pt;
+  }
+  .local-toggle label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .local-toggle input { cursor: pointer; }
+  .local-toggle-hint {
+    color: #64748b;
+    font-size: 9.5pt;
+  }
+  .external-hidden-note {
+    margin: 6px 0 14px;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 4px;
+    font-size: 9.5pt;
+    color: #64748b;
+    font-style: italic;
+  }
+
+  .external-summary {
+    background: #f5f3ff;
+    border: 1px solid #ddd6fe;
+    border-left: 4px solid #7c3aed;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 10.5pt;
+    color: #4c1d95;
+    line-height: 1.5;
+  }
+  .external-summary strong {
+    color: #5b21b6;
+    font-variant-numeric: tabular-nums;
+  }
+  .external-breakdown {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd6fe;
+    font-size: 10pt;
+  }
+  .external-breakdown-head {
+    font-weight: 700;
+    color: #5b21b6;
+    margin-bottom: 4px;
+  }
+  .external-breakdown ul {
+    margin: 4px 0 0 0;
+    padding-left: 22px;
+  }
+  .external-breakdown li {
+    margin: 3px 0;
+    color: #4c1d95;
+  }
+  .external-breakdown-est {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: #ede9fe;
+    border-left: 3px solid #7c3aed;
+    border-radius: 3px;
+    color: #4c1d95;
+    font-size: 9.5pt;
+  }
+  .external-caveat {
+    background: #faf5ff !important;
+    border-left-color: #a78bfa !important;
+    color: #5b21b6 !important;
+    font-style: italic;
+  }
+  .bar-list-external {
+    border-top: 1px solid #ddd6fe;
+  }
+  .bar-item-external {
+    border-left: 3px solid #7c3aed;
+    background: #faf5ff;
+    cursor: default;
+  }
+  .bar-item-external:hover { background: #f5f3ff; }
+  .bar-item-external .bar.bar-external {
+    background: #7c3aed;
+  }
+  .bar-item-external .phrase-text {
+    color: #5b21b6;
+    text-decoration: none;
+    cursor: default;
+  }
+  .ext-sources {
+    margin-top: 4px;
+    padding-left: 112px;
+    line-height: 1.7;
+    font-size: 9pt;
+    color: #6d28d9;
+  }
+  .ext-source {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: #ede9fe;
+    color: #5b21b6;
+    border: 1px solid #ddd6fe;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  @media (max-width: 720px) {
+    .ext-sources { padding-left: 72px; }
   }
 
   .bars-disclaimer {
@@ -1022,9 +1193,10 @@
 <div class="toolbar">
   <a href="index.html">&larr; Investigation home</a>
   <a href="sharing_map.html">Sharing map</a>
-  <select id="agency-select" aria-label="Select agency">
-    <option>Loading agencies&hellip;</option>
-  </select>
+  <div class="agency-search" id="agency-search">
+    <input type="text" id="agency-search-input" placeholder="Jump to another agency&hellip;" autocomplete="off" spellcheck="false">
+    <div class="search-results" id="agency-search-results" role="listbox"></div>
+  </div>
   <div class="spacer"></div>
 </div>
 
