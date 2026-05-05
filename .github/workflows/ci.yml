@@ -106,8 +106,17 @@ jobs:
           # A dash-prefixed filename would still be misinterpreted; fix
           # would require teaching pii_scan.py positional args, out of
           # scope here.)
+          # Exclude assets/articles/**/*.pdf — those are public news
+          # articles fetched from third-party publishers. Editorial
+          # contact emails (jason@404media.co, events@eff.org, etc.)
+          # are intentionally public on the original sites; surfacing
+          # them in the scanner is a false positive against this
+          # corpus's threat model. The PII scanner is for catching
+          # accidentally-captured constituent PII in PRA responses,
+          # not republished journalism.
           mapfile -d '' -t PDF_FILES < <(
             git diff --name-only -z origin/main...HEAD \
+              | { grep -zviE '^assets/articles/' || true; } \
               | { grep -ziE '\.pdf$' || true; }
           )
           if [ "${#PDF_FILES[@]}" -eq 0 ]; then
