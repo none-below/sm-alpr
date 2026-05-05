@@ -198,6 +198,29 @@ def latest_capture_date(slug, data_dir):
         return None
 
 
+def split_batch_across_levels(batch, num_levels):
+    """Allocate a per-level slot budget for a depth-iterating crawl.
+
+    Returns a list of length `num_levels`. Lower levels (closer to seed)
+    get the remainder when the split is uneven — they're the highest-
+    signal candidates so they get the extra slot. With `batch=None` /
+    `batch=0`, every level gets unlimited budget (float('inf')).
+
+    Examples:
+      batch=3, num_levels=2 → [2, 1]
+      batch=3, num_levels=3 → [1, 1, 1]
+      batch=2, num_levels=3 → [1, 1, 0]   (level 2 starves, by design)
+    """
+    if not batch:
+        return [float("inf")] * num_levels
+    per_level_floor = batch // num_levels
+    remainder = batch % num_levels
+    return [
+        per_level_floor + (1 if lvl < remainder else 0)
+        for lvl in range(num_levels)
+    ]
+
+
 def latest_capture_attempt_date(slug, data_dir):
     """Return the latest *attempted* capture date — date of the latest .txt
     even if parsing failed afterwards. Used only for crawl-queue ordering
@@ -1065,11 +1088,23 @@ def cmd_crawl(args):
             visited.update(
                 s for s in hashes if not is_stale(s, data_dir, args.max_age)
             )
-        batch_remaining = args.batch if args.batch else float("inf")
-
         if args.all_agencies or args.depth:
             max_depth = args.depth if args.depth else 1
-            for level in range(max_depth + 1):
+            # Split --batch across levels so peers reachable only at deeper
+            # levels actually get a turn. Without this, level 0 (the seed's
+            # direct outbound) consumes the whole batch every run and tier-0
+            # candidates that only surface at level 1+ starve (e.g. alameda-
+            # ca-pd, which is in 70 peers' outbound but not san-mateo's).
+            # Lower levels (closer to seed = higher signal) get the remainder
+            # when the split is uneven; e.g. batch=3 at 2 levels → 2 + 1.
+            # Unused budget rolls forward into the next level via `available`,
+            # so we still spend up to the global rate limit when possible.
+            num_levels = max_depth + 1
+            level_budgets = split_batch_across_levels(args.batch, num_levels)
+            available = 0
+
+            for level in range(num_levels):
+                available += level_budgets[level]
                 # For already-visited slugs, load sharing lists from stored JSONs
                 # so we can discover their downstream agencies without re-fetching
                 discovered_from_existing = []
@@ -1128,14 +1163,14 @@ def cmd_crawl(args):
                     return (0, date.min)
                 new_slugs.sort(key=_order)
                 if args.batch:
-                    # Pick a random sample from the top 3*batch oldest
+                    # Pick a random sample from the top 3*budget oldest
                     # candidates instead of strictly the top N. Preserves
                     # "oldest first" intent but spreads attention so a
                     # single failing slug at position #1 doesn't waste
                     # the same crawl slot on every run — over a few
                     # cycles the failing slug just becomes one of many
                     # candidates for the slot.
-                    n = int(batch_remaining)
+                    n = int(available)
                     pool = new_slugs[:n * 3]
                     new_slugs = random.sample(pool, min(n, len(pool)))
 
@@ -1156,12 +1191,8 @@ def cmd_crawl(args):
                     )
                     all_results.extend(results)
                     visited.update(s for s, _ in results)
-                    batch_remaining -= len(new_slugs)
+                    available -= len(new_slugs)
                     discovered.extend(newly_discovered)
-
-                    if batch_remaining <= 0:
-                        print(f"\n  batch limit reached, stopping.\n")
-                        break
 
                 slugs = dedupe(discovered)
         else:
