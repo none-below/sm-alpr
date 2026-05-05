@@ -21,7 +21,7 @@ scripts/check_untrusted_read.sh. The curation step (scripts/article_curate.py)
 is the only ingress for downstream summarization.
 
 Usage:
-  uv run python scripts/article_crawl.py                 # process up to 3
+  uv run python scripts/article_crawl.py                 # process up to 6
   uv run python scripts/article_crawl.py --limit 10
   uv run python scripts/article_crawl.py --delay 30
   uv run python scripts/article_crawl.py --dry-run       # list, no HTTP
@@ -667,8 +667,8 @@ def crawl_once(entry: dict, *, dry_run: bool,
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--limit", type=int, default=3,
-                   help="max URLs to process this run (default: 3)")
+    p.add_argument("--limit", type=int, default=6,
+                   help="max URLs to process this run (default: 6)")
     p.add_argument("--delay", type=int, default=5,
                    help="base seconds between fetches; ±25%% jitter (default: 5). "
                         "The hourly cron schedule is the real rate limit; this "
@@ -689,25 +689,45 @@ def main() -> int:
     state = load_json(STATE_PATH, {"fetched": [], "last_run": None})
     failed = load_json(FAILED_PATH, {})
 
+    fetched_urls = set(state.get("fetched", []))
+
+    def is_eligible(entry: dict) -> bool:
+        url = entry.get("url")
+        if not url or url in fetched_urls:
+            return False
+        return failed.get(url, {}).get("attempts", 0) < MAX_RETRIES_PER_URL
+
+    def round_robin(pool: list[dict], remaining: int) -> list[dict]:
+        # Pick at most one entry per source_domain per pass, walking the pool
+        # in its existing order. Spreads a batch across publishers so a
+        # backlog from one domain (e.g. 17 EFF URLs) can't monopolize a run.
+        out: list[dict] = []
+        queue = [e for e in pool if is_eligible(e)]
+        while queue and len(out) < remaining:
+            seen: set[str] = set()
+            leftover: list[dict] = []
+            for entry in queue:
+                domain = entry.get("source_domain") or urlparse(entry["url"]).netloc
+                if domain in seen:
+                    leftover.append(entry)
+                    continue
+                out.append(entry)
+                seen.add(domain)
+                if len(out) >= remaining:
+                    break
+            if not leftover or len(out) >= remaining:
+                break
+            queue = leftover
+        return out
+
     if args.url:
         candidates: list[dict] = [{"url": u, "discovered_by": "force"} for u in args.url]
+        selected = [c for c in candidates if is_eligible(c)][: args.limit]
     else:
         priority, auto = merge_queue()
-        candidates = priority + auto
-
-    fetched_urls = set(state.get("fetched", []))
-    selected: list[dict] = []
-    for entry in candidates:
-        url = entry.get("url")
-        if not url:
-            continue
-        if url in fetched_urls:
-            continue
-        if failed.get(url, {}).get("attempts", 0) >= MAX_RETRIES_PER_URL:
-            continue
-        selected.append(entry)
-        if len(selected) >= args.limit:
-            break
+        selected = round_robin(priority, args.limit)
+        if len(selected) < args.limit:
+            selected.extend(round_robin(auto, args.limit - len(selected)))
 
     if not selected:
         print("nothing to crawl (queue empty or all already fetched/failed)")
