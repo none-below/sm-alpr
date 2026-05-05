@@ -613,6 +613,11 @@ def _strip_leading_description(body):
     return body
 
 
+_ORG_DESCRIPTION_RE = re.compile(
+    r"^Organizations (?:granted access to|sharing with) .+ data\.$"
+)
+
+
 def _parse_org_names(body):
     """Extract org names from a shared-orgs section body.
 
@@ -625,13 +630,18 @@ def _parse_org_names(body):
     if not body:
         return []
     body = _strip_leading_description(body)
-    # If body has multiple non-blank lines and most lack commas, treat as
-    # one-agency-per-line (2026 layout). Otherwise fall back to comma split.
     lines = [L.strip() for L in body.split("\n") if L.strip()]
+    # Drop the description sentence — _strip_leading_description only
+    # fires when ≥2 paragraphs are present, so when the table is empty
+    # the lone description line survives and would be parsed as a fake
+    # org name (PR #240).
+    lines = [L for L in lines if not _ORG_DESCRIPTION_RE.match(L)]
+    if not lines:
+        return []
     if len(lines) >= 3 and sum(1 for L in lines if "," not in L) >= len(lines) * 0.8:
         raw = lines
     else:
-        raw = [n.strip() for n in body.replace("\n", " ").split(", ") if n.strip()]
+        raw = [n.strip() for n in " ".join(lines).split(", ") if n.strip()]
     names = []
     for part in raw:
         merge = names and (
