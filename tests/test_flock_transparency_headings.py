@@ -370,6 +370,18 @@ def test_following_link_blurb_classifies_as_policy_info():
         "Auburn PD's Policies and Procedures can be found at the following link"
     )
     assert (field, kind) == ("policy_info", "dynamic")
+    # The "the following link" pattern is a fallthrough — if a heading
+    # also matches a more specific earlier rule (exact/prefix from
+    # _HEADING_MAP, or one of the alpr_policy dynamic patterns), the
+    # earlier rule must win and route to its specific field.
+    field, _kind = _match_heading_kind(
+        "Full ALPR Policy can be found at the following link:"
+    )
+    assert field == "alpr_policy"
+    field, _kind = _match_heading_kind(
+        "Anytown Police Department Policy Manual can be found at the following link:"
+    )
+    assert field == "alpr_policy"
 
 
 def test_month_year_bold_heading_does_not_raise():

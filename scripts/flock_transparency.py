@@ -335,16 +335,18 @@ _HEADING_MAP = {
 _DYNAMIC_HEADINGS = [
     (re.compile(r"^Last Updated:", re.IGNORECASE), "last_updated"),
     (re.compile(r"^(Link to |To view ).+", re.IGNORECASE), "policy_info"),
-    # Sentence-style link blurbs, e.g. "Auburn PD's Policies and
-    # Procedures can be found at the following link:" — same role as
-    # the "Policy Documents" / "Policy Link" exact headings.
-    (re.compile(r"^.+\bthe following link\b.*$", re.IGNORECASE), "policy_info"),
     (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+ (ALPR|LPR) Policy.*$", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+Police Department Policy Manual.*$", re.IGNORECASE), "alpr_policy"),
     # Success-story subheadings — agencies post titled excerpts under
     # "Success Stories" (e.g. "Yuba County SO - Facebook Post - …").
     (re.compile(r"^.+ - Facebook Post - .+$", re.IGNORECASE), "success_stories"),
+    # Sentence-style link blurbs, e.g. "Auburn PD's Policies and
+    # Procedures can be found at the following link:" — same role as
+    # the "Policy Documents" / "Policy Link" exact headings. Placed
+    # last (before the structural-noise None patterns) so more specific
+    # patterns above (e.g. alpr_policy) win when a heading matches both.
+    (re.compile(r"^.+\bthe following link\b.*$", re.IGNORECASE), "policy_info"),
     # Page chrome / structural noise — explicit None so these don't trip
     # the bold-heading fail-loud check downstream.
     (re.compile(
