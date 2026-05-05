@@ -68,8 +68,11 @@ def test_normalize_slug_rejects_whitespace_and_control():
 
 
 def test_normalize_slug_rejects_non_ascii():
-    assert normalize_slug("café-pd") is None
-    assert normalize_slug("‮pd-ca-evil") is None  # right-to-left override
+    assert normalize_slug("café-pd") is None  # latin-1 e-acute
+    # U+202E RIGHT-TO-LEFT OVERRIDE — kept as \u escape so the source file
+    # itself stays pure ASCII (otherwise the bidi-control char triggers
+    # github's "this file contains hidden unicode" warning on every view).
+    assert normalize_slug("\u202epd-ca-evil") is None
 
 
 def test_normalize_slug_rejects_oversized_input():
