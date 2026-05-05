@@ -52,7 +52,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from lib import (
     BASE_URL, FAILED_FILE, USER_AGENT,
     dedupe, load_json, save_json,
-    name_to_slug, portal_jsons, portal_txts, resolve_agency,
+    portal_jsons, portal_txts, resolve_agency,
 )
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
@@ -910,15 +910,16 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         return ("failed", "parse_error"), []
 
     portal_data["crawled_at"] = crawled_at
-    # Resolve sharing names to slugs for depth crawling
+    # Resolve sharing names to slugs for depth crawling. Only registry-
+    # confirmed slugs (flock_active_slug set after a real capture or
+    # probe hit) propagate — name_to_slug guesses are slug_probe's job
+    # now, not the crawler's. A peer-outbound name without a registry
+    # match drops out here; it'll get added as a stub on the next
+    # build_agency_registry --merge run and slug_probe will try it.
     for name in portal_data.get("sharing_outbound", []):
         entry = resolve_agency(name=name)
         if entry and entry.get("flock_active_slug"):
             discovered_slugs.append(entry["flock_active_slug"])
-        else:
-            guessed = name_to_slug(name)
-            if guessed:
-                discovered_slugs.append(guessed)
 
     if not force and prev_hash == current_hash:
         print(f"    unchanged since last capture, skipping")
@@ -1126,10 +1127,10 @@ def cmd_crawl(args):
                                 entry = resolve_agency(name=name)
                                 if entry and entry.get("flock_active_slug"):
                                     discovered_from_existing.append(entry["flock_active_slug"])
-                                else:
-                                    guessed = name_to_slug(name)
-                                    if guessed:
-                                        discovered_from_existing.append(guessed)
+                                # else: no registry-confirmed slug for this
+                                # peer-outbound name. Drop it — slug_probe
+                                # owns first-try discovery now, so the crawler
+                                # never spends rate budget on speculative guesses.
 
                 # Eligible candidate slugs this level = the current seed list plus
                 # anything discovered in the outbound of fresh neighbors. Merging
