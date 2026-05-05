@@ -70,6 +70,11 @@ def main() -> int:
                     "state": agency_state(ag),
                     "lat": lat,
                     "lng": lng,
+                    # Vendor-primary articles (e.g. Flock Safety year-in-
+                    # review pieces) aren't really *about* a place; the
+                    # viewer plots them in the ocean instead of at the
+                    # vendor HQ to avoid misleading geographic clustering.
+                    "is_vendor": ag.get("agency_role") == "vendor",
                 }
 
         tags = sorted(entry.get("tags") or [])

@@ -229,26 +229,45 @@ function initMap() {
     return cm.options.agencyName;
   });
   markerLayer.addTo(map);
+  // Vendor-bucket pip lives outside the cluster group so it never
+  // collapses into a Bay Area cluster — it's a categorical "no city"
+  // marker, not a geographic one.
+  var vendorLayer = L.layerGroup().addTo(map);
   STATE.map = map;
   STATE.markerLayer = markerLayer;
+  STATE.vendorLayer = vendorLayer;
 }
 
 function bubbleRadius(count) {
   return 6 + Math.sqrt(count) * 5;
 }
 
+// Off-coast point for vendor-primary articles (Flock Safety etc.) so they
+// don't visually claim a real city. ~Pacific west of central California,
+// visible at the default Bay Area zoom.
+var VENDOR_BUCKET_LATLNG = [36.5, -125.0];
+
 function renderMap(matched) {
   if (!STATE.map) return;
   STATE.markerLayer.clearLayers();
+  STATE.vendorLayer.clearLayers();
 
   // Plot each article at its primary subject agency only — mentions of
   // other agencies (Flock HQ, peer cities) would otherwise scatter the
-  // article across the map.
+  // article across the map. Vendor-primary articles (no real subject
+  // city) get bucketed into a single off-coast pip.
   var byAgency = {};
+  var vendorBucket = { articles: [], names: {} };
   for (var i = 0; i < matched.length; i++) {
     var a = matched[i];
     var ag = a.primary_subject_agency;
-    if (!ag || ag.lat == null || ag.lng == null) continue;
+    if (!ag) continue;
+    if (ag.is_vendor) {
+      vendorBucket.articles.push(a);
+      vendorBucket.names[ag.name] = true;
+      continue;
+    }
+    if (ag.lat == null || ag.lng == null) continue;
     var key = ag.agency_id;
     if (!byAgency[key]) {
       byAgency[key] = { agency: ag, articles: [] };
@@ -290,6 +309,40 @@ function renderMap(matched) {
     marker.bindPopup(popup);
     STATE.markerLayer.addLayer(marker);
     bounds.push([ag.lat, ag.lng]);
+  }
+
+  if (vendorBucket.articles.length > 0) {
+    var arts = vendorBucket.articles;
+    var vendorNames = Object.keys(vendorBucket.names).sort();
+    var label = vendorNames.length === 1 ? vendorNames[0] : 'Vendor coverage';
+    var marker = L.circleMarker(VENDOR_BUCKET_LATLNG, {
+      radius: bubbleRadius(arts.length),
+      color: '#94a3b8',
+      weight: 1.5,
+      fillColor: '#475569',
+      fillOpacity: 0.7,
+      dashArray: '3 3',
+      agencyName: label,
+      articleCount: arts.length
+    });
+    var popup = '<div class="pop-agency">' + escapeHtml(label)
+      + ' <span class="pop-meta">no specific city</span></div><ul>';
+    for (var v = 0; v < arts.length; v++) {
+      var art = arts[v];
+      popup += '<li>'
+        + (art.url
+            ? '<a href="' + escapeHtml(art.url) + '" target="_blank" rel="noopener">'
+              + escapeHtml(art.title) + '</a>'
+            : escapeHtml(art.title))
+        + (art.published_at
+            ? ' <span class="pop-meta">' + formatDate(art.published_at) + '</span>'
+            : '')
+        + '</li>';
+    }
+    popup += '</ul>';
+    marker.bindPopup(popup);
+    STATE.vendorLayer.addLayer(marker);
+    bounds.push(VENDOR_BUCKET_LATLNG);
   }
 
   if (bounds.length > 0) {
