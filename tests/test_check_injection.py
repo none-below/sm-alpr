@@ -513,6 +513,20 @@ class TestStylesheetHidesContent:
             '<style> .gone { color: white; background: white; } </style>'
         )
 
+    def test_white_text_on_dark_does_not_flag(self):
+        # Ghost CMS member CTA (`<style id="gh-members-styles">`) and
+        # countless other site templates style white text on a dark
+        # button or CTA. White text alone is not a hiding signal — only
+        # white text + white background is.
+        for html in (
+            '<style> .gh-post-upgrade-cta h2 { color: #ffffff; font-size: 28px; } </style>',
+            '<style> .btn { color: white; background: #15171a; } </style>',
+            '<style> .header { color: rgb(255,255,255); background-color: #000; } </style>',
+        ):
+            assert not self._has_hidden_css(html), (
+                f"white-on-dark should not flag: {html}"
+            )
+
     def test_flock_portal_pattern_does_not_flag(self):
         # Verbatim from the Flock UI rollout that started 2026-04-29.
         html = (
@@ -522,6 +536,47 @@ class TestStylesheetHidesContent:
             '<div>content</div></div>'
         )
         assert not self._has_hidden_css(html)
+
+    def test_hover_opacity_does_not_flag(self):
+        # Ghost CMS CTA hover style — `opacity: 0.92` is clearly visible,
+        # not a hiding declaration. Caught a false positive that flagged
+        # every 404media article with a HIGH finding before the fix.
+        html = (
+            '<style> a.gh-btn:hover { opacity: 0.92; } </style>'
+        )
+        assert not self._has_hidden_css(html)
+
+    def test_partial_opacity_does_not_flag(self):
+        for value in ("0.5", "0.25", "0.1", "0.06"):
+            html = f'<style> .fade {{ opacity: {value}; }} </style>'
+            assert not self._has_hidden_css(html), (
+                f"opacity: {value} should not flag (visible)"
+            )
+
+    def test_microdose_opacity_flags(self):
+        # Real injection technique — text technically rendered but
+        # functionally invisible to a human reader.
+        for value in ("0", "0.0", "0.001", "0.0001", "0.05"):
+            html = f'<style> .sneaky {{ opacity: {value}; }} </style>'
+            assert self._has_hidden_css(html), (
+                f"opacity: {value} should flag (effectively hidden)"
+            )
+
+    def test_readable_font_size_does_not_flag(self):
+        for value in ("0.5em", "0.5rem", "0.5", "1px", "12px", "0.9em"):
+            html = f'<style> .readable {{ font-size: {value}; }} </style>'
+            assert not self._has_hidden_css(html), (
+                f"font-size: {value} should not flag (readable)"
+            )
+
+    def test_microdose_font_size_flags(self):
+        # Sub-1px / sub-0.1em is unreadable by humans but the text is
+        # still in the DOM for an LLM to ingest.
+        for value in ("0", "0px", "0em", "0.00001em", "0.001px"):
+            html = f'<style> .micro {{ font-size: {value}; }} </style>'
+            assert self._has_hidden_css(html), (
+                f"font-size: {value} should flag (effectively zero)"
+            )
 
 
 class TestInvisibleSplicingEvasion:
