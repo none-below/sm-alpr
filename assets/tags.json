@@ -38,7 +38,13 @@
 
     "scope:national":   {"description": "Article covers the issue at a national level, not a specific agency."},
     "scope:state":      {"description": "Statewide coverage."},
-    "scope:local":      {"description": "Single-agency / single-jurisdiction coverage."}
+    "scope:local":      {"description": "Single-agency / single-jurisdiction coverage."},
+
+    "outcome:terminated":    {"description": "Agency canceled or let lapse a Flock (or other ALPR) contract."},
+    "outcome:restricted":    {"description": "Agency added new restrictions / policy constraints to a continuing contract."},
+    "outcome:reconsidering": {"description": "Active council or public debate over the contract; no decision yet."},
+    "outcome:renewed":       {"description": "Agency explicitly renewed or expanded a contract despite controversy."},
+    "outcome:rejected":      {"description": "Agency declined to adopt ALPR / Flock in the first place."}
   },
   "editorial": {
     "stance:neutral":    {"description": "Straight news reporting; no editorial posture."},
