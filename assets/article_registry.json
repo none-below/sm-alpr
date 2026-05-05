@@ -2854,5 +2854,697 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-05T16:59:27Z",
     "article_id": "art_021"
+  },
+  {
+    "url": "https://www.aclu.org/news/privacy-technology/flock-massachusetts-and-updates",
+    "source_domain": "aclu.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Flock Can Share Driver-Surveillance Data Even When Police Departments Opt Out, And Other Flock Developments | ACLU",
+    "byline": "Jay Stanley",
+    "published_at": "2025-10-24T18:28:33+00:00",
+    "fetched_at": "2026-05-05T18:24:30Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+    "scanner_score": 3,
+    "content_hash": "a545fafd38e45088daf00d1deadce30d85984b6364a0231ec0a946100a3b0cce",
+    "paths": {
+      "html": "assets/articles/aclu.org/news-privacy-technology-flock-massachusetts-and-updates_3bf88c7c.html",
+      "meta": "assets/articles/aclu.org/news-privacy-technology-flock-massachusetts-and-updates_3bf88c7c.meta.json",
+      "pdf": "assets/articles/aclu.org/news-privacy-technology-flock-massachusetts-and-updates_3bf88c7c.pdf",
+      "txt": "assets/articles/aclu.org/news-privacy-technology-flock-massachusetts-and-updates_3bf88c7c.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "incident:ice-cooperation",
+      "legal:pra",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "scope:national",
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+      "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+      "21fb5336-7bb7-5cc1-a4da-706673c971ed"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 29.967,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+        "display_name": "New Orleans LA PD",
+        "state": "LA",
+        "score": 2.6,
+        "matched_forms": [
+          "New Orleans Police"
+        ]
+      },
+      {
+        "agency_id": "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+        "display_name": "Orleans Levee District PD",
+        "state": "LA",
+        "score": 2.6,
+        "matched_forms": [
+          "New Orleans Police"
+        ]
+      },
+      {
+        "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+        "display_name": "Page AZ PD",
+        "state": "AZ",
+        "score": 2.133,
+        "matched_forms": [
+          "Page"
+        ]
+      },
+      {
+        "agency_id": "8129e6ed-ab48-5c12-b2e0-1738564937c1",
+        "display_name": "Warren County KY SO",
+        "state": "KY",
+        "score": 1.35,
+        "matched_forms": [
+          "Warren County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "ac38dafd-7279-5148-9b11-3b97e0436c26",
+        "display_name": "Warren County TN SO",
+        "state": "TN",
+        "score": 1.35,
+        "matched_forms": [
+          "Warren County Sheriff"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "ACLU policy analyst Jay Stanley reports that Flock's default user agreement grants the company a license to share police-collected ALPR data with federal and local agencies even when departments restrict access, based on Massachusetts ACLU public-records findings. The piece also rounds up other Flock developments, including ICE data sharing in Virginia (notably by Warren County Sheriff's Office), a Texas abortion-related Flock search, a Flock-Ring partnership, and Flock's expansion of drones-as-first-responder programs to private businesses.",
+    "key_quotes": [
+      {
+        "quote": "Flock's default agreement with police departments gives the company the right to share data with federal and local agencies for \"investigative purposes\" even if a local department chooses to restrict data to its own officers.",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "thousands of outside law enforcement agencies searched Virginians' driving histories over 7 million times in a 12-month period, including 3,000 immigration-related searches",
+        "paragraph_idx": 8
+      },
+      {
+        "quote": "one Virginia agency, the Warren County Sheriff's Office, performed more immigration searches than any other in the state \u2014 and confirmed that it did so because federal immigration agents asked them to.",
+        "paragraph_idx": 8
+      },
+      {
+        "quote": "fully 75% have enrolled in the \"National Lookup Tool,\"",
+        "paragraph_idx": 7
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T18:31:40Z",
+    "article_id": "art_022"
+  },
+  {
+    "url": "https://www.eff.org/deeplinks/2026/02/op-ed-san-jose-can-protect-immigrants-ending-flock-surveillance-system",
+    "source_domain": "eff.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "San Jose Can Protect Immigrants by Ending Flock Surveillance System",
+    "byline": "Jennifer Pinsof",
+    "published_at": "2026-02-17T10:55:34-08:00",
+    "fetched_at": "2026-05-05T18:21:26Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+    "scanner_score": 1,
+    "content_hash": "372f7744aa98f199764f2890a4a3adcc9b1aa1a5a0b9d956d94d81f21b5a84d0",
+    "paths": {
+      "html": "assets/articles/eff.org/deeplinks-2026-02-op-ed-san-jose-can-protect-immigrants-ending-flock-surveillanc_2b8b49a1.html",
+      "meta": "assets/articles/eff.org/deeplinks-2026-02-op-ed-san-jose-can-protect-immigrants-ending-flock-surveillanc_2b8b49a1.meta.json",
+      "pdf": "assets/articles/eff.org/deeplinks-2026-02-op-ed-san-jose-can-protect-immigrants-ending-flock-surveillanc_2b8b49a1.pdf",
+      "txt": "assets/articles/eff.org/deeplinks-2026-02-op-ed-san-jose-can-protect-immigrants-ending-flock-surveillanc_2b8b49a1.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "incident:ice-cooperation",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "6f2e3c64-76d1-539f-a6a3-df0e3c314512",
+      "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+      "6be9f842-1658-5490-8be4-14b77cc1e96d",
+      "b0bd9add-ff5d-5af4-a468-0f03eb94214e",
+      "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+      "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+      "30c59ff7-8ee9-51ca-95a7-3dad69eba35f"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+        "display_name": "San Jose CA PD",
+        "state": "CA",
+        "score": 15.217,
+        "matched_forms": [
+          "San Jose",
+          "San Jose Police"
+        ]
+      },
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 14.467,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 6.483,
+        "matched_forms": [
+          "San Francisco",
+          "San Francisco Police"
+        ]
+      },
+      {
+        "agency_id": "6f2e3c64-76d1-539f-a6a3-df0e3c314512",
+        "display_name": "Baton Rouge LA PD",
+        "state": "LA",
+        "score": 5.15,
+        "matched_forms": [
+          "Baton Rouge",
+          "Baton Rouge Police",
+          "Baton Rouge Police Department"
+        ]
+      },
+      {
+        "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+        "display_name": "Santa Clara County CA SO",
+        "state": "CA",
+        "score": 4.1,
+        "matched_forms": [
+          "Santa Clara County"
+        ]
+      },
+      {
+        "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+        "display_name": "Santa Clara DA CA",
+        "state": "CA",
+        "score": 4.1,
+        "matched_forms": [
+          "Santa Clara County"
+        ]
+      },
+      {
+        "agency_id": "b0bd9add-ff5d-5af4-a468-0f03eb94214e",
+        "display_name": "East Palo Alto CA PD",
+        "state": "CA",
+        "score": 3.967,
+        "matched_forms": [
+          "East Palo Alto"
+        ]
+      },
+      {
+        "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+        "display_name": "Mountain View Police Department",
+        "state": "CA",
+        "score": 3.933,
+        "matched_forms": [
+          "Mountain View"
+        ]
+      },
+      {
+        "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+        "display_name": "Santa Cruz CA PD (deactivated)",
+        "state": "CA",
+        "score": 3.833,
+        "matched_forms": [
+          "Santa Cruz"
+        ]
+      },
+      {
+        "agency_id": "30c59ff7-8ee9-51ca-95a7-3dad69eba35f",
+        "display_name": "Los Altos CA PD",
+        "state": "CA",
+        "score": 3.8,
+        "matched_forms": [
+          "Los Altos"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+    "summary": "An EFF op-ed urges San Jose to shut down its Flock ALPR system, citing risks to immigrants from federal access and warrantless searches. It notes neighboring jurisdictions (Mountain View, Los Altos Hills, Santa Cruz, East Palo Alto, Santa Clara County) reconsidering or ending Flock contracts, and references EFF/ACLU's lawsuit against San Jose's warrantless ALPR searches.",
+    "key_quotes": [
+      {
+        "quote": "In a little over a year, San Jose police logged more than 261,000 ALPR searches, or nearly 700 searches a day, all without a warrant.",
+        "paragraph_idx": 12
+      },
+      {
+        "quote": "California law prohibits local police from disclosing ALPR data to out-of-state or federal agencies. But at least 75 California police agencies were sharing these records out-of-state as recently as 2023.",
+        "paragraph_idx": 10
+      },
+      {
+        "quote": "Just last week, police in Mountain View decided to turn off all of the city's Flock cameras, following revelations that federal and other unauthorized agencies had accessed their network.",
+        "paragraph_idx": 8
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T18:31:51Z",
+    "article_id": "art_023"
+  },
+  {
+    "url": "https://epic.org/supreme-court-to-hear-arguments-in-case-implicating-license-plate-readers/",
+    "source_domain": "epic.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Supreme Court to Hear Arguments in Case Implicating License Plate Readers",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-05T18:29:55Z",
+    "discovered_by": "claude-search:broader-2026-05",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 20 pts, HIGH/CRITICAL findings",
+    "scanner_score": 20,
+    "content_hash": "8ea7a6aac7a1b58bd3931125f2d4bbef1deec71a5c7707355b050193fa511b07",
+    "paths": {
+      "html": "assets/articles/epic.org/supreme-court-to-hear-arguments-in-case-implicating-license-plate-readers_70888048.html",
+      "meta": "assets/articles/epic.org/supreme-court-to-hear-arguments-in-case-implicating-license-plate-readers_70888048.meta.json",
+      "pdf": "assets/articles/epic.org/supreme-court-to-hear-arguments-in-case-implicating-license-plate-readers_70888048.pdf",
+      "txt": "assets/articles/epic.org/supreme-court-to-hear-arguments-in-case-implicating-license-plate-readers_70888048.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "3b78d3ac-8681-5883-bdbc-97b96ee98f92"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 13.433,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "3b78d3ac-8681-5883-bdbc-97b96ee98f92",
+        "display_name": "Metropolitan Washington DC PD",
+        "state": "DC",
+        "score": 2.667,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 1.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+        "display_name": "Washington MO PD",
+        "state": "MO",
+        "score": 1.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+        "display_name": "Justice IL PD",
+        "state": "IL",
+        "score": 1.117,
+        "matched_forms": [
+          "Justice"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-05T18:31:01Z",
+    "article_id": "art_024"
+  },
+  {
+    "url": "https://ww2.kqed.org/news/2026/02/25/santa-clara-county-leaders-cut-out-flock-safety-in-new-surveillance-policy/",
+    "source_domain": "kqed.org",
+    "tier": 1,
+    "stance": "neutral",
+    "title": "Santa Clara County Leaders Cut Out Flock Safety in New Surveillance Policy | KQED",
+    "byline": "Joseph Geha",
+    "published_at": "2026-02-25T10:57:27-08:00",
+    "fetched_at": "2026-05-05T18:26:06Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 28 pts, low/medium only",
+    "scanner_score": 28,
+    "content_hash": "9e9ce162da1cf6db70baa427b16f8fee127873df1062f2849da322dc75a228da",
+    "paths": {
+      "html": "assets/articles/kqed.org/news-2026-02-25-santa-clara-county-leaders-cut-out-flock-safety-in-new-surveilla_4d1e56c7.html",
+      "meta": "assets/articles/kqed.org/news-2026-02-25-santa-clara-county-leaders-cut-out-flock-safety-in-new-surveilla_4d1e56c7.meta.json",
+      "pdf": "assets/articles/kqed.org/news-2026-02-25-santa-clara-county-leaders-cut-out-flock-safety-in-new-surveilla_4d1e56c7.pdf",
+      "txt": "assets/articles/kqed.org/news-2026-02-25-santa-clara-county-leaders-cut-out-flock-safety-in-new-surveilla_4d1e56c7.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "policy:audit",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+      "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+      "6be9f842-1658-5490-8be4-14b77cc1e96d",
+      "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+      "ecbb841f-9df2-5841-9b28-91f1ce5af0fa",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 142.6,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+        "display_name": "Bay AR PD",
+        "state": "AR",
+        "score": 64.05,
+        "matched_forms": [
+          "Bay"
+        ]
+      },
+      {
+        "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+        "display_name": "Santa Clara County CA SO",
+        "state": "CA",
+        "score": 34.9,
+        "matched_forms": [
+          "Santa Clara County",
+          "Santa Clara County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+        "display_name": "Santa Clara DA CA",
+        "state": "CA",
+        "score": 26.7,
+        "matched_forms": [
+          "Santa Clara County"
+        ]
+      },
+      {
+        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+        "display_name": "Flock Safety",
+        "state": "GA",
+        "score": 22.8,
+        "matched_forms": [
+          "Flock Safety"
+        ]
+      },
+      {
+        "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+        "display_name": "Justice IL PD",
+        "state": "IL",
+        "score": 14.517,
+        "matched_forms": [
+          "Justice"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 9.3,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+        "display_name": "Mountain View Police Department",
+        "state": "CA",
+        "score": 5.65,
+        "matched_forms": [
+          "Mountain View"
+        ]
+      },
+      {
+        "agency_id": "ecbb841f-9df2-5841-9b28-91f1ce5af0fa",
+        "display_name": "Culver City CA PD",
+        "state": "CA",
+        "score": 5.55,
+        "matched_forms": [
+          "Culver City"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 5.55,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+    "summary": "The Santa Clara County Board of Supervisors voted 3-2 to amend its Surveillance Use Policy so the Sheriff's Office cannot operate or use data from Flock Safety ALPRs, effectively disabling Flock cameras in Cupertino, Saratoga, and Los Altos Hills. The move follows reports that federal agencies including ICE and CBP accessed Flock data nationwide, and the new policy also requires reporting unauthorized federal data sharing and quarterly audits.",
+    "key_quotes": [
+      {
+        "quote": "I do not believe the County of Santa Clara should be doing business with Flock",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "Effective immediately, the sheriff's office and the staff cannot operate, manage or touch the cameras, the data, transmission, anything from ALPRs that are operated by Flock, vended by Flock",
+        "paragraph_idx": 12
+      },
+      {
+        "quote": "There is no guarantee that rival ALPR vendors will do better. These companies market their systems as easy to share with other law enforcement agencies \u2014 sharing is by design, and vendors are incentivized to facilitate it.",
+        "paragraph_idx": 20
+      },
+      {
+        "quote": "Each Flock customer fully owns and controls 100% of its data. Only our customers have sole authority over if, when, and with whom information is shared",
+        "paragraph_idx": 26
+      },
+      {
+        "quote": "The county's new policy will also require immediate reporting to the board if any unauthorized ALPR data under county control is shared with the federal government. It will also require audits of the sheriff's office's compliance with the new policy every four months",
+        "paragraph_idx": 31
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T18:32:07Z",
+    "article_id": "art_025"
+  },
+  {
+    "url": "https://themarkup.org/privacy/2026/03/06/he-saw-an-abandoned-trailer-then-he-uncovered-a-surveillance-network-on-californias-border",
+    "source_domain": "themarkup.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "He saw an abandoned trailer. Then, he uncovered a surveillance network on California's border \u2013 The Markup",
+    "byline": null,
+    "published_at": "2026-03-06T08:00:00+00:00",
+    "fetched_at": "2026-05-05T18:28:00Z",
+    "discovered_by": "rss:themarkup.org",
+    "scanner_verdict": "CLEAN \u2014 no findings",
+    "scanner_score": 0,
+    "content_hash": "d48b2dde44b79eb2f5cb471e6926388510a11d85b25148db3e44a78d0e18b5b5",
+    "paths": {
+      "html": "assets/articles/themarkup.org/privacy-2026-03-06-he-saw-an-abandoned-trailer-then-he-uncovered-a-surveillance_57adbb21.html",
+      "meta": "assets/articles/themarkup.org/privacy-2026-03-06-he-saw-an-abandoned-trailer-then-he-uncovered-a-surveillance_57adbb21.meta.json",
+      "pdf": "assets/articles/themarkup.org/privacy-2026-03-06-he-saw-an-abandoned-trailer-then-he-uncovered-a-surveillance_57adbb21.pdf",
+      "txt": "assets/articles/themarkup.org/privacy-2026-03-06-he-saw-an-abandoned-trailer-then-he-uncovered-a-surveillance_57adbb21.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:ag-lawsuit",
+      "legal:legislation",
+      "policy:sharing",
+      "scope:state"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "9997bf96-b2ff-595c-950f-27a68b2ba166",
+      "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+      "fc323bdb-c0e7-514c-b4f6-e6ed06ae21b4",
+      "5460d54d-6a3d-531b-a007-de6e9491f686",
+      "e0b44c96-8eee-5425-abe1-00ef89d519bd",
+      "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "862d352e-a1e3-5445-b9ad-abb1a479b8bf",
+      "18097ae0-2933-5dcc-bfb3-3a3af436a28b"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 47.533,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+        "display_name": "San Diego CA PD",
+        "state": "CA",
+        "score": 15.717,
+        "matched_forms": [
+          "San Diego",
+          "San Diego Police",
+          "San Diego Police Department"
+        ]
+      },
+      {
+        "agency_id": "9997bf96-b2ff-595c-950f-27a68b2ba166",
+        "display_name": "San Diego County CA SD",
+        "state": "CA",
+        "score": 6.567,
+        "matched_forms": [
+          "San Diego County"
+        ]
+      },
+      {
+        "agency_id": "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+        "display_name": "Imperial City CA PD",
+        "state": "CA",
+        "score": 6.033,
+        "matched_forms": [
+          "Imperial"
+        ]
+      },
+      {
+        "agency_id": "fc323bdb-c0e7-514c-b4f6-e6ed06ae21b4",
+        "display_name": "Hot Springs AR PD",
+        "state": "AR",
+        "score": 5.917,
+        "matched_forms": [
+          "Hot Springs"
+        ]
+      },
+      {
+        "agency_id": "5460d54d-6a3d-531b-a007-de6e9491f686",
+        "display_name": "El Centro CA PD",
+        "state": "CA",
+        "score": 5.367,
+        "matched_forms": [
+          "El Centro",
+          "El Centro Police",
+          "El Centro Police Department"
+        ]
+      },
+      {
+        "agency_id": "e0b44c96-8eee-5425-abe1-00ef89d519bd",
+        "display_name": "San Pablo CA PD",
+        "state": "CA",
+        "score": 5.367,
+        "matched_forms": [
+          "San Pablo",
+          "San Pablo Police",
+          "San Pablo Police Department"
+        ]
+      },
+      {
+        "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+        "display_name": "Old",
+        "state": null,
+        "score": 5.25,
+        "matched_forms": [
+          "Old"
+        ]
+      },
+      {
+        "agency_id": "862d352e-a1e3-5445-b9ad-abb1a479b8bf",
+        "display_name": "Imperial County CA SO",
+        "state": "CA",
+        "score": 4.133,
+        "matched_forms": [
+          "Imperial County",
+          "Imperial County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "18097ae0-2933-5dcc-bfb3-3a3af436a28b",
+        "display_name": "Alabama Department of Corrections",
+        "state": "AL",
+        "score": 3.1,
+        "matched_forms": [
+          "AL"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The Markup/CalMatters reports on a network of covert automated license plate readers installed along California's southern border highways by federal agencies including Border Patrol and the DEA, permitted by Caltrans. Privacy advocates including EFF say the cameras\u2014mapped at over 40 locations\u2014bypass California's 2016 ALPR law and feed data into Trump-era immigration enforcement databases, while residents describe suspicious CBP encounters apparently driven by plate-reader data.",
+    "key_quotes": [
+      {
+        "quote": "By allowing Border Patrol and the DEA to put license plate readers along the border, they're essentially bypassing the protections under (California law)",
+        "paragraph_idx": 21
+      },
+      {
+        "quote": "Caltrans does not operate, manage, or determine the specific use of technology or equipment installed by permit holders, nor does it have access to any of the collected data",
+        "paragraph_idx": 29
+      },
+      {
+        "quote": "A Markup and CalMatters investigation in June 2025 revealed that southern California law enforcement agencies, including sheriff's departments in San Diego and Orange counties, have shared automated license plate reader data with federal agencies in violation of state law.",
+        "paragraph_idx": 31
+      },
+      {
+        "quote": "The data collected by the agency's plate readers was fed into a predictive intelligence program monitoring millions of American drivers nationwide to identify and detain people whose travel patterns the algorithm deemed suspicious",
+        "paragraph_idx": 36
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T18:32:19Z",
+    "article_id": "art_026"
   }
 ]
