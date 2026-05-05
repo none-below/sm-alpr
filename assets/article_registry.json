@@ -968,7 +968,7 @@
     "title": "City Learns Flock Accessed Cameras in Children's Gymnastics Room as a Sales Pitch Demo, Renews Contract Anyway",
     "byline": "Jason Koebler",
     "published_at": "2026-04-30T13:25:36.000Z",
-    "fetched_at": "2026-05-05T08:34:53Z",
+    "fetched_at": "2026-05-05T08:29:47Z",
     "discovered_by": "claude-search:contracts-2026-05",
     "scanner_verdict": "WARNINGS \u2014 30 pts, low/medium only",
     "scanner_score": 30,
@@ -986,7 +986,6 @@
     "tags": [
       "genre:investigative",
       "incident:misuse",
-      "legal:pra",
       "policy:purpose-limitation",
       "policy:sharing",
       "scope:local",
@@ -1076,23 +1075,23 @@
       }
     ],
     "primary_subject_agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
-    "summary": "Records obtained via a public records request by a Dunwoody, Georgia resident revealed that Flock Safety employees accessed local cameras\u2014including ones in a children's gymnastics room, pool, and Jewish community center\u2014as part of sales demonstrations under the city's 'demo partner' agreement. Flock confirmed the access but disputed characterizations of it as spying, and said it would limit future demos to public locations like retail parking lots. Despite resident outrage, Dunwoody renewed its Flock contract.",
+    "summary": "Dunwoody, Georgia residents discovered via public-records requests that Flock Safety employees accessed local cameras\u2014including those in a children's gymnastics room, pool, and Jewish community center\u2014as part of sales demos to other police departments. Flock confirmed the access occurred under a 'demo partner program' but disputed characterizations that employees were spying, and said it will now restrict demos to more public locations. The city renewed its Flock contract despite the controversy.",
     "key_quotes": [
       {
-        "quote": "The cameras accessed have included surveillance tech in a children's gymnastics room, a playground, a school, a Jewish community center, and a pool.",
-        "paragraph_idx": 6
+        "quote": "sales employees at Flock have been accessing sensitive cameras in the town to demonstrate the company's surveillance technology to police departments around the country",
+        "paragraph_idx": 7
       },
       {
         "quote": "The cities involved in this program have authorized select Flock employees to demonstrate new products and features as we develop them in partnership with the city.",
-        "paragraph_idx": 8
+        "paragraph_idx": 10
       },
       {
         "quote": "We have therefore determined that employees will be trained to only conduct demos in more public locations, like retail parking lots",
-        "paragraph_idx": 15
+        "paragraph_idx": 17
       }
     ],
     "curation_status": "enriched",
-    "curated_at": "2026-05-05T08:37:14Z",
+    "curated_at": "2026-05-05T08:31:19Z",
     "article_id": "art_007"
   },
   {
@@ -1103,7 +1102,7 @@
     "title": "Flock Removes States From National Lookup Tool After ICE and Abortion Searches Revealed",
     "byline": "Joseph Cox",
     "published_at": "2025-06-25T15:08:13.000Z",
-    "fetched_at": "2026-05-05T08:34:39Z",
+    "fetched_at": "2026-05-05T08:29:38Z",
     "discovered_by": "claude-search:contracts-2026-05",
     "scanner_verdict": "WARNINGS \u2014 30 pts, low/medium only",
     "scanner_score": 30,
@@ -1114,13 +1113,14 @@
       "pdf": "assets/articles/404media.co/flock-removes-states-from-national-lookup-tool-after-ice-and-abortion-searches-r_6c28f55a.pdf",
       "txt": "assets/articles/404media.co/flock-removes-states-from-national-lookup-tool-after-ice-and-abortion-searches-r_6c28f55a.txt"
     },
-    "wayback_url": "https://web.archive.org/web/20260505083127/https://www.404media.co/flock-removes-states-from-national-lookup-tool-after-ice-and-abortion-searches-revealed/",
-    "wayback_timestamp": "20260505083127",
-    "wayback_source": "saved",
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
       "genre:investigative",
       "incident:ice-cooperation",
+      "incident:misuse",
       "legal:legislation",
       "policy:sharing",
       "scope:national",
@@ -1152,7 +1152,7 @@
       }
     ],
     "primary_subject_agency_id": null,
-    "summary": "Flock has disabled national lookup access to ALPR cameras located in Illinois, California, and Virginia following 404 Media reporting that out-of-state agencies were searching the cameras on behalf of ICE and for an abortion-related investigation, and following new Virginia legislation. The Illinois Secretary of State is investigating whether police departments violated state law by sharing data for immigration or abortion-related purposes.",
+    "summary": "Flock has disabled national lookup access to its ALPR cameras in California, Illinois, and Virginia following 404 Media reporting that out-of-state agencies were searching cameras on behalf of ICE and for an abortion-related investigation, and after new Virginia legislation. The Illinois Secretary of State is investigating potential violations of state sharing laws.",
     "key_quotes": [
       {
         "quote": "Flock, the automatic license plate reader (ALPR) company with a presence in thousands of communities across the U.S., has stopped agencies across the country from searching cameras inside Illinois, California, and Virginia",
@@ -1168,72 +1168,8 @@
       }
     ],
     "curation_status": "enriched",
-    "curated_at": "2026-05-05T08:37:21Z",
+    "curated_at": "2026-05-05T08:31:25Z",
     "article_id": "art_008"
-  },
-  {
-    "url": "https://www.404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras/",
-    "source_domain": "404media.co",
-    "tier": 2,
-    "stance": "critical",
-    "title": "ICE, Secret Service, Navy All Had Access to Flock's Nationwide Network of Cameras",
-    "byline": "Joseph Cox",
-    "published_at": "2025-10-16T13:00:05.000Z",
-    "fetched_at": "2026-05-05T08:35:24Z",
-    "discovered_by": "claude-search:initial-seed-2026-05",
-    "scanner_verdict": "WARNINGS \u2014 33 pts, low/medium only",
-    "scanner_score": 33,
-    "content_hash": "7a6f12f14c3dc21d792178b80b943235fad9355179aac92679bf44e450bdc7f1",
-    "paths": {
-      "html": "assets/articles/404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras_0941c023.html",
-      "meta": "assets/articles/404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras_0941c023.meta.json",
-      "pdf": "assets/articles/404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras_0941c023.pdf",
-      "txt": "assets/articles/404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras_0941c023.txt"
-    },
-    "wayback_url": null,
-    "wayback_timestamp": null,
-    "wayback_source": "submit-failed",
-    "pdf_status": "rendered",
-    "tags": [
-      "genre:investigative",
-      "incident:ice-cooperation",
-      "policy:sharing",
-      "scope:national",
-      "vendor:flock"
-    ],
-    "agencies": [
-      "ae7300bf-3f19-525d-9d85-cad6af8a837c"
-    ],
-    "agency_candidates": [
-      {
-        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
-        "display_name": "Indiana Department of Corrections",
-        "state": "IN",
-        "score": 12.4,
-        "matched_forms": [
-          "IN"
-        ]
-      }
-    ],
-    "primary_subject_agency_id": null,
-    "summary": "A letter from Senator Ron Wyden, shared with 404 Media, reveals that ICE's Homeland Security Investigations division, the Secret Service, and the Navy's criminal investigation arm all had access to Flock's nationwide ALPR camera network. HSI alone performed nearly 200 searches. Wyden argues Flock is uninterested in preventing abuse and urges localities to remove the cameras.",
-    "key_quotes": [
-      {
-        "quote": "abuses of your product are not only likely but inevitable",
-        "paragraph_idx": 2
-      },
-      {
-        "quote": "Homeland Security Investigations (HSI), the section of ICE that had access and which has reassigned more than ten thousand employees to work on the agency's mass deportation campaign, performed nearly two hundred searches in the system",
-        "paragraph_idx": 4
-      },
-      {
-        "quote": "local officials can best protect their constituents from such abuses by removing the cameras entirely",
-        "paragraph_idx": 5
-      }
-    ],
-    "curation_status": "enriched",
-    "curated_at": "2026-05-05T08:37:29Z",
-    "article_id": "art_009"
   },
   {
     "url": "https://www.eff.org/deeplinks/2025/06/san-diegans-push-back-flock-alpr-surveillance",
@@ -1243,7 +1179,7 @@
     "title": "San Diegans Push Back on Flock ALPR Surveillance",
     "byline": "Rory Mir",
     "published_at": "2025-06-03T13:13:25-07:00",
-    "fetched_at": "2026-05-05T08:34:45Z",
+    "fetched_at": "2026-05-05T08:29:43Z",
     "discovered_by": "claude-search:contracts-2026-05",
     "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
     "scanner_score": 1,
@@ -1262,7 +1198,7 @@
       "genre:opinion",
       "incident:ice-cooperation",
       "legal:legislation",
-      "policy:purpose-limitation",
+      "policy:retention",
       "policy:sharing",
       "scope:local",
       "vendor:flock"
@@ -1365,7 +1301,7 @@
       }
     ],
     "primary_subject_agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
-    "summary": "EFF reports on the TRUST Coalition's campaign urging the San Diego City Council to end its Flock Safety ALPR contract ahead of the program's first annual review. The article cites concerns about data sharing with federal agencies, unauthorized deployments at events, a Privacy Board recommendation against the surveillance use policy, and over $3.5 million in costs.",
+    "summary": "EFF reports on the TRUST Coalition's campaign urging San Diego's city council to end its Flock Safety ALPR contract ahead of the program's first annual review. The piece highlights alleged sharing of ALPR data with federal agencies including HSI and CBP, deployments at Comic-Con and Pride without required council approval, the Privacy Board's recommendation to reject the Surveillance Use Policy, and the program's $3.5M annual cost.",
     "key_quotes": [
       {
         "quote": "San Diego Police have reportedly disclosed license plate data to federal agencies\u2014 including Homeland Security Investigations and Customs and Border Patrol.",
@@ -1378,11 +1314,15 @@
       {
         "quote": "The San Diego Privacy Board recently recommended the city reject the Surveillance Use Policy for this technology.",
         "paragraph_idx": 8
+      },
+      {
+        "quote": "ALPRs like Flock\u2019s don\u2019t prevent crime\u2014they just vacuum up data on everyone who drives past.",
+        "paragraph_idx": 6
       }
     ],
     "curation_status": "enriched",
-    "curated_at": "2026-05-05T08:37:40Z",
-    "article_id": "art_010"
+    "curated_at": "2026-05-05T08:31:37Z",
+    "article_id": "art_009"
   },
   {
     "url": "https://www.eff.org/deeplinks/2025/06/victory-austin-organizers-cancel-citys-flock-alpr-contract",
@@ -1392,7 +1332,7 @@
     "title": "Victory! Austin Organizers Cancel City's Flock ALPR Contract",
     "byline": "Rory Mir",
     "published_at": "2025-06-06T15:38:32-07:00",
-    "fetched_at": "2026-05-05T08:34:31Z",
+    "fetched_at": "2026-05-05T08:29:35Z",
     "discovered_by": "claude-search:contracts-2026-05",
     "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
     "scanner_score": 1,
@@ -1403,13 +1343,12 @@
       "pdf": "assets/articles/eff.org/deeplinks-2025-06-victory-austin-organizers-cancel-citys-flock-alpr-contract_6651dbfc.pdf",
       "txt": "assets/articles/eff.org/deeplinks-2025-06-victory-austin-organizers-cancel-citys-flock-alpr-contract_6651dbfc.txt"
     },
-    "wayback_url": "https://web.archive.org/web/20260505083101/https://www.eff.org/deeplinks/2025/06/victory-austin-organizers-cancel-citys-flock-alpr-contract",
-    "wayback_timestamp": "20260505083101",
-    "wayback_source": "saved",
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
       "genre:opinion",
-      "legal:legislation",
       "policy:audit",
       "policy:purpose-limitation",
       "policy:retention",
@@ -1494,7 +1433,7 @@
       }
     ],
     "primary_subject_agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
-    "summary": "Austin City Council declined to renew its contract with Flock Safety after a coalition of 30+ community groups organized against it, ending APD's use of Flock ALPRs at month's end. An audit revealed over 20% of ALPR searches lacked proper documentation and that contract terms permitted retention and sharing beyond council limits. Austin still uses ALPRs through an Axon contract.",
+    "summary": "EFF celebrates Austin organizers' successful effort to block renewal of the city's Flock Safety ALPR contract, ending Austin police use of the network at month's end. A pre-vote audit found over 20% of ALPR searches lacked proper documentation and that contract terms permitted retention and sharing beyond council limits. Austin still uses ALPRs via an Axon contract.",
     "key_quotes": [
       {
         "quote": "an audit of the Austin Police Department program also revealed that over 20% of ALPR database searches lacked proper documentation or justification, in violation of department policy",
@@ -1510,8 +1449,8 @@
       }
     ],
     "curation_status": "enriched",
-    "curated_at": "2026-05-05T08:37:51Z",
-    "article_id": "art_011"
+    "curated_at": "2026-05-05T08:31:47Z",
+    "article_id": "art_010"
   },
   {
     "url": "https://www.eff.org/deeplinks/2026/02/effecting-change-get-flock-out-our-city",
@@ -1521,20 +1460,20 @@
     "title": "EFFecting Change: Get the Flock Out of Our City",
     "byline": "Melissa Srago",
     "published_at": "2026-02-09T14:31:43-08:00",
-    "fetched_at": "2026-05-05T08:35:04Z",
+    "fetched_at": "2026-05-05T08:29:51Z",
     "discovered_by": "claude-search:contracts-2026-05",
     "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
     "scanner_score": 1,
-    "content_hash": "27ea564bb3c0c3b02f027f0b33402a73c47b7b54b9691aa33bd70b435671ac46",
+    "content_hash": "1293a51918013062322d5325408baa2344063ffd33b4d2c5fb0d6d0548d05575",
     "paths": {
       "html": "assets/articles/eff.org/deeplinks-2026-02-effecting-change-get-flock-out-our-city_fa480f17.html",
       "meta": "assets/articles/eff.org/deeplinks-2026-02-effecting-change-get-flock-out-our-city_fa480f17.meta.json",
       "pdf": "assets/articles/eff.org/deeplinks-2026-02-effecting-change-get-flock-out-our-city_fa480f17.pdf",
       "txt": "assets/articles/eff.org/deeplinks-2026-02-effecting-change-get-flock-out-our-city_fa480f17.txt"
     },
-    "wayback_url": "https://web.archive.org/web/20260505083524/https://www.eff.org/deeplinks/2026/02/effecting-change-get-flock-out-our-city",
-    "wayback_timestamp": "20260505083524",
-    "wayback_source": "saved",
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
     "pdf_status": "rendered",
     "tags": [
       "genre:press-release",
@@ -1635,21 +1574,250 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": "EFF announces a February 2026 livestream event featuring EFF staff and allies discussing growing resistance to Flock Safety ALPR contracts in U.S. cities. The post highlights cities like Austin and Cambridge rejecting Flock and previews discussion of legal implications and successful campaigns against deployments.",
+    "primary_subject_agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+    "summary": "EFF announces a February 19, 2026 livestream event discussing growing resistance to Flock Safety's ALPR contracts across U.S. cities, featuring speakers from EFF, Fight for the Future, and Rural Privacy Coalition. The post argues Flock cameras enable surveillance of abortion seekers, protesters, and marginalized communities, and highlights jurisdictions rejecting Flock deployments.",
     "key_quotes": [
       {
         "quote": "Flock contracts have quietly spread to cities across the country. But Flock ALPR (Automated License Plate Readers) erode civil liberties from the moment they're installed.",
-        "paragraph_idx": 3
+        "paragraph_idx": 4
       },
       {
         "quote": "From Austin to Cambridge to small towns across Texas, jurisdictions are rejecting Flock contracts altogether, proving that surveillance isn't inevitable\u2014it's a choice.",
-        "paragraph_idx": 4
+        "paragraph_idx": 5
       }
     ],
     "curation_status": "enriched",
-    "curated_at": "2026-05-05T08:37:59Z",
+    "curated_at": "2026-05-05T08:31:55Z",
+    "article_id": "art_011"
+  },
+  {
+    "url": "https://www.kqed.org/news/12072077/as-california-cities-grow-wary-of-flock-safety-cameras-mountain-views-shuts-its-off",
+    "source_domain": "kqed.org",
+    "tier": 1,
+    "stance": "neutral",
+    "title": "As California Cities Grow Wary of Flock Safety Cameras, Mountain View Shuts Its Off | KQED",
+    "byline": "Katie DeBenedetti",
+    "published_at": "2026-02-03T16:31:59-08:00",
+    "fetched_at": "2026-05-05T08:29:29Z",
+    "discovered_by": "claude-search:contracts-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 28 pts, low/medium only",
+    "scanner_score": 28,
+    "content_hash": "728bfa59d43fd53e7004dfae1725038cf2d085f5df9cb7a0d2a877d64773fc74",
+    "paths": {
+      "html": "assets/articles/kqed.org/news-12072077-as-california-cities-grow-wary-of-flock-safety-cameras-mountain-vi_2722183e.html",
+      "meta": "assets/articles/kqed.org/news-12072077-as-california-cities-grow-wary-of-flock-safety-cameras-mountain-vi_2722183e.meta.json",
+      "pdf": "assets/articles/kqed.org/news-12072077-as-california-cities-grow-wary-of-flock-safety-cameras-mountain-vi_2722183e.pdf",
+      "txt": "assets/articles/kqed.org/news-12072077-as-california-cities-grow-wary-of-flock-safety-cameras-mountain-vi_2722183e.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260505073223/https://www.kqed.org/news/12072077/as-california-cities-grow-wary-of-flock-safety-cameras-mountain-views-shuts-its-off",
+    "wayback_timestamp": "20260505073223",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:ag-lawsuit",
+      "legal:legislation",
+      "policy:audit",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+      "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+      "fb01478d-3233-55c1-a65c-74b6e23a6b6a",
+      "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "971ef5e8-3761-532f-ac31-4406140dcbe0",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "93a2f97c-bf79-5ba7-be50-3bc3d7fe7dfd",
+      "7cabcca1-9a07-54d1-9983-fb34e7384b0e"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 124.0,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+        "display_name": "Bay AR PD",
+        "state": "AR",
+        "score": 55.65,
+        "matched_forms": [
+          "Bay"
+        ]
+      },
+      {
+        "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+        "display_name": "Mountain View Police Department",
+        "state": "CA",
+        "score": 47.9,
+        "matched_forms": [
+          "Mountain View",
+          "Mountain View Police Department"
+        ]
+      },
+      {
+        "agency_id": "fb01478d-3233-55c1-a65c-74b6e23a6b6a",
+        "display_name": "AR - Mountain View PD",
+        "state": "AR",
+        "score": 45.9,
+        "matched_forms": [
+          "Mountain View",
+          "Mountain View Police Department"
+        ]
+      },
+      {
+        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+        "display_name": "Flock Safety",
+        "state": "GA",
+        "score": 24.0,
+        "matched_forms": [
+          "Flock Safety"
+        ]
+      },
+      {
+        "agency_id": "971ef5e8-3761-532f-ac31-4406140dcbe0",
+        "display_name": "El Cajon CA PD",
+        "state": "CA",
+        "score": 16.85,
+        "matched_forms": [
+          "El Cajon",
+          "El Cajon Police",
+          "El Cajon Police Department"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 12.95,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+        "display_name": "Oakland CA PD",
+        "state": "CA",
+        "score": 12.05,
+        "matched_forms": [
+          "Oakland"
+        ]
+      },
+      {
+        "agency_id": "93a2f97c-bf79-5ba7-be50-3bc3d7fe7dfd",
+        "display_name": "Oakland TN PD",
+        "state": "TN",
+        "score": 10.05,
+        "matched_forms": [
+          "Oakland"
+        ]
+      },
+      {
+        "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+        "display_name": "Justice IL PD",
+        "state": "IL",
+        "score": 7.083,
+        "matched_forms": [
+          "Justice"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+    "summary": "Mountain View Police Department turned off its Flock Safety ALPR cameras after an audit revealed federal agencies accessed its data via a national lookup feature in 2024 and 29 of 30 cameras were accessed by unapproved California agencies, violating a 2015 state law. The decision follows similar terminations by Santa Cruz, Los Altos Hills and over two dozen other US municipalities amid concerns about ICE access to Flock data, while the city council will decide the program's future at a month-end meeting.",
+    "key_quotes": [
+      {
+        "quote": "Community trust is more important than any individual tool. I share your anger and frustration regarding how Flock Safety's system enabled out-of-state agencies to search our license plate data, and I am sorry that such searches occurred.",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "The department said the feature was \"enabled without MVPD's permission or knowledge.\" It also said that 29 of its 30 cameras were accessed by other California law enforcement agencies that had not been approved to do so.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "What did Flock do? Did Flock force a code change on you and lie to you about it? Statistically, it's most likely to be the Mountain View Police Department that turned those things on.",
+        "paragraph_idx": 13
+      },
+      {
+        "quote": "In California, a 2015 state law prohibits state and local law enforcement agencies from sharing license plate reader data with out-of-state or federal agencies.",
+        "paragraph_idx": 10
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T08:32:09Z",
     "article_id": "art_012"
+  },
+  {
+    "url": "https://www.404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras/",
+    "source_domain": "404media.co",
+    "tier": 2,
+    "stance": "critical",
+    "title": "ICE, Secret Service, Navy All Had Access to Flock's Nationwide Network of Cameras",
+    "byline": "Joseph Cox",
+    "published_at": "2025-10-16T13:00:05.000Z",
+    "fetched_at": "2026-05-05T08:35:24Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 33 pts, low/medium only",
+    "scanner_score": 33,
+    "content_hash": "7a6f12f14c3dc21d792178b80b943235fad9355179aac92679bf44e450bdc7f1",
+    "paths": {
+      "html": "assets/articles/404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras_0941c023.html",
+      "meta": "assets/articles/404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras_0941c023.meta.json",
+      "pdf": "assets/articles/404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras_0941c023.pdf",
+      "txt": "assets/articles/404media.co/ice-secret-service-navy-all-had-access-to-flocks-nationwide-network-of-cameras_0941c023.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "policy:sharing",
+      "scope:national",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 12.4,
+        "matched_forms": [
+          "IN"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "A letter from Senator Ron Wyden, shared with 404 Media, reveals that ICE's Homeland Security Investigations division, the Secret Service, and the Navy's criminal investigation arm all had access to Flock's nationwide ALPR camera network. HSI alone performed nearly 200 searches. Wyden argues Flock is uninterested in preventing abuse and urges localities to remove the cameras.",
+    "key_quotes": [
+      {
+        "quote": "abuses of your product are not only likely but inevitable",
+        "paragraph_idx": 2
+      },
+      {
+        "quote": "Homeland Security Investigations (HSI), the section of ICE that had access and which has reassigned more than ten thousand employees to work on the agency's mass deportation campaign, performed nearly two hundred searches in the system",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "local officials can best protect their constituents from such abuses by removing the cameras entirely",
+        "paragraph_idx": 5
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T08:37:29Z",
+    "article_id": "art_013"
   },
   {
     "url": "https://www.eff.org/deeplinks/2026/02/free-surveillance-tech-still-comes-high-and-dangerous-cost",
@@ -1812,7 +1980,7 @@
     ],
     "curation_status": "enriched",
     "curated_at": "2026-05-05T08:38:12Z",
-    "article_id": "art_013"
+    "article_id": "art_014"
   },
   {
     "url": "https://www.eff.org/deeplinks/2026/04/print-blocking-wont-work-permission-print-part-2",
@@ -1885,7 +2053,7 @@
     "key_quotes": [],
     "curation_status": "needs_review",
     "curated_at": "2026-05-05T08:36:16Z",
-    "article_id": "art_014",
+    "article_id": "art_015",
     "curation_error": "refusal: Article is about 3D printer regulation, not ALPR or police surveillance."
   },
   {
@@ -2054,171 +2222,6 @@
     ],
     "curation_status": "enriched",
     "curated_at": "2026-05-05T08:38:30Z",
-    "article_id": "art_015"
-  },
-  {
-    "url": "https://www.kqed.org/news/12072077/as-california-cities-grow-wary-of-flock-safety-cameras-mountain-views-shuts-its-off",
-    "source_domain": "kqed.org",
-    "tier": 1,
-    "stance": "neutral",
-    "title": "As California Cities Grow Wary of Flock Safety Cameras, Mountain View Shuts Its Off | KQED",
-    "byline": "Katie DeBenedetti",
-    "published_at": "2026-02-03T16:31:59-08:00",
-    "fetched_at": "2026-05-05T08:34:23Z",
-    "discovered_by": "claude-search:contracts-2026-05",
-    "scanner_verdict": "WARNINGS \u2014 28 pts, low/medium only",
-    "scanner_score": 28,
-    "content_hash": "728bfa59d43fd53e7004dfae1725038cf2d085f5df9cb7a0d2a877d64773fc74",
-    "paths": {
-      "html": "assets/articles/kqed.org/news-12072077-as-california-cities-grow-wary-of-flock-safety-cameras-mountain-vi_2722183e.html",
-      "meta": "assets/articles/kqed.org/news-12072077-as-california-cities-grow-wary-of-flock-safety-cameras-mountain-vi_2722183e.meta.json",
-      "pdf": "assets/articles/kqed.org/news-12072077-as-california-cities-grow-wary-of-flock-safety-cameras-mountain-vi_2722183e.pdf",
-      "txt": "assets/articles/kqed.org/news-12072077-as-california-cities-grow-wary-of-flock-safety-cameras-mountain-vi_2722183e.txt"
-    },
-    "wayback_url": "https://web.archive.org/web/20260505073223/https://www.kqed.org/news/12072077/as-california-cities-grow-wary-of-flock-safety-cameras-mountain-views-shuts-its-off",
-    "wayback_timestamp": "20260505073223",
-    "wayback_source": "saved",
-    "pdf_status": "rendered",
-    "tags": [
-      "genre:investigative",
-      "incident:ice-cooperation",
-      "legal:ag-lawsuit",
-      "legal:legislation",
-      "policy:audit",
-      "policy:sharing",
-      "scope:local",
-      "vendor:flock"
-    ],
-    "agencies": [
-      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
-      "217b0fd7-91ff-5fe2-b382-a67228cef37b",
-      "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
-      "fb01478d-3233-55c1-a65c-74b6e23a6b6a",
-      "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
-      "971ef5e8-3761-532f-ac31-4406140dcbe0",
-      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
-      "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
-      "93a2f97c-bf79-5ba7-be50-3bc3d7fe7dfd",
-      "7cabcca1-9a07-54d1-9983-fb34e7384b0e"
-    ],
-    "agency_candidates": [
-      {
-        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
-        "display_name": "Indiana Department of Corrections",
-        "state": "IN",
-        "score": 124.0,
-        "matched_forms": [
-          "IN"
-        ]
-      },
-      {
-        "agency_id": "217b0fd7-91ff-5fe2-b382-a67228cef37b",
-        "display_name": "Bay AR PD",
-        "state": "AR",
-        "score": 55.65,
-        "matched_forms": [
-          "Bay"
-        ]
-      },
-      {
-        "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
-        "display_name": "Mountain View Police Department",
-        "state": "CA",
-        "score": 47.9,
-        "matched_forms": [
-          "Mountain View",
-          "Mountain View Police Department"
-        ]
-      },
-      {
-        "agency_id": "fb01478d-3233-55c1-a65c-74b6e23a6b6a",
-        "display_name": "AR - Mountain View PD",
-        "state": "AR",
-        "score": 45.9,
-        "matched_forms": [
-          "Mountain View",
-          "Mountain View Police Department"
-        ]
-      },
-      {
-        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
-        "display_name": "Flock Safety",
-        "state": "GA",
-        "score": 24.0,
-        "matched_forms": [
-          "Flock Safety"
-        ]
-      },
-      {
-        "agency_id": "971ef5e8-3761-532f-ac31-4406140dcbe0",
-        "display_name": "El Cajon CA PD",
-        "state": "CA",
-        "score": 16.85,
-        "matched_forms": [
-          "El Cajon",
-          "El Cajon Police",
-          "El Cajon Police Department"
-        ]
-      },
-      {
-        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
-        "display_name": "San Francisco CA PD",
-        "state": "CA",
-        "score": 12.95,
-        "matched_forms": [
-          "San Francisco"
-        ]
-      },
-      {
-        "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
-        "display_name": "Oakland CA PD",
-        "state": "CA",
-        "score": 12.05,
-        "matched_forms": [
-          "Oakland"
-        ]
-      },
-      {
-        "agency_id": "93a2f97c-bf79-5ba7-be50-3bc3d7fe7dfd",
-        "display_name": "Oakland TN PD",
-        "state": "TN",
-        "score": 10.05,
-        "matched_forms": [
-          "Oakland"
-        ]
-      },
-      {
-        "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
-        "display_name": "Justice IL PD",
-        "state": "IL",
-        "score": 7.083,
-        "matched_forms": [
-          "Justice"
-        ]
-      }
-    ],
-    "primary_subject_agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
-    "summary": "Mountain View Police Department shut off its Flock Safety ALPR cameras after an audit revealed federal agencies accessed its data via a nationwide search tool in 2024 and 29 of 30 cameras were accessed by unapproved California agencies, in violation of a 2015 state law. The move follows similar terminations by Santa Cruz and Los Altos Hills, while AG Rob Bonta continues to pursue El Cajon PD over comparable sharing violations.",
-    "key_quotes": [
-      {
-        "quote": "Community trust is more important than any individual tool. I share your anger and frustration regarding how Flock Safety's system enabled out-of-state agencies to search our license plate data, and I am sorry that such searches occurred.",
-        "paragraph_idx": 3
-      },
-      {
-        "quote": "The department said the feature was \"enabled without MVPD's permission or knowledge.\" It also said that 29 of its 30 cameras were accessed by other California law enforcement agencies that had not been approved to do so.",
-        "paragraph_idx": 5
-      },
-      {
-        "quote": "What did Flock do? Did Flock force a code change on you and lie to you about it? Statistically, it's most likely to be the Mountain View Police Department that turned those things on.",
-        "paragraph_idx": 13
-      },
-      {
-        "quote": "In California, a 2015 state law prohibits state and local law enforcement agencies from sharing license plate reader data with out-of-state or federal agencies.",
-        "paragraph_idx": 10
-      }
-    ],
-    "curation_status": "enriched",
-    "curated_at": "2026-05-05T08:38:46Z",
     "article_id": "art_016"
   }
 ]
