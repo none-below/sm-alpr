@@ -321,6 +321,23 @@ jobs:
           REPO="${{ github.repository }}"
           BRANCH="preview-assets/pr-${PR_NUM}"
 
+          # Retry transient GitHub API failures (504s, rate-limit blips).
+          # 5 attempts with exponential backoff: 5s, 10s, 20s, 40s.
+          retry() {
+            local n=1 max=5 delay=5
+            while true; do
+              if "$@"; then return 0; fi
+              if [ "$n" -ge "$max" ]; then
+                echo "retry: giving up after $n attempts: $*" >&2
+                return 1
+              fi
+              echo "retry: attempt $n failed, sleeping ${delay}s: $*" >&2
+              sleep "$delay"
+              n=$((n + 1))
+              delay=$((delay * 2))
+            done
+          }
+
           # Push screenshots to an ephemeral branch (no CI trigger —
           # workflows only fire on PRs to main, not branch pushes)
           git config user.name "github-actions[bot]"
@@ -336,10 +353,10 @@ jobs:
           RAW="https://raw.githubusercontent.com/${REPO}/${SHA}"
 
           # Delete previous preview comments
-          gh api "repos/${REPO}/issues/${PR_NUM}/comments" --paginate -q \
+          retry gh api "repos/${REPO}/issues/${PR_NUM}/comments" --paginate -q \
             '.[] | select(.body | contains("<!-- page-preview -->")) | .id' | \
             while read -r cid; do
-              gh api -X DELETE "repos/${REPO}/issues/comments/${cid}" || true
+              retry gh api -X DELETE "repos/${REPO}/issues/comments/${cid}" || true
             done
 
           # Build comment with inline images
@@ -365,4 +382,4 @@ jobs:
           *Updated $(date -u +%Y-%m-%dT%H:%M:%SZ)*
           EOF
 
-          gh pr comment "${PR_NUM}" --body-file /tmp/preview-body.md
+          retry gh pr comment "${PR_NUM}" --body-file /tmp/preview-body.md
