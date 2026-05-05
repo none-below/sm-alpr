@@ -26,17 +26,9 @@ Promise.all([
   let showChanges = localStorage.getItem('smalpr-show-changes') !== 'false';
   let currentSelectionSlug = null;
 
-  const map = L.map('map').setView([37.5, -121.5], 7);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {
-    attribution: '&copy; OpenStreetMap, &copy; CARTO',
-    maxZoom: 18,
-  }).addTo(map);
+  const map = MapCommon.createCartoMap('map', { theme: 'light', center: [37.5, -121.5], zoom: 7 });
 
-  const markerLayer = L.markerClusterGroup({
-    maxClusterRadius: 50,
-    spiderfyOnMaxZoom: true,
-    showCoverageOnHover: false,
-    zoomToBoundsOnClick: true,
+  const markerLayer = L.markerClusterGroup(MapCommon.clusterOptions({
     iconCreateFunction: function(cluster) {
       const children = cluster.getAllChildMarkers();
       const size = Math.min(44, 22 + children.length * 2);
@@ -88,26 +80,14 @@ Promise.all([
         iconSize: [size, size],
       });
     },
-  });
+  }));
 
-  // Show member names on cluster hover
-  markerLayer.on('clustermouseover', function(e) {
-    const children = e.layer.getAllChildMarkers();
-    if (children.length > 15) {
-      e.layer.bindTooltip(children.length + ' agencies').openTooltip();
-      return;
-    }
-    const names = children.map(cm => {
-      const slug = cm.options.slug;
-      const info = agencyInfo[slug] || {};
-      let name = info.name || slug;
-      if (isFlagged(slug)) name = '\u26a0 ' + name;
-      return name;
-    }).sort();
-    e.layer.bindTooltip(names.join('<br>'), { direction: 'top' }).openTooltip();
-  });
-  markerLayer.on('clustermouseout', function(e) {
-    e.layer.unbindTooltip();
+  MapCommon.attachClusterTooltips(markerLayer, function (cm) {
+    const slug = cm.options.slug;
+    const info = agencyInfo[slug] || {};
+    let name = info.name || slug;
+    if (isFlagged(slug)) name = '\u26a0 ' + name;
+    return name;
   });
 
   markerLayer.addTo(map);

@@ -65,6 +65,34 @@ ROLE_FORMS = {
 }
 
 
+def _bare_place_form(entry) -> str | None:
+    """Return the bare place-name form for this agency if it should be
+    matched. Returns None for entries where matching by bare place would
+    be too noisy:
+
+    - test entries (display_name 'demo' etc.) — never a real subject
+    - state-level entities — geo.name is a 2-letter state code that
+      collides with English prepositions ('IN', 'OR', 'AT')
+    - very short places (<=2 chars) — same noise class as state codes
+
+    The longer "{place} {role suffix}" forms (e.g. "Bay Police
+    Department") are still emitted by derive_journalistic_forms; only
+    the standalone "Bay" / "IN" form is suppressed here.
+    """
+    place = canonical_place_name(entry)
+    if not place:
+        return None
+    role = entry.get("agency_role")
+    if role == "test":
+        return None
+    geo = entry.get("geo") or {}
+    if geo.get("kind") == "state":
+        return None
+    if len(place) <= 2:
+        return None
+    return place
+
+
 def derive_journalistic_forms(entry) -> list[str]:
     """Build the surface forms a journalist might write for this agency.
 
@@ -86,11 +114,12 @@ def derive_journalistic_forms(entry) -> list[str]:
     if place and role and role in ROLE_FORMS:
         for suffix in ROLE_FORMS[role]:
             add(f"{place} {suffix}")
-        # Bare place name is weakest — colliding role types in the same
-        # city (e.g. San Mateo city PD vs San Mateo County SO) both
-        # reduce to 'San Mateo'. Span-collision resolution + curator
-        # selection handles the ambiguity downstream.
-        add(place)
+        # Bare place is weakest and also the noisiest. _bare_place_form
+        # gates it on whether matching by raw place name is meaningful
+        # for this agency (e.g. skip 'IN' for Indiana DOC).
+        bare = _bare_place_form(entry)
+        if bare:
+            add(bare)
 
     for fn in entry.get("flock_names", []) or []:
         add(fn)
@@ -173,9 +202,19 @@ def lookup(text: str, *, source_domain: str | None = None,
 
     registry = load_registry()
     # Collect (start, end, agency_idx, form) for every form match in text.
+    # Bare-place forms (e.g. "Oakland" for Oakland TN PD) only count when
+    # the agency's state is corroborated in the article — otherwise an
+    # article about Oakland CA scores Oakland TN PD just as highly.
     candidates_raw: list[tuple[int, int, int, str]] = []
     for ai, entry in enumerate(registry):
+        bare = _bare_place_form(entry)
+        state = agency_state(entry)
+        state_corroborated = bool(
+            state and (state in mentioned_states or state == source_state_hint)
+        )
         for form in all_agency_forms(entry):
+            if bare and form == bare and not state_corroborated:
+                continue
             for s, e in find_form_spans(text, form):
                 candidates_raw.append((s, e, ai, form))
     if not candidates_raw:

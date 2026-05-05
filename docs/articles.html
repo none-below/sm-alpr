@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org data:; connect-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://unpkg.com https://gc.zgo.at https://none-below.goatcounter.com;">
+<title>ALPR Article Library</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" integrity="sha384-pmjIAcz2bAn0xukfxADbZIb3t8oRT9Sv0rvO+BR5Csr6Dhqq+nZs59P0pPKQJkEV" crossorigin="anonymous" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, system-ui, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    line-height: 1.45;
+  }
+  a { color: #60a5fa; }
+  .header {
+    text-align: center;
+    padding: 32px 20px 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .header h1 {
+    font-size: 26px;
+    color: #f8fafc;
+    margin-bottom: 8px;
+  }
+  .header p {
+    color: #94a3b8;
+    font-size: 14px;
+  }
+  .back-link {
+    display: inline-block;
+    color: #60a5fa;
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  .filter-panel {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+  }
+  .filter-panel h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+    margin-bottom: 6px;
+  }
+  .filter-panel .hint {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 12px;
+  }
+  .ns-row {
+    margin-bottom: 10px;
+  }
+  .ns-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-right: 8px;
+    display: inline-block;
+    min-width: 70px;
+  }
+  .chip {
+    display: inline-block;
+    font-size: 12px;
+    padding: 3px 9px;
+    margin: 2px 3px 2px 0;
+    border-radius: 12px;
+    background: #334155;
+    color: #cbd5e1;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  .chip:hover {
+    background: #475569;
+  }
+  .chip.include {
+    background: #14532d;
+    color: #bbf7d0;
+    border-color: #22c55e;
+  }
+  .chip.exclude {
+    background: #4c0519;
+    color: #fecdd3;
+    border-color: #f43f5e;
+    text-decoration: line-through;
+  }
+  .chip .count {
+    font-size: 10px;
+    opacity: 0.65;
+    margin-left: 4px;
+  }
+
+  .active-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 16px;
+    min-height: 24px;
+  }
+  .active-bar .clear {
+    background: none;
+    border: 1px solid #475569;
+    color: #cbd5e1;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .active-bar .clear:hover { border-color: #94a3b8; }
+
+  .article {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .article-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .article-title a {
+    color: #f8fafc;
+    text-decoration: none;
+  }
+  .article-title a:hover { color: #60a5fa; }
+  .article-meta {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 8px;
+  }
+  .article-meta .dot { margin: 0 6px; opacity: 0.5; }
+  .article-summary {
+    font-size: 14px;
+    color: #cbd5e1;
+    margin-bottom: 10px;
+  }
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .article-links {
+    font-size: 12px;
+    color: #64748b;
+  }
+  .article-links a { margin-right: 12px; }
+
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #94a3b8;
+  }
+
+  #map {
+    height: 380px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    margin-bottom: 20px;
+    background: #1e293b;
+  }
+  .leaflet-popup-content {
+    color: #0f172a;
+    font-size: 13px;
+    line-height: 1.4;
+    max-width: 280px;
+  }
+  .leaflet-popup-content .pop-agency {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .leaflet-popup-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .leaflet-popup-content li {
+    padding: 3px 0;
+    border-top: 1px solid #e2e8f0;
+  }
+  .leaflet-popup-content li:first-child { border-top: none; }
+  .leaflet-popup-content a { color: #1d4ed8; text-decoration: none; }
+  .leaflet-popup-content a:hover { text-decoration: underline; }
+  .leaflet-popup-content .pop-meta { color: #64748b; font-size: 11px; }
+
+  @media (max-width: 720px) {
+    .header h1 { font-size: 22px; }
+    .ns-label { display: block; min-width: 0; margin-bottom: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back-link" href="index.html">&larr; Back to investigation</a>
+  <h1>ALPR Article Library</h1>
+  <p>News and analysis on automated license plate readers. Click a tag once to require it, again to exclude it.</p>
+</div>
+
+<main>
+  <div id="map"></div>
+
+  <div class="filter-panel" id="filter-panel">
+    <h2>Filter by tag</h2>
+    <div class="hint">Click a chip to require articles with that tag (green). Click again to exclude (red). Click a third time to clear.</div>
+    <div id="tag-groups"></div>
+  </div>
+
+  <div class="active-bar" id="active-bar"></div>
+
+  <div id="article-list"></div>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" integrity="sha384-eXVCORTRlv4FUUgS/xmOyr66XBVraen8ATNLMESp92FKXLAMiKkerixTiBvXriZr" crossorigin="anonymous"></script>
+<script src="js/map_common.js"></script>
+<script src="js/articles.js"></script>
+
+<script data-goatcounter="https://none-below.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

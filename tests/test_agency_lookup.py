@@ -164,3 +164,100 @@ def test_detect_states_does_not_match_inside_words():
     # but our pattern is ASCII-case-sensitive on the code. Let's check what
     # we actually get and assert the meaningful invariant:
     assert "CA" not in states
+
+
+# ── bare-place noise gating ──────────────────────────────────────
+
+
+# Synthetic fixtures matching the false-positive patterns observed in
+# the article registry: state-level entity (Indiana DOC), test entry
+# (the "demo" test agency), and a small-town namesake of a major city
+# (Oakland TN PD).
+INDIANA_DOC = {
+    "agency_id": "in-doc-id",
+    "agency_role": "corrections",
+    "display_name": None,
+    "flock_names": ["Indiana Department of Corrections"],
+    "aliases": [],
+    "geo": {"kind": "state", "name": "IN", "state": "IN"},
+}
+DEMO_TEST = {
+    "agency_id": "demo-id",
+    "agency_role": "test",
+    "display_name": None,
+    "flock_names": ["Demo", "demo"],
+    "aliases": [],
+    "geo": None,
+}
+OAKLAND_TN = _agency("oak-tn-id", "Oakland", "police", state="TN")
+OAKLAND_CA = _agency("oak-ca-id", "Oakland", "police", state="CA")
+
+
+def test_state_level_entity_does_not_emit_bare_state_code():
+    """Indiana DOC's geo.name is 'IN' — without gating we'd match every
+    English 'in' in the text. _bare_place_form should refuse it."""
+    forms = al.derive_journalistic_forms(INDIANA_DOC)
+    assert "IN" not in forms
+    # Specific forms still emitted via flock_names / role suffixes.
+    assert "Indiana Department of Corrections" in forms
+
+
+def test_test_role_does_not_emit_bare_place():
+    """Test entries (display 'demo') must never be matched."""
+    forms = al.derive_journalistic_forms(DEMO_TEST)
+    # DEMO_TEST has no place/role pair feeding ROLE_FORMS, so the only
+    # forms come from flock_names — but make sure no bare 'demo' is
+    # generated through the place path. (The flock_names verbatim
+    # contributions are intentional; the test entry's data should be
+    # tagged out before the curator picks it up. The gating here just
+    # ensures our place-derivation path doesn't make things worse.)
+    bare = al._bare_place_form(DEMO_TEST)
+    assert bare is None
+
+
+def test_bare_place_skipped_in_lookup_without_state_context(monkeypatch):
+    """An article about Oakland (CA) shouldn't surface Oakland TN PD via
+    the bare 'Oakland' form — state context isn't corroborated."""
+    monkeypatch.setattr(lib, "_registry_cache", [OAKLAND_TN])
+    text = ("Oakland's City Council voted on the Flock contract. "
+            "Oakland residents filled the chambers.")
+    matches = al.lookup(text)
+    assert matches == [], (
+        f"Oakland TN PD shouldn't match a CA-context article via bare "
+        f"place; got {[m['agency_id'] for m in matches]}"
+    )
+
+
+def test_bare_place_counts_when_state_corroborated(monkeypatch):
+    """If the article DOES mention Tennessee, Oakland TN PD's bare-place
+    matches should count."""
+    monkeypatch.setattr(lib, "_registry_cache", [OAKLAND_TN])
+    text = "The Tennessee incident: Oakland police responded after the call."
+    matches = al.lookup(text)
+    matched_ids = {m["agency_id"] for m in matches}
+    assert "oak-tn-id" in matched_ids
+
+
+def test_bare_place_full_form_always_counts(monkeypatch):
+    """The state-context gate only applies to the bare-place form;
+    'Oakland Police Department' (a specific form) must still match
+    even without state corroboration."""
+    monkeypatch.setattr(lib, "_registry_cache", [OAKLAND_TN])
+    text = "Oakland Police Department officers responded to the scene."
+    matches = al.lookup(text)
+    matched_ids = {m["agency_id"] for m in matches}
+    assert "oak-tn-id" in matched_ids
+
+
+def test_indiana_doc_does_not_match_random_in(monkeypatch):
+    """The original false-positive: 'Indiana Department of Corrections'
+    appearing in every article because every article contains the word
+    'in'. With state-level bare-place gating, the agency only matches
+    when its specific name is mentioned (or Indiana itself)."""
+    monkeypatch.setattr(lib, "_registry_cache", [INDIANA_DOC])
+    text = "An EFF investigation in Texas revealed federal access patterns."
+    matches = al.lookup(text)
+    assert matches == [], (
+        f"Indiana DOC false-matched on stop-word 'in'; got "
+        f"{[m['agency_id'] for m in matches]}"
+    )
