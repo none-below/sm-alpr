@@ -375,6 +375,14 @@
         "indio-ca-police-department": "http_404"
       }
     },
+    "4e876f28-fcca-5c87-9e65-f0730980ea1d": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-05T01:21:17.699496+00:00",
+      "tried": {
+        "corcoran-ca-po": "http_404"
+      }
+    },
     "5077b862-25fa-52a7-9ead-bb712a54b7af": {
       "exhausted": false,
       "found": null,
@@ -518,9 +526,10 @@
     "6db175fe-bff6-58bc-a911-d688f797fda9": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-24T10:55:09.756432+00:00",
+      "last_probed": "2026-05-05T01:21:12.440562+00:00",
       "tried": {
-        "shafter-ca-pd": "http_404"
+        "shafter-ca-pd": "http_404",
+        "shafter-ca-po": "http_404"
       }
     },
     "6fc47404-6f79-5f5d-ace0-18db02bc2391": {
@@ -977,9 +986,10 @@
     "d8a94e88-50c9-5801-aa66-3716e0f4b648": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T07:55:36.225841+00:00",
+      "last_probed": "2026-05-05T01:21:06.017903+00:00",
       "tried": {
         "wheatland-ca-po": "http_404",
+        "wheatland-ca-police": "http_404",
         "wheatland-ca-police-department": "http_404"
       }
     },
@@ -1175,6 +1185,6 @@
       }
     }
   },
-  "updated": "2026-05-04T23:38:28.818835+00:00",
+  "updated": "2026-05-05T01:21:17.736162+00:00",
   "version": 1
 }
