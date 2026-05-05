@@ -122,6 +122,29 @@ HIDDEN_CSS = re.compile(
     re.IGNORECASE,
 )
 
+# Numeric-value patterns used by `_has_hiding_declaration` to apply
+# magnitude thresholds. The bare HIDDEN_CSS regex over-matches because
+# `opacity\s*:\s*0` greedily accepts the `0` in `opacity: 0.92` (a
+# perfectly visible hover transition), and `font-size\s*:\s*0` accepts
+# `font-size: 0.5em`. Both fire as false-positive HIGH findings on Ghost
+# CMS templates and similar. Capturing the value lets us threshold:
+# truly invisible values (≤ 0.05 opacity, < 0.1px/pt/em font-size) are
+# real injection signals; partial transparency or readable text is not.
+_OPACITY_VALUE = re.compile(r"opacity\s*:\s*([\d.]+)", re.IGNORECASE)
+_FONT_SIZE_VALUE = re.compile(
+    r"font-size\s*:\s*([\d.]+)\s*(?:px|pt|em|rem|%)?", re.IGNORECASE,
+)
+_HIDING_KEYWORDS = re.compile(
+    r"display\s*:\s*none|visibility\s*:\s*hidden",
+    re.IGNORECASE,
+)
+_WHITE_VALUE = re.compile(
+    r"(?:white|#fff(?:fff)?|rgb\(\s*255\s*,\s*255\s*,\s*255)",
+    re.IGNORECASE,
+)
+_COLOR_DECL = re.compile(r"(?<!-)color\s*:\s*(\S[^;]*)", re.IGNORECASE)
+_BG_DECL = re.compile(r"background(?:-color)?\s*:\s*(\S[^;]*)", re.IGNORECASE)
+
 # Vendor pseudo-elements that target browser UI chrome (scrollbars,
 # resizers, file-upload buttons, etc.). A hiding rule scoped only to
 # these cannot hide document text content, so it isn't a prompt-
@@ -331,6 +354,41 @@ def emit_decoded(findings, severity, category, decoded, start, end):
     ))
 
 
+def _has_hiding_declaration(rule_body: str) -> bool:
+    """Return True if a CSS declaration block contains a hiding effect.
+
+    Distinct from a bare HIDDEN_CSS regex match because:
+      - numeric values are thresholded: `opacity: 0.92` and
+        `font-size: 0.5em` are visible and do not count, while
+        `opacity: 0.0001` and `font-size: 0.00001em` do (real injection
+        technique — text rendered for an LLM but invisible to humans);
+      - `color: white` only counts when paired with a white background
+        in the same rule. White text on a dark CTA or button is
+        ubiquitous web styling, not a hiding signal.
+    """
+    if _HIDING_KEYWORDS.search(rule_body):
+        return True
+    for m in _OPACITY_VALUE.finditer(rule_body):
+        try:
+            if float(m.group(1)) <= 0.05:
+                return True
+        except ValueError:
+            continue
+    for m in _FONT_SIZE_VALUE.finditer(rule_body):
+        try:
+            if float(m.group(1)) < 0.1:
+                return True
+        except ValueError:
+            continue
+    color_m = _COLOR_DECL.search(rule_body)
+    bg_m = _BG_DECL.search(rule_body)
+    if (color_m and bg_m
+            and _WHITE_VALUE.match(color_m.group(1).strip())
+            and _WHITE_VALUE.match(bg_m.group(1).strip())):
+        return True
+    return False
+
+
 def _stylesheet_hides_content(body: str) -> bool:
     """Return True if a <style> body contains a hiding rule whose
     selector could hide document text content (not just UI chrome).
@@ -343,11 +401,11 @@ def _stylesheet_hides_content(body: str) -> bool:
     """
     cleaned = re.sub(r"/\*.*?\*/", "", body, flags=re.DOTALL)
     for rule in cleaned.split("}"):
-        if not HIDDEN_CSS.search(rule):
-            continue
         if "{" not in rule:
             continue
-        selector_part = rule.split("{", 1)[0]
+        selector_part, decl_part = rule.split("{", 1)
+        if not _has_hiding_declaration(decl_part):
+            continue
         selectors = [s.strip() for s in selector_part.split(",") if s.strip()]
         if not selectors:
             return True
