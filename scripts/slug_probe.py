@@ -329,22 +329,116 @@ def agency_state(state, agency_id):
 
 
 def select_targets(registry, failed_slugs, state, only_agency=None):
-    """Return registry entries whose active slug is failing and not yet found."""
-    targets = []
+    """Return target agencies split into two priority tiers.
+
+    Tier A — registry entries with no `flock_active_slug` set yet but at
+    least one `flock_names` entry. These are agencies discovered through
+    peer-outbound sharing whose actual slug we haven't found. Single-try
+    hit rate from `name_to_slug`-style guesses tends to be high (~50%
+    among police), so this tier earns the larger share of the budget.
+
+    Tier B — registry entries whose active slug is in failed_slugs. We
+    confirmed once the guess didn't work; now we slog through variants.
+    Lower hit rate per probe but still worth working through.
+
+    Caller drives the budget split between tiers; this function just
+    classifies them and skips already-resolved/exhausted agencies.
+    """
+    tier_a = []
+    tier_b = []
     for e in registry:
         aid = e["agency_id"]
         if only_agency and aid != only_agency:
             continue
-        if state.get("agencies", {}).get(aid, {}).get("found"):
+        st = state.get("agencies", {}).get(aid, {})
+        if st.get("found"):
             continue
-        if state.get("agencies", {}).get(aid, {}).get("exhausted"):
+        if st.get("exhausted"):
             continue
         active = e.get("flock_active_slug")
-        if not active:
-            continue
-        if active in failed_slugs:
-            targets.append(e)
-    return targets
+        if active is None:
+            # Need a name to derive candidates from — entries with no
+            # name and no slug aren't probeable yet.
+            if e.get("flock_names") or e.get("display_name"):
+                tier_a.append(e)
+        elif active in failed_slugs:
+            tier_b.append(e)
+        # else: active is set and not failed → cmd_crawl handles refresh,
+        # probe stays out of the way.
+    return tier_a, tier_b
+
+
+def eyesonflock_hint(entry, eof_index):
+    """Return eyesonflock's authoritative slug for `entry` if there's a
+    clean geographic + role match, else None.
+
+    Conservative mapping: only place/police → PD and county/sheriff → SD
+    are matched, since those are the kinds eyesonflock's payload carries.
+    Other registry shapes (cousub township police, ambiguous boundaries,
+    state-level agencies) have no eyesonflock counterpart so we don't try
+    to match them — the cost of a wrong match (poisoned slug promoted to
+    the registry) is much higher than the cost of falling through to
+    variant generation.
+
+    `eof_index` is the dict produced by eyesonflock_lookup.index_by_geo().
+    Pass {} to disable lookup (e.g. when the API fetch failed).
+    """
+    if not eof_index:
+        return None
+    from eyesonflock_lookup import locality_key
+    geo = entry.get("geo") or {}
+    name = geo.get("name")
+    state = geo.get("state")
+    if not name or not state:
+        return None
+    role = entry.get("agency_role")
+    kind = geo.get("kind")
+    if kind == "place" and role == "police":
+        eof_type = "PD"
+    elif kind == "county" and role == "sheriff":
+        eof_type = "SD"
+    else:
+        return None
+    return eof_index.get((locality_key(name), state.upper(), eof_type))
+
+
+def load_eyesonflock_index():
+    """Fetch + validate eyesonflock's portal API and return the geo index.
+    Returns {} on any failure — slug_probe falls through to variant
+    generation as if eyesonflock didn't exist. The lookup is a hint, not
+    a dependency; an outage shouldn't break the run.
+    """
+    try:
+        from eyesonflock_lookup import fetch_api, index_by_geo, parse_payload
+        text = fetch_api()
+        records = parse_payload(text)
+        index, conflicts = index_by_geo(records)
+        if conflicts:
+            print(f"  eyesonflock: {len(conflicts)} (city,state,type) conflicts skipped")
+        return index
+    except Exception as e:
+        print(f"  eyesonflock: lookup unavailable ({type(e).__name__}: {e})")
+        return {}
+
+
+def allocate_tier_budget(limit, tier_a_count, tier_b_count, tier_b_share=1/3):
+    """Split a per-run probe budget between tier A and tier B.
+
+    Returns (a_budget, b_budget) summing to at most `limit`. Defaults
+    favor tier A (`tier_b_share=1/3` → at limit=3, the split is 2 A + 1 B)
+    because tier-A single-try hit rate is meaningfully higher than tier B's
+    variant-search hit rate. When either tier is empty the other tier
+    gets the full budget.
+    """
+    if tier_a_count == 0 and tier_b_count == 0:
+        return 0, 0
+    if tier_a_count == 0:
+        return 0, limit
+    if tier_b_count == 0:
+        return limit, 0
+    b_budget = max(1, int(limit * tier_b_share))
+    a_budget = max(0, limit - b_budget)
+    return a_budget, b_budget
 
 
 # ═══════════════════════════════════════════════════════════
@@ -399,47 +493,83 @@ def main():
         save_state(data_dir, state)
         print(f"Cleared 'exhausted' flags for {len(state.get('agencies', {}))} agencies")
 
-    targets = select_targets(registry, failed_slugs, state, only_agency=args.agency)
-    print(f"Found {len(targets)} target agencies (slug in failed_slugs, not yet resolved)")
+    tier_a, tier_b = select_targets(registry, failed_slugs, state,
+                                    only_agency=args.agency)
+    print(f"Tier A (no slug yet, peer-outbound discoveries): {len(tier_a)}")
+    print(f"Tier B (slug in failed_slugs, variant search):   {len(tier_b)}")
 
-    if args.agency and not targets:
+    if args.agency and not tier_a and not tier_b:
         print(f"  (no target for agency_id={args.agency})")
         return
+
+    a_budget, b_budget = allocate_tier_budget(args.limit, len(tier_a), len(tier_b))
+    print(f"Budget split: tier A = {a_budget}, tier B = {b_budget}")
 
     probes_done = 0
     hits = []
 
-    # Round-robin across agencies so one agency's long candidate list doesn't
-    # starve the others. Build per-agency candidate queues up front.
-    queues = []
-    for e in targets:
-        aid = e["agency_id"]
-        tried = state["agencies"].get(aid, {}).get("tried", {})
-        # Skip candidates already in the failed_slugs.json — we know those 404.
-        # The primary crawler populated that file; no point re-probing.
-        candidates = [
-            c for c in generate_candidates(e)
-            if c not in tried and c not in failed_slugs
-        ]
-        if not candidates:
-            agency_state(state, aid)["exhausted"] = True
-            continue
-        queues.append((e, candidates))
+    # Authoritative-hint lookup: an external crawler (eyesonflock.com)
+    # publishes confirmed Flock portal slugs for ~900 agencies. When their
+    # geo/type matches one of our entries we try their slug first — much
+    # higher hit rate than name_to_slug variant generation. Sanitization
+    # gate in eyesonflock_lookup.py keeps poisoned input out.
+    if not args.dry_run:
+        eof_index = load_eyesonflock_index()
+        print(f"Eyesonflock index: {len(eof_index)} (locality,state,type) keys")
+    else:
+        eof_index = {}
 
-    # Shuffle queue order so we don't always probe the same few agencies first.
-    random.shuffle(queues)
+    def build_queues(targets):
+        """Build per-agency candidate queues. Skip candidates already
+        tried (from state) or known to 404 (in failed_slugs). Prepend
+        the eyesonflock hint when we have a clean geo+role match —
+        single highest-confidence guess goes first, variant generation
+        is the fallback."""
+        queues = []
+        for e in targets:
+            aid = e["agency_id"]
+            tried = state["agencies"].get(aid, {}).get("tried", {})
+            ordered = []
+            hint = eyesonflock_hint(e, eof_index)
+            if hint:
+                ordered.append(hint)
+            ordered.extend(generate_candidates(e))
+            candidates = []
+            seen = set()
+            for c in ordered:
+                if c in seen or c in tried or c in failed_slugs:
+                    continue
+                seen.add(c)
+                candidates.append(c)
+            if not candidates:
+                agency_state(state, aid)["exhausted"] = True
+                continue
+            queues.append((e, candidates))
+        random.shuffle(queues)
+        return queues
+
+    queues_a = build_queues(tier_a)
+    queues_b = build_queues(tier_b)
 
     if args.dry_run:
-        for entry, candidates in queues[:10]:
-            name = entry.get("display_name") or (entry.get("flock_names") or ["?"])[-1]
-            print(f"\n{name}  [{entry['agency_id']}]")
-            print(f"  current active: {entry.get('flock_active_slug')}")
-            print(f"  candidates ({len(candidates)}):")
-            for c in candidates[:20]:
-                print(f"    {c}")
-            if len(candidates) > 20:
-                print(f"    ... and {len(candidates) - 20} more")
+        for label, queues in (("TIER A", queues_a), ("TIER B", queues_b)):
+            if not queues:
+                continue
+            print(f"\n=== {label} ===")
+            for entry, candidates in queues[:10]:
+                name = entry.get("display_name") or (entry.get("flock_names") or ["?"])[-1]
+                print(f"\n{name}  [{entry['agency_id']}]")
+                print(f"  current active: {entry.get('flock_active_slug')}")
+                print(f"  candidates ({len(candidates)}):")
+                for c in candidates[:20]:
+                    print(f"    {c}")
+                if len(candidates) > 20:
+                    print(f"    ... and {len(candidates) - 20} more")
         return
+
+    # Lazy import: archive_agency lives in flock_transparency, which pulls
+    # in playwright/parsing — only import when we'll actually probe.
+    from flock_transparency import HASH_FILE, archive_agency
 
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
@@ -450,60 +580,86 @@ def main():
         )
         page = context.new_page()
 
-        # Round-robin: pull one candidate from each queue in turn until limit hit
-        q_idx = 0
-        while probes_done < args.limit and queues:
-            entry, candidates = queues[q_idx % len(queues)]
-            if not candidates:
-                queues.pop(q_idx % len(queues))
-                if not queues:
-                    break
-                continue
-            candidate = candidates.pop(0)
-            aid = entry["agency_id"]
-            name = entry.get("display_name") or (entry.get("flock_names") or ["?"])[-1]
+        # Wrap the inner loop so we can run it twice (tier A then tier B)
+        # against separate queues with separate budgets. Return value is
+        # whether we hit a rate_limit and should stop the whole run.
+        def run_tier(queues, budget, label):
+            nonlocal probes_done
+            q_idx = 0
+            consumed = 0
+            while consumed < budget and queues:
+                entry, candidates = queues[q_idx % len(queues)]
+                if not candidates:
+                    queues.pop(q_idx % len(queues))
+                    if not queues:
+                        break
+                    continue
+                candidate = candidates.pop(0)
+                aid = entry["agency_id"]
+                name = entry.get("display_name") or (entry.get("flock_names") or ["?"])[-1]
 
-            print(f"\n[{probes_done + 1}/{args.limit}] {name}  ->  {candidate}")
-            result, detail = probe(page, candidate)
-            st = agency_state(state, aid)
-            st["tried"][candidate] = detail
-            st["last_probed"] = datetime.now(timezone.utc).isoformat()
-            probes_done += 1
+                print(f"\n[{label} {probes_done + 1}/{args.limit}] {name}  ->  {candidate}")
+                result, detail = probe(page, candidate)
+                st = agency_state(state, aid)
+                st["tried"][candidate] = detail
+                st["last_probed"] = datetime.now(timezone.utc).isoformat()
+                probes_done += 1
+                consumed += 1
 
-            if result == "hit":
-                print(f"    HIT ({detail}) — promoting to registry")
-                st["found"] = candidate
-                old_slug = entry.get("flock_active_slug")
-                promote_slug(registry, aid, candidate)
-                if old_slug:
-                    clear_failed(failed_slugs, old_slug)
-                clear_failed(failed_slugs, candidate)
-                hits.append((name, candidate))
-                queues.pop(q_idx % len(queues))
-            elif result == "miss":
-                print(f"    miss ({detail})")
-                q_idx += 1
-            elif result == "rate_limited":
-                print(f"    RATE LIMITED — stopping this run")
-                # Roll back the consumed candidate — we don't want to mark it
-                # tried without actually knowing the answer.
-                st["tried"].pop(candidate, None)
-                probes_done -= 1
-                break
-            else:  # error
-                print(f"    error ({detail}) — leaving as tried to avoid retry loops")
-                q_idx += 1
+                if result == "hit":
+                    print(f"    HIT ({detail}) — promoting to registry")
+                    st["found"] = candidate
+                    old_slug = entry.get("flock_active_slug")
+                    promote_slug(registry, aid, candidate)
+                    if old_slug:
+                        clear_failed(failed_slugs, old_slug)
+                    clear_failed(failed_slugs, candidate)
+                    hits.append((name, candidate))
+                    queues.pop(q_idx % len(queues))
 
-            # Save after every probe so a crash mid-run doesn't lose progress
-            save_state(data_dir, state)
-            save_json(data_dir / FAILED_FILE, failed_slugs)
-            if hits:
-                REGISTRY_PATH.write_text(json.dumps(registry, indent=2) + "\n")
+                    # Save the page so cmd_crawl doesn't have to come back
+                    # to confirm what we just confirmed. archive_agency
+                    # re-navigates (5s dwell) but cleanly produces .txt /
+                    # .html / .json / .pdf and updates the content hash —
+                    # the slug becomes a normal tier-1 refresh target on
+                    # the next cmd_crawl run.
+                    hashes = load_json(data_dir / HASH_FILE)
+                    archive_agency(page, candidate, data_dir,
+                                   force=True, hashes=hashes)
+                    save_json(data_dir / HASH_FILE, hashes)
+                elif result == "miss":
+                    print(f"    miss ({detail})")
+                    q_idx += 1
+                elif result == "rate_limited":
+                    print(f"    RATE LIMITED — stopping this run")
+                    # Roll back the consumed candidate — we don't want to mark it
+                    # tried without actually knowing the answer.
+                    st["tried"].pop(candidate, None)
+                    probes_done -= 1
+                    consumed -= 1
+                    return True  # signal: stop the whole run
+                else:  # error
+                    print(f"    error ({detail}) — leaving as tried to avoid retry loops")
+                    q_idx += 1
 
-            if probes_done < args.limit and queues:
-                sleep_for = args.delay * random.uniform(0.7, 1.3)
-                print(f"    sleeping {sleep_for:.0f}s...")
-                time.sleep(sleep_for)
+                # Save after every probe so a crash mid-run doesn't lose progress
+                save_state(data_dir, state)
+                save_json(data_dir / FAILED_FILE, failed_slugs)
+                if hits:
+                    REGISTRY_PATH.write_text(json.dumps(registry, indent=2) + "\n")
+
+                if probes_done < args.limit and queues:
+                    sleep_for = args.delay * random.uniform(0.7, 1.3)
+                    print(f"    sleeping {sleep_for:.0f}s...")
+                    time.sleep(sleep_for)
+            return False  # not rate-limited
+
+        if a_budget:
+            stopped = run_tier(queues_a, a_budget, "A")
+            if not stopped and b_budget:
+                run_tier(queues_b, b_budget, "B")
+        elif b_budget:
+            run_tier(queues_b, b_budget, "B")
 
         browser.close()
 

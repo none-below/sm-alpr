@@ -89,10 +89,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # On a hit, slug_probe also runs archive_agency to save the
+          # captured page (.txt/.html/.json/.pdf) under the new slug's
+          # directory, and updates .content_hashes.json. Stage the whole
+          # transparency.flocksafety.com tree so those artifacts come
+          # along with the registry/state changes.
           git add \
             assets/agency_registry.json \
-            assets/transparency.flocksafety.com/.slug_probe_state.json \
-            assets/transparency.flocksafety.com/.failed_slugs.json
+            assets/transparency.flocksafety.com/
           if git diff --cached --quiet; then
             echo "No changes to commit"
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
@@ -116,7 +120,7 @@ jobs:
           if [ -z "$existing" ]; then
             gh pr create \
               --title "chore: slug probe finds" \
-              --body "Automated rolling slug probe. Each run attempts up to 3 candidate slugs for agencies whose current Flock portal slug 404s. On a hit, the registry is updated (flock_slugs += found, flock_active_slug := found) and the old slug is removed from failed_slugs.json so the primary crawler will try it. Probe state persists so candidates aren't retried." \
+              --body "Automated rolling slug probe. Each run attempts up to 3 candidate slugs across two tiers: Tier A — registry entries with no flock_active_slug set (peer-outbound discoveries that need a first try). Tier B — registry entries whose flock_active_slug is in failed_slugs.json (variant search on broken slugs). Default budget split is 2:1 favoring tier A because its single-try hit rate is higher. On a hit, the registry is updated and the captured page is archived under the new slug, so the primary crawler picks up refresh on its next run." \
               --head slug-probe \
               --base main
           fi
