@@ -84,18 +84,22 @@ jobs:
               --delay 1 | tee /tmp/crawl.log
           fi
 
+      - name: Parse new data
+        run: uv run python scripts/flock_transparency.py parse | tee -a /tmp/crawl.log
+
       - name: Surface parser failures as an issue
         if: always()
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Crawl logs `PARSE_ERROR: <slug> <date> :: <error>` whenever
-          # the parser trips on a new format variant (the .txt/.html are
-          # still saved, the slug is not permanently quarantined).
-          # Surface those into a single rolling issue so we notice.
+          # Both crawl and parse log `PARSE_ERROR: <slug> <date> :: <error>`
+          # whenever the parser trips on a new format variant (the .txt/.html
+          # are still saved, the slug is not permanently quarantined).
+          # Surface those into a single rolling issue so we notice. Runs
+          # after parse so parse-time-only errors get captured too.
           if [ ! -f /tmp/crawl.log ]; then exit 0; fi
-          ERRORS=$(grep -E "^\s+PARSE_ERROR: " /tmp/crawl.log || true)
+          ERRORS=$(grep -E "PARSE_ERROR: " /tmp/crawl.log | sort -u || true)
           if [ -z "$ERRORS" ]; then exit 0; fi
           {
             echo "Parser tripped on one or more agency portals. Files were"
@@ -117,9 +121,6 @@ jobs:
               --label parser \
               --body-file /tmp/parse-issue-body.md
           fi
-
-      - name: Parse new data
-        run: uv run python scripts/flock_transparency.py parse
 
       - name: Install Tesseract (cached)
         uses: awalsh128/cache-apt-pkgs-action@latest

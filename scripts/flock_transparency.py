@@ -1244,6 +1244,7 @@ def cmd_crawl(args):
 def cmd_parse(args):
     data_dir = args.data_dir
     count = 0
+    failed = 0
 
     slug_dirs = sorted(data_dir.iterdir()) if not args.slug else [data_dir / args.slug]
 
@@ -1269,7 +1270,18 @@ def cmd_parse(args):
                 page_html = html_path.read_text(encoding="utf-8")
                 bold_headings = extract_bold_headings(page_html)
 
-            portal_data = parse_portal_text(raw_text, slug, datestamp, bold_headings=bold_headings)
+            try:
+                portal_data = parse_portal_text(raw_text, slug, datestamp, bold_headings=bold_headings)
+            except ValueError as e:
+                # Soft-fail per file (mirrors cmd_crawl): one slug's new
+                # heading variant must not block parsing of other slugs
+                # captured in the same batch. The .txt/.html stay on
+                # disk; `parse --force --slug <slug>` re-tries once the
+                # parser is fixed. The PARSE_ERROR marker is grepped by
+                # the workflow's issue-surfacing step.
+                print(f"    PARSE_ERROR: {slug} {datestamp} :: {e}")
+                failed += 1
+                continue
 
             # Preserve crawled_at from existing JSON (set during crawl, not recoverable from .txt)
             if json_path.exists():
@@ -1295,7 +1307,10 @@ def cmd_parse(args):
             print(f"  {slug}/{datestamp}.json — {cameras} cameras, {orgs} orgs")
             count += 1
 
-    print(f"\nParsed {count} file(s).")
+    summary = f"\nParsed {count} file(s)."
+    if failed:
+        summary += f" {failed} failed (see PARSE_ERROR lines above)."
+    print(summary)
 
 
 # ═══════════════════════════════════════════════════════════
