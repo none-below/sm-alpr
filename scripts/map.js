@@ -450,6 +450,7 @@ Promise.all([
       : '';
     html += '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="' + escapeHtml(shareUrl) + '" data-share-url="' + escapeHtml(shareUrl) + '" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
     html += '<p class="stat"><a href="report.html?agency=' + encodeURIComponent(m.slug) + '" style="color:#2563eb;font-weight:600">View full report \u2192</a>';
+    html += ' &middot; <a href="justifications.html?agency=' + encodeURIComponent(m.slug) + '" style="color:#2563eb">Justifications \u2192</a>';
     if (m.crawled) {
       html += ' &middot; <a href="https://transparency.flocksafety.com/' + safeSlug(m.slug) + '" target="_blank" style="color:#2563eb">Transparency portal \u2197</a>';
     }

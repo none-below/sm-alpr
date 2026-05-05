@@ -773,6 +773,38 @@ def gather_external_aggregated(slug, agency_id, graph, by_id, by_slug):
     }
 
 
+def compute_global_nc_distribution(audit_paths):
+    """Aggregate networkCount distribution across all audit-publishing
+    agencies. Surfaces the bimodal pattern (most searches go to
+    1 network or 2-9, or jump to 100+; rare in between) so the page
+    can justify its broad-reach threshold.
+    """
+    buckets = {"1": 0, "2-9": 0, "10-99": 0, "100+": 0}
+    total = 0
+    for path in audit_paths.values():
+        try:
+            d = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        for r in d.get("rows") or []:
+            try:
+                nc = int(r.get("networkCount") or 0)
+            except (TypeError, ValueError):
+                continue
+            if nc < 1:
+                continue
+            total += 1
+            if nc == 1:
+                buckets["1"] += 1
+            elif nc < 10:
+                buckets["2-9"] += 1
+            elif nc < 100:
+                buckets["10-99"] += 1
+            else:
+                buckets["100+"] += 1
+    return {"buckets": buckets, "total": total}
+
+
 def main():
     if not AUDIT_DIR.exists():
         print(f"missing {AUDIT_DIR}; run build_audit_log.py first", file=sys.stderr)
@@ -792,15 +824,28 @@ def main():
             by_slug.setdefault(fs, entry)
     graph = load_sharing_graph()
 
+    # Map each known audit-publishing slug to the registry agency_id
+    # so the audit set can be probed by either key. process_agency
+    # iterates the audit JSONs; the all-agency loop below uses this
+    # set to know which entry provides own-audit data.
+    audit_slugs_to_paths = {}
+    for path in sorted(AUDIT_DIR.glob("*.json")):
+        audit_slugs_to_paths[path.stem] = path
+
     out = {}
     skipped = 0
-    for path in sorted(AUDIT_DIR.glob("*.json")):
-        slug = path.stem
+    own_audit_count = 0
+    external_only_count = 0
+
+    # Pass 1 — agencies with their own audit. Same processing as
+    # before; sets has_own_audit = True.
+    for slug, path in sorted(audit_slugs_to_paths.items()):
         entry = by_slug.get(slug)
         agency_data = process_agency(path)
         if agency_data is None:
             skipped += 1
             continue
+        agency_data["has_own_audit"] = True
         agency_data["slug"] = slug
         agency_data["display_name"] = (
             (entry.get("display_name") if entry else None)
@@ -816,6 +861,56 @@ def main():
         if ext:
             agency_data["external_aggregated"] = ext
         out[slug] = agency_data
+        own_audit_count += 1
+
+    # Pass 2 — every other CA agency in the registry. Emit a stripped-
+    # down entry when external_aggregated has content, so the page
+    # renders the cross-agency story even though the agency itself
+    # publishes no audit. Skip non-CA agencies and ones with no
+    # outbound recipients of any kind.
+    for entry in registry:
+        slug = entry.get("slug")
+        if not slug or slug in out:
+            continue
+        # Audit-publishing-but-different-slug case: skip if any of the
+        # entry's flock_slugs matches an audit we already wrote.
+        if any(fs in out for fs in (entry.get("flock_slugs") or [])):
+            continue
+        # CA-only filter: state code lives in the geo block, but slug
+        # convention is reliable enough — CA agencies have "-ca-" in
+        # the slug. Out-of-state agencies use the same Flock platform
+        # and could theoretically be in CA's outbound graph, but the
+        # justifications page is San Mateo / California-focused.
+        if "-ca-" not in slug and not slug.endswith("-ca"):
+            continue
+        agency_id = entry.get("agency_id")
+        if not agency_id:
+            continue
+        ext = gather_external_aggregated(slug, agency_id, graph, by_id, by_slug)
+        if not ext:
+            continue
+        agency_data = {
+            "has_own_audit": False,
+            "slug": slug,
+            "display_name": (
+                entry.get("display_name")
+                or (entry.get("flock_names") or [None])[0]
+                or slug
+            ),
+            # Skip own-audit-derived fields. UI checks has_own_audit
+            # to know whether to render those sections.
+            "row_count": 0,
+            "external_aggregated": ext,
+        }
+        aup, pu = latest_portal_uses(slug)
+        if aup:
+            agency_data["acceptable_use_policy"] = aup
+        if pu:
+            agency_data["prohibited_uses"] = pu
+        out[slug] = agency_data
+        external_only_count += 1
+
+    nc_dist = compute_global_nc_distribution(audit_slugs_to_paths)
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     payload = {
@@ -823,10 +918,18 @@ def main():
         "top_verbatim_cap": TOP_VERBATIM,
         "top_tokens_cap": TOP_TOKENS,
         "agency_count": len(out),
+        "agencies_with_own_audit": own_audit_count,
+        "agencies_external_only": external_only_count,
+        "network_count_distribution": nc_dist,
+        "broad_reach_threshold": BROAD_REACH_THRESHOLD,
         "agencies": out,
     }
     OUT_PATH.write_text(json.dumps(payload, indent=2, sort_keys=False) + "\n")
-    print(f"wrote {OUT_PATH}: {len(out)} agencies, skipped {skipped}")
+    print(
+        f"wrote {OUT_PATH}: {len(out)} agencies "
+        f"({own_audit_count} with own audit, "
+        f"{external_only_count} external-only), skipped {skipped}"
+    )
     return 0
 
 

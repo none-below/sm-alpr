@@ -2587,6 +2587,10 @@
 
     const params = new URLSearchParams(location.search);
     const slug = params.get("agency");
+    const justLink = document.getElementById("justifications-link");
+    if (justLink && slug) {
+      justLink.href = "justifications.html?agency=" + encodeURIComponent(slug);
+    }
     if (!slug) {
       document.getElementById("report").innerHTML = `
         <div class="error-box">
