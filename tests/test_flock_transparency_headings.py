@@ -179,6 +179,19 @@ def test_parse_org_names_handles_one_per_line_layout():
     ]
 
 
+def test_parse_org_names_description_only_empty_table():
+    """When the sharing table is empty, the 2026 layout still renders
+    the description sentence on its own. It must not be mistaken for a
+    one-agency list (regression: PR #240 picked up
+    "Organizations granted access to Carmel CA PD data." as an org)."""
+    assert _parse_org_names(
+        "Organizations granted access to Carmel CA PD data."
+    ) == []
+    assert _parse_org_names(
+        "Organizations sharing with Culver City CA PD data."
+    ) == []
+
+
 def test_extract_bold_headings_matches_2026_layout():
     """The 2026 layout uses font-weight:600 for field headings (was
     700) and h3 + text-transform:uppercase for section dividers."""
