@@ -12,9 +12,10 @@
     "01f7379e-355c-5c9e-b078-d0b4fd9c69a8": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-29T01:26:36.149376+00:00",
+      "last_probed": "2026-05-05T18:59:11.402190+00:00",
       "tried": {
-        "alpine-county-ca-sd": "http_404"
+        "alpine-county-ca-sd": "http_404",
+        "alpine-county-ca-sheriffs-office": "http_404"
       }
     },
     "02126911-e73c-519e-b23b-8bc1cfb0d92d": {
@@ -232,9 +233,10 @@
     "2c981ce6-8d54-565f-bb99-ac885eee8769": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-04T23:38:28.785278+00:00",
+      "last_probed": "2026-05-05T18:59:15.841728+00:00",
       "tried": {
         "orange-county-ca-sd": "http_404",
+        "orange-county-ca-sheriffs-office": "http_404",
         "orange-county-ca-so": "http_404"
       }
     },
@@ -480,6 +482,14 @@
         "monterey-county-district-attorneys-office-ca-district-attorney": "http_404"
       }
     },
+    "5f1f387f-0658-59c6-87c7-8164864b1d8a": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-05T20:45:21.374880+00:00",
+      "tried": {
+        "brevard-county-fl-sd": "http_404"
+      }
+    },
     "62f9d91a-99cb-5428-8312-38718e2196ed": {
       "exhausted": false,
       "found": null,
@@ -578,11 +588,12 @@
     "727915ef-bda7-5399-8e79-0369d7bb7782": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-28T21:44:53.551321+00:00",
+      "last_probed": "2026-05-05T20:45:14.972464+00:00",
       "tried": {
         "la-verne-ca-po": "http_404",
         "la-verne-ca-police": "http_404",
-        "la-verne-ca-police-department": "http_404"
+        "la-verne-ca-police-department": "http_404",
+        "la-verne-ca-ps": "http_404"
       }
     },
     "72812ca1-c7b8-5c94-8327-508726647ad8": {
@@ -930,10 +941,11 @@
     "b592938c-c2c4-597c-b6cd-2bbb3b52447b": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-28T05:03:21.186462+00:00",
+      "last_probed": "2026-05-05T18:59:06.477733+00:00",
       "tried": {
         "ventura-county-district-attorneys-office-ca-da": "http_404",
-        "ventura-county-district-attorneys-office-ca-district-attorney": "http_404"
+        "ventura-county-district-attorneys-office-ca-district-attorney": "http_404",
+        "ventura-county-district-attorneys-office-da-ca": "http_404"
       }
     },
     "b5a06458-86ec-5e2f-a673-172fdf4ac1af": {
@@ -1098,9 +1110,10 @@
     "dead7dd4-476d-528d-92bd-89a198d5f518": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-24T12:46:24.361382+00:00",
+      "last_probed": "2026-05-05T20:45:25.861809+00:00",
       "tried": {
-        "foothill-deanza-ca-po": "http_404"
+        "foothill-deanza-ca-po": "http_404",
+        "foothill-deanza-ca-police-department": "http_404"
       }
     },
     "e35b094f-0435-50b5-a03c-e644ad6144be": {
@@ -1252,6 +1265,6 @@
       }
     }
   },
-  "updated": "2026-05-05T17:09:16.619088+00:00",
+  "updated": "2026-05-05T20:45:25.901930+00:00",
   "version": 1
 }
