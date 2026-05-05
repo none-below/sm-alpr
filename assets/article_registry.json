@@ -2223,5 +2223,636 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-05T08:38:30Z",
     "article_id": "art_016"
+  },
+  {
+    "url": "https://www.404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves/",
+    "source_domain": "404media.co",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Flock Exposed Its AI-Powered Cameras to the Internet. We Tracked Ourselves",
+    "byline": "Jason Koebler",
+    "published_at": "2025-12-22T16:05:19.000Z",
+    "fetched_at": "2026-05-05T16:49:59Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 27 pts, low/medium only",
+    "scanner_score": 27,
+    "content_hash": "9ee8add536a274a36117bbc08f5f2354a400c823c4d055bc544307f92bd56922",
+    "paths": {
+      "html": "assets/articles/404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves_0a5e6313.html",
+      "meta": "assets/articles/404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves_0a5e6313.meta.json",
+      "pdf": "assets/articles/404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves_0a5e6313.pdf",
+      "txt": "assets/articles/404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves_0a5e6313.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:data-breach",
+      "scope:national",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "dcfedabb-a49f-55a6-9f9f-eae5283c92ef",
+      "0adc9798-34b9-58d0-83b8-241372b602ed",
+      "f37d0f09-6a70-5017-8b66-0bda25f8c5a4",
+      "db6df3db-02bc-558b-890b-30fdf7126c58",
+      "c03ecf42-93c9-5546-9a18-a929ea29ba77"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 24.233,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "dcfedabb-a49f-55a6-9f9f-eae5283c92ef",
+        "display_name": "Bakersfield CA PD",
+        "state": "CA",
+        "score": 5.05,
+        "matched_forms": [
+          "Bakersfield"
+        ]
+      },
+      {
+        "agency_id": "0adc9798-34b9-58d0-83b8-241372b602ed",
+        "display_name": "Atlanta GA PD",
+        "state": "GA",
+        "score": 2.617,
+        "matched_forms": [
+          "Atlanta"
+        ]
+      },
+      {
+        "agency_id": "f37d0f09-6a70-5017-8b66-0bda25f8c5a4",
+        "display_name": "Emory University Campus PD GA",
+        "state": "GA",
+        "score": 2.617,
+        "matched_forms": [
+          "Atlanta"
+        ]
+      },
+      {
+        "agency_id": "db6df3db-02bc-558b-890b-30fdf7126c58",
+        "display_name": "Marta PD GA",
+        "state": "GA",
+        "score": 2.617,
+        "matched_forms": [
+          "Atlanta"
+        ]
+      },
+      {
+        "agency_id": "c03ecf42-93c9-5546-9a18-a929ea29ba77",
+        "display_name": "demo",
+        "state": null,
+        "score": 2.133,
+        "matched_forms": [
+          "Demo",
+          "demo"
+        ]
+      },
+      {
+        "agency_id": "0c8cf0a7-49c7-5837-8dea-b983beaea542",
+        "display_name": "Park City KS PD",
+        "state": "KS",
+        "score": 1.067,
+        "matched_forms": [
+          "Park"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "404 Media reports that Flock Safety left at least 60 of its AI-enabled Condor PTZ cameras livestreaming and exposed to the open internet without authentication, allowing anyone to watch feeds, access 30 days of archived video, and alter settings. Reporter Jason Koebler verified the exposure by walking in front of cameras in Bakersfield while watching himself on the livestream; the flaw was discovered by Benn Jordan and Jon Gaines using Shodan.",
+    "key_quotes": [
+      {
+        "quote": "Flock left livestreams and administrator control panels for at least 60 of its AI-enabled Condor cameras around the country exposed to the open internet, where anyone could watch them, download 30 days worth of video archive, and change settings, see log files, and run diagnostics.",
+        "paragraph_idx": 5
+      },
+      {
+        "quote": "immediately, we were just without any username, without any password, we were just seeing everything from playgrounds to parking lots with people, Christmas shopping and unloading their stuff into cars",
+        "paragraph_idx": 11
+      },
+      {
+        "quote": "Jordan said he was able to use footage pulled from the exposed feed to identify specific people using open source investigation tools in order to show how trivially an exposure like this could be abused.",
+        "paragraph_idx": 12
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T16:58:54Z",
+    "article_id": "art_017"
+  },
+  {
+    "url": "https://www.aclu.org/news/privacy-technology/alpr-against-op-ed-writer",
+    "source_domain": "aclu.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Kansas Town Uses License Plate Readers to Go After Man Who Wrote Op-Ed | ACLU",
+    "byline": "Jay Stanley",
+    "published_at": "2026-02-03T17:08:29+00:00",
+    "fetched_at": "2026-05-05T16:54:39Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+    "scanner_score": 3,
+    "content_hash": "e7d64ae9313aecde43441856924422a270bea0c68ec1cbe2bc332a25c81c9d3e",
+    "paths": {
+      "html": "assets/articles/aclu.org/news-privacy-technology-alpr-against-op-ed-writer_2045caca.html",
+      "meta": "assets/articles/aclu.org/news-privacy-technology-alpr-against-op-ed-writer_2045caca.meta.json",
+      "pdf": "assets/articles/aclu.org/news-privacy-technology-alpr-against-op-ed-writer_2045caca.pdf",
+      "txt": "assets/articles/aclu.org/news-privacy-technology-alpr-against-op-ed-writer_2045caca.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "incident:misuse",
+      "policy:purpose-limitation",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+      "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+      "21fb5336-7bb7-5cc1-a4da-706673c971ed"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 13.433,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+        "display_name": "New Orleans LA PD",
+        "state": "LA",
+        "score": 2.6,
+        "matched_forms": [
+          "New Orleans Police"
+        ]
+      },
+      {
+        "agency_id": "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+        "display_name": "Orleans Levee District PD",
+        "state": "LA",
+        "score": 2.6,
+        "matched_forms": [
+          "New Orleans Police"
+        ]
+      },
+      {
+        "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+        "display_name": "Page AZ PD",
+        "state": "AZ",
+        "score": 2.133,
+        "matched_forms": [
+          "Page"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The ACLU recounts KCUR reporting that Lenexa, Kansas police used ALPR technology to track Canyen Ashworth after he wrote an op-ed critical of local police cooperation with ICE, tying him to anti-ICE posters and issuing a 'make your own case' BOLO. The piece argues this exemplifies predicted abuses of mass surveillance systems against protected speech.",
+    "key_quotes": [
+      {
+        "quote": "Police in Lenexa, Kansas used automated license plate reader (ALPR) technology to pursue a man who wrote a critical op-ed about the police department",
+        "paragraph_idx": 2
+      },
+      {
+        "quote": "the police began using license plate readers to track Ashworth's movements around town",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "This is MYOC,\" meaning \"make your own case",
+        "paragraph_idx": 8
+      },
+      {
+        "quote": "issuing a BOLO on someone for putting up posters is \"both a rejection of the First Amendment, and a really ridiculous misuse of resources.\"",
+        "paragraph_idx": 9
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T16:59:01Z",
+    "article_id": "art_018"
+  },
+  {
+    "url": "https://www.eff.org/deeplinks/2019/06/victory-california-orders-state-audit-automated-license-plate-readers",
+    "source_domain": "eff.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Victory: California Orders State Audit of Automated License Plate Readers",
+    "byline": "Dave Maass",
+    "published_at": "2019-06-26T15:59:24-07:00",
+    "fetched_at": "2026-05-05T16:51:33Z",
+    "discovered_by": "claude-search:broader-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+    "scanner_score": 1,
+    "content_hash": "8f0a4d5232c571bb50531fd3347c34d7859b26127b9207b0bf210158511a9f10",
+    "paths": {
+      "html": "assets/articles/eff.org/deeplinks-2019-06-victory-california-orders-state-audit-automated-license-plate_0f6b18d8.html",
+      "meta": "assets/articles/eff.org/deeplinks-2019-06-victory-california-orders-state-audit-automated-license-plate_0f6b18d8.meta.json",
+      "pdf": "assets/articles/eff.org/deeplinks-2019-06-victory-california-orders-state-audit-automated-license-plate_0f6b18d8.pdf",
+      "txt": "assets/articles/eff.org/deeplinks-2019-06-victory-california-orders-state-audit-automated-license-plate_0f6b18d8.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "incident:data-breach",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "legal:pra",
+      "policy:audit",
+      "scope:state",
+      "vendor:vigilant"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "8cc8d9b2-f3e3-5cef-a31b-a5e8990199b5",
+      "54ec60dd-900e-55cb-9eaf-b9db3c9481c6",
+      "90910dc9-55ae-5362-93c3-d00246b75cac",
+      "e1922365-80e2-5ec7-8580-95245cdad7f8"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 25.833,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 5.467,
+        "matched_forms": [
+          "Los Angeles",
+          "Los Angeles Police",
+          "Los Angeles Police Department"
+        ]
+      },
+      {
+        "agency_id": "8cc8d9b2-f3e3-5cef-a31b-a5e8990199b5",
+        "display_name": "San Rafael CA PD",
+        "state": "CA",
+        "score": 5.417,
+        "matched_forms": [
+          "San Rafael",
+          "San Rafael Police",
+          "San Rafael Police Department"
+        ]
+      },
+      {
+        "agency_id": "54ec60dd-900e-55cb-9eaf-b9db3c9481c6",
+        "display_name": "Fresno CA PD",
+        "state": "CA",
+        "score": 5.217,
+        "matched_forms": [
+          "Fresno",
+          "Fresno Police",
+          "Fresno Police Department"
+        ]
+      },
+      {
+        "agency_id": "90910dc9-55ae-5362-93c3-d00246b75cac",
+        "display_name": "Sacramento County CA SO",
+        "state": "CA",
+        "score": 4.2,
+        "matched_forms": [
+          "Sacramento County",
+          "Sacramento County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "e1922365-80e2-5ec7-8580-95245cdad7f8",
+        "display_name": "Marin County CA SO",
+        "state": "CA",
+        "score": 4.033,
+        "matched_forms": [
+          "Marin County",
+          "Marin County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "69dc886d-6480-525a-ac42-05134bbb4a64",
+        "display_name": "Hudson WI PD",
+        "state": "WI",
+        "score": 1.1,
+        "matched_forms": [
+          "Hudson"
+        ]
+      },
+      {
+        "agency_id": "9712f779-9579-5b89-8632-b42a237b4264",
+        "display_name": "Lena IL PD",
+        "state": "IL",
+        "score": 1.067,
+        "matched_forms": [
+          "Lena"
+        ]
+      },
+      {
+        "agency_id": "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+        "display_name": "Bay AR PD",
+        "state": "AR",
+        "score": 1.05,
+        "matched_forms": [
+          "Bay"
+        ]
+      },
+      {
+        "agency_id": "1dfc1565-66fb-5bcb-aca3-73a8080a4883",
+        "display_name": "Colorado State Patrol",
+        "state": "CO",
+        "score": 1.033,
+        "matched_forms": [
+          "CO"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "A California legislative committee voted to direct the State Auditor to audit law enforcement use of automated license plate readers, including a statewide survey and deep-dive audits of Fresno PD, Sacramento County Sheriff, LAPD, and the Marin County Sheriff/San Rafael PD shared system. EFF helped Sen. Wiener draft the audit request to assess compliance with S.B. 34, citing widespread non-compliance and risks like the recent CBP vendor breach.",
+    "key_quotes": [
+      {
+        "quote": "A California legislative committee today voted to direct the State Auditor to launch a probe into the use of automated license plate readers (ALPRs) by law enforcement agencies.",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "EFF has filed hundreds of public records requests and analyzed scores of policies only to discover that many agencies are either ignoring the law altogether or failing to follow some of its provisions.",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "the auditor will conduct investigations into the Fresno Police Department, Sacramento County Sheriff and Department of Human Assistance, the Los Angeles Police Department, and the Marin County Sheriff/San Rafael Police Department",
+        "paragraph_idx": 8
+      },
+      {
+        "quote": "together they accounted for more than 1.1 billion license plate scans in 2017-2018 alone. Only about 0.1% were flagged as relevant to an investigation",
+        "paragraph_idx": 9
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T16:59:13Z",
+    "article_id": "art_019"
+  },
+  {
+    "url": "https://epic.org/axon-ethics-board-no-license-plate-readers-without-public-input/",
+    "source_domain": "epic.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Axon Ethics Board: No License Plate Readers Without Public Input",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-05T16:52:43Z",
+    "discovered_by": "claude-search:broader-2026-05",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 20 pts, HIGH/CRITICAL findings",
+    "scanner_score": 20,
+    "content_hash": "d04d6588d42d46a28dcdbed29b1ea9653e5ce67efa2115e8f06113eb48be350b",
+    "paths": {
+      "html": "assets/articles/epic.org/axon-ethics-board-no-license-plate-readers-without-public-input_11bcf1a5.html",
+      "meta": "assets/articles/epic.org/axon-ethics-board-no-license-plate-readers-without-public-input_11bcf1a5.meta.json",
+      "pdf": "assets/articles/epic.org/axon-ethics-board-no-license-plate-readers-without-public-input_11bcf1a5.pdf",
+      "txt": "assets/articles/epic.org/axon-ethics-board-no-license-plate-readers-without-public-input_11bcf1a5.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:axon"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "3b78d3ac-8681-5883-bdbc-97b96ee98f92"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 6.2,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "3b78d3ac-8681-5883-bdbc-97b96ee98f92",
+        "display_name": "Metropolitan Washington DC PD",
+        "state": "DC",
+        "score": 2.667,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 1.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+        "display_name": "Washington MO PD",
+        "state": "MO",
+        "score": 1.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+        "display_name": "Justice IL PD",
+        "state": "IL",
+        "score": 1.117,
+        "matched_forms": [
+          "Justice"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-05T16:58:23Z",
+    "article_id": "art_020"
+  },
+  {
+    "url": "https://www.kqed.org/news/12067461/oakland-council-expands-flock-license-plate-reader-network-despite-privacy-concerns",
+    "source_domain": "kqed.org",
+    "tier": 1,
+    "stance": "neutral",
+    "title": "Oakland Council Expands Flock License Plate Reader Network Despite Privacy Concerns | KQED",
+    "byline": "Ayah Ali-Ahmad",
+    "published_at": "2025-12-17T12:59:42-08:00",
+    "fetched_at": "2026-05-05T16:57:23Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 28 pts, low/medium only",
+    "scanner_score": 28,
+    "content_hash": "192e03fbb1e01be0397fb2291f4c8ad3fd168766697cc8744e00f4f0dc1dbf66",
+    "paths": {
+      "html": "assets/articles/kqed.org/news-12067461-oakland-council-expands-flock-license-plate-reader-network-despite_4875936b.html",
+      "meta": "assets/articles/kqed.org/news-12067461-oakland-council-expands-flock-license-plate-reader-network-despite_4875936b.meta.json",
+      "pdf": "assets/articles/kqed.org/news-12067461-oakland-council-expands-flock-license-plate-reader-network-despite_4875936b.pdf",
+      "txt": "assets/articles/kqed.org/news-12067461-oakland-council-expands-flock-license-plate-reader-network-despite_4875936b.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "policy:audit",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "93a2f97c-bf79-5ba7-be50-3bc3d7fe7dfd",
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+      "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "6607f630-2279-5b12-b723-b94b16c81122",
+      "faeaae90-2988-5568-bd81-6eff3b9c11e7",
+      "4e76fb63-864b-51af-a1a4-a33298c17445",
+      "7b9dbf06-a73b-532d-ba54-751ba8d15fe8"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+        "display_name": "Oakland CA PD",
+        "state": "CA",
+        "score": 113.367,
+        "matched_forms": [
+          "Oakland",
+          "Oakland Police",
+          "Oakland Police Department"
+        ]
+      },
+      {
+        "agency_id": "93a2f97c-bf79-5ba7-be50-3bc3d7fe7dfd",
+        "display_name": "Oakland TN PD",
+        "state": "TN",
+        "score": 111.367,
+        "matched_forms": [
+          "Oakland",
+          "Oakland Police",
+          "Oakland Police Department"
+        ]
+      },
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 89.9,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+        "display_name": "Bay AR PD",
+        "state": "AR",
+        "score": 57.75,
+        "matched_forms": [
+          "Bay"
+        ]
+      },
+      {
+        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+        "display_name": "Flock Safety",
+        "state": "GA",
+        "score": 15.6,
+        "matched_forms": [
+          "Flock Safety"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 9.3,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "6607f630-2279-5b12-b723-b94b16c81122",
+        "display_name": "Richmond CA PD",
+        "state": "CA",
+        "score": 6.533,
+        "matched_forms": [
+          "Richmond"
+        ]
+      },
+      {
+        "agency_id": "faeaae90-2988-5568-bd81-6eff3b9c11e7",
+        "display_name": "Richmond KY PD",
+        "state": "KY",
+        "score": 4.533,
+        "matched_forms": [
+          "Richmond"
+        ]
+      },
+      {
+        "agency_id": "4e76fb63-864b-51af-a1a4-a33298c17445",
+        "display_name": "Richmond MO PD",
+        "state": "MO",
+        "score": 4.533,
+        "matched_forms": [
+          "Richmond"
+        ]
+      },
+      {
+        "agency_id": "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+        "display_name": "Richmond VA PD",
+        "state": "VA",
+        "score": 4.533,
+        "matched_forms": [
+          "Richmond"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+    "summary": "The Oakland City Council voted 7-1 to approve a two-year, $2.25 million Flock Safety contract maintaining 291 ALPR cameras and adding 40 PTZ cameras, despite privacy advocates' concerns about federal data sharing. The council adopted amendments including bans on sharing data with ICE or for out-of-state reproductive/gender-affirming care investigations, a two-key approval system for new data-sharing, quarterly independent audits, and a mandatory RFP process within 18 months.",
+    "key_quotes": [
+      {
+        "quote": "I don't know how we get up and have several press conferences talking about how we are supportive of a sanctuary city status, but then use a vendor that has been shown to have a direct relationship with Border Control",
+        "paragraph_idx": 10
+      },
+      {
+        "quote": "Earlier this year, the San Francisco Standard reported that federal agencies had accessed data from Oakland's cameras. Last month, the city of Richmond deactivated its own camera network after discovering that federal officials could search their database.",
+        "paragraph_idx": 11
+      },
+      {
+        "quote": "the system has led to 232 arrests and the recovery of 68 firearms. Department data shows carjackings dropped from an average of 40 per month before the cameras were installed to 17 per month in 2025.",
+        "paragraph_idx": 13
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T16:59:27Z",
+    "article_id": "art_021"
   }
 ]
