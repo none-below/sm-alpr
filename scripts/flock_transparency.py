@@ -355,6 +355,9 @@ _DYNAMIC_HEADINGS = [
         re.IGNORECASE,
     ), None),
     (re.compile(r".+Transparency Portal$", re.IGNORECASE), None),
+    # Empty-state placeholder for sharing fields, e.g.
+    # "None: Alameda does not share with outside agencies".
+    (re.compile(r"^None:\s", re.IGNORECASE), None),
 ]
 
 _MAX_HEADING_LEN = 120

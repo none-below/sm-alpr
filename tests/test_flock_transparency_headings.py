@@ -384,6 +384,26 @@ def test_following_link_blurb_classifies_as_policy_info():
     assert field == "alpr_policy"
 
 
+def test_none_prefixed_empty_state_does_not_raise():
+    """Flock renders an empty-state for non-sharing agencies as a bold
+    heading like "None: Alameda does not share with outside agencies".
+    The dynamic noise pattern should swallow it instead of failing the
+    unrecognized-bold-heading check (alameda-ca-pd, 2026-05-05)."""
+    from flock_transparency import _match_heading_kind
+    field, kind = _match_heading_kind(
+        "None: Alameda does not share with outside agencies"
+    )
+    assert (field, kind) == (None, "dynamic")
+    text = "What's Detected\n\nLicense Plates\n\n"
+    parse_portal_text(
+        text, "test-agency", "2026-05-05",
+        bold_headings={
+            "What's Detected",
+            "None: Alameda does not share with outside agencies",
+        },
+    )
+
+
 def test_month_year_bold_heading_does_not_raise():
     """Success-stories sections often have month-year subheadings
     ("April 2026"). Those are styled bold but aren't field headings —
