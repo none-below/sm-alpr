@@ -27,6 +27,13 @@ import io
 
 # ── Allowlists ──
 
+# Path prefixes excluded from scanning. Article PDFs under assets/articles/ are
+# scraped public journalism — author bylines and outlet contact addresses are
+# intentional, not leaked PII, and would otherwise flood the scanner.
+EXCLUDED_PATH_PREFIXES = (
+    "assets/articles/",
+)
+
 ALLOWED_EMAIL_DOMAINS = {
     "cityofsanmateo.org",
     "flocksafety.com",
@@ -146,6 +153,11 @@ def get_staged_pdfs():
             if f.lower().endswith(".pdf")]
 
 
+def is_excluded(path):
+    posix = Path(path).as_posix()
+    return any(prefix in posix for prefix in EXCLUDED_PATH_PREFIXES)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Scan PDF assets for PII")
     parser.add_argument("--dir", default="assets/san-mateo-public-records",
@@ -168,6 +180,8 @@ def main():
             print(f"Error: {scan_dir} not found", file=sys.stderr)
             sys.exit(1)
         pdfs = sorted(scan_dir.rglob("*.pdf")) + sorted(scan_dir.rglob("*.PDF"))
+
+    pdfs = [p for p in pdfs if not is_excluded(p)]
 
     all_findings = []
     for pdf in pdfs:
