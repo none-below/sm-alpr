@@ -16,6 +16,7 @@ from flock_transparency import (
     extract_bold_headings,
     parse_sections,
     parse_portal_text,
+    _match_heading,
     _parse_number,
     _parse_org_names,
 )
@@ -177,6 +178,26 @@ def test_parse_org_names_handles_one_per_line_layout():
     assert _parse_org_names(body_legacy) == [
         "Albany CA PD", "Antioch CA PD", "Arcadia CA PD", "Avenal CA PD",
     ]
+
+
+def test_agency_prefixed_policy_heading_maps_to_policy_info():
+    """Flock now bolds agency-prefixed policy headings like
+    "Marin County Sheriff's Office Policy" as standalone <h*>. They
+    used to live as body text under Additional Info. The dynamic
+    pattern catches these variants and routes them to policy_info,
+    while the existing ALPR-specific patterns still win for things
+    like "X Police Department ALPR Policy".
+    """
+    assert _match_heading(
+        "Marin County Sheriff's Office Policy"
+    ) == "policy_info"
+    assert _match_heading("X Police Department Policy") == "policy_info"
+    assert _match_heading("Y Police Bureau Policy") == "policy_info"
+    # ALPR-specific dynamic patterns still take precedence
+    assert _match_heading("X Police Department ALPR Policy") == "alpr_policy"
+    # Exact-mapped headings unaffected
+    assert _match_heading("Hotlist Policy") == "hotlist_policy"
+    assert _match_heading("Sharing Policy") == "sharing_with_partners"
 
 
 def test_parse_org_names_description_only_empty_table():

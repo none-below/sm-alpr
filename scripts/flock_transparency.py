@@ -361,6 +361,12 @@ _DYNAMIC_HEADINGS = [
     (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+ (ALPR|LPR) Policy.*$", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+Police Department Policy Manual.*$", re.IGNORECASE), "alpr_policy"),
+    # Agency-prefixed bare "Policy" headings, e.g.
+    # "Marin County Sheriff's Office Policy" — Flock now bolds these
+    # standalone where they used to live as body text under Additional
+    # Info. The ALPR-specific patterns above win first; this catches the
+    # generic policy-link variant.
+    (re.compile(r"^.+(?:Police Department|Sheriff(?:'s)?(?: Office)?|Police Bureau) Policy$", re.IGNORECASE), "policy_info"),
     # Success-story subheadings — agencies post titled excerpts under
     # "Success Stories" (e.g. "Yuba County SO - Facebook Post - …").
     (re.compile(r"^.+ - Facebook Post - .+$", re.IGNORECASE), "success_stories"),
