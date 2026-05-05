@@ -341,6 +341,12 @@ _DYNAMIC_HEADINGS = [
     # Success-story subheadings — agencies post titled excerpts under
     # "Success Stories" (e.g. "Yuba County SO - Facebook Post - …").
     (re.compile(r"^.+ - Facebook Post - .+$", re.IGNORECASE), "success_stories"),
+    # Sentence-style link blurbs, e.g. "Auburn PD's Policies and
+    # Procedures can be found at the following link:" — same role as
+    # the "Policy Documents" / "Policy Link" exact headings. Placed
+    # last (before the structural-noise None patterns) so more specific
+    # patterns above (e.g. alpr_policy) win when a heading matches both.
+    (re.compile(r"^.+\bthe following link\b.*$", re.IGNORECASE), "policy_info"),
     # Page chrome / structural noise — explicit None so these don't trip
     # the bold-heading fail-loud check downstream.
     (re.compile(

@@ -354,6 +354,36 @@ def test_prefix_matching_prefers_longest_match():
     assert _match_heading("Sharing Restrictions") == "sharing_restrictions"
 
 
+def test_following_link_blurb_classifies_as_policy_info():
+    """Some agencies (auburn-ca-pd) use a sentence-style heading like
+    "Auburn PD's Policies and Procedures can be found at the following
+    link:" instead of an exact heading like "Policy Documents". The
+    dynamic pattern should route it to policy_info just like the
+    "Link to..." / "To view..." prefixes do."""
+    from flock_transparency import _match_heading_kind
+    field, kind = _match_heading_kind(
+        "Auburn PD's Policies and Procedures can be found at the following link:"
+    )
+    assert (field, kind) == ("policy_info", "dynamic")
+    # Without the trailing colon, same routing.
+    field, kind = _match_heading_kind(
+        "Auburn PD's Policies and Procedures can be found at the following link"
+    )
+    assert (field, kind) == ("policy_info", "dynamic")
+    # The "the following link" pattern is a fallthrough — if a heading
+    # also matches a more specific earlier rule (exact/prefix from
+    # _HEADING_MAP, or one of the alpr_policy dynamic patterns), the
+    # earlier rule must win and route to its specific field.
+    field, _kind = _match_heading_kind(
+        "Full ALPR Policy can be found at the following link:"
+    )
+    assert field == "alpr_policy"
+    field, _kind = _match_heading_kind(
+        "Anytown Police Department Policy Manual can be found at the following link:"
+    )
+    assert field == "alpr_policy"
+
+
 def test_month_year_bold_heading_does_not_raise():
     """Success-stories sections often have month-year subheadings
     ("April 2026"). Those are styled bold but aren't field headings —
