@@ -1393,6 +1393,16 @@
         'Built from every scrape of this agency&rsquo;s public search audit on file. ' +
         'Flock exposes a rolling ~30-day window; older rows persist here only ' +
         'because they were captured before they aged out.' +
+        '</span>' +
+        '<span class="audit-window-scope">' +
+        '<strong>Scope:</strong> only searches run by ' +
+        escapeHTML(agencyData.display_name) + '&rsquo;s own staff. ' +
+        'Other agencies with shared access also search this data; ' +
+        'those searches appear in those other agencies&rsquo; audits, ' +
+        'not here. The ' +
+        '<a href="report.html?agency=' + encodeURIComponent(agencyData.slug) +
+        '" target="_blank" rel="noopener">per-agency report</a> ' +
+        'sums the search volume across every recipient this agency shares to.' +
         '</span></div>';
     }
     var blurb =

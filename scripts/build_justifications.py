@@ -265,7 +265,7 @@ def latest_portal_uses(slug):
     portal JSON for `slug`, or (None, None) if no portal data is available.
 
     The agency's own published statement of permissible / prohibited uses
-    is the contract the cloud's free-text reasons should be measured
+    is the contract the page's free-text reasons should be measured
     against — surfacing it inline lets the reader judge fit without
     cross-referencing the transparency portal.
     """
