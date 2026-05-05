@@ -3546,5 +3546,679 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-05T18:32:19Z",
     "article_id": "art_026"
+  },
+  {
+    "url": "https://www.404media.co/floridas-wildlife-cops-are-searching-thousands-of-flock-cameras-for-ice/",
+    "source_domain": "404media.co",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Wildlife Conservation Police Are Searching Thousands of Flock Cameras for ICE",
+    "byline": "Jason Koebler",
+    "published_at": "2026-04-06T13:53:56.000Z",
+    "fetched_at": "2026-05-05T20:23:46Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 27 pts, low/medium only",
+    "scanner_score": 27,
+    "content_hash": "f6a1cead9da96b46c528e54df9c567e53fdb47c52ff78f14fac9aab06fd9c7df",
+    "paths": {
+      "html": "assets/articles/404media.co/floridas-wildlife-cops-are-searching-thousands-of-flock-cameras-for-ice_96e5c871.html",
+      "meta": "assets/articles/404media.co/floridas-wildlife-cops-are-searching-thousands-of-flock-cameras-for-ice_96e5c871.meta.json",
+      "pdf": "assets/articles/404media.co/floridas-wildlife-cops-are-searching-thousands-of-flock-cameras-for-ice_96e5c871.pdf",
+      "txt": "assets/articles/404media.co/floridas-wildlife-cops-are-searching-thousands-of-flock-cameras-for-ice_96e5c871.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "policy:audit",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "ed83d984-58ec-5332-8794-d45bb0c532f4",
+      "6fba84c6-74e6-52f4-9283-c25f3e34d2fe",
+      "a057049d-8be7-595b-bb9f-8755d18ea194",
+      "5f1f387f-0658-59c6-87c7-8164864b1d8a",
+      "ae9b0e51-d96d-54e5-96d7-7afc70c2f729",
+      "6e8b5384-5568-5425-873a-3b938ef50bdd",
+      "84d92c0e-9f73-5d54-9f1a-167345415e37",
+      "c03ecf42-93c9-5546-9a18-a929ea29ba77"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 36.633,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "ed83d984-58ec-5332-8794-d45bb0c532f4",
+        "display_name": "Mississippi Department of Public Safety",
+        "state": "MS",
+        "score": 3.0,
+        "matched_forms": [
+          "Mississippi Department of Public Safety"
+        ]
+      },
+      {
+        "agency_id": "6fba84c6-74e6-52f4-9283-c25f3e34d2fe",
+        "display_name": "Nebraska State Patrol",
+        "state": "NE",
+        "score": 2.85,
+        "matched_forms": [
+          "Nebraska State Patrol"
+        ]
+      },
+      {
+        "agency_id": "a057049d-8be7-595b-bb9f-8755d18ea194",
+        "display_name": "Sarasota County FL SO",
+        "state": "FL",
+        "score": 2.75,
+        "matched_forms": [
+          "Sarasota County"
+        ]
+      },
+      {
+        "agency_id": "5f1f387f-0658-59c6-87c7-8164864b1d8a",
+        "display_name": "Brevard County FL SO",
+        "state": "FL",
+        "score": 2.733,
+        "matched_forms": [
+          "Brevard County"
+        ]
+      },
+      {
+        "agency_id": "ae9b0e51-d96d-54e5-96d7-7afc70c2f729",
+        "display_name": "Grant County IN SO",
+        "state": "IN",
+        "score": 2.7,
+        "matched_forms": [
+          "Grant County"
+        ]
+      },
+      {
+        "agency_id": "6e8b5384-5568-5425-873a-3b938ef50bdd",
+        "display_name": "Fort Pierce FL PD",
+        "state": "FL",
+        "score": 2.683,
+        "matched_forms": [
+          "Fort Pierce"
+        ]
+      },
+      {
+        "agency_id": "84d92c0e-9f73-5d54-9f1a-167345415e37",
+        "display_name": "Lake County IN SO",
+        "state": "IN",
+        "score": 2.683,
+        "matched_forms": [
+          "Lake County"
+        ]
+      },
+      {
+        "agency_id": "c03ecf42-93c9-5546-9a18-a929ea29ba77",
+        "display_name": "demo",
+        "state": null,
+        "score": 2.133,
+        "matched_forms": [
+          "Demo",
+          "demo"
+        ]
+      },
+      {
+        "agency_id": "b89c4869-a586-536c-abbe-a6466d3dff86",
+        "display_name": "Grant County AR SO",
+        "state": "AR",
+        "score": 1.2,
+        "matched_forms": [
+          "Grant County"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "Public records show Florida Fish and Wildlife Conservation Commission police, deputized under 287(g), performed dozens of Flock license plate searches for ICE-related immigration purposes, querying thousands of agencies' camera networks nationwide. The article highlights how ICE obtains Flock data indirectly through local/state agencies despite Flock's stated policy against ICE cooperation, and notes that Flock's audit logs are becoming less transparent.",
+    "key_quotes": [
+      {
+        "quote": "thousands of agencies around the country were sharing their camera data with the Florida Fish and Wildlife Conservation Commission police, which was then regularly performing lookups for ICE",
+        "paragraph_idx": 5
+      },
+      {
+        "quote": "This highlights when you do mass surveillance, you really can't control the data",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "it is NOT out of the ordinary for FWC to work alongside ICE as they have a 287 (g) agreement with them-as do all State of Florida law enforcement agencies",
+        "paragraph_idx": 16
+      },
+      {
+        "quote": "Flock has made changes to its network audits that makes each individual entry more vague, and authorities have warned police to be \"as vague as permissible\"",
+        "paragraph_idx": 17
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T20:25:50Z",
+    "article_id": "art_027"
+  },
+  {
+    "url": "https://www.aclu.org/news/privacy-technology/alpr-as-public-data",
+    "source_domain": "aclu.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "License Plate Readings Shouldn\u2019t Be Public Data | ACLU",
+    "byline": "Jay Stanley, Chad Marlow",
+    "published_at": "2026-02-25T14:52:09+00:00",
+    "fetched_at": "2026-05-05T20:18:08Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+    "scanner_score": 3,
+    "content_hash": "59dc1abf8d110303877c7f202d31ad6f384b576f63fc6c23ca41199bd480ed48",
+    "paths": {
+      "html": "assets/articles/aclu.org/news-privacy-technology-alpr-as-public-data_4c480445.html",
+      "meta": "assets/articles/aclu.org/news-privacy-technology-alpr-as-public-data_4c480445.meta.json",
+      "pdf": "assets/articles/aclu.org/news-privacy-technology-alpr-as-public-data_4c480445.pdf",
+      "txt": "assets/articles/aclu.org/news-privacy-technology-alpr-as-public-data_4c480445.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "legal:pra",
+      "policy:audit",
+      "policy:retention",
+      "policy:sharing",
+      "scope:national",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+      "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+      "21fb5336-7bb7-5cc1-a4da-706673c971ed"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 16.533,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+        "display_name": "New Orleans LA PD",
+        "state": "LA",
+        "score": 2.6,
+        "matched_forms": [
+          "New Orleans Police"
+        ]
+      },
+      {
+        "agency_id": "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+        "display_name": "Orleans Levee District PD",
+        "state": "LA",
+        "score": 2.6,
+        "matched_forms": [
+          "New Orleans Police"
+        ]
+      },
+      {
+        "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+        "display_name": "Page AZ PD",
+        "state": "AZ",
+        "score": 2.133,
+        "matched_forms": [
+          "Page"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The ACLU argues that ALPR plate-read data should generally not be retained, but if disclosed under open-records requests, license plate numbers and identifying vehicle features should be redacted to protect privacy. The piece responds to HaveIBeenFlocked.com, which compiled unredacted ALPR data released by police, and outlines the ACLU's model state bill balancing transparency and privacy.",
+    "key_quotes": [
+      {
+        "quote": "the fault here is the police departments that collected this data on innocent drivers not suspected of any wrongdoing and then released it unredacted",
+        "paragraph_idx": 5
+      },
+      {
+        "quote": "An ALPR system's audit, use, and access logs and data are all subject to production under open-records laws, but only after specific license plate numbers, as well as other identifying features about a vehicle, such as Flock's photographic data and metadata of a vehicle's distinguishing characteristics, are redacted.",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "People should be able to request their own data \u2014 i.e. data on the license plate numbers of vehicles that are registered to them.",
+        "paragraph_idx": 11
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T20:26:01Z",
+    "article_id": "art_028"
+  },
+  {
+    "url": "https://www.eff.org/deeplinks/2020/09/flock-license-plate-reader-homeowners-association-safe-problems",
+    "source_domain": "eff.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Things to Know Before Your Neighborhood Installs an Automated License Plate Reader",
+    "byline": "Jason Kelley and Matthew Guariglia",
+    "published_at": "2020-09-14T12:38:12-07:00",
+    "fetched_at": "2026-05-05T20:16:50Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+    "scanner_score": 1,
+    "content_hash": "d541f69af823e73340def8970bc8d81b158202bc4de7237d00b325734711d4e1",
+    "paths": {
+      "html": "assets/articles/eff.org/deeplinks-2020-09-flock-license-plate-reader-homeowners-association-safe-problem_3add98bd.html",
+      "meta": "assets/articles/eff.org/deeplinks-2020-09-flock-license-plate-reader-homeowners-association-safe-problem_3add98bd.meta.json",
+      "pdf": "assets/articles/eff.org/deeplinks-2020-09-flock-license-plate-reader-homeowners-association-safe-problem_3add98bd.pdf",
+      "txt": "assets/articles/eff.org/deeplinks-2020-09-flock-license-plate-reader-homeowners-association-safe-problem_3add98bd.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "incident:misuse",
+      "incident:wrongful-stop",
+      "policy:retention",
+      "policy:sharing",
+      "scope:national",
+      "vendor:flock",
+      "vendor:vigilant"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "214e355b-37a4-54a0-899f-3f98b975aea1",
+      "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "aed60235-93c4-59d1-b767-4d6e57a5e3d2",
+      "f5050383-0182-59bf-90f6-a7782fb75f0c",
+      "8fcf3e5f-7ac2-56db-ab27-92234d7850fa",
+      "23f8ef51-8ed2-5b97-9597-571dd35e93f4"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 36.167,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "214e355b-37a4-54a0-899f-3f98b975aea1",
+        "display_name": "Fulton County GA SO",
+        "state": "GA",
+        "score": 2.717,
+        "matched_forms": [
+          "Fulton County"
+        ]
+      },
+      {
+        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+        "display_name": "Flock Safety",
+        "state": "GA",
+        "score": 2.7,
+        "matched_forms": [
+          "Flock Safety"
+        ]
+      },
+      {
+        "agency_id": "aed60235-93c4-59d1-b767-4d6e57a5e3d2",
+        "display_name": "San Antonio TX PD",
+        "state": "TX",
+        "score": 2.683,
+        "matched_forms": [
+          "San Antonio"
+        ]
+      },
+      {
+        "agency_id": "f5050383-0182-59bf-90f6-a7782fb75f0c",
+        "display_name": "Department of Natural Resources - GA",
+        "state": "GA",
+        "score": 2.533,
+        "matched_forms": [
+          "GA"
+        ]
+      },
+      {
+        "agency_id": "8fcf3e5f-7ac2-56db-ab27-92234d7850fa",
+        "display_name": "Georgia Dept. of Corrections Intelligence Unit (GA)",
+        "state": "GA",
+        "score": 2.533,
+        "matched_forms": [
+          "GA"
+        ]
+      },
+      {
+        "agency_id": "23f8ef51-8ed2-5b97-9597-571dd35e93f4",
+        "display_name": "Georgia State Patrol GA PD",
+        "state": "GA",
+        "score": 2.533,
+        "matched_forms": [
+          "GA"
+        ]
+      },
+      {
+        "agency_id": "6cd22850-c866-5ab9-ac2c-995959fe44db",
+        "display_name": "Fulton County IL SO",
+        "state": "IL",
+        "score": 1.217,
+        "matched_forms": [
+          "Fulton County"
+        ]
+      },
+      {
+        "agency_id": "69dc886d-6480-525a-ac42-05134bbb4a64",
+        "display_name": "Hudson WI PD",
+        "state": "WI",
+        "score": 1.1,
+        "matched_forms": [
+          "Hudson"
+        ]
+      },
+      {
+        "agency_id": "9712f779-9579-5b89-8632-b42a237b4264",
+        "display_name": "Lena IL PD",
+        "state": "IL",
+        "score": 1.067,
+        "matched_forms": [
+          "Lena"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "EFF advises homeowners associations against installing automated license plate readers, arguing ALPRs lack evidence of crime reduction, enable neighbor surveillance and police data sharing (e.g., Flock's TALON network), and produce errors that have led to wrongful stops of Black motorists. The article cites a California State Auditor report and Vermont audit documenting widespread misuse and lack of oversight.",
+    "key_quotes": [
+      {
+        "quote": "despite what ALPR vendors like Flock Safety and Vigilant Solutions claim, there is no real evidence that ALPRs reduce crime",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "a false alert from an ALPR led police to stop a Black family, point guns at them, and force them to lie on their bellies in a parking lot\u2014including their children, aged six and eight",
+        "paragraph_idx": 15
+      },
+      {
+        "quote": "a state audit in Vermont found that 11% of ALPR searches violated state restrictions on when cops can and can't look at the data",
+        "paragraph_idx": 18
+      },
+      {
+        "quote": "Asked whether board members had established rules to keep track of who searches for what and how often, Cronenberger said it hadn't dawned on her that someone might use the system to track her neighbors' movements",
+        "paragraph_idx": 13
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T20:26:12Z",
+    "article_id": "art_029"
+  },
+  {
+    "url": "https://epic.org/vehicle-fingerprinting-through-pervasive-camera-surveillance-likely-violates-fourth-amendment-court-finds/",
+    "source_domain": "epic.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Vehicle Fingerprinting Through Pervasive Camera Surveillance Likely Violates Fourth Amendment, Court Finds",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-05T20:19:56Z",
+    "discovered_by": "claude-search:broader-2026-05",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 20 pts, HIGH/CRITICAL findings",
+    "scanner_score": 20,
+    "content_hash": "5b0b71f3e5e6aa6c870b349eba4aafb0a201daa0308f05d0ea705fa6c0d7d4e1",
+    "paths": {
+      "html": "assets/articles/epic.org/vehicle-fingerprinting-through-pervasive-camera-surveillance-likely-violates-fou_74289609.html",
+      "meta": "assets/articles/epic.org/vehicle-fingerprinting-through-pervasive-camera-surveillance-likely-violates-fou_74289609.meta.json",
+      "pdf": "assets/articles/epic.org/vehicle-fingerprinting-through-pervasive-camera-surveillance-likely-violates-fou_74289609.pdf",
+      "txt": "assets/articles/epic.org/vehicle-fingerprinting-through-pervasive-camera-surveillance-likely-violates-fou_74289609.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "3b78d3ac-8681-5883-bdbc-97b96ee98f92"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 14.467,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "3b78d3ac-8681-5883-bdbc-97b96ee98f92",
+        "display_name": "Metropolitan Washington DC PD",
+        "state": "DC",
+        "score": 2.667,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+        "display_name": "Flock Safety",
+        "state": "GA",
+        "score": 1.2,
+        "matched_forms": [
+          "Flock Safety"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 1.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+        "display_name": "Washington MO PD",
+        "state": "MO",
+        "score": 1.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+        "display_name": "Justice IL PD",
+        "state": "IL",
+        "score": 1.117,
+        "matched_forms": [
+          "Justice"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-05T20:25:15Z",
+    "article_id": "art_030"
+  },
+  {
+    "url": "https://www.kqed.org/news/12066989/california-cities-double-down-on-license-plate-readers-as-federal-surveillance-grows",
+    "source_domain": "kqed.org",
+    "tier": 1,
+    "stance": "neutral",
+    "title": "California Cities Double Down on License-Plate Readers as Federal Surveillance Grows | KQED",
+    "byline": "Rachael Myrow",
+    "published_at": "2025-12-18T09:00:09-08:00",
+    "fetched_at": "2026-05-05T20:21:57Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 28 pts, low/medium only",
+    "scanner_score": 28,
+    "content_hash": "dd48c36986d52ec0883f30238fbe47b4eacced27d91207184597b90edc9e4a4a",
+    "paths": {
+      "html": "assets/articles/kqed.org/news-12066989-california-cities-double-down-on-license-plate-readers-as-federal_90810016.html",
+      "meta": "assets/articles/kqed.org/news-12066989-california-cities-double-down-on-license-plate-readers-as-federal_90810016.meta.json",
+      "pdf": "assets/articles/kqed.org/news-12066989-california-cities-double-down-on-license-plate-readers-as-federal_90810016.pdf",
+      "txt": "assets/articles/kqed.org/news-12066989-california-cities-double-down-on-license-plate-readers-as-federal_90810016.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:data-breach",
+      "incident:ice-cooperation",
+      "legal:ag-bulletin",
+      "legal:legislation",
+      "policy:audit",
+      "policy:sharing",
+      "scope:state",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+      "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "93a2f97c-bf79-5ba7-be50-3bc3d7fe7dfd",
+      "6607f630-2279-5b12-b723-b94b16c81122",
+      "faeaae90-2988-5568-bd81-6eff3b9c11e7",
+      "4e76fb63-864b-51af-a1a4-a33298c17445",
+      "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "978d5b81-63f1-5f5d-bf83-4f108c15abcb"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+        "display_name": "Indiana Department of Corrections",
+        "state": "IN",
+        "score": 160.167,
+        "matched_forms": [
+          "IN"
+        ]
+      },
+      {
+        "agency_id": "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+        "display_name": "Bay AR PD",
+        "state": "AR",
+        "score": 59.85,
+        "matched_forms": [
+          "Bay"
+        ]
+      },
+      {
+        "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+        "display_name": "Oakland CA PD",
+        "state": "CA",
+        "score": 52.033,
+        "matched_forms": [
+          "Oakland",
+          "Oakland Police Department"
+        ]
+      },
+      {
+        "agency_id": "93a2f97c-bf79-5ba7-be50-3bc3d7fe7dfd",
+        "display_name": "Oakland TN PD",
+        "state": "TN",
+        "score": 50.033,
+        "matched_forms": [
+          "Oakland",
+          "Oakland Police Department"
+        ]
+      },
+      {
+        "agency_id": "6607f630-2279-5b12-b723-b94b16c81122",
+        "display_name": "Richmond CA PD",
+        "state": "CA",
+        "score": 40.3,
+        "matched_forms": [
+          "Richmond",
+          "Richmond Police Department"
+        ]
+      },
+      {
+        "agency_id": "faeaae90-2988-5568-bd81-6eff3b9c11e7",
+        "display_name": "Richmond KY PD",
+        "state": "KY",
+        "score": 38.3,
+        "matched_forms": [
+          "Richmond",
+          "Richmond Police Department"
+        ]
+      },
+      {
+        "agency_id": "4e76fb63-864b-51af-a1a4-a33298c17445",
+        "display_name": "Richmond MO PD",
+        "state": "MO",
+        "score": 38.3,
+        "matched_forms": [
+          "Richmond",
+          "Richmond Police Department"
+        ]
+      },
+      {
+        "agency_id": "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+        "display_name": "Richmond VA PD",
+        "state": "VA",
+        "score": 38.3,
+        "matched_forms": [
+          "Richmond",
+          "Richmond Police Department"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 15.383,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+        "display_name": "Flock Safety",
+        "state": "GA",
+        "score": 13.2,
+        "matched_forms": [
+          "Flock Safety"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "KQED reports that despite revelations of California ALPR data flowing to federal immigration enforcement, most California cities \u2014 including Oakland, which renewed its Flock Safety contract 7-1 \u2014 are continuing or expanding ALPR programs, while a few (Richmond, Santa Cruz) have paused or shut down systems over data-sharing concerns. The piece highlights lawsuits, SB 34 compliance gaps, and a Flock configuration error that exposed Richmond data to outside agencies.",
+    "key_quotes": [
+      {
+        "quote": "Oakland residents should not fear driving to work, church, or school, knowing that this data is going to be fed to a national system that's accessible to ICE.",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "The fact that it was made available was outside the scope of what we've been telling people and what has been told to us. So that was enough for me to shut the whole system down.",
+        "paragraph_idx": 18
+      },
+      {
+        "quote": "They're not connecting the dots. We are building these systems for Donald Trump. We are harvesting data for Donald Trump.",
+        "paragraph_idx": 24
+      },
+      {
+        "quote": "the majority of California law enforcement agencies collect and use images captured by ALPR cameras, but few have appropriate usage and privacy policies in place.",
+        "paragraph_idx": 14
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-05T20:26:27Z",
+    "article_id": "art_031"
   }
 ]
