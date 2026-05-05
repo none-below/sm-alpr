@@ -180,6 +180,16 @@ jobs:
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
 
+      - name: Run article-registry tests
+        run: |
+          uv run pytest \
+            tests/test_article_queue_add.py \
+            tests/test_agency_lookup.py \
+            tests/test_lint_articles.py \
+            tests/test_article_pr_body.py \
+            tests/test_discover_articles.py \
+            -v
+
       - name: Check recipient coordinates
         id: coords
         run: |
