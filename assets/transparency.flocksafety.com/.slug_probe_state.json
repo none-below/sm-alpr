@@ -325,9 +325,10 @@
     "4219823b-c553-51fd-9a9b-5618cb5f82b5": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T20:22:24.167944+00:00",
+      "last_probed": "2026-05-05T17:09:16.579704+00:00",
       "tried": {
-        "la-habra-ca-po": "http_404"
+        "la-habra-ca-po": "http_404",
+        "la-habra-ca-police-department": "http_404"
       }
     },
     "42ac4d61-32cd-5fa4-aa11-b6713123a5c7": {
@@ -704,9 +705,10 @@
     "862d352e-a1e3-5445-b9ad-abb1a479b8bf": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-28T05:03:26.688201+00:00",
+      "last_probed": "2026-05-05T17:09:10.254933+00:00",
       "tried": {
         "imperial-county-ca-sd": "http_404",
+        "imperial-county-ca-sheriff": "http_404",
         "imperial-county-ca-sheriffs-department": "http_404",
         "imperial-county-ca-sheriffs-office": "http_404"
       }
@@ -1232,6 +1234,14 @@
         "chino-ca-police-department": "http_404"
       }
     },
+    "fc97bf62-065b-507f-a327-4fd4c94453c6": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-05T17:09:05.181992+00:00",
+      "tried": {
+        "signal-hill-ca-po": "http_404"
+      }
+    },
     "fda043f8-008d-5ce2-a2bb-0d9b9cfbbba2": {
       "exhausted": false,
       "found": null,
@@ -1242,6 +1252,6 @@
       }
     }
   },
-  "updated": "2026-05-05T12:58:39.161178+00:00",
+  "updated": "2026-05-05T17:09:16.619088+00:00",
   "version": 1
 }
