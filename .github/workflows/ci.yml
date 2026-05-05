@@ -235,6 +235,14 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
+          # PAT (when available) so the sidecar commit pushed below
+          # triggers a follow-up CI run. A push authenticated with the
+          # default GITHUB_TOKEN does not fire downstream workflows, which
+          # leaves the required `validate` check absent on the new HEAD
+          # and wedges the PR in BLOCKED state even with auto-merge on.
+          # The follow-up run is a no-op for sidecars (already committed,
+          # so have-new-sidecars=false short-circuits the publish step).
+          token: ${{ secrets.REFRESH_PAT || github.token }}
 
       - name: Download publish artifacts
         uses: actions/download-artifact@v4
