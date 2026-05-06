@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+  <!--[if IEMobile 7]><html class="no-js ie iem7" lang="en" dir="ltr"><![endif]-->
+  <!--[if lte IE 6]><html class="no-js ie lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
+  <!--[if (IE 7)&(!IEMobile)]><html class="no-js ie lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
+  <!--[if IE 8]><html class="no-js ie lt-ie9" lang="en" dir="ltr"><![endif]-->
+  <!--[if (gte IE 9)|(gt IEMobile 7)]><html class="no-js ie" lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# og: http://ogp.me/ns#"><![endif]-->
+  <!--[if !IE]><!--><html class="no-js" lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# og: http://ogp.me/ns#"><!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+<meta name="author" content="Dave Maass and Rindala Alajaji" />
+<link href="https://www.eff.org/deeplinks/2025/11/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" rel="alternate" hreflang="en" />
+<link rel="shortcut icon" href="https://www.eff.org/sites/all/themes/frontier/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="profile" href="http://www.w3.org/1999/xhtml/vocab" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="MobileOptimized" content="width" />
+<meta http-equiv="cleartype" content="on" />
+<link rel="apple-touch-icon-precomposed" href="https://www.eff.org/sites/all/themes/phoenix/apple-touch-icon-precomposed.png" />
+<link rel="apple-touch-icon" href="https://www.eff.org/sites/all/themes/phoenix/apple-touch-icon.png" />
+<meta name="description" content="Through an analysis of 10 months of nationwide searches on Flock Safety&#039;s servers, we discovered that more than 50 federal, state, and local agencies ran hundreds of searches through Flock&#039;s national network of surveillance data in connection with protest activity. In some cases, law enforcement specifically targeted known activist groups, demonstrating how mass surveillance" />
+<meta name="viewport" content="width=device-width" />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://www.eff.org/deeplinks/2025/11/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" />
+<link rel="shortlink" href="https://www.eff.org/node/111406" />
+<meta property="og:site_name" content="Electronic Frontier Foundation" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How Cops Are Using Flock Safety&#039;s ALPR Network to Surveil Protesters and Activists" />
+<meta property="og:url" content="https://www.eff.org/deeplinks/2025/11/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" />
+<meta property="og:description" content="Through an analysis of 10 months of nationwide searches on Flock Safety&#039;s servers, we discovered that more than 50 federal, state, and local agencies ran hundreds of searches through Flock&#039;s national network of surveillance data in connection with protest activity. In some cases, law enforcement specifically targeted known activist groups, demonstrating how mass surveillance technology increasingly threatens our freedom to demonstrate." />
+<meta property="og:updated_time" content="2025-11-21T15:28:59-08:00" />
+<meta property="og:image" content="https://www.eff.org/files/banner_library/no_kings_edited_-_g_edward_johnson_-_cc_by.png" />
+<meta property="og:image:url" content="https://www.eff.org/files/banner_library/no_kings_edited_-_g_edward_johnson_-_cc_by.png" />
+<meta property="og:image:secure_url" content="https://www.eff.org/files/banner_library/no_kings_edited_-_g_edward_johnson_-_cc_by.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image:height" content="600" />
+<meta name="twitter:site" content="@eff" />
+<meta name="twitter:title" content="How Cops Are Using Flock Safety&#039;s ALPR Network to Surveil Protesters" />
+<meta name="twitter:description" content="Through an analysis of 10 months of nationwide searches on Flock Safety&#039;s servers, we discovered that more than 50 federal, state, and local agencies ran hundreds of searches through Flock&#039;s national" />
+<meta name="twitter:image" content="https://www.eff.org/files/banner_library/no_kings_edited_-_g_edward_johnson_-_cc_by.png" />
+<meta name="twitter:image:width" content="1200" />
+<meta name="twitter:image:height" content="600" />
+<meta property="article:publisher" content="https://www.facebook.com/eff" />
+<meta property="article:published_time" content="2025-11-20T15:58:40-08:00" />
+<meta property="article:modified_time" content="2025-11-21T15:28:59-08:00" />
+<meta itemprop="name" content="How Cops Are Using Flock Safety&#039;s ALPR Network to Surveil Protesters and Activists" />
+<meta itemprop="description" content="Through an analysis of 10 months of nationwide searches on Flock Safety&#039;s servers, we discovered that more than 50 federal, state, and local agencies ran hundreds of searches through Flock&#039;s national network of surveillance data in connection with protest activity. In some cases, law enforcement specifically targeted known activist groups, demonstrating how mass surveillance technology increasingly threatens our freedom to demonstrate." />
+<meta itemprop="image" content="https://www.eff.org/files/banner_library/no_kings_edited_-_g_edward_johnson_-_cc_by.png" />
+<link rel="publisher" href="https://www.eff.org/" />
+  <title>How Cops Are Using Flock Safety's ALPR Network to Surveil Protesters and Activists | Electronic Frontier Foundation</title>
+  <link type="text/css" rel="stylesheet" href="https://www.eff.org/files/css/css_ys5BgHL2TNyP6_lBf6AQ-QeeC9qTVIuIwGCz7AJJrJA.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.eff.org/files/css/css_V3McJKq84FPXUFuViKaKZOcc8gTSkV2_ZXfIfELkuN4.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.eff.org/files/css/css_MoXrZBokK6w1YSvkxPI2Nbkqv-_590Kwiy7DLeNh6T4.css" media="all" />
+  <script>/**
+ * @licstart The following is the entire license notice for the JavaScript
+ * code in this page.
+ *
+ * Copyright (C) 2026  Electronic Frontier Foundation.
+ *
+ * The JavaScript code in this page is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License
+ * (GNU GPL) as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.  The code is
+ * distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU GPL
+ * for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you may
+ * distribute non-source (e.g., minimized or compacted) forms of that code
+ * without the copy of the GNU GPL normally required by section 4, provided
+ * you include this license notice and a URL through which recipients can
+ * access the Corresponding Source.
+ *
+ * @licend The above is the entire license notice for the JavaScript code
+ * in this page.
+ */
+</script>
+<script src="https://www.eff.org/files/js/js_qd8BaywA4mj4edyGLb52Px4-BwFqScI7dgPymNmaueA.js"></script>
+<script src="https://www.eff.org/files/js/js_x2A4oj9_rCj5CWR_dGMHrobZW14ZVI9ruZKCDG7yyfM.js"></script>
+<script src="https://www.eff.org/files/js/js_SN-M68YPimsxjKBGXXDOXuxvMRFy2qulwK9OXflHVZo.js"></script>
+<script src="https://www.eff.org/files/js/js_g7t6BFiX3T9qjjMlQee69jfHL0muKHZPePq_j6OMDUA.js"></script>
+<script src="https://www.eff.org/files/js/js_2FILAggDHS_2RhgL_aP_Rg7nb-x9ae4CETvszwpVGP8.js"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","setHasJsCookie":0,"lightbox2":{"rtl":"0","file_path":"\/(\\w\\w\/)public:\/","default_image":"\/sites\/all\/modules\/contrib\/lightbox2\/images\/brokenimage.jpg","border_size":10,"font_color":"000","box_color":"fff","top_position":"","overlay_opacity":"0.8","overlay_color":"000","disable_close_click":1,"resize_sequence":0,"resize_speed":10,"fade_in_speed":300,"slide_down_speed":10,"use_alt_layout":1,"disable_resize":0,"disable_zoom":1,"force_show_nav":0,"show_caption":1,"loop_items":1,"node_link_text":"","node_link_target":0,"image_count":"","video_count":"","page_count":"","lite_press_x_close":"press \u003Ca href=\u0022#\u0022 onclick=\u0022hideLightbox(); return FALSE;\u0022\u003E\u003Ckbd\u003Ex\u003C\/kbd\u003E\u003C\/a\u003E to close","download_link_text":"","enable_login":false,"enable_contact":false,"keys_close":"c x 27","keys_previous":"p 37","keys_next":"n 39","keys_zoom":"z","keys_play_pause":"32","display_image_size":"original","image_node_sizes":"()","trigger_lightbox_classes":"","trigger_lightbox_group_classes":"","trigger_slideshow_classes":"","trigger_lightframe_classes":"","trigger_lightframe_group_classes":"","custom_class_handler":0,"custom_trigger_classes":"","disable_for_gallery_lists":true,"disable_for_acidfree_gallery_lists":true,"enable_acidfree_videos":true,"slideshow_interval":5000,"slideshow_automatic_start":true,"slideshow_automatic_exit":true,"show_play_pause":true,"pause_on_next_click":false,"pause_on_previous_click":true,"loop_slides":false,"iframe_width":600,"iframe_height":400,"iframe_border":1,"enable_video":0,"useragent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/84.0.4147.105 Safari\/537.36"},"responsive_menus":[{"selectors":"#header-sls-menu","container":"body","trigger_txt":"\u003Cspan class=\u0022mean-burger\u0022 \/\u003E\u003Cspan class=\u0022mean-burger\u0022 \/\u003E\u003Cspan class=\u0022mean-burger\u0022 \/\u003E","close_txt":"X","close_size":"18px","position":"right","media_size":"480","show_children":"1","expand_children":"0","expand_txt":"+","contract_txt":"-","remove_attrs":"1","responsive_menus_style":"mean_menu"}],"urlIsAjaxTrusted":{"\/search\/site":true},"piwikNoscript":{"image":"\u003Cimg style=\u0022position: absolute\u0022 src=\u0022https:\/\/anon-stats.eff.org\/js\/?idsite=1\u0026amp;rec=1\u0026amp;url=https%3A\/\/www.eff.org\/deeplinks\/2025\/11\/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists\u0026amp;action_name=\u0026amp;urlref=\u0026amp;dimension2=blog\u0026amp;dimension3=111406\u0026amp;cvar=%7B%221%22%3A%5B%22author%22%2C%22390%22%5D%2C%222%22%3A%5B%22author%22%2C%221127%22%5D%7D\u0022 width=\u00220\u0022 height=\u00220\u0022 alt=\u0022\u0022 \/\u003E"}});</script>
+</head>
+<body class="html not-front not-logged-in page-node page-node- page-node-111406 node-type-blog long-read-share-links  i18n-en section-deeplinks no-secondary-nav right-sidebar">
+  <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+    
+<div id="mobile-nav" class="navigation">
+  <div>
+    <div class="panel-pane pane-main-nav-menu">
+            <ul class="menu"><li class=""><a href="/about">About</a><ul class="menu"><li class="first leaf"><a href="/about/contact">Contact</a></li>
+<li class="leaf"><a href="/press/contact">Press</a></li>
+<li class="leaf"><a href="/about/staff" title="Details and contact information for the EFF&#039;s staff">People</a></li>
+<li class="leaf"><a href="/about/opportunities">Opportunities</a></li>
+<li class="last leaf"><a href="/35" title="">EFF&#039;s 35th Anniversary</a></li>
+</ul></li>
+<li class=""><a href="/work">Issues</a><ul class="menu"><li class="first leaf"><a href="/issues/free-speech">Free Speech</a></li>
+<li class="leaf"><a href="/issues/privacy">Privacy</a></li>
+<li class="collapsed"><a href="/issues/innovation">Creativity and Innovation</a></li>
+<li class="leaf"><a href="/issues/transparency">Transparency</a></li>
+<li class="leaf"><a href="/issues/international">International</a></li>
+<li class="last leaf"><a href="/issues/security">Security</a></li>
+</ul></li>
+<li class=""><a href="/updates">Our Work</a><ul class="menu"><li class="first leaf"><a href="/deeplinks">Deeplinks Blog</a></li>
+<li class="leaf"><a href="/updates?type=press_release">Press Releases</a></li>
+<li class="leaf"><a href="https://www.eff.org/events/list?type=event&amp;type=event" title="">Events</a></li>
+<li class="leaf"><a href="/pages/legal-cases" title="">Legal Cases</a></li>
+<li class="leaf"><a href="/updates?type=whitepaper">Whitepapers</a></li>
+<li class="leaf"><a href="https://www.eff.org/how-to-fix-the-internet-podcast" title="">Podcast</a></li>
+<li class="last leaf"><a href="https://www.eff.org/about/annual-reports-and-financials" title="">Annual Reports</a></li>
+</ul></li>
+<li class=""><a href="https://act.eff.org/">Take Action</a><ul class="menu"><li class="first leaf"><a href="https://act.eff.org/">Action Center</a></li>
+<li class="leaf"><a href="https://efa.eff.org" title="">Electronic Frontier Alliance</a></li>
+<li class="last leaf"><a href="/about/opportunities/volunteer">Volunteer</a></li>
+</ul></li>
+<li class=""><a href="/pages/tools">Tools</a><ul class="menu"><li class="first leaf"><a href="https://www.eff.org/pages/privacy-badger" title="">Privacy Badger</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/surveillance-self-defense" title="">Surveillance Self-Defense</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/certbot" title="">Certbot</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/atlas-surveillance" title="">Atlas of Surveillance</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/cover-your-tracks" title="">Cover Your Tracks</a></li>
+<li class="leaf"><a href="https://sls.eff.org/" title="">Street Level Surveillance</a></li>
+<li class="last leaf"><a href="/pages/apkeep" title="">apkeep</a></li>
+</ul></li>
+<li class=""><a href="https://supporters.eff.org/donate/join-eff-today" title="Donate to EFF">Donate</a><ul class="menu"><li class="first leaf"><a href="https://supporters.eff.org/donate/join-eff-today">Donate to EFF</a></li>
+<li class="leaf"><a href="/givingsociety" title="">Giving Societies</a></li>
+<li class="leaf"><a href="https://shop.eff.org">Shop</a></li>
+<li class="leaf"><a href="https://www.eff.org/thanks#organizational_members" title="">Sponsorships</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/other-ways-give-and-donor-support" title="">Other Ways to Give</a></li>
+<li class="last leaf"><a href="/pages/membership-faq" title="Frequently Asked Questions and other information about EFF Memberships.">Membership FAQ</a></li>
+</ul></li>
+<li class=""><a href="https://supporters.eff.org/donate/site-m--h" title="Donate to EFF">Donate</a><ul class="menu"><li class="first leaf"><a href="https://supporters.eff.org/donate/site-m--h">Donate to EFF</a></li>
+<li class="leaf"><a href="https://shop.eff.org" title="">Shop</a></li>
+<li class="last leaf"><a href="https://www.eff.org/pages/other-ways-give-and-donor-support" title="">Other Ways to Give</a></li>
+</ul></li>
+</ul>    </div>
+  </div>
+  <hr/>
+  <div id="mobile-signup">
+    Email updates on news, actions,<br/>
+    and events in your area.
+  </div>
+  <div id="mobile-signup-button">
+    <a  href="https://eff.org/signup">Join EFF Lists</a>
+  </div>
+  <div id="mobile-footer-bottom">
+    <div class="panel-pane pane-block pane-menu-menu-footer-bottom">
+            <ul class="menu"><li class="first leaf"><a href="/copyright">Copyright (CC BY)</a></li>
+<li class="leaf"><a href="/pages/trademark-and-brand-usage-policy" title="Trademark and Brand Usage Policy">Trademark</a></li>
+<li class="leaf"><a href="/policy">Privacy Policy</a></li>
+<li class="last leaf"><a href="/thanks">Thanks</a></li>
+</ul>    </div>
+  </div>
+</div>
+
+<div id="masthead-mobile-wrapper">
+  <div id="masthead-mobile">
+    <div class="branding">
+      <div class="panel-pane pane-page-site-name">
+            <a href="/">Electronic Frontier Foundation</a>    </div>
+    </div>
+
+    <div class="hamburger"></div>
+
+    <div class="donate">
+      <a href="https://supporters.eff.org/donate/site-m--m">Donate</a>
+    </div>
+  </div>
+</div>
+
+<div class="donate-banner-wrapper" data-pane_id="donate-banner" data-banner_type="image">
+  <div class="donate-banner" >
+    <img src="/sites/all/themes/phoenix/images/logo-monogram-white.svg"><span>If you use technology, this fight is yours.</span><a href="http://supporters.eff.org/donate/join-eff-bb">Donate today</a>
+  </div>
+  <a class="close" title="Close"></a>
+</div>
+
+<div id="site_banner">
+  <div data-pane_id="site_banner_111988" data-banner_type="image" class="panel-pane pane-site-banner">
+            <a href="https://supporters.eff.org/donate/spring--SD" title="" class="site-banner desktop"><img src="https://www.eff.org/files/2026-membership-sitebanner-desktop-3_0.png" alt="" /><span class="element-invisible"></span>
+</a><a href="https://supporters.eff.org/donate/spring--SM" title="" class="site-banner mobile"><img src="https://www.eff.org/files/2026-membership-sitebanner-mobile.png" alt="" /></a><a href="/" class="dismiss" title="Close"></a>    </div>
+</div>
+
+<header id="header">
+  <div id="page">
+    <div id="masthead-wrapper">
+      <div id="masthead">
+        <div class="branding">
+          <div class="panel-pane pane-page-site-name">
+            <a href="/">Electronic Frontier Foundation</a>    </div>
+        </div>
+        <div id="main-menu-nav" class="navigation">
+          <div>
+            <div class="panel-pane pane-main-nav-menu">
+            <ul class="menu"><li class=""><a href="/about">About</a><ul class="menu"><li class="first leaf"><a href="/about/contact">Contact</a></li>
+<li class="leaf"><a href="/press/contact">Press</a></li>
+<li class="leaf"><a href="/about/staff" title="Details and contact information for the EFF&#039;s staff">People</a></li>
+<li class="leaf"><a href="/about/opportunities">Opportunities</a></li>
+<li class="last leaf"><a href="/35" title="">EFF&#039;s 35th Anniversary</a></li>
+</ul></li>
+<li class=""><a href="/work">Issues</a><ul class="menu"><li class="first leaf"><a href="/issues/free-speech">Free Speech</a></li>
+<li class="leaf"><a href="/issues/privacy">Privacy</a></li>
+<li class="collapsed"><a href="/issues/innovation">Creativity and Innovation</a></li>
+<li class="leaf"><a href="/issues/transparency">Transparency</a></li>
+<li class="leaf"><a href="/issues/international">International</a></li>
+<li class="last leaf"><a href="/issues/security">Security</a></li>
+</ul></li>
+<li class=""><a href="/updates">Our Work</a><ul class="menu"><li class="first leaf"><a href="/deeplinks">Deeplinks Blog</a></li>
+<li class="leaf"><a href="/updates?type=press_release">Press Releases</a></li>
+<li class="leaf"><a href="https://www.eff.org/events/list?type=event&amp;type=event" title="">Events</a></li>
+<li class="leaf"><a href="/pages/legal-cases" title="">Legal Cases</a></li>
+<li class="leaf"><a href="/updates?type=whitepaper">Whitepapers</a></li>
+<li class="leaf"><a href="https://www.eff.org/how-to-fix-the-internet-podcast" title="">Podcast</a></li>
+<li class="last leaf"><a href="https://www.eff.org/about/annual-reports-and-financials" title="">Annual Reports</a></li>
+</ul></li>
+<li class=""><a href="https://act.eff.org/">Take Action</a><ul class="menu"><li class="first leaf"><a href="https://act.eff.org/">Action Center</a></li>
+<li class="leaf"><a href="https://efa.eff.org" title="">Electronic Frontier Alliance</a></li>
+<li class="last leaf"><a href="/about/opportunities/volunteer">Volunteer</a></li>
+</ul></li>
+<li class=""><a href="/pages/tools">Tools</a><ul class="menu"><li class="first leaf"><a href="https://www.eff.org/pages/privacy-badger" title="">Privacy Badger</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/surveillance-self-defense" title="">Surveillance Self-Defense</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/certbot" title="">Certbot</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/atlas-surveillance" title="">Atlas of Surveillance</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/cover-your-tracks" title="">Cover Your Tracks</a></li>
+<li class="leaf"><a href="https://sls.eff.org/" title="">Street Level Surveillance</a></li>
+<li class="last leaf"><a href="/pages/apkeep" title="">apkeep</a></li>
+</ul></li>
+<li class=""><a href="https://supporters.eff.org/donate/join-eff-today" title="Donate to EFF">Donate</a><ul class="menu"><li class="first leaf"><a href="https://supporters.eff.org/donate/join-eff-today">Donate to EFF</a></li>
+<li class="leaf"><a href="/givingsociety" title="">Giving Societies</a></li>
+<li class="leaf"><a href="https://shop.eff.org">Shop</a></li>
+<li class="leaf"><a href="https://www.eff.org/thanks#organizational_members" title="">Sponsorships</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/other-ways-give-and-donor-support" title="">Other Ways to Give</a></li>
+<li class="last leaf"><a href="/pages/membership-faq" title="Frequently Asked Questions and other information about EFF Memberships.">Membership FAQ</a></li>
+</ul></li>
+<li class=""><a href="https://supporters.eff.org/donate/site-m--h" title="Donate to EFF">Donate</a><ul class="menu"><li class="first leaf"><a href="https://supporters.eff.org/donate/site-m--h">Donate to EFF</a></li>
+<li class="leaf"><a href="https://shop.eff.org" title="">Shop</a></li>
+<li class="last leaf"><a href="https://www.eff.org/pages/other-ways-give-and-donor-support" title="">Other Ways to Give</a></li>
+</ul></li>
+</ul>    </div>
+          </div>
+          <div id="search-box">
+                      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<noscript>
+  <div class="primary-nav-nojs">
+  </div>
+</noscript>
+
+<!-- See if there's anything above the banner -->
+  <div class="above-banner">
+    <div class="panel-pane pane-page-title">
+            <h1>How Cops Are Using Flock Safety&#039;s ALPR Network to Surveil Protesters and Activists</h1>
+    </div>
+<div class="panel-pane pane-eff-content-type">
+            DEEPLINKS BLOG    </div>
+<div class="panel-pane pane-eff-author">
+            <div class="byline">By <a href="/about/staff/dave-maass">Dave Maass</a> and <a href="/about/staff/rindala-alajaji">Rindala Alajaji</a></div><div class="date">November 20, 2025</div>    </div>
+  </div>
+
+<!-- See if there's anything in the banner -->
+  <div class="banner-wrapper">
+    <div class="panel-pane pane-banner  column">
+            <div class="banner"><img src="https://www.eff.org/files/banner_library/no_kings_edited_-_g_edward_johnson_-_cc_by.png" alt="Strathmore No Kings protest N Bethesda MD - G. Edwajrd Johnson CC BY" /></div>    </div>
+  </div>
+
+  <div id="main-content">
+    <div id="breadcrumb">
+          </div>
+
+          <div class="main-column">
+            <div class="panel-pane pane-page-title">
+            <h1>How Cops Are Using Flock Safety&#039;s ALPR Network to Surveil Protesters and Activists</h1>
+    </div>
+<div class="panel-pane pane-page-content">
+            
+<div class="long-read">
+    <div class="onecol column content-wrapper">
+      <div class="panel-pane pane-eff-share-blog mobile">
+            <div class="share-links">
+  <strong>Share It</strong>
+  
+  <a class="share-mastodon" href="https://share.joinmastodon.org/#text=+https%3A%2F%2Fwww.eff.org%2Fdeeplinks%2F2025%2F11%2Fhow-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" target="_blank" rel="noopener"><span class="element-invisible">Share on Mastodon</span><i></i></a>
+  <a class="share-bluesky" href="https://bsky.app/intent/compose?text=How+Cops+Are+Using+Flock+Safety%27s+ALPR+Network+to+Surveil+Protesters+and+Activists+https%3A%2F%2Fwww.eff.org%2Fdeeplinks%2F2025%2F11%2Fhow-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" target="_blank" title="Share on Bluesky"><span class="element-invisible">Share on Bluesky</span><i></i></a>
+  <a class="share-facebook" href="https://www.facebook.com/share.php?u=https%3A//www.eff.org/deeplinks/2025/11/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists&amp;title=How%20Cops%20Are%20Using%20Flock%20Safety%27s%20ALPR%20Network%20to%20Surveil%20Protesters%20and%20Activists" target="_blank" title="Share on Facebook"><span class="element-invisible">Share on Facebook</span><i></i></a>
+  <a class="share-clipboard disabled" href="https://www.eff.org/deeplinks/2025/11/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" title="Copy to clipboard"><span class="element-invisible">Copy link</span><i></i></a>
+  <div style="clear: both"></div>
+</div>    </div>
+    </div>
+
+    <div class="onecol column content-banner">
+      <div class="panel-pane pane-entity-field pane-node-field-banner-graphic">
+            <div class="field field--name-field-banner-graphic field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><img src="https://www.eff.org/files/styles/resized_banner/public/banner_library/no_kings_edited_-_g_edward_johnson_-_cc_by.png?itok=M_JNr6L4" width="1200" height="600" alt="Strathmore No Kings protest N Bethesda MD - G. Edwajrd Johnson CC BY" title="Strathmore No Kings protest N Bethesda MD 2025-10-18 - G Edward Johnson CC BY" /></div></div></div>    </div>
+    </div>
+
+    <div class="onecol column content-wrapper">
+      <div class="column main-content">
+        <div class="panel-pane pane-entity-view pane-node">
+            <article role="article" class="node node--blog node--promoted node--full node--blog--full">
+  
+  
+  <div class="node__content">
+    <div class="eff-translation-links"></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even"><p><span>It's no secret that 2025 has </span><a href="https://www.nytimes.com/2025/10/18/us/protests-trump-no-kings.html"><span>given</span></a> <a href="https://www.nature.com/articles/d41586-025-00704-0"><span>Americans</span></a> <a href="https://www.newsfromthestates.com/article/protesters-rally-against-12b-cut-education-trump-plan-us-house-bill"><span>plenty</span></a> <a href="https://www.nbcnews.com/nbc-out/out-news/protesters-rally-closure-largest-gender-affirming-care-center-kids-us-rcna217726"><span>to</span></a> <a href="https://www.americanprogress.org/article/americans-continue-to-build-a-peaceful-mass-movement-to-force-trump-administration-changes/"><span>protest</span></a> <a href="https://www.aclu.org/press-releases/dozens-of-veterans-descend-on-capitol-hill-to-oppose-military-deployments-to-u-s-cities"><span>about</span></a><span>. But as news cameras showed protesters filling streets of cities across the country, law enforcement officers—including U.S. Border Patrol agents—were quietly watching those same streets through different lenses: Flock Safety automated license plate readers (ALPRs) that tracked every passing car. </span></p>
+<p><span>Through an analysis of 10 months of nationwide searches on Flock Safety's servers, we discovered that more than 50 federal, state, and local agencies ran hundreds of searches through Flock's national network of surveillance data in connection with protest activity. In some cases, law enforcement specifically targeted known activist groups, demonstrating how mass surveillance technology increasingly threatens our freedom to demonstrate. </span></p>
+<p><span>Flock Safety provides ALPR technology to thousands of law enforcement agencies. The company installs cameras throughout their jurisdictions, and these cameras photograph every car that passes, documenting the license plate, color, make, model and other distinguishing characteristics. This data is paired with time and location, and uploaded to a massive searchable database. Flock Safety encourages agencies to share the data they collect broadly with other agencies across the country. It is common for an agency to search thousands of networks nationwide even when they don't have reason to believe a targeted vehicle left the region. </span></p>
+<p><span>Via public records requests, EFF obtained datasets representing more than 12 million searches logged by more than 3,900 agencies between December 2024 and October 2025. The data shows that agencies logged hundreds of searches related to the </span><a href="https://www.npr.org/2025/02/16/nx-s1-5297117/50501-movement-presidents-day-protests-explainer"><span>50501</span></a><span> protests in February, the </span><a href="https://www.theguardian.com/us-news/2025/apr/05/anti-trump-protests-hands-off"><span>Hands Off</span></a><span> protests in April, the </span><a href="https://www.bbc.com/news/articles/c93xgyp1zv4o"><span>No Kings</span></a><span> protests in June and October, and other protests in between. </span></p>
+<p><span>The Tulsa Police Department in Oklahoma was one of the most consistent users of Flock Safety's ALPR system for investigating protests, logging at least 38 such searches. This included running searches that corresponded to a </span><a href="https://www.kjrh.com/news/local-news/hundreds-line-riverside-drive-for-protest-in-support-of-immigrants-in-oklahoma"><span>protest against deportation raids</span></a><span> in February, a </span><a href="https://www.publicradiotulsa.org/local-regional/2025-03-13/protesters-gather-for-detained-u-s-resident-as-trump-admin-dodges-evidence-questions"><span>protest at Tulsa City Hall</span></a><span> in support of pro-Palestinian activist Mahmoud Khalil in March, and </span><a href="https://www.kjrh.com/news/local-news/protestors-gathered-at-locations-across-tulsa-and-other-communities-for-no-kings-demonstrations-on-june-14"><span>the No Kings protest</span></a><span> in June. During the most recent No Kings protests in mid-October, agencies such as the Lisle Police Department in Illinois, the Oro Valley Police Department in Arizona, and the Putnam County (Tenn.) Sheriff's Office all ran protest-related searches. </span></p>
+<p><span>While </span><a href="https://www.eff.org/deeplinks/2025/09/eff-urges-virgina-court-appeals-require-search-warrants-access-alpr-databases"><span>EFF</span></a><span> and other civil liberties groups argue the law should </span><a href="https://www.eff.org/press/releases/lawsuit-challenges-san-joses-warrantless-alpr-mass-surveillance"><span>require a search warrant</span></a><span> for such searches, police are simply prompted to enter text into a "reason" field in the Flock Safety system. Usually this is only a few words–or even just one.</span></p>
+<p><span>In these cases, that word was often just “protest.” </span></p>
+<p><span>Crime does sometimes occur at protests, whether that's property damage, pick-pocketing, or clashes between groups on opposite sides of a protest. Some of these searches may have been tied to an actual crime that occurred, even though in most cases officers did not articulate a criminal offense when running the search. But the truth is, the only reason an officer is able to even search for a suspect at a protest is because ALPRs collected data on every single person who attended the protest. </span></p>
+<h2><span>Search and Dissent </span></h2>
+<p><span>2025 was an unprecedented year of street action. In June and again in October, thousands across the country mobilized under the banner of the “</span><a href="https://www.nokings.org/"><span>No Kings</span></a><span>” movement—marches against government overreach, surveillance, and corporate power. By </span><a href="https://www.theguardian.com/us-news/2025/jun/19/no-kings-how-many-protesters-attended"><span>some estimates</span></a><span>, the October demonstrations ranked among the largest single-day protests in U.S. history, filling the streets from Washington, D.C., to Portland, OR. </span></p>
+<p><span>EFF identified 19 agencies that logged dozens of searches associated with the No Kings protests in June and October 2025. In some cases the "No Kings" was explicitly used, while in others the term "protest" was used but coincided with the massive protests.</span></p>
+<table border="3">
+
+<tr>
+<td>
+<p><strong>Law Enforcement Agencies that Ran Searches Corresponding with "No Kings" Rallies</strong></p>
+<ul>
+<li>Anaheim Police Department, Calif.</li>
+<li>Arizona Department of Public Safety</li>
+<li>Beaumont Police Department, Texas</li>
+<li>Charleston Police Department, SC</li>
+<li>Flagler County Sheriff's Office, Fla.</li>
+<li>Georgia State Patrol</li>
+<li>Lisle Police Department, Ill.</li>
+<li>Little Rock Police Department, Ark.</li>
+<li>Marion Police Department, Ohio</li>
+<li>Morristown Police Department, Tenn.</li>
+<li>Oro Valley Police Department, Ariz.</li>
+<li>Putnam County Sheriff's Office, Tenn.</li>
+<li>Richmond Police Department, Va.</li>
+<li>Riverside County Sheriff's Office, Calif.</li>
+<li>Salinas Police Department, Calif.</li>
+<li>San Bernardino County Sheriff's Office, Calif.</li>
+<li>Spartanburg Police Department, SC</li>
+<li>Tempe Police Department, Ariz.</li>
+<li>Tulsa Police Department, Okla.</li>
+<li>US Border Patrol</li>
+</ul>
+</td>
+</tr>
+
+</table>
+<p><span>For example: </span></p>
+<ul>
+<li><span>In Washington state, the Spokane County Sheriff's Office listed "no kings" as the reason for three searches on June 15, 2025 [Note: date corrected]. The agency queried 95 camera networks, looking for vehicles matching the description of "work van," "bus" or "box truck." </span></li>
+<li><span>In Texas, the Beaumont Police Department ran six searches related to two vehicles on June 14, 2025, listing "KINGS DAY PROTEST" as the reason. The queries reached across 1,774 networks. </span></li>
+<li><span>In California, the San Bernardino County Sheriff's Office ran a single search for a vehicle across 711 networks, logging "no king" as the reason. </span></li>
+<li><span>In Arizona, the Tempe Police Department made three searches for "ATL No Kings Protest" on June 15, 2025 searching through 425 networks. "ATL" is police code for "attempt to locate." The agency appears to not have been looking for a particular plate, but for any red vehicle on the road during a certain time window.</span></li>
+</ul>
+<p><span>But the No Kings protests weren't the only demonstrations drawing law enforcement's digital dragnet in 2025. </span></p>
+<p><span>For example:</span></p>
+<ul>
+<li><span>In Nevada's state capital, the Carson City Sheriff's Office ran three searches that correspond to the February </span><a href="https://www.kolotv.com/2025/02/18/hundreds-take-streets-carson-city-protesting-trump-doge/"><span>50501 Protests</span></a><span> against DOGE and the Trump administration. The agency searched for two vehicles across 178 networks with "protest" as the reason.</span></li>
+<li><span>In Florida, the Seminole County Sheriff's Office logged "protest" for five searches that correspond to a local </span><a href="https://www.instagram.com/p/DIwEJGFpeQK/"><span>May Day rally</span></a><span>.</span></li>
+<li><span>In Alabama, the Homewood Police Department logged four searches in early July 2025 for three vehicles with "PROTEST CASE" and "PROTEST INV." in the reason field. The searches, which probed 1,308 networks, correspond to protests against the </span><a href="https://www.wvtm13.com/article/alabama-jabari-peoples-body-cam-video-officer-involved-shooting/65272652"><span>police shooting</span></a><span> of Jabari Peoples.</span></li>
+<li><span>In Texas, the Lubbock Police Department ran two searches for a Tennessee license plate on March 15 that corresponds to a </span><a href="https://www.kcbd.com/2025/03/15/protestors-gather-tim-cole-memorial-stand-against-bullying-related-immigration/"><span>rally</span></a><span> to highlight the mental health impact of immigration policies. The searches hit 5,966 networks, with the logged reason "protest veh."</span></li>
+<li><span>In Michigan, Grand Rapids Police Department ran five searches that corresponded with the </span><a href="https://www.facebook.com/events/fountain-street-church/stand-up-fight-back-rally/508837261789302/"><span>Stand Up and Fight Back Rally</span></a><span> in </span><a href="https://www.wzzm13.com/video/news/local/hundreds-rally-in-grand-rapids-for-human-rights/69-0789f5a7-47b0-43a6-8a85-34d404f9b4ed"><span>February</span></a><span>. The searches hit roughly 650 networks, with the reason logged as "Protest."</span></li>
+</ul>
+<p><a href="https://transparency.flocksafety.com/lynnwood-wa-pd"><span>Some</span></a> <a href="https://transparency.flocksafety.com/austin-tx-pd"><span>agencies</span></a><span> have adopted policies that prohibit using ALPRs for monitoring activities protected by the First Amendment. Yet many officers probed the nationwide network with terms like "protest" without articulating an actual crime under investigation.</span></p>
+<p><span>In a few cases, police were using Flock’s ALPR network to investigate threats made against attendees or incidents where motorists opposed to the protests drove their vehicle into crowds. For example, throughout June 2025, an Arizona Department of Public Safety officer logged three searches for “no kings rock threat,” and a Wichita (Kan.) Police Department officer logged 22 searches for various license plates under the reason “Crime Stoppers Tip of causing harm during protests.”</span></p>
+<p><span>Even when law enforcement is specifically looking for vehicles engaged in potentially criminal behavior such as threatening protesters, it cannot be ignored that mass surveillance systems work by collecting data on everyone driving to or near a protest<span>—</span>not just those under suspicion.</span></p>
+<h2><span>Border Patrol's Expanding Reach </span></h2>
+<p><span>As U.S. Border Patrol (USBP), ICE, and other federal agencies tasked with immigration enforcement have massively expanded operations into major cities, advocates for immigrants have responded through organized rallies, rapid-response confrontations, and extended presences at federal facilities. </span></p>
+<p><span>USBP has made extensive use of Flock Safety's system for immigration enforcement, but also to target those who object to its tactics. In June, a few days after the No Kings Protest, USBP ran three searches for a vehicle using the descriptor “Portland Riots.” </span></p>
+<p class="pull-quote"><span>USBP has made extensive use of Flock Safety's system for immigration enforcement, but also to target those who object to its tactics.</span></p>
+<p><span>USBP also used the Flock Safety network to investigate a motorist who had “extended his middle finger” at Border Patrol vehicles that were transporting detainees. The motorist then allegedly drove in front of one of the vehicles and slowed down, forcing the Border Patrol vehicle to brake hard. An officer ran seven searches for his plate, citing "assault on agent" and "18 usc 111," the </span><a href="https://www.law.cornell.edu/uscode/text/18/111"><span>federal criminal statute</span></a><span> for assaulting, resisting or impeding a federal officer. The individual was </span><a href="https://www.freep.com/story/news/local/michigan/oakland/2025/08/04/man-brake-checked-flipped-off-border-patrol-agents-feds-say/85513964007/"><span>charged</span></a><span> in federal court in early August. </span></p>
+<p><span>USBP had </span><a href="https://www.404media.co/cbp-had-access-to-more-than-80-000-flock-ai-cameras-nationwide/"><span>access</span></a><span> to the Flock system during a trial period in the first half of 2025, but the company says it has since </span><a href="https://www.flocksafety.com/blog/ensuring-local-compliance"><span>paused</span></a><span> the agency's access to the system. However, Border Patrol and other federal immigration authorities have been able to access the system’s data through </span><a href="https://www.kpbs.org/news/border-immigration/2025/10/08/records-el-cajon-license-plate-data-used-in-nationwide-immigration-searches"><span>local agencies</span></a><span> who have run searches on their behalf or even </span><a href="https://unraveledpress.com/a-dea-agent-used-an-illinois-police-officers-flock-license-plate-reader-password-for-unauthorized-immigration-enforcement-searches/?ref=404media.co"><span>lent them logins</span></a><span>. </span></p>
+<h2><span>Targeting Animal Rights Activists</span></h2>
+<p><span>Law enforcement's use of Flock's ALPR network to surveil protesters isn't limited to large-scale political demonstrations. Three agencies also used the system dozens of times to specifically target activists from </span><a href="https://www.directactioneverywhere.com/"><span>Direct Action Everywhere (DxE)</span></a><span>, an animal-rights organization known for using civil disobedience tactics to expose conditions at factory farms.</span></p>
+<p><span>Delaware State Police queried the Flock national network nine times in March 2025 related to DxE actions, logging reasons such as "DxE Protest Suspect Vehicle." DxE advocates told EFF that these searches correspond to an investigation the organization undertook of a Mountaire Farms facility. </span></p>
+<p><span>Additionally, the California Highway Patrol logged dozens of searches related to a "DXE Operation" throughout the day on May 27, 2025. The organization says this corresponds with an annual convening in California that typically ends in a direct action. Participants leave the event early in the morning, then drive across the state to a predetermined but previously undisclosed protest site. Also in May, the Merced County Sheriff's Office in California logged two searches related to "DXE activity." </span></p>
+<p><span>As an organization engaged in direct activism, DxE has experienced </span><a href="https://www.berkeleyside.org/2021/12/08/wayne-hsiung-direct-action-everywhere-animal-rights-berkeley-conviction"><span>criminal</span></a> <a href="https://abc7news.com/post/zoe-rosenberg-jury-reaches-verdict-trial-santa-rosa-california-activist-took-chickens-perdue-plant/18087441/"><span>prosecution</span></a><span> for its activities, and so the organization told EFF they were not surprised to learn they are under scrutiny from law enforcement, particularly considering how industrial farmers have collected and distributed their own intelligence to police.</span></p>
+<p><span>The targeting of DxE activists reveals how ALPR surveillance extends beyond conventional and large-scale political protests to target groups engaged in activism that challenges powerful industries. For animal-rights activists, the knowledge that their vehicles are being tracked through a national surveillance network undeniably creates a chilling effect on their ability to organize and demonstrate.</span></p>
+<h2><span>Fighting Back Against ALPR </span></h2>
+<p><span><img src="/files/2025/11/20/double_flock_on_pole.png" width="1273" height="849" alt="Two Flock Safety cameras on a pole" title="Two Flock Safety cameras on a pole" /></span></p>
+<p><span>ALPR systems are designed to capture information on every vehicle that passes within view. That means they don't just capture data on "criminals" but on everyone, all the time<span>—</span>and that includes people engaged in their First Amendment right to publicly dissent. Police are sitting on massive troves of data that can reveal who attended a protest, and this data shows they are not afraid to use it. </span></p>
+<p><span>Our analysis only includes data where agencies explicitly mentioned protests or related terms in the "reason" field when documenting their search. It's likely that scores more were conducted under less obvious pretexts and search reasons. According to our analysis, approximately 20 percent of all searches we reviewed listed vague language like "investigation," "suspect," and "query" in the reason field. Those terms could well be cover for spying on a protest, </span><a href="https://www.eff.org/deeplinks/2025/10/flock-safety-and-texas-sheriff-claimed-license-plate-search-was-missing-person-it"><span>an abortion prosecution</span></a><span>, or an </span><a href="https://www.kansas.com/news/politics-government/article291059560.html"><span>officer stalking a spouse</span></a><span>, and no one would be the wiser–including the agencies whose data was searched. Flock has </span><a href="https://www.flocksafety.com/blog/policy-pulse-transparency-control-and-the-path-forward"><span>said</span></a><span> it will now require officers to select a specific crime under investigation, but that can and will also be used to obfuscate dubious searches. </span></p>
+<p><span>For protestors, this data should serve as confirmation that ALPR surveillance has been and will be used to target activities protected by the First Amendment. Depending on </span><a href="https://ssd.eff.org/glossary/threat-model"><span>your threat model</span></a><span>, this means you should think carefully about how you arrive at protests, and explore options such as by biking, walking, carpooling, taking public transportation, or simply parking a little further away from the action. Our </span><a href="https://ssd.eff.org/module/attending-protest#things-to-be-aware-of-while-traveling-to-and-from-the-protest"><span>Surveillance Self-Defense</span></a><span> project has more information on steps you could take to protect your privacy when traveling to and attending a protest.</span></p>
+<p><span>For local officials, this should serve as another example of how systems marketed as protecting your community may actually threaten the values your communities hold most dear. The best way to protect people is to shut down these camera networks.  </span></p>
+<p><span>Everyone should have the right to speak up against injustice without ending up in a database. </span></p>
+
+</div></div></div>  </div>
+
+          </article>
+    </div>
+<div class="panel-pane pane-entity-field pane-node-field-issue">
+          <h2 class="pane-title">Related Issues</h2>
+        <div class="field field--name-field-issue field--type-taxonomy-term-reference field--label-hidden"><div class="field__items"><div class="field__item even"><a href="/issues/street-level-surveillance">Street-Level Surveillance</a></div></div></div>    </div>
+<div class="panel-pane pane-eff-share-blog mobile">
+            <div class="share-links">
+  <strong>Share It</strong>
+  
+  <a class="share-mastodon" href="https://share.joinmastodon.org/#text=+https%3A%2F%2Fwww.eff.org%2Fdeeplinks%2F2025%2F11%2Fhow-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" target="_blank" rel="noopener"><span class="element-invisible">Share on Mastodon</span><i></i></a>
+  <a class="share-bluesky" href="https://bsky.app/intent/compose?text=How+Cops+Are+Using+Flock+Safety%27s+ALPR+Network+to+Surveil+Protesters+and+Activists+https%3A%2F%2Fwww.eff.org%2Fdeeplinks%2F2025%2F11%2Fhow-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" target="_blank" title="Share on Bluesky"><span class="element-invisible">Share on Bluesky</span><i></i></a>
+  <a class="share-facebook" href="https://www.facebook.com/share.php?u=https%3A//www.eff.org/deeplinks/2025/11/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists&amp;title=How%20Cops%20Are%20Using%20Flock%20Safety%27s%20ALPR%20Network%20to%20Surveil%20Protesters%20and%20Activists" target="_blank" title="Share on Facebook"><span class="element-invisible">Share on Facebook</span><i></i></a>
+  <a class="share-clipboard disabled" href="https://www.eff.org/deeplinks/2025/11/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" title="Copy to clipboard"><span class="element-invisible">Copy link</span><i></i></a>
+  <div style="clear: both"></div>
+</div>    </div>
+<div class="panel-pane pane-custom pane-1">
+            <div data-form-id="6e937ff0-816d-f011-bec2-00224804004a" data-form-api-url="https://public-usa.mkt.dynamics.com/api/v1.0/orgs/94400758-7964-ef11-a66d-6045bd003934/landingpageforms" data-cached-form-url="https://assets-usa.mkt.dynamics.com/94400758-7964-ef11-a66d-6045bd003934/digitalassets/forms/6e937ff0-816d-f011-bec2-00224804004a"></div>
+        <script src="https://cxppusa1formui01cdnsa01-endpoint.azureedge.net/usa/FormLoader/FormLoader.bundle.js"></script>
+
+    </div>
+<div class="panel-pane pane-views-panes pane-blog-related-content-panel-pane-1">
+          <h2 class="pane-title">Related Updates</h2>
+        <div class="view view-blog-related-content view-id-blog_related_content view-display-id-panel_pane_1 teaser-feed view-dom-id-8f444e85b2908b016994e42820a6c6b6">
+        
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first">
+    <article role="article" class="node node--press-release node--promoted node-teaser node--teaser node--press-release--teaser">
+      <header>
+      <div class="field field--name-field-banner-graphic field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><div class="teaser-thumbnail"><a href="/press/releases/coalition-urges-california-revoke-permits-federal-license-plate-reader-surveillance"><img src="https://www.eff.org/files/styles/teaser/public/banner_library/ocotillo_covert_alpr.jpg?itok=FKafQoD4" width="500" height="250" alt="A camera hidden in an orange barrel by the highway" title="Covert ALPR" /></a></div></div></div></div><div class="node-content-type-byline press_release"><a href="/updates?type=press_release">Press Release</a>
+<span class="node-date"> | February 10, 2026</span>
+</div>              <h3 class="node__title"><a href="/press/releases/coalition-urges-california-revoke-permits-federal-license-plate-reader-surveillance" rel="bookmark">Coalition Urges California to Revoke Permits for Federal License Plate Reader Surveillance </a></h3>
+            
+    </header>
+  
+  
+  <div class="node__content">
+    <div class="eff-translation-links"></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even"><p>SAN FRANCISCO – California must revoke permits allowing federal agencies such as Customs and Border Patrol (CBP) and the Drug Enforcement Administration (DEA) to put automated license plate readers along border highways, a coalition led by the Electronic Frontier Foundation (EFF) and <a href="https://www.ivequityjustice.org/" target="_blank" rel="noopener noreferrer">Imperial Valley Equity &amp;</a>...</p></div></div></div>  </div>
+
+          </article>
+  </div>
+  <div class="views-row views-row-2 views-row-even">
+    <article role="article" class="node node--blog node--promoted node-teaser node--teaser node--blog--teaser">
+      <header>
+      <div class="field field--name-field-banner-graphic field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><div class="teaser-thumbnail"><a href="/deeplinks/2026/02/effecting-change-get-flock-out-our-city"><img src="https://www.eff.org/files/styles/teaser/public/banner_library/effecting_change_banner_flock_0.png?itok=_e4_fTYU" width="500" height="250" alt="" /></a></div></div></div></div><div class="node-content-type-byline blog"><a href="/updates?type=blog">Deeplinks Blog</a>
+<span class="node-author"> by <a href="/about/staff/melissa-srago">Melissa Srago</a></span>
+<span class="node-date"> | February 9, 2026</span>
+</div>              <h3 class="node__title"><a href="/deeplinks/2026/02/effecting-change-get-flock-out-our-city" rel="bookmark">EFFecting Change: Get the Flock Out of Our City</a></h3>
+            
+    </header>
+  
+  
+  <div class="node__content">
+    <div class="eff-translation-links"></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even"><p>Flock contracts have quietly spread to cities across the country. But Flock ALPR (Automated License Plate Readers) erode civil liberties from the moment they're installed. While officials claim these cameras keep neighborhoods safe, the evidence tells a different story. The data reveals how Flock has enabled surveillance of people seeking...</p></div></div></div>  </div>
+
+          </article>
+  </div>
+  <div class="views-row views-row-3 views-row-odd">
+    <article role="article" class="node node--blog node--promoted node-teaser node--teaser node--blog--teaser">
+      <header>
+      <div class="field field--name-field-banner-graphic field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><div class="teaser-thumbnail"><a href="/deeplinks/2026/01/ice-going-surveillance-shopping-spree"><img src="https://www.eff.org/files/styles/teaser/public/banner_library/surveillance-og-2.png?itok=VcUpcFDF" width="500" height="250" alt="A cityscape with surveillance" /></a></div></div></div></div><div class="node-content-type-byline blog"><a href="/updates?type=blog">Deeplinks Blog</a>
+<span class="node-author"> by <a href="/about/staff/cooper-quintin">Cooper Quintin</a></span>
+<span class="node-date"> | January 7, 2026</span>
+</div>              <h3 class="node__title"><a href="/deeplinks/2026/01/ice-going-surveillance-shopping-spree" rel="bookmark">ICE Is Going on a Surveillance Shopping Spree</a></h3>
+            
+    </header>
+  
+  
+  <div class="node__content">
+    <div class="eff-translation-links"></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even">We need to have a hard look at the surveillance industry. It is a key enabler of vast and untold violations of human rights and civil liberties, and it continues to be used by aspiring autocrats to threaten our very democracy. As long as it exists, the surveillance industry, and...</div></div></div>  </div>
+
+          </article>
+  </div>
+  <div class="views-row views-row-4 views-row-even">
+    <article role="article" class="node node--press-release node--promoted node-teaser node--teaser node--press-release--teaser">
+      <header>
+      <div class="field field--name-field-banner-graphic field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><div class="teaser-thumbnail"><a href="/press/releases/lawsuit-challenges-san-joses-warrantless-alpr-mass-surveillance"><img src="https://www.eff.org/files/styles/teaser/public/banner_library/siren_v._san_jose.png?itok=wm9V6UPh" width="500" height="250" alt="sinister cop and cameras loom over street grid with cars identified by license plate numbers" title="SIREN v. San Jose" /></a></div></div></div></div><div class="node-content-type-byline press_release"><a href="/updates?type=press_release">Press Release</a>
+<span class="node-date"> | November 18, 2025</span>
+</div>              <h3 class="node__title"><a href="/press/releases/lawsuit-challenges-san-joses-warrantless-alpr-mass-surveillance" rel="bookmark">Lawsuit Challenges San Jose’s Warrantless ALPR Mass Surveillance</a></h3>
+            
+    </header>
+  
+  
+  <div class="node__content">
+    <div class="eff-translation-links"></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even">SAN JOSE, Calif. – San Jose and its police department routinely violate the California Constitution by conducting warrantless searches of the stored records of millions of drivers’ private habits, movements, and associations, the Electronic Frontier Foundation (EFF) and American Civil Liberties Union of Northern California (ACLU-NC) argue in a lawsuit...</div></div></div>  </div>
+
+          </article>
+  </div>
+  <div class="views-row views-row-5 views-row-odd views-row-last">
+    <article role="article" class="node node--blog node--promoted node-teaser node--teaser node--blog--teaser">
+      <header>
+      <div class="field field--name-field-banner-graphic field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><div class="teaser-thumbnail"><a href="/deeplinks/2025/11/license-plate-surveillance-logs-reveal-racist-policing-against-romani-people"><img src="https://www.eff.org/files/styles/teaser/public/banner_library/flockbanner2_davemaass_ccby.png?itok=xUqv7dij" width="500" height="250" alt="A Flock Safety camera beneath a solar panel on a pole" /></a></div></div></div></div><div class="node-content-type-byline blog"><a href="/updates?type=blog">Deeplinks Blog</a>
+<span class="node-author"> by <a href="/about/staff/rindala-alajaji">Rindala Alajaji</a>, <a href="/about/staff/dave-maass">Dave Maass</a></span>
+<span class="node-date"> | November 3, 2025</span>
+</div>              <h3 class="node__title"><a href="/deeplinks/2025/11/license-plate-surveillance-logs-reveal-racist-policing-against-romani-people" rel="bookmark">License Plate Surveillance Logs Reveal Racist Policing Against Romani People</a></h3>
+            
+    </header>
+  
+  
+  <div class="node__content">
+    <div class="eff-translation-links"></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even">More than 80 law enforcement agencies across the United States have used language perpetuating harmful stereotypes against Romani people when searching the nationwide Flock Safety automated license plate reader (ALPR) network, according to audit logs obtained and analyzed by the Electronic Frontier Foundation.</div></div></div>  </div>
+
+          </article>
+  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div>    </div>
+      </div>
+
+      <div class="column side-content">
+        <div class="panel-pane pane-custom pane-2">
+            <div data-form-id="fd676802-8178-f011-b4cb-000d3a373dfb" data-form-api-url="https://public-usa.mkt.dynamics.com/api/v1.0/orgs/94400758-7964-ef11-a66d-6045bd003934/landingpageforms" data-cached-form-url="https://assets-usa.mkt.dynamics.com/94400758-7964-ef11-a66d-6045bd003934/digitalassets/forms/fd676802-8178-f011-b4cb-000d3a373dfb"></div>
+        <script src="https://cxppusa1formui01cdnsa01-endpoint.azureedge.net/usa/FormLoader/FormLoader.bundle.js"></script>
+
+    </div>
+<div class="panel-pane pane-eff-share-student-privacy">
+            <div class="pane-eff-share-blog mobile"><div class="share-links"><a class="share-mastodon" href="https://share.joinmastodon.org/#text=How+Cops+Are+Using+Flock+Safety%27s+ALPR+Network+to+Surveil+Protesters+and+Activists+https%3A%2F%2Fwww.eff.org%2Fdeeplinks%2F2025%2F11%2Fhow-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" target="_blank"><span class="element-invisible">Share on Mastodon</span><i></i></a><a class="share-bluesky" href="https://bsky.app/intent/compose?text=How+Cops+Are+Using+Flock+Safety%27s+ALPR+Network+to+Surveil+Protesters+and+Activists+https%3A%2F%2Fwww.eff.org%2Fdeeplinks%2F2025%2F11%2Fhow-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists" target="_blank"><span class="element-invisible">Share on Bluesky</span><i></i></a><a class="share-facebook" href="https://www.facebook.com/share.php?u=https%3A//www.eff.org/deeplinks/2025/11/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists&title=How%20Cops%20Are%20Using%20Flock%20Safety%27s%20ALPR%20Network%20to%20Surveil%20Protesters%20and%20Activists" target="_blank"><span class="element-invisible">Share on Facebook</span><i></i></a></div></div>    </div>
+<div class="panel-pane pane-sidebar-content">
+            <div class="pane-node-field-issue"><h2>Related Issues</h2><div class="field__item"><a href="/issues/street-level-surveillance">Street-Level Surveillance</a></div></div>    </div>
+      </div>
+    </div>
+
+    <div class="onecol column content-footer">
+          </div>
+
+</div>
+    </div>
+      </div>
+
+      <div class="clear-block"></div>
+
+    </div>
+    
+    <p class="faq-toc"><a href="#main-content">Back to top</a></p>
+
+  </div>
+
+
+  <div id="footer">
+    <div class="panel-pane pane-footer-logo">
+            <a href="https://www.eff.org"><img src="https://www.eff.org/sites/all/modules/custom/eff_library/images/eff-logo-1color-blue.svg" alt="EFF Home" /></a>    </div>
+<div class="panel-pane pane-menu-tree pane-menu-footer-social-links">
+          <h2 class="pane-title">Follow EFF:</h2>
+        <div class="menu-block-wrapper menu-block-ctools-menu-footer-social-links-1 menu-name-menu-footer-social-links parent-mlid-0 menu-level-1">
+  <ul class="menu"><li class="first leaf menu-mlid-16459"><a href="https://mastodon.social/@eff" title="" rel="me">mastodon</a></li>
+<li class="leaf menu-mlid-13409"><a href="https://www.facebook.com/eff" title="EFF on facebook">facebook</a></li>
+<li class="leaf menu-mlid-13410"><a href="https://www.instagram.com/efforg/" title="EFF on Instagram">instagram</a></li>
+<li class="leaf menu-mlid-16603"><a href="https://bsky.app/profile/eff.org" title="">Blue Sky</a></li>
+<li class="leaf menu-mlid-13411"><a href="https://www.youtube.com/efforg" title="EFF on YouTube">youtube</a></li>
+<li class="leaf menu-mlid-13412"><a href="https://www.flickr.com/photos/electronicfrontierfoundation">flicker</a></li>
+<li class="leaf menu-mlid-16445"><a href="https://www.linkedin.com/company/EFF" title="">linkedin</a></li>
+<li class="leaf menu-mlid-16460"><a href="https://www.tiktok.com/@efforg" title="">tiktok</a></li>
+<li class="last leaf menu-mlid-16475"><a href="https://www.threads.net/@efforg" title="">threads</a></li>
+</ul></div>
+    </div>
+<div class="panel-pane pane-custom pane-3">
+            <p>Check out our 4-star rating on <a href="https://www.charitynavigator.org/ein/043091431" target="_blank" rel="noopener noreferrer">Charity Navigator</a>.</p>
+
+    </div>
+<div class="panel-pane pane-block pane-menu-menu-contact-footer-menu">
+          <h2 class="pane-title">Contact</h2>
+        <ul class="menu"><li class="first leaf"><a href="/about/contact">General</a></li>
+<li class="leaf"><a href="/pages/legal-assistance">Legal</a></li>
+<li class="leaf"><a href="/security">Security</a></li>
+<li class="leaf"><a href="/about/contact">Membership</a></li>
+<li class="last leaf"><a href="/press/contact">Press</a></li>
+</ul>    </div>
+<div class="panel-pane pane-block pane-menu-menu-about-footer-menu">
+          <h2 class="pane-title">About</h2>
+        <ul class="menu"><li class="first leaf"><a href="/event" title="">Calendar</a></li>
+<li class="leaf"><a href="/about/opportunities/volunteer" title="">Volunteer</a></li>
+<li class="leaf"><a href="/victories" title="">Victories</a></li>
+<li class="leaf"><a href="/about/history" title="">History</a></li>
+<li class="leaf"><a href="/about/opportunities/interns" title="">Internships</a></li>
+<li class="leaf"><a href="https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=28620672D234BF368306CEB4A2746667" title="">Jobs</a></li>
+<li class="leaf"><a href="/about/staff" title="">Staff</a></li>
+<li class="last leaf"><a href="/pages/effs-diversity-statement" title="">Diversity &amp; Inclusion</a></li>
+</ul>    </div>
+<div class="panel-pane pane-block pane-menu-menu-footer-menu-issues">
+          <h2 class="pane-title">Issues</h2>
+        <ul class="menu"><li class="first leaf"><a href="/issues/free-speech">Free Speech</a></li>
+<li class="leaf"><a href="/issues/privacy">Privacy</a></li>
+<li class="leaf"><a href="/issues/innovation">Creativity &amp; Innovation</a></li>
+<li class="leaf"><a href="/issues/transparency">Transparency</a></li>
+<li class="leaf"><a href="/issues/international">International</a></li>
+<li class="last leaf"><a href="/issues/security">Security</a></li>
+</ul>    </div>
+<div class="panel-pane pane-block pane-menu-menu-footer-updates-menu">
+          <h2 class="pane-title">Updates</h2>
+        <ul class="menu"><li class="first leaf"><a href="https://www.eff.org/deeplinks?type=blog" title="">Blog</a></li>
+<li class="leaf"><a href="/updates?type=press_release">Press Releases</a></li>
+<li class="leaf"><a href="https://www.eff.org/updates?type=event&amp;type=event" title="">Events</a></li>
+<li class="leaf"><a href="https://www.eff.org/pages/legal-cases" title="">Legal Cases</a></li>
+<li class="leaf"><a href="/updates?type=whitepaper">Whitepapers</a></li>
+<li class="last leaf"><a href="https://www.eff.org/effector" title="">EFFector Newsletter</a></li>
+</ul>    </div>
+<div class="panel-pane pane-block pane-menu-menu-footer-press-menu">
+          <h2 class="pane-title">Press</h2>
+        <ul class="menu"><li class="first last leaf"><a href="/press/contact">Press Contact</a></li>
+</ul>    </div>
+<div class="panel-pane pane-block pane-menu-menu-footer-donate-menu">
+          <h2 class="pane-title">Donate</h2>
+        <ul class="menu"><li class="first leaf"><a href="https://supporters.eff.org/donate/donate-df" title="">Join or Renew Membership Online</a></li>
+<li class="leaf"><a href="https://supporters.eff.org/donate/donate-df" title="">One-Time Donation Online</a></li>
+<li class="leaf"><a href="/givingsociety" title="">Giving Societies</a></li>
+<li class="leaf"><a href="https://www.eff.org/thanks#organizational_members" title="">Corporate Giving and Sponsorship</a></li>
+<li class="leaf"><a href="https://shop.eff.org">Shop</a></li>
+<li class="last leaf"><a href="/helpout">Other Ways to Give</a></li>
+</ul>    </div>
+  </div>
+  <div id="footer-bottom">
+    <div class="panel-pane pane-block pane-menu-menu-footer-bottom">
+            <ul class="menu"><li class="first leaf"><a href="/copyright">Copyright (CC BY)</a></li>
+<li class="leaf"><a href="/pages/trademark-and-brand-usage-policy" title="Trademark and Brand Usage Policy">Trademark</a></li>
+<li class="leaf"><a href="/policy">Privacy Policy</a></li>
+<li class="last leaf"><a href="/thanks">Thanks</a></li>
+</ul>    </div>
+  </div>
+  <a href="/librejs/jslicense" rel="jslicense" style="display: none">JavaScript license information</a><div id="piwik-noscript"></div><noscript><img style="position: absolute" src="https://anon-stats.eff.org/js/?idsite=1&amp;rec=1&amp;url=https%3A//www.eff.org/deeplinks/2025/11/how-cops-are-using-flock-safetys-alpr-network-surveil-protesters-and-activists&amp;action_name=How%20Cops%20Are%20Using%20Flock%20Safety%27s%20ALPR%20Network%20to%20Surveil%20Protesters%20and%20Activists%20%7C%20Electronic%20Frontier%20Foundation&amp;dimension2=blog&amp;dimension3=111406&amp;cvar=%7B%221%22%3A%5B%22author%22%2C%22390%22%5D%2C%222%22%3A%5B%22author%22%2C%221127%22%5D%7D" width="0" height="0" alt="" /></noscript>
+<script src="https://www.eff.org/files/js/js_lMrfy51aI91p2ZAdgpEs4r3pZi-E809QDyWJpbMpnTw.js"></script>
+</body>
+</html>
