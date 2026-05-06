@@ -359,7 +359,7 @@ _DYNAMIC_HEADINGS = [
     (re.compile(r"^Last Updated:", re.IGNORECASE), "last_updated"),
     (re.compile(r"^(Link to |To view ).+", re.IGNORECASE), "policy_info"),
     (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+", re.IGNORECASE), "alpr_policy"),
-    (re.compile(r"^.+ (ALPR|LPR) Policy.*$", re.IGNORECASE), "alpr_policy"),
+    (re.compile(r"^.+[\s(](ALPR|LPR)[\s)]\s*Policy.*$", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+Police Department Policy Manual.*$", re.IGNORECASE), "alpr_policy"),
     # Agency-prefixed bare "Policy" headings, e.g.
     # "Marin County Sheriff's Office Policy" — Flock now bolds these
@@ -721,10 +721,10 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     outbound_names = _parse_org_names(fields.get("orgs_granted_access", ""))
     inbound_names = _parse_org_names(fields.get("orgs_sharing_with", ""))
 
-    # Extract the agency name from the overview text. Pattern:
-    #   "<Agency Name> uses Flock Safety [LPR ][Tt]echnology..."
-    # Some agencies (e.g. Casa Grande AZ PD) have "LPR Technology" in the
-    # boilerplate, others have plain "technology" — match both.
+    #   "<Agency Name> uses Flock Safety's Operating System..."
+    # Flock has rephrased the boilerplate over time — older portals say
+    # "uses Flock Safety [LPR] technology", newer ones (seen on pacifica
+    # 2026-05-06) say "uses Flock Safety's Operating System". Match either.
     #
     # Some agencies write a custom overview that doesn't follow the
     # boilerplate at all. NCRIC's reads "***draft version*** The Northern
@@ -735,16 +735,19 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     # we actually want to catch (Flock rephrased their boilerplate).
     overview = fields.get("overview", "")
     crawled_name = None
-    flock_marker_re = re.compile(r" uses Flock Safety (?:LPR )?[Tt]echnology")
+    flock_marker_re = re.compile(
+        r" uses Flock Safety(?:'s)? "
+        r"(?:LPR )?(?:[Tt]echnology|Operating System)"
+    )
     m = flock_marker_re.search(overview)
     if m:
         crawled_name = overview[:m.start()].strip()
     elif overview.strip() and "Flock Safety" in overview:
         raise ValueError(
             f"{slug} {datestamp}: overview mentions Flock Safety but the "
-            f"agency-name marker (' uses Flock Safety [LPR] [Tt]echnology') "
-            f"doesn't match — Flock may have rephrased the boilerplate. "
-            f"Update parse_portal_text."
+            f"agency-name marker (' uses Flock Safety[\\'s] [LPR] "
+            f"[Tt]echnology|Operating System') doesn't match — Flock may "
+            f"have rephrased the boilerplate. Update parse_portal_text."
         )
 
     # Fail-loud: each bold heading should resolve to something in

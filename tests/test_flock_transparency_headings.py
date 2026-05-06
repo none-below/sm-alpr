@@ -465,3 +465,63 @@ def test_month_year_bold_heading_does_not_raise():
         text, "test-agency", "2026-05-03",
         bold_headings={"What's Detected", "April 2026", "January 2026"},
     )
+
+
+def test_alpr_acronym_in_parens_classifies_as_alpr_policy():
+    """Belmont/Pacifica (2026-05-06) introduced a heading shape with
+    the (ALPR) acronym in parentheses rather than space-delimited:
+    "Belmont Police Department - Automated License Plate Readers (ALPR) Policy".
+    The dynamic regex must accept either ' ALPR ' or '(ALPR)' as a
+    boundary so this routes to alpr_policy."""
+    from flock_transparency import _match_heading_kind
+    field, _ = _match_heading_kind(
+        "Belmont Police Department - Automated License Plate Readers (ALPR) Policy"
+    )
+    assert field == "alpr_policy"
+    field, _ = _match_heading_kind(
+        "Pacifica Police Department Automated License Plate Reader (ALPR) Policy"
+    )
+    assert field == "alpr_policy"
+    # The space-delimited variant must still match.
+    field, _ = _match_heading_kind("Foo ALPR Policy")
+    assert field == "alpr_policy"
+    field, _ = _match_heading_kind("Foo LPR Policy")
+    assert field == "alpr_policy"
+
+
+def test_overview_marker_accepts_operating_system_phrasing():
+    """Flock rephrased the overview boilerplate from
+    '<Agency> uses Flock Safety [LPR] technology' to
+    "<Agency> uses Flock Safety's Operating System" (seen on
+    pacifica-ca-pd 2026-05-06). Both must extract crawled_name."""
+    # Old phrasing: " uses Flock Safety LPR technology"
+    text_old = (
+        "Overview\n\n"
+        "The Foo PD uses Flock Safety LPR technology to capture evidence.\n\n"
+    )
+    result = parse_portal_text(
+        text_old, "foo-pd", "2026-05-06",
+        bold_headings={"Overview"},
+    )
+    assert result["crawled_name"] == "The Foo PD"
+    # New phrasing: " uses Flock Safety's Operating System"
+    text_new = (
+        "Overview\n\n"
+        "The Pacifica Police Department uses Flock Safety's Operating "
+        "System to capture objective evidence.\n\n"
+    )
+    result = parse_portal_text(
+        text_new, "pacifica-ca-pd", "2026-05-06",
+        bold_headings={"Overview"},
+    )
+    assert result["crawled_name"] == "The Pacifica Police Department"
+    # Plain "technology" variant (no LPR) must still work.
+    text_plain = (
+        "Overview\n\n"
+        "Bar PD uses Flock Safety technology for ALPR.\n\n"
+    )
+    result = parse_portal_text(
+        text_plain, "bar-pd", "2026-05-06",
+        bold_headings={"Overview"},
+    )
+    assert result["crawled_name"] == "Bar PD"
