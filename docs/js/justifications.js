@@ -545,7 +545,8 @@
       breakdown += '</div>';
     }
     return '<div class="external-summary">' +
-      '<div class="external-summary-label">Searches by agencies with shared access</div>' +
+      '<div class="external-summary-label">Searches by agencies with shared access to ' +
+      escapeHTML(agencyData.display_name) + '&rsquo;s data</div>' +
       '<strong>' + totalSearches.toLocaleString() + '</strong> broad-reach ' +
       'searches by <strong>' + sources + '</strong> of ' + outboundTotal +
       ' agencies that ' + escapeHTML(agencyData.display_name) +
@@ -609,59 +610,6 @@
       'than the bimodal split.' +
       '</div>' +
       '</div>';
-  }
-
-  function renderExternalSection(agencyData) {
-    var ext = agencyData.external_aggregated;
-    if (!ext || !ext.rows || !ext.rows.length) return '';
-    if (hideExternal) {
-      return '<h2 id="external-bars">Searches by agencies with shared access</h2>' +
-        '<p class="external-hidden-note">' +
-        'Hidden &mdash; toggle <em>Show only this agency&rsquo;s own searches</em> ' +
-        'off above to reveal partner searches that likely touched this data.' +
-        '</p>';
-    }
-    var threshold = ext.threshold || 100;
-    var rows = ext.rows;
-    var totalSearches = ext.total_broad_searches || 0;
-    var totalForPct = totalSearches || 1;
-    var html = '<h2 id="external-bars">Searches by agencies with shared access</h2>' +
-      renderNcDistributionCaveat(threshold) +
-      '<p class="bars-disclaimer external-caveat">' +
-      'Heuristic: Flock doesn&rsquo;t expose which networks each search ' +
-      'hit, so we treat any search reaching &ge; ' + threshold +
-      ' networks as having likely touched this agency&rsquo;s data. ' +
-      'A search reaching exactly 99 networks would be excluded; one ' +
-      'reaching 100+ is included regardless of which networks it actually ' +
-      'queried.' +
-      '</p>' +
-      '<div class="bar-list bar-list-external">';
-    for (var i = 0; i < rows.length; i++) {
-      var phrase = rows[i][0];
-      var count = rows[i][1];
-      var topSources = rows[i][2] || [];
-      var sharePct = (100 * count / totalForPct);
-      var w = Math.max(1, Math.round(sharePct));
-      var srcHtml = '';
-      for (var s = 0; s < topSources.length; s++) {
-        srcHtml += '<span class="ext-source">' +
-          escapeHTML(topSources[s][0]) + ' (' +
-          topSources[s][1].toLocaleString() + ')</span>';
-      }
-      html += '<div class="bar-item bar-item-external">' +
-        '<div class="bar-item-main">' +
-        '<span class="bar-track">' +
-        '<span class="bar bar-external" style="width:' + w + '%"></span>' +
-        '<span class="bar-pct">' + sharePct.toFixed(1) + '%</span>' +
-        '</span>' +
-        '<span class="bar-count">' + count.toLocaleString() + '</span>' +
-        '<span class="phrase-text">' + escapeHTML(phrase) + '</span>' +
-        '</div>' +
-        (srcHtml ? '<div class="ext-sources">' + srcHtml + '</div>' : '') +
-        '</div>';
-    }
-    html += '</div>';
-    return html;
   }
 
   // For the small set of agencies whose audit CSV schema entirely
