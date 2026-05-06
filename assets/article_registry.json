@@ -6441,5 +6441,546 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-06T12:10:50Z",
     "article_id": "art_052"
+  },
+  {
+    "url": "https://www.eff.org/deeplinks/2021/01/eff-joins-effort-restrict-automated-license-plate-readers-california",
+    "source_domain": "eff.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "EFF Joins Effort to Restrict Automated License Plate Readers in California",
+    "byline": "Dave Maass and Hayley Tsukayama",
+    "published_at": "2021-03-19T15:59:53-07:00",
+    "fetched_at": "2026-05-06T14:43:44Z",
+    "discovered_by": "claude-search:broader-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+    "scanner_score": 1,
+    "content_hash": "3a0bbf39d8d92e8e7fd759fd14272afe4f5a35c43810b12132445eacd7a80381",
+    "paths": {
+      "html": "assets/articles/eff.org/deeplinks-2021-01-eff-joins-effort-restrict-automated-license-plate-readers-cali_c2d9fd55.html",
+      "meta": "assets/articles/eff.org/deeplinks-2021-01-eff-joins-effort-restrict-automated-license-plate-readers-cali_c2d9fd55.meta.json",
+      "pdf": "assets/articles/eff.org/deeplinks-2021-01-eff-joins-effort-restrict-automated-license-plate-readers-cali_c2d9fd55.pdf",
+      "txt": "assets/articles/eff.org/deeplinks-2021-01-eff-joins-effort-restrict-automated-license-plate-readers-cali_c2d9fd55.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "policy:audit",
+      "policy:hotlist",
+      "policy:retention",
+      "policy:sharing",
+      "scope:state",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "6a2741a1-b6d5-5537-9963-9f2fb2b2447e",
+      "90910dc9-55ae-5362-93c3-d00246b75cac",
+      "6c12c240-c390-5c0f-b570-8900c2366343",
+      "0649c75b-a49d-5ec7-a240-18692dea2047",
+      "e1922365-80e2-5ec7-8580-95245cdad7f8",
+      "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+      "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "54ec60dd-900e-55cb-9eaf-b9db3c9481c6"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 6.65,
+        "matched_forms": [
+          "Los Angeles",
+          "Los Angeles Police",
+          "Los Angeles Police Department"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 3.933,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "6a2741a1-b6d5-5537-9963-9f2fb2b2447e",
+        "display_name": "Sacramento CA DA",
+        "state": "CA",
+        "score": 2.783,
+        "matched_forms": [
+          "Sacramento County"
+        ]
+      },
+      {
+        "agency_id": "90910dc9-55ae-5362-93c3-d00246b75cac",
+        "display_name": "Sacramento County CA SO",
+        "state": "CA",
+        "score": 2.783,
+        "matched_forms": [
+          "Sacramento County"
+        ]
+      },
+      {
+        "agency_id": "6c12c240-c390-5c0f-b570-8900c2366343",
+        "display_name": "Sacramento County Parks Department CA",
+        "state": "CA",
+        "score": 2.783,
+        "matched_forms": [
+          "Sacramento County"
+        ]
+      },
+      {
+        "agency_id": "0649c75b-a49d-5ec7-a240-18692dea2047",
+        "display_name": "Marin County CA DA",
+        "state": "CA",
+        "score": 2.7,
+        "matched_forms": [
+          "Marin County"
+        ]
+      },
+      {
+        "agency_id": "e1922365-80e2-5ec7-8580-95245cdad7f8",
+        "display_name": "Marin County CA SO",
+        "state": "CA",
+        "score": 2.7,
+        "matched_forms": [
+          "Marin County"
+        ]
+      },
+      {
+        "agency_id": "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+        "display_name": "Imperial City CA PD",
+        "state": "CA",
+        "score": 2.633,
+        "matched_forms": [
+          "Imperial"
+        ]
+      },
+      {
+        "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+        "display_name": "San Jose CA PD",
+        "state": "CA",
+        "score": 2.633,
+        "matched_forms": [
+          "San Jose"
+        ]
+      },
+      {
+        "agency_id": "54ec60dd-900e-55cb-9eaf-b9db3c9481c6",
+        "display_name": "Fresno CA PD",
+        "state": "CA",
+        "score": 2.6,
+        "matched_forms": [
+          "Fresno"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "EFF announces co-sponsorship of California S.B. 210 (the License Plate Privacy Act) by Sen. Scott Wiener, which would tighten ALPR rules following a 2020 State Auditor report finding LAPD, Fresno, Sacramento County, and Marin County noncompliant with S.B. 34. The bill would require 24-hour data deletion absent a hotlist hit, mandate annual audits, require the AG to draft a model policy, and bar access to older non-hotlist data.",
+    "key_quotes": [
+      {
+        "quote": "While the auditor only conducted a deep-dive into four jurisdictions\u2014Los Angeles, Fresno, Sacramento County and Marin County\u2014all were found to be noncompliant.",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "Requires agencies to delete data after 24 hours (at a maximum) unless a license plate is on a hot list",
+        "paragraph_idx": 11
+      },
+      {
+        "quote": "ALPR data is truly the Wild West in California, and this legislation will bring much-needed privacy protections.",
+        "paragraph_idx": 12
+      },
+      {
+        "quote": "agencies collected immense amounts of data on drivers, but only a small fraction (less than 1%) of those license plates are actually part of an active investigation",
+        "paragraph_idx": 8
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-06T14:50:45Z",
+    "article_id": "art_053"
+  },
+  {
+    "url": "https://www.eff.org/deeplinks/2025/10/flock-safety-and-texas-sheriff-claimed-license-plate-search-was-missing-person-it",
+    "source_domain": "eff.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Flock Safety and Texas Sheriff Claimed License Plate Search Was for a Missing Person. It Was an Abortion Investigation.",
+    "byline": "Dave Maass and Rindala Alajaji",
+    "published_at": "2025-10-07T06:00:08-07:00",
+    "fetched_at": "2026-05-06T14:40:53Z",
+    "discovered_by": "claude-search:initial-seed-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+    "scanner_score": 1,
+    "content_hash": "576e3ba7cdd925e8447a1bf08320ed819a70d05f70b426c63106ce1047df816d",
+    "paths": {
+      "html": "assets/articles/eff.org/deeplinks-2025-10-flock-safety-and-texas-sheriff-claimed-license-plate-search-wa_b2e1d20d.html",
+      "meta": "assets/articles/eff.org/deeplinks-2025-10-flock-safety-and-texas-sheriff-claimed-license-plate-search-wa_b2e1d20d.meta.json",
+      "pdf": "assets/articles/eff.org/deeplinks-2025-10-flock-safety-and-texas-sheriff-claimed-license-plate-search-wa_b2e1d20d.pdf",
+      "txt": "assets/articles/eff.org/deeplinks-2025-10-flock-safety-and-texas-sheriff-claimed-license-plate-search-wa_b2e1d20d.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:misuse",
+      "legal:legislation",
+      "legal:pra",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ba107933-2f9d-5af5-836f-72a35dd288ba",
+      "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+      "726e8e4f-8295-5b33-b5c2-f8f389677337",
+      "199fbd09-f525-5295-9516-4d35ddd828da",
+      "410c43eb-92df-5183-bc30-02ee9b4eb7b9",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "bc36858b-ad3b-59d8-84ec-719a6c34de87",
+      "4236130a-8a86-56ca-99d2-3df76a83785e",
+      "1d8cb468-cbbb-535f-a315-a79da4dd4f16",
+      "d9f58fac-673f-5cc9-8dd7-422e6f438dde"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ba107933-2f9d-5af5-836f-72a35dd288ba",
+        "display_name": "Johnson County TX SO",
+        "state": "TX",
+        "score": 15.733,
+        "matched_forms": [
+          "Johnson County",
+          "Johnson County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+        "display_name": "Justice IL PD",
+        "state": "IL",
+        "score": 8.2,
+        "matched_forms": [
+          "Justice"
+        ]
+      },
+      {
+        "agency_id": "726e8e4f-8295-5b33-b5c2-f8f389677337",
+        "display_name": "Johnson County IN SO",
+        "state": "IN",
+        "score": 6.833,
+        "matched_forms": [
+          "Johnson County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "199fbd09-f525-5295-9516-4d35ddd828da",
+        "display_name": "Johnson County KS SO",
+        "state": "KS",
+        "score": 6.833,
+        "matched_forms": [
+          "Johnson County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "410c43eb-92df-5183-bc30-02ee9b4eb7b9",
+        "display_name": "Johnson County MO SO",
+        "state": "MO",
+        "score": 6.833,
+        "matched_forms": [
+          "Johnson County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 6.767,
+        "matched_forms": [
+          "San Francisco",
+          "San Francisco Police",
+          "San Francisco Police Department"
+        ]
+      },
+      {
+        "agency_id": "bc36858b-ad3b-59d8-84ec-719a6c34de87",
+        "display_name": "Baylor Scott & White PD (TX)",
+        "state": "TX",
+        "score": 5.9,
+        "matched_forms": [
+          "Dallas"
+        ]
+      },
+      {
+        "agency_id": "4236130a-8a86-56ca-99d2-3df76a83785e",
+        "display_name": "Dallas TX PD",
+        "state": "TX",
+        "score": 5.9,
+        "matched_forms": [
+          "Dallas"
+        ]
+      },
+      {
+        "agency_id": "1d8cb468-cbbb-535f-a315-a79da4dd4f16",
+        "display_name": "Methodist Health System PD (TX)",
+        "state": "TX",
+        "score": 5.9,
+        "matched_forms": [
+          "Dallas"
+        ]
+      },
+      {
+        "agency_id": "d9f58fac-673f-5cc9-8dd7-422e6f438dde",
+        "display_name": "York ME PD",
+        "state": "ME",
+        "score": 2.567,
+        "matched_forms": [
+          "York"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "ba107933-2f9d-5af5-836f-72a35dd288ba",
+    "summary": "EFF reports that newly obtained records contradict claims by Flock Safety and the Johnson County (TX) Sheriff that a nationwide ALPR search of 83,000+ cameras for a woman who had a self-managed abortion was a welfare check; affidavits show deputies opened a 'death investigation' of a 'non-viable fetus' and consulted prosecutors about charging her. The article details the ALPR queries across Illinois and Washington networks, subsequent investigations by state and federal officials, and Flock's response measures, which EFF calls cosmetic.",
+    "key_quotes": [
+      {
+        "quote": "deputies had initiated a \"death investigation\" of a \"non-viable fetus,\" logged evidence of a woman's self-managed abortion, and consulted prosecutors about possibly charging her.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "the Johnson County Sheriff's Office conducted a nationwide search of more than 83,000 Flock ALPR cameras, giving the reason in the search log: \"had an abortion, search for female.\"",
+        "paragraph_idx": 11
+      },
+      {
+        "quote": "the searches in this case may have violated laws in states like Washington and Illinois, where restrictions exist specifically to prevent this kind of surveillance overreach.",
+        "paragraph_idx": 36
+      },
+      {
+        "quote": "States must ban law enforcement from using ALPRs to investigate healthcare decisions and prohibit sharing data across state lines.",
+        "paragraph_idx": 38
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-06T14:50:58Z",
+    "article_id": "art_054"
+  },
+  {
+    "url": "https://www.eff.org/deeplinks/2025/10/victory-california-requires-transparency-ai-police-reports",
+    "source_domain": "eff.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Victory! California Requires Transparency for AI Police Reports",
+    "byline": "Matthew Guariglia",
+    "published_at": "2025-10-14T10:44:24-07:00",
+    "fetched_at": "2026-05-06T14:42:18Z",
+    "discovered_by": "claude-search:broader-2026-05",
+    "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+    "scanner_score": 1,
+    "content_hash": "a3414944ddb32661da48021e9ca35454c22f11600436e197328b572468d225b4",
+    "paths": {
+      "html": "assets/articles/eff.org/deeplinks-2025-10-victory-california-requires-transparency-ai-police-reports_c10a06b4.html",
+      "meta": "assets/articles/eff.org/deeplinks-2025-10-victory-california-requires-transparency-ai-police-reports_c10a06b4.meta.json",
+      "pdf": "assets/articles/eff.org/deeplinks-2025-10-victory-california-requires-transparency-ai-police-reports_c10a06b4.pdf",
+      "txt": "assets/articles/eff.org/deeplinks-2025-10-victory-california-requires-transparency-ai-police-reports_c10a06b4.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "legal:legislation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:state",
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+      "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 3.933,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+        "display_name": "Imperial City CA PD",
+        "state": "CA",
+        "score": 2.633,
+        "matched_forms": [
+          "Imperial"
+        ]
+      },
+      {
+        "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+        "display_name": "San Jose CA PD",
+        "state": "CA",
+        "score": 2.633,
+        "matched_forms": [
+          "San Jose"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "California Governor Newsom signed S.B. 524, requiring police to disclose when AI authored part of a report, banning vendors from selling submitted data, and mandating retention of first drafts. EFF notes this poses compliance challenges for Axon's Draft One, which doesn't retain edit logs, making California the second state after Utah to regulate AI-generated police reports.",
+    "key_quotes": [
+      {
+        "quote": "S.B.524 requires police to disclose, on the report, if it was used to fully or in part author a police report. Further, it bans vendors from selling or sharing the information a police agency provided to the AI.",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "By design, Draft One does not retain an edit log of who wrote what.",
+        "paragraph_idx": 5
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-06T14:51:10Z",
+    "article_id": "art_055"
+  },
+  {
+    "url": "https://www.eff.org/deeplinks/2026/04/claw-back",
+    "source_domain": "eff.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Shut Down Turnkey Totalitarianism",
+    "byline": "Aaron Jue",
+    "published_at": "2026-05-05T00:11:54-07:00",
+    "fetched_at": "2026-05-06T14:49:15Z",
+    "discovered_by": "rss:eff.org",
+    "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+    "scanner_score": 1,
+    "content_hash": "13dc83fee51aa1ad2af039f5fb1b92a6e3fe584d3e7108e9065554a6c66d3b3f",
+    "paths": {
+      "html": "assets/articles/eff.org/deeplinks-2026-04-claw-back_ec1c1ac9.html",
+      "meta": "assets/articles/eff.org/deeplinks-2026-04-claw-back_ec1c1ac9.meta.json",
+      "pdf": "assets/articles/eff.org/deeplinks-2026-04-claw-back_ec1c1ac9.pdf",
+      "txt": "assets/articles/eff.org/deeplinks-2026-04-claw-back_ec1c1ac9.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "scope:national"
+    ],
+    "agencies": [],
+    "agency_candidates": [],
+    "primary_subject_agency_id": null,
+    "summary": "An EFF fundraising blog post invoking William Binney's 'turnkey totalitarian state' to urge donations and membership. It briefly highlights EFF's work, including litigation against warrantless searches of ALPR records, Rayhunter, and the Selling Safety report, alongside membership gear promotions.",
+    "key_quotes": [
+      {
+        "quote": "Sue to stop warrantless searches of Automated License Plate Reader (ALPR) records, which reveal millions of drivers' private habits, movements, and associations.",
+        "paragraph_idx": 4
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-06T14:51:17Z",
+    "article_id": "art_056"
+  },
+  {
+    "url": "https://www.eff.org/deeplinks/2026/04/open-records-laws-reveal-alprs-sprawling-surveillance-now-states-want-block-what",
+    "source_domain": "eff.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Open Records Laws Reveal ALPRs\u2019 Sprawling Surveillance. Now States Want to Block What the Public Sees.",
+    "byline": "Beryl Lipton, Aaron Mackey, and Adam Schwartz",
+    "published_at": "2026-04-30T09:54:10-07:00",
+    "fetched_at": "2026-05-06T14:45:50Z",
+    "discovered_by": "rss:eff.org",
+    "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+    "scanner_score": 1,
+    "content_hash": "050a92619fa848c915f7522d3118b381a58782d1387c022fd61354bdf156efc9",
+    "paths": {
+      "html": "assets/articles/eff.org/deeplinks-2026-04-open-records-laws-reveal-alprs-sprawling-surveillance-now-stat_cc665088.html",
+      "meta": "assets/articles/eff.org/deeplinks-2026-04-open-records-laws-reveal-alprs-sprawling-surveillance-now-stat_cc665088.meta.json",
+      "pdf": "assets/articles/eff.org/deeplinks-2026-04-open-records-laws-reveal-alprs-sprawling-surveillance-now-stat_cc665088.pdf",
+      "txt": "assets/articles/eff.org/deeplinks-2026-04-open-records-laws-reveal-alprs-sprawling-surveillance-now-stat_cc665088.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "legal:legislation",
+      "legal:pra",
+      "policy:audit",
+      "policy:sharing",
+      "scope:state"
+    ],
+    "agencies": [],
+    "agency_candidates": [],
+    "primary_subject_agency_id": null,
+    "summary": "EFF opposes a wave of state laws and bills (in Arizona, Connecticut, Washington, Illinois, Georgia, Maryland, and Oklahoma) that exempt ALPR data and derived information from public records laws, arguing they eliminate critical oversight of police surveillance. The post advocates instead for case-by-case privacy balancing, redaction, and disclosure of aggregated/deidentified data alongside audit logs.",
+    "key_quotes": [
+      {
+        "quote": "EFF is alarmed by recent laws in several states that have blocked public access to data collected by ALPRs, including, in some cases, information derived from ALPR data.",
+        "paragraph_idx": 5
+      },
+      {
+        "quote": "the wholesale exemption of ALPR information from disclosure under state public records laws would stymie the public's ability to monitor how their government is using powerful and controversial surveillance technology.",
+        "paragraph_idx": 18
+      },
+      {
+        "quote": "In Arizona, SB 1111 would restrict public access to ALPR data \"collected by\" an ALPR. The bill would even make it a felony to access or use data from an ALPR",
+        "paragraph_idx": 21
+      },
+      {
+        "quote": "These records are not just informational\u2014they are leverage. Communities, journalists, and local officials have used ALPR disclosures to block new deployments, refuse contract renewals, and terminate existing agreements",
+        "paragraph_idx": 11
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-06T14:51:27Z",
+    "article_id": "art_057"
+  },
+  {
+    "url": "https://www.eff.org/deeplinks/2026/04/selling-mass-surveillance-effector-387",
+    "source_domain": "eff.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "\ud83d\udc41 Selling Mass Surveillance | EFFector 38.7",
+    "byline": "Christian Romero",
+    "published_at": "2026-04-08T09:24:35-07:00",
+    "fetched_at": "2026-05-06T14:47:38Z",
+    "discovered_by": "rss:eff.org",
+    "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+    "scanner_score": 1,
+    "content_hash": "e144bbf0f2b6f1c9ae804547b7738be56208d2e3419eb17a31251b8b258704e0",
+    "paths": {
+      "html": "assets/articles/eff.org/deeplinks-2026-04-selling-mass-surveillance-effector-387_e3e92c09.html",
+      "meta": "assets/articles/eff.org/deeplinks-2026-04-selling-mass-surveillance-effector-387_e3e92c09.meta.json",
+      "pdf": "assets/articles/eff.org/deeplinks-2026-04-selling-mass-surveillance-effector-387_e3e92c09.pdf",
+      "txt": "assets/articles/eff.org/deeplinks-2026-04-selling-mass-surveillance-effector-387_e3e92c09.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [],
+    "agencies": [],
+    "agency_candidates": [],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-06T14:50:33Z",
+    "article_id": "art_058"
   }
 ]
