@@ -1720,12 +1720,19 @@
       : '';
 
     var hasOwnAudit = agencyData.has_own_audit !== false;
+    var hasJustification = agencyData.has_justification_column !== false;
+    // Own bars are only useful when both an audit AND a justification
+    // column exist. Agencies that publish an audit-CSV with no
+    // reason/offenseType/caseNumber column (Fontana, Menlo Park) have
+    // an audit full of (blank) rows; the no-justification callout
+    // tells that story better than a single "(blank)" bar would.
+    var hasUsableOwnBars = hasOwnAudit && hasJustification;
     var extRows = (agencyData.external_aggregated &&
                    agencyData.external_aggregated.rows) || [];
     var extTotal = (agencyData.external_aggregated &&
                     agencyData.external_aggregated.total_broad_searches) || 0;
-    var ownVerbatim = agencyData.verbatim || [];
-    var ownTotal = agencyData.row_count || 0;
+    var ownVerbatim = hasUsableOwnBars ? (agencyData.verbatim || []) : [];
+    var ownTotal = hasUsableOwnBars ? (agencyData.row_count || 0) : 0;
     var threshold = (agencyData.external_aggregated &&
                      agencyData.external_aggregated.threshold) || 100;
     var bimodalCaveat = (extRows.length && !hideExternal)
@@ -1733,6 +1740,29 @@
     var barsHtml = ownVerbatim.length || extRows.length
       ? renderBars(ownVerbatim, ownTotal, extRows, extTotal)
       : '';
+
+    // Top-of-section header content varies by case:
+    //   - usable own bars: brief disclaimer, then bimodal caveat + bars
+    //   - own audit but no justification column: callout + bimodal
+    //     caveat + partner-only bars
+    //   - no own audit at all: bimodal caveat + partner-only bars
+    var topReasonsBody;
+    if (hasUsableOwnBars) {
+      topReasonsBody = '<p class="bars-disclaimer">' +
+        'Local rows are typed in (or chosen from a dropdown) by the searching officer. ' +
+        'Nothing in the audit system validates that the entered reason aligns with the actual ' +
+        'reason for the search, or that the search was authorized.' +
+        '</p>' +
+        bimodalCaveat +
+        barsHtml;
+    } else if (hasOwnAudit && !hasJustification) {
+      topReasonsBody = renderNoJustificationCallout(agencyData) +
+        bimodalCaveat +
+        barsHtml;
+    } else {
+      topReasonsBody = bimodalCaveat + barsHtml;
+    }
+
     var ownSections = hasOwnAudit
       ? (windowBanner +
         blurb +
@@ -1740,21 +1770,15 @@
         renderUses(agencyData) +
         renderLongActiveCases(agencyData.long_active_cases, agencyData.display_name) +
         '<h2>Top reasons</h2>' +
-        (agencyData.has_justification_column === false
-          ? renderNoJustificationCallout(agencyData)
-          : '<p class="bars-disclaimer">' +
-            'Local rows are typed in (or chosen from a dropdown) by the searching officer. ' +
-            'Nothing in the audit system validates that the entered reason aligns with the actual ' +
-            'reason for the search, or that the search was authorized.' +
-            '</p>' +
-            bimodalCaveat +
-            barsHtml))
+        topReasonsBody)
       : renderNoOwnAuditBanner(agencyData) +
         renderUses(agencyData) +
         '<h2>Top reasons</h2>' +
-        bimodalCaveat +
-        barsHtml;
-    var ownTrailingSections = hasOwnAudit
+        topReasonsBody;
+    // Heatmap and codes table need own audit data with a justification
+    // column. Agencies whose audit lacks the column have nothing to
+    // populate those sections with.
+    var ownTrailingSections = hasUsableOwnBars
       ? ('<h2>Search timing (day &times; hour, Pacific Time)</h2>' +
         renderHeatmap(agencyData.hour_dow, agencyData.timed_rows) +
         '<h2>Detected California penal / vehicle codes</h2>' +
