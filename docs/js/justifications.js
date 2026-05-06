@@ -463,18 +463,44 @@
   // attributes the top N sources inline.
   var hideExternal = false;
 
-  function renderExternalSection(agencyData) {
+  // For agencies without their own published audit. Replaces the
+  // data-window banner / stats grid / own-audit framing with a
+  // brief "no own audit" callout that surfaces what's known: this
+  // agency exists in the sharing graph and has audit-publishing
+  // partners; the partner picture below tells the cross-agency story
+  // for this agency's data.
+  function renderNoOwnAuditBanner(agencyData) {
+    var ext = agencyData.external_aggregated || {};
+    var outboundTotal = ext.outbound_total || 0;
+    var sources = ext.sources_with_data || 0;
+    var portalLink = 'https://transparency.flocksafety.com/' +
+      encodeURIComponent(agencyData.slug);
+    return '<div class="no-own-audit-banner">' +
+      '<div class="no-own-audit-head">' +
+      'No own search audit published' +
+      '</div>' +
+      '<div class="no-own-audit-body">' +
+      escapeHTML(agencyData.display_name) +
+      ' does not publish its own Public Search Audit, so there is no ' +
+      'record of searches its own staff ran against ALPR data. The ' +
+      'cross-agency picture below comes from the ' + sources +
+      ' of ' + outboundTotal + ' partner agencies (with shared access ' +
+      'to this data) that do publish audits. ' +
+      '<a href="' + portalLink + '" target="_blank" rel="noopener">' +
+      'View on Flock transparency portal &rarr;</a>' +
+      '</div>' +
+      '</div>';
+  }
+
+  // Numbers + breakdown for the cross-agency external view. Renders
+  // near the top of the page (above the agency's own bars) so the
+  // headline volume reads first; the bars-with-attribution detail
+  // lives in renderExternalSection further down.
+  function renderExternalStats(agencyData) {
     var ext = agencyData.external_aggregated;
     if (!ext || !ext.rows || !ext.rows.length) return '';
-    if (hideExternal) {
-      return '<h2>Searches by agencies with shared access</h2>' +
-        '<p class="external-hidden-note">' +
-        'Hidden &mdash; toggle <em>Show only this agency&rsquo;s own searches</em> ' +
-        'off above to reveal partner searches that likely touched this data.' +
-        '</p>';
-    }
+    if (hideExternal) return '';
     var threshold = ext.threshold || 100;
-    var rows = ext.rows;
     var totalSearches = ext.total_broad_searches || 0;
     var sources = ext.sources_with_data || 0;
     var outboundTotal = ext.outbound_total || 0;
@@ -483,11 +509,7 @@
     var silent = ext.partners_silent_count || 0;
     var medianBroad = ext.median_broad_per_reporter || 0;
     var nonAudit = s30Only + silent;
-    // If non-reporting partners are similarly active to reporters,
-    // each contributes ~medianBroad broad-reach searches that this
-    // page can't see. The estimate is order-of-magnitude, not precise.
     var estimatedTotal = totalSearches + medianBroad * nonAudit;
-    var totalForPct = totalSearches || 1;
     var breakdown = '';
     if (nonAudit > 0) {
       breakdown = '<div class="external-breakdown">' +
@@ -522,17 +544,89 @@
       }
       breakdown += '</div>';
     }
-    var html = '<h2>Searches by agencies with shared access</h2>' +
-      '<div class="external-summary">' +
+    return '<div class="external-summary">' +
+      '<div class="external-summary-label">Searches by agencies with shared access</div>' +
       '<strong>' + totalSearches.toLocaleString() + '</strong> broad-reach ' +
       'searches by <strong>' + sources + '</strong> of ' + outboundTotal +
       ' agencies that ' + escapeHTML(agencyData.display_name) +
       ' shares its data to. ' +
       'Each is a search that reached &ge; ' + threshold +
       ' networks &mdash; broad enough that this agency&rsquo;s data was ' +
-      'almost certainly included.' +
+      'almost certainly included. ' +
+      '<a class="external-summary-jump" href="#external-bars">' +
+      'Top phrases &darr;</a>' +
       breakdown +
+      '</div>';
+  }
+
+  // Inline mini bar chart of the global networkCount distribution.
+  // Anchors the threshold ("we use 100+") to the empirical bimodal
+  // pattern: most searches are either 1-9 networks or 100+, with very
+  // little in between. Lets the reader see why the exact threshold
+  // matters less than it sounds.
+  function renderNcDistributionCaveat(threshold) {
+    if (!currentNcDistribution) return '';
+    var buckets = currentNcDistribution.buckets || {};
+    var total = currentNcDistribution.total || 0;
+    if (!total) return '';
+    var labels = ['1', '2-9', '10-99', '100+'];
+    var pcts = labels.map(function (k) {
+      return total > 0 ? (100 * (buckets[k] || 0) / total) : 0;
+    });
+    var bars = '<div class="nc-dist-bars">';
+    for (var i = 0; i < labels.length; i++) {
+      var isBroad = labels[i] === '100+';
+      var cls = 'nc-dist-bar' + (isBroad ? ' nc-dist-bar-broad' : '');
+      bars += '<div class="' + cls + '" title="' + labels[i] +
+        ' networks: ' + (buckets[labels[i]] || 0).toLocaleString() +
+        ' searches (' + pcts[i].toFixed(1) + '%)">' +
+        '<div class="nc-dist-bar-label">' + labels[i] + ' nets</div>' +
+        '<div class="nc-dist-bar-fill" style="height:' +
+        Math.max(2, Math.round(pcts[i])) + '%"></div>' +
+        '<div class="nc-dist-bar-pct">' + pcts[i].toFixed(0) + '%</div>' +
+        '</div>';
+    }
+    bars += '</div>';
+    return '<div class="nc-dist-caveat">' +
+      '<div class="nc-dist-caveat-head">' +
+      'Why a &ge; ' + threshold + '-network threshold?' +
       '</div>' +
+      '<div class="nc-dist-caveat-body">' +
+      'Across all ' + (currentAgencyCount || '') +
+      ' audit-publishing CA agencies, search reach is bimodal &mdash; ' +
+      'most searches go either to a small set of direct partners or ' +
+      'to a broad slice of the state, with very little in between:' +
+      '</div>' +
+      bars +
+      '<div class="nc-dist-caveat-foot">' +
+      'A search reaching <strong>2&ndash;9 networks</strong> stayed ' +
+      'within direct partners. A search reaching <strong>100+</strong> ' +
+      'is wide enough that this agency&rsquo;s data is very likely ' +
+      'included, though Flock doesn&rsquo;t publish exactly which ' +
+      'networks each search touched. The middle band (10&ndash;99) ' +
+      'accounts for only <strong>' + pcts[2].toFixed(1) +
+      '%</strong> of all searches, so the exact cutoff matters less ' +
+      'than the bimodal split.' +
+      '</div>' +
+      '</div>';
+  }
+
+  function renderExternalSection(agencyData) {
+    var ext = agencyData.external_aggregated;
+    if (!ext || !ext.rows || !ext.rows.length) return '';
+    if (hideExternal) {
+      return '<h2 id="external-bars">Searches by agencies with shared access</h2>' +
+        '<p class="external-hidden-note">' +
+        'Hidden &mdash; toggle <em>Show only this agency&rsquo;s own searches</em> ' +
+        'off above to reveal partner searches that likely touched this data.' +
+        '</p>';
+    }
+    var threshold = ext.threshold || 100;
+    var rows = ext.rows;
+    var totalSearches = ext.total_broad_searches || 0;
+    var totalForPct = totalSearches || 1;
+    var html = '<h2 id="external-bars">Searches by agencies with shared access</h2>' +
+      renderNcDistributionCaveat(threshold) +
       '<p class="bars-disclaimer external-caveat">' +
       'Heuristic: Flock doesn&rsquo;t expose which networks each search ' +
       'hit, so we treat any search reaching &ge; ' + threshold +
@@ -600,30 +694,83 @@
       '</div></div>';
   }
 
-  function renderBars(items, total) {
-    if (!items.length) {
+  // Single external row rendered inline in the merged bar list.
+  // External rows have no per-phrase detail (no codes/flags/timing
+  // grids — those come from per-agency audits we don't have for the
+  // partner who actually ran the search), so this row is read-only,
+  // distinct purple styling, with source-attribution chips below.
+  function renderExternalBarRow(row, combinedTotal) {
+    var phrase = row[0];
+    var count = row[1];
+    var topSources = row[2] || [];
+    var sharePct = combinedTotal > 0 ? (100 * count / combinedTotal) : 0;
+    var w = Math.max(1, Math.round(sharePct));
+    var srcHtml = '';
+    for (var s = 0; s < topSources.length; s++) {
+      srcHtml += '<span class="ext-source">' +
+        escapeHTML(topSources[s][0]) + ' (' +
+        topSources[s][1].toLocaleString() + ')</span>';
+    }
+    return '<div class="bar-item bar-item-external">' +
+      '<div class="bar-item-main">' +
+      '<span class="bar-track">' +
+      '<span class="bar bar-external" style="width:' + w + '%"></span>' +
+      '<span class="bar-pct">' + sharePct.toFixed(1) + '%</span>' +
+      '</span>' +
+      '<span class="bar-count">' + count.toLocaleString() + '</span>' +
+      '<span class="phrase-text">' + escapeHTML(phrase) + '</span>' +
+      '<span class="ext-badge">via partners</span>' +
+      '</div>' +
+      (srcHtml ? '<div class="ext-sources">' + srcHtml + '</div>' : '') +
+      '</div>';
+  }
+
+  function renderBars(items, total, externalRows, externalTotal) {
+    if (!items.length && (!externalRows || !externalRows.length)) {
       return '<div class="empty">No phrases to display for this agency.</div>';
     }
     var displayItems = aggregateItems(items, currentViewMode);
+    var hasExternal = !hideExternal && externalRows && externalRows.length &&
+                      currentViewMode === 'phrase';
+    var combinedTotal = (total || 0) +
+      (hasExternal ? (externalTotal || 0) : 0);
     var filterBarHtml = currentViewMode === 'phrase' ? renderFilterBar(items) : '';
     var hint = currentViewMode === 'phrase'
-      ? 'Click any row for per-phrase detail (timing, network reach, daily cadence).'
+      ? (hasExternal
+          ? 'Local rows (blue) and partner rows (purple) are interleaved by raw count; ' +
+            'percentages are share of all known volume (this agency&rsquo;s own + partners). ' +
+            'Click a local row for per-phrase detail.'
+          : 'Click any row for per-phrase detail (timing, network reach, daily cadence).')
       : 'Aggregated view &mdash; phrases with multiple codes are counted under each, so totals can exceed search count. ' +
         'Switch back to <em>Phrase</em> grouping for clickable rows with detail.';
     var html = renderViewModeToggle() +
       filterBarHtml +
       '<div class="bar-list-hint">' + hint + '</div>' +
       '<div class="bar-list">';
-    items = displayItems;
-    for (var i = 0; i < items.length; i++) {
-      var phrase = items[i][0];
-      var count = items[i][1];
-      var codes = items[i][2] || [];
-      var detail = items[i][3];
-      var sharePct = total > 0 ? (100 * count / total) : 0;
-      // Bar fill is the absolute share of total searches — a 12%
-      // phrase fills 12% of the track. The cap of 100% naturally
-      // applies; min 1% so even tiny entries show a visible nub.
+    // Build a merged list of {type, count, ...} for unified sort.
+    // Aggregated views (code/category) skip external since external
+    // rows have no codes/categories to bucket against.
+    var merged = [];
+    for (var i = 0; i < displayItems.length; i++) {
+      merged.push({ type: 'own', count: displayItems[i][1], item: displayItems[i] });
+    }
+    if (hasExternal) {
+      for (var j = 0; j < externalRows.length; j++) {
+        merged.push({ type: 'ext', count: externalRows[j][1], row: externalRows[j] });
+      }
+    }
+    merged.sort(function (a, b) { return b.count - a.count; });
+    for (var mi = 0; mi < merged.length; mi++) {
+      if (merged[mi].type === 'ext') {
+        html += renderExternalBarRow(merged[mi].row, combinedTotal);
+        continue;
+      }
+      var rowItem = merged[mi].item;
+      var phrase = rowItem[0];
+      var count = rowItem[1];
+      var codes = rowItem[2] || [];
+      var detail = rowItem[3];
+      var sharePct = combinedTotal > 0 ? (100 * count / combinedTotal) : 0;
       var w = Math.max(1, Math.round(sharePct));
 
       // Code-identification pills (orange) sit next to the phrase so
@@ -669,7 +816,7 @@
         ' data-flag-kinds="' + escapeHTML(flagKinds) + '"' +
         ' data-code-labels="' + escapeHTML(codeLabels) + '"' +
         ' data-categories="' + escapeHTML(rowCats) + '"';
-      var drilldown = items[i][4];
+      var drilldown = rowItem[4];
       if (isAggregated) {
         rowAttrs += ' data-aggregated="1"';
         if (drilldown && drilldown.type) {
@@ -1376,6 +1523,7 @@
   var currentAgencyData = null;
   var currentSlug = '';
   var currentAgencyCount = 0;
+  var currentNcDistribution = null;
 
   // Populate the per-phrase context maps that handleExpandClick reads.
   // Counts come from verbatim AND long-active-cases so all three
@@ -1571,28 +1719,54 @@
         '</div>'
       : '';
 
+    var hasOwnAudit = agencyData.has_own_audit !== false;
+    var extRows = (agencyData.external_aggregated &&
+                   agencyData.external_aggregated.rows) || [];
+    var extTotal = (agencyData.external_aggregated &&
+                    agencyData.external_aggregated.total_broad_searches) || 0;
+    var ownVerbatim = agencyData.verbatim || [];
+    var ownTotal = agencyData.row_count || 0;
+    var threshold = (agencyData.external_aggregated &&
+                     agencyData.external_aggregated.threshold) || 100;
+    var bimodalCaveat = (extRows.length && !hideExternal)
+      ? renderNcDistributionCaveat(threshold) : '';
+    var barsHtml = ownVerbatim.length || extRows.length
+      ? renderBars(ownVerbatim, ownTotal, extRows, extTotal)
+      : '';
+    var ownSections = hasOwnAudit
+      ? (windowBanner +
+        blurb +
+        stats +
+        renderUses(agencyData) +
+        renderLongActiveCases(agencyData.long_active_cases, agencyData.display_name) +
+        '<h2>Top reasons</h2>' +
+        (agencyData.has_justification_column === false
+          ? renderNoJustificationCallout(agencyData)
+          : '<p class="bars-disclaimer">' +
+            'Local rows are typed in (or chosen from a dropdown) by the searching officer. ' +
+            'Nothing in the audit system validates that the entered reason aligns with the actual ' +
+            'reason for the search, or that the search was authorized.' +
+            '</p>' +
+            bimodalCaveat +
+            barsHtml))
+      : renderNoOwnAuditBanner(agencyData) +
+        renderUses(agencyData) +
+        '<h2>Top reasons</h2>' +
+        bimodalCaveat +
+        barsHtml;
+    var ownTrailingSections = hasOwnAudit
+      ? ('<h2>Search timing (day &times; hour, Pacific Time)</h2>' +
+        renderHeatmap(agencyData.hour_dow, agencyData.timed_rows) +
+        '<h2>Detected California penal / vehicle codes</h2>' +
+        renderCodes(agencyData.penal_codes))
+      : '';
+
     return '<h1>' + escapeHTML(agencyData.display_name) + '</h1>' +
       '<p class="subtitle">ALPR search justifications</p>' +
-      windowBanner +
-      blurb +
-      stats +
       localToggle +
-      renderUses(agencyData) +
-      renderLongActiveCases(agencyData.long_active_cases, agencyData.display_name) +
-      '<h2>Top reasons (this agency&rsquo;s own searches)</h2>' +
-      (agencyData.has_justification_column === false
-        ? renderNoJustificationCallout(agencyData)
-        : '<p class="bars-disclaimer">' +
-          'These reasons are typed in (or chosen from a dropdown) by the searching officer. ' +
-          'Nothing in the audit system validates that the entered reason aligns with the actual ' +
-          'reason for the search, or that the search was authorized.' +
-          '</p>' +
-          renderBars(agencyData.verbatim, agencyData.row_count)) +
-      renderExternalSection(agencyData) +
-      '<h2>Search timing (day &times; hour, Pacific Time)</h2>' +
-      renderHeatmap(agencyData.hour_dow, agencyData.timed_rows) +
-      '<h2>Detected California penal / vehicle codes</h2>' +
-      renderCodes(agencyData.penal_codes) +
+      renderExternalStats(agencyData) +
+      ownSections +
+      ownTrailingSections +
       '<div class="footnote">' +
       'Source: this agency’s Public Search Audit CSV, embedded in its Flock Safety transparency portal. ' +
       'Rows are deduplicated by ID across every scrape we have, so the audit window can extend ' +
@@ -1734,7 +1908,9 @@
       })
       .then(function (data) {
         var agencies = data.agencies || {};
-        currentAgencyCount = data.agency_count || Object.keys(agencies).length;
+        currentAgencyCount = data.agencies_with_own_audit ||
+          data.agency_count || Object.keys(agencies).length;
+        currentNcDistribution = data.network_count_distribution || null;
         var slug = getInitialSlug(agencies);
         wireAgencySearch(agencies, slug);
         installPhraseContext(slug ? agencies[slug] : null);
