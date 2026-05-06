@@ -725,18 +725,26 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     #   "<Agency Name> uses Flock Safety [LPR ][Tt]echnology..."
     # Some agencies (e.g. Casa Grande AZ PD) have "LPR Technology" in the
     # boilerplate, others have plain "technology" — match both.
+    #
+    # Some agencies write a custom overview that doesn't follow the
+    # boilerplate at all. NCRIC's reads "***draft version*** The Northern
+    # California Regional Intelligence Center is a multi-jurisdiction
+    # government program..." and never mentions Flock Safety. For those
+    # crawled_name stays None silently — we only raise when "Flock Safety"
+    # IS mentioned but the marker shape doesn't match, which is the case
+    # we actually want to catch (Flock rephrased their boilerplate).
     overview = fields.get("overview", "")
     crawled_name = None
     flock_marker_re = re.compile(r" uses Flock Safety (?:LPR )?[Tt]echnology")
     m = flock_marker_re.search(overview)
     if m:
         crawled_name = overview[:m.start()].strip()
-    elif overview.strip():
+    elif overview.strip() and "Flock Safety" in overview:
         raise ValueError(
-            f"{slug} {datestamp}: overview is non-empty but agency-name "
-            f"marker (' uses Flock Safety [LPR] [Tt]echnology') not found — "
-            f"Flock may have rephrased the overview boilerplate. Update "
-            f"parse_portal_text."
+            f"{slug} {datestamp}: overview mentions Flock Safety but the "
+            f"agency-name marker (' uses Flock Safety [LPR] [Tt]echnology') "
+            f"doesn't match — Flock may have rephrased the boilerplate. "
+            f"Update parse_portal_text."
         )
 
     # Fail-loud: each bold heading should resolve to something in

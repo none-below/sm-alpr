@@ -312,21 +312,19 @@ def test_stub_page_without_portal_markers_does_not_raise():
                       bold_headings=set())
 
 
-def test_overview_without_flock_marker_raises():
-    """If the overview body is non-empty but the agency-name marker
-    'uses Flock Safety technology' is missing, Flock rephrased their
-    boilerplate — surface that instead of silently dropping crawled_name.
-    """
+def test_overview_mentioning_flock_without_marker_raises():
+    """If the overview mentions Flock Safety but the agency-name marker
+    ('X uses Flock Safety [LPR] [Tt]echnology') doesn't match, that
+    points at Flock rephrasing their boilerplate — surface it instead
+    of silently dropping crawled_name."""
     import pytest
-    # Overview is detected as a heading; body is overview prose with
-    # no "uses Flock Safety technology" marker.
     text = "\n".join([
         "Overview",
         "",
-        "Some agency description that doesn't contain the expected marker.",
+        "Some agency partners with Flock Safety to deploy ALPR cameras.",
         "",
     ])
-    with pytest.raises(ValueError, match="agency-name marker"):
+    with pytest.raises(ValueError, match="Flock may have rephrased"):
         parse_portal_text(text, "test-agency", "2026-05-03",
                           bold_headings={"Overview"})
 
@@ -336,6 +334,26 @@ def test_empty_overview_does_not_raise():
     crawled_name stays None, that's a known/acceptable state."""
     text = "Overview\n\n\n"
     result = parse_portal_text(text, "test-agency", "2026-05-03",
+                               bold_headings={"Overview"})
+    assert result["crawled_name"] is None
+
+
+def test_custom_non_boilerplate_overview_does_not_raise():
+    """Some agencies write their own overview that doesn't follow the
+    Flock Safety boilerplate at all — NCRIC (Northern California
+    Regional Intelligence Center) starts with '***draft version***'
+    and never mentions Flock Safety. The marker check is gated on
+    'Flock Safety' appearing in the overview, so non-boilerplate
+    customizations don't trip it; crawled_name stays None silently."""
+    text = "\n".join([
+        "Overview",
+        "",
+        "***draft version*** The Northern California Regional Intelligence "
+        "Center (NCRIC) is a multi-jurisdiction government program that "
+        "serves fifteen counties in Northern California.",
+        "",
+    ])
+    result = parse_portal_text(text, "ncric", "2026-05-05",
                                bold_headings={"Overview"})
     assert result["crawled_name"] is None
 
