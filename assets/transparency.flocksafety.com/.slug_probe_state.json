@@ -180,13 +180,14 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-06T21:46:59.349048+00:00",
+      "last_probed": "2026-05-06T23:37:02.987479+00:00",
       "tried": {
         "national-city-ca": "http_404",
         "national-city-ca-po": "http_404",
         "national-city-ca-police": "http_404",
         "national-city-ca-police-department": "http_404",
-        "national-city-ca-ps": "http_404"
+        "national-city-ca-ps": "http_404",
+        "national-city-pd-ca": "http_404"
       }
     },
     "2549113a-a3d1-5d5c-9a3c-98fe21f27b17": {
@@ -448,6 +449,14 @@
       "last_probed": "2026-04-26T18:30:06.441152+00:00",
       "tried": {
         "westmorland-ca-po": "http_404"
+      }
+    },
+    "48a65226-c77c-557d-ac4a-fa2f396f2672": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-06T23:36:56.663068+00:00",
+      "tried": {
+        "chesterfield-county-va-po": "http_404"
       }
     },
     "4a99a1f3-e9ec-5fdc-b620-ba8c356dc19c": {
@@ -1175,6 +1184,14 @@
         "university-of-the-pacific-ca-pd": "http_404"
       }
     },
+    "c7335eaf-bc00-59fa-bfff-e5992d32041d": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-06T23:36:51.670523+00:00",
+      "tried": {
+        "sardis-city-al-pd": "http_404"
+      }
+    },
     "ca169c85-b556-58a0-a0bc-988c09bc6d01": {
       "exhausted": false,
       "found": null,
@@ -1466,6 +1483,6 @@
       }
     }
   },
-  "updated": "2026-05-06T22:35:40.834901+00:00",
+  "updated": "2026-05-06T23:37:03.022727+00:00",
   "version": 1
 }
