@@ -970,11 +970,12 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-06T13:21:00.305533+00:00",
+      "last_probed": "2026-05-06T18:07:53.685018+00:00",
       "tried": {
         "hollister-ca-po": "http_404",
         "hollister-ca-police": "http_404",
-        "hollister-ca-police-department": "http_404"
+        "hollister-ca-police-department": "http_404",
+        "hollister-ca-ps": "http_404"
       }
     },
     "a5b59684-abcc-5a43-949d-3aec089d30a4": {
@@ -1319,6 +1320,14 @@
         "soledad-ca-po": "http_404"
       }
     },
+    "f168928f-b50b-5bd7-8c25-6da6521fdb93": {
+      "exhausted": false,
+      "found": "clear-lake-ia-pd",
+      "last_probed": "2026-05-06T18:07:37.059773+00:00",
+      "tried": {
+        "clear-lake-ia-pd": "http_200"
+      }
+    },
     "f17f02e4-77c4-50ca-a858-8e388e2b8e85": {
       "exhausted": false,
       "found": null,
@@ -1363,6 +1372,14 @@
         "arcadia-ca-police-department": "http_404"
       }
     },
+    "fad50c3f-54b7-5bac-9093-b41b977dac71": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-06T18:07:48.257851+00:00",
+      "tried": {
+        "jaime-le-training-pd": "http_404"
+      }
+    },
     "fae06461-0698-548b-ad4e-a8e2b5d8539a": {
       "exhausted": false,
       "found": null,
@@ -1391,6 +1408,6 @@
       }
     }
   },
-  "updated": "2026-05-06T15:54:38.166792+00:00",
+  "updated": "2026-05-06T18:07:53.735473+00:00",
   "version": 1
 }
