@@ -172,11 +172,12 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-06T05:01:09.418082+00:00",
+      "last_probed": "2026-05-06T15:54:38.113616+00:00",
       "tried": {
         "national-city-ca-po": "http_404",
         "national-city-ca-police": "http_404",
-        "national-city-ca-police-department": "http_404"
+        "national-city-ca-police-department": "http_404",
+        "national-city-ca-ps": "http_404"
       }
     },
     "2549113a-a3d1-5d5c-9a3c-98fe21f27b17": {
@@ -297,6 +298,14 @@
       "tried": {
         "san-benito-county-ca-sd": "http_404",
         "san-benito-county-ca-so": "http_404"
+      }
+    },
+    "36bccbfd-6749-54b0-93e2-e78c48e56dda": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-06T15:54:32.112438+00:00",
+      "tried": {
+        "jackson-ms-pd": "http_404"
       }
     },
     "36d68f61-6c39-53ec-815e-c0853fca118d": {
@@ -589,6 +598,14 @@
       "tried": {
         "sacramento-ca": "http_404",
         "sacramento-ca-district-attorney": "http_404"
+      }
+    },
+    "6b9c1c80-8c06-5e0a-a0c6-30913fad84fd": {
+      "exhausted": false,
+      "found": "wellington-ks-pd",
+      "last_probed": "2026-05-06T15:54:22.498232+00:00",
+      "tried": {
+        "wellington-ks-pd": "http_200"
       }
     },
     "6be9f842-1658-5490-8be4-14b77cc1e96d": {
@@ -1374,6 +1391,6 @@
       }
     }
   },
-  "updated": "2026-05-06T13:21:00.340916+00:00",
+  "updated": "2026-05-06T15:54:38.166792+00:00",
   "version": 1
 }
