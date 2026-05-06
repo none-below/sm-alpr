@@ -32,6 +32,11 @@ import io
 # intentional, not leaked PII, and would otherwise flood the scanner.
 EXCLUDED_PATH_PREFIXES = (
     "assets/articles/",
+    # W012462 is the Flock-to-SMPD email PRA. Produced records are Flock
+    # marketing emails and partner-agency sharing notifications — they
+    # intentionally contain external agency email addresses from dozens of
+    # non-allowlisted domains. Not a PII leak; expected content.
+    "assets/san-mateo-public-records/W012462-040226/",
 )
 
 ALLOWED_EMAIL_DOMAINS = {
