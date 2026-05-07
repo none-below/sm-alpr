@@ -44,6 +44,12 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main
+          # Need full history so the rebase below can find a common ancestor
+          # with origin/article-registry-bot. With the default shallow clone,
+          # rebase treats the histories as unrelated and replays every bot
+          # commit onto main, blowing up with add/add conflicts on shared
+          # files.
+          fetch-depth: 0
           # PAT (if configured) attributes the resulting PR to a human
           # so CI doesn't require approval-for-bots on every run.
           token: ${{ secrets.REFRESH_PAT || github.token }}
