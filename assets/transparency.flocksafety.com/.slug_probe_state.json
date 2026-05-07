@@ -46,6 +46,14 @@
         "selma-ca-police-department": "http_404"
       }
     },
+    "05c2b9c0-aceb-5390-a6dc-2bb64d316ddb": {
+      "exhausted": false,
+      "found": "las-vegas-metro-nv-pd",
+      "last_probed": "2026-05-07T05:04:03.620433+00:00",
+      "tried": {
+        "las-vegas-metro-nv-pd": "http_200"
+      }
+    },
     "0649c75b-a49d-5ec7-a240-18692dea2047": {
       "exhausted": false,
       "found": null,
@@ -622,6 +630,14 @@
         "lake-county-ca-da": "http_404"
       }
     },
+    "65f406c8-21a0-5d6c-b021-c7ee7a8ec74b": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-07T05:04:13.628076+00:00",
+      "tried": {
+        "fort-worth-tx-pd": "http_404"
+      }
+    },
     "69489e25-1027-5396-86a7-c68d5111eecd": {
       "exhausted": false,
       "found": null,
@@ -1054,8 +1070,9 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-06T18:07:53.685018+00:00",
+      "last_probed": "2026-05-07T05:04:19.077360+00:00",
       "tried": {
+        "hollister-ca": "http_404",
         "hollister-ca-po": "http_404",
         "hollister-ca-police": "http_404",
         "hollister-ca-police-department": "http_404",
@@ -1500,6 +1517,6 @@
       }
     }
   },
-  "updated": "2026-05-07T01:25:24.827990+00:00",
+  "updated": "2026-05-07T05:04:19.131531+00:00",
   "version": 1
 }
