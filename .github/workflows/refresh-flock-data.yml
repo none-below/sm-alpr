@@ -32,6 +32,11 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main
+          # Need full history so the rebase below can find a common ancestor
+          # with origin/flock-refresh. With the default shallow clone, rebase
+          # treats the histories as unrelated and replays every branch commit
+          # onto main, blowing up with add/add conflicts on shared files.
+          fetch-depth: 0
           # Using a PAT (if configured) makes git push + gh pr create attribute
           # to the PAT owner, so the resulting pull_request event's
           # triggering_actor is a human. Without this, GITHUB_TOKEN-authored
@@ -44,7 +49,14 @@ jobs:
           git fetch origin flock-refresh || true
           if git rev-parse --verify origin/flock-refresh >/dev/null 2>&1; then
             git checkout flock-refresh
-            git rebase origin/main || { git rebase --abort; git reset --hard origin/main; }
+            # See article-registry.yml — never auto-reset to main on rebase
+            # failure. It silently destroys accumulated bot work. Abort and
+            # fail loudly; a human resolves and force-pushes.
+            git rebase origin/main || {
+              git rebase --abort
+              echo "::error::rebase against origin/main conflicts. Bot branch left untouched — resolve manually. NOT auto-resetting (would destroy unmerged work)."
+              exit 1
+            }
           else
             git checkout -b flock-refresh
           fi
