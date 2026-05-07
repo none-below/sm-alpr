@@ -3158,6 +3158,8 @@
     "tags": [
       "genre:investigative",
       "incident:ice-cooperation",
+      "legal:legislation",
+      "outcome:terminated",
       "policy:audit",
       "policy:purpose-limitation",
       "policy:retention",
@@ -3271,31 +3273,32 @@
       }
     ],
     "primary_subject_agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
-    "summary": "The Santa Clara County Board of Supervisors voted 3-2 to amend its Surveillance Use Policy so the Sheriff's Office cannot operate or use data from Flock Safety ALPRs, effectively disabling Flock cameras in Cupertino, Saratoga, and Los Altos Hills. The move follows reports that federal agencies including ICE and CBP accessed Flock data nationwide, and the new policy also requires reporting unauthorized federal data sharing and quarterly audits.",
+    "summary": "The Santa Clara County Board of Supervisors voted 3-2 to amend its Surveillance Use Policy so the Sheriff's Office can no longer access or operate Flock Safety ALPR data, effectively neutralizing Flock cameras in Cupertino, Saratoga, and Los Altos Hills. The move follows reports that federal agencies like CBP and ICE accessed Flock data in violation of state law, and joins a wave of California cities (Mountain View, Santa Cruz) cutting ties with Flock. The new policy also mandates reporting of unauthorized federal data sharing and quarterly audits.",
     "key_quotes": [
       {
         "quote": "I do not believe the County of Santa Clara should be doing business with Flock",
-        "paragraph_idx": 4
+        "paragraph_idx": 5
       },
       {
         "quote": "Effective immediately, the sheriff's office and the staff cannot operate, manage or touch the cameras, the data, transmission, anything from ALPRs that are operated by Flock, vended by Flock",
-        "paragraph_idx": 12
+        "paragraph_idx": 13
       },
       {
         "quote": "There is no guarantee that rival ALPR vendors will do better. These companies market their systems as easy to share with other law enforcement agencies \u2014 sharing is by design, and vendors are incentivized to facilitate it.",
-        "paragraph_idx": 20
+        "paragraph_idx": 21
       },
       {
         "quote": "Each Flock customer fully owns and controls 100% of its data. Only our customers have sole authority over if, when, and with whom information is shared",
-        "paragraph_idx": 26
+        "paragraph_idx": 27
       },
       {
         "quote": "The county's new policy will also require immediate reporting to the board if any unauthorized ALPR data under county control is shared with the federal government. It will also require audits of the sheriff's office's compliance with the new policy every four months",
         "paragraph_idx": 31
       }
     ],
-    "curation_status": "mechanical",
-    "article_id": "art_025"
+    "curation_status": "enriched",
+    "article_id": "art_025",
+    "curated_at": "2026-05-07T18:55:38Z"
   },
   {
     "url": "https://themarkup.org/privacy/2026/03/06/he-saw-an-abandoned-trailer-then-he-uncovered-a-surveillance-network-on-californias-border",
@@ -3998,6 +4001,9 @@
       "incident:ice-cooperation",
       "legal:ag-bulletin",
       "legal:legislation",
+      "outcome:renewed",
+      "outcome:restricted",
+      "outcome:terminated",
       "policy:audit",
       "policy:sharing",
       "scope:state",
@@ -4114,27 +4120,28 @@
       }
     ],
     "primary_subject_agency_id": null,
-    "summary": "KQED reports that despite revelations of California ALPR data flowing to federal immigration enforcement, most California cities \u2014 including Oakland, which renewed its Flock Safety contract 7-1 \u2014 are continuing or expanding ALPR programs, while a few (Richmond, Santa Cruz) have paused or shut down systems over data-sharing concerns. The piece highlights lawsuits, SB 34 compliance gaps, and a Flock configuration error that exposed Richmond data to outside agencies.",
+    "summary": "KQED reports that despite revelations of ALPR data flowing to federal immigration authorities, most California cities are continuing or expanding Flock Safety contracts, exemplified by Oakland's 7-1 council vote to renew its $2.25M contract with new privacy safeguards. The article contrasts Oakland's renewal with Richmond's shutdown after a Flock configuration error and Santa Cruz's pause on out-of-agency sharing, while critics like Brian Hofer and EFF warn the data feeds federal surveillance.",
     "key_quotes": [
       {
-        "quote": "Oakland residents should not fear driving to work, church, or school, knowing that this data is going to be fed to a national system that's accessible to ICE.",
-        "paragraph_idx": 7
+        "quote": "More than three hours of public comment preceded the City Council's 7-1 vote to renew and expand the Oakland Police Department's contract with Flock Safety",
+        "paragraph_idx": 3
       },
       {
-        "quote": "The fact that it was made available was outside the scope of what we've been telling people and what has been told to us. So that was enough for me to shut the whole system down.",
-        "paragraph_idx": 18
+        "quote": "the council adopted a series of amendments to mollify data privacy concerns, including a \"two-key\" approval system requiring both the city's Chief Privacy Officer and the OPD Information Technology Director to authorize any new data-sharing relationships, as well as quarterly independent compliance audits",
+        "paragraph_idx": 11
       },
       {
-        "quote": "They're not connecting the dots. We are building these systems for Donald Trump. We are harvesting data for Donald Trump.",
-        "paragraph_idx": 24
+        "quote": "Richmond's new police chief, Tim Simmons, shut down its automated license plate reader system after Flock notified the police department of a configuration error that could have allowed outside law enforcement agencies to run searches of the city's data.",
+        "paragraph_idx": 17
       },
       {
-        "quote": "the majority of California law enforcement agencies collect and use images captured by ALPR cameras, but few have appropriate usage and privacy policies in place.",
-        "paragraph_idx": 14
+        "quote": "They're not connecting the dots. We are building these systems for Donald Trump. We are harvesting data for Donald Trump",
+        "paragraph_idx": 23
       }
     ],
-    "curation_status": "mechanical",
-    "article_id": "art_031"
+    "curation_status": "enriched",
+    "article_id": "art_031",
+    "curated_at": "2026-05-07T18:55:54Z"
   },
   {
     "url": "https://www.404media.co/ice-taps-into-nationwide-ai-enabled-camera-network-data-shows/",
