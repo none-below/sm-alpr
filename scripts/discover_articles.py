@@ -212,7 +212,7 @@ def main() -> int:
     print(f"keyword matched:    {total_matched}")
     print(f"newly queued:       {total_appended}")
     print(f"already queued:     {total_duplicate}")
-    errs = [s for s in all_stats if s["error"]]
+    errs = [s for s in all_stats if s["error"] and s["error"] != "no feed_url"]
     if errs:
         print(f"feeds with errors:  {len(errs)}")
         for s in errs:
