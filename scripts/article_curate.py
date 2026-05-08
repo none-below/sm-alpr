@@ -423,10 +423,21 @@ fields are:
       if the article names cities that have separately turned off
       cameras, the article isn't reporting THOSE actions — it's
       reporting the ruling. Tag legal:court-ruling, not outcome:*.
-    • A year-in-review or roundup that namechecks many cities'
-      decisions in one paragraph each as part of a broader narrative.
-      outcome:* is for articles whose core reporting is one (or a
-      small number of) specific agency action(s); not for aggregators.
+    • ANY aggregator article — year-in-review, roundup, "growing
+      pushback" survey, ACLU/EFF "here's the state of play" piece,
+      or advocacy commentary that namechecks multiple cities'
+      decisions to support a broader argument. If the article
+      lists 3+ agencies' actions in support of a thesis (rather
+      than reporting ONE agency's action as the news), it's an
+      aggregator and outcome:* tags should NOT fire. The right
+      tags for such pieces are policy:*, scope:*, and genre — not
+      outcome:*. Examples that should NOT carry outcome:*:
+        - "Why some cities are ditching Flock" (lists many cities)
+        - "I'm hearing about more pushback against Flock"
+        - "Cities are growing wary of Flock"
+        - "California cities double down on ALPRs"
+      Even if such an article cites specific terminations, those
+      are evidence for the thesis, not the news being reported.
     • A product/feature/lawsuit article that mentions in passing that
       "some cities have shut off Flock" as background context. The
       article must substantively report the action, not just allude
@@ -540,7 +551,8 @@ def call_claude_for_curation(entry: dict, text: str, *,
 
 def run_phase2(registry: list[dict], *, tags_data: dict,
                limit: int, model: str, dry_run: bool,
-               reenrich: bool = False) -> int:
+               reenrich: bool = False,
+               include_flagged: bool = False) -> int:
     if not dry_run and not os.environ.get("ANTHROPIC_API_KEY"):
         print("phase2: ANTHROPIC_API_KEY not set; skipping (Phase 1 still ran)")
         return 0
@@ -553,6 +565,14 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
     if reenrich:
         accepted_statuses.add("enriched")
 
+    # Default: only scanner-clean entries pass to the LLM. --include-flagged
+    # opts in to processing REVIEW REQUIRED entries too — Phase 2 has no tools
+    # and json_schema-constrained output, so the scanner is defense-in-depth
+    # rather than a hard safety wall. Use only on known-source batches.
+    accepted_prefixes = PHASE2_SCANNER_PREFIXES
+    if include_flagged:
+        accepted_prefixes = accepted_prefixes + ("REVIEW",)
+
     eligible = []
     for e in registry:
         if e.get("curation_status") not in accepted_statuses:
@@ -560,7 +580,7 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
         if e.get("tier") not in PHASE2_ELIGIBLE_TIERS:
             continue
         verdict = (e.get("scanner_verdict") or "")
-        if not verdict.startswith(PHASE2_SCANNER_PREFIXES):
+        if not verdict.startswith(accepted_prefixes):
             continue
         eligible.append(e)
     if reenrich:
@@ -650,6 +670,11 @@ def main() -> int:
                    help="Phase 2 only: also re-run on already-enriched "
                         "entries (oldest curated_at first), to backfill "
                         "after a prompt change. Honors --limit.")
+    p.add_argument("--include-flagged", action="store_true",
+                   help="Phase 2 only: opt in to processing entries with "
+                        "scanner verdict REVIEW REQUIRED. Use on known-source "
+                        "batches; Phase 2 has no tools so the scanner is "
+                        "defense-in-depth rather than a hard wall.")
     args = p.parse_args()
 
     registry = read_json(REGISTRY_PATH, [])
@@ -664,7 +689,8 @@ def main() -> int:
         limit = args.limit if args.limit is not None else DEFAULT_PHASE2_LIMIT
         run_phase2(registry, tags_data=tags_data, limit=limit,
                    model=args.model, dry_run=args.dry_run,
-                   reenrich=args.reenrich)
+                   reenrich=args.reenrich,
+                   include_flagged=args.include_flagged)
 
     if not args.dry_run:
         write_json(REGISTRY_PATH, registry)
