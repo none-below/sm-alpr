@@ -8505,5 +8505,64 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-08T19:10:27Z",
     "article_id": "art_073"
+  },
+  {
+    "url": "https://www.kvue.com/article/news/local/hays-county/hays-county-contract-flock-license-plate-reader-cameras/269-f7276915-920a-4216-add1-42fbf17a0056",
+    "source_domain": "kvue.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Hays County ends contract with Flock for license plate reader cameras",
+    "byline": "Melia Masumoto",
+    "published_at": "10/14/2025 6:56:33 PM",
+    "fetched_at": "2026-05-08T20:21:51Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 116 pts, HIGH/CRITICAL findings",
+    "scanner_score": 116,
+    "content_hash": "7b0deaf45a1cbd285e2442932aed4f442f981d4e65664d7f1cc7597c1427862d",
+    "paths": {
+      "html": "assets/articles/kvue.com/article-news-local-hays-county-hays-county-contract-flock-license-plate-reader-c_3dacdbaa.html",
+      "meta": "assets/articles/kvue.com/article-news-local-hays-county-hays-county-contract-flock-license-plate-reader-c_3dacdbaa.meta.json",
+      "pdf": "assets/articles/kvue.com/article-news-local-hays-county-hays-county-contract-flock-license-plate-reader-c_3dacdbaa.pdf",
+      "txt": "assets/articles/kvue.com/article-news-local-hays-county-hays-county-contract-flock-license-plate-reader-c_3dacdbaa.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260508202158/https://www.kvue.com/article/news/local/hays-county/hays-county-contract-flock-license-plate-reader-cameras/269-f7276915-920a-4216-add1-42fbf17a0056",
+    "wayback_timestamp": "20260508202158",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "5beab980-d0ca-5fcd-9465-126e42183cb9",
+      "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "5beab980-d0ca-5fcd-9465-126e42183cb9",
+        "display_name": "Hays County TX SO",
+        "state": "TX",
+        "score": 14.65,
+        "matched_forms": [
+          "Hays County",
+          "Hays County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+        "display_name": "Austin Police Department",
+        "state": "TX",
+        "score": 9.317,
+        "matched_forms": [
+          "Austin",
+          "Austin Police"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-08T20:22:17Z",
+    "article_id": "art_074"
   }
 ]
