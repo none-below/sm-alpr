@@ -59,6 +59,13 @@ jobs:
 
       - name: Set up long-lived branch
         run: |
+          # Identity is needed BEFORE the rebase — `git rebase` rewrites
+          # the committer of every replayed commit, and dies with
+          # "fatal: empty ident name" if no user.name/user.email is set
+          # (which surfaces as a misleading "rebase against origin/main
+          # conflicts" in the abort branch below).
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git fetch origin article-registry-bot || true
           if git rev-parse --verify origin/article-registry-bot >/dev/null 2>&1; then
             git checkout article-registry-bot
@@ -132,8 +139,6 @@ jobs:
       - name: Commit and push
         id: commit
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add \
             assets/article_registry.json \
             assets/articles/ \
