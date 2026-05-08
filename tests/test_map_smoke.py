@@ -365,7 +365,7 @@ class TestLayout:
     def test_ui_elements_and_overlays(self, browser):
         """All UI elements exist, and no unregistered overlays are present."""
         page = browser.new_page(viewport={"width": 1440, "height": 900})
-        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
+        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="domcontentloaded")
         page.wait_for_selector("#map", state="visible", timeout=10000)
 
         # Every element in _UI_ELEMENTS must exist
@@ -402,7 +402,7 @@ class TestLayout:
     def test_layout_at_viewport(self, browser, vp):
         """No overlaps, all elements visible and within viewport bounds."""
         page = browser.new_page(viewport={"width": vp["width"], "height": vp["height"]})
-        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="networkidle")
+        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html", wait_until="domcontentloaded")
         page.wait_for_selector("#map", state="visible", timeout=10000)
 
         # -- No element overlap --
@@ -453,7 +453,7 @@ class TestLayout:
     def test_flag_banner_after_click(self, browser, vp):
         """After selecting an agency with flags, banner should not overlap search and be fully visible."""
         page = browser.new_page(viewport={"width": vp["width"], "height": vp["height"]})
-        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html#san-mateo-ca-pd", wait_until="networkidle")
+        page.goto(f"http://127.0.0.1:{self.port}/sharing_map.html#san-mateo-ca-pd", wait_until="domcontentloaded")
         page.wait_for_selector("#map", state="visible", timeout=10000)
         # Give JS time to process the hash
         page.wait_for_timeout(500)
