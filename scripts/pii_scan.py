@@ -41,6 +41,10 @@ EXCLUDED_PATH_PREFIXES = (
 
 ALLOWED_EMAIL_DOMAINS = {
     "cityofsanmateo.org",
+    # OCR sometimes drops the trailing "g" in cityofsanmateo.org email
+    # signatures (e.g., when followed by a comma in a small-font line).
+    # Seen in W012459-040226 ORT grant procurement emails.
+    "cityofsanmateo.or",
     "flocksafety.com",
     "mail.flocksafety.com",
     "sanmateocity.org",
@@ -69,6 +73,9 @@ ALLOWED_PHONES = {
     "6505227709",
     "6505227710",
     "6505227711",
+    "6505227623",  # T. Toomey, Business Manager (W012459-040226 ORT procurement email, 2024-03-27)
+    "6505227720",  # R. Sianez, Field Operations admin (W012459-040226 ORT email + PO-0001042, 2024)
+    "6505227100",  # S. Wong, Buyer (W012459-040226 PO-0001042, 2024)
     "6505333539",  # San Mateo County community chapter (Council packet, 2022-04-04)
 }
 
