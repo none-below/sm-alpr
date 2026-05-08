@@ -60,3 +60,49 @@ The PDF generator (`scripts/md_to_pdf.py`) parses the findings markdown by split
   conflict (no line-level overlap), so CI runs `scripts/lint_findings.py`
   on every PR to catch that. Run it locally before pushing when adding a
   source row: `python3 scripts/lint_findings.py`.
+
+## PRA Drafting Standards
+
+When drafting California Public Records Act requests for SMPD, follow
+these rules. A boilerplate template lives at
+`assets/san-mateo-public-records/_PRA_TEMPLATE.md`.
+
+**Voice and posture:**
+- State facts and ask questions; never use prescriptive "cannot/may not" language
+- Do not pre-emptively reveal evidence that contradicts SMPD's position — wait for their answer first ("let them swing first")
+- When narrowing a filed PRA mid-stream, prefer explicit replacement language over withdrawing
+
+**Always include:**
+- Existing records only: `Gov. Code § 7922.530; Sierra Club v. Superior Court (2013) 57 Cal.4th 157`
+- Per-item response: "If no records exist for any individual item, please respond to that item separately"
+- Segregability: `Gov. Code § 7922.525(b)` — produce all reasonably segregable non-exempt portions
+- Denial requirements: specific exemption citation per `§ 7922.540` for each withheld record
+
+**Always pre-address these exemptions:**
+- `§ 7923.600` (investigation records): records requested are administrative/operational, not compiled for a specific investigation
+- `Civil Code § 1798.90.55(b)` (ALPR sharing restriction): records *about* ALPR activity are not "ALPR information" per `§ 1798.90.5(c)`; the restriction applies to sharing data outward, not to producing records documenting activity
+- Records held by Flock Safety: `Gov. Code § 7920.530` + `City of San Jose v. Superior Court (2017) 2 Cal.5th 608` + `MSA § 4.1`; cite `W012570-041926` as precedent for production of this record type
+- Attorney-client privilege on legal analyses: existence must be confirmed even if contents are withheld; ask for date and general subject matter
+
+**Search scope notes:**
+- Explicitly list non-responsive record types when likely to be confused with responsive ones
+- Identify which items are internal records (not satisfiable via any email corpus), outbound SMPD records (not in inbound corpus), or email records
+- Camera-sharing notifications ("Camera Access Request from [Agency]," "[Agency] shared Flock cameras with you") are frequently produced as a substitute — note explicitly when they are not responsive
+
+**Purpose statements:**
+- Open complex requests with a brief Purpose section stating what the request seeks to determine
+- This is different from stating an expected conclusion — stating purpose helps the searcher and makes "no responsive records" self-defining
+- Do NOT state what you expect to find ("let them swing first" still applies to conclusions)
+
+**Re-filings:**
+- State the original PRA number and filing date
+- Use "closed without a statutory basis" if no exemption was cited
+- Ask for urgency corresponding to time already elapsed
+- Note that the re-filing includes scope clarifications to reduce review burden
+- When re-filing a multi-item PRA closed into a wrong corpus, split by item type: internal records / outbound SMPD records / email-eligible — file separately
+
+**Tactical withdrawal:**
+- If a PRA is being used as a catch-all to absorb other requests, withdraw it with a letter explaining why
+- State the right to re-file with narrowed scope
+- Send to the chief, not just the records center
+- Letter should be short and factual: what happened, consequence (documents removed from queue), expectation (remaining work moves faster)
