@@ -1,0 +1,1266 @@
+{
+  "_schema": {
+    "imported_at": "ISO-8601 UTC of last import that changed content",
+    "source_file": "filename of upstream xlsx (not committed)",
+    "source_file_sha256": "sha256 of upstream xlsx at import time",
+    "actions": "list of agency-action records harvested from sheets"
+  },
+  "_note": "Bootstrap import audit trail, not a canonical data store. Derived from an external activist tracker of Flock terminated/paused contracts; the source xlsx is not committed. The canonical record of contract-termination evidence is assets/article_registry.json (with generic outcome:* tags applied by the curator). Re-import via scripts/import_termination_ledger.py.",
+  "imported_at": "2026-05-08T17:23:52Z",
+  "source_file": "Flock - Terminated Paused Contracts.xlsx",
+  "source_file_sha256": "b498205e6dccfc7ad711f6012086e067f19083bc3b3ec63e7918ead44348346d",
+  "actions": [
+    {
+      "agency_name": "Sedona",
+      "agency_type": "City",
+      "state": "AZ",
+      "action_type": "Program shut down",
+      "approx_date": "2025-09-09",
+      "notes": "Permanent removal",
+      "source_urls": [
+        "https://www.redrocknews.com/2025/09/09/sedona-ends-flock-license-plate-cameras"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Flagstaff",
+      "agency_type": "City",
+      "state": "AZ",
+      "action_type": "Contract terminated & cameras deactivated",
+      "approx_date": "2025-12-16",
+      "notes": "Council vote to end program",
+      "source_urls": [
+        "https://azdailysun.com/news/local/flagstaff-flock-safety-cameras-ended"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "South Tucscon",
+      "agency_type": "City",
+      "state": "AZ",
+      "action_type": "Contract terminated",
+      "approx_date": "2026-02-17",
+      "notes": "Council voted to terminate contract",
+      "source_urls": [
+        "https://www.kgun9.com/news/community-inspired-journalism/south-tucson/south-tucson-ends-flock-camera-contract-city-now-searching-for-alternatives"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Sierra Vista",
+      "agency_type": "City",
+      "state": "AZ",
+      "action_type": "Contract terminated",
+      "approx_date": "2026-02-24",
+      "notes": "Council voted to terminate contract",
+      "source_urls": [
+        "https://www.kgun9.com/news/community-inspired-journalism/cochise-county/sierra-vista-city-council-directs-staff-to-end-flock-license-plate-reader-contract"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Los Altos Hills",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Cameras turned off, contract to be terminated",
+      "approx_date": "2025-01-01",
+      "notes": "City contracts with Santa Clara County Sheriff",
+      "source_urls": [
+        "https://www.losaltosonline.com/news/los-altos-hills-to-remove-alpr-cameras/article_59f90aa8-14c1-4309-9f7f-12d16c649d9e.html"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Santa Cruz",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Contract terminated",
+      "approx_date": "2025-01-13",
+      "notes": "Council vote to end program",
+      "source_urls": [
+        "https://www.santacruzsentinel.com/2026/01/13/santa-cruz-votes-to-terminate-its-contract-with-flock-safety/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Eureka",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Contract not awarded",
+      "approx_date": "2025-02-04",
+      "notes": "Council declined to award proposed contract for Flock ALPR",
+      "source_urls": [
+        "https://www.govtech.com/public-safety/eureka-calif-votes-no-on-license-plate-reader-cameras"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Richmond",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Program paused / shut down (cameras offline)",
+      "approx_date": "2025-11-15",
+      "notes": "Police chief shut down/paused Flock ALPRs after discovering a configuration issue that allowed limited outside-agency searching; described as a pause pending safeguards. (Council voted March 17, 2026 to reactive and expand Flock services)",
+      "source_urls": [
+        "https://richmondside.org/2025/12/09/richmond-license-plate-reader-data-breach/",
+        "https://richmondstandard.com/community/2025/12/09/richmond-police-suspend-system-that-automatically-reads-license-plates/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Mountain View",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Cameras turned off during pause (Council vote to decide)",
+      "approx_date": "2026-02-01",
+      "notes": "Police chief shut down/paused Flock ALPRs after discovering a configuration issue that allowed limited outside-agency searching. Council may vote Feb 24.",
+      "source_urls": [
+        "https://www.mv-voice.com/public-safety/2026/02/02/mountain-view-police-turn-off-license-plate-cameras-after-data-sharing-breach/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Windsor",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Cameras turned off",
+      "approx_date": "2026-02-17",
+      "notes": "Council directed City Manager to turn off cameras, and explore alternate vendors and/or a contract that protects data",
+      "source_urls": [
+        "https://patch.com/connecticut/windsor/windsor-votes-8-1-shut-down-flock-license-plate-reader-cameras"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Santa Clara County (covers Saratoga, Los Altos Hills (see above), and Cupertino)",
+      "agency_type": "County",
+      "state": "CA",
+      "action_type": "Sheriff prohibited from using Flock ALPR",
+      "approx_date": "2026-02-24",
+      "notes": "The unincorporated areas of Satatoga, Cupertino, and Los Altos Hills have to make their own decision to terminate their respective contracts with Flock (Los Altos has terminated), but the County's vote effectively ends the use of Flock in these three cities because they do not have their own law enforcement agency.",
+      "source_urls": [
+        "https://abc7news.com/post/santa-clara-county-stop-using-flock-safety-cameras-several-cities-privacy-concerns/18646060/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Oxnard",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Police suspended use of ALPR",
+      "approx_date": "2026-02-27",
+      "notes": "Police allege Flock altered settings re National lookup, after OPD affirmatively optedout. Audit revealed data was searched in violation of SB 34.",
+      "source_urls": [
+        "https://www.oxnard.gov/pd-news/news-release-oxnard-police-department-suspends-use-of-flock-safety-automated-license-plate-readers-02-27-26"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "South Pasadena",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "CCTV Contract terminated, no action on ALPR contract yet",
+      "approx_date": "2026-03-19",
+      "notes": "Council declined to renew CCTV contract.",
+      "source_urls": [
+        "https://laist.com/news/south-pasadena-cancels-flock-safety-contract-privacy-concerns"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Lakewood",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Contract renewal declined",
+      "approx_date": "2026-03-24",
+      "notes": "Council voted not to renew contract.",
+      "source_urls": [
+        "https://vimeo.com/showcase/7323755"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Campbell",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Cameras turned off, will be removed",
+      "approx_date": "2026-02-01",
+      "notes": "Mayor Sergio Lopez LinkedIn statement re camera decommission",
+      "source_urls": [
+        "https://sanjosespotlight.com/fact-brief-does-campbell-have-a-partnership-with-flock-cameras/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Elber",
+      "agency_type": "County",
+      "state": "CO",
+      "action_type": "Contract renewal declined",
+      "approx_date": "2024-02-17",
+      "notes": "County Board declined to renew contract",
+      "source_urls": [
+        "https://www.denvergazette.com/2024/02/17/big-brother-or-crime-fighter-elbert-county-says-no-to-license-plate-readers-521d798c-caac-11ee-a37b-7b0672ff5019/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Louisville",
+      "agency_type": "City",
+      "state": "CO",
+      "action_type": "Cameras turned off",
+      "approx_date": "2025-12-16",
+      "notes": "City Council voted to deactivate cameras",
+      "source_urls": [
+        "https://www.cbsnews.com/colorado/news/license-plate-reading-cameras-colorado-regulation-misuse/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Denver",
+      "agency_type": "City",
+      "state": "CO",
+      "action_type": "Contract terminated",
+      "approx_date": "2026-02-24",
+      "notes": "Council vote",
+      "source_urls": [
+        "https://www.9news.com/article/news/local/denver-removing-flock-cameras-new-axon-contract/73-640b5af3-7c87-4fea-8aa1-2510ad3257b8"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Windsor",
+      "agency_type": "City",
+      "state": "CT",
+      "action_type": "Cameras turned off during pause (Council vote to decide)",
+      "approx_date": "2026-02-19",
+      "notes": "Council voted to suspend use of cameras",
+      "source_urls": [
+        "https://www.wfsb.com/2026/02/20/windsor-suspends-license-plate-readers-amid-privacy-concerns/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Lake",
+      "agency_type": "County",
+      "state": "FL",
+      "action_type": "Camera removal ordered",
+      "approx_date": "2021-08-12",
+      "notes": "County Commissioners ordered removal of cameras",
+      "source_urls": [
+        "https://www.clickorlando.com/news/local/2021/08/12/shocking-violation-of-procedure-lake-county-commissioners-order-takedown-of-traffic-surveillance-cameras/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Coralville",
+      "agency_type": "City",
+      "state": "IA",
+      "action_type": "Cameras removed, contract terminated",
+      "approx_date": "2026-02-25",
+      "notes": "Council vote to terminate contract, takedown cameras",
+      "source_urls": [
+        "https://www.kcrg.com/2026/02/25/coralville-removes-flock-cameras-after-council-votes-end-contract/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Oak Park",
+      "agency_type": "Village",
+      "state": "IL",
+      "action_type": "Contract terminated",
+      "approx_date": "2025-08-05",
+      "notes": "Immediate shutdown",
+      "source_urls": [
+        "https://oakpark.com/2025/08/05/oak-park-ends-flock-cameras"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Evanston",
+      "agency_type": "City",
+      "state": "IL",
+      "action_type": "Contract terminated",
+      "approx_date": "2025-08-26",
+      "notes": "Termination notice issued",
+      "source_urls": [
+        "https://content.govdelivery.com/accounts/ILEVANSTON/bulletins/3efa81d"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Bloomington",
+      "agency_type": "City",
+      "state": "IN",
+      "action_type": "Contract expired, not renewed",
+      "approx_date": "2026-04-15",
+      "notes": "Council declined to renew ALPR contract",
+      "source_urls": [
+        "https://bloomington.in.gov/news/2026/04/15/6521"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Brookline",
+      "agency_type": "Town",
+      "state": "MA",
+      "action_type": "Police access paused",
+      "approx_date": "2025-10-05",
+      "notes": "Private Flock system",
+      "source_urls": [
+        "https://brookline.news/police-pause-flock-access"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Cambridge",
+      "agency_type": "City",
+      "state": "MA",
+      "action_type": "Contract terminated",
+      "approx_date": "2025-10-20",
+      "notes": "Unauthorized installation issues",
+      "source_urls": [
+        "https://www.cambridgema.gov/Departments/citymanagersoffice/news/2025/flock-contract-terminated"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Natick",
+      "agency_type": "City",
+      "state": "MA",
+      "action_type": "Pilot ALPR program terminated",
+      "approx_date": "2026-01-21",
+      "notes": "Board ordered program terminated, cameras removed",
+      "source_urls": [
+        "https://www.natickreport.com/2026/01/natick-select-board-quashes-flock-license-plate-reader-pilot-police-chief-apologizes-explains/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Watertown",
+      "agency_type": "City",
+      "state": "MA",
+      "action_type": "Contract not renewed",
+      "approx_date": "2026-01-27",
+      "notes": "City Manager recommended against renewing contract, Council adopted recommendation",
+      "source_urls": [
+        "https://www.watertownmanews.com/2026/01/28/watertown-cancelling-contract-for-flock-license-plate-reading-cameras/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Ferndale",
+      "agency_type": "City",
+      "state": "MI",
+      "action_type": "Contract ended",
+      "approx_date": "2025-11-13",
+      "notes": "Pilot discontinued",
+      "source_urls": [
+        "https://www.freep.com/story/news/local/michigan/2025/11/13/ferndale-ends-flock-cameras"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Bay City",
+      "agency_type": "City",
+      "state": "MI",
+      "action_type": "Proposed contract declined",
+      "approx_date": "2025-11-17",
+      "notes": "City Council rejected proposed contract",
+      "source_urls": [
+        "https://www.mlive.com/news/saginaw-bay-city/2025/11/bay-city-commission-rejects-contract-for-license-plate-readers-following-backlash.html"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Shorewood",
+      "agency_type": "City",
+      "state": "MN",
+      "action_type": "City Council ordered deactivation",
+      "approx_date": "2026-03-09",
+      "notes": "Contract is with South Lake Minnetonka, Council recommended contract termination, and has deactivated Shorewood cams",
+      "source_urls": [
+        "https://shorewoodmn.gov/Blog.aspx?IID=21"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Brooklyn Park",
+      "agency_type": "City",
+      "state": "MN",
+      "action_type": "Contract allowed to expire without renewal",
+      "approx_date": "2025-12-10",
+      "notes": "Police allowed contract to expire, switched to Axon",
+      "source_urls": [
+        "https://kstp.com/kstp-news/top-news/roadside-cameras-going-dark-another-department-makes-changes-to-program-over-accountability-concerns/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Seneca",
+      "agency_type": "City",
+      "state": "MO",
+      "action_type": "Police chief ended contract",
+      "approx_date": "2026-02-19",
+      "notes": "Police chief ended contract for Flock ALPR",
+      "source_urls": [
+        "https://www.koamnewsnow.com/news/top-stories/seneca-police-end-flock-camera-contract-after-less-than-90-days/article_d493c47c-a4ab-4270-83c9-f52e784b24ea.html"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Hillsborough",
+      "agency_type": "Town",
+      "state": "NC",
+      "action_type": "Contract terminated",
+      "approx_date": "2025-10-28",
+      "notes": "Cameras removed",
+      "source_urls": [
+        "https://www.newsobserver.com/news/local/article-hillsborough-flock"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Scarsdale",
+      "agency_type": "Village",
+      "state": "NY",
+      "action_type": "Contract canceled",
+      "approx_date": "2025-08-06",
+      "notes": "City Council adopted police chief recommendation to cancel contract",
+      "source_urls": [
+        "https://www.scarsdale.gov/DocumentCenter/View/10994/08062025-Mayoral-Letter"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Poestenkill",
+      "agency_type": "Town",
+      "state": "NY",
+      "action_type": "Proposal rejected",
+      "approx_date": "2025-12-11",
+      "notes": "Town board vote",
+      "source_urls": [
+        "https://www.timesunion.com/news/article/poestenkill-rejects-flock-cameras"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Village of Saranac Lake",
+      "agency_type": "Village",
+      "state": "NY",
+      "action_type": "Program paused / shut down (cameras offline)",
+      "approx_date": "2026-02-26",
+      "notes": "Mayor stopped installation, ordered uninstallment of existing cameras",
+      "source_urls": [
+        "https://www.northcountrypublicradio.org/news/story/53078/20260302/police-stop-installing-surveillance-cameras-in-saranac-lake-for-now"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Ithica",
+      "agency_type": "City",
+      "state": "NY",
+      "action_type": "Contract terminated",
+      "approx_date": "2026-03-04",
+      "notes": "Council vote to terminate contract",
+      "source_urls": [
+        "https://www.wskg.org/regional-news/2026-03-04/ithaca-common-council-votes-to-end-contract-with-flock-safety"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Troy",
+      "agency_type": "City",
+      "state": "NY",
+      "action_type": "Contract renewal paused",
+      "approx_date": "2026-03-19",
+      "notes": "Item tabled, unsure of return date",
+      "source_urls": [
+        "https://www.news10.com/news/rensselaer-county/troy-city-council-tables-flock-camera-contract-renewal/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Syracuse",
+      "agency_type": "City",
+      "state": "NY",
+      "action_type": "Contract terminated",
+      "approx_date": "2026-03-23",
+      "notes": "City Council voted to revoke contract",
+      "source_urls": [
+        "https://spectrumlocalnews.com/nys/central-ny/public-safety/2026/03/23/syracuse-common-council-revokes-contract-with-flock"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Thompkins",
+      "agency_type": "County",
+      "state": "NY",
+      "action_type": "Contract terminated",
+      "approx_date": "2026-04-14",
+      "notes": "County Board voted to terminate contract",
+      "source_urls": [
+        "https://ithacavoice.org/2026/04/county-legislature-ends-contract-with-flock-safety/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Lucas County",
+      "agency_type": "County",
+      "state": "OH",
+      "action_type": "Attempted rescission",
+      "approx_date": "2025-07-22",
+      "notes": "Legal dispute",
+      "source_urls": [
+        "https://www.toledoblade.com/local/county/2024/01/18/lucas-county-flock-contract"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Kent",
+      "agency_type": "City",
+      "state": "OH",
+      "action_type": "Contract proposal rejected",
+      "approx_date": "2025-11-05",
+      "notes": "City Council rejected proposed contract",
+      "source_urls": [
+        "https://theportager.com/kent-city-council-rejects-video-surveillance-contract-with-flock/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Washington County",
+      "agency_type": "County",
+      "state": "OK",
+      "action_type": "Agreement rescinded",
+      "approx_date": "2025-07-16",
+      "notes": "County roads only",
+      "source_urls": [
+        "https://www.examiner-enterprise.com/story/news/2024/02/06/washington-county-flock"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Woodburn",
+      "agency_type": "City",
+      "state": "OR",
+      "action_type": "Program suspended / paused",
+      "approx_date": "2025-11-11",
+      "notes": "City suspended use for at least two months after community concerns about potential federal/ICE enforcement use.",
+      "source_urls": [
+        "https://woodburnindependent.com/2025/11/11/woodburn-suspends-flock-safety-license-plate-cameras-amid-concerns-of-federal-ice-enforcement/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Eugene",
+      "agency_type": "City",
+      "state": "OR",
+      "action_type": "Contract terminated",
+      "approx_date": "2025-12-05",
+      "notes": "Immediate termination",
+      "source_urls": [
+        "https://www.opb.org/article/2025/12/06/eugene-springfield-end-flock-cameras/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Springfield",
+      "agency_type": "City",
+      "state": "OR",
+      "action_type": "Cameras not activated; covered pending removal",
+      "approx_date": "2025-12-05",
+      "notes": "City stated cameras had not been turned on; planned to cover then remove after ending use.",
+      "source_urls": [
+        "https://www.opb.org/article/2025/12/06/eugene-springfield-end-flock-cameras/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Lane County",
+      "agency_type": "County",
+      "state": "OR",
+      "action_type": "Sheriff suspends contract",
+      "approx_date": "2025-12-10",
+      "notes": "Sheriff unilaterally suspends contract, cameras were not yet installed",
+      "source_urls": [
+        "https://lookouteugene-springfield.com/story/latest-news/2025/12/10/lane-county-sheriffs-office-suspends-flock-safety-contract/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Bend",
+      "agency_type": "City",
+      "state": "OR",
+      "action_type": "Cameras turned off; won't renew contract",
+      "approx_date": "2026-01-07",
+      "notes": "Constituent concerns, data privacy/data collection practices.",
+      "source_urls": [
+        "https://www.opb.org/article/2026/01/08/bend-flock-cameras-ai-license-plate-camera-law-enforcement/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Warren",
+      "agency_type": "City",
+      "state": "RI",
+      "action_type": "Rejected contract proposal",
+      "approx_date": "2025-12-09",
+      "notes": "Council rejects proposed ALPR contract",
+      "source_urls": [
+        "https://www.wpri.com/news/local-news/east-bay/warren-rejects-proposal-to-install-flock-camera/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Knoxville",
+      "agency_type": "City",
+      "state": "TN",
+      "action_type": "Contract expired, not renewed",
+      "approx_date": "2025-12-31",
+      "notes": "Contract expired, alternate vendor explored.",
+      "source_urls": [
+        "https://www.wbir.com/article/news/crime/10investigates-knoxville-license-plate-reader-cameras-turned-off-contract-lapse/51-3cadec96-a281-49e8-ab41-c3e9ff4a12df"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Austin",
+      "agency_type": "City",
+      "state": "TX",
+      "action_type": "Contract ended",
+      "approx_date": "2025-06-04",
+      "notes": "Not renewed",
+      "source_urls": [
+        "https://www.kvue.com/article/news/local/austin-license-plate-readers-ends-privacy-concerns/269-4dc64690-c6c0-4ace-a009-fd8a13f69113"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Lockhart",
+      "agency_type": "City",
+      "state": "TX",
+      "action_type": "Proposed contract declined",
+      "approx_date": "2025-10-09",
+      "notes": "City Council rejected proposed contract",
+      "source_urls": [
+        "https://www.kxan.com/news/local/caldwell-county/lockhart-city-council-rejects-flock-ai-cameras-in-6-1-vote/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Hays County",
+      "agency_type": "County",
+      "state": "TX",
+      "action_type": "Contract terminated",
+      "approx_date": "2025-10-14",
+      "notes": "County Commission voted to end contract.",
+      "source_urls": [
+        "https://www.kvue.com/article/news/local/hays-county/hays-county-contract-flock-license-plate-reader-cameras/269-f7276915-920a-4216-add1-42fbf17a0056"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "San Marcos",
+      "agency_type": "City",
+      "state": "TX",
+      "action_type": "Renewal rejected",
+      "approx_date": "2025-12-02",
+      "notes": "Council direction",
+      "source_urls": [
+        "https://cbsaustin.com/news/local/san-marcos-city-council-ends-flock-safety-contract-seeking-new-options"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Warrenton",
+      "agency_type": "City",
+      "state": "VA",
+      "action_type": "Proposed contract declined",
+      "approx_date": "2025-10-14",
+      "notes": "City Council rejected proposed contract",
+      "source_urls": [
+        "https://www.fauquiernow.com/news/not-on-our-watch-warrenton-town-council-reverses-course-on-license-plate-readers/article_9a1c02ac-5f77-47c7-a270-06f49ab98332.html"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Charlottesville",
+      "agency_type": "City",
+      "state": "VA",
+      "action_type": "Program paused / cameras turned off",
+      "approx_date": "2025-12-16",
+      "notes": "City Manager ordered Flock ALPR cameras turned off pending review after concerns about cameras operating during a pause.",
+      "source_urls": [
+        "https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Staunton",
+      "agency_type": "City",
+      "state": "VA",
+      "action_type": "Contract ended",
+      "approx_date": "2025-12-19",
+      "notes": "ALPRs removed",
+      "source_urls": [
+        "https://www.whsv.com/2025/12/10/staunton-ends-flock-cameras"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Gig Harbor",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Contract not awarded",
+      "approx_date": "2025-03-24",
+      "notes": "Council declined to award proposed contract for Flock ALPR",
+      "source_urls": [
+        "https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Stanwood",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Program paused",
+      "approx_date": "2025-09-10",
+      "notes": "Litigation concerns",
+      "source_urls": [
+        "https://www.heraldnet.com/2025/09/10/stanwood-pauses-flock-cameras-amid-public-records-lawsuits/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Sedro-Wooley",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Program suspended, pending appeal of WA PRA lawsuit",
+      "approx_date": "2025-10-24",
+      "notes": "Paused while appeals re WA Supreme Court ruling on public records for Flock data",
+      "source_urls": [
+        "https://www.goskagit.com/news/local_news/sedro-woolley-turns-off-law-enforcement-cameras-while-it-seeks-court-ruling/article_d0d0bdb9-6502-4686-94ae-346289afd535.html"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Redmond",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Program suspended",
+      "approx_date": "2025-11-03",
+      "notes": "Privacy & records concerns",
+      "source_urls": [
+        "https://www.seattletimes.com/seattle-news/politics/redmond-suspends-flock-cameras"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Lynnwood",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Program paused",
+      "approx_date": "2025-11-07",
+      "notes": "Cameras turned off",
+      "source_urls": [
+        "https://www.geekwire.com/2025/washington-state-cities-turn-off-license-plate-reader-cameras-amid-ruling-on-data-access/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Skamania County",
+      "agency_type": "County",
+      "state": "WA",
+      "action_type": "Use delayed / turned off",
+      "approx_date": "2025-11-11",
+      "notes": "Public records ruling led Sheriff to turn off cameras; waiting for expiration of contratc to fully remove.",
+      "source_urls": [
+        "https://skamaniasheriff.com/2025/11/12/flock-cameras-disabled-after-recent-court-decision/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Olympia",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Pilot suspended",
+      "approx_date": "2025-12-03",
+      "notes": "Suspended 2-year program",
+      "source_urls": [
+        "https://washingtonretail.org/olympia-and-redmond-halt-flock-safety-camera-use-amid-privacy-and-data-access-concerns-2/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Mountainlake Terrace",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Contract canceled",
+      "approx_date": "2025-12-04",
+      "notes": "Unanimous council vote",
+      "source_urls": [
+        "https://www.heraldnet.com/news/mountlake-terrace-cancels-flock"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Walla Walla",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Cameras turned off, cameras to be removed",
+      "approx_date": "2026-01-07",
+      "notes": "Cameras turned off, will be removed",
+      "source_urls": [
+        "https://www.applevalleynewsnow.com/news/walla-walla-police-end-flock-license-plate-cameras-over-safety-and-legal-concerns/article_ec96e8f8-a14e-43b3-b6b2-7d53846dd659.html"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Prosser",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Cameras turned off (under contract through Nov '26)",
+      "approx_date": "2026-01-26",
+      "notes": "Under contract through Nov '26 - press release silent as to renewal",
+      "source_urls": [
+        "https://www.chronline.com/stories/controversial-flock-license-plate-readers-shut-off-by-another-eastern-washington-city"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Pierce",
+      "agency_type": "County",
+      "state": "WA",
+      "action_type": "Cameras turned off",
+      "approx_date": "2026-03-30",
+      "notes": "In response to WA state law \"Driver Privacy Act\" re \"sensitive locations, Sheriff deactivated cameras, exploring alternatives.",
+      "source_urls": [
+        "https://www.kiro7.com/news/local/pierce-county-sheriffs-office-deactivates-its-automated-license-plate-readers/TXPVNII6B5D3LDKKYMOP3FW2IY/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Renton",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Program suspended due to new state law",
+      "approx_date": "2026-03-31",
+      "notes": "Police suspended program after SB 6002",
+      "source_urls": [
+        "https://www.kiro7.com/news/local/renton-police-shut-down-license-plate-cameras-comply-with-new-privacy-law/JHCHPR4FQBGKNJOOWZ7LM3J6W4/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Spokane",
+      "agency_type": "County",
+      "state": "WA",
+      "action_type": "Cameras turned off",
+      "approx_date": "2026-04-02",
+      "notes": "In response to WA state law \"Driver Privacy Act\" re \"sensitive locations, Sheriff deactivated cameras, exploring alternatives.",
+      "source_urls": [
+        "https://www.krem.com/article/news/local/spokane-county-deactivates-license-plate-reader-washington-privacy-law/293-72ea9980-dbd1-430a-b4b0-67dae541dfa1"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Verona",
+      "agency_type": "City",
+      "state": "WI",
+      "action_type": "Renewal declined",
+      "approx_date": "2025-11-11",
+      "notes": "Contract expired",
+      "source_urls": [
+        "https://www.wkow.com/news/city-of-verona-votes-to-not-renew-flock-cameras/article_083afa08-5b8a-4955-9876-ad8fd2b9f3aa.html"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Dane",
+      "agency_type": "County",
+      "state": "WI",
+      "action_type": "Funding removed, contract allowed to expire",
+      "approx_date": "2026-04-16",
+      "notes": "Board voted to amend budget to remove funding, allowed contract to expire",
+      "source_urls": [
+        "https://www.hngnews.com/leader_independent/news/local/dane-county-board-votes-to-cut-funding-for-flock-license-plate-reader-cameras/article_df6d5043-0b19-4053-8510-ff5aacfc463b.html"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Oshkosh",
+      "agency_type": "City",
+      "state": "WI",
+      "action_type": "Flock lied about heat maps, Police Chief revolted, City Council unanimously voted to terminate 24 hours after extending contract.",
+      "approx_date": "2026-04-21",
+      "notes": "24 hour after extending contract, City Council uananimously voted to terminate.",
+      "source_urls": [
+        "https://www.thenorthwestern.com/story/news/local/oshkosh/2026/04/22/oshkosh-rescinds-flock-safety-contract-after-police-chief-raises-concerns/89745485007/"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "Sturgeon Bay",
+      "agency_type": "City",
+      "state": "WI",
+      "action_type": "Contract terminated & cameras deactivated",
+      "approx_date": "2026-04-21",
+      "notes": "Council voted to terminate contract",
+      "source_urls": [
+        "https://www.nbc26.com/sturgeonbay/sturgeon-bay-discontinues-the-use-of-flock-cameras"
+      ],
+      "sheet": "Flock_ALPR_Agencies"
+    },
+    {
+      "agency_name": "City of Sedona / Sedona PD",
+      "agency_type": "City",
+      "state": "AZ",
+      "action_type": "Program shut down",
+      "approx_date": "Sept 2025",
+      "notes": "Permanent removal",
+      "source_urls": [
+        "https://www.redrocknews.com/2025/09/09/sedona-ends-flock-license-plate-cameras"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Evanston / Evanston PD",
+      "agency_type": "City",
+      "state": "IL",
+      "action_type": "Contract terminated",
+      "approx_date": "Sept 2025",
+      "notes": "Termination notice issued",
+      "source_urls": [
+        "https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Austin",
+      "agency_type": "City",
+      "state": "TX",
+      "action_type": "Contract ended",
+      "approx_date": "July 2025",
+      "notes": "Not renewed",
+      "source_urls": [
+        "https://www.kut.org/austin/2025-07-01/austin-ends-flock-cameras"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Springfield / Springfield Police Department",
+      "agency_type": "City",
+      "state": "OR",
+      "action_type": "Cameras not activated; covered pending removal",
+      "approx_date": "Oct\u2013Dec 2025",
+      "notes": "City stated cameras had not been turned on; planned to cover then remove after ending use.",
+      "source_urls": [
+        "https://www.klcc.org/breaking/2025-12-05/eugene-and-springfield-both-announce-end-of-flock-camera-usage",
+        "https://lookouteugene-springfield.com/story/justice/2025/12/05/eugene-announces-termination-of-flock-contract/"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Oakland",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Proposal rejected (committee)",
+      "approx_date": "2023",
+      "notes": "Later approved by council",
+      "source_urls": [
+        "https://oaklandside.org/2023/06/13/oakland-flock-vote"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "Town of Brookline",
+      "agency_type": "Town",
+      "state": "MA",
+      "action_type": "Police access paused",
+      "approx_date": "2023",
+      "notes": "Private Flock system",
+      "source_urls": [
+        "https://brookline.news/police-pause-flock-access"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "Town of Hillsborough",
+      "agency_type": "Town",
+      "state": "NC",
+      "action_type": "Contract terminated",
+      "approx_date": "2024",
+      "notes": "Cameras removed",
+      "source_urls": [
+        "https://www.newsobserver.com/news/local/article-hillsborough-flock"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Verona",
+      "agency_type": "City",
+      "state": "WI",
+      "action_type": "Renewal declined",
+      "approx_date": "2024",
+      "notes": "Contract expired",
+      "source_urls": [
+        "https://madison.com/news/local/verona-flock-renewal-vote"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "Town of Poestenkill",
+      "agency_type": "Town",
+      "state": "NY",
+      "action_type": "Proposal rejected",
+      "approx_date": "2024",
+      "notes": "Town board vote",
+      "source_urls": [
+        "https://www.timesunion.com/news/article/poestenkill-rejects-flock-cameras"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "Lucas County",
+      "agency_type": "County",
+      "state": "OH",
+      "action_type": "Attempted rescission",
+      "approx_date": "2024",
+      "notes": "Legal dispute",
+      "source_urls": [
+        "https://www.toledoblade.com/local/county/2024/01/18/lucas-county-flock-contract"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Mountlake Terrace",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Contract canceled",
+      "approx_date": "2024",
+      "notes": "Unanimous council vote",
+      "source_urls": [
+        "https://www.heraldnet.com/news/mountlake-terrace-cancels-flock"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "Washington County",
+      "agency_type": "County",
+      "state": "OK",
+      "action_type": "Agreement rescinded",
+      "approx_date": "2024",
+      "notes": "County roads only",
+      "source_urls": [
+        "https://www.examiner-enterprise.com/story/news/2024/02/06/washington-county-flock"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Cambridge",
+      "agency_type": "City",
+      "state": "MA",
+      "action_type": "Contract terminated",
+      "approx_date": "2025",
+      "notes": "Unauthorized installation issues",
+      "source_urls": [
+        "https://www.cambridgema.gov/Departments/citymanagersoffice/news/2025/flock-contract-terminated"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Redmond / Redmond PD",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Program suspended",
+      "approx_date": "2025",
+      "notes": "Privacy & records concerns",
+      "source_urls": [
+        "https://www.seattletimes.com/seattle-news/politics/redmond-suspends-flock-cameras"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Olympia",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Pilot suspended",
+      "approx_date": "2025",
+      "notes": "Under review",
+      "source_urls": [
+        "https://www.theolympian.com/news/local/article-olympia-flock"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "Skamania County",
+      "agency_type": "County",
+      "state": "WA",
+      "action_type": "Use delayed / turned off",
+      "approx_date": "2025",
+      "notes": "Public records ruling",
+      "source_urls": [
+        "https://www.columbian.com/news/2025/skamania-county-flock"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Stanwood",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Program paused",
+      "approx_date": "May 2025",
+      "notes": "Litigation concerns",
+      "source_urls": [
+        "https://www.heraldnet.com/news/stanwood-flock-paused"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City & County of Denver",
+      "agency_type": "City/County",
+      "state": "CO",
+      "action_type": "Proposed extension rejected",
+      "approx_date": "May 2025",
+      "notes": "Council vote",
+      "source_urls": [
+        "https://www.denverpost.com/2025/05/05/denver-city-council-flock-vote"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "Village of Oak Park / Oak Park PD",
+      "agency_type": "Village",
+      "state": "IL",
+      "action_type": "Contract terminated",
+      "approx_date": "Aug 2025",
+      "notes": "Immediate shutdown",
+      "source_urls": [
+        "https://oakpark.com/2025/08/05/oak-park-ends-flock-cameras"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Lynnwood / Lynnwood PD",
+      "agency_type": "City",
+      "state": "WA",
+      "action_type": "Program paused",
+      "approx_date": "Oct 2025",
+      "notes": "Cameras turned off",
+      "source_urls": [
+        "https://www.heraldnet.com/news/lynnwood-pauses-flock-cameras"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Eugene / Eugene Police Department",
+      "agency_type": "City",
+      "state": "OR",
+      "action_type": "Cameras turned off during pause (later contract terminated)",
+      "approx_date": "Oct 2025",
+      "notes": "During a mid-October pause, cameras were turned off; contract later terminated in early Dec 2025.",
+      "source_urls": [
+        "https://www.klcc.org/breaking/2025-12-05/eugene-and-springfield-both-announce-end-of-flock-camera-usage",
+        "https://lookouteugene-springfield.com/story/latest-news/2025/12/09/flock-activated-camera-during-pause-chief-says-pushing-city-to-axe-contract/"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Ferndale",
+      "agency_type": "City",
+      "state": "MI",
+      "action_type": "Contract ended",
+      "approx_date": "Nov 2025",
+      "notes": "Pilot discontinued",
+      "source_urls": [
+        "https://www.freep.com/story/news/local/michigan/2025/11/13/ferndale-ends-flock-cameras"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Woodburn",
+      "agency_type": "City",
+      "state": "OR",
+      "action_type": "Program suspended / paused",
+      "approx_date": "Nov 2025",
+      "notes": "City suspended use for at least two months after community concerns about potential federal/ICE enforcement use.",
+      "source_urls": [
+        "https://woodburnindependent.com/2025/11/11/woodburn-suspends-flock-safety-license-plate-cameras-amid-concerns-of-federal-ice-enforcement/"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Flagstaff / Flagstaff PD",
+      "agency_type": "City",
+      "state": "AZ",
+      "action_type": "Contract terminated & cameras deactivated",
+      "approx_date": "Dec 2025",
+      "notes": "Council vote to end program",
+      "source_urls": [
+        "https://azdailysun.com/news/local/flagstaff-flock-safety-cameras-ended"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Eugene",
+      "agency_type": "City",
+      "state": "OR",
+      "action_type": "Contract terminated",
+      "approx_date": "Dec 2025",
+      "notes": "Immediate termination",
+      "source_urls": [
+        "https://www.opb.org/article/2025/12/02/eugene-ends-flock-alpr"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Staunton",
+      "agency_type": "City",
+      "state": "VA",
+      "action_type": "Contract ended",
+      "approx_date": "Dec 2025",
+      "notes": "ALPRs removed",
+      "source_urls": [
+        "https://www.whsv.com/2025/12/10/staunton-ends-flock-cameras"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of San Marcos",
+      "agency_type": "City",
+      "state": "TX",
+      "action_type": "Renewal rejected",
+      "approx_date": "Dec 2025",
+      "notes": "Council direction",
+      "source_urls": [
+        "https://www.kut.org/texas/2025-12-03/san-marcos-flock-cameras"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Richmond / Richmond Police Department",
+      "agency_type": "City",
+      "state": "CA",
+      "action_type": "Program paused / shut down (cameras offline)",
+      "approx_date": "Dec 2025",
+      "notes": "Police chief shut down/paused Flock ALPRs after discovering a configuration issue that allowed limited outside-agency searching; described as a pause pending safeguards.",
+      "source_urls": [
+        "https://richmondside.org/2025/12/09/richmond-license-plate-reader-data-breach/",
+        "https://richmondstandard.com/community/2025/12/09/richmond-police-suspend-system-that-automatically-reads-license-plates/"
+      ],
+      "sheet": "Timeline_View"
+    },
+    {
+      "agency_name": "City of Charlottesville / Charlottesville Police Department",
+      "agency_type": "City",
+      "state": "VA",
+      "action_type": "Program paused / cameras turned off",
+      "approx_date": "Dec 16, 2025",
+      "notes": "City Manager ordered Flock ALPR cameras turned off pending review after concerns about cameras operating during a pause.",
+      "source_urls": [
+        "https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/"
+      ],
+      "sheet": "Timeline_View"
+    }
+  ]
+}
