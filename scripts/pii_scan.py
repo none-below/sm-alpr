@@ -15,6 +15,7 @@ Usage:
 """
 
 import argparse
+import os
 import re
 import subprocess
 import sys
@@ -170,6 +171,46 @@ def is_excluded(path):
     return any(prefix in posix for prefix in EXCLUDED_PATH_PREFIXES)
 
 
+def emit_github_feedback(by_file):
+    """In GitHub Actions, surface findings beyond the workflow log:
+    - ::error file=...:: annotations, visible on the PR's Checks tab
+    - markdown report appended to $GITHUB_STEP_SUMMARY, visible at the top
+      of the workflow run page
+    """
+    if not os.environ.get("GITHUB_ACTIONS"):
+        return
+
+    # Annotations: one per file, summarizing findings. Commas and newlines
+    # in the message must be percent-encoded so GitHub doesn't mangle them.
+    for filepath, findings in sorted(by_file.items()):
+        parts = [f"p{f['page']} {f['category']}: {f['match']}" for f in findings]
+        msg = "; ".join(parts)
+        msg = (msg.replace("%", "%25").replace("\r", "%0D")
+                  .replace("\n", "%0A").replace(",", "%2C"))
+        title = f"PII detected ({len(findings)} finding(s))"
+        print(f"::error file={filepath},title={title}::{msg}")
+
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
+    total = sum(len(v) for v in by_file.values())
+    lines = [
+        "## PII scanner failed\n",
+        f"**{total} finding(s) in {len(by_file)} file(s).**\n",
+        "Either add the matched contacts to the allowlists in "
+        "`scripts/pii_scan.py`, or remove the records if they shouldn't be "
+        "public.\n",
+    ]
+    for filepath, findings in sorted(by_file.items()):
+        lines.append(f"\n### `{filepath}`\n")
+        for h in findings:
+            lines.append(f"- **p{h['page']} {h['category']}:** `{h['match']}`")
+            lines.append(f"  - Context: `…{h['context']}…`")
+    lines.append("")
+    with open(summary_path, "a") as fh:
+        fh.write("\n".join(lines) + "\n")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Scan PDF assets for PII")
     parser.add_argument("--dir", default="assets/san-mateo-public-records",
@@ -217,6 +258,8 @@ def main():
             print(f"    p{f['page']} {f['category']}: {f['match']}")
             print(f"      ...{f['context']}...")
     print()
+
+    emit_github_feedback(by_file)
 
     sys.exit(1)
 
