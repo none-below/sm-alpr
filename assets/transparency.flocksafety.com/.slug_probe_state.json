@@ -732,13 +732,14 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-08T06:23:59.133954+00:00",
+      "last_probed": "2026-05-08T12:00:22.015532+00:00",
       "tried": {
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
         "beverly-hills-ca-police": "http_404",
         "beverly-hills-ca-police-department": "http_404",
-        "beverly-hills-ca-ps": "http_404"
+        "beverly-hills-ca-ps": "http_404",
+        "beverly-hills-pd-ca": "http_404"
       }
     },
     "6b9c1c80-8c06-5e0a-a0c6-30913fad84fd": {
@@ -1314,6 +1315,14 @@
         "garden-grove-ca-po": "http_404"
       }
     },
+    "b90f3085-f640-5300-a97a-9f3d334e2300": {
+      "exhausted": false,
+      "found": "logan-county-ne-so",
+      "last_probed": "2026-05-08T12:00:10.489983+00:00",
+      "tried": {
+        "logan-county-ne-so": "http_200"
+      }
+    },
     "ba6dffec-c362-5bc4-b042-eef688d730a2": {
       "exhausted": false,
       "found": null,
@@ -1686,6 +1695,14 @@
         "chino-ca-police-department": "http_404"
       }
     },
+    "fb63b4c3-2516-5d13-9633-c5319bec1ee1": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-08T11:59:59.394578+00:00",
+      "tried": {
+        "richmond-housing-authority-ca-pd": "http_404"
+      }
+    },
     "fc97bf62-065b-507f-a327-4fd4c94453c6": {
       "exhausted": false,
       "found": null,
@@ -1704,6 +1721,6 @@
       }
     }
   },
-  "updated": "2026-05-08T10:10:34.816544+00:00",
+  "updated": "2026-05-08T12:00:22.062917+00:00",
   "version": 1
 }
