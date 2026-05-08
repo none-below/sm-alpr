@@ -1,6 +1,6 @@
 {
   "_schema": {
-    "imported_at": "ISO-8601 UTC of last import run",
+    "imported_at": "ISO-8601 UTC of last import that changed content",
     "source_file": "filename of upstream xlsx (not committed)",
     "source_file_sha256": "sha256 of upstream xlsx at import time",
     "actions": "list of agency-action records harvested from sheets"

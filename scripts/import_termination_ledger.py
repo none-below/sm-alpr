@@ -223,9 +223,23 @@ def add_domains_to_sources(sources: dict, new_domains: list[str],
 
 def write_ledger(actions: list[dict], src_sha: str, src_filename: str,
                  dry_run: bool) -> None:
+    # Preserve imported_at when the source hash and action list are unchanged
+    # — otherwise re-running on the same xlsx churns the file on disk and
+    # produces a noisy git diff. Only the timestamp updates when content
+    # actually changes.
+    prior_imported_at = None
+    if LEDGER_PATH.exists():
+        try:
+            prior = json.loads(LEDGER_PATH.read_text())
+            if (prior.get("source_file_sha256") == src_sha
+                    and prior.get("actions") == actions):
+                prior_imported_at = prior.get("imported_at")
+        except (json.JSONDecodeError, OSError):
+            pass
+
     payload = {
         "_schema": {
-            "imported_at": "ISO-8601 UTC of last import run",
+            "imported_at": "ISO-8601 UTC of last import that changed content",
             "source_file": "filename of upstream xlsx (not committed)",
             "source_file_sha256": "sha256 of upstream xlsx at import time",
             "actions": "list of agency-action records harvested from sheets",
@@ -239,7 +253,8 @@ def write_ledger(actions: list[dict], src_sha: str, src_filename: str,
             "applied by the curator). Re-import via "
             "scripts/import_termination_ledger.py."
         ),
-        "imported_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "imported_at": prior_imported_at or datetime.now(timezone.utc).strftime(
+            "%Y-%m-%dT%H:%M:%SZ"),
         "source_file": src_filename,
         "source_file_sha256": src_sha,
         "actions": actions,
@@ -248,7 +263,10 @@ def write_ledger(actions: list[dict], src_sha: str, src_filename: str,
         print(f"[dry-run] would write {LEDGER_PATH} ({len(actions)} actions)")
         return
     LEDGER_PATH.write_text(json.dumps(payload, indent=2) + "\n")
-    print(f"wrote {LEDGER_PATH} ({len(actions)} actions)")
+    if prior_imported_at:
+        print(f"ledger unchanged ({len(actions)} actions); kept imported_at={prior_imported_at}")
+    else:
+        print(f"wrote {LEDGER_PATH} ({len(actions)} actions)")
 
 
 def queue_urls(urls: list[str], dry_run: bool) -> None:
