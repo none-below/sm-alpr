@@ -196,7 +196,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-07T20:07:19.499473+00:00",
+      "last_probed": "2026-05-08T01:28:06.843889+00:00",
       "tried": {
         "national-city-ca": "http_404",
         "national-city-ca-po": "http_404",
@@ -206,7 +206,8 @@
         "national-city-pd-ca": "http_404",
         "national-city-po-ca": "http_404",
         "national-city-police-ca": "http_404",
-        "national-city-police-department-ca": "http_404"
+        "national-city-police-department-ca": "http_404",
+        "national-city-ps-ca": "http_404"
       }
     },
     "2549113a-a3d1-5d5c-9a3c-98fe21f27b17": {
@@ -546,6 +547,14 @@
         "cypress-ca-po": "http_404"
       }
     },
+    "5715ea99-2e73-5b6e-90f1-f90ee6bb9366": {
+      "exhausted": false,
+      "found": "raleigh-nc-pd",
+      "last_probed": "2026-05-08T01:27:56.667593+00:00",
+      "tried": {
+        "raleigh-nc-pd": "http_200"
+      }
+    },
     "589597b2-0d45-5add-ac97-bf6a042fceae": {
       "exhausted": false,
       "found": null,
@@ -737,6 +746,14 @@
       "last_probed": "2026-04-28T22:41:32.304622+00:00",
       "tried": {
         "santa-maria-ca-po": "http_404"
+      }
+    },
+    "6d2789e3-41cc-5154-8588-01370a616fcf": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-08T01:27:45.485499+00:00",
+      "tried": {
+        "somerton-az-pd": "http_404"
       }
     },
     "6db175fe-bff6-58bc-a911-d688f797fda9": {
@@ -1619,6 +1636,6 @@
       }
     }
   },
-  "updated": "2026-05-07T23:38:15.550617+00:00",
+  "updated": "2026-05-08T01:28:06.883069+00:00",
   "version": 1
 }
