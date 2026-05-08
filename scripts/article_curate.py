@@ -395,6 +395,48 @@ fields are:
   topics merely name-checked in passing. Vendor tags (vendor:flock,
   vendor:axon, etc.) are auto-applied earlier and you should not propose
   them here. You may propose zero tags if none apply.
+
+  IMPORTANT — outcome:* tags are orthogonal to the article's primary
+  frame. When the article SUBSTANTIVELY REPORTS a specific agency
+  taking a specific contract action — turning off cameras, canceling,
+  pausing, rejecting (a proposal), declining renewal, letting a
+  contract lapse, deactivating, removing, prohibiting use, etc. —
+  apply the matching outcome:* tag EVEN IF the article's primary
+  frame is audit, policy, legal, or incident. An article routinely
+  carries multiple frames at once: policy:audit AND
+  outcome:terminated; policy:sharing AND outcome:restricted;
+  incident:ice-cooperation AND outcome:terminated;
+  legal:legislation AND outcome:rejected. These are different axes —
+  do not let one suppress the other.
+
+  POSITIVE example — apply outcome:terminated: KQED's "As California
+  Cities Grow Wary of Flock Safety Cameras, Mountain View Shuts Its
+  Off" reports that the Mountain View Police Department turned off
+  its Flock cameras after an audit revealed unauthorized federal and
+  out-of-state access. Correct topic_tags include policy:audit AND
+  policy:sharing AND incident:ice-cooperation AND outcome:terminated —
+  the cameras-off action is the contract-action core of the story.
+
+  NEGATIVE examples — do NOT apply outcome:* to:
+    • A court ruling that ALPR data is a public record. The court is
+      rejecting a legal argument, not terminating a contract. Even
+      if the article names cities that have separately turned off
+      cameras, the article isn't reporting THOSE actions — it's
+      reporting the ruling. Tag legal:court-ruling, not outcome:*.
+    • A year-in-review or roundup that namechecks many cities'
+      decisions in one paragraph each as part of a broader narrative.
+      outcome:* is for articles whose core reporting is one (or a
+      small number of) specific agency action(s); not for aggregators.
+    • A product/feature/lawsuit article that mentions in passing that
+      "some cities have shut off Flock" as background context. The
+      article must substantively report the action, not just allude
+      to it.
+
+  Test: if you removed every reference to the contract action from
+  the article, would the remaining article still make sense as a
+  coherent piece on its stated topic? If yes, the action is
+  background — skip outcome:*. If removing it would gut the article,
+  apply outcome:*.
 - genre: investigative | explainer | opinion | press-release | analysis.
   Pick exactly one based on what the piece is, not what it covers.
 - primary_subject_agency_id: the agency_id of the agency the article is
@@ -497,14 +539,23 @@ def call_claude_for_curation(entry: dict, text: str, *,
 
 
 def run_phase2(registry: list[dict], *, tags_data: dict,
-               limit: int, model: str, dry_run: bool) -> int:
+               limit: int, model: str, dry_run: bool,
+               reenrich: bool = False) -> int:
     if not dry_run and not os.environ.get("ANTHROPIC_API_KEY"):
         print("phase2: ANTHROPIC_API_KEY not set; skipping (Phase 1 still ran)")
         return 0
 
+    # Default: only fresh "mechanical" entries.
+    # --reenrich: also re-run on already-enriched entries (oldest curated_at
+    # first), used after a prompt change to drag old entries up to the new
+    # tagging standard. Existing summary/key_quotes/tags will be overwritten.
+    accepted_statuses = {"mechanical"}
+    if reenrich:
+        accepted_statuses.add("enriched")
+
     eligible = []
     for e in registry:
-        if e.get("curation_status") != "mechanical":
+        if e.get("curation_status") not in accepted_statuses:
             continue
         if e.get("tier") not in PHASE2_ELIGIBLE_TIERS:
             continue
@@ -512,6 +563,10 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
         if not verdict.startswith(PHASE2_SCANNER_PREFIXES):
             continue
         eligible.append(e)
+    if reenrich:
+        # Oldest curated_at first so repeated --reenrich runs make progress.
+        eligible.sort(key=lambda e: (e.get("curation_status") != "mechanical",
+                                     e.get("curated_at") or ""))
     eligible = eligible[:limit]
     if not eligible:
         print("phase2: nothing to enrich")
@@ -591,6 +646,10 @@ def main() -> int:
                    help=f"Anthropic model (default: {DEFAULT_MODEL}; "
                         "override via SM_ALPR_CURATE_MODEL)")
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--reenrich", action="store_true",
+                   help="Phase 2 only: also re-run on already-enriched "
+                        "entries (oldest curated_at first), to backfill "
+                        "after a prompt change. Honors --limit.")
     args = p.parse_args()
 
     registry = read_json(REGISTRY_PATH, [])
@@ -604,7 +663,8 @@ def main() -> int:
     if args.phase in ("2", "both"):
         limit = args.limit if args.limit is not None else DEFAULT_PHASE2_LIMIT
         run_phase2(registry, tags_data=tags_data, limit=limit,
-                   model=args.model, dry_run=args.dry_run)
+                   model=args.model, dry_run=args.dry_run,
+                   reenrich=args.reenrich)
 
     if not args.dry_run:
         write_json(REGISTRY_PATH, registry)

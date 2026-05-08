@@ -26,6 +26,9 @@ on:
       phase2_only:
         description: 'Skip crawl + Phase 1; run Phase 2 only'
         default: 'false'
+      phase2_reenrich:
+        description: 'Phase 2 also re-runs on already-enriched entries (backfill after a prompt change). Pair with phase2_only=true and a higher phase2_limit.'
+        default: 'false'
 
 concurrency:
   # Shared with discover-articles.yml — both push to article-registry-bot
@@ -120,7 +123,8 @@ jobs:
         run: |
           uv run python scripts/article_curate.py \
             --phase 2 \
-            --limit ${{ inputs.phase2_limit || '5' }}
+            --limit ${{ inputs.phase2_limit || '5' }} \
+            ${{ inputs.phase2_reenrich == 'true' && '--reenrich' || '' }}
 
       - name: Lint registry
         run: uv run python scripts/lint_articles.py
