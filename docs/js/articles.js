@@ -38,16 +38,42 @@ function clearFilters() {
   render();
 }
 
+function tagNamespace(tag) {
+  var i = tag.indexOf(':');
+  return i >= 0 ? tag.substring(0, i) : 'other';
+}
+
+// Filter semantics: OR within a namespace (selecting outcome:terminated and
+// outcome:rejected widens the result), AND across namespaces. Excludes always
+// drop matching articles regardless of grouping.
 function articleMatches(article) {
   var tags = article.tags || [];
   var tagSet = {};
   for (var i = 0; i < tags.length; i++) tagSet[tags[i]] = true;
   var srcKey = 'source:' + (article.source_domain || '');
+
+  function tagPresent(t) {
+    return t.indexOf('source:') === 0 ? (t === srcKey) : !!tagSet[t];
+  }
+
+  var includesByNs = {};
   for (var t in STATE.filters) {
     var mode = STATE.filters[t];
-    var present = t.indexOf('source:') === 0 ? (t === srcKey) : tagSet[t];
-    if (mode === 'include' && !present) return false;
-    if (mode === 'exclude' && present) return false;
+    if (mode === 'exclude' && tagPresent(t)) return false;
+    if (mode === 'include') {
+      var ns = tagNamespace(t);
+      if (!includesByNs[ns]) includesByNs[ns] = [];
+      includesByNs[ns].push(t);
+    }
+  }
+
+  for (var ns2 in includesByNs) {
+    var group = includesByNs[ns2];
+    var anyMatch = false;
+    for (var k = 0; k < group.length; k++) {
+      if (tagPresent(group[k])) { anyMatch = true; break; }
+    }
+    if (!anyMatch) return false;
   }
   return true;
 }
