@@ -6,7 +6,7 @@ touching the same line. CI runs this on every PR. The same shape as
 scripts/lint_findings.py — fail closed on any error, list every error,
 exit 1.
 
-Checks:
+Checks (errors — exit 1):
   - article_id format (art_NNN) and uniqueness
   - URL uniqueness
   - source_domain present and listed in assets/sources.json
@@ -15,6 +15,12 @@ Checks:
   - tags appear in assets/tags.json (topics + editorial vocabulary)
   - curation_status in known set
   - paths.{html,txt,meta} relative paths exist on disk
+
+Warnings (don't fail — just printed for visibility):
+  - title or summary mentions a contract-action keyword (terminate,
+    shut off, paused, rejected, rescinded, deactivated, not renewed,
+    not awarded, etc.) but no outcome:* tag is applied. Surfaces
+    curator drift after a prompt change.
 
 Usage:
   python scripts/lint_articles.py            # check the canonical registry
@@ -34,6 +40,40 @@ AGENCY_REGISTRY = ROOT / "assets" / "agency_registry.json"
 
 ARTICLE_ID_RE = re.compile(r"^art_\d{3,}$")
 KNOWN_STATUSES = {"mechanical", "enriched", "needs_review"}
+
+# Word-boundary regex hits suggesting the article reports a contract
+# action — terminating, turning off, pausing, declining renewal, etc.
+# An enriched entry whose title or summary matches any of these but has
+# no outcome:* tag gets a warning.
+#
+# We keep ambiguous verbs (cancel, reject, decline, drop) anchored to
+# contract/program/pilot/camera context so we don't flag "court rejected
+# the argument" or "drop in stock". Stronger verbs (terminat/rescind/
+# deactivat/turn-off/shut-down) fire on their own — those rarely appear
+# outside the contract-action sense.
+_OBJ = r"(?:contract|program|pilot|agreement|cameras?|alpr|flock|deal|ALPRs?)"
+CONTRACT_ACTION_RES = tuple(re.compile(p, re.I) for p in (
+    r"\bterminat\w*\b",
+    r"\brescind\w*\b",
+    r"\bdeactivat\w*\b",
+    r"\b(?:turn|turns|turned|turning)\s+(?:its\s+\w+\s+)?off\b",
+    r"\b(?:shut|shuts|shutting)\s+(?:its\s+\w+\s+)?(?:off|down)\b",
+    rf"\b{_OBJ}[\w\s]{{0,20}}?(?:was|were|got|is|are|been|to\s+be)?\s*"
+    r"(?:paus|suspend)\w*\b",
+    rf"\b(?:paus|suspend)\w*\s+(?:its\s+\w+\s+|the\s+)?{_OBJ}\b",
+    r"\bnot\s+renew(?:ed|ing)?\b",
+    r"\bnot\s+awarded\b",
+    r"\bnot\s+activated\b",
+    rf"\b{_OBJ}\s+(?:has\s+|have\s+)?(?:ended|ends|expir\w*|laps\w*)\b",
+    r"\b(?:won[’']t|will\s+not|wouldn[’']t)\s+renew\b",
+    rf"\blet\s+(?:its\s+|the\s+)?{_OBJ}\s+laps\w*\b",
+    rf"\b{_OBJ}\s+\w*\s*(?:reject\w*|declin\w*|cancel\w*)\b",
+    rf"\b(?:reject\w*|declin\w*|cancel\w*)\s+(?:its\s+|the\s+)?{_OBJ}\b",
+    r"\b(?:cameras?|alpr)\s+(?:were\s+|are\s+|was\s+|will\s+be\s+"
+    r"|to\s+be\s+)?removed\b",
+    rf"\bdrop(?:ped|ping|s)?\s+(?:its\s+|the\s+)?{_OBJ}\b",
+    r"\bprohibit\w*\s+(?:from\s+)?us(?:e|ing)\s+(?:flock|alpr)",
+))
 
 
 def main() -> int:
@@ -76,6 +116,7 @@ def main() -> int:
         valid_agency_ids = set()
 
     errors: list[str] = []
+    warnings: list[str] = []
     seen_ids: dict[str, int] = {}
     seen_urls: dict[str, int] = {}
 
@@ -147,13 +188,40 @@ def main() -> int:
                 continue
             errors.append(f"{prefix}: paths.{kind} missing on disk: {rel}")
 
+        # Curator drift check: contract-action language with no outcome:* tag.
+        # Skip mechanical entries — they don't have a summary yet and Phase 2
+        # is what adds outcome:* tags. Once an entry is enriched, an action
+        # mention without outcome:* is a real miss.
+        if entry.get("curation_status") == "enriched":
+            tags = entry.get("tags") or []
+            has_outcome = any(t.startswith("outcome:") for t in tags)
+            if not has_outcome:
+                blob = " ".join(filter(None, [
+                    (entry.get("title") or ""),
+                    (entry.get("summary") or ""),
+                ]))
+                m = next((cre.search(blob) for cre in CONTRACT_ACTION_RES
+                          if cre.search(blob)), None)
+                if m:
+                    warnings.append(
+                        f"{prefix}: contract-action language "
+                        f"({m.group(0)!r}) but no outcome:* tag — "
+                        f"title={entry.get('title')!r}"
+                    )
+
+    if warnings:
+        print(f"lint_articles: {len(warnings)} warning(s) in {path}:")
+        for w in warnings:
+            print(f"  ⚠ {w}")
+
     if errors:
         print(f"lint_articles: {len(errors)} error(s) in {path}:", file=sys.stderr)
         for e in errors:
             print(f"  - {e}", file=sys.stderr)
         return 1
 
-    print(f"lint_articles: OK — {len(registry)} entries, {len(seen_ids)} unique IDs")
+    print(f"lint_articles: OK — {len(registry)} entries, "
+          f"{len(seen_ids)} unique IDs, {len(warnings)} warning(s)")
     return 0
 
 
