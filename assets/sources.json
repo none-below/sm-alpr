@@ -4,9 +4,9 @@
     "domain": "lowercase apex domain (no scheme, no path, no www)",
     "tier": "1 = wire/papers of record / professional editorial, 2 = beat/advocacy outlets, 3 = blogs/social/uncurated",
     "name": "human-readable publisher name",
-    "stance": "neutral | critical | supportive | industry | unknown — posture toward law-enforcement surveillance",
+    "stance": "neutral | critical | supportive | industry | unknown \u2014 posture toward law-enforcement surveillance",
     "last_reviewed": "YYYY-MM-DD when tier/stance was last confirmed by a human",
-    "feed_url": "(optional) RSS/Atom feed URL — scripts/discover_articles.py polls this and auto-queues items matching ALPR keywords",
+    "feed_url": "(optional) RSS/Atom feed URL \u2014 scripts/discover_articles.py polls this and auto-queues items matching ALPR keywords",
     "notes": "free-form"
   },
   "_handler_policy": {
@@ -17,39 +17,886 @@
     "tier_3_any": "deterministic extraction only; quotes hand-pasted"
   },
   "sources": [
-    {"domain": "nytimes.com",            "tier": 1, "name": "The New York Times",          "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
-    {"domain": "washingtonpost.com",     "tier": 1, "name": "The Washington Post",         "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
-    {"domain": "reuters.com",            "tier": 1, "name": "Reuters",                     "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
-    {"domain": "apnews.com",             "tier": 1, "name": "Associated Press",            "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": ""},
-    {"domain": "sfchronicle.com",        "tier": 1, "name": "San Francisco Chronicle",     "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": "Hard paywall; no public RSS. Discoverable via search mode."},
-    {"domain": "mercurynews.com",        "tier": 1, "name": "San Jose Mercury News",       "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": "MediaNews Group; direct feed blocked (403). Discoverable via search mode."},
-    {"domain": "latimes.com",            "tier": 1, "name": "Los Angeles Times",           "stance": "neutral",    "last_reviewed": "2026-04-27", "feed_url": "https://www.latimes.com/california/rss2.0.xml", "notes": "California desk feed."},
-    {"domain": "sacbee.com",             "tier": 1, "name": "Sacramento Bee",              "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": "Arc CMS; no public RSS. Discoverable via search mode."},
-    {"domain": "smdailyjournal.com",     "tier": 1, "name": "San Mateo Daily Journal",     "stance": "neutral",    "last_reviewed": "2026-04-27", "notes": "Local paper for SMPD coverage."},
-    {"domain": "kqed.org",               "tier": 1, "name": "KQED",                        "stance": "neutral",    "last_reviewed": "2026-05-07", "feed_url": "https://ww2.kqed.org/news/feed/", "notes": "WordPress-backed news CMS at ww2 subdomain; main site is React SPA with no feed."},
-    {"domain": "npr.org",                "tier": 1, "name": "NPR",                         "stance": "neutral",    "last_reviewed": "2026-05-07", "feed_url": "https://feeds.npr.org/1001/rss.xml", "notes": ""},
-    {"domain": "calmatters.org",         "tier": 1, "name": "CalMatters",                  "stance": "neutral",    "last_reviewed": "2026-05-07", "feed_url": "https://calmatters.org/feed/", "notes": "Statewide California policy journalism; strong legislature and municipal government beat."},
-    {"domain": "eastbaytimes.com",       "tier": 1, "name": "East Bay Times",              "stance": "neutral",    "last_reviewed": "2026-05-07", "notes": "MediaNews Group; direct feed blocked (403). Covers El Cerrito, Oakland, Alameda County. Discoverable via search mode."},
-
-    {"domain": "eff.org",                "tier": 2, "name": "Electronic Frontier Foundation", "stance": "critical", "last_reviewed": "2026-04-27", "feed_url": "https://www.eff.org/rss/updates.xml", "notes": "Privacy/surveillance advocacy."},
-    {"domain": "aclu.org",               "tier": 2, "name": "ACLU (national)",             "stance": "critical",   "last_reviewed": "2026-05-07", "feed_url": "https://www.aclu.org/feed", "notes": ""},
-    {"domain": "aclunorcal.org",         "tier": 2, "name": "ACLU of Northern California", "stance": "critical",   "last_reviewed": "2026-05-07", "feed_url": "https://www.aclunorcal.org/feed/", "notes": "Formerly aclunc.org; redirects to aclunorcal.org."},
-    {"domain": "epic.org",               "tier": 2, "name": "Electronic Privacy Information Center", "stance": "critical", "last_reviewed": "2026-05-07", "feed_url": "https://epic.org/feed/", "notes": ""},
-    {"domain": "themarkup.org",          "tier": 2, "name": "The Markup",                  "stance": "critical",   "last_reviewed": "2026-04-27", "feed_url": "https://themarkup.org/feeds/rss.xml", "notes": "Accountability journalism, tech/algorithm beat."},
-    {"domain": "404media.co",            "tier": 2, "name": "404 Media",                   "stance": "critical",   "last_reviewed": "2026-04-27", "feed_url": "https://www.404media.co/rss/", "notes": "Tech/surveillance reporting; covers prompt-injection beats — scanner-flagged content may be a quoted attack, not a real one."},
-    {"domain": "propublica.org",         "tier": 2, "name": "ProPublica",                  "stance": "critical",   "last_reviewed": "2026-04-27", "feed_url": "https://www.propublica.org/feeds/propublica/main", "notes": ""},
-    {"domain": "wired.com",              "tier": 2, "name": "Wired",                       "stance": "neutral",    "last_reviewed": "2026-05-07", "feed_url": "https://www.wired.com/feed/category/security/latest/rss", "notes": "Security category feed; main feed is dominated by affiliate/deals content."},
-    {"domain": "arstechnica.com",        "tier": 2, "name": "Ars Technica",                "stance": "neutral",    "last_reviewed": "2026-05-07", "feed_url": "https://feeds.arstechnica.com/arstechnica/index", "notes": ""},
-    {"domain": "brennancenter.org",      "tier": 2, "name": "Brennan Center for Justice",  "stance": "critical",   "last_reviewed": "2026-05-07", "notes": "Drupal 11; no RSS feed exposed. Discoverable via search mode."},
-    {"domain": "berkeleyside.org",       "tier": 2, "name": "Berkeleyside",                "stance": "neutral",    "last_reviewed": "2026-05-07", "feed_url": "https://www.berkeleyside.org/feed", "notes": "Strong Berkeley city government beat; has covered Flock surveillance expansion directly."},
-    {"domain": "oaklandside.org",        "tier": 2, "name": "The Oaklandside",             "stance": "neutral",    "last_reviewed": "2026-05-07", "feed_url": "https://oaklandside.org/feed/", "notes": "Oakland city government and accountability reporting."},
-    {"domain": "sanjosespotlight.com",   "tier": 2, "name": "San José Spotlight",          "stance": "neutral",    "last_reviewed": "2026-05-07", "feed_url": "https://sanjosespotlight.com/feed/", "notes": "City government focus for San José and Santa Clara County."},
-    {"domain": "missionlocal.org",       "tier": 2, "name": "Mission Local",               "stance": "neutral",    "last_reviewed": "2026-05-07", "feed_url": "https://missionlocal.org/feed/", "notes": "SF neighborhood and city government reporting."},
-
-    {"domain": "flocksafety.com",        "tier": 2, "name": "Flock Safety (vendor)",       "stance": "industry",   "last_reviewed": "2026-04-27", "notes": "Vendor blog/press releases. Counterweight value: their own framing of products and policy."},
-    {"domain": "axon.com",               "tier": 2, "name": "Axon (vendor)",               "stance": "industry",   "last_reviewed": "2026-04-27", "notes": ""},
-    {"domain": "policeexecutive.org",    "tier": 2, "name": "Police Executive Research Forum (PERF)", "stance": "supportive", "last_reviewed": "2026-04-27", "notes": "Industry/practitioner research."},
-    {"domain": "theiacp.org",            "tier": 2, "name": "International Association of Chiefs of Police", "stance": "supportive", "last_reviewed": "2026-04-27", "notes": ""},
-    {"domain": "police1.com",            "tier": 2, "name": "Police1",                     "stance": "supportive", "last_reviewed": "2026-04-27", "notes": "Trade publication for law enforcement."}
+    {
+      "domain": "404media.co",
+      "tier": 2,
+      "name": "404 Media",
+      "stance": "critical",
+      "last_reviewed": "2026-04-27",
+      "feed_url": "https://www.404media.co/rss/",
+      "notes": "Tech/surveillance reporting; covers prompt-injection beats \u2014 scanner-flagged content may be a quoted attack, not a real one."
+    },
+    {
+      "domain": "9news.com",
+      "tier": 2,
+      "name": "9news.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "abc7news.com",
+      "tier": 2,
+      "name": "abc7news.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "aclu.org",
+      "tier": 2,
+      "name": "ACLU (national)",
+      "stance": "critical",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://www.aclu.org/feed",
+      "notes": ""
+    },
+    {
+      "domain": "aclunorcal.org",
+      "tier": 2,
+      "name": "ACLU of Northern California",
+      "stance": "critical",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://www.aclunorcal.org/feed/",
+      "notes": "Formerly aclunc.org; redirects to aclunorcal.org."
+    },
+    {
+      "domain": "apnews.com",
+      "tier": 1,
+      "name": "Associated Press",
+      "stance": "neutral",
+      "last_reviewed": "2026-04-27",
+      "notes": ""
+    },
+    {
+      "domain": "applevalleynewsnow.com",
+      "tier": 2,
+      "name": "applevalleynewsnow.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "arstechnica.com",
+      "tier": 2,
+      "name": "Ars Technica",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://feeds.arstechnica.com/arstechnica/index",
+      "notes": ""
+    },
+    {
+      "domain": "axon.com",
+      "tier": 2,
+      "name": "Axon (vendor)",
+      "stance": "industry",
+      "last_reviewed": "2026-04-27",
+      "notes": ""
+    },
+    {
+      "domain": "azdailysun.com",
+      "tier": 2,
+      "name": "azdailysun.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "berkeleyside.org",
+      "tier": 2,
+      "name": "Berkeleyside",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://www.berkeleyside.org/feed",
+      "notes": "Strong Berkeley city government beat; has covered Flock surveillance expansion directly."
+    },
+    {
+      "domain": "bloomington.in.gov",
+      "tier": 2,
+      "name": "bloomington.in.gov",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "brennancenter.org",
+      "tier": 2,
+      "name": "Brennan Center for Justice",
+      "stance": "critical",
+      "last_reviewed": "2026-05-07",
+      "notes": "Drupal 11; no RSS feed exposed. Discoverable via search mode."
+    },
+    {
+      "domain": "brookline.news",
+      "tier": 2,
+      "name": "brookline.news",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "calmatters.org",
+      "tier": 1,
+      "name": "CalMatters",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://calmatters.org/feed/",
+      "notes": "Statewide California policy journalism; strong legislature and municipal government beat."
+    },
+    {
+      "domain": "cambridgema.gov",
+      "tier": 2,
+      "name": "cambridgema.gov",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "cbsaustin.com",
+      "tier": 2,
+      "name": "cbsaustin.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "cbsnews.com",
+      "tier": 1,
+      "name": "cbsnews.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "chronline.com",
+      "tier": 2,
+      "name": "chronline.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "clickorlando.com",
+      "tier": 2,
+      "name": "clickorlando.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "columbian.com",
+      "tier": 2,
+      "name": "columbian.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "content.govdelivery.com",
+      "tier": 2,
+      "name": "content.govdelivery.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "cvillerightnow.com",
+      "tier": 2,
+      "name": "cvillerightnow.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "denvergazette.com",
+      "tier": 1,
+      "name": "denvergazette.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "denverpost.com",
+      "tier": 1,
+      "name": "denverpost.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "eastbaytimes.com",
+      "tier": 1,
+      "name": "East Bay Times",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "notes": "MediaNews Group; direct feed blocked (403). Covers El Cerrito, Oakland, Alameda County. Discoverable via search mode."
+    },
+    {
+      "domain": "eff.org",
+      "tier": 2,
+      "name": "Electronic Frontier Foundation",
+      "stance": "critical",
+      "last_reviewed": "2026-04-27",
+      "feed_url": "https://www.eff.org/rss/updates.xml",
+      "notes": "Privacy/surveillance advocacy."
+    },
+    {
+      "domain": "epic.org",
+      "tier": 2,
+      "name": "Electronic Privacy Information Center",
+      "stance": "critical",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://epic.org/feed/",
+      "notes": ""
+    },
+    {
+      "domain": "evanstonroundtable.com",
+      "tier": 2,
+      "name": "evanstonroundtable.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "examiner-enterprise.com",
+      "tier": 2,
+      "name": "examiner-enterprise.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "fauquiernow.com",
+      "tier": 2,
+      "name": "fauquiernow.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "flocksafety.com",
+      "tier": 2,
+      "name": "Flock Safety (vendor)",
+      "stance": "industry",
+      "last_reviewed": "2026-04-27",
+      "notes": "Vendor blog/press releases. Counterweight value: their own framing of products and policy."
+    },
+    {
+      "domain": "freep.com",
+      "tier": 1,
+      "name": "freep.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "geekwire.com",
+      "tier": 2,
+      "name": "geekwire.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "goskagit.com",
+      "tier": 2,
+      "name": "goskagit.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "govtech.com",
+      "tier": 2,
+      "name": "govtech.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "heraldnet.com",
+      "tier": 1,
+      "name": "heraldnet.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "hngnews.com",
+      "tier": 2,
+      "name": "hngnews.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "ithacavoice.org",
+      "tier": 2,
+      "name": "ithacavoice.org",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "kcrg.com",
+      "tier": 2,
+      "name": "kcrg.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "kgun9.com",
+      "tier": 2,
+      "name": "kgun9.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "kiro7.com",
+      "tier": 2,
+      "name": "kiro7.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "klcc.org",
+      "tier": 1,
+      "name": "klcc.org",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "koamnewsnow.com",
+      "tier": 2,
+      "name": "koamnewsnow.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "kqed.org",
+      "tier": 1,
+      "name": "KQED",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://ww2.kqed.org/news/feed/",
+      "notes": "WordPress-backed news CMS at ww2 subdomain; main site is React SPA with no feed."
+    },
+    {
+      "domain": "krem.com",
+      "tier": 2,
+      "name": "krem.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "kstp.com",
+      "tier": 2,
+      "name": "kstp.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "kut.org",
+      "tier": 1,
+      "name": "kut.org",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "kvue.com",
+      "tier": 2,
+      "name": "kvue.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "kxan.com",
+      "tier": 2,
+      "name": "kxan.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "laist.com",
+      "tier": 2,
+      "name": "laist.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "latimes.com",
+      "tier": 1,
+      "name": "Los Angeles Times",
+      "stance": "neutral",
+      "last_reviewed": "2026-04-27",
+      "feed_url": "https://www.latimes.com/california/rss2.0.xml",
+      "notes": "California desk feed."
+    },
+    {
+      "domain": "lookouteugene-springfield.com",
+      "tier": 2,
+      "name": "lookouteugene-springfield.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "losaltosonline.com",
+      "tier": 2,
+      "name": "losaltosonline.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "madison.com",
+      "tier": 1,
+      "name": "madison.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "mercurynews.com",
+      "tier": 1,
+      "name": "San Jose Mercury News",
+      "stance": "neutral",
+      "last_reviewed": "2026-04-27",
+      "notes": "MediaNews Group; direct feed blocked (403). Discoverable via search mode."
+    },
+    {
+      "domain": "missionlocal.org",
+      "tier": 2,
+      "name": "Mission Local",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://missionlocal.org/feed/",
+      "notes": "SF neighborhood and city government reporting."
+    },
+    {
+      "domain": "mlive.com",
+      "tier": 1,
+      "name": "mlive.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "mv-voice.com",
+      "tier": 2,
+      "name": "mv-voice.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "natickreport.com",
+      "tier": 2,
+      "name": "natickreport.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "nbc26.com",
+      "tier": 2,
+      "name": "nbc26.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "news10.com",
+      "tier": 2,
+      "name": "news10.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "newsobserver.com",
+      "tier": 1,
+      "name": "newsobserver.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "northcountrypublicradio.org",
+      "tier": 1,
+      "name": "northcountrypublicradio.org",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "npr.org",
+      "tier": 1,
+      "name": "NPR",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://feeds.npr.org/1001/rss.xml",
+      "notes": ""
+    },
+    {
+      "domain": "nytimes.com",
+      "tier": 1,
+      "name": "The New York Times",
+      "stance": "neutral",
+      "last_reviewed": "2026-04-27",
+      "notes": ""
+    },
+    {
+      "domain": "oaklandside.org",
+      "tier": 2,
+      "name": "The Oaklandside",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://oaklandside.org/feed/",
+      "notes": "Oakland city government and accountability reporting."
+    },
+    {
+      "domain": "oakpark.com",
+      "tier": 2,
+      "name": "oakpark.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "opb.org",
+      "tier": 1,
+      "name": "opb.org",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "oxnard.gov",
+      "tier": 2,
+      "name": "oxnard.gov",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "patch.com",
+      "tier": 2,
+      "name": "patch.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "police1.com",
+      "tier": 2,
+      "name": "Police1",
+      "stance": "supportive",
+      "last_reviewed": "2026-04-27",
+      "notes": "Trade publication for law enforcement."
+    },
+    {
+      "domain": "policeexecutive.org",
+      "tier": 2,
+      "name": "Police Executive Research Forum (PERF)",
+      "stance": "supportive",
+      "last_reviewed": "2026-04-27",
+      "notes": "Industry/practitioner research."
+    },
+    {
+      "domain": "propublica.org",
+      "tier": 2,
+      "name": "ProPublica",
+      "stance": "critical",
+      "last_reviewed": "2026-04-27",
+      "feed_url": "https://www.propublica.org/feeds/propublica/main",
+      "notes": ""
+    },
+    {
+      "domain": "redrocknews.com",
+      "tier": 2,
+      "name": "redrocknews.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "reuters.com",
+      "tier": 1,
+      "name": "Reuters",
+      "stance": "neutral",
+      "last_reviewed": "2026-04-27",
+      "notes": ""
+    },
+    {
+      "domain": "richmondside.org",
+      "tier": 2,
+      "name": "richmondside.org",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "richmondstandard.com",
+      "tier": 2,
+      "name": "richmondstandard.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "sacbee.com",
+      "tier": 1,
+      "name": "Sacramento Bee",
+      "stance": "neutral",
+      "last_reviewed": "2026-04-27",
+      "notes": "Arc CMS; no public RSS. Discoverable via search mode."
+    },
+    {
+      "domain": "sanjosespotlight.com",
+      "tier": 2,
+      "name": "San Jos\u00e9 Spotlight",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://sanjosespotlight.com/feed/",
+      "notes": "City government focus for San Jos\u00e9 and Santa Clara County."
+    },
+    {
+      "domain": "santacruzsentinel.com",
+      "tier": 2,
+      "name": "santacruzsentinel.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "scarsdale.gov",
+      "tier": 2,
+      "name": "scarsdale.gov",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "seattletimes.com",
+      "tier": 1,
+      "name": "seattletimes.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "sfchronicle.com",
+      "tier": 1,
+      "name": "San Francisco Chronicle",
+      "stance": "neutral",
+      "last_reviewed": "2026-04-27",
+      "notes": "Hard paywall; no public RSS. Discoverable via search mode."
+    },
+    {
+      "domain": "shorewoodmn.gov",
+      "tier": 2,
+      "name": "shorewoodmn.gov",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "skamaniasheriff.com",
+      "tier": 2,
+      "name": "skamaniasheriff.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "smdailyjournal.com",
+      "tier": 1,
+      "name": "San Mateo Daily Journal",
+      "stance": "neutral",
+      "last_reviewed": "2026-04-27",
+      "notes": "Local paper for SMPD coverage."
+    },
+    {
+      "domain": "spectrumlocalnews.com",
+      "tier": 2,
+      "name": "spectrumlocalnews.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "theiacp.org",
+      "tier": 2,
+      "name": "International Association of Chiefs of Police",
+      "stance": "supportive",
+      "last_reviewed": "2026-04-27",
+      "notes": ""
+    },
+    {
+      "domain": "themarkup.org",
+      "tier": 2,
+      "name": "The Markup",
+      "stance": "critical",
+      "last_reviewed": "2026-04-27",
+      "feed_url": "https://themarkup.org/feeds/rss.xml",
+      "notes": "Accountability journalism, tech/algorithm beat."
+    },
+    {
+      "domain": "thenewstribune.com",
+      "tier": 1,
+      "name": "thenewstribune.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "thenorthwestern.com",
+      "tier": 2,
+      "name": "thenorthwestern.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "theolympian.com",
+      "tier": 1,
+      "name": "theolympian.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "theportager.com",
+      "tier": 2,
+      "name": "theportager.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "timesunion.com",
+      "tier": 1,
+      "name": "timesunion.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "toledoblade.com",
+      "tier": 1,
+      "name": "toledoblade.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "vimeo.com",
+      "tier": 2,
+      "name": "vimeo.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "washingtonpost.com",
+      "tier": 1,
+      "name": "The Washington Post",
+      "stance": "neutral",
+      "last_reviewed": "2026-04-27",
+      "notes": ""
+    },
+    {
+      "domain": "washingtonretail.org",
+      "tier": 2,
+      "name": "washingtonretail.org",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "watertownmanews.com",
+      "tier": 2,
+      "name": "watertownmanews.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "wbir.com",
+      "tier": 2,
+      "name": "wbir.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "wfsb.com",
+      "tier": 2,
+      "name": "wfsb.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "whsv.com",
+      "tier": 2,
+      "name": "whsv.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "wired.com",
+      "tier": 2,
+      "name": "Wired",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-07",
+      "feed_url": "https://www.wired.com/feed/category/security/latest/rss",
+      "notes": "Security category feed; main feed is dominated by affiliate/deals content."
+    },
+    {
+      "domain": "wkow.com",
+      "tier": 2,
+      "name": "wkow.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "woodburnindependent.com",
+      "tier": 2,
+      "name": "woodburnindependent.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "wpri.com",
+      "tier": 2,
+      "name": "wpri.com",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "wskg.org",
+      "tier": 1,
+      "name": "wskg.org",
+      "stance": "unknown",
+      "last_reviewed": "2026-05-08",
+      "notes": "auto-added from termination_ledger import; review tier/stance"
+    }
   ]
 }
