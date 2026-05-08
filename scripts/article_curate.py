@@ -423,21 +423,30 @@ fields are:
       if the article names cities that have separately turned off
       cameras, the article isn't reporting THOSE actions — it's
       reporting the ruling. Tag legal:court-ruling, not outcome:*.
-    • ANY aggregator article — year-in-review, roundup, "growing
-      pushback" survey, ACLU/EFF "here's the state of play" piece,
-      or advocacy commentary that namechecks multiple cities'
-      decisions to support a broader argument. If the article
-      lists 3+ agencies' actions in support of a thesis (rather
-      than reporting ONE agency's action as the news), it's an
-      aggregator and outcome:* tags should NOT fire. The right
-      tags for such pieces are policy:*, scope:*, and genre — not
-      outcome:*. Examples that should NOT carry outcome:*:
-        - "Why some cities are ditching Flock" (lists many cities)
+    • ANY article that reports actions by 2+ agencies — year-in-
+      review, roundup, "growing pushback" survey, ACLU/EFF "state
+      of play" piece, advocacy commentary, OR cross-cutting
+      investigative reporting that covers multiple agencies'
+      decisions in depth. The bright-line rule: outcome:* tags fire
+      ONLY when the article reports ONE specific agency's action
+      as its primary news, AND that agency is also the
+      primary_subject_agency_id. Multi-agency articles get
+      policy:*, scope:*, and genre tags only — never outcome:*.
+      The downstream use case is "click outcome:terminated, see a
+      map of terminated agencies"; tagging a multi-agency article
+      with outcome:terminated maps it to one agency_id (or none),
+      losing all the others and creating false-pin risk.
+      Examples that should NOT carry outcome:*:
+        - "Why some cities are ditching Flock" (NPR roundup)
         - "I'm hearing about more pushback against Flock"
         - "Cities are growing wary of Flock"
-        - "California cities double down on ALPRs"
-      Even if such an article cites specific terminations, those
-      are evidence for the thesis, not the news being reported.
+        - "California cities double down on ALPRs" (KQED, even
+           though it reports Oakland's vote AND Richmond's
+           shutdown AND Santa Cruz's limits in depth)
+      Even cross-cutting investigative pieces that report each
+      agency's action with multi-paragraph coverage and quotes
+      stay outcome-less. The agency-specific outcome belongs in
+      the per-agency article, not the cross-cut.
     • A product/feature/lawsuit article that mentions in passing that
       "some cities have shut off Flock" as background context. The
       article must substantively report the action, not just allude
