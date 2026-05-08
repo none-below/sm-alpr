@@ -377,6 +377,15 @@ SSESSIONID_RE = re.compile(r"[?&]sSessionID=[^&]*")
 DOWNLOAD_TIMEOUT_MS = 60_000  # portal pre-signs S3 URLs; can take several seconds
 NAV_TIMEOUT_MS = 20_000
 
+# Per-request attachment labels that are known to be unretrievable from the
+# portal — e.g., uploads where the original filename couldn't be parsed and
+# the portal serves a broken anchor. Without skipping, save_pdf_via_click
+# hangs the full DOWNLOAD_TIMEOUT_MS waiting for a download event that
+# never fires, every run.
+SKIP_ATTACHMENTS: dict[str, frozenset[str]] = {
+    "W012462-040226": frozenset({"download"}),
+}
+
 
 def load_config() -> dict:
     if not CONFIG_PATH.exists():
@@ -1019,6 +1028,7 @@ def process_request(page: Page, home_url: str, request_id: str,
         # clicks while still distinguishing two anchors that share a label
         # (e.g. two attachments uploaded with the same filename).
         processed: set[tuple[str, str, str]] = set()
+        skip_labels = SKIP_ATTACHMENTS.get(request_id, frozenset())
         while True:
             current = _get_attachment_anchors(page)
             target_el = None
@@ -1040,6 +1050,11 @@ def process_request(page: Page, home_url: str, request_id: str,
             if target_el is None or target_key is None:
                 break
             processed.add(target_key)
+
+            if target_label in skip_labels:
+                counts["skipped"] += 1
+                file_status("skipped", f"{target_label} (known broken)")
+                continue
 
             if target_label in existing or sanitize(target_label) in existing:
                 counts["skipped"] += 1
