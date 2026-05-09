@@ -10481,5 +10481,145 @@
     "curation_status": "mechanical",
     "curated_at": "2026-05-09T02:45:26Z",
     "article_id": "art_093"
+  },
+  {
+    "url": "https://cvillerightnow.com/news/208802-city-ends-flock-pilot-program-over-federal-data-base-concerns/",
+    "source_domain": "cvillerightnow.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "City ends Flock pilot program over federal data base concerns - Cville Right Now",
+    "byline": "Jay Hart",
+    "published_at": "2025-12-16T15:44:05+00:00",
+    "fetched_at": "2026-05-09T08:53:03Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 64 pts, HIGH/CRITICAL findings",
+    "scanner_score": 64,
+    "content_hash": "2f20b37a770145b63313fbbc13626504b714fe98f53bc22c7223b4de256071a7",
+    "paths": {
+      "html": "assets/articles/cvillerightnow.com/news-208802-city-ends-flock-pilot-program-over-federal-data-base-concerns_1e0022b4.html",
+      "meta": "assets/articles/cvillerightnow.com/news-208802-city-ends-flock-pilot-program-over-federal-data-base-concerns_1e0022b4.meta.json",
+      "pdf": "assets/articles/cvillerightnow.com/news-208802-city-ends-flock-pilot-program-over-federal-data-base-concerns_1e0022b4.pdf",
+      "txt": "assets/articles/cvillerightnow.com/news-208802-city-ends-flock-pilot-program-over-federal-data-base-concerns_1e0022b4.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+        "display_name": "Charlottesville Police Department",
+        "state": "VA",
+        "score": 16.617,
+        "matched_forms": [
+          "Charlottesville",
+          "Charlottesville Police"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T08:56:16Z",
+    "article_id": "art_094"
+  },
+  {
+    "url": "https://www.kut.org/crime-justice/2025-07-23/kyle-tx-austin-texas-flock-safety-cameras-license-plate-readers",
+    "source_domain": "kut.org",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Austin rejected automatic license plate readers. Advocates want Kyle to do the same.",
+    "byline": "https://www.kut.org/people/maya-fawaz",
+    "published_at": "2025-07-23T09:00:00",
+    "fetched_at": "2026-05-09T08:54:51Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 34 pts, low/medium only",
+    "scanner_score": 34,
+    "content_hash": "579a991d62ece6c8e79f2c99d14e8d4f070f45e15fb011ac15a337f91518cd9c",
+    "paths": {
+      "html": "assets/articles/kut.org/crime-justice-2025-07-23-kyle-tx-austin-texas-flock-safety-cameras-license-plate_22c73e6f.html",
+      "meta": "assets/articles/kut.org/crime-justice-2025-07-23-kyle-tx-austin-texas-flock-safety-cameras-license-plate_22c73e6f.meta.json",
+      "pdf": "assets/articles/kut.org/crime-justice-2025-07-23-kyle-tx-austin-texas-flock-safety-cameras-license-plate_22c73e6f.pdf",
+      "txt": "assets/articles/kut.org/crime-justice-2025-07-23-kyle-tx-austin-texas-flock-safety-cameras-license-plate_22c73e6f.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260509085456/https://www.kut.org/crime-justice/2025-07-23/kyle-tx-austin-texas-flock-safety-cameras-license-plate-readers",
+    "wayback_timestamp": "20260509085456",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:false-positive",
+      "incident:ice-cooperation",
+      "policy:audit",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+      "2a642c83-7602-5269-9be4-550b7632c36d",
+      "5beab980-d0ca-5fcd-9465-126e42183cb9"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+        "display_name": "Austin Police Department",
+        "state": "TX",
+        "score": 68.867,
+        "matched_forms": [
+          "Austin",
+          "Austin Police",
+          "Austin Police Department"
+        ]
+      },
+      {
+        "agency_id": "2a642c83-7602-5269-9be4-550b7632c36d",
+        "display_name": "Kyle TX PD",
+        "state": "TX",
+        "score": 20.4,
+        "matched_forms": [
+          "Kyle",
+          "Kyle Police",
+          "Kyle Police Department"
+        ]
+      },
+      {
+        "agency_id": "5beab980-d0ca-5fcd-9465-126e42183cb9",
+        "display_name": "Hays County TX SO",
+        "state": "TX",
+        "score": 3.867,
+        "matched_forms": [
+          "Hays County"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "2a642c83-7602-5269-9be4-550b7632c36d",
+    "summary": "Advocates in Kyle, Texas are urging the City Council to reject an expansion of its Flock Safety license plate reader program and reduce the 25 ALPRs and three live-view cameras currently deployed. The push follows Austin's recent decision to end its Flock contract and San Marcos's rejection of an expansion proposal, with advocates citing concerns about false positives, privacy, and potential ICE access.",
+    "key_quotes": [
+      {
+        "quote": "Last month, the city of Austin ended its contract with Flock and San Marcos rejected a proposal from the company to expand its program.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "There are such large discrepancies between the population size and the amount of cameras per person in the city of Kyle",
+        "paragraph_idx": 10
+      },
+      {
+        "quote": "he has evidence that U.S. Immigration and Customs Enforcement is \"actively collaborating with Flock,\" and could use the technology in deportation efforts",
+        "paragraph_idx": 12
+      },
+      {
+        "quote": "We assure our community that comprehensive policies, restricted access, and regular audits are in place to govern the appropriate use of these systems",
+        "paragraph_idx": 13
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T08:56:28Z",
+    "article_id": "art_095"
   }
 ]
