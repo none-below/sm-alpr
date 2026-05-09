@@ -4,6 +4,11 @@
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://azdailysun.com/news/local/flagstaff-flock-safety-cameras-ended/",
     "last_attempt": "2026-05-08T22:13:29Z"
   },
+  "https://azdailysun.com/news/local/flock-cameras-in-flagstaff-come-under-scrutiny/article_62556046-d721-43df-885a-14287fe8307e.html": {
+    "attempts": 1,
+    "error": "HTTP 429",
+    "last_attempt": "2026-05-09T12:02:28Z"
+  },
   "https://brookline.news/police-pause-flock-access": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://brookline.news/police-pause-flock-access",
@@ -23,6 +28,11 @@
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/",
     "last_attempt": "2026-05-08T22:09:04Z"
+  },
+  "https://evanstonroundtable.com/2025/06/16/foia-records-reveal-evanston-data-accessible-to-out-of-state-police-in-ice-searches/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T12:05:19Z"
   },
   "https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr": {
     "attempts": 3,
@@ -48,6 +58,11 @@
     "attempts": 1,
     "error": "HTTP 403",
     "last_attempt": "2026-05-09T08:56:04Z"
+  },
+  "https://oaklandside.org/2025/11/19/oakland-council-committee-rejects-flock-surveillance-camera-expansion/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T11:58:01Z"
   },
   "https://oakpark.com/2025/08/05/oak-park-ends-flock-cameras": {
     "attempts": 2,
@@ -104,6 +119,11 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-09T02:41:21Z"
   },
+  "https://www.oakpark.com/2025/01/06/more-license-plate-reading-cameras-coming-to-river-forest/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T12:01:08Z"
+  },
   "https://www.oakpark.com/2025/05/20/police-oversight-committee-seeks-more-data-on-flock-camera-use/": {
     "attempts": 1,
     "error": "HTTP 403",
@@ -148,6 +168,11 @@
     "attempts": 3,
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html",
     "last_attempt": "2026-05-05T20:15:18Z"
+  },
+  "https://www.thenewstribune.com/news/local/crime/article315247938.html": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.thenewstribune.com/news/local/crime/article315247938.html\nCall log:\n  - navigating to \"https://www.thenewstribune.com/news/local/crime/article315247938.html\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-05-09T12:04:07Z"
   },
   "https://www.thenewstribune.com/news/state/washington/article315035181.html": {
     "attempts": 1,
