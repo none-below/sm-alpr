@@ -9036,5 +9036,199 @@
     "curation_status": "mechanical",
     "curated_at": "2026-05-09T00:15:03Z",
     "article_id": "art_076"
+  },
+  {
+    "url": "https://www.goskagit.com/news/local_news/sedro-woolley-turns-off-law-enforcement-cameras-while-it-seeks-court-ruling/article_d0d0bdb9-6502-4686-94ae-346289afd535.html",
+    "source_domain": "goskagit.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Sedro-Woolley turns off law enforcement cameras while it seeks court ruling",
+    "byline": "VINCE RICHARDSON and MILO WHITMAN Skagit Valley Herald",
+    "published_at": null,
+    "fetched_at": "2026-05-09T02:22:09Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 223 pts, HIGH/CRITICAL findings",
+    "scanner_score": 223,
+    "content_hash": "e50f07bb3a8c1b5b34772520721e263ddd1d63a8131218bb51102060e22072c5",
+    "paths": {
+      "html": "assets/articles/goskagit.com/news-local-news-sedro-woolley-turns-off-law-enforcement-cameras-while-it-seeks-c_5e1bc92f.html",
+      "meta": "assets/articles/goskagit.com/news-local-news-sedro-woolley-turns-off-law-enforcement-cameras-while-it-seeks-c_5e1bc92f.meta.json",
+      "pdf": "assets/articles/goskagit.com/news-local-news-sedro-woolley-turns-off-law-enforcement-cameras-while-it-seeks-c_5e1bc92f.pdf",
+      "txt": "assets/articles/goskagit.com/news-local-news-sedro-woolley-turns-off-law-enforcement-cameras-while-it-seeks-c_5e1bc92f.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260509022213/https://www.goskagit.com/news/local_news/sedro-woolley-turns-off-law-enforcement-cameras-while-it-seeks-court-ruling/article_d0d0bdb9-6502-4686-94ae-346289afd535.html",
+    "wayback_timestamp": "20260509022213",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "926a7e76-714b-50a2-977e-522e4ec651ec",
+      "f9528ae9-97e1-555d-8dd3-f842543cb473",
+      "fc14b39f-3907-51d7-aa3f-42948e1a7ab3",
+      "b93e9655-92e2-5226-8b85-c20c87366b27",
+      "d791f0a4-e22d-5acd-972a-08ab21020e2e",
+      "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "34238e0f-5a37-5ab3-8196-f540fafdf4d8",
+      "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+      "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+      "cda15ffc-6dd3-56bb-8e41-53647dfd7bab"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "926a7e76-714b-50a2-977e-522e4ec651ec",
+        "display_name": "Republic MO PD",
+        "state": "MO",
+        "score": 248.567,
+        "matched_forms": [
+          "Republic"
+        ]
+      },
+      {
+        "agency_id": "f9528ae9-97e1-555d-8dd3-f842543cb473",
+        "display_name": "Sedro-Woolley WA PD",
+        "state": "WA",
+        "score": 20.55,
+        "matched_forms": [
+          "Sedro-Woolley",
+          "Sedro-Woolley Police",
+          "Sedro-Woolley Police Department"
+        ]
+      },
+      {
+        "agency_id": "fc14b39f-3907-51d7-aa3f-42948e1a7ab3",
+        "display_name": "Mount Vernon IN PD",
+        "state": "IN",
+        "score": 11.517,
+        "matched_forms": [
+          "Mount Vernon",
+          "Mount Vernon Police",
+          "Mount Vernon Police Department"
+        ]
+      },
+      {
+        "agency_id": "b93e9655-92e2-5226-8b85-c20c87366b27",
+        "display_name": "Mount Vernon TX ISD PD",
+        "state": "TX",
+        "score": 11.517,
+        "matched_forms": [
+          "Mount Vernon",
+          "Mount Vernon Police",
+          "Mount Vernon Police Department"
+        ]
+      },
+      {
+        "agency_id": "d791f0a4-e22d-5acd-972a-08ab21020e2e",
+        "display_name": "Mount Vernon WA PD",
+        "state": "WA",
+        "score": 11.517,
+        "matched_forms": [
+          "Mount Vernon",
+          "Mount Vernon Police",
+          "Mount Vernon Police Department"
+        ]
+      },
+      {
+        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+        "display_name": "Flock Safety",
+        "state": "GA",
+        "score": 8.7,
+        "matched_forms": [
+          "Flock Safety"
+        ]
+      },
+      {
+        "agency_id": "34238e0f-5a37-5ab3-8196-f540fafdf4d8",
+        "display_name": "Richardson TX PD",
+        "state": "TX",
+        "score": 7.333,
+        "matched_forms": [
+          "Richardson"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 7.333,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+        "display_name": "Washington MO PD",
+        "state": "MO",
+        "score": 7.333,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "cda15ffc-6dd3-56bb-8e41-53647dfd7bab",
+        "display_name": "Marshall AR PD",
+        "state": "AR",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:22:43Z",
+    "article_id": "art_077"
+  },
+  {
+    "url": "https://shorewoodmn.gov/Blog.aspx?IID=21",
+    "source_domain": "shorewoodmn.gov",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Blog \u2022 Flock Safety Camera Turned Off",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-09T02:22:17Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 34 pts, HIGH/CRITICAL findings",
+    "scanner_score": 34,
+    "content_hash": "f6de9b7c0d6031d0e0f2dc113b2fc08aa375d6aafec0a37da069f5ec95665fb0",
+    "paths": {
+      "html": "assets/articles/shorewoodmn.gov/blog-aspx_5ef22215.html",
+      "meta": "assets/articles/shorewoodmn.gov/blog-aspx_5ef22215.meta.json",
+      "pdf": "assets/articles/shorewoodmn.gov/blog-aspx_5ef22215.pdf",
+      "txt": "assets/articles/shorewoodmn.gov/blog-aspx_5ef22215.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260509022220/https://shorewoodmn.gov/Blog.aspx?IID=21",
+    "wayback_timestamp": "20260509022220",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "bb9acb6e-d045-5a0d-949d-d07dd385ce54"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "bb9acb6e-d045-5a0d-949d-d07dd385ce54",
+        "display_name": "South Lake Minnetonka MN PD",
+        "state": "MN",
+        "score": 5.817,
+        "matched_forms": [
+          "South Lake Minnetonka",
+          "South Lake Minnetonka Police",
+          "South Lake Minnetonka Police Department"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:22:43Z",
+    "article_id": "art_078"
   }
 ]
