@@ -1293,7 +1293,7 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-09T01:24:50.437930+00:00",
+      "last_probed": "2026-05-09T17:37:48.814774+00:00",
       "tried": {
         "hollister-ca": "http_404",
         "hollister-ca-po": "http_404",
@@ -1305,6 +1305,7 @@
         "hollister-po": "http_404",
         "hollister-po-ca": "http_404",
         "hollister-police-ca": "http_404",
+        "hollister-police-department": "http_404",
         "hollister-police-department-ca": "http_404",
         "hollister-ps-ca": "http_404"
       }
@@ -1488,12 +1489,28 @@
         "sedgwick-ks-pd": "http_404"
       }
     },
+    "bcabb6b6-940c-5694-a6d6-ea2ff0ce76cd": {
+      "exhausted": false,
+      "found": "pawnee-county-ks-so",
+      "last_probed": "2026-05-09T17:37:37.320818+00:00",
+      "tried": {
+        "pawnee-county-ks-so": "http_200"
+      }
+    },
     "bee385ab-4061-50f1-89f3-9a3a3c4b2f5e": {
       "exhausted": false,
       "found": null,
       "last_probed": "2026-05-08T06:23:54.856215+00:00",
       "tried": {
         "taylor-county-ga-so": "http_404"
+      }
+    },
+    "c04ede0a-7c98-5c16-890a-1a15eb10c545": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-09T17:37:25.575333+00:00",
+      "tried": {
+        "carroll-county-oh-so": "http_404"
       }
     },
     "c1f2ba28-1be3-5b7d-9461-41977548dc15": {
@@ -1891,6 +1908,6 @@
       }
     }
   },
-  "updated": "2026-05-09T16:36:54.615695+00:00",
+  "updated": "2026-05-09T17:37:48.869511+00:00",
   "version": 1
 }
