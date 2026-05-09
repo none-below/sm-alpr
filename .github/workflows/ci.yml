@@ -172,12 +172,11 @@ jobs:
           uv run python scripts/build_sharing_graph.py
           uv run python scripts/build_history.py
           uv run python scripts/build_audit_log.py
-          uv run python scripts/build_map.py &
-          uv run python scripts/build_scoreboard.py &
-          uv run python scripts/build_report_data.py &
-          uv run python scripts/build_justifications.py &
-          uv run python scripts/md_to_pdf.py &
-          wait
+          uv run python scripts/build_map.py
+          uv run python scripts/build_scoreboard.py
+          uv run python scripts/build_report_data.py
+          uv run python scripts/build_justifications.py
+          uv run python scripts/md_to_pdf.py
 
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
