@@ -10621,5 +10621,163 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-09T08:56:28Z",
     "article_id": "art_095"
+  },
+  {
+    "url": "https://www.aclunorcal.org/news/ice-using-driver-locations-vast-surveillance-database-target-immigrants/",
+    "source_domain": "aclunorcal.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "Documents Reveal ICE Using Driver Location Data From Local Police for Deportations - ACLU of Northern California",
+    "byline": "Natnael Getahun",
+    "published_at": "2019-03-13T16:00:00+00:00",
+    "fetched_at": "2026-05-09T10:22:13Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 2 pts, low/medium only",
+    "scanner_score": 2,
+    "content_hash": "5cc7d115b125a4e16e74cad4efff9d7f5794cc4d70822648d8e068117ad1f5a1",
+    "paths": {
+      "html": "assets/articles/aclunorcal.org/news-ice-using-driver-locations-vast-surveillance-database-target-immigrants_33d807d0.html",
+      "meta": "assets/articles/aclunorcal.org/news-ice-using-driver-locations-vast-surveillance-database-target-immigrants_33d807d0.meta.json",
+      "pdf": "assets/articles/aclunorcal.org/news-ice-using-driver-locations-vast-surveillance-database-target-immigrants_33d807d0.pdf",
+      "txt": "assets/articles/aclunorcal.org/news-ice-using-driver-locations-vast-surveillance-database-target-immigrants_33d807d0.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260509102217/https://www.aclunorcal.org/news/ice-using-driver-locations-vast-surveillance-database-target-immigrants/",
+    "wayback_timestamp": "20260509102217",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:opinion",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "legal:pra",
+      "policy:sharing",
+      "scope:national",
+      "vendor:vigilant"
+    ],
+    "agencies": [
+      "7f5089e9-3b53-5442-b628-865e85940409",
+      "2c981ce6-8d54-565f-bb99-ac885eee8769",
+      "2b9d6ff2-b44e-5902-b22e-f9582bb8c8db",
+      "ecbb841f-9df2-5841-9b28-91f1ce5af0fa",
+      "aeee2f0f-6386-5a1a-b93a-30babdede4f9"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "7f5089e9-3b53-5442-b628-865e85940409",
+        "display_name": "Union City CA PD",
+        "state": "CA",
+        "score": 13.767,
+        "matched_forms": [
+          "Union City",
+          "Union City Police Department"
+        ]
+      },
+      {
+        "agency_id": "2c981ce6-8d54-565f-bb99-ac885eee8769",
+        "display_name": "Orange County SO CA",
+        "state": "CA",
+        "score": 3.933,
+        "matched_forms": [
+          "Orange County"
+        ]
+      },
+      {
+        "agency_id": "2b9d6ff2-b44e-5902-b22e-f9582bb8c8db",
+        "display_name": "Union City GA PD",
+        "state": "GA",
+        "score": 2.933,
+        "matched_forms": [
+          "Union City Police Department"
+        ]
+      },
+      {
+        "agency_id": "ecbb841f-9df2-5841-9b28-91f1ce5af0fa",
+        "display_name": "Culver City CA PD",
+        "state": "CA",
+        "score": 2.683,
+        "matched_forms": [
+          "Culver City"
+        ]
+      },
+      {
+        "agency_id": "aeee2f0f-6386-5a1a-b93a-30babdede4f9",
+        "display_name": "Alameda CA PD",
+        "state": "CA",
+        "score": 2.617,
+        "matched_forms": [
+          "Alameda"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The ACLU of Northern California reports on FOIA records revealing that ICE has access to Vigilant Solutions' ALPR database under a $6.1M contract, with over 80 local agencies sharing license plate data\u2014including California sanctuary jurisdictions like Union City and Merced. The piece argues such sharing violates California's SB 34 and SB 54 and urges local agencies to halt sharing.",
+    "key_quotes": [
+      {
+        "quote": "Over 9,000 ICE officers have gained access to the Vigilant system under a $6.1 million contract",
+        "paragraph_idx": 8
+      },
+      {
+        "quote": "An internal report lists the 80 local agencies nationwide that granted ICE ongoing access to license plate locations of their residents, including \"sanctuary cities\" like Union City, California.",
+        "paragraph_idx": 15
+      },
+      {
+        "quote": "Senate Bill 34 and the California Values Act (SB 54) \u2014 passed to protect privacy and immigrant safety \u2014 prohibit local law enforcement agencies from sharing license plate information and personal information for immigration enforcement or with out-of-state or federal agencies.",
+        "paragraph_idx": 21
+      },
+      {
+        "quote": "Some have already rejected contracts for license plate surveillance \u2014 like Alameda and Culver City in California.",
+        "paragraph_idx": 22
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T10:23:44Z",
+    "article_id": "art_096"
+  },
+  {
+    "url": "https://cvillerightnow.com/news/208802-new-license-plate-scanning-parking-garage-system-raises-city-councilor-concerns/",
+    "source_domain": "cvillerightnow.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "New license plate scanning parking garage system raises City Councilor concerns - Cville Right Now",
+    "byline": "Jay Hart",
+    "published_at": "2026-01-07T17:42:40+00:00",
+    "fetched_at": "2026-05-09T10:17:01Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 67 pts, HIGH/CRITICAL findings",
+    "scanner_score": 67,
+    "content_hash": "e74581adf4e471948c97f730f2df2b31dfe9de462aa70abc88830c45da9799a9",
+    "paths": {
+      "html": "assets/articles/cvillerightnow.com/news-208802-new-license-plate-scanning-parking-garage-system-raises-city-council_219d13d6.html",
+      "meta": "assets/articles/cvillerightnow.com/news-208802-new-license-plate-scanning-parking-garage-system-raises-city-council_219d13d6.meta.json",
+      "pdf": "assets/articles/cvillerightnow.com/news-208802-new-license-plate-scanning-parking-garage-system-raises-city-council_219d13d6.pdf",
+      "txt": "assets/articles/cvillerightnow.com/news-208802-new-license-plate-scanning-parking-garage-system-raises-city-council_219d13d6.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260509101722/https://cvillerightnow.com/news/208802-elkton-woman-charged-with-first-degree-murder/partial/",
+    "wayback_timestamp": "20260509101722",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+        "display_name": "Charlottesville Police Department",
+        "state": "VA",
+        "score": 9.0,
+        "matched_forms": [
+          "Charlottesville"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T10:23:34Z",
+    "article_id": "art_097"
   }
 ]
