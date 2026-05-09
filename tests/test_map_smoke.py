@@ -78,10 +78,6 @@ class TestMapData:
         ncric = self.data["agencyInfo"].get("ncric", {})
         assert ncric.get("crawled") is True
 
-    def test_indirect_flags_computed(self):
-        assert "indirectFlags" in self.data
-        assert len(self.data["indirectFlags"]) > 50
-
     def test_no_garbled_entries(self):
         """No ncmec-amber-alert parser artifacts."""
         for slug in self.data["agencyInfo"]:

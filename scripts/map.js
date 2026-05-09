@@ -20,7 +20,35 @@ Promise.all([
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
   const mismatches = data.mismatches;
-  const indirectFlags = data.indirectFlags || {};
+  const markerBySlug = Object.create(null);
+  markers.forEach(m => { markerBySlug[m.slug] = m; });
+
+  // Indirect flags are computed on demand for the selected agency.
+  // Precomputing them server-side was O(sources × flagged_targets) and
+  // shipped ~330 MB to every page load; the inputs (each agency's
+  // outbound_slugs + isFlagged) are already on the client.
+  function computeIndirectFlags(m) {
+    const out = (m && m.outbound_slugs) || [];
+    const direct = new Set(out.filter(isFlagged));
+    const seen = new Set();
+    const result = [];
+    out.forEach(via => {
+      const target = markerBySlug[via];
+      if (!target) return;
+      (target.outbound_slugs || []).forEach(second => {
+        if (!isFlagged(second)) return;
+        if (direct.has(second) || seen.has(second)) return;
+        seen.add(second);
+        result.push({
+          flagged: second,
+          via: via,
+          via_name: (agencyInfo[via] || {}).name || via,
+          flagged_name: (agencyInfo[second] || {}).name || second,
+        });
+      });
+    });
+    return result;
+  }
   const changelogBySlug = (changelog && changelog.by_slug) || {};
   const changelogMeta = changelog || { window_days: 90, tracking_days: null, window_complete: false };
   let showChanges = localStorage.getItem('smalpr-show-changes') !== 'false';
@@ -422,7 +450,8 @@ Promise.all([
 
     // Show flag summary as a fixed banner at top of map
     const bannerEl = document.getElementById('flag-banner');
-    const myIndirectCount = (indirectFlags[m.slug] || []).length;
+    const myIndirects = computeIndirectFlags(m);
+    const myIndirectCount = myIndirects.length;
     const totalFlags = outFlags + myIndirectCount;
     if (totalFlags > 0) {
       let bannerText = '\u26a0 ' + outFlags + ' direct flag' + (outFlags !== 1 ? 's' : '');
@@ -478,7 +507,6 @@ Promise.all([
       const sorted = sortOutbound(m.outbound_slugs, m.lat, m.lng);
       const directFlagged = sorted.filter(s => isFlagged(s));
       const clean = sorted.filter(s => !isFlagged(s));
-      const myIndirects = indirectFlags[m.slug] || [];
 
       // Direct flags first
       if (directFlagged.length) {
