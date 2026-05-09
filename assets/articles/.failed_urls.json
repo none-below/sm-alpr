@@ -74,6 +74,16 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-09T07:17:25Z"
   },
+  "https://richmondside.org/2026/03/18/richmond-flock-cameras-license-plate-readers-on/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T13:50:36Z"
+  },
+  "https://richmondstandard.com/richmond/2019/04/10/license-plate-reader-technology-pitched-for-richmond-bart-parking-areas/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T13:54:45Z"
+  },
   "https://www.aclunc.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.aclunorcal.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them",
@@ -168,6 +178,11 @@
     "attempts": 3,
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html",
     "last_attempt": "2026-05-05T20:15:18Z"
+  },
+  "https://www.thenewstribune.com/news/local/community/gateway/g-news/article302475774.html": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.thenewstribune.com/news/local/community/gateway/g-news/article302475774.html\nCall log:\n  - navigating to \"https://www.thenewstribune.com/news/local/community/gateway/g-news/article302475774.html\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-05-09T13:51:49Z"
   },
   "https://www.thenewstribune.com/news/local/crime/article315247938.html": {
     "attempts": 1,
