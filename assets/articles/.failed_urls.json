@@ -9,6 +9,11 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://brookline.news/police-pause-flock-access",
     "last_attempt": "2026-05-08T22:10:13Z"
   },
+  "https://chronline.com/stories/flock-safety-cameras-in-centralia-are-here-to-stay-even-under-new-state-restrictions,400088": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T07:17:32Z"
+  },
   "https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/",
@@ -33,6 +38,11 @@
     "attempts": 2,
     "error": "HTTP 403",
     "last_attempt": "2026-05-09T06:31:43Z"
+  },
+  "https://richmondside.org/2026/03/04/richmond-residents-debate-flock-license-plate-readers/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T07:17:25Z"
   },
   "https://www.aclunc.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them": {
     "attempts": 3,
@@ -74,6 +84,11 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-09T02:41:21Z"
   },
+  "https://www.oakpark.com/2025/09/02/river-forest-license-plate-cameras/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T07:17:04Z"
+  },
   "https://www.opb.org/article/2025/12/02/eugene-ends-flock-alpr": {
     "attempts": 3,
     "error": "HTTP 404",
@@ -89,15 +104,30 @@
     "error": "HTTP 404",
     "last_attempt": "2026-05-09T02:40:58Z"
   },
+  "https://www.smdailyjournal.com/news/local/south-san-francisco-council-oks-license-plate-reading-cameras/article_1e467e8e-8af7-11ec-81fc-87089d642110.html": {
+    "attempts": 1,
+    "error": "HTTP 429",
+    "last_attempt": "2026-05-09T07:17:15Z"
+  },
   "https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html": {
     "attempts": 3,
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html",
     "last_attempt": "2026-05-05T20:15:18Z"
   },
+  "https://www.thenewstribune.com/news/state/washington/article315035181.html": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.thenewstribune.com/news/state/washington/article315035181.html\nCall log:\n  - navigating to \"https://www.thenewstribune.com/news/state/washington/article315035181.html\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-05-09T07:17:10Z"
+  },
   "https://www.theolympian.com/news/local/article-olympia-flock": {
     "attempts": 3,
     "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/local/article-olympia-flock\nCall log:\n  - navigating to \"https://www.theolympian.com/news/local/article-olympia-flock\", waiting until \"domcontentloaded\"\n",
     "last_attempt": "2026-05-09T02:14:47Z"
+  },
+  "https://www.theolympian.com/news/politics-government/article314581905.html": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/politics-government/article314581905.html\nCall log:\n  - navigating to \"https://www.theolympian.com/news/politics-government/article314581905.html\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-05-09T07:17:19Z"
   },
   "https://www.whsv.com/2025/12/10/staunton-ends-flock-cameras": {
     "attempts": 3,
