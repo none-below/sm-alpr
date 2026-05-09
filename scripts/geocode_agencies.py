@@ -86,7 +86,12 @@ _CITY_OF = re.compile(r"^(City|Town|Village|Borough)\s+of\s+", re.IGNORECASE)
 _STATE_PREFIX = re.compile(r"^[A-Z]{2}\s*[-\u2013]\s*", re.IGNORECASE)
 # "Oxford PD - OH", "Harrah OK PD - original", "LaSalle Co. IL SO - New"
 _DASH_SUFFIX = re.compile(r"\s*-\s*(original|new|old|[A-Z]{2})$", re.IGNORECASE)
-_ABBREV_CO = re.compile(r"\bCo\b\.?", re.IGNORECASE)  # "Schuyler Co. IL SO" / "Gasconade Co MO SO"
+# "Co"/"Co." → "County" only when followed by another 2-letter token *and*
+# at least one more token after that. This distinguishes the County
+# abbreviation ("Schuyler Co. IL SO", "Gasconade Co MO SO" — "Co" then
+# state code then role) from the Colorado state code ("Aurora CO PD" —
+# "CO" then role with nothing after).
+_ABBREV_CO = re.compile(r"\bCo\.?(?=\s+[A-Z]{2}\b\s+\S)", re.IGNORECASE)
 _ABBREV_INTL = re.compile(r"\bIntl\b", re.IGNORECASE)  # "Nashville Intl Airport"
 # "Saint" → "St." anywhere in the name (Census uses "St."; Flock data
 # sometimes spells it out, e.g. "South Saint Paul MN PD").
@@ -344,14 +349,20 @@ def is_state_level_agency(name):
 _CO_COUNTY_STATE = re.compile(r"\b[A-Z][\w]+\s+CO\s+([A-Z]{2})\b")
 
 
+_ROLE_SUFFIX_TOKENS = frozenset(
+    {"PD", "SO", "DA", "DPS", "FD", "EMS", "OEM", "OES"}
+)
+
+
 def detect_county_co_state(name):
     """If name has 'X CO YY' pattern (CO=County), return YY.
-    Returns None when no match, or when YY is itself 'CO'."""
+    Returns None when no match, when YY is itself 'CO', or when YY is a
+    role suffix (e.g. 'Aurora CO PD' is Aurora, Colorado — not a county)."""
     m = _CO_COUNTY_STATE.search(name)
     if not m:
         return None
     code = m.group(1)
-    if code == "CO":
+    if code == "CO" or code in _ROLE_SUFFIX_TOKENS:
         return None
     return code
 
