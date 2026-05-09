@@ -51,6 +51,7 @@ import requests
 # works even if Playwright isn't set up locally.
 try:
     from playwright.sync_api import sync_playwright
+    from playwright_stealth import stealth_sync
     _PLAYWRIGHT_AVAILABLE = True
 except ImportError:
     _PLAYWRIGHT_AVAILABLE = False
@@ -535,13 +536,27 @@ def fetch_and_render(url: str, pdf_path: Path | None,
 
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            # channel="chrome" launches the OS-installed real Chrome
+            # binary instead of Playwright's bundled Chromium. Real
+            # Chrome's TLS handshake fingerprint (JA3/JA4) blends with
+            # the real-user population; bundled Chromium's stands out
+            # and triggers HTTP/2 RST on JA3-fingerprinting sites
+            # (McClatchy properties — thenewstribune.com,
+            # theolympian.com — were emitting ERR_HTTP2_PROTOCOL_ERROR
+            # at the handshake before this).
+            browser = p.chromium.launch(channel="chrome", headless=True)
             try:
                 ctx = browser.new_context(
                     user_agent=USER_AGENT,
                     viewport={"width": 1280, "height": 1024},
                 )
                 page = ctx.new_page()
+                # tf-playwright-stealth patches the JS-layer detection
+                # signals (navigator.webdriver, plugin enumeration,
+                # WebGL vendor strings, Permissions API quirks). Stacks
+                # on top of the channel="chrome" TLS-layer fix above —
+                # together they cover most non-enterprise bot walls.
+                stealth_sync(page)
                 # `domcontentloaded` is faster than `networkidle` and
                 # good enough for static news pages; some sites (ad-
                 # heavy news, advocacy blogs with embeds) never reach

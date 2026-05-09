@@ -99,11 +99,16 @@ jobs:
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
+          key: playwright-chrome-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
 
-      - name: Install Chromium for Playwright (PDF render)
+      - name: Install real Chrome for Playwright
+        # `channel="chrome"` in the crawler launches the OS-installed
+        # real Chrome (not bundled Chromium) so its TLS handshake
+        # fingerprint matches the real-user population. `playwright
+        # install chrome` runs the OS package manager under the hood
+        # — needs --with-deps on a fresh runner for the system libs.
         if: ${{ inputs.phase2_only != 'true' && steps.playwright-cache.outputs.cache-hit != 'true' }}
-        run: uv run playwright install chromium
+        run: uv run playwright install chrome --with-deps
 
       - name: Crawl queued URLs
         if: ${{ inputs.phase2_only != 'true' }}
