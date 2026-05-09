@@ -355,7 +355,12 @@ class TestLayout:
     def browser(self, request):
         from playwright.sync_api import sync_playwright
         pw = sync_playwright().start()
-        b = pw.chromium.launch()
+        # GH Actions stock runners (4c/16G) intermittently kill the runner
+        # the moment Chromium starts rendering map_data.json (~8MB and
+        # growing). --disable-dev-shm-usage routes shared-memory writes to
+        # /tmp instead of the small /dev/shm partition; --no-sandbox skips
+        # the user-namespace setup that costs memory on launch.
+        b = pw.chromium.launch(args=["--disable-dev-shm-usage", "--no-sandbox"])
         request.cls._pw = pw
         request.cls._browser = b
         yield b
