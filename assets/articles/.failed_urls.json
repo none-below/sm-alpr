@@ -25,24 +25,24 @@
     "last_attempt": "2026-05-06T12:04:13Z"
   },
   "https://www.cambridgema.gov/Departments/citymanagersoffice/news/2025/flock-contract-terminated": {
-    "attempts": 2,
-    "error": "HTTPError: 404 Client Error: Not Found for url: https://www.cambridgema.gov/Departments/citymanagersoffice/news/2025/flock-contract-terminated",
-    "last_attempt": "2026-05-09T00:06:35Z"
+    "attempts": 3,
+    "error": "HTTP 404",
+    "last_attempt": "2026-05-09T02:14:41Z"
   },
   "https://www.freep.com/story/news/local/michigan/2025/11/13/ferndale-ends-flock-cameras": {
-    "attempts": 2,
-    "error": "HTTPError: 404 Client Error: Not Found for url: https://www.freep.com/story/news/local/michigan/2025/11/13/ferndale-ends-flock-cameras/",
-    "last_attempt": "2026-05-09T00:10:13Z"
+    "attempts": 3,
+    "error": "HTTP 404",
+    "last_attempt": "2026-05-09T02:14:52Z"
   },
   "https://www.kut.org/austin/2025-07-01/austin-ends-flock-cameras": {
-    "attempts": 1,
-    "error": "HTTPError: 404 Client Error: Not Found for url: https://www.kut.org/austin/2025-07-01/austin-ends-flock-cameras",
-    "last_attempt": "2026-05-09T00:15:00Z"
+    "attempts": 2,
+    "error": "HTTP 404",
+    "last_attempt": "2026-05-09T02:15:04Z"
   },
   "https://www.kxan.com/news/local/caldwell-county/lockhart-city-council-rejects-flock-ai-cameras-in-6-1-vote/": {
-    "attempts": 2,
-    "error": "HTTPError: 403 Client Error: Forbidden for url: https://www.kxan.com/news/local/caldwell-county/lockhart-city-council-rejects-flock-ai-cameras-in-6-1-vote/",
-    "last_attempt": "2026-05-09T00:11:56Z"
+    "attempts": 3,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T02:14:59Z"
   },
   "https://www.redrocknews.com/2025/09/09/sedona-ends-flock-license-plate-cameras": {
     "attempts": 3,
@@ -54,9 +54,14 @@
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html",
     "last_attempt": "2026-05-05T20:15:18Z"
   },
+  "https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html\nCall log:\n  - navigating to \"https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-05-09T02:15:11Z"
+  },
   "https://www.theolympian.com/news/local/article-olympia-flock": {
-    "attempts": 2,
-    "error": "ReadTimeout: HTTPSConnectionPool(host='www.theolympian.com', port=443): Read timed out. (read timeout=30)",
-    "last_attempt": "2026-05-09T00:08:43Z"
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/local/article-olympia-flock\nCall log:\n  - navigating to \"https://www.theolympian.com/news/local/article-olympia-flock\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-05-09T02:14:47Z"
   }
 }
