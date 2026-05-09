@@ -19,15 +19,35 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
     "last_attempt": "2026-05-08T22:15:00Z"
   },
-  "https://richmondside.org/2025/12/09/richmond-license-plate-reader-data-breach/": {
+  "https://madison.com/news/local/verona-flock-renewal-vote": {
+    "attempts": 1,
+    "error": "HTTP 429",
+    "last_attempt": "2026-05-09T02:41:34Z"
+  },
+  "https://oaklandside.org/2023/06/13/oakland-flock-vote": {
     "attempts": 1,
     "error": "HTTP 403",
-    "last_attempt": "2026-05-09T02:21:55Z"
+    "last_attempt": "2026-05-09T02:42:01Z"
+  },
+  "https://oakpark.com/2025/08/05/oak-park-ends-flock-cameras": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T02:40:29Z"
+  },
+  "https://richmondside.org/2025/12/09/richmond-license-plate-reader-data-breach/": {
+    "attempts": 2,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T02:39:22Z"
+  },
+  "https://richmondstandard.com/community/2025/12/09/richmond-police-suspend-system-that-automatically-reads-license-plates/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T02:41:56Z"
   },
   "https://washingtonretail.org/olympia-and-redmond-halt-flock-safety-camera-use-amid-privacy-and-data-access-concerns-2/": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 403",
-    "last_attempt": "2026-05-09T02:22:01Z"
+    "last_attempt": "2026-05-09T02:39:29Z"
   },
   "https://www.aclunc.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them": {
     "attempts": 3,
@@ -38,6 +58,21 @@
     "attempts": 3,
     "error": "HTTP 404",
     "last_attempt": "2026-05-09T02:14:41Z"
+  },
+  "https://www.chronline.com/stories/controversial-flock-license-plate-readers-shut-off-by-another-eastern-washington-city": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T02:39:56Z"
+  },
+  "https://www.columbian.com/news/2025/skamania-county-flock": {
+    "attempts": 1,
+    "error": "HTTP 404",
+    "last_attempt": "2026-05-09T02:39:36Z"
+  },
+  "https://www.denverpost.com/2025/05/05/denver-city-council-flock-vote": {
+    "attempts": 1,
+    "error": "HTTP 404",
+    "last_attempt": "2026-05-09T02:42:52Z"
   },
   "https://www.freep.com/story/news/local/michigan/2025/11/13/ferndale-ends-flock-cameras": {
     "attempts": 3,
@@ -54,10 +89,25 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-09T02:14:59Z"
   },
+  "https://www.natickreport.com/2026/01/natick-select-board-quashes-flock-license-plate-reader-pilot-police-chief-apologizes-explains/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T02:41:21Z"
+  },
+  "https://www.opb.org/article/2025/12/02/eugene-ends-flock-alpr": {
+    "attempts": 1,
+    "error": "HTTP 404",
+    "last_attempt": "2026-05-09T02:39:43Z"
+  },
   "https://www.redrocknews.com/2025/09/09/sedona-ends-flock-license-plate-cameras": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.redrocknews.com/2025/09/09/sedona-ends-flock-license-plate-cameras",
     "last_attempt": "2026-05-08T22:11:56Z"
+  },
+  "https://www.seattletimes.com/seattle-news/politics/redmond-suspends-flock-cameras": {
+    "attempts": 1,
+    "error": "HTTP 404",
+    "last_attempt": "2026-05-09T02:40:58Z"
   },
   "https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html": {
     "attempts": 3,
@@ -65,13 +115,23 @@
     "last_attempt": "2026-05-05T20:15:18Z"
   },
   "https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html\nCall log:\n  - navigating to \"https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-05-09T02:21:48Z"
+    "last_attempt": "2026-05-09T02:39:17Z"
   },
   "https://www.theolympian.com/news/local/article-olympia-flock": {
     "attempts": 3,
     "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/local/article-olympia-flock\nCall log:\n  - navigating to \"https://www.theolympian.com/news/local/article-olympia-flock\", waiting until \"domcontentloaded\"\n",
     "last_attempt": "2026-05-09T02:14:47Z"
+  },
+  "https://www.whsv.com/2025/12/10/staunton-ends-flock-cameras": {
+    "attempts": 1,
+    "error": "HTTP 404",
+    "last_attempt": "2026-05-09T02:40:25Z"
+  },
+  "https://www.wpri.com/news/local-news/east-bay/warren-rejects-proposal-to-install-flock-camera/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T02:40:36Z"
   }
 }
