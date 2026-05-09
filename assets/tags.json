@@ -42,7 +42,7 @@
 
     "outcome:terminated":    {"description": "Agency canceled or let lapse a Flock (or other ALPR) contract."},
     "outcome:restricted":    {"description": "Agency added new restrictions / policy constraints to a continuing contract."},
-    "outcome:reconsidering": {"description": "Active council or public debate over the contract; no decision yet."},
+    "outcome:reconsidering": {"description": "Council is actively meeting to decide on cancel/keep for an existing contract; no decision yet. Op-eds urging action, advocacy commentary, or general public debate do NOT qualify — requires documented agency-side deliberation (council vote scheduled, study session, formal review)."},
     "outcome:renewed":       {"description": "Agency explicitly renewed or expanded a contract despite controversy."},
     "outcome:rejected":      {"description": "Agency declined to adopt ALPR / Flock in the first place."}
   },

@@ -423,10 +423,30 @@ fields are:
       if the article names cities that have separately turned off
       cameras, the article isn't reporting THOSE actions — it's
       reporting the ruling. Tag legal:court-ruling, not outcome:*.
-    • A year-in-review or roundup that namechecks many cities'
-      decisions in one paragraph each as part of a broader narrative.
-      outcome:* is for articles whose core reporting is one (or a
-      small number of) specific agency action(s); not for aggregators.
+    • ANY article that reports actions by 2+ agencies — year-in-
+      review, roundup, "growing pushback" survey, ACLU/EFF "state
+      of play" piece, advocacy commentary, OR cross-cutting
+      investigative reporting that covers multiple agencies'
+      decisions in depth. The bright-line rule: outcome:* tags fire
+      ONLY when the article reports ONE specific agency's action
+      as its primary news, AND that agency is also the
+      primary_subject_agency_id. Multi-agency articles get
+      policy:*, scope:*, and genre tags only — never outcome:*.
+      The downstream use case is "click outcome:terminated, see a
+      map of terminated agencies"; tagging a multi-agency article
+      with outcome:terminated maps it to one agency_id (or none),
+      losing all the others and creating false-pin risk.
+      Examples that should NOT carry outcome:*:
+        - "Why some cities are ditching Flock" (NPR roundup)
+        - "I'm hearing about more pushback against Flock"
+        - "Cities are growing wary of Flock"
+        - "California cities double down on ALPRs" (KQED, even
+           though it reports Oakland's vote AND Richmond's
+           shutdown AND Santa Cruz's limits in depth)
+      Even cross-cutting investigative pieces that report each
+      agency's action with multi-paragraph coverage and quotes
+      stay outcome-less. The agency-specific outcome belongs in
+      the per-agency article, not the cross-cut.
     • A product/feature/lawsuit article that mentions in passing that
       "some cities have shut off Flock" as background context. The
       article must substantively report the action, not just allude
@@ -540,7 +560,8 @@ def call_claude_for_curation(entry: dict, text: str, *,
 
 def run_phase2(registry: list[dict], *, tags_data: dict,
                limit: int, model: str, dry_run: bool,
-               reenrich: bool = False) -> int:
+               reenrich: bool = False,
+               include_flagged: bool = False) -> int:
     if not dry_run and not os.environ.get("ANTHROPIC_API_KEY"):
         print("phase2: ANTHROPIC_API_KEY not set; skipping (Phase 1 still ran)")
         return 0
@@ -553,6 +574,14 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
     if reenrich:
         accepted_statuses.add("enriched")
 
+    # Default: only scanner-clean entries pass to the LLM. --include-flagged
+    # opts in to processing REVIEW REQUIRED entries too — Phase 2 has no tools
+    # and json_schema-constrained output, so the scanner is defense-in-depth
+    # rather than a hard safety wall. Use only on known-source batches.
+    accepted_prefixes = PHASE2_SCANNER_PREFIXES
+    if include_flagged:
+        accepted_prefixes = accepted_prefixes + ("REVIEW",)
+
     eligible = []
     for e in registry:
         if e.get("curation_status") not in accepted_statuses:
@@ -560,7 +589,7 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
         if e.get("tier") not in PHASE2_ELIGIBLE_TIERS:
             continue
         verdict = (e.get("scanner_verdict") or "")
-        if not verdict.startswith(PHASE2_SCANNER_PREFIXES):
+        if not verdict.startswith(accepted_prefixes):
             continue
         eligible.append(e)
     if reenrich:
@@ -650,6 +679,11 @@ def main() -> int:
                    help="Phase 2 only: also re-run on already-enriched "
                         "entries (oldest curated_at first), to backfill "
                         "after a prompt change. Honors --limit.")
+    p.add_argument("--include-flagged", action="store_true",
+                   help="Phase 2 only: opt in to processing entries with "
+                        "scanner verdict REVIEW REQUIRED. Use on known-source "
+                        "batches; Phase 2 has no tools so the scanner is "
+                        "defense-in-depth rather than a hard wall.")
     args = p.parse_args()
 
     registry = read_json(REGISTRY_PATH, [])
@@ -664,7 +698,8 @@ def main() -> int:
         limit = args.limit if args.limit is not None else DEFAULT_PHASE2_LIMIT
         run_phase2(registry, tags_data=tags_data, limit=limit,
                    model=args.model, dry_run=args.dry_run,
-                   reenrich=args.reenrich)
+                   reenrich=args.reenrich,
+                   include_flagged=args.include_flagged)
 
     if not args.dry_run:
         write_json(REGISTRY_PATH, registry)

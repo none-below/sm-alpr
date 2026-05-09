@@ -1421,8 +1421,6 @@
     "pdf_status": "rendered",
     "tags": [
       "genre:press-release",
-      "outcome:rejected",
-      "outcome:terminated",
       "policy:sharing",
       "scope:national",
       "vendor:flock"
@@ -2540,6 +2538,9 @@
     "wayback_source": "submit-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:press-release",
+      "policy:purpose-limitation",
+      "scope:national",
       "vendor:axon"
     ],
     "agencies": [
@@ -2594,10 +2595,19 @@
       }
     ],
     "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-05T16:58:23Z",
+    "summary": "EPIC summarizes a 2019 report by the Axon AI and Policing Technology Ethics Board on automated license plate readers, which highlights disproportionate impacts on communities of color and recommends public review before deployment and that ALPR alerts alone should not justify vehicle stops. EPIC notes its parallel amicus position in Kansas v. Glover and prior FOIA work on DHS and FBI ALPR use.",
+    "key_quotes": [
+      {
+        "quote": "The Axon report recommends public review prior to use of license plate readers.",
+        "paragraph_idx": 2
+      },
+      {
+        "quote": "The report also recommends that license plate reader alerts should not be sufficient grounds to stop a vehicle.",
+        "paragraph_idx": 2
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:01:01Z",
     "article_id": "art_020"
   },
   {
@@ -2910,8 +2920,6 @@
       "genre:opinion",
       "incident:ice-cooperation",
       "legal:court-ruling",
-      "outcome:reconsidering",
-      "outcome:terminated",
       "policy:purpose-limitation",
       "policy:sharing",
       "scope:local",
@@ -3068,7 +3076,11 @@
     "wayback_timestamp": null,
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
-    "tags": [],
+    "tags": [
+      "genre:press-release",
+      "legal:court-ruling",
+      "scope:national"
+    ],
     "agencies": [
       "ae7300bf-3f19-525d-9d85-cad6af8a837c",
       "3b78d3ac-8681-5883-bdbc-97b96ee98f92"
@@ -3121,10 +3133,19 @@
       }
     ],
     "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-05T18:31:01Z",
+    "summary": "EPIC announced it filed an amicus brief in Kansas v. Glover, a Supreme Court case on whether police can stop a vehicle based solely on the registered owner having a suspended license. EPIC argued that combined with ALPRs, such a rule could dramatically expand stops and disproportionately burden disadvantaged communities where ALPR use and car-sharing are more common.",
+    "key_quotes": [
+      {
+        "quote": "EPIC warned that the Court's decision, when combined with automated license plate readers, could \"dramatically alter police practices\" and \"unfairly burden disadvantaged communities.\"",
+        "paragraph_idx": 2
+      },
+      {
+        "quote": "EPIC provided empirical data for the Court that indicate that police use license plate readers more frequently in disadvantaged communities.",
+        "paragraph_idx": 2
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:01:07Z",
     "article_id": "art_024"
   },
   {
@@ -3902,6 +3923,9 @@
     "wayback_source": "submit-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:analysis",
+      "legal:court-ruling",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -3965,10 +3989,23 @@
       }
     ],
     "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-05T20:25:15Z",
+    "summary": "EPIC reports on a federal court ruling in the Eastern District of Virginia denying Norfolk's motion to dismiss a \u00a71983 suit challenging the city's use of Flock ALPR cameras under the Fourth Amendment. The court found plaintiffs plausibly alleged a reasonable expectation of privacy in their long-term movements under Carpenter v. United States and that warrantless querying of Flock's database likely constitutes an unconstitutional search.",
+    "key_quotes": [
+      {
+        "quote": "the city's tracking of individuals through the use of Flock was \"notably similar to [the facts] in Carpenter.\"",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "querying of Flock's databases to access long term location data without a warrant constituted a Fourth Amendment violation.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "it would be difficult to drive anywhere of any distance without running into a camera somewhere.",
+        "paragraph_idx": 4
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:01:17Z",
     "article_id": "art_030"
   },
   {
@@ -4000,9 +4037,6 @@
       "incident:ice-cooperation",
       "legal:ag-bulletin",
       "legal:legislation",
-      "outcome:renewed",
-      "outcome:restricted",
-      "outcome:terminated",
       "policy:audit",
       "policy:sharing",
       "scope:state",
@@ -4470,6 +4504,9 @@
     "wayback_source": "save-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:press-release",
+      "legal:court-ruling",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -4487,10 +4524,19 @@
       }
     ],
     "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-06T00:07:17Z",
+    "summary": "EPIC filed an amicus brief with the Fourth Circuit in Schmidt v. City of Norfolk, supporting plaintiffs' argument that Norfolk, Virginia's use of Flock ALPR cameras constitutes warrantless mass surveillance violating the Fourth Amendment. The brief argues ALPRs expose the 'privacies of life,' enable predictive policing built on biased data, and urges reversal of the district court's January dismissal.",
+    "key_quotes": [
+      {
+        "quote": "Norfolk's use of Flock's Automated License Plate Reader (ALPR) system creates a warrantless mass surveillance program and constitutes an unreasonable search in violation of the Fourth Amendment.",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "Absent strict safeguards, ALPRs revive the arbitrary powers of the reviled general warrant and undercut democracy",
+        "paragraph_idx": 5
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:01:23Z",
     "article_id": "art_035"
   },
   {
@@ -4664,7 +4710,15 @@
     "wayback_timestamp": null,
     "wayback_source": "submit-failed",
     "pdf_status": "rendered",
-    "tags": [],
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:ag-bulletin",
+      "legal:legislation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local"
+    ],
     "agencies": [
       "926a7e76-714b-50a2-977e-522e4ec651ec",
       "847ce8af-3e88-59ca-90f3-d621db6f31f6",
@@ -4772,11 +4826,24 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-06T00:07:42Z",
+    "primary_subject_agency_id": "847ce8af-3e88-59ca-90f3-d621db6f31f6",
+    "summary": "San Mateo County cities including San Bruno, San Mateo, Daly City, and Belmont are expanding or adopting ALPR programs, citing retail theft and other crimes. The article notes ongoing concerns about data-sharing violations, with EFF's Jennifer Pinsof saying 73+ California agencies have shared ALPR data improperly with out-of-state and federal agencies including ICE.",
+    "key_quotes": [
+      {
+        "quote": "There are only four law enforcement agencies within San Mateo County that do not use the technology, including Belmont.",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "We found that many California law enforcement agencies share this data not just out of state but specifically with agencies in states that ban abortions",
+        "paragraph_idx": 10
+      },
+      {
+        "quote": "data would be stored only for 30 days \u2014 unless particular license plates are part of ongoing investigations",
+        "paragraph_idx": 8
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:01:35Z",
     "article_id": "art_037"
   },
   {
@@ -5249,7 +5316,13 @@
     "wayback_timestamp": null,
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
-    "tags": [],
+    "tags": [
+      "genre:explainer",
+      "legal:legislation",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "scope:national"
+    ],
     "agencies": [
       "d9f58fac-673f-5cc9-8dd7-422e6f438dde",
       "f4a21139-b8d6-5bed-959f-5a847ba09031",
@@ -5347,10 +5420,23 @@
       }
     ],
     "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-06T06:48:56Z",
+    "summary": "EPIC's overview page on License Plate Recognition systems explains how LPR works, surveys uses by US law enforcement, and raises informational-privacy concerns. It discusses state privacy laws, court cases on location tracking, and notes Maine and New Hampshire as the only states restricting LPR use.",
+    "key_quotes": [
+      {
+        "quote": "an LPR system in Nassau County, New York, can scan 8,000-10,000 license plates during an officer's eight-hour shift.",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "Use of LPR systems should be subject to state privacy act requirements of notice, access and correction.",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "Other than Maine, New Hampshire is the only other state to restrict the use of LPR systems.",
+        "paragraph_idx": 12
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:01:42Z",
     "article_id": "art_041"
   },
   {
@@ -5821,7 +5907,6 @@
     "tags": [
       "genre:investigative",
       "incident:ice-cooperation",
-      "outcome:terminated",
       "policy:audit",
       "policy:retention",
       "policy:sharing",
@@ -5977,9 +6062,6 @@
       "genre:opinion",
       "incident:ice-cooperation",
       "legal:legislation",
-      "outcome:rejected",
-      "outcome:restricted",
-      "outcome:terminated",
       "policy:sharing",
       "scope:national",
       "vendor:flock",
@@ -7206,6 +7288,13 @@
     "wayback_source": "saved",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "outcome:reconsidering",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -7276,11 +7365,28 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-07T18:00:43Z",
+    "primary_subject_agency_id": "eca5a0e5-4ab4-5868-a688-c03da1dff9b1",
+    "summary": "A leaked confidential memo from Berkeley city attorneys warns of significant legal risks in the police department's proposed $2 million expansion of its Flock Safety surveillance contract, including data-sharing vulnerabilities, weak enforceability of contract terms, and possible litigation exposure. The Police Accountability Board separately alleges BPD bypassed competitive bidding rules. The City Council is set to vote on the expansion.",
+    "key_quotes": [
+      {
+        "quote": "Contracting with Flock and purchasing all the products [the police department] is requesting carries some legal risks",
+        "paragraph_idx": 10
+      },
+      {
+        "quote": "we cannot ensure Flock will abide by its contractual obligations",
+        "paragraph_idx": 11
+      },
+      {
+        "quote": "it did appear that Flock had unilaterally reactivated a \"national lookup\" feature in several West Coast jurisdictions after those jurisdictions had shut the feature off",
+        "paragraph_idx": 19
+      },
+      {
+        "quote": "BPD and other city officials \"did not engage in a competitive bidding process\" when they should have",
+        "paragraph_idx": 26
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:01:52Z",
     "article_id": "art_060"
   },
   {
@@ -7307,6 +7413,11 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:opinion",
+      "incident:ice-cooperation",
+      "outcome:reconsidering",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -7367,11 +7478,24 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-07T18:00:45Z",
+    "primary_subject_agency_id": "eca5a0e5-4ab4-5868-a688-c03da1dff9b1",
+    "summary": "The chair and vice chair of Berkeley's Police Accountability Board argue against the City Council's proposed expansion of its Flock Safety surveillance contract, citing data-sharing with federal immigration authorities, lack of competitive procurement, and BPD's failure to consider alternatives. They urge the council to reject the expansion ahead of a May 7 vote.",
+    "key_quotes": [
+      {
+        "quote": "Flock Safety \u2014 a vendor that over 75 jurisdictions have deemed untrustworthy, has facilitated data-sharing with federal immigration authorities, and has not demonstrated either the technical capacity or will to adhere to Berkeley's data privacy standards.",
+        "paragraph_idx": 11
+      },
+      {
+        "quote": "BPD has continuously sought to expand its exclusive relationship with Flock Safety without seriously considering potential alternatives.",
+        "paragraph_idx": 18
+      },
+      {
+        "quote": "BPD is asking the council to 'piggyback' on a bid submitted to a Texas school district for school safety technologies.",
+        "paragraph_idx": 21
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:02:02Z",
     "article_id": "art_061"
   },
   {
@@ -7398,6 +7522,8 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:press-release",
+      "scope:state",
       "vendor:flock"
     ],
     "agencies": [
@@ -7415,10 +7541,19 @@
       }
     ],
     "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-07T18:00:46Z",
+    "summary": "EPIC links to a Texas Observer article on the expansion of license plate readers in Texas and privacy advocates' pushback, quoting EPIC fellow Kabbas Azhar who says Flock's use is largely unregulated and runs on an honor system.",
+    "key_quotes": [
+      {
+        "quote": "In general, the use of Flock currently is completely unregulated",
+        "paragraph_idx": 2
+      },
+      {
+        "quote": "Even when cities and states do impose regulations, the Flock system is essentially run on the honor system",
+        "paragraph_idx": 2
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:02:06Z",
     "article_id": "art_062"
   },
   {
@@ -7445,6 +7580,11 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -7554,11 +7694,28 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-08T19:09:34Z",
+    "primary_subject_agency_id": "48841a6b-f280-54eb-ba5d-cb57962ad687",
+    "summary": "The Dane County (WI) Board voted 32-1 to remove $80,000 in 2026 budget funding for the Sheriff's Office Flock Safety ALPR subscription, ending the contract that runs through May 31. Supervisors cited concerns about Flock's data-sharing with more than 140 outside agencies and federal entities, while Board Chair Patrick Miles said the county remains open to alternative ALPR vendors. Sheriff Kalvin Barrett criticized the decision as also a cut to his office's funding.",
+    "key_quotes": [
+      {
+        "quote": "The Dane County Board has voted to remove funding from the Sheriff's Office for use of its Flock Safety automated license plate reader system (ALPR) and prohibit further spending on the system.",
+        "paragraph_idx": 0
+      },
+      {
+        "quote": "the sheriff's office has not been able to affirmatively confirm that the agencies it shares data with, or Flock itself, are not misusing the information collected by cameras in Dane County.",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "The Dane County Sheriff's Office had granted access to information gathered by its 24 Flock cameras to more than 140 law enforcement agencies, including some in Iowa, Illinois, Indiana, Michigan, Missouri, New York, and Tennessee",
+        "paragraph_idx": 5
+      },
+      {
+        "quote": "This is about one company and its practices, not about whether law enforcement should have access to modern tools",
+        "paragraph_idx": 7
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:02:20Z",
     "article_id": "art_063"
   },
   {
@@ -7663,6 +7820,10 @@
     "wayback_source": "submit-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "outcome:terminated",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -7699,11 +7860,24 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-08T19:09:36Z",
+    "primary_subject_agency_id": "3b3aa3f2-1a52-5fa4-9b7d-e6e940a39991",
+    "summary": "Sierra Vista City Council directed staff to terminate the city's contract with Flock for license plate readers following a work session where residents and officials raised concerns about Flock's ownership of captured images, potential data sales, and use of AI. The council also asked staff to explore alternative ALPR vendors.",
+    "key_quotes": [
+      {
+        "quote": "Sierra Vista City Council has directed staff to look into terminating the city's contract with Flock, the company behind the recently installed license plate readers.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "Most of the concerns raised were about Flock owning the rights to the photos captured and potentially selling the data to other entities.",
+        "paragraph_idx": 8
+      },
+      {
+        "quote": "The city will be required to give Flock a 30-day notice to cancel the contract.",
+        "paragraph_idx": 11
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:02:26Z",
     "article_id": "art_065"
   },
   {
@@ -7864,6 +8038,10 @@
     "wayback_source": "submit-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "outcome:terminated",
+      "policy:audit",
+      "scope:local",
       "vendor:axon",
       "vendor:flock"
     ],
@@ -7883,11 +8061,24 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-08T19:09:40Z",
+    "primary_subject_agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+    "summary": "Austin's city manager pulled an item to extend the city's ALPR contracts with Flock Safety and Axon, ending the program at month's end amid privacy concerns about data collection and potential tracking of people seeking abortions or gender-affirming care. Council members and advocates praised the decision, while APD said it supports the pause and Flock cited arrests enabled by the cameras.",
+    "key_quotes": [
+      {
+        "quote": "Austin is doing away with its license plate reader program at the end of the month after mounting concerns over privacy and data collection",
+        "paragraph_idx": 12
+      },
+      {
+        "quote": "The arguments made by city leaders is that data collected could be used to track down people seeking abortions and gender-affirming care.",
+        "paragraph_idx": 16
+      },
+      {
+        "quote": "During a city work session Tuesday, City Manager T.C. Broadnax decided to axe the program and withdraw it from Thursday's agenda, when a vote on extending the program was to be considered.",
+        "paragraph_idx": 20
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:02:34Z",
     "article_id": "art_067"
   },
   {
@@ -7914,6 +8105,10 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:misuse",
+      "outcome:terminated",
+      "policy:audit",
       "vendor:flock"
     ],
     "agencies": [
@@ -7972,11 +8167,28 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-08T19:09:43Z",
+    "primary_subject_agency_id": "68f11e4a-7a56-5692-a0a2-558de9117210",
+    "summary": "Eugene Police Chief Chris Skinner ended the city's contract with Flock Safety after learning that a license-plate reader camera was reactivated and collected data during a citywide pause on the technology. Flock attributed the reactivation to an automated maintenance work order and said it has changed protocols; Springfield, OR also canceled its Flock contract amid similar concerns. Eugene has requested removal of the 57 cameras.",
+    "key_quotes": [
+      {
+        "quote": "The cameras had been turned off. We had a camera that was inadvertently turned back on for a short period of time and collect some data",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "we should be seeing zero vehicles detected in the last 30 days on the transparency portal. However, nearly 8,500 UNIQUE vehicles have been detected by Eugene's Flock devices in the last 30 days.",
+        "paragraph_idx": 18
+      },
+      {
+        "quote": "Automatically within the back end of our system, a maintenance tech actually was dispatched to go fix the camera",
+        "paragraph_idx": 27
+      },
+      {
+        "quote": "if a pause is requested, we basically block that maintenance request in the back end of the system in order to ensure this doesn't happen",
+        "paragraph_idx": 30
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:02:48Z",
     "article_id": "art_068"
   },
   {
@@ -8003,6 +8215,13 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:pra",
+      "outcome:terminated",
+      "policy:audit",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -8113,11 +8332,28 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-08T19:09:48Z",
+    "primary_subject_agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+    "summary": "Mountain View Police Chief Mike Canfield disabled all 30 of the city's Flock Safety license plate cameras after disclosures that over 250 California agencies, and briefly federal entities, accessed the data without authorization in violation of city policy and state law. The cameras will remain off pending City Council discussion on Feb. 24, and Canfield said he no longer has confidence in Flock as a vendor.",
+    "key_quotes": [
+      {
+        "quote": "All of Mountain View's license plate cameras are being disabled, effective immediately, Police Chief Mike Canfield announced Monday afternoon.",
+        "paragraph_idx": 18
+      },
+      {
+        "quote": "While the Flock Safety pilot program demonstrated clear value in enhancing our ability to protect our community and help us solve crimes, I personally no longer have confidence in this particular vendor",
+        "paragraph_idx": 23
+      },
+      {
+        "quote": "a 'national lookup' setting had been turned on from August to November 2024. According to Canfield, Flock turned that setting on without notifying Mountain View police",
+        "paragraph_idx": 24
+      },
+      {
+        "quote": "State law also prohibits sharing ALPR information with out-of-state agencies, as well as sharing this information for immigration enforcement purposes.",
+        "paragraph_idx": 25
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:03:01Z",
     "article_id": "art_069"
   },
   {
@@ -8264,15 +8500,33 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:press-release",
+      "legal:court-ruling",
+      "legal:pra",
+      "outcome:terminated",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [],
     "agency_candidates": [],
     "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-08T19:09:50Z",
+    "summary": "The Skamania County Sheriff's Office announced it is disabling its six Flock cameras following a recent court decision regarding public-records access to Flock-generated footage. The Flock contract runs through December 2026 and the infrastructure will remain in place, but the cameras and license plate reader technology will be turned off.",
+    "key_quotes": [
+      {
+        "quote": "Due to a recent court decision regarding Flock-generated footage and public records request access, the Skamania County Sheriff's Office will have the six cameras within the county disabled.",
+        "paragraph_idx": 2
+      },
+      {
+        "quote": "this recent court decision is a threat to public safety, allowing access to anyone and extending far beyond the policy parameters set forth by the Skamania County Sheriff's Office",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "The Flock contract with Skamania County extends through December 2026 and the infrastructure will remain in place until the termination of the contract. However, the cameras and license plate reader technology will be disabled.",
+        "paragraph_idx": 4
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:03:06Z",
     "article_id": "art_071"
   },
   {
@@ -8299,6 +8553,11 @@
     "wayback_source": "existing",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:misuse",
+      "outcome:terminated",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -8357,11 +8616,28 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-08T19:09:51Z",
+    "primary_subject_agency_id": "25a4e15f-c0b8-5fc4-9aea-4990fdb4a712",
+    "summary": "Oshkosh, WI rescinded its Flock Safety ALPR contract after Police Chief Dean Smith told the Common Council that Flock had misrepresented the cameras' capabilities, including claims about heat maps and federal access to data. The unanimous reversal came less than 24 hours after council had approved a one-year renewal, and OPD is powering off all 26 cameras and revoking outside-agency access.",
+    "key_quotes": [
+      {
+        "quote": "Oshkosh is rescinding its agreement with Flock Safety after Oshkosh Police Department said the company misrepresented information regarding the automated license plate readers at the April 21 Common Council meeting.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "Smith said he was immediately advised by officers that Flock cameras create a \u201cheat map,\u201d directly refuting claims to the contrary from Flock Chief Information Security Officer Chris Castaldo.",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "the OPD will be powering off each of Oshkosh's 26 Flock cameras on April 23 while covering the license plate readers with a bag to ensure they cannot collect data.",
+        "paragraph_idx": 13
+      },
+      {
+        "quote": "any access by outside agencies has been revoked while all internal users have had their accounts deactivated with the exception of the city's Flock Administrator.",
+        "paragraph_idx": 14
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-08T20:03:18Z",
     "article_id": "art_072"
   },
   {
