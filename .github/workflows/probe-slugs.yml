@@ -38,19 +38,35 @@ jobs:
           # Need full history so the rebase below can find a common ancestor
           # with origin/slug-probe. With the default shallow clone, rebase
           # replays slug-probe's entire history (back to the initial commit)
-          # onto main and conflicts on every binary file added since then;
-          # the fallback `reset --hard` then wipes accumulated probe state.
+          # onto main and conflicts on every binary file added since then.
           fetch-depth: 0
           # PAT (if configured) attributes the resulting PR to a human so
           # CI doesn't require approval-for-bots on every run.
           token: ${{ secrets.REFRESH_PAT || github.token }}
+
+      - name: Configure git identity
+        # Required before any step that may write commits (rebase replay,
+        # not just `git commit`). See article-registry.yml for the full
+        # incident — `fatal: empty ident name` masked as a "conflicts"
+        # error when the rebase wrapper trapped it.
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Set up probe branch
         run: |
           git fetch origin slug-probe || true
           if git rev-parse --verify origin/slug-probe >/dev/null 2>&1; then
             git checkout slug-probe
-            git rebase origin/main || { git rebase --abort; git reset --hard origin/main; }
+            # See article-registry.yml — never auto-reset to main on
+            # rebase failure. It silently destroys accumulated probe work
+            # (registry hits, failed_slugs state). Abort and fail loudly;
+            # a human resolves and force-pushes.
+            git rebase origin/main || {
+              git rebase --abort
+              echo "::error::rebase against origin/main conflicts. Bot branch left untouched — resolve manually. NOT auto-resetting (would destroy unmerged work)."
+              exit 1
+            }
           else
             git checkout -b slug-probe
           fi
@@ -87,8 +103,6 @@ jobs:
       - name: Commit and push
         id: commit
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           # On a hit, slug_probe also runs archive_agency to save the
           # captured page (.txt/.html/.json/.pdf) under the new slug's
           # directory, and updates .content_hashes.json. Stage the whole
