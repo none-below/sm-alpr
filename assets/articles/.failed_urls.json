@@ -9,6 +9,11 @@
     "error": "HTTP 429",
     "last_attempt": "2026-05-09T12:02:28Z"
   },
+  "https://brookline.news/brookline-news-podcast-episode-8-flock-cameras-come-to-brookline-and-so-does-a-no-kings-rally/": {
+    "attempts": 1,
+    "error": "HTTP 403",
+    "last_attempt": "2026-05-09T15:14:46Z"
+  },
   "https://brookline.news/police-pause-flock-access": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://brookline.news/police-pause-flock-access",
@@ -164,6 +169,11 @@
     "error": "HTTP 429",
     "last_attempt": "2026-05-09T08:50:20Z"
   },
+  "https://www.smdailyjournal.com/news/local/half-moon-bay-is-set-to-install-surveillance-cameras/article_46d428d2-82c6-11ef-8623-e7927b765967.html": {
+    "attempts": 1,
+    "error": "HTTP 429",
+    "last_attempt": "2026-05-09T15:11:17Z"
+  },
   "https://www.smdailyjournal.com/news/local/south-san-francisco-council-oks-license-plate-reading-cameras/article_1e467e8e-8af7-11ec-81fc-87089d642110.html": {
     "attempts": 1,
     "error": "HTTP 429",
@@ -208,6 +218,11 @@
     "attempts": 1,
     "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/politics-government/article314581905.html\nCall log:\n  - navigating to \"https://www.theolympian.com/news/politics-government/article314581905.html\", waiting until \"domcontentloaded\"\n",
     "last_attempt": "2026-05-09T07:17:19Z"
+  },
+  "https://www.theolympian.com/news/state/washington/article315379868.html": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/state/washington/article315379868.html\nCall log:\n  - navigating to \"https://www.theolympian.com/news/state/washington/article315379868.html\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-05-09T15:07:58Z"
   },
   "https://www.whsv.com/2025/12/10/staunton-ends-flock-cameras": {
     "attempts": 3,
