@@ -272,58 +272,11 @@ def main():
             mismatch_map.setdefault(agency_slug, []).append(partner_slug)
             mismatch_map.setdefault(partner_slug, []).append(agency_slug)
 
-    # Compute indirect flags: if A shares with B, and B shares with
-    # a flagged entity V, then A has an indirect flag "V via B"
-    def is_flagged_entity(aid):
-        r = reg_by_id.get(aid, {})
-        if has_tag(r, "private"):
-            return True
-        r_state = agency_state(r)
-        if r_state and r_state != "CA":
-            return True
-        if r.get("agency_type") in ("federal", "fusion_center", "decommissioned", "test"):
-            return True
-        return False
-
-    # Build outbound lookup from graph (agency_id -> [target_ids])
-    outbound_by_id = {}
-    for aid, data in graph["agencies"].items():
-        outbound_by_id[aid] = data.get("sharing_outbound_ids", [])
-
-    # For each agency, find indirect flags (depth 1: via intermediaries)
-    # Output uses slugs for JS consumption
-    indirect_flags = {}  # slug -> [{"flagged": slug, "via": slug}]
-    for aid, data in graph["agencies"].items():
-        slug = id_to_slug.get(aid)
-        if not slug:
-            continue
-        indirects = []
-        direct_flags = set()
-        for target_id in data.get("sharing_outbound_ids", []):
-            if is_flagged_entity(target_id):
-                direct_flags.add(target_id)
-        for target_id in data.get("sharing_outbound_ids", []):
-            if target_id in outbound_by_id:
-                for second_hop_id in outbound_by_id[target_id]:
-                    if is_flagged_entity(second_hop_id) and second_hop_id not in direct_flags:
-                        indirects.append({
-                            "flagged": id_to_slug.get(second_hop_id, second_hop_id),
-                            "via": id_to_slug.get(target_id, target_id),
-                            "via_name": agency_display_name(reg_by_id.get(target_id, {})),
-                            "flagged_name": agency_display_name(reg_by_id.get(second_hop_id, {})),
-                        })
-        if indirects:
-            seen = set()
-            deduped = []
-            for iv in indirects:
-                if iv["flagged"] not in seen:
-                    seen.add(iv["flagged"])
-                    deduped.append(iv)
-            indirect_flags[slug] = deduped
-
-    indirect_count = sum(len(v) for v in indirect_flags.values())
-    print(f"Indirect flags: {indirect_count} across {len(indirect_flags)} agencies")
-
+    # Indirect flags are computed client-side from markers[].outbound_slugs
+    # (depth-2 walk in JS). Precomputing them here produced an O(sources ×
+    # flagged_targets) blob — ~2.6M entries, ~330 MB — that crashed the
+    # renderer when chromium loaded sharing_map.html. The map already has
+    # everything JS needs to compute it on demand for the selected agency.
     print(f"Geocoded: {geocoded}/{len(graph['agencies'])}")
     if ungeocodable:
         print(f"Could not geocode: {', '.join(ungeocodable[:10])}")
@@ -341,7 +294,6 @@ def main():
         "coords": slug_coords,
         "agencyInfo": slug_info,
         "mismatches": mismatch_map,
-        "indirectFlags": indirect_flags,
     }
     (docs_dir / "data" / "map_data.json").write_text(json.dumps(map_data) + "\n")
     print(f"Data written to {docs_dir}/data/map_data.json")
