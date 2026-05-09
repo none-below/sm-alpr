@@ -11409,6 +11409,13 @@
     "wayback_source": "saved",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "incident:misuse",
+      "outcome:restricted",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -11471,11 +11478,24 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-09T15:14:58Z",
+    "primary_subject_agency_id": "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+    "summary": "Richmond (VA) Police Chief Rick Edwards apologized after discovering an ATF analyst had been granted access to RPD's Flock license plate reader system in February and used it for immigration-related queries in violation of department policy. RPD terminated the analyst's access and announced no federal agencies will have access to its ALPR program going forward; the article also recaps Charlottesville PD's earlier move to isolate its Flock system from outside access.",
+    "key_quotes": [
+      {
+        "quote": "an analyst with the Bureau of Alcohol, Tobacco, Firearms and Explosives had been granted access to the RPD system and had made queries for immigration enforcement in violation of RPD's operational standards. The ATF analyst's access was immediately terminated and, moving forward, no federal agencies will have access to RPD's license plate reader program.",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "the Richmond Police Department does not enforce federal immigration law, and we do not investigate a person's immigration status. If ATF had formally requested access for that purpose, I would have denied it.",
+        "paragraph_idx": 5
+      },
+      {
+        "quote": "In one instance, a potential residency violation may have prompted the use of 'ICE' in a search field \u2014 but all queries were related to criminal activity, not civil immigration enforcement.",
+        "paragraph_idx": 10
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T17:05:46Z",
     "article_id": "art_104"
   },
   {
@@ -11934,6 +11954,9 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:press-release",
+      "outcome:terminated",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -11950,11 +11973,16 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-09T16:06:17Z",
+    "primary_subject_agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+    "summary": "Charlottesville Police Chief Michael Kochis discusses the city council's decision to remove the Flock ALPR camera system, expressing respect for the council's view and sharing community feedback he received.",
+    "key_quotes": [
+      {
+        "quote": "Chief Kochis talks about the respect he has for the council's opinion on the system and discusses the feedback he received from the community.",
+        "paragraph_idx": 0
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T17:05:50Z",
     "article_id": "art_109"
   },
   {
@@ -11981,6 +12009,14 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "outcome:restricted",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -12071,11 +12107,24 @@
         ]
       }
     ],
-    "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-09T16:06:20Z",
+    "primary_subject_agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "summary": "Denver Mayor Mike Johnston's office extended the city's Flock ALPR contract for five months without City Council approval, after the council unanimously rejected a longer extension in May. The new extension adds restrictions including a $100,000 penalty for any sharing of Denver's data with federal agencies, limits on search terms (excluding immigration and reproductive health), and requirements that other agencies accessing the data not share it with federal immigration authorities.",
+    "key_quotes": [
+      {
+        "quote": "Mayor Mike Johnston's office is extending Denver's contract with Flock \u2014 a company that operates AI-powered license-plate readers throughout the city \u2014 for five months without any additional cost, circumventing the need for a vote by the City Council.",
+        "paragraph_idx": 17
+      },
+      {
+        "quote": "Denver's new contract will include a requirement that Flock must pay $100,000 for any instance that data collected in the city is shared with federal agencies",
+        "paragraph_idx": 24
+      },
+      {
+        "quote": "Following that revelation, Johnston's office told 9News that the Denver Police Department had revoked Loveland police's access to tracking data from Denver's Flock cameras.",
+        "paragraph_idx": 34
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T17:06:01Z",
     "article_id": "art_110"
   },
   {
@@ -12406,6 +12455,11 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:sharing",
+      "scope:local",
       "vendor:axon",
       "vendor:flock"
     ],
@@ -12424,10 +12478,27 @@
       }
     ],
     "primary_subject_agency_id": null,
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-09T16:06:32Z",
+    "summary": "Sedona City Council voted unanimously on Sept. 9, 2025 to cancel its Flock Safety contract and remove all 11 ALPR cameras, citing revelations that Flock had allowed federal agencies including CBP to access ALPR data despite assurances to council that data would not be shared. Mayor Scott Jablow reversed his prior support, and council members called Flock dishonorable as a vendor.",
+    "key_quotes": [
+      {
+        "quote": "The Sedona City Council made the unanimous decision to cancel its contract with Flock Safety and to remove the currently installed 11 automated license plate readers during its meeting Tuesday, Sept. 9.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "A company that tells us on Aug. 13 that there's no data-sharing going on, I swear, and [later] admits that it's been going on, is not a company that we can do business with",
+        "paragraph_idx": 24
+      },
+      {
+        "quote": "We've seen how data from these cameras can be accessed by federal agencies in ways I wasn't aware of and ways that our community is strongly opposed to",
+        "paragraph_idx": 12
+      },
+      {
+        "quote": "City Attorney Kurt Christianson following the meeting said he was going to give Flock notification of the cancellation of the contract the following day.",
+        "paragraph_idx": 29
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T17:06:11Z",
     "article_id": "art_116"
   },
   {
@@ -12926,5 +12997,1170 @@
     "curation_status": "mechanical",
     "curated_at": "2026-05-09T16:48:32Z",
     "article_id": "art_121"
+  },
+  {
+    "url": "https://www.aclunorcal.org/press-releases/california-activists-sue-marin-county-sheriff-illegally-sharing-drivers-license-plate-data-ice/",
+    "source_domain": "aclunorcal.org",
+    "tier": 2,
+    "stance": "critical",
+    "title": "California Activists Sue Marin County Sheriff for Illegally Sharing Drivers\u2019 License Plate Data With ICE, CBP and Other Out-of-State Agencies - ACLU of Northern California",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-09T17:01:45Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 2 pts, low/medium only",
+    "scanner_score": 2,
+    "content_hash": "68b6e6e70b7837d84ad7df28c3d5c6f96b4a03470d01a8952854e68d58e4aecc",
+    "paths": {
+      "html": "assets/articles/aclunorcal.org/press-releases-california-activists-sue-marin-county-sheriff-illegally-sharing-d_7cd5c7f0.html",
+      "meta": "assets/articles/aclunorcal.org/press-releases-california-activists-sue-marin-county-sheriff-illegally-sharing-d_7cd5c7f0.meta.json",
+      "pdf": "assets/articles/aclunorcal.org/press-releases-california-activists-sue-marin-county-sheriff-illegally-sharing-d_7cd5c7f0.pdf",
+      "txt": "assets/articles/aclunorcal.org/press-releases-california-activists-sue-marin-county-sheriff-illegally-sharing-d_7cd5c7f0.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:press-release",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "policy:sharing",
+      "scope:local"
+    ],
+    "agencies": [
+      "e1922365-80e2-5ec7-8580-95245cdad7f8",
+      "0649c75b-a49d-5ec7-a240-18692dea2047",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "55db20ff-e7cc-54e9-8115-34d66ff7e188"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "e1922365-80e2-5ec7-8580-95245cdad7f8",
+        "display_name": "Marin County CA SO",
+        "state": "CA",
+        "score": 14.033,
+        "matched_forms": [
+          "Marin County",
+          "Marin County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "0649c75b-a49d-5ec7-a240-18692dea2047",
+        "display_name": "Marin County CA DA",
+        "state": "CA",
+        "score": 3.9,
+        "matched_forms": [
+          "Marin County"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 2.717,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+        "display_name": "San Diego CA PD",
+        "state": "CA",
+        "score": 2.65,
+        "matched_forms": [
+          "San Diego"
+        ]
+      },
+      {
+        "agency_id": "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+        "display_name": "Imperial City CA PD",
+        "state": "CA",
+        "score": 2.633,
+        "matched_forms": [
+          "Imperial"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "e1922365-80e2-5ec7-8580-95245cdad7f8",
+    "summary": "The ACLU of Northern California, EFF, and co-counsel sued Marin County Sheriff Robert Doyle, alleging his office illegally shares ALPR data with ICE, CBP, and over 400 out-of-state agencies in violation of California's S.B. 34 and S.B. 54. The suit, filed on behalf of three Marin community activists, seeks to end the data-sharing practice.",
+    "key_quotes": [
+      {
+        "quote": "Documents show that the sheriff's office shares and transfers ALPR information with Immigration and Customs Enforcement (ICE), Customs and Border Protection (CBP), over a dozen other federal law enforcement agencies, and over 400 out-of-state law enforcement agencies.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "California's S.B. 34, enacted in 2015, bars this practice. The law requires agencies that use ALPR technology to implement policies to protect privacy and civil liberties, and specifically prohibits police from sharing ALPR data with entities outside of California.",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "The lawsuit is the first of its kind to challenge the sharing of private information collected by ALPR mass surveillance.",
+        "paragraph_idx": 12
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T17:06:19Z",
+    "article_id": "art_122"
+  },
+  {
+    "url": "https://www.cbsnews.com/atlanta/news/atlanta-protest-targets-flock-safety-as-debate-over-surveillance-ice-fears-and-public-safety-intensifies/",
+    "source_domain": "cbsnews.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Atlanta protest targets Flock Safety as debate over surveillance, ICE fears, and public safety intensifies",
+    "byline": "Zachary  Bynum",
+    "published_at": "2026-04-16T17:50:00-0400",
+    "fetched_at": "2026-05-09T17:03:18Z",
+    "discovered_by": "bing:flock",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 196 pts, HIGH/CRITICAL findings",
+    "scanner_score": 196,
+    "content_hash": "fbf386517006f5d6d8a8fe012d8588c214faed35585b1083f3996f5ea708b7d4",
+    "paths": {
+      "html": "assets/articles/cbsnews.com/atlanta-news-atlanta-protest-targets-flock-safety-as-debate-over-surveillance-ic_acd314b4.html",
+      "meta": "assets/articles/cbsnews.com/atlanta-news-atlanta-protest-targets-flock-safety-as-debate-over-surveillance-ic_acd314b4.meta.json",
+      "pdf": "assets/articles/cbsnews.com/atlanta-news-atlanta-protest-targets-flock-safety-as-debate-over-surveillance-ic_acd314b4.pdf",
+      "txt": "assets/articles/cbsnews.com/atlanta-news-atlanta-protest-targets-flock-safety-as-debate-over-surveillance-ic_acd314b4.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "0adc9798-34b9-58d0-83b8-241372b602ed",
+      "f37d0f09-6a70-5017-8b66-0bda25f8c5a4",
+      "db6df3db-02bc-558b-890b-30fdf7126c58",
+      "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "6368fc0a-00e7-542d-88ff-3d3f418ed8fb",
+      "bae9861d-a7ef-567d-b31b-a627075decf9",
+      "5a910635-30df-5c01-90d3-6947f51510df",
+      "40b8a7c5-e004-5f38-8a2c-6f9e89d56c33",
+      "bcf00535-3ec8-5ad6-870a-75ce0052c890"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "0adc9798-34b9-58d0-83b8-241372b602ed",
+        "display_name": "Atlanta GA PD",
+        "state": "GA",
+        "score": 27.183,
+        "matched_forms": [
+          "Atlanta"
+        ]
+      },
+      {
+        "agency_id": "f37d0f09-6a70-5017-8b66-0bda25f8c5a4",
+        "display_name": "Emory University Campus PD GA",
+        "state": "GA",
+        "score": 27.183,
+        "matched_forms": [
+          "Atlanta"
+        ]
+      },
+      {
+        "agency_id": "db6df3db-02bc-558b-890b-30fdf7126c58",
+        "display_name": "Marta PD GA",
+        "state": "GA",
+        "score": 27.183,
+        "matched_forms": [
+          "Atlanta"
+        ]
+      },
+      {
+        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+        "display_name": "Flock Safety",
+        "state": "GA",
+        "score": 20.7,
+        "matched_forms": [
+          "Flock Safety"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 3.867,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      },
+      {
+        "agency_id": "6368fc0a-00e7-542d-88ff-3d3f418ed8fb",
+        "display_name": "Lewisville TX PD",
+        "state": "TX",
+        "score": 3.833,
+        "matched_forms": [
+          "Lewisville"
+        ]
+      },
+      {
+        "agency_id": "bae9861d-a7ef-567d-b31b-a627075decf9",
+        "display_name": "Sacramento CA PD",
+        "state": "CA",
+        "score": 3.833,
+        "matched_forms": [
+          "Sacramento"
+        ]
+      },
+      {
+        "agency_id": "5a910635-30df-5c01-90d3-6947f51510df",
+        "display_name": "Brookhaven GA PD",
+        "state": "GA",
+        "score": 2.667,
+        "matched_forms": [
+          "Brookhaven"
+        ]
+      },
+      {
+        "agency_id": "40b8a7c5-e004-5f38-8a2c-6f9e89d56c33",
+        "display_name": "Dunwoody GA PD",
+        "state": "GA",
+        "score": 2.633,
+        "matched_forms": [
+          "Dunwoody"
+        ]
+      },
+      {
+        "agency_id": "bcf00535-3ec8-5ad6-870a-75ce0052c890",
+        "display_name": "Franklin GA PD",
+        "state": "GA",
+        "score": 2.633,
+        "matched_forms": [
+          "Franklin"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T17:05:09Z",
+    "article_id": "art_123"
+  },
+  {
+    "url": "https://cvillerightnow.com/podcasts/city-flock-camera-program-discussion/",
+    "source_domain": "cvillerightnow.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "City FLOCK Camera Program Discussion - Cville Right Now",
+    "byline": "Jay James",
+    "published_at": "2025-02-05T13:36:03+00:00",
+    "fetched_at": "2026-05-09T17:02:12Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 54 pts, HIGH/CRITICAL findings",
+    "scanner_score": 54,
+    "content_hash": "d6234f895af8512b63673a42dc93dcab858cd578be18653904354833875d0684",
+    "paths": {
+      "html": "assets/articles/cvillerightnow.com/podcasts-city-flock-camera-program-discussion_91b0099c.html",
+      "meta": "assets/articles/cvillerightnow.com/podcasts-city-flock-camera-program-discussion_91b0099c.meta.json",
+      "pdf": "assets/articles/cvillerightnow.com/podcasts-city-flock-camera-program-discussion_91b0099c.pdf",
+      "txt": "assets/articles/cvillerightnow.com/podcasts-city-flock-camera-program-discussion_91b0099c.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:explainer",
+      "outcome:reconsidering",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+        "display_name": "Charlottesville Police Department",
+        "state": "VA",
+        "score": 6.5,
+        "matched_forms": [
+          "Charlottesville"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+    "summary": "A brief podcast item noting that the hosts discussed the Charlottesville City Council's deliberations over whether to continue the city's FLOCK camera program.",
+    "key_quotes": [
+      {
+        "quote": "The two Jays discussed the City Council's discussion around the FLOCK camera program and whether it should continue.",
+        "paragraph_idx": 0
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T17:06:23Z",
+    "article_id": "art_124"
+  },
+  {
+    "url": "https://www.denverpost.com/2026/02/10/flock-cameras-privacy-debate-thornton-colorado-legislature/",
+    "source_domain": "denverpost.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Pushback against Flock cameras comes to Denver suburb \u2014 the latest Colorado city to enter debate",
+    "byline": "John Aguilar",
+    "published_at": "2026-02-10T13:00:31+00:00",
+    "fetched_at": "2026-05-09T17:02:35Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 148 pts, HIGH/CRITICAL findings",
+    "scanner_score": 148,
+    "content_hash": "5b0c892b967ef0cb7189027156bed45b16586530b9c6845a7a5c3f126c5e9837",
+    "paths": {
+      "html": "assets/articles/denverpost.com/2026-02-10-flock-cameras-privacy-debate-thornton-colorado-legislature_96f09804.html",
+      "meta": "assets/articles/denverpost.com/2026-02-10-flock-cameras-privacy-debate-thornton-colorado-legislature_96f09804.meta.json",
+      "pdf": "assets/articles/denverpost.com/2026-02-10-flock-cameras-privacy-debate-thornton-colorado-legislature_96f09804.pdf",
+      "txt": "assets/articles/denverpost.com/2026-02-10-flock-cameras-privacy-debate-thornton-colorado-legislature_96f09804.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:false-positive",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "cf1e330c-8a42-5cd9-813d-cfe383b83802",
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "db48d591-b60c-5260-95c0-28d5085c67ab",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+      "4671f34c-d1a6-5eca-9d02-1d62c10e8844",
+      "56f9a46f-863a-5d77-b2c9-72403bb11a8e"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "cf1e330c-8a42-5cd9-813d-cfe383b83802",
+        "display_name": "Thornton CO PD",
+        "state": "CO",
+        "score": 30.483,
+        "matched_forms": [
+          "Thornton",
+          "Thornton Police",
+          "Thornton Police Department"
+        ]
+      },
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 29.117,
+        "matched_forms": [
+          "Denver",
+          "Denver Police"
+        ]
+      },
+      {
+        "agency_id": "db48d591-b60c-5260-95c0-28d5085c67ab",
+        "display_name": "Thornton IL PD",
+        "state": "IL",
+        "score": 5.183,
+        "matched_forms": [
+          "Thornton Police",
+          "Thornton Police Department"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 5.05,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      },
+      {
+        "agency_id": "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+        "display_name": "Aurora CO PD",
+        "state": "CO",
+        "score": 3.7,
+        "matched_forms": [
+          "Aurora"
+        ]
+      },
+      {
+        "agency_id": "4671f34c-d1a6-5eca-9d02-1d62c10e8844",
+        "display_name": "Loveland CO PD",
+        "state": "CO",
+        "score": 2.933,
+        "matched_forms": [
+          "Loveland Police Department"
+        ]
+      },
+      {
+        "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+        "display_name": "Old",
+        "state": null,
+        "score": 2.1,
+        "matched_forms": [
+          "Old"
+        ]
+      },
+      {
+        "agency_id": "06baeca4-7c07-53c6-add7-3fc8fc99d061",
+        "display_name": "Loveland OH PD",
+        "state": "OH",
+        "score": 1.433,
+        "matched_forms": [
+          "Loveland Police Department"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "cf1e330c-8a42-5cd9-813d-cfe383b83802",
+    "summary": "Thornton, Colorado residents are pushing back against the city's 16 Flock Safety ALPR cameras, raising privacy and Fourth Amendment concerns at community and council meetings, while Thornton police defend the system as a vital crime-fighting tool. The article situates the local debate alongside actions in Denver, Longmont, and Louisville and pending Colorado bills (SB 70, SB 71) that would restrict surveillance data sharing and retention.",
+    "key_quotes": [
+      {
+        "quote": "Thornton's Flock camera data can be seen by more than 1,600 other law enforcement agencies across the country.",
+        "paragraph_idx": 12
+      },
+      {
+        "quote": "Any situation I feel uncomfortable about or that might be in conflict with our policies or with Colorado law, I will revoke their access \u2014 no problem,",
+        "paragraph_idx": 29
+      },
+      {
+        "quote": "You're not just collecting the data of vehicles that ping (a police department's) hot list (of suspicious vehicles), you're collecting the data of every vehicle that is caught on a Flock camera,",
+        "paragraph_idx": 36
+      },
+      {
+        "quote": "Senate Bill 70 would put limits on access to databases and the sharing of information.",
+        "paragraph_idx": 39
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T17:06:35Z",
+    "article_id": "art_125"
+  },
+  {
+    "url": "https://www.govtech.com/biz/under-scrutiny-flock-safety-debuts-automatic-auditing-tool",
+    "source_domain": "govtech.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Under Scrutiny, Flock Safety Debuts Automatic Auditing Tool",
+    "byline": "https://www.govtech.com/authors/news-staff.html",
+    "published_at": "2026-04-24T21:45:04.85",
+    "fetched_at": "2026-05-09T17:02:26Z",
+    "discovered_by": "bing:flock",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 62 pts, HIGH/CRITICAL findings",
+    "scanner_score": 62,
+    "content_hash": "89346712f67ada4ca73a04c295c2f271145ebd42b01b57bc78d8d2a181f8f347",
+    "paths": {
+      "html": "assets/articles/govtech.com/biz-under-scrutiny-flock-safety-debuts-automatic-auditing-tool_9452e677.html",
+      "meta": "assets/articles/govtech.com/biz-under-scrutiny-flock-safety-debuts-automatic-auditing-tool_9452e677.meta.json",
+      "pdf": "assets/articles/govtech.com/biz-under-scrutiny-flock-safety-debuts-automatic-auditing-tool_9452e677.pdf",
+      "txt": "assets/articles/govtech.com/biz-under-scrutiny-flock-safety-debuts-automatic-auditing-tool_9452e677.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "7cabcca1-9a07-54d1-9983-fb34e7384b0e"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+        "display_name": "Justice IL PD",
+        "state": "IL",
+        "score": 4.85,
+        "matched_forms": [
+          "Justice"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T17:05:16Z",
+    "article_id": "art_126"
+  },
+  {
+    "url": "https://www.latimes.com/socal/daily-pilot/news/story/2026-04-24/costa-mesa-to-audit-of-license-plate-reader-program-after-misuse-case",
+    "source_domain": "latimes.com",
+    "tier": 1,
+    "stance": "neutral",
+    "title": "Costa Mesa to audit license plate reader program after misuse by police officer",
+    "byline": "https://www.latimes.com/socal/daily-pilot/people/eric-licas",
+    "published_at": "2026-04-25T00:40:48.123",
+    "fetched_at": "2026-05-09T17:02:51Z",
+    "discovered_by": "bing:lpr",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 139 pts, HIGH/CRITICAL findings",
+    "scanner_score": 139,
+    "content_hash": "a1978b9f6038fc7cd5d93069f409c9b41705ecccc2edbf6f557e8a03fd55e706",
+    "paths": {
+      "html": "assets/articles/latimes.com/socal-daily-pilot-news-story-2026-04-24-costa-mesa-to-audit-of-license-plate-rea_9fc4663a.html",
+      "meta": "assets/articles/latimes.com/socal-daily-pilot-news-story-2026-04-24-costa-mesa-to-audit-of-license-plate-rea_9fc4663a.meta.json",
+      "pdf": "assets/articles/latimes.com/socal-daily-pilot-news-story-2026-04-24-costa-mesa-to-audit-of-license-plate-rea_9fc4663a.pdf",
+      "txt": "assets/articles/latimes.com/socal-daily-pilot-news-story-2026-04-24-costa-mesa-to-audit-of-license-plate-rea_9fc4663a.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "1808b50d-b58e-5245-b233-3b7b31dd5c29",
+      "2c981ce6-8d54-565f-bb99-ac885eee8769",
+      "59158344-4894-55be-bc8a-de15bcb986f0",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "27d3370c-1004-57a6-b76f-c2efedaefc53",
+      "dc80ea1b-fec8-5415-91f6-70fea8c607ed",
+      "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+      "684c2432-b5ab-5c9e-9bc7-6dd9df1e3b2f",
+      "2e9edae6-7b5a-5b86-bd0e-c3e06b3d96d0",
+      "8e97dede-dc5e-518a-bd9c-ca1acce1757a"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "1808b50d-b58e-5245-b233-3b7b31dd5c29",
+        "display_name": "Costa Mesa CA PD",
+        "state": "CA",
+        "score": 23.533,
+        "matched_forms": [
+          "Costa Mesa",
+          "Costa Mesa Police",
+          "Costa Mesa Police Department"
+        ]
+      },
+      {
+        "agency_id": "2c981ce6-8d54-565f-bb99-ac885eee8769",
+        "display_name": "Orange County SO CA",
+        "state": "CA",
+        "score": 8.083,
+        "matched_forms": [
+          "Orange County"
+        ]
+      },
+      {
+        "agency_id": "59158344-4894-55be-bc8a-de15bcb986f0",
+        "display_name": "Laguna Beach CA PD",
+        "state": "CA",
+        "score": 4.4,
+        "matched_forms": [
+          "Laguna Beach"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 4.367,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      },
+      {
+        "agency_id": "27d3370c-1004-57a6-b76f-c2efedaefc53",
+        "display_name": "Huntington Beach CA PD",
+        "state": "CA",
+        "score": 3.267,
+        "matched_forms": [
+          "Huntington Beach"
+        ]
+      },
+      {
+        "agency_id": "dc80ea1b-fec8-5415-91f6-70fea8c607ed",
+        "display_name": "Fountain Valley CA PD",
+        "state": "CA",
+        "score": 3.25,
+        "matched_forms": [
+          "Fountain Valley"
+        ]
+      },
+      {
+        "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+        "display_name": "Mountain View Police Department",
+        "state": "CA",
+        "score": 3.217,
+        "matched_forms": [
+          "Mountain View"
+        ]
+      },
+      {
+        "agency_id": "684c2432-b5ab-5c9e-9bc7-6dd9df1e3b2f",
+        "display_name": "Newport Beach PD CA",
+        "state": "CA",
+        "score": 3.217,
+        "matched_forms": [
+          "Newport Beach"
+        ]
+      },
+      {
+        "agency_id": "2e9edae6-7b5a-5b86-bd0e-c3e06b3d96d0",
+        "display_name": "San Fernando CA PD",
+        "state": "CA",
+        "score": 3.2,
+        "matched_forms": [
+          "San Fernando"
+        ]
+      },
+      {
+        "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+        "display_name": "Santa Cruz CA PD (deactivated)",
+        "state": "CA",
+        "score": 3.167,
+        "matched_forms": [
+          "Santa Cruz"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T17:05:18Z",
+    "article_id": "art_127"
+  },
+  {
+    "url": "https://www.nbc26.com/oshkosh/appleton-mayor-calls-to-remove-flock-cameras",
+    "source_domain": "nbc26.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Appleton mayor calls to remove Flock cameras",
+    "byline": "https://www.nbc26.com/hayden-bailey",
+    "published_at": "2026-05-08T16:33:38.326",
+    "fetched_at": "2026-05-09T17:01:25Z",
+    "discovered_by": "bing:flock",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 79 pts, HIGH/CRITICAL findings",
+    "scanner_score": 79,
+    "content_hash": "2a072e37084a3b5117574a19396f1096a3ae3892cebe191182ebdfdbbf854ef3",
+    "paths": {
+      "html": "assets/articles/nbc26.com/oshkosh-appleton-mayor-calls-to-remove-flock-cameras_60c19f2b.html",
+      "meta": "assets/articles/nbc26.com/oshkosh-appleton-mayor-calls-to-remove-flock-cameras_60c19f2b.meta.json",
+      "pdf": "assets/articles/nbc26.com/oshkosh-appleton-mayor-calls-to-remove-flock-cameras_60c19f2b.pdf",
+      "txt": "assets/articles/nbc26.com/oshkosh-appleton-mayor-calls-to-remove-flock-cameras_60c19f2b.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad",
+      "25a4e15f-c0b8-5fc4-9aea-4990fdb4a712",
+      "506efefe-608f-5fbb-896c-c7747df5287f",
+      "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+      "63d0f52e-3089-51af-a179-dae338e0a966"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad",
+        "display_name": "Appleton WI PD",
+        "state": "WI",
+        "score": 11.7,
+        "matched_forms": [
+          "Appleton"
+        ]
+      },
+      {
+        "agency_id": "25a4e15f-c0b8-5fc4-9aea-4990fdb4a712",
+        "display_name": "Oshkosh Police Department",
+        "state": "WI",
+        "score": 11.55,
+        "matched_forms": [
+          "Oshkosh"
+        ]
+      },
+      {
+        "agency_id": "506efefe-608f-5fbb-896c-c7747df5287f",
+        "display_name": "University of Wisconsin - Green Bay WI PD",
+        "state": "WI",
+        "score": 7.25,
+        "matched_forms": [
+          "Green Bay"
+        ]
+      },
+      {
+        "agency_id": "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+        "display_name": "Milwaukee WI PD",
+        "state": "WI",
+        "score": 3.8,
+        "matched_forms": [
+          "Milwaukee"
+        ]
+      },
+      {
+        "agency_id": "63d0f52e-3089-51af-a179-dae338e0a966",
+        "display_name": "Washington Island WI PD",
+        "state": "WI",
+        "score": 2.783,
+        "matched_forms": [
+          "Washington Island"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T17:05:19Z",
+    "article_id": "art_128"
+  },
+  {
+    "url": "https://www.redrocknews.com/2026/03/31/spd-begins-strategic-plan/",
+    "source_domain": "redrocknews.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Sedona Police Department begins strategic plan - Sedona Red Rock News",
+    "byline": "Christopher Fox Graham",
+    "published_at": "2026-04-01T00:07:35+00:00",
+    "fetched_at": "2026-05-09T17:02:44Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 112 pts, HIGH/CRITICAL findings",
+    "scanner_score": 112,
+    "content_hash": "b621ac19b43a80e688ba22d02400d915e324f866a44d90cf0e929cdc06f180ed",
+    "paths": {
+      "html": "assets/articles/redrocknews.com/2026-03-31-spd-begins-strategic-plan_9eabd05b.html",
+      "meta": "assets/articles/redrocknews.com/2026-03-31-spd-begins-strategic-plan_9eabd05b.meta.json",
+      "pdf": "assets/articles/redrocknews.com/2026-03-31-spd-begins-strategic-plan_9eabd05b.pdf",
+      "txt": "assets/articles/redrocknews.com/2026-03-31-spd-begins-strategic-plan_9eabd05b.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [],
+    "agencies": [
+      "10e8e190-ea44-5c7d-8f65-833f633dafe5",
+      "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+      "291d7a66-7b0d-5dfa-9da0-2ead16939318",
+      "684c2432-b5ab-5c9e-9bc7-6dd9df1e3b2f",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "bae9861d-a7ef-567d-b31b-a627075decf9",
+      "7d1f365f-6b58-503b-ab4a-5c929f72ec2d",
+      "66a4b49e-c138-5a25-9eff-3e28388407f5",
+      "ba91d4d0-77fc-58c2-b154-efc7c1f1fb81"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "10e8e190-ea44-5c7d-8f65-833f633dafe5",
+        "display_name": "Cottonwood AZ PD",
+        "state": "AZ",
+        "score": 3.833,
+        "matched_forms": [
+          "Cottonwood"
+        ]
+      },
+      {
+        "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+        "display_name": "Page AZ PD",
+        "state": "AZ",
+        "score": 3.633,
+        "matched_forms": [
+          "Page"
+        ]
+      },
+      {
+        "agency_id": "291d7a66-7b0d-5dfa-9da0-2ead16939318",
+        "display_name": "Maricopa County AZ SO",
+        "state": "AZ",
+        "score": 2.75,
+        "matched_forms": [
+          "Maricopa County"
+        ]
+      },
+      {
+        "agency_id": "684c2432-b5ab-5c9e-9bc7-6dd9df1e3b2f",
+        "display_name": "Newport Beach PD CA",
+        "state": "CA",
+        "score": 2.717,
+        "matched_forms": [
+          "Newport Beach"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 2.717,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "bae9861d-a7ef-567d-b31b-a627075decf9",
+        "display_name": "Sacramento CA PD",
+        "state": "CA",
+        "score": 2.667,
+        "matched_forms": [
+          "Sacramento"
+        ]
+      },
+      {
+        "agency_id": "7d1f365f-6b58-503b-ab4a-5c929f72ec2d",
+        "display_name": "El Mirage AZ PD",
+        "state": "AZ",
+        "score": 2.65,
+        "matched_forms": [
+          "El Mirage"
+        ]
+      },
+      {
+        "agency_id": "66a4b49e-c138-5a25-9eff-3e28388407f5",
+        "display_name": "Corona CA PD",
+        "state": "CA",
+        "score": 2.6,
+        "matched_forms": [
+          "Corona"
+        ]
+      },
+      {
+        "agency_id": "ba91d4d0-77fc-58c2-b154-efc7c1f1fb81",
+        "display_name": "Tempe AZ PD",
+        "state": "AZ",
+        "score": 2.583,
+        "matched_forms": [
+          "Tempe"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "needs_review",
+    "curated_at": "2026-05-09T17:05:25Z",
+    "article_id": "art_129",
+    "curation_error": "refusal: Article is about Sedona PD strategic planning; not about ALPR or related surveillance technology."
+  },
+  {
+    "url": "https://www.thenewstribune.com/news/local/community/puyallup-herald/ph-news/article315257166.html",
+    "source_domain": "thenewstribune.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Puyallup contract for controversial license plate cameras is up. Will they renew?",
+    "byline": "Isabela Lund",
+    "published_at": "2026-04-08T05:00:00-07:00",
+    "fetched_at": "2026-05-09T17:02:03Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 6 pts, low/medium only",
+    "scanner_score": 6,
+    "content_hash": "62b24cd9122ee41f35025256e635f4f4c4af1f8b307748cea18c8ac557cc682c",
+    "paths": {
+      "html": "assets/articles/thenewstribune.com/news-local-community-puyallup-herald-ph-news-article315257166-html_8d725685.html",
+      "meta": "assets/articles/thenewstribune.com/news-local-community-puyallup-herald-ph-news-article315257166-html_8d725685.meta.json",
+      "pdf": "assets/articles/thenewstribune.com/news-local-community-puyallup-herald-ph-news-article315257166-html_8d725685.pdf",
+      "txt": "assets/articles/thenewstribune.com/news-local-community-puyallup-herald-ph-news-article315257166-html_8d725685.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "policy:audit",
+      "policy:hotlist",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+      "5a1588da-969e-5a60-be2e-5fe547c2716d",
+      "624117fb-8cba-5612-8f6f-0ebbfc512ae9",
+      "1fa6ae5e-44d1-55f6-aed6-54453b711387",
+      "af2758f7-ea32-50eb-88b3-badb338510ca",
+      "37330114-0b02-5b61-a889-2fc214849095",
+      "c54ee9d3-4114-5c33-a53b-927a6fb46ae3",
+      "cccec80d-f9a8-5296-a394-27cc4a9aa2d6",
+      "1abc6989-6a40-58ed-ad2c-eb6fa70648ac",
+      "ccebeae6-1d27-5e90-933a-4aaac0fd38df"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+        "display_name": "Puyallup WA PD",
+        "state": "WA",
+        "score": 40.15,
+        "matched_forms": [
+          "Puyallup",
+          "Puyallup Police",
+          "Puyallup Police Department"
+        ]
+      },
+      {
+        "agency_id": "5a1588da-969e-5a60-be2e-5fe547c2716d",
+        "display_name": "Lakewood WA PD",
+        "state": "WA",
+        "score": 7.583,
+        "matched_forms": [
+          "Lakewood",
+          "Lakewood Police",
+          "Lakewood Police Department"
+        ]
+      },
+      {
+        "agency_id": "624117fb-8cba-5612-8f6f-0ebbfc512ae9",
+        "display_name": "Chehalis WA PD",
+        "state": "WA",
+        "score": 5.317,
+        "matched_forms": [
+          "Chehalis",
+          "Chehalis Police",
+          "Chehalis Police Department"
+        ]
+      },
+      {
+        "agency_id": "1fa6ae5e-44d1-55f6-aed6-54453b711387",
+        "display_name": "Eatonville WA PD [Inactive]",
+        "state": "WA",
+        "score": 5.0,
+        "matched_forms": [
+          "Eatonville"
+        ]
+      },
+      {
+        "agency_id": "af2758f7-ea32-50eb-88b3-badb338510ca",
+        "display_name": "Auburn WA PD",
+        "state": "WA",
+        "score": 4.8,
+        "matched_forms": [
+          "Auburn"
+        ]
+      },
+      {
+        "agency_id": "37330114-0b02-5b61-a889-2fc214849095",
+        "display_name": "Stanwood WA PD",
+        "state": "WA",
+        "score": 3.767,
+        "matched_forms": [
+          "Stanwood"
+        ]
+      },
+      {
+        "agency_id": "c54ee9d3-4114-5c33-a53b-927a6fb46ae3",
+        "display_name": "Douglas County WA SO",
+        "state": "WA",
+        "score": 2.867,
+        "matched_forms": [
+          "Douglas County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "cccec80d-f9a8-5296-a394-27cc4a9aa2d6",
+        "display_name": "Richland PD WA",
+        "state": "WA",
+        "score": 2.75,
+        "matched_forms": [
+          "Richland Police"
+        ]
+      },
+      {
+        "agency_id": "1abc6989-6a40-58ed-ad2c-eb6fa70648ac",
+        "display_name": "Richland WA PD",
+        "state": "WA",
+        "score": 2.75,
+        "matched_forms": [
+          "Richland Police"
+        ]
+      },
+      {
+        "agency_id": "ccebeae6-1d27-5e90-933a-4aaac0fd38df",
+        "display_name": "King County International Airport (WA)",
+        "state": "WA",
+        "score": 2.683,
+        "matched_forms": [
+          "King County"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+    "summary": "Puyallup's two-year Flock Safety ALPR contract has expired and the city is deciding whether to renew amid Washington's new Driver's Privacy Act (SB 6002), which limits retention, sharing, and camera placement. Police Chief Scott Engle says PPD has turned off its in-car Axon ALPR system and is reviewing three of 39 Flock cameras for compliance, while crediting the cameras with significant crime drops; critics like former officer Jeff Bennett raise transparency and data-sharing concerns, including past national lookup access by federal agencies revealed in a UW study.",
+    "key_quotes": [
+      {
+        "quote": "After contacting Flock to better understand how agencies outside our area were able to run such a query, we adjusted our system settings for what agencies could access our system. It is called national look-up, and we disabled that on October 22, 2025.",
+        "paragraph_idx": 36
+      },
+      {
+        "quote": "The in-car ALPR, we turned that off, and those will remain off until we can ensure that we are in compliance with the law",
+        "paragraph_idx": 62
+      },
+      {
+        "quote": "We have three cameras that are in play that we are currently looking at, whether they are or are not in violation of the law",
+        "paragraph_idx": 63
+      },
+      {
+        "quote": "In my career, I cannot recall a time when crime dropped so significantly year over year in property or societal crime",
+        "paragraph_idx": 47
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T17:06:54Z",
+    "article_id": "art_130"
+  },
+  {
+    "url": "https://www.theolympian.com/news/state/washington/seattle/article314804119.html",
+    "source_domain": "theolympian.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "What to know about controversial automated license plate readers in WA",
+    "byline": "Catalina Gait\u00e1n, The Seattle Times",
+    "published_at": "2026-02-23T06:37:48-08:00",
+    "fetched_at": "2026-05-09T17:03:37Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 5 pts, low/medium only",
+    "scanner_score": 5,
+    "content_hash": "eaaac27aa29b914560a609b1a9bbe09d25ac813c733e7a344edcc76ba0738a36",
+    "paths": {
+      "html": "assets/articles/theolympian.com/news-state-washington-seattle-article314804119-html_af4b64db.html",
+      "meta": "assets/articles/theolympian.com/news-state-washington-seattle-article314804119-html_af4b64db.meta.json",
+      "pdf": "assets/articles/theolympian.com/news-state-washington-seattle-article314804119-html_af4b64db.pdf",
+      "txt": "assets/articles/theolympian.com/news-state-washington-seattle-article314804119-html_af4b64db.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:explainer",
+      "incident:ice-cooperation",
+      "incident:misuse",
+      "incident:wrongful-stop",
+      "legal:court-ruling",
+      "legal:legislation",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:state",
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+      "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+      "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+      "0a9f6f92-fc21-5938-80a2-d0abe88afa88",
+      "485d236f-0919-564f-807f-406dc4e3b6b4",
+      "ab2d4fa5-bd8b-5ffc-9aaa-cf15b53cd598",
+      "665867f8-b8cf-5e20-8d53-84fe87ef17e8"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+        "display_name": "Washington IL PD",
+        "state": "IL",
+        "score": 14.333,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+        "display_name": "Port of Seattle WA PD",
+        "state": "WA",
+        "score": 10.967,
+        "matched_forms": [
+          "Seattle",
+          "Seattle Police",
+          "Seattle Police Department"
+        ]
+      },
+      {
+        "agency_id": "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+        "display_name": "Redmond Police Department",
+        "state": "WA",
+        "score": 4.967,
+        "matched_forms": [
+          "Redmond",
+          "Redmond Police"
+        ]
+      },
+      {
+        "agency_id": "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+        "display_name": "Lynnwood Police Department",
+        "state": "WA",
+        "score": 3.767,
+        "matched_forms": [
+          "Lynnwood"
+        ]
+      },
+      {
+        "agency_id": "0a9f6f92-fc21-5938-80a2-d0abe88afa88",
+        "display_name": "Kent WA PD",
+        "state": "WA",
+        "score": 3.75,
+        "matched_forms": [
+          "Kent",
+          "Kent Police"
+        ]
+      },
+      {
+        "agency_id": "485d236f-0919-564f-807f-406dc4e3b6b4",
+        "display_name": "Kennewick WA PD",
+        "state": "WA",
+        "score": 2.65,
+        "matched_forms": [
+          "Kennewick"
+        ]
+      },
+      {
+        "agency_id": "ab2d4fa5-bd8b-5ffc-9aaa-cf15b53cd598",
+        "display_name": "Kansas IL PD",
+        "state": "IL",
+        "score": 2.6,
+        "matched_forms": [
+          "Kansas"
+        ]
+      },
+      {
+        "agency_id": "665867f8-b8cf-5e20-8d53-84fe87ef17e8",
+        "display_name": "City of West TX PD",
+        "state": "TX",
+        "score": 2.567,
+        "matched_forms": [
+          "West"
+        ]
+      },
+      {
+        "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+        "display_name": "Delete",
+        "state": null,
+        "score": 1.1,
+        "matched_forms": [
+          "Delete"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "A statewide explainer on ALPRs in Washington, covering how the technology works, its rapid expansion via state grants, controversies including federal data access and a Skagit County public-records ruling, and pending state legislation that would impose the first ALPR regulations in Washington.",
+    "key_quotes": [
+      {
+        "quote": "University of Washington researchers published a report showing U.S. Border Patrol had searched the Flock Safety databases of at least 18 police departments in the state - often without their knowledge.",
+        "paragraph_idx": 24
+      },
+      {
+        "quote": "The state Senate in early February approved an amended version of the bill, which would bar public agencies from using ALPRs for immigration enforcement, limit data retention to 21 days under most circumstances and exempt footage from public disclosure, except for research.",
+        "paragraph_idx": 31
+      },
+      {
+        "quote": "a Skagit County judge ruled that footage captured by two cities' Flock Safety cameras are public records and must be made public in accordance with state law.",
+        "paragraph_idx": 26
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T17:07:01Z",
+    "article_id": "art_131"
   }
 ]
