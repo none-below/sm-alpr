@@ -589,7 +589,14 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
         if e.get("tier") not in PHASE2_ELIGIBLE_TIERS:
             continue
         verdict = (e.get("scanner_verdict") or "")
-        if not verdict.startswith(accepted_prefixes):
+        # Manually-seeded URLs (article_queue_add.py default discovered_by
+        # is "manual"; the seed-batch tool stamps "manual-seed-…") bypass
+        # the scanner gate. The user vouched for the source when they
+        # pasted the URL; Phase 2 still runs tool-less with json_schema
+        # output, so this only changes which articles get enriched, not
+        # what the model can do with them.
+        manual = (e.get("discovered_by") or "").startswith("manual")
+        if not manual and not verdict.startswith(accepted_prefixes):
             continue
         eligible.append(e)
     if reenrich:
