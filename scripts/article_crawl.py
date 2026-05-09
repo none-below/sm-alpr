@@ -66,9 +66,14 @@ FAILED_PATH = DATA_DIR / ".failed_urls.json"
 CHECK_INJECTION = ROOT / "scripts" / "check_injection.py"
 SOURCES_PATH = ROOT / "assets" / "sources.json"
 
+# Real Chrome UA, matching scripts/flock_transparency.py via lib.py.
+# Custom bot UAs got 403'd by anti-bot heuristics (kxan.com etc.) and slow-
+# walked elsewhere; the Flock portal scraper has been reliable on the
+# browser UA so we stick with the same string here.
 USER_AGENT = (
-    "Mozilla/5.0 (compatible; sm-alpr-research/1.0; "
-    "+https://github.com/none-below/sm-alpr)"
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/131.0.0.0 Safari/537.36"
 )
 TIMEOUT = 30
 MAX_RETRIES_PER_URL = 3
@@ -493,18 +498,41 @@ def wayback_lookup_or_save(url: str) -> dict:
     return out
 
 
-def render_pdf(url: str, pdf_path: Path) -> dict:
-    """Render `url` to PDF via headless Chromium. Save to pdf_path.
+# ───────────────────────── fetch + render ─────────────────────────
 
-    Returns: pdf_status ("rendered" | "skipped" | "failed"),
-             pdf_byte_size, pdf_error (or None).
+
+def fetch_and_render(url: str, pdf_path: Path | None,
+                     *, skip_pdf: bool = False) -> dict:
+    """Navigate to `url` with Playwright (real Chrome UA), capture HTML,
+    and optionally render the loaded page to `pdf_path` in the same
+    browser session.
+
+    One browser launch per URL covers both the HTML fetch and the PDF
+    render — previously these were separate launches with a `requests`
+    fetch in between, but bare `requests` got 403'd by anti-bot guards
+    on several news sites we needed (kxan.com, kvue.com, etc.) and the
+    `requests`-then-Playwright sequence also navigated to the URL twice.
+
+    Returns dict with:
+      fetch_error:   str | None — set on navigation failure or HTTP >= 400
+      status:        int | None — HTTP status from page.goto response
+      body:          str | None — page.content() HTML, or None on error
+      final_url:     str | None — page.url after redirects
+      pdf_status:    'rendered' | 'skipped' | 'failed' | None
+      pdf_byte_size: int | None
+      pdf_error:     str | None
     """
-    out = {"pdf_status": None, "pdf_byte_size": None, "pdf_error": None}
+    out = {
+        "fetch_error": None, "status": None, "body": None, "final_url": None,
+        "pdf_status": None, "pdf_byte_size": None, "pdf_error": None,
+    }
     if not _PLAYWRIGHT_AVAILABLE:
-        out["pdf_status"] = "skipped"
-        out["pdf_error"] = "playwright not available"
+        out["fetch_error"] = "playwright not available"
         return out
-    pdf_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if pdf_path is not None and not skip_pdf:
+        pdf_path.parent.mkdir(parents=True, exist_ok=True)
+
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
@@ -514,41 +542,48 @@ def render_pdf(url: str, pdf_path: Path) -> dict:
                     viewport={"width": 1280, "height": 1024},
                 )
                 page = ctx.new_page()
-                # `domcontentloaded` is faster than `networkidle` and good
-                # enough for static news pages; some sites (advocacy
-                # blogs with embedded media) never reach networkidle.
-                page.goto(url, wait_until="domcontentloaded", timeout=45000)
-                page.pdf(
-                    path=str(pdf_path),
-                    format="Letter",
-                    margin={"top": "0.5in", "bottom": "0.5in",
-                            "left": "0.5in", "right": "0.5in"},
-                    print_background=False,
-                )
+                # `domcontentloaded` is faster than `networkidle` and
+                # good enough for static news pages; some sites (ad-
+                # heavy news, advocacy blogs with embeds) never reach
+                # networkidle within timeout.
+                response = page.goto(url, wait_until="domcontentloaded",
+                                     timeout=45000)
+                if response is None:
+                    out["fetch_error"] = "navigation returned no response"
+                    return out
+                out["status"] = response.status
+                out["final_url"] = page.url
+                if response.status >= 400:
+                    out["fetch_error"] = f"HTTP {response.status}"
+                    return out
+                out["body"] = page.content()
+
+                if skip_pdf or pdf_path is None:
+                    out["pdf_status"] = "skipped"
+                else:
+                    try:
+                        page.pdf(
+                            path=str(pdf_path),
+                            format="Letter",
+                            margin={"top": "0.5in", "bottom": "0.5in",
+                                    "left": "0.5in", "right": "0.5in"},
+                            print_background=False,
+                        )
+                        if pdf_path.exists():
+                            out["pdf_status"] = "rendered"
+                            out["pdf_byte_size"] = pdf_path.stat().st_size
+                        else:
+                            out["pdf_status"] = "failed"
+                            out["pdf_error"] = "pdf not written"
+                    except Exception as e:
+                        out["pdf_status"] = "failed"
+                        out["pdf_error"] = f"{type(e).__name__}: {str(e)[:300]}"
             finally:
                 browser.close()
     except Exception as e:
-        out["pdf_status"] = "failed"
-        out["pdf_error"] = f"{type(e).__name__}: {str(e)[:300]}"
-        return out
-    if pdf_path.exists():
-        out["pdf_status"] = "rendered"
-        out["pdf_byte_size"] = pdf_path.stat().st_size
-    else:
-        out["pdf_status"] = "failed"
-        out["pdf_error"] = "pdf not written"
+        if out["fetch_error"] is None:
+            out["fetch_error"] = f"{type(e).__name__}: {str(e)[:300]}"
     return out
-
-
-# ───────────────────────── fetch ─────────────────────────
-
-
-def fetch_one(url: str) -> tuple[int, str, str]:
-    """Return (status_code, html_text, final_url)."""
-    headers = {"User-Agent": USER_AGENT, "Accept": "text/html,*/*;q=0.5"}
-    r = requests.get(url, headers=headers, timeout=TIMEOUT, allow_redirects=True)
-    r.raise_for_status()
-    return r.status_code, r.text, r.url
 
 
 # ───────────────────────── main loop ─────────────────────────
@@ -617,12 +652,17 @@ def crawl_once(entry: dict, *, dry_run: bool,
 
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    try:
-        status, body, final_url = fetch_one(url)
-    except requests.RequestException as e:
+    fetch_result = fetch_and_render(url, pdf_path, skip_pdf=skip_pdf)
+    if fetch_result["fetch_error"] is not None:
         record["status"] = "fetch-failed"
-        record["error"] = f"{type(e).__name__}: {e}"
+        record["error"] = fetch_result["fetch_error"]
+        if fetch_result["status"] is not None:
+            record["http_status"] = fetch_result["status"]
         return record
+
+    status = fetch_result["status"]
+    body = fetch_result["body"]
+    final_url = fetch_result["final_url"]
 
     html_path.write_text(body, encoding="utf-8")
     text, title = extract_text_and_title(body)
@@ -661,19 +701,16 @@ def crawl_once(entry: dict, *, dry_run: bool,
         if wayback.get("wayback_error"):
             record["wayback_error"] = wayback["wayback_error"]
 
-    # Local PDF render via Playwright — separate path, never gated by
-    # check_untrusted_read.sh (PDFs are in the trusted-format whitelist
-    # alongside parsed JSON).
-    if skip_pdf or not _PLAYWRIGHT_AVAILABLE:
-        record["pdf_status"] = "skipped"
-    else:
-        pdf_result = render_pdf(final_url, pdf_path)
-        record["pdf_status"] = pdf_result.get("pdf_status")
-        record["pdf_byte_size"] = pdf_result.get("pdf_byte_size")
-        if pdf_result.get("pdf_error"):
-            record["pdf_error"] = pdf_result["pdf_error"]
-        if pdf_path.exists():
-            record["paths"]["pdf"] = str(pdf_path.relative_to(ROOT))
+    # PDF render was performed in the same Playwright session as the
+    # fetch (see fetch_and_render). PDFs are in the trusted-format
+    # whitelist alongside parsed JSON, so they aren't gated by
+    # check_untrusted_read.sh.
+    record["pdf_status"] = fetch_result.get("pdf_status")
+    record["pdf_byte_size"] = fetch_result.get("pdf_byte_size")
+    if fetch_result.get("pdf_error"):
+        record["pdf_error"] = fetch_result["pdf_error"]
+    if pdf_path.exists():
+        record["paths"]["pdf"] = str(pdf_path.relative_to(ROOT))
 
     save_json(meta_path, record)
     return record
