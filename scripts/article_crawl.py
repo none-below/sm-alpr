@@ -776,7 +776,17 @@ def main() -> int:
         candidates: list[dict] = [{"url": u, "discovered_by": "force"} for u in args.url]
         selected = [c for c in candidates if is_eligible(c)][: args.limit]
     else:
+        # Fewest-prior-attempts first, FIFO within each bucket. When most
+        # of the queue is 1–2-strike retries on dead URLs, fresh
+        # discoveries would otherwise wait behind them every tick.
+        # Python sort is stable, so the existing mtime order from
+        # load_queue_dir is preserved as the secondary key.
+        def attempts(entry: dict) -> int:
+            return failed.get(entry.get("url", ""), {}).get("attempts", 0)
+
         priority, auto = merge_queue()
+        priority.sort(key=attempts)
+        auto.sort(key=attempts)
         selected = round_robin(priority, args.limit)
         if len(selected) < args.limit:
             selected.extend(round_robin(auto, args.limit - len(selected)))
