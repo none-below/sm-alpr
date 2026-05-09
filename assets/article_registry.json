@@ -9230,5 +9230,1256 @@
     "curation_status": "mechanical",
     "curated_at": "2026-05-09T02:22:43Z",
     "article_id": "art_078"
+  },
+  {
+    "url": "https://abc7news.com/post/santa-clara-county-stop-using-flock-safety-cameras-several-cities-privacy-concerns/18646060/",
+    "source_domain": "abc7news.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Santa Clara County to stop using Flock Safety cameras in several cities after privacy concerns",
+    "byline": "Dustin Dorsey",
+    "published_at": "2026-02-25T05:50:59Z",
+    "fetched_at": "2026-05-09T02:42:09Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "WARNINGS \u2014 4 pts, low/medium only",
+    "scanner_score": 4,
+    "content_hash": "148744b9158e8ffa4756584380c183ff92d48a1e588ee0e474ec1e4105b6c734",
+    "paths": {
+      "html": "assets/articles/abc7news.com/post-santa-clara-county-stop-using-flock-safety-cameras-several-cities-privacy-c_a8f3fa73.html",
+      "meta": "assets/articles/abc7news.com/post-santa-clara-county-stop-using-flock-safety-cameras-several-cities-privacy-c_a8f3fa73.meta.json",
+      "pdf": "assets/articles/abc7news.com/post-santa-clara-county-stop-using-flock-safety-cameras-several-cities-privacy-c_a8f3fa73.pdf",
+      "txt": "assets/articles/abc7news.com/post-santa-clara-county-stop-using-flock-safety-cameras-several-cities-privacy-c_a8f3fa73.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+      "6be9f842-1658-5490-8be4-14b77cc1e96d",
+      "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "30c59ff7-8ee9-51ca-95a7-3dad69eba35f",
+      "033b31f5-8525-5ff8-af2b-2f53899bc6c9",
+      "ddaa717b-703e-5c02-8e9c-9563ebd8c802",
+      "eef11480-824c-5b76-9049-541470c862b1",
+      "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+        "display_name": "Santa Clara County CA SO",
+        "state": "CA",
+        "score": 9.3,
+        "matched_forms": [
+          "Santa Clara County"
+        ]
+      },
+      {
+        "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+        "display_name": "Santa Clara DA CA",
+        "state": "CA",
+        "score": 9.3,
+        "matched_forms": [
+          "Santa Clara County"
+        ]
+      },
+      {
+        "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+        "display_name": "Mountain View Police Department",
+        "state": "CA",
+        "score": 6.367,
+        "matched_forms": [
+          "Mountain View"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 6.367,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "30c59ff7-8ee9-51ca-95a7-3dad69eba35f",
+        "display_name": "Los Altos CA PD",
+        "state": "CA",
+        "score": 4.95,
+        "matched_forms": [
+          "Los Altos"
+        ]
+      },
+      {
+        "agency_id": "033b31f5-8525-5ff8-af2b-2f53899bc6c9",
+        "display_name": "Santa Clara CA PD",
+        "state": "CA",
+        "score": 3.867,
+        "matched_forms": [
+          "Santa Clara"
+        ]
+      },
+      {
+        "agency_id": "ddaa717b-703e-5c02-8e9c-9563ebd8c802",
+        "display_name": "Livermore CA PD",
+        "state": "CA",
+        "score": 2.65,
+        "matched_forms": [
+          "Livermore"
+        ]
+      },
+      {
+        "agency_id": "eef11480-824c-5b76-9049-541470c862b1",
+        "display_name": "Cal Fire",
+        "state": "CA",
+        "score": 2.633,
+        "matched_forms": [
+          "Cal Fire"
+        ]
+      },
+      {
+        "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+        "display_name": "San Jose CA PD",
+        "state": "CA",
+        "score": 2.633,
+        "matched_forms": [
+          "San Jose"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+    "summary": "The Santa Clara County Board of Supervisors voted to stop using Flock Safety as the vendor for license plate readers in Cupertino, Saratoga, and Los Altos Hills, where the sheriff's office provides policing. The decision follows revelations that federal agencies accessed Flock data from Mountain View without consent, prompting a county review of surveillance policies.",
+    "key_quotes": [
+      {
+        "quote": "Santa Clara County will no longer use Flock Safety as the primary vendor for their license plate readers in Cupertino, Saratoga and Los Altos Hills after a vote by the Board of Supervisors",
+        "paragraph_idx": 1
+      },
+      {
+        "quote": "Mass surveillance does not keep our public safe, but endangers all of us",
+        "paragraph_idx": 2
+      },
+      {
+        "quote": "Flock has gone on the record publicly that it does not have any contracts with ICE or CBP... Only our customers have sole authority over if, when, and with whom information is shared.",
+        "paragraph_idx": 7
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T02:45:34Z",
+    "article_id": "art_079"
+  },
+  {
+    "url": "https://bloomington.in.gov/news/2026/04/15/6521",
+    "source_domain": "bloomington.in.gov",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "City of Bloomington Transitions Away from Flock Use After Months-Long Evaluation | City of Bloomington, Indiana",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-09T02:41:13Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+    "scanner_score": 3,
+    "content_hash": "7cfd9247f1207df4bb4a14610a219b763934126816b6045e55703c1906a909f8",
+    "paths": {
+      "html": "assets/articles/bloomington.in.gov/news-2026-04-15-6521_8e93c581.html",
+      "meta": "assets/articles/bloomington.in.gov/news-2026-04-15-6521_8e93c581.meta.json",
+      "pdf": "assets/articles/bloomington.in.gov/news-2026-04-15-6521_8e93c581.pdf",
+      "txt": "assets/articles/bloomington.in.gov/news-2026-04-15-6521_8e93c581.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:press-release",
+      "outcome:terminated",
+      "policy:audit",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "97f69d1e-5db1-5a4d-a95a-7314e28d0ad1",
+      "3401474d-eec9-579d-9681-26303ba6b7f8"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "97f69d1e-5db1-5a4d-a95a-7314e28d0ad1",
+        "display_name": "Bloomington Police Department",
+        "state": "IN",
+        "score": 28.367,
+        "matched_forms": [
+          "Bloomington",
+          "Bloomington Police",
+          "Bloomington Police Department"
+        ]
+      },
+      {
+        "agency_id": "3401474d-eec9-579d-9681-26303ba6b7f8",
+        "display_name": "Bloomington IL PD",
+        "state": "IL",
+        "score": 5.567,
+        "matched_forms": [
+          "Bloomington Police",
+          "Bloomington Police Department"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "97f69d1e-5db1-5a4d-a95a-7314e28d0ad1",
+    "summary": "Bloomington, Indiana Mayor Kerry Thomson announced the city did not renew its Flock ALPR contract, which expired March 5, 2026, following a months-long evaluation. During the transition, data access is restricted to BPD personnel and outside data sharing is discontinued; the city will evaluate alternative technologies.",
+    "key_quotes": [
+      {
+        "quote": "Mayor Kerry Thomson announced today that the City's contract for Flock LPR services expired on March 5, 2026, and that, following a months-long evaluation, the City decided not to renew it.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "Bloomington cameras will no longer be visible to other agencies on the network, and outside agencies will not be able to query Bloomington camera data.",
+        "paragraph_idx": 13
+      },
+      {
+        "quote": "This review made clear that if this tool is used, it must be used under narrow parameters, strong accountability, and clear public safeguards.",
+        "paragraph_idx": 15
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T02:45:43Z",
+    "article_id": "art_080"
+  },
+  {
+    "url": "https://www.cbsnews.com/colorado/news/license-plate-reading-cameras-colorado-regulation-misuse/",
+    "source_domain": "cbsnews.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Colorado lawmaker considers regulation to prevent abuses and misuses of license plate-reading cameras",
+    "byline": "Shaun  Boyd",
+    "published_at": "2025-09-19T22:12:00-0600",
+    "fetched_at": "2026-05-09T02:41:42Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 303 pts, HIGH/CRITICAL findings",
+    "scanner_score": 303,
+    "content_hash": "b29d1ac250656c643008ea46d68b2365ad28f24d32f26d9fa6935a7bf2c006ea",
+    "paths": {
+      "html": "assets/articles/cbsnews.com/colorado-news-license-plate-reading-cameras-colorado-regulation-misuse_9da938a7.html",
+      "meta": "assets/articles/cbsnews.com/colorado-news-license-plate-reading-cameras-colorado-regulation-misuse_9da938a7.meta.json",
+      "pdf": "assets/articles/cbsnews.com/colorado-news-license-plate-reading-cameras-colorado-regulation-misuse_9da938a7.pdf",
+      "txt": "assets/articles/cbsnews.com/colorado-news-license-plate-reading-cameras-colorado-regulation-misuse_9da938a7.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+      "86f9f2ec-e2c9-590e-95c7-a0af226ab266",
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "6368fc0a-00e7-542d-88ff-3d3f418ed8fb",
+      "bae9861d-a7ef-567d-b31b-a627075decf9",
+      "0c8cf0a7-49c7-5837-8dea-b983beaea542",
+      "e6d03602-bbe7-50c4-8f03-6b4c8c87e13c",
+      "b33d2cc2-8380-57b3-b6bf-bb7664b94f90",
+      "c74c5b71-d041-5be4-b4b5-6e140c649a43"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+        "display_name": "Aurora CO PD",
+        "state": "CO",
+        "score": 6.133,
+        "matched_forms": [
+          "Aurora",
+          "Aurora Police"
+        ]
+      },
+      {
+        "agency_id": "86f9f2ec-e2c9-590e-95c7-a0af226ab266",
+        "display_name": "Boyd TX PD",
+        "state": "TX",
+        "score": 5.767,
+        "matched_forms": [
+          "Boyd"
+        ]
+      },
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 4.8,
+        "matched_forms": [
+          "Denver"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 3.867,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      },
+      {
+        "agency_id": "6368fc0a-00e7-542d-88ff-3d3f418ed8fb",
+        "display_name": "Lewisville TX PD",
+        "state": "TX",
+        "score": 3.833,
+        "matched_forms": [
+          "Lewisville"
+        ]
+      },
+      {
+        "agency_id": "bae9861d-a7ef-567d-b31b-a627075decf9",
+        "display_name": "Sacramento CA PD",
+        "state": "CA",
+        "score": 3.833,
+        "matched_forms": [
+          "Sacramento"
+        ]
+      },
+      {
+        "agency_id": "0c8cf0a7-49c7-5837-8dea-b983beaea542",
+        "display_name": "Park City KS PD",
+        "state": "KS",
+        "score": 3.633,
+        "matched_forms": [
+          "Park"
+        ]
+      },
+      {
+        "agency_id": "e6d03602-bbe7-50c4-8f03-6b4c8c87e13c",
+        "display_name": "Jefferson County CO SO",
+        "state": "CO",
+        "score": 2.767,
+        "matched_forms": [
+          "Jefferson County"
+        ]
+      },
+      {
+        "agency_id": "b33d2cc2-8380-57b3-b6bf-bb7664b94f90",
+        "display_name": "Arapahoe County CO SO",
+        "state": "CO",
+        "score": 2.75,
+        "matched_forms": [
+          "Arapahoe County"
+        ]
+      },
+      {
+        "agency_id": "c74c5b71-d041-5be4-b4b5-6e140c649a43",
+        "display_name": "Marysville CA PD",
+        "state": "CA",
+        "score": 2.667,
+        "matched_forms": [
+          "Marysville"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:08Z",
+    "article_id": "art_081"
+  },
+  {
+    "url": "https://www.denvergazette.com/2024/02/17/big-brother-or-crime-fighter-elbert-county-says-no-to-license-plate-readers-521d798c-caac-11ee-a37b-7b0672ff5019/",
+    "source_domain": "denvergazette.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Big Brother or crime fighter? Elbert County says \u2018no\u2019 to license plate readers",
+    "byline": null,
+    "published_at": "2024-02-17T19:00:00+00:00",
+    "fetched_at": "2026-05-09T02:40:41Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 197 pts, HIGH/CRITICAL findings",
+    "scanner_score": 197,
+    "content_hash": "951a1b348e70cf0f08a386f85c5c2ff464479cbb45a3dc6f28961e97cd0efd6f",
+    "paths": {
+      "html": "assets/articles/denvergazette.com/2024-02-17-big-brother-or-crime-fighter-elbert-county-says-no-to-license-plate-r_78239aff.html",
+      "meta": "assets/articles/denvergazette.com/2024-02-17-big-brother-or-crime-fighter-elbert-county-says-no-to-license-plate-r_78239aff.meta.json",
+      "pdf": "assets/articles/denvergazette.com/2024-02-17-big-brother-or-crime-fighter-elbert-county-says-no-to-license-plate-r_78239aff.pdf",
+      "txt": "assets/articles/denvergazette.com/2024-02-17-big-brother-or-crime-fighter-elbert-county-says-no-to-license-plate-r_78239aff.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "b817b521-bf9b-58d2-8b52-3deba1919cf4",
+      "08514a25-077d-52d1-a7e3-5bcc3ef1be56",
+      "59970831-4f53-57f5-876c-78db7e83bfac",
+      "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 39.133,
+        "matched_forms": [
+          "Denver",
+          "Denver Police"
+        ]
+      },
+      {
+        "agency_id": "b817b521-bf9b-58d2-8b52-3deba1919cf4",
+        "display_name": "Johnston IA PD",
+        "state": "IA",
+        "score": 6.033,
+        "matched_forms": [
+          "Johnston"
+        ]
+      },
+      {
+        "agency_id": "08514a25-077d-52d1-a7e3-5bcc3ef1be56",
+        "display_name": "Colorado State Parks",
+        "state": "CO",
+        "score": 2.833,
+        "matched_forms": [
+          "Colorado State Parks"
+        ]
+      },
+      {
+        "agency_id": "59970831-4f53-57f5-876c-78db7e83bfac",
+        "display_name": "Elizabeth CO PD",
+        "state": "CO",
+        "score": 2.65,
+        "matched_forms": [
+          "Elizabeth"
+        ]
+      },
+      {
+        "agency_id": "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+        "display_name": "Aurora CO PD",
+        "state": "CO",
+        "score": 2.6,
+        "matched_forms": [
+          "Aurora"
+        ]
+      },
+      {
+        "agency_id": "c3e4d44e-7d2a-5479-9e07-9c6c02a09a75",
+        "display_name": "Douglas County GA SO",
+        "state": "GA",
+        "score": 1.367,
+        "matched_forms": [
+          "Douglas County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "b5b0ea88-f581-5f95-8b99-49aee51bf008",
+        "display_name": "Douglas County NE SO",
+        "state": "NE",
+        "score": 1.367,
+        "matched_forms": [
+          "Douglas County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "2db45201-f8c3-5a62-9900-e2abcf268b30",
+        "display_name": "Douglas County NV SO",
+        "state": "NV",
+        "score": 1.367,
+        "matched_forms": [
+          "Douglas County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "c54ee9d3-4114-5c33-a53b-927a6fb46ae3",
+        "display_name": "Douglas County WA SO",
+        "state": "WA",
+        "score": 1.367,
+        "matched_forms": [
+          "Douglas County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+        "display_name": "Delete",
+        "state": null,
+        "score": 1.1,
+        "matched_forms": [
+          "Delete"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:11Z",
+    "article_id": "art_082"
+  },
+  {
+    "url": "https://www.heraldnet.com/news/mountlake-terrace-cancels-flock",
+    "source_domain": "heraldnet.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Mountlake Terrace cancels Flock Safety contract - HeraldNet.com",
+    "byline": "Jenna Peterson",
+    "published_at": "2025-12-05T18:26:00+00:00",
+    "fetched_at": "2026-05-09T02:39:50Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 52 pts, HIGH/CRITICAL findings",
+    "scanner_score": 52,
+    "content_hash": "76ef6c18065fce5a634431ef5a929f9e0b99adefc0c5b726009cac0d45bb17ca",
+    "paths": {
+      "html": "assets/articles/heraldnet.com/news-mountlake-terrace-cancels-flock_684b315e.html",
+      "meta": "assets/articles/heraldnet.com/news-mountlake-terrace-cancels-flock_684b315e.meta.json",
+      "pdf": "assets/articles/heraldnet.com/news-mountlake-terrace-cancels-flock_684b315e.pdf",
+      "txt": "assets/articles/heraldnet.com/news-mountlake-terrace-cancels-flock_684b315e.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "4f00a0e6-1c7b-5620-800e-9579a5fc4fda",
+      "fb691729-841d-53b7-8242-ef59c222b2c0",
+      "161ac51a-c857-5ec9-9567-addd22bb89b8",
+      "37330114-0b02-5b61-a889-2fc214849095",
+      "f9528ae9-97e1-555d-8dd3-f842543cb473",
+      "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+      "80fc5e77-78d4-5499-abf4-9cda8cfb284d",
+      "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+      "3bb3e2fd-6e63-5920-bec4-502ebbaaaea7"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "4f00a0e6-1c7b-5620-800e-9579a5fc4fda",
+        "display_name": "Snohomish County WA 911",
+        "state": "WA",
+        "score": 12.9,
+        "matched_forms": [
+          "Snohomish County"
+        ]
+      },
+      {
+        "agency_id": "fb691729-841d-53b7-8242-ef59c222b2c0",
+        "display_name": "Snohomish County WA SO",
+        "state": "WA",
+        "score": 12.9,
+        "matched_forms": [
+          "Snohomish County"
+        ]
+      },
+      {
+        "agency_id": "161ac51a-c857-5ec9-9567-addd22bb89b8",
+        "display_name": "Mountlake Terrace WA PD",
+        "state": "WA",
+        "score": 9.2,
+        "matched_forms": [
+          "Mountlake Terrace"
+        ]
+      },
+      {
+        "agency_id": "37330114-0b02-5b61-a889-2fc214849095",
+        "display_name": "Stanwood WA PD",
+        "state": "WA",
+        "score": 4.9,
+        "matched_forms": [
+          "Stanwood"
+        ]
+      },
+      {
+        "agency_id": "f9528ae9-97e1-555d-8dd3-f842543cb473",
+        "display_name": "Sedro-Woolley WA PD",
+        "state": "WA",
+        "score": 3.933,
+        "matched_forms": [
+          "Sedro-Woolley"
+        ]
+      },
+      {
+        "agency_id": "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+        "display_name": "Lynnwood Police Department",
+        "state": "WA",
+        "score": 3.767,
+        "matched_forms": [
+          "Lynnwood"
+        ]
+      },
+      {
+        "agency_id": "80fc5e77-78d4-5499-abf4-9cda8cfb284d",
+        "display_name": "Olympia Police Department",
+        "state": "WA",
+        "score": 2.617,
+        "matched_forms": [
+          "Olympia"
+        ]
+      },
+      {
+        "agency_id": "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+        "display_name": "Redmond Police Department",
+        "state": "WA",
+        "score": 2.617,
+        "matched_forms": [
+          "Redmond"
+        ]
+      },
+      {
+        "agency_id": "3bb3e2fd-6e63-5920-bec4-502ebbaaaea7",
+        "display_name": "Monroe WA PD",
+        "state": "WA",
+        "score": 2.6,
+        "matched_forms": [
+          "Monroe"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:13Z",
+    "article_id": "art_083"
+  },
+  {
+    "url": "https://www.koamnewsnow.com/news/top-stories/seneca-police-end-flock-camera-contract-after-less-than-90-days/article_d493c47c-a4ab-4270-83c9-f52e784b24ea.html",
+    "source_domain": "koamnewsnow.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Seneca police end Flock camera contract after less than 90 days",
+    "byline": "Kenny Forman",
+    "published_at": null,
+    "fetched_at": "2026-05-09T02:41:04Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 153 pts, HIGH/CRITICAL findings",
+    "scanner_score": 153,
+    "content_hash": "0f57e35a4c10640f246cdb97bd63c8639f27a716c4ae91e5e59585f7095162e9",
+    "paths": {
+      "html": "assets/articles/koamnewsnow.com/news-top-stories-seneca-police-end-flock-camera-contract-after-less-than-90-days_891fc29c.html",
+      "meta": "assets/articles/koamnewsnow.com/news-top-stories-seneca-police-end-flock-camera-contract-after-less-than-90-days_891fc29c.meta.json",
+      "pdf": "assets/articles/koamnewsnow.com/news-top-stories-seneca-police-end-flock-camera-contract-after-less-than-90-days_891fc29c.pdf",
+      "txt": "assets/articles/koamnewsnow.com/news-top-stories-seneca-police-end-flock-camera-contract-after-less-than-90-days_891fc29c.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "bb7482a8-7d18-5d5d-887f-fe49c63a5b60",
+      "3fae867a-13ee-55b7-9f5d-d22f8e79be90",
+      "64ca3508-6fe0-5890-883c-56bbbb1a1258",
+      "99ba33b0-9d8d-5a56-a2a8-b609bc3ba50a",
+      "6e310e38-c509-536a-9353-6d5cc18d000d",
+      "5df66e45-d782-5d3a-a3b4-1e5ac4042110"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "bb7482a8-7d18-5d5d-887f-fe49c63a5b60",
+        "display_name": "Seneca MO PD",
+        "state": "MO",
+        "score": 12.05,
+        "matched_forms": [
+          "Seneca",
+          "Seneca Police",
+          "Seneca Police Department"
+        ]
+      },
+      {
+        "agency_id": "3fae867a-13ee-55b7-9f5d-d22f8e79be90",
+        "display_name": "Joplin MO PD",
+        "state": "MO",
+        "score": 5.9,
+        "matched_forms": [
+          "Joplin"
+        ]
+      },
+      {
+        "agency_id": "64ca3508-6fe0-5890-883c-56bbbb1a1258",
+        "display_name": "Neosho County KS SO",
+        "state": "KS",
+        "score": 2.717,
+        "matched_forms": [
+          "Neosho County"
+        ]
+      },
+      {
+        "agency_id": "99ba33b0-9d8d-5a56-a2a8-b609bc3ba50a",
+        "display_name": "Pittsburg KS PD",
+        "state": "KS",
+        "score": 2.65,
+        "matched_forms": [
+          "Pittsburg"
+        ]
+      },
+      {
+        "agency_id": "6e310e38-c509-536a-9353-6d5cc18d000d",
+        "display_name": "Chanute KS PD",
+        "state": "KS",
+        "score": 2.617,
+        "matched_forms": [
+          "Chanute"
+        ]
+      },
+      {
+        "agency_id": "5df66e45-d782-5d3a-a3b4-1e5ac4042110",
+        "display_name": "Ozark MO PD",
+        "state": "MO",
+        "score": 2.583,
+        "matched_forms": [
+          "Ozark"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:14Z",
+    "article_id": "art_084"
+  },
+  {
+    "url": "https://kstp.com/kstp-news/top-news/roadside-cameras-going-dark-another-department-makes-changes-to-program-over-accountability-concerns/",
+    "source_domain": "kstp.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Roadside cameras going dark: Another department makes changes to program over accountability concerns",
+    "byline": "Emily Baude",
+    "published_at": "2026-02-03T23:53:37+00:00",
+    "fetched_at": "2026-05-09T02:40:51Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 134 pts, HIGH/CRITICAL findings",
+    "scanner_score": 134,
+    "content_hash": "11b26c6f4f5350b098aeda9d1ff0ed4fa035e477ed571bdf05b70fe69ecf8beb",
+    "paths": {
+      "html": "assets/articles/kstp.com/kstp-news-top-news-roadside-cameras-going-dark-another-department-makes-changes_794cac8f.html",
+      "meta": "assets/articles/kstp.com/kstp-news-top-news-roadside-cameras-going-dark-another-department-makes-changes_794cac8f.meta.json",
+      "pdf": "assets/articles/kstp.com/kstp-news-top-news-roadside-cameras-going-dark-another-department-makes-changes_794cac8f.pdf",
+      "txt": "assets/articles/kstp.com/kstp-news-top-news-roadside-cameras-going-dark-another-department-makes-changes_794cac8f.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "1320544c-4c09-5a08-9264-52d844f58fd1",
+      "deb5d422-b112-5049-95c2-dd46d38d13d1"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "1320544c-4c09-5a08-9264-52d844f58fd1",
+        "display_name": "Brooklyn Park MN PD [Inactive]",
+        "state": "MN",
+        "score": 5.15,
+        "matched_forms": [
+          "Brooklyn Park"
+        ]
+      },
+      {
+        "agency_id": "deb5d422-b112-5049-95c2-dd46d38d13d1",
+        "display_name": "Anoka County MN SO",
+        "state": "MN",
+        "score": 4.033,
+        "matched_forms": [
+          "Anoka County",
+          "Anoka County Sheriff"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:15Z",
+    "article_id": "art_085"
+  },
+  {
+    "url": "https://laist.com/news/south-pasadena-cancels-flock-safety-contract-privacy-concerns",
+    "source_domain": "laist.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "South Pasadena cancels contract with Flock Safety, citing privacy concerns",
+    "byline": "https://laist.com/people/libby-rainey",
+    "published_at": "2026-03-19T20:49:46.5",
+    "fetched_at": "2026-05-09T02:41:27Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 30 pts, HIGH/CRITICAL findings",
+    "scanner_score": 30,
+    "content_hash": "8f3d617890984fc6e4ce78e9fd365a2c60843a95f830a76c05dfc19ad87f54b1",
+    "paths": {
+      "html": "assets/articles/laist.com/news-south-pasadena-cancels-flock-safety-contract-privacy-concerns_9a62041a.html",
+      "meta": "assets/articles/laist.com/news-south-pasadena-cancels-flock-safety-contract-privacy-concerns_9a62041a.meta.json",
+      "pdf": "assets/articles/laist.com/news-south-pasadena-cancels-flock-safety-contract-privacy-concerns_9a62041a.pdf",
+      "txt": "assets/articles/laist.com/news-south-pasadena-cancels-flock-safety-contract-privacy-concerns_9a62041a.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260509024132/https://laist.com/news/south-pasadena-cancels-flock-safety-contract-privacy-concerns",
+    "wayback_timestamp": "20260509024132",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "5448e966-a286-5dac-a301-1ed74914217e",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "2e1e1b36-7a6b-5c97-8143-65347503186c",
+      "ae8c6210-8473-5a62-96af-7ea959cb19ff",
+      "2c981ce6-8d54-565f-bb99-ac885eee8769",
+      "b02faac8-de9c-5cbc-84ab-9c8047eccfea",
+      "22f8ebcd-32d7-5e6e-888d-e61c4173a5a3",
+      "8e97dede-dc5e-518a-bd9c-ca1acce1757a"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "5448e966-a286-5dac-a301-1ed74914217e",
+        "display_name": "South Pasadena CA PD",
+        "state": "CA",
+        "score": 11.367,
+        "matched_forms": [
+          "South Pasadena"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 6.233,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      },
+      {
+        "agency_id": "2e1e1b36-7a6b-5c97-8143-65347503186c",
+        "display_name": "Oxnard CA PD",
+        "state": "CA",
+        "score": 5.217,
+        "matched_forms": [
+          "Oxnard",
+          "Oxnard Police",
+          "Oxnard Police Department"
+        ]
+      },
+      {
+        "agency_id": "ae8c6210-8473-5a62-96af-7ea959cb19ff",
+        "display_name": "Riverside County CA SO",
+        "state": "CA",
+        "score": 4.167,
+        "matched_forms": [
+          "Riverside County",
+          "Riverside County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "2c981ce6-8d54-565f-bb99-ac885eee8769",
+        "display_name": "Orange County SO CA",
+        "state": "CA",
+        "score": 3.933,
+        "matched_forms": [
+          "Orange County"
+        ]
+      },
+      {
+        "agency_id": "b02faac8-de9c-5cbc-84ab-9c8047eccfea",
+        "display_name": "Pasadena CA PD",
+        "state": "CA",
+        "score": 3.767,
+        "matched_forms": [
+          "Pasadena"
+        ]
+      },
+      {
+        "agency_id": "22f8ebcd-32d7-5e6e-888d-e61c4173a5a3",
+        "display_name": "San Marino CA PD",
+        "state": "CA",
+        "score": 2.667,
+        "matched_forms": [
+          "San Marino"
+        ]
+      },
+      {
+        "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+        "display_name": "Santa Cruz CA PD (deactivated)",
+        "state": "CA",
+        "score": 2.667,
+        "matched_forms": [
+          "Santa Cruz"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:17Z",
+    "article_id": "art_086"
+  },
+  {
+    "url": "https://www.northcountrypublicradio.org/news/story/53078/20260302/police-stop-installing-surveillance-cameras-in-saranac-lake-for-now",
+    "source_domain": "northcountrypublicradio.org",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Police stop installing surveillance cameras in Saranac Lake. For now",
+    "byline": "Richard Haller",
+    "published_at": "2026-03-02T00:00:00Z",
+    "fetched_at": "2026-05-09T02:43:40Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "WARNINGS \u2014 16 pts, low/medium only",
+    "scanner_score": 16,
+    "content_hash": "0577836126816b47dbe6816e7f25299ada8e58dd6d9a6dee1058ba229a64b672",
+    "paths": {
+      "html": "assets/articles/northcountrypublicradio.org/news-story-53078-20260302-police-stop-installing-surveillance-cameras-in-saranac_bd42a91a.html",
+      "meta": "assets/articles/northcountrypublicradio.org/news-story-53078-20260302-police-stop-installing-surveillance-cameras-in-saranac_bd42a91a.meta.json",
+      "pdf": "assets/articles/northcountrypublicradio.org/news-story-53078-20260302-police-stop-installing-surveillance-cameras-in-saranac_bd42a91a.pdf",
+      "txt": "assets/articles/northcountrypublicradio.org/news-story-53078-20260302-police-stop-installing-surveillance-cameras-in-saranac_bd42a91a.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "outcome:reconsidering",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "d22f3264-52b5-5139-ad7c-849564e02eb1"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "d22f3264-52b5-5139-ad7c-849564e02eb1",
+        "display_name": "Ithaca Police Department",
+        "state": "NY",
+        "score": 2.6,
+        "matched_forms": [
+          "Ithaca"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The Village of Saranac Lake has paused installation of Flock Safety license plate reader cameras after community concerns, with the mayor saying a final decision will be made with the Village Board, police, and public once the police chief returns from an FBI academy trip. Three of six planned cameras had already been installed.",
+    "key_quotes": [
+      {
+        "quote": "the project has been halted until the Police Chief returns from a trip to the FBI academy",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "three cameras are already installed throughout the village, and that 6 were planned in total",
+        "paragraph_idx": 4
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-09T02:45:48Z",
+    "article_id": "art_087"
+  },
+  {
+    "url": "https://sanjosespotlight.com/fact-brief-does-campbell-have-a-partnership-with-flock-cameras/",
+    "source_domain": "sanjosespotlight.com",
+    "tier": 2,
+    "stance": "neutral",
+    "title": "Fact Brief: Does Campbell have a partnership with Flock cameras? - San Jos\u00e9 Spotlight",
+    "byline": "Donovan Farnham",
+    "published_at": "2026-04-15T17:00:28+00:00",
+    "fetched_at": "2026-05-09T02:41:50Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 88 pts, HIGH/CRITICAL findings",
+    "scanner_score": 88,
+    "content_hash": "f39bdd86ece9a4a2a86aafb6b7999813ae61fd6f820b3bfce7ed7f3a177ead46",
+    "paths": {
+      "html": "assets/articles/sanjosespotlight.com/fact-brief-does-campbell-have-a-partnership-with-flock-cameras_a16553bd.html",
+      "meta": "assets/articles/sanjosespotlight.com/fact-brief-does-campbell-have-a-partnership-with-flock-cameras_a16553bd.meta.json",
+      "pdf": "assets/articles/sanjosespotlight.com/fact-brief-does-campbell-have-a-partnership-with-flock-cameras_a16553bd.pdf",
+      "txt": "assets/articles/sanjosespotlight.com/fact-brief-does-campbell-have-a-partnership-with-flock-cameras_a16553bd.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [],
+    "agency_candidates": [
+      {
+        "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+        "display_name": "Santa Clara DA CA",
+        "state": "CA",
+        "score": 1.35,
+        "matched_forms": [
+          "Santa Clara County DA"
+        ]
+      },
+      {
+        "agency_id": "fb01478d-3233-55c1-a65c-74b6e23a6b6a",
+        "display_name": "AR - Mountain View PD",
+        "state": "AR",
+        "score": 1.333,
+        "matched_forms": [
+          "Mountain View Police"
+        ]
+      },
+      {
+        "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+        "display_name": "Mountain View Police Department",
+        "state": "CA",
+        "score": 1.333,
+        "matched_forms": [
+          "Mountain View Police"
+        ]
+      },
+      {
+        "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+        "display_name": "Delete",
+        "state": null,
+        "score": 1.1,
+        "matched_forms": [
+          "Delete"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:20Z",
+    "article_id": "art_088"
+  },
+  {
+    "url": "https://spectrumlocalnews.com/nys/central-ny/public-safety/2026/03/23/syracuse-common-council-revokes-contract-with-flock",
+    "source_domain": "spectrumlocalnews.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Syracuse Common Council revokes contract with license plate reader technology",
+    "byline": "Spectrum News Staff",
+    "published_at": "2026-03-23T17:48:00.000-04:00",
+    "fetched_at": "2026-05-09T02:43:19Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 73 pts, HIGH/CRITICAL findings",
+    "scanner_score": 73,
+    "content_hash": "bb2ae1d22d4ca1fb61ac50f91e925388a4373ea3fb76c862d1132a21ba3c1d90",
+    "paths": {
+      "html": "assets/articles/spectrumlocalnews.com/nys-central-ny-public-safety-2026-03-23-syracuse-common-council-revokes-contract_b848930a.html",
+      "meta": "assets/articles/spectrumlocalnews.com/nys-central-ny-public-safety-2026-03-23-syracuse-common-council-revokes-contract_b848930a.meta.json",
+      "pdf": "assets/articles/spectrumlocalnews.com/nys-central-ny-public-safety-2026-03-23-syracuse-common-council-revokes-contract_b848930a.pdf",
+      "txt": "assets/articles/spectrumlocalnews.com/nys-central-ny-public-safety-2026-03-23-syracuse-common-council-revokes-contract_b848930a.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "4f545e10-4f02-51d7-9f85-b670f74f352c"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "4f545e10-4f02-51d7-9f85-b670f74f352c",
+        "display_name": "Orange CA PD",
+        "state": "CA",
+        "score": 3.7,
+        "matched_forms": [
+          "Orange"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:21Z",
+    "article_id": "art_089"
+  },
+  {
+    "url": "https://vimeo.com/showcase/7323755",
+    "source_domain": "vimeo.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "City Council Meetings on Vimeo",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-09T02:40:18Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 38 pts, HIGH/CRITICAL findings",
+    "scanner_score": 38,
+    "content_hash": "e61245e1c15580c6bd3811ec43111a41339336cde579cf76bff0ab7e77b51fd8",
+    "paths": {
+      "html": "assets/articles/vimeo.com/showcase-7323755_6a752c87.html",
+      "meta": "assets/articles/vimeo.com/showcase-7323755_6a752c87.meta.json",
+      "pdf": "assets/articles/vimeo.com/showcase-7323755_6a752c87.pdf",
+      "txt": "assets/articles/vimeo.com/showcase-7323755_6a752c87.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [],
+    "agencies": [],
+    "agency_candidates": [],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:21Z",
+    "article_id": "art_090"
+  },
+  {
+    "url": "https://www.watertownmanews.com/2026/01/28/watertown-cancelling-contract-for-flock-license-plate-reading-cameras/",
+    "source_domain": "watertownmanews.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Watertown Cancelling Contract for Flock License Plate Reading Cameras",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-09T02:42:31Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 50 pts, HIGH/CRITICAL findings",
+    "scanner_score": 50,
+    "content_hash": "29a4c288464130e0c26073d268ed7754fa2da869cea4fbf967f4832b1457186a",
+    "paths": {
+      "html": "assets/articles/watertownmanews.com/2026-01-28-watertown-cancelling-contract-for-flock-license-plate-reading-cameras_ac2c4a60.html",
+      "meta": "assets/articles/watertownmanews.com/2026-01-28-watertown-cancelling-contract-for-flock-license-plate-reading-cameras_ac2c4a60.meta.json",
+      "pdf": "assets/articles/watertownmanews.com/2026-01-28-watertown-cancelling-contract-for-flock-license-plate-reading-cameras_ac2c4a60.pdf",
+      "txt": "assets/articles/watertownmanews.com/2026-01-28-watertown-cancelling-contract-for-flock-license-plate-reading-cameras_ac2c4a60.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "a6ee05fe-842e-512c-9cae-13bb118682c0"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "a6ee05fe-842e-512c-9cae-13bb118682c0",
+        "display_name": "Cambridge Police Department",
+        "state": "MA",
+        "score": 2.65,
+        "matched_forms": [
+          "Cambridge"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:23Z",
+    "article_id": "art_091"
+  },
+  {
+    "url": "https://www.wbir.com/article/news/crime/10investigates-knoxville-license-plate-reader-cameras-turned-off-contract-lapse/51-3cadec96-a281-49e8-ab41-c3e9ff4a12df",
+    "source_domain": "wbir.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "10Investigates: Knoxville license plate reader cameras turned off after contract lapse",
+    "byline": "Ellis Rold",
+    "published_at": "2/4/2026 6:27:08 PM",
+    "fetched_at": "2026-05-09T02:40:03Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 121 pts, HIGH/CRITICAL findings",
+    "scanner_score": 121,
+    "content_hash": "2bee96e18e062257740b4f42d5b6549b20263f86130a21a4e780925fb6e9c1c1",
+    "paths": {
+      "html": "assets/articles/wbir.com/article-news-crime-10investigates-knoxville-license-plate-reader-cameras-turned_6a0d18bf.html",
+      "meta": "assets/articles/wbir.com/article-news-crime-10investigates-knoxville-license-plate-reader-cameras-turned_6a0d18bf.meta.json",
+      "pdf": "assets/articles/wbir.com/article-news-crime-10investigates-knoxville-license-plate-reader-cameras-turned_6a0d18bf.pdf",
+      "txt": "assets/articles/wbir.com/article-news-crime-10investigates-knoxville-license-plate-reader-cameras-turned_6a0d18bf.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260509024014/https://www.wbir.com/watch",
+    "wayback_timestamp": "20260509024014",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "31a2b41a-43cc-5a92-95b9-b67d2d76c186",
+      "4af8a9d0-fc4a-5bea-bdef-e84e15d7d03e"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "31a2b41a-43cc-5a92-95b9-b67d2d76c186",
+        "display_name": "University of Tennessee TN PD",
+        "state": "TN",
+        "score": 15.3,
+        "matched_forms": [
+          "Knoxville"
+        ]
+      },
+      {
+        "agency_id": "4af8a9d0-fc4a-5bea-bdef-e84e15d7d03e",
+        "display_name": "Knox County TN SO",
+        "state": "TN",
+        "score": 3.867,
+        "matched_forms": [
+          "Knox County"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:25Z",
+    "article_id": "art_092"
+  },
+  {
+    "url": "https://woodburnindependent.com/2025/11/11/woodburn-suspends-flock-safety-license-plate-cameras-amid-concerns-of-federal-ice-enforcement/",
+    "source_domain": "woodburnindependent.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Woodburn suspends Flock Safety license plate cameras amid concerns of federal ICE enforcement - Woodburn Independent",
+    "byline": "Sophia Cossette",
+    "published_at": "2025-11-12T00:30:09+00:00",
+    "fetched_at": "2026-05-09T02:42:59Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 65 pts, HIGH/CRITICAL findings",
+    "scanner_score": 65,
+    "content_hash": "0f3f2c6986e5ed12cae94703e9ac38f9de527709c32292c60228c140b88ef7d3",
+    "paths": {
+      "html": "assets/articles/woodburnindependent.com/2025-11-11-woodburn-suspends-flock-safety-license-plate-cameras-amid-concerns-of_b68161dc.html",
+      "meta": "assets/articles/woodburnindependent.com/2025-11-11-woodburn-suspends-flock-safety-license-plate-cameras-amid-concerns-of_b68161dc.meta.json",
+      "pdf": "assets/articles/woodburnindependent.com/2025-11-11-woodburn-suspends-flock-safety-license-plate-cameras-amid-concerns-of_b68161dc.pdf",
+      "txt": "assets/articles/woodburnindependent.com/2025-11-11-woodburn-suspends-flock-safety-license-plate-cameras-amid-concerns-of_b68161dc.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [],
+    "agency_candidates": [],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-09T02:45:26Z",
+    "article_id": "art_093"
   }
 ]
