@@ -25,19 +25,24 @@
     "last_attempt": "2026-05-06T12:04:13Z"
   },
   "https://www.cambridgema.gov/Departments/citymanagersoffice/news/2025/flock-contract-terminated": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.cambridgema.gov/Departments/citymanagersoffice/news/2025/flock-contract-terminated",
-    "last_attempt": "2026-05-08T19:07:48Z"
+    "last_attempt": "2026-05-09T00:06:35Z"
   },
   "https://www.freep.com/story/news/local/michigan/2025/11/13/ferndale-ends-flock-cameras": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.freep.com/story/news/local/michigan/2025/11/13/ferndale-ends-flock-cameras/",
-    "last_attempt": "2026-05-08T19:08:26Z"
+    "last_attempt": "2026-05-09T00:10:13Z"
+  },
+  "https://www.kut.org/austin/2025-07-01/austin-ends-flock-cameras": {
+    "attempts": 1,
+    "error": "HTTPError: 404 Client Error: Not Found for url: https://www.kut.org/austin/2025-07-01/austin-ends-flock-cameras",
+    "last_attempt": "2026-05-09T00:15:00Z"
   },
   "https://www.kxan.com/news/local/caldwell-county/lockhart-city-council-rejects-flock-ai-cameras-in-6-1-vote/": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTPError: 403 Client Error: Forbidden for url: https://www.kxan.com/news/local/caldwell-county/lockhart-city-council-rejects-flock-ai-cameras-in-6-1-vote/",
-    "last_attempt": "2026-05-08T19:08:29Z"
+    "last_attempt": "2026-05-09T00:11:56Z"
   },
   "https://www.redrocknews.com/2025/09/09/sedona-ends-flock-license-plate-cameras": {
     "attempts": 3,
@@ -50,8 +55,8 @@
     "last_attempt": "2026-05-05T20:15:18Z"
   },
   "https://www.theolympian.com/news/local/article-olympia-flock": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "ReadTimeout: HTTPSConnectionPool(host='www.theolympian.com', port=443): Read timed out. (read timeout=30)",
-    "last_attempt": "2026-05-08T19:08:22Z"
+    "last_attempt": "2026-05-09T00:08:43Z"
   }
 }
