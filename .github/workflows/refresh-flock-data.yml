@@ -44,6 +44,16 @@ jobs:
           # "approval required for non-committers" setting on every run.
           token: ${{ secrets.REFRESH_PAT || github.token }}
 
+      - name: Configure git identity
+        # Required before any step that may write commits (rebase replay,
+        # not just `git commit`). Setting this only in the commit step
+        # caused real rebases to fail with `fatal: empty ident name`,
+        # which the rebase wrapper masked as a misleading "conflicts"
+        # error. Set early so the whole workflow can write commits.
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Set up refresh branch
         run: |
           git fetch origin flock-refresh || true
@@ -192,8 +202,6 @@ jobs:
       - name: Commit and push
         id: commit
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add assets/transparency.flocksafety.com/ assets/agency_registry.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
