@@ -70,6 +70,14 @@
         "las-vegas-metro-nv-pd": "http_200"
       }
     },
+    "05d916bc-fcb0-5350-a670-3b2c5cd98fb3": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-10T20:33:55.996715+00:00",
+      "tried": {
+        "benton-county-ar-so": "http_404"
+      }
+    },
     "0649c75b-a49d-5ec7-a240-18692dea2047": {
       "exhausted": false,
       "found": null,
@@ -414,9 +422,10 @@
     "33845531-5686-56e0-a3ff-371fae83d26b": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-27T07:57:12.706254+00:00",
+      "last_probed": "2026-05-10T20:33:51.802885+00:00",
       "tried": {
-        "albion-mi-dps-mi-pd": "http_404"
+        "albion-mi-dps-mi-pd": "http_404",
+        "albion-mi-dps-mi-po": "http_404"
       }
     },
     "339503d1-9389-51a0-a491-4d895d33e6be": {
@@ -1441,10 +1450,11 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-10T17:38:22.052899+00:00",
+      "last_probed": "2026-05-10T20:34:02.161509+00:00",
       "tried": {
         "-hollister-ca-pd": "http_404",
         "-hollister-ca-po": "http_404",
+        "-hollister-ca-police": "http_404",
         "-hollister-ca-police-department": "http_404",
         "hollister": "http_404",
         "hollister-ca": "http_404",
@@ -2193,6 +2203,6 @@
       }
     }
   },
-  "updated": "2026-05-10T19:47:49.364174+00:00",
+  "updated": "2026-05-10T20:34:02.199504+00:00",
   "version": 1
 }
