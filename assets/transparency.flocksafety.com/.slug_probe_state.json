@@ -1161,9 +1161,10 @@
     "8fb27794-b88c-5373-b6a1-da64ae2f059c": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-05T04:49:40.764290+00:00",
+      "last_probed": "2026-05-10T05:23:48.316442+00:00",
       "tried": {
         "tulare-ca-po": "http_404",
+        "tulare-ca-police": "http_404",
         "tulare-ca-police-department": "http_404"
       }
     },
@@ -1353,7 +1354,7 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-10T01:27:05.188890+00:00",
+      "last_probed": "2026-05-10T05:23:59.544712+00:00",
       "tried": {
         "hollister-ca": "http_404",
         "hollister-ca-po": "http_404",
@@ -1371,7 +1372,8 @@
         "hollister-police-department": "http_404",
         "hollister-police-department-ca": "http_404",
         "hollister-ps": "http_404",
-        "hollister-ps-ca": "http_404"
+        "hollister-ps-ca": "http_404",
+        "hollister-psca": "http_404"
       }
     },
     "a5b59684-abcc-5a43-949d-3aec089d30a4": {
@@ -2002,6 +2004,14 @@
         "richmond-housing-authority-ca-pd": "http_404"
       }
     },
+    "fb7b0958-0a06-5f5f-8fb5-5501acaeac5c": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-10T05:23:54.460198+00:00",
+      "tried": {
+        "madison-in-pd": "http_404"
+      }
+    },
     "fc97bf62-065b-507f-a327-4fd4c94453c6": {
       "exhausted": false,
       "found": null,
@@ -2020,6 +2030,6 @@
       }
     }
   },
-  "updated": "2026-05-10T01:27:05.239078+00:00",
+  "updated": "2026-05-10T05:23:59.583747+00:00",
   "version": 1
 }
