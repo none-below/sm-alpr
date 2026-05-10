@@ -1338,9 +1338,10 @@
     "9eb7354b-b6ff-590b-b3bb-f097e0b30033": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-27T22:35:29.281901+00:00",
+      "last_probed": "2026-05-10T12:43:24.450840+00:00",
       "tried": {
         "tustin-ca-po": "http_404",
+        "tustin-ca-police": "http_404",
         "tustin-ca-police-department": "http_404"
       }
     },
@@ -1388,8 +1389,9 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-10T10:03:10.363711+00:00",
+      "last_probed": "2026-05-10T12:43:31.048291+00:00",
       "tried": {
+        "-hollister-ca-pd": "http_404",
         "hollister": "http_404",
         "hollister-ca": "http_404",
         "hollister-ca-po": "http_404",
@@ -1418,6 +1420,14 @@
       "tried": {
         "vernon-ca-po": "http_404",
         "vernon-ca-police-department": "http_404"
+      }
+    },
+    "a6ff2a05-8e53-55b7-9ecb-f6650aa96f9f": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-10T12:43:18.404159+00:00",
+      "tried": {
+        "breese-il-pd": "http_404"
       }
     },
     "a752d5bb-a9d8-575f-a5fd-b9c605074330": {
@@ -2081,6 +2091,6 @@
       }
     }
   },
-  "updated": "2026-05-10T11:36:24.985025+00:00",
+  "updated": "2026-05-10T12:43:31.089441+00:00",
   "version": 1
 }
