@@ -15585,5 +15585,2429 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-10T04:19:01Z",
     "article_id": "art_145"
+  },
+  {
+    "url": "https://www.9news.com/article/news/local/denver-removing-flock-cameras-new-axon-contract/73-640b5af3-7c87-4fea-8aa1-2510ad3257b8",
+    "source_domain": "9news.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Denver dumps Flock, awards location tracking camera contract to Axon",
+    "byline": "Spencer Soicher",
+    "published_at": "2/24/2026 10:12:32 AM",
+    "fetched_at": "2026-05-10T07:39:56Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 121 pts, HIGH/CRITICAL findings",
+    "scanner_score": 121,
+    "content_hash": "f1c7432dc58a48aeeaf650ab2a4755bf45c0d523d267ad588992b50530baf1dc",
+    "paths": {
+      "html": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.html",
+      "meta": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.meta.json",
+      "pdf": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.pdf",
+      "txt": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:axon",
+      "vendor:flock",
+      "vendor:motorola"
+    ],
+    "agencies": [
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 24.6,
+        "matched_forms": [
+          "Denver"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T07:40:22Z",
+    "article_id": "art_146"
+  },
+  {
+    "url": "https://www.denverpost.com/2026/02/24/denver-flock-license-plate-cameras-contract-axon/",
+    "source_domain": "denverpost.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Denver will end relationship with Flock as mayor announces new provider for license plate cameras",
+    "byline": "Elliott Wenzler",
+    "published_at": "2026-02-24T17:12:04+00:00",
+    "fetched_at": "2026-05-10T07:35:27Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 145 pts, HIGH/CRITICAL findings",
+    "scanner_score": 145,
+    "content_hash": "8c51667ad06da13fdd7f0933cd11b035ee98018811d0d28d885c03437894e2ca",
+    "paths": {
+      "html": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.html",
+      "meta": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.meta.json",
+      "pdf": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.pdf",
+      "txt": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 35.033,
+        "matched_forms": [
+          "Denver",
+          "Denver Police",
+          "Denver Police Department"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 3.867,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "summary": "Denver Mayor Mike Johnston announced the city will end its contract with Flock Safety on March 31, 2026, and proposed a one-year, $150,000 contract with Axon for license plate readers. The new deal includes a 21-day retention policy, no national database, no ICE access, and ends data-sharing with other police departments by default.",
+    "key_quotes": [
+      {
+        "quote": "Denver Mayor Mike Johnston proposed a contract with a new provider of license plate-reading cameras on Tuesday, saying it will come with added precautions as the city ends its controversial arrangement with Flock Safety.",
+        "paragraph_idx": 17
+      },
+      {
+        "quote": "The new deal will also have a shorter retention policy for the photos the cameras snap \u2014 21 days instead of 30 days under Flock.",
+        "paragraph_idx": 22
+      },
+      {
+        "quote": "Denver also plans to stop sharing the camera data with any other police departments, Johnston said.",
+        "paragraph_idx": 30
+      },
+      {
+        "quote": "The city's latest contract with Flock, which the mayor's office unilaterally signed in October without council approval, will end March 31.",
+        "paragraph_idx": 32
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T07:40:37Z",
+    "article_id": "art_147"
+  },
+  {
+    "url": "https://www.redrocknews.com/2025/07/20/watchdog-eyes-sedonas-alpr-cameras/",
+    "source_domain": "redrocknews.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Watchdog eyes Sedona\u2019s ALPR cameras - Sedona Red Rock News",
+    "byline": "Christopher Fox Graham",
+    "published_at": "2025-07-20T13:54:00+00:00",
+    "fetched_at": "2026-05-10T07:37:18Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 114 pts, HIGH/CRITICAL findings",
+    "scanner_score": 114,
+    "content_hash": "c25d2252f2c9e28db266e6dbd6b8b60b9338b413ba65685bbb8ed0996989115f",
+    "paths": {
+      "html": "assets/articles/redrocknews.com/2025-07-20-watchdog-eyes-sedonas-alpr-cameras_db509d29.html",
+      "meta": "assets/articles/redrocknews.com/2025-07-20-watchdog-eyes-sedonas-alpr-cameras_db509d29.meta.json",
+      "pdf": "assets/articles/redrocknews.com/2025-07-20-watchdog-eyes-sedonas-alpr-cameras_db509d29.pdf",
+      "txt": "assets/articles/redrocknews.com/2025-07-20-watchdog-eyes-sedonas-alpr-cameras_db509d29.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510073829/https://www.redrocknews.com/2025/07/20/watchdog-eyes-sedonas-alpr-cameras/",
+    "wayback_timestamp": "20260510073829",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "legal:pra",
+      "outcome:reconsidering",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "44f5dbfd-a873-5eab-aa2a-644efa3f49ee",
+      "10e8e190-ea44-5c7d-8f65-833f633dafe5",
+      "21fb5336-7bb7-5cc1-a4da-706673c971ed"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "44f5dbfd-a873-5eab-aa2a-644efa3f49ee",
+        "display_name": "Phoenix AZ PD",
+        "state": "AZ",
+        "score": 6.083,
+        "matched_forms": [
+          "Phoenix",
+          "Phoenix Police"
+        ]
+      },
+      {
+        "agency_id": "10e8e190-ea44-5c7d-8f65-833f633dafe5",
+        "display_name": "Cottonwood AZ PD",
+        "state": "AZ",
+        "score": 2.667,
+        "matched_forms": [
+          "Cottonwood"
+        ]
+      },
+      {
+        "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+        "display_name": "Page AZ PD",
+        "state": "AZ",
+        "score": 2.567,
+        "matched_forms": [
+          "Page"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "Judicial Watch filed a public records request with the city of Sedona seeking documents on its installation of 12 Flock Safety ALPR cameras, citing concerns about lack of public notice and transparency. The Sedona City Council scheduled an Aug. 13 work session on the ALPRs, and the system will not be activated until after that meeting.",
+    "key_quotes": [
+      {
+        "quote": "It's a very Big Brother-oriented move by the city of Sedona",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "There seems to be a real aversion in Sedona for public accountability and transparency",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "Spickard said Sedona City Council will hold a work session on ALPRs on Wednesday, Aug. 13, but did not know yet if the meeting would have a call to the public. The system will not be utilized until after the council work session.",
+        "paragraph_idx": 15
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T07:40:47Z",
+    "article_id": "art_148"
+  },
+  {
+    "url": "https://content.govdelivery.com/accounts/ILEVANSTON/bulletins/3efa81d",
+    "source_domain": "content.govdelivery.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Statement: Evanston Deactivates Flock Cameras and Terminates Contract",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-10T09:54:15Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 16 pts, HIGH/CRITICAL findings",
+    "scanner_score": 16,
+    "content_hash": "0d4c4bd4c7a1ad6dc17ecc9ee2692ef6bea6eb25a4d7950576b8f25392e4acb7",
+    "paths": {
+      "html": "assets/articles/content.govdelivery.com/accounts-ilevanston-bulletins-3efa81d_e49e1842.html",
+      "meta": "assets/articles/content.govdelivery.com/accounts-ilevanston-bulletins-3efa81d_e49e1842.meta.json",
+      "pdf": "assets/articles/content.govdelivery.com/accounts-ilevanston-bulletins-3efa81d_e49e1842.pdf",
+      "txt": "assets/articles/content.govdelivery.com/accounts-ilevanston-bulletins-3efa81d_e49e1842.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+      "4b263c34-8305-54be-ba2c-d372af5d8cb9"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+        "display_name": "Evanston Police Department",
+        "state": "IL",
+        "score": 15.517,
+        "matched_forms": [
+          "Evanston",
+          "Evanston Police",
+          "Evanston Police Department"
+        ]
+      },
+      {
+        "agency_id": "4b263c34-8305-54be-ba2c-d372af5d8cb9",
+        "display_name": "Morton IL PD",
+        "state": "IL",
+        "score": 2.6,
+        "matched_forms": [
+          "Morton"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T09:54:32Z",
+    "article_id": "art_149"
+  },
+  {
+    "url": "https://www.santacruzsentinel.com/2026/01/13/santa-cruz-votes-to-terminate-its-contract-with-flock-safety/",
+    "source_domain": "santacruzsentinel.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Santa Cruz votes to terminate its contract with Flock Safety",
+    "byline": "Caroline Hemphill",
+    "published_at": "2026-01-14T03:15:19+00:00",
+    "fetched_at": "2026-05-10T09:47:37Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 139 pts, HIGH/CRITICAL findings",
+    "scanner_score": 139,
+    "content_hash": "1246e23fc82cb654f6aa6153847de4a106016c551e4bdb390aa82eb4b056d846",
+    "paths": {
+      "html": "assets/articles/santacruzsentinel.com/2026-01-13-santa-cruz-votes-to-terminate-its-contract-with-flock-safety_de41d9f0.html",
+      "meta": "assets/articles/santacruzsentinel.com/2026-01-13-santa-cruz-votes-to-terminate-its-contract-with-flock-safety_de41d9f0.meta.json",
+      "pdf": "assets/articles/santacruzsentinel.com/2026-01-13-santa-cruz-votes-to-terminate-its-contract-with-flock-safety_de41d9f0.pdf",
+      "txt": "assets/articles/santacruzsentinel.com/2026-01-13-santa-cruz-votes-to-terminate-its-contract-with-flock-safety_de41d9f0.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510094740/https://www.santacruzsentinel.com/2026/01/13/santa-cruz-votes-to-terminate-its-contract-with-flock-safety/",
+    "wayback_timestamp": "20260510094740",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+      "33b64315-34e3-56d8-b0ba-fc370daf3169",
+      "c4a71a99-f296-566b-b788-a75be7b08c79",
+      "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "033b31f5-8525-5ff8-af2b-2f53899bc6c9",
+      "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "6f2b98a1-957a-5dc9-935c-7b8127a223d6"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+        "display_name": "Santa Cruz CA PD (deactivated)",
+        "state": "CA",
+        "score": 73.4,
+        "matched_forms": [
+          "Santa Cruz",
+          "Santa Cruz Police",
+          "Santa Cruz Police Department"
+        ]
+      },
+      {
+        "agency_id": "33b64315-34e3-56d8-b0ba-fc370daf3169",
+        "display_name": "Watsonville CA PD",
+        "state": "CA",
+        "score": 6.233,
+        "matched_forms": [
+          "Watsonville"
+        ]
+      },
+      {
+        "agency_id": "c4a71a99-f296-566b-b788-a75be7b08c79",
+        "display_name": "Capitola CA PD",
+        "state": "CA",
+        "score": 4.9,
+        "matched_forms": [
+          "Capitola"
+        ]
+      },
+      {
+        "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+        "display_name": "San Francisco CA PD",
+        "state": "CA",
+        "score": 3.933,
+        "matched_forms": [
+          "San Francisco"
+        ]
+      },
+      {
+        "agency_id": "033b31f5-8525-5ff8-af2b-2f53899bc6c9",
+        "display_name": "Santa Clara CA PD",
+        "state": "CA",
+        "score": 3.867,
+        "matched_forms": [
+          "Santa Clara"
+        ]
+      },
+      {
+        "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+        "display_name": "San Jose CA PD",
+        "state": "CA",
+        "score": 2.633,
+        "matched_forms": [
+          "San Jose"
+        ]
+      },
+      {
+        "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+        "display_name": "Oakland CA PD",
+        "state": "CA",
+        "score": 2.617,
+        "matched_forms": [
+          "Oakland"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T09:54:35Z",
+    "article_id": "art_150"
+  },
+  {
+    "url": "https://www.smdailyjournal.com/news/local/millbrae-council-approves-23-new-surveillance-cameras/article_2f3f8308-50f4-11ec-949a-dbef87a34dce.html",
+    "source_domain": "smdailyjournal.com",
+    "tier": 1,
+    "stance": "neutral",
+    "title": "Millbrae council approves 23 new surveillance cameras",
+    "byline": "Corey Browning Daily Journal staff",
+    "published_at": null,
+    "fetched_at": "2026-05-10T09:46:18Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 239 pts, HIGH/CRITICAL findings",
+    "scanner_score": 239,
+    "content_hash": "8cb4be3952abb172e4a1a54697f85dcbe9cf76f93cec0822cb627c78c92ba647",
+    "paths": {
+      "html": "assets/articles/smdailyjournal.com/news-local-millbrae-council-approves-23-new-surveillance-cameras-article-2f3f830_c044cbec.html",
+      "meta": "assets/articles/smdailyjournal.com/news-local-millbrae-council-approves-23-new-surveillance-cameras-article-2f3f830_c044cbec.meta.json",
+      "pdf": "assets/articles/smdailyjournal.com/news-local-millbrae-council-approves-23-new-surveillance-cameras-article-2f3f830_c044cbec.pdf",
+      "txt": "assets/articles/smdailyjournal.com/news-local-millbrae-council-approves-23-new-surveillance-cameras-article-2f3f830_c044cbec.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510094624/https://www.smdailyjournal.com/news/local/millbrae-council-approves-23-new-surveillance-cameras/article_2f3f8308-50f4-11ec-949a-dbef87a34dce.html",
+    "wayback_timestamp": "20260510094624",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "legal:legislation",
+      "policy:hotlist",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "926a7e76-714b-50a2-977e-522e4ec651ec",
+      "847ce8af-3e88-59ca-90f3-d621db6f31f6",
+      "6d11ec03-586d-570a-b110-56f9e37261ff",
+      "f4073ba9-2a85-50ab-82d6-1800ff5491c6",
+      "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+      "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+      "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+      "cda15ffc-6dd3-56bb-8e41-53647dfd7bab",
+      "0ec45902-8d38-54b7-9104-006d6f5777e5",
+      "abb515ad-5db0-5e8c-b545-f294d6c18d26"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "926a7e76-714b-50a2-977e-522e4ec651ec",
+        "display_name": "Republic MO PD",
+        "state": "MO",
+        "score": 248.567,
+        "matched_forms": [
+          "Republic"
+        ]
+      },
+      {
+        "agency_id": "847ce8af-3e88-59ca-90f3-d621db6f31f6",
+        "display_name": "San Mateo CA PD",
+        "state": "CA",
+        "score": 29.6,
+        "matched_forms": [
+          "San Mateo"
+        ]
+      },
+      {
+        "agency_id": "6d11ec03-586d-570a-b110-56f9e37261ff",
+        "display_name": "San Mateo County CA SO",
+        "state": "CA",
+        "score": 27.6,
+        "matched_forms": [
+          "San Mateo County",
+          "San Mateo County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "f4073ba9-2a85-50ab-82d6-1800ff5491c6",
+        "display_name": "Burlingame CA PD",
+        "state": "CA",
+        "score": 7.833,
+        "matched_forms": [
+          "Burlingame"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+        "display_name": "Washington IL PD",
+        "state": "IL",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+        "display_name": "Washington MO PD",
+        "state": "MO",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "cda15ffc-6dd3-56bb-8e41-53647dfd7bab",
+        "display_name": "Marshall AR PD",
+        "state": "AR",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      },
+      {
+        "agency_id": "0ec45902-8d38-54b7-9104-006d6f5777e5",
+        "display_name": "Marshall IL PD",
+        "state": "IL",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      },
+      {
+        "agency_id": "abb515ad-5db0-5e8c-b545-f294d6c18d26",
+        "display_name": "Marshall TX PD",
+        "state": "TX",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The Millbrae City Council approved a five-year, $293,000 contract with Flock Safety to install 23 automated license plate readers around the city's transit arteries. Police Chief Christina Corpus cited regional organized crime and rising burglaries as justification, while the article notes ongoing state-level concerns about ALPR data sharing and retention.",
+    "key_quotes": [
+      {
+        "quote": "Millbrae will soon get a host of new surveillance cameras, with the City Council approving a five-year contract to install 23 license plate reading devices around major transit arteries in the city.",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "The data would be stored by Flock for 30 days before deletion, he said, emphasizing that local law enforcement would own and control the information, and that it would not be made available to third parties including federal agencies.",
+        "paragraph_idx": 13
+      },
+      {
+        "quote": "Police in Pasadena and Long Beach were found to have shared ALPR captured data with U.S. Immigration and Customs Enforcement last year, despite the state's sanctuary law",
+        "paragraph_idx": 16
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T09:55:00Z",
+    "article_id": "art_151"
+  },
+  {
+    "url": "https://www.thenewstribune.com/news/nation-world/national/article315427268.html",
+    "source_domain": "thenewstribune.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Residents sue San Jose in federal court over automated license-plate reader cameras",
+    "byline": " Robert Salonga, The Mercury News ",
+    "published_at": "2026-04-15T16:47:03-07:00",
+    "fetched_at": "2026-05-10T09:51:19Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 5 pts, low/medium only",
+    "scanner_score": 5,
+    "content_hash": "fe050ab331b27823178ee4410331977a6aafcc97ae504a768cccdd63ebf384e0",
+    "paths": {
+      "html": "assets/articles/thenewstribune.com/news-nation-world-national-article315427268-html_e177baed.html",
+      "meta": "assets/articles/thenewstribune.com/news-nation-world-national-article315427268-html_e177baed.meta.json",
+      "pdf": "assets/articles/thenewstribune.com/news-nation-world-national-article315427268-html_e177baed.pdf",
+      "txt": "assets/articles/thenewstribune.com/news-nation-world-national-article315427268-html_e177baed.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510095136/https://www.thenewstribune.com/news/nation-world/national/article315427268.html",
+    "wayback_timestamp": "20260510095136",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:court-ruling",
+      "legal:legislation",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+      "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+      "6be9f842-1658-5490-8be4-14b77cc1e96d",
+      "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+      "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+      "6f2b98a1-957a-5dc9-935c-7b8127a223d6"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+        "display_name": "San Jose CA PD",
+        "state": "CA",
+        "score": 21.0,
+        "matched_forms": [
+          "San Jose",
+          "San Jose Police"
+        ]
+      },
+      {
+        "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+        "display_name": "Santa Clara County CA SO",
+        "state": "CA",
+        "score": 7.033,
+        "matched_forms": [
+          "Santa Clara County",
+          "Santa Clara County Sheriff",
+          "Santa Clara County Sheriff's Office"
+        ]
+      },
+      {
+        "agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+        "display_name": "Puyallup WA PD",
+        "state": "WA",
+        "score": 3.767,
+        "matched_forms": [
+          "Puyallup"
+        ]
+      },
+      {
+        "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+        "display_name": "Santa Clara DA CA",
+        "state": "CA",
+        "score": 2.8,
+        "matched_forms": [
+          "Santa Clara County"
+        ]
+      },
+      {
+        "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+        "display_name": "Mountain View Police Department",
+        "state": "CA",
+        "score": 2.717,
+        "matched_forms": [
+          "Mountain View"
+        ]
+      },
+      {
+        "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+        "display_name": "Santa Cruz CA PD (deactivated)",
+        "state": "CA",
+        "score": 2.667,
+        "matched_forms": [
+          "Santa Cruz"
+        ]
+      },
+      {
+        "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+        "display_name": "Oakland CA PD",
+        "state": "CA",
+        "score": 2.617,
+        "matched_forms": [
+          "Oakland"
+        ]
+      },
+      {
+        "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+        "display_name": "Delete",
+        "state": null,
+        "score": 1.1,
+        "matched_forms": [
+          "Delete"
+        ]
+      },
+      {
+        "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+        "display_name": "Old",
+        "state": null,
+        "score": 1.05,
+        "matched_forms": [
+          "Old"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+    "summary": "Three San Jose residents, represented by the Institute for Justice, filed a federal lawsuit alleging the city's 474 Flock ALPR cameras violate the Fourth Amendment, seeking 24-hour data deletion absent a warrant. The suit parallels a November state lawsuit by EFF and ACLU-NC; San Jose officials defend the program as lawful and effective.",
+    "key_quotes": [
+      {
+        "quote": "The new lawsuit asks the federal court for the Northern District of California to declare the surveillance a Fourth Amendment violation and require police to delete camera data within 24 hours of capture unless they secure a specific warrant.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "Ordinary people shouldn't have to live their lives in a fishbowl, knowing that the government is tracking where they drive, and compiling that information in a database, potentially to be used against them later.",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "I would not want to have the Flock system here in San Jose, ready for ICE, or other federal agencies, to abuse.",
+        "paragraph_idx": 10
+      },
+      {
+        "quote": "Our ultimate goal is to try to drive these cases up to federal courts and appeals, and ultimately to the Supreme Court",
+        "paragraph_idx": 15
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T09:55:12Z",
+    "article_id": "art_152"
+  },
+  {
+    "url": "https://www.freep.com/story/news/local/michigan/wayne/2025/05/15/dearborn-police-contract-axon-fusus-access-surveillance-videos/83592148007/",
+    "source_domain": "freep.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Amid surveillance concerns, Dearborn approves $720K for police access to real-time videos",
+    "byline": "Niraj Warikoo",
+    "published_at": "2025-05-15T10:04:08Z",
+    "fetched_at": "2026-05-10T11:11:34Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 73 pts, HIGH/CRITICAL findings",
+    "scanner_score": 73,
+    "content_hash": "3d5749d3871987c2ad9d3a695ea15d14db36e8f85fb597f5c951d132e3ff76f1",
+    "paths": {
+      "html": "assets/articles/freep.com/story-news-local-michigan-wayne-2025-05-15-dearborn-police-contract-axon-fusus-a_e5709dab.html",
+      "meta": "assets/articles/freep.com/story-news-local-michigan-wayne-2025-05-15-dearborn-police-contract-axon-fusus-a_e5709dab.meta.json",
+      "pdf": "assets/articles/freep.com/story-news-local-michigan-wayne-2025-05-15-dearborn-police-contract-axon-fusus-a_e5709dab.pdf",
+      "txt": "assets/articles/freep.com/story-news-local-michigan-wayne-2025-05-15-dearborn-police-contract-axon-fusus-a_e5709dab.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510111238/https://www.freep.com/story/news/local/michigan/wayne/2025/05/15/dearborn-police-contract-axon-fusus-access-surveillance-videos/83592148007/",
+    "wayback_timestamp": "20260510111238",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "policy:sharing",
+      "scope:local",
+      "vendor:axon",
+      "vendor:fusus"
+    ],
+    "agencies": [
+      "a64727cf-9798-595e-9bf4-72f177cdd221",
+      "c745e651-a0bd-543e-a69c-2a9741b766de",
+      "f8eac578-4a87-5452-9648-3b5c3e9d442b",
+      "42f6f981-3dba-554f-bf85-4a5aaba9a361",
+      "4b9e675b-39b7-5ad2-b836-8d0fc50cc3fc",
+      "4b532a2b-9c06-5403-a655-8a5c5b0c8c06",
+      "7ec33b25-4deb-5634-ab31-5eaa5bcc1075"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "a64727cf-9798-595e-9bf4-72f177cdd221",
+        "display_name": "Dearborn MI PD",
+        "state": "MI",
+        "score": 47.233,
+        "matched_forms": [
+          "Dearborn",
+          "Dearborn Police",
+          "Dearborn Police Department"
+        ]
+      },
+      {
+        "agency_id": "c745e651-a0bd-543e-a69c-2a9741b766de",
+        "display_name": "TN ROCIC",
+        "state": "TN",
+        "score": 4.95,
+        "matched_forms": [
+          "Nashville"
+        ]
+      },
+      {
+        "agency_id": "f8eac578-4a87-5452-9648-3b5c3e9d442b",
+        "display_name": "South Bend IN PD",
+        "state": "IN",
+        "score": 3.833,
+        "matched_forms": [
+          "South Bend"
+        ]
+      },
+      {
+        "agency_id": "42f6f981-3dba-554f-bf85-4a5aaba9a361",
+        "display_name": "Kalamazoo MI PD",
+        "state": "MI",
+        "score": 3.8,
+        "matched_forms": [
+          "Kalamazoo"
+        ]
+      },
+      {
+        "agency_id": "4b9e675b-39b7-5ad2-b836-8d0fc50cc3fc",
+        "display_name": "Kalamazoo Township MI PD",
+        "state": "MI",
+        "score": 3.8,
+        "matched_forms": [
+          "Kalamazoo"
+        ]
+      },
+      {
+        "agency_id": "4b532a2b-9c06-5403-a655-8a5c5b0c8c06",
+        "display_name": "Paris TN PD",
+        "state": "TN",
+        "score": 2.583,
+        "matched_forms": [
+          "Paris"
+        ]
+      },
+      {
+        "agency_id": "7ec33b25-4deb-5634-ab31-5eaa5bcc1075",
+        "display_name": "Paris TX PD",
+        "state": "TX",
+        "score": 2.583,
+        "matched_forms": [
+          "Paris"
+        ]
+      },
+      {
+        "agency_id": "0adc9798-34b9-58d0-83b8-241372b602ed",
+        "display_name": "Atlanta GA PD",
+        "state": "GA",
+        "score": 1.417,
+        "matched_forms": [
+          "Atlanta Police Department"
+        ]
+      },
+      {
+        "agency_id": "db6df3db-02bc-558b-890b-30fdf7126c58",
+        "display_name": "Marta PD GA",
+        "state": "GA",
+        "score": 1.417,
+        "matched_forms": [
+          "Atlanta Police Department"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "a64727cf-9798-595e-9bf4-72f177cdd221",
+    "summary": "Dearborn City Council unanimously approved a $720,000 five-year contract with Axon's Fusus to give police access to private camera feeds, drawing concern from civil liberties groups about potential targeting of protesters and immigrants. Officials stressed the system lacks facial recognition and that data policies protect privacy, while noting Dearborn also recently installed license plate readers.",
+    "key_quotes": [
+      {
+        "quote": "Dearborn City Council recently unanimously approved $720,000 for a five-year contract for police to use Axon's Fusus program that gains access to the private camera feeds of businesses and individuals who opt into the program.",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "Groups such as the Electronic Frontier Foundation and some elected officials have raised concerns about whether Fusus could be used to target immigrants and protesters with views at odds with the Trump administration.",
+        "paragraph_idx": 10
+      },
+      {
+        "quote": "In addition to the planned Fusus system, Dearborn police have recently installed license plate readers and are increasingly using drones.",
+        "paragraph_idx": 17
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T11:19:16Z",
+    "article_id": "art_153"
+  },
+  {
+    "url": "https://www.scarsdale.gov/DocumentCenter/View/10994/08062025-Mayoral-Letter",
+    "source_domain": "scarsdale.gov",
+    "tier": 2,
+    "stance": "unknown",
+    "title": null,
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-10T11:15:08Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "CLEAN \u2014 no findings",
+    "scanner_score": 0,
+    "content_hash": "e8845dd235ccba766afddb67a1c5641d2fcb5bd8e6816c3e7ed9129af53bbebd",
+    "paths": {
+      "html": "assets/articles/scarsdale.gov/documentcenter-view-10994-08062025-mayoral-letter_e647f969.html",
+      "meta": "assets/articles/scarsdale.gov/documentcenter-view-10994-08062025-mayoral-letter_e647f969.meta.json",
+      "pdf": "assets/articles/scarsdale.gov/documentcenter-view-10994-08062025-mayoral-letter_e647f969.pdf",
+      "txt": "assets/articles/scarsdale.gov/documentcenter-view-10994-08062025-mayoral-letter_e647f969.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [],
+    "agencies": [],
+    "agency_candidates": [],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "needs_review",
+    "curated_at": "2026-05-10T11:19:02Z",
+    "article_id": "art_154",
+    "curation_error": "refusal: No article text provided"
+  },
+  {
+    "url": "https://www.theolympian.com/news/state/washington/seattle/article314719001.html",
+    "source_domain": "theolympian.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "How ICE is using technology, databases to track people",
+    "byline": "Lauren Girgis, The Seattle Times",
+    "published_at": "2026-02-16T09:55:38-08:00",
+    "fetched_at": "2026-05-10T11:17:08Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 20 pts, HIGH/CRITICAL findings",
+    "scanner_score": 20,
+    "content_hash": "43d01e36684821ba17b9786eb4ef64de283fa245ab5bc2d7e16ec60cf462d728",
+    "paths": {
+      "html": "assets/articles/theolympian.com/news-state-washington-seattle-article314719001-html_e64ae603.html",
+      "meta": "assets/articles/theolympian.com/news-state-washington-seattle-article314719001-html_e64ae603.meta.json",
+      "pdf": "assets/articles/theolympian.com/news-state-washington-seattle-article314719001-html_e64ae603.pdf",
+      "txt": "assets/articles/theolympian.com/news-state-washington-seattle-article314719001-html_e64ae603.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510111722/https://www.theolympian.com/news/state/washington/seattle/article314719001.html",
+    "wayback_timestamp": "20260510111722",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:explainer",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:state",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "83b05b01-74fd-5e6d-9188-816a601a64dd",
+      "0be90b3a-6759-53d7-9f92-d6ea9f9740b0"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "83b05b01-74fd-5e6d-9188-816a601a64dd",
+        "display_name": "Yakima WA PD",
+        "state": "WA",
+        "score": 5.217,
+        "matched_forms": [
+          "Yakima",
+          "Yakima Police",
+          "Yakima Police Department"
+        ]
+      },
+      {
+        "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+        "display_name": "Port of Seattle WA PD",
+        "state": "WA",
+        "score": 3.733,
+        "matched_forms": [
+          "Seattle"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The article surveys surveillance technologies ICE and CBP use to track immigrants and citizens, including phone hacking, spyware, facial recognition, and Palantir data integration. It also highlights UW research showing Flock ALPR data from Washington agencies was shared with Border Patrol, discusses Washington's SB 6002 to restrict ALPR sharing, and notes federal access to state licensing data.",
+    "key_quotes": [
+      {
+        "quote": "Flock Safety's automated license plate reader networks data were shared with U.S. Border Patrol by at least eight Washington law enforcement agencies in 2025. Several municipalities have terminated contracts with Flock",
+        "paragraph_idx": 18
+      },
+      {
+        "quote": "Senate Bill 6002, which passed the Washington state Senate last week, would prohibit police from sharing automatic license plate reader data for civil immigration enforcement and require that data be deleted within 21 days",
+        "paragraph_idx": 22
+      },
+      {
+        "quote": "the Yakima Police Department, for instance, had access to Flock networks operated by more than 90 Lowe's hardware stores",
+        "paragraph_idx": 23
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T11:19:40Z",
+    "article_id": "art_155"
+  },
+  {
+    "url": "https://www.denverpost.com/2026/02/16/denver-flock-cameras-license-plates-other-bidders/",
+    "source_domain": "denverpost.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Denver considers kicking out Flock \u2014 but still using license plate cameras",
+    "byline": "Elliott Wenzler",
+    "published_at": "2026-02-16T20:39:03+00:00",
+    "fetched_at": "2026-05-10T13:55:01Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 146 pts, HIGH/CRITICAL findings",
+    "scanner_score": 146,
+    "content_hash": "19cf8f6b63d64b134060f8c4d614c8a89ee0ff9a7910a80a70da7cedee696689",
+    "paths": {
+      "html": "assets/articles/denverpost.com/2026-02-16-denver-flock-cameras-license-plates-other-bidders_e9fb9f27.html",
+      "meta": "assets/articles/denverpost.com/2026-02-16-denver-flock-cameras-license-plates-other-bidders_e9fb9f27.meta.json",
+      "pdf": "assets/articles/denverpost.com/2026-02-16-denver-flock-cameras-license-plates-other-bidders_e9fb9f27.pdf",
+      "txt": "assets/articles/denverpost.com/2026-02-16-denver-flock-cameras-license-plates-other-bidders_e9fb9f27.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510135559/https://www.denverpost.com/2026/02/16/denver-flock-cameras-license-plates-other-bidders/",
+    "wayback_timestamp": "20260510135559",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:reconsidering",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 30.633,
+        "matched_forms": [
+          "Denver",
+          "Denver Police",
+          "Denver Police Department"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 3.867,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "summary": "Denver is soliciting bids for license-plate reader services as its current Flock contract expires March 31, with the mayor's office planning to submit a new contract to council in coming weeks. Flock is among bidders but faces criticism over data sharing including 1,400+ immigration-related searches of Denver data, and the council previously rejected a Flock renewal.",
+    "key_quotes": [
+      {
+        "quote": "We are currently fielding bids for license plate reader services",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "Data collected in Denver by Flock was used in immigration-related national searches more than 1,400 times between June 2024 and April 2025",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "The council unanimously rejected a two-year contract with Flock last May",
+        "paragraph_idx": 11
+      },
+      {
+        "quote": "Flock Safety's cavalier treatment of our data should have disqualified them from continuing to operate on our streets long ago",
+        "paragraph_idx": 14
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T13:58:52Z",
+    "article_id": "art_156"
+  },
+  {
+    "url": "https://www.geekwire.com/2025/washington-state-cities-turn-off-license-plate-reader-cameras-amid-ruling-on-data-access/",
+    "source_domain": "geekwire.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Washington state cities turn off license plate reader cameras amid ruling on data access",
+    "byline": "https://www.facebook.com/kurt.schlosser.12",
+    "published_at": "2025-11-18T17:25:51+00:00",
+    "fetched_at": "2026-05-10T13:53:28Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 187 pts, HIGH/CRITICAL findings",
+    "scanner_score": 187,
+    "content_hash": "caa6cf9f54281a13addb37cbc2ebad97a492f4f19e3ada43dbdc77849c997e14",
+    "paths": {
+      "html": "assets/articles/geekwire.com/2025-washington-state-cities-turn-off-license-plate-reader-cameras-amid-ruling-o_e75ff526.html",
+      "meta": "assets/articles/geekwire.com/2025-washington-state-cities-turn-off-license-plate-reader-cameras-amid-ruling-o_e75ff526.meta.json",
+      "pdf": "assets/articles/geekwire.com/2025-washington-state-cities-turn-off-license-plate-reader-cameras-amid-ruling-o_e75ff526.pdf",
+      "txt": "assets/articles/geekwire.com/2025-washington-state-cities-turn-off-license-plate-reader-cameras-amid-ruling-o_e75ff526.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+      "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "f9528ae9-97e1-555d-8dd3-f842543cb473",
+      "37330114-0b02-5b61-a889-2fc214849095",
+      "b24c55d3-3dd6-55d6-a443-d361be29e6aa",
+      "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+        "display_name": "Redmond Police Department",
+        "state": "WA",
+        "score": 19.367,
+        "matched_forms": [
+          "Redmond",
+          "Redmond PD",
+          "Redmond Police",
+          "Redmond Police Department"
+        ]
+      },
+      {
+        "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+        "display_name": "Port of Seattle WA PD",
+        "state": "WA",
+        "score": 10.433,
+        "matched_forms": [
+          "Seattle"
+        ]
+      },
+      {
+        "agency_id": "f9528ae9-97e1-555d-8dd3-f842543cb473",
+        "display_name": "Sedro-Woolley WA PD",
+        "state": "WA",
+        "score": 3.933,
+        "matched_forms": [
+          "Sedro-Woolley"
+        ]
+      },
+      {
+        "agency_id": "37330114-0b02-5b61-a889-2fc214849095",
+        "display_name": "Stanwood WA PD",
+        "state": "WA",
+        "score": 3.767,
+        "matched_forms": [
+          "Stanwood"
+        ]
+      },
+      {
+        "agency_id": "b24c55d3-3dd6-55d6-a443-d361be29e6aa",
+        "display_name": "Walla Walla WA PD",
+        "state": "WA",
+        "score": 2.683,
+        "matched_forms": [
+          "Walla Walla"
+        ]
+      },
+      {
+        "agency_id": "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+        "display_name": "Lynnwood Police Department",
+        "state": "WA",
+        "score": 2.633,
+        "matched_forms": [
+          "Lynnwood"
+        ]
+      },
+      {
+        "agency_id": "3b78d3ac-8681-5883-bdbc-97b96ee98f92",
+        "display_name": "Metropolitan Washington DC PD",
+        "state": "DC",
+        "score": 1.283,
+        "matched_forms": [
+          "Washington Police"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 1.283,
+        "matched_forms": [
+          "Washington Police"
+        ]
+      },
+      {
+        "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+        "display_name": "Washington IL PD",
+        "state": "IL",
+        "score": 1.283,
+        "matched_forms": [
+          "Washington Police"
+        ]
+      },
+      {
+        "agency_id": "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+        "display_name": "Washington MO PD",
+        "state": "MO",
+        "score": 1.283,
+        "matched_forms": [
+          "Washington Police"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T13:58:39Z",
+    "article_id": "art_157"
+  },
+  {
+    "url": "https://patch.com/connecticut/windsor/windsor-votes-8-1-shut-down-flock-license-plate-reader-cameras",
+    "source_domain": "patch.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Windsor Pulls Plug On Flock License Plate Reader System",
+    "byline": "Jay Kenney",
+    "published_at": "2026-02-19T00:00:02Z",
+    "fetched_at": "2026-05-10T13:56:41Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 141 pts, HIGH/CRITICAL findings",
+    "scanner_score": 141,
+    "content_hash": "29105c459dc612c875a20de5aa6d1d8c5d22ce9539c09c42f877b533d2c164f9",
+    "paths": {
+      "html": "assets/articles/patch.com/connecticut-windsor-windsor-votes-8-1-shut-down-flock-license-plate-reader-camer_ea691d02.html",
+      "meta": "assets/articles/patch.com/connecticut-windsor-windsor-votes-8-1-shut-down-flock-license-plate-reader-camer_ea691d02.meta.json",
+      "pdf": "assets/articles/patch.com/connecticut-windsor-windsor-votes-8-1-shut-down-flock-license-plate-reader-camer_ea691d02.pdf",
+      "txt": "assets/articles/patch.com/connecticut-windsor-windsor-votes-8-1-shut-down-flock-license-plate-reader-camer_ea691d02.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "50dc11c1-7f4e-557f-b65c-6666d43832a0"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "50dc11c1-7f4e-557f-b65c-6666d43832a0",
+        "display_name": "Windsor Police Department",
+        "state": "CT",
+        "score": 28.6,
+        "matched_forms": [
+          "Windsor",
+          "Windsor Police Department"
+        ]
+      },
+      {
+        "agency_id": "cf61829f-2b2f-5cec-863f-2d174bae940d",
+        "display_name": "Windsor CA PD",
+        "state": "CA",
+        "score": 1.417,
+        "matched_forms": [
+          "Windsor Police Department"
+        ]
+      },
+      {
+        "agency_id": "3af6dfa2-a6a9-5a4c-bcf4-c37f8829761c",
+        "display_name": "Windsor CO PD",
+        "state": "CO",
+        "score": 1.417,
+        "matched_forms": [
+          "Windsor Police Department"
+        ]
+      },
+      {
+        "agency_id": "96461e90-2ae1-5486-97c9-3c6786a77268",
+        "display_name": "Windsor- IL- PD",
+        "state": "IL",
+        "score": 1.417,
+        "matched_forms": [
+          "Windsor Police Department"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T13:58:41Z",
+    "article_id": "art_158"
+  },
+  {
+    "url": "https://www.applevalleynewsnow.com/news/walla-walla-police-end-flock-license-plate-cameras-over-safety-and-legal-concerns/article_ec96e8f8-a14e-43b3-b6b2-7d53846dd659.html",
+    "source_domain": "applevalleynewsnow.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Walla Walla police end Flock license plate cameras over safety and legal concerns",
+    "byline": "William Albert, Apple Valley News Now",
+    "published_at": null,
+    "fetched_at": "2026-05-10T15:11:07Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 185 pts, HIGH/CRITICAL findings",
+    "scanner_score": 185,
+    "content_hash": "485ddec34b8bf0e8a9c8eebf04b72d4e1f906f9b48e766587e8231efd28e3f06",
+    "paths": {
+      "html": "assets/articles/applevalleynewsnow.com/news-walla-walla-police-end-flock-license-plate-cameras-over-safety-and-legal-co_ee60ec6b.html",
+      "meta": "assets/articles/applevalleynewsnow.com/news-walla-walla-police-end-flock-license-plate-cameras-over-safety-and-legal-co_ee60ec6b.meta.json",
+      "pdf": "assets/articles/applevalleynewsnow.com/news-walla-walla-police-end-flock-license-plate-cameras-over-safety-and-legal-co_ee60ec6b.pdf",
+      "txt": "assets/articles/applevalleynewsnow.com/news-walla-walla-police-end-flock-license-plate-cameras-over-safety-and-legal-co_ee60ec6b.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510151212/https://www.applevalleynewsnow.com/news/walla-walla-police-end-flock-license-plate-cameras-over-safety-and-legal-concerns/article_ec96e8f8-a14e-43b3-b6b2-7d53846dd659.html",
+    "wayback_timestamp": "20260510151212",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "b24c55d3-3dd6-55d6-a443-d361be29e6aa",
+      "83b05b01-74fd-5e6d-9188-816a601a64dd",
+      "485d236f-0919-564f-807f-406dc4e3b6b4",
+      "cccec80d-f9a8-5296-a394-27cc4a9aa2d6",
+      "1abc6989-6a40-58ed-ad2c-eb6fa70648ac",
+      "b8e97fdd-b1c4-5f64-b530-e8546ff5d182",
+      "5c703ef7-9b84-562a-8b8c-b4011feb6be7",
+      "cefe260a-54c6-5039-958b-267204545ae3",
+      "174a74f9-dfc5-58f3-84a1-163706b0c140",
+      "96d2eb94-ea06-5bc6-9e06-faff521982f0"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "b24c55d3-3dd6-55d6-a443-d361be29e6aa",
+        "display_name": "Walla Walla WA PD",
+        "state": "WA",
+        "score": 32.917,
+        "matched_forms": [
+          "Walla Walla",
+          "Walla Walla Police",
+          "Walla Walla Police Department"
+        ]
+      },
+      {
+        "agency_id": "83b05b01-74fd-5e6d-9188-816a601a64dd",
+        "display_name": "Yakima WA PD",
+        "state": "WA",
+        "score": 5.9,
+        "matched_forms": [
+          "Yakima"
+        ]
+      },
+      {
+        "agency_id": "485d236f-0919-564f-807f-406dc4e3b6b4",
+        "display_name": "Kennewick WA PD",
+        "state": "WA",
+        "score": 4.95,
+        "matched_forms": [
+          "Kennewick"
+        ]
+      },
+      {
+        "agency_id": "cccec80d-f9a8-5296-a394-27cc4a9aa2d6",
+        "display_name": "Richland PD WA",
+        "state": "WA",
+        "score": 4.9,
+        "matched_forms": [
+          "Richland"
+        ]
+      },
+      {
+        "agency_id": "1abc6989-6a40-58ed-ad2c-eb6fa70648ac",
+        "display_name": "Richland WA PD",
+        "state": "WA",
+        "score": 4.9,
+        "matched_forms": [
+          "Richland"
+        ]
+      },
+      {
+        "agency_id": "b8e97fdd-b1c4-5f64-b530-e8546ff5d182",
+        "display_name": "Kittitas WA PD",
+        "state": "WA",
+        "score": 3.767,
+        "matched_forms": [
+          "Kittitas"
+        ]
+      },
+      {
+        "agency_id": "5c703ef7-9b84-562a-8b8c-b4011feb6be7",
+        "display_name": "Yakima County WA SO",
+        "state": "WA",
+        "score": 2.717,
+        "matched_forms": [
+          "Yakima County"
+        ]
+      },
+      {
+        "agency_id": "cefe260a-54c6-5039-958b-267204545ae3",
+        "display_name": "Grant County WA SO",
+        "state": "WA",
+        "score": 2.7,
+        "matched_forms": [
+          "Grant County"
+        ]
+      },
+      {
+        "agency_id": "174a74f9-dfc5-58f3-84a1-163706b0c140",
+        "display_name": "Ellensburg WA PD",
+        "state": "WA",
+        "score": 2.667,
+        "matched_forms": [
+          "Ellensburg"
+        ]
+      },
+      {
+        "agency_id": "96d2eb94-ea06-5bc6-9e06-faff521982f0",
+        "display_name": "Sunnyside WA PD",
+        "state": "WA",
+        "score": 2.65,
+        "matched_forms": [
+          "Sunnyside"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T15:14:35Z",
+    "article_id": "art_159"
+  },
+  {
+    "url": "https://www.denverpost.com/2026/03/11/denver-axon-contract-flock-cameras/",
+    "source_domain": "denverpost.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Denver\u2019s new license plate reader deal is for 50 cameras \u2014 less than half as many as Flock has now",
+    "byline": "Elliott Wenzler",
+    "published_at": "2026-03-11T22:45:10+00:00",
+    "fetched_at": "2026-05-10T15:12:32Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 142 pts, HIGH/CRITICAL findings",
+    "scanner_score": 142,
+    "content_hash": "cee454f7963c1ce1de989f38ca08d7e8d1e0b3afd398b826a508911b16bd7733",
+    "paths": {
+      "html": "assets/articles/denverpost.com/2026-03-11-denver-axon-contract-flock-cameras_f011c5e0.html",
+      "meta": "assets/articles/denverpost.com/2026-03-11-denver-axon-contract-flock-cameras_f011c5e0.meta.json",
+      "pdf": "assets/articles/denverpost.com/2026-03-11-denver-axon-contract-flock-cameras_f011c5e0.pdf",
+      "txt": "assets/articles/denverpost.com/2026-03-11-denver-axon-contract-flock-cameras_f011c5e0.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510151237/https://www.denverpost.com/2026/03/11/denver-axon-contract-flock-cameras/",
+    "wayback_timestamp": "20260510151237",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:audit",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 25.7,
+        "matched_forms": [
+          "Denver"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 3.867,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "summary": "Denver City Council began considering a $150,000 one-year contract with Axon for 50 license-plate-reading cameras to replace its expiring Flock Safety system, which currently has 111 cameras. The proposed Axon system would have a shorter 21-day retention period, no national database, and an invite-only sharing arrangement, following months of controversy including ICE access to Denver's Flock data nearly 1,400 times.",
+    "key_quotes": [
+      {
+        "quote": "The city's final contract with Flock expires this month, and its cameras are then set to be decommissioned.",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "ICE agents were able to access Denver's data nearly 1,400 times in 2024 and 2025 before the city asked to be removed from Flock's national database last April.",
+        "paragraph_idx": 14
+      },
+      {
+        "quote": "The city plans to set the data retention period for Axon's cameras to only 21 days, nine days shorter than it was for Flock.",
+        "paragraph_idx": 16
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T15:14:50Z",
+    "article_id": "art_160"
+  },
+  {
+    "url": "https://www.krem.com/article/news/local/spokane-county-deactivates-license-plate-reader-washington-privacy-law/293-72ea9980-dbd1-430a-b4b0-67dae541dfa1",
+    "source_domain": "krem.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Spokane County Sheriff's Office deactivates license plate readers amid new state privacy law",
+    "byline": "Taylor Nichols",
+    "published_at": "4/1/2026 5:24:20 PM",
+    "fetched_at": "2026-05-10T15:14:16Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 158 pts, HIGH/CRITICAL findings",
+    "scanner_score": 158,
+    "content_hash": "8d165b1d113b037acce426a8b7a332d9d30792855fd027c9b10f6cd4227eb29c",
+    "paths": {
+      "html": "assets/articles/krem.com/article-news-local-spokane-county-deactivates-license-plate-reader-washington-pr_f10d9c74.html",
+      "meta": "assets/articles/krem.com/article-news-local-spokane-county-deactivates-license-plate-reader-washington-pr_f10d9c74.meta.json",
+      "pdf": "assets/articles/krem.com/article-news-local-spokane-county-deactivates-license-plate-reader-washington-pr_f10d9c74.pdf",
+      "txt": "assets/articles/krem.com/article-news-local-spokane-county-deactivates-license-plate-reader-washington-pr_f10d9c74.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "ae292ffc-510d-5af1-b78d-7c026bfe1754",
+      "8171a2b1-544d-544d-8a90-31029959bd72"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "ae292ffc-510d-5af1-b78d-7c026bfe1754",
+        "display_name": "Spokane County WA SO",
+        "state": "WA",
+        "score": 19.133,
+        "matched_forms": [
+          "Spokane County",
+          "Spokane County Sheriff",
+          "Spokane County Sheriff's Office"
+        ]
+      },
+      {
+        "agency_id": "8171a2b1-544d-544d-8a90-31029959bd72",
+        "display_name": "Spokane WA PD",
+        "state": "WA",
+        "score": 9.317,
+        "matched_forms": [
+          "Spokane"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T15:14:40Z",
+    "article_id": "art_161"
+  },
+  {
+    "url": "https://cvillerightnow.com/podcasts/michael-payne-on-flock-budgets-and-audits/",
+    "source_domain": "cvillerightnow.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Michael Payne on FLOCK, budgets, and audits - Cville Right Now",
+    "byline": "Marshall LeMert",
+    "published_at": "2025-12-16T22:04:50+00:00",
+    "fetched_at": "2026-05-10T16:09:47Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 35 pts, HIGH/CRITICAL findings",
+    "scanner_score": 35,
+    "content_hash": "580587fae693aef658a7ded1b871846853609dada697c0b6e32d0f7cd0779322",
+    "paths": {
+      "html": "assets/articles/cvillerightnow.com/podcasts-michael-payne-on-flock-budgets-and-audits_f148d917.html",
+      "meta": "assets/articles/cvillerightnow.com/podcasts-michael-payne-on-flock-budgets-and-audits_f148d917.meta.json",
+      "pdf": "assets/articles/cvillerightnow.com/podcasts-michael-payne-on-flock-budgets-and-audits_f148d917.pdf",
+      "txt": "assets/articles/cvillerightnow.com/podcasts-michael-payne-on-flock-budgets-and-audits_f148d917.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510160955/https://cvillerightnow.com/podcasts/michael-payne-on-flock-budgets-and-audits/",
+    "wayback_timestamp": "20260510160955",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:analysis",
+      "outcome:terminated",
+      "policy:audit",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+        "display_name": "Charlottesville Police Department",
+        "state": "VA",
+        "score": 6.5,
+        "matched_forms": [
+          "Charlottesville"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+    "summary": "Charlottesville City Councilor Michael Payne appears on a podcast to discuss the removal of FLOCK cameras, the FY25 audit, and recent budget meetings.",
+    "key_quotes": [
+      {
+        "quote": "City Councilor Michael Payne joins the show discussing the removal of FLOCK cameras, the FY25 audit, and two big recent budget meetings.",
+        "paragraph_idx": 0
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T16:15:05Z",
+    "article_id": "art_162"
+  },
+  {
+    "url": "https://www.kiro7.com/news/local/pierce-county-sheriffs-office-deactivates-its-automated-license-plate-readers/TXPVNII6B5D3LDKKYMOP3FW2IY/",
+    "source_domain": "kiro7.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Pierce County Sheriff\u2019s Office deactivates its automated license plate readers",
+    "byline": "KIRO 7 News Staff",
+    "published_at": "2026-03-31T02:02:59.261Z",
+    "fetched_at": "2026-05-10T16:14:22Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "WARNINGS \u2014 26 pts, low/medium only",
+    "scanner_score": 26,
+    "content_hash": "8e1a0e8123b70a3ec8a132549a5824ad1b30554089d7290b3054d4b9c0223dcd",
+    "paths": {
+      "html": "assets/articles/kiro7.com/news-local-pierce-county-sheriffs-office-deactivates-its-automated-license-plate_f384485e.html",
+      "meta": "assets/articles/kiro7.com/news-local-pierce-county-sheriffs-office-deactivates-its-automated-license-plate_f384485e.meta.json",
+      "pdf": "assets/articles/kiro7.com/news-local-pierce-county-sheriffs-office-deactivates-its-automated-license-plate_f384485e.pdf",
+      "txt": "assets/articles/kiro7.com/news-local-pierce-county-sheriffs-office-deactivates-its-automated-license-plate_f384485e.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510161432/https://www.kiro7.com/news/local/pierce-county-sheriffs-office-deactivates-its-automated-license-plate-readers/TXPVNII6B5D3LDKKYMOP3FW2IY/",
+    "wayback_timestamp": "20260510161432",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "outcome:terminated",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "0be90b3a-6759-53d7-9f92-d6ea9f9740b0"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+        "display_name": "Port of Seattle WA PD",
+        "state": "WA",
+        "score": 21.6,
+        "matched_forms": [
+          "Seattle"
+        ]
+      },
+      {
+        "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+        "display_name": "Old",
+        "state": null,
+        "score": 1.05,
+        "matched_forms": [
+          "Old"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The Pierce County Sheriff's Office deactivated its Flock ALPR system in response to Washington's newly signed Driver Privacy Act, which restricts ALPR use near hospitals, schools, and other protected locations and makes violations a gross misdemeanor. The Sheriff said no technology currently allows the cameras to reliably distinguish restricted from permitted areas, putting deputies at legal risk.",
+    "key_quotes": [
+      {
+        "quote": "The Pierce County Sheriff's Office says it has deactivated its Automated License Plate Reader (ALPR) system, commonly known as Flock cameras.",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "It prohibits the use of license plate readers in proximity to community locations, including hospitals, schools, and other protected areas.",
+        "paragraph_idx": 5
+      },
+      {
+        "quote": "broader concerns surrounding privacy and the potential use of such technologies in connection with federal immigration enforcement, including issues related to Immigration and Customs Enforcement (ICE), have contributed to the passage of this legislation",
+        "paragraph_idx": 9
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T16:15:13Z",
+    "article_id": "art_163"
+  },
+  {
+    "url": "https://madison.com/news/state-regional/wisconsin/article_d39d37b0-5ce5-5ea6-8e5a-4ac894928185.html",
+    "source_domain": "madison.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Appleton to part ways with Flock cameras, mayor's office says",
+    "byline": "Taima Kern Appleton Post-Crescent",
+    "published_at": null,
+    "fetched_at": "2026-05-10T16:08:09Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 189 pts, HIGH/CRITICAL findings",
+    "scanner_score": 189,
+    "content_hash": "b3e424063c94f2dce0954349d8f7898244c356272ca3b6715a402b8296b4a5e5",
+    "paths": {
+      "html": "assets/articles/madison.com/news-state-regional-wisconsin-article-d39d37b0-5ce5-5ea6-8e5a-4ac894928185-html_f118b2c4.html",
+      "meta": "assets/articles/madison.com/news-state-regional-wisconsin-article-d39d37b0-5ce5-5ea6-8e5a-4ac894928185-html_f118b2c4.meta.json",
+      "pdf": "assets/articles/madison.com/news-state-regional-wisconsin-article-d39d37b0-5ce5-5ea6-8e5a-4ac894928185-html_f118b2c4.pdf",
+      "txt": "assets/articles/madison.com/news-state-regional-wisconsin-article-d39d37b0-5ce5-5ea6-8e5a-4ac894928185-html_f118b2c4.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510160814/https://madison.com/news/state-regional/wisconsin/article_d39d37b0-5ce5-5ea6-8e5a-4ac894928185.html",
+    "wayback_timestamp": "20260510160814",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "926a7e76-714b-50a2-977e-522e4ec651ec",
+      "3f1bd6e2-d825-58df-af79-3176791f2241",
+      "0812dc7e-7891-5265-ba3b-936bf8080308",
+      "fb7b0958-0a06-5f5f-8fb5-5501acaeac5c",
+      "8715915b-9217-59d1-a24d-6bf625664c38",
+      "8724cb59-9313-5719-b2b5-9bac6a778cff",
+      "cf9fc9ff-bc24-5955-9f1a-9359e47eef29",
+      "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad",
+      "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+      "87ced6b8-24d2-5127-8bdb-2333a325cbfd"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "926a7e76-714b-50a2-977e-522e4ec651ec",
+        "display_name": "Republic MO PD",
+        "state": "MO",
+        "score": 248.567,
+        "matched_forms": [
+          "Republic"
+        ]
+      },
+      {
+        "agency_id": "3f1bd6e2-d825-58df-af79-3176791f2241",
+        "display_name": "Madison AL PD",
+        "state": "AL",
+        "score": 11.55,
+        "matched_forms": [
+          "Madison"
+        ]
+      },
+      {
+        "agency_id": "0812dc7e-7891-5265-ba3b-936bf8080308",
+        "display_name": "Madison GA PD",
+        "state": "GA",
+        "score": 11.55,
+        "matched_forms": [
+          "Madison"
+        ]
+      },
+      {
+        "agency_id": "fb7b0958-0a06-5f5f-8fb5-5501acaeac5c",
+        "display_name": "Madison IN PD",
+        "state": "IN",
+        "score": 11.55,
+        "matched_forms": [
+          "Madison"
+        ]
+      },
+      {
+        "agency_id": "8715915b-9217-59d1-a24d-6bf625664c38",
+        "display_name": "Madison MS PD",
+        "state": "MS",
+        "score": 11.55,
+        "matched_forms": [
+          "Madison"
+        ]
+      },
+      {
+        "agency_id": "8724cb59-9313-5719-b2b5-9bac6a778cff",
+        "display_name": "Madison Village OH PD",
+        "state": "OH",
+        "score": 11.55,
+        "matched_forms": [
+          "Madison"
+        ]
+      },
+      {
+        "agency_id": "cf9fc9ff-bc24-5955-9f1a-9359e47eef29",
+        "display_name": "University of Wisconsin - Madison WI PD",
+        "state": "WI",
+        "score": 11.55,
+        "matched_forms": [
+          "Madison"
+        ]
+      },
+      {
+        "agency_id": "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad",
+        "display_name": "Appleton WI PD",
+        "state": "WI",
+        "score": 7.167,
+        "matched_forms": [
+          "Appleton"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+        "display_name": "Washington IL PD",
+        "state": "IL",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "needs_review",
+    "curated_at": "2026-05-10T16:14:56Z",
+    "article_id": "art_164",
+    "curation_error": "schema parse failed or refusal",
+    "curation_raw": "[model refusal]"
+  },
+  {
+    "url": "https://www.nbc26.com/sturgeonbay/sturgeon-bay-discontinues-the-use-of-flock-cameras",
+    "source_domain": "nbc26.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Sturgeon Bay discontinues the use of Flock cameras",
+    "byline": "https://www.nbc26.com/abbey-hamachek",
+    "published_at": "2026-04-21T23:13:30.215",
+    "fetched_at": "2026-05-10T16:12:43Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 104 pts, HIGH/CRITICAL findings",
+    "scanner_score": 104,
+    "content_hash": "a9f8dcc8ce760071a0a4ecdbb94e8fc8e19223f9f97ef946f7c96e0f7c436b03",
+    "paths": {
+      "html": "assets/articles/nbc26.com/sturgeonbay-sturgeon-bay-discontinues-the-use-of-flock-cameras_f33f4bae.html",
+      "meta": "assets/articles/nbc26.com/sturgeonbay-sturgeon-bay-discontinues-the-use-of-flock-cameras_f33f4bae.meta.json",
+      "pdf": "assets/articles/nbc26.com/sturgeonbay-sturgeon-bay-discontinues-the-use-of-flock-cameras_f33f4bae.pdf",
+      "txt": "assets/articles/nbc26.com/sturgeonbay-sturgeon-bay-discontinues-the-use-of-flock-cameras_f33f4bae.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "506efefe-608f-5fbb-896c-c7747df5287f",
+      "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+      "25a4e15f-c0b8-5fc4-9aea-4990fdb4a712",
+      "63d0f52e-3089-51af-a179-dae338e0a966",
+      "217b0fd7-91ff-5fe2-b382-a67228cef37b"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "506efefe-608f-5fbb-896c-c7747df5287f",
+        "display_name": "University of Wisconsin - Green Bay WI PD",
+        "state": "WI",
+        "score": 7.25,
+        "matched_forms": [
+          "Green Bay"
+        ]
+      },
+      {
+        "agency_id": "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+        "display_name": "Milwaukee WI PD",
+        "state": "WI",
+        "score": 3.8,
+        "matched_forms": [
+          "Milwaukee"
+        ]
+      },
+      {
+        "agency_id": "25a4e15f-c0b8-5fc4-9aea-4990fdb4a712",
+        "display_name": "Oshkosh Police Department",
+        "state": "WI",
+        "score": 3.733,
+        "matched_forms": [
+          "Oshkosh"
+        ]
+      },
+      {
+        "agency_id": "63d0f52e-3089-51af-a179-dae338e0a966",
+        "display_name": "Washington Island WI PD",
+        "state": "WI",
+        "score": 2.783,
+        "matched_forms": [
+          "Washington Island"
+        ]
+      },
+      {
+        "agency_id": "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+        "display_name": "Bay AR PD",
+        "state": "AR",
+        "score": 2.333,
+        "matched_forms": [
+          "Bay Police"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T16:14:57Z",
+    "article_id": "art_165"
+  },
+  {
+    "url": "https://www.theolympian.com/news/local/article312983261.html",
+    "source_domain": "theolympian.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Olympia council hears privacy concerns about license plate cameras. What\u2019s next?",
+    "byline": "Ty Vinson",
+    "published_at": "2025-11-24T08:38:44-08:00",
+    "fetched_at": "2026-05-10T16:11:11Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 6 pts, low/medium only",
+    "scanner_score": 6,
+    "content_hash": "c4763988dfdcfc0d6af3405abfaddb04c773728f652e6f79a1582ac106bb3209",
+    "paths": {
+      "html": "assets/articles/theolympian.com/news-local-article312983261-html_f2cf4083.html",
+      "meta": "assets/articles/theolympian.com/news-local-article312983261-html_f2cf4083.meta.json",
+      "pdf": "assets/articles/theolympian.com/news-local-article312983261-html_f2cf4083.pdf",
+      "txt": "assets/articles/theolympian.com/news-local-article312983261-html_f2cf4083.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:court-ruling",
+      "legal:pra",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "80fc5e77-78d4-5499-abf4-9cda8cfb284d",
+      "bc71f6fb-d7a8-5a0e-a582-0e8b7f30be0b",
+      "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+      "20718baa-f1c5-53d9-80b6-88beeb1184de",
+      "2650fcae-462e-5914-a5ec-cd336222ecd6",
+      "b994e41b-23e6-5392-ba7b-821af80978f0",
+      "5a1588da-969e-5a60-be2e-5fe547c2716d",
+      "54d9a871-939f-51f6-ac86-476544b30a8c",
+      "3f3b9f56-5310-5485-838f-cf227df4a31b",
+      "b50c68c1-cb1a-5994-9830-ff47fdf1ba1d"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "80fc5e77-78d4-5499-abf4-9cda8cfb284d",
+        "display_name": "Olympia Police Department",
+        "state": "WA",
+        "score": 23.25,
+        "matched_forms": [
+          "Olympia",
+          "Olympia Police",
+          "Olympia Police Department"
+        ]
+      },
+      {
+        "agency_id": "bc71f6fb-d7a8-5a0e-a582-0e8b7f30be0b",
+        "display_name": "Fletcher NC PD",
+        "state": "NC",
+        "score": 6.033,
+        "matched_forms": [
+          "Fletcher"
+        ]
+      },
+      {
+        "agency_id": "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+        "display_name": "Redmond Police Department",
+        "state": "WA",
+        "score": 3.733,
+        "matched_forms": [
+          "Redmond"
+        ]
+      },
+      {
+        "agency_id": "20718baa-f1c5-53d9-80b6-88beeb1184de",
+        "display_name": "Indiana University IN PD",
+        "state": "IN",
+        "score": 2.8,
+        "matched_forms": [
+          "Indiana University"
+        ]
+      },
+      {
+        "agency_id": "2650fcae-462e-5914-a5ec-cd336222ecd6",
+        "display_name": "Kansas City KS PD",
+        "state": "KS",
+        "score": 2.8,
+        "matched_forms": [
+          "Kansas City Police"
+        ]
+      },
+      {
+        "agency_id": "b994e41b-23e6-5392-ba7b-821af80978f0",
+        "display_name": "Hillsborough Police Department",
+        "state": "NC",
+        "score": 2.7,
+        "matched_forms": [
+          "Hillsborough"
+        ]
+      },
+      {
+        "agency_id": "5a1588da-969e-5a60-be2e-5fe547c2716d",
+        "display_name": "Lakewood WA PD",
+        "state": "WA",
+        "score": 2.633,
+        "matched_forms": [
+          "Lakewood"
+        ]
+      },
+      {
+        "agency_id": "54d9a871-939f-51f6-ac86-476544b30a8c",
+        "display_name": "TX - Commerce PD",
+        "state": "TX",
+        "score": 2.633,
+        "matched_forms": [
+          "Commerce"
+        ]
+      },
+      {
+        "agency_id": "3f3b9f56-5310-5485-838f-cf227df4a31b",
+        "display_name": "Holland TX PD",
+        "state": "TX",
+        "score": 2.617,
+        "matched_forms": [
+          "Holland"
+        ]
+      },
+      {
+        "agency_id": "b50c68c1-cb1a-5994-9830-ff47fdf1ba1d",
+        "display_name": "Wichita KS PD",
+        "state": "KS",
+        "score": 2.617,
+        "matched_forms": [
+          "Wichita"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "80fc5e77-78d4-5499-abf4-9cda8cfb284d",
+    "summary": "At a Nov. 18 Olympia City Council meeting, about a dozen residents urged the city to end its Flock Safety ALPR contract, citing privacy, public-records, and immigration-enforcement concerns following a Skagit County court ruling that Flock data is a public record. Interim Chief Shelby Parker will brief the council on Dec. 2; no decision meeting is scheduled, and the current contract runs through July 2026.",
+    "key_quotes": [
+      {
+        "quote": "Assistant City Manager Stacey Ray told The Olympian that there isn't a meeting planned for the council to make a decision whether to end its Flock contract.",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "The City of Olympia returned over 20,000 records, while OPD returned more than 2 million images.",
+        "paragraph_idx": 12
+      },
+      {
+        "quote": "Vanderpool said he's also concerned about private companies using the data from outside the city. He said he's in support of the council ending its contract with the system.",
+        "paragraph_idx": 21
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T16:15:25Z",
+    "article_id": "art_166"
+  },
+  {
+    "url": "https://azdailysun.com/flaglive/features/beat/flagstaff-city-council-votes-to-cancel-flock-safety-camera-contract/article_435ca329-b3dc-45a8-8566-5df73ceb9835.html",
+    "source_domain": "azdailysun.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Flagstaff City Council votes to cancel Flock Safety camera contract",
+    "byline": "MAGGIE HANSEN FlagLive! Contributor",
+    "published_at": null,
+    "fetched_at": "2026-05-10T17:13:39Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 237 pts, HIGH/CRITICAL findings",
+    "scanner_score": 237,
+    "content_hash": "fd39d235d89dc9b1c331f67aca98dfd1665b0a5fa0bbc7863f18278d04c39c3c",
+    "paths": {
+      "html": "assets/articles/azdailysun.com/flaglive-features-beat-flagstaff-city-council-votes-to-cancel-flock-safety-camer_f3b9c4d3.html",
+      "meta": "assets/articles/azdailysun.com/flaglive-features-beat-flagstaff-city-council-votes-to-cancel-flock-safety-camer_f3b9c4d3.meta.json",
+      "pdf": "assets/articles/azdailysun.com/flaglive-features-beat-flagstaff-city-council-votes-to-cancel-flock-safety-camer_f3b9c4d3.pdf",
+      "txt": "assets/articles/azdailysun.com/flaglive-features-beat-flagstaff-city-council-votes-to-cancel-flock-safety-camer_f3b9c4d3.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510171343/https://azdailysun.com/flaglive/features/beat/flagstaff-city-council-votes-to-cancel-flock-safety-camera-contract/article_435ca329-b3dc-45a8-8566-5df73ceb9835.html",
+    "wayback_timestamp": "20260510171343",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "926a7e76-714b-50a2-977e-522e4ec651ec",
+      "5757726e-ad41-55a6-8505-d14c1d0b7155",
+      "86e9b8be-f02d-50c0-a0f8-9ed7b2b378a4",
+      "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+      "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+      "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+      "cda15ffc-6dd3-56bb-8e41-53647dfd7bab",
+      "0ec45902-8d38-54b7-9104-006d6f5777e5",
+      "abb515ad-5db0-5e8c-b545-f294d6c18d26"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "926a7e76-714b-50a2-977e-522e4ec651ec",
+        "display_name": "Republic MO PD",
+        "state": "MO",
+        "score": 248.567,
+        "matched_forms": [
+          "Republic"
+        ]
+      },
+      {
+        "agency_id": "5757726e-ad41-55a6-8505-d14c1d0b7155",
+        "display_name": "Flagstaff AZ PD [Inactive]",
+        "state": "AZ",
+        "score": 30.25,
+        "matched_forms": [
+          "Flagstaff"
+        ]
+      },
+      {
+        "agency_id": "86e9b8be-f02d-50c0-a0f8-9ed7b2b378a4",
+        "display_name": "Flagstaff Police Department",
+        "state": "AZ",
+        "score": 30.25,
+        "matched_forms": [
+          "Flagstaff"
+        ]
+      },
+      {
+        "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+        "display_name": "Flock Safety",
+        "state": "GA",
+        "score": 13.5,
+        "matched_forms": [
+          "Flock Safety"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+        "display_name": "Washington IL PD",
+        "state": "IL",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+        "display_name": "Washington MO PD",
+        "state": "MO",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "cda15ffc-6dd3-56bb-8e41-53647dfd7bab",
+        "display_name": "Marshall AR PD",
+        "state": "AR",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      },
+      {
+        "agency_id": "0ec45902-8d38-54b7-9104-006d6f5777e5",
+        "display_name": "Marshall IL PD",
+        "state": "IL",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      },
+      {
+        "agency_id": "abb515ad-5db0-5e8c-b545-f294d6c18d26",
+        "display_name": "Marshall TX PD",
+        "state": "TX",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "needs_review",
+    "curated_at": "2026-05-10T17:19:38Z",
+    "article_id": "art_167",
+    "curation_error": "schema parse failed or refusal",
+    "curation_raw": "[model refusal]"
+  },
+  {
+    "url": "https://cvillerightnow.com/news/208802-chief-kochis-curtails-flock-and-peregrine-use/",
+    "source_domain": "cvillerightnow.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Chief Kochis curtails Flock and Peregrine use - Cville Right Now",
+    "byline": "Jay Hart",
+    "published_at": "2025-06-18T17:55:13+00:00",
+    "fetched_at": "2026-05-10T17:11:43Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 83 pts, HIGH/CRITICAL findings",
+    "scanner_score": 83,
+    "content_hash": "2c39c0f1a77ba81080c4fd82cd152e4a5bd0f2b84cc5fbd3d1a9e58c743dd311",
+    "paths": {
+      "html": "assets/articles/cvillerightnow.com/news-208802-chief-kochis-curtails-flock-and-peregrine-use_f1cd9ba8.html",
+      "meta": "assets/articles/cvillerightnow.com/news-208802-chief-kochis-curtails-flock-and-peregrine-use_f1cd9ba8.meta.json",
+      "pdf": "assets/articles/cvillerightnow.com/news-208802-chief-kochis-curtails-flock-and-peregrine-use_f1cd9ba8.pdf",
+      "txt": "assets/articles/cvillerightnow.com/news-208802-chief-kochis-curtails-flock-and-peregrine-use_f1cd9ba8.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510171201/https://cvillerightnow.com/news/208802-vhsl-names-todd-tarkenton-of-vb-as-new-assistant-director-starting-august-1/partial/",
+    "wayback_timestamp": "20260510171201",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "outcome:restricted",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+        "display_name": "Charlottesville Police Department",
+        "state": "VA",
+        "score": 14.233,
+        "matched_forms": [
+          "Charlottesville",
+          "Charlottesville Police"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+    "summary": "Charlottesville Police Chief Mike Kochis told City Council he is pausing use of the Peregrine data integration system and has restricted Flock ALPR data to local personnel only, citing citizen concerns. Flock cameras remain in use but data can no longer be shared with or accessed from outside agencies.",
+    "key_quotes": [
+      {
+        "quote": "We are pausing Peregrine",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "the Flock system remains in use, it's data is only available to local personnel. The data cannot be accessed by anyone else in the state, and CPD cannot access Flock data elsewhere.",
+        "paragraph_idx": 10
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T17:20:00Z",
+    "article_id": "art_168"
+  },
+  {
+    "url": "https://www.govtech.com/public-safety/eureka-calif-votes-no-on-license-plate-reader-cameras",
+    "source_domain": "govtech.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Eureka, Calif., Votes No on License Plate Reader Cameras",
+    "byline": null,
+    "published_at": "2025-02-06T18:55:19.431",
+    "fetched_at": "2026-05-10T17:19:07Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 62 pts, HIGH/CRITICAL findings",
+    "scanner_score": 62,
+    "content_hash": "065c7d03cd3b78f9d565877e4ad5dd5b413a3af57f04fc8a91bd9c2272cbc7c3",
+    "paths": {
+      "html": "assets/articles/govtech.com/public-safety-eureka-calif-votes-no-on-license-plate-reader-cameras_f6640370.html",
+      "meta": "assets/articles/govtech.com/public-safety-eureka-calif-votes-no-on-license-plate-reader-cameras_f6640370.meta.json",
+      "pdf": "assets/articles/govtech.com/public-safety-eureka-calif-votes-no-on-license-plate-reader-cameras_f6640370.pdf",
+      "txt": "assets/articles/govtech.com/public-safety-eureka-calif-votes-no-on-license-plate-reader-cameras_f6640370.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510171912/https://www.govtech.com/public-safety/eureka-calif-votes-no-on-license-plate-reader-cameras",
+    "wayback_timestamp": "20260510171912",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "bd91d366-1958-50af-9a6d-3ddd2b1e0f14",
+      "e881b333-fb53-5bec-9510-9d3c68095e89",
+      "9b7b7208-5747-5e9c-bdcb-ed7b430686fd",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "bd91d366-1958-50af-9a6d-3ddd2b1e0f14",
+        "display_name": "Eureka MO PD",
+        "state": "MO",
+        "score": 5.05,
+        "matched_forms": [
+          "Eureka Police",
+          "Eureka Police Department"
+        ]
+      },
+      {
+        "agency_id": "e881b333-fb53-5bec-9510-9d3c68095e89",
+        "display_name": "Humboldt County CA SO",
+        "state": "CA",
+        "score": 4.133,
+        "matched_forms": [
+          "Humboldt County",
+          "Humboldt County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "9b7b7208-5747-5e9c-bdcb-ed7b430686fd",
+        "display_name": "Monterey County CA SO",
+        "state": "CA",
+        "score": 2.75,
+        "matched_forms": [
+          "Monterey County"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 2.683,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      },
+      {
+        "agency_id": "ab2d4fa5-bd8b-5ffc-9aaa-cf15b53cd598",
+        "display_name": "Kansas IL PD",
+        "state": "IL",
+        "score": 1.217,
+        "matched_forms": [
+          "Kansas Police"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T17:19:42Z",
+    "article_id": "art_169"
+  },
+  {
+    "url": "https://www.kut.org/austin/2025-06-04/austin-tx-automatic-license-reader-program-police-data-privacy-flock",
+    "source_domain": "kut.org",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Austin's automatic license plate reader program will end this month",
+    "byline": "https://www.kut.org/people/luz-moreno-lozano",
+    "published_at": "2025-06-04T14:45:48.039",
+    "fetched_at": "2026-05-10T17:17:19Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 22 pts, low/medium only",
+    "scanner_score": 22,
+    "content_hash": "140d383370d48dd488f8f6238d693014d94f61e01dfc8dc08ec0ee156263aa8a",
+    "paths": {
+      "html": "assets/articles/kut.org/austin-2025-06-04-austin-tx-automatic-license-reader-program-police-data-privacy_f5bfb1b3.html",
+      "meta": "assets/articles/kut.org/austin-2025-06-04-austin-tx-automatic-license-reader-program-police-data-privacy_f5bfb1b3.meta.json",
+      "pdf": "assets/articles/kut.org/austin-2025-06-04-austin-tx-automatic-license-reader-program-police-data-privacy_f5bfb1b3.pdf",
+      "txt": "assets/articles/kut.org/austin-2025-06-04-austin-tx-automatic-license-reader-program-police-data-privacy_f5bfb1b3.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:audit",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "scope:local",
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+        "display_name": "Austin Police Department",
+        "state": "TX",
+        "score": 100.5,
+        "matched_forms": [
+          "Austin",
+          "Austin Police",
+          "Austin Police Department"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+    "summary": "Austin City Manager T.C. Broadnax announced the City Council will not vote on renewing the city's ALPR program, effectively ending it at the end of June 2025 amid community concerns about data sharing with ICE and other agencies. A city audit found 75 million scans led to 165 arrests, but also that 10\u201320% of searches lacked a clear case reason. Officials said the program could return for reconsideration in 5\u20136 months.",
+    "key_quotes": [
+      {
+        "quote": "The city of Austin's automatic license plate reader program will come to a close at the end of the month.",
+        "paragraph_idx": 15
+      },
+      {
+        "quote": "Austin should not be participating in Trump's mass surveillance programs",
+        "paragraph_idx": 21
+      },
+      {
+        "quote": "recent APD data Askew shared in an email to council members found that between 10%-20% of license plate searches in the database did not include a clear reason or case number",
+        "paragraph_idx": 26
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T17:20:10Z",
+    "article_id": "art_170"
+  },
+  {
+    "url": "https://www.timesunion.com/news/article/poestenkill-rejects-flock-cameras",
+    "source_domain": "timesunion.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Client Challenge",
+    "byline": null,
+    "published_at": null,
+    "fetched_at": "2026-05-10T17:15:31Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 8 pts, HIGH/CRITICAL findings",
+    "scanner_score": 8,
+    "content_hash": "9b8bf4dd3102caa40045b3fb539bb30b72c13c474186e76f9fa84c9b6b7f8bff",
+    "paths": {
+      "html": "assets/articles/timesunion.com/news-article-poestenkill-rejects-flock-cameras_f45c6571.html",
+      "meta": "assets/articles/timesunion.com/news-article-poestenkill-rejects-flock-cameras_f45c6571.meta.json",
+      "pdf": "assets/articles/timesunion.com/news-article-poestenkill-rejects-flock-cameras_f45c6571.pdf",
+      "txt": "assets/articles/timesunion.com/news-article-poestenkill-rejects-flock-cameras_f45c6571.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "submit-failed",
+    "pdf_status": "rendered",
+    "tags": [],
+    "agencies": [],
+    "agency_candidates": [],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T17:19:45Z",
+    "article_id": "art_171"
   }
 ]
