@@ -15585,5 +15585,222 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-10T04:19:01Z",
     "article_id": "art_145"
+  },
+  {
+    "url": "https://www.9news.com/article/news/local/denver-removing-flock-cameras-new-axon-contract/73-640b5af3-7c87-4fea-8aa1-2510ad3257b8",
+    "source_domain": "9news.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Denver dumps Flock, awards location tracking camera contract to Axon",
+    "byline": "Spencer Soicher",
+    "published_at": "2/24/2026 10:12:32 AM",
+    "fetched_at": "2026-05-10T07:39:56Z",
+    "discovered_by": "termination-ledger-import",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 121 pts, HIGH/CRITICAL findings",
+    "scanner_score": 121,
+    "content_hash": "f1c7432dc58a48aeeaf650ab2a4755bf45c0d523d267ad588992b50530baf1dc",
+    "paths": {
+      "html": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.html",
+      "meta": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.meta.json",
+      "pdf": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.pdf",
+      "txt": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:axon",
+      "vendor:flock",
+      "vendor:motorola"
+    ],
+    "agencies": [
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 24.6,
+        "matched_forms": [
+          "Denver"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "mechanical",
+    "curated_at": "2026-05-10T07:40:22Z",
+    "article_id": "art_146"
+  },
+  {
+    "url": "https://www.denverpost.com/2026/02/24/denver-flock-license-plate-cameras-contract-axon/",
+    "source_domain": "denverpost.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Denver will end relationship with Flock as mayor announces new provider for license plate cameras",
+    "byline": "Elliott Wenzler",
+    "published_at": "2026-02-24T17:12:04+00:00",
+    "fetched_at": "2026-05-10T07:35:27Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 145 pts, HIGH/CRITICAL findings",
+    "scanner_score": 145,
+    "content_hash": "8c51667ad06da13fdd7f0933cd11b035ee98018811d0d28d885c03437894e2ca",
+    "paths": {
+      "html": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.html",
+      "meta": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.meta.json",
+      "pdf": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.pdf",
+      "txt": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:axon",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 35.033,
+        "matched_forms": [
+          "Denver",
+          "Denver Police",
+          "Denver Police Department"
+        ]
+      },
+      {
+        "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+        "display_name": "Los Angeles CA PD",
+        "state": "CA",
+        "score": 3.867,
+        "matched_forms": [
+          "Los Angeles"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "summary": "Denver Mayor Mike Johnston announced the city will end its contract with Flock Safety on March 31, 2026, and proposed a one-year, $150,000 contract with Axon for license plate readers. The new deal includes a 21-day retention policy, no national database, no ICE access, and ends data-sharing with other police departments by default.",
+    "key_quotes": [
+      {
+        "quote": "Denver Mayor Mike Johnston proposed a contract with a new provider of license plate-reading cameras on Tuesday, saying it will come with added precautions as the city ends its controversial arrangement with Flock Safety.",
+        "paragraph_idx": 17
+      },
+      {
+        "quote": "The new deal will also have a shorter retention policy for the photos the cameras snap \u2014 21 days instead of 30 days under Flock.",
+        "paragraph_idx": 22
+      },
+      {
+        "quote": "Denver also plans to stop sharing the camera data with any other police departments, Johnston said.",
+        "paragraph_idx": 30
+      },
+      {
+        "quote": "The city's latest contract with Flock, which the mayor's office unilaterally signed in October without council approval, will end March 31.",
+        "paragraph_idx": 32
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T07:40:37Z",
+    "article_id": "art_147"
+  },
+  {
+    "url": "https://www.redrocknews.com/2025/07/20/watchdog-eyes-sedonas-alpr-cameras/",
+    "source_domain": "redrocknews.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Watchdog eyes Sedona\u2019s ALPR cameras - Sedona Red Rock News",
+    "byline": "Christopher Fox Graham",
+    "published_at": "2025-07-20T13:54:00+00:00",
+    "fetched_at": "2026-05-10T07:37:18Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 114 pts, HIGH/CRITICAL findings",
+    "scanner_score": 114,
+    "content_hash": "c25d2252f2c9e28db266e6dbd6b8b60b9338b413ba65685bbb8ed0996989115f",
+    "paths": {
+      "html": "assets/articles/redrocknews.com/2025-07-20-watchdog-eyes-sedonas-alpr-cameras_db509d29.html",
+      "meta": "assets/articles/redrocknews.com/2025-07-20-watchdog-eyes-sedonas-alpr-cameras_db509d29.meta.json",
+      "pdf": "assets/articles/redrocknews.com/2025-07-20-watchdog-eyes-sedonas-alpr-cameras_db509d29.pdf",
+      "txt": "assets/articles/redrocknews.com/2025-07-20-watchdog-eyes-sedonas-alpr-cameras_db509d29.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260510073829/https://www.redrocknews.com/2025/07/20/watchdog-eyes-sedonas-alpr-cameras/",
+    "wayback_timestamp": "20260510073829",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "legal:pra",
+      "outcome:reconsidering",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "44f5dbfd-a873-5eab-aa2a-644efa3f49ee",
+      "10e8e190-ea44-5c7d-8f65-833f633dafe5",
+      "21fb5336-7bb7-5cc1-a4da-706673c971ed"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "44f5dbfd-a873-5eab-aa2a-644efa3f49ee",
+        "display_name": "Phoenix AZ PD",
+        "state": "AZ",
+        "score": 6.083,
+        "matched_forms": [
+          "Phoenix",
+          "Phoenix Police"
+        ]
+      },
+      {
+        "agency_id": "10e8e190-ea44-5c7d-8f65-833f633dafe5",
+        "display_name": "Cottonwood AZ PD",
+        "state": "AZ",
+        "score": 2.667,
+        "matched_forms": [
+          "Cottonwood"
+        ]
+      },
+      {
+        "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+        "display_name": "Page AZ PD",
+        "state": "AZ",
+        "score": 2.567,
+        "matched_forms": [
+          "Page"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "Judicial Watch filed a public records request with the city of Sedona seeking documents on its installation of 12 Flock Safety ALPR cameras, citing concerns about lack of public notice and transparency. The Sedona City Council scheduled an Aug. 13 work session on the ALPRs, and the system will not be activated until after that meeting.",
+    "key_quotes": [
+      {
+        "quote": "It's a very Big Brother-oriented move by the city of Sedona",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "There seems to be a real aversion in Sedona for public accountability and transparency",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "Spickard said Sedona City Council will hold a work session on ALPRs on Wednesday, Aug. 13, but did not know yet if the meeting would have a call to the public. The system will not be utilized until after the council work session.",
+        "paragraph_idx": 15
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-10T07:40:47Z",
+    "article_id": "art_148"
   }
 ]
