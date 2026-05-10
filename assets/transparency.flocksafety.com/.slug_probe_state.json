@@ -276,7 +276,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-10T21:35:05.712203+00:00",
+      "last_probed": "2026-05-10T22:31:18.489765+00:00",
       "tried": {
         "national-city": "http_404",
         "national-city-ca": "http_404",
@@ -298,7 +298,8 @@
         "national-city-ps-ca": "http_404",
         "national-city-psca": "http_404",
         "nationalcity-ca-pd": "http_404",
-        "nationalcity-ca-po": "http_404"
+        "nationalcity-ca-po": "http_404",
+        "nationalcity-ca-police-department": "http_404"
       }
     },
     "2549113a-a3d1-5d5c-9a3c-98fe21f27b17": {
@@ -468,6 +469,14 @@
       "tried": {
         "san-benito-county-ca-sd": "http_404",
         "san-benito-county-ca-so": "http_404"
+      }
+    },
+    "36a1b0c9-db91-5c52-8102-d4ad69fc41a8": {
+      "exhausted": false,
+      "found": "blue-springs-mo-pd",
+      "last_probed": "2026-05-10T22:31:03.152999+00:00",
+      "tried": {
+        "blue-springs-mo-pd": "http_200"
       }
     },
     "36bccbfd-6749-54b0-93e2-e78c48e56dda": {
@@ -1846,6 +1855,14 @@
         "avenal-ca-police-department": "http_404"
       }
     },
+    "d413dd09-2ba5-583a-8d84-8de3c11fe60c": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-10T22:31:13.638803+00:00",
+      "tried": {
+        "watauga-county-nc-so": "http_404"
+      }
+    },
     "d542f966-5b6d-5af2-9487-b56dcceff9bc": {
       "exhausted": false,
       "found": null,
@@ -2220,6 +2237,6 @@
       }
     }
   },
-  "updated": "2026-05-10T21:35:05.769884+00:00",
+  "updated": "2026-05-10T22:31:18.543530+00:00",
   "version": 1
 }
