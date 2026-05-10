@@ -1431,10 +1431,11 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-10T16:38:07.440510+00:00",
+      "last_probed": "2026-05-10T17:38:22.052899+00:00",
       "tried": {
         "-hollister-ca-pd": "http_404",
         "-hollister-ca-po": "http_404",
+        "-hollister-ca-police-department": "http_404",
         "hollister": "http_404",
         "hollister-ca": "http_404",
         "hollister-ca-po": "http_404",
@@ -1624,6 +1625,14 @@
         "garden-grove-ca-po": "http_404"
       }
     },
+    "b8d8ac25-2dd9-5fbf-a079-3cfd3096e65f": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-10T17:38:03.141609+00:00",
+      "tried": {
+        "harrison-oh-pd": "http_404"
+      }
+    },
     "b90f3085-f640-5300-a97a-9f3d334e2300": {
       "exhausted": false,
       "found": "logan-county-ne-so",
@@ -1713,6 +1722,14 @@
       "last_probed": "2026-05-06T23:36:51.670523+00:00",
       "tried": {
         "sardis-city-al-pd": "http_404"
+      }
+    },
+    "c94ce662-7a0d-54c8-8bc5-396c277d837f": {
+      "exhausted": false,
+      "found": "prescott-valley-az-pd",
+      "last_probed": "2026-05-10T17:38:12.485785+00:00",
+      "tried": {
+        "prescott-valley-az-pd": "http_200"
       }
     },
     "ca169c85-b556-58a0-a0bc-988c09bc6d01": {
@@ -2142,6 +2159,6 @@
       }
     }
   },
-  "updated": "2026-05-10T16:38:07.616577+00:00",
+  "updated": "2026-05-10T17:38:22.109856+00:00",
   "version": 1
 }
