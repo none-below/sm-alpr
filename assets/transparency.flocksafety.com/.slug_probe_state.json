@@ -252,7 +252,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-09T22:27:19.163830+00:00",
+      "last_probed": "2026-05-10T07:50:30.339181+00:00",
       "tried": {
         "national-city-ca": "http_404",
         "national-city-ca-po": "http_404",
@@ -264,6 +264,7 @@
         "national-city-pdca": "http_404",
         "national-city-po": "http_404",
         "national-city-po-ca": "http_404",
+        "national-city-poca": "http_404",
         "national-city-police": "http_404",
         "national-city-police-ca": "http_404",
         "national-city-police-department": "http_404",
@@ -612,6 +613,14 @@
       "tried": {
         "atwater-ca-po": "http_404",
         "atwater-ca-police-department": "http_404"
+      }
+    },
+    "4b9e675b-39b7-5ad2-b836-8d0fc50cc3fc": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-10T07:50:24.862968+00:00",
+      "tried": {
+        "kalamazoo-township-mi-pd": "http_404"
       }
     },
     "4bd9591a-0e56-5370-a6a0-49133f75f44d": {
@@ -1478,6 +1487,14 @@
         "walkerton-in-pd": "http_404"
       }
     },
+    "b31065d0-ecd5-5d6c-b8fa-6f3ee7a94a62": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-10T07:50:19.086523+00:00",
+      "tried": {
+        "elmore-county-al-so": "http_404"
+      }
+    },
     "b592938c-c2c4-597c-b6cd-2bbb3b52447b": {
       "exhausted": false,
       "found": null,
@@ -2030,6 +2047,6 @@
       }
     }
   },
-  "updated": "2026-05-10T05:23:59.583747+00:00",
+  "updated": "2026-05-10T07:50:30.371531+00:00",
   "version": 1
 }
