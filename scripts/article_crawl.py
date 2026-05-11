@@ -56,6 +56,18 @@ try:
 except ImportError:
     _PLAYWRIGHT_AVAILABLE = False
 
+# curl_cffi mimics Chrome's TLS handshake byte-for-byte and matches
+# its HTTP/2 SETTINGS frame ordering — the layer Cloudflare-tier
+# walls fingerprint on. Used as a fallback only, when Playwright
+# fetch hits a fingerprint-shaped error (HTTP 403 or
+# ERR_HTTP2_PROTOCOL_ERROR). No JS execution, so we lose in-session
+# PDF render on fallback; Wayback covers archival.
+try:
+    from curl_cffi import requests as _curl_cffi_requests
+    _CURL_CFFI_AVAILABLE = True
+except ImportError:
+    _CURL_CFFI_AVAILABLE = False
+
 print = functools.partial(print, flush=True)
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -502,11 +514,65 @@ def wayback_lookup_or_save(url: str) -> dict:
 # ───────────────────────── fetch + render ─────────────────────────
 
 
+def _is_fingerprint_failure(out: dict) -> bool:
+    """Does this Playwright result look like TLS/JS-fingerprint blocking?
+
+    Two patterns we know curl_cffi can recover:
+      - HTTP 403 — Cloudflare-tier walls reject the headless-Chrome JA3
+        plus header-shape combo even with channel='chrome' + stealth.
+      - ERR_HTTP2_PROTOCOL_ERROR — the stream gets RST'd at TLS
+        handshake before any HTTP transaction (McClatchy pattern).
+
+    Other failure modes — 404, 429, navigation timeouts, empty
+    responses — don't benefit from a fingerprint switch, so we don't
+    burn the fallback on them.
+    """
+    err = out.get("fetch_error") or ""
+    if out.get("status") == 403:
+        return True
+    if "ERR_HTTP2_PROTOCOL_ERROR" in err:
+        return True
+    return False
+
+
+def _fetch_curl_cffi(url: str) -> dict:
+    """Re-fetch with curl_cffi after a Playwright fingerprint failure.
+
+    impersonate='chrome' replays the latest Chrome's TLS+HTTP2 frame
+    fingerprint. No JS execution — we get the server-rendered HTML
+    only, no PDF render. pdf_status comes back as
+    'skipped-curl-fallback'; archival relies on the Wayback snapshot.
+    """
+    out = {
+        "fetch_error": None, "status": None, "body": None, "final_url": None,
+        "pdf_status": "skipped-curl-fallback",
+        "pdf_byte_size": None, "pdf_error": None,
+    }
+    if not _CURL_CFFI_AVAILABLE:
+        out["fetch_error"] = "curl_cffi not available"
+        return out
+    try:
+        r = _curl_cffi_requests.get(
+            url, impersonate="chrome",
+            timeout=30, allow_redirects=True,
+        )
+        out["status"] = r.status_code
+        out["final_url"] = str(r.url)
+        if r.status_code >= 400:
+            out["fetch_error"] = f"HTTP {r.status_code}"
+            return out
+        out["body"] = r.text
+    except Exception as e:
+        out["fetch_error"] = f"{type(e).__name__}: {str(e)[:300]}"
+    return out
+
+
 def fetch_and_render(url: str, pdf_path: Path | None,
                      *, skip_pdf: bool = False) -> dict:
     """Navigate to `url` with Playwright (real Chrome UA), capture HTML,
     and optionally render the loaded page to `pdf_path` in the same
-    browser session.
+    browser session. Falls back to curl_cffi on fingerprint-shaped
+    failures (HTTP 403, ERR_HTTP2_PROTOCOL_ERROR).
 
     One browser launch per URL covers both the HTML fetch and the PDF
     render — previously these were separate launches with a `requests`
@@ -519,13 +585,17 @@ def fetch_and_render(url: str, pdf_path: Path | None,
       status:        int | None — HTTP status from page.goto response
       body:          str | None — page.content() HTML, or None on error
       final_url:     str | None — page.url after redirects
-      pdf_status:    'rendered' | 'skipped' | 'failed' | None
+      pdf_status:    'rendered' | 'skipped' | 'skipped-curl-fallback' |
+                     'failed' | None
       pdf_byte_size: int | None
       pdf_error:     str | None
+      fetch_path:    'playwright-chrome' | 'curl_cffi' — which engine
+                     produced `body` (or attempted last on failure)
     """
     out = {
         "fetch_error": None, "status": None, "body": None, "final_url": None,
         "pdf_status": None, "pdf_byte_size": None, "pdf_error": None,
+        "fetch_path": "playwright-chrome",
     }
     if not _PLAYWRIGHT_AVAILABLE:
         out["fetch_error"] = "playwright not available"
@@ -565,39 +635,78 @@ def fetch_and_render(url: str, pdf_path: Path | None,
                                      timeout=45000)
                 if response is None:
                     out["fetch_error"] = "navigation returned no response"
-                    return out
-                out["status"] = response.status
-                out["final_url"] = page.url
-                if response.status >= 400:
-                    out["fetch_error"] = f"HTTP {response.status}"
-                    return out
-                out["body"] = page.content()
-
-                if skip_pdf or pdf_path is None:
-                    out["pdf_status"] = "skipped"
                 else:
-                    try:
-                        page.pdf(
-                            path=str(pdf_path),
-                            format="Letter",
-                            margin={"top": "0.5in", "bottom": "0.5in",
-                                    "left": "0.5in", "right": "0.5in"},
-                            print_background=False,
-                        )
-                        if pdf_path.exists():
-                            out["pdf_status"] = "rendered"
-                            out["pdf_byte_size"] = pdf_path.stat().st_size
+                    out["status"] = response.status
+                    out["final_url"] = page.url
+                    if response.status >= 400:
+                        out["fetch_error"] = f"HTTP {response.status}"
+                    else:
+                        out["body"] = page.content()
+                        if skip_pdf or pdf_path is None:
+                            out["pdf_status"] = "skipped"
                         else:
-                            out["pdf_status"] = "failed"
-                            out["pdf_error"] = "pdf not written"
-                    except Exception as e:
-                        out["pdf_status"] = "failed"
-                        out["pdf_error"] = f"{type(e).__name__}: {str(e)[:300]}"
+                            try:
+                                page.pdf(
+                                    path=str(pdf_path),
+                                    format="Letter",
+                                    margin={"top": "0.5in",
+                                            "bottom": "0.5in",
+                                            "left": "0.5in",
+                                            "right": "0.5in"},
+                                    print_background=False,
+                                )
+                                if pdf_path.exists():
+                                    out["pdf_status"] = "rendered"
+                                    out["pdf_byte_size"] = (
+                                        pdf_path.stat().st_size)
+                                else:
+                                    out["pdf_status"] = "failed"
+                                    out["pdf_error"] = "pdf not written"
+                            except Exception as e:
+                                out["pdf_status"] = "failed"
+                                out["pdf_error"] = (
+                                    f"{type(e).__name__}: {str(e)[:300]}")
             finally:
                 browser.close()
     except Exception as e:
         if out["fetch_error"] is None:
             out["fetch_error"] = f"{type(e).__name__}: {str(e)[:300]}"
+
+    # Inline fallback: if Playwright failed in a fingerprint-shaped
+    # way, retry with curl_cffi. Re-fetches over a different TLS
+    # stack, so 403/ERR_HTTP2 walls that fingerprint headless-Chrome
+    # let it through. Logged as fetch_path=curl_cffi so we can see
+    # which domains consistently need it.
+    if _is_fingerprint_failure(out):
+        primary_err = out["fetch_error"]
+        primary_status = out["status"]
+        print(f"  fingerprint-fallback: curl_cffi retry "
+              f"(playwright: status={primary_status} err={primary_err})")
+        fb = _fetch_curl_cffi(url)
+        if fb.get("body"):
+            # Promote the curl_cffi result to the primary record. PDF
+            # was already not rendered (fingerprint walls block earlier
+            # than the page.pdf step), so we just record the skip
+            # reason.
+            out["body"] = fb["body"]
+            out["status"] = fb["status"]
+            out["final_url"] = fb["final_url"]
+            out["fetch_error"] = None
+            out["pdf_status"] = "skipped-curl-fallback"
+            out["pdf_byte_size"] = None
+            out["pdf_error"] = None
+            out["fetch_path"] = "curl_cffi"
+        else:
+            # Fallback also failed; keep the original Playwright error
+            # for parity with prior behavior, but tag the path so the
+            # meta record shows we tried both.
+            out["fetch_path"] = "curl_cffi"
+            if fb.get("fetch_error"):
+                out["fetch_error"] = (
+                    f"playwright: {primary_err}; "
+                    f"curl_cffi: {fb['fetch_error']}"
+                )
+
     return out
 
 
@@ -726,6 +835,11 @@ def crawl_once(entry: dict, *, dry_run: bool,
         record["pdf_error"] = fetch_result["pdf_error"]
     if pdf_path.exists():
         record["paths"]["pdf"] = str(pdf_path.relative_to(ROOT))
+    # fetch_path tells us which engine produced the body — useful for
+    # spotting domains that consistently need the curl_cffi fallback,
+    # since those are candidates for "promote to curl_cffi-primary"
+    # to avoid showing CF a fail-then-success fingerprint switch.
+    record["fetch_path"] = fetch_result.get("fetch_path")
 
     save_json(meta_path, record)
     return record
