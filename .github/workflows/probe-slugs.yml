@@ -27,6 +27,7 @@ concurrency:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 jobs:
   probe:
@@ -98,7 +99,46 @@ jobs:
             ARGS="$ARGS --agency ${{ inputs.agency }}"
           fi
           # shellcheck disable=SC2086
-          uv run python scripts/slug_probe.py $ARGS
+          uv run python scripts/slug_probe.py $ARGS | tee /tmp/probe.log
+
+      - name: Surface parser failures as an issue
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # archive_agency logs `PARSE_ERROR: <slug> <date> :: <error>`
+          # whenever a probe hit lands on a Flock portal whose bold
+          # headings aren't in _HEADING_MAP. Nothing was committed to
+          # the asset tree (archive_agency stages and only commits on
+          # full success), so the parser fix is the only follow-up —
+          # the next refresh-flock-data crawl will re-capture once
+          # the parser is updated.
+          if [ ! -f /tmp/probe.log ]; then exit 0; fi
+          ERRORS=$(grep -E "PARSE_ERROR: " /tmp/probe.log | sort -u || true)
+          if [ -z "$ERRORS" ]; then exit 0; fi
+          {
+            echo "slug_probe captured one or more Flock portals the parser"
+            echo "couldn't read. No partial artifact set was written to the"
+            echo "asset tree. Add the unrecognized bold headings to"
+            echo "_HEADING_MAP / _DYNAMIC_HEADINGS in scripts/flock_transparency.py;"
+            echo "the next crawl will re-capture cleanly."
+            echo
+            echo '```'
+            echo "$ERRORS"
+            echo '```'
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } > /tmp/parse-issue-body.md
+          EXISTING=$(gh issue list --label parser --state open --json number -q '.[0].number' || true)
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body-file /tmp/parse-issue-body.md
+          else
+            gh issue create \
+              --title "Parser tripped on a new Flock portal variant" \
+              --label parser \
+              --body-file /tmp/parse-issue-body.md
+          fi
 
       - name: Commit and push
         id: commit
