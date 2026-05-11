@@ -19799,5 +19799,76 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-11T00:13:26Z",
     "article_id": "art_187"
+  },
+  {
+    "url": "https://www.thenewstribune.com/news/local/crime/article315247938.html",
+    "source_domain": "thenewstribune.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Pierce County Sheriff\u2019s Office to deactivate its license-plate reader cameras",
+    "byline": "Puneet Bsanti",
+    "published_at": "2026-03-31T09:55:29-07:00",
+    "fetched_at": "2026-05-11T04:24:48Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 7 pts, low/medium only",
+    "scanner_score": 7,
+    "content_hash": "73f671dd4adfa4b1671fbcce5e38041f123e85cce3d3ac9551a0e3e0ca4c3b67",
+    "paths": {
+      "html": "assets/articles/thenewstribune.com/news-local-crime-article315247938-html_3fe638ce.html",
+      "meta": "assets/articles/thenewstribune.com/news-local-crime-article315247938-html_3fe638ce.meta.json",
+      "pdf": "assets/articles/thenewstribune.com/news-local-crime-article315247938-html_3fe638ce.pdf",
+      "txt": "assets/articles/thenewstribune.com/news-local-crime-article315247938-html_3fe638ce.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "outcome:terminated",
+      "policy:retention",
+      "scope:local",
+      "scope:state",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "b111be54-e0b4-5bc2-83c9-ad2285eccaaf"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+        "display_name": "Puyallup WA PD",
+        "state": "WA",
+        "score": 3.767,
+        "matched_forms": [
+          "Puyallup"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The Pierce County Sheriff's Office announced it will deactivate its Flock ALPR cameras following Washington Gov. Bob Ferguson's signing of SB 6002, the Driver Privacy Act, which restricts ALPR use near sensitive locations, limits data retention, and bars use for immigration enforcement. Sheriff Keith Swank said the office cannot reliably ensure compliance with the geographic restrictions and warned the loss of the technology will hurt investigations.",
+    "key_quotes": [
+      {
+        "quote": "The Sheriff's Office in Pierce County will deactivate its Automated License Plate Reader system following a new law that regulates the use of the technology by local and state agencies.",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "there is no available technology or capability that allows the Sheriff's Office to ensure the cameras can reliably differentiate between restricted and permitted locations in real time",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "the law prohibits the use of license plate readers in proximity to community locations, including hospitals, schools, and other protected areas",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "its practical impact at the local level is the removal of a critical investigative resource",
+        "paragraph_idx": 10
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-11T04:27:50Z",
+    "article_id": "art_188"
   }
 ]
