@@ -545,6 +545,14 @@
         "buchanan-county-mo-so": "http_404"
       }
     },
+    "3e925b6b-fd96-5124-904b-a652de5dcc88": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-11T01:31:08.149666+00:00",
+      "tried": {
+        "clio-mi-pd": "http_404"
+      }
+    },
     "3fc7d46a-3f58-5638-a86a-182bbaf116b4": {
       "exhausted": false,
       "found": null,
@@ -951,7 +959,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-10T18:40:07.681616+00:00",
+      "last_probed": "2026-05-11T01:31:28.790192+00:00",
       "tried": {
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
@@ -962,6 +970,7 @@
         "beverly-hills-pd-ca": "http_404",
         "beverly-hills-po": "http_404",
         "beverly-hills-po-ca": "http_404",
+        "beverly-hills-police": "http_404",
         "beverly-hills-police-ca": "http_404",
         "beverly-hills-police-department": "http_404",
         "beverly-hills-police-department-ca": "http_404",
@@ -2187,6 +2196,14 @@
         "charlottesville-va-pd": "http_200"
       }
     },
+    "f82c7448-abbf-57f7-8f5e-14724f3246d8": {
+      "exhausted": false,
+      "found": "durango-co-pd",
+      "last_probed": "2026-05-11T01:31:19.218722+00:00",
+      "tried": {
+        "durango-co-pd": "http_200"
+      }
+    },
     "fad50c3f-54b7-5bac-9093-b41b977dac71": {
       "exhausted": false,
       "found": null,
@@ -2247,6 +2264,6 @@
       }
     }
   },
-  "updated": "2026-05-10T23:36:44.664995+00:00",
+  "updated": "2026-05-11T01:31:28.844239+00:00",
   "version": 1
 }
