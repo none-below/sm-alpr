@@ -79,11 +79,6 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-10T09:49:23Z"
   },
-  "https://evanstonroundtable.com/2025/09/24/flock-safety-reinstalls-evanston-cameras/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T16:01:05Z"
-  },
   "https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
@@ -295,9 +290,9 @@
     "last_attempt": "2026-05-09T16:47:28Z"
   },
   "https://www.kxan.com/news/local/audit-of-austin-license-plate-camera-program-finds-general-accuracy-missing-data/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T16:01:37Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-11T23:24:57Z"
   },
   "https://www.kxan.com/news/local/austin/around-20-of-license-plate-reader-database-searches-did-not-have-case-numbers/": {
     "attempts": 2,
@@ -379,11 +374,6 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-09T19:19:27Z"
   },
-  "https://www.oakpark.com/2026/01/20/important-village-board-votes/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T16:01:53Z"
-  },
   "https://www.opb.org/article/2025/12/02/eugene-ends-flock-alpr": {
     "attempts": 3,
     "error": "HTTP 404",
@@ -415,9 +405,9 @@
     "last_attempt": "2026-05-10T19:22:15Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-is-set-to-install-surveillance-cameras/article_46d428d2-82c6-11ef-8623-e7927b765967.html": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 429",
-    "last_attempt": "2026-05-09T15:11:17Z"
+    "last_attempt": "2026-05-11T23:24:04Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-officials-weighing-automated-license-plate-readers/article_89833f94-d2c5-11ee-94af-4371e5ce797b.html": {
     "attempts": 1,
@@ -489,20 +479,10 @@
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html",
     "last_attempt": "2026-05-05T20:15:18Z"
   },
-  "https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html\nCall log:\n  - navigating to \"https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-05-09T16:01:11Z"
-  },
   "https://www.theolympian.com/news/local/article-olympia-flock": {
     "attempts": 3,
     "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/local/article-olympia-flock\nCall log:\n  - navigating to \"https://www.theolympian.com/news/local/article-olympia-flock\", waiting until \"domcontentloaded\"\n",
     "last_attempt": "2026-05-09T02:14:47Z"
-  },
-  "https://www.theolympian.com/news/state/washington/article315683941.html": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/state/washington/article315683941.html\nCall log:\n  - navigating to \"https://www.theolympian.com/news/state/washington/article315683941.html\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-05-09T16:01:17Z"
   },
   "https://www.whsv.com/2025/12/10/staunton-ends-flock-cameras": {
     "attempts": 3,
