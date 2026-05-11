@@ -19,11 +19,6 @@
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://azdailysun.com/news/local/flagstaff-flock-safety-cameras-ended/",
     "last_attempt": "2026-05-08T22:13:29Z"
   },
-  "https://brookline.news/brookline-news-podcast-episode-8-flock-cameras-come-to-brookline-and-so-does-a-no-kings-rally/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T15:14:46Z"
-  },
   "https://brookline.news/chestnut-hill-realty-pauses-its-plan-to-install-flock-license-plate-readers-after-community-backlash/": {
     "attempts": 1,
     "error": "HTTP 403",
@@ -169,11 +164,6 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-11T00:06:55Z"
   },
-  "https://oaklandside.org/2025/11/19/oakland-council-committee-rejects-flock-surveillance-camera-expansion/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T11:58:01Z"
-  },
   "https://oaklandside.org/2025/11/20/flock-safety-cameras-oakland-license-plate-readers/": {
     "attempts": 1,
     "error": "HTTP 403",
@@ -230,9 +220,9 @@
     "last_attempt": "2026-05-10T04:18:05Z"
   },
   "https://richmondstandard.com/richmond/2019/04/10/license-plate-reader-technology-pitched-for-richmond-bart-parking-areas/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T13:54:45Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-11T22:20:46Z"
   },
   "https://richmondstandard.com/richmond/2023/11/08/richmond-to-exponentially-increase-number-of-public-safety-cameras-in-city/": {
     "attempts": 1,
@@ -449,11 +439,6 @@
     "error": "HTTP 429",
     "last_attempt": "2026-05-10T11:09:53Z"
   },
-  "https://www.smdailyjournal.com/news/local/license-plate-reader-helps-catch-theft-suspects-in-redwood-city/article_e0fd69b0-d49d-4cd6-835c-127400a918f7.html": {
-    "attempts": 1,
-    "error": "HTTP 429",
-    "last_attempt": "2026-05-09T16:47:10Z"
-  },
   "https://www.smdailyjournal.com/news/local/license-plate-readers-proposed-in-foster-city/article_53df79ee-0aae-11eb-bcb1-a3b8823e5655.html": {
     "attempts": 1,
     "error": "HTTP 429",
@@ -504,11 +489,6 @@
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html",
     "last_attempt": "2026-05-05T20:15:18Z"
   },
-  "https://www.thenewstribune.com/news/local/community/gateway/g-news/article302475774.html": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.thenewstribune.com/news/local/community/gateway/g-news/article302475774.html\nCall log:\n  - navigating to \"https://www.thenewstribune.com/news/local/community/gateway/g-news/article302475774.html\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-05-09T13:51:49Z"
-  },
   "https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html": {
     "attempts": 1,
     "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html\nCall log:\n  - navigating to \"https://www.thenewstribune.com/news/local/community/gateway/g-news/article302729359.html\", waiting until \"domcontentloaded\"\n",
@@ -518,11 +498,6 @@
     "attempts": 3,
     "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/local/article-olympia-flock\nCall log:\n  - navigating to \"https://www.theolympian.com/news/local/article-olympia-flock\", waiting until \"domcontentloaded\"\n",
     "last_attempt": "2026-05-09T02:14:47Z"
-  },
-  "https://www.theolympian.com/news/state/washington/article315379868.html": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/state/washington/article315379868.html\nCall log:\n  - navigating to \"https://www.theolympian.com/news/state/washington/article315379868.html\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-05-09T15:07:58Z"
   },
   "https://www.theolympian.com/news/state/washington/article315683941.html": {
     "attempts": 1,
