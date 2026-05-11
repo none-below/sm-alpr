@@ -1159,9 +1159,10 @@
     "7932e34a-0d6d-524b-9e26-543d66b8b93c": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T13:54:51.429140+00:00",
+      "last_probed": "2026-05-11T20:24:42.914574+00:00",
       "tried": {
-        "lathrop-ca-po": "http_404"
+        "lathrop-ca-po": "http_404",
+        "lathrop-ca-police-department": "http_404"
       }
     },
     "79d1a399-1db1-5b50-aaa9-b4bbc64d8dd2": {
@@ -1545,7 +1546,7 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-11T15:49:42.735492+00:00",
+      "last_probed": "2026-05-11T20:25:05.484805+00:00",
       "tried": {
         "-hollister-ca": "http_404",
         "-hollister-ca-pd": "http_404",
@@ -1553,6 +1554,7 @@
         "-hollister-ca-police": "http_404",
         "-hollister-ca-police-department": "http_404",
         "-hollister-ca-ps": "http_404",
+        "-hollister-pd-ca": "http_404",
         "hollister": "http_404",
         "hollister-ca": "http_404",
         "hollister-ca-po": "http_404",
@@ -2205,6 +2207,14 @@
         "soledad-ca-po": "http_404"
       }
     },
+    "f0611d4b-4911-5e4c-ae43-e30fd897e328": {
+      "exhausted": false,
+      "found": "huron-oh-pd",
+      "last_probed": "2026-05-11T20:24:53.130876+00:00",
+      "tried": {
+        "huron-oh-pd": "http_200"
+      }
+    },
     "f168928f-b50b-5bd7-8c25-6da6521fdb93": {
       "exhausted": false,
       "found": "clear-lake-ia-pd",
@@ -2349,6 +2359,6 @@
       }
     }
   },
-  "updated": "2026-05-11T18:28:04.136801+00:00",
+  "updated": "2026-05-11T20:25:05.540791+00:00",
   "version": 1
 }
