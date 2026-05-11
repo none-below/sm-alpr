@@ -23,6 +23,18 @@ After downloading, run OCR to refresh sidecars:
 
 Config lives at ~/.config/sm-alpr/pra_config.json.
 Auth state lives at ~/.config/sm-alpr/pra_auth.json (not in repo).
+
+Headless auto-login (so the script can run unattended):
+  Local laptop — put credentials at ~/.config/sm-alpr/pra_credentials.json:
+    {"username": "...", "password": "..."}
+  Chmod it 600. Then:
+    uv run python scripts/pra_download.py --auto-login
+  GitHub Action / CI — set repo secrets PRA_USERNAME and PRA_PASSWORD and
+  export them as env vars when running the script. The credentials file is
+  optional when env vars are present.
+  Regular runs will also auto-re-login if the saved session has expired
+  and credentials are available. If the portal serves a CAPTCHA, auto-login
+  will fail and you'll need to fall back to --login.
 """
 
 import functools
@@ -369,6 +381,20 @@ PRA_ROOT = REPO / "assets" / "san-mateo-public-records"
 CONFIG_DIR = Path.home() / ".config" / "sm-alpr"
 AUTH_STATE = CONFIG_DIR / "pra_auth.json"
 CONFIG_PATH = CONFIG_DIR / "pra_config.json"
+CREDENTIALS_PATH = CONFIG_DIR / "pra_credentials.json"
+
+# Fallback portal URLs for CI runs where no local pra_config.json exists.
+# These are public endpoints; they're hardcoded only to spare CI an extra
+# config bootstrap step. Local `--login` overrides them.
+DEFAULT_PORTAL_BASE = "https://sanmateoca.mycusthelp.com/WEBAPP/_rs"
+DEFAULT_SUPPORT_HOME = "https://sanmateoca.mycusthelp.com/WEBAPP/_rs/supporthome.aspx"
+# Direct URL to the GovQA login form (supporthome.aspx is a public landing
+# page with nav but no login form, so we navigate here explicitly during
+# auto-login).
+LOGIN_PATH = "login.aspx"
+# Authenticated requests-list URL. After login the script saves this as the
+# support_home_url so subsequent scrapes go straight to the list.
+REQUESTS_LIST_PATH = "CustomerIssues.aspx"
 
 REQUEST_ID_RE = re.compile(r"^W\d{6}-\d{6}$")
 W_REQUEST_ID_RE = re.compile(r"\bW\d{6}-\d{6}\b")
@@ -412,6 +438,295 @@ def strip_session_token(url: str) -> str:
     # Normalize ?& → ?
     url = url.replace("?&", "?")
     return url
+
+
+USERNAME_SELECTORS = [
+    # GovQA / DevExpress ASPxFormLayout — the SMPD portal's actual login form.
+    "input[name='ASPxFormLayout1$txtUsername']",
+    "#ASPxFormLayout1_txtUsername_I",
+    "input[aria-label='Email Address']",
+    # Generic fallbacks.
+    "input[type='email']",
+    "input[name*='Email' i]",
+    "input[id*='Email' i]",
+    "input[name*='Username' i]",
+    "input[id*='Username' i]",
+    "input[name*='UserName' i]",
+    "input[id*='UserName' i]",
+    "input[name*='Login' i]:not([type='password']):not([type='submit'])",
+]
+
+PASSWORD_SELECTORS = [
+    "input[name='ASPxFormLayout1$txtPassword']",
+    "#ASPxFormLayout1_txtPassword_I",
+    "input[type='password']",
+    "input[name*='Password' i]",
+    "input[id*='Password' i]",
+]
+
+LOGIN_SUBMIT_SELECTORS = [
+    "input[name='ASPxFormLayout1$btnLogin']",
+    "#ASPxFormLayout1_btnLogin_I",
+    "input[type='submit'][value*='Sign In' i]",
+    "input[type='submit'][value*='Log In' i]",
+    "input[type='submit'][value*='Login' i]",
+    # GovQA labels its login submit "Submit"; scope to a form to avoid
+    # matching the accessibility-required hidden submit at page root.
+    "form#qacLogin input[type='submit']",
+    "button:has-text('Sign In')",
+    "button:has-text('Log In')",
+    "button:has-text('Login')",
+    "button[type='submit']",
+]
+
+
+def load_credentials() -> dict | None:
+    """Resolve credentials from env vars (CI-friendly) or the local file.
+    Env vars win when both are set."""
+    env_user = os.environ.get("PRA_USERNAME")
+    env_pass = os.environ.get("PRA_PASSWORD")
+    if env_user and env_pass:
+        return {"username": env_user, "password": env_pass}
+    if not CREDENTIALS_PATH.exists():
+        return None
+    try:
+        data = json.loads(CREDENTIALS_PATH.read_text())
+    except json.JSONDecodeError as exc:
+        err(f"   credentials file is not valid JSON: {exc}")
+        return None
+    if not data.get("username") or not data.get("password"):
+        err(f"   credentials file missing 'username' or 'password'")
+        return None
+    return data
+
+
+def _first_visible(page: Page, selectors: list[str]):
+    for sel in selectors:
+        loc = page.locator(sel).first
+        if loc.count() == 0:
+            continue
+        try:
+            loc.wait_for(state="visible", timeout=1_500)
+        except PWTimeout:
+            continue
+        diag(f"   matched: {sel}")
+        return loc
+    return None
+
+
+def perform_auto_login(page: Page, portal_base: str, creds: dict) -> bool:
+    """Drive the GovQA login form headlessly. Returns True on success.
+
+    Does NOT mutate config — caller is responsible for saving auth state /
+    home URL if it wants those captured."""
+    login_url = portal_base.rstrip("/") + "/" + LOGIN_PATH
+    page.goto(login_url, wait_until="domcontentloaded")
+    try:
+        page.wait_for_load_state("networkidle", timeout=NAV_TIMEOUT_MS)
+    except PWTimeout:
+        pass
+
+    # If we land on login.aspx and there's no password field, GovQA may
+    # have already redirected us off the login form because cookies were
+    # still valid. Verify by navigating to the requests list.
+    if page.locator("input[type='password']").count() == 0:
+        diag("   no password field on login.aspx — checking if already authed")
+        list_url = portal_base.rstrip("/") + "/" + REQUESTS_LIST_PATH
+        page.goto(list_url, wait_until="domcontentloaded")
+        try:
+            page.wait_for_load_state("networkidle", timeout=NAV_TIMEOUT_MS)
+        except PWTimeout:
+            pass
+        if _looks_like_requests_list(page):
+            return True
+        # Otherwise fall through; we may need to fill the form after all.
+        page.goto(login_url, wait_until="domcontentloaded")
+        try:
+            page.wait_for_load_state("networkidle", timeout=NAV_TIMEOUT_MS)
+        except PWTimeout:
+            pass
+
+    user_field = _first_visible(page, USERNAME_SELECTORS)
+    pass_field = _first_visible(page, PASSWORD_SELECTORS)
+    if user_field is None or pass_field is None:
+        err("   could not find login form (username/password inputs)")
+        _dump_page_diag(page)
+        return False
+
+    if page.locator("[id*='captcha' i], [name*='captcha' i], img[src*='captcha' i]").count() > 0:
+        err("   page appears to have a CAPTCHA — auto-login won't work; "
+            "run --login instead")
+        return False
+
+    try:
+        user_field.fill(creds["username"])
+        pass_field.fill(creds["password"])
+    except Exception as exc:
+        err(f"   could not fill credentials: {exc}")
+        return False
+
+    # DevExpress ASPxTextBox stores the real value on a JS object; Playwright's
+    # .fill() fires native events but doesn't always sync the DevExpress state.
+    # Belt-and-suspenders: also call SetText on the client object if it exists.
+    try:
+        page.evaluate(
+            "(creds) => {"
+            "  if (typeof ASPxFormLayout1_txtUsername !== 'undefined' && ASPxFormLayout1_txtUsername.SetText) {"
+            "    ASPxFormLayout1_txtUsername.SetText(creds.u);"
+            "  }"
+            "  if (typeof ASPxFormLayout1_txtPassword !== 'undefined' && ASPxFormLayout1_txtPassword.SetText) {"
+            "    ASPxFormLayout1_txtPassword.SetText(creds.p);"
+            "  }"
+            "}",
+            {"u": creds["username"], "p": creds["password"]},
+        )
+    except Exception as exc:
+        diag(f"   DevExpress SetText fallback failed (ok if non-DX): {exc}")
+
+    # Try DevExpress's client-side DoClick first — the visible submit "button"
+    # is actually a styled span with a hidden <input type=submit> sibling, so
+    # selector-based .click() often hits the hidden input and does nothing.
+    submitted_via = None
+    try:
+        submitted_via = page.evaluate(
+            "() => {"
+            "  if (typeof ASPxFormLayout1_btnLogin !== 'undefined' && ASPxFormLayout1_btnLogin.DoClick) {"
+            "    ASPxFormLayout1_btnLogin.DoClick();"
+            "    return 'devexpress';"
+            "  }"
+            "  return null;"
+            "}"
+        )
+    except Exception as exc:
+        diag(f"   DevExpress DoClick failed: {exc}")
+
+    if not submitted_via:
+        # Fallback: force-click the hidden input via JS (bypasses visibility).
+        try:
+            page.locator("input[name='ASPxFormLayout1$btnLogin']").first.evaluate(
+                "el => el.click()"
+            )
+            submitted_via = "force-click"
+        except Exception as exc:
+            diag(f"   force-click submit failed: {exc}")
+
+    if not submitted_via:
+        submit = _first_visible(page, LOGIN_SUBMIT_SELECTORS)
+        if submit is None:
+            err("   could not find a submit button")
+            return False
+        try:
+            submit.click()
+            submitted_via = "selector"
+        except Exception as exc:
+            err(f"   submit click failed: {exc}")
+            return False
+
+    diag(f"   submitted via: {submitted_via}")
+    try:
+        page.wait_for_load_state("networkidle", timeout=NAV_TIMEOUT_MS)
+    except PWTimeout:
+        pass
+
+    if page.locator("input[type='password']").count() > 0:
+        # Still on a login form. Look for an inline error message (DevExpress
+        # validation balloons live in spans flagged dxEErrorCellSys, and GovQA
+        # also drops free-text errors into elements with 'error' in the class).
+        err_text = ""
+        for sel in (
+            "[class*='dxEErrorCell' i]",
+            "[class*='ValidationError' i]",
+            "[class*='error' i]:not(:empty)",
+            "[id*='lblError' i]",
+        ):
+            try:
+                loc = page.locator(sel).first
+                if loc.count() > 0:
+                    txt = (loc.inner_text() or "").strip()
+                    if txt:
+                        err_text = txt
+                        break
+            except Exception:
+                pass
+
+        # Check for CAPTCHA elements that may have appeared after the first
+        # failed attempt (some GovQA tenants only show CAPTCHA after one miss).
+        captcha_count = page.locator(
+            "[id*='captcha' i], [name*='captcha' i], img[src*='captcha' i]"
+        ).count()
+
+        # Dump a screenshot so the user can eyeball what happened.
+        shot = Path("/tmp") / "pra_login_failure.png"
+        try:
+            page.screenshot(path=str(shot), full_page=True)
+        except Exception:
+            shot = None
+
+        if err_text:
+            err(f"   login failed: {err_text}")
+        elif captcha_count > 0:
+            err("   login failed and a CAPTCHA element is now on the page — "
+                "auto-login may need a CAPTCHA-solve step")
+        else:
+            body = ""
+            try:
+                body = page.evaluate("() => (document.body && document.body.innerText) || ''")
+            except Exception:
+                pass
+            snippet = " | ".join(line.strip() for line in body.splitlines() if line.strip())[:300]
+            err(f"   login failed — still on a password form. body: {snippet}")
+
+        if shot is not None:
+            err(f"   screenshot: {shot}")
+        return False
+
+    return True
+
+
+def auto_login() -> int:
+    creds = load_credentials()
+    if creds is None:
+        print(f"No credentials at {CREDENTIALS_PATH}.\n"
+              f"Create it with:\n"
+              f"  {{\"username\": \"...\", \"password\": \"...\"}}\n"
+              f"and chmod 600.", file=sys.stderr)
+        return 1
+
+    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+    config = load_config()
+    portal_base = config.get("portal_base") or DEFAULT_PORTAL_BASE
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context(accept_downloads=True)
+        page = context.new_page()
+        ok = perform_auto_login(page, portal_base, creds)
+        if not ok:
+            browser.close()
+            return 1
+        # Navigate to the requests list so the captured URL is the list
+        # itself (matches the interactive --login flow's expectation).
+        list_url = portal_base.rstrip("/") + "/" + REQUESTS_LIST_PATH
+        page.goto(list_url, wait_until="domcontentloaded")
+        try:
+            page.wait_for_load_state("networkidle", timeout=NAV_TIMEOUT_MS)
+        except PWTimeout:
+            pass
+        if not _looks_like_requests_list(page):
+            err("logged in, but couldn't render the My Requests list "
+                "at " + list_url)
+            _dump_page_diag(page)
+            browser.close()
+            return 1
+        home_url = strip_session_token(page.url)
+        config["portal_base"] = portal_base
+        config["support_home_url"] = home_url
+        save_config(config)
+        print(f"Captured home URL: {home_url}")
+        context.storage_state(path=str(AUTH_STATE))
+        print(f"Saved auth → {AUTH_STATE}")
+        browser.close()
+    return 0
 
 
 def login() -> int:
@@ -1093,30 +1408,67 @@ def _print_summary(counts: dict[str, int]) -> None:
     print("   " + ", ".join(parts))
 
 
+def _session_appears_expired(page: Page) -> bool:
+    body = (page.content() or "").lower()
+    return "login" in page.url.lower() or "sign in" in body[:5000]
+
+
 def run(args, config: dict) -> None:
-    home_url = config.get("support_home_url")
-    if not home_url:
-        print("No support home URL configured. Run --login first.", file=sys.stderr)
-        return
+    home_url = config.get("support_home_url") or DEFAULT_SUPPORT_HOME
 
     do_files = not args.messages_only
     do_messages = not args.files_only
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=not args.headed)
-        context = browser.new_context(
-            storage_state=str(AUTH_STATE), accept_downloads=True,
-            viewport={"width": 1280, "height": 1600},
-        )
+        context_kwargs = dict(accept_downloads=True,
+                              viewport={"width": 1280, "height": 1600})
+        if AUTH_STATE.exists():
+            context_kwargs["storage_state"] = str(AUTH_STATE)
+        context = browser.new_context(**context_kwargs)
         page = context.new_page()
 
         # Prime: visit home, check we're actually logged in.
         page.goto(home_url, wait_until="domcontentloaded")
-        body = (page.content() or "").lower()
-        if "login" in page.url.lower() or "sign in" in body[:5000]:
-            print("session appears expired — re-run with --login", file=sys.stderr)
-            browser.close()
-            return
+        if _session_appears_expired(page):
+            creds = load_credentials()
+            if creds is None:
+                print("session appears expired and no credentials available — "
+                      "run --login (or set PRA_USERNAME/PRA_PASSWORD)",
+                      file=sys.stderr)
+                browser.close()
+                return
+            print("session expired; attempting auto-login...")
+            # Open a fresh context for auto-login so we don't carry stale cookies.
+            try:
+                context.close()
+            except Exception:
+                pass
+            context = browser.new_context(accept_downloads=True,
+                                          viewport={"width": 1280, "height": 1600})
+            page = context.new_page()
+            portal_base = config.get("portal_base") or DEFAULT_PORTAL_BASE
+            if not perform_auto_login(page, portal_base, creds):
+                err("auto-login failed; run --login")
+                browser.close()
+                return
+            list_url = portal_base.rstrip("/") + "/" + REQUESTS_LIST_PATH
+            page.goto(list_url, wait_until="domcontentloaded")
+            try:
+                page.wait_for_load_state("networkidle", timeout=NAV_TIMEOUT_MS)
+            except PWTimeout:
+                pass
+            if not _looks_like_requests_list(page):
+                err("auto-login succeeded but couldn't reach requests list; "
+                    "run --login")
+                browser.close()
+                return
+            captured = strip_session_token(page.url)
+            config["portal_base"] = portal_base
+            config["support_home_url"] = captured
+            save_config(config)
+            home_url = captured
+            context.storage_state(path=str(AUTH_STATE))
 
         if args.discover:
             new_ids = discover_and_stub_new_requests(page, home_url)
@@ -1153,6 +1505,10 @@ def main() -> int:
     )
     parser.add_argument("--login", action="store_true",
                         help="Interactive login / refresh saved session")
+    parser.add_argument("--auto-login", action="store_true",
+                        help="Headless login using stored credentials "
+                             "(file at ~/.config/sm-alpr/pra_credentials.json "
+                             "or PRA_USERNAME/PRA_PASSWORD env vars)")
     parser.add_argument("--all", action="store_true",
                         help="Iterate every W* folder (default when no ids given)")
     parser.add_argument("--discover", action="store_true",
@@ -1176,8 +1532,16 @@ def main() -> int:
     if args.login:
         return login()
 
-    if not AUTH_STATE.exists():
-        print("No saved auth. Run: uv run python scripts/pra_download.py --login",
+    if args.auto_login:
+        return auto_login()
+
+    if not AUTH_STATE.exists() and load_credentials() is None:
+        print("No saved auth and no credentials.\n"
+              "Run one of:\n"
+              "  uv run python scripts/pra_download.py --login\n"
+              "  uv run python scripts/pra_download.py --auto-login   "
+              "(after writing ~/.config/sm-alpr/pra_credentials.json "
+              "or setting PRA_USERNAME/PRA_PASSWORD)",
               file=sys.stderr)
         return 1
 

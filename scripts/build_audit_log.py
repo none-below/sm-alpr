@@ -67,7 +67,14 @@ def scrape_files_for_portal(portal):
     portal_dir = SCRAPE_DIR / portal
     if not portal_dir.is_dir():
         return []
-    return portal_jsons(portal_dir)
+    # Real portal scrapes (strict YYYY-MM-DD.json) + PRA-imported audit data
+    # (pra-<request-id>.json, written by scripts/import_pra_audit.py).
+    # `portal_jsons` is intentionally strict so other builders that read full
+    # scrape JSON aren't fooled by minimal PRA imports — those imports only
+    # carry `search_audit_csv` and would crash builders expecting the rest.
+    files = list(portal_jsons(portal_dir))
+    files.extend(sorted(portal_dir.glob("pra-*.json")))
+    return files
 
 
 def load_portal_rows(portal):
