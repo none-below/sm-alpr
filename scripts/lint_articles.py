@@ -11,7 +11,8 @@ Checks (errors — exit 1):
   - URL uniqueness
   - source_domain present and listed in assets/sources.json
   - agencies[] entries resolve to assets/agency_registry.json agency_ids
-  - primary_subject_agency_id (if set) appears in this entry's agencies[]
+  - primary_subject_agency_ids entries each appear in this entry's agencies[]
+    (and are unique within the list)
   - tags appear in assets/tags.json (topics + editorial vocabulary)
   - curation_status in known set
   - paths.{html,txt,meta} relative paths exist on disk
@@ -161,15 +162,23 @@ def main() -> int:
                     f"{prefix}: agencies[] references unknown agency_id {aid_ref!r}"
                 )
 
-        psa = entry.get("primary_subject_agency_id")
-        if psa is not None:
+        psa_ids = entry.get("primary_subject_agency_ids") or []
+        agencies_set = set(entry.get("agencies") or [])
+        seen_psa: set[str] = set()
+        for psa in psa_ids:
+            if psa in seen_psa:
+                errors.append(
+                    f"{prefix}: primary_subject_agency_ids has duplicate {psa!r}"
+                )
+                continue
+            seen_psa.add(psa)
             if valid_agency_ids and psa not in valid_agency_ids:
                 errors.append(
-                    f"{prefix}: primary_subject_agency_id {psa!r} not in agency registry"
+                    f"{prefix}: primary_subject_agency_ids entry {psa!r} not in agency registry"
                 )
-            elif psa not in (entry.get("agencies") or []):
+            elif psa not in agencies_set:
                 errors.append(
-                    f"{prefix}: primary_subject_agency_id {psa!r} not in this entry's agencies[]"
+                    f"{prefix}: primary_subject_agency_ids entry {psa!r} not in this entry's agencies[]"
                 )
 
         status = entry.get("curation_status")

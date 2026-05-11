@@ -58,24 +58,24 @@ def main() -> int:
                 "lng": lng,
             })
 
-        primary_id = entry.get("primary_subject_agency_id")
-        primary = None
-        if primary_id:
+        # Each id in primary_subject_agency_ids gets a map pin. Vendor-
+        # primary entries (e.g. Flock Safety year-in-review pieces) get
+        # bucketed off-coast in the viewer instead of at the vendor HQ
+        # to avoid misleading geographic clustering.
+        primary_subjects = []
+        for primary_id in entry.get("primary_subject_agency_ids") or []:
             ag = reg_by_id.get(primary_id)
-            if ag:
-                lat, lng = agency_coords(ag)
-                primary = {
-                    "agency_id": primary_id,
-                    "name": agency_display_name(ag, fallback=primary_id),
-                    "state": agency_state(ag),
-                    "lat": lat,
-                    "lng": lng,
-                    # Vendor-primary articles (e.g. Flock Safety year-in-
-                    # review pieces) aren't really *about* a place; the
-                    # viewer plots them in the ocean instead of at the
-                    # vendor HQ to avoid misleading geographic clustering.
-                    "is_vendor": ag.get("agency_role") == "vendor",
-                }
+            if not ag:
+                continue
+            lat, lng = agency_coords(ag)
+            primary_subjects.append({
+                "agency_id": primary_id,
+                "name": agency_display_name(ag, fallback=primary_id),
+                "state": agency_state(ag),
+                "lat": lat,
+                "lng": lng,
+                "is_vendor": ag.get("agency_role") == "vendor",
+            })
 
         tags = sorted(entry.get("tags") or [])
         for t in tags:
@@ -94,7 +94,7 @@ def main() -> int:
             "key_quotes": entry.get("key_quotes") or [],
             "tags": tags,
             "agencies": agencies,
-            "primary_subject_agency": primary,
+            "primary_subject_agencies": primary_subjects,
             "stance": entry.get("stance"),
             "tier": entry.get("tier"),
             "wayback_url": entry.get("wayback_url"),

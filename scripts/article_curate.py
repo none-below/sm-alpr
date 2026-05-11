@@ -17,7 +17,7 @@ Two phases:
     Anthropic API with NO tools and a strict json_schema output
     constraint — model can only return structured fields, can't take
     actions. Fills in summary, key_quotes, genre, refined topic_tags,
-    primary_subject_agency_id. Marks curation_status="enriched".
+    primary_subject_agency_ids. Marks curation_status="enriched".
 
     Skips entirely if ANTHROPIC_API_KEY isn't set.
 
@@ -288,7 +288,7 @@ def mechanical_curate_one(meta_path: Path, *, tags_data: dict,
         "tags": auto_tag_vendors(text, tags_data),
         "agencies": agencies,
         "agency_candidates": candidates,
-        "primary_subject_agency_id": None,
+        "primary_subject_agency_ids": [],
         "summary": None,
         "key_quotes": [],
         "curation_status": "mechanical",
@@ -355,11 +355,14 @@ CURATION_SCHEMA = {
             "enum": ["investigative", "explainer", "opinion",
                      "press-release", "analysis"],
         },
-        "primary_subject_agency_id": {"type": ["string", "null"]},
+        "primary_subject_agency_ids": {
+            "type": "array",
+            "items": {"type": "string"},
+        },
     },
     "required": [
         "refusal", "refusal_reason", "summary", "key_quotes",
-        "topic_tags", "genre", "primary_subject_agency_id",
+        "topic_tags", "genre", "primary_subject_agency_ids",
     ],
     "additionalProperties": False,
 }
@@ -459,10 +462,27 @@ fields are:
   apply outcome:*.
 - genre: investigative | explainer | opinion | press-release | analysis.
   Pick exactly one based on what the piece is, not what it covers.
-- primary_subject_agency_id: the agency_id of the agency the article is
-  primarily about, chosen from the candidate list provided in the user
-  message. Use null if the article is national/multi-subject and not
-  primarily about any one agency.
+- primary_subject_agency_ids: the agency_ids of every agency this
+  article is substantively about, chosen from the candidate list in
+  the user message. The map viewer plots one pin per id in this list,
+  so the test is "would a reader expect a map pin here?"
+
+  Include an agency when the article reports on its specific actions,
+  decisions, incidents, contracts, audits, or policies — i.e. the
+  story would lose meaning without it. A piece may have one subject
+  (most local news), several (an investigation naming multiple
+  agencies whose cameras were exposed; a roundup of cities that turned
+  Flock off), or none (national/vendor/legal pieces not anchored to
+  specific agencies).
+
+  Exclude agencies that are merely name-checked: "as in [City], where
+  cameras were also installed last year" is a side mention, not a
+  subject. Likewise exclude agencies that appear only in lists, asides,
+  or quote attributions ("a spokesperson for [Dept] said..."). When in
+  doubt, leave the agency out — false positives scatter the map.
+
+  Return an empty list for national, vendor-focused, or legal-doctrine
+  pieces with no specific agency subjects.
 
 If you cannot complete the task — paywalled stub, language you can't
 read, content that turned out not to be about ALPR — set refusal=true
@@ -493,7 +513,8 @@ stance (publisher's posture, denormalized): {entry.get('stance')}
 
 [AGENCY CANDIDATES]
 The fuzzy matcher proposed these agency_ids based on names appearing in
-the text. Pick primary_subject_agency_id from this list, or null:
+the text. Pick primary_subject_agency_ids from this list (zero, one, or
+many — see the system instructions for the inclusion test):
 {candidates_block}
 
 [ARTICLE TEXT]
@@ -510,9 +531,12 @@ def validate_curation_output(data: dict, entry: dict, tags_data: dict) -> tuple[
     if bogus:
         return False, f"topic_tags not in vocabulary: {sorted(bogus)}"
     valid_agency_ids = {c["agency_id"] for c in entry.get("agency_candidates", [])}
-    psa = data.get("primary_subject_agency_id")
-    if psa is not None and psa not in valid_agency_ids:
-        return False, f"primary_subject_agency_id {psa!r} not in candidate set"
+    psa_ids = data.get("primary_subject_agency_ids") or []
+    bogus_psa = [p for p in psa_ids if p not in valid_agency_ids]
+    if bogus_psa:
+        return False, f"primary_subject_agency_ids not in candidate set: {bogus_psa}"
+    if len(set(psa_ids)) != len(psa_ids):
+        return False, f"primary_subject_agency_ids has duplicates: {psa_ids}"
     return True, None
 
 
@@ -656,7 +680,7 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
         existing_tags.update(data["topic_tags"])
         existing_tags.add(f"genre:{data['genre']}")
         entry["tags"] = sorted(existing_tags)
-        entry["primary_subject_agency_id"] = data["primary_subject_agency_id"]
+        entry["primary_subject_agency_ids"] = data["primary_subject_agency_ids"]
         entry["curation_status"] = "enriched"
         entry["curated_at"] = now_iso()
         entry.pop("curation_error", None)
