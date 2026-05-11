@@ -489,6 +489,55 @@ def test_alpr_acronym_in_parens_classifies_as_alpr_policy():
     assert field == "alpr_policy"
 
 
+def test_titled_success_story_subheading_classifies_as_success_stories():
+    """Blue Springs (2026-05-10) posts titled success-story excerpts as
+    bold subheadings like "Credit Card Skimming Ring - Success story".
+    The dynamic pattern parallels the existing "X - Facebook Post - …"
+    rule and routes them to success_stories so they don't trip the
+    unrecognized-bold-heading check."""
+    from flock_transparency import _match_heading_kind
+    for h in (
+        "Credit Card Skimming Ring - Success story",
+        "Domestic Assault - Success Story",
+        "Ulta Beauty Burglary - Success story",
+        "Some Long Multi-Word Title - Success Stories",
+    ):
+        field, kind = _match_heading_kind(h)
+        assert (field, kind) == ("success_stories", "dynamic"), (
+            f"expected success_stories/dynamic for {h!r}, got {(field, kind)}"
+        )
+
+
+def test_additional_flock_safety_information_maps_to_additional_info():
+    """Blue Springs (2026-05-10) uses "Additional Flock Safety
+    Information" as a section heading — same role as the existing
+    "Additional Info" / "Additional Information" aliases."""
+    assert _match_heading("Additional Flock Safety Information") == "additional_info"
+
+
+def test_lpr_and_other_cameras_heading_maps_to_additional_info():
+    """Durango (2026-05-11) bolds "LPR and other Cameras" as a
+    section heading (distinct from the existing "Number of LPR and
+    other cameras" count). Conservative routing: additional_info,
+    so the body is captured as text without an integer-parse attempt."""
+    assert _match_heading("LPR and other Cameras") == "additional_info"
+    # The count heading must still route to camera_count.
+    assert _match_heading("Number of LPR and other cameras") == "camera_count"
+
+
+def test_glossary_bold_heading_does_not_raise():
+    """Durango (2026-05-11) bolds "Glossary" as documentation chrome —
+    not a field heading. The dynamic noise pattern should swallow it."""
+    from flock_transparency import _match_heading_kind
+    field, kind = _match_heading_kind("Glossary")
+    assert (field, kind) == (None, "dynamic")
+    text = "What's Detected\n\nLicense Plates\n\n"
+    parse_portal_text(
+        text, "test-agency", "2026-05-11",
+        bold_headings={"What's Detected", "Glossary"},
+    )
+
+
 def test_overview_marker_accepts_operating_system_phrasing():
     """Flock rephrased the overview boilerplate from
     '<Agency> uses Flock Safety [LPR] technology' to

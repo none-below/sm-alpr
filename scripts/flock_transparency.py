@@ -37,9 +37,9 @@ import hashlib
 import html.parser
 import io
 import json
-import os
 import random
 import re
+import shutil
 import sys
 import tempfile
 import time
@@ -292,7 +292,9 @@ _HEADING_MAP = {
     # ── other structural fields ──
     "Additional Info":                       "additional_info",
     "Additional Information":                "additional_info",
+    "Additional Flock Safety Information":   "additional_info",
     "Community Safeguards":                  "additional_info",
+    "LPR and other Cameras":                 "additional_info",
     "Download CSV":                          "download_csv",
     "Public Search Audit":                   "search_audit",
     "Search Audit":                          "search_audit",
@@ -368,8 +370,10 @@ _DYNAMIC_HEADINGS = [
     # generic policy-link variant.
     (re.compile(r"^.+(?:Police Department|Sheriff(?:'s)?(?: Office)?|Police Bureau) Policy$", re.IGNORECASE), "policy_info"),
     # Success-story subheadings — agencies post titled excerpts under
-    # "Success Stories" (e.g. "Yuba County SO - Facebook Post - …").
+    # "Success Stories" (e.g. "Yuba County SO - Facebook Post - …",
+    # "Credit Card Skimming Ring - Success story").
     (re.compile(r"^.+ - Facebook Post - .+$", re.IGNORECASE), "success_stories"),
+    (re.compile(r"^.+ - Success Stor(?:y|ies)$", re.IGNORECASE), "success_stories"),
     # Sentence-style link blurbs, e.g. "Auburn PD's Policies and
     # Procedures can be found at the following link:" — same role as
     # the "Policy Documents" / "Policy Link" exact headings. Placed
@@ -387,6 +391,8 @@ _DYNAMIC_HEADINGS = [
     # Empty-state placeholder for sharing fields, e.g.
     # "None: Alameda does not share with outside agencies".
     (re.compile(r"^None:\s", re.IGNORECASE), None),
+    # Documentation chrome some portals add (durango-co-pd 2026-05-11).
+    (re.compile(r"^Glossary$", re.IGNORECASE), None),
 ]
 
 _MAX_HEADING_LEN = 120
@@ -865,16 +871,21 @@ def extract_csvs_from_html(html_text):
 def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     """Returns (status, discovered_slugs).
 
-    status: Path (saved), "unchanged", "rate_limited", or None (failed).
+    status: Path (saved), "unchanged", "rate_limited", or ("failed", reason).
+
+    Artifact-set integrity: a slug-dir capture is the four-tuple
+    .txt/.html/.json/.pdf. The whole set is staged in a `mktemp -d`
+    directory and only moved into `assets/transparency.flocksafety.com/<slug>/`
+    after all four artifacts validate. Parser failure on a new heading
+    variant returns ("failed", "parse_error") and writes nothing to the
+    asset tree — the PARSE_ERROR log line is surfaced as a tracking issue
+    by the workflows, and the next crawl will re-capture once the parser
+    is updated. (Earlier behavior left .txt + .html on disk with no .json,
+    which polluted diff/build logic that assumes html ↔ json parity per date.)
     """
     url = f"{BASE_URL}/{slug}"
     datestamp = date.today().isoformat()
     slug_dir = data_dir / slug
-    slug_dir.mkdir(parents=True, exist_ok=True)
-
-    txt_path = slug_dir / f"{datestamp}.txt"
-    json_path = slug_dir / f"{datestamp}.json"
-    pdf_path = slug_dir / f"{datestamp}.pdf"
 
     prefix = f"  {progress} " if progress else "  "
     print(f"{prefix}{slug} -> {url}")
@@ -906,31 +917,16 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     page_html = page.content()
     crawled_at = datetime.now(timezone.utc).isoformat()
 
-    # Save source-of-truth files BEFORE parsing — if the parser fails
-    # (e.g. Flock added a new heading variant), we still have the .txt
-    # and .html on disk to debug from and to re-parse later via
-    # `parse --force`. Otherwise a parser failure means we lose the
-    # captured page entirely and have to wait for the next crawl.
-    if force or prev_hash != current_hash:
-        txt_path.write_text(page_text, encoding="utf-8")
-        html_path = slug_dir / f"{datestamp}.html"
-        html_path.write_text(page_html, encoding="utf-8")
-
-    # Parse for sharing names (needed for recursive crawling even if unchanged)
+    # Parse in memory before writing anything. discovered_slugs is needed
+    # for depth crawling even when content is unchanged, so we parse on
+    # every successful fetch.
     bold_headings = extract_bold_headings(page_html)
     discovered_slugs = []
     try:
         portal_data = parse_portal_text(page_text, slug, datestamp, bold_headings=bold_headings)
     except ValueError as e:
-        # Parser hit a new format variant. The .txt and .html were saved
-        # above so latest_capture_attempt_date sees today's date and the
-        # slug ages out of tier 0 in the crawl queue (no stub JSON
-        # needed — that would pollute downstream consumers like
-        # build_history with bogus zeroed-out fields). The stub-free
-        # design lets `parse --force --slug <slug>` produce a correct
-        # JSON later once the parser is fixed.
-        # Structured marker line so the workflow can grep crawl logs
-        # and surface PARSE_ERROR: <slug> as a GitHub issue.
+        # PARSE_ERROR marker line is grepped by the refresh-flock-data
+        # and probe-slugs workflows to surface a tracking issue.
         print(f"    PARSE_ERROR: {slug} {datestamp} :: {e}")
         if not force and prev_hash == current_hash:
             return "unchanged", []
@@ -952,16 +948,11 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         print(f"    unchanged since last capture, skipping")
         return "unchanged", discovered_slugs
 
-    # 1c. Extract embedded CSVs from HTML
     for csv_name, csv_rows in extract_csvs_from_html(page_html):
         field = csv_name.replace(".csv", "").replace("-", "_") + "_csv"
         portal_data[field] = csv_rows
         print(f"    extracted {csv_name}: {len(csv_rows)} rows")
 
-    # 2. Parsed JSON (derived from .txt + html)
-    json_path.write_text(json.dumps(portal_data, indent=2) + "\n")
-
-    # 3. PDF visual archive
     cdp = page.context.new_cdp_session(page)
     result = cdp.send("Page.printToPDF", {
         "printBackground": True, "preferCSSPageSize": False,
@@ -972,16 +963,25 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     cdp.detach()
     pdf_data = base64.b64decode(result["data"])
 
-    fd, tmp_path = tempfile.mkstemp(suffix=".pdf", dir=str(slug_dir))
-    try:
-        with os.fdopen(fd, "wb") as f:
-            f.write(pdf_data)
-        Path(tmp_path).replace(pdf_path)
-    except Exception:
-        Path(tmp_path).unlink(missing_ok=True)
-        raise
+    # Stage the four-artifact set in a fresh temp dir, then mv into
+    # slug_dir only after all four write successfully. mktemp -d (not
+    # a fixed staging path) so retries/parallel batches can't collide.
+    with tempfile.TemporaryDirectory(prefix=f"flock-{slug}-") as staging_str:
+        staging = Path(staging_str)
+        (staging / f"{datestamp}.txt").write_text(page_text, encoding="utf-8")
+        (staging / f"{datestamp}.html").write_text(page_html, encoding="utf-8")
+        (staging / f"{datestamp}.json").write_text(json.dumps(portal_data, indent=2) + "\n")
+        (staging / f"{datestamp}.pdf").write_bytes(pdf_data)
 
-    print(f"    saved {slug}/{datestamp}.{{txt,json,pdf}}")
+        slug_dir.mkdir(parents=True, exist_ok=True)
+        pdf_path = slug_dir / f"{datestamp}.pdf"
+        for ext in ("txt", "html", "json", "pdf"):
+            shutil.move(
+                str(staging / f"{datestamp}.{ext}"),
+                str(slug_dir / f"{datestamp}.{ext}"),
+            )
+
+    print(f"    saved {slug}/{datestamp}.{{txt,html,json,pdf}}")
 
     if hashes is not None:
         hashes[slug] = current_hash
@@ -1037,10 +1037,12 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             discovered.extend(discovered_slugs)
         if isinstance(status, tuple) and status[0] == "failed":
             # parse_error means we got the page but the parser tripped on
-            # a new format variant. The .txt/.html were saved by archive_agency,
-            # so re-parsing locally fixes it without re-crawling. Don't
-            # permanently quarantine these — let the next crawl retry, so
-            # if the parser is updated meanwhile the slug self-heals.
+            # a new format variant — nothing was written to the asset tree
+            # (archive_agency stages and only commits on full success).
+            # Don't permanently quarantine these: leave them out of
+            # failed_slugs so the next crawl re-fetches and re-parses
+            # against an updated parser. The PARSE_ERROR log line is
+            # surfaced as a tracking issue by the workflow.
             if status[1] != "parse_error":
                 failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
