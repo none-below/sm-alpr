@@ -19870,5 +19870,231 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-11T04:27:50Z",
     "article_id": "art_188"
+  },
+  {
+    "url": "https://www.thenewstribune.com/news/local/community/gateway/g-news/article302475774.html",
+    "source_domain": "thenewstribune.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Will this Pierce County city get license plate cameras? Privacy is part of the debate",
+    "byline": "Julia Park",
+    "published_at": "2025-03-23T05:00:00-07:00",
+    "fetched_at": "2026-05-11T08:33:50Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 7 pts, low/medium only",
+    "scanner_score": 7,
+    "content_hash": "3ab4cd6133ec12e5bbb3ebeb33f7bd1b95185bf889c2218a547d2a29b13a83e1",
+    "paths": {
+      "html": "assets/articles/thenewstribune.com/news-local-community-gateway-g-news-article302475774-html_499129c8.html",
+      "meta": "assets/articles/thenewstribune.com/news-local-community-gateway-g-news-article302475774-html_499129c8.meta.json",
+      "pdf": "assets/articles/thenewstribune.com/news-local-community-gateway-g-news-article302475774-html_499129c8.pdf",
+      "txt": "assets/articles/thenewstribune.com/news-local-community-gateway-g-news-article302475774-html_499129c8.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260511083419/https://www.thenewstribune.com/news/local/community/gateway/g-news/article302475774.html",
+    "wayback_timestamp": "20260511083419",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:explainer",
+      "policy:audit",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "5a1588da-969e-5a60-be2e-5fe547c2716d",
+      "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+      "8deb7b8b-e076-59c1-8790-ee8d2828f137",
+      "1fa6ae5e-44d1-55f6-aed6-54453b711387",
+      "0be90b3a-6759-53d7-9f92-d6ea9f9740b0"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "5a1588da-969e-5a60-be2e-5fe547c2716d",
+        "display_name": "Lakewood WA PD",
+        "state": "WA",
+        "score": 6.15,
+        "matched_forms": [
+          "Lakewood",
+          "Lakewood Police"
+        ]
+      },
+      {
+        "agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+        "display_name": "Puyallup WA PD",
+        "state": "WA",
+        "score": 6.033,
+        "matched_forms": [
+          "Puyallup"
+        ]
+      },
+      {
+        "agency_id": "8deb7b8b-e076-59c1-8790-ee8d2828f137",
+        "display_name": "Sumner WA PD",
+        "state": "WA",
+        "score": 3.7,
+        "matched_forms": [
+          "Sumner"
+        ]
+      },
+      {
+        "agency_id": "1fa6ae5e-44d1-55f6-aed6-54453b711387",
+        "display_name": "Eatonville WA PD [Inactive]",
+        "state": "WA",
+        "score": 2.667,
+        "matched_forms": [
+          "Eatonville"
+        ]
+      },
+      {
+        "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+        "display_name": "Port of Seattle WA PD",
+        "state": "WA",
+        "score": 2.617,
+        "matched_forms": [
+          "Seattle"
+        ]
+      },
+      {
+        "agency_id": "a209d6bd-3efd-5d30-8f12-84fb3418ecac",
+        "display_name": "Lakewood OH PD",
+        "state": "OH",
+        "score": 1.25,
+        "matched_forms": [
+          "Lakewood Police"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "The Gig Harbor (WA) City Council is set to vote on a contract to install ten Flock Safety automated license plate readers at city entry/exit points, with funding from a state Auto Theft Prevention Authority grant. Council members raised privacy concerns about potential misuse by federal agencies and risks to domestic violence survivors, while the police chief and Flock emphasized data retention limits, audit logs, and access controls.",
+    "key_quotes": [
+      {
+        "quote": "I trust our Gig Harbor Police Department to do the right thing. That's not my concern. It's just potential misuse from other agencies for whatever reason.",
+        "paragraph_idx": 18
+      },
+      {
+        "quote": "the city would only release the data to another police agency \"if they can show a valid violation of Washington state law.\" If a federal agency wanted to access the data, the city \"would only comply with a court order signed by a federal judge.\"",
+        "paragraph_idx": 22
+      },
+      {
+        "quote": "Flock encrypts and stores the data temporarily on a secure cloud server through Amazon Web Services for a default retention period of 30 days, before it's auto-deleted.",
+        "paragraph_idx": 12
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-11T08:40:45Z",
+    "article_id": "art_189"
+  },
+  {
+    "url": "https://www.theolympian.com/news/state/washington/article315379868.html",
+    "source_domain": "theolympian.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Flock Safety cameras in Centralia are here to stay, even under new state restrictions",
+    "byline": " Jacob Moore, The Chronicle, Centralia, Wash. ",
+    "published_at": "2026-04-11T11:28:11-07:00",
+    "fetched_at": "2026-05-11T08:39:03Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 5 pts, low/medium only",
+    "scanner_score": 5,
+    "content_hash": "c18d0fbe53c26258929b60d28e3c15707e760360bbdc0dc13b54bb4e280b14fc",
+    "paths": {
+      "html": "assets/articles/theolympian.com/news-state-washington-article315379868-html_50856028.html",
+      "meta": "assets/articles/theolympian.com/news-state-washington-article315379868-html_50856028.meta.json",
+      "pdf": "assets/articles/theolympian.com/news-state-washington-article315379868-html_50856028.pdf",
+      "txt": "assets/articles/theolympian.com/news-state-washington-article315379868-html_50856028.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260511084015/https://www.theolympian.com/news/state/washington/article315379868.html",
+    "wayback_timestamp": "20260511084015",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "legal:legislation",
+      "outcome:renewed",
+      "policy:hotlist",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "scope:state",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "b47e37ee-b687-5be5-a284-a153da743c03",
+      "59b47e3d-afc5-514a-9c3a-a91777918662",
+      "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "5b1cc766-8466-5059-bb35-c320faf59410",
+      "0a9f6f92-fc21-5938-80a2-d0abe88afa88"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "b47e37ee-b687-5be5-a284-a153da743c03",
+        "display_name": "Centralia PD (WA)",
+        "state": "WA",
+        "score": 12.567,
+        "matched_forms": [
+          "Centralia",
+          "Centralia Police",
+          "Centralia Police Department"
+        ]
+      },
+      {
+        "agency_id": "59b47e3d-afc5-514a-9c3a-a91777918662",
+        "display_name": "Centralia IL PD",
+        "state": "IL",
+        "score": 4.167,
+        "matched_forms": [
+          "Centralia Police",
+          "Centralia Police Department"
+        ]
+      },
+      {
+        "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+        "display_name": "Port of Seattle WA PD",
+        "state": "WA",
+        "score": 2.617,
+        "matched_forms": [
+          "Seattle"
+        ]
+      },
+      {
+        "agency_id": "5b1cc766-8466-5059-bb35-c320faf59410",
+        "display_name": "Moore OK PD",
+        "state": "OK",
+        "score": 2.583,
+        "matched_forms": [
+          "Moore"
+        ]
+      },
+      {
+        "agency_id": "0a9f6f92-fc21-5938-80a2-d0abe88afa88",
+        "display_name": "Kent WA PD",
+        "state": "WA",
+        "score": 2.567,
+        "matched_forms": [
+          "Kent"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "b47e37ee-b687-5be5-a284-a153da743c03",
+    "summary": "Centralia (WA) Police Department will continue using Flock Safety ALPR cameras despite new state restrictions under SB 6002, though it must shut off three cameras near protected sites (a school, library, and Planned Parenthood) and lose NCIC watchlist notifications. Chief Andy Caldwell says the new 21-day retention limit and felony/gross-misdemeanor-only enforcement scope still allow most uses, contrasting with Seattle, Kent, and Pierce County agencies that have temporarily shut systems off.",
+    "key_quotes": [
+      {
+        "quote": "I want to be the optimist that says, 'OK, great. We can still track theft. We can still do domestic violence. We can still do destruction of private property. We can still track other things,'",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "The Centralia Police Department has three cameras that violated that rule that have since been shut off.",
+        "paragraph_idx": 13
+      },
+      {
+        "quote": "the local department will no longer get notifications from the National Criminal Information Center (NCIC) when vehicles associated with individuals on the national watchlist enter the area",
+        "paragraph_idx": 16
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-11T08:40:52Z",
+    "article_id": "art_190"
   }
 ]
