@@ -19239,5 +19239,565 @@
     "curation_status": "enriched",
     "curated_at": "2026-05-10T23:11:30Z",
     "article_id": "art_183"
+  },
+  {
+    "url": "https://azdailysun.com/news/local/flock-cameras-in-flagstaff-come-under-scrutiny/article_62556046-d721-43df-885a-14287fe8307e.html",
+    "source_domain": "azdailysun.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "Flock cameras in Flagstaff come under scrutiny",
+    "byline": "SAM MCLAUGHLIN Sun Staff Reporter",
+    "published_at": null,
+    "fetched_at": "2026-05-11T00:11:40Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 239 pts, HIGH/CRITICAL findings",
+    "scanner_score": 239,
+    "content_hash": "40a0c43fe6626caedeb1bc620101a0d66e1e93291a7f53ebe78c2245450d1c34",
+    "paths": {
+      "html": "assets/articles/azdailysun.com/news-local-flock-cameras-in-flagstaff-come-under-scrutiny-article-62556046-d721_3ecff8a1.html",
+      "meta": "assets/articles/azdailysun.com/news-local-flock-cameras-in-flagstaff-come-under-scrutiny-article-62556046-d721_3ecff8a1.meta.json",
+      "pdf": "assets/articles/azdailysun.com/news-local-flock-cameras-in-flagstaff-come-under-scrutiny-article-62556046-d721_3ecff8a1.pdf",
+      "txt": "assets/articles/azdailysun.com/news-local-flock-cameras-in-flagstaff-come-under-scrutiny-article-62556046-d721_3ecff8a1.txt"
+    },
+    "wayback_url": null,
+    "wayback_timestamp": null,
+    "wayback_source": "poll-failed",
+    "pdf_status": "rendered",
+    "tags": [
+      "vendor:flock"
+    ],
+    "agencies": [
+      "926a7e76-714b-50a2-977e-522e4ec651ec",
+      "5757726e-ad41-55a6-8505-d14c1d0b7155",
+      "86e9b8be-f02d-50c0-a0f8-9ed7b2b378a4",
+      "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+      "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+      "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+      "cda15ffc-6dd3-56bb-8e41-53647dfd7bab",
+      "0ec45902-8d38-54b7-9104-006d6f5777e5",
+      "abb515ad-5db0-5e8c-b545-f294d6c18d26",
+      "1dcdab89-7f4f-5f52-9b08-1c81d79875da"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "926a7e76-714b-50a2-977e-522e4ec651ec",
+        "display_name": "Republic MO PD",
+        "state": "MO",
+        "score": 248.567,
+        "matched_forms": [
+          "Republic"
+        ]
+      },
+      {
+        "agency_id": "5757726e-ad41-55a6-8505-d14c1d0b7155",
+        "display_name": "Flagstaff AZ PD [Inactive]",
+        "state": "AZ",
+        "score": 46.95,
+        "matched_forms": [
+          "Flagstaff",
+          "Flagstaff Police Department"
+        ]
+      },
+      {
+        "agency_id": "86e9b8be-f02d-50c0-a0f8-9ed7b2b378a4",
+        "display_name": "Flagstaff Police Department",
+        "state": "AZ",
+        "score": 46.95,
+        "matched_forms": [
+          "Flagstaff",
+          "Flagstaff Police Department"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+        "display_name": "Washington IL PD",
+        "state": "IL",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+        "display_name": "Washington MO PD",
+        "state": "MO",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "cda15ffc-6dd3-56bb-8e41-53647dfd7bab",
+        "display_name": "Marshall AR PD",
+        "state": "AR",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      },
+      {
+        "agency_id": "0ec45902-8d38-54b7-9104-006d6f5777e5",
+        "display_name": "Marshall IL PD",
+        "state": "IL",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      },
+      {
+        "agency_id": "abb515ad-5db0-5e8c-b545-f294d6c18d26",
+        "display_name": "Marshall TX PD",
+        "state": "TX",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      },
+      {
+        "agency_id": "1dcdab89-7f4f-5f52-9b08-1c81d79875da",
+        "display_name": "Marshall WI PD",
+        "state": "WI",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": null,
+    "key_quotes": [],
+    "curation_status": "needs_review",
+    "curated_at": "2026-05-11T00:12:45Z",
+    "article_id": "art_184",
+    "curation_error": "schema parse failed or refusal",
+    "curation_raw": "[model refusal]"
+  },
+  {
+    "url": "https://chronline.com/stories/a-new-oregon-law-regulates-police-use-of-license-plate-readers-heres-how-it-works,400937",
+    "source_domain": "chronline.com",
+    "tier": 2,
+    "stance": "unknown",
+    "title": "A new Oregon law regulates police use of license plate readers. Here\u2019s how it works - The Daily Chronicle",
+    "byline": "Shaanth Nanguneri / Oregon Capital Chronicle",
+    "published_at": "2026-04-23",
+    "fetched_at": "2026-05-11T00:10:22Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "WARNINGS \u2014 4 pts, low/medium only",
+    "scanner_score": 4,
+    "content_hash": "327df261f3243fe4731a456542a6094a8dbae19b44e73437f4815d01cfa7cba1",
+    "paths": {
+      "html": "assets/articles/chronline.com/stories-a-new-oregon-law-regulates-police-use-of-license-plate-readers-heres-how_3a535526.html",
+      "meta": "assets/articles/chronline.com/stories-a-new-oregon-law-regulates-police-use-of-license-plate-readers-heres-how_3a535526.meta.json",
+      "pdf": "assets/articles/chronline.com/stories-a-new-oregon-law-regulates-police-use-of-license-plate-readers-heres-how_3a535526.pdf",
+      "txt": "assets/articles/chronline.com/stories-a-new-oregon-law-regulates-police-use-of-license-plate-readers-heres-how_3a535526.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260511001119/https://chronline.com/stories/a-new-oregon-law-regulates-police-use-of-license-plate-readers-heres-how-it-works,400937",
+    "wayback_timestamp": "20260511001119",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:explainer",
+      "incident:ice-cooperation",
+      "legal:legislation",
+      "policy:audit",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "policy:sharing",
+      "scope:state",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "b47e37ee-b687-5be5-a284-a153da743c03",
+      "68f11e4a-7a56-5692-a0a2-558de9117210",
+      "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+      "a2c33b5c-16a8-52e3-8c8a-5be75694d3ed",
+      "624117fb-8cba-5612-8f6f-0ebbfc512ae9",
+      "8b0f8ec0-4cc5-5aa7-b1d3-32ecc9b222f6",
+      "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "b47e37ee-b687-5be5-a284-a153da743c03",
+        "display_name": "Centralia PD (WA)",
+        "state": "WA",
+        "score": 4.95,
+        "matched_forms": [
+          "Centralia"
+        ]
+      },
+      {
+        "agency_id": "68f11e4a-7a56-5692-a0a2-558de9117210",
+        "display_name": "Eugene Police Department",
+        "state": "OR",
+        "score": 3.7,
+        "matched_forms": [
+          "Eugene"
+        ]
+      },
+      {
+        "agency_id": "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+        "display_name": "Springfield OR PD",
+        "state": "OR",
+        "score": 2.683,
+        "matched_forms": [
+          "Springfield"
+        ]
+      },
+      {
+        "agency_id": "a2c33b5c-16a8-52e3-8c8a-5be75694d3ed",
+        "display_name": "Chehalis Tribe Law Enforcement WA",
+        "state": "WA",
+        "score": 2.633,
+        "matched_forms": [
+          "Oakville"
+        ]
+      },
+      {
+        "agency_id": "624117fb-8cba-5612-8f6f-0ebbfc512ae9",
+        "display_name": "Chehalis WA PD",
+        "state": "WA",
+        "score": 2.633,
+        "matched_forms": [
+          "Chehalis"
+        ]
+      },
+      {
+        "agency_id": "8b0f8ec0-4cc5-5aa7-b1d3-32ecc9b222f6",
+        "display_name": "Napavine WA PD",
+        "state": "WA",
+        "score": 2.633,
+        "matched_forms": [
+          "Napavine"
+        ]
+      },
+      {
+        "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+        "display_name": "Denver Police Department",
+        "state": "CO",
+        "score": 2.6,
+        "matched_forms": [
+          "Denver"
+        ]
+      },
+      {
+        "agency_id": "3b78d3ac-8681-5883-bdbc-97b96ee98f92",
+        "display_name": "Metropolitan Washington DC PD",
+        "state": "DC",
+        "score": 1.283,
+        "matched_forms": [
+          "Washington Police"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 1.283,
+        "matched_forms": [
+          "Washington Police"
+        ]
+      },
+      {
+        "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+        "display_name": "Washington IL PD",
+        "state": "IL",
+        "score": 1.283,
+        "matched_forms": [
+          "Washington Police"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": null,
+    "summary": "Oregon's SB 1516, signed by Gov. Tina Kotek in March 2026, establishes the state's first comprehensive ALPR framework, limiting data retention to 30 days, requiring search logging and public audits, barring use that violates sanctuary laws, and allowing Oregonians to sue vendors that improperly share data. Advocates praised transparency provisions but criticized reliance on private rights of action and the lack of a definition for required end-to-end encryption.",
+    "key_quotes": [
+      {
+        "quote": "Oregonians will soon be able to sue private companies that sell or otherwise improperly use data captured by license plate-reading cameras under a new state law.",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "the law limits the retention of such data to 30 days unless it is linked to a criminal inquiry or court proceedings",
+        "paragraph_idx": 10
+      },
+      {
+        "quote": "Every misuse of the system that we found was because of the public auditing these companies, watching them, doing public records requests or just looking at transparency portals",
+        "paragraph_idx": 16
+      },
+      {
+        "quote": "The bill requires it, but doesn't define it. My biggest concern is that these vendors are going to try and skirt that aspect of the bill",
+        "paragraph_idx": 19
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-11T00:13:10Z",
+    "article_id": "art_185"
+  },
+  {
+    "url": "https://www.smdailyjournal.com/news/local/foster-city-adding-license-plate-monitoring-program/article_49c0eaba-903c-11eb-a162-d70f5231627a.html",
+    "source_domain": "smdailyjournal.com",
+    "tier": 1,
+    "stance": "neutral",
+    "title": "Foster City adding license plate monitoring program",
+    "byline": "Curtis Driscoll Daily Journal staff",
+    "published_at": null,
+    "fetched_at": "2026-05-11T00:05:17Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 235 pts, HIGH/CRITICAL findings",
+    "scanner_score": 235,
+    "content_hash": "8dd7b55318f4ee6e1bc476a78e461281b24eefd09d396cc172c17c867a20f4ab",
+    "paths": {
+      "html": "assets/articles/smdailyjournal.com/news-local-foster-city-adding-license-plate-monitoring-program-article-49c0eaba_0d709e9a.html",
+      "meta": "assets/articles/smdailyjournal.com/news-local-foster-city-adding-license-plate-monitoring-program-article-49c0eaba_0d709e9a.meta.json",
+      "pdf": "assets/articles/smdailyjournal.com/news-local-foster-city-adding-license-plate-monitoring-program-article-49c0eaba_0d709e9a.pdf",
+      "txt": "assets/articles/smdailyjournal.com/news-local-foster-city-adding-license-plate-monitoring-program-article-49c0eaba_0d709e9a.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260511000628/https://www.smdailyjournal.com/news/local/foster-city-adding-license-plate-monitoring-program/article_49c0eaba-903c-11eb-a162-d70f5231627a.html",
+    "wayback_timestamp": "20260511000628",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "policy:purpose-limitation",
+      "policy:retention",
+      "scope:local"
+    ],
+    "agencies": [
+      "926a7e76-714b-50a2-977e-522e4ec651ec",
+      "847ce8af-3e88-59ca-90f3-d621db6f31f6",
+      "6d11ec03-586d-570a-b110-56f9e37261ff",
+      "c7534013-784e-5c7b-8acb-b88b2ad8dfbe",
+      "f4073ba9-2a85-50ab-82d6-1800ff5491c6",
+      "b9416bc1-b4d2-5852-9bad-c498f32961b0",
+      "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+      "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+      "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+      "cda15ffc-6dd3-56bb-8e41-53647dfd7bab"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "926a7e76-714b-50a2-977e-522e4ec651ec",
+        "display_name": "Republic MO PD",
+        "state": "MO",
+        "score": 248.567,
+        "matched_forms": [
+          "Republic"
+        ]
+      },
+      {
+        "agency_id": "847ce8af-3e88-59ca-90f3-d621db6f31f6",
+        "display_name": "San Mateo CA PD",
+        "state": "CA",
+        "score": 30.75,
+        "matched_forms": [
+          "San Mateo"
+        ]
+      },
+      {
+        "agency_id": "6d11ec03-586d-570a-b110-56f9e37261ff",
+        "display_name": "San Mateo County CA SO",
+        "state": "CA",
+        "score": 24.933,
+        "matched_forms": [
+          "San Mateo County",
+          "San Mateo County Sheriff"
+        ]
+      },
+      {
+        "agency_id": "c7534013-784e-5c7b-8acb-b88b2ad8dfbe",
+        "display_name": "Foster City CA PD",
+        "state": "CA",
+        "score": 15.133,
+        "matched_forms": [
+          "Foster City",
+          "Foster City Police"
+        ]
+      },
+      {
+        "agency_id": "f4073ba9-2a85-50ab-82d6-1800ff5491c6",
+        "display_name": "Burlingame CA PD",
+        "state": "CA",
+        "score": 9.0,
+        "matched_forms": [
+          "Burlingame"
+        ]
+      },
+      {
+        "agency_id": "b9416bc1-b4d2-5852-9bad-c498f32961b0",
+        "display_name": "Tracy CA PD",
+        "state": "CA",
+        "score": 6.333,
+        "matched_forms": [
+          "Tracy"
+        ]
+      },
+      {
+        "agency_id": "5cad947e-67e9-5010-99f7-57d1ecc1bfc5",
+        "display_name": "Washington IA PD",
+        "state": "IA",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+        "display_name": "Washington IL PD",
+        "state": "IL",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "f273ff02-5719-532a-9ea7-cfa32bd2b4fb",
+        "display_name": "Washington MO PD",
+        "state": "MO",
+        "score": 6.167,
+        "matched_forms": [
+          "Washington"
+        ]
+      },
+      {
+        "agency_id": "cda15ffc-6dd3-56bb-8e41-53647dfd7bab",
+        "display_name": "Marshall AR PD",
+        "state": "AR",
+        "score": 6.033,
+        "matched_forms": [
+          "Marshall"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "c7534013-784e-5c7b-8acb-b88b2ad8dfbe",
+    "summary": "Foster City Council approved an Automated License Plate Reader program with Flock, installing 20 cameras at city entry/exit points to address rising vehicle thefts and burglaries. The contract costs $13,334 for the initial two months and $50,000 annually thereafter, with a 30-day data retention policy. The motion passed 4-1.",
+    "key_quotes": [
+      {
+        "quote": "We are experiencing a rise in crime in Foster City as well as the county. We have limited personnel to handle a growing number of calls for service, and the police department's commitment to providing excellent levels of service to the community necessitates the use of additional technological options to detect, solve, prevent and deter crime",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "Avelar said the ALPR data would not be stored or retained by the police department or any vendor beyond 30 days, nor would it be warehoused with any private company data.",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "The data would not be used for facial recognition software, immigration enforcement or traffic enforcement",
+        "paragraph_idx": 10
+      },
+      {
+        "quote": "The motion passed 4-1, with Sullivan voting against.",
+        "paragraph_idx": 17
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-11T00:13:19Z",
+    "article_id": "art_186"
+  },
+  {
+    "url": "https://www.thenewstribune.com/news/state/washington/article315683941.html",
+    "source_domain": "thenewstribune.com",
+    "tier": 1,
+    "stance": "unknown",
+    "title": "Sedro-Woolley to turn back on its Flock cameras",
+    "byline": " VINCE RICHARDSON, Skagit Valley Herald, Mount Vernon, Wash. ",
+    "published_at": "2026-05-08T07:06:02-07:00",
+    "fetched_at": "2026-05-11T00:03:44Z",
+    "discovered_by": "manual-seed-batch-2026-05-08",
+    "scanner_verdict": "REVIEW REQUIRED \u2014 20 pts, HIGH/CRITICAL findings",
+    "scanner_score": 20,
+    "content_hash": "864d666dc146c8b232eafbf856160423a1b681be108766f9eb3f7d6d48c98ad4",
+    "paths": {
+      "html": "assets/articles/thenewstribune.com/news-state-washington-article315683941-html_09542cc5.html",
+      "meta": "assets/articles/thenewstribune.com/news-state-washington-article315683941-html_09542cc5.meta.json",
+      "pdf": "assets/articles/thenewstribune.com/news-state-washington-article315683941-html_09542cc5.pdf",
+      "txt": "assets/articles/thenewstribune.com/news-state-washington-article315683941-html_09542cc5.txt"
+    },
+    "wayback_url": "https://web.archive.org/web/20260511000401/https://www.thenewstribune.com/news/state/washington/article315683941.html",
+    "wayback_timestamp": "20260511000401",
+    "wayback_source": "saved",
+    "pdf_status": "rendered",
+    "tags": [
+      "genre:investigative",
+      "legal:legislation",
+      "legal:pra",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "scope:local",
+      "vendor:flock"
+    ],
+    "agencies": [
+      "f9528ae9-97e1-555d-8dd3-f842543cb473",
+      "d791f0a4-e22d-5acd-972a-08ab21020e2e",
+      "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+      "37330114-0b02-5b61-a889-2fc214849095"
+    ],
+    "agency_candidates": [
+      {
+        "agency_id": "f9528ae9-97e1-555d-8dd3-f842543cb473",
+        "display_name": "Sedro-Woolley WA PD",
+        "state": "WA",
+        "score": 12.567,
+        "matched_forms": [
+          "Sedro-Woolley",
+          "Sedro-Woolley Police"
+        ]
+      },
+      {
+        "agency_id": "d791f0a4-e22d-5acd-972a-08ab21020e2e",
+        "display_name": "Mount Vernon WA PD",
+        "state": "WA",
+        "score": 3.9,
+        "matched_forms": [
+          "Mount Vernon"
+        ]
+      },
+      {
+        "agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+        "display_name": "Puyallup WA PD",
+        "state": "WA",
+        "score": 3.767,
+        "matched_forms": [
+          "Puyallup"
+        ]
+      },
+      {
+        "agency_id": "37330114-0b02-5b61-a889-2fc214849095",
+        "display_name": "Stanwood WA PD",
+        "state": "WA",
+        "score": 3.767,
+        "matched_forms": [
+          "Stanwood"
+        ]
+      }
+    ],
+    "primary_subject_agency_id": "f9528ae9-97e1-555d-8dd3-f842543cb473",
+    "summary": "The Sedro-Woolley City Council voted to reactivate its seven Flock ALPR cameras, expected back online by June 1, after they were disabled in June 2025 amid a public records dispute. New Washington state legislation signed by Gov. Ferguson restricts access to authorized law enforcement and bars federal/immigration use, prompting the reversal. The chief negotiated a prorated discount on the contract.",
+    "key_quotes": [
+      {
+        "quote": "The Sedro-Woolley City Council voted Wednesday night to turn back on the city's Flock Safety Camera System.",
+        "paragraph_idx": 3
+      },
+      {
+        "quote": "Sedro-Woolley's seven Flock cameras went live in March 2025 and were disabled in June 2025 after a public records request was filed for images taken by the cameras.",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "A new state law limits images to authorized law enforcement personnel for valid law enforcement purposes. Federal agencies are prohibited from accessing Flock camera data, including for immigration enforcement.",
+        "paragraph_idx": 7
+      },
+      {
+        "quote": "I was able to negotiate with Flock and since it has been turned off for so long, to get a prorated discount on the time we lost",
+        "paragraph_idx": 12
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-11T00:13:26Z",
+    "article_id": "art_187"
   }
 ]
