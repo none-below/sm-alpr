@@ -278,27 +278,39 @@ function renderMap(matched) {
   STATE.markerLayer.clearLayers();
   STATE.vendorLayer.clearLayers();
 
-  // Plot each article at its primary subject agency only — mentions of
-  // other agencies (Flock HQ, peer cities) would otherwise scatter the
-  // article across the map. Vendor-primary articles (no real subject
-  // city) get bucketed into a single off-coast pip.
+  // Plot one pin per agency the article is substantively about
+  // (primary_subject_agencies). An article about three cities gets
+  // three pins; an article that merely name-checks them gets zero
+  // (the curator filters those out). Vendor-primary entries (no real
+  // subject city) get bucketed into a single off-coast pip.
+  // Dedupe per agency so a single article never adds two pins at the
+  // same agency, even if the curator returned a duplicate.
   var byAgency = {};
   var vendorBucket = { articles: [], names: {} };
   for (var i = 0; i < matched.length; i++) {
     var a = matched[i];
-    var ag = a.primary_subject_agency;
-    if (!ag) continue;
-    if (ag.is_vendor) {
-      vendorBucket.articles.push(a);
-      vendorBucket.names[ag.name] = true;
-      continue;
+    var subjects = a.primary_subject_agencies || [];
+    var seenForArticle = {};
+    var vendorAddedForArticle = false;
+    for (var s = 0; s < subjects.length; s++) {
+      var ag = subjects[s];
+      if (!ag) continue;
+      if (ag.is_vendor) {
+        if (vendorAddedForArticle) continue;
+        vendorBucket.articles.push(a);
+        vendorBucket.names[ag.name] = true;
+        vendorAddedForArticle = true;
+        continue;
+      }
+      if (ag.lat == null || ag.lng == null) continue;
+      var key = ag.agency_id;
+      if (seenForArticle[key]) continue;
+      seenForArticle[key] = true;
+      if (!byAgency[key]) {
+        byAgency[key] = { agency: ag, articles: [] };
+      }
+      byAgency[key].articles.push(a);
     }
-    if (ag.lat == null || ag.lng == null) continue;
-    var key = ag.agency_id;
-    if (!byAgency[key]) {
-      byAgency[key] = { agency: ag, articles: [] };
-    }
-    byAgency[key].articles.push(a);
   }
 
   var bounds = [];

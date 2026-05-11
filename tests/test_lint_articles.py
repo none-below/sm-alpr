@@ -2,9 +2,9 @@
 
 The lint enforces: article_id format + uniqueness, URL uniqueness,
 source_domain in allowlist, agencies[] entries resolve to
-agency_registry, primary_subject_agency_id appears in this entry's
-agencies[], tags appear in tags.json, curation_status in known set,
-paths.{html,txt,meta} exist.
+agency_registry, primary_subject_agency_ids entries each appear in
+this entry's agencies[] (and are unique), tags appear in tags.json,
+curation_status in known set, paths.{html,txt,meta} exist.
 
 We test by running the script as a subprocess against a temp repo
 laid out in tmp_path.
@@ -152,14 +152,42 @@ def test_lint_rejects_unknown_tag(tmp_path):
 
 
 def test_lint_rejects_primary_subject_not_in_agencies(tmp_path):
-    """primary_subject_agency_id must appear in this entry's agencies[]."""
+    """Every primary_subject_agency_ids entry must appear in agencies[]."""
     repo, _ = _make_repo(tmp_path, registry=[_good_entry(
         agencies=["agency-1"],
-        primary_subject_agency_id="agency-2",  # not in agencies[]
+        primary_subject_agency_ids=["agency-2"],  # not in agencies[]
     )])
     rc, out, err = _run(repo)
     assert rc == 1
-    assert "primary_subject_agency_id" in err
+    assert "primary_subject_agency_ids" in err
+
+
+def test_lint_rejects_primary_subject_duplicate(tmp_path):
+    """primary_subject_agency_ids entries must be unique."""
+    repo, _ = _make_repo(tmp_path, registry=[_good_entry(
+        agencies=["agency-1"],
+        primary_subject_agency_ids=["agency-1", "agency-1"],
+    )])
+    rc, out, err = _run(repo)
+    assert rc == 1
+    assert "duplicate" in err
+
+
+def test_lint_accepts_multiple_primary_subjects(tmp_path):
+    """Multiple distinct primary subjects, all in agencies[], passes."""
+    repo, _ = _make_repo(
+        tmp_path,
+        registry=[_good_entry(
+            agencies=["agency-1", "agency-2"],
+            primary_subject_agency_ids=["agency-1", "agency-2"],
+        )],
+        agencies=[
+            {"agency_id": "agency-1", "geo": {"name": "X"}},
+            {"agency_id": "agency-2", "geo": {"name": "Y"}},
+        ],
+    )
+    rc, out, err = _run(repo)
+    assert rc == 0, err
 
 
 def test_lint_rejects_unknown_curation_status(tmp_path):

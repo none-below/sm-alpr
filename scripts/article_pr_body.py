@@ -106,9 +106,10 @@ def render_article(a: dict) -> list[str]:
     tags = a.get("tags") or []
     if tags:
         lines.append("Tags: " + ", ".join(f"`{t}`" for t in tags))
-    psa = a.get("primary_subject_agency_id")
-    if psa:
-        lines.append(f"Primary subject agency_id: `{psa}`")
+    psa_ids = a.get("primary_subject_agency_ids") or []
+    if psa_ids:
+        label = "Primary subject agency_id" + ("s" if len(psa_ids) != 1 else "")
+        lines.append(f"{label}: " + ", ".join(f"`{p}`" for p in psa_ids))
     return lines
 
 
