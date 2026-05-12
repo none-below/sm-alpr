@@ -503,14 +503,43 @@ Promise.all([
     const inferredIn = new Set(m.inferred_inbound || []);
     const inferTag = ' <span style="color:#6b7280;font-size:11px;font-style:italic" title="Not on this agency\'s portal — inferred from the other agency\'s portal">[inferred]</span>';
 
-    if (m.outbound_slugs && m.outbound_slugs.length) {
-      const sorted = sortOutbound(m.outbound_slugs, m.lat, m.lng);
+    // Recently-removed outbound entries (last 90d, from agency_changelog.json).
+    // Rendered inline within the appropriate section (Direct flags or
+    // Shares with), faded + struck through, so removals are visible
+    // without inflating the active count. Gated by showChanges to match
+    // the map's ghost-edge toggle. Entries whose name couldn't be
+    // resolved to a registry slug are dropped \u2014 without a slug we
+    // can't classify as flagged/clean or link to a report.
+    const sidebarChg = showChanges ? (changelogBySlug[m.slug] || {}) : {};
+    const allRemoved = (sidebarChg.sharing_outbound_removed || []).filter(r => r.slug);
+    const removedFlagged = allRemoved.filter(r => isFlagged(r.slug));
+    const removedClean = allRemoved.filter(r => !isFlagged(r.slug));
+    // Renders one row as: <struck-through name+tags> [removed DATE].
+    // Strikethrough is on a span (not the row) so the [removed DATE]
+    // annotation stays legible.
+    const removedRow = function(slug, label, date) {
+      return '<div style="cursor:pointer" data-slug="' + escapeHtml(slug) + '">' +
+        '<span style="text-decoration:line-through;opacity:0.55">' + label + '</span>' +
+        ' <span style="color:#6b7280;font-style:italic;font-size:11px" title="Was on this agency\'s sharing list during our tracking window but has since been removed">[removed ' + escapeHtml(date) + ']</span>' +
+        '</div>';
+    };
+
+    if ((m.outbound_slugs && m.outbound_slugs.length) || removedFlagged.length || removedClean.length) {
+      const sorted = sortOutbound(m.outbound_slugs || [], m.lat, m.lng);
       const directFlagged = sorted.filter(s => isFlagged(s));
       const clean = sorted.filter(s => !isFlagged(s));
 
-      // Direct flags first
-      if (directFlagged.length) {
+      // Direct flags \u2014 render the block when either active or removed
+      // flagged entries exist, so a removed-only history (e.g. SMPD's
+      // UOP removal once cleaned up) still shows. Removed entries are
+      // rendered FIRST so they remain visible even when the active
+      // list is long \u2014 strikethrough + [removed DATE] tag makes the
+      // historical status obvious at a glance.
+      if (directFlagged.length || removedFlagged.length) {
         html += '<div class="sharing-list"><strong style="color:#dc2626">\u26a0 Direct flags (' + directFlagged.length + '):</strong>';
+        removedFlagged.forEach(function(r) {
+          html += removedRow(r.slug, slugLabel(r.slug), r.date);
+        });
         directFlagged.forEach(function(s) {
           html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
         });
@@ -536,9 +565,16 @@ Promise.all([
         html += '</details>';
       }
 
-      // Clean agencies
-      if (clean.length) {
+      // Clean agencies — removed entries rendered first for the same
+      // reason as Direct flags (visible without scrolling through
+      // hundreds of active entries).
+      if (clean.length || removedClean.length) {
         html += '<div class="sharing-list" style="border-top:1px solid #e5e7eb;padding-top:6px"><strong>Shares with (' + clean.length + '):</strong>';
+        removedClean.forEach(function(r) {
+          const info = agencyInfo[r.slug] || {};
+          const label = escapeHtml(info.name || r.name || r.slug);
+          html += removedRow(r.slug, label, r.date);
+        });
         clean.forEach(function(s) {
           html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
         });
