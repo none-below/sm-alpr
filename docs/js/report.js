@@ -1545,7 +1545,7 @@
         html += `<strong>Portal describes targets as &ldquo;wanted criminals&rdquo;</strong>`;
         html += `<div style="margin-top:6px;font-size:10pt"><em>${escapeHtml(n.matched_text)}</em></div>`;
         html += '<div style="margin-top:8px;font-size:10pt">';
-        html += `Real-time hotlist alerting fires <strong>before</strong> any judicial determination &mdash; that is the point of the feature. The vehicles it flags are tied to outstanding arrest warrants, BOLOs, or missing-persons reports; the people in them are accused, sought, or wanted for questioning &mdash; not convicted. Describing them as &ldquo;criminals&rdquo; presumes the outcome the legal process is meant to determine.`;
+        html += `Real-time hotlist alerting fires <strong>before</strong> any judicial determination &mdash; that is the point of the feature. The vehicles it flags are tied to outstanding arrest warrants, BOLOs, Amber Alerts, Silver Alerts, and missing-persons reports. The subjects include people accused or sought for questioning, but also <strong>missing children, kidnap victims, and adults who have wandered off</strong> &mdash; none of whom are &ldquo;criminals&rdquo; by any reading. Describing the targets as &ldquo;wanted criminals&rdquo; both presumes the legal outcome the process is meant to determine and mischaracterizes the substantial share of searches aimed at victims or other non-criminal subjects.`;
         html += '</div>';
         if (pool) {
           html += `<div class="muted" style="margin-top:6px;font-size:9.5pt">This is Flock&rsquo;s template phrasing &mdash; the same sentence appears on ${peers} of ${pool} scraped CA agency portals. The agency adopts it by leaving the default in place.</div>`;
