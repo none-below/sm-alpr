@@ -674,6 +674,56 @@ _PORTAL_CONTENT_MARKERS = (
 )
 
 
+# Verbs we've seen agencies use to introduce their ALPR tech: "uses"
+# (most common), "utilizes" (Oakland), "employs" (Mill Valley),
+# "leverages" (occasional). Object is usually "Flock Safety ..." but
+# some agencies (Napa PD) describe the product generically as
+# "Automatic License Plate Reader technology".
+_FLOCK_MARKER_RE = re.compile(
+    r" (?:uses|utilizes|employs|leverages) "
+    r"(?:Flock Safety(?:'s)? (?:LPR )?(?:[Tt]echnology|Operating System)"
+    r"|Automatic License Plate Reader(?:s)?"
+    r"(?: \(?[Aa]LPR\)?)? technology)"
+)
+
+
+def _extract_crawled_name(overview, slug, datestamp):
+    """Pull the agency's self-described name from the overview prose.
+
+    Flock-rendered overviews follow the shape
+        "<Agency Name> uses Flock Safety's Operating System ..."
+    so the name is everything before that boilerplate marker. We strip
+    stray surrounding quotes too (San Rafael wraps the whole sentence
+    in `"…"`, leaving a leading `"` that .strip() alone won't drop).
+
+    Returns None silently when the overview is empty or doesn't follow
+    the boilerplate at all (NCRIC, for example, writes a custom intro
+    that never mentions Flock Safety). Raises when "Flock Safety" IS
+    mentioned but the marker shape doesn't match — that's the regression
+    we want to surface, since it means Flock rephrased the boilerplate
+    or an agency picked a verb we haven't seen.
+    """
+    m = _FLOCK_MARKER_RE.search(overview)
+    if m:
+        return (
+            overview[: m.start()]
+            .strip()
+            .strip("\"'“”‘’")
+            .strip()
+        ) or None
+    if overview.strip() and "Flock Safety" in overview:
+        raise ValueError(
+            f"{slug} {datestamp}: overview mentions Flock Safety but the "
+            f"agency-name marker ("
+            f"' (uses|utilizes|employs|leverages) Flock Safety[\\'s] [LPR] "
+            f"[Tt]echnology|Operating System | Automatic License Plate "
+            f"Reader technology') doesn't match — Flock may have rephrased "
+            f"the boilerplate or the agency used a new verb. Update "
+            f"_FLOCK_MARKER_RE in scripts/flock_transparency.py."
+        )
+    return None
+
+
 def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     """Parse structured data from raw DOM text."""
     sections, unknown = parse_sections(raw_text, bold_headings=bold_headings)
@@ -740,21 +790,7 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     # IS mentioned but the marker shape doesn't match, which is the case
     # we actually want to catch (Flock rephrased their boilerplate).
     overview = fields.get("overview", "")
-    crawled_name = None
-    flock_marker_re = re.compile(
-        r" uses Flock Safety(?:'s)? "
-        r"(?:LPR )?(?:[Tt]echnology|Operating System)"
-    )
-    m = flock_marker_re.search(overview)
-    if m:
-        crawled_name = overview[:m.start()].strip()
-    elif overview.strip() and "Flock Safety" in overview:
-        raise ValueError(
-            f"{slug} {datestamp}: overview mentions Flock Safety but the "
-            f"agency-name marker (' uses Flock Safety[\\'s] [LPR] "
-            f"[Tt]echnology|Operating System') doesn't match — Flock may "
-            f"have rephrased the boilerplate. Update parse_portal_text."
-        )
+    crawled_name = _extract_crawled_name(overview, slug, datestamp)
 
     # Fail-loud: each bold heading should resolve to something in
     # _HEADING_MAP or a _DYNAMIC_HEADINGS pattern. Anything else is a
