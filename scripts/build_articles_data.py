@@ -132,14 +132,88 @@ def main() -> int:
                            key=lambda kv: (-kv[1], kv[0]))
     ]
 
+    # Per-agency index. Lets the sharing_map page show an "Articles (N)"
+    # link and the report page render a press-coverage list without
+    # having to load and traverse the full articles array. Includes the
+    # registry slug so callers using ?agency=<slug> URL params (report,
+    # justifications) can resolve the lookup without an extra fetch.
+    articles_by_agency: dict[str, dict] = {}
+    for a in articles:
+        primary_ids = set()
+        for p in (a.get("primary_subject_agencies") or []):
+            pid = p.get("agency_id")
+            if pid:
+                primary_ids.add(pid)
+        seen_ids: set[str] = set()
+        for ag in (a.get("agencies") or []):
+            aid = ag.get("agency_id")
+            if not aid or aid in seen_ids:
+                continue
+            seen_ids.add(aid)
+            entry = articles_by_agency.setdefault(aid, {
+                "agency_id": aid,
+                "name": ag.get("name"),
+                "state": ag.get("state"),
+                "articles": [],
+            })
+            entry["articles"].append({
+                "article_id": a["article_id"],
+                "title": a["title"],
+                "url": a["url"],
+                "source_domain": a.get("source_domain"),
+                "published_at": a.get("published_at"),
+                "is_primary": aid in primary_ids,
+            })
+        # Primary subjects are usually in the agencies list, but defend
+        # against the case where they're not — we still want them
+        # indexed so the report page can find their press coverage.
+        for pid in primary_ids - seen_ids:
+            ag_entry = reg_by_id.get(pid)
+            if not ag_entry:
+                continue
+            entry = articles_by_agency.setdefault(pid, {
+                "agency_id": pid,
+                "name": agency_display_name(ag_entry, fallback=pid),
+                "state": agency_state(ag_entry),
+                "articles": [],
+            })
+            entry["articles"].append({
+                "article_id": a["article_id"],
+                "title": a["title"],
+                "url": a["url"],
+                "source_domain": a.get("source_domain"),
+                "published_at": a.get("published_at"),
+                "is_primary": True,
+            })
+
+    for aid, entry in articles_by_agency.items():
+        reg_entry = reg_by_id.get(aid) or {}
+        slug = reg_entry.get("active_slug") or reg_entry.get("slug")
+        if slug:
+            entry["slug"] = slug
+        entry["articles"].sort(
+            key=lambda x: (x["published_at"] or "", x["article_id"]),
+            reverse=True,
+        )
+        # primary_count is "articles this piece is substantively *about*"
+        # — used by sharing_map's "Articles (N)" link so the badge
+        # matches what articles.html actually filters to. The wider
+        # entry["articles"] list (primary + mentions) stays available
+        # for the report page, which surfaces peripheral coverage too.
+        entry["primary_count"] = sum(
+            1 for a in entry["articles"] if a.get("is_primary")
+        )
+
     out = {
         "articles": articles,
         "tags": tags_out,
         "sources": sources_out,
         "namespace_order": namespace_order,
+        "articles_by_agency": articles_by_agency,
         "counts": {
             "total_articles": len(articles),
             "total_tags": len(tags_out),
+            "agencies_with_articles": len(articles_by_agency),
         },
     }
 
