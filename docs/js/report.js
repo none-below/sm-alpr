@@ -163,6 +163,7 @@
     html += renderStats(report, meta);
     html += renderSB34Checklist(report, meta);
     html += renderTransparencyChecklist(report, meta);
+    html += renderPortalLanguageNotes(report);
     html += renderSharing(report);
     html += renderRegional(report, meta);
     html += renderLegalSummary(report, meta);
@@ -1525,6 +1526,39 @@
       }
     }
     return line;
+  }
+
+  // ── Portal Language Notes ──
+  // Callouts for Flock-supplied template phrasing carried verbatim on the
+  // agency's transparency portal. Tone: "the portal uses this language",
+  // not "the agency claims..." — most agencies adopt Flock's boilerplate
+  // overview text wholesale.
+  function renderPortalLanguageNotes(report) {
+    const notes = report.portal_language_notes || [];
+    if (!notes.length) return "";
+    let html = `<h2>Portal Language</h2>`;
+    notes.forEach(function(n) {
+      html += '<div class="flag-section">';
+      if (n.id === "wanted_criminals") {
+        const peers = n.peer_count;
+        const pool = n.peer_pool_size;
+        html += `<strong>Portal describes targets as &ldquo;wanted criminals&rdquo;</strong>`;
+        html += `<div style="margin-top:6px;font-size:10pt"><em>${escapeHtml(n.matched_text)}</em></div>`;
+        html += '<div style="margin-top:8px;font-size:10pt">';
+        html += `Real-time hotlist alerting fires <strong>before</strong> any judicial determination &mdash; that is the point of the feature. The vehicles it flags are tied to outstanding arrest warrants, BOLOs, or missing-persons reports; the people in them are accused, sought, or wanted for questioning &mdash; not convicted. Describing them as &ldquo;criminals&rdquo; presumes the outcome the legal process is meant to determine.`;
+        html += '</div>';
+        if (pool) {
+          html += `<div class="muted" style="margin-top:6px;font-size:9.5pt">This is Flock&rsquo;s template phrasing &mdash; the same sentence appears on ${peers} of ${pool} scraped CA agency portals. The agency adopts it by leaving the default in place.</div>`;
+        }
+      } else {
+        // Forward-compat: render unknown ids minimally so a new note id
+        // doesn't disappear from the UI before its dedicated copy lands.
+        html += `<strong>Portal language note</strong>`;
+        html += `<div style="margin-top:6px;font-size:10pt"><em>${escapeHtml(n.matched_text || "")}</em></div>`;
+      }
+      html += '</div>';
+    });
+    return html;
   }
 
   // ── Sharing ──
