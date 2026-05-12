@@ -272,6 +272,33 @@
     "flags": []
   },
   {
+    "agency_id": "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad",
+    "slug": "appleton-wi-pd",
+    "flock_active_slug": "appleton-wi-pd",
+    "flock_slugs": [
+      "appleton-wi-pd"
+    ],
+    "flock_names": [
+      "Appleton WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5502375",
+      "name": "Appleton",
+      "state": "WI",
+      "lat": 44.278873,
+      "lng": -88.388284
+    }
+  },
+  {
     "agency_id": "ab8f096c-5091-5b76-b9a0-1c0cd5c9bfe7",
     "slug": "arlington-pd-wa",
     "flock_active_slug": "arlington-pd-wa",
@@ -1240,6 +1267,33 @@
     "flags": []
   },
   {
+    "agency_id": "f168928f-b50b-5bd7-8c25-6da6521fdb93",
+    "slug": "clear-lake-ia-pd",
+    "flock_active_slug": "clear-lake-ia-pd",
+    "flock_slugs": [
+      "clear-lake-ia-pd"
+    ],
+    "flock_names": [
+      "Clear Lake IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1914025",
+      "name": "Clear Lake",
+      "state": "IA",
+      "lat": 43.13509,
+      "lng": -93.373651
+    }
+  },
+  {
     "agency_id": "c50df642-b9d6-5b24-b8f9-a0b16371f97c",
     "slug": "clearlake-ca-pd",
     "flock_active_slug": "clearlake-ca-pd",
@@ -2021,6 +2075,33 @@
     "flags": []
   },
   {
+    "agency_id": "3157a2bf-3ac9-5534-a6c2-5353df154f45",
+    "slug": "great-parks-of-hamilton-county-oh-pd",
+    "flock_active_slug": "great-parks-of-hamilton-county-oh-pd",
+    "flock_slugs": [
+      "great-parks-of-hamilton-county-oh-pd"
+    ],
+    "flock_names": [
+      "Great Parks of Hamilton County OH PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "39061",
+      "name": "Hamilton",
+      "state": "OH",
+      "lat": 39.196927,
+      "lng": -84.544187
+    }
+  },
+  {
     "agency_id": "6e00bdda-c3f3-5c16-81d8-22d6009bfb37",
     "slug": "grover-beach-ca-pd",
     "flock_active_slug": "grover-beach-ca-pd",
@@ -2395,6 +2476,30 @@
       "lng": -122.745217
     },
     "flags": []
+  },
+  {
+    "agency_id": "05c2b9c0-aceb-5390-a6dc-2bb64d316ddb",
+    "slug": "las-vegas-metro-police-department-nv",
+    "flock_active_slug": "las-vegas-metro-nv-pd",
+    "flock_slugs": [
+      "las-vegas-metro-nv-pd"
+    ],
+    "flock_names": [
+      "Las Vegas Metro Police Department - NV"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "NV"
+    }
   },
   {
     "agency_id": "ad5d1953-7d8a-5cf5-b0c7-c7c12bd430d3",
@@ -3776,6 +3881,33 @@
     "flags": []
   },
   {
+    "agency_id": "0978eac6-e1f4-5841-892a-f7225fe73ea3",
+    "slug": "pontiac-il-pd",
+    "flock_active_slug": "pontiac-il-pd",
+    "flock_slugs": [
+      "pontiac-il-pd"
+    ],
+    "flock_names": [
+      "Pontiac IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1761015",
+      "name": "Pontiac",
+      "state": "IL",
+      "lat": 40.889253,
+      "lng": -88.641399
+    }
+  },
+  {
     "agency_id": "a8cba160-1158-598a-bdfc-c138bc5d0379",
     "slug": "port-hueneme-ca-pd",
     "flock_active_slug": "port-hueneme-ca-pd",
@@ -3851,6 +3983,60 @@
       "state": "CA",
       "lat": 36.063542,
       "lng": -119.0336
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "c94ce662-7a0d-54c8-8bc5-396c277d837f",
+    "slug": "prescott-valley-az-pd",
+    "flock_active_slug": "prescott-valley-az-pd",
+    "flock_slugs": [
+      "prescott-valley-az-pd"
+    ],
+    "flock_names": [
+      "Prescott Valley AZ PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "0457450",
+      "name": "Prescott Valley",
+      "state": "AZ",
+      "lat": 34.59793,
+      "lng": -112.318497
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "5715ea99-2e73-5b6e-90f1-f90ee6bb9366",
+    "slug": "raleigh-nc-pd",
+    "flock_active_slug": "raleigh-nc-pd",
+    "flock_slugs": [
+      "raleigh-nc-pd"
+    ],
+    "flock_names": [
+      "Raleigh NC PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "3755000",
+      "name": "Raleigh",
+      "state": "NC",
+      "lat": 35.831868,
+      "lng": -78.641042
     },
     "flags": []
   },
@@ -4958,6 +5144,33 @@
     "flags": []
   },
   {
+    "agency_id": "8a9af692-fc85-5272-bd09-59d28e1dbc6f",
+    "slug": "summerset-sd-pd",
+    "flock_active_slug": "summerset-sd-pd",
+    "flock_slugs": [
+      "summerset-sd-pd"
+    ],
+    "flock_names": [
+      "Summerset SD PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "4662155",
+      "name": "Summerset",
+      "state": "SD",
+      "lat": 44.193309,
+      "lng": -103.342237
+    },
+    "flags": []
+  },
+  {
     "agency_id": "7ef62d29-d50a-5f12-85fe-6061de259c8d",
     "slug": "sunnyvale-ca-pd",
     "flock_active_slug": "sunnyvale-ca-pd",
@@ -5551,6 +5764,3395 @@
       "lng": -121.344259
     },
     "flags": []
+  },
+  {
+    "agency_id": "c2a88d22-5348-519b-98e9-af9e0c1dcde2",
+    "slug": "auburn-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Auburn IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1702921",
+      "name": "Auburn",
+      "state": "IL",
+      "lat": 39.5763,
+      "lng": -89.743982
+    }
+  },
+  {
+    "agency_id": "2ab7e5e2-dc1b-53a0-9265-d28689664d10",
+    "slug": "barrington-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Barrington IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1703844",
+      "name": "Barrington",
+      "state": "IL",
+      "lat": 42.151535,
+      "lng": -88.128534
+    }
+  },
+  {
+    "agency_id": "40531706-240c-504e-b4ef-eef778751563",
+    "slug": "bartonville-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Bartonville IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1704039",
+      "name": "Bartonville",
+      "state": "IL",
+      "lat": 40.642046,
+      "lng": -89.659792
+    }
+  },
+  {
+    "agency_id": "442951e3-b5f7-51a9-9395-cafc3bdeae4d",
+    "slug": "bedford-park-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Bedford Park IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1704572",
+      "name": "Bedford Park",
+      "state": "IL",
+      "lat": 41.767773,
+      "lng": -87.772556
+    }
+  },
+  {
+    "agency_id": "223c2592-bf52-59f5-91d5-62428d70bc95",
+    "slug": "bellwood-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Bellwood IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1704975",
+      "name": "Bellwood",
+      "state": "IL",
+      "lat": 41.882901,
+      "lng": -87.87617
+    }
+  },
+  {
+    "agency_id": "9a2179ea-533a-507f-b944-ac00bf107956",
+    "slug": "brownstown-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Brownstown IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1708992",
+      "name": "Brownstown",
+      "state": "IL",
+      "lat": 38.994218,
+      "lng": -88.955331
+    }
+  },
+  {
+    "agency_id": "adcfb6da-3b98-5f67-8de9-1da403a5a830",
+    "slug": "buffalo-grove-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Buffalo Grove IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1709447",
+      "name": "Buffalo Grove",
+      "state": "IL",
+      "lat": 42.165981,
+      "lng": -87.961826
+    }
+  },
+  {
+    "agency_id": "6e578d88-acff-5ab6-a203-4049ac9e32d6",
+    "slug": "colona-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Colona IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1715664",
+      "name": "Colona",
+      "state": "IL",
+      "lat": 41.473375,
+      "lng": -90.332418
+    }
+  },
+  {
+    "agency_id": "f6aeb1c0-7b6b-5b5f-a678-2876c35afccd",
+    "slug": "cook-county-il-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Cook County IL SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "17031",
+      "name": "Cook",
+      "state": "IL",
+      "lat": 41.894294,
+      "lng": -87.645455
+    }
+  },
+  {
+    "agency_id": "0b21fd75-3434-5719-9b70-8a5f452198b2",
+    "slug": "cook-county-states-attorneys-office-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Cook County States Attorney's Office IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "IL"
+    }
+  },
+  {
+    "agency_id": "01ffef39-4145-5db1-b9de-094ad247e6d1",
+    "slug": "dupage-county-forest-preserve-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "DuPage County Forest Preserve IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "17043",
+      "name": "DuPage",
+      "state": "IL",
+      "lat": 41.852058,
+      "lng": -88.086039
+    }
+  },
+  {
+    "agency_id": "71a8a2e1-f2c1-5274-90ff-6299aa496ee1",
+    "slug": "eureka-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Eureka IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1724543",
+      "name": "Eureka",
+      "state": "IL",
+      "lat": 40.714045,
+      "lng": -89.277016
+    }
+  },
+  {
+    "agency_id": "86815aa9-d737-5dd7-818a-099cec252686",
+    "slug": "geneseo-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Geneseo IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1728846",
+      "name": "Geneseo",
+      "state": "IL",
+      "lat": 41.451252,
+      "lng": -90.154844
+    }
+  },
+  {
+    "agency_id": "94a7bcdf-c31e-5092-9c3f-6cf4d9ec9aa7",
+    "slug": "glasford-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Glasford IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1729483",
+      "name": "Glasford",
+      "state": "IL",
+      "lat": 40.572808,
+      "lng": -89.813085
+    }
+  },
+  {
+    "agency_id": "a505eacf-5ace-5af1-81bd-a8500f27a83b",
+    "slug": "glendale-heights-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Glendale Heights IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1729730",
+      "name": "Glendale Heights",
+      "state": "IL",
+      "lat": 41.918877,
+      "lng": -88.078095
+    }
+  },
+  {
+    "agency_id": "5285102c-d266-5797-b002-bb891ebc58e5",
+    "slug": "golf-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Golf IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1730328",
+      "name": "Golf",
+      "state": "IL",
+      "lat": 42.058549,
+      "lng": -87.784941
+    }
+  },
+  {
+    "agency_id": "ad950e60-3480-54c6-ad91-72333f640690",
+    "slug": "greenville-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Greenville IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1731589",
+      "name": "Greenville",
+      "state": "IL",
+      "lat": 38.886602,
+      "lng": -89.389425
+    }
+  },
+  {
+    "agency_id": "0eee95cd-e37a-5dfc-b370-3745ed279b97",
+    "slug": "illinois-statewide-auto-theft-taskforce",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Illinois Statewide Auto Theft Taskforce"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "619d3ba1-3fa1-5276-80af-df929b431a6a",
+    "slug": "kenilworth-village-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Kenilworth Village IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1739519",
+      "name": "Kenilworth",
+      "state": "IL",
+      "lat": 42.088818,
+      "lng": -87.714497
+    }
+  },
+  {
+    "agency_id": "0d7976c6-b7dd-50ff-a08b-8a24c19bdacf",
+    "slug": "lakewood-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Lakewood IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1741677",
+      "name": "Lakewood",
+      "state": "IL",
+      "lat": 39.3235,
+      "lng": -88.898176
+    }
+  },
+  {
+    "agency_id": "2c380245-8b98-54f5-b655-4b9c1031eb13",
+    "slug": "libertyville-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Libertyville IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1743250",
+      "name": "Libertyville",
+      "state": "IL",
+      "lat": 42.284667,
+      "lng": -87.966503
+    }
+  },
+  {
+    "agency_id": "4c0f5b35-13a8-5e0a-82de-80097829e8a6",
+    "slug": "lincoln-land-community-college-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Lincoln Land Community College IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "IL"
+    }
+  },
+  {
+    "agency_id": "e1e90daf-ba34-5319-9b75-94a684d78e91",
+    "slug": "morrison-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Morrison IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1750530",
+      "name": "Morrison",
+      "state": "IL",
+      "lat": 41.807641,
+      "lng": -89.961705
+    }
+  },
+  {
+    "agency_id": "eaf1f8e2-4cfb-5d74-9b9f-34699b158dcf",
+    "slug": "moweaqua-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Moweaqua IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1751232",
+      "name": "Moweaqua",
+      "state": "IL",
+      "lat": 39.625792,
+      "lng": -89.021418
+    }
+  },
+  {
+    "agency_id": "5ad3f8c8-d343-5b7d-85e4-b63f7ccc68c6",
+    "slug": "northlake-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Northlake IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1753871",
+      "name": "Northlake",
+      "state": "IL",
+      "lat": 41.914316,
+      "lng": -87.905486
+    }
+  },
+  {
+    "agency_id": "218db9a9-830d-5c3b-b833-b770b38dd4ff",
+    "slug": "ramsey-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Ramsey IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1762627",
+      "name": "Ramsey",
+      "state": "IL",
+      "lat": 39.145659,
+      "lng": -89.110269
+    }
+  },
+  {
+    "agency_id": "127b98cf-5af4-5ae9-a955-db6f2d5cade8",
+    "slug": "rockford-park-district-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Rockford Park District IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "IL"
+    }
+  },
+  {
+    "agency_id": "967fbc7d-0290-5149-ae0c-7777de210488",
+    "slug": "silvis-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Silvis IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1769979",
+      "name": "Silvis",
+      "state": "IL",
+      "lat": 41.49766,
+      "lng": -90.410139
+    }
+  },
+  {
+    "agency_id": "0e87493a-02a8-52f1-9aaf-b4b30406b846",
+    "slug": "southwestern-illinois-college-campus-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Southwestern Illinois College Campus PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "53b26353-9e01-52db-98c7-fcd28774d88a",
+    "slug": "st-elmo-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "St Elmo IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1766794",
+      "name": "St. Elmo",
+      "state": "IL",
+      "lat": 39.021775,
+      "lng": -88.851406
+    }
+  },
+  {
+    "agency_id": "ff0e0029-2325-5429-bfa8-4d0093679bf4",
+    "slug": "sugar-grove-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Sugar Grove IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1773391",
+      "name": "Sugar Grove",
+      "state": "IL",
+      "lat": 41.768621,
+      "lng": -88.448896
+    }
+  },
+  {
+    "agency_id": "56eeb1fd-d773-529e-9972-62ddb5b8aa5d",
+    "slug": "taylorville-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Taylorville IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1774574",
+      "name": "Taylorville",
+      "state": "IL",
+      "lat": 39.562729,
+      "lng": -89.308259
+    }
+  },
+  {
+    "agency_id": "ff8f7080-574c-5ce3-b0ce-d695a20f2bea",
+    "slug": "university-of-illinois-urbana-champaign-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "University of Illinois Urbana-Champaign IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1712385",
+      "name": "Champaign",
+      "state": "IL",
+      "lat": 40.114099,
+      "lng": -88.274619
+    }
+  },
+  {
+    "agency_id": "34da0780-34f7-5695-9199-97fbb7fbc077",
+    "slug": "village-of-bloomingdale-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Village of Bloomingdale IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1706587",
+      "name": "Bloomingdale",
+      "state": "IL",
+      "lat": 41.951525,
+      "lng": -88.089118
+    }
+  },
+  {
+    "agency_id": "797ba70b-b95e-5793-a126-293f472bded9",
+    "slug": "village-of-homer-glen-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Village of Homer Glen IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1735835",
+      "name": "Homer Glen",
+      "state": "IL",
+      "lat": 41.605179,
+      "lng": -87.952373
+    }
+  },
+  {
+    "agency_id": "a5bae90d-0935-5b5f-a913-3df298a6f5d4",
+    "slug": "winthrop-harbor-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Winthrop Harbor IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1782686",
+      "name": "Winthrop Harbor",
+      "state": "IL",
+      "lat": 42.480614,
+      "lng": -87.829557
+    }
+  },
+  {
+    "agency_id": "809c2380-80b3-5988-b6fa-cf94ca8f7fb9",
+    "slug": "access-to-or-disclosure-of-alpr-data-will-only-be-provided-to-individuals-within-the-department-or-other-authorized-governmental-agencies",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Access to or disclosure of ALPR data will only be provided to individuals within the department or other authorized governmental agencies."
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "8c265ca8-0310-5903-98cb-4234650996db",
+    "slug": "arnolds-park-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Arnolds Park IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1903025",
+      "name": "Arnolds Park",
+      "state": "IA",
+      "lat": 43.360366,
+      "lng": -95.129177
+    }
+  },
+  {
+    "agency_id": "4f3529e4-27d7-5da5-86a9-07a72a3c70e1",
+    "slug": "bannock-county-id-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Bannock County ID SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "16005",
+      "name": "Bannock",
+      "state": "ID",
+      "lat": 42.692921,
+      "lng": -112.228982
+    }
+  },
+  {
+    "agency_id": "8b2b1c99-6737-5511-9d7d-88cfd416ba8f",
+    "slug": "barron-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Barron WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5504875",
+      "name": "Barron",
+      "state": "WI",
+      "lat": 45.402192,
+      "lng": -91.84435
+    }
+  },
+  {
+    "agency_id": "873cdd6b-ec80-5057-a0b9-d308bef129ea",
+    "slug": "ben-hill-county-ga-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Ben Hill County GA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "13017",
+      "name": "Ben Hill",
+      "state": "GA",
+      "lat": 31.740772,
+      "lng": -83.147197
+    }
+  },
+  {
+    "agency_id": "26e47577-956e-529d-83d4-e733369ef892",
+    "slug": "bettendorf-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Bettendorf IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1906355",
+      "name": "Bettendorf",
+      "state": "IA",
+      "lat": 41.566836,
+      "lng": -90.476879
+    }
+  },
+  {
+    "agency_id": "1bca513d-bb3d-5f66-bbaf-2d8988296f97",
+    "slug": "brookfield-properties-il",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Brookfield Properties (IL)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "IL"
+    }
+  },
+  {
+    "agency_id": "815e6875-ca3d-5b09-951a-fc3f83409e1e",
+    "slug": "burlington-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Burlington WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5511200",
+      "name": "Burlington",
+      "state": "WI",
+      "lat": 42.675249,
+      "lng": -88.271871
+    }
+  },
+  {
+    "agency_id": "a691bd4c-6906-533d-b802-835071b4fc2d",
+    "slug": "carter-lake-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Carter Lake IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1911215",
+      "name": "Carter Lake",
+      "state": "IA",
+      "lat": 41.288533,
+      "lng": -95.916872
+    }
+  },
+  {
+    "agency_id": "33d6b084-6b5f-518a-ae00-b21ed8d7af93",
+    "slug": "cascade-wi-pd-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Cascade WI PD [Inactive]"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "5512825",
+      "name": "Cascade",
+      "state": "WI",
+      "lat": 43.661474,
+      "lng": -88.008806
+    }
+  },
+  {
+    "agency_id": "54cc1aa8-af44-5e35-993a-56a8c7d6cf5d",
+    "slug": "chenequa-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Chenequa WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5514225",
+      "name": "Chenequa",
+      "state": "WI",
+      "lat": 43.123134,
+      "lng": -88.381387
+    }
+  },
+  {
+    "agency_id": "417a02cc-82c6-5638-a5c2-088a14d59beb",
+    "slug": "chilton-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Chilton WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5514475",
+      "name": "Chilton",
+      "state": "WI",
+      "lat": 44.030188,
+      "lng": -88.161667
+    }
+  },
+  {
+    "agency_id": "3f722d7c-2c2f-51ed-a946-0c30cd212a76",
+    "slug": "clarke-county-ia-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Clarke County IA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "19039",
+      "name": "Clarke",
+      "state": "IA",
+      "lat": 41.029726,
+      "lng": -93.785259
+    }
+  },
+  {
+    "agency_id": "d3892701-ee6b-58a5-a455-4fb6f68fc071",
+    "slug": "clinton-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Clinton IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1914430",
+      "name": "Clinton",
+      "state": "IA",
+      "lat": 41.842365,
+      "lng": -90.242816
+    }
+  },
+  {
+    "agency_id": "fd94623a-b937-553c-afb2-3ec98472fe7a",
+    "slug": "clintonville-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Clintonville WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5515725",
+      "name": "Clintonville",
+      "state": "WI",
+      "lat": 44.62212,
+      "lng": -88.751714
+    }
+  },
+  {
+    "agency_id": "882cf9c2-d07f-5e7c-8255-3e2fbf522d6a",
+    "slug": "columbus-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Columbus WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5516450",
+      "name": "Columbus",
+      "state": "WI",
+      "lat": 43.336805,
+      "lng": -89.029988
+    }
+  },
+  {
+    "agency_id": "05643b49-1d44-5bae-9635-ba58b8e8550e",
+    "slug": "conneaut-oh-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Conneaut OH PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3918350",
+      "name": "Conneaut",
+      "state": "OH",
+      "lat": 41.927299,
+      "lng": -80.568382
+    }
+  },
+  {
+    "agency_id": "40521632-8a29-5e5d-a064-1b57410743b5",
+    "slug": null,
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Coralville IA PD"
+    ],
+    "display_name": "Coralville Police Department",
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "notes": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1916230",
+      "name": "Coralville",
+      "state": "IA",
+      "lat": 41.698795,
+      "lng": -91.5968
+    }
+  },
+  {
+    "agency_id": "d589c3b9-b263-5ff1-bff0-a45c9bc06007",
+    "slug": "cudahy-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Cudahy WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5517975",
+      "name": "Cudahy",
+      "state": "WI",
+      "lat": 42.946711,
+      "lng": -87.864016
+    }
+  },
+  {
+    "agency_id": "e011f596-5aa8-5d54-adcc-20f27b350283",
+    "slug": "dakota-county-ne-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Dakota County NE SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "31043",
+      "name": "Dakota",
+      "state": "NE",
+      "lat": 42.391624,
+      "lng": -96.561327
+    }
+  },
+  {
+    "agency_id": "97e518bd-7e01-5e9e-8ca0-2974a09a4afe",
+    "slug": "delafield-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Delafield WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5519400",
+      "name": "Delafield",
+      "state": "WI",
+      "lat": 43.067421,
+      "lng": -88.388833
+    }
+  },
+  {
+    "agency_id": "baafe99e-5a67-5fc1-9b0f-0ba19d19c8d6",
+    "slug": "dewitt-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "DeWitt IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1921180",
+      "name": "DeWitt",
+      "state": "IA",
+      "lat": 41.822712,
+      "lng": -90.544087
+    }
+  },
+  {
+    "agency_id": "98f968a1-9703-5d3d-b519-08bb80ee7e09",
+    "slug": "dickeyville-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Dickeyville WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5520175",
+      "name": "Dickeyville",
+      "state": "WI",
+      "lat": 42.624653,
+      "lng": -90.591336
+    }
+  },
+  {
+    "agency_id": "29545821-ba90-50b6-93a9-3804382846bb",
+    "slug": "fitchburg-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Fitchburg WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5525950",
+      "name": "Fitchburg",
+      "state": "WI",
+      "lat": 42.985782,
+      "lng": -89.425334
+    }
+  },
+  {
+    "agency_id": "5ec7a404-e1e0-5bb8-9abf-10a9fc4c1014",
+    "slug": "fond-du-lac-county-wi-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Fond du Lac County WI SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "55039",
+      "name": "Fond du Lac",
+      "state": "WI",
+      "lat": 43.754722,
+      "lng": -88.493284
+    }
+  },
+  {
+    "agency_id": "5074e471-7489-537d-a2f7-e5cde6268565",
+    "slug": "fond-du-lac-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Fond du Lac WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5526275",
+      "name": "Fond du Lac",
+      "state": "WI",
+      "lat": 43.772182,
+      "lng": -88.440264
+    }
+  },
+  {
+    "agency_id": "057044d2-b201-53a3-a63d-057f5ca01e53",
+    "slug": "fort-lauderdale-fl-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Fort Lauderdale FL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1224000",
+      "name": "Fort Lauderdale",
+      "state": "FL",
+      "lat": 26.141227,
+      "lng": -80.146731
+    }
+  },
+  {
+    "agency_id": "986e7419-338b-5915-8cd7-ae2752c377eb",
+    "slug": "genoa-city-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Genoa City WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5528675",
+      "name": "Genoa City",
+      "state": "WI",
+      "lat": 42.5065,
+      "lng": -88.319271
+    }
+  },
+  {
+    "agency_id": "2422a06a-aff1-515a-bca3-cb00cb43f6b1",
+    "slug": "germantown-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Germantown WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5528875",
+      "name": "Germantown",
+      "state": "WI",
+      "lat": 43.234527,
+      "lng": -88.124999
+    }
+  },
+  {
+    "agency_id": "7afda64b-5950-562f-bf80-66c791a6ed2a",
+    "slug": "glendale-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Glendale WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5529400",
+      "name": "Glendale",
+      "state": "WI",
+      "lat": 43.126142,
+      "lng": -87.927195
+    }
+  },
+  {
+    "agency_id": "aeec6def-4785-5a47-a156-27f2d79f927d",
+    "slug": "glenrock-wy-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Glenrock WY PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5632435",
+      "name": "Glenrock",
+      "state": "WY",
+      "lat": 42.856473,
+      "lng": -105.862355
+    }
+  },
+  {
+    "agency_id": "7a0d0f8a-6792-502b-85c4-1c1680e4784c",
+    "slug": "green-bay-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Green Bay WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5531000",
+      "name": "Green Bay",
+      "state": "WI",
+      "lat": 44.521542,
+      "lng": -87.986568
+    }
+  },
+  {
+    "agency_id": "2d2c6129-4d1d-51eb-9ce9-c4e2a48b37ff",
+    "slug": "greendale-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Greendale WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5531125",
+      "name": "Greendale",
+      "state": "WI",
+      "lat": 42.939993,
+      "lng": -88.000857
+    }
+  },
+  {
+    "agency_id": "0b656cf9-d4d2-5c1c-8f08-31c5e3e4623a",
+    "slug": "greenhills-oh-police-department-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Greenhills OH Police Department [Inactive]"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": {
+      "kind": "state-only",
+      "state": "OH"
+    }
+  },
+  {
+    "agency_id": "b4628e4d-0519-5ea8-95cc-1c7239d5bf2a",
+    "slug": "hartford-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Hartford WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5533000",
+      "name": "Hartford",
+      "state": "WI",
+      "lat": 43.322467,
+      "lng": -88.377737
+    }
+  },
+  {
+    "agency_id": "68a77a5f-6a59-56cc-b699-52df994e6b9d",
+    "slug": "hartland-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Hartland WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5533100",
+      "name": "Hartland",
+      "state": "WI",
+      "lat": 43.102352,
+      "lng": -88.335595
+    }
+  },
+  {
+    "agency_id": "0686d2fb-93de-55cb-9f16-2408466316aa",
+    "slug": "hayward-wi-pd-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Hayward WI PD [Inactive]"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "5533450",
+      "name": "Hayward",
+      "state": "WI",
+      "lat": 46.006588,
+      "lng": -91.489684
+    }
+  },
+  {
+    "agency_id": "908eb9fc-dbce-5d9f-9056-38667560a8ee",
+    "slug": "hobart-lawrence-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Hobart-Lawrence WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "WI"
+    }
+  },
+  {
+    "agency_id": "6b534ee1-c5d3-5fc8-96f4-49087214665b",
+    "slug": "horicon-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Horicon WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5535750",
+      "name": "Horicon",
+      "state": "WI",
+      "lat": 43.445001,
+      "lng": -88.640328
+    }
+  },
+  {
+    "agency_id": "6683c1c6-b8b6-5628-83e2-3574bd6417b3",
+    "slug": "hurley-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Hurley WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5536525",
+      "name": "Hurley",
+      "state": "WI",
+      "lat": 46.444285,
+      "lng": -90.211266
+    }
+  },
+  {
+    "agency_id": "64416638-0d59-50ed-b9d1-af0890205b25",
+    "slug": "indianola-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Indianola IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1938280",
+      "name": "Indianola",
+      "state": "IA",
+      "lat": 41.362971,
+      "lng": -93.565545
+    }
+  },
+  {
+    "agency_id": "b754cbed-61ec-5641-8fbd-ae3c59458163",
+    "slug": "iowa-department-of-public-safety-ia",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Iowa Department of Public Safety (IA)"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state",
+      "fips": "19",
+      "name": "IA",
+      "state": "IA",
+      "lat": 42.02990211111111,
+      "lng": -93.46609284848485
+    }
+  },
+  {
+    "agency_id": "531db486-3572-57ef-8871-8a70d17afcbc",
+    "slug": "jackson-county-wi-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Jackson County WI SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "55053",
+      "name": "Jackson",
+      "state": "WI",
+      "lat": 44.32459,
+      "lng": -90.79951
+    }
+  },
+  {
+    "agency_id": "eb16d89c-c5c8-5ff2-b844-335ce50db3e7",
+    "slug": "jefferson-county-wi-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Jefferson County WI SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "55055",
+      "name": "Jefferson",
+      "state": "WI",
+      "lat": 43.013804,
+      "lng": -88.773985
+    }
+  },
+  {
+    "agency_id": "6e7fd746-e913-5c11-95fe-d0526915d764",
+    "slug": "jefferson-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Jefferson WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5537900",
+      "name": "Jefferson",
+      "state": "WI",
+      "lat": 43.003955,
+      "lng": -88.808473
+    }
+  },
+  {
+    "agency_id": "5d2f0875-291d-5645-b93e-19da7e21217f",
+    "slug": "kohler-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Kohler WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5540275",
+      "name": "Kohler",
+      "state": "WI",
+      "lat": 43.739983,
+      "lng": -87.776838
+    }
+  },
+  {
+    "agency_id": "658ed32a-7282-53f6-bdca-7314f265df64",
+    "slug": "lake-mills-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Lake Mills WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5541675",
+      "name": "Lake Mills",
+      "state": "WI",
+      "lat": 43.077639,
+      "lng": -88.906411
+    }
+  },
+  {
+    "agency_id": "fbf25caa-b669-544c-96e2-effdcaec6937",
+    "slug": "madison-sd-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Madison SD PD"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4640220",
+      "name": "Madison",
+      "state": "SD",
+      "lat": 44.006223,
+      "lng": -97.108481
+    }
+  },
+  {
+    "agency_id": "8dacfabc-13d4-5cec-9939-3f72ed53441d",
+    "slug": "manitowoc-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Manitowoc WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5548500",
+      "name": "Manitowoc",
+      "state": "WI",
+      "lat": 44.097981,
+      "lng": -87.678945
+    }
+  },
+  {
+    "agency_id": "b91b46e0-a30a-53a4-aafe-ffef8901ed04",
+    "slug": "marcus-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Marcus IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1949350",
+      "name": "Marcus",
+      "state": "IA",
+      "lat": 42.822401,
+      "lng": -95.806842
+    }
+  },
+  {
+    "agency_id": "ed166e16-86e5-5557-8466-67e57182c825",
+    "slug": "marion-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Marion WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5549400",
+      "name": "Marion",
+      "state": "WI",
+      "lat": 44.677313,
+      "lng": -88.902362
+    }
+  },
+  {
+    "agency_id": "699b8967-4a13-51b7-b92f-af2aa9410aed",
+    "slug": "menominee-co-wi-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Menominee Co. WI SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "55078",
+      "name": "Menominee",
+      "state": "WI",
+      "lat": 44.991304,
+      "lng": -88.669251
+    }
+  },
+  {
+    "agency_id": "07b084ce-7dd3-5a7c-81aa-12612a4fb028",
+    "slug": "meriwether-county-ga-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Meriwether County GA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "13199",
+      "name": "Meriwether",
+      "state": "GA",
+      "lat": 33.029267,
+      "lng": -84.667058
+    }
+  },
+  {
+    "agency_id": "c1c9169c-41ee-5ec2-8484-96ebe8fa270b",
+    "slug": "merrill-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Merrill WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5551250",
+      "name": "Merrill",
+      "state": "WI",
+      "lat": 45.180635,
+      "lng": -89.700339
+    }
+  },
+  {
+    "agency_id": "7a688598-e699-5e87-a05e-5c50ab975c4e",
+    "slug": "mondovi-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Mondovi WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5553600",
+      "name": "Mondovi",
+      "state": "WI",
+      "lat": 44.570255,
+      "lng": -91.666851
+    }
+  },
+  {
+    "agency_id": "29ca7032-8c4f-5e51-bb48-e6992795e20b",
+    "slug": "neenah-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Neenah WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5555750",
+      "name": "Neenah",
+      "state": "WI",
+      "lat": 44.164925,
+      "lng": -88.479628
+    }
+  },
+  {
+    "agency_id": "bf114946-58fe-564c-99bb-145427ee04a8",
+    "slug": "new-lisbon-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "New Lisbon WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5556900",
+      "name": "New Lisbon",
+      "state": "WI",
+      "lat": 43.875292,
+      "lng": -90.162379
+    }
+  },
+  {
+    "agency_id": "8d34f1ad-c556-5d96-907d-d78cc9abdc39",
+    "slug": "norfolk-ne-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Norfolk NE PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3134615",
+      "name": "Norfolk",
+      "state": "NE",
+      "lat": 42.028216,
+      "lng": -97.427807
+    }
+  },
+  {
+    "agency_id": "9352ca43-949b-5624-b6a6-14d49f2af5ab",
+    "slug": "north-fond-du-lac-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "North Fond Du Lac WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5558000",
+      "name": "North Fond du Lac",
+      "state": "WI",
+      "lat": 43.811004,
+      "lng": -88.48549
+    }
+  },
+  {
+    "agency_id": "5bbd30aa-80aa-5085-ba0c-8963ec096b5e",
+    "slug": "north-hudson-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "North Hudson WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5558050",
+      "name": "North Hudson",
+      "state": "WI",
+      "lat": 44.995765,
+      "lng": -92.754998
+    }
+  },
+  {
+    "agency_id": "98d74340-bf1a-5212-a3cc-94a3bec7be07",
+    "slug": "norwalk-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Norwalk IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1957675",
+      "name": "Norwalk",
+      "state": "IA",
+      "lat": 41.483657,
+      "lng": -93.695487
+    }
+  },
+  {
+    "agency_id": "e438af3a-ea48-5498-b897-fb73d5d7af9f",
+    "slug": "oconto-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Oconto WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5559350",
+      "name": "Oconto",
+      "state": "WI",
+      "lat": 44.892663,
+      "lng": -87.868509
+    }
+  },
+  {
+    "agency_id": "9c5b75a1-31cc-5ea4-a559-b69b6014121a",
+    "slug": "ogden-city-ut-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Ogden City UT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4955980",
+      "name": "Ogden",
+      "state": "UT",
+      "lat": 41.228391,
+      "lng": -111.968147
+    }
+  },
+  {
+    "agency_id": "5b4d9a5a-d842-5b83-b340-859cfce154cc",
+    "slug": "oneida-county-wi-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Oneida County WI SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "55085",
+      "name": "Oneida",
+      "state": "WI",
+      "lat": 45.716176,
+      "lng": -89.534533
+    }
+  },
+  {
+    "agency_id": "d495778e-ff26-53df-be67-4f65a5577d88",
+    "slug": "outagamie-county-das-office-wi",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Outagamie County DA's Office WI"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "WI"
+    }
+  },
+  {
+    "agency_id": "5b87d585-d4d6-5550-90e7-126d1ae7fdfc",
+    "slug": "outagamie-county-wi-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Outagamie County WI SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "55087",
+      "name": "Outagamie",
+      "state": "WI",
+      "lat": 44.418226,
+      "lng": -88.464988
+    }
+  },
+  {
+    "agency_id": "0970e5a4-2c42-5cc2-b497-b131b1ee67fd",
+    "slug": "phillips-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Phillips WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5562450",
+      "name": "Phillips",
+      "state": "WI",
+      "lat": 45.694035,
+      "lng": -90.40142
+    }
+  },
+  {
+    "agency_id": "2779f753-7245-5b78-a720-dcfdc716a90f",
+    "slug": "pittsville-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Pittsville WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5563100",
+      "name": "Pittsville",
+      "state": "WI",
+      "lat": 44.441673,
+      "lng": -90.136571
+    }
+  },
+  {
+    "agency_id": "9d0a4f24-00c3-5b30-bfae-290ba37bf70d",
+    "slug": "polk-city-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Polk City IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1964020",
+      "name": "Polk City",
+      "state": "IA",
+      "lat": 41.781842,
+      "lng": -93.722607
+    }
+  },
+  {
+    "agency_id": "8a283e42-6453-54c7-b511-693956692bff",
+    "slug": "port-washington-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Port Washington WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5564450",
+      "name": "Port Washington",
+      "state": "WI",
+      "lat": 43.384921,
+      "lng": -87.884134
+    }
+  },
+  {
+    "agency_id": "daa4c38c-bab7-5c17-9b36-890b77ac6b31",
+    "slug": "poynette-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Poynette WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5564900",
+      "name": "Poynette",
+      "state": "WI",
+      "lat": 43.392165,
+      "lng": -89.404787
+    }
+  },
+  {
+    "agency_id": "dc0ef002-5559-57c7-9094-ab9c354b6c0f",
+    "slug": "price-county-wi-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Price County WI SO"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "WI"
+    }
+  },
+  {
+    "agency_id": "8885957d-08c0-5d61-bf55-a8b24784894f",
+    "slug": "redgranite-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Redgranite WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5566625",
+      "name": "Redgranite",
+      "state": "WI",
+      "lat": 44.053283,
+      "lng": -89.115869
+    }
+  },
+  {
+    "agency_id": "afa5df93-ed8e-5837-b664-25ef1ef57a5d",
+    "slug": "ripon-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Ripon WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5568175",
+      "name": "Ripon",
+      "state": "WI",
+      "lat": 43.84356,
+      "lng": -88.837936
+    }
+  },
+  {
+    "agency_id": "df065d17-c1cc-52a7-9210-00368db0fa6e",
+    "slug": "riverdale-ut-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Riverdale UT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4964010",
+      "name": "Riverdale",
+      "state": "UT",
+      "lat": 41.173136,
+      "lng": -112.002256
+    }
+  },
+  {
+    "agency_id": "ea85dbdd-5957-5508-9a72-bf380ecd103d",
+    "slug": "sd-lake-traverse-reservation",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "SD - Lake Traverse Reservation"
+    ],
+    "display_name": null,
+    "agency_role": "tribal",
+    "agency_type": "tribal",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "SD"
+    }
+  },
+  {
+    "agency_id": "bb182559-4cad-5dd8-9a82-d9934b26bd60",
+    "slug": "shawano-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Shawano WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5572925",
+      "name": "Shawano",
+      "state": "WI",
+      "lat": 44.777894,
+      "lng": -88.586019
+    }
+  },
+  {
+    "agency_id": "62a31ee3-bc72-52c7-80fe-cbcef3f142da",
+    "slug": "south-milwaukee-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "South Milwaukee WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5575125",
+      "name": "South Milwaukee",
+      "state": "WI",
+      "lat": 42.912643,
+      "lng": -87.862312
+    }
+  },
+  {
+    "agency_id": "b741b214-a6eb-5809-9b66-03a12d5bec29",
+    "slug": "sturtevant-wi-pd-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Sturtevant WI PD [Inactive]"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "5577925",
+      "name": "Sturtevant",
+      "state": "WI",
+      "lat": 42.6989,
+      "lng": -87.901553
+    }
+  },
+  {
+    "agency_id": "f1350cb6-499b-5ed1-af52-202d5bf21001",
+    "slug": "sun-prairie-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Sun Prairie WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5578600",
+      "name": "Sun Prairie",
+      "state": "WI",
+      "lat": 43.182622,
+      "lng": -89.237824
+    }
+  },
+  {
+    "agency_id": "935d12a2-0236-5c39-a334-aa597c2dbeef",
+    "slug": "town-of-milton-wi",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Town of Milton WI"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5552200",
+      "name": "Milton",
+      "state": "WI",
+      "lat": 42.774675,
+      "lng": -88.939991
+    }
+  },
+  {
+    "agency_id": "9aaa7c29-aa45-57fb-b159-db6d0e0c597f",
+    "slug": "trempealeau-county-wi-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Trempealeau County WI SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "55121",
+      "name": "Trempealeau",
+      "state": "WI",
+      "lat": 44.30305,
+      "lng": -91.358867
+    }
+  },
+  {
+    "agency_id": "3ce8db75-5280-5b6f-b105-23acb4c676ec",
+    "slug": "university-of-wisconsin-milwaukee-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "University of Wisconsin - Milwaukee WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5553000",
+      "name": "Milwaukee",
+      "state": "WI",
+      "lat": 43.063348,
+      "lng": -87.966695
+    }
+  },
+  {
+    "agency_id": "bce0b06b-6c84-50f5-be02-ffff11b48463",
+    "slug": "university-of-wisconsin-oshkosh-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "University of Wisconsin - Oshkosh PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5560500",
+      "name": "Oshkosh",
+      "state": "WI",
+      "lat": 44.023168,
+      "lng": -88.56226
+    }
+  },
+  {
+    "agency_id": "6fd32ad4-f84d-5d12-a177-b710f044da14",
+    "slug": "verona-wi-pd-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Verona WI PD [Inactive]"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "5582600",
+      "name": "Verona",
+      "state": "WI",
+      "lat": 42.990061,
+      "lng": -89.538868
+    }
+  },
+  {
+    "agency_id": "45869f43-6b8a-5c48-ab1d-1909eee09c9a",
+    "slug": "vilas-county-wi-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Vilas County WI SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "55125",
+      "name": "Vilas",
+      "state": "WI",
+      "lat": 46.049848,
+      "lng": -89.501254
+    }
+  },
+  {
+    "agency_id": "64336728-25e8-58b6-a97d-8c0cdc8bb9ff",
+    "slug": "village-of-fox-crossing-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Village of Fox Crossing WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5526982",
+      "name": "Fox Crossing",
+      "state": "WI",
+      "lat": 44.223603,
+      "lng": -88.479075
+    }
+  },
+  {
+    "agency_id": "97b4da7d-f1b2-520c-b0b0-d2b1c546090d",
+    "slug": "village-of-fox-point-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Village of Fox Point WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5527075",
+      "name": "Fox Point",
+      "state": "WI",
+      "lat": 43.158126,
+      "lng": -87.901392
+    }
+  },
+  {
+    "agency_id": "851aa019-d0fa-5277-8c10-4ed1b62baf8f",
+    "slug": "village-of-pewaukee-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Village of Pewaukee WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5562240",
+      "name": "Pewaukee",
+      "state": "WI",
+      "lat": 43.066141,
+      "lng": -88.244465
+    }
+  },
+  {
+    "agency_id": "f9cc7f4d-3f3b-5227-bb96-8f898536a32c",
+    "slug": "warren-county-ia-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Warren County IA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "19181",
+      "name": "Warren",
+      "state": "IA",
+      "lat": 41.332446,
+      "lng": -93.568751
+    }
+  },
+  {
+    "agency_id": "9fbac126-8acc-574e-b3ae-2cc806f4442c",
+    "slug": "waupaca-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Waupaca WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5584375",
+      "name": "Waupaca",
+      "state": "WI",
+      "lat": 44.350048,
+      "lng": -89.070003
+    }
+  },
+  {
+    "agency_id": "4e105696-93e0-52ec-a40c-8475bcde9334",
+    "slug": "waupun-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Waupun WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5584425",
+      "name": "Waupun",
+      "state": "WI",
+      "lat": 43.631547,
+      "lng": -88.737534
+    }
+  },
+  {
+    "agency_id": "dda6dc07-0b23-50c7-9be6-39ab939e891f",
+    "slug": "wausau-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Wausau WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5584475",
+      "name": "Wausau",
+      "state": "WI",
+      "lat": 44.961766,
+      "lng": -89.646538
+    }
+  },
+  {
+    "agency_id": "fd054441-0759-544a-8df6-b6d5b73e3224",
+    "slug": "wautoma-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Wautoma WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5584625",
+      "name": "Wautoma",
+      "state": "WI",
+      "lat": 44.067377,
+      "lng": -89.291119
+    }
+  },
+  {
+    "agency_id": "3610c9a5-d716-5a0a-b278-b810903318cc",
+    "slug": "webster-parish-la-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Webster Parish LA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "22119",
+      "name": "Webster",
+      "state": "LA",
+      "lat": 32.732152,
+      "lng": -93.339825
+    }
+  },
+  {
+    "agency_id": "c17f02d7-a4af-5368-8348-2bb0c4e62c63",
+    "slug": "west-allis-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "West Allis WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5585300",
+      "name": "West Allis",
+      "state": "WI",
+      "lat": 43.007186,
+      "lng": -88.028986
+    }
+  },
+  {
+    "agency_id": "87dd112a-2708-582f-981a-9b25a0251331",
+    "slug": "west-burlington-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "West Burlington IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1983685",
+      "name": "West Burlington",
+      "state": "IA",
+      "lat": 40.821628,
+      "lng": -91.175475
+    }
+  },
+  {
+    "agency_id": "e690ea7b-4f03-543b-9a78-e442a512cfb4",
+    "slug": "weyauwega-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Weyauwega WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5586400",
+      "name": "Weyauwega",
+      "state": "WI",
+      "lat": 44.323593,
+      "lng": -88.933131
+    }
+  },
+  {
+    "agency_id": "46a87886-3fc8-51a3-88c4-4910ecd39287",
+    "slug": "whitefish-bay-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Whitefish Bay WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5586700",
+      "name": "Whitefish Bay",
+      "state": "WI",
+      "lat": 43.113137,
+      "lng": -87.900475
+    }
+  },
+  {
+    "agency_id": "952e3b99-80be-5772-935f-e9b29c9875b2",
+    "slug": "whiting-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Whiting IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1985215",
+      "name": "Whiting",
+      "state": "IA",
+      "lat": 42.127224,
+      "lng": -96.150677
+    }
+  },
+  {
+    "agency_id": "4a899df7-49f2-51be-b19c-8dc99efd323f",
+    "slug": "wisconsin-rapids-wi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Wisconsin Rapids WI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5588200",
+      "name": "Wisconsin Rapids",
+      "state": "WI",
+      "lat": 44.392923,
+      "lng": -89.826749
+    }
   },
   {
     "agency_id": "bb9193bd-a05e-5a85-8442-0500a92e5345",
@@ -13735,33 +17337,6 @@
       "state": "OH",
       "lat": 40.0568,
       "lng": -82.50414
-    }
-  },
-  {
-    "agency_id": "3157a2bf-3ac9-5534-a6c2-5353df154f45",
-    "slug": "great-parks-of-hamilton-county-oh-pd",
-    "flock_active_slug": "great-parks-of-hamilton-county-oh-pd",
-    "flock_slugs": [
-      "great-parks-of-hamilton-county-oh-pd"
-    ],
-    "flock_names": [
-      "Great Parks of Hamilton County OH PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "39061",
-      "name": "Hamilton",
-      "state": "OH",
-      "lat": 39.196927,
-      "lng": -84.544187
     }
   },
   {
@@ -38996,33 +42571,6 @@
       "state": "NC",
       "lat": 35.277901,
       "lng": -82.167621
-    }
-  },
-  {
-    "agency_id": "0978eac6-e1f4-5841-892a-f7225fe73ea3",
-    "slug": "pontiac-il-pd",
-    "flock_active_slug": "pontiac-il-pd",
-    "flock_slugs": [
-      "pontiac-il-pd"
-    ],
-    "flock_names": [
-      "Pontiac IL PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "1761015",
-      "name": "Pontiac",
-      "state": "IL",
-      "lat": 40.889253,
-      "lng": -88.641399
     }
   },
   {
@@ -73907,33 +77455,6 @@
     }
   },
   {
-    "agency_id": "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad",
-    "slug": "appleton-wi-pd",
-    "flock_active_slug": "appleton-wi-pd",
-    "flock_slugs": [
-      "appleton-wi-pd"
-    ],
-    "flock_names": [
-      "Appleton WI PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "5502375",
-      "name": "Appleton",
-      "state": "WI",
-      "lat": 44.278873,
-      "lng": -88.388284
-    }
-  },
-  {
     "agency_id": "5d2a3059-5d50-5f67-85a4-6131c307cf45",
     "slug": "ar-alma-pd",
     "flock_active_slug": null,
@@ -76166,33 +79687,6 @@
       "lat": 44.04901728915663,
       "lng": -85.1980886626506,
       "note": "township name matches multiple county subdivisions in state"
-    }
-  },
-  {
-    "agency_id": "f168928f-b50b-5bd7-8c25-6da6521fdb93",
-    "slug": "clear-lake-ia-pd",
-    "flock_active_slug": "clear-lake-ia-pd",
-    "flock_slugs": [
-      "clear-lake-ia-pd"
-    ],
-    "flock_names": [
-      "Clear Lake IA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "1914025",
-      "name": "Clear Lake",
-      "state": "IA",
-      "lat": 43.13509,
-      "lng": -93.373651
     }
   },
   {
@@ -90616,30 +94110,6 @@
     }
   },
   {
-    "agency_id": "05c2b9c0-aceb-5390-a6dc-2bb64d316ddb",
-    "slug": "las-vegas-metro-police-department-nv",
-    "flock_active_slug": "las-vegas-metro-nv-pd",
-    "flock_slugs": [
-      "las-vegas-metro-nv-pd"
-    ],
-    "flock_names": [
-      "Las Vegas Metro Police Department - NV"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
-    "website": null,
-    "tags": [
-      "federal",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "NV"
-    }
-  },
-  {
     "agency_id": "b7db96e1-1b22-5872-a7c9-879294ff68dd",
     "slug": "do-not-use",
     "flock_active_slug": null,
@@ -99029,33 +102499,6 @@
     "flags": []
   },
   {
-    "agency_id": "c94ce662-7a0d-54c8-8bc5-396c277d837f",
-    "slug": "prescott-valley-az-pd",
-    "flock_active_slug": "prescott-valley-az-pd",
-    "flock_slugs": [
-      "prescott-valley-az-pd"
-    ],
-    "flock_names": [
-      "Prescott Valley AZ PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0457450",
-      "name": "Prescott Valley",
-      "state": "AZ",
-      "lat": 34.59793,
-      "lng": -112.318497
-    },
-    "flags": []
-  },
-  {
     "agency_id": "625dbd8a-ae33-5266-b527-38e98b850886",
     "slug": "prosper-tx-pd",
     "flock_active_slug": null,
@@ -99252,33 +102695,6 @@
       "state": "KY",
       "lat": 37.820058,
       "lng": -85.936371
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "5715ea99-2e73-5b6e-90f1-f90ee6bb9366",
-    "slug": "raleigh-nc-pd",
-    "flock_active_slug": "raleigh-nc-pd",
-    "flock_slugs": [
-      "raleigh-nc-pd"
-    ],
-    "flock_names": [
-      "Raleigh NC PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "3755000",
-      "name": "Raleigh",
-      "state": "NC",
-      "lat": 35.831868,
-      "lng": -78.641042
     },
     "flags": []
   },
@@ -100698,33 +104114,6 @@
       "state": "MO",
       "lat": 36.745822,
       "lng": -93.457842
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "8a9af692-fc85-5272-bd09-59d28e1dbc6f",
-    "slug": "summerset-sd-pd",
-    "flock_active_slug": "summerset-sd-pd",
-    "flock_slugs": [
-      "summerset-sd-pd"
-    ],
-    "flock_names": [
-      "Summerset SD PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "4662155",
-      "name": "Summerset",
-      "state": "SD",
-      "lat": 44.193309,
-      "lng": -103.342237
     },
     "flags": []
   },
@@ -111803,30 +115192,6 @@
       "state": "NY",
       "lat": 42.453006,
       "lng": -76.473483
-    }
-  },
-  {
-    "agency_id": "40521632-8a29-5e5d-a064-1b57410743b5",
-    "slug": null,
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [],
-    "display_name": "Coralville Police Department",
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "notes": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "1916230",
-      "name": "Coralville",
-      "state": "IA",
-      "lat": 41.698795,
-      "lng": -91.5968
     }
   },
   {
