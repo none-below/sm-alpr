@@ -316,7 +316,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-11T18:28:04.100960+00:00",
+      "last_probed": "2026-05-12T16:08:55.396132+00:00",
       "tried": {
         "national-city": "http_404",
         "national-city-ca": "http_404",
@@ -342,7 +342,9 @@
         "nationalcity-ca-po": "http_404",
         "nationalcity-ca-police": "http_404",
         "nationalcity-ca-police-department": "http_404",
-        "nationalcity-ca-ps": "http_404"
+        "nationalcity-ca-ps": "http_404",
+        "nationalcity-pd-ca": "http_404",
+        "nationalcity-po-ca": "http_404"
       }
     },
     "2549113a-a3d1-5d5c-9a3c-98fe21f27b17": {
@@ -446,6 +448,14 @@
       "tried": {
         "san-fernando-ca-po": "http_404",
         "san-fernando-ca-police-department": "http_404"
+      }
+    },
+    "3157a2bf-3ac9-5534-a6c2-5353df154f45": {
+      "exhausted": false,
+      "found": "great-parks-of-hamilton-county-oh-pd",
+      "last_probed": "2026-05-12T08:14:24.650667+00:00",
+      "tried": {
+        "great-parks-of-hamilton-county-oh-pd": "http_200"
       }
     },
     "332407d3-a475-546c-88c0-b2046bb47ca7": {
@@ -577,6 +587,14 @@
       "last_probed": "2026-05-07T22:45:09.320672+00:00",
       "tried": {
         "little-falls-mn-pd": "http_404"
+      }
+    },
+    "3e41a1f8-ef95-5680-b7b4-cb1df450d33a": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-12T08:14:12.907304+00:00",
+      "tried": {
+        "tangipahoa-parish-la-pd": "http_404"
       }
     },
     "3e83ccf3-b393-549e-92cf-e361ed1fe864": {
@@ -888,6 +906,14 @@
         "yuba-county-pd": "http_404"
       }
     },
+    "5c8bc31d-a96e-58bc-9985-83cf09bc55c4": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-12T13:27:24.223060+00:00",
+      "tried": {
+        "lodi-wi-pd": "http_404"
+      }
+    },
     "5d80780f-d47b-5f56-acf4-a457bbb421ac": {
       "exhausted": false,
       "found": null,
@@ -1033,7 +1059,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-11T23:42:15.429772+00:00",
+      "last_probed": "2026-05-12T13:27:34.223628+00:00",
       "tried": {
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
@@ -1051,7 +1077,8 @@
         "beverly-hills-police-department": "http_404",
         "beverly-hills-police-department-ca": "http_404",
         "beverly-hills-ps": "http_404",
-        "beverly-hills-ps-ca": "http_404"
+        "beverly-hills-ps-ca": "http_404",
+        "beverly-hills-psca": "http_404"
       }
     },
     "6b9c1c80-8c06-5e0a-a0c6-30913fad84fd": {
@@ -1290,6 +1317,14 @@
         "san-jose-evergreen-community-college-campus-ca-pd": "http_404"
       }
     },
+    "834c601d-e3dc-55cf-8e9c-b05b610ef4ec": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-12T11:06:05.456347+00:00",
+      "tried": {
+        "oxford-ms-pd": "http_404"
+      }
+    },
     "844ec58f-3abf-5a88-a280-2ba0f235264a": {
       "exhausted": false,
       "found": null,
@@ -1340,6 +1375,14 @@
       "last_probed": "2026-05-05T12:58:39.126437+00:00",
       "tried": {
         "california-city-ca-pd": "http_404"
+      }
+    },
+    "8a9af692-fc85-5272-bd09-59d28e1dbc6f": {
+      "exhausted": false,
+      "found": "summerset-sd-pd",
+      "last_probed": "2026-05-12T11:06:15.221191+00:00",
+      "tried": {
+        "summerset-sd-pd": "http_200"
       }
     },
     "8b9c5e7f-8229-52dd-9cb7-4adb28eeaea7": {
@@ -1596,7 +1639,7 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-12T05:26:06.014012+00:00",
+      "last_probed": "2026-05-12T11:06:25.843890+00:00",
       "tried": {
         "-hollister-ca": "http_404",
         "-hollister-ca-pd": "http_404",
@@ -1606,6 +1649,7 @@
         "-hollister-ca-ps": "http_404",
         "-hollister-pd-ca": "http_404",
         "-hollister-po-ca": "http_404",
+        "-hollister-police-ca": "http_404",
         "-hollister-police-department-ca": "http_404",
         "hollister": "http_404",
         "hollister-ca": "http_404",
@@ -2021,6 +2065,14 @@
         "acworth-ga-po": "http_404"
       }
     },
+    "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad": {
+      "exhausted": false,
+      "found": "appleton-wi-pd",
+      "last_probed": "2026-05-12T16:08:46.417678+00:00",
+      "tried": {
+        "appleton-wi-pd": "http_200"
+      }
+    },
     "d7003e24-7469-5336-ba5e-94b7e72ee834": {
       "exhausted": false,
       "found": "herrin-il-pd",
@@ -2078,6 +2130,22 @@
       "tried": {
         "la-mesa-ca-po": "http_404",
         "la-mesa-ca-police-department": "http_404"
+      }
+    },
+    "dc27cdd5-7cfa-5871-9bf2-21c3fb38e122": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-12T16:08:35.704810+00:00",
+      "tried": {
+        "higginsville-mo-pd": "http_404"
+      }
+    },
+    "dc6e2985-cb56-56a1-bedf-cf74c9387aba": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-12T13:27:29.095395+00:00",
+      "tried": {
+        "brunswick-county-va-so": "http_404"
       }
     },
     "dddefaf4-84f7-5857-8011-45b6eda02991": {
@@ -2427,6 +2495,6 @@
       }
     }
   },
-  "updated": "2026-05-12T05:26:06.049796+00:00",
+  "updated": "2026-05-12T16:08:55.446645+00:00",
   "version": 1
 }
