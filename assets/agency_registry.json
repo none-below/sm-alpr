@@ -1236,7 +1236,10 @@
       "lat": 38.69481,
       "lng": -121.287953
     },
-    "flags": []
+    "flags": [],
+    "aliases": [
+      "Citrus Heights PD- CA"
+    ]
   },
   {
     "agency_id": "9101f109-689a-5ad2-9a41-b7e859fc5121",
@@ -2072,7 +2075,10 @@
       "lat": 39.220305,
       "lng": -121.052654
     },
-    "flags": []
+    "flags": [],
+    "aliases": [
+      "Grass Valley PD -CA"
+    ]
   },
   {
     "agency_id": "3157a2bf-3ac9-5534-a6c2-5353df154f45",
@@ -3258,7 +3264,10 @@
       "lat": 38.5071,
       "lng": -122.325904
     },
-    "flags": []
+    "flags": [],
+    "aliases": [
+      "Napa County CA SO (Flex)"
+    ]
   },
   {
     "agency_id": "23febb79-0d19-5c75-b964-46a43c1cd423",
@@ -5385,7 +5394,10 @@
       "lat": 38.106909,
       "lng": -122.262339
     },
-    "flags": []
+    "flags": [],
+    "aliases": [
+      "Vallejo CA PD (Flex)"
+    ]
   },
   {
     "agency_id": "b5b9bd9a-9242-5f99-8bc0-d4b96114a2d3",
@@ -5763,7 +5775,10 @@
       "lat": 39.27013,
       "lng": -121.344259
     },
-    "flags": []
+    "flags": [],
+    "aliases": [
+      "Yuba County CA SO"
+    ]
   },
   {
     "agency_id": "c2a88d22-5348-519b-98e9-af9e0c1dcde2",
@@ -105763,7 +105778,10 @@
       "lat": 40.449755,
       "lng": -122.29507
     },
-    "flags": []
+    "flags": [],
+    "aliases": [
+      "Anderson City CA PD"
+    ]
   },
   {
     "agency_id": "c03e0e31-0b46-538a-a399-1575a4b43204",
@@ -108069,7 +108087,7 @@
     "display_name": null,
     "agency_role": "police",
     "agency_type": "city",
-    "website": null,
+    "website": "https://elkgrove.gov/traffic/automated-license-plate-readers-alpr",
     "tags": [
       "public"
     ],
@@ -112024,7 +112042,10 @@
       "lat": 38.567694,
       "lng": -121.468161
     },
-    "flags": []
+    "flags": [],
+    "aliases": [
+      "Sacramento PD - CA"
+    ]
   },
   {
     "agency_id": "90910dc9-55ae-5362-93c3-d00246b75cac",
@@ -112049,7 +112070,10 @@
       "lat": 38.450136,
       "lng": -121.344329
     },
-    "flags": []
+    "flags": [],
+    "aliases": [
+      "Sacramento SO - CA"
+    ]
   },
   {
     "agency_id": "6c12c240-c390-5c0f-b570-8900c2366343",
@@ -113315,7 +113339,11 @@
       "lat": 38.248334,
       "lng": -122.010066
     },
-    "flags": []
+    "flags": [],
+    "aliases": [
+      "Suisun City PD - CA",
+      "Suisun City PD- CA"
+    ]
   },
   {
     "agency_id": "132bc98f-aebb-52c5-b98b-6dbbec94ad46",
@@ -115319,5 +115347,114 @@
       "lat": 31.84778,
       "lng": -106.431106
     }
+  },
+  {
+    "agency_id": "31282ca1-f38a-5d80-8852-cbce7e5d5a27",
+    "slug": "millbrae-ca-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Millbrae CA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "0647486",
+      "name": "Millbrae",
+      "state": "CA",
+      "lat": 37.59897,
+      "lng": -122.401991
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "345f860b-c245-502c-b845-5d37cf092b24",
+    "slug": "chezimme-estates-hoa",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "CheZimme Estates HOA"
+    ],
+    "display_name": null,
+    "agency_role": "hoa",
+    "agency_type": "community",
+    "website": null,
+    "tags": [
+      "private"
+    ],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "26ce7b8e-ca88-581b-af52-ee2e9667055e",
+    "slug": "eskanos-family-lp-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Eskanos Family LP (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "business",
+    "agency_type": "private",
+    "website": null,
+    "tags": [
+      "private"
+    ],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "b236044d-8b46-53d6-b121-e84842121a6c",
+    "slug": "elk-grove-auto-mall-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Elk Grove Auto Mall (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "business",
+    "agency_type": "private",
+    "website": null,
+    "tags": [
+      "private"
+    ],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "75fc2bc0-e556-56c4-9780-e2b2be42c5fd",
+    "slug": "stones-gambling-hall-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Stones Gambling Hall (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "business",
+    "agency_type": "private",
+    "website": null,
+    "tags": [
+      "private"
+    ],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    },
+    "flags": []
   }
 ]
