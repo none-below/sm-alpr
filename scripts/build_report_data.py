@@ -471,6 +471,43 @@ def _load_audit_json(reg_entry):
     return {}
 
 
+def _audit_searches_30d(audit):
+    """Trailing 30-day search count derived from the union audit log.
+
+    Anchored to the most recent searchDate present, not real-time —
+    Flock's CSV is a rolling 30-day window and our PRA-imported rows
+    extend further back, so the answer to "how many searches did the
+    agency do in a 30-day month" should slide with whatever data we
+    have. Returns {count, window_start, window_end} or None when there
+    are no usable date rows.
+    """
+    from datetime import date as _date, timedelta
+    rows = audit.get("rows") or []
+    dates = []
+    for r in rows:
+        d = r.get("searchDate")
+        if not d:
+            continue
+        d = str(d)[:10]
+        if len(d) == 10:
+            dates.append(d)
+    if not dates:
+        return None
+    try:
+        max_d = _date.fromisoformat(max(dates))
+    except ValueError:
+        return None
+    cutoff = max_d - timedelta(days=29)
+    cutoff_str = cutoff.isoformat()
+    max_str = max_d.isoformat()
+    count = sum(1 for d in dates if d >= cutoff_str)
+    return {
+        "count": count,
+        "window_start": cutoff_str,
+        "window_end": max_str,
+    }
+
+
 def _audit_vs_inbound(audit, direct_inbound):
     """Compare audit-log row networkCounts against the agency's own
     published inbound list size.
@@ -1682,19 +1719,25 @@ def main():
             key=lambda x: x["removed_on"], reverse=True
         )
 
-        # ── Audit-log vs. inbound check ──
-        # If the agency publishes a search audit, compare per-search
-        # networkCount against the effective inbound size. Searches
-        # that touch more networks than the agency receives data from
-        # imply use of Flock's statewide/nationwide lookup features.
-        # Effective inbound = max(direct portal-listed, inferred from
-        # other agencies' outbound) — the bigger of the two is the
-        # most charitable read.
+        # ── Audit-log derived fields ──
+        # If the agency publishes a search audit (or we've imported one
+        # via PRA), surface two derived signals:
+        #   1. audit_vs_inbound: per-search networkCount vs the agency's
+        #      own published inbound list size — searches touching more
+        #      networks than the agency receives from imply use of
+        #      Flock's statewide/nationwide lookup features.
+        #   2. searches_30d_audit: a trailing 30-day count anchored to
+        #      the latest searchDate in the union log. Lets agencies
+        #      that publish the CSV but not a top-line "searches in the
+        #      last 30 days" stat still get a number in the report.
         audit_vs_inbound = None
-        if crawled and inbound_count:
+        searches_30d_audit = None
+        if crawled:
             audit_json = _load_audit_json(reg)
             if audit_json:
-                audit_vs_inbound = _audit_vs_inbound(audit_json, inbound_count)
+                if inbound_count:
+                    audit_vs_inbound = _audit_vs_inbound(audit_json, inbound_count)
+                searches_30d_audit = _audit_searches_30d(audit_json)
 
         # ── Inferred inbound (for uncrawled agencies mostly) ──
         inbound_source_ids = set(inbound_ids) | inbound_inferred_by_id.get(aid, set())
@@ -1831,6 +1874,10 @@ def main():
                 "hotlist_hits_30d": hotlist_hits,
                 "hotlists_alerted_on": hotlists_alerted_on,
                 "searches_30d": searches_30d,
+                # Derived count from the audit-log CSV when the agency
+                # publishes one but doesn't surface a top-line stat.
+                # {count, window_start, window_end} or None.
+                "searches_30d_audit": searches_30d_audit,
                 "outbound_count": outbound_count,
                 "inbound_count": inbound_count,
             },
