@@ -223,13 +223,34 @@ jobs:
             -f context=validate \
             -f description="Validated by refresh workflow"
 
-      - name: Generate diff summary
+      - name: Generate diff summaries
         if: steps.commit.outputs.has_changes == 'true'
         run: |
-          slugs=$(git diff HEAD~1 --name-only -- 'assets/transparency.flocksafety.com/' \
+          # Two diffs: cumulative (for the PR body) and per-batch (used as
+          # a fallback comment when the cumulative diff exceeds GitHub's
+          # ~65K-char body limit).
+          #
+          # Both must filter to actually-changed slugs — if no slug args
+          # are passed, diff_scrapes.py falls through to "diff every
+          # agency in the dataset," which dumps ~200 unrelated agencies
+          # into the PR.
+          slugs_cum=$(git diff origin/main...HEAD --name-only -- 'assets/transparency.flocksafety.com/' \
             | sed 's|assets/transparency.flocksafety.com/||' | cut -d/ -f1 | sort -u)
-          uv run python scripts/diff_scrapes.py $slugs > /tmp/diff-summary.txt
-          cat /tmp/diff-summary.txt
+          if [ -n "$slugs_cum" ]; then
+            uv run python scripts/diff_scrapes.py $slugs_cum > /tmp/diff-cumulative.txt
+          else
+            echo "No agency scrape files changed since main." > /tmp/diff-cumulative.txt
+          fi
+
+          slugs_batch=$(git diff HEAD~1 --name-only -- 'assets/transparency.flocksafety.com/' \
+            | sed 's|assets/transparency.flocksafety.com/||' | cut -d/ -f1 | sort -u)
+          if [ -n "$slugs_batch" ]; then
+            uv run python scripts/diff_scrapes.py $slugs_batch > /tmp/diff-batch.txt
+          else
+            echo "No agency scrape files changed in this batch." > /tmp/diff-batch.txt
+          fi
+
+          cat /tmp/diff-cumulative.txt
 
       - name: Create or update PR
         if: steps.commit.outputs.has_changes == 'true'
@@ -240,31 +261,53 @@ jobs:
           GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
           BATCH_SIZE: ${{ inputs.batch_size || '3' }}
         run: |
+          BODY_INTRO=$'Automated rolling refresh of Flock Safety transparency portal data.\n\nThis PR accumulates hourly batches. Merge when ready — the next run will create a fresh branch from main.'
+
+          {
+            echo "$BODY_INTRO"
+            echo
+            echo "### Cumulative diff vs main"
+            echo
+            echo '```'
+            cat /tmp/diff-cumulative.txt
+            echo '```'
+          } > /tmp/pr-body.md
+
+          # GitHub caps body at ~65,536 chars. Once the cumulative diff
+          # would blow past that, freeze the body (last cumulative
+          # snapshot that fit) and switch to per-batch comments. Reading
+          # the body + comments in order gives the full picture.
+          OVERFLOW=false
+          if [ "$(wc -c < /tmp/pr-body.md)" -gt 60000 ]; then
+            OVERFLOW=true
+          fi
+
           existing=$(gh pr list --head flock-refresh --state open --json number --jq '.[0].number')
           if [ -n "$existing" ]; then
-            {
-              echo "### Refresh batch — ${BATCH_SIZE} agencies"
-              echo
-              echo '```'
-              cat /tmp/diff-summary.txt
-              echo '```'
-            } > /tmp/pr-body.md
-            gh pr comment "$existing" --body-file /tmp/pr-body.md
+            pr_num="$existing"
+            if [ "$OVERFLOW" = "false" ]; then
+              gh pr edit "$pr_num" --body-file /tmp/pr-body.md
+            fi
           else
-            {
-              echo "Automated rolling refresh of Flock Safety transparency portal data."
-              echo
-              echo "This PR accumulates hourly batches. Merge when ready — the next run will create a fresh branch from main."
-              echo
-              echo "### Initial batch"
-              echo
-              echo '```'
-              cat /tmp/diff-summary.txt
-              echo '```'
-            } > /tmp/pr-body.md
+            # First run on a fresh branch — body is small by definition,
+            # so OVERFLOW can't be true here.
             gh pr create \
               --title "chore: refresh flock transparency data" \
               --body-file /tmp/pr-body.md \
               --head flock-refresh \
               --base main
+            pr_num=$(gh pr list --head flock-refresh --state open --json number --jq '.[0].number')
+          fi
+
+          if [ "$OVERFLOW" = "true" ]; then
+            {
+              echo "### Refresh batch — ${BATCH_SIZE} agencies"
+              echo
+              echo "_Cumulative diff vs main exceeds GitHub's PR-body limit; this batch is posted as a comment. Body shows the last cumulative snapshot that fit._"
+              echo
+              echo '```'
+              cat /tmp/diff-batch.txt
+              echo '```'
+            } > /tmp/pr-comment.md
+            gh pr comment "$pr_num" --body-file /tmp/pr-comment.md
           fi
