@@ -1639,7 +1639,7 @@
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-12T11:06:25.843890+00:00",
+      "last_probed": "2026-05-12T18:29:55.468459+00:00",
       "tried": {
         "-hollister-ca": "http_404",
         "-hollister-ca-pd": "http_404",
@@ -1651,6 +1651,7 @@
         "-hollister-po-ca": "http_404",
         "-hollister-police-ca": "http_404",
         "-hollister-police-department-ca": "http_404",
+        "-hollister-ps-ca": "http_404",
         "hollister": "http_404",
         "hollister-ca": "http_404",
         "hollister-ca-po": "http_404",
@@ -1875,6 +1876,14 @@
         "sacramento-ca-police-department": "http_404"
       }
     },
+    "bb0febe1-224f-577e-bb17-67a25f020cae": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-12T18:29:45.905052+00:00",
+      "tried": {
+        "hopkins-mn-pd": "http_404"
+      }
+    },
     "bb5faf65-b11b-5b91-99a0-4e3f4fc441c0": {
       "exhausted": false,
       "found": null,
@@ -1921,6 +1930,14 @@
       "last_probed": "2026-05-08T06:23:54.856215+00:00",
       "tried": {
         "taylor-county-ga-so": "http_404"
+      }
+    },
+    "bfc31c5b-4ebb-5bac-944b-71bfc9a62a64": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-12T18:29:51.013986+00:00",
+      "tried": {
+        "ohio-state-university-oh-pd": "http_404"
       }
     },
     "bff0452b-0682-5103-9dec-657f11133177": {
@@ -2495,6 +2512,6 @@
       }
     }
   },
-  "updated": "2026-05-12T16:08:55.446645+00:00",
+  "updated": "2026-05-12T18:29:55.504449+00:00",
   "version": 1
 }
