@@ -467,6 +467,41 @@ def test_month_year_bold_heading_does_not_raise():
     )
 
 
+def test_spelled_out_alpr_policy_heading_classifies_as_alpr_policy():
+    """Raleigh (2026-05-12) bolds the policy title with ALPR spelled
+    out instead of as an acronym: "Raleigh Police Department Automated
+    License Plate Recognition and Internet Protocol Camera System
+    Policy". The spelled-out dynamic pattern parallels the existing
+    ALPR/LPR-acronym pattern and routes these to alpr_policy."""
+    from flock_transparency import _match_heading_kind
+    field, _ = _match_heading_kind(
+        "Raleigh Police Department Automated License Plate Recognition "
+        "and Internet Protocol Camera System Policy"
+    )
+    assert field == "alpr_policy"
+    # "Reader" / "Readers" singular and plural also accepted.
+    field, _ = _match_heading_kind(
+        "Foo PD Automated License Plate Reader Policy"
+    )
+    assert field == "alpr_policy"
+    field, _ = _match_heading_kind(
+        "Foo PD Automated License Plate Readers Usage Policy"
+    )
+    assert field == "alpr_policy"
+
+
+def test_camera_count_variants_route_to_camera_count():
+    """Two new camera-count heading variants seen in the wild:
+    "Number of Flock LPR Cameras" (las-vegas-metro-nv-pd 2026-05-12)
+    and "Number of LPRs" (prescott-valley-az-pd 2026-05-12). Both
+    are aliases for the existing camera_count field."""
+    assert _match_heading("Number of Flock LPR Cameras") == "camera_count"
+    assert _match_heading("Number of LPRs") == "camera_count"
+    # Case-insensitive (parser lowercases for lookup).
+    assert _match_heading("number of flock lpr cameras") == "camera_count"
+    assert _match_heading("NUMBER OF LPRS") == "camera_count"
+
+
 def test_alpr_acronym_in_parens_classifies_as_alpr_policy():
     """Belmont/Pacifica (2026-05-06) introduced a heading shape with
     the (ALPR) acronym in parentheses rather than space-delimited:
