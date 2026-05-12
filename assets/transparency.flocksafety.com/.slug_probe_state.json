@@ -316,7 +316,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-12T08:14:36.508422+00:00",
+      "last_probed": "2026-05-12T16:08:55.396132+00:00",
       "tried": {
         "national-city": "http_404",
         "national-city-ca": "http_404",
@@ -343,7 +343,8 @@
         "nationalcity-ca-police": "http_404",
         "nationalcity-ca-police-department": "http_404",
         "nationalcity-ca-ps": "http_404",
-        "nationalcity-pd-ca": "http_404"
+        "nationalcity-pd-ca": "http_404",
+        "nationalcity-po-ca": "http_404"
       }
     },
     "2549113a-a3d1-5d5c-9a3c-98fe21f27b17": {
@@ -2064,6 +2065,14 @@
         "acworth-ga-po": "http_404"
       }
     },
+    "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad": {
+      "exhausted": false,
+      "found": "appleton-wi-pd",
+      "last_probed": "2026-05-12T16:08:46.417678+00:00",
+      "tried": {
+        "appleton-wi-pd": "http_200"
+      }
+    },
     "d7003e24-7469-5336-ba5e-94b7e72ee834": {
       "exhausted": false,
       "found": "herrin-il-pd",
@@ -2121,6 +2130,14 @@
       "tried": {
         "la-mesa-ca-po": "http_404",
         "la-mesa-ca-police-department": "http_404"
+      }
+    },
+    "dc27cdd5-7cfa-5871-9bf2-21c3fb38e122": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-12T16:08:35.704810+00:00",
+      "tried": {
+        "higginsville-mo-pd": "http_404"
       }
     },
     "dc6e2985-cb56-56a1-bedf-cf74c9387aba": {
@@ -2478,6 +2495,6 @@
       }
     }
   },
-  "updated": "2026-05-12T13:27:34.260105+00:00",
+  "updated": "2026-05-12T16:08:55.446645+00:00",
   "version": 1
 }
