@@ -655,11 +655,23 @@
 
     // ── Metric 1: Searches performed ─────────────────────────────
     {
-      const v = stats.searches_30d;
+      const portalV = stats.searches_30d;
+      const audit30 = stats.searches_30d_audit;  // {count, window_start, window_end} or null
+      // If the portal doesn't surface a top-line searches_30d but it
+      // (or a PRA import) embeds a search-audit CSV, fall back to
+      // counting rows in a trailing 30-day window. The transparency
+      // checklist still flags the not-published gap; this just lets
+      // the activity block carry a real number instead of "not
+      // reported."
+      const usingAudit = portalV == null && audit30 != null;
+      const v = portalV != null ? portalV : (audit30 ? audit30.count : null);
       const notReported = v == null;
       const pctile = percentiles.searches_30d;
       const lpctile = localPct.searches_30d;
-      const pills = rankPillsForMetric({
+      // Skip rank pills when the value came from the audit fallback:
+      // build-side percentiles were computed against the null portal
+      // stat, so they don't reflect this value.
+      const pills = usingAudit ? "" : rankPillsForMetric({
         pctile, med: medians.searches_30d,
         lpctile, lmed: localMed.searches_30d,
         lsamp: localSample.searches_30d,
@@ -669,16 +681,22 @@
       });
       const rawCell = statsCellHtml({
         cellClass: "raw",
-        concernClass: notReported ? "" : (cellClassFor(pctile, "searches_30d")),
-        label: "Agency raw",
+        concernClass: (notReported || usingAudit) ? "" : (cellClassFor(pctile, "searches_30d")),
+        label: usingAudit ? "Agency raw (computed)" : "Agency raw",
         value: v,
         valueIsNotReported: notReported,
         notReportedHint: notReported ? notReportedHintFor(report, "searches_30d") : "",
         rankPillsHtml: pills,
       });
-      // Per-capita cell
-      const per = per1k.searches_30d;
-      const pvPills = rankPillsForMetric({
+      // Per-capita cell. The build-side per-capita value is only
+      // populated when the portal stat is present, so when we're
+      // showing an audit-derived count we compute the rate here from
+      // the same population denominator the build uses.
+      const popDenom = report.population || null;
+      const per = portalV != null
+        ? per1k.searches_30d
+        : (usingAudit && popDenom ? (audit30.count / popDenom * 1000) : null);
+      const pvPills = usingAudit ? "" : rankPillsForMetric({
         pctile: per1kPct.searches_30d, med: per1kMed.searches_30d,
         lpctile: localPerPct.searches_30d, lmed: localPerMed.searches_30d,
         lsamp: localSample.searches_30d,
@@ -691,18 +709,22 @@
         : "";
       const perCell = statsCellHtml({
         cellClass: "per-capita",
-        concernClass: cellClassFor(per1kPct.searches_30d, "searches_30d"),
-        label: "Per 1,000 residents",
+        concernClass: usingAudit ? "" : cellClassFor(per1kPct.searches_30d, "searches_30d"),
+        label: usingAudit ? "Per 1,000 residents (computed)" : "Per 1,000 residents",
         value: per,
         valueIsNotReported: notReported,
         extrasHtml: pvExtras,
         rankPillsHtml: pvPills,
       });
+      const auditCaveat = usingAudit
+        ? `Not surfaced as a top-line stat on ${short}'s transparency portal; count derived from the search-audit CSV ${short} publishes (or that we obtained via PRA). Window: ${audit30.window_start} to ${audit30.window_end}. Peer rank omitted — peers' counts are reported, not computed.`
+        : "";
       html += metricBlockHtml({
         title: `Searches performed by ${short}`,
         subtitle: "last 30 days",
-        concern: !notReported && (pctile >= 60 || lpctile >= 60),
-        concernMild: notReported,
+        concern: !notReported && !usingAudit && (pctile >= 60 || lpctile >= 60),
+        concernMild: notReported || usingAudit,
+        caveatHtml: auditCaveat,
         cellsHtml: rawCell + perCell,
         inlineConcernHtml: concernsForSection(report, "stat:searches_30d"),
       });
