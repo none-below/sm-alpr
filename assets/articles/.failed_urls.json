@@ -54,11 +54,6 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/",
     "last_attempt": "2026-05-08T22:09:04Z"
   },
-  "https://evanstonroundtable.com/2024/01/02/new-year-new-laws-giannoulias-initiated-laws-take-effect/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T16:47:16Z"
-  },
   "https://evanstonroundtable.com/2025/06/16/foia-records-reveal-evanston-data-accessible-to-out-of-state-police-in-ice-searches/": {
     "attempts": 2,
     "error": "HTTP 403",
@@ -128,11 +123,6 @@
     "attempts": 2,
     "error": "HTTP 403",
     "last_attempt": "2026-05-11T04:21:11Z"
-  },
-  "https://oaklandside.org/2024/02/08/chp-to-control-oaklands-300-camera-vehicle-surveillance-network/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T16:02:09Z"
   },
   "https://oaklandside.org/2024/03/27/oakland-homeowner-groups-powerful-surveillance-cameras/": {
     "attempts": 1,
@@ -285,9 +275,9 @@
     "last_attempt": "2026-05-10T09:53:03Z"
   },
   "https://www.kxan.com/border-report/border-report-live-california-attorney-general-rob-bonta/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T16:47:28Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-12T00:11:04Z"
   },
   "https://www.kxan.com/news/local/audit-of-austin-license-plate-camera-program-finds-general-accuracy-missing-data/": {
     "attempts": 2,
@@ -364,11 +354,6 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-10T22:07:28Z"
   },
-  "https://www.oakpark.com/2025/09/02/why-i-voted-to-cancel-flock-cameras/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T17:01:37Z"
-  },
   "https://www.oakpark.com/2025/09/11/consultant-tells-oak-park-to-hire-full-time-police-oversight-staffer/": {
     "attempts": 1,
     "error": "HTTP 403",
@@ -383,11 +368,6 @@
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.redrocknews.com/2025/09/09/sedona-ends-flock-license-plate-cameras",
     "last_attempt": "2026-05-08T22:11:56Z"
-  },
-  "https://www.seattletimes.com/seattle-news/politics/redmond-suspends-flock-cameras": {
-    "attempts": 1,
-    "error": "HTTP 404",
-    "last_attempt": "2026-05-09T02:40:58Z"
   },
   "https://www.smdailyjournal.com/news/local/belmont-debates-license-plate-cameras/article_c454f386-1977-11ee-99fb-eb7da9cb4b51.html": {
     "attempts": 1,
@@ -443,11 +423,6 @@
     "attempts": 1,
     "error": "HTTP 429",
     "last_attempt": "2026-05-10T17:10:06Z"
-  },
-  "https://www.smdailyjournal.com/news/local/south-san-francisco-considers-license-plate-reading-cameras/article_1782a3b6-4079-11ec-90bb-37eeee12c36b.html": {
-    "attempts": 1,
-    "error": "HTTP 429",
-    "last_attempt": "2026-05-09T16:01:33Z"
   },
   "https://www.smdailyjournal.com/news/local/south-san-francisco-council-oks-license-plate-reading-cameras/article_1e467e8e-8af7-11ec-81fc-87089d642110.html": {
     "attempts": 2,
