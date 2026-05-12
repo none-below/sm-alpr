@@ -1075,7 +1075,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-12T20:21:39.422679+00:00",
+      "last_probed": "2026-05-12T23:44:30.672178+00:00",
       "tried": {
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
@@ -1095,7 +1095,8 @@
         "beverly-hills-police-department-ca": "http_404",
         "beverly-hills-ps": "http_404",
         "beverly-hills-ps-ca": "http_404",
-        "beverly-hills-psca": "http_404"
+        "beverly-hills-psca": "http_404",
+        "beverlyhills-ca-pd": "http_404"
       }
     },
     "6b9c1c80-8c06-5e0a-a0c6-30913fad84fd": {
@@ -1376,6 +1377,14 @@
       "last_probed": "2026-05-10T21:34:55.107391+00:00",
       "tried": {
         "west-saint-paul-mn-pd": "http_200"
+      }
+    },
+    "87a1c161-c069-5a52-aa60-2a9a899efb89": {
+      "exhausted": false,
+      "found": "hamilton-township-oh-pd",
+      "last_probed": "2026-05-12T23:44:16.557704+00:00",
+      "tried": {
+        "hamilton-township-oh-pd": "http_200"
       }
     },
     "8850cc76-6d6f-5a25-8e97-8af1c309e550": {
@@ -2040,6 +2049,14 @@
         "blythe-ca-police-department": "http_404"
       }
     },
+    "cb2fd3d2-4c0b-5dc8-b54a-1e87b4d216d0": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-12T23:44:26.131197+00:00",
+      "tried": {
+        "coffee-county-ga-so": "http_404"
+      }
+    },
     "cc1000e2-0754-5577-95b3-76649924222d": {
       "exhausted": false,
       "found": null,
@@ -2546,6 +2563,6 @@
       }
     }
   },
-  "updated": "2026-05-12T21:57:20.792198+00:00",
+  "updated": "2026-05-12T23:44:30.724582+00:00",
   "version": 1
 }
