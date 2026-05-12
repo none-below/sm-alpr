@@ -15,7 +15,8 @@ function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
 Promise.all([
   fetch('data/map_data.json?v=CACHE_BUST').then(r => r.json()),
   fetch('data/agency_changelog.json?v=CACHE_BUST').then(r => r.ok ? r.json() : null).catch(() => null),
-]).then(([data, changelog]) => {
+  fetch('data/articles_data.json?v=CACHE_BUST').then(r => r.ok ? r.json() : null).catch(() => null),
+]).then(([data, changelog, articlesData]) => {
   const markers = data.markers;
   const coords = data.coords;
   const agencyInfo = data.agencyInfo;
@@ -49,6 +50,30 @@ Promise.all([
     });
     return result;
   }
+  // Article counts keyed by both slug and agency_id so the info panel
+  // can show "Articles (N) →" for the selected agency regardless of how
+  // it's identified. Uses primary_count (articles substantively about
+  // this agency) rather than the full count — articles.html filters on
+  // primary subjects too, so the badge here matches what the user sees
+  // after clicking through. Falls back to empty map when articles_data
+  // failed to load (offline build, fetch error) — links just don't show.
+  const articleCountBySlug = Object.create(null);
+  const articleCountByAgencyId = Object.create(null);
+  if (articlesData && articlesData.articles_by_agency) {
+    for (const aid in articlesData.articles_by_agency) {
+      const entry = articlesData.articles_by_agency[aid];
+      const n = entry.primary_count || 0;
+      if (!n) continue;
+      articleCountByAgencyId[aid] = n;
+      if (entry.slug) articleCountBySlug[entry.slug] = n;
+    }
+  }
+  function articleCountFor(slug, agencyId) {
+    if (slug && articleCountBySlug[slug]) return articleCountBySlug[slug];
+    if (agencyId && articleCountByAgencyId[agencyId]) return articleCountByAgencyId[agencyId];
+    return 0;
+  }
+
   const changelogBySlug = (changelog && changelog.by_slug) || {};
   const changelogMeta = changelog || { window_days: 90, tracking_days: null, window_complete: false };
   let showChanges = localStorage.getItem('smalpr-show-changes') !== 'false';
@@ -480,6 +505,10 @@ Promise.all([
     html += '<h3>' + escapeHtml(agencyInfo[m.slug]?.name || m.slug) + ' <a href="' + escapeHtml(shareUrl) + '" data-share-url="' + escapeHtml(shareUrl) + '" style="font-size:14px;text-decoration:none" title="Copy link">\ud83d\udd17</a></h3>';
     html += '<p class="stat"><a href="report.html?agency=' + encodeURIComponent(m.slug) + '" style="color:#2563eb;font-weight:600">View full report \u2192</a>';
     html += ' &middot; <a href="justifications.html?agency=' + encodeURIComponent(m.slug) + '" style="color:#2563eb">Justifications \u2192</a>';
+    const artCount = articleCountFor(m.slug, m.agency_id);
+    if (artCount > 0) {
+      html += ' &middot; <a href="articles.html?agency=' + encodeURIComponent(m.slug) + '" style="color:#2563eb">Articles (' + artCount + ') \u2192</a>';
+    }
     if (m.crawled) {
       html += ' &middot; <a href="https://transparency.flocksafety.com/' + safeSlug(m.slug) + '" target="_blank" style="color:#2563eb">Transparency portal \u2197</a>';
     }
@@ -743,6 +772,10 @@ Promise.all([
       let html = '<h3>' + escapeHtml(info.name || slug) + '</h3>';
       html += '<p class="stat" style="color:#f97316">No map location</p>';
       html += '<p class="stat"><a href="report.html?agency=' + encodeURIComponent(slug) + '" style="color:#2563eb;font-weight:600">View full report \u2192</a>';
+      const offMapArtCount = articleCountFor(slug, info.agency_id);
+      if (offMapArtCount > 0) {
+        html += ' &middot; <a href="articles.html?agency=' + encodeURIComponent(slug) + '" style="color:#2563eb">Articles (' + offMapArtCount + ') \u2192</a>';
+      }
       if (info.crawled) {
         html += ' &middot; <a href="https://transparency.flocksafety.com/' + safeSlug(slug) + '" target="_blank" style="color:#2563eb">Transparency portal \u2197</a>';
       }

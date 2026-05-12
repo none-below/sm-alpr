@@ -47,6 +47,112 @@
     padding: 0 20px 60px;
   }
 
+  .agency-search-row {
+    position: relative;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  .agency-search-row h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+    margin-bottom: 8px;
+  }
+  .agency-search-row input {
+    width: 100%;
+    padding: 8px 12px;
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    color: #e2e8f0;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .agency-search-row input:focus {
+    outline: none;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 2px rgba(96,165,250,0.18);
+  }
+  .agency-search-results {
+    position: absolute;
+    top: 100%;
+    left: 18px;
+    right: 18px;
+    background: #1e293b;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    max-height: 320px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    margin-top: 2px;
+  }
+  .agency-search-results.open { display: block; }
+  .agency-search-results a {
+    display: block;
+    padding: 7px 12px;
+    color: #e2e8f0;
+    text-decoration: none;
+    font-size: 13px;
+    border-bottom: 1px solid #334155;
+  }
+  .agency-search-results a:last-child { border-bottom: none; }
+  .agency-search-results a:hover,
+  .agency-search-results a.hl { background: #334155; }
+  .agency-search-results .sr-state {
+    color: #94a3b8;
+    font-size: 11px;
+    margin-left: 6px;
+  }
+  .agency-search-results .sr-count {
+    color: #94a3b8;
+    font-size: 11px;
+    float: right;
+  }
+  .agency-search-results .sr-empty {
+    padding: 8px 12px;
+    color: #94a3b8;
+    font-size: 13px;
+  }
+  .agency-pin-inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #1e3a8a;
+    color: #dbeafe;
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-size: 14px;
+  }
+  .agency-pin-inline .pin-label {
+    font-weight: 600;
+  }
+  .agency-pin-inline .pin-meta {
+    color: #93c5fd;
+    font-size: 12px;
+    margin-left: 6px;
+    font-weight: normal;
+  }
+  .agency-pin-inline button {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid #3b82f6;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .agency-pin-inline button:hover { background: rgba(15, 23, 42, 0.7); }
+
   .filter-panel {
     background: #1e293b;
     border: 1px solid #334155;
@@ -225,6 +331,14 @@
 
 <main>
   <div id="map"></div>
+
+  <div class="agency-search-row" id="agency-search">
+    <h2>Filter by city or agency</h2>
+    <div class="agency-search-input-wrap" id="agency-search-input-wrap">
+      <input type="text" id="agency-search-input" placeholder="Type a city or agency name&hellip;" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="agency-search-results" id="agency-search-results" role="listbox"></div>
+  </div>
 
   <div class="filter-panel" id="filter-panel">
     <h2>Filter by tag</h2>

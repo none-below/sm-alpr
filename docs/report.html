@@ -807,6 +807,38 @@
   }
   .footer a { color: var(--muted); }
 
+  .article-table {
+    font-size: 10pt;
+    table-layout: fixed;
+  }
+  .article-table th:first-child,
+  .article-table td.article-date {
+    width: 90px;
+    white-space: nowrap;
+    color: var(--muted);
+  }
+  .article-table th:last-child,
+  .article-table td.article-source {
+    width: 150px;
+    color: var(--muted);
+    font-size: 9.5pt;
+    word-break: break-word;
+  }
+  .article-table td a { color: var(--accent); text-decoration: none; }
+  .article-table td a:hover { text-decoration: underline; }
+  .article-primary-badge {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #075985;
+    font-size: 8pt;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 4px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
   .legal-note {
     font-size: 10pt;
     background: #f3f4f6;
