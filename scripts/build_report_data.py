@@ -136,6 +136,37 @@ _AUDIT_TERMS_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Flock-supplied template phrase in many portal `overview` fields:
+# "real-time alerting of hotlist vehicles to capture wanted criminals."
+# Hotlist hits are typically warrants/BOLOs/missing-persons — pre-conviction
+# by design. We surface the phrase as a portal-language note (not a
+# recipient-flag) and contextualize it as boilerplate.
+_WANTED_CRIMINALS_RE = re.compile(r"\bwanted\s+criminals?\b", re.IGNORECASE)
+
+
+def _portal_language_notes(portal, wanted_criminals_peer_count, wanted_criminals_peer_pool):
+    """Detect Flock-template portal language worth surfacing as a callout.
+
+    Returns a list of note objects keyed by `id`; the JS renderer hardcodes
+    copy per id. Empty list when nothing matches.
+    """
+    notes = []
+    overview = portal.get("overview")
+    if isinstance(overview, str):
+        m = _WANTED_CRIMINALS_RE.search(overview)
+        if m:
+            start = overview.rfind('.', 0, m.start())
+            start = 0 if start == -1 else start + 1
+            end = overview.find('.', m.end())
+            end = len(overview) if end == -1 else end + 1
+            notes.append({
+                "id": "wanted_criminals",
+                "matched_text": overview[start:end].strip(),
+                "peer_count": wanted_criminals_peer_count,
+                "peer_pool_size": wanted_criminals_peer_pool,
+            })
+    return notes
+
 
 def _has_value(portal, key):
     """True if the portal field is a non-empty string."""
@@ -676,6 +707,18 @@ def main():
 
     print(f"CA crawled agencies: {len(ca_crawled)}")
 
+    # ── Portal-language peer counts ──
+    # Count crawled CA agencies whose latest portal "overview" carries the
+    # Flock template phrase "wanted criminals". Surfaced in per-agency
+    # reports so readers can see it's boilerplate, not agency-specific
+    # framing.
+    wanted_criminals_peers = 0
+    for a in ca_crawled:
+        ov = a["portal"].get("overview")
+        if isinstance(ov, str) and _WANTED_CRIMINALS_RE.search(ov):
+            wanted_criminals_peers += 1
+    wanted_criminals_peer_pool = len(ca_crawled)
+
     # ── Checklist completion counts (by agency_type and overall) ──
     #
     # We compute peer totals against ALL CA agencies with Flock cameras,
@@ -1059,6 +1102,13 @@ def main():
         crawled = bool(gdata.get("crawled"))
         portal = _load_portal_json(reg) if crawled else {}
         atype = reg.get("agency_type") or "other"
+
+        # Flock-template language flags (e.g., "wanted criminals" in the
+        # overview blurb). Only crawled agencies have an overview to scan.
+        portal_language_notes = (
+            _portal_language_notes(portal, wanted_criminals_peers, wanted_criminals_peer_pool)
+            if crawled else []
+        )
 
         lat, lng = agency_coords(reg)
         state = agency_state(reg)
@@ -1825,6 +1875,7 @@ def main():
             "audit_vs_inbound": audit_vs_inbound,
             "recent_outbound_additions": recent_outbound_additions,
             "recent_outbound_removals": recent_outbound_removals,
+            "portal_language_notes": portal_language_notes,
         }
 
     # ── Metadata ──
