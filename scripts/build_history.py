@@ -56,6 +56,18 @@ SKIP_FIELDS = {
     # events on every scrape. Consumers that want audit-log analysis
     # should read the raw portal JSON directly.
     "search_audit_csv",
+    # Provenance markers on manually-transcribed snapshots (see
+    # _diff_pair for how manual snapshots are handled). Not policy.
+    "manual",
+    "source_pdf",
+    "_provenance",
+    # Portal-render timestamp ("Wed Feb 18 2026") — changes every
+    # crawl, not policy. The crawled schema sets it to "" today,
+    # but manual snapshots transcribe the visible header value.
+    "last_updated",
+    # search_audit is the CSV-download button URL; same churn shape
+    # as search_audit_csv above.
+    "search_audit",
 }
 
 SCALAR_FIELDS = {"data_retention_days", "camera_count"}
@@ -105,8 +117,18 @@ def _diff_pair(prev: dict, curr: dict, prev_date: str, curr_date: str) -> list[d
     events = []
     prev_n = _normalize(prev)
     curr_n = _normalize(curr)
+    # Manually-transcribed snapshots (manual:true) capture only the fields
+    # visible in their source PDF. Treat fields a manual snapshot omits as
+    # "unknown at this date" — skip the diff for that key rather than
+    # emitting a spurious "removed everything else" event.
+    prev_manual = bool(prev.get("manual"))
+    curr_manual = bool(curr.get("manual"))
     keys = sorted(set(prev_n) | set(curr_n))
     for key in keys:
+        if prev_manual and key not in prev_n:
+            continue
+        if curr_manual and key not in curr_n:
+            continue
         before = prev_n.get(key)
         after = curr_n.get(key)
         if before == after:
