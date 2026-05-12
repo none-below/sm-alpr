@@ -331,6 +331,8 @@ _HEADING_MAP = {
     "Number of Active LPR cameras":          "camera_count",
     "Number of Owned Cameras":               "camera_count",
     "Number of Owned LPR Cameras":           "camera_count",
+    "Number of Flock LPR Cameras":           "camera_count",
+    "Number of LPRs":                        "camera_count",
     "LPR Cameras":                           "camera_count",
     "Total Cameras":                         "camera_count",
     "Hotlists Alerted On":                   "hotlists_alerted_on",
@@ -362,6 +364,12 @@ _DYNAMIC_HEADINGS = [
     (re.compile(r"^(Link to |To view ).+", re.IGNORECASE), "policy_info"),
     (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+[\s(](ALPR|LPR)[\s)]\s*Policy.*$", re.IGNORECASE), "alpr_policy"),
+    # Spelled-out form of the ALPR/LPR policy pattern above. Catches
+    # agency-prefixed titles like raleigh-nc-pd's "Raleigh Police
+    # Department Automated License Plate Recognition and Internet
+    # Protocol Camera System Policy" without forcing every variant
+    # into _HEADING_MAP one-by-one.
+    (re.compile(r"^.+Automated License Plate (?:Recognition|Readers?).+Policy.*$", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+Police Department Policy Manual.*$", re.IGNORECASE), "alpr_policy"),
     # Agency-prefixed bare "Policy" headings, e.g.
     # "Marin County Sheriff's Office Policy" — Flock now bolds these
