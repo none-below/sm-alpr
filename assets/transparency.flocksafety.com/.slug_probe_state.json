@@ -332,7 +332,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-12T16:08:55.396132+00:00",
+      "last_probed": "2026-05-13T05:36:12.192901+00:00",
       "tried": {
         "national-city": "http_404",
         "national-city-ca": "http_404",
@@ -360,7 +360,8 @@
         "nationalcity-ca-police-department": "http_404",
         "nationalcity-ca-ps": "http_404",
         "nationalcity-pd-ca": "http_404",
-        "nationalcity-po-ca": "http_404"
+        "nationalcity-po-ca": "http_404",
+        "nationalcity-police-department-ca": "http_404"
       }
     },
     "2549113a-a3d1-5d5c-9a3c-98fe21f27b17": {
@@ -1944,6 +1945,14 @@
         "sedgwick-ks-pd": "http_404"
       }
     },
+    "bc92b231-0416-54f3-ad73-e1db1ace2f71": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-13T05:36:01.795064+00:00",
+      "tried": {
+        "plaquemines-parish-la-so": "http_404"
+      }
+    },
     "bcabb6b6-940c-5694-a6d6-ea2ff0ce76cd": {
       "exhausted": false,
       "found": "pawnee-county-ks-so",
@@ -2331,9 +2340,10 @@
     "ea76cb09-b645-5bd5-953e-8cce516956cd": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-09T22:27:08.491208+00:00",
+      "last_probed": "2026-05-13T05:36:07.067710+00:00",
       "tried": {
-        "tx-groves-tx-pd": "http_404"
+        "tx-groves-tx-pd": "http_404",
+        "tx-groves-tx-po": "http_404"
       }
     },
     "ea91bafe-b935-5f29-bf40-896f155a1d1c": {
@@ -2580,6 +2590,6 @@
       }
     }
   },
-  "updated": "2026-05-13T01:31:37.838821+00:00",
+  "updated": "2026-05-13T05:36:12.227383+00:00",
   "version": 1
 }
