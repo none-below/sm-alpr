@@ -638,6 +638,20 @@ _ORG_DESCRIPTION_RE = re.compile(
 )
 
 
+def _looks_like_disclaimer(line):
+    """True if a line in the orgs section is a policy sentence, not an
+    agency name. Real agency names are short (<80 chars) and don't end
+    with a period; e.g. LVMPD's portal puts "Access to or disclosure of
+    ALPR data will only be provided to individuals within the department
+    or other authorized governmental agencies." where the agency list
+    should be, and we don't want a 137-character disclaimer ingested as
+    a recipient agency.
+    """
+    if not line.endswith("."):
+        return False
+    return len(line) > 100 or len(line.split()) > 12
+
+
 def _parse_org_names(body):
     """Extract org names from a shared-orgs section body.
 
@@ -651,11 +665,14 @@ def _parse_org_names(body):
         return []
     body = _strip_leading_description(body)
     lines = [L.strip() for L in body.split("\n") if L.strip()]
-    # Drop the description sentence — _strip_leading_description only
-    # fires when ≥2 paragraphs are present, so when the table is empty
+    # Drop description / disclaimer sentences — _strip_leading_description
+    # only fires when ≥2 paragraphs are present, so when the table is empty
     # the lone description line survives and would be parsed as a fake
-    # org name (PR #240).
-    lines = [L for L in lines if not _ORG_DESCRIPTION_RE.match(L)]
+    # org name (PR #240; LVMPD disclaimer case for #209).
+    lines = [
+        L for L in lines
+        if not _ORG_DESCRIPTION_RE.match(L) and not _looks_like_disclaimer(L)
+    ]
     if not lines:
         return []
     if len(lines) >= 3 and sum(1 for L in lines if "," not in L) >= len(lines) * 0.8:
