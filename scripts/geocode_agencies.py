@@ -220,6 +220,36 @@ STATE_CITY_ALIASES = {
     # UMMC normalize_agency_name strips parens, leaving "UMMC MS PD" — so
     # the candidate after suffix-strip is "UMMC".
     ("UMMC", "MS"): "Jackson",
+    # Other single-campus universities (main campus is in a single named
+    # city). Add here when a university entry shows up missing coordinates
+    # in scripts/check_recipient_coords.py.
+    ("App State University", "NC"): "Boone",
+    ("Augusta University", "GA"): "Augusta",
+    ("Ball State University", "IN"): "Muncie",
+    ("Buffalo State University", "NY"): "Buffalo",
+    ("Case Western Reserve University", "OH"): "Cleveland",
+    ("Cornell University", "NY"): "Ithaca",
+    ("Elon University", "NC"): "Elon",
+    ("Fairmont State University", "WV"): "Fairmont",
+    ("Hampton University", "VA"): "Hampton",
+    ("Indiana University", "IN"): "Bloomington",
+    ("Lewis University", "IL"): "Romeoville",
+    ("Lincoln Land Community College", "IL"): "Springfield",
+    ("Lincoln University", "MO"): "Jefferson City",
+    ("Ohio State University", "OH"): "Columbus",
+    ("Parkland College", "IL"): "Champaign",
+    ("Purdue University", "IN"): "West Lafayette",
+    ("Rowan University", "NJ"): "Glassboro",
+    ("Temple University", "PA"): "Philadelphia",
+    ("Vincennes University", "IN"): "Vincennes",
+    ("Virginia Tech University", "VA"): "Blacksburg",
+    ("Western Michigan University", "MI"): "Kalamazoo",
+    # Indianapolis is a consolidated city-county; the bare "Indianapolis"
+    # lookup doesn't match the Census name. Pre-resolve to the balance entry.
+    ("University of Indianapolis", "IN"): "Indianapolis city (balance)",
+    ("University of Toledo", "OH"): "Toledo",
+    # Consolidated city-county PD names where the bare city is the Census place.
+    ("Charlotte Mecklenburg", "NC"): "Charlotte",
 
     # Multi-city / colloquial city names.
     ("Lakeside Park-Crestview Hills", "KY"): "Lakeside Park",  # adjacent KY cities; pick larger
@@ -417,9 +447,10 @@ def extract_county_candidate(agency_name):
 # CDPs the Census places gazetteer doesn't index, etc.). Keyed by
 # agency_id; the geocoder applies these before falling back to the
 # Census pipeline. Entries whose location can't be confidently pinned
-# down (e.g. "OK - 477", "Elm Ridge TX PD", multi-county precincts
-# without a county hint) are deliberately omitted — they stay flagged
-# in the CI recipient-coords check until someone narrows them down.
+# down (e.g. "OK - 477", "Elm Ridge TX PD", "Alabama Drug Enforcement
+# Task Force Region G", multi-county TX precincts without a county
+# hint) are deliberately omitted — they stay flagged in the CI
+# recipient-coords check until someone narrows them down.
 MANUAL_OVERRIDES = {
     # 18th Judicial District DTF — Sumner County, TN; based in Gallatin.
     "c9811955-3e45-5ff9-bd62-25a4f54afa6a": {
@@ -550,6 +581,26 @@ MANUAL_OVERRIDES = {
     "e0905266-5997-5468-a68a-55abc5e49065": {
         "kind": "manual", "name": "Tupelo", "state": "MS",
         "lat": 34.2581, "lng": -88.7037,
+    },
+    # GA - MCS/OCU/Intelligence — Marietta-Cobb-Smyrna Narcotics Unit;
+    # joint task force led by Marietta PD in Cobb County, GA.
+    "132123cb-eb61-5dc5-be29-ab9fd39fefde": {
+        "kind": "manual", "name": "Marietta", "state": "GA",
+        "lat": 33.9526, "lng": -84.5499,
+    },
+    # UCPAO AR — Union County Prosecuting Attorney's Office (13th
+    # Judicial District), 307 American Road, El Dorado, AR.
+    "de190cd9-abf6-542a-94c1-eea708ddd05e": {
+        "kind": "manual", "name": "El Dorado", "state": "AR",
+        "lat": 33.2076, "lng": -92.6663,
+    },
+    # SE Missouri State University — Cape Girardeau, MO. Manual override
+    # because the geocoder's _STATE_TOKEN strips the "SE" prefix as a
+    # 2-letter state code, collapsing this to "Missouri State University"
+    # (a different school in Springfield, MO).
+    "b29798ee-748e-5b57-9e49-7f87fcc992d8": {
+        "kind": "manual", "name": "Cape Girardeau", "state": "MO",
+        "lat": 37.3059, "lng": -89.5181,
     },
 }
 
