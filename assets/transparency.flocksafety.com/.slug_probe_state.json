@@ -949,6 +949,14 @@
         "yuba-county-pd": "http_404"
       }
     },
+    "5c54f933-663b-5be5-92ff-971a540dbb5c": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-13T17:04:51.442463+00:00",
+      "tried": {
+        "salem-oh-pd": "http_404"
+      }
+    },
     "5c8bc31d-a96e-58bc-9985-83cf09bc55c4": {
       "exhausted": false,
       "found": null,
@@ -1102,7 +1110,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-13T08:27:13.180271+00:00",
+      "last_probed": "2026-05-13T17:05:12.560891+00:00",
       "tried": {
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
@@ -1125,6 +1133,7 @@
         "beverly-hills-psca": "http_404",
         "beverlyhills-ca-pd": "http_404",
         "beverlyhills-ca-po": "http_404",
+        "beverlyhills-ca-police": "http_404",
         "beverlyhills-ca-police-department": "http_404"
       }
     },
@@ -1704,6 +1713,14 @@
       "last_probed": "2026-04-25T21:22:44.413027+00:00",
       "tried": {
         "los-angeles-ca-po": "http_404"
+      }
+    },
+    "a23c7680-e5e9-57ed-bd5d-6eecdd12c6b6": {
+      "exhausted": false,
+      "found": "allen-park-pd-mi",
+      "last_probed": "2026-05-13T17:05:01.247173+00:00",
+      "tried": {
+        "allen-park-pd-mi": "http_200"
       }
     },
     "a24c4de9-ca70-5829-838e-12907c88c3a9": {
@@ -2641,6 +2658,6 @@
       }
     }
   },
-  "updated": "2026-05-13T13:54:31.535008+00:00",
+  "updated": "2026-05-13T17:05:12.617345+00:00",
   "version": 1
 }
