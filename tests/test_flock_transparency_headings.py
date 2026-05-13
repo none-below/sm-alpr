@@ -213,6 +213,29 @@ def test_parse_org_names_description_only_empty_table():
     ) == []
 
 
+def test_parse_org_names_drops_policy_disclaimer():
+    """Some portals (LVMPD 2026-05) render a policy disclaimer in the
+    orgs section instead of an agency list. The disclaimer doesn't
+    match the "Organizations granted access" boilerplate, but it is
+    obviously a sentence (long, ends with a period) rather than an
+    agency name. Drop it so we don't ingest 137-char prose as a
+    recipient agency (issue #209)."""
+    assert _parse_org_names(
+        "Access to or disclosure of ALPR data will only be provided "
+        "to individuals within the department or other authorized "
+        "governmental agencies."
+    ) == []
+    # Real agency names — even unusually long ones — survive: they
+    # don't end with a period, so the heuristic doesn't touch them.
+    assert _parse_org_names(
+        "Ohio Department of Rehabilitation and Correction - Office of "
+        "the Chief Inspector"
+    ) == [
+        "Ohio Department of Rehabilitation and Correction - Office of "
+        "the Chief Inspector"
+    ]
+
+
 def test_extract_bold_headings_matches_2026_layout():
     """The 2026 layout uses font-weight:600 for field headings (was
     700) and h3 + text-transform:uppercase for section dividers."""
