@@ -1,9 +1,4 @@
 {
-  "https://azdailysun.com/city-approves-bill-to-expand-license-plate-readers/article_728784d0-2f0e-11ef-8f16-237253302dfe.html": {
-    "attempts": 1,
-    "error": "HTTP 429",
-    "last_attempt": "2026-05-10T13:51:59Z"
-  },
   "https://azdailysun.com/news/local/flagstaff-city-council-attempts-to-find-middle-ground-in-use-of-flock-surveillance-cameras/article_3412588e-866c-437d-b46f-49fd3dea5772.html": {
     "attempts": 2,
     "error": "HTTP 429",
@@ -19,15 +14,10 @@
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://azdailysun.com/news/local/flagstaff-flock-safety-cameras-ended/",
     "last_attempt": "2026-05-08T22:13:29Z"
   },
-  "https://brookline.news/chestnut-hill-realty-plans-to-install-ai-powered-license-plate-reader-cameras-in-south-brookline/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T15:08:04Z"
-  },
   "https://brookline.news/events/event/privacy-is-power-fighting-the-surveillance-state-in-massachusetts/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T11:18:57Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 404",
+    "last_attempt": "2026-05-14T20:05:14Z"
   },
   "https://brookline.news/police-pause-flock-access": {
     "attempts": 3,
@@ -49,20 +39,10 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-11T04:26:21Z"
   },
-  "https://evanstonroundtable.com/2025/09/03/fourth-ward-hears-citys-preparations-for-looming-federal-occupation-of-chicago/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T09:49:23Z"
-  },
   "https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
     "last_attempt": "2026-05-08T22:15:00Z"
-  },
-  "https://evanstonroundtable.com/2026/03/27/flock-removes-final-two-license-plate-cameras-from-evanston-after-roundtable-inquiry/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T19:23:24Z"
   },
   "https://ithacavoice.org/2026/04/county-legislature-ends-contract-with-flock-safety/": {
     "attempts": 1,
@@ -85,9 +65,9 @@
     "last_attempt": "2026-05-13T23:25:25Z"
   },
   "https://madison.com/wsj/news/local/govt-and-politics/bipartisan-bill-would-limit-police-use-of-license-plate-scanners/article_40e4757a-1df8-59fd-a9d8-cadb7739a8ae.html": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 429",
-    "last_attempt": "2026-05-13T08:15:16Z"
+    "last_attempt": "2026-05-14T21:26:37Z"
   },
   "https://oaklandside.org/2023/06/13/oakland-flock-vote": {
     "attempts": 2,
@@ -145,9 +125,9 @@
     "last_attempt": "2026-05-11T22:20:46Z"
   },
   "https://richmondstandard.com/richmond/2023/11/08/richmond-to-exponentially-increase-number-of-public-safety-cameras-in-city/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T15:09:37Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-14T21:23:51Z"
   },
   "https://www.aclunc.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them": {
     "attempts": 3,
@@ -200,9 +180,9 @@
     "last_attempt": "2026-05-09T02:21:43Z"
   },
   "https://www.kut.org/texas/2025-12-03/san-marcos-flock-cameras": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 404",
-    "last_attempt": "2026-05-10T09:53:03Z"
+    "last_attempt": "2026-05-14T20:02:43Z"
   },
   "https://www.kxan.com/border-report/border-report-live-california-attorney-general-rob-bonta/": {
     "attempts": 2,
@@ -210,9 +190,9 @@
     "last_attempt": "2026-05-12T00:11:04Z"
   },
   "https://www.kxan.com/news/license-plate-reader-cameras-operating-in-austin-under-new-updated-policy/": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
-    "last_attempt": "2026-05-13T08:13:59Z"
+    "last_attempt": "2026-05-14T21:25:02Z"
   },
   "https://www.kxan.com/news/local/audit-of-austin-license-plate-camera-program-finds-general-accuracy-missing-data/": {
     "attempts": 2,
@@ -260,9 +240,9 @@
     "last_attempt": "2026-05-13T23:18:34Z"
   },
   "https://www.kxan.com/news/local/here-are-the-central-texas-law-enforcement-agencies-with-flock-data-sharing-agreements-with-texas-dps/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T13:58:22Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-14T20:08:18Z"
   },
   "https://www.kxan.com/news/local/list-central-texas-cities-counties-with-license-plate-readers/": {
     "attempts": 2,
@@ -290,9 +270,9 @@
     "last_attempt": "2026-05-14T15:35:13Z"
   },
   "https://www.newsobserver.com/news/local/article-hillsborough-flock": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 404",
-    "last_attempt": "2026-05-10T11:13:27Z"
+    "last_attempt": "2026-05-14T20:03:58Z"
   },
   "https://www.oakpark.com/2025/01/06/more-license-plate-reading-cameras-coming-to-river-forest/": {
     "attempts": 2,
@@ -360,9 +340,9 @@
     "last_attempt": "2026-05-13T23:20:23Z"
   },
   "https://www.smdailyjournal.com/news/local/san-mateo-police-acquires-new-technology/article_9369744a-aeae-11ea-95ea-eb8f2d47b3a4.html": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 429",
-    "last_attempt": "2026-05-10T17:10:06Z"
+    "last_attempt": "2026-05-14T21:20:09Z"
   },
   "https://www.smdailyjournal.com/news/local/south-san-francisco-council-oks-license-plate-reading-cameras/article_1e467e8e-8af7-11ec-81fc-87089d642110.html": {
     "attempts": 2,
