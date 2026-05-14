@@ -10,9 +10,9 @@
     "last_attempt": "2026-05-09T17:02:57Z"
   },
   "https://azdailysun.com/news/local/flagstaff-city-council-postpones-definitive-action-on-controversial-flock-cameras/article_10ad1680-ddaf-41af-9c31-e8d6a9ce2ed9.html": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 429",
-    "last_attempt": "2026-05-09T16:02:52Z"
+    "last_attempt": "2026-05-14T04:11:01Z"
   },
   "https://azdailysun.com/news/local/flagstaff-flock-safety-cameras-ended": {
     "attempts": 3,
@@ -134,11 +134,6 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-10T19:24:54Z"
   },
-  "https://oaklandside.org/2025/11/12/oakland-privacy-advisory-commission-resignation-brian-hofer-sean-everhart/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T21:59:13Z"
-  },
   "https://oaklandside.org/2025/11/18/oakland-police-lawsuit-license-plate-camera-flock-safety/": {
     "attempts": 2,
     "error": "HTTP 403",
@@ -175,9 +170,9 @@
     "last_attempt": "2026-05-11T04:27:31Z"
   },
   "https://richmondstandard.com/community/2025/12/09/richmond-police-suspend-system-that-automatically-reads-license-plates/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T17:03:04Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-14T04:12:45Z"
   },
   "https://richmondstandard.com/community/2026/03/03/richmond-residents-businesses-urge-city-to-restore-public-safety-cameras/": {
     "attempts": 2,
@@ -225,9 +220,9 @@
     "last_attempt": "2026-05-09T06:25:42Z"
   },
   "https://www.denverpost.com/2025/05/05/denver-city-council-flock-vote": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 404",
-    "last_attempt": "2026-05-09T21:04:15Z"
+    "last_attempt": "2026-05-14T04:17:06Z"
   },
   "https://www.examiner-enterprise.com/story/news/2024/02/06/washington-county-flock": {
     "attempts": 1,
@@ -300,9 +295,9 @@
     "last_attempt": "2026-05-13T20:07:14Z"
   },
   "https://www.kxan.com/news/local/austin/safety-leaders-question-privacy-of-austin-license-plate-reader-data/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T17:03:10Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-14T04:14:05Z"
   },
   "https://www.kxan.com/news/local/caldwell-county/lockhart-city-council-rejects-flock-ai-cameras-in-6-1-vote/": {
     "attempts": 3,
@@ -393,11 +388,6 @@
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.redrocknews.com/2025/09/09/sedona-ends-flock-license-plate-cameras",
     "last_attempt": "2026-05-08T22:11:56Z"
-  },
-  "https://www.smdailyjournal.com/news/local/belmont-debates-license-plate-cameras/article_c454f386-1977-11ee-99fb-eb7da9cb4b51.html": {
-    "attempts": 1,
-    "error": "HTTP 429",
-    "last_attempt": "2026-05-09T23:59:23Z"
   },
   "https://www.smdailyjournal.com/news/local/belmont-moves-ahead-with-drone-program/article_4723b7c0-52d9-11ef-ac5e-efdc64cb5f0f.html": {
     "attempts": 1,
