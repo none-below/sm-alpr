@@ -32,7 +32,8 @@ pra-update: pra-scrape pra-ocr pra-init pra-build ## Full local PRA refresh
 	@echo "Done. Review new/modified files with: git status -s assets/san-mateo-public-records/"
 	@echo "Then edit any TODO metadata.json files and commit."
 
-pra-scrape: ## Scrape all SMPD portal PRAs
+pra-scrape: ## Auto-login, then scrape all SMPD portal PRAs
+	uv run python scripts/pra_download.py --auto-login
 	uv run python scripts/pra_download.py --all
 
 pra-scrape-one: ## Scrape one PRA: make pra-scrape-one ID=W012XXX-MMDDYY
