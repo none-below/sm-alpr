@@ -19,11 +19,6 @@
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://azdailysun.com/news/local/flagstaff-flock-safety-cameras-ended/",
     "last_attempt": "2026-05-08T22:13:29Z"
   },
-  "https://brookline.news/chestnut-hill-realty-pauses-its-plan-to-install-flock-license-plate-readers-after-community-backlash/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T17:03:55Z"
-  },
   "https://brookline.news/chestnut-hill-realty-plans-to-install-ai-powered-license-plate-reader-cameras-in-south-brookline/": {
     "attempts": 1,
     "error": "HTTP 403",
@@ -63,11 +58,6 @@
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
     "last_attempt": "2026-05-08T22:15:00Z"
-  },
-  "https://evanstonroundtable.com/2026/02/27/on-the-issues-where-the-congressional-frontrunners-align-and-diverge/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T04:16:21Z"
   },
   "https://evanstonroundtable.com/2026/03/27/flock-removes-final-two-license-plate-cameras-from-evanston-after-roundtable-inquiry/": {
     "attempts": 1,
@@ -119,11 +109,6 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-11T00:06:55Z"
   },
-  "https://oaklandside.org/2025/11/20/flock-safety-cameras-oakland-license-plate-readers/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T07:34:02Z"
-  },
   "https://oakpark.com/2025/08/05/oak-park-ends-flock-cameras": {
     "attempts": 2,
     "error": "HTTP 403",
@@ -150,9 +135,9 @@
     "last_attempt": "2026-05-13T23:23:42Z"
   },
   "https://richmondstandard.com/community/2026/03/05/richmond-council-deadlocks-on-police-cameras-during-active-trafficking-search/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T04:18:05Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-14T18:09:40Z"
   },
   "https://richmondstandard.com/richmond/2019/04/10/license-plate-reader-technology-pitched-for-richmond-bart-parking-areas/": {
     "attempts": 2,
@@ -284,11 +269,6 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-14T07:54:54Z"
   },
-  "https://www.mlive.com/news/saginaw-bay-city/2025/11/bay-city-commission-rejects-contract-for-license-plate-readers-following-backlash.html": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T07:38:33Z"
-  },
   "https://www.news10.com/news/debate-over-flock-cameras-intensifies-over-proposed-flock-camera-restrictions/": {
     "attempts": 1,
     "error": "HTTP 403",
@@ -365,9 +345,9 @@
     "last_attempt": "2026-05-13T17:29:19Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-to-review-license-plate-readers-use/article_daa34f06-6353-4e2e-a4c4-2aa4f52cce66.html": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 429",
-    "last_attempt": "2026-05-10T16:06:38Z"
+    "last_attempt": "2026-05-14T18:11:26Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-weighs-license-plate-readers/article_2bba20c6-73a2-11e9-ab84-0f2d3fa76c2e.html": {
     "attempts": 2,
