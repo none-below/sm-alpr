@@ -356,7 +356,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-13T22:50:17.522958+00:00",
+      "last_probed": "2026-05-14T01:34:54.151931+00:00",
       "tried": {
         "national-city": "http_404",
         "national-city-ca": "http_404",
@@ -388,6 +388,7 @@
         "nationalcity-po": "http_404",
         "nationalcity-po-ca": "http_404",
         "nationalcity-police-ca": "http_404",
+        "nationalcity-police-department": "http_404",
         "nationalcity-police-department-ca": "http_404",
         "nationalcity-ps-ca": "http_404"
       }
@@ -1323,6 +1324,14 @@
       "last_probed": "2026-04-26T21:23:07.425470+00:00",
       "tried": {
         "los-gatos-ca-pd": "http_200"
+      }
+    },
+    "7aec96a2-b1c5-53aa-8796-1956a258fc7f": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-14T01:34:48.414750+00:00",
+      "tried": {
+        "olivette-mo-pd": "http_404"
       }
     },
     "7b0525fb-a2de-517b-8d62-0e66d83a5f8a": {
@@ -2431,6 +2440,14 @@
         "madera-county-ca-so": "http_404"
       }
     },
+    "e8578e50-0f84-5134-a3a4-6048590f29c9": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-14T01:34:44.377000+00:00",
+      "tried": {
+        "mount-carmel-il-pd": "http_404"
+      }
+    },
     "e8f061c3-1d6f-57eb-bc3a-88c150458681": {
       "exhausted": false,
       "found": null,
@@ -2709,6 +2726,6 @@
       }
     }
   },
-  "updated": "2026-05-13T22:50:17.561834+00:00",
+  "updated": "2026-05-14T01:34:54.191902+00:00",
   "version": 1
 }
