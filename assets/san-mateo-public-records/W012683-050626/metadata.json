@@ -1,0 +1,22 @@
+{
+  "title": "MSA §5.3 monitoring — narrow follow-up on Item 6 of W012297",
+  "summary": "A narrow follow-up to Item 6 of W012297-030826: 'any policy, procedure, or system documentation describing how SMPD monitors or tracks vendor-initiated disclosures under §5.3.'\n\nMSA §5.3 lets Flock disclose footage on its own good-faith determination. The relevant record for Item 6 is a policy, procedure, or configuration, not an email. This request scopes Item 6 explicitly to non-email records.",
+  "tags": ["msa-5.3", "flock-msa", "vendor-disclosure", "pra-process"],
+  "policy_promises": [
+    {
+      "policy": "MSA §5.3",
+      "quote": "Flock may disclose Customer Data as required to provide the Services",
+      "tests": "What policy, procedure, or system documentation describes how SMPD would learn of a §5.3 disclosure?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012297-030826",
+      "relation": "scope-narrowing",
+      "note": "W012297 Item 6 was about a policy/procedure/configuration record. This request isolates Item 6 so it can be answered directly, separate from the W012462 email corpus that W012297 was consolidated into."
+    }
+  ],
+  "filed_because": "Asks for the specific policy/procedure/configuration record described in W012297 Item 6, scoped to non-email records.",
+  "status_override": "awaiting_initial",
+  "notes": "Parser initially marked 'needs_review' because the request body referenced closure language from an earlier exchange. Status set manually.\n\nA short yes/no response confirming the existence (or absence) of any monitoring record resolves the item."
+}

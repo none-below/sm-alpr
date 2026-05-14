@@ -1,0 +1,22 @@
+{
+  "title": "UOP platform access records — Flock data held on SMPD's behalf",
+  "summary": "Asked for Flock-platform records concerning SMPD's UOP sharing arrangement: ALPR data SMPD disclosed to UOP, Flock platform audit-log entries about UOP, and account or configuration records.\n\nThe request cites MSA §4.1, Policy 463 (§§ 463.2, 463.5), and SOP 205.5.1 — three SMPD-sourced provisions that together describe Flock-held ALPR data as SMPD's records under Gov. Code § 7920.530.\n\nAgency produced an event log ('SMPD4.20.2026_EVENTLOG') containing two UOP networkShare events from the sharing window.",
+  "tags": ["uop", "external-sharing", "audit-compliance", "policy-463"],
+  "policy_promises": [
+    {
+      "policy": "Civil Code §1798.90.55(b)",
+      "quote": "ALPR information shall not be sold, shared, or transferred except to another public agency",
+      "tests": "What ALPR data records exist for SMPD's sharing window with UOP?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012328-031226",
+      "relation": "scope-followup",
+      "note": "W012328 received 'no responsive records' for UOP communications and removal records. This request asked Flock-platform-side records that the Department holds via its Flock account."
+    }
+  ],
+  "filed_because": "Asks for the Flock-platform records covering SMPD's UOP sharing, on the basis that those records are held by Flock on SMPD's behalf and are SMPD records under the cited provisions.",
+  "status_override": null,
+  "notes": "Produced event log entries (as stated by the agency):\n- 2026-02-12 04:51:19.301Z — create networkShare — Permissions: feedView — User: Phoenix O'Rourke\n- 2026-02-28 04:09:40.789Z — delete networkShare — Permissions: Search, VMS, Hotlist — User: Steve Casazza\n\nThe two events list different permission scopes. Follow-ups W012664-050426 (lifecycle / current state) and W012674-050426 (authorization records for the 2/12 create) ask SMPD to clarify."
+}
