@@ -1,0 +1,37 @@
+{
+  "title": "PRA process records — handling of the W012462 consolidation",
+  "summary": "Asks for records reflecting:\n\n- The Department's handling of an email from the requester to Chief Barberini on 2026-05-06 asking that W012462-040226 be deprioritized,\n- Any internal records describing the use of W012462 as a basis for deferring response to other open PRAs, and\n- The Department's handling of a 2026-05-07 portal message asking that W012462 be closed.\n\nNamed examples in the request body: the 2026-05-06 closure of W012297-030826 into W012462, and the 2026-05-06 extensions of W012373-032026 and W012459-040226 under the same rolling email-search framing.",
+  "tags": ["pra-process", "msa-5.3"],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code §7922.535(a)",
+      "quote": "agency must notify requester within 10 calendar days whether it will produce records",
+      "tests": "What internal records describe the basis for the 2026-05-06 consolidation and extensions?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012462-040226",
+      "relation": "process-meta",
+      "note": "Records of the handling of W012462 as a consolidation target."
+    },
+    {
+      "ref": "W012297-030826",
+      "relation": "process-meta",
+      "note": "The 2026-05-06 closure of W012297 into W012462."
+    },
+    {
+      "ref": "W012373-032026",
+      "relation": "process-meta",
+      "note": "The 2026-05-06 extension of W012373 under the rolling email-search framing."
+    },
+    {
+      "ref": "W012459-040226",
+      "relation": "process-meta",
+      "note": "The 2026-05-06 extension of W012459 under the rolling email-search framing."
+    }
+  ],
+  "filed_because": "Asks the Department for its internal records describing how the 2026-05-06 consolidation and same-day extensions were handled.",
+  "status_override": null,
+  "notes": "Awaiting initial agency response; 10-day statutory determination due 2026-05-17.\n\nThe request's scope note excludes records produced under W012462 itself."
+}

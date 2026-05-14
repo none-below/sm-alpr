@@ -1,0 +1,27 @@
+{
+  "title": "External sharing notifications — follow-up to W012174 items 2/3",
+  "summary": "W012174-021826 received 'no responsive records' for external-agency share agreements and configuration records.\n\nSubsequent production under W012297-030826 included Flock-originated emails in SMPD inboxes that match the items W012174 had returned as no-records — including 'Action Requested: Pending Flock Camera Share Requests,' 'Camera Access Request from [Agency],' and '[Agency] shared Flock cameras with you' notifications.\n\nThis request re-asks the underlying items with the later-produced records cited, and asks for the search methodology used on the original response.",
+  "tags": ["external-sharing", "audit-compliance", "pra-process", "uop"],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code §7922.500",
+      "quote": "good faith and diligent search",
+      "tests": "What search methodology was used to respond to W012174 items 2 and 3?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012174-021826",
+      "relation": "scope-followup",
+      "note": "W012174 received 'no responsive records'; W012297 later produced records appearing to match the same items. This request re-asks with the later-produced records cited."
+    },
+    {
+      "ref": "W012297-030826",
+      "relation": "evidence-source",
+      "note": "W012297 produced the Flock-originated emails that match W012174's items 2 and 3."
+    }
+  ],
+  "filed_because": "After a 'no records' response was followed by another PRA producing matching records, this request asks for a corrected answer and a description of the original search.",
+  "status_override": null,
+  "notes": "Closed on 2026-05-05 by consolidation into W012462-040226's email corpus.\n\nThe search-methodology question (item 2) is outside the scope of an inbound-mail-only corpus."
+}
