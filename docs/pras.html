@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'self' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com;">
+<title>PRA Tracker — SMPD ALPR Investigation</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, system-ui, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  a { color: #60a5fa; }
+  .header {
+    text-align: center;
+    padding: 32px 20px 12px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .header h1 {
+    font-size: 26px;
+    color: #f8fafc;
+    margin-bottom: 8px;
+  }
+  .header p {
+    color: #94a3b8;
+    font-size: 14px;
+  }
+  .header .intro-blurb {
+    margin-top: 8px;
+    color: #cbd5e1;
+    font-size: 13px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .back-link {
+    display: inline-block;
+    color: #60a5fa;
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  .controls {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .controls .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .controls .row:last-child { margin-bottom: 0; }
+  .controls .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+    min-width: 60px;
+  }
+  .controls input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 12px;
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    color: #e2e8f0;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .controls input[type="text"]:focus {
+    outline: none;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 2px rgba(96,165,250,0.18);
+  }
+  .controls select {
+    padding: 7px 10px;
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    color: #e2e8f0;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 14px;
+    color: #94a3b8;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+  }
+  .chip:hover { border-color: #60a5fa; color: #e2e8f0; }
+  .chip.active {
+    background: #1e3a8a;
+    border-color: #3b82f6;
+    color: #dbeafe;
+  }
+  .chip .count {
+    color: #64748b;
+    font-size: 11px;
+  }
+  .chip.active .count { color: #93c5fd; }
+
+  .status-summary {
+    color: #94a3b8;
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+
+  .card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .card:hover { border-color: #475569; background: #243044; }
+  .card.expanded { border-color: #60a5fa; cursor: default; }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .card-id-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .card-id {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  .card-title {
+    font-size: 16px;
+    color: #f8fafc;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  .badge.status-awaiting_initial { background: #1e3a8a; color: #dbeafe; }
+  .badge.status-rolling_production { background: #064e3b; color: #d1fae5; }
+  .badge.status-closed { background: #334155; color: #cbd5e1; }
+  .badge.status-overdue { background: #7f1d1d; color: #fecaca; }
+  .badge.status-withdrawn { background: #44403c; color: #d6d3d1; }
+  .badge.status-needs_review { background: #713f12; color: #fde68a; }
+  .badge.status-unknown { background: #44403c; color: #d6d3d1; }
+  .badge.override-marker {
+    background: transparent;
+    border: 1px solid #475569;
+    color: #94a3b8;
+    margin-left: 4px;
+    font-size: 10px;
+    padding: 1px 6px;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  .card-meta .due-soon { color: #fcd34d; }
+  .card-meta .overdue { color: #fca5a5; }
+
+  .card-tags {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag-pill {
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #94a3b8;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .card-summary {
+    margin-top: 10px;
+    color: #cbd5e1;
+    font-size: 14px;
+  }
+
+  .details {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #334155;
+    display: none;
+  }
+  .card.expanded .details { display: block; }
+  .details h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    margin: 14px 0 6px;
+  }
+  .details h4:first-child { margin-top: 0; }
+  .details p { color: #cbd5e1; font-size: 14px; }
+  .details ul { color: #cbd5e1; font-size: 14px; padding-left: 18px; }
+  .details li { margin-bottom: 6px; }
+  .details code {
+    background: #0f172a;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #93c5fd;
+  }
+  .promise-quote {
+    border-left: 2px solid #475569;
+    padding-left: 10px;
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 13px;
+    margin: 4px 0;
+  }
+
+  .timeline {
+    margin-top: 8px;
+  }
+  .msg {
+    border-left: 2px solid #334155;
+    padding: 6px 0 6px 12px;
+    margin: 6px 0;
+  }
+  .msg.agency { border-left-color: #60a5fa; }
+  .msg.requester { border-left-color: #34d399; }
+  .msg-header {
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+    color: #94a3b8;
+    cursor: pointer;
+    user-select: none;
+  }
+  .msg-header .toggle { color: #64748b; width: 12px; }
+  .msg-header .ts { font-family: ui-monospace, monospace; }
+  .msg-header .role { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; }
+  .msg-header .role.agency { color: #60a5fa; }
+  .msg-header .role.requester { color: #34d399; }
+  .msg-body {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 12px;
+    background: #0f172a;
+    border-radius: 4px;
+    color: #cbd5e1;
+    font-size: 13px;
+    white-space: pre-wrap;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    max-height: 400px;
+    overflow-y: scroll;
+    line-height: 1.5;
+    scrollbar-width: auto;
+    scrollbar-color: #94a3b8 #1e293b;
+  }
+  .msg-body::-webkit-scrollbar { width: 12px; background: #1e293b; }
+  .msg-body::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px; }
+  .msg-body::-webkit-scrollbar-thumb {
+    background: #64748b;
+    border-radius: 4px;
+    border: 2px solid #1e293b;
+    min-height: 30px;
+  }
+  .msg-body::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  .msg-body:focus {
+    outline: 2px solid #60a5fa;
+    outline-offset: 1px;
+  }
+  .msg-body.expanded { max-height: none; }
+  .msg.open .msg-body { display: block; }
+  .msg.open .msg-header .toggle::after { content: "▾"; }
+  .msg-header .toggle::after { content: "▸"; }
+  .msg-expand-btn {
+    display: none;
+    margin-top: 4px;
+    width: auto;
+    padding: 3px 10px;
+    font-size: 11px;
+    background: #0f172a;
+    border: 1px solid #475569;
+    color: #cbd5e1;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .msg-expand-btn:hover { border-color: #60a5fa; color: #dbeafe; }
+  .msg.open .msg-expand-btn.has-overflow { display: inline-block; }
+
+  .empty {
+    text-align: center;
+    color: #94a3b8;
+    padding: 40px 20px;
+    font-size: 14px;
+  }
+
+  .pra-link {
+    color: #93c5fd;
+    text-decoration: underline;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.92em;
+  }
+  .pra-link:hover { color: #dbeafe; }
+  .pra-id-unknown {
+    color: #94a3b8;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.92em;
+  }
+  .card.flash {
+    animation: flash-highlight 1.2s ease-out;
+  }
+  @keyframes flash-highlight {
+    0%   { box-shadow: 0 0 0 3px rgba(96,165,250,0.6); }
+    100% { box-shadow: 0 0 0 0 rgba(96,165,250,0); }
+  }
+
+  .request-text-collapse {
+    margin-top: 12px;
+    border-top: 1px solid #334155;
+    padding-top: 10px;
+  }
+  .request-text-collapse summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    cursor: pointer;
+    color: #94a3b8;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    user-select: none;
+    list-style: revert;
+  }
+  .request-text-collapse summary:hover { color: #e2e8f0; }
+  .copy-btn {
+    background: #0f172a;
+    border: 1px solid #475569;
+    color: #cbd5e1;
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .copy-btn:hover { border-color: #60a5fa; color: #dbeafe; }
+  .request-text-body {
+    position: relative;
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 4px;
+    color: #cbd5e1;
+    font-size: 13px;
+    white-space: pre-wrap;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    max-height: 380px;
+    line-height: 1.55;
+
+    /* Force the scrollbar gutter to always be reserved and visible. */
+    overflow-y: scroll;
+    scrollbar-width: auto;
+    scrollbar-color: #94a3b8 #1e293b;
+
+    /* Bottom-edge fade: appears only when there is content below the visible
+       window (local attachment keeps the gradient pinned to the content
+       bottom, so it disappears once scrolled to the end). */
+    background-color: #0f172a;
+    background-image:
+      linear-gradient(rgba(15, 23, 42, 0), #0f172a 85%),
+      radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    background-position: center bottom, center bottom;
+    background-size: 100% 36px, 100% 14px;
+    background-repeat: no-repeat;
+    background-attachment: local, scroll;
+  }
+  .request-text-body::-webkit-scrollbar {
+    width: 12px;
+    background: #1e293b;
+  }
+  .request-text-body::-webkit-scrollbar-track {
+    background: #1e293b;
+    border-radius: 4px;
+  }
+  .request-text-body::-webkit-scrollbar-thumb {
+    background: #64748b;
+    border-radius: 4px;
+    border: 2px solid #1e293b;
+    min-height: 30px;
+  }
+  .request-text-body::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  .request-text-body:focus {
+    outline: 2px solid #60a5fa;
+    outline-offset: 1px;
+  }
+  .request-text-body.expanded {
+    max-height: none;
+    background-image: none;
+  }
+  .expand-btn {
+    display: none;
+    width: 100%;
+    margin-top: 6px;
+    background: #0f172a;
+    border: 1px solid #475569;
+    color: #cbd5e1;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .expand-btn.has-overflow { display: block; }
+  .expand-btn:hover { border-color: #60a5fa; color: #dbeafe; }
+
+  .files-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 14px 0 6px;
+  }
+  .zip-btn {
+    background: #0f172a;
+    border: 1px solid #475569;
+    color: #cbd5e1;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: inherit;
+  }
+  .zip-btn:hover {
+    border-color: #60a5fa;
+    color: #dbeafe;
+  }
+  .files-scroll {
+    max-height: 260px;
+    overflow-y: scroll;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    padding: 8px 12px;
+    background: #0f172a;
+    scrollbar-width: auto;
+    scrollbar-color: #94a3b8 #1e293b;
+  }
+  .files-scroll::-webkit-scrollbar { width: 12px; background: #1e293b; }
+  .files-scroll::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px; }
+  .files-scroll::-webkit-scrollbar-thumb {
+    background: #64748b;
+    border-radius: 4px;
+    border: 2px solid #1e293b;
+    min-height: 30px;
+  }
+  .files-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  .files-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .files-list li {
+    margin: 0;
+    padding: 3px 0;
+    font-size: 13px;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    word-break: break-all;
+  }
+  .files-list li + li { border-top: 1px solid #1e293b; }
+
+  .agency-responses-collapse summary {
+    color: #93c5fd;
+  }
+  .agency-msg {
+    margin-top: 10px;
+  }
+  .agency-msg + .agency-msg {
+    padding-top: 14px;
+    margin-top: 18px;
+    border-top: 1px solid #334155;
+  }
+  .agency-msg-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+  }
+  .agency-msg-tag {
+    background: #1e293b;
+    color: #94a3b8;
+    border: 1px solid #475569;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .agency-msg-tag.latest {
+    background: #1e3a8a;
+    color: #dbeafe;
+    border-color: #3b82f6;
+  }
+  .agency-msg-ts {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .agency-msg-from {
+    color: #cbd5e1;
+  }
+  .agency-msg-body {
+    margin-top: 6px;
+  }
+
+  /* Diff segmentation: mute echoed/quoted content, brighten agency's reply. */
+  .agency-msg-body .seg { display: block; }
+  .agency-msg-body .seg + .seg { margin-top: 6px; }
+  .agency-msg-body .seg-before {
+    color: #64748b;
+    font-size: 11px;
+    font-style: italic;
+  }
+  .agency-msg-body .seg-echo {
+    color: #475569;
+    border-left: 2px solid #334155;
+    padding-left: 10px;
+    font-size: 12px;
+  }
+  .agency-msg-body .seg-after {
+    color: #f8fafc;
+    font-weight: 500;
+  }
+  .agency-msg-body .seg-closing {
+    color: #64748b;
+    font-size: 11px;
+  }
+
+  /* Minimized requester messages within the agency timeline */
+  .requester-msg {
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: rgba(15, 23, 42, 0.45);
+    border-left: 2px solid #4b5563;
+    border-radius: 4px;
+  }
+  .requester-msg-header {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+    color: #94a3b8;
+    font-size: 12px;
+    user-select: none;
+  }
+  .requester-msg-header:hover { color: #e2e8f0; }
+  .requester-msg-toggle::before { content: "▸"; color: #64748b; width: 12px; display: inline-block; }
+  .requester-msg.open .requester-msg-toggle::before { content: "▾"; }
+  .requester-msg-from {
+    color: #34d399;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .requester-msg-preview {
+    color: #64748b;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .requester-msg-body {
+    display: none;
+    margin-top: 8px;
+    max-height: 280px;
+  }
+  .requester-msg.open .requester-msg-body { display: block; }
+  .requester-msg.open .requester-msg-preview { display: none; }
+</style>
+</head>
+<body>
+<div class="header">
+  <a class="back-link" href="index.html">← Back</a>
+  <h1>PRA Tracker</h1>
+  <p id="subtitle">California Public Records Act requests filed in the SMPD ALPR investigation</p>
+  <p class="intro-blurb">Every request below is published with its full text. If you are investigating a similar program in your own city, expand "Read the request text" on any card to copy the exact wording that was filed.</p>
+</div>
+<main>
+  <div class="controls">
+    <div class="row">
+      <span class="label">Search</span>
+      <input type="text" id="search" placeholder="Title, summary, request ID, tag…" autocomplete="off">
+      <select id="sort">
+        <option value="filed-desc">Newest filed</option>
+        <option value="filed-asc">Oldest filed</option>
+        <option value="promised-asc">Earliest deadline</option>
+        <option value="status">By status</option>
+      </select>
+    </div>
+    <div class="row">
+      <span class="label">Status</span>
+      <div id="status-chips"></div>
+    </div>
+    <div class="row">
+      <span class="label">Tags</span>
+      <div id="tag-chips"></div>
+    </div>
+  </div>
+  <div class="status-summary" id="summary"></div>
+  <div id="cards"></div>
+</main>
+<script data-goatcounter="https://none-below.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+<script src="js/pras.js"></script>
+</body>
+</html>
