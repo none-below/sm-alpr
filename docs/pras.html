@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'self' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'self' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com; frame-src https://raw.githubusercontent.com;">
 <title>PRA Tracker — SMPD ALPR Investigation</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -622,6 +622,37 @@
   }
   .requester-msg.open .requester-msg-body { display: block; }
   .requester-msg.open .requester-msg-preview { display: none; }
+
+  .file-entry { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .file-entry.file-highlighted {
+    background: rgba(96, 165, 250, 0.1);
+    border-radius: 4px;
+    padding: 3px 6px;
+    margin: 0 -6px;
+  }
+  .file-actions { display: inline-flex; gap: 3px; flex-shrink: 0; }
+  .file-action-btn {
+    background: none;
+    border: 1px solid #334155;
+    color: #64748b;
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1.5;
+  }
+  .file-action-btn:hover { border-color: #60a5fa; color: #dbeafe; }
+  .file-action-btn.active { border-color: #60a5fa; color: #93c5fd; background: rgba(96,165,250,0.08); }
+  .pdf-viewer-frame {
+    width: 100%;
+    height: 640px;
+    border: 1px solid #475569;
+    border-radius: 4px;
+    margin-top: 6px;
+    display: block;
+    flex-basis: 100%;
+  }
 </style>
 </head>
 <body>

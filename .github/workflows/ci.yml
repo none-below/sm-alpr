@@ -23,6 +23,7 @@ jobs:
     outputs:
       have-new-sidecars: ${{ steps.sidecars.outputs.have_new }}
       coord-missing: ${{ steps.coords.outputs.has_missing }}
+      pii-failed: ${{ steps.pii.outcome == 'failure' }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -91,6 +92,8 @@ jobs:
           fi
 
       - name: PII scan on changed PDFs
+        id: pii
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
@@ -114,7 +117,10 @@ jobs:
             echo "No PDF changes, skipping PII scan"
             exit 0
           fi
-          uv run python scripts/pii_scan.py --files "${PDF_FILES[@]}"
+          # Tee to file so the pii-notify job can include findings in its PR comment.
+          # pipefail propagates pii_scan.py's exit code through the pipe.
+          uv run python scripts/pii_scan.py --files "${PDF_FILES[@]}" 2>&1 \
+            | tee /tmp/pii-report.txt
 
       - name: Prompt-injection scan on changed transparency scrapes
         shell: bash
@@ -206,26 +212,90 @@ jobs:
         run: uv run python scripts/screenshot_pages.py --out /tmp/screenshots
 
       - name: Bundle publish artifacts
+        if: always()
         run: |
           mkdir -p /tmp/publish-artifacts
           # New sidecars bundle (only if any were produced)
           if [ -f /tmp/new-sidecars.tar.gz ]; then
             cp /tmp/new-sidecars.tar.gz /tmp/publish-artifacts/
           fi
-          # Coord check output (always) for the issue-creation step
-          cp /tmp/coord-check.txt /tmp/publish-artifacts/coord-check.txt
-          # Screenshots (always) for the PR-comment step
+          # Coord check output for the issue-creation step
+          if [ -f /tmp/coord-check.txt ]; then
+            cp /tmp/coord-check.txt /tmp/publish-artifacts/coord-check.txt
+          fi
+          # PII scan findings for the pii-notify job (present only on failure)
+          if [ -f /tmp/pii-report.txt ]; then
+            cp /tmp/pii-report.txt /tmp/publish-artifacts/pii-report.txt
+          fi
+          # Screenshots for the PR-comment step
           if [ -d /tmp/screenshots ]; then
             cp -r /tmp/screenshots /tmp/publish-artifacts/screenshots
           fi
 
       - name: Upload publish artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: publish-artifacts
           path: /tmp/publish-artifacts/
           if-no-files-found: ignore
           retention-days: 1
+
+      - name: Fail if PII scan found issues
+        if: steps.pii.outcome == 'failure'
+        run: |
+          echo "::error::PII scan flagged content — see 'PII scan on changed PDFs' step above"
+          exit 1
+
+  pii-notify:
+    runs-on: ubuntu-latest
+    needs: [validate]
+    if: >-
+      always() &&
+      github.event_name == 'pull_request' &&
+      needs.validate.outputs.pii-failed == 'true'
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Download publish artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: publish-artifacts
+          path: /tmp/publish-artifacts
+        continue-on-error: true
+
+      - name: Comment PII failure on PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          PR_NUM="${{ github.event.pull_request.number }}"
+          REPO="${{ github.repository }}"
+
+          # Remove any previous pii-scan failure comments to avoid stacking.
+          gh api "repos/${REPO}/issues/${PR_NUM}/comments" --paginate -q \
+            '.[] | select(.body | contains("<!-- pii-scan-failure -->")) | .id' \
+            | while read -r cid; do
+                gh api -X DELETE "repos/${REPO}/issues/comments/${cid}" || true
+              done
+
+          {
+            echo "<!-- pii-scan-failure -->"
+            echo "## PII scan failed"
+            echo ""
+            echo "One or more staged PDFs contain email addresses or phone numbers"
+            echo "not in the allowlists in \`scripts/pii_scan.py\`."
+            echo ""
+            echo "\`\`\`"
+            cat /tmp/publish-artifacts/pii-report.txt 2>/dev/null \
+              || echo "(findings unavailable — check the workflow log)"
+            echo "\`\`\`"
+            echo ""
+            echo "Either add the matched contacts to the allowlists, or remove"
+            echo "the records if they should not be public."
+          } > /tmp/pii-comment.md
+
+          gh pr comment "${PR_NUM}" --repo "${REPO}" --body-file /tmp/pii-comment.md
 
   publish:
     runs-on: ubuntu-latest

@@ -26,18 +26,85 @@ const state = {
 
 const PRA_ID_RE = /\bW\d{6}-\d{6}\b/g;
 
-function focusPra(id) {
+function focusPra(id, filename) {
   if (!state.knownIds.has(id)) return;
   state.expanded.add(id);
   render();
   setTimeout(() => {
-    const target = document.querySelector(`.card[data-id="${id}"]`);
+    const target = document.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       target.classList.add('flash');
       setTimeout(() => target.classList.remove('flash'), 1200);
     }
+    if (filename) setTimeout(() => focusFile(id, filename, true), 100);
   }, 0);
+}
+
+function blobToRaw(url) {
+  return url
+    .replace('https://github.com/', 'https://raw.githubusercontent.com/')
+    .replace('/blob/', '/');
+}
+
+function focusFile(praId, filename, autoView) {
+  const decoded = decodeURIComponent(filename);
+  const card = document.querySelector(`.card[data-id="${CSS.escape(praId)}"]`);
+  if (!card) return;
+  const li = card.querySelector(`.file-entry[data-filename="${CSS.escape(decoded)}"]`);
+  if (!li) return;
+  li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  li.classList.add('file-highlighted');
+  setTimeout(() => li.classList.remove('file-highlighted'), 2000);
+  if (autoView) {
+    const viewBtn = li.querySelector('.file-view-btn');
+    if (viewBtn && !viewBtn.classList.contains('active')) viewBtn.click();
+  }
+}
+
+function renderFileItem(a, praId) {
+  const name = typeof a === 'string' ? a : a.name;
+  const url = typeof a === 'object' ? a.url : null;
+  const isPdf = name.toLowerCase().endsWith('.pdf');
+  const li = el('li', { class: 'file-entry', dataset: { filename: name } });
+  if (url) {
+    li.appendChild(el('a', { href: url, target: '_blank', rel: 'noopener' }, name));
+  } else {
+    li.appendChild(el('code', {}, name));
+  }
+  const actions = el('span', { class: 'file-actions' });
+  const linkBtn = el('button', { class: 'file-action-btn', type: 'button', title: 'Copy shareable link' }, 'link');
+  linkBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const frag = '#' + praId + '/' + encodeURIComponent(name);
+    navigator.clipboard.writeText(location.href.split('#')[0] + frag);
+    history.replaceState(null, '', frag);
+    linkBtn.textContent = 'copied!';
+    setTimeout(() => { linkBtn.textContent = 'link'; }, 1200);
+  });
+  actions.appendChild(linkBtn);
+  if (isPdf && url) {
+    const rawUrl = blobToRaw(url);
+    let frame = null;
+    const viewBtn = el('button', { class: 'file-action-btn file-view-btn', type: 'button' }, 'view');
+    viewBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (frame) {
+        frame.remove();
+        frame = null;
+        viewBtn.classList.remove('active');
+        viewBtn.textContent = 'view';
+      } else {
+        frame = el('iframe', { class: 'pdf-viewer-frame', src: rawUrl, title: name });
+        li.appendChild(frame);
+        viewBtn.classList.add('active');
+        viewBtn.textContent = 'close';
+      }
+    });
+    actions.appendChild(viewBtn);
+  }
+  li.appendChild(actions);
+  return li;
 }
 
 function praLink(id) {
@@ -165,6 +232,14 @@ function filterAndSort() {
     },
   };
   items.sort(sortFns[state.sort] || sortFns['filed-desc']);
+
+  // Exact PRA-ID search: pin that card to the top regardless of sort order
+  const exactId = state.search.trim().toUpperCase();
+  if (/^W\d{6}-\d{6}$/.test(exactId)) {
+    const idx = items.findIndex(p => p.id.toUpperCase() === exactId);
+    if (idx > 0) items.unshift(items.splice(idx, 1)[0]);
+  }
+
   return items;
 }
 
@@ -517,14 +592,7 @@ function renderCard(pra) {
     const scroller = el('div', { class: 'files-scroll' });
     const ul = el('ul', { class: 'files-list' });
     for (const a of pra.derived.attachments) {
-      const name = typeof a === 'string' ? a : a.name;
-      const url = typeof a === 'object' ? a.url : null;
-      if (url) {
-        ul.appendChild(el('li', {},
-          el('a', { href: url, target: '_blank', rel: 'noopener' }, name)));
-      } else {
-        ul.appendChild(el('li', {}, el('code', {}, name)));
-      }
+      ul.appendChild(renderFileItem(a, pra.id));
     }
     scroller.appendChild(ul);
     details.appendChild(scroller);
@@ -622,13 +690,20 @@ async function init() {
   wireControls();
   render();
 
+  function parseHash() {
+    const raw = window.location.hash.slice(1);
+    const slash = raw.indexOf('/');
+    return slash >= 0
+      ? { id: raw.slice(0, slash), filename: raw.slice(slash + 1) }
+      : { id: raw, filename: null };
+  }
   if (window.location.hash) {
-    const id = window.location.hash.slice(1);
-    if (state.knownIds.has(id)) focusPra(id);
+    const { id, filename } = parseHash();
+    if (state.knownIds.has(id)) focusPra(id, filename);
   }
   window.addEventListener('hashchange', () => {
-    const id = window.location.hash.slice(1);
-    if (state.knownIds.has(id)) focusPra(id);
+    const { id, filename } = parseHash();
+    if (state.knownIds.has(id)) focusPra(id, filename);
   });
 }
 
