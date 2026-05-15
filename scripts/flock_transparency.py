@@ -253,11 +253,12 @@ _EXPECTS_CONTINUATION = re.compile(
 )
 
 # Pattern for standalone tokens that are clearly a continuation *of* a
-# previous name (e.g. "LLC", "Inc."). Flock's data has split entries
-# like ["CA - Topgolf USA El Segundo", "LLC", ...] from un-escaped
-# commas in their source — re-attach the suffix to the prior entry.
+# previous name (e.g. "LLC", "Inc.", "CA"). Flock's data has split entries
+# from un-escaped commas in their source — e.g. "Brickyard Cove - Richmond, CA"
+# splits into ["Brickyard Cove - Richmond", "CA"]. Re-attach to the prior entry.
+# Two-letter tokens are US state abbreviations (CA, NY, TX, …).
 _IS_CONTINUATION_SUFFIX = re.compile(
-    r"^(LLC|L\.L\.C\.?|Inc\.?|Corp\.?|Ltd\.?|Co\.?)$",
+    r"^(LLC|L\.L\.C\.?|Inc\.?|Corp\.?|Ltd\.?|Co\.?|[A-Z]{2})$",
     re.IGNORECASE,
 )
 
