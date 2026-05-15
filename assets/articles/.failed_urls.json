@@ -24,11 +24,6 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://brookline.news/police-pause-flock-access",
     "last_attempt": "2026-05-08T22:10:13Z"
   },
-  "https://brookline.news/re-chestnut-hill-realty-plans-to-install-ai-powered-license-plate-reader-cameras-in-south-brookline-3/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T22:03:56Z"
-  },
   "https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/",
@@ -43,16 +38,6 @@
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
     "last_attempt": "2026-05-08T22:15:00Z"
-  },
-  "https://ithacavoice.org/2026/04/county-legislature-ends-contract-with-flock-safety/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T21:59:30Z"
-  },
-  "https://lookouteugene-springfield.com/story/justice/2025/12/05/eugene-announces-termination-of-flock-contract/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T21:07:38Z"
   },
   "https://madison.com/news/local/government-politics/article_69dc526f-e45c-582d-b4f0-b36d97716b53.html": {
     "attempts": 2,
@@ -78,11 +63,6 @@
     "attempts": 2,
     "error": "HTTP 403",
     "last_attempt": "2026-05-11T04:21:11Z"
-  },
-  "https://oaklandside.org/2025/07/15/oakland-police-ice-surveillance-camera-flock-safety-sfpd/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T19:24:54Z"
   },
   "https://oaklandside.org/2025/11/18/oakland-police-lawsuit-license-plate-camera-flock-safety/": {
     "attempts": 2,
@@ -250,9 +230,9 @@
     "last_attempt": "2026-05-14T07:54:54Z"
   },
   "https://www.news10.com/news/debate-over-flock-cameras-intensifies-over-proposed-flock-camera-restrictions/": {
-    "attempts": 1,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T22:05:49Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-14T23:17:03Z"
   },
   "https://www.news10.com/news/national/ap-license-plate-camera-company-halts-cooperation-with-federal-agencies-among-investigation-concerns/": {
     "attempts": 2,
@@ -308,11 +288,6 @@
     "attempts": 1,
     "error": "HTTP 429",
     "last_attempt": "2026-05-10T21:01:13Z"
-  },
-  "https://www.smdailyjournal.com/news/local/burlingame-council-supports-exploring-citywide-surveillance-technology-policy/article_72e78ed4-748c-410b-85bd-bb35f3ab661d.html": {
-    "attempts": 1,
-    "error": "HTTP 429",
-    "last_attempt": "2026-05-10T19:22:15Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-is-set-to-install-surveillance-cameras/article_46d428d2-82c6-11ef-8623-e7927b765967.html": {
     "attempts": 2,
