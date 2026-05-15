@@ -1,7 +1,12 @@
 {
   "title": "UOP networkShare authorization records",
   "summary": "The Flock event log produced under W012570-041926 lists a 2026-02-12 create networkShare event to UOP (feedView permissions, by user Phoenix O'Rourke).\n\nPolicy 463.8(b) (effective 2025-12-22) describes review by the ALPR Committee Captain or authorized designee before an external-access request is fulfilled. Policy 462.8 (the predecessor ALPR policy) describes a parallel documented review.\n\nThis request asks for:\n- the public-employee identifying information for the named user,\n- records establishing how that user came to hold Flock platform authority to create external shares, and\n- the documented review and approval records under Policy 463.8(b) and Policy 462.8 for the specific 2026-02-12 event.",
-  "tags": ["uop", "policy-463", "external-sharing", "audit-compliance"],
+  "tags": [
+    "uop",
+    "policy-463",
+    "external-sharing",
+    "audit-compliance"
+  ],
   "policy_promises": [
     {
       "policy": "463.8(b)",
@@ -9,7 +14,7 @@
       "tests": "What review and approval records exist for the 2026-02-12 event?"
     },
     {
-      "policy": "Civil Code §1798.90.55(a)",
+      "policy": "Civil Code \u00a71798.90.55(a)",
       "quote": "An ALPR operator shall maintain reasonable security procedures... including operational, administrative, technical, and physical safeguards",
       "tests": "What records describe the internal access-control workflow for granting external shares?"
     }
@@ -27,6 +32,6 @@
     }
   ],
   "filed_because": "Policy 463.8(b) and Policy 462.8 describe documented pre-approval for external-access events. The request asks for those records for the specific 2026-02-12 event.",
-  "status_override": null,
-  "notes": "Awaiting initial agency response; 10-day statutory determination due 2026-05-14.\n\nScope is limited to public-employee identifying information (name, title, rank, unit assignment, employment dates) and operational access-control records — not disciplinary or personnel-record content."
+  "status_override": "closed",
+  "notes": "Scope is limited to public-employee identifying information (name, title, rank, unit assignment, employment dates) and operational access-control records \u2014 not disciplinary or personnel-record content.\n\nResponse received 2026-05-14 (Juliana Santiago, Management Analyst, SMPD). Closed same day."
 }

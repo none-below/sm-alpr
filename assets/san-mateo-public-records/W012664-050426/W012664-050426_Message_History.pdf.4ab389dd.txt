@@ -1,0 +1,266 @@
+--- page 1 ---
+W012664-050426 - California Public Records Request
+Message History (4)
+On 5/14/2026 4:37:22 PM, Brian C wrote:
+Ms. Santiago,
+Thank you for the May 14, 2026 response to W012663-050426. I am writing to seek clarification on the City's 
+withholding determinations under Items 2 and 6, and on the relationship between those determinations and the 
+"no responsive records" findings on Items 1, 3, 4, and 5.
+As you are aware, Gov. Code § 7923.600 exempts "records of complaints to, or investigations conducted by ... 
+any state or local police agency, [or] any investigatory or security files compiled by ... any other state or local 
+police agency, for correctional, law enforcement, or licensing purposes." The exemption's threshold turns on 
+whether the investigative activity at issue was conducted by a state or local police agency.
+1. Item 2 sought audit-log entries memorializing access by University of the Pacific, Stanford University, and 
+University of San Francisco accounts to SMPD-originated ALPR data via NCRIC systems. The City withheld 
+these records under § 7923.600.
+a. Does the Department's invocation of § 7923.600 on Item 2 rest on a determination that account activity by 
+University of the Pacific, Stanford University, and/or University of San Francisco constitutes investigation 
+conducted by "a state or local police agency" within the meaning of § 7923.600? If so, please identify the legal 
+authority supporting that characterization for each named institution.
+b. If the Department's position is that § 7923.600 applies notwithstanding that the access was by private-
+institution accounts, please identify the specific statutory or case-law authority extending § 7923.600 to 
+investigative activity by non-public entities.
+c. The University of the Pacific's Chief of Police confirmed in writing on March 11, 2026 that UOP is a private 
+institution not subject to the California Public Records Act. Stanford University and the University of San 
+Francisco are 501(c)(3) private universities. The Department's Item 2 response is consistent with two readings: 
+(i) the Named Recipients are state or local police agencies for § 7923.600 purposes; or (ii) § 7923.600 was 
+invoked over records of activity by entities that are not state or local police agencies. Which reading describes 
+the Department's position?
+2. Item 6 sought ALPR data SMPD transmitted, contributed, or otherwise made available to NCRIC, and 
+SMPD-side audit-log entries memorializing those contributions, including channel, timestamp, and data 
+volume. The City withheld these records under § 7923.600.
+a. Please identify which investigation or investigatory file the Department's bulk transmissions to NCRIC are 
+records of.
+b. The records sought at Item 6 are transmission metadata (channel, timestamp, volume) memorializing data 
+SMPD made broadly accessible to the NCRIC outbound network. Does the Department consider transmission 
+metadata of that character to qualify as investigatory records within the meaning of § 7923.600 independent of 
+any specific investigation?
+Page 1
+
+--- page 2 ---
+3. Items 1 and 2 concern the same disclosure event from opposite ends of the record. Item 1 sought ALPR data 
+NCRIC disclosed to the Named Recipients; the Department's response was "no responsive records." Item 2 
+sought audit-log entries memorializing the Named Recipients' access to SMPD-originated data; the 
+Department's response was withholding under § 7923.600 — which presupposes that responsive records exist.
+a. Please confirm whether responsive audit-log entries exist for Named Recipient access to SMPD-originated 
+ALPR data via NCRIC systems.
+b. If responsive Item 2 records exist, please clarify the relationship between that finding and the "no responsive 
+records" determination on Item 1.
+4. The original request invoked segregability under Gov. Code § 7922.525(b). That statute requires the agency 
+to make available "any reasonably segregable portion of a record ... after deletion of the portions that are 
+exempted by law." It applies to records partially withheld under § 7923.600 as well as to other withholdings.
+a. The Item 2 audit-log entries contain content that is non-exempt independent of any investigative content: the 
+existence and count of responsive entries, the identifier of the Named Recipient associated with each entry, the 
+date or date range of access, and channel/volume metadata. Please produce that content in a redacted form, 
+with any reasonably segregable investigative material redacted.
+b. The Item 6 transmission records contain channel, timestamp, and data-volume metadata that is independent 
+of any specific investigation. Please produce that content in a redacted form.
+c. If the Department's position is that no portion of the Item 2 or Item 6 records is reasonably segregable, please 
+describe the segregability analysis the Department performed and identify the specific content within each 
+record that the Department determined could not be produced after redaction.
+5. The original request asked, if any portion were denied:
+1. provide specific exemption citations per Gov. Code § 7922.540;
+2. identify the withheld record type and volume;
+3. indicate whether the denial rests on a claim that the records are held by NCRIC or Flock Safety rather than 
+SMPD; and
+4. if the denial invokes Civil Code § 1798.90.55(b) or any other rationale treating the records as protected 
+"ALPR information" restricted from disclosure to non-public entities, state whether SMPD considers NCRIC's 
+onward disclosure of SMPD-originated ALPR data to UOP, Stanford, and USF — non-public institutions — to 
+have been lawful under that provision, and identify the legal authority supporting that position.
+The May 14, 2026 response addressed (1) by citing § 7923.600 on Items 2 and 6, but did not provide (2) the 
+withheld record type and volume, did not address (3), and did not address (4). I would appreciate that 
+information, and (as set out in item 4 above) any reasonably segregable non-exempt portions of the withheld 
+records in redacted form.
+Thank you for your time. I am happy to re-file as a new PRA if the portal workflow prefers that format.
+Brian C
+Page 2
+
+--- page 3 ---
+On 5/14/2026 4:29:02 PM, San Mateo Public Records Center wrote:
+Subject: California Public Records Request :: W012664-050426
+Body: 
+RE: PUBLIC RECORDS REQUEST of May 04, 2026, Reference # W012664-050426
+Dear Brian C,
+The City received the following records request from you on May 04, 2026.
+Pursuant to the California Public Records Act (Gov. Code § 7920.000 et seq.), I request the following records 
+from the San Mateo Police Department.
+This request seeks existing records only (Gov. Code § 7922.530; Sierra Club v. Superior Court (2013) 57 
+Cal.4th 157).
+Context. On April 28, 2026, in response to PRA W012570-041926, SMPD produced a Flock platform event log 
+("SMPD4.20.2026_EVENTLOG") reflecting two events involving "Receiving Organization: University of the 
+Pacific (CA)":
+- Event ID 7ede5f4e-4f97-56dc-9357-4b92d3904374 — 2026-02-12 04:51:19.301Z — create networkShare — 
+Permissions: feedView (User: Phoenix O'Rourke)
+- Event ID 5469f801-e05e-5c39-ace6-0ce9abf1106a — 2026-02-28 04:09:40.789Z — delete networkShare — 
+Permissions: Search, VMS, Hotlist (User: Steve Casazza)
+On the face of the produced log, the Feb 12 create (feedView) has no corresponding delete event, and the Feb 
+28 delete (Search, VMS, Hotlist) has no corresponding create event. The literal reading is that a feedView 
+share to University of the Pacific was created on Feb 12 and was never removed. An alternative reading is that 
+the two events describe the same share whose permissions were modified between Feb 12 and Feb 28, in which 
+case any modification events would also be responsive to PRA W012570-041926. I'd like to resolve which 
+reading is correct and confirm the current state of any sharing relationship with University of the Pacific.
+Scope of records. As established in W012570-041926, this request reaches records held by Flock Safety as 
+SMPD's agent or contractor, or otherwise accessible to SMPD through its Flock account. SMPD's Master 
+Services Agreement § 4.1, SMPD Policy 463 (§§ 463.2, 463.5), and SMPD SOP 205.5.1 each confirm that 
+platform records concerning SMPD's data and sharing configuration are SMPD records within the meaning of 
+Gov. Code § 7920.530, regardless of which server they reside on. SMPD has already produced records of this 
+type from the Flock platform under W012570-041926.
+Records requested:
+1. The current state of any networkShare records, network sharing entitlements, or equivalent data-sharing 
+relationships between SMPD and University of the Pacific (CA) on the Flock Safety platform — for each, its 
+Page 3
+
+--- page 4 ---
+identifier, permission scope, and creation date. Responsive documents were previously provided to you under 
+PRA #W012570-041926.
+2. All Flock platform event-log entries — of any event type — referencing University of the Pacific (CA) as a 
+receiving organization, sharing partner, or otherwise associated entity, between January 1, 2026 and the date 
+of this request. Item 2 of W012570-041926 produced two such events; this request seeks any further events of 
+any type (create, update, modify, permission change, delete, or otherwise) for that same entity and period.
+Responsive documents were previously provided to you under PRA #W012570-041926.
+3. Records reflecting the termination, deletion, modification, or end of the networkShare with permissions 
+"feedView" created on 2026-02-12 (Event ID 7ede5f4e-4f97-56dc-9357-4b92d3904374) — including any 
+platform event-log entry, configuration change record, communication, or other indication that the share was 
+ended or its permissions altered. If no such records exist, please indicate whether this means:
+(i) the share was terminated but the termination was not captured in the platform event log;
+(ii) the share remains active; or
+(iii) the Feb 12 create event and the Feb 28 delete event refer to the same networkShare whose permissions 
+were modified between those dates — in which case, the records reflecting that modification are responsive to 
+this item.
+Responsive documents were previously provided to you under PRA #W012570-041926.
+4. Any documentation describing the meaning and scope of the Flock platform's networkShare permission types 
+— specifically "feedView," "Search," "VMS," and "Hotlist" — including what data access, query capability, or 
+live-feed visibility each grants to a receiving organization. Vendor documentation, help-center articles, 
+administrator guides, or platform reference materials in SMPD's possession are responsive. Responsive.
+Anticipated exemption issues:
+* Civil Code § 1798.90.55(b) (via Gov. Code § 7927.705). The records requested describe sharing-
+configuration metadata — share identifiers, permission scopes, lifecycle events, and vendor documentation — 
+not "ALPR information" as defined in § 1798.90.5(c) (information or data collected through use of an ALPR 
+system). § 1798.90.55(b)'s restriction operates against disclosure of ALPR information itself; it does not 
+exempt records documenting the configuration of sharing relationships. SMPD's production under W012570-
+041926 included configuration metadata of this exact type.
+* Gov. Code § 7923.600 (investigation records). The records concern administrative configuration of a data-
+sharing platform, not files compiled for any particular SMPD investigation, and contain no plate data or 
+investigative content.
+* Records held by Flock Safety. Per the Scope-of-records paragraph and Gov. Code § 7920.530, share-
+lifecycle records held within Flock on SMPD's behalf are SMPD records. SMPD has already produced records 
+of this type from the Flock platform under W012570-041926.
+Page 4
+
+--- page 5 ---
+* Segregability (§ 7922.525(b)). Items 1, 3, and 4 are administrative configuration data and vendor 
+documentation containing no investigative content. Item 2 may include event types beyond networkShare; if 
+any individual event type is asserted to be exempt, please segregate and produce the remaining responsive 
+events.
+If any portion is denied, please:
+1. provide specific exemption citations per Gov. Code § 7922.540;
+2. identify the withheld record type and volume;
+3. indicate whether the denial rests on a claim that the records are held by Flock Safety rather than SMPD; 
+and
+4. if the denial invokes Civil Code § 1798.90.55(b) or any similar provision, explain how that provision applies 
+to sharing-configuration metadata that does not contain ALPR information as defined by § 1798.90.5(c).
+Thank you.
+We have made a good faith and diligent effort to complete your request, in which responsive records have been 
+collected. These records are available on the San Mateo Records Request Portal. Select the link below to view. 
+The City has completed its response to your request and now considers this record request
+W012664-050426 closed.
+If you have any questions, please contact me using the below contact information.
+Sincerely, 
+Juliana Santiago
+Management Analyst
+Police
+650-522-7600
+ 
+On 5/4/2026 1:53:56 AM, San Mateo Public Records Center wrote:
+Page 5
+
+--- page 6 ---
+Thank you for your interest in public records of the City of San Mateo.  Your request was received by the City 
+of San Mateo on 5/4/2026 and given the reference number W012664-050426 for tracking purposes.
+Record(s) Requested: Pursuant to the California Public Records Act (Gov. Code § 7920.000 et seq.), I 
+request the following records from the San Mateo Police Department.
+This request seeks existing records only (Gov. Code § 7922.530; Sierra Club v. Superior Court (2013) 57 
+Cal.4th 157).
+Context. On April 28, 2026, in response to PRA W012570-041926, SMPD produced a Flock platform 
+event log ("SMPD4.20.2026_EVENTLOG") reflecting two events involving "Receiving Organization: 
+University of the Pacific (CA)":
+- Event ID 7ede5f4e-4f97-56dc-9357-4b92d3904374 — 2026-02-12 04:51:19.301Z — create networkShare 
+— Permissions: feedView (User: Phoenix O'Rourke)
+- Event ID 5469f801-e05e-5c39-ace6-0ce9abf1106a — 2026-02-28 04:09:40.789Z — delete networkShare 
+— Permissions: Search, VMS, Hotlist (User: Steve Casazza)
+On the face of the produced log, the Feb 12 create (feedView) has no corresponding delete event, and the 
+Feb 28 delete (Search, VMS, Hotlist) has no corresponding create event. The literal reading is that a 
+feedView share to University of the Pacific was created on Feb 12 and was never removed. An alternative
+reading is that the two events describe the same share whose permissions were modified between Feb 12 
+and Feb 28, in which case any modification events would also be responsive to PRA W012570-041926. I'd 
+like to resolve which reading is correct and confirm the current state of any sharing relationship with 
+University of the Pacific.
+Scope of records. As established in W012570-041926, this request reaches records held by Flock Safety 
+as SMPD's agent or contractor, or otherwise accessible to SMPD through its Flock account. SMPD's 
+Master Services Agreement § 4.1, SMPD Policy 463 (§§ 463.2, 463.5), and SMPD SOP 205.5.1 each 
+confirm that platform records concerning SMPD's data and sharing configuration are SMPD records 
+within the meaning of Gov. Code § 7920.530, regardless of which server they reside on. SMPD has 
+Page 6
+
+--- page 7 ---
+already produced records of this type from the Flock platform under W012570-041926.
+Records requested:
+1. The current state of any networkShare records, network sharing entitlements, or equivalent data-
+sharing relationships between SMPD and University of the Pacific (CA) on the Flock Safety platform — 
+for each, its identifier, permission scope, and creation date.
+2. All Flock platform event-log entries — of any event type — referencing University of the Pacific (CA) 
+as a receiving organization, sharing partner, or otherwise associated entity, between January 1, 2026 and 
+the date of this request. Item 2 of W012570-041926 produced two such events; this request seeks any 
+further events of any type (create, update, modify, permission change, delete, or otherwise) for that same 
+entity and period.
+3. Records reflecting the termination, deletion, modification, or end of the networkShare with 
+permissions "feedView" created on 2026-02-12 (Event ID 7ede5f4e-4f97-56dc-9357-4b92d3904374) — 
+including any platform event-log entry, configuration change record, communication, or other indication 
+that the share was ended or its permissions altered. If no such records exist, please indicate whether this 
+means:
+(i) the share was terminated but the termination was not captured in the platform event log;
+(ii) the share remains active; or
+(iii) the Feb 12 create event and the Feb 28 delete event refer to the same networkShare whose 
+permissions were modified between those dates — in which case, the records reflecting that modification 
+are responsive to this item.
+4. Any documentation describing the meaning and scope of the Flock platform's networkShare 
+permission types — specifically "feedView," "Search," "VMS," and "Hotlist" — including what data 
+access, query capability, or live-feed visibility each grants to a receiving organization. Vendor 
+documentation, help-center articles, administrator guides, or platform reference materials in SMPD's 
+possession are responsive.
+Anticipated exemption issues:
+* Civil Code § 1798.90.55(b) (via Gov. Code § 7927.705). The records requested describe sharing-
+configuration metadata — share identifiers, permission scopes, lifecycle events, and vendor 
+documentation — not "ALPR information" as defined in § 1798.90.5(c) (information or data collected 
+through use of an ALPR system). § 1798.90.55(b)'s restriction operates against disclosure of ALPR 
+information itself; it does not exempt records documenting the configuration of sharing relationships. 
+SMPD's production under W012570-041926 included configuration metadata of this exact type.
+* Gov. Code § 7923.600 (investigation records). The records concern administrative configuration of a 
+data-sharing platform, not files compiled for any particular SMPD investigation, and contain no plate 
+data or investigative content.
+Page 7
+
+--- page 8 ---
+* Records held by Flock Safety. Per the Scope-of-records paragraph and Gov. Code § 7920.530, share-
+lifecycle records held within Flock on SMPD's behalf are SMPD records. SMPD has already produced 
+records of this type from the Flock platform under W012570-041926.
+* Segregability (§ 7922.525(b)). Items 1, 3, and 4 are administrative configuration data and vendor 
+documentation containing no investigative content. Item 2 may include event types beyond 
+networkShare; if any individual event type is asserted to be exempt, please segregate and produce the 
+remaining responsive events.
+If any portion is denied, please:
+1. provide specific exemption citations per Gov. Code § 7922.540;
+2. identify the withheld record type and volume;
+3. indicate whether the denial rests on a claim that the records are held by Flock Safety rather than 
+SMPD; and
+4. if the denial invokes Civil Code § 1798.90.55(b) or any similar provision, explain how that provision 
+applies to sharing-configuration metadata that does not contain ALPR information as defined by § 
+1798.90.5(c).
+Thank you.
+The request is being forwarded to appropriate department(s) for processing.
+Monitor request progress at the link below.  The City will email you when the request is complete.  Thank you 
+for using the San Mateo Records Center.
+To monitor the progress or update this request please log into the San Mateo Records Center.
+On 5/4/2026 1:53:35 AM, Brian C wrote:
+Request Created on Public Portal
+Page 8

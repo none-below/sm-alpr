@@ -61,6 +61,11 @@ ALLOWED_EMAIL_DOMAINS = {
     "mycusthelp.net",
     "ncric.net",
     "ncric.ca.gov",
+    # Requester's own domain — appears in produced records where SMPD
+    # includes requester's outbound emails (e.g. W012666 Flock Camera Concerns thread)
+    "zerobelow.org",
+    # South San Francisco PD — appears in W012665 _Re__SMPD_ALPR_Stuff.pdf
+    "ssf.net",
 }
 
 # Known public phone numbers from published City of San Mateo records.
@@ -73,6 +78,13 @@ ALLOWED_PHONES = {
     "6505227608",
     "6505227627",
     "6505227633",
+    "6505227663",  # Lt. S. Casazza, SMPD audit officer (W012665/W012666 audit email signatures)
+    "6505237663",  # OCR variant of 650-522-7663 (Casazza, same emails)
+    "6505227662",  # SMPD (W012665 Emails_Sent_to_Users_Re_Audit.pdf)
+    "6505227660",  # SMPD (W012672 _Re__ALPR_Training.pdf)
+    "6505227002",  # A. Khojikian, SMPD (W012666 _Re__Flock_Camera_Concerns.pdf)
+    "6505227681",  # M. Venikov, City of San Mateo (W012672 _Re__ALPR_Training.pdf)
+    "6508654283",  # P. Monaghan / P. O'Rourke, City of San Mateo (W012672 _Re__ALPR_Training.pdf)
     "6505227684",
     "6505227685",
     "6505227700",
