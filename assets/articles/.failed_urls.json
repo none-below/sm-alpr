@@ -29,11 +29,6 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/",
     "last_attempt": "2026-05-08T22:09:04Z"
   },
-  "https://evanstonroundtable.com/2025/06/16/foia-records-reveal-evanston-data-accessible-to-out-of-state-police-in-ice-searches/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-11T04:26:21Z"
-  },
   "https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
@@ -64,20 +59,10 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-11T04:21:11Z"
   },
-  "https://oaklandside.org/2025/11/18/oakland-police-lawsuit-license-plate-camera-flock-safety/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-11T00:06:55Z"
-  },
   "https://oakpark.com/2025/08/05/oak-park-ends-flock-cameras": {
     "attempts": 2,
     "error": "HTTP 403",
     "last_attempt": "2026-05-09T06:31:43Z"
-  },
-  "https://richmondside.org/2026/03/04/richmond-residents-debate-flock-license-plate-readers/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T23:08:05Z"
   },
   "https://richmondside.org/2026/03/18/richmond-flock-cameras-license-plate-readers-on/": {
     "attempts": 2,
@@ -200,9 +185,9 @@
     "last_attempt": "2026-05-14T13:04:55Z"
   },
   "https://www.kxan.com/news/local/austin/neighbors-concerned-about-new-flock-license-plate-readers-in-north-austin/": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
-    "last_attempt": "2026-05-13T20:07:14Z"
+    "last_attempt": "2026-05-15T04:19:28Z"
   },
   "https://www.kxan.com/news/local/austin/safety-leaders-question-privacy-of-austin-license-plate-reader-data/": {
     "attempts": 2,
@@ -264,11 +249,6 @@
     "error": "HTTP 403",
     "last_attempt": "2026-05-11T00:08:44Z"
   },
-  "https://www.oakpark.com/2025/09/02/river-forest-license-plate-cameras/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T22:07:28Z"
-  },
   "https://www.opb.org/article/2025/11/24/lawmakers-question-legality-of-border-patrol-license-plate-reader-program/": {
     "attempts": 2,
     "error": "HTTP 404",
@@ -285,9 +265,9 @@
     "last_attempt": "2026-05-08T22:11:56Z"
   },
   "https://www.smdailyjournal.com/news/local/belmont-moves-ahead-with-drone-program/article_4723b7c0-52d9-11ef-ac5e-efdc64cb5f0f.html": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "HTTP 429",
-    "last_attempt": "2026-05-10T21:01:13Z"
+    "last_attempt": "2026-05-15T04:14:46Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-is-set-to-install-surveillance-cameras/article_46d428d2-82c6-11ef-8623-e7927b765967.html": {
     "attempts": 2,
