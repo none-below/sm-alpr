@@ -731,27 +731,6 @@
     "flags": []
   },
   {
-    "agency_id": "6097e68f-2e57-5068-b4d8-bb4cf1da645e",
-    "slug": "brickyard-cove-richmond-ca",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Brickyard Cove - Richmond, CA"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "CA"
-    }
-  },
-  {
     "agency_id": "fbe076a7-2ead-54ab-a501-be61eab23d7b",
     "slug": "brisbane-ca-pd",
     "flock_active_slug": "brisbane-ca-pd",
@@ -2558,6 +2537,31 @@
     "flags": []
   },
   {
+    "agency_id": "5d7cc970-460d-5960-b886-10947d8c9dd5",
+    "slug": "lake-tapawingo-mo-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Lake Tapawingo MO PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "2940196",
+      "name": "Lake Tapawingo",
+      "state": "MO",
+      "lat": 39.022379,
+      "lng": -94.31389
+    }
+  },
+  {
     "agency_id": "05c2b9c0-aceb-5390-a6dc-2bb64d316ddb",
     "slug": "las-vegas-metro-police-department-nv",
     "flock_active_slug": "las-vegas-metro-nv-pd",
@@ -2607,6 +2611,33 @@
       "lng": -120.621223
     },
     "flags": []
+  },
+  {
+    "agency_id": "0d0c9d09-e1fe-5f74-9c7c-0fa048f5e15d",
+    "slug": "lebanon-mo-pd",
+    "flock_active_slug": "lebanon-mo-pd",
+    "flock_slugs": [
+      "lebanon-mo-pd"
+    ],
+    "flock_names": [
+      "Lebanon MO PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "2941168",
+      "name": "Lebanon",
+      "state": "MO",
+      "lat": 37.672131,
+      "lng": -92.65967
+    }
   },
   {
     "agency_id": "b3ee07bb-0785-585e-ac14-c7cd9aa3a82d",
@@ -5308,6 +5339,34 @@
     "flags": []
   },
   {
+    "agency_id": "b4c51567-ec08-5c7a-83d9-c4c12790edd6",
+    "slug": "temple-university-campus-pa-pd",
+    "flock_active_slug": "temple-university-campus-pa-pd",
+    "flock_slugs": [
+      "temple-university-campus-pa-pd"
+    ],
+    "flock_names": [
+      "Temple University Campus PA PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4260000",
+      "name": "Philadelphia",
+      "state": "PA",
+      "lat": 40.009376,
+      "lng": -75.133346
+    }
+  },
+  {
     "agency_id": "4a508123-c296-5f67-b3c9-c1ccfa64db33",
     "slug": "tiburon-ca-pd",
     "flock_active_slug": "tiburon-ca-pd",
@@ -5880,6 +5939,27 @@
     "aliases": [
       "Yuba County CA SO"
     ]
+  },
+  {
+    "agency_id": "6097e68f-2e57-5068-b4d8-bb4cf1da645e",
+    "slug": "brickyard-cove-richmond-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Brickyard Cove - Richmond, CA"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
   },
   {
     "agency_id": "a5e6b528-1808-54a6-a6bf-e61f6df7bb2b",
@@ -23216,34 +23296,6 @@
     "geo": {
       "kind": "state-only",
       "state": "TX"
-    }
-  },
-  {
-    "agency_id": "b4c51567-ec08-5c7a-83d9-c4c12790edd6",
-    "slug": "temple-university-campus-pa-pd",
-    "flock_active_slug": "temple-university-campus-pa-pd",
-    "flock_slugs": [
-      "temple-university-campus-pa-pd"
-    ],
-    "flock_names": [
-      "Temple University Campus PA PD"
-    ],
-    "display_name": null,
-    "agency_role": "campus_safety",
-    "agency_type": "university",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "4260000",
-      "name": "Philadelphia",
-      "state": "PA",
-      "lat": 40.009376,
-      "lng": -75.133346
     }
   },
   {
@@ -62835,33 +62887,6 @@
       "state": "KY",
       "lat": 37.570164,
       "lng": -85.260129
-    }
-  },
-  {
-    "agency_id": "0d0c9d09-e1fe-5f74-9c7c-0fa048f5e15d",
-    "slug": "lebanon-mo-pd",
-    "flock_active_slug": "lebanon-mo-pd",
-    "flock_slugs": [
-      "lebanon-mo-pd"
-    ],
-    "flock_names": [
-      "Lebanon MO PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "2941168",
-      "name": "Lebanon",
-      "state": "MO",
-      "lat": 37.672131,
-      "lng": -92.65967
     }
   },
   {
