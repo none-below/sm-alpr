@@ -1,0 +1,228 @@
+--- page 1 ---
+Role Permissions Overview
+When creating roles, permissions are assigned that define what users in that role can see and do. This article
+explains what each permission does so Admins can configure roles that match user responsibilities and their
+organization’s policies.
+Apr 10, 2026 Knowledge
+Article Link URL
+Role Permissions Overview (https://help.flocksafety.com/s/article/Role-Permissions-Overview)
+Question
+Answer
+When Admins create or edit a role in Flock, they assign Networks and Permissions to ensure users in that role
+have the appropriate access. Each role clearly identifies the type of access it provides to Flock features.
+For instructions on creating, editing, or deleting roles, please view the How to Manage Roles
+(https://help.flocksafety.com/s/article/How-to-Manage-Roles) article.
+Permissions
+User must be an Admin with permissions to edit roles and permissions enabled.
+Accessing Role Permissions
+To access permissions for a role: 
+Open the Roles sub-tab of the Admin page from the green navigation bar 
+Click into an existing role or select '+ Add New Role' to view the permissions 
+On the role configuration page, scroll down to the Permissions section to enable or disable feature
+access for that role. Depending on what Flock package the Admin's organization has, some of these
+features may be visible or greyed out. If it is greyed out, it means the organization does not have
+access to those features at this time.
+Home (/s/)
+Topics
+Contact Us
+Status (/s/status)
+5/5/26, 10:10 AM
+Role Permissions Overview
+https://help.flocksafety.com/s/article/Role-Permissions-Overview
+1/7
+
+--- page 2 ---
+Understanding Feature Permissions 
+Each permission controls access to a specific feature or area in the Flock system. Use the list below to understand
+what each permission does before enabling it for a role. 'LE Only' indicates features only available to law
+enforcement agencies.
+Admin
+Admin: Allows those assigned to access the Admin page to edit roles, users, Networks, etc.
+Edit Organization Details: User can access and edit organization details within Admin 
+Allows those assigned to access the Organization page and edit organization location,
+enable/disable Lookup, enable Multi-Factor Authentication, etc. 
+Manage Billing & Invoices: User can access and edit billing data within the Admin Billing tab 
+Share Networks: User can access the Sharing tab on the main navigation
+Use File Validator (LE Only): User can access and run file validation
+Edit User Profile Settings: User can edit personal details including name, title, and phone number
+within User Profile 
+Search
+Search: Users can access and conduct investigative Searches 
+Access Statewide or Nationwide Networks (LE Only): User can execute a Search or Lookup across
+statewide or nationwide Networks
+Visual Search: User can access Visual Search as an advanced option within Search
+5/5/26, 10:10 AM
+Role Permissions Overview
+https://help.flocksafety.com/s/article/Role-Permissions-Overview
+2/7
+
+--- page 3 ---
+Allows those assigned to take an image and turn it into an investigative lead by using
+Machine Learning to find similar images 
+Convoy Search: User can access Convoy Search as an advanced option with Search
+Allows taking a plate and returning plates that often travel alongside the vehicle of interest 
+Multi-Geo Search: User can access Multi-Geo Search as an advanced option within Search 
+Allows those assigned to take a list of location/timeframe combinations and return plates
+that have been seen in all of the locations 
+Freeform Search: User can use the Freeform Search feature on Networks with feedView permission 
+Allows those assigned to Search for vehicles using plate language descriptions instead of
+traditional filters 
+Alerts & FlockOS
+Custom Hot List Admin (LE Only): User can access and edit Custom Hot List entries (personal lists
+and organization lists)
+Allows those assigned to create, edit, share, delete, and view Custom Hot Lists in their own
+organizations as well as enable notifications on any Custom Hot List that is shared with their
+organization 
+Custom Hot List Access (LE Only): User can access and manage person Custom Hot List entries,
+but only view organization Custom Hot Lists that they are the selected audience of 
+Manage Suppressed Hits: User can manage suppressed hits from NCIC Hot List Alerts 
+Allows those assigned to the role to suppress individual plates for their agency
+Custom Hot List Notes and Attachments (LE Only): User can include notes and attachments on
+Custom Hot List entries 
+Audio History Page: User can access the Audio History Page 
+Real-time Routing (LE Only): User can activate real-time routing feature within FlockOS 
+Custom Map Layers: User can view custom map layers within FlockOS
+CAD Integration (LE Only): User
+can access and manage CAD calls within FlockOS 
+FirstTwo Integration (LE Only): User can view FirstTwo integration results within FlockOS and Alerts 
+Flock911 (LE Only): User can view Flock911 results within FlockOS and Alerts 
+View FlockOS: User can view the Map within the FlockOS navigation tab
+Manage People Detection Alerts: User can create and edit people detection alerts within Alerts
+Manage Freeform Alerts: User can create and edit FreeForm alerts within Alerts
+5/5/26, 10:10 AM
+Role Permissions Overview
+https://help.flocksafety.com/s/article/Role-Permissions-Overview
+3/7
+
+--- page 4 ---
+Manage Vehicle Description Alerts: User can create and manage Vehicle Description Alerts within
+Alerts & FlockOS 
+Allows those assigned to the role to send notifications when vehicles matching a specific set
+of filter criteria pass a Flock camera; user must have Search and Hot List enabled to utilize
+this feature
+View Alert Comments (LE Only): User can view the comments associated with an Alert within Alerts &
+FlockOS 
+Write Alert Comments (LE Only): User can write and manage comments associated with an Alert
+within Alerts & FlockOS
+Zone Management: User can manage zones for the organization
+View Map Attachments: User can view attachments within FlockOS
+Manage Map Attachments: User can view and edit attachments within FlockOS
+VMS
+VMS Go-Live: User can view live video feed in the VMS experience
+VMS Historical: User can view recorded video feed
+VMS Download: User can download recorded video feed
+VMS PTZ: User can access and manage live Pan-Tilt-Zoom (PTZ) camera commands
+VMS PTZ Settings: User can access and manage PTZ device settings
+VMS Imaging Settings: User can access and manage video device imaging settings
+VMS Camera Views: User can manage camera views
+VMS-Specific Rule
+VMS permissions are governed by both the role and Network. For VMS to be enabled on the network: 
+The role must have VMS permissions enabled
+The Network must have approved VMS access
+If a role has VMS permissions enabled but a user still cannot select VMS for a Network, visit the Network page to
+confirm that the network is enabled. If the network is enabled and VMS remains unavailable, VMS was not
+approved for shared access on that Network.
+5/5/26, 10:10 AM
+Role Permissions Overview
+https://help.flocksafety.com/s/article/Role-Permissions-Overview
+4/7
+
+--- page 5 ---
+Device Management
+Devices: Allows those assigned to the role to access and view the Device Map and Device Networks
+View Devices: User can view network map and status pages within Devices 
+Can Configure Intercom Scheduling: Can configure intercom schedules for eligible devices 
+Device Admin: Allows those assigned to the role to access the Device Management page to view
+device status, reboot devices, etc.
+Device Management: Allows those assigned to the role to access the 'Device Health Page,' view their
+devices, status/health of those devices, rename/relocate the devices, and register/unregister devices
+Insights
+Insights: Allows those assigned to the role to access the Insights Dashboard and sub-tabs
+View Analytics: User can access analytics within Insights
+View Audit Analytics: User can access all audit-related pages within Insights
+View Admin Analytics: User can access additional Admin analytics tab within Insights
+View Investigation Analytics: User can access additional Investigation analytics tab within Insights
+View Traffic Analytics: User can access additional Traffic analytics tab within Insights
+View Raven Analytics: User can access additional R
+aven analytics tab within Insights
+Planning Portal
+View Planning Portal: User can access Planning Portal to get information on the status of their
+implementation
+Approve Locations: User can approve/deny locations in implementation within Planning Portal
+Integrations
+Add Evidence: User can add search result information as evidence to external evidence management
+system
+Allows those assigned to the role to upload images from Flock to Axon's evidence.com
+(http://evidence.com/)
+Drones
+Access Aerodome (LE Only): User can access Aerodome
+View Spectator Mode (LE Only): User can view drone flights within Aerodome
+5/5/26, 10:10 AM
+Role Permissions Overview
+https://help.flocksafety.com/s/article/Role-Permissions-Overview
+5/7
+
+--- page 6 ---
+Additional Resources
+How to Manage Roles (https://help.flocksafety.com/s/article/How-to-Manage-Roles)
+How to Add Users  (https://help.flocksafety.com/s/article/How-to-Add-Users-Redesign)
+Summary
+When creating roles, permissions are assigned that define what users in that role can see and do. This article
+explains what each permission does so Admins can configure roles that match user responsibilities and their
+organization’s policies.
+Article Created Date
+10/7/2024, 4:14 PM
+Visible In Internal App
+Created By
+Jessi Roman, 4/10/2026, 1:38 PM
+Visible In Public Knowledge Base
+Last Modified By
+Grace Sinclair, 4/10/2026, 1:49 PM
+Visible to Customer
+Last Published Date
+4/10/2026, 1:49 PM
+Visible to Partner
+Article Currency
+USD - U.S. Dollar
+0
+0
+Was this article helpful?
+5/5/26, 10:10 AM
+Role Permissions Overview
+https://help.flocksafety.com/s/article/Role-Permissions-Overview
+6/7
+
+--- page 7 ---
+Related Articles
+How to Request Network Sharing on the Map (/s/article/How-to-Request-Network-Sharing-on-
+the-Map)
+2.6K
+How to Accept/Reject Network Sharing Requests - Law Enforcement Agencies Only (/s/article/How-to-
+Accept-or-Reject-Network-Sharing-Requests)
+1.49K
+Receiving Access to Outside Networks (/s/article/Receiving-Access-to-Outside-Networks)
+4.29K
+Sharing Access to Your Networks (/s/article/Sharing-Access-to-Your-Networks)
+1.64K
+How to Manage Roles (/s/article/How-to-Manage-Roles)
+8.58K
+How to Audit Network Sharing (/s/article/How-to-Audit-Network-Sharing)
+1.54K
+Authorized Access List (/s/article/Authorized-Access-List)
+2.06K
+Law Enforcement | Training Webinars (/s/article/Law-Enforcement-Webinar-Trainings)
+9.36K
+Getting Started with Flock (/s/article/Getting-Started-with-Flock)
+7.03K
+Sharing Your Footage (Non-Law Enforcement) (/s/article/Sharing-Requesting-Footage)
+1.25K
+2024 Flock Safety. All right reserved.
+Table of Contents
+Permissions
+Accessing Role Permissions
+Understanding Feature Permissions
+Additional Resources
+5/5/26, 10:10 AM
+Role Permissions Overview
+https://help.flocksafety.com/s/article/Role-Permissions-Overview
+7/7

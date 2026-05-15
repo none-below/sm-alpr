@@ -1,10 +1,14 @@
 {
   "title": "UOP networkShare current state and full event lifecycle",
-  "summary": "W012570-041926 produced an event log with two UOP networkShare entries (per the agency's response):\n\n- 2026-02-12 04:51:19.301Z — create networkShare — Permissions: feedView — User: Phoenix O'Rourke\n- 2026-02-28 04:09:40.789Z — delete networkShare — Permissions: Search, VMS, Hotlist — User: Steve Casazza\n\nThe permission scopes on the two events differ. This request asks for the current state of any UOP networkShare records and any further event-log entries referencing UOP, so the relationship between the two produced events is documented on the record.",
-  "tags": ["uop", "external-sharing", "audit-compliance"],
+  "summary": "W012570-041926 produced an event log with two UOP networkShare entries (per the agency's response):\n\n- 2026-02-12 04:51:19.301Z \u2014 create networkShare \u2014 Permissions: feedView \u2014 User: Phoenix O'Rourke\n- 2026-02-28 04:09:40.789Z \u2014 delete networkShare \u2014 Permissions: Search, VMS, Hotlist \u2014 User: Steve Casazza\n\nThe permission scopes on the two events differ. This request asks for the current state of any UOP networkShare records and any further event-log entries referencing UOP, so the relationship between the two produced events is documented on the record.",
+  "tags": [
+    "uop",
+    "external-sharing",
+    "audit-compliance"
+  ],
   "policy_promises": [
     {
-      "policy": "Civil Code §1798.90.55(b)",
+      "policy": "Civil Code \u00a71798.90.55(b)",
       "quote": "ALPR information shall not be sold, shared, or transferred except to another public agency",
       "tests": "What records reflect the current state of any sharing relationship with UOP?"
     }
@@ -17,6 +21,6 @@
     }
   ],
   "filed_because": "Asking SMPD for the current state of UOP sharing and the full event sequence, so the two-event sequence from W012570 is read in context.",
-  "status_override": null,
-  "notes": "Awaiting initial agency response; 10-day statutory determination due 2026-05-14.\n\nPairs with W012674-050426, which addresses the authorization records for the 2/12 create event."
+  "status_override": "closed",
+  "notes": "Pairs with W012674-050426, which addresses the authorization records for the 2/12 create event.\n\nResponse received 2026-05-14 (Juliana Santiago, Management Analyst, SMPD). Closed same day."
 }
