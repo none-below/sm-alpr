@@ -402,7 +402,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-16T12:47:02.354059+00:00",
+      "last_probed": "2026-05-16T16:39:51.792137+00:00",
       "tried": {
         "national-city": "http_404",
         "national-city-ca": "http_404",
@@ -423,6 +423,7 @@
         "national-city-ps": "http_404",
         "national-city-ps-ca": "http_404",
         "national-city-psca": "http_404",
+        "nationalcity": "http_404",
         "nationalcity-ca": "http_404",
         "nationalcity-ca-pd": "http_404",
         "nationalcity-ca-po": "http_404",
@@ -896,6 +897,14 @@
       "last_probed": "2026-04-25T23:23:39.657734+00:00",
       "tried": {
         "walnut-creek-ca-po": "http_404"
+      }
+    },
+    "45a6d0c1-2c14-550f-be3e-1bc889655737": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-16T16:39:46.573736+00:00",
+      "tried": {
+        "oh-township-of-perry-oh-pd": "http_404"
       }
     },
     "46022a7f-7efe-5f30-9695-ef9a6c9f2093": {
@@ -1921,6 +1930,14 @@
         "gaston-county-nc-pd": "http_404"
       }
     },
+    "9dc1f76c-5959-5408-a1fe-c08116042150": {
+      "exhausted": false,
+      "found": "hannibal-mo-pd",
+      "last_probed": "2026-05-16T16:39:35.850770+00:00",
+      "tried": {
+        "hannibal-mo-pd": "http_200"
+      }
+    },
     "9dc845ac-23af-554b-a04b-cdcda0f2cf0a": {
       "exhausted": false,
       "found": null,
@@ -1997,7 +2014,7 @@
       }
     },
     "a3181593-1121-5cc0-aae2-beb7d164ed58": {
-      "exhausted": false,
+      "exhausted": true,
       "found": null,
       "last_probed": "2026-05-16T15:42:44.463745+00:00",
       "tried": {
@@ -3051,6 +3068,6 @@
       }
     }
   },
-  "updated": "2026-05-16T15:42:44.500296+00:00",
+  "updated": "2026-05-16T16:39:51.843355+00:00",
   "version": 1
 }
