@@ -394,7 +394,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-16T01:26:24.844846+00:00",
+      "last_probed": "2026-05-16T05:01:54.567619+00:00",
       "tried": {
         "national-city": "http_404",
         "national-city-ca": "http_404",
@@ -423,6 +423,7 @@
         "nationalcity-ca-ps": "http_404",
         "nationalcity-pd": "http_404",
         "nationalcity-pd-ca": "http_404",
+        "nationalcity-pdca": "http_404",
         "nationalcity-po": "http_404",
         "nationalcity-po-ca": "http_404",
         "nationalcity-police": "http_404",
@@ -746,6 +747,14 @@
       "last_probed": "2026-05-05T23:35:44.087950+00:00",
       "tried": {
         "shorewood-il-pd": "http_404"
+      }
+    },
+    "4038141d-df58-5a8d-ab87-6fb0f1753c24": {
+      "exhausted": false,
+      "found": "yelm-wa-pd",
+      "last_probed": "2026-05-16T05:01:44.325658+00:00",
+      "tried": {
+        "yelm-wa-pd": "http_200"
       }
     },
     "410c43eb-92df-5183-bc30-02ee9b4eb7b9": {
@@ -2822,6 +2831,14 @@
         "hoover-al-po": "http_404"
       }
     },
+    "f36159e7-6b68-5f8b-9288-da3dd26c0376": {
+      "exhausted": false,
+      "found": "palmyra-mo-pd",
+      "last_probed": "2026-05-16T05:01:28.672150+00:00",
+      "tried": {
+        "palmyra-mo-pd": "http_200"
+      }
+    },
     "f37d0f09-6a70-5017-8b66-0bda25f8c5a4": {
       "exhausted": false,
       "found": null,
@@ -2939,6 +2956,6 @@
       }
     }
   },
-  "updated": "2026-05-16T01:26:24.880555+00:00",
+  "updated": "2026-05-16T05:01:54.610225+00:00",
   "version": 1
 }
