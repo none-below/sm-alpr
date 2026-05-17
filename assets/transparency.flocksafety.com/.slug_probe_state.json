@@ -435,7 +435,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-17T16:41:19.533418+00:00",
+      "last_probed": "2026-05-17T21:41:03.963718+00:00",
       "tried": {
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
@@ -444,6 +444,7 @@
         "-national-city-ca-police-department": "http_404",
         "-national-city-ca-ps": "http_404",
         "-national-city-pd-ca": "http_404",
+        "-national-city-po-ca": "http_404",
         "national-city": "http_404",
         "national-city-ca": "http_404",
         "national-city-ca-po": "http_404",
@@ -715,6 +716,14 @@
       "last_probed": "2026-05-13T08:27:08.390389+00:00",
       "tried": {
         "beech-grove-in-pd": "http_404"
+      }
+    },
+    "365adb5d-03ad-55ca-bfdd-fea851bc2525": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-17T21:40:42.283537+00:00",
+      "tried": {
+        "do-not-use-duplicate-city-of-menifee-ca-pd": "http_404"
       }
     },
     "3684a873-d18a-57d8-a30b-c1fe3b4c93a3": {
@@ -1557,6 +1566,14 @@
       "last_probed": "2026-05-08T01:27:45.485499+00:00",
       "tried": {
         "somerton-az-pd": "http_404"
+      }
+    },
+    "6d3c5e06-b5e0-589b-9d80-00dc4dae5266": {
+      "exhausted": false,
+      "found": "prince-george-county-va-pd",
+      "last_probed": "2026-05-17T21:40:52.967258+00:00",
+      "tried": {
+        "prince-george-county-va-pd": "http_200"
       }
     },
     "6db175fe-bff6-58bc-a911-d688f797fda9": {
@@ -3343,6 +3360,6 @@
       }
     }
   },
-  "updated": "2026-05-17T19:55:41.657913+00:00",
+  "updated": "2026-05-17T21:41:04.010056+00:00",
   "version": 1
 }
