@@ -410,10 +410,11 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-17T01:31:52.625002+00:00",
+      "last_probed": "2026-05-17T08:02:02.343577+00:00",
       "tried": {
         "-national-city-ca-pd": "http_404",
         "-national-city-ca-po": "http_404",
+        "-national-city-ca-police-department": "http_404",
         "national-city": "http_404",
         "national-city-ca": "http_404",
         "national-city-ca-po": "http_404",
@@ -1325,6 +1326,14 @@
         "university-of-delaware-pd": "http_404"
       }
     },
+    "69dc886d-6480-525a-ac42-05134bbb4a64": {
+      "exhausted": false,
+      "found": "hudson-wi-pd",
+      "last_probed": "2026-05-17T08:01:47.121557+00:00",
+      "tried": {
+        "hudson-wi-pd": "http_200"
+      }
+    },
     "6a21f53c-d7a3-5437-86f5-c0f8f912c698": {
       "exhausted": false,
       "found": "wilkesboro-nc-pd",
@@ -1799,6 +1808,14 @@
       "last_probed": "2026-04-25T11:26:42.852152+00:00",
       "tried": {
         "rio-hondo-college-ca-pd": "http_404"
+      }
+    },
+    "8e84238f-abb9-5a87-a619-52905c0a2821": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-17T08:01:58.586086+00:00",
+      "tried": {
+        "athens-clarke-county-ga-pd": "http_404"
       }
     },
     "8f99f695-5554-5fd5-9b6c-63a683f21d55": {
@@ -3180,6 +3197,6 @@
       }
     }
   },
-  "updated": "2026-05-17T01:31:52.659312+00:00",
+  "updated": "2026-05-17T08:02:02.393803+00:00",
   "version": 1
 }
