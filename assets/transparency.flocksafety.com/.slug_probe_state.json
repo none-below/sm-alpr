@@ -435,7 +435,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-17T21:41:03.963718+00:00",
+      "last_probed": "2026-05-17T22:38:44.582813+00:00",
       "tried": {
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
@@ -445,6 +445,7 @@
         "-national-city-ca-ps": "http_404",
         "-national-city-pd-ca": "http_404",
         "-national-city-po-ca": "http_404",
+        "-national-city-police-department-ca": "http_404",
         "national-city": "http_404",
         "national-city-ca": "http_404",
         "national-city-ca-po": "http_404",
@@ -830,6 +831,14 @@
       "last_probed": "2026-05-11T01:31:08.149666+00:00",
       "tried": {
         "clio-mi-pd": "http_404"
+      }
+    },
+    "3fa6fc23-7bf6-5590-9865-6ef5de35d80f": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-17T22:38:34.526766+00:00",
+      "tried": {
+        "middlebury-in-pd": "http_404"
       }
     },
     "3fc7d46a-3f58-5638-a86a-182bbaf116b4": {
@@ -2546,11 +2555,12 @@
     "ba6dffec-c362-5bc4-b042-eef688d730a2": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T21:23:11.830314+00:00",
+      "last_probed": "2026-05-17T22:38:40.074260+00:00",
       "tried": {
         "east-bay-parks-ca-po": "http_404",
         "east-bay-parks-ca-police": "http_404",
-        "east-bay-parks-ca-police-department": "http_404"
+        "east-bay-parks-ca-police-department": "http_404",
+        "east-bay-parks-ca-ps": "http_404"
       }
     },
     "bae9861d-a7ef-567d-b31b-a627075decf9": {
@@ -3360,6 +3370,6 @@
       }
     }
   },
-  "updated": "2026-05-17T21:41:04.010056+00:00",
+  "updated": "2026-05-17T22:38:44.616379+00:00",
   "version": 1
 }
