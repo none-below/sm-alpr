@@ -1125,6 +1125,14 @@
         "raleigh-nc-pd": "http_200"
       }
     },
+    "575a341d-41da-525f-86a1-ed001be05134": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-17T11:46:47.336604+00:00",
+      "tried": {
+        "midwest-hidta-ks-pd": "http_404"
+      }
+    },
     "57bbd852-88ca-5c1c-a516-281704131ab5": {
       "exhausted": false,
       "found": null,
@@ -1379,7 +1387,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-16T23:36:12.213934+00:00",
+      "last_probed": "2026-05-17T11:46:53.843503+00:00",
       "tried": {
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
@@ -1411,12 +1419,21 @@
         "beverlyhills-pdca": "http_404",
         "beverlyhills-po": "http_404",
         "beverlyhills-po-ca": "http_404",
+        "beverlyhills-poca": "http_404",
         "beverlyhills-police": "http_404",
         "beverlyhills-police-ca": "http_404",
         "beverlyhills-police-department": "http_404",
         "beverlyhills-police-department-ca": "http_404",
         "beverlyhills-ps": "http_404",
         "beverlyhills-ps-ca": "http_404"
+      }
+    },
+    "6b9004ff-75a7-54a3-bff6-2095bb998de4": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-17T11:46:40.844671+00:00",
+      "tried": {
+        "coalinga-ca-pd": "http_404"
       }
     },
     "6b9c1c80-8c06-5e0a-a0c6-30913fad84fd": {
@@ -3214,6 +3231,6 @@
       }
     }
   },
-  "updated": "2026-05-17T10:14:03.288832+00:00",
+  "updated": "2026-05-17T11:46:53.884012+00:00",
   "version": 1
 }
