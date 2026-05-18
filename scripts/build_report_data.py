@@ -1099,6 +1099,15 @@ def main():
 
     # ── Build graph-wide flag classification cache ──
     outbound_by_id = {aid: d.get("sharing_outbound_ids", []) for aid, d in graph_agencies.items()}
+    # Set-form lookup for fast "is X in Y's outbound?" reciprocity checks.
+    outbound_set_by_id = {aid: set(ids) for aid, ids in outbound_by_id.items()}
+    # True/False/None — None when uncrawled (we have no portal to know
+    # whether the agency published an outbound section at all). Used to
+    # distinguish "B confirmed no sharing back" from "B's portal doesn't
+    # publish a sharing list" in the reciprocity buckets below.
+    outbound_pub_by_id = {
+        aid: d.get("sharing_outbound_published") for aid, d in graph_agencies.items()
+    }
 
     # ── Pass 2: build a report entry for EVERY agency in the registry ──
     #
@@ -1784,6 +1793,79 @@ def main():
         for target_id in sorted(inferred_out_ids):
             outbound_list.append(_outbound_entry(target_id, True))
 
+        # ── Sharing reciprocity buckets ──
+        #
+        # Classify every agency with any known sharing edge to/from A
+        # into mutually-exclusive buckets:
+        #   reciprocal:       A → B  AND  B → A
+        #   one_way_in:       B → A only — they share to us, we don't share back
+        #   one_way_out:      A → B only AND B published an outbound list
+        #                     confirming A is absent
+        #   unverifiable_out: A → B  AND  B has not published outbound — we
+        #                     can't tell whether they reciprocate
+        #   unverifiable_in:  B → A only AND we haven't published outbound —
+        #                     we can't claim "we don't share back"
+        #
+        # The visualization shows three primary buckets (reciprocal /
+        # one-way inbound / one-way outbound) with the unverifiable
+        # tallies surfaced as caveats so empty-vs-unpublished isn't
+        # confused with a confirmed answer.
+        subject_outbound_published = (
+            bool(gdata.get("sharing_outbound_published")) if crawled else False
+        )
+        a_out_set = set(outbound_ids)
+        inferred_in_ids = inbound_inferred_by_id.get(aid, set())
+        recip_partners = (a_out_set | inferred_in_ids) - {aid}
+        recip_buckets = {
+            "reciprocal": [],
+            "one_way_in": [],
+            "one_way_out": [],
+            "unverifiable_out": [],
+            "unverifiable_in": [],
+        }
+        for bid in recip_partners:
+            b_pub = outbound_pub_by_id.get(bid)
+            b_out = outbound_set_by_id.get(bid, set())
+            a_in_b = aid in b_out
+            b_in_a = bid in a_out_set
+            if a_in_b and b_in_a:
+                recip_buckets["reciprocal"].append(bid)
+            elif a_in_b and not b_in_a:
+                if subject_outbound_published:
+                    recip_buckets["one_way_in"].append(bid)
+                else:
+                    recip_buckets["unverifiable_in"].append(bid)
+            elif b_in_a and not a_in_b:
+                if b_pub:
+                    recip_buckets["one_way_out"].append(bid)
+                else:
+                    recip_buckets["unverifiable_out"].append(bid)
+
+        def _recip_example(bid):
+            br = reg_by_id.get(bid, {})
+            bslug = id_to_slug.get(bid, bid)
+            return {
+                "agency_id": bid,
+                "slug": bslug,
+                "name": agency_display_name(br, bslug),
+                "kind": is_flagged_entity(bid, reg_by_id),
+                "state": agency_state(br),
+                "crawled": bool(graph_agencies.get(bid, {}).get("crawled")),
+            }
+
+        # Sort each bucket's example list alphabetically by name so the
+        # rendered output is stable across runs.
+        RECIP_EXAMPLE_LIMIT = 25
+        reciprocity = {
+            "subject_outbound_published": subject_outbound_published,
+            "counts": {k: len(v) for k, v in recip_buckets.items()},
+            "examples": {},
+        }
+        for k, bids in recip_buckets.items():
+            entries = [_recip_example(b) for b in bids]
+            entries.sort(key=lambda e: (e["name"] or "").lower())
+            reciprocity["examples"][k] = entries[:RECIP_EXAMPLE_LIMIT]
+
         # ── Regional context: crawled CA agencies within REGIONAL_RADIUS_KM ──
         regional = []
         if lat is not None and lng is not None:
@@ -1918,6 +2000,7 @@ def main():
             "removed_flagged_recipients": removed_flagged_recipients,
             "outbound": outbound_list,
             "inbound": inbound_list,
+            "reciprocity": reciprocity,
             "regional": regional,
             "audit_vs_inbound": audit_vs_inbound,
             "recent_outbound_additions": recent_outbound_additions,

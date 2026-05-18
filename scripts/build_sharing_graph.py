@@ -94,6 +94,15 @@ def main():
         raw_text = txts[-1].read_text(encoding="utf-8")
         portal_data = json.loads(jsons[-1].read_text()) if jsons else {}
 
+        # Whether the portal published the outbound/inbound sections at
+        # all. The parser collapses "section absent" and "section present
+        # but empty" to `[]`, so we re-derive published-ness from the raw
+        # text label presence. Used downstream to distinguish
+        # "they confirmed 0 sharing" (rare) from "they didn't publish a
+        # sharing list" (common — e.g. Foster City).
+        outbound_published = "Organizations granted access" in raw_text
+        inbound_published = "Organizations sharing their data with" in raw_text
+
         # Support both old and new field names during transition
         outbound_names = portal_data.get("sharing_outbound") or portal_data.get("shared_org_names", [])
         outbound_ids = _resolve_names_to_ids(outbound_names)
@@ -111,8 +120,10 @@ def main():
             "data_retention_days": portal_data.get("data_retention_days"),
             "sharing_outbound_count": len(outbound_names),
             "sharing_outbound_ids": outbound_ids,
+            "sharing_outbound_published": outbound_published,
             "sharing_inbound_count": len(inbound_names),
             "sharing_inbound_ids": inbound_ids,
+            "sharing_inbound_published": inbound_published,
         }
 
     # ── Build bidirectional graph ──
@@ -190,7 +201,9 @@ def main():
             "sharing_outbound_count": len(sends_to),
             "sharing_inbound_count": inbound_counts.get(entity_id, 0),
             "sharing_outbound_ids": sends_to,
+            "sharing_outbound_published": None,
             "sharing_inbound_ids": received_from,
+            "sharing_inbound_published": None,
         }
 
     # Merge crawled + uncrawled
@@ -204,7 +217,9 @@ def main():
             "sharing_outbound_count": d["sharing_outbound_count"],
             "sharing_inbound_count": d["sharing_inbound_count"],
             "sharing_outbound_ids": d["sharing_outbound_ids"],
+            "sharing_outbound_published": d["sharing_outbound_published"],
             "sharing_inbound_ids": d["sharing_inbound_ids"],
+            "sharing_inbound_published": d["sharing_inbound_published"],
         }
     all_agencies.update(uncrawled)
 
