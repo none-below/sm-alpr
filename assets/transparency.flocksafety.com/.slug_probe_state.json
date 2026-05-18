@@ -459,7 +459,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-18T22:42:06.578641+00:00",
+      "last_probed": "2026-05-18T23:49:06.409343+00:00",
       "tried": {
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
@@ -469,6 +469,7 @@
         "-national-city-ca-ps": "http_404",
         "-national-city-pd": "http_404",
         "-national-city-pd-ca": "http_404",
+        "-national-city-po": "http_404",
         "-national-city-po-ca": "http_404",
         "-national-city-police-ca": "http_404",
         "-national-city-police-department-ca": "http_404",
@@ -1206,6 +1207,14 @@
       "last_probed": "2026-05-17T17:43:38.604138+00:00",
       "tried": {
         "wilson-county-tn-so": "http_404"
+      }
+    },
+    "5460d54d-6a3d-531b-a007-de6e9491f686": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-18T23:48:45.711408+00:00",
+      "tried": {
+        "el-centro-ca-po": "http_404"
       }
     },
     "5715ea99-2e73-5b6e-90f1-f90ee6bb9366": {
@@ -2280,6 +2289,14 @@
       "tried": {
         "carlsbad-nm-po": "http_404",
         "carlsbad-nm-police-department": "http_404"
+      }
+    },
+    "9dfa4bef-ba27-525a-8ca3-53a115909b43": {
+      "exhausted": false,
+      "found": "des-moines-wa-pd",
+      "last_probed": "2026-05-18T23:48:56.889784+00:00",
+      "tried": {
+        "des-moines-wa-pd": "http_200"
       }
     },
     "9eb7354b-b6ff-590b-b3bb-f097e0b30033": {
@@ -3502,6 +3519,6 @@
       }
     }
   },
-  "updated": "2026-05-18T22:42:06.612399+00:00",
+  "updated": "2026-05-18T23:49:06.474475+00:00",
   "version": 1
 }
