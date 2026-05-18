@@ -435,7 +435,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-18T06:40:57.366376+00:00",
+      "last_probed": "2026-05-18T14:46:59.539029+00:00",
       "tried": {
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
@@ -447,6 +447,7 @@
         "-national-city-po-ca": "http_404",
         "-national-city-police-ca": "http_404",
         "-national-city-police-department-ca": "http_404",
+        "-national-city-ps-ca": "http_404",
         "national-city": "http_404",
         "national-city-ca": "http_404",
         "national-city-ca-po": "http_404",
@@ -781,9 +782,10 @@
     "3be8eb08-59e0-52cc-ae43-8ae880a39155": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-05T21:45:45.139939+00:00",
+      "last_probed": "2026-05-18T14:46:53.395622+00:00",
       "tried": {
-        "carroll-county-ga-sd": "http_404"
+        "carroll-county-ga-sd": "http_404",
+        "carroll-county-ga-sheriffs-office": "http_404"
       }
     },
     "3da3e612-1b49-55fb-9b01-4df51511259a": {
@@ -2187,6 +2189,14 @@
         "macon-county-il-so": "http_404"
       }
     },
+    "9aac4b7a-dc00-5032-91ef-cce788e4f02e": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-18T14:46:47.249673+00:00",
+      "tried": {
+        "sandy-springs-ga-pd": "http_404"
+      }
+    },
     "9ac8088b-6a6c-550e-92ef-6b9e90470c4c": {
       "exhausted": false,
       "found": null,
@@ -3431,6 +3441,6 @@
       }
     }
   },
-  "updated": "2026-05-18T10:50:36.435387+00:00",
+  "updated": "2026-05-18T14:46:59.575893+00:00",
   "version": 1
 }
