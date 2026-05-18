@@ -459,7 +459,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-18T14:46:59.539029+00:00",
+      "last_probed": "2026-05-18T22:42:06.578641+00:00",
       "tried": {
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
@@ -467,6 +467,7 @@
         "-national-city-ca-police": "http_404",
         "-national-city-ca-police-department": "http_404",
         "-national-city-ca-ps": "http_404",
+        "-national-city-pd": "http_404",
         "-national-city-pd-ca": "http_404",
         "-national-city-po-ca": "http_404",
         "-national-city-police-ca": "http_404",
@@ -645,6 +646,14 @@
       "last_probed": "2026-05-16T07:34:21.483067+00:00",
       "tried": {
         "upper-arlington-oh-pd": "http_404"
+      }
+    },
+    "2e15b18e-5627-5e8c-80dc-bb1fcf37019a": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-18T22:42:01.942792+00:00",
+      "tried": {
+        "allegan-county-mi-so": "http_404"
       }
     },
     "2e1e1b36-7a6b-5c97-8143-65347503186c": {
@@ -3362,9 +3371,10 @@
     "f4073ba9-2a85-50ab-82d6-1800ff5491c6": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T12:32:34.365857+00:00",
+      "last_probed": "2026-05-18T22:41:57.188591+00:00",
       "tried": {
-        "burlingame-ca-po": "http_404"
+        "burlingame-ca-po": "http_404",
+        "burlingame-ca-police-department": "http_404"
       }
     },
     "f4a21139-b8d6-5bed-959f-5a847ba09031": {
@@ -3492,6 +3502,6 @@
       }
     }
   },
-  "updated": "2026-05-18T20:58:28.188889+00:00",
+  "updated": "2026-05-18T22:42:06.612399+00:00",
   "version": 1
 }
