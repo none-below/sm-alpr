@@ -993,9 +993,10 @@
     "45a6d0c1-2c14-550f-be3e-1bc889655737": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-16T16:39:46.573736+00:00",
+      "last_probed": "2026-05-18T10:50:31.415804+00:00",
       "tried": {
-        "oh-township-of-perry-oh-pd": "http_404"
+        "oh-township-of-perry-oh-pd": "http_404",
+        "oh-township-of-perry-oh-po": "http_404"
       }
     },
     "46022a7f-7efe-5f30-9695-ef9a6c9f2093": {
@@ -1506,12 +1507,13 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-18T01:51:51.001594+00:00",
+      "last_probed": "2026-05-18T10:50:36.408618+00:00",
       "tried": {
         "-beverly-hills-ca-pd": "http_404",
         "-beverly-hills-ca-po": "http_404",
         "-beverly-hills-ca-police": "http_403",
         "-beverly-hills-ca-police-department": "http_404",
+        "-beverly-hills-ca-ps": "http_404",
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
@@ -2371,6 +2373,14 @@
       "tried": {
         "cerritos-college-ca-police": "http_404",
         "cerritos-college-ca-ps": "http_404"
+      }
+    },
+    "a82335de-36ec-5caf-ad06-e2de4c69c471": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-18T10:50:27.137410+00:00",
+      "tried": {
+        "apopka-fl-pd": "http_404"
       }
     },
     "aa1aa6e8-1827-5686-a60c-de76fb77aa78": {
@@ -3421,6 +3431,6 @@
       }
     }
   },
-  "updated": "2026-05-18T06:40:57.403047+00:00",
+  "updated": "2026-05-18T10:50:36.435387+00:00",
   "version": 1
 }
