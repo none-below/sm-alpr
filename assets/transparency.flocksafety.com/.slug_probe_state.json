@@ -841,6 +841,14 @@
         "clio-mi-pd": "http_404"
       }
     },
+    "3f3ff099-4cf8-54c9-94c2-48633a083e10": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-18T01:51:40.073803+00:00",
+      "tried": {
+        "detroit-mi-pd": "http_404"
+      }
+    },
     "3fa6fc23-7bf6-5590-9865-6ef5de35d80f": {
       "exhausted": false,
       "found": null,
@@ -1489,10 +1497,11 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-17T23:43:29.555537+00:00",
+      "last_probed": "2026-05-18T01:51:51.001594+00:00",
       "tried": {
         "-beverly-hills-ca-pd": "http_404",
         "-beverly-hills-ca-po": "http_404",
+        "-beverly-hills-ca-police": "http_403",
         "-beverly-hills-ca-police-department": "http_404",
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
@@ -2726,6 +2735,14 @@
         "sardis-city-al-pd": "http_404"
       }
     },
+    "c8c14234-8395-53c7-984b-a7d4d89ffec7": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-18T01:51:46.044205+00:00",
+      "tried": {
+        "carbondale-il-pd": "http_404"
+      }
+    },
     "c8e385fa-d90a-5177-96c6-08b5e466f419": {
       "exhausted": false,
       "found": null,
@@ -3387,6 +3404,6 @@
       }
     }
   },
-  "updated": "2026-05-17T23:43:29.606718+00:00",
+  "updated": "2026-05-18T01:51:51.035091+00:00",
   "version": 1
 }
