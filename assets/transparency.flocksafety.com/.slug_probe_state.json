@@ -475,7 +475,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-19T18:28:55.292730+00:00",
+      "last_probed": "2026-05-19T22:01:30.045984+00:00",
       "tried": {
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
@@ -485,6 +485,7 @@
         "-national-city-ca-ps": "http_404",
         "-national-city-pd": "http_404",
         "-national-city-pd-ca": "http_404",
+        "-national-city-pdca": "http_404",
         "-national-city-po": "http_404",
         "-national-city-po-ca": "http_404",
         "-national-city-police": "http_404",
@@ -1375,6 +1376,14 @@
       "last_probed": "2026-04-26T17:26:31.161009+00:00",
       "tried": {
         "newark-ca-po": "http_404"
+      }
+    },
+    "5ab02ae5-2db0-5c6d-936b-16a04a7e4227": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-19T22:01:24.382281+00:00",
+      "tried": {
+        "il-henry-il-pd": "http_404"
       }
     },
     "5ad3f8c8-d343-5b7d-85e4-b63f7ccc68c6": {
@@ -3301,6 +3310,14 @@
         "mount-carmel-il-pd": "http_404"
       }
     },
+    "e89617a4-37f0-5169-be5c-cdbd019f1301": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-19T22:01:19.119511+00:00",
+      "tried": {
+        "south-hutchinson-ks-pd": "http_404"
+      }
+    },
     "e8f061c3-1d6f-57eb-bc3a-88c150458681": {
       "exhausted": false,
       "found": null,
@@ -3621,6 +3638,6 @@
       }
     }
   },
-  "updated": "2026-05-19T20:24:11.965993+00:00",
+  "updated": "2026-05-19T22:01:30.070829+00:00",
   "version": 1
 }
