@@ -1,0 +1,174 @@
+--- page 1 ---
+W012742-051426 - California Public Records Request
+Message History (2)
+On 5/14/2026 9:46:23 PM, San Mateo Public Records Center wrote:
+Thank you for your interest in public records of the City of San Mateo.  Your request was received by the City 
+of San Mateo on 5/14/2026 and given the reference number W012742-051426 for tracking purposes.
+Record(s) Requested: Pursuant to the California Public Records Act (Gov. Code § 7920.000 et seq.), I 
+request the following records from the San Mateo Police Department.
+This request seeks existing records only (Gov. Code § 7922.530; Sierra Club v. Superior Court (2013) 57 
+Cal.4th 157).
+Context
+As you are aware, on 2026-04-28 SMPD produced a Flock platform event log under W012570-041926 
+("SMPD4.20.2026_EVENTLOG") containing two events involving "Receiving Organization: University 
+of the Pacific (CA)":
+- Event ID 7ede5f4e-4f97-56dc-9357-4b92d3904374 — 2026-02-12 04:51:19.301Z — create networkShare 
+— Permissions: feedView — User: Phoenix O'Rourke
+- Event ID 5469f801-e05e-5c39-ace6-0ce9abf1106a — 2026-02-28 04:09:40.789Z — delete networkShare 
+— Permissions: Search, VMS, Hotlist — User: Steve Casazza
+The permission scopes on the two events differ: the create event memorialized feedView only; the delete 
+event memorialized Search, VMS, Hotlist. On the face of the log, there is no event memorializing how 
+Search, VMS, Hotlist permissions came to be associated with that share between 2026-02-12 and 2026-
+02-28.
+PRA W012664-050426 (filed 2026-05-04) sought records resolving that gap. Each item in W012664 was 
+scoped beyond the W012570 production: Item 2 expressly sought "any further events of any type (create, 
+update, modify, permission change, delete, or otherwise) for that same entity and period" beyond the 
+Page 1
+
+--- page 2 ---
+two events W012570 had produced; the W012664 context paragraph noted that "any modification events 
+would also be responsive to PRA W012570-041926" — meaning if such records exist, they should have 
+been produced under W012570 but were not, and the W012664 search was being asked to locate them.
+On 2026-05-14, SMPD closed W012664 with the response "Responsive documents were previously 
+provided to you under PRA #W012570-041926" for Items 1, 2, and 3, and produced two new 
+attachments: UOP_Termination.png (a screenshot of the same 2026-02-28 delete event already in the 
+W012570 EVENTLOG) and Role_Permissions_Overview.pdf (a Flock help-center article on intra-
+organization user-role permissions).
+SMPD's W012664 response treats the two events previously produced under W012570 as themselves 
+responsive to a request that was explicitly scoped beyond those two events. That position does not 
+address (a) the absence in the W012570 EVENTLOG of any event memorializing the permission 
+expansion from feedView to Search, VMS, Hotlist; (b) the current state of any SMPD-UOP 
+networkShare relationship as of the date of production; or (c) which of the three readings the W012664 
+Item 3 letter posed — (i) the 2/12 share was terminated without an event-log entry, (ii) the 2/12 share 
+remains active, or (iii) the 2/12 create and 2/28 delete refer to the same share whose permissions were 
+modified between those dates — describes what happened.
+Separately, Role_Permissions_Overview.pdf is not responsive to W012664 Item 4. That document 
+describes the permissions a Flock Admin can grant to users within a single organization's own Flock 
+account — e.g., which users in SMPD's account may execute Search queries, manage Hot Lists, view 
+FlockOS, etc. W012664 Item 4 asked for documentation of the cross-organization networkShare 
+permission types — feedView, Search, VMS, Hotlist as they appear in the EVENTLOG entries 
+memorializing SMPD's network share with UOP — and specifically "what data access, query capability, 
+or live-feed visibility each grants to a receiving organization." The networkShare permission types are 
+vendor-side cross-organization sharing semantics; the user-role permissions described in the produced 
+document are vendor-side intra-organization access controls. They are different vendor concepts and the 
+produced document does not describe the former.
+Cross-references. W012570-041926 (closed 2026-04-28; produced the original event log), W012664-
+050426 (closed 2026-05-14; this follow-up). Distinct from W012674-050426, which concerns Policy 
+463.8(b) authorization records for the 2026-02-12 create event itself.
+Records requested — covering the period from 2026-02-12 through the date of production, except where 
+otherwise noted:
+1. Event-log entries between the two known UOP events. All Flock platform event-log entries — of any 
+event type — referencing University of the Pacific (CA) as a receiving organization, sharing partner, 
+network-share entity, or otherwise associated entity, between 2026-02-12 04:51:19 UTC and 2026-02-28 
+04:09:40 UTC (the timestamps of the two events produced under W012570). For the avoidance of doubt: 
+records previously produced under W012570-041926 — specifically, Event ID 7ede5f4e-4f97-56dc-9357-
+4b92d3904374 and Event ID 5469f801-e05e-5c39-ace6-0ce9abf1106a — are not responsive to this item. 
+This item seeks records that have not been previously produced. If no responsive records exist within 
+that time window, please affirm that the Flock platform event log was searched for that window and 
+contains no event-log entries referencing UOP other than the two endpoints.
+Page 2
+
+--- page 3 ---
+2. Permission-modification records for the 2026-02-12 networkShare. Records reflecting how Search, 
+VMS, or Hotlist permissions came to be associated with the SMPD-UOP networkShare entity that 
+existed on or before 2026-02-28 — including (a) any Flock platform event-log entry memorializing the 
+addition or modification of permissions on that share; (b) any administrator action record (within the 
+platform Admin interface or otherwise) reflecting a permission change to that share; (c) any internal 
+SMPD communication concerning the permission change (email, Teams or chat message, ticket, work 
+order); and (d) any communication with Flock Safety or NCRIC concerning the permission change. If no 
+responsive records exist, please affirm whether the Department's position is that (i) the 
+Search/VMS/Hotlist permissions were added without an event-log entry being generated by the 
+platform; (ii) the 2026-02-12 create event and 2026-02-28 delete event refer to two separate 
+networkShare entities; or (iii) another explanation describes the discrepancy.
+3. Current-state records for any SMPD-UOP networkShare on the Flock platform. Records reflecting 
+the current state, as of the date of production, of any networkShare, network sharing entitlement, or 
+equivalent data-sharing relationship between SMPD and University of the Pacific (CA) on the Flock 
+Safety platform. For the avoidance of doubt: records previously produced under W012570-041926 are 
+not responsive to this item — those records reflect the state of the event log as exported on 2026-04-20, 
+not the current state as of the date of production. Responsive records include (a) a current screenshot or 
+export of the SMPD network-shares administrative page or equivalent list showing all current sharing 
+partners; (b) a current platform query result showing whether any networkShare with UOP exists; or (c) 
+a screenshot or export sufficient to confirm that no networkShare with UOP currently exists.
+4. Communications with Flock Safety or NCRIC specifically concerning the UOP networkShare 
+permission discrepancy. Records of any communication between SMPD and Flock Safety, or between 
+SMPD and NCRIC, specifically addressing (a) the permission-scope discrepancy between Event ID 
+7ede5f4e-4f97-56dc-9357-4b92d3904374 (2026-02-12, feedView) and Event ID 5469f801-e05e-5c39-ace6-
+0ce9abf1106a (2026-02-28, Search/VMS/Hotlist) on the SMPD-UOP networkShare; or (b) a request to 
+Flock Safety or NCRIC to explain how Search, VMS, or Hotlist permissions came to appear on the 2026-
+02-28 delete event when only feedView was recorded at the 2026-02-12 create event.
+Note on search scope: this item seeks a specific, directed communication — a support request, 
+engineering inquiry, or equivalent — referencing the UOP networkShare or the event IDs identified 
+above. It does not require a search of the full @flocksafety.com or @mail.flocksafety.com email corpus. 
+Camera-sharing notifications, marketing emails, product updates, account management messages, and 
+other routine vendor correspondence are not responsive and need not be reviewed. If SMPD never sent 
+or received a communication specifically addressing this discrepancy, "no responsive records" is a 
+complete and accurate answer to this item — no rolling production is required.
+5. Documentation of platform event-logging behavior for permission modifications. Vendor 
+documentation in SMPD's possession describing whether and how the Flock platform records 
+permission modifications to an existing networkShare in the platform event log — including (a) what 
+event type is generated when permissions are added to or removed from an existing share; (b) whether 
+such modifications generate any event-log entry at all; and (c) the data fields associated with such an 
+event.
+Page 3
+
+--- page 4 ---
+6. Vendor documentation of the cross-organization networkShare permission types. Vendor 
+documentation in SMPD's possession describing what the feedView, Search, VMS, and Hotlist 
+permission types — as those terms appear in networkShare event-log entries memorializing data sharing 
+between SMPD and a receiving organization (here, University of the Pacific) — grant to a receiving 
+organization. Responsive documentation describes the data access, query capability, live-feed visibility, 
+alerting capability, or other functionality the receiving organization obtains when SMPD's networkShare
+to that organization carries each named permission. For the avoidance of doubt: 
+Role_Permissions_Overview.pdf (produced under W012664-050426) describes intra-organization user 
+roles within a single agency's own Flock account and is not responsive to this item. This item seeks 
+vendor documentation of cross-organization networkShare semantics: what a feedView share, a Search 
+share, a VMS share, or a Hotlist share to another organization actually enables that other organization 
+to do with SMPD-originated data. Responsive sources include Flock help-center articles, administrator 
+guides, networkShare configuration documentation, sharing-tab interface documentation, or any 
+equivalent vendor reference materials in SMPD's possession addressing the cross-organization sharing 
+model.
+Anticipated exemption issues
+- Civil Code § 1798.90.55(b). The records requested describe sharing-configuration metadata — share 
+identifiers, permission scopes, lifecycle events, vendor documentation, current-state confirmations, and 
+internal/vendor communications — not "ALPR information" as defined in § 1798.90.5(c). SMPD's 
+productions under W012570-041926 and W012664-050426 (UOP_Termination.png) included 
+configuration metadata of this exact type.
+- Gov. Code § 7923.600 (investigation records). The records concern administrative configuration and 
+operational lifecycle of a data-sharing platform, not files compiled for any particular SMPD 
+investigation, and contain no plate data or investigative content.
+- Records held by Flock Safety. Per the scope-of-records argument previously accepted in W012570-
+041926 and W012664-050426, share-lifecycle records and current-state records held within Flock on 
+SMPD's behalf are SMPD records under Gov. Code § 7920.530 and City of San Jose v. Superior Court 
+(2017) 2 Cal.5th 608.
+- "Previously produced" as a basis for non-response. A response that responsive records were previously 
+produced under another PRA is not, on its own, a complete answer where the present request was scoped
+beyond that prior production. The W012664 filing explicitly distinguished "further events" from the two 
+events produced under W012570. To the extent any item of this request is answered with reference to a 
+prior production, please identify the specific previously-produced record or records that the Department 
+considers responsive to that item, and confirm that no further responsive records exist beyond those.
+- Segregability (Gov. Code § 7922.525(b)). Gov. Code § 7922.525(b) requires production of any 
+reasonably segregable portion of a record after deletion of exempt portions. Items 1 through 6 are 
+administrative configuration data, vendor communications, and platform-behavior documentation 
+containing no investigative content; if any individual record contains both responsive and exempt 
+content, the non-exempt portions are subject to that requirement.
+Page 4
+
+--- page 5 ---
+- Existing records only / no obligation to create new records (Gov. Code § 7922.530). This request seeks 
+existing records only. If no responsive record exists for any item, that itself is a responsive answer; please 
+affirm the search performed.
+If any portion is denied, please:
+1. provide specific exemption citations per Gov. Code § 7922.540;
+2. identify the withheld record type and volume;
+3. indicate whether the denial rests on a claim that the records are held by Flock Safety, NCRIC, or any 
+other party rather than SMPD; and
+4. if any item is answered by reference to a prior production, identify the specific previously-produced 
+record and confirm no further responsive records exist beyond it.
+Thank you.
+The request is being forwarded to appropriate department(s) for processing.
+Monitor request progress at the link below.  The City will email you when the request is complete.  Thank you 
+for using the San Mateo Records Center.
+To monitor the progress or update this request please log into the San Mateo Records Center.
+On 5/14/2026 9:45:22 PM, Brian C wrote:
+Request Created on Public Portal
+Page 5
