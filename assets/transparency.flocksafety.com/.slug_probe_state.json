@@ -232,6 +232,14 @@
         "northport-al-pd": "http_404"
       }
     },
+    "0eef94a0-897c-5598-902b-a289e5f23e28": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-19T12:31:16.262687+00:00",
+      "tried": {
+        "kingsburg-ca-po": "http_404"
+      }
+    },
     "10a2a498-db9d-56c0-a06d-8f3a667b6632": {
       "exhausted": false,
       "found": null,
@@ -1569,7 +1577,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-18T20:58:28.149252+00:00",
+      "last_probed": "2026-05-19T12:31:26.637473+00:00",
       "tried": {
         "-beverly-hills-ca": "http_404",
         "-beverly-hills-ca-pd": "http_404",
@@ -1579,6 +1587,7 @@
         "-beverly-hills-ca-ps": "http_404",
         "-beverly-hills-pd-ca": "http_404",
         "-beverly-hills-po-ca": "http_404",
+        "-beverly-hills-police-department-ca": "http_404",
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
@@ -2564,9 +2573,10 @@
     "aef796df-c710-5d4c-be05-84d78ebb8148": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-13T21:12:09.090247+00:00",
+      "last_probed": "2026-05-19T12:31:21.274591+00:00",
       "tried": {
-        "greenfield-oh-pd": "http_404"
+        "greenfield-oh-pd": "http_404",
+        "greenfield-oh-po": "http_404"
       }
     },
     "af9ca9ad-22f2-5472-bbdd-f195383212bf": {
@@ -3553,6 +3563,6 @@
       }
     }
   },
-  "updated": "2026-05-19T08:49:17.983040+00:00",
+  "updated": "2026-05-19T12:31:26.675004+00:00",
   "version": 1
 }
