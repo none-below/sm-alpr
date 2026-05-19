@@ -475,7 +475,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-19T08:49:17.950465+00:00",
+      "last_probed": "2026-05-19T18:28:55.292730+00:00",
       "tried": {
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
@@ -491,6 +491,7 @@
         "-national-city-police-ca": "http_404",
         "-national-city-police-department": "http_404",
         "-national-city-police-department-ca": "http_404",
+        "-national-city-ps": "http_404",
         "-national-city-ps-ca": "http_404",
         "national-city": "http_404",
         "national-city-ca": "http_404",
@@ -1299,6 +1300,14 @@
         "cal-state-san-bernadino-ca-po": "http_404",
         "cal-state-san-bernadino-ca-police": "http_404",
         "cal-state-san-bernadino-ca-police-department": "http_404"
+      }
+    },
+    "5899a1c4-a059-557f-9571-c7cc9bd4cd80": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-19T18:28:44.864536+00:00",
+      "tried": {
+        "tx-irion-county-tx-so": "http_404"
       }
     },
     "59158344-4894-55be-bc8a-de15bcb986f0": {
@@ -3133,6 +3142,14 @@
         "brunswick-county-va-so": "http_404"
       }
     },
+    "dcf451eb-a2f0-5b00-b77e-34275821760b": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-19T18:28:49.001862+00:00",
+      "tried": {
+        "orange-village-oh-pd": "http_404"
+      }
+    },
     "dddefaf4-84f7-5857-8011-45b6eda02991": {
       "exhausted": false,
       "found": null,
@@ -3587,6 +3604,6 @@
       }
     }
   },
-  "updated": "2026-05-19T16:04:19.747121+00:00",
+  "updated": "2026-05-19T18:28:55.329973+00:00",
   "version": 1
 }
