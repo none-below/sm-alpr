@@ -459,7 +459,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-18T23:49:06.409343+00:00",
+      "last_probed": "2026-05-19T04:48:13.099891+00:00",
       "tried": {
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
@@ -472,6 +472,7 @@
         "-national-city-po": "http_404",
         "-national-city-po-ca": "http_404",
         "-national-city-police-ca": "http_404",
+        "-national-city-police-department": "http_404",
         "-national-city-police-department-ca": "http_404",
         "-national-city-ps-ca": "http_404",
         "national-city": "http_404",
@@ -1151,6 +1152,14 @@
       "last_probed": "2026-05-05T01:21:17.699496+00:00",
       "tried": {
         "corcoran-ca-po": "http_404"
+      }
+    },
+    "4ec54275-baff-59d8-8b65-ab55b6ab864b": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-19T04:48:04.327935+00:00",
+      "tried": {
+        "saline-county-ks-so": "http_404"
       }
     },
     "506efefe-608f-5fbb-896c-c7747df5287f": {
@@ -2785,6 +2794,14 @@
         "carroll-county-oh-so": "http_404"
       }
     },
+    "c1625890-7b55-5d37-961a-46e7ad450077": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-19T04:48:08.374426+00:00",
+      "tried": {
+        "in-noble-county-prosecutors-in-pd": "http_404"
+      }
+    },
     "c1f2ba28-1be3-5b7d-9461-41977548dc15": {
       "exhausted": false,
       "found": null,
@@ -3519,6 +3536,6 @@
       }
     }
   },
-  "updated": "2026-05-18T23:49:06.474475+00:00",
+  "updated": "2026-05-19T04:48:13.132323+00:00",
   "version": 1
 }
