@@ -165,6 +165,7 @@
     html += renderTransparencyChecklist(report, meta);
     html += renderPortalLanguageNotes(report);
     html += renderSharing(report);
+    html += renderReciprocity(report);
     html += renderRegional(report, meta);
     html += renderArticles(report, articlesData, slug);
     html += renderLegalSummary(report, meta);
@@ -1876,6 +1877,128 @@
       const label = FLAG_LABELS[refined] || refined.toUpperCase();
       html += ` <span class="flag-tag kind-${escapeHtml(refined)}">${escapeHtml(label)}</span>`;
     }
+    return html;
+  }
+
+  // ── Sharing reciprocity ──
+  //
+  // For every agency B with any known sharing edge to/from this agency
+  // (A), classify the relationship as reciprocal, one-way inbound
+  // (B→A only), or one-way outbound (A→B only). The chart pulls two
+  // rhetorical points to the surface:
+  //   1. "Some of these agencies share to us without us sharing back" —
+  //      counters the "we share to receive" argument.
+  //   2. "Some agencies we share to don't share back to us" — undercuts
+  //      the framing that broad outbound sharing is necessary.
+  // Empty-vs-unpublished matters: a recipient with no published outbound
+  // list isn't "confirmed non-reciprocal", just unverifiable. Those are
+  // shown as a hatched segment + separate caption.
+  function renderReciprocity(report) {
+    const r = report.reciprocity;
+    if (!r) return "";
+    const counts = r.counts || {};
+    const examples = r.examples || {};
+    const recip = counts.reciprocal || 0;
+    const inOnly = counts.one_way_in || 0;
+    const outOnly = counts.one_way_out || 0;
+    const unvOut = counts.unverifiable_out || 0;
+    const unvIn = counts.unverifiable_in || 0;
+    const total = recip + inOnly + outOnly + unvOut + unvIn;
+    if (total === 0) return "";
+
+    let html = `<h2>Sharing Reciprocity</h2>`;
+    html += `<p>Across <strong>${total}</strong> ${total === 1 ? "agency" : "agencies"} with a known sharing edge to or from ${escapeHtml(report.name)}:</p>`;
+
+    // If A hasn't published an outbound list, the whole "do we share
+    // back?" question can't be answered — explain the gap and stop.
+    if (!r.subject_outbound_published && unvIn > 0) {
+      html += `<div class="recip-callout">`;
+      html += `<strong>${escapeHtml(report.name)} has not published an outbound sharing list.</strong> `;
+      html += `${unvIn} ${unvIn === 1 ? "agency publishes" : "agencies publish"} an outbound list that names this agency as a recipient — but whether ${escapeHtml(report.name)} shares back can't be confirmed from public data.`;
+      html += `</div>`;
+      // Still list the senders so readers can see who's sending data here.
+      const ex = examples.unverifiable_in || [];
+      if (ex.length) {
+        html += `<div class="recip-details">`;
+        html += `<details open><summary>Agencies that share to ${escapeHtml(report.name)} (from their published outbound lists)</summary>`;
+        html += recipList(ex, unvIn);
+        html += `</details></div>`;
+      }
+      return html;
+    }
+
+    // Build the stacked bar. Outbound bucket combines confirmed +
+    // unverifiable so the total width matches A's actual outbound
+    // count; the unverifiable portion is hatched.
+    const outTotal = outOnly + unvOut;
+    function segPct(n) { return total ? (100.0 * n / total) : 0; }
+    html += `<div class="recip-bar" role="img" aria-label="Reciprocity breakdown">`;
+    if (recip > 0) {
+      html += `<div class="seg recip-recip" style="flex:${recip}" title="${recip} reciprocal">${recip}</div>`;
+    }
+    if (inOnly > 0) {
+      html += `<div class="seg recip-in" style="flex:${inOnly}" title="${inOnly} one-way inbound">${inOnly}</div>`;
+    }
+    if (outOnly > 0) {
+      html += `<div class="seg recip-out" style="flex:${outOnly}" title="${outOnly} one-way outbound (confirmed)">${outOnly}</div>`;
+    }
+    if (unvOut > 0) {
+      html += `<div class="seg recip-unv" style="flex:${unvOut}" title="${unvOut} outbound recipients haven't published a sharing list">${unvOut}</div>`;
+    }
+    html += `</div>`;
+
+    // Legend
+    html += `<div class="recip-legend">`;
+    html += `<div class="item"><span class="swatch recip-recip"></span><div><strong>Reciprocal (${recip}).</strong> Both agencies share to each other.</div></div>`;
+    html += `<div class="item"><span class="swatch recip-in"></span><div><strong>One-way (inbound): ${inOnly}.</strong> They share to ${escapeHtml(report.name)}; ${escapeHtml(report.name)} does not share back.</div></div>`;
+    html += `<div class="item"><span class="swatch recip-out"></span><div><strong>One-way (outbound): ${outOnly}.</strong> ${escapeHtml(report.name)} shares to them; their published outbound list does not include ${escapeHtml(report.name)}.</div></div>`;
+    if (unvOut > 0) {
+      html += `<div class="item"><span class="swatch recip-unv"></span><div><strong>Unverifiable (${unvOut}).</strong> ${escapeHtml(report.name)} shares to them, but they haven't published an outbound list — reciprocity can't be confirmed.</div></div>`;
+    }
+    html += `</div>`;
+
+    // Per-bucket detail lists
+    html += `<div class="recip-details">`;
+    if (inOnly > 0) {
+      html += `<details open><summary>One-way inbound: ${inOnly} ${inOnly === 1 ? "agency shares" : "agencies share"} to ${escapeHtml(report.name)} without ${escapeHtml(report.name)} sharing back</summary>`;
+      html += recipList(examples.one_way_in || [], inOnly);
+      html += `</details>`;
+    }
+    if (outOnly > 0) {
+      html += `<details><summary>One-way outbound: ${outOnly} ${outOnly === 1 ? "agency receives" : "agencies receive"} data from ${escapeHtml(report.name)} without their published outbound list naming ${escapeHtml(report.name)}</summary>`;
+      html += recipList(examples.one_way_out || [], outOnly);
+      html += `</details>`;
+    }
+    if (unvOut > 0) {
+      html += `<details><summary>Unverifiable: ${unvOut} outbound ${unvOut === 1 ? "recipient hasn't" : "recipients haven't"} published a sharing list</summary>`;
+      html += recipList(examples.unverifiable_out || [], unvOut);
+      html += `</details>`;
+    }
+    html += `</div>`;
+    return html;
+  }
+
+  function recipList(items, total) {
+    if (!items.length) return "";
+    let html = "<ul>";
+    items.forEach(function(b) {
+      const linkable = b.crawled && b.slug;
+      const name = linkable
+        ? `<a href="?agency=${escapeHtml(b.slug)}">${escapeHtml(b.name)}</a>`
+        : escapeHtml(b.name);
+      let line = name;
+      if (b.state && b.state !== "CA") line += ` <span class="muted">(${escapeHtml(b.state)})</span>`;
+      if (b.kind) {
+        const refined = refineKind(b.kind, b.name);
+        const label = FLAG_LABELS[refined] || refined.toUpperCase();
+        line += ` <span class="flag-tag kind-${escapeHtml(refined)}">${escapeHtml(label)}</span>`;
+      }
+      html += `<li>${line}</li>`;
+    });
+    if (total > items.length) {
+      html += `<li class="muted">&hellip; and ${total - items.length} more.</li>`;
+    }
+    html += "</ul>";
     return html;
   }
 
