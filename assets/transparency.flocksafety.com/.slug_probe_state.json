@@ -2048,6 +2048,14 @@
         "washington-il-pd": "http_404"
       }
     },
+    "87e70d18-e3ad-5fac-82bd-d52024031791": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-20T06:36:30.759053+00:00",
+      "tried": {
+        "moscow-mills-mo-pd": "http_404"
+      }
+    },
     "881f7094-ba0f-5499-a32c-28057122076b": {
       "exhausted": false,
       "found": null,
@@ -2944,6 +2952,14 @@
         "blacksburg-sc-pd": "http_404"
       }
     },
+    "c67c6899-283e-5420-a550-bde165680c3c": {
+      "exhausted": false,
+      "found": "payson-az-pd",
+      "last_probed": "2026-05-20T06:36:20.952800+00:00",
+      "tried": {
+        "payson-az-pd": "http_200"
+      }
+    },
     "c6c48a20-ed9a-5bae-bca8-46d8f9823329": {
       "exhausted": false,
       "found": null,
@@ -3028,10 +3044,11 @@
     "ccff4f65-09ac-5ed3-b1ba-36f43bcce935": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-20T01:52:18.021090+00:00",
+      "last_probed": "2026-05-20T06:36:36.319412+00:00",
       "tried": {
         "rohnert-park-department-of-public-safety-ca-pd": "http_404",
         "rohnert-park-department-of-public-safety-ca-po": "http_404",
+        "rohnert-park-department-of-public-safety-ca-police": "http_404",
         "rohnert-park-department-of-public-safety-ca-police-department": "http_404"
       }
     },
@@ -3672,6 +3689,6 @@
       }
     }
   },
-  "updated": "2026-05-20T01:52:18.058644+00:00",
+  "updated": "2026-05-20T06:36:36.556606+00:00",
   "version": 1
 }
