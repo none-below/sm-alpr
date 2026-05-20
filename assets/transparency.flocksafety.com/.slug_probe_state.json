@@ -1644,7 +1644,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-20T10:04:59.221399+00:00",
+      "last_probed": "2026-05-20T21:26:44.995121+00:00",
       "tried": {
         "-beverly-hills-ca": "http_404",
         "-beverly-hills-ca-pd": "http_404",
@@ -1652,6 +1652,7 @@
         "-beverly-hills-ca-police": "http_403",
         "-beverly-hills-ca-police-department": "http_404",
         "-beverly-hills-ca-ps": "http_404",
+        "-beverly-hills-pd": "http_404",
         "-beverly-hills-pd-ca": "http_404",
         "-beverly-hills-po-ca": "http_404",
         "-beverly-hills-police-ca": "http_404",
@@ -1723,6 +1724,14 @@
         "santa-clara-ca-da": "http_404",
         "santa-clara-ca-district-attorney": "http_404",
         "santa-clara-district-attorney-ca": "http_404"
+      }
+    },
+    "6befca9a-079c-5bdf-b905-3498cfed9b0d": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-20T21:26:41.220590+00:00",
+      "tried": {
+        "mattawa-wa-pd": "http_404"
       }
     },
     "6c6a4a67-d553-5d33-a9df-69528565a863": {
@@ -2562,6 +2571,14 @@
         "hollister-ps": "http_404",
         "hollister-ps-ca": "http_404",
         "hollister-psca": "http_404"
+      }
+    },
+    "a3ab48c9-e55d-5d26-b801-1b3482289307": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-20T21:26:37.375296+00:00",
+      "tried": {
+        "cheney-wa-pd": "http_404"
       }
     },
     "a5b59684-abcc-5a43-949d-3aec089d30a4": {
@@ -3750,6 +3767,6 @@
       }
     }
   },
-  "updated": "2026-05-20T19:09:39.066922+00:00",
+  "updated": "2026-05-20T21:26:45.033711+00:00",
   "version": 1
 }
