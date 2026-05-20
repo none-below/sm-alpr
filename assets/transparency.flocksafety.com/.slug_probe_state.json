@@ -499,7 +499,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-20T19:09:39.031643+00:00",
+      "last_probed": "2026-05-20T23:01:03.613690+00:00",
       "tried": {
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
@@ -519,6 +519,7 @@
         "-national-city-police-department-ca": "http_404",
         "-national-city-ps": "http_404",
         "-national-city-ps-ca": "http_404",
+        "-national-city-psca": "http_404",
         "national-city": "http_404",
         "national-city-ca": "http_404",
         "national-city-ca-po": "http_404",
@@ -3667,6 +3668,14 @@
         "charlottesville-va-pd": "http_200"
       }
     },
+    "f652c7a2-33f8-571b-ba6c-2b7a8982ef98": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-20T23:00:41.348975+00:00",
+      "tried": {
+        "northeast-ohio-regional-fusion-center-oh": "http_404"
+      }
+    },
     "f82c7448-abbf-57f7-8f5e-14724f3246d8": {
       "exhausted": false,
       "found": "durango-co-pd",
@@ -3750,6 +3759,14 @@
         "sonoma-county-ca-sheriffs-office": "http_404"
       }
     },
+    "fe2ade2a-15d6-5074-8593-c2f5c8f2c590": {
+      "exhausted": false,
+      "found": "huffman-isd-tx-pd",
+      "last_probed": "2026-05-20T23:00:52.206224+00:00",
+      "tried": {
+        "huffman-isd-tx-pd": "http_200"
+      }
+    },
     "fe53eae4-f408-5c80-9a44-2605a361f775": {
       "exhausted": false,
       "found": null,
@@ -3767,6 +3784,6 @@
       }
     }
   },
-  "updated": "2026-05-20T21:26:45.033711+00:00",
+  "updated": "2026-05-20T23:01:03.667740+00:00",
   "version": 1
 }
