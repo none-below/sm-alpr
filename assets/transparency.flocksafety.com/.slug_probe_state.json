@@ -499,8 +499,9 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-20T23:01:03.613690+00:00",
+      "last_probed": "2026-05-21T01:49:02.423217+00:00",
       "tried": {
+        "-national-city": "http_404",
         "-national-city-ca": "http_404",
         "-national-city-ca-pd": "http_404",
         "-national-city-ca-po": "http_404",
@@ -3191,6 +3192,14 @@
         "watauga-county-nc-so": "http_404"
       }
     },
+    "d4b720f0-ff77-5d7b-b5b3-7d7ba1b8d224": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-21T01:48:51.481741+00:00",
+      "tried": {
+        "forest-county-wi-so": "http_404"
+      }
+    },
     "d542f966-5b6d-5af2-9487-b56dcceff9bc": {
       "exhausted": false,
       "found": null,
@@ -3247,6 +3256,14 @@
       "last_probed": "2026-04-26T04:47:39.114516+00:00",
       "tried": {
         "sutter-county-ca-sd": "http_404"
+      }
+    },
+    "daa4c38c-bab7-5c17-9b36-890b77ac6b31": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-21T01:48:56.322087+00:00",
+      "tried": {
+        "poynette-wi-pd": "http_404"
       }
     },
     "dadbdba9-eaa6-5314-984e-411c65bf7db6": {
@@ -3784,6 +3801,6 @@
       }
     }
   },
-  "updated": "2026-05-20T23:01:03.667740+00:00",
+  "updated": "2026-05-21T01:49:02.456368+00:00",
   "version": 1
 }
