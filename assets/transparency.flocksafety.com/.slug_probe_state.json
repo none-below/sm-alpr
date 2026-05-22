@@ -1706,7 +1706,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-20T21:26:44.995121+00:00",
+      "last_probed": "2026-05-22T13:17:03.676388+00:00",
       "tried": {
         "-beverly-hills-ca": "http_404",
         "-beverly-hills-ca-pd": "http_404",
@@ -1716,6 +1716,7 @@
         "-beverly-hills-ca-ps": "http_404",
         "-beverly-hills-pd": "http_404",
         "-beverly-hills-pd-ca": "http_404",
+        "-beverly-hills-po": "http_404",
         "-beverly-hills-po-ca": "http_404",
         "-beverly-hills-police-ca": "http_404",
         "-beverly-hills-police-department-ca": "http_404",
@@ -2040,6 +2041,14 @@
       "last_probed": "2026-04-26T16:25:29.990161+00:00",
       "tried": {
         "escalon-ca-po": "http_404"
+      }
+    },
+    "7e2a973a-4a1c-5caa-bd5f-09930d4290e7": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-22T13:16:58.828727+00:00",
+      "tried": {
+        "walters-state-community-college-tn-campus-tn-pd": "http_404"
       }
     },
     "7eb81cc8-f526-5959-9321-4f4ccb6c7b5c": {
@@ -3315,6 +3324,14 @@
         "avenal-ca-police-department": "http_404"
       }
     },
+    "d35579db-756c-50af-a759-ce01e7dcfe62": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-22T13:16:54.857676+00:00",
+      "tried": {
+        "chandler-in-pd": "http_404"
+      }
+    },
     "d3dd221e-0237-5364-9424-a999d527ffe4": {
       "exhausted": false,
       "found": null,
@@ -3964,6 +3981,6 @@
       }
     }
   },
-  "updated": "2026-05-22T10:02:05.293376+00:00",
+  "updated": "2026-05-22T13:17:03.706510+00:00",
   "version": 1
 }
