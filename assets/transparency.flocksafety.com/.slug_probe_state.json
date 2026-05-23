@@ -540,7 +540,7 @@
     "23febb79-0d19-5c75-b964-46a43c1cd423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-23T15:48:34.304883+00:00",
+      "last_probed": "2026-05-23T18:46:24.981456+00:00",
       "tried": {
         "-national-city": "http_404",
         "-national-city-ca": "http_404",
@@ -568,6 +568,7 @@
         "-nationalcity-ca-police": "http_404",
         "-nationalcity-ca-police-department": "http_404",
         "-nationalcity-ca-ps": "http_404",
+        "-nationalcity-pd-ca": "http_404",
         "national-city": "http_404",
         "national-city-ca": "http_404",
         "national-city-ca-po": "http_404",
@@ -3011,6 +3012,14 @@
         "penn-state-university-police-and-public-safety-pa-pd": "http_404"
       }
     },
+    "b491b526-42ce-5464-b5fe-35ec6822faaf": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-23T18:46:13.999342+00:00",
+      "tried": {
+        "wright-county-mn-so": "http_404"
+      }
+    },
     "b4c51567-ec08-5c7a-83d9-c4c12790edd6": {
       "exhausted": false,
       "found": "temple-university-campus-pa-pd",
@@ -3411,6 +3420,14 @@
       "last_probed": "2026-05-09T21:29:36.881117+00:00",
       "tried": {
         "thomaston-ga-pd": "http_404"
+      }
+    },
+    "ce9d3bda-5d8e-59bf-8dc7-479fe3cfb6bb": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-23T18:46:19.926291+00:00",
+      "tried": {
+        "cicero-in-pd": "http_404"
       }
     },
     "cf7f5397-306f-5187-910d-a0046f3e182b": {
@@ -4195,6 +4212,6 @@
       }
     }
   },
-  "updated": "2026-05-23T17:46:16.205021+00:00",
+  "updated": "2026-05-23T18:46:25.031010+00:00",
   "version": 1
 }
