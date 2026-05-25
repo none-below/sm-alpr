@@ -1268,9 +1268,10 @@
     "4e689ee7-da7f-5530-bef1-c987d872e792": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-25T06:58:04.401882+00:00",
+      "last_probed": "2026-05-25T19:08:48.028430+00:00",
       "tried": {
-        "oceanside-ca-po": "http_404"
+        "oceanside-ca-po": "http_404",
+        "oceanside-ca-police-department": "http_404"
       }
     },
     "4e876f28-fcca-5c87-9e65-f0730980ea1d": {
@@ -2173,6 +2174,14 @@
       "last_probed": "2026-05-13T22:50:09.794699+00:00",
       "tried": {
         "columbia-river-drug-task-force-wa-pd": "http_404"
+      }
+    },
+    "86c72fef-6a54-5780-a13d-734f681442c6": {
+      "exhausted": false,
+      "found": "wilton-ct-pd",
+      "last_probed": "2026-05-25T19:08:33.308570+00:00",
+      "tried": {
+        "wilton-ct-pd": "http_200"
       }
     },
     "86ca7071-b5d5-5bd1-a2b4-3965d8a15701": {
@@ -3852,6 +3861,14 @@
         "burlingame-ca-police-department": "http_404"
       }
     },
+    "f4086ba1-f122-5744-90ec-20e94ad5e356": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-25T19:08:43.412837+00:00",
+      "tried": {
+        "fulton-county-oh-so": "http_404"
+      }
+    },
     "f4913582-ef63-5178-b143-14b549e4e0d3": {
       "exhausted": false,
       "found": null,
@@ -4009,6 +4026,6 @@
       }
     }
   },
-  "updated": "2026-05-25T16:54:08.940329+00:00",
+  "updated": "2026-05-25T19:08:48.099546+00:00",
   "version": 1
 }
