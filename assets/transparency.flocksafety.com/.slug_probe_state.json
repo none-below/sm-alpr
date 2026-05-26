@@ -318,9 +318,10 @@
     "1360ff78-db4c-529a-b889-81746642325e": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T23:25:11.776062+00:00",
+      "last_probed": "2026-05-26T19:10:42.331001+00:00",
       "tried": {
         "kern-county-ca-sd": "http_404",
+        "kern-county-ca-sheriffs-department": "http_404",
         "kern-county-ca-sheriffs-office": "http_404"
       }
     },
@@ -1714,6 +1715,14 @@
         "fort-worth-tx-pd": "http_404"
       }
     },
+    "680fc3ac-d8e4-56f1-8538-678d32cd53dd": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-26T19:10:35.746342+00:00",
+      "tried": {
+        "dexter-mo-pd": "http_403"
+      }
+    },
     "68f11e4a-7a56-5692-a0a2-558de9117210": {
       "exhausted": false,
       "found": "eugene-or-pd",
@@ -2627,9 +2636,10 @@
     "9c1c5b61-7dec-5fce-a5ec-a3be9ed47c86": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-26T16:36:26.438999+00:00",
+      "last_probed": "2026-05-26T19:10:46.631938+00:00",
       "tried": {
         "alameda-county-ca-sd": "http_404",
+        "alameda-county-ca-sheriffs-department": "http_404",
         "alameda-county-ca-sheriffs-office": "http_404"
       }
     },
@@ -4142,6 +4152,6 @@
       }
     }
   },
-  "updated": "2026-05-26T16:36:26.470542+00:00",
+  "updated": "2026-05-26T19:10:46.671109+00:00",
   "version": 1
 }
