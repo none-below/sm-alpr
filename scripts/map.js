@@ -211,7 +211,7 @@ Promise.all([
     let label = escapeHtml(info.name || s);
     let tag = '';
     if (info.state && info.state !== 'CA')
-      tag += ' <span style="color:#dc2626;font-weight:bold" title="Out-of-state sharing may violate CA Civil Code \u00a71798.90.55(b)">[' + info.state + ' \u2014 out of state]</span>';
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Out-of-state sharing may violate CA Civil Code \u00a71798.90.55(b)">[' + escapeHtml(info.state) + ' \u2014 out of state]</span>';
     // Category tag — one per entity, picked by the most specific concern.
     // Each label names the actual concern rather than a blanket "violates SB 34"
     // claim, since the problem differs by category (access controls, custodian

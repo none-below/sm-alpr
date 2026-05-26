@@ -15,8 +15,8 @@ function renderCategory(cat) {
 
   var maxVal = cat.podium.length > 0 ? cat.podium[0].value : 1;
 
-  var html = '<div class="card-title">' + cat.title + '</div>' +
-    '<div class="card-subtitle">' + cat.subtitle + '</div>' +
+  var html = '<div class="card-title">' + escapeHtml(cat.title) + '</div>' +
+    '<div class="card-subtitle">' + escapeHtml(cat.subtitle) + '</div>' +
     '<div class="podium">';
 
   if (cat.podium.length === 0) {
@@ -28,7 +28,7 @@ function renderCategory(cat) {
       html += '<div class="podium-row rank-' + p.rank + '">' +
         '<div class="medal">' + (MEDALS[p.rank] || '') + '</div>' +
         '<div class="agency-info">' +
-          '<div class="agency-name" title="' + p.name + '"><a href="sharing_map.html#' + encodeURIComponent(p.slug) + '" target="_blank">' + p.name + '</a></div>' +
+          '<div class="agency-name" title="' + escapeHtml(p.name) + '"><a href="sharing_map.html#' + encodeURIComponent(p.slug) + '" target="_blank">' + escapeHtml(p.name) + '</a></div>' +
           '<div class="agency-value">' + formatValue(cat.id, p.value) + '</div>' +
           '<div class="value-bar-wrap"><div class="value-bar" style="width:' + pct + '%"></div></div>' +
         '</div>' +
@@ -57,12 +57,12 @@ function renderListCard(title, subtitle, list) {
   if (!list || list.length === 0) return null;
   var card = document.createElement('div');
   card.className = 'no-sharing-card';
-  var html = '<div class="card-title">' + title + '</div>'
-    + '<div class="card-subtitle">' + subtitle + '</div>'
+  var html = '<div class="card-title">' + escapeHtml(title) + '</div>'
+    + '<div class="card-subtitle">' + escapeHtml(subtitle) + '</div>'
     + '<ul class="no-sharing-list">';
   for (var i = 0; i < list.length; i++) {
     html += '<li><a href="sharing_map.html#' + encodeURIComponent(list[i].slug)
-      + '" target="_blank">' + list[i].name + '</a></li>';
+      + '" target="_blank">' + escapeHtml(list[i].name) + '</a></li>';
   }
   html += '</ul>';
   card.innerHTML = html;
