@@ -1,10 +1,6 @@
 // Feature flags
 const SHOW_SHARES_WITH_TAGS = false; // [SHARES WITH FLAGGED ENTITY] and [SHARES WITH SUED AGENCY]
 
-// Sanitization helpers
-function escapeHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
 const SLUG_RE = /^[a-z0-9][a-z0-9\-]*$/;
 function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
 

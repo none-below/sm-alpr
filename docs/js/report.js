@@ -106,15 +106,6 @@
   // Meeting banner data + helpers live in docs/js/meeting_banners.js
   // (loaded from report.html before this script).
 
-  function escapeHtml(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
   function fmtInt(n) {
     if (n == null) return '<span class="null">not reported</span>';
     return Number(n).toLocaleString();

@@ -9,23 +9,6 @@ var STATE = {
   markerLayer: null
 };
 
-function escapeHtml(s) {
-  if (s == null) return '';
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-function formatDate(iso) {
-  if (!iso) return '';
-  var d = new Date(iso);
-  if (isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString(undefined,
-    { year: 'numeric', month: 'short', day: 'numeric' });
-}
 
 function cycleFilter(tag) {
   var cur = STATE.filters[tag];
