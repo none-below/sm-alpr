@@ -34,11 +34,6 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
     "last_attempt": "2026-05-08T22:15:00Z"
   },
-  "https://madison.com/news/local/government-politics/article_69dc526f-e45c-582d-b4f0-b36d97716b53.html": {
-    "attempts": 2,
-    "error": "HTTP 429",
-    "last_attempt": "2026-05-13T20:15:03Z"
-  },
   "https://madison.com/news/local/verona-flock-renewal-vote": {
     "attempts": 2,
     "error": "HTTP 429",
@@ -54,20 +49,10 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 404",
     "last_attempt": "2026-05-14T07:53:17Z"
   },
-  "https://oaklandside.org/2023/08/17/oaklands-license-plate-readers-have-been-off-for-months-so-why-does-the-city-want-more/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-11T04:21:11Z"
-  },
   "https://oakpark.com/2025/08/05/oak-park-ends-flock-cameras": {
     "attempts": 2,
     "error": "HTTP 403",
     "last_attempt": "2026-05-09T06:31:43Z"
-  },
-  "https://richmondside.org/2026/03/18/richmond-flock-cameras-license-plate-readers-on/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-11T04:27:31Z"
   },
   "https://richmondstandard.com/community/2025/12/09/richmond-police-suspend-system-that-automatically-reads-license-plates/": {
     "attempts": 2,
@@ -85,9 +70,9 @@
     "last_attempt": "2026-05-14T18:09:40Z"
   },
   "https://richmondstandard.com/richmond/2019/04/10/license-plate-reader-technology-pitched-for-richmond-bart-parking-areas/": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
-    "last_attempt": "2026-05-11T22:20:46Z"
+    "last_attempt": "2026-05-26T08:48:26Z"
   },
   "https://richmondstandard.com/richmond/2023/11/08/richmond-to-exponentially-increase-number-of-public-safety-cameras-in-city/": {
     "attempts": 2,
@@ -165,14 +150,14 @@
     "last_attempt": "2026-05-11T23:24:57Z"
   },
   "https://www.kxan.com/news/local/austin/around-20-of-license-plate-reader-database-searches-did-not-have-case-numbers/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T23:11:04Z"
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-26T04:28:13Z"
   },
   "https://www.kxan.com/news/local/austin/austin-city-council-to-discuss-possible-license-plate-reader-reinstatement-this-spring/": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
-    "last_attempt": "2026-05-13T21:45:10Z"
+    "last_attempt": "2026-05-26T08:43:58Z"
   },
   "https://www.kxan.com/news/local/austin/license-plate-reader-company-used-by-apd-setting-the-record-straight-amid-privacy-concerns/": {
     "attempts": 2,
@@ -200,9 +185,9 @@
     "last_attempt": "2026-05-09T02:14:59Z"
   },
   "https://www.kxan.com/news/local/cameras-with-license-plate-readers-set-for-installation-around-pflugerville/": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
-    "last_attempt": "2026-05-13T23:18:34Z"
+    "last_attempt": "2026-05-26T16:55:11Z"
   },
   "https://www.kxan.com/news/local/here-are-the-central-texas-law-enforcement-agencies-with-flock-data-sharing-agreements-with-texas-dps/": {
     "attempts": 2,
@@ -220,9 +205,9 @@
     "last_attempt": "2026-05-20T12:02:29Z"
   },
   "https://www.news10.com/news/albany-county/colonie-group-meets-to-discuss-flock-cameras/": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
-    "last_attempt": "2026-05-19T10:07:00Z"
+    "last_attempt": "2026-05-26T08:42:28Z"
   },
   "https://www.news10.com/news/debate-over-flock-cameras-intensifies-over-proposed-flock-camera-restrictions/": {
     "attempts": 2,
@@ -244,25 +229,20 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-14T15:35:13Z"
   },
-  "https://www.news10.com/news/rensselaer-county/troy-officials-announce-policy-updates-enhancements-for-flock-cameras/": {
+  "https://www.news10.com/news/rensselaer-county/troy-city-property-vandalized-with-anti-flock-camera-graffiti/": {
     "attempts": 1,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
-    "last_attempt": "2026-05-20T11:57:48Z"
+    "last_attempt": "2026-05-26T04:22:02Z"
+  },
+  "https://www.news10.com/news/rensselaer-county/troy-officials-announce-policy-updates-enhancements-for-flock-cameras/": {
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-26T16:51:43Z"
   },
   "https://www.newsobserver.com/news/local/article-hillsborough-flock": {
     "attempts": 2,
     "error": "HTTP 404",
     "last_attempt": "2026-05-14T20:03:58Z"
-  },
-  "https://www.oakpark.com/2025/01/06/more-license-plate-reading-cameras-coming-to-river-forest/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-11T04:23:04Z"
-  },
-  "https://www.oakpark.com/2025/05/20/police-oversight-committee-seeks-more-data-on-flock-camera-use/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-11T00:08:44Z"
   },
   "https://www.opb.org/article/2025/11/24/lawmakers-question-legality-of-border-patrol-license-plate-reader-program/": {
     "attempts": 2,
@@ -285,9 +265,9 @@
     "last_attempt": "2026-05-15T04:14:46Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-is-set-to-install-surveillance-cameras/article_46d428d2-82c6-11ef-8623-e7927b765967.html": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "HTTP 429",
-    "last_attempt": "2026-05-11T23:24:04Z"
+    "last_attempt": "2026-05-26T16:56:50Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-plans-for-license-plate-readers/article_b85b3a78-0084-11ef-bbbe-cf16b9ce6b8c.html": {
     "attempts": 2,
@@ -335,8 +315,8 @@
     "last_attempt": "2026-05-09T06:30:07Z"
   },
   "https://www.wpri.com/news/local-news/east-bay/warren-rejects-proposal-to-install-flock-camera/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T06:33:23Z"
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-26T16:58:36Z"
   }
 }
