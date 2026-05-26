@@ -2364,9 +2364,10 @@
     "8d40ae56-8e48-570e-b485-f6c4a4464423": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-25T16:54:08.900321+00:00",
+      "last_probed": "2026-05-26T21:21:04.299406+00:00",
       "tried": {
-        "fontana-ca-po": "http_404"
+        "fontana-ca-po": "http_404",
+        "fontana-ca-police-department": "http_404"
       }
     },
     "8d7fd470-fecf-5788-921d-7f82bc634a71": {
@@ -2969,6 +2970,14 @@
         "lafayette-pd-in": "http_200"
       }
     },
+    "afb91a39-c8bf-553a-9253-3743c1217a58": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-26T21:21:00.046457+00:00",
+      "tried": {
+        "deactivated-demo-pd": "http_404"
+      }
+    },
     "afc27a65-11a4-5c6e-9c22-3d94e875a399": {
       "exhausted": false,
       "found": null,
@@ -3137,6 +3146,14 @@
       "last_probed": "2026-05-07T21:40:27.116284+00:00",
       "tried": {
         "markle-in-pd": "http_404"
+      }
+    },
+    "bc05c669-7bc4-557f-8639-322574d87d4d": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-26T21:20:55.412356+00:00",
+      "tried": {
+        "haralson-county-ga-so": "http_403"
       }
     },
     "bc17b741-df64-54cc-a3cc-62bd3fa08f65": {
@@ -4152,6 +4169,6 @@
       }
     }
   },
-  "updated": "2026-05-26T19:10:46.671109+00:00",
+  "updated": "2026-05-26T21:21:04.336937+00:00",
   "version": 1
 }
