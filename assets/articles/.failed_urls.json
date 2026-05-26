@@ -34,11 +34,6 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
     "last_attempt": "2026-05-08T22:15:00Z"
   },
-  "https://madison.com/news/local/government-politics/article_69dc526f-e45c-582d-b4f0-b36d97716b53.html": {
-    "attempts": 2,
-    "error": "HTTP 429",
-    "last_attempt": "2026-05-13T20:15:03Z"
-  },
   "https://madison.com/news/local/verona-flock-renewal-vote": {
     "attempts": 2,
     "error": "HTTP 429",
@@ -190,9 +185,9 @@
     "last_attempt": "2026-05-09T02:14:59Z"
   },
   "https://www.kxan.com/news/local/cameras-with-license-plate-readers-set-for-installation-around-pflugerville/": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
-    "last_attempt": "2026-05-13T23:18:34Z"
+    "last_attempt": "2026-05-26T16:55:11Z"
   },
   "https://www.kxan.com/news/local/here-are-the-central-texas-law-enforcement-agencies-with-flock-data-sharing-agreements-with-texas-dps/": {
     "attempts": 2,
@@ -240,19 +235,14 @@
     "last_attempt": "2026-05-26T04:22:02Z"
   },
   "https://www.news10.com/news/rensselaer-county/troy-officials-announce-policy-updates-enhancements-for-flock-cameras/": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
-    "last_attempt": "2026-05-20T11:57:48Z"
+    "last_attempt": "2026-05-26T16:51:43Z"
   },
   "https://www.newsobserver.com/news/local/article-hillsborough-flock": {
     "attempts": 2,
     "error": "HTTP 404",
     "last_attempt": "2026-05-14T20:03:58Z"
-  },
-  "https://www.oakpark.com/2025/01/06/more-license-plate-reading-cameras-coming-to-river-forest/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-11T04:23:04Z"
   },
   "https://www.opb.org/article/2025/11/24/lawmakers-question-legality-of-border-patrol-license-plate-reader-program/": {
     "attempts": 2,
@@ -275,9 +265,9 @@
     "last_attempt": "2026-05-15T04:14:46Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-is-set-to-install-surveillance-cameras/article_46d428d2-82c6-11ef-8623-e7927b765967.html": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "HTTP 429",
-    "last_attempt": "2026-05-11T23:24:04Z"
+    "last_attempt": "2026-05-26T16:56:50Z"
   },
   "https://www.smdailyjournal.com/news/local/half-moon-bay-plans-for-license-plate-readers/article_b85b3a78-0084-11ef-bbbe-cf16b9ce6b8c.html": {
     "attempts": 2,
@@ -325,8 +315,8 @@
     "last_attempt": "2026-05-09T06:30:07Z"
   },
   "https://www.wpri.com/news/local-news/east-bay/warren-rejects-proposal-to-install-flock-camera/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-09T06:33:23Z"
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-26T16:58:36Z"
   }
 }
