@@ -681,6 +681,16 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
         existing_tags.add(f"genre:{data['genre']}")
         entry["tags"] = sorted(existing_tags)
         entry["primary_subject_agency_ids"] = data["primary_subject_agency_ids"]
+        # LLM judgment on PSA trumps the Phase-1 fuzzy-score cutoff: if the
+        # model identifies a candidate as the article's subject, fold it into
+        # agencies[] so downstream lookups (and lint_articles.py's subset
+        # check) see it.
+        if data["primary_subject_agency_ids"]:
+            merged = list(entry.get("agencies") or [])
+            for psa in data["primary_subject_agency_ids"]:
+                if psa not in merged:
+                    merged.append(psa)
+            entry["agencies"] = merged
         entry["curation_status"] = "enriched"
         entry["curated_at"] = now_iso()
         entry.pop("curation_error", None)
