@@ -54,11 +54,6 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 404",
     "last_attempt": "2026-05-14T07:53:17Z"
   },
-  "https://oaklandside.org/2023/08/17/oaklands-license-plate-readers-have-been-off-for-months-so-why-does-the-city-want-more/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-11T04:21:11Z"
-  },
   "https://oakpark.com/2025/08/05/oak-park-ends-flock-cameras": {
     "attempts": 2,
     "error": "HTTP 403",
@@ -165,9 +160,9 @@
     "last_attempt": "2026-05-11T23:24:57Z"
   },
   "https://www.kxan.com/news/local/austin/around-20-of-license-plate-reader-database-searches-did-not-have-case-numbers/": {
-    "attempts": 2,
-    "error": "HTTP 403",
-    "last_attempt": "2026-05-10T23:11:04Z"
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-26T04:28:13Z"
   },
   "https://www.kxan.com/news/local/austin/austin-city-council-to-discuss-possible-license-plate-reader-reinstatement-this-spring/": {
     "attempts": 2,
@@ -243,6 +238,11 @@
     "attempts": 2,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-14T15:35:13Z"
+  },
+  "https://www.news10.com/news/rensselaer-county/troy-city-property-vandalized-with-anti-flock-camera-graffiti/": {
+    "attempts": 1,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
+    "last_attempt": "2026-05-26T04:22:02Z"
   },
   "https://www.news10.com/news/rensselaer-county/troy-officials-announce-policy-updates-enhancements-for-flock-cameras/": {
     "attempts": 1,
