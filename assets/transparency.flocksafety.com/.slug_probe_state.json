@@ -1694,9 +1694,10 @@
     "64aa09f6-ae60-5ac3-bd67-4123f65c0837": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-11T23:42:05.876345+00:00",
+      "last_probed": "2026-05-27T11:24:28.058597+00:00",
       "tried": {
-        "keller-tx-pd": "http_404"
+        "keller-tx-pd": "http_404",
+        "keller-tx-po": "http_403"
       }
     },
     "64da8ade-ab72-5519-8f11-b65be44e0387": {
@@ -1818,7 +1819,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-20T21:26:44.995121+00:00",
+      "last_probed": "2026-05-27T11:24:50.083072+00:00",
       "tried": {
         "-beverly-hills-ca": "http_404",
         "-beverly-hills-ca-pd": "http_404",
@@ -1828,6 +1829,7 @@
         "-beverly-hills-ca-ps": "http_404",
         "-beverly-hills-pd": "http_404",
         "-beverly-hills-pd-ca": "http_404",
+        "-beverly-hills-po": "http_404",
         "-beverly-hills-po-ca": "http_404",
         "-beverly-hills-police-ca": "http_404",
         "-beverly-hills-police-department-ca": "http_404",
@@ -2806,6 +2808,14 @@
       "last_probed": "2026-05-15T21:45:58.080216+00:00",
       "tried": {
         "haysi-va-pd": "http_404"
+      }
+    },
+    "a2967196-292a-5c73-acbd-800246914b57": {
+      "exhausted": false,
+      "found": "west-des-moines-ia-pd",
+      "last_probed": "2026-05-27T11:24:39.266997+00:00",
+      "tried": {
+        "west-des-moines-ia-pd": "http_200"
       }
     },
     "a2c03da5-7700-5042-8d22-ab98c8a1c7f2": {
@@ -4234,6 +4244,6 @@
       }
     }
   },
-  "updated": "2026-05-27T06:49:24.943859+00:00",
+  "updated": "2026-05-27T11:24:50.134775+00:00",
   "version": 1
 }
