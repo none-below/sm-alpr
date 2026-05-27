@@ -1,0 +1,42 @@
+{
+  "title": "UOP networkShare permission-discrepancy follow-up to W012664",
+  "summary": "Follows W012664-050426, which sought records resolving the permission-scope mismatch between two events in the W012570-041926 EVENTLOG production:\n\n- 2026-02-12 04:51:19Z create networkShare to UOP — Permissions: feedView (user: Phoenix O'Rourke).\n- 2026-02-28 04:09:40Z delete networkShare to UOP — Permissions: Search, VMS, Hotlist (user: Steve Casazza).\n\nNo event in the produced log memorializes how Search/VMS/Hotlist came to be associated with the share between those two dates. W012664 closed 2026-05-14 with 'responsive documents were previously provided under W012570' for Items 1–3 and produced UOP_Termination.png (a screenshot of the same 2/28 delete event already in the log) plus Role_Permissions_Overview.pdf (an intra-organization user-role doc, not the cross-organization networkShare permission semantics asked for).\n\nThis request seeks:\n\n- Item 1: event-log entries between the 2/12 and 2/28 endpoints (records not previously produced).\n- Item 2: permission-modification records for the 2/12 networkShare (event-log entry, admin action, internal comms, vendor comms).\n- Item 3: current-state records for any SMPD-UOP networkShare on the platform as of the date of production.\n- Item 4: SMPD–Flock or SMPD–NCRIC communications specifically addressing the permission-scope discrepancy (narrowly scoped, not a full vendor-email corpus search).\n- Item 5: vendor documentation in SMPD's possession describing how the platform records permission modifications.\n- Item 6: vendor documentation of the cross-organization networkShare permission types (feedView/Search/VMS/Hotlist) as they grant access to a receiving organization — the question Role_Permissions_Overview.pdf did not answer.",
+  "tags": ["uop", "external-sharing", "pra-process", "flock-msa"],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.530",
+      "quote": "this division does not require the agency to create a record that does not exist",
+      "tests": "Does the platform event log contain entries between the 2/12 and 2/28 UOP events, or are those events all that exist?"
+    },
+    {
+      "policy": "City of San Jose v. Superior Court (2017) 2 Cal.5th 608",
+      "quote": "records held by a vendor on the agency's behalf in the performance of the agency's business are agency records",
+      "tests": "Are share-lifecycle and current-state records held within Flock on SMPD's behalf treated as SMPD records?"
+    },
+    {
+      "policy": "Gov. Code § 7922.540",
+      "quote": "agency shall include a statement of the specific exemption authorizing the withholding",
+      "tests": "If any item is answered 'previously produced,' does SMPD identify the specific previously-produced record and confirm no further responsive records exist?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012570-041926",
+      "relation": "context",
+      "note": "Produced the Flock event log (SMPD4.20.2026_EVENTLOG) containing the two UOP events whose permission scopes do not match."
+    },
+    {
+      "ref": "W012664-050426",
+      "relation": "follow-up",
+      "note": "First follow-up on the UOP event-log discrepancy. Closed 2026-05-14 with 'previously produced' for Items 1–3; W012742 narrows and re-scopes the same questions."
+    },
+    {
+      "ref": "W012674-050426",
+      "relation": "context",
+      "note": "Parallel request covering Policy 463.8(b) authorization records for the 2026-02-12 UOP create event itself."
+    }
+  ],
+  "filed_because": "W012664's 'previously produced under W012570' answer treated the two W012570 events as themselves responsive to a request explicitly scoped beyond them. This request narrows the question into specific record categories the Department can answer with 'no responsive records' or with the missing record, and asks vendor-documentation questions that Role_Permissions_Overview.pdf did not address.",
+  "status_override": "closed",
+  "notes": "Closed 2026-05-21. SMPD answered 'no responsive records' for Items 1, 2, 4, 5, 6 and for Item 3 pointed to the public Flock Safety transparency portal — which does not show network-share configuration. The 'good faith and diligent search yielded no records' closing language applies to the full request.\n\nParser marked 'needs_review' because the request body quotes closure language about the parent W012664 request. Status set manually.\n\nThe Item 2 'no responsive records' answer is the substantive finding: SMPD has no record of how Search/VMS/Hotlist permissions came to be associated with the 2/12 UOP networkShare entity. Combined with the Item 1 affirmation that no other UOP events exist between 2/12 and 2/28, the response leaves only the three alternative readings the request itself offered (permissions added without an event-log entry; two separate share entities; or 'another explanation').\n\nPairs with the UOP audit-log discrepancy memory: W012570 event log shows feedView create 2/12 with no delete; permission mismatch with 2/28 delete."
+}

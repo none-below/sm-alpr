@@ -1,0 +1,47 @@
+{
+  "title": "Redacted per-row Flock search audit export — all compliance columns",
+  "summary": "Follows up W012320-031126 Items 2(b) and 2(c), which sought the per-category counts of searches where a case/incident/warrant number was or was not entered (2(b)) and where the connection between the searched data and the listed justification was or was not verified (2(c)). SMPD's 4/22/2026 response declined those items on the ground that 'the report you seek does not exist as a record maintained by the Department or within the Flock platform' and that CPRA does not require compilation.\n\nThis request reframes the question as an existing-record request, not a compilation:\n\n- W012541-041426 has produced monthly Flock audit CSV exports for SMPD with the schema id, userId, searchDate, networkCount, reason — demonstrating that per-search records exist as agency records and that segregable cell-level redaction (***) is the accepted production approach.\n- The SMPD Flock transparency portal exposes a rolling 613-row view with schema id, userId, searchDate, networkCount, offenseType — confirming that the Flock audit table contains additional columns beyond those produced under W012541 and that SMPD configures which columns are exposed.\n- SMPD's own SOP 205.5.1 audit criteria reference 'entry of required search information by the End-User (case number, etc)' and 'connection between searched data and listed justification,' presupposing those per-search fields exist.\n\nRecord requested — November 2022 through date of production: a CSV export in the same row-per-search format as W012541, configured to include every per-search compliance column the Flock platform exposes — including case-number/identifier, free-text reason, offenseType, any audit-review/flag/annotation field, and an internal-vs-external requesting-agency indicator. Every populated cell in those columns is replaced with a fixed redaction marker; empty cells pass through. The redaction approach mirrors the user-account *** redaction already applied to the same schema under W012541.\n\nThe disclosed information is limited to (i) the existence and timestamp of each search (already on the transparency portal) and (ii) which compliance fields were populated. No case number, plate, free-text justification, agency identifier, offense category, or any other value entered by a searching user is disclosed.",
+  "tags": ["policy-463.10", "sop-205.5.1", "audit-compliance", "pra-process", "website-posting"],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.530 / Sierra Club v. Superior Court (2013) 57 Cal.4th 157",
+      "quote": "agency is not required to create a record that does not exist",
+      "tests": "Is including an existing column in a configured export the creation of a new record, or a routine configuration choice within the existing export feature?"
+    },
+    {
+      "policy": "Gov. Code § 7922.525(b)",
+      "quote": "any reasonably segregable portion of a record shall be available",
+      "tests": "Does cell-level redaction of every populated compliance-column cell satisfy segregability, by analogy to the user-account *** redaction already applied under W012541?"
+    },
+    {
+      "policy": "Gov. Code § 7923.600",
+      "quote": "records of investigations conducted by ... any state or local police agency",
+      "tests": "Does § 7923.600 protect the structural fact of whether a procedural field was filled in, when every value entered by a searching user is redacted at production?"
+    },
+    {
+      "policy": "Civil Code § 1798.90.55(b) / § 1798.90.5(c)",
+      "quote": "'ALPR information' means data captured by an ALPR system about a specific vehicle",
+      "tests": "Does an export with all plate/result/justification values redacted contain 'ALPR information' as defined?"
+    },
+    {
+      "policy": "SOP 205.5.1 audit criteria",
+      "quote": "entry of required search information by the End-User (case number, etc); connection between searched data and listed justification",
+      "tests": "If the SOP audit reviews per-search case-number entry and justification verification, do per-search records of those facts exist in the Flock platform?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012320-031126",
+      "relation": "scope-narrowing",
+      "note": "Items 2(b) and 2(c) were declined as compilation requests. This request asks for the underlying existing per-search record."
+    },
+    {
+      "ref": "W012541-041426",
+      "relation": "scope-expansion",
+      "note": "Rolling monthly audit CSV production under W012541 establishes that the Flock audit table is producible and that cell-level redaction is the accepted approach. This request asks for the same export configured with additional compliance columns."
+    }
+  ],
+  "filed_because": "Tests SMPD's prior compilation-objection answer against the existing-record framing: the per-search record exists in the Flock platform, SMPD has already produced segregably-redacted exports of it, and the only difference is which columns are configured in the export. Also asks SMPD to identify which compliance columns Flock does and does not expose in the admin audit export.",
+  "status_override": "awaiting_initial",
+  "notes": "Procedural note: this is a new request, not a re-opening of W012320; the W012320 final determinations on Items 1(a), 2(a), 2(d)–(e), 3(a), and 3(b) are not at issue.\n\n10-day statutory determination due 2026-06-04."
+}
