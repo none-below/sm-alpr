@@ -1499,6 +1499,37 @@
   // that tell the reader nothing.
   const UNIVERSAL_PASS_THRESHOLD = 0.90;
 
+  // Map an SB-34 checklist id to a predicate matching the removed
+  // recipient kinds that would cause it to fail. Returns the matching
+  // removed_flagged_recipients entries, sorted by removed_on desc.
+  function recentlyCleanedUpFor(itemId, report) {
+    const removed = (report && report.removed_flagged_recipients) || [];
+    if (!removed.length) return [];
+    let pred;
+    switch (itemId) {
+      case "no_private_sharing":
+        pred = function(r) { return r.kind === "private" || r.kind === "private_entity" || r.kind === "private_university"; };
+        break;
+      case "no_out_of_state_sharing":
+        pred = function(r) { return r.kind === "out_of_state"; };
+        break;
+      case "no_federal_sharing":
+        pred = function(r) { return r.kind === "federal"; };
+        break;
+      case "no_fusion_center_sharing":
+        pred = function(r) { return r.kind === "fusion_center"; };
+        break;
+      case "no_ag_lawsuit_sharing":
+        pred = function(r) { return r.ag_lawsuit === true; };
+        break;
+      default:
+        return [];
+    }
+    return removed.filter(pred).slice().sort(function(a, b) {
+      return (a.removed_on < b.removed_on) ? 1 : (a.removed_on > b.removed_on ? -1 : 0);
+    });
+  }
+
   function isUniversalPass(item) {
     const applicable = item.peer_applicable != null ? item.peer_applicable : item.peer_total;
     if (!applicable) return false;
@@ -1517,7 +1548,10 @@
     items.forEach(function(item) {
       if (item.value !== true) {
         visibleItems.push(item);
-      } else if (isUniversalPass(item)) {
+      } else if (isUniversalPass(item) && !(opts.report && recentlyCleanedUpFor(item.id, opts.report).length)) {
+        // Universal pass items are normally hidden as common baseline,
+        // but force-show one with a matching recent cleanup so the
+        // history note isn't silently dropped.
         hiddenPassItems.push(item);
       } else {
         visibleItems.push(item);
@@ -1549,6 +1583,20 @@
         const shown = names.slice(0, 3).map(escapeHtml).join(", ");
         const more = names.length > 3 ? ` <span class="muted">&mdash; and ${names.length - 3} more</span>` : "";
         html += `<span class="detail caveat"><strong>\u26a0 Caveat:</strong> shares with ${shown}${more} &mdash; fusion centers may have federal entanglements (federal funding, staff, or governance). See Flagged Recipients for specifics.</span>`;
+      }
+      // Recently-cleaned-up note: when a sharing-related check passes
+      // *because* the agency removed a flagged recipient within the
+      // tracking window, surface that history so a reader doesn't
+      // mistake the current pass for a longstanding state. Mirrors
+      // the cleanup-section callout on the Data Sharing section.
+      if (item.value === true && opts.report) {
+        const cleanup = recentlyCleanedUpFor(item.id, opts.report);
+        if (cleanup.length) {
+          const names = cleanup.map(function(r) {
+            return `${escapeHtml(r.name)} (${escapeHtml(r.removed_on)})`;
+          }).join(", ");
+          html += `<span class="detail" style="color:#166534"><strong>Recently cleaned up:</strong> removed ${names}.</span>`;
+        }
       }
       if (item.detail) {
         html += `<span class="detail">${escapeHtml(item.detail)}</span>`;
