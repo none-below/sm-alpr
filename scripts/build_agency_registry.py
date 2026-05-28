@@ -56,16 +56,22 @@ ALL_STATES = {
     "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC",
 }
 
-CA_RE = re.compile(r"\bCA\b|California|Cal Fire|Cal State|NCRIC|Cal Poly", re.IGNORECASE)
+CA_RE = re.compile(r"California|Cal Fire|Cal State|NCRIC|Cal Poly", re.IGNORECASE)
 
 
 def detect_state(name):
+    # Prefer an explicit 2-letter state code at a word boundary. In Flock's
+    # canonical "<place> <state> <type>" naming, the 2-letter code is the
+    # authoritative state — even when the place name itself contains a
+    # state-name word (e.g. "City of California MO PD" is Missouri, not CA).
+    for code in sorted(ALL_STATES):
+        if re.search(r"(?<![A-Za-z])" + code + r"(?![A-Za-z])", name):
+            return code
+    # Fallback for CA-only word forms ("California", "Cal Fire", "NCRIC",
+    # "Cal Poly", "Cal State") — no 2-letter code present, but the name
+    # implies California.
     if CA_RE.search(name):
         return "CA"
-    for code in ALL_STATES - {"CA"}:
-        if re.search(r"(?<![A-Za-z])" + code + r"(?![A-Za-z])", name):
-            if not CA_RE.search(name):
-                return code
     return None
 
 
