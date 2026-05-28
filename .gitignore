@@ -1,7 +1,8 @@
 .venv/
 __pycache__/
 *.pyc
-.claude/
+.claude/*
+!.claude/commands/
 .DS_Store
 .env*
 outputs/pii_scan_results.txt
