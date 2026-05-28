@@ -1884,6 +1884,10 @@
           data.agency_count || Object.keys(agencies).length;
         currentNcDistribution = data.network_count_distribution || null;
         var slug = getInitialSlug(agencies);
+        var reportLink = document.getElementById('report-link');
+        if (reportLink && slug) {
+          reportLink.href = 'report.html?agency=' + encodeURIComponent(slug);
+        }
         wireAgencySearch(agencies, slug);
         installPhraseContext(slug ? agencies[slug] : null);
         document.getElementById('page').innerHTML =
