@@ -155,6 +155,23 @@ def content_hash(text):
     return hashlib.sha256(text.encode()).hexdigest()
 
 
+def crawled_slugs_on_disk(data_dir):
+    """Slugs that have at least one date-named portal JSON capture on disk.
+
+    Used by the refresh path (--all-agencies) to ensure every previously
+    crawled agency stays a candidate regardless of whether the seed's
+    current outbound graph still points at it. Without this, an agency
+    the seed drops from sharing (e.g. SMPD removed NCRIC on 2026-05-11)
+    silently falls off the rotation despite having years of history.
+    """
+    if not data_dir.is_dir():
+        return []
+    return [
+        d.name for d in data_dir.iterdir()
+        if d.is_dir() and not d.name.startswith(".") and portal_jsons(d)
+    ]
+
+
 def is_stale(slug, data_dir, max_age_days=STALE_DAYS):
     """Check if a slug's latest capture is older than max_age_days."""
     slug_dir = data_dir / slug
@@ -1250,6 +1267,14 @@ def cmd_crawl(args):
                 # appears in some peer's outbound list) get picked up on the same
                 # level it's discovered, instead of waiting for a deeper run.
                 candidates = dedupe(list(slugs) + discovered_from_existing)
+                # Refresh path: include every on-disk crawled slug as a
+                # candidate at level 0, not just those still reachable
+                # via the seed's outbound graph. Otherwise a slug the
+                # seed drops from sharing falls off the rotation despite
+                # being stale and locally captured. Level 0 only — deeper
+                # levels do BFS discovery for genuinely new slugs.
+                if args.all_agencies and level == 0:
+                    candidates = dedupe(candidates + crawled_slugs_on_disk(data_dir))
                 new_slugs = [s for s in candidates if s not in visited]
                 # Crawl order by tier:
                 #   0 never attempted — fills gaps like newly-seeded registry
