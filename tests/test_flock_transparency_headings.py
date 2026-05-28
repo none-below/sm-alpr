@@ -137,6 +137,31 @@ def test_parse_number_legacy_value_only_body():
     assert _parse_number("30 days") == 30
 
 
+def test_parse_number_data_unavailable_returns_none():
+    """Flock shows 'Data Unavailable' in place of a value when a stat
+    isn't ready (seen on kensington-ca-pd hotlist_hits_30d). Must
+    return None rather than tripping the multi-paragraph error path."""
+    body = "Total hotlist hits over the last 30 days.\n\nData Unavailable"
+    assert _parse_number(body, field="hotlist_hits_30d", slug="kensington-ca-pd") is None
+    # Case variations
+    assert _parse_number("description.\n\ndata unavailable") is None
+    assert _parse_number("description.\n\nDATA UNAVAILABLE") is None
+
+
+def test_match_heading_new_2026_05_variants():
+    """Heading variants observed in the 5/28/2026 rolling refresh batch.
+
+    - oceanside-ca-pd added "Distinct Vehicles (No Duplicates) ..."
+    - alameda-county-ca-so uses "ACSO Policy: GO 5.42 - ... (ALPR) System"
+      (suffix "System" not "Policy") and posts case stories under
+      "Solved Stories with Flock ALPR Technology - <case>".
+    """
+    assert _match_heading("Distinct Vehicles (No Duplicates) detected in the last 30 days") == "vehicles_detected_30d"
+    assert _match_heading("ACSO Policy: GO 5.42 - Automated License Plate Recognition (ALPR) System") == "alpr_policy"
+    assert _match_heading("Solved Stories with Flock ALPR Technology - Armed Robbery") == "success_stories"
+    assert _match_heading("Solved Story with Flock ALPR Technology - X") == "success_stories"
+
+
 def test_parse_org_names_merges_company_suffix():
     """Flock's data has un-escaped commas in company names like
     "CA - Topgolf USA El Segundo, LLC". On the new grid layout the

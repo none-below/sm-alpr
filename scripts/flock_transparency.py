@@ -343,6 +343,7 @@ _HEADING_MAP = {
     "Vehicles detected in the last 30 days": "vehicles_detected_30d",
     "Unique vehicles detected in the last 30 days": "vehicles_detected_30d",
     "Unique Vehicles Detected":              "vehicles_detected_30d",
+    "Distinct Vehicles (No Duplicates) detected in the last 30 days": "vehicles_detected_30d",
     "Hotlist hits in the last 30 days":      "hotlist_hits_30d",
     "Number of Hotlist Hits":                "hotlist_hits_30d",
     "Searches in the last 30 days":          "searches_30d",
@@ -373,7 +374,9 @@ _DYNAMIC_HEADINGS = [
     # Department Automated License Plate Recognition and Internet
     # Protocol Camera System Policy" without forcing every variant
     # into _HEADING_MAP one-by-one.
-    (re.compile(r"^.+Automated License Plate (?:Recognition|Readers?).+Policy.*$", re.IGNORECASE), "alpr_policy"),
+    # Trailing word can be "Policy" or "System" — Alameda County SO uses
+    # "ACSO Policy: GO 5.42 - Automated License Plate Recognition (ALPR) System".
+    (re.compile(r"^.+Automated License Plate (?:Recognition|Readers?).+(?:Policy|System).*$", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+Police Department Policy Manual.*$", re.IGNORECASE), "alpr_policy"),
     # Agency-prefixed bare "Policy" headings, e.g.
     # "Marin County Sheriff's Office Policy" — Flock now bolds these
@@ -386,6 +389,9 @@ _DYNAMIC_HEADINGS = [
     # "Credit Card Skimming Ring - Success story").
     (re.compile(r"^.+ - Facebook Post - .+$", re.IGNORECASE), "success_stories"),
     (re.compile(r"^.+ - Success Stor(?:y|ies)$", re.IGNORECASE), "success_stories"),
+    # Alameda County SO posts each case under "Solved Stories with Flock
+    # ALPR Technology - <case description>" as a separate bold heading.
+    (re.compile(r"^Solved Stor(?:y|ies) with Flock", re.IGNORECASE), "success_stories"),
     # Sentence-style link blurbs, e.g. "Auburn PD's Policies and
     # Procedures can be found at the following link:" — same role as
     # the "Policy Documents" / "Policy Link" exact headings. Placed
@@ -602,6 +608,12 @@ def _parse_number(s, *, field=None, slug=None):
     """
     if not s or not s.strip():
         return None
+    # Flock shows "Data Unavailable" in place of a value when the stat
+    # isn't ready yet (seen on kensington-ca-pd hotlist_hits_30d). Return
+    # None rather than tripping the multi-paragraph-no-number error path.
+    for line in s.split("\n"):
+        if re.fullmatch(r"\s*Data Unavailable\s*", line, re.IGNORECASE):
+            return None
     for line in s.split("\n"):
         stripped = line.strip()
         if re.fullmatch(r"[\d,]+", stripped):
