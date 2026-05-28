@@ -1,0 +1,32 @@
+{
+  "title": "UOP networkShare event-log gap — follow-up to W012664",
+  "summary": "Returns to the SMPD-UOP networkShare permission discrepancy left unresolved after W012664-050426's May 14 closure. The W012570 EVENTLOG produced two events for the share — a 2026-02-12 create with feedView only, and a 2026-02-28 delete with Search, VMS, and Hotlist — with no event memorializing how the additional permissions were added between those dates. W012664 sought records resolving that gap and was closed with \"responsive documents were previously provided to you under W012570-041926,\" though W012664 had been explicitly scoped beyond the W012570 production.\n\nThis request asks the Department for:\n\n- Any further event-log entries referencing UOP between the two known timestamps.\n- Any records of how Search, VMS, or Hotlist permissions came to be associated with the share.\n- The current state of any SMPD-UOP networkShare on the Flock platform as of the date of production.\n- Any communications with Flock or NCRIC about the discrepancy.\n- Vendor documentation describing whether the platform logs permission modifications at all, and what the cross-organization networkShare permission types (feedView, Search, VMS, Hotlist) grant to the receiving organization.",
+  "tags": ["uop", "external-sharing", "pra-process", "audit-compliance"],
+  "policy_promises": [
+    {
+      "policy": "Civil Code §1798.90.55(b)",
+      "quote": "ALPR information shall not be sold, shared, or transferred except to another public agency",
+      "tests": "What is the current state of any SMPD-UOP sharing relationship, and what permission scopes have it ever carried?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012664-050426",
+      "relation": "scope-followup",
+      "note": "W012664 was closed by reference to records previously produced under W012570, even though W012664 was explicitly scoped beyond those records. This request re-poses the underlying questions."
+    },
+    {
+      "ref": "W012570-041926",
+      "relation": "scope-followup",
+      "note": "Item 1 asks for any UOP-referencing event-log entries between the two timestamps produced under W012570."
+    },
+    {
+      "ref": "W012674-050426",
+      "relation": "related",
+      "note": "W012674 addresses Policy 463.8(b) authorization records for the 2/12 create event; this request addresses the platform-state and event-log records."
+    }
+  ],
+  "filed_because": "W012664-050426 was closed on 2026-05-14 with a \"previously produced\" response that did not address the permission-scope discrepancy between the two W012570 events, the current state of the share, or the cross-organization networkShare permission semantics. Item 4 of W012664 was answered with Role_Permissions_Overview.pdf, a vendor document describing intra-organization user roles — a different concept than the cross-organization networkShare permission types that appear in the event log.",
+  "status_override": "closed",
+  "notes": "Closed 2026-05-21 by Juliana Santiago, Management Analyst.\n\nItem-by-item dispositions:\n- Item 1 (further UOP event-log entries between the two known events): \"No responsive records. All records related to UOP event-log entries were submitted to you under W012570-041926.\"\n- Item 2 (permission-modification records for the 2/12 networkShare): \"No responsive records.\"\n- Item 3 (current state of any SMPD-UOP networkShare): pointed to the Flock Safety San Mateo CA PD Transparency Portal as the publicly available current-state record.\n- Item 4 (Flock/NCRIC communications about the discrepancy): \"No responsive records.\"\n- Item 5 (vendor documentation of event-logging behavior for permission modifications): \"No responsive records.\"\n- Item 6 (vendor documentation of cross-organization networkShare permission types): \"No responsive records.\"\n\nClosing line included: \"A good faith and diligent search yielded no records responsive to your request.\"\n\nDerived status came through as needs_review because the closure phrasing was \"we now consider this record request ... closed\" (singular \"consider\"), which the CLOSED_RE in build_pra_registry.py does not match. Status set manually."
+}
