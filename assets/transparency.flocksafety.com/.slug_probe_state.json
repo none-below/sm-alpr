@@ -3073,8 +3073,9 @@
     "ab72c709-a28e-5f83-b6ab-8dfe17c4cd40": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-25T06:58:00.007127+00:00",
+      "last_probed": "2026-05-28T23:55:58.611265+00:00",
       "tried": {
+        "hendry-county-fl-sd": "http_404",
         "hendry-county-fl-so": "http_404"
       }
     },
@@ -3345,8 +3346,9 @@
     "ba6dffec-c362-5bc4-b042-eef688d730a2": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-17T22:38:40.074260+00:00",
+      "last_probed": "2026-05-28T23:55:54.440804+00:00",
       "tried": {
+        "east-bay-parks-ca": "http_404",
         "east-bay-parks-ca-po": "http_404",
         "east-bay-parks-ca-police": "http_404",
         "east-bay-parks-ca-police-department": "http_404",
@@ -4182,6 +4184,14 @@
         "cal-ca-fd": "http_404"
       }
     },
+    "eef9972e-b29e-5c9e-afc9-1e4647423ec2": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-28T23:55:48.378680+00:00",
+      "tried": {
+        "cass-county-in-so": "http_403"
+      }
+    },
     "ef0c3682-0153-527c-a973-0bb7b07056be": {
       "exhausted": false,
       "found": null,
@@ -4480,6 +4490,6 @@
       }
     }
   },
-  "updated": "2026-05-28T22:23:36.651047+00:00",
+  "updated": "2026-05-28T23:55:58.649332+00:00",
   "version": 1
 }
