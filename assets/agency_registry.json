@@ -326,6 +326,31 @@
     "flags": []
   },
   {
+    "agency_id": "ba56fd98-9421-53e5-a792-66efa9c376ca",
+    "slug": "arvada-co-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Arvada CO PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0803455",
+      "name": "Arvada",
+      "state": "CO",
+      "lat": 39.833728,
+      "lng": -105.150306
+    }
+  },
+  {
     "agency_id": "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed",
     "slug": "atherton-ca-pd",
     "flock_active_slug": "atherton-ca-pd",
@@ -1350,6 +1375,27 @@
     ]
   },
   {
+    "agency_id": "2a10f7dd-7f0c-5e00-86d8-0ef7915e96c0",
+    "slug": "city-of-california-mo-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "City of California MO PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
+  },
+  {
     "agency_id": "9101f109-689a-5ad2-9a41-b7e859fc5121",
     "slug": "city-of-lemoore-ca",
     "flock_active_slug": "city-of-lemoore-ca",
@@ -1430,6 +1476,31 @@
       "lng": -122.633232
     },
     "flags": []
+  },
+  {
+    "agency_id": "9cfc5c25-ec83-5468-9c6d-1329b7c97f6d",
+    "slug": "co-colorado-bureau-of-investigation",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "CO - Colorado Bureau of Investigation"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state",
+      "fips": "08",
+      "name": "CO",
+      "state": "CO",
+      "lat": 38.9288305625,
+      "lng": -105.4910921875
+    }
   },
   {
     "agency_id": "daeeaa81-10ea-53a3-86e8-684280bd07c8",
@@ -1970,6 +2041,25 @@
     "flags": []
   },
   {
+    "agency_id": "9aab3da3-47cf-5aa4-8a90-e997179db6c7",
+    "slug": "federal-usms-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "[Federal] USMS (Inactive)"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
     "agency_id": "66a47e2e-147b-55eb-ba49-6b49239dc935",
     "slug": "folsom-ca-pd",
     "flock_active_slug": "folsom-ca-pd",
@@ -2238,6 +2328,56 @@
     "flags": []
   },
   {
+    "agency_id": "06b90273-eb72-5c7a-a89a-49bf125b905c",
+    "slug": "glenwood-ia-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Glenwood IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1931350",
+      "name": "Glenwood",
+      "state": "IA",
+      "lat": 41.044701,
+      "lng": -95.740606
+    }
+  },
+  {
+    "agency_id": "b48129c7-f23f-5187-bbb1-e7841eab0c7f",
+    "slug": "grand-junction-co-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Grand Junction CO PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0831660",
+      "name": "Grand Junction",
+      "state": "CO",
+      "lat": 39.089062,
+      "lng": -108.567452
+    }
+  },
+  {
     "agency_id": "4936c402-8bf3-5c0a-9f55-f85aa0e5df48",
     "slug": "grass-valley-ca-pd",
     "flock_active_slug": "grass-valley-ca-pd",
@@ -2292,6 +2432,58 @@
       "state": "OH",
       "lat": 39.196927,
       "lng": -84.544187
+    }
+  },
+  {
+    "agency_id": "7ace6fc6-14f1-5825-8f5d-6798623f674e",
+    "slug": "greeley-co-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Greeley CO PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0832155",
+      "name": "Greeley",
+      "state": "CO",
+      "lat": 40.414034,
+      "lng": -104.771043
+    }
+  },
+  {
+    "agency_id": "fa3e37ee-afd2-54e9-aa51-4dbce3574334",
+    "slug": "grove-city-oh-pd",
+    "flock_active_slug": "grove-city-oh-pd",
+    "flock_slugs": [
+      "grove-city-oh-pd"
+    ],
+    "flock_names": [
+      "Grove City OH PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3932592",
+      "name": "Grove City",
+      "state": "OH",
+      "lat": 39.885822,
+      "lng": -83.096959
     }
   },
   {
@@ -2564,6 +2756,31 @@
       "lng": -121.398598
     },
     "flags": []
+  },
+  {
+    "agency_id": "c6e002f9-1367-5a44-8b71-a0e8be497e36",
+    "slug": "hudson-co-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Hudson CO PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0837820",
+      "name": "Hudson",
+      "state": "CO",
+      "lat": 40.091746,
+      "lng": -104.593741
+    }
   },
   {
     "agency_id": "69dc886d-6480-525a-ac42-05134bbb4a64",
@@ -3236,6 +3453,31 @@
     "flags": []
   },
   {
+    "agency_id": "cc7d8d20-e2cb-5236-b67f-99d52a3ea55e",
+    "slug": "marshall-county-ia-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Marshall County IA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "19127",
+      "name": "Marshall",
+      "state": "IA",
+      "lat": 42.0417,
+      "lng": -92.981403
+    }
+  },
+  {
     "agency_id": "e940061b-0f3b-53ba-a1cb-a2e12672a989",
     "slug": "mendocino-county-soca",
     "flock_active_slug": "mendocino-county-soca",
@@ -3560,6 +3802,31 @@
       "lng": -121.641891
     },
     "flags": []
+  },
+  {
+    "agency_id": "1021a1de-0ff9-5461-a877-4431fc6a472a",
+    "slug": "mountain-view-ar-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Mountain View AR PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0547540",
+      "name": "Mountain View",
+      "state": "AR",
+      "lat": 35.861559,
+      "lng": -92.109657
+    }
   },
   {
     "agency_id": "38e41ebd-b217-5f82-8f31-d96b027968b6",
@@ -4345,6 +4612,32 @@
       "lng": -121.88123
     },
     "flags": []
+  },
+  {
+    "agency_id": "b5900bec-80fd-52d3-a0bb-22bbb3383710",
+    "slug": "polk-county-conservation-ia",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Polk County Conservation IA"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "19153",
+      "name": "Polk",
+      "state": "IA",
+      "lat": 41.684816,
+      "lng": -93.568971
+    }
   },
   {
     "agency_id": "0978eac6-e1f4-5841-892a-f7225fe73ea3",
@@ -6070,6 +6363,33 @@
       "state": "CA",
       "lat": 34.055941,
       "lng": -117.909937
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "a2967196-292a-5c73-acbd-800246914b57",
+    "slug": "west-des-moines-ia-pd",
+    "flock_active_slug": "west-des-moines-ia-pd",
+    "flock_slugs": [
+      "west-des-moines-ia-pd"
+    ],
+    "flock_names": [
+      "West Des Moines IA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "1983910",
+      "name": "West Des Moines",
+      "state": "IA",
+      "lat": 41.549937,
+      "lng": -93.781351
     },
     "flags": []
   },
@@ -51588,33 +51908,6 @@
       "state": "SC",
       "lat": 34.933286,
       "lng": -82.230803
-    }
-  },
-  {
-    "agency_id": "fa3e37ee-afd2-54e9-aa51-4dbce3574334",
-    "slug": "grove-city-oh-pd",
-    "flock_active_slug": "grove-city-oh-pd",
-    "flock_slugs": [
-      "grove-city-oh-pd"
-    ],
-    "flock_names": [
-      "Grove City OH PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "3932592",
-      "name": "Grove City",
-      "state": "OH",
-      "lat": 39.885822,
-      "lng": -83.096959
     }
   },
   {
@@ -122237,33 +122530,6 @@
       "state": "OH",
       "lat": 39.338194,
       "lng": -84.417103
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "a2967196-292a-5c73-acbd-800246914b57",
-    "slug": "west-des-moines-ia-pd",
-    "flock_active_slug": "west-des-moines-ia-pd",
-    "flock_slugs": [
-      "west-des-moines-ia-pd"
-    ],
-    "flock_names": [
-      "West Des Moines IA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "1983910",
-      "name": "West Des Moines",
-      "state": "IA",
-      "lat": 41.549937,
-      "lng": -93.781351
     },
     "flags": []
   },
