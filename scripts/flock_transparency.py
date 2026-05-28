@@ -1052,15 +1052,20 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
 
 
 def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
-                    try_variations=False):
-    """Crawl a list of slugs. Returns (results, discovered_slugs)."""
+                    try_variations=False, explicit=False):
+    """Crawl a list of slugs. Returns (results, discovered_slugs).
+
+    explicit=True means the caller named these slugs directly (vs auto-picked
+    from the oldest-agencies rotation) — in that case, don't skip on prior
+    failure. The human knows the slug; they want a fresh attempt.
+    """
     results = []
     discovered = []
 
     total = len(slugs)
     for i, slug in enumerate(slugs):
         progress = f"({i + 1}/{total})"
-        if slug in failed_slugs:
+        if slug in failed_slugs and not explicit:
             reason = failed_slugs[slug].get("reason", "unknown") if isinstance(failed_slugs[slug], dict) else "unknown"
             print(f"  {progress} {slug} -> previously failed ({reason}), skipping")
             results.append((slug, None))
@@ -1098,14 +1103,13 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
         if discovered_slugs:
             discovered.extend(discovered_slugs)
         if isinstance(status, tuple) and status[0] == "failed":
-            # parse_error means we got the page but the parser tripped on
-            # a new format variant — nothing was written to the asset tree
-            # (archive_agency stages and only commits on full success).
-            # Don't permanently quarantine these: leave them out of
-            # failed_slugs so the next crawl re-fetches and re-parses
-            # against an updated parser. The PARSE_ERROR log line is
-            # surfaced as a tracking issue by the workflow.
-            if status[1] != "parse_error":
+            # Don't permanently quarantine transient failures:
+            #   parse_error: parser tripped on a new format variant; archive_agency
+            #     stages and only commits on full success so no artifacts written.
+            #     Surfaced as a tracking issue by the workflow.
+            #   http_403: Flock's Cloudflare uses 403 (not 429) for rate limiting.
+            #     A 403 here doesn't mean blocked — it means try again next run.
+            if status[1] not in ("parse_error", "http_403"):
                 failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
         save_json(data_dir / HASH_FILE, hashes)
@@ -1295,6 +1299,7 @@ def cmd_crawl(args):
                 page, slugs, data_dir, args.force,
                 args.delay, hashes, failed_slugs,
                 try_variations=args.try_variations,
+                explicit=True,
             )
             all_results.extend(results)
 
