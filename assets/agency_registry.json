@@ -29,6 +29,33 @@
     "flags": []
   },
   {
+    "agency_id": "ae292ffc-510d-5af1-b78d-7c026bfe1754",
+    "slug": "spokane-county-wa-so",
+    "flock_active_slug": "-spokane-county-wa-so",
+    "flock_slugs": [
+      "-spokane-county-wa-so"
+    ],
+    "flock_names": [
+      "Spokane County WA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "53063",
+      "name": "Spokane",
+      "state": "WA",
+      "lat": 47.620375,
+      "lng": -117.403371
+    }
+  },
+  {
     "agency_id": "aeee2f0f-6386-5a1a-b93a-30babdede4f9",
     "slug": "alameda-ca-pd",
     "flock_active_slug": "alameda-ca-pd",
@@ -1540,6 +1567,33 @@
     "flags": []
   },
   {
+    "agency_id": "bc4aafb5-f44a-53c7-9255-eb0967f455ef",
+    "slug": "creedmoor-nc-pd",
+    "flock_active_slug": "creedmoor-nc-pd",
+    "flock_slugs": [
+      "creedmoor-nc-pd"
+    ],
+    "flock_names": [
+      "Creedmoor NC PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3715320",
+      "name": "Creedmoor",
+      "state": "NC",
+      "lat": 36.125026,
+      "lng": -78.677955
+    }
+  },
+  {
     "agency_id": "ecbb841f-9df2-5841-9b28-91f1ce5af0fa",
     "slug": "culver-city-ca-pd",
     "flock_active_slug": "culver-city-ca-pd",
@@ -1752,6 +1806,33 @@
       "state": "CO",
       "lat": 37.265392,
       "lng": -107.878177
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "214d51be-8684-5997-b06d-192f73bfda10",
+    "slug": "east-hampton-village-ny-pd",
+    "flock_active_slug": "east-hampton-village-ny-pd",
+    "flock_slugs": [
+      "east-hampton-village-ny-pd"
+    ],
+    "flock_names": [
+      "East Hampton Village NY PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "3622183",
+      "name": "East Hampton",
+      "state": "NY",
+      "lat": 40.951543,
+      "lng": -72.196094
     },
     "flags": []
   },
@@ -6483,6 +6564,653 @@
     "aliases": [
       "Yuba County CA SO"
     ]
+  },
+  {
+    "agency_id": "fd74ddc3-184d-5628-8e8c-f80bc92fd49a",
+    "slug": "avon-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Avon CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0911002060",
+      "name": "Avon",
+      "state": "CT",
+      "lat": 41.787159,
+      "lng": -72.852046
+    }
+  },
+  {
+    "agency_id": "d543df9a-1a99-5e26-a4d0-74a80d4eebc6",
+    "slug": "blackstone-ma-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Blackstone MA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "2502706015",
+      "name": "Blackstone",
+      "state": "MA",
+      "lat": 42.039991,
+      "lng": -71.532406
+    }
+  },
+  {
+    "agency_id": "e820be28-6f47-5639-889e-accc30dbe4e7",
+    "slug": "bridgewater-ma-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Bridgewater MA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "2508130",
+      "name": "Bridgewater Town",
+      "state": "MA",
+      "lat": 41.972376,
+      "lng": -70.978773
+    }
+  },
+  {
+    "agency_id": "f04b6387-568b-59eb-b3dc-042e45eb5deb",
+    "slug": "connecticut-state-police",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Connecticut State Police"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "959d63fd-da9b-513e-903d-f75572626c50",
+    "slug": "edison-nj-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Edison NJ PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "3402320230",
+      "name": "Edison",
+      "state": "NJ",
+      "lat": 40.504396,
+      "lng": -74.348843
+    }
+  },
+  {
+    "agency_id": "faf009bf-cf4e-552d-9818-da73ee4246a4",
+    "slug": "glastonbury-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Glastonbury CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0911031240",
+      "name": "Glastonbury",
+      "state": "CT",
+      "lat": 41.691883,
+      "lng": -72.552173
+    }
+  },
+  {
+    "agency_id": "3d109bd8-7a70-55aa-9cb9-e891cfa332cc",
+    "slug": "jenkins-township-pd-luzerne-county-pa-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Jenkins Township PD (Luzerne County) PA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "4207937984",
+      "name": "Jenkins",
+      "state": "PA",
+      "lat": 41.285014,
+      "lng": -75.743183
+    }
+  },
+  {
+    "agency_id": "37757f01-2fd7-5e61-84cd-1928e04f3e8c",
+    "slug": "jersey-city-nj-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Jersey City NJ PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3436000",
+      "name": "Jersey City",
+      "state": "NJ",
+      "lat": 40.711417,
+      "lng": -74.06476
+    }
+  },
+  {
+    "agency_id": "8e732415-d76b-5c92-88cd-567977d7a2e4",
+    "slug": "lakeville-ma-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Lakeville MA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "2502333920",
+      "name": "Lakeville",
+      "state": "MA",
+      "lat": 41.834384,
+      "lng": -70.956826
+    }
+  },
+  {
+    "agency_id": "c86be4f8-f431-5aa2-9ab0-ea904f173291",
+    "slug": "marlborough-ma-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Marlborough MA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "2538715",
+      "name": "Marlborough",
+      "state": "MA",
+      "lat": 42.349617,
+      "lng": -71.547214
+    }
+  },
+  {
+    "agency_id": "954e73b9-7cf7-5c4f-b490-a65a1a9cc357",
+    "slug": "massachusetts-department-of-correction",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Massachusetts Department of Correction"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "cbe60ab8-3f22-59ae-9e72-989ac99a1e75",
+    "slug": "massachusetts-state-ma-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Massachusetts State MA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state",
+      "fips": "25",
+      "name": "MA",
+      "state": "MA",
+      "lat": 42.10673792857143,
+      "lng": -71.45056100000001
+    }
+  },
+  {
+    "agency_id": "4fb2b62d-ebf2-577b-9d85-3d9cf4fef2a8",
+    "slug": "nespin-new-england-state-police-information-network",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "NESPIN - New England State Police Information Network"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+    "slug": "new-york-city-department-of-environmental-protection-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "New York City Department of Environmental Protection PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "1eaafe48-4ea2-574c-b86e-a8a0452194bb",
+    "slug": "oxford-nc-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Oxford NC PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3749800",
+      "name": "Oxford",
+      "state": "NC",
+      "lat": 36.321724,
+      "lng": -78.586529
+    }
+  },
+  {
+    "agency_id": "cb42dd83-5b63-556d-951c-7c78a0fe9faa",
+    "slug": "pa-salisbury-twp-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "PA - Salisbury Twp PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "ambiguous",
+      "fips": "42",
+      "name": "PA",
+      "state": "PA",
+      "lat": 40.82024428358209,
+      "lng": -77.61764129850746,
+      "note": "township name matches multiple county subdivisions in state"
+    }
+  },
+  {
+    "agency_id": "66306d76-18da-50a4-9a03-3516566a3939",
+    "slug": "prospect-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Prospect CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0914062290",
+      "name": "Prospect",
+      "state": "CT",
+      "lat": 41.499247,
+      "lng": -72.975634
+    }
+  },
+  {
+    "agency_id": "9844a102-e408-50ab-939b-01e5b02be632",
+    "slug": "randolph-ma-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Randolph MA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "2556000",
+      "name": "Randolph Town",
+      "state": "MA",
+      "lat": 42.178993,
+      "lng": -71.052654
+    }
+  },
+  {
+    "agency_id": "6cb45cea-c8c2-5d4a-a8ad-e6cff1efda88",
+    "slug": "rochester-ma-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Rochester MA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "2502357600",
+      "name": "Rochester",
+      "state": "MA",
+      "lat": 41.760864,
+      "lng": -70.838956
+    }
+  },
+  {
+    "agency_id": "49ae0e93-fbdd-5a78-9a52-a13a3bbd8107",
+    "slug": "shenandoah-county-va-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Shenandoah County VA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "51171",
+      "name": "Shenandoah",
+      "state": "VA",
+      "lat": 38.856204,
+      "lng": -78.573987
+    }
+  },
+  {
+    "agency_id": "25bba7f8-04b4-5a98-bd79-daecf7e916fb",
+    "slug": "south-boston-va-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "South Boston VA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5173712",
+      "name": "South Boston",
+      "state": "VA",
+      "lat": 36.711825,
+      "lng": -78.913354
+    }
+  },
+  {
+    "agency_id": "9ac075d3-124e-52e9-8033-4b5d17992d4f",
+    "slug": "south-hill-va-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "South Hill VA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5173904",
+      "name": "South Hill",
+      "state": "VA",
+      "lat": 36.725662,
+      "lng": -78.128886
+    }
+  },
+  {
+    "agency_id": "ea755160-cb02-5219-a30e-670e17aff9a1",
+    "slug": "sumter-sc-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Sumter SC PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4570405",
+      "name": "Sumter",
+      "state": "SC",
+      "lat": 33.940848,
+      "lng": -80.395543
+    }
+  },
+  {
+    "agency_id": "25c6dfca-8c81-52e1-90db-6ba3ec5d9ad8",
+    "slug": "town-of-preston-ct-resident-state-troopers-office",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Town of Preston CT Resident State Troopers Office"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CT"
+    }
+  },
+  {
+    "agency_id": "83ddf04b-2010-565d-8208-c69288bc39b3",
+    "slug": "warwick-ri-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Warwick RI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4474300",
+      "name": "Warwick",
+      "state": "RI",
+      "lat": 41.703085,
+      "lng": -71.42031
+    }
+  },
+  {
+    "agency_id": "c91c4764-b336-550a-8375-10375c24ced7",
+    "slug": "wayne-twp-nj-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Wayne TWP NJ PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "3403177840",
+      "name": "Wayne",
+      "state": "NJ",
+      "lat": 40.945855,
+      "lng": -74.245077
+    }
+  },
+  {
+    "agency_id": "b9750a1d-7751-5113-87cd-238a728b1afb",
+    "slug": "wilmington-ma-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Wilmington MA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "2580195",
+      "name": "Wilmington",
+      "state": "MA",
+      "lat": 42.564647,
+      "lng": -71.164516
+    }
   },
   {
     "agency_id": "ba56fd98-9421-53e5-a792-66efa9c376ca",
@@ -34258,33 +34986,6 @@
       "state": "NC",
       "lat": 35.116829,
       "lng": -77.08132
-    }
-  },
-  {
-    "agency_id": "bc4aafb5-f44a-53c7-9255-eb0967f455ef",
-    "slug": "creedmoor-nc-pd",
-    "flock_active_slug": "creedmoor-nc-pd",
-    "flock_slugs": [
-      "creedmoor-nc-pd"
-    ],
-    "flock_names": [
-      "Creedmoor NC PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "3715320",
-      "name": "Creedmoor",
-      "state": "NC",
-      "lat": 36.125026,
-      "lng": -78.677955
     }
   },
   {
@@ -94444,33 +95145,6 @@
     }
   },
   {
-    "agency_id": "ae292ffc-510d-5af1-b78d-7c026bfe1754",
-    "slug": "spokane-county-wa-so",
-    "flock_active_slug": "-spokane-county-wa-so",
-    "flock_slugs": [
-      "-spokane-county-wa-so"
-    ],
-    "flock_names": [
-      "Spokane County WA SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "53063",
-      "name": "Spokane",
-      "state": "WA",
-      "lat": 47.620375,
-      "lng": -117.403371
-    }
-  },
-  {
     "agency_id": "3fb2e1f2-434a-5a2b-b79e-64c927bc461e",
     "slug": "spokane-tribal-pd-wa",
     "flock_active_slug": null,
@@ -114659,33 +115333,6 @@
       "state": "IL",
       "lat": 41.852058,
       "lng": -88.086039
-    },
-    "flags": []
-  },
-  {
-    "agency_id": "214d51be-8684-5997-b06d-192f73bfda10",
-    "slug": "east-hampton-village-ny-pd",
-    "flock_active_slug": "east-hampton-village-ny-pd",
-    "flock_slugs": [
-      "east-hampton-village-ny-pd"
-    ],
-    "flock_names": [
-      "East Hampton Village NY PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "3622183",
-      "name": "East Hampton",
-      "state": "NY",
-      "lat": 40.951543,
-      "lng": -72.196094
     },
     "flags": []
   },
