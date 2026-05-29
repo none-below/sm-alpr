@@ -1932,7 +1932,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-29T19:18:58.505437+00:00",
+      "last_probed": "2026-05-29T21:29:56.836710+00:00",
       "tried": {
         "-beverly-hills-ca": "http_404",
         "-beverly-hills-ca-pd": "http_404",
@@ -1945,6 +1945,7 @@
         "-beverly-hills-pdca": "http_404",
         "-beverly-hills-po": "http_404",
         "-beverly-hills-po-ca": "http_404",
+        "-beverly-hills-poca": "http_404",
         "-beverly-hills-police": "http_404",
         "-beverly-hills-police-ca": "http_404",
         "-beverly-hills-police-department": "http_404",
@@ -2380,6 +2381,14 @@
       "last_probed": "2026-04-25T19:34:17.104825+00:00",
       "tried": {
         "san-jose-evergreen-community-college-campus-ca-pd": "http_404"
+      }
+    },
+    "82b7d6b0-9096-560a-ad40-1a6ac8b928ce": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-29T21:29:36.283997+00:00",
+      "tried": {
+        "brookhaven-circle-ca-pd": "http_403"
       }
     },
     "834c601d-e3dc-55cf-8e9c-b05b610ef4ec": {
@@ -4068,6 +4077,14 @@
         "oconee-county-ga-so": "http_404"
       }
     },
+    "e2f8427f-eb7a-580d-9c0a-eea576f679b9": {
+      "exhausted": false,
+      "found": "north-kingstown-ri-pd",
+      "last_probed": "2026-05-29T21:29:47.339090+00:00",
+      "tried": {
+        "north-kingstown-ri-pd": "http_200"
+      }
+    },
     "e35b094f-0435-50b5-a03c-e644ad6144be": {
       "exhausted": false,
       "found": null,
@@ -4582,6 +4599,6 @@
       }
     }
   },
-  "updated": "2026-05-29T19:18:58.547812+00:00",
+  "updated": "2026-05-29T21:29:56.897573+00:00",
   "version": 1
 }
