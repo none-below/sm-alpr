@@ -5,6 +5,7 @@ function formatValue(id, value) {
   if (id === 'retention') return value.toLocaleString() + ' days';
   if (id === 'vehicles_30d') return value.toLocaleString() + ' plates';
   if (id === 'searches_30d') return value.toLocaleString() + ' lookups';
+  if (id === 'searches_per_crime') return value.toLocaleString() + ' per crime';
   if (id === 'cameras') return value.toLocaleString() + ' cameras';
   return value.toLocaleString();
 }

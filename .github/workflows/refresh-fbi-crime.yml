@@ -1,0 +1,83 @@
+name: Refresh FBI Crime Data
+
+# FBI Crime Data Explorer publishes monthly offense counts with a few
+# months of lag; last_refresh_date advances mid-month and the prior
+# month's per-agency series typically lands ~mid-month following. Run
+# monthly to pick up new months and any historical revisions.
+#
+# Requires repo secret DATA_GOV_API_KEY (free key from
+# https://api.data.gov/signup/). Until the registry's `ori` lists land
+# from the FBI-ORI matcher, --crawled-only resolves to zero targets and
+# this job no-ops cleanly.
+
+on:
+  schedule:
+    - cron: '0 7 16 * *'  # 07:00 UTC on the 16th of each month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Build sharing graph (scopes --crawled-only)
+        run: uv run python scripts/build_sharing_graph.py
+
+      - name: Fetch FBI crime data (crawled agencies, refresh existing)
+        env:
+          DATA_GOV_API_KEY: ${{ secrets.DATA_GOV_API_KEY }}
+        run: uv run python scripts/refresh_fbi_crime.py --crawled-only --refresh
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet data/fbi/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="chore/refresh-fbi-crime"
+          git checkout -B "$BRANCH"
+          git add data/fbi/
+          git commit -m "chore: refresh FBI crime data"
+          git push --force-with-lease origin "$BRANCH"
+
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            cat > /tmp/pr-body.md <<'EOF'
+          Automated monthly refresh of FBI Crime Data Explorer offense counts
+          (`data/fbi/crime.json`), keyed by individual ORI.
+
+          The FBI revises historical months as agencies report late, so this
+          re-pulls every crawled agency. Review the diff for unexpected drops
+          in past months before merging — a value moving toward null can mean
+          an upstream ORI/name change rather than a real revision.
+          EOF
+            gh pr create \
+              --title "chore: refresh FBI crime data" \
+              --body-file /tmp/pr-body.md \
+              --head "$BRANCH" \
+              --base main
+          fi

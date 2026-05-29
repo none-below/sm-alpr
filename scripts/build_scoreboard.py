@@ -15,9 +15,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from lib import agency_display_name, agency_state, has_tag, load_registry, portal_jsons, registry_by_id
+from fbi_crime import audit_searches_30d, load_crime, searches_per_crime
 
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 DATA_DIR = Path("assets/transparency.flocksafety.com")
+AUDIT_DIR = Path("docs/data/audit")
 OUT_PATH = Path("docs/data/scoreboard_data.json")
 
 # Only CA agencies are ranked
@@ -54,9 +56,23 @@ def load_crawled_stats(slug):
     }
 
 
+def load_audit_rows(slug):
+    """Audit-log rows for an agency (docs/data/audit/<slug>.json), or []."""
+    path = AUDIT_DIR / f"{slug}.json"
+    if not path.exists():
+        return []
+    try:
+        return json.loads(path.read_text()).get("rows") or []
+    except (OSError, json.JSONDecodeError):
+        return []
+
+
 def main():
     registry = load_registry()
     reg_by_id = registry_by_id()
+    # FBI crime counts keyed by individual ORI; {} until fetched / until
+    # the registry's `ori` lists land. Drives the searches-per-crime rank.
+    crime = load_crime()
     # Filter out null-slug entries (agencies without a verified Flock portal).
     # Scoreboard links use slugs to form report.html?agency=<slug> URLs.
     id_to_slug = {e["agency_id"]: e["slug"] for e in registry if e.get("slug")}
@@ -118,6 +134,21 @@ def main():
         slug = id_to_slug.get(aid, aid)
         crawled_stats = load_crawled_stats(slug)
 
+        # Searches per reported crime (latest full FBI month). Resolved
+        # identically to the per-city report via fbi_crime; None unless
+        # the agency has an ORI + FBI crime data + a usable search count.
+        spc_ratio = None
+        oris = info.get("ori") or []
+        if oris:
+            audit_rows = load_audit_rows(slug)
+            spc = searches_per_crime(
+                oris, crime, audit_rows,
+                crawled_stats.get("searches_30d"),
+                audit_30d=audit_searches_30d(audit_rows),
+            )
+            if spc:
+                spc_ratio = spc["ratio"]
+
         agencies.append({
             "slug": slug,
             "name": agency_display_name(info),
@@ -134,6 +165,7 @@ def main():
             "retention_days": data.get("data_retention_days"),
             "vehicles_30d": crawled_stats.get("vehicles_detected_30d"),
             "searches_30d": crawled_stats.get("searches_30d"),
+            "searches_per_crime": spc_ratio,
         })
 
     # ── Compute conflict / transparency-gap metrics ──
@@ -234,6 +266,12 @@ def main():
             "title": "Most Plate Lookups (30 days)",
             "subtitle": "Most manual plate searches in the last 30 days",
             "key": "searches_30d",
+        },
+        {
+            "id": "searches_per_crime",
+            "title": "Most Searches per Reported Crime",
+            "subtitle": "ALPR plate lookups per Part 1 crime (violent + property) reported to the FBI, latest full month",
+            "key": "searches_per_crime",
         },
         {
             "id": "inbound",
