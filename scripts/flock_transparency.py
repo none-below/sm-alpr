@@ -316,6 +316,8 @@ _HEADING_MAP = {
     "Additional Flock Safety Information":   "additional_info",
     "Community Safeguards":                  "additional_info",
     "LPR and other Cameras":                 "additional_info",
+    "Search Specifics":                      "additional_info",
+    "Flock Safety Contract":                 "additional_info",
     "Download CSV":                          "download_csv",
     "Public Search Audit":                   "search_audit",
     "Search Audit":                          "search_audit",
@@ -326,6 +328,7 @@ _HEADING_MAP = {
     "Recent Success Stories":                "success_stories",
     "Success Stories":                       "success_stories",
     "Safe City Success Stories":             "success_stories",
+    "Program Success":                       "success_stories",
     "Disclaimer":                            "disclaimer",
     "California SVS":                        "california_svs",
     "SB54: California Values Act":           "sb54",
@@ -335,11 +338,13 @@ _HEADING_MAP = {
     "Acceptable Use Policy":                 "acceptable_use_policy",
     "Prohibited Uses":                       "prohibited_uses",
     "Access Policy":                         "access_policy",
+    "System Access Policy":                  "access_policy",
     "Hotlist Policy":                        "hotlist_policy",
     "Restrictions on Deployment":            "restrictions_on_deployment",
     "Sharing with Partners":                 "sharing_with_partners",
     "Network Sharing Policy":                "sharing_with_partners",
     "Sharing Policy":                        "sharing_with_partners",
+    "Law enforcement data sharing":          "sharing_with_partners",
     "Sharing Restrictions":                  "sharing_restrictions",
     "Data retention (in days)":              "data_retention",
     "Data retention":                        "data_retention",
@@ -369,6 +374,7 @@ _HEADING_MAP = {
     # org sharing — prefix match handles "Organizations granted access to X data"
     "Organizations granted access":          "orgs_granted_access",
     "External Organizations with Access":    "orgs_granted_access",
+    "Access to external organizations":      "orgs_granted_access",
     "Sharing Network Data With":             "orgs_granted_access",
     "Approved NCRIC Share With":             "orgs_granted_access",
     "Agencies NCRIC Shares With":            "orgs_granted_access",
@@ -386,6 +392,25 @@ _DYNAMIC_HEADINGS = [
     (re.compile(r"^(Link to |To view ).+", re.IGNORECASE), "policy_info"),
     (re.compile(r"^(Full ALPR|Full LPR|Full ALPRY).+", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+[\s(](ALPR|LPR)[\s)]\s*Policy.*$", re.IGNORECASE), "alpr_policy"),
+    # Spelled-out ALPR/LPR policy-document titles, order-independent: one
+    # lookahead for the spelled-out "License Plate Recognition/Reader(s)"
+    # phrase, one for a document-type word anywhere in the heading. Covers
+    # "License Plate Reader Policy" (no "Automated", alexandria/
+    # charlottesville), "Automated License Plate Reader Policy 470" (no
+    # prefix, mendocino), "...(ALPR) Acceptable Use Policy" (muskegon),
+    # "...(ALPR) Documentation" (san-diego), and "APD Policy Manual:
+    # Automated License Plate Readers ..." (arlington) — cases the acronym
+    # rule above and the prefixed spelled-out rule below both miss.
+    # Anchored on the SPELLED-OUT phrase (with its internal spaces) on
+    # purpose: a bare "\bALPR\b"/"\bPolicy\b" match would also fire inside
+    # hyphenated policy-PDF URLs ("…/apd-policy-424-alpr.pdf") and, because
+    # dynamic matches are trusted as headings, promote that body line to a
+    # heading and drop the real policy link (albany-ca-pd regression).
+    (re.compile(
+        r"(?=.*\bLicense Plate (?:Recognition|Readers?)\b)"
+        r"(?=.*\b(?:Polic(?:y|ies)|Documentation|Manual)\b).+",
+        re.IGNORECASE,
+    ), "alpr_policy"),
     # Spelled-out form of the ALPR/LPR policy pattern above. Catches
     # agency-prefixed titles like raleigh-nc-pd's "Raleigh Police
     # Department Automated License Plate Recognition and Internet
@@ -405,10 +430,27 @@ _DYNAMIC_HEADINGS = [
     # "Success Stories" (e.g. "Yuba County SO - Facebook Post - …",
     # "Credit Card Skimming Ring - Success story").
     (re.compile(r"^.+ - Facebook Post - .+$", re.IGNORECASE), "success_stories"),
-    (re.compile(r"^.+ - Success Stor(?:y|ies)$", re.IGNORECASE), "success_stories"),
+    # Titled success-story subheadings. Catches both the dash form
+    # ("Credit Card Skimming Ring - Success story") and the agency-prefixed
+    # form without a dash ("City of Saratoga Success Stories",
+    # santa-clara-county-ca-so).
+    (re.compile(r"^.+\bSuccess Stor(?:y|ies)$", re.IGNORECASE), "success_stories"),
     # Alameda County SO posts each case under "Solved Stories with Flock
     # ALPR Technology - <case description>" as a separate bold heading.
     (re.compile(r"^Solved Stor(?:y|ies) with Flock", re.IGNORECASE), "success_stories"),
+    # Stat-heading variants the exact map doesn't list — Flock prefixes the
+    # standard labels with agency-specific qualifiers ("Total Searches by
+    # Sparks Police Department in the last 30 days", "Individual vehicles
+    # detected in the last 30 days", "Number of License Plate Reader
+    # Cameras"). Route to the same numeric fields as their exact-map
+    # siblings so _parse_number pulls the value.
+    (re.compile(r"^Number of .+\bcameras$", re.IGNORECASE), "camera_count"),
+    (re.compile(r"^.*\bvehicles?\b.*\bdetected\b.*\blast 30 days$", re.IGNORECASE), "vehicles_detected_30d"),
+    (re.compile(r"^.*\bsearches\b.*\blast 30 days$", re.IGNORECASE), "searches_30d"),
+    # FAQ / info section titles agencies bold ("MVPD Flock Safety ALPR and
+    # Camera Use Information and Public FAQ", mill-valley-ca-pd). Same role
+    # as the "Additional Info" aliases — captured as text, no value parse.
+    (re.compile(r"^.+\bFAQ$", re.IGNORECASE), "additional_info"),
     # Sentence-style link blurbs, e.g. "Auburn PD's Policies and
     # Procedures can be found at the following link:" — same role as
     # the "Policy Documents" / "Policy Link" exact headings. Placed
@@ -428,6 +470,21 @@ _DYNAMIC_HEADINGS = [
     (re.compile(r"^None:\s", re.IGNORECASE), None),
     # Documentation chrome some portals add (durango-co-pd 2026-05-11).
     (re.compile(r"^Glossary$", re.IGNORECASE), None),
+    # Leading-asterisk footnote annotations, e.g. johnson-city-tn-pd's
+    # "*Hotlist hits last 30 days info" — a footnote explaining a stat,
+    # not a field of its own.
+    (re.compile(r"^\*"), None),
+    # Camera-map navigation links some portals bold ("Monterey PD: Camera
+    # Map Locations", monterey-ca-pd) — chrome, not a data field.
+    (re.compile(r"^.+\bCamera Map\b", re.IGNORECASE), None),
+    # State-law disclaimers rendered as bold headings, e.g. pflugerville's
+    # "In Texas, license plates are not subject to Open Records Requests."
+    (re.compile(r"^In [A-Za-z]+, license plates are not subject to", re.IGNORECASE), None),
+    # "Live Feed Data retention (in days)" (mill-valley-ca-pd) is a separate
+    # live-video retention stat, distinct from ALPR "Data retention". We
+    # don't model it, and routing it to data_retention would clobber the
+    # real value (camera/retention fields are last-wins). Treat as chrome.
+    (re.compile(r"^Live Feed Data retention", re.IGNORECASE), None),
 ]
 
 _MAX_HEADING_LEN = 120
@@ -579,6 +636,14 @@ def parse_sections(text, bold_headings=None):
             # aren't styled as bold headings).
             if kind == "prefix" and bold_headings is not None and stripped not in bold_headings:
                 continue
+            # A dynamic pattern can fire on a long prose line that happens
+            # to contain a title-like substring — an overview sentence
+            # mentioning "...License Plate Reader ... policies...", or
+            # NCRIC's overview opening with "***draft version***". Real
+            # headings are short, so don't let a dynamic match promote an
+            # over-length line (exact/prefix keys are inherently short).
+            if kind == "dynamic" and len(stripped) > _MAX_HEADING_LEN:
+                continue
             # Known heading — accept even without preceding blank line
             # (handles "Hotlist Policy\nUsage" pattern)
             heading_indices.append(i)
@@ -631,6 +696,12 @@ def _parse_number(s, *, field=None, slug=None):
     for line in s.split("\n"):
         if re.fullmatch(r"\s*Data Unavailable\s*", line, re.IGNORECASE):
             return None
+    # Flock sometimes renders a JS sentinel ("-Infinity days") when a
+    # retention value is unset (monte-sereno-ca-pd data_retention). Treat it
+    # like Data Unavailable — unknown, not a real number.
+    for line in s.split("\n"):
+        if re.fullmatch(r"\s*-?Infinity\s*(?:days?)?\s*", line, re.IGNORECASE):
+            return None
     for line in s.split("\n"):
         stripped = line.strip()
         if re.fullmatch(r"[\d,]+", stripped):
@@ -670,6 +741,13 @@ _ORG_DESCRIPTION_RE = re.compile(
     r"^Organizations (?:granted access to|sharing with) .+ data\.$"
 )
 
+# Empty-state markers some portals render in the org-list body when an
+# agency shares with no one (san-diego-ca-pd "Access to external
+# organizations" → body is just "None"). No real agency is named exactly
+# "None" / "N/A", so dropping these turns the section into an empty list
+# instead of ingesting a bogus recipient.
+_EMPTY_ORG_RE = re.compile(r"^(?:None|N/?A)\.?$", re.IGNORECASE)
+
 
 def _looks_like_disclaimer(line):
     """True if a line in the orgs section is a policy sentence, not an
@@ -704,7 +782,9 @@ def _parse_org_names(body):
     # org name (PR #240; LVMPD disclaimer case for #209).
     lines = [
         L for L in lines
-        if not _ORG_DESCRIPTION_RE.match(L) and not _looks_like_disclaimer(L)
+        if not _ORG_DESCRIPTION_RE.match(L)
+        and not _EMPTY_ORG_RE.match(L)
+        and not _looks_like_disclaimer(L)
     ]
     if not lines:
         return []
