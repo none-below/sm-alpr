@@ -1,0 +1,75 @@
+{
+  "url": "https://www.opb.org/article/2026/01/08/bend-flock-cameras-ai-license-plate-camera-law-enforcement/",
+  "source_domain": "opb.org",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Bend is the latest Oregon city to turn off Flock cameras",
+  "byline": "Kathryn Styer Mart\u00ednez",
+  "published_at": "2026-01-08",
+  "fetched_at": "2026-05-08T22:16:28Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "WARNINGS \u2014 13 pts, low/medium only",
+  "scanner_score": 13,
+  "content_hash": "587463a2dd5c765809a70856aca1ce04de780973e9cc0dac4d71cb68d37254fe",
+  "paths": {
+    "html": "assets/articles/opb.org/article-2026-01-08-bend-flock-cameras-ai-license-plate-camera-law-enforcement_44bb97bc.html",
+    "meta": "assets/articles/opb.org/article-2026-01-08-bend-flock-cameras-ai-license-plate-camera-law-enforcement_44bb97bc.meta.json",
+    "pdf": "assets/articles/opb.org/article-2026-01-08-bend-flock-cameras-ai-license-plate-camera-law-enforcement_44bb97bc.pdf",
+    "txt": "assets/articles/opb.org/article-2026-01-08-bend-flock-cameras-ai-license-plate-camera-law-enforcement_44bb97bc.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260508221636/https://www.opb.org/article/2026/01/08/bend-flock-cameras-ai-license-plate-camera-law-enforcement/",
+  "wayback_timestamp": "20260508221636",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+    "68f11e4a-7a56-5692-a0a2-558de9117210"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+      "display_name": "Springfield OR PD",
+      "state": "OR",
+      "score": 2.683,
+      "matched_forms": [
+        "Springfield"
+      ]
+    },
+    {
+      "agency_id": "68f11e4a-7a56-5692-a0a2-558de9117210",
+      "display_name": "Eugene Police Department",
+      "state": "OR",
+      "score": 2.6,
+      "matched_forms": [
+        "Eugene"
+      ]
+    }
+  ],
+  "summary": "Bend, Oregon City Council voted unanimously not to renew its Flock Safety ALPR contract and turned off four cameras after public pressure over privacy and federal immigration enforcement concerns. Bend Police said they will look for an alternate vendor providing similar technology.",
+  "key_quotes": [
+    {
+      "quote": "Bend City Council has decided to turn off four AI-powered license plate cameras and not renew the city's contract with the company, Flock Safety.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Eugene, Springfield, Woodburn and Skamania County in Washington recently turned off their Flock cameras after public pressure.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Since community concern began in December, Bend has only shared its Flock data with other local law enforcement agencies, Miller said by phone. Before that, information was available statewide, and for the first three weeks of the pilot, the police department's data was open to nationwide queries from other law enforcement agencies.",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:36:39Z",
+  "article_id": "art_075",
+  "primary_subject_agency_ids": []
+}

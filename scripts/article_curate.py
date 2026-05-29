@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Curate freshly-crawled articles into article_registry.json.
+"""Curate freshly-crawled articles into the assets/article_registry/ shards.
 
 Two phases:
 
@@ -48,9 +48,9 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import agency_lookup
+import article_store
 
 ARTICLES_DIR = ROOT / "assets" / "articles"
-REGISTRY_PATH = ROOT / "assets" / "article_registry.json"
 SOURCES_PATH = ROOT / "assets" / "sources.json"
 TAGS_PATH = ROOT / "assets" / "tags.json"
 
@@ -756,7 +756,7 @@ def main() -> int:
                         "(use after human review, e.g. review_mechanical.py).")
     args = p.parse_args()
 
-    registry = read_json(REGISTRY_PATH, [])
+    registry = article_store.load_registry()
     tags_data = read_json(TAGS_PATH, {"topics": {}, "editorial": {}})
     sources_data = read_json(SOURCES_PATH, {"sources": []})
 
@@ -779,7 +779,7 @@ def main() -> int:
                    ids=ids)
 
     if not args.dry_run:
-        write_json(REGISTRY_PATH, registry)
+        article_store.save_registry(registry)
     return 0
 
 

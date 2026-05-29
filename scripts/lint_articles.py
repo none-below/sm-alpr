@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lint assets/article_registry.json for structural integrity.
+"""Lint the assets/article_registry/ shard directory for structural integrity.
 
 article_id is now hashed from the URL (collision-free by construction —
 see scripts/article_curate.py:article_id_for_url), so parallel PRs can no
@@ -27,8 +27,8 @@ Warnings (don't fail — just printed for visibility):
     curator drift after a prompt change.
 
 Usage:
-  python scripts/lint_articles.py            # check the canonical registry
-  python scripts/lint_articles.py PATH       # check an alternate path
+  python scripts/lint_articles.py            # check the canonical registry dir
+  python scripts/lint_articles.py DIR        # check an alternate shard dir
 """
 
 import json
@@ -37,7 +37,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REGISTRY = ROOT / "assets" / "article_registry.json"
+sys.path.insert(0, str(ROOT / "scripts"))
+import article_store
+
 SOURCES = ROOT / "assets" / "sources.json"
 TAGS = ROOT / "assets" / "tags.json"
 AGENCY_REGISTRY = ROOT / "assets" / "agency_registry.json"
@@ -84,19 +86,33 @@ CONTRACT_ACTION_RES = tuple(re.compile(p, re.I) for p in (
 
 
 def main() -> int:
-    path = Path(sys.argv[1]) if len(sys.argv) > 1 else REGISTRY
-    if not path.exists():
-        print(f"ERROR: {path} not found", file=sys.stderr)
+    reg_dir = (Path(sys.argv[1]) if len(sys.argv) > 1
+               else article_store.REGISTRY_DIR)
+    if not reg_dir.is_dir():
+        print(f"ERROR: {reg_dir} not found (expected a directory of "
+              f"<article_id>.json shards)", file=sys.stderr)
         return 1
 
-    try:
-        registry = json.loads(path.read_text())
-    except json.JSONDecodeError as e:
-        print(f"ERROR: {path} not valid JSON: {e}", file=sys.stderr)
-        return 1
-    if not isinstance(registry, list):
-        print(f"ERROR: {path} top-level must be a list", file=sys.stderr)
-        return 1
+    errors: list[str] = []
+    # Read each shard directly (not via article_store.load_registry) so a
+    # malformed file is a lint error, not a crash. The filename must equal
+    # the entry's article_id — save_registry guarantees that; a mismatch
+    # means a hand-renamed/created shard, which is also the only way a
+    # duplicate id could now slip in (as two differently-named files).
+    registry: list[dict] = []
+    for p in sorted(reg_dir.glob("*.json")):
+        try:
+            entry = json.loads(p.read_text())
+        except json.JSONDecodeError as e:
+            errors.append(f"{p.name}: not valid JSON: {e}")
+            continue
+        if not isinstance(entry, dict):
+            errors.append(f"{p.name}: shard must be a JSON object")
+            continue
+        if entry.get("article_id") != p.stem:
+            errors.append(f"{p.name}: article_id {entry.get('article_id')!r} "
+                          f"doesn't match filename stem {p.stem!r}")
+        registry.append(entry)
 
     if SOURCES.exists():
         sources = json.loads(SOURCES.read_text()).get("sources", [])
@@ -122,7 +138,6 @@ def main() -> int:
     else:
         valid_agency_ids = set()
 
-    errors: list[str] = []
     warnings: list[str] = []
     seen_ids: dict[str, int] = {}
     seen_urls: dict[str, int] = {}
@@ -226,12 +241,13 @@ def main() -> int:
                     )
 
     if warnings:
-        print(f"lint_articles: {len(warnings)} warning(s) in {path}:")
+        print(f"lint_articles: {len(warnings)} warning(s) in {reg_dir}:")
         for w in warnings:
             print(f"  ⚠ {w}")
 
     if errors:
-        print(f"lint_articles: {len(errors)} error(s) in {path}:", file=sys.stderr)
+        print(f"lint_articles: {len(errors)} error(s) in {reg_dir}:",
+              file=sys.stderr)
         for e in errors:
             print(f"  - {e}", file=sys.stderr)
         return 1

@@ -1,0 +1,117 @@
+{
+  "url": "https://cvillerightnow.com/news/208802-richmond-police-chief-apologizes-for-february-atf-access-grant-to-flock-system/",
+  "source_domain": "cvillerightnow.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Richmond Police Chief apologizes for February ATF access grant to Flock system - Cville Right Now",
+  "byline": "Jay Hart",
+  "published_at": "2025-07-09T17:15:55+00:00",
+  "fetched_at": "2026-05-09T15:06:09Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 86 pts, HIGH/CRITICAL findings",
+  "scanner_score": 86,
+  "content_hash": "0570dd6fb73f082022e0aee06e467886348cac130c7cdd25c7e4f9e8524f9a94",
+  "paths": {
+    "html": "assets/articles/cvillerightnow.com/news-208802-richmond-police-chief-apologizes-for-february-atf-access-grant-to-fl_43bb817b.html",
+    "meta": "assets/articles/cvillerightnow.com/news-208802-richmond-police-chief-apologizes-for-february-atf-access-grant-to-fl_43bb817b.meta.json",
+    "pdf": "assets/articles/cvillerightnow.com/news-208802-richmond-police-chief-apologizes-for-february-atf-access-grant-to-fl_43bb817b.pdf",
+    "txt": "assets/articles/cvillerightnow.com/news-208802-richmond-police-chief-apologizes-for-february-atf-access-grant-to-fl_43bb817b.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260509150733/https://cvillerightnow.com/news/208802-flood-watch-cancels-july-9-farmers-in-the-park/partial/",
+  "wayback_timestamp": "20260509150733",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+    "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+    "6607f630-2279-5b12-b723-b94b16c81122",
+    "faeaae90-2988-5568-bd81-6eff3b9c11e7",
+    "4e76fb63-864b-51af-a1a4-a33298c17445"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+      "display_name": "Charlottesville Police Department",
+      "state": "VA",
+      "score": 21.967,
+      "matched_forms": [
+        "Charlottesville",
+        "Charlottesville Police"
+      ]
+    },
+    {
+      "agency_id": "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+      "display_name": "Richmond VA PD",
+      "state": "VA",
+      "score": 15.217,
+      "matched_forms": [
+        "Richmond",
+        "Richmond Police",
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "6607f630-2279-5b12-b723-b94b16c81122",
+      "display_name": "Richmond CA PD",
+      "state": "CA",
+      "score": 8.05,
+      "matched_forms": [
+        "Richmond Police",
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "faeaae90-2988-5568-bd81-6eff3b9c11e7",
+      "display_name": "Richmond KY PD",
+      "state": "KY",
+      "score": 8.05,
+      "matched_forms": [
+        "Richmond Police",
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "4e76fb63-864b-51af-a1a4-a33298c17445",
+      "display_name": "Richmond MO PD",
+      "state": "MO",
+      "score": 8.05,
+      "matched_forms": [
+        "Richmond Police",
+        "Richmond Police Department"
+      ]
+    }
+  ],
+  "summary": "Richmond (VA) Police Chief Rick Edwards apologized after learning an ATF analyst had been granted access to RPD's Flock ALPR system in February and used it for immigration-related queries, violating RPD policy. The analyst's access was terminated and RPD says no federal agencies will have access going forward. The article also recaps Charlottesville PD's earlier move to isolate its Flock system from outside access.",
+  "key_quotes": [
+    {
+      "quote": "an analyst with the Bureau of Alcohol, Tobacco, Firearms and Explosives had been granted access to the RPD system and had made queries for immigration enforcement in violation of RPD's operational standards",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "The ATF analyst's access was immediately terminated and, moving forward, no federal agencies will have access to RPD's license plate reader program.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "its data is only available to local personnel. The data cannot be accessed by anyone else in the state, and CPD cannot access Flock data elsewhere.",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:38:47Z",
+  "article_id": "art_104",
+  "primary_subject_agency_ids": [
+    "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+    "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3"
+  ]
+}

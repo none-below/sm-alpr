@@ -1,0 +1,89 @@
+{
+  "url": "https://www.kvue.com/article/news/local/dps-license-plate-reader-cameras-austin/269-372ec82a-ab8f-4f95-aa45-b0157dbf9b5c",
+  "source_domain": "kvue.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Texas DPS installs license plate reader cameras in Austin, months after city ended program",
+  "byline": "Adam Bennett",
+  "published_at": "2/18/2026 6:16:50 PM",
+  "fetched_at": "2026-05-13T05:04:20Z",
+  "discovered_by": "backfill:google-search-2026-05-11",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 137 pts, HIGH/CRITICAL findings",
+  "scanner_score": 137,
+  "content_hash": "a7d40953f9459e66d2d0e32afb892cc0ca7a92f407ddb0df3f40010830dd38ca",
+  "paths": {
+    "html": "assets/articles/kvue.com/article-news-local-dps-license-plate-reader-cameras-austin-269-372ec82a-ab8f-4f9_d9bf3087.html",
+    "meta": "assets/articles/kvue.com/article-news-local-dps-license-plate-reader-cameras-austin-269-372ec82a-ab8f-4f9_d9bf3087.meta.json",
+    "pdf": "assets/articles/kvue.com/article-news-local-dps-license-plate-reader-cameras-austin-269-372ec82a-ab8f-4f9_d9bf3087.pdf",
+    "txt": "assets/articles/kvue.com/article-news-local-dps-license-plate-reader-cameras-austin-269-372ec82a-ab8f-4f9_d9bf3087.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+    "62ce4269-bebc-5d09-88f0-e69799aeb94a",
+    "665867f8-b8cf-5e20-8d53-84fe87ef17e8"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+      "display_name": "Austin Police Department",
+      "state": "TX",
+      "score": 18.233,
+      "matched_forms": [
+        "Austin",
+        "Austin Police"
+      ]
+    },
+    {
+      "agency_id": "62ce4269-bebc-5d09-88f0-e69799aeb94a",
+      "display_name": "Buda TX PD",
+      "state": "TX",
+      "score": 2.567,
+      "matched_forms": [
+        "Buda"
+      ]
+    },
+    {
+      "agency_id": "665867f8-b8cf-5e20-8d53-84fe87ef17e8",
+      "display_name": "City of West TX PD",
+      "state": "TX",
+      "score": 2.567,
+      "matched_forms": [
+        "West"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58"
+  ],
+  "summary": "Texas DPS installed Flock ALPR cameras along state rights-of-way in Austin on Feb. 2, months after Austin City Council ended its own Flock contract over privacy concerns. DPS confirmed a $24 million Flock contract with 30-day image retention and one-year metadata retention, drawing criticism from EFF-Austin and support from the Austin Police Association.",
+  "key_quotes": [
+    {
+      "quote": "The move comes months after Austin City Council voted to end the city's contract with Flock Safety following community pushback over privacy concerns.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "There's no oversight for this massive amount of data being shared across the country",
+      "paragraph_idx": 20
+    },
+    {
+      "quote": "DPS said images and data collected by the cameras will remain in Flock Safety's database for 30 days. Limited metadata will also be stored in a DPS database for up to one year.",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T08:09:19Z",
+  "article_id": "art_253"
+}

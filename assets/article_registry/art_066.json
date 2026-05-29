@@ -1,0 +1,138 @@
+{
+  "url": "https://www.klcc.org/breaking/2025-12-05/eugene-and-springfield-both-announce-end-of-flock-camera-usage",
+  "source_domain": "klcc.org",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Eugene and Springfield both announce end of Flock camera usage",
+  "byline": "https://www.klcc.org/people/chris-lehman-1",
+  "published_at": "2025-12-06T04:48:15.362",
+  "fetched_at": "2026-05-08T19:07:37Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "WARNINGS \u2014 23 pts, low/medium only",
+  "scanner_score": 23,
+  "content_hash": "be49d4ac86df9fa6912c390e5668386f4df18ff8e708340f82e38d1ec5ffd417",
+  "paths": {
+    "html": "assets/articles/klcc.org/breaking-2025-12-05-eugene-and-springfield-both-announce-end-of-flock-camera-usa_3badff42.html",
+    "meta": "assets/articles/klcc.org/breaking-2025-12-05-eugene-and-springfield-both-announce-end-of-flock-camera-usa_3badff42.meta.json",
+    "pdf": "assets/articles/klcc.org/breaking-2025-12-05-eugene-and-springfield-both-announce-end-of-flock-camera-usa_3badff42.pdf",
+    "txt": "assets/articles/klcc.org/breaking-2025-12-05-eugene-and-springfield-both-announce-end-of-flock-camera-usa_3badff42.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "68f11e4a-7a56-5692-a0a2-558de9117210",
+    "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+    "e09c298d-cb78-5f17-9273-91f0d9b5c82f",
+    "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+    "13e8cfbe-64d0-54c1-837c-82ea571400ad",
+    "83af2f2e-4263-5b61-a419-485bea2445d6",
+    "2da4471d-cb8b-5631-8ab8-fb3fffcc0bad"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "68f11e4a-7a56-5692-a0a2-558de9117210",
+      "display_name": "Eugene Police Department",
+      "state": "OR",
+      "score": 30.483,
+      "matched_forms": [
+        "Eugene",
+        "Eugene Police",
+        "Eugene Police Department"
+      ]
+    },
+    {
+      "agency_id": "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+      "display_name": "Springfield OR PD",
+      "state": "OR",
+      "score": 16.233,
+      "matched_forms": [
+        "Springfield",
+        "Springfield Police",
+        "Springfield Police Department"
+      ]
+    },
+    {
+      "agency_id": "e09c298d-cb78-5f17-9273-91f0d9b5c82f",
+      "display_name": "University of Illinois- Springfield",
+      "state": "IL",
+      "score": 12.15,
+      "matched_forms": [
+        "Springfield"
+      ]
+    },
+    {
+      "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+      "display_name": "Justice IL PD",
+      "state": "IL",
+      "score": 5.967,
+      "matched_forms": [
+        "Justice"
+      ]
+    },
+    {
+      "agency_id": "13e8cfbe-64d0-54c1-837c-82ea571400ad",
+      "display_name": "Springfield FL PD",
+      "state": "FL",
+      "score": 4.083,
+      "matched_forms": [
+        "Springfield Police",
+        "Springfield Police Department"
+      ]
+    },
+    {
+      "agency_id": "83af2f2e-4263-5b61-a419-485bea2445d6",
+      "display_name": "Springfield MO PD",
+      "state": "MO",
+      "score": 4.083,
+      "matched_forms": [
+        "Springfield Police",
+        "Springfield Police Department"
+      ]
+    },
+    {
+      "agency_id": "2da4471d-cb8b-5631-8ab8-fb3fffcc0bad",
+      "display_name": "Springfield TN PD",
+      "state": "TN",
+      "score": 4.083,
+      "matched_forms": [
+        "Springfield Police",
+        "Springfield Police Department"
+      ]
+    }
+  ],
+  "summary": "Eugene and Springfield, Oregon both announced on December 5, 2025 that they are ending their contracts with Flock Safety for ALPR cameras, citing vulnerabilities and community concerns. Springfield's cameras were never activated, while Eugene had paused use in October; Springfield police left open the possibility of seeking a different ALPR vendor.",
+  "key_quotes": [
+    {
+      "quote": "Effective immediately, the Eugene Police Department has ended its contract with its current Automated License Plate Recognition (ALPR) vendor, Flock Safety,",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "The department has identified vulnerabilities and limitations that raise concerns about the system's ability to meet EPD's operational needs, data security requirements, and community expectations,",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "Given what we have learned, we do not have confidence that the current system provides the level of control and assurance we require.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "ALPR remains a valuable tool for modern law enforcement",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:36:20Z",
+  "article_id": "art_066",
+  "primary_subject_agency_ids": [
+    "68f11e4a-7a56-5692-a0a2-558de9117210",
+    "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4"
+  ]
+}

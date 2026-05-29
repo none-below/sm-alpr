@@ -1,0 +1,73 @@
+{
+  "url": "https://cvillerightnow.com/news/208802-city-ends-flock-pilot-program-over-federal-data-base-concerns/",
+  "source_domain": "cvillerightnow.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "City ends Flock pilot program over federal data base concerns - Cville Right Now",
+  "byline": "Jay Hart",
+  "published_at": "2025-12-16T15:44:05+00:00",
+  "fetched_at": "2026-05-09T08:53:03Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 64 pts, HIGH/CRITICAL findings",
+  "scanner_score": 64,
+  "content_hash": "2f20b37a770145b63313fbbc13626504b714fe98f53bc22c7223b4de256071a7",
+  "paths": {
+    "html": "assets/articles/cvillerightnow.com/news-208802-city-ends-flock-pilot-program-over-federal-data-base-concerns_1e0022b4.html",
+    "meta": "assets/articles/cvillerightnow.com/news-208802-city-ends-flock-pilot-program-over-federal-data-base-concerns_1e0022b4.meta.json",
+    "pdf": "assets/articles/cvillerightnow.com/news-208802-city-ends-flock-pilot-program-over-federal-data-base-concerns_1e0022b4.pdf",
+    "txt": "assets/articles/cvillerightnow.com/news-208802-city-ends-flock-pilot-program-over-federal-data-base-concerns_1e0022b4.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+      "display_name": "Charlottesville Police Department",
+      "state": "VA",
+      "score": 16.617,
+      "matched_forms": [
+        "Charlottesville",
+        "Charlottesville Police"
+      ]
+    }
+  ],
+  "summary": "Charlottesville will not resume its Flock ALPR pilot program after it expired in October, City Manager Sam Sanders announced. City Councilor Lloyd Snook and Police Chief Michael Kochis cited concerns about data being aggregated into federal databases via tools like Palantir/Peregrine, despite the police department's audits finding no misuse.",
+  "key_quotes": [
+    {
+      "quote": "The concern is always if you give that kind of information to the government, or make it subpoena-able by the government, or in some cases simply the government says, 'Give us a back door into your data base and we'll use it in real time,' that that's just giving the government too much power,",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "Not only did we have the most restrictive policy in the Commonwealth, and it still worked, we were looked at in the Commonwealth as a model.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "the PCOB (Police Civilian Oversight Board) executive director actually wrote a letter reporting from their random audits of the pilot that they found not one case of misuse",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "Sanders said they will not continue the use of the Flock programs and the cameras are being removed.",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:38:15Z",
+  "article_id": "art_094",
+  "primary_subject_agency_ids": [
+    "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3"
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "url": "https://www.kqed.org/news/12069705/santa-cruz-the-first-in-california-to-terminate-its-contract-with-flock-safety",
+  "source_domain": "kqed.org",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "Santa Cruz the First in California to Terminate Its Contract With Flock Safety | KQED",
+  "byline": "Rachael Myrow",
+  "published_at": "2026-01-14T16:48:54-08:00",
+  "fetched_at": "2026-05-04T23:06:29Z",
+  "discovered_by": "claude-search:contracts-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 28 pts, low/medium only",
+  "scanner_score": 28,
+  "content_hash": "00b8d1303383a6f722d78658d5ae11704fbfb532895b4ca2598000d89a03b16b",
+  "paths": {
+    "html": "assets/articles/kqed.org/news-12069705-santa-cruz-the-first-in-california-to-terminate-its-contract-with_3f31d93a.html",
+    "meta": "assets/articles/kqed.org/news-12069705-santa-cruz-the-first-in-california-to-terminate-its-contract-with_3f31d93a.meta.json",
+    "pdf": "assets/articles/kqed.org/news-12069705-santa-cruz-the-first-in-california-to-terminate-its-contract-with_3f31d93a.pdf",
+    "txt": "assets/articles/kqed.org/news-12069705-santa-cruz-the-first-in-california-to-terminate-its-contract-with_3f31d93a.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "display_name": "Indiana Department of Corrections",
+      "state": "IN",
+      "score": 125.033,
+      "matched_forms": [
+        "IN"
+      ]
+    },
+    {
+      "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+      "display_name": "Santa Cruz CA PD (deactivated)",
+      "state": "CA",
+      "score": 74.767,
+      "matched_forms": [
+        "Santa Cruz",
+        "Santa Cruz Police",
+        "Santa Cruz Police Department"
+      ]
+    },
+    {
+      "agency_id": "217b0fd7-91ff-5fe2-b382-a67228cef37b",
+      "display_name": "Bay AR PD",
+      "state": "AR",
+      "score": 48.3,
+      "matched_forms": [
+        "Bay"
+      ]
+    },
+    {
+      "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "display_name": "Flock Safety",
+      "state": "GA",
+      "score": 19.2,
+      "matched_forms": [
+        "Flock Safety"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 11.733,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "1dfc1565-66fb-5bcb-aca3-73a8080a4883",
+      "display_name": "Colorado State Patrol",
+      "state": "CO",
+      "score": 8.267,
+      "matched_forms": [
+        "CO"
+      ]
+    },
+    {
+      "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "display_name": "Oakland CA PD",
+      "state": "CA",
+      "score": 6.467,
+      "matched_forms": [
+        "Oakland"
+      ]
+    },
+    {
+      "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "display_name": "San Diego CA PD",
+      "state": "CA",
+      "score": 5.45,
+      "matched_forms": [
+        "San Diego"
+      ]
+    },
+    {
+      "agency_id": "eca5a0e5-4ab4-5868-a688-c03da1dff9b1",
+      "display_name": "Berkeley CA PD",
+      "state": "CA",
+      "score": 5.4,
+      "matched_forms": [
+        "Berkeley"
+      ]
+    },
+    {
+      "agency_id": "2437d11a-5c2a-53d5-9066-598778e76925",
+      "display_name": "TX - Liberty PD",
+      "state": "TX",
+      "score": 4.85,
+      "matched_forms": [
+        "Liberty"
+      ]
+    }
+  ],
+  "summary": "The Santa Cruz City Council voted 6-1 to terminate its contract with Flock Safety after learning out-of-state agencies had accessed the city's ALPR data thousands of times on behalf of federal immigration enforcement, in apparent violation of California's SB 34. Advocates say Santa Cruz is the first California city to end its Flock contract.",
+  "key_quotes": [
+    {
+      "quote": "For us, the threat to our civil liberties was greater than any benefit we could get from the flawed product",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "between June and October 2025, state agencies accessed Santa Cruz camera data roughly 4,000 times on behalf of federal law enforcement, including U.S. Immigration and Customs Enforcement, or ICE, in violation of California's SB 34",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "the typical standard Flock contract, which the agencies in Santa Cruz County all signed, enables nationwide sharing, and nationwide sharing was going on the entire time",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "Santa Cruz joins nearly two dozen jurisdictions in 2025 that canceled or rejected Flock contracts by exercising procurement power",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:30:02Z",
+  "article_id": "art_005",
+  "primary_subject_agency_ids": [
+    "8e97dede-dc5e-518a-bd9c-ca1acce1757a"
+  ]
+}

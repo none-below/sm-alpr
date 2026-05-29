@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate a local HTML review UI for `mechanical`-status articles.
 
-Reads assets/article_registry.json, pulls the first ~500 chars of each
+Reads the assets/article_registry/ shards, pulls the first ~500 chars of each
 entry's extracted .txt for inline preview, and writes a single static
 HTML file with one row per article. Radios per row (approve/reject/skip),
 localStorage persistence, and a "Copy decisions" button at the bottom.
@@ -25,7 +25,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REGISTRY = ROOT / "assets" / "article_registry.json"
+sys.path.insert(0, str(ROOT / "scripts"))
+import article_store
+
 DEFAULT_OUT = Path("/tmp/review_mechanical.html")
 EXCERPT_CHARS = 600
 
@@ -293,7 +295,7 @@ def main() -> int:
                     help="open the generated HTML after writing")
     args = ap.parse_args()
 
-    registry = json.loads(REGISTRY.read_text())
+    registry = article_store.load_registry()
     rows = build_rows(registry)
     if not rows:
         print("no mechanical entries pending")

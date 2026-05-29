@@ -1,0 +1,125 @@
+{
+  "url": "https://www.thenewstribune.com/news/state/washington/article315379868.html",
+  "source_domain": "thenewstribune.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Flock Safety cameras in Centralia are here to stay, even under new state restrictions",
+  "byline": " Jacob Moore, The Chronicle, Centralia, Wash. ",
+  "published_at": "2026-04-11T11:28:11-07:00",
+  "fetched_at": "2026-05-09T21:01:00Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 5 pts, low/medium only",
+  "scanner_score": 5,
+  "content_hash": "41c55965b6527703634194e2da630010f3e238665d57eb612bfd7cb1aa64acba",
+  "paths": {
+    "html": "assets/articles/thenewstribune.com/news-state-washington-article315379868-html_ae4a06e1.html",
+    "meta": "assets/articles/thenewstribune.com/news-state-washington-article315379868-html_ae4a06e1.meta.json",
+    "pdf": "assets/articles/thenewstribune.com/news-state-washington-article315379868-html_ae4a06e1.pdf",
+    "txt": "assets/articles/thenewstribune.com/news-state-washington-article315379868-html_ae4a06e1.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "save-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "legal:legislation",
+    "policy:hotlist",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "b47e37ee-b687-5be5-a284-a153da743c03",
+    "59b47e3d-afc5-514a-9c3a-a91777918662",
+    "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+    "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+    "5b1cc766-8466-5059-bb35-c320faf59410",
+    "0a9f6f92-fc21-5938-80a2-d0abe88afa88"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "b47e37ee-b687-5be5-a284-a153da743c03",
+      "display_name": "Centralia PD (WA)",
+      "state": "WA",
+      "score": 12.567,
+      "matched_forms": [
+        "Centralia",
+        "Centralia Police",
+        "Centralia Police Department"
+      ]
+    },
+    {
+      "agency_id": "59b47e3d-afc5-514a-9c3a-a91777918662",
+      "display_name": "Centralia IL PD",
+      "state": "IL",
+      "score": 4.167,
+      "matched_forms": [
+        "Centralia Police",
+        "Centralia Police Department"
+      ]
+    },
+    {
+      "agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+      "display_name": "Puyallup WA PD",
+      "state": "WA",
+      "score": 3.767,
+      "matched_forms": [
+        "Puyallup"
+      ]
+    },
+    {
+      "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "display_name": "Port of Seattle WA PD",
+      "state": "WA",
+      "score": 2.617,
+      "matched_forms": [
+        "Seattle"
+      ]
+    },
+    {
+      "agency_id": "5b1cc766-8466-5059-bb35-c320faf59410",
+      "display_name": "Moore OK PD",
+      "state": "OK",
+      "score": 2.583,
+      "matched_forms": [
+        "Moore"
+      ]
+    },
+    {
+      "agency_id": "0a9f6f92-fc21-5938-80a2-d0abe88afa88",
+      "display_name": "Kent WA PD",
+      "state": "WA",
+      "score": 2.567,
+      "matched_forms": [
+        "Kent"
+      ]
+    }
+  ],
+  "summary": "Centralia (WA) Police Department says it will continue using its Flock Safety ALPR cameras despite new state restrictions under SB 6002, which limits use to felonies/gross misdemeanors, shortens retention to 21 days, and bars cameras within 500 feet of schools, places of worship, reproductive health facilities, and courthouses. Three Centralia cameras near such locations have been shut off, while other Washington agencies including Seattle, Kent, and Pierce County have temporarily disabled their systems.",
+  "key_quotes": [
+    {
+      "quote": "the Centralia Police Department remains confident in its use of its Flock Safety cameras, even if the technology's benefits are somewhat reduced by recent state legislation",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "The Centralia Police Department has three cameras that violated that rule that have since been shut off.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "police departments in Seattle and Kent said they temporarily shut off their license plate readers",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "his county agency had shut their cameras off entirely because of the new law",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T16:38:31Z",
+  "article_id": "art_136",
+  "primary_subject_agency_ids": [
+    "b47e37ee-b687-5be5-a284-a153da743c03"
+  ]
+}

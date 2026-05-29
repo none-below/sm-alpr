@@ -1,0 +1,167 @@
+{
+  "url": "https://www.mv-voice.com/public-safety/2026/02/02/mountain-view-police-turn-off-license-plate-cameras-after-data-sharing-breach/",
+  "source_domain": "mv-voice.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Mountain View police turn off license plate cameras after data sharing breach",
+  "byline": "Emily Margaretten, Zoe Morgan",
+  "published_at": "2026-02-03T00:09:01+00:00",
+  "fetched_at": "2026-05-08T19:06:14Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 131 pts, HIGH/CRITICAL findings",
+  "scanner_score": 131,
+  "content_hash": "311daa517137890a2a27e7b986789476ba126ea484d371cec4fdf76e3b9701ef",
+  "paths": {
+    "html": "assets/articles/mv-voice.com/public-safety-2026-02-02-mountain-view-police-turn-off-license-plate-cameras-aft_015a19fa.html",
+    "meta": "assets/articles/mv-voice.com/public-safety-2026-02-02-mountain-view-police-turn-off-license-plate-cameras-aft_015a19fa.meta.json",
+    "pdf": "assets/articles/mv-voice.com/public-safety-2026-02-02-mountain-view-police-turn-off-license-plate-cameras-aft_015a19fa.pdf",
+    "txt": "assets/articles/mv-voice.com/public-safety-2026-02-02-mountain-view-police-turn-off-license-plate-cameras-aft_015a19fa.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+    "fb01478d-3233-55c1-a65c-74b6e23a6b6a",
+    "6be9f842-1658-5490-8be4-14b77cc1e96d",
+    "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+    "f94b9663-269f-51eb-b204-b6d4c8cee4de",
+    "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+    "e09c298d-cb78-5f17-9273-91f0d9b5c82f",
+    "ea9df760-f207-5f85-9f8e-7f41997737bd",
+    "d9d1866d-0a26-5627-b886-855eeeded437",
+    "ddaa717b-703e-5c02-8e9c-9563ebd8c802"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+      "display_name": "Mountain View Police Department",
+      "state": "CA",
+      "score": 51.15,
+      "matched_forms": [
+        "Mountain View",
+        "Mountain View Police",
+        "Mountain View Police Department"
+      ]
+    },
+    {
+      "agency_id": "fb01478d-3233-55c1-a65c-74b6e23a6b6a",
+      "display_name": "AR - Mountain View PD",
+      "state": "AR",
+      "score": 9.5,
+      "matched_forms": [
+        "Mountain View Police",
+        "Mountain View Police Department"
+      ]
+    },
+    {
+      "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+      "display_name": "Santa Clara DA CA",
+      "state": "CA",
+      "score": 4.3,
+      "matched_forms": [
+        "Santa Clara County",
+        "Santa Clara County District Attorney"
+      ]
+    },
+    {
+      "agency_id": "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+      "display_name": "Evanston Police Department",
+      "state": "IL",
+      "score": 3.767,
+      "matched_forms": [
+        "Evanston"
+      ]
+    },
+    {
+      "agency_id": "f94b9663-269f-51eb-b204-b6d4c8cee4de",
+      "display_name": "Redwood City CA PD",
+      "state": "CA",
+      "score": 2.7,
+      "matched_forms": [
+        "Redwood City"
+      ]
+    },
+    {
+      "agency_id": "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+      "display_name": "Springfield OR PD",
+      "state": "OR",
+      "score": 2.683,
+      "matched_forms": [
+        "Springfield"
+      ]
+    },
+    {
+      "agency_id": "e09c298d-cb78-5f17-9273-91f0d9b5c82f",
+      "display_name": "University of Illinois- Springfield",
+      "state": "IL",
+      "score": 2.683,
+      "matched_forms": [
+        "Springfield"
+      ]
+    },
+    {
+      "agency_id": "ea9df760-f207-5f85-9f8e-7f41997737bd",
+      "display_name": "Charleston IL PD",
+      "state": "IL",
+      "score": 2.667,
+      "matched_forms": [
+        "Charleston"
+      ]
+    },
+    {
+      "agency_id": "d9d1866d-0a26-5627-b886-855eeeded437",
+      "display_name": "Pleasanton CA PD",
+      "state": "CA",
+      "score": 2.667,
+      "matched_forms": [
+        "Pleasanton"
+      ]
+    },
+    {
+      "agency_id": "ddaa717b-703e-5c02-8e9c-9563ebd8c802",
+      "display_name": "Livermore CA PD",
+      "state": "CA",
+      "score": 2.65,
+      "matched_forms": [
+        "Livermore"
+      ]
+    }
+  ],
+  "summary": "Mountain View Police Chief Mike Canfield disabled all 30 of the city's Flock Safety license plate cameras after disclosures that over 250 California agencies, and briefly federal entities, accessed the data without authorization in violation of city policy and state law. The cameras will remain off pending City Council discussion on Feb. 24, and Canfield said he no longer has confidence in Flock as a vendor.",
+  "key_quotes": [
+    {
+      "quote": "All of Mountain View's license plate cameras are being disabled, effective immediately, Police Chief Mike Canfield announced Monday afternoon.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "While the Flock Safety pilot program demonstrated clear value in enhancing our ability to protect our community and help us solve crimes, I personally no longer have confidence in this particular vendor",
+      "paragraph_idx": 23
+    },
+    {
+      "quote": "a 'national lookup' setting had been turned on from August to November 2024. According to Canfield, Flock turned that setting on without notifying Mountain View police",
+      "paragraph_idx": 24
+    },
+    {
+      "quote": "State law also prohibits sharing ALPR information with out-of-state agencies, as well as sharing this information for immigration enforcement purposes.",
+      "paragraph_idx": 25
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-08T20:03:01Z",
+  "article_id": "art_069",
+  "primary_subject_agency_ids": [
+    "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0"
+  ]
+}

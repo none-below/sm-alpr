@@ -143,30 +143,27 @@ def test_count_queue_files_counts_only_json(tmp_path):
     assert pb.count_queue_files(tmp_path) == 2
 
 
-# ── load_registry_at (git diff against base) ─────────────────────
+# ── base_article_ids (git diff against base) ─────────────────────
 
 
-def test_load_registry_at_returns_empty_for_unknown_ref(monkeypatch, tmp_path):
-    """If the git ref doesn't exist or has no registry, return []."""
+def test_base_article_ids_returns_empty_for_unknown_ref(monkeypatch, tmp_path):
+    """If the git ref doesn't exist, return an empty set."""
     monkeypatch.chdir(tmp_path)
     subprocess.run(["git", "init"], cwd=tmp_path, check=True, capture_output=True)
-    out = pb.load_registry_at("nonexistent-ref")
-    assert out == []
+    assert pb.base_article_ids("nonexistent-ref") == set()
 
 
-def test_load_registry_at_reads_from_git(monkeypatch, tmp_path):
-    """Spin up a tiny git repo, commit a registry, verify load_registry_at
-    can read it back."""
+def test_base_article_ids_reads_from_git(monkeypatch, tmp_path):
+    """Spin up a tiny git repo, commit a shard, verify base_article_ids
+    derives the id from the shard filename at that ref."""
     monkeypatch.chdir(tmp_path)
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
     subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
     subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
-    (tmp_path / "assets").mkdir()
-    reg = [_entry("art_001")]
-    (tmp_path / "assets" / "article_registry.json").write_text(json.dumps(reg))
+    (tmp_path / "assets" / "article_registry").mkdir(parents=True)
+    (tmp_path / "assets" / "article_registry" / "art_001.json").write_text(
+        json.dumps(_entry("art_001")))
     subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
     subprocess.run(["git", "commit", "-qm", "init"], cwd=tmp_path, check=True)
 
-    out = pb.load_registry_at("HEAD")
-    assert len(out) == 1
-    assert out[0]["article_id"] == "art_001"
+    assert pb.base_article_ids("HEAD") == {"art_001"}

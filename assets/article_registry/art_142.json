@@ -1,0 +1,80 @@
+{
+  "url": "https://www.thenewstribune.com/news/nation-world/national/article315239095.html",
+  "source_domain": "thenewstribune.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "As Denver council faces vote on new license plate cameras contract, distaste lingers for \u2018this whole Flock era'",
+  "byline": " Elliott Wenzler, The Denver Post ",
+  "published_at": "2026-03-30T11:35:59-07:00",
+  "fetched_at": "2026-05-10T00:08:14Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 5 pts, low/medium only",
+  "scanner_score": 5,
+  "content_hash": "9e2c72c341ccb151044ecae6c165dcd325902b21debcc327e058a2104f697461",
+  "paths": {
+    "html": "assets/articles/thenewstribune.com/news-nation-world-national-article315239095-html_d5261ec4.html",
+    "meta": "assets/articles/thenewstribune.com/news-nation-world-national-article315239095-html_d5261ec4.meta.json",
+    "pdf": "assets/articles/thenewstribune.com/news-nation-world-national-article315239095-html_d5261ec4.pdf",
+    "txt": "assets/articles/thenewstribune.com/news-nation-world-national-article315239095-html_d5261ec4.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:reconsidering",
+    "policy:sharing",
+    "scope:local",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:fusus"
+  ],
+  "agencies": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "b111be54-e0b4-5bc2-83c9-ad2285eccaaf"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 5.233,
+      "matched_forms": [
+        "Denver Police",
+        "Denver Police Department"
+      ]
+    },
+    {
+      "agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+      "display_name": "Puyallup WA PD",
+      "state": "WA",
+      "score": 3.767,
+      "matched_forms": [
+        "Puyallup"
+      ]
+    }
+  ],
+  "summary": "Denver City Council faces a vote on a new one-year, $150,000 contract with Axon for 50 license-plate cameras to replace the city's expiring Flock Safety contract, which the mayor ended after reports that ICE accessed Denver's Flock data. Several council members remain skeptical, citing surveillance concerns and the lack of a city surveillance ordinance, leaving the vote uncertain.",
+  "key_quotes": [
+    {
+      "quote": "Johnston's office and the council have been at odds over the cameras for months after reports showed that U.S. Immigration and Customs Enforcement had accessed Denver data in its efforts to carry out mass deportations.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "In February, Johnston announced that the city would end its relationship with Flock because of the concerns raised by council members and residents.",
+      "paragraph_idx": 19
+    },
+    {
+      "quote": "others who frankly just can't get over the apprehension that was developed during this whole Flock era",
+      "paragraph_idx": 23
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T16:39:19Z",
+  "article_id": "art_142",
+  "primary_subject_agency_ids": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "url": "https://www.thenorthwestern.com/story/news/local/oshkosh/2026/04/22/oshkosh-rescinds-flock-safety-contract-after-police-chief-raises-concerns/89745485007/",
+  "source_domain": "thenorthwestern.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Oshkosh drops Flock cameras after chief raises trust and access issues",
+  "byline": ", Oshkosh Northwestern",
+  "published_at": "2026-04-23T04:00:58.295131947Z",
+  "fetched_at": "2026-05-08T19:06:20Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 71 pts, HIGH/CRITICAL findings",
+  "scanner_score": 71,
+  "content_hash": "083eb425ae85cabf02ff0955ab964bc650bbda4a96682e40086d94ad6a411400",
+  "paths": {
+    "html": "assets/articles/thenorthwestern.com/story-news-local-oshkosh-2026-04-22-oshkosh-rescinds-flock-safety-contract-after_02e8fa46.html",
+    "meta": "assets/articles/thenorthwestern.com/story-news-local-oshkosh-2026-04-22-oshkosh-rescinds-flock-safety-contract-after_02e8fa46.meta.json",
+    "pdf": "assets/articles/thenorthwestern.com/story-news-local-oshkosh-2026-04-22-oshkosh-rescinds-flock-safety-contract-after_02e8fa46.pdf",
+    "txt": "assets/articles/thenorthwestern.com/story-news-local-oshkosh-2026-04-22-oshkosh-rescinds-flock-safety-contract-after_02e8fa46.txt"
+  },
+  "wayback_url": "https://www.thenorthwestern.com/story/news/local/oshkosh/2026/04/22/oshkosh-rescinds-flock-safety-contract-after-police-chief-raises-concerns/89745485007/",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "25a4e15f-c0b8-5fc4-9aea-4990fdb4a712",
+    "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+    "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+    "48841a6b-f280-54eb-ba5d-cb57962ad687",
+    "e32564b7-f694-551f-854b-82bc1a8d8689"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "25a4e15f-c0b8-5fc4-9aea-4990fdb4a712",
+      "display_name": "Oshkosh Police Department",
+      "state": "WI",
+      "score": 29.133,
+      "matched_forms": [
+        "Oshkosh",
+        "Oshkosh Police",
+        "Oshkosh Police Department"
+      ]
+    },
+    {
+      "agency_id": "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+      "display_name": "Milwaukee WI PD",
+      "state": "WI",
+      "score": 4.95,
+      "matched_forms": [
+        "Milwaukee"
+      ]
+    },
+    {
+      "agency_id": "67bc50f4-d2c0-573f-af3e-5b388b2dc3b0",
+      "display_name": "Mountain View Police Department",
+      "state": "CA",
+      "score": 2.717,
+      "matched_forms": [
+        "Mountain View"
+      ]
+    },
+    {
+      "agency_id": "48841a6b-f280-54eb-ba5d-cb57962ad687",
+      "display_name": "Dane County WI SO",
+      "state": "WI",
+      "score": 2.683,
+      "matched_forms": [
+        "Dane County"
+      ]
+    },
+    {
+      "agency_id": "e32564b7-f694-551f-854b-82bc1a8d8689",
+      "display_name": "Menasha WI PD",
+      "state": "WI",
+      "score": 2.617,
+      "matched_forms": [
+        "Menasha"
+      ]
+    }
+  ],
+  "summary": "Oshkosh, WI rescinded its Flock Safety ALPR contract after Police Chief Dean Smith told the Common Council that Flock had misrepresented the cameras' capabilities, including claims about heat maps and federal access to data. The unanimous reversal came less than 24 hours after council had approved a one-year renewal, and OPD is powering off all 26 cameras and revoking outside-agency access.",
+  "key_quotes": [
+    {
+      "quote": "Oshkosh is rescinding its agreement with Flock Safety after Oshkosh Police Department said the company misrepresented information regarding the automated license plate readers at the April 21 Common Council meeting.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Smith said he was immediately advised by officers that Flock cameras create a \u201cheat map,\u201d directly refuting claims to the contrary from Flock Chief Information Security Officer Chris Castaldo.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "the OPD will be powering off each of Oshkosh's 26 Flock cameras on April 23 while covering the license plate readers with a bag to ensure they cannot collect data.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "any access by outside agencies has been revoked while all internal users have had their accounts deactivated with the exception of the city's Flock Administrator.",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-08T20:03:18Z",
+  "article_id": "art_072",
+  "primary_subject_agency_ids": [
+    "25a4e15f-c0b8-5fc4-9aea-4990fdb4a712"
+  ]
+}

@@ -194,6 +194,8 @@ jobs:
             tests/test_agency_lookup.py \
             tests/test_lint_articles.py \
             tests/test_article_pr_body.py \
+            tests/test_article_curate.py \
+            tests/test_article_store.py \
             tests/test_discover_articles.py \
             -v
 

@@ -1,0 +1,123 @@
+{
+  "url": "https://www.opb.org/article/2025/12/06/eugene-springfield-end-flock-cameras/",
+  "source_domain": "opb.org",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Eugene and Springfield both announce end of Flock camera usage",
+  "byline": "Chris Lehman",
+  "published_at": "2025-12-06",
+  "fetched_at": "2026-05-08T19:06:07Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "WARNINGS \u2014 13 pts, low/medium only",
+  "scanner_score": 13,
+  "content_hash": "52ce71b135890a2550154c2b1db4bc510a35568fe2c95ba7632e8dc5132edc08",
+  "paths": {
+    "html": "assets/articles/opb.org/article-2025-12-06-eugene-springfield-end-flock-cameras_00c5460d.html",
+    "meta": "assets/articles/opb.org/article-2025-12-06-eugene-springfield-end-flock-cameras_00c5460d.meta.json",
+    "pdf": "assets/articles/opb.org/article-2025-12-06-eugene-springfield-end-flock-cameras_00c5460d.pdf",
+    "txt": "assets/articles/opb.org/article-2025-12-06-eugene-springfield-end-flock-cameras_00c5460d.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "68f11e4a-7a56-5692-a0a2-558de9117210",
+    "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+    "13e8cfbe-64d0-54c1-837c-82ea571400ad",
+    "83af2f2e-4263-5b61-a419-485bea2445d6",
+    "2da4471d-cb8b-5631-8ab8-fb3fffcc0bad",
+    "83b05b01-74fd-5e6d-9188-816a601a64dd"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "68f11e4a-7a56-5692-a0a2-558de9117210",
+      "display_name": "Eugene Police Department",
+      "state": "OR",
+      "score": 22.367,
+      "matched_forms": [
+        "Eugene",
+        "Eugene Police",
+        "Eugene Police Department"
+      ]
+    },
+    {
+      "agency_id": "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+      "display_name": "Springfield OR PD",
+      "state": "OR",
+      "score": 13.567,
+      "matched_forms": [
+        "Springfield",
+        "Springfield Police"
+      ]
+    },
+    {
+      "agency_id": "13e8cfbe-64d0-54c1-837c-82ea571400ad",
+      "display_name": "Springfield FL PD",
+      "state": "FL",
+      "score": 2.6,
+      "matched_forms": [
+        "Springfield Police"
+      ]
+    },
+    {
+      "agency_id": "83af2f2e-4263-5b61-a419-485bea2445d6",
+      "display_name": "Springfield MO PD",
+      "state": "MO",
+      "score": 2.6,
+      "matched_forms": [
+        "Springfield Police"
+      ]
+    },
+    {
+      "agency_id": "2da4471d-cb8b-5631-8ab8-fb3fffcc0bad",
+      "display_name": "Springfield TN PD",
+      "state": "TN",
+      "score": 2.6,
+      "matched_forms": [
+        "Springfield Police"
+      ]
+    },
+    {
+      "agency_id": "83b05b01-74fd-5e6d-9188-816a601a64dd",
+      "display_name": "Yakima WA PD",
+      "state": "WA",
+      "score": 2.6,
+      "matched_forms": [
+        "Yakima"
+      ]
+    }
+  ],
+  "summary": "Eugene and Springfield, Oregon both announced on December 5, 2025 that they are ending their contracts with Flock Safety for ALPR cameras, citing vulnerabilities and limitations in the system. Eugene had already asked Flock to turn off its cameras in October; Springfield's cameras were never activated and will be removed, though the department said it may seek other ALPR vendors.",
+  "key_quotes": [
+    {
+      "quote": "Effective immediately, the Eugene Police Department has ended its contract with its current Automated License Plate Recognition (ALPR) vendor, Flock Safety,",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "The department has identified vulnerabilities and limitations that raise concerns about the system's ability to meet EPD's operational needs, data security requirements, and community expectations,",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Given what we have learned, we do not have confidence that the current system provides the level of control and assurance we require.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "ALPR remains a valuable tool for modern law enforcement",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:36:27Z",
+  "article_id": "art_070",
+  "primary_subject_agency_ids": [
+    "68f11e4a-7a56-5692-a0a2-558de9117210",
+    "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4"
+  ]
+}

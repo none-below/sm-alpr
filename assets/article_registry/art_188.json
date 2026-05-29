@@ -1,0 +1,68 @@
+{
+  "url": "https://www.thenewstribune.com/news/local/crime/article315247938.html",
+  "source_domain": "thenewstribune.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Pierce County Sheriff\u2019s Office to deactivate its license-plate reader cameras",
+  "byline": "Puneet Bsanti",
+  "published_at": "2026-03-31T09:55:29-07:00",
+  "fetched_at": "2026-05-11T04:24:48Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 7 pts, low/medium only",
+  "scanner_score": 7,
+  "content_hash": "73f671dd4adfa4b1671fbcce5e38041f123e85cce3d3ac9551a0e3e0ca4c3b67",
+  "paths": {
+    "html": "assets/articles/thenewstribune.com/news-local-crime-article315247938-html_3fe638ce.html",
+    "meta": "assets/articles/thenewstribune.com/news-local-crime-article315247938-html_3fe638ce.meta.json",
+    "pdf": "assets/articles/thenewstribune.com/news-local-crime-article315247938-html_3fe638ce.pdf",
+    "txt": "assets/articles/thenewstribune.com/news-local-crime-article315247938-html_3fe638ce.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:terminated",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:local",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "b111be54-e0b4-5bc2-83c9-ad2285eccaaf"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+      "display_name": "Puyallup WA PD",
+      "state": "WA",
+      "score": 3.767,
+      "matched_forms": [
+        "Puyallup"
+      ]
+    }
+  ],
+  "summary": "The Pierce County Sheriff's Office announced it will deactivate its Flock ALPR cameras after Washington Gov. Bob Ferguson signed SB 6002 (the Driver Privacy Act), which restricts ALPR data retention, bans cameras near sensitive locations like schools and hospitals, and prohibits ALPR use for immigration enforcement. Sheriff Keith Swank said compliance risk\u2014including gross misdemeanor liability\u2014drove the decision and warned solve rates will drop.",
+  "key_quotes": [
+    {
+      "quote": "The Sheriff's Office said in a news release the continued use of the ALPR system, or Flock cameras, would place deputies at risk of unintentionally violating the new state law.",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "there is no available technology or capability that allows the Sheriff's Office to ensure the cameras can reliably differentiate between restricted and permitted locations in real time.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "The law also makes it unlawful for any agency to use the reader for immigration investigations or enforcement.",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:29:19Z",
+  "article_id": "art_188",
+  "primary_subject_agency_ids": []
+}

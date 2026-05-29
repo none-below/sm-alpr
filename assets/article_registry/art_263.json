@@ -1,0 +1,89 @@
+{
+  "url": "https://www.kvue.com/article/news/politics/austin-mayor-and-council/automatic-license-plate-reader-program-austin-city-council-vote/269-460c17c1-f9e1-4a4f-bb20-bfda11245a6f",
+  "source_domain": "kvue.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Vote on automatic license plate reader program removed from Austin council agenda after privacy fears",
+  "byline": "Adam Bennett",
+  "published_at": "6/3/2025 5:22:32 PM",
+  "fetched_at": "2026-05-13T11:36:11Z",
+  "discovered_by": "backfill:google-search-2026-05-11",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 155 pts, HIGH/CRITICAL findings",
+  "scanner_score": 155,
+  "content_hash": "fdcb2e5db12002bd36199a039b8f8ab7ea6e3a30d883bb9ebe3bdfeaec32b072",
+  "paths": {
+    "html": "assets/articles/kvue.com/article-news-politics-austin-mayor-and-council-automatic-license-plate-reader-pr_e335049a.html",
+    "meta": "assets/articles/kvue.com/article-news-politics-austin-mayor-and-council-automatic-license-plate-reader-pr_e335049a.meta.json",
+    "pdf": "assets/articles/kvue.com/article-news-politics-austin-mayor-and-council-automatic-license-plate-reader-pr_e335049a.pdf",
+    "txt": "assets/articles/kvue.com/article-news-politics-austin-mayor-and-council-automatic-license-plate-reader-pr_e335049a.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260513113710/https://www.kvue.com/watch",
+  "wayback_timestamp": "20260513113710",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+      "display_name": "Austin Police Department",
+      "state": "TX",
+      "score": 19.75,
+      "matched_forms": [
+        "Austin",
+        "Austin Police",
+        "Austin Police Department"
+      ]
+    },
+    {
+      "agency_id": "5d07ba57-485b-59c0-ac64-1d8d4634c23a",
+      "display_name": "MSD Wayne Township IN PD",
+      "state": "IN",
+      "score": 1.15,
+      "matched_forms": [
+        "IN Police"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58"
+  ],
+  "summary": "Austin's city manager pulled an item to extend the city's ALPR pilot program from the June council agenda after a work session where residents raised privacy concerns, especially about ICE access to data. The withdrawal effectively ends the pilot on June 30, despite Police Chief Lisa Davis and Assistant Chief Sheldon Askew defending the program's role in solving violent crimes.",
+  "key_quotes": [
+    {
+      "quote": "Given concerns expressed today, I have decided to withdraw this item from the agenda at this time to provide more opportunities to address council members' questions and do our due diligence to alleviate concerns prior to bringing this item back to City Council for consideration.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Siegel said a flaw in the city's contract lets Flock, the ALPR company, access the data and the city has no say about what Flock does with it.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "Has APD shared any data with ICE or any immigration related entity that's seeking that data?",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T09:08:50Z",
+  "article_id": "art_263"
+}

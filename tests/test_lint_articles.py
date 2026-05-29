@@ -19,18 +19,19 @@ import pytest
 
 ROOT = Path(__file__).parent.parent
 SCRIPT = ROOT / "scripts" / "lint_articles.py"
+ARTICLE_STORE = ROOT / "scripts" / "article_store.py"
 
 
 def _make_repo(tmp_path: Path, *, registry, sources=None, tags=None,
                agencies=None, paths_exist=True):
     """Build a minimal repo structure under tmp_path/repo/. Returns
-    the path to the article_registry.json so it can be passed to the
-    lint script."""
+    the path to the article_registry/ shard directory."""
     repo = tmp_path / "repo"
     (repo / "assets" / "articles").mkdir(parents=True)
     (repo / "scripts").mkdir(parents=True)
-    SCRIPT.read_bytes()  # ensure source exists; copy is below
     (repo / "scripts" / "lint_articles.py").write_bytes(SCRIPT.read_bytes())
+    # lint imports article_store, so the temp repo needs it too.
+    (repo / "scripts" / "article_store.py").write_bytes(ARTICLE_STORE.read_bytes())
 
     sources = sources or [{"domain": "eff.org", "tier": 2, "name": "EFF"}]
     (repo / "assets" / "sources.json").write_text(
@@ -52,9 +53,12 @@ def _make_repo(tmp_path: Path, *, registry, sources=None, tags=None,
                     p.parent.mkdir(parents=True, exist_ok=True)
                     p.touch()
 
-    reg = repo / "assets" / "article_registry.json"
-    reg.write_text(json.dumps(registry))
-    return repo, reg
+    reg_dir = repo / "assets" / "article_registry"
+    reg_dir.mkdir(parents=True, exist_ok=True)
+    for entry in registry:
+        aid = entry.get("article_id") or "noid"
+        (reg_dir / f"{aid}.json").write_text(json.dumps(entry))
+    return repo, reg_dir
 
 
 def _run(repo: Path):
@@ -111,13 +115,26 @@ def test_lint_accepts_hashed_article_id(tmp_path):
 
 
 def test_lint_rejects_duplicate_article_id(tmp_path):
-    repo, _ = _make_repo(tmp_path, registry=[
-        _good_entry("art_001"),
-        _good_entry("art_001", url="https://eff.org/different"),
-    ])
+    # Two shards with the same internal article_id — only reachable via a
+    # hand-created/misnamed file. save_registry keys the filename on the id,
+    # so it can't produce this, and a colliding add surfaces as a git
+    # add/add conflict; the lint is the backstop for hand-edits.
+    repo, reg_dir = _make_repo(tmp_path, registry=[_good_entry("art_001")])
+    (reg_dir / "art_001_dup.json").write_text(
+        json.dumps(_good_entry("art_001", url="https://eff.org/different")))
     rc, out, err = _run(repo)
     assert rc == 1
     assert "duplicate article_id" in err
+
+
+def test_lint_rejects_filename_id_mismatch(tmp_path):
+    repo, reg_dir = _make_repo(tmp_path, registry=[_good_entry("art_001")])
+    # filename stem (art_999) != internal article_id (art_002)
+    (reg_dir / "art_999.json").write_text(
+        json.dumps(_good_entry("art_002", url="https://eff.org/x")))
+    rc, out, err = _run(repo)
+    assert rc == 1
+    assert "doesn't match filename" in err
 
 
 def test_lint_rejects_duplicate_url(tmp_path):

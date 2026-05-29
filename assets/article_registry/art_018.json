@@ -1,0 +1,95 @@
+{
+  "url": "https://www.aclu.org/news/privacy-technology/alpr-against-op-ed-writer",
+  "source_domain": "aclu.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Kansas Town Uses License Plate Readers to Go After Man Who Wrote Op-Ed | ACLU",
+  "byline": "Jay Stanley",
+  "published_at": "2026-02-03T17:08:29+00:00",
+  "fetched_at": "2026-05-05T16:54:39Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+  "scanner_score": 3,
+  "content_hash": "e7d64ae9313aecde43441856924422a270bea0c68ec1cbe2bc332a25c81c9d3e",
+  "paths": {
+    "html": "assets/articles/aclu.org/news-privacy-technology-alpr-against-op-ed-writer_2045caca.html",
+    "meta": "assets/articles/aclu.org/news-privacy-technology-alpr-against-op-ed-writer_2045caca.meta.json",
+    "pdf": "assets/articles/aclu.org/news-privacy-technology-alpr-against-op-ed-writer_2045caca.pdf",
+    "txt": "assets/articles/aclu.org/news-privacy-technology-alpr-against-op-ed-writer_2045caca.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "policy:purpose-limitation",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+    "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+    "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+    "21fb5336-7bb7-5cc1-a4da-706673c971ed"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "display_name": "Indiana Department of Corrections",
+      "state": "IN",
+      "score": 13.433,
+      "matched_forms": [
+        "IN"
+      ]
+    },
+    {
+      "agency_id": "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+      "display_name": "New Orleans LA PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+      "display_name": "Orleans Levee District PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+      "display_name": "Page AZ PD",
+      "state": "AZ",
+      "score": 2.133,
+      "matched_forms": [
+        "Page"
+      ]
+    }
+  ],
+  "summary": "The ACLU recounts KCUR reporting that Lenexa, Kansas police used ALPRs to track Canyen Ashworth after he wrote an op-ed critical of local police cooperation with ICE, tying him to anti-ICE posters and issuing a 'make your own case' BOLO. The piece frames this as a clear example of ALPR misuse to target protected speech.",
+  "key_quotes": [
+    {
+      "quote": "Police in Lenexa, Kansas used automated license plate reader (ALPR) technology to pursue a man who wrote a critical op-ed about the police department",
+      "paragraph_idx": 1
+    },
+    {
+      "quote": "This is MYOC,\" meaning \"make your own case",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "issuing a BOLO on someone for putting up posters is \"both a rejection of the First Amendment, and a really ridiculous misuse of resources.\"",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:31:08Z",
+  "article_id": "art_018",
+  "primary_subject_agency_ids": []
+}

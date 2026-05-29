@@ -1,0 +1,86 @@
+{
+  "url": "https://www.aclu.org/news/privacy-technology/flock-roundup",
+  "source_domain": "aclu.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Flock\u2019s Aggressive Expansions Go Far Beyond Simple Driver Surveillance | ACLU",
+  "byline": "Jay Stanley",
+  "published_at": "2025-08-18T16:48:27+00:00",
+  "fetched_at": "2026-05-06T12:07:26Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+  "scanner_score": 3,
+  "content_hash": "c9200fd77433de7bd46dec41054735e75fa49694c73e8522040ffd5d295dab2d",
+  "paths": {
+    "html": "assets/articles/aclu.org/news-privacy-technology-flock-roundup_c68dab7a.html",
+    "meta": "assets/articles/aclu.org/news-privacy-technology-flock-roundup_c68dab7a.meta.json",
+    "pdf": "assets/articles/aclu.org/news-privacy-technology-flock-roundup_c68dab7a.pdf",
+    "txt": "assets/articles/aclu.org/news-privacy-technology-flock-roundup_c68dab7a.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "legal:legislation",
+    "policy:hotlist",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+    "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+      "display_name": "New Orleans LA PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+      "display_name": "Orleans Levee District PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    }
+  ],
+  "summary": "ACLU commentary surveying how Flock's ALPR system is expanding beyond simple plate-reading: ICE access, abortion-related searches, integration with data brokers, video and AI-powered search, a private 'Business Network' for corporate hotlists, and predictive analytics. Calls for state and local privacy protections.",
+  "key_quotes": [
+    {
+      "quote": "many of the searches were carried out by local officers on behalf of ICE for immigration purposes",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "a police officer in Texas used the system to search nationwide for a woman who'd had a self-administered abortion",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Flock is effectively automating and scaling the end run around our checks and balances that law enforcement data broker purchases represent",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Flock is turning its plate readers into surveillance cameras",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "shift the company from providing tools for officials to use in investigating suspicion to generating suspicion",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:33:52Z",
+  "article_id": "art_049",
+  "primary_subject_agency_ids": []
+}

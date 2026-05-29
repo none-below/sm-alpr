@@ -1,0 +1,104 @@
+{
+  "url": "https://www.govtech.com/public-safety/eureka-calif-votes-no-on-license-plate-reader-cameras",
+  "source_domain": "govtech.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Eureka, Calif., Votes No on License Plate Reader Cameras",
+  "byline": null,
+  "published_at": "2025-02-06T18:55:19.431",
+  "fetched_at": "2026-05-10T17:19:07Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 62 pts, HIGH/CRITICAL findings",
+  "scanner_score": 62,
+  "content_hash": "065c7d03cd3b78f9d565877e4ad5dd5b413a3af57f04fc8a91bd9c2272cbc7c3",
+  "paths": {
+    "html": "assets/articles/govtech.com/public-safety-eureka-calif-votes-no-on-license-plate-reader-cameras_f6640370.html",
+    "meta": "assets/articles/govtech.com/public-safety-eureka-calif-votes-no-on-license-plate-reader-cameras_f6640370.meta.json",
+    "pdf": "assets/articles/govtech.com/public-safety-eureka-calif-votes-no-on-license-plate-reader-cameras_f6640370.pdf",
+    "txt": "assets/articles/govtech.com/public-safety-eureka-calif-votes-no-on-license-plate-reader-cameras_f6640370.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260510171912/https://www.govtech.com/public-safety/eureka-calif-votes-no-on-license-plate-reader-cameras",
+  "wayback_timestamp": "20260510171912",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "outcome:rejected",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "bd91d366-1958-50af-9a6d-3ddd2b1e0f14",
+    "e881b333-fb53-5bec-9510-9d3c68095e89",
+    "9b7b7208-5747-5e9c-bdcb-ed7b430686fd",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "bd91d366-1958-50af-9a6d-3ddd2b1e0f14",
+      "display_name": "Eureka MO PD",
+      "state": "MO",
+      "score": 5.05,
+      "matched_forms": [
+        "Eureka Police",
+        "Eureka Police Department"
+      ]
+    },
+    {
+      "agency_id": "e881b333-fb53-5bec-9510-9d3c68095e89",
+      "display_name": "Humboldt County CA SO",
+      "state": "CA",
+      "score": 4.133,
+      "matched_forms": [
+        "Humboldt County",
+        "Humboldt County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "9b7b7208-5747-5e9c-bdcb-ed7b430686fd",
+      "display_name": "Monterey County CA SO",
+      "state": "CA",
+      "score": 2.75,
+      "matched_forms": [
+        "Monterey County"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 2.683,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    },
+    {
+      "agency_id": "ab2d4fa5-bd8b-5ffc-9aaa-cf15b53cd598",
+      "display_name": "Kansas IL PD",
+      "state": "IL",
+      "score": 1.217,
+      "matched_forms": [
+        "Kansas Police"
+      ]
+    }
+  ],
+  "summary": "The Eureka, California City Council unanimously voted to reject a proposed two-year contract with Flock Safety for 21 automated license plate reader cameras after two hours of public comment opposing the cameras. Council members and commenters cited privacy concerns, potential data sharing with federal immigration or out-of-state agencies, and risks of misuse, despite policy safeguards added by the police chief.",
+  "key_quotes": [
+    {
+      "quote": "After two hours of public comment opposing the cameras, they unanimously voted to deny a request for Eureka Police Department to enter into a two-year contract with Flock Safety for the cameras",
+      "paragraph_idx": 2
+    },
+    {
+      "quote": "council members were concerned that a federal court could subpoena the data, which Flock said is owned by EPD and automatically deleted after 30 days",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T06:48:21Z",
+  "article_id": "art_169",
+  "primary_subject_agency_ids": []
+}

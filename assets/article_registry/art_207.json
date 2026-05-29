@@ -1,0 +1,73 @@
+{
+  "url": "https://www.opb.org/article/2025/12/04/think-out-loud-washington-immigration-agencies-license-plate/",
+  "source_domain": "opb.org",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Immigration agencies have access to license plate data in Washington state",
+  "byline": "Sage Van Wing",
+  "published_at": "2025-12-04",
+  "fetched_at": "2026-05-12T04:46:28Z",
+  "discovered_by": "backfill:google-search-2026-05-11",
+  "scanner_verdict": "WARNINGS \u2014 15 pts, low/medium only",
+  "scanner_score": 15,
+  "content_hash": "57db636de09f2b3cceb5d3fbc6da3e58df45cccc6ec004f533d91d08c4bb483a",
+  "paths": {
+    "html": "assets/articles/opb.org/article-2025-12-04-think-out-loud-washington-immigration-agencies-license-plate_029f6b39.html",
+    "meta": "assets/articles/opb.org/article-2025-12-04-think-out-loud-washington-immigration-agencies-license-plate_029f6b39.meta.json",
+    "pdf": "assets/articles/opb.org/article-2025-12-04-think-out-loud-washington-immigration-agencies-license-plate_029f6b39.pdf",
+    "txt": "assets/articles/opb.org/article-2025-12-04-think-out-loud-washington-immigration-agencies-license-plate_029f6b39.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:audit",
+    "policy:sharing",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [],
+  "agency_candidates": [
+    {
+      "agency_id": "833c6613-df09-5c83-a5b1-50596cf3edd0",
+      "display_name": "Bellevue KY PD",
+      "state": "KY",
+      "score": 1.25,
+      "matched_forms": [
+        "Bellevue Police"
+      ]
+    },
+    {
+      "agency_id": "cc8b1da3-ae93-5fe5-a5e4-c890f3dc72cd",
+      "display_name": "Bellevue OH PD",
+      "state": "OH",
+      "score": 1.25,
+      "matched_forms": [
+        "Bellevue Police"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "OPB's Think Out Loud interviews Phil Neff of the UW Center for Human Rights about a new report finding that U.S. Border Patrol and ICE have accessed Flock ALPR data from at least 18 of 31 Washington law enforcement agencies via direct sharing, a nationwide-lookup 'backdoor' pilot, and proxy ('side door') searches by other agencies. The discussion covers transparency gaps and whether such sharing conflicts with Washington's Keep Washington Working sanctuary law.",
+  "key_quotes": [
+    {
+      "quote": "U.S. Border Patrol and Immigration and Customs Enforcement have access to Flock license plate data from at least 18 of 31 law enforcement agencies in Washington state.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "Flock had an undisclosed what they call pilot program with U.S. Border Patrol and Homeland Security investigations, which gave them access to the pool of users that had opted into nationwide lookup, but, importantly, without informing those users",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "the Keep Washington Working Act does not directly prohibit the kind of information sharing that we documented via Flock",
+      "paragraph_idx": 26
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-12T04:55:40Z",
+  "article_id": "art_207"
+}

@@ -1,0 +1,119 @@
+{
+  "url": "https://www.404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves/",
+  "source_domain": "404media.co",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Flock Exposed Its AI-Powered Cameras to the Internet. We Tracked Ourselves",
+  "byline": "Jason Koebler",
+  "published_at": "2025-12-22T16:05:19.000Z",
+  "fetched_at": "2026-05-05T16:49:59Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 27 pts, low/medium only",
+  "scanner_score": 27,
+  "content_hash": "9ee8add536a274a36117bbc08f5f2354a400c823c4d055bc544307f92bd56922",
+  "paths": {
+    "html": "assets/articles/404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves_0a5e6313.html",
+    "meta": "assets/articles/404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves_0a5e6313.meta.json",
+    "pdf": "assets/articles/404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves_0a5e6313.pdf",
+    "txt": "assets/articles/404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves_0a5e6313.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+    "dcfedabb-a49f-55a6-9f9f-eae5283c92ef",
+    "0adc9798-34b9-58d0-83b8-241372b602ed",
+    "f37d0f09-6a70-5017-8b66-0bda25f8c5a4",
+    "db6df3db-02bc-558b-890b-30fdf7126c58",
+    "c03ecf42-93c9-5546-9a18-a929ea29ba77"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "display_name": "Indiana Department of Corrections",
+      "state": "IN",
+      "score": 24.233,
+      "matched_forms": [
+        "IN"
+      ]
+    },
+    {
+      "agency_id": "dcfedabb-a49f-55a6-9f9f-eae5283c92ef",
+      "display_name": "Bakersfield CA PD",
+      "state": "CA",
+      "score": 5.05,
+      "matched_forms": [
+        "Bakersfield"
+      ]
+    },
+    {
+      "agency_id": "0adc9798-34b9-58d0-83b8-241372b602ed",
+      "display_name": "Atlanta GA PD",
+      "state": "GA",
+      "score": 2.617,
+      "matched_forms": [
+        "Atlanta"
+      ]
+    },
+    {
+      "agency_id": "f37d0f09-6a70-5017-8b66-0bda25f8c5a4",
+      "display_name": "Emory University Campus PD GA",
+      "state": "GA",
+      "score": 2.617,
+      "matched_forms": [
+        "Atlanta"
+      ]
+    },
+    {
+      "agency_id": "db6df3db-02bc-558b-890b-30fdf7126c58",
+      "display_name": "Marta PD GA",
+      "state": "GA",
+      "score": 2.617,
+      "matched_forms": [
+        "Atlanta"
+      ]
+    },
+    {
+      "agency_id": "c03ecf42-93c9-5546-9a18-a929ea29ba77",
+      "display_name": "demo",
+      "state": null,
+      "score": 2.133,
+      "matched_forms": [
+        "Demo",
+        "demo"
+      ]
+    },
+    {
+      "agency_id": "0c8cf0a7-49c7-5837-8dea-b983beaea542",
+      "display_name": "Park City KS PD",
+      "state": "KS",
+      "score": 1.067,
+      "matched_forms": [
+        "Park"
+      ]
+    }
+  ],
+  "summary": "404 Media reports that Flock left at least 60 of its AI-enabled Condor PTZ cameras livestreaming on the open internet without authentication, allowing anyone to watch feeds, access 30 days of archived video, and change settings. Reporters and researchers verified the exposure by watching themselves on cameras in Bakersfield and Brookhaven, observing the cameras tracking people including children on playgrounds.",
+  "key_quotes": [
+    {
+      "quote": "Flock left livestreams and administrator control panels for at least 60 of its AI-enabled Condor cameras around the country exposed to the open internet, where anyone could watch them, download 30 days worth of video archive, and change settings, see log files, and run diagnostics.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "immediately, we were just without any username, without any password, we were just seeing everything from playgrounds to parking lots with people, Christmas shopping and unloading their stuff into cars",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:31:02Z",
+  "article_id": "art_017",
+  "primary_subject_agency_ids": []
+}

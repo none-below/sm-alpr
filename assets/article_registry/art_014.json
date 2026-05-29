@@ -1,0 +1,159 @@
+{
+  "url": "https://www.eff.org/deeplinks/2026/02/free-surveillance-tech-still-comes-high-and-dangerous-cost",
+  "source_domain": "eff.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "\u201cFree\u201d Surveillance Tech Still Comes at a High and Dangerous Cost",
+  "byline": "Beryl Lipton and Sarah Hamid",
+  "published_at": "2026-02-11T10:00:12-08:00",
+  "fetched_at": "2026-05-05T08:35:13Z",
+  "discovered_by": "claude-search:contracts-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+  "scanner_score": 1,
+  "content_hash": "73a85a61809f7bf940bf14b6442d6f6791eadf2b52a63aebdcaffa2a0c5d8d89",
+  "paths": {
+    "html": "assets/articles/eff.org/deeplinks-2026-02-free-surveillance-tech-still-comes-high-and-dangerous-cost_fe0efb1a.html",
+    "meta": "assets/articles/eff.org/deeplinks-2026-02-free-surveillance-tech-still-comes-high-and-dangerous-cost_fe0efb1a.meta.json",
+    "pdf": "assets/articles/eff.org/deeplinks-2026-02-free-surveillance-tech-still-comes-high-and-dangerous-cost_fe0efb1a.pdf",
+    "txt": "assets/articles/eff.org/deeplinks-2026-02-free-surveillance-tech-still-comes-high-and-dangerous-cost_fe0efb1a.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:national",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:motorola"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "0adc9798-34b9-58d0-83b8-241372b602ed",
+    "8e97dede-dc5e-518a-bd9c-ca1acce1757a"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "display_name": "Indiana Department of Corrections",
+      "state": "IN",
+      "score": 38.233,
+      "matched_forms": [
+        "IN"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 9.2,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "display_name": "Flock Safety",
+      "state": "GA",
+      "score": 7.5,
+      "matched_forms": [
+        "Flock Safety"
+      ]
+    },
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 7.0,
+      "matched_forms": [
+        "Denver"
+      ]
+    },
+    {
+      "agency_id": "6f2e3c64-76d1-539f-a6a3-df0e3c314512",
+      "display_name": "Baton Rouge LA PD",
+      "state": "LA",
+      "score": 5.15,
+      "matched_forms": [
+        "Baton Rouge",
+        "Baton Rouge Police",
+        "Baton Rouge Police Department"
+      ]
+    },
+    {
+      "agency_id": "0adc9798-34b9-58d0-83b8-241372b602ed",
+      "display_name": "Atlanta GA PD",
+      "state": "GA",
+      "score": 4.967,
+      "matched_forms": [
+        "Atlanta",
+        "Atlanta Police"
+      ]
+    },
+    {
+      "agency_id": "db6df3db-02bc-558b-890b-30fdf7126c58",
+      "display_name": "Marta PD GA",
+      "state": "GA",
+      "score": 4.967,
+      "matched_forms": [
+        "Atlanta",
+        "Atlanta Police"
+      ]
+    },
+    {
+      "agency_id": "f37d0f09-6a70-5017-8b66-0bda25f8c5a4",
+      "display_name": "Emory University Campus PD GA",
+      "state": "GA",
+      "score": 3.733,
+      "matched_forms": [
+        "Atlanta"
+      ]
+    },
+    {
+      "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+      "display_name": "Santa Cruz CA PD (deactivated)",
+      "state": "CA",
+      "score": 2.667,
+      "matched_forms": [
+        "Santa Cruz"
+      ]
+    },
+    {
+      "agency_id": "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+      "display_name": "Imperial City CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Imperial"
+      ]
+    }
+  ],
+  "summary": "EFF argues that 'free' surveillance technology\u2014via vendor trials, police foundation gifts, wealthy donors, and federal grants\u2014bypasses local oversight and locks municipalities into long-term costs and federal data-sharing pipelines including with ICE. The piece surveys examples in Denver, Atlanta, San Francisco, Santa Cruz, Sumner WA, and Fall River MA, and urges cities to reject such offers or shut down existing systems.",
+  "key_quotes": [
+    {
+      "quote": "In May 2025, Denver's city council unanimously rejected a $666,000 contract extension for Flock Safety ALPR cameras after weeks of public outcry over mass surveillance data sharing with federal immigration enforcement.",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "In Santa Cruz, California, the police department explicitly sought to use a DHS-funded SHSP grant to pay for a new citywide network of Flock ALPR cameras at the city's entrances and exits",
+      "paragraph_idx": 22
+    },
+    {
+      "quote": "ICE agents using a Philadelphia\u2011area fusion center to query the city's ALPR network to track undocumented drivers in a self\u2011described sanctuary city.",
+      "paragraph_idx": 24
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:30:47Z",
+  "article_id": "art_014",
+  "primary_subject_agency_ids": []
+}

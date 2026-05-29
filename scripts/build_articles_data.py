@@ -2,7 +2,7 @@
 """Build docs/data/articles_data.json for the article viewer.
 
 Reads:
-  assets/article_registry.json   curated article entries
+  assets/article_registry/       curated article entries (one file each)
   assets/tags.json               tag vocabulary (descriptions)
   assets/agency_registry.json    agency_id -> display name lookup
 
@@ -18,10 +18,10 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+import article_store
 from lib import agency_coords, agency_display_name, agency_state, registry_by_id
 
 ROOT = Path(__file__).resolve().parent.parent
-REGISTRY = ROOT / "assets" / "article_registry.json"
 TAGS = ROOT / "assets" / "tags.json"
 OUT_PATH = ROOT / "docs" / "data" / "articles_data.json"
 
@@ -31,7 +31,7 @@ def tag_namespace(tag: str) -> str:
 
 
 def main() -> int:
-    registry = json.loads(REGISTRY.read_text())
+    registry = article_store.load_registry()
     tags_doc = json.loads(TAGS.read_text())
     reg_by_id = registry_by_id()
 

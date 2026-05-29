@@ -145,7 +145,7 @@ jobs:
         id: commit
         run: |
           git add \
-            assets/article_registry.json \
+            assets/article_registry/ \
             assets/articles/ \
             || true
           if git diff --cached --quiet; then
@@ -156,7 +156,7 @@ jobs:
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
           # Distinguish state-only updates (queue drain, scanner state)
           # from substantive registry changes for commit-message clarity.
-          if git diff --cached --quiet assets/article_registry.json; then
+          if git diff --cached --quiet assets/article_registry/; then
             git commit -m "chore: article crawl state update (no registry changes)"
           else
             git commit -m "chore: article registry update"

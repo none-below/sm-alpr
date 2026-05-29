@@ -1,0 +1,88 @@
+{
+  "url": "https://evanstonroundtable.com/2025/07/03/davis-proposes-24-hour-time-limit-for-holding-license-plate-camera-data/",
+  "source_domain": "evanstonroundtable.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Davis proposes 24-hour time limit for holding license plate camera data - Evanston RoundTable",
+  "byline": "Alex Harrison",
+  "published_at": "2025-07-03T05:43:41+00:00",
+  "fetched_at": "2026-05-14T15:30:24Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 143 pts, HIGH/CRITICAL findings",
+  "scanner_score": 143,
+  "content_hash": "ec7f265e6665f539dd5108384500a59ec2a1065873f2fdec24760805a75cd421",
+  "paths": {
+    "html": "assets/articles/evanstonroundtable.com/2025-07-03-davis-proposes-24-hour-time-limit-for-holding-license-plate-camera-da_d1f3e6bc.html",
+    "meta": "assets/articles/evanstonroundtable.com/2025-07-03-davis-proposes-24-hour-time-limit-for-holding-license-plate-camera-da_d1f3e6bc.meta.json",
+    "txt": "assets/articles/evanstonroundtable.com/2025-07-03-davis-proposes-24-hour-time-limit-for-holding-license-plate-camera-da_d1f3e6bc.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260514153244/https://evanstonroundtable.com/2025/07/03/davis-proposes-24-hour-time-limit-for-holding-license-plate-camera-data/",
+  "wayback_timestamp": "20260514153244",
+  "wayback_source": "saved",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:restricted",
+    "policy:retention",
+    "policy:sharing",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+    "f9d0e316-2a82-5430-83ac-b575bbbd3b30",
+    "4a1c911b-5e90-53fd-805e-3b55f344434d"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+      "display_name": "Evanston Police Department",
+      "state": "IL",
+      "score": 38.6,
+      "matched_forms": [
+        "Evanston",
+        "Evanston Police",
+        "Evanston Police Department"
+      ]
+    },
+    {
+      "agency_id": "f9d0e316-2a82-5430-83ac-b575bbbd3b30",
+      "display_name": "Mount Prospect IL PD",
+      "state": "IL",
+      "score": 2.733,
+      "matched_forms": [
+        "Mount Prospect"
+      ]
+    },
+    {
+      "agency_id": "4a1c911b-5e90-53fd-805e-3b55f344434d",
+      "display_name": "Danville IL PD",
+      "state": "IL",
+      "score": 2.633,
+      "matched_forms": [
+        "Danville"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "a597ac19-0e62-585c-82a0-f9c7b87c55e8"
+  ],
+  "summary": "Evanston Councilmember Parielle Davis filed a legislative referral to shorten ALPR data retention from 30 days to 24 hours, arguing it's the only way to prevent federal or unauthorized access to Flock Safety camera data. The proposal follows revelations that out-of-state agencies had accessed Evanston's network for immigration-related searches, prompting EPD to disable out-of-state sharing.",
+  "key_quotes": [
+    {
+      "quote": "the only way we can avoid having to turn over data that perhaps would endanger people in our communities who are in precarious situations, is to not have it in the first place.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "Overly broad data retention policies pose a security risk, open up data to abuse by internal actors, violate privacy principles, and increase legal and compliance exposure",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "disabling all out-of-state sharing, including the \"national lookup\" tool, and requiring written authorization from her and City Manager Luke Stowe for any Illinois agencies requesting new access",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-14T15:37:50Z",
+  "article_id": "art_293"
+}

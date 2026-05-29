@@ -1,0 +1,81 @@
+{
+  "url": "https://www.denverpost.com/2026/02/16/denver-flock-cameras-license-plates-other-bidders/",
+  "source_domain": "denverpost.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Denver considers kicking out Flock \u2014 but still using license plate cameras",
+  "byline": "Elliott Wenzler",
+  "published_at": "2026-02-16T20:39:03+00:00",
+  "fetched_at": "2026-05-10T13:55:01Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 146 pts, HIGH/CRITICAL findings",
+  "scanner_score": 146,
+  "content_hash": "19cf8f6b63d64b134060f8c4d614c8a89ee0ff9a7910a80a70da7cedee696689",
+  "paths": {
+    "html": "assets/articles/denverpost.com/2026-02-16-denver-flock-cameras-license-plates-other-bidders_e9fb9f27.html",
+    "meta": "assets/articles/denverpost.com/2026-02-16-denver-flock-cameras-license-plates-other-bidders_e9fb9f27.meta.json",
+    "pdf": "assets/articles/denverpost.com/2026-02-16-denver-flock-cameras-license-plates-other-bidders_e9fb9f27.pdf",
+    "txt": "assets/articles/denverpost.com/2026-02-16-denver-flock-cameras-license-plates-other-bidders_e9fb9f27.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260510135559/https://www.denverpost.com/2026/02/16/denver-flock-cameras-license-plates-other-bidders/",
+  "wayback_timestamp": "20260510135559",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:wrongful-stop",
+    "outcome:reconsidering",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 30.633,
+      "matched_forms": [
+        "Denver",
+        "Denver Police",
+        "Denver Police Department"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 3.867,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    }
+  ],
+  "summary": "Denver is soliciting new bids for license plate reader services as its Flock contract ends March 31, potentially replacing Flock while continuing to use ALPR technology. The mayor's office cited community feedback and concerns over data sharing \u2014 including 1,400+ immigration-related searches of Denver data \u2014 as reasons for considering a new provider.",
+  "key_quotes": [
+    {
+      "quote": "We are currently fielding bids for license plate reader services",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "Data collected in Denver by Flock was used in immigration-related national searches more than 1,400 times between June 2024 and April 2025",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Flock Safety's cavalier treatment of our data should have disqualified them from continuing to operate on our streets long ago",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:27:23Z",
+  "article_id": "art_156",
+  "primary_subject_agency_ids": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ]
+}

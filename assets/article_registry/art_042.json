@@ -1,0 +1,96 @@
+{
+  "url": "https://www.npr.org/2025/11/07/nx-s1-5587724/some-sanctuary-states-discover-feds-mining-local-license-plate-data",
+  "source_domain": "npr.org",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "Some sanctuary states discover feds mining local license plate data",
+  "byline": [
+    "Martin Kaste"
+  ],
+  "published_at": "2025-11-07",
+  "fetched_at": "2026-05-06T06:43:32Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 20 pts, low/medium only",
+  "scanner_score": 20,
+  "content_hash": "0d43e1b88566bb20dcda69fffd9d15170c3537ba15ce0e5bd98bff2bbc2f8a42",
+  "paths": {
+    "html": "assets/articles/npr.org/2025-11-07-nx-s1-5587724-some-sanctuary-states-discover-feds-mining-local-licens_c54d4312.html",
+    "meta": "assets/articles/npr.org/2025-11-07-nx-s1-5587724-some-sanctuary-states-discover-feds-mining-local-licens_c54d4312.meta.json",
+    "pdf": "assets/articles/npr.org/2025-11-07-nx-s1-5587724-some-sanctuary-states-discover-feds-mining-local-licens_c54d4312.pdf",
+    "txt": "assets/articles/npr.org/2025-11-07-nx-s1-5587724-some-sanctuary-states-discover-feds-mining-local-licens_c54d4312.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "incident:ice-cooperation",
+    "legal:ag-bulletin",
+    "legal:ag-lawsuit",
+    "policy:audit",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+    "971ef5e8-3761-532f-ac31-4406140dcbe0",
+    "0be90b3a-6759-53d7-9f92-d6ea9f9740b0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "display_name": "San Diego CA PD",
+      "state": "CA",
+      "score": 3.8,
+      "matched_forms": [
+        "San Diego"
+      ]
+    },
+    {
+      "agency_id": "971ef5e8-3761-532f-ac31-4406140dcbe0",
+      "display_name": "El Cajon CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "El Cajon"
+      ]
+    },
+    {
+      "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "display_name": "Port of Seattle WA PD",
+      "state": "WA",
+      "score": 2.617,
+      "matched_forms": [
+        "Seattle"
+      ]
+    }
+  ],
+  "summary": "NPR reports that federal agencies, including Border Patrol, have surged searches of local ALPR data stored by Flock Safety, raising concerns in sanctuary states like Washington and California where such sharing may violate state law. The story highlights Renton, WA discovering unintended federal access, and California AG Bonta warning 20 departments and suing El Cajon over alleged interstate sharing.",
+  "key_quotes": [
+    {
+      "quote": "Over the summer, hundreds if not thousands of searches by U.S. Border Patrol - and it would have keywords that were sometimes as vague as, like, investigation or targeting.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "You know, did we go in and click a box to give access to these federal agencies? No, we did not.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "It seemed like it wasn't voluntary. It was unwittingly. And they changed the permissions and the sharing, and that was that from 19 of the 20.",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "There's search terms that were used, including immigration, immigration enforcement, immigration violation, ICE assist.",
+      "paragraph_idx": 24
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:33:06Z",
+  "article_id": "art_042",
+  "primary_subject_agency_ids": [
+    "971ef5e8-3761-532f-ac31-4406140dcbe0"
+  ]
+}

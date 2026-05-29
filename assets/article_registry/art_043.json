@@ -1,0 +1,92 @@
+{
+  "url": "https://www.aclu.org/news/privacy-technology/dozens-of-police-agencies-in-california-are-still-sharing-driver-locations-with-anti-abortion-states-were-fighting-back",
+  "source_domain": "aclu.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Dozens of Police Agencies in California Are Still Sharing Driver Locations with Anti-Abortion States. We're Fighting Back. | ACLU",
+  "byline": "Nick Hidalgo, Matt Cagle",
+  "published_at": "2024-02-13T20:37:08+00:00",
+  "fetched_at": "2026-05-06T09:41:54Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+  "scanner_score": 3,
+  "content_hash": "a8b7185512a5de6c756208f9f8e5f06d818991c7171deb2a39bbd320742f9101",
+  "paths": {
+    "html": "assets/articles/aclu.org/news-privacy-technology-dozens-of-police-agencies-in-california-are-still-sharin_b493630a.html",
+    "meta": "assets/articles/aclu.org/news-privacy-technology-dozens-of-police-agencies-in-california-are-still-sharin_b493630a.meta.json",
+    "pdf": "assets/articles/aclu.org/news-privacy-technology-dozens-of-police-agencies-in-california-are-still-sharin_b493630a.pdf",
+    "txt": "assets/articles/aclu.org/news-privacy-technology-dozens-of-police-agencies-in-california-are-still-sharin_b493630a.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "legal:ag-bulletin",
+    "legal:legislation",
+    "policy:sharing",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "0649c75b-a49d-5ec7-a240-18692dea2047",
+    "e1922365-80e2-5ec7-8580-95245cdad7f8",
+    "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+    "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "0649c75b-a49d-5ec7-a240-18692dea2047",
+      "display_name": "Marin County CA DA",
+      "state": "CA",
+      "score": 2.7,
+      "matched_forms": [
+        "Marin County"
+      ]
+    },
+    {
+      "agency_id": "e1922365-80e2-5ec7-8580-95245cdad7f8",
+      "display_name": "Marin County CA SO",
+      "state": "CA",
+      "score": 2.7,
+      "matched_forms": [
+        "Marin County"
+      ]
+    },
+    {
+      "agency_id": "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+      "display_name": "New Orleans LA PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+      "display_name": "Orleans Levee District PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    }
+  ],
+  "summary": "The ACLU of Northern California describes its ongoing campaign to enforce SB 34, which bars California police from sharing ALPR data with out-of-state and federal agencies. It recounts sending AG Bonta a letter identifying 35 noncompliant agencies and references its earlier 2021 suit against Marin County, which settled with the sheriff agreeing to comply.",
+  "key_quotes": [
+    {
+      "quote": "In 2021 we sued Marin County, California for illegally sharing millions of local drivers\u2019 license plates and locations with federal and out-of-state agencies, including ICE.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Last month the ACLU of Northern California and our partners sent Attorney General Bonta a letter listing 35 police agencies that have refused to comply with the law and protect driver privacy.",
+      "paragraph_idx": 5
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:33:12Z",
+  "article_id": "art_043",
+  "primary_subject_agency_ids": []
+}

@@ -1,0 +1,97 @@
+{
+  "url": "https://ithacavoice.org/2026/04/county-legislature-ends-contract-with-flock-safety/",
+  "source_domain": "ithacavoice.org",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "County legislature ends contract with Flock Safety - The Ithaca Voice",
+  "byline": "Jimmy Jordan, Hailea Potter",
+  "published_at": "2026-04-15T16:00:00+00:00",
+  "fetched_at": "2026-05-14T23:13:34Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 138 pts, HIGH/CRITICAL findings",
+  "scanner_score": 138,
+  "content_hash": "b105902ec37bc16d8e2233287cb4c027b706d1429560013ec2584656161a0b88",
+  "paths": {
+    "html": "assets/articles/ithacavoice.org/2026-04-county-legislature-ends-contract-with-flock-safety_fe5bfdf2.html",
+    "meta": "assets/articles/ithacavoice.org/2026-04-county-legislature-ends-contract-with-flock-safety_fe5bfdf2.meta.json",
+    "txt": "assets/articles/ithacavoice.org/2026-04-county-legislature-ends-contract-with-flock-safety_fe5bfdf2.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "d3706dea-f325-55b6-a921-e5abdb39a4da",
+    "d22f3264-52b5-5139-ad7c-849564e02eb1",
+    "2cc3a31d-7f98-5714-bc85-927815444575",
+    "cf25b645-2e7d-5c99-8906-9e133448366a"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "d3706dea-f325-55b6-a921-e5abdb39a4da",
+      "display_name": "Cornell University NY PD",
+      "state": "NY",
+      "score": 24.6,
+      "matched_forms": [
+        "Ithaca"
+      ]
+    },
+    {
+      "agency_id": "d22f3264-52b5-5139-ad7c-849564e02eb1",
+      "display_name": "Ithaca Police Department",
+      "state": "NY",
+      "score": 24.6,
+      "matched_forms": [
+        "Ithaca"
+      ]
+    },
+    {
+      "agency_id": "2cc3a31d-7f98-5714-bc85-927815444575",
+      "display_name": "Tompkins County Sheriff's Office",
+      "state": "NY",
+      "score": 19.133,
+      "matched_forms": [
+        "Tompkins County",
+        "Tompkins County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "cf25b645-2e7d-5c99-8906-9e133448366a",
+      "display_name": "Tompkins County NY Sheriff's Office",
+      "state": "NY",
+      "score": 16.5,
+      "matched_forms": [
+        "Tompkins County"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "2cc3a31d-7f98-5714-bc85-927815444575"
+  ],
+  "summary": "The Tompkins County Legislature voted 12-1 to end its contract with Flock Safety after months of activist pressure over concerns that ALPR data could be accessed by federal immigration enforcement, undermining the county's sanctuary status. The sheriff's office plans to continue its GIVE grant participation by exploring alternative tools such as mobile surveillance trailers.",
+  "key_quotes": [
+    {
+      "quote": "Legislators voted 12-1 to end the county's contract with Flock Safety, an Atlanta-based tech company.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "It's clear to me that Flock is not the contractor that we want to move forward with in any event, largely because it is a company that has allowed itself to be co-opted by a federal administration that consistently subverts our justice system",
+      "paragraph_idx": 20
+    },
+    {
+      "quote": "activists have argued those safeguards aren't airtight, and that Flock's presence threatens the effectiveness of the county's sanctuary status.",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T09:51:34Z",
+  "article_id": "art_307"
+}

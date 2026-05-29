@@ -1,0 +1,98 @@
+{
+  "url": "https://www.kiro7.com/news/local/renton-police-shut-down-license-plate-cameras-comply-with-new-privacy-law/JHCHPR4FQBGKNJOOWZ7LM3J6W4/",
+  "source_domain": "kiro7.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Renton Police shut down license plate cameras to comply with new privacy law",
+  "byline": "Jason Sutich",
+  "published_at": "2026-04-07T18:08:01.363Z",
+  "fetched_at": "2026-05-09T16:04:35Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "WARNINGS \u2014 28 pts, low/medium only",
+  "scanner_score": 28,
+  "content_hash": "515d322bd0533966f0d03c1719fba90a01a7454aac7a611556b93effbf880be9",
+  "paths": {
+    "html": "assets/articles/kiro7.com/news-local-renton-police-shut-down-license-plate-cameras-comply-with-new-privacy_d0163141.html",
+    "meta": "assets/articles/kiro7.com/news-local-renton-police-shut-down-license-plate-cameras-comply-with-new-privacy_d0163141.meta.json",
+    "pdf": "assets/articles/kiro7.com/news-local-renton-police-shut-down-license-plate-cameras-comply-with-new-privacy_d0163141.pdf",
+    "txt": "assets/articles/kiro7.com/news-local-renton-police-shut-down-license-plate-cameras-comply-with-new-privacy_d0163141.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:sharing",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+    "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+    "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+    "64f3e786-cdc0-575d-ad89-b15f8695ebe8"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "display_name": "Port of Seattle WA PD",
+      "state": "WA",
+      "score": 26.483,
+      "matched_forms": [
+        "Seattle",
+        "Seattle Police",
+        "Seattle Police Department"
+      ]
+    },
+    {
+      "agency_id": "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+      "display_name": "Lynnwood Police Department",
+      "state": "WA",
+      "score": 10.683,
+      "matched_forms": [
+        "Lynnwood",
+        "Lynnwood Police"
+      ]
+    },
+    {
+      "agency_id": "b111be54-e0b4-5bc2-83c9-ad2285eccaaf",
+      "display_name": "Puyallup WA PD",
+      "state": "WA",
+      "score": 2.633,
+      "matched_forms": [
+        "Puyallup"
+      ]
+    },
+    {
+      "agency_id": "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+      "display_name": "Redmond Police Department",
+      "state": "WA",
+      "score": 2.617,
+      "matched_forms": [
+        "Redmond"
+      ]
+    }
+  ],
+  "summary": "Renton Police temporarily shut down its Flock Safety ALPR cameras on March 31 to comply with Washington's new SB 6002 privacy law, joining Seattle, Redmond, Lynnwood, and Pierce County. The article recaps related actions by those other jurisdictions, including Lynnwood's contract cancellation and Seattle's audit-driven pause.",
+  "key_quotes": [
+    {
+      "quote": "The Renton Police Department (RPD) has temporarily shut down its Flock Safety automated license plate reader (ALPR) cameras in compliance with Senate Bill 6002, which regulates their use.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Renton is the latest city to pause its ALPR system under the new state law, joining Seattle, Redmond, and Lynnwood.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "In February, Lynnwood became the first Washington city to cancel its contract with Flock Safety over privacy concerns, following a unanimous vote by the city council.",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:38:03Z",
+  "article_id": "art_114",
+  "primary_subject_agency_ids": []
+}

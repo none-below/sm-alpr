@@ -1,0 +1,70 @@
+{
+  "url": "https://www.9news.com/article/news/local/denver-removing-flock-cameras-new-axon-contract/73-640b5af3-7c87-4fea-8aa1-2510ad3257b8",
+  "source_domain": "9news.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Denver dumps Flock, awards location tracking camera contract to Axon",
+  "byline": "Spencer Soicher",
+  "published_at": "2/24/2026 10:12:32 AM",
+  "fetched_at": "2026-05-10T07:39:56Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 121 pts, HIGH/CRITICAL findings",
+  "scanner_score": 121,
+  "content_hash": "f1c7432dc58a48aeeaf650ab2a4755bf45c0d523d267ad588992b50530baf1dc",
+  "paths": {
+    "html": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.html",
+    "meta": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.meta.json",
+    "pdf": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.pdf",
+    "txt": "assets/articles/9news.com/article-news-local-denver-removing-flock-cameras-new-axon-contract-73-640b5af3-7_dc6fd4ec.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:motorola"
+  ],
+  "agencies": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 24.6,
+      "matched_forms": [
+        "Denver"
+      ]
+    }
+  ],
+  "summary": "Denver is ending its ALPR contract with Flock Safety and awarding a new contract to Axon, pending council approval. The decision follows 9NEWS investigations revealing Flock shared Denver data with federal immigration enforcement and a city auditor's refusal to countersign the Flock contract.",
+  "key_quotes": [
+    {
+      "quote": "Denver is getting rid of its controversial automated license plate reading (ALPR) camera vendor Flock Safety, choosing to award its new ALPR contract to Axon",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "the company placed Denver's tracking data on a national network accessible to law enforcement agencies that assisted immigration enforcement, and after 9NEWS uncovered the company had a secret partnership with the U.S. Border Patrol",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "Denver City Auditor Tim O'Brien announced last Friday that he could not, in good conscience, countersign the city's contract with Flock",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T05:14:41Z",
+  "article_id": "art_146",
+  "primary_subject_agency_ids": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ]
+}

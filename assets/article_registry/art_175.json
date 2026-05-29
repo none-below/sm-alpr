@@ -1,0 +1,77 @@
+{
+  "url": "https://www.aclunorcal.org/news/alameda-rejects-surveillance-deal-company-tied-ice/",
+  "source_domain": "aclunorcal.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Alameda Rejects Surveillance Deal with Company Tied to ICE - ACLU of Northern California",
+  "byline": "Natnael Getahun",
+  "published_at": "2018-02-07T22:31:46+00:00",
+  "fetched_at": "2026-05-10T21:09:15Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 2 pts, low/medium only",
+  "scanner_score": 2,
+  "content_hash": "1ba8b22490b3ef26adc63c178d51d1209b2d17b8979b6c9004d787908253ee19",
+  "paths": {
+    "html": "assets/articles/aclunorcal.org/news-alameda-rejects-surveillance-deal-company-tied-ice_fd871130.html",
+    "meta": "assets/articles/aclunorcal.org/news-alameda-rejects-surveillance-deal-company-tied-ice_fd871130.meta.json",
+    "pdf": "assets/articles/aclunorcal.org/news-alameda-rejects-surveillance-deal-company-tied-ice_fd871130.pdf",
+    "txt": "assets/articles/aclunorcal.org/news-alameda-rejects-surveillance-deal-company-tied-ice_fd871130.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260510210919/https://www.aclunorcal.org/news/alameda-rejects-surveillance-deal-company-tied-ice/",
+  "wayback_timestamp": "20260510210919",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "outcome:rejected",
+    "policy:sharing",
+    "scope:local",
+    "vendor:vigilant"
+  ],
+  "agencies": [
+    "aeee2f0f-6386-5a1a-b93a-30babdede4f9",
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "aeee2f0f-6386-5a1a-b93a-30babdede4f9",
+      "display_name": "Alameda CA PD",
+      "state": "CA",
+      "score": 13.783,
+      "matched_forms": [
+        "Alameda"
+      ]
+    },
+    {
+      "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "display_name": "Oakland CA PD",
+      "state": "CA",
+      "score": 2.617,
+      "matched_forms": [
+        "Oakland"
+      ]
+    }
+  ],
+  "summary": "The Alameda, California city council unanimously rejected a proposed $500,000 contract to purchase ALPR technology from Vigilant Solutions, citing the vendor's data-sharing arrangement with ICE. The ACLU framed the vote as a win for immigrants' rights and called on other cities to adopt surveillance oversight ordinances.",
+  "key_quotes": [
+    {
+      "quote": "the city of Alameda, California unanimously withheld approval of a proposed $500,000 contract to purchase license plate reader technology from Vigilant, a company that recently sold Immigration and Customs Enforcement (ICE) access to its nationwide database.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "Under the reported agreement with Vigilant , ICE would be capable of accessing data collected by Vigilant from local law enforcement and private sources.",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "Alameda voted to send the city attorney and police back to the drawing board.",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:28:16Z",
+  "article_id": "art_175",
+  "primary_subject_agency_ids": [
+    "aeee2f0f-6386-5a1a-b93a-30babdede4f9"
+  ]
+}

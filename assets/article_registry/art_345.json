@@ -1,0 +1,61 @@
+{
+  "url": "https://www.nytimes.com/2026/02/25/us/milwaukee-police-officer-charged-flock-camera.html",
+  "source_domain": "nytimes.com",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "Police Officer Accused of Tracking Partner Using License Plate Reader",
+  "byline": "https://www.nytimes.com/by/hannah-ziegler",
+  "published_at": "2026-02-26T00:21:04.000Z",
+  "fetched_at": "2026-05-14T22:37:14Z",
+  "discovered_by": "manual: chief-meeting evidence",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 141 pts, HIGH/CRITICAL findings",
+  "scanner_score": 141,
+  "content_hash": "5d759935ac00cddb28ec4407a7cc79ae7fdf0ba3d501eed5abb1bd2b6e4ad03c",
+  "paths": {
+    "html": "assets/articles/nytimes.com/2026-02-25-us-milwaukee-police-officer-charged-flock-camera-html_8ee43ba9.html",
+    "meta": "assets/articles/nytimes.com/2026-02-25-us-milwaukee-police-officer-charged-flock-camera-html_8ee43ba9.meta.json",
+    "txt": "assets/articles/nytimes.com/2026-02-25-us-milwaukee-police-officer-charged-flock-camera-html_8ee43ba9.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "save-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "47624845-fd5d-5cb9-bb18-22d138c82a2f"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+      "display_name": "Milwaukee WI PD",
+      "state": "WI",
+      "score": 3.983,
+      "matched_forms": [
+        "Milwaukee Police",
+        "Milwaukee Police Department"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "47624845-fd5d-5cb9-bb18-22d138c82a2f"
+  ],
+  "summary": "Milwaukee police officer Josue Ayala was criminally charged with attempted misconduct in public office after using Flock Safety license plate reader technology to track a person he was dating (124 searches) and that person's ex (55 searches) over two months in 2025. The ex discovered the surveillance via the Have I Been Flocked website.",
+  "key_quotes": [
+    {
+      "quote": "Mr. Ayala ran searches on his partner's license plate 124 times from March to May 2025, according to the complaint.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "Mr. Ayala's partner's ex learned about the location tracking from the website Have I Been Flocked, which shows people when their license plates have been searched in the company's systems.",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-15T01:05:17Z",
+  "article_id": "art_345"
+}

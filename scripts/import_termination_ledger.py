@@ -248,8 +248,8 @@ def write_ledger(actions: list[dict], src_sha: str, src_filename: str,
             "Bootstrap import audit trail, not a canonical data store. "
             "Derived from an external activist tracker of Flock terminated/"
             "paused contracts; the source xlsx is not committed. The "
-            "canonical record of contract-termination evidence is "
-            "assets/article_registry.json (with generic outcome:* tags "
+            "canonical record of contract-termination evidence is the "
+            "assets/article_registry/ shards (with generic outcome:* tags "
             "applied by the curator). Re-import via "
             "scripts/import_termination_ledger.py."
         ),

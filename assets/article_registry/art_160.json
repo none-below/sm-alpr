@@ -1,0 +1,84 @@
+{
+  "url": "https://www.denverpost.com/2026/03/11/denver-axon-contract-flock-cameras/",
+  "source_domain": "denverpost.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Denver\u2019s new license plate reader deal is for 50 cameras \u2014 less than half as many as Flock has now",
+  "byline": "Elliott Wenzler",
+  "published_at": "2026-03-11T22:45:10+00:00",
+  "fetched_at": "2026-05-10T15:12:32Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 142 pts, HIGH/CRITICAL findings",
+  "scanner_score": 142,
+  "content_hash": "cee454f7963c1ce1de989f38ca08d7e8d1e0b3afd398b826a508911b16bd7733",
+  "paths": {
+    "html": "assets/articles/denverpost.com/2026-03-11-denver-axon-contract-flock-cameras_f011c5e0.html",
+    "meta": "assets/articles/denverpost.com/2026-03-11-denver-axon-contract-flock-cameras_f011c5e0.meta.json",
+    "pdf": "assets/articles/denverpost.com/2026-03-11-denver-axon-contract-flock-cameras_f011c5e0.pdf",
+    "txt": "assets/articles/denverpost.com/2026-03-11-denver-axon-contract-flock-cameras_f011c5e0.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260510151237/https://www.denverpost.com/2026/03/11/denver-axon-contract-flock-cameras/",
+  "wayback_timestamp": "20260510151237",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:axon",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 25.7,
+      "matched_forms": [
+        "Denver"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 3.867,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    }
+  ],
+  "summary": "Denver City Council began reviewing a proposed $150,000, one-year contract with Axon for 50 license plate-reading cameras to replace its expiring Flock Safety contract, which had 111 cameras. The new system would have a 21-day retention period, no national database, and an invite-only sharing arrangement, addressing concerns raised after ICE accessed Denver's Flock data nearly 1,400 times.",
+  "key_quotes": [
+    {
+      "quote": "The $150,000 contract with Axon would be for a year and would include the installation of 50 license plate-reading cameras in public intersections in the city.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "ICE agents were able to access Denver's data nearly 1,400 times in 2024 and 2025 before the city asked to be removed from Flock's national database last April.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "The city plans to set the data retention period for Axon's cameras to only 21 days, nine days shorter than it was for Flock.",
+      "paragraph_idx": 20
+    },
+    {
+      "quote": "Denver's system also will be cut off from all other law enforcement agencies, and its overseers will create an invite-only sharing system with nearby law enforcement agencies that agree to abide by certain rules.",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:27:30Z",
+  "article_id": "art_160",
+  "primary_subject_agency_ids": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ]
+}

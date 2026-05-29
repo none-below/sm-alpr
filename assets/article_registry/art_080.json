@@ -1,0 +1,81 @@
+{
+  "url": "https://bloomington.in.gov/news/2026/04/15/6521",
+  "source_domain": "bloomington.in.gov",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "City of Bloomington Transitions Away from Flock Use After Months-Long Evaluation | City of Bloomington, Indiana",
+  "byline": null,
+  "published_at": null,
+  "fetched_at": "2026-05-09T02:41:13Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+  "scanner_score": 3,
+  "content_hash": "7cfd9247f1207df4bb4a14610a219b763934126816b6045e55703c1906a909f8",
+  "paths": {
+    "html": "assets/articles/bloomington.in.gov/news-2026-04-15-6521_8e93c581.html",
+    "meta": "assets/articles/bloomington.in.gov/news-2026-04-15-6521_8e93c581.meta.json",
+    "pdf": "assets/articles/bloomington.in.gov/news-2026-04-15-6521_8e93c581.pdf",
+    "txt": "assets/articles/bloomington.in.gov/news-2026-04-15-6521_8e93c581.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:press-release",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "97f69d1e-5db1-5a4d-a95a-7314e28d0ad1",
+    "3401474d-eec9-579d-9681-26303ba6b7f8"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "97f69d1e-5db1-5a4d-a95a-7314e28d0ad1",
+      "display_name": "Bloomington Police Department",
+      "state": "IN",
+      "score": 28.367,
+      "matched_forms": [
+        "Bloomington",
+        "Bloomington Police",
+        "Bloomington Police Department"
+      ]
+    },
+    {
+      "agency_id": "3401474d-eec9-579d-9681-26303ba6b7f8",
+      "display_name": "Bloomington IL PD",
+      "state": "IL",
+      "score": 5.567,
+      "matched_forms": [
+        "Bloomington Police",
+        "Bloomington Police Department"
+      ]
+    }
+  ],
+  "summary": "Bloomington, Indiana announced it did not renew its Flock LPR contract, which expired March 5, 2026, after a months-long evaluation. During the transition, Mayor Thomson restricted Flock data access to BPD personnel only and ended outside data sharing, while the City evaluates alternative technologies.",
+  "key_quotes": [
+    {
+      "quote": "Mayor Kerry Thomson announced today that the City's contract for Flock LPR services expired on March 5, 2026, and that, following a months-long evaluation, the City decided not to renew it.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Access to Flock data will be limited to Bloomington Police Department personnel only. There will be no outside data sharing.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "This review made clear that if this tool is used, it must be used under narrow parameters, strong accountability, and clear public safeguards.",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:36:51Z",
+  "article_id": "art_080",
+  "primary_subject_agency_ids": [
+    "97f69d1e-5db1-5a4d-a95a-7314e28d0ad1"
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "url": "https://www.aclu.org/news/privacy-technology/flock-massachusetts-and-updates",
+  "source_domain": "aclu.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Flock Can Share Driver-Surveillance Data Even When Police Departments Opt Out, And Other Flock Developments | ACLU",
+  "byline": "Jay Stanley",
+  "published_at": "2025-10-24T18:28:33+00:00",
+  "fetched_at": "2026-05-05T18:24:30Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+  "scanner_score": 3,
+  "content_hash": "a545fafd38e45088daf00d1deadce30d85984b6364a0231ec0a946100a3b0cce",
+  "paths": {
+    "html": "assets/articles/aclu.org/news-privacy-technology-flock-massachusetts-and-updates_3bf88c7c.html",
+    "meta": "assets/articles/aclu.org/news-privacy-technology-flock-massachusetts-and-updates_3bf88c7c.meta.json",
+    "pdf": "assets/articles/aclu.org/news-privacy-technology-flock-massachusetts-and-updates_3bf88c7c.pdf",
+    "txt": "assets/articles/aclu.org/news-privacy-technology-flock-massachusetts-and-updates_3bf88c7c.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:analysis",
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "legal:pra",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:national",
+    "vendor:axon",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+    "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+    "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+    "21fb5336-7bb7-5cc1-a4da-706673c971ed"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "display_name": "Indiana Department of Corrections",
+      "state": "IN",
+      "score": 29.967,
+      "matched_forms": [
+        "IN"
+      ]
+    },
+    {
+      "agency_id": "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+      "display_name": "New Orleans LA PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+      "display_name": "Orleans Levee District PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+      "display_name": "Page AZ PD",
+      "state": "AZ",
+      "score": 2.133,
+      "matched_forms": [
+        "Page"
+      ]
+    },
+    {
+      "agency_id": "8129e6ed-ab48-5c12-b2e0-1738564937c1",
+      "display_name": "Warren County KY SO",
+      "state": "KY",
+      "score": 1.35,
+      "matched_forms": [
+        "Warren County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "ac38dafd-7279-5148-9b11-3b97e0436c26",
+      "display_name": "Warren County TN SO",
+      "state": "TN",
+      "score": 1.35,
+      "matched_forms": [
+        "Warren County Sheriff"
+      ]
+    }
+  ],
+  "summary": "ACLU roundup of Flock developments: ACLU of Massachusetts open-records work shows Flock's default contract lets the company share agency data for 'investigative purposes' even when departments restrict sharing; Virginia reporting reveals Warren County (VA) Sheriff's Office did the most ICE-related Flock searches in the state; a Texas department's abortion-related search was misrepresented; and Flock has partnered with Ring and is marketing drone-as-first-responder services to private businesses.",
+  "key_quotes": [
+    {
+      "quote": "Flock's default agreement with police departments gives the company the right to share data with federal and local agencies for \"investigative purposes\" even if a local department chooses to restrict data to its own officers.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "one Virginia agency, the Warren County Sheriff's Office, performed more immigration searches than any other in the state \u2014 and confirmed that it did so because federal immigration agents asked them to.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "fully 75% have enrolled in the \"National Lookup Tool\"",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:31:25Z",
+  "article_id": "art_022",
+  "primary_subject_agency_ids": []
+}

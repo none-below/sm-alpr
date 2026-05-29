@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Generate a markdown body for the rolling article-registry-bot PR.
 
-Diffs the bot branch's article_registry.json against main to find what's
-new in the open PR, then summarizes per-article (title, source, tier,
+Diffs the bot branch's article_registry/ shard filenames against main to
+find what's new in the open PR, then summarizes per-article (title, source, tier,
 status, summary, wayback) plus aggregate stats (total in registry,
 curation_status counts, scanner verdict distribution, Wayback coverage,
 queue depth).
@@ -28,35 +28,37 @@ from pathlib import Path
 print = functools.partial(print, flush=True)
 
 ROOT = Path(__file__).resolve().parent.parent
-REGISTRY_PATH = ROOT / "assets" / "article_registry.json"
+sys.path.insert(0, str(ROOT / "scripts"))
+import article_store
+
+REGISTRY_REL = "assets/article_registry"
 QUEUE_DIR = ROOT / "assets" / "articles" / "queue"
 PRIORITY_DIR = QUEUE_DIR / "priority"
 
 
-def load_registry_at(ref: str) -> list[dict]:
-    """Load the article_registry.json from a git ref. Returns [] if absent."""
+def base_article_ids(ref: str) -> set[str]:
+    """article_ids present at a git ref. With one shard file per article,
+    that's just the shard filenames under the registry dir — a single git
+    call, no content reads (we only diff ids to find what's new)."""
     try:
         result = subprocess.run(
-            ["git", "show", f"{ref}:assets/article_registry.json"],
+            ["git", "ls-tree", "-r", "--name-only", ref, "--", REGISTRY_REL],
             capture_output=True, text=True, check=False,
         )
     except FileNotFoundError:
-        return []
+        return set()
     if result.returncode != 0:
-        return []
-    try:
-        return json.loads(result.stdout) or []
-    except json.JSONDecodeError:
-        return []
+        return set()
+    ids: set[str] = set()
+    for line in result.stdout.splitlines():
+        name = line.rsplit("/", 1)[-1]
+        if name.endswith(".json"):
+            ids.add(name[: -len(".json")])
+    return ids
 
 
 def load_registry_local() -> list[dict]:
-    if not REGISTRY_PATH.exists():
-        return []
-    try:
-        return json.loads(REGISTRY_PATH.read_text()) or []
-    except json.JSONDecodeError:
-        return []
+    return article_store.load_registry(article_store.REGISTRY_DIR)
 
 
 def count_queue_files(d: Path) -> int:
@@ -206,9 +208,8 @@ def main() -> int:
                    help="git ref to diff against (default: origin/main)")
     args = p.parse_args()
 
-    base_articles = load_registry_at(args.base)
+    base_ids = base_article_ids(args.base)
     head_articles = load_registry_local()
-    base_ids = {a.get("article_id") for a in base_articles}
     new_articles = [a for a in head_articles
                     if a.get("article_id") not in base_ids]
 
