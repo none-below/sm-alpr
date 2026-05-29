@@ -655,6 +655,18 @@
     color: #78350f;
     display: block;
   }
+  /* Cleanup note: pass-state check whose pass status is RECENT (the
+     agency removed a flagged recipient within the tracking window).
+     Green box so readers see at a glance that the check passes AND
+     that the pass is freshly earned, not a longstanding state. */
+  .checklist li.yes .detail.cleanup {
+    background: #ecfdf5;
+    border-left: 2px solid var(--check-yes);
+    padding: 4px 8px;
+    margin-top: 4px;
+    color: #166534;
+    display: block;
+  }
   .checklist li.no {
     background: #fef2f2;
     border-left-color: var(--flag);

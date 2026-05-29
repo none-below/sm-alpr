@@ -1580,7 +1580,7 @@
           const names = cleanup.map(function(r) {
             return `${escapeHtml(r.name)} (${escapeHtml(r.removed_on)})`;
           }).join(", ");
-          html += `<span class="detail" style="color:#166534"><strong>Recently cleaned up:</strong> removed ${names}.</span>`;
+          html += `<span class="detail cleanup"><strong>Recently cleaned up:</strong> removed ${names}.</span>`;
         }
       }
       if (item.detail) {
