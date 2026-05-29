@@ -15,20 +15,25 @@ Endpoint (verified):
   -> { offenses: { actuals: { "<Agency> Offenses": {MM-YYYY: n|null}, ... } },
        cde_properties: { max_data_date, last_refresh_date }, ... }
 
-Output:
-  data/fbi/crime.json       { "<ORI>": {agency_name, max_data_date,
-                                        last_refresh_date,
-                                        offenses: {violent-crime:{MM-YYYY:n},
-                                                   property-crime:{...}}} }
-  data/fbi/crime_meta.json  run metadata
+Output — one append-only dated snapshot per ORI per fetch, mirroring the
+Flock transparency scrape archive (assets/transparency.flocksafety.com/
+<slug>/<date>.json):
+  assets/cde.ucr.cjis.gov/<ORI>/<YYYY-MM-DD>.json
+    { ori, fetched, agency_name, max_data_date, last_refresh_date,
+      offenses: { violent-crime: {MM-YYYY: n}, property-crime: {...} } }
 
-Resumable: ORIs already present are skipped unless --refresh. A full run
-over the matched registry is ~thousands of calls; converge across runs.
+We never overwrite a prior snapshot, so the full revision history is
+preserved and parallel PRs adding different ORIs/dates never conflict.
+fbi_crime.load_crime() joins the snapshots into the current view.
+
+Resumable: an ORI already snapshotted on the fetch date is skipped unless
+--refresh. A full run over the matched registry is ~thousands of calls;
+converge across runs.
 
 Usage:
-  python scripts/refresh_fbi_crime.py                 # all registry ORIs
+  python scripts/refresh_fbi_crime.py --crawled-only  # portal-having agencies
   python scripts/refresh_fbi_crime.py --ori CA0411600 # one ORI (testing)
-  python scripts/refresh_fbi_crime.py --refresh       # re-pull everything
+  python scripts/refresh_fbi_crime.py --date 2026-05-16 --ori CA0411600  # backfill a date
 """
 
 import argparse
@@ -42,12 +47,11 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from lib import load_json, load_registry, save_json  # noqa: E402
+from lib import load_registry, save_json  # noqa: E402
 
 API_BASE = "https://api.usa.gov/crime/fbi/cde"
 OFFENSES = ["violent-crime", "property-crime"]
-OUT_PATH = Path("data/fbi/crime.json")
-META_PATH = Path("data/fbi/crime_meta.json")
+SNAPSHOT_DIR = Path("assets/cde.ucr.cjis.gov")
 KEY_FILE = Path.home() / ".config" / "sm-alpr" / "api_data_gov_key"
 
 THROTTLE_S = 0.4  # ~well under the 1000 req/hour api.data.gov limit
@@ -162,26 +166,20 @@ def target_oris(args, registry):
     return list(dict.fromkeys(oris))
 
 
-def _ucr_to_iso(s):
-    """'05/2026' -> '2026-05' for stable max-date comparisons."""
-    if not s or "/" not in str(s):
-        return ""
-    mm, yyyy = str(s).split("/")[:2]
-    return f"{yyyy}-{int(mm):02d}"
-
-
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--ori", action="append", help="ORI(s) to fetch (repeatable / comma-separated)")
     ap.add_argument("--crawled-only", action="store_true",
                     help="limit to agencies with portal data (where the metric applies)")
-    ap.add_argument("--refresh", action="store_true", help="re-pull ORIs already in crime.json")
+    ap.add_argument("--refresh", action="store_true", help="re-pull ORIs already snapshotted on the fetch date")
+    ap.add_argument("--date", default=None, help="snapshot date YYYY-MM-DD (default today; for backfills)")
     ap.add_argument("--from", dest="date_from", default=DEFAULT_FROM, help="MM-YYYY start (default 01-2019)")
     ap.add_argument("--to", dest="date_to", default=None, help="MM-YYYY end (default current month)")
     ap.add_argument("--limit", type=int, default=None, help="stop after N ORIs (debugging)")
     args = ap.parse_args()
 
     date_to = args.date_to or _current_month()
+    fetch_date = args.date or date.today().isoformat()
     key = api_key()
     registry = load_registry()
     wanted = target_oris(args, registry)
@@ -189,17 +187,20 @@ def main():
         print("No target ORIs. Registry has no 'ori' fields yet — pass --ori for testing.")
         return
 
-    existing = load_json(OUT_PATH) if OUT_PATH.exists() else {}
-    todo = wanted if args.refresh else [o for o in wanted if o not in existing]
+    # Resumability: skip an ORI already snapshotted on this fetch date.
+    def snap_path(ori):
+        return SNAPSHOT_DIR / ori / f"{fetch_date}.json"
+
+    todo = [o for o in wanted if args.refresh or not snap_path(o).exists()]
     if args.limit:
         todo = todo[: args.limit]
-    print(f"{len(wanted)} target ORIs; {len(todo)} to fetch ({len(existing)} cached).")
+    cached = len(wanted) - len(todo)
+    print(f"{len(wanted)} target ORIs; {len(todo)} to snapshot for {fetch_date} ({cached} already done).")
 
     fetched = 0
     for i, ori in enumerate(todo, 1):
-        record = {"agency_name": None, "max_data_date": None,
-                  "last_refresh_date": None, "offenses": {}}
-        max_dates = []
+        record = {"ori": ori, "fetched": fetch_date, "agency_name": None,
+                  "max_data_date": None, "last_refresh_date": None, "offenses": {}}
         for offense in OFFENSES:
             series, name, props = fetch_offense(ori, offense, key, args.date_from, date_to)
             time.sleep(THROTTLE_S)
@@ -212,28 +213,15 @@ def main():
             ucr = (props.get("max_data_date") or {}).get("UCR")
             if ucr:
                 record["max_data_date"] = ucr
-                max_dates.append(_ucr_to_iso(ucr))
             ref = (props.get("last_refresh_date") or {}).get("UCR")
             if ref:
                 record["last_refresh_date"] = ref
-        existing[ori] = record
+        save_json(snap_path(ori), record)
         fetched += 1
         flag = "" if record["agency_name"] else "  [no FBI series]"
         print(f"  [{i}/{len(todo)}] {ori}  {record['agency_name'] or '-'}{flag}")
-        if fetched % 50 == 0:
-            save_json(OUT_PATH, existing)  # checkpoint
 
-    save_json(OUT_PATH, existing)
-    meta = {
-        "source": "FBI Crime Data Explorer — summarized/agency",
-        "offenses": OFFENSES,
-        "date_from": args.date_from,
-        "date_to": date_to,
-        "n_oris": len(existing),
-        "generated": date.today().isoformat(),
-    }
-    save_json(META_PATH, meta)
-    print(f"Wrote {OUT_PATH} ({len(existing)} ORIs).")
+    print(f"Wrote {fetched} snapshot(s) under {SNAPSHOT_DIR}/ for {fetch_date}.")
 
 
 if __name__ == "__main__":

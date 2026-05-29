@@ -36,18 +36,19 @@ jobs:
       - name: Build sharing graph (scopes --crawled-only)
         run: uv run python scripts/build_sharing_graph.py
 
-      - name: Fetch FBI crime data (crawled agencies, refresh existing)
+      - name: Fetch FBI crime data (one dated snapshot per crawled agency)
         env:
           DATA_GOV_API_KEY: ${{ secrets.DATA_GOV_API_KEY }}
-        run: uv run python scripts/refresh_fbi_crime.py --crawled-only --refresh
+        run: uv run python scripts/refresh_fbi_crime.py --crawled-only
 
-      - name: Check for changes
+      - name: Check for new snapshots
         id: diff
         run: |
-          if git diff --quiet data/fbi/; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
+          # Snapshots are new (untracked) files, so check status, not diff.
+          if [ -n "$(git status --porcelain -- assets/cde.ucr.cjis.gov/)" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Create PR
@@ -60,20 +61,22 @@ jobs:
 
           BRANCH="chore/refresh-fbi-crime"
           git checkout -B "$BRANCH"
-          git add data/fbi/
-          git commit -m "chore: refresh FBI crime data"
+          git add assets/cde.ucr.cjis.gov/
+          git commit -m "chore: refresh FBI crime data ($(date -u +%Y-%m-%d) snapshot)"
           git push --force-with-lease origin "$BRANCH"
 
           existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
           if [ -z "$existing" ]; then
             cat > /tmp/pr-body.md <<'EOF'
-          Automated monthly refresh of FBI Crime Data Explorer offense counts
-          (`data/fbi/crime.json`), keyed by individual ORI.
+          Automated monthly snapshot of FBI Crime Data Explorer offense counts
+          (`assets/cde.ucr.cjis.gov/<ORI>/<date>.json`), one append-only file
+          per agency per fetch — same archive model as the Flock scrapes.
 
-          The FBI revises historical months as agencies report late, so this
-          re-pulls every crawled agency. Review the diff for unexpected drops
-          in past months before merging — a value moving toward null can mean
-          an upstream ORI/name change rather than a real revision.
+          `fbi_crime.load_crime()` joins the snapshots into the current view
+          (latest non-null value per month). Because the FBI revises months as
+          agencies report late, the *diff between snapshot dates* is the record
+          of those revisions — nothing is overwritten, so this PR only adds
+          files. Merging keeps the history.
           EOF
             gh pr create \
               --title "chore: refresh FBI crime data" \

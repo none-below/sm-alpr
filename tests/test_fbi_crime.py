@@ -5,6 +5,7 @@ Pure-function tests with inline fixtures — no API, no build, no disk.
 Run with: uv run pytest tests/test_fbi_crime.py
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -12,10 +13,17 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 from fbi_crime import (  # noqa: E402
     audit_month_coverage,
     crime_monthly,
+    join_snapshots,
     latest_full_month,
+    load_crime,
     month_label,
     searches_per_crime,
 )
+
+
+def _snap(violent, property_, **meta):
+    """A single dated snapshot for one ORI (offenses already null-stripped)."""
+    return {"offenses": {"violent-crime": violent, "property-crime": property_}, **meta}
 
 
 def _crime(ori, violent, property_, max_data="04/2026"):
@@ -65,6 +73,49 @@ def test_crime_monthly_keeps_explicit_zero():
 
 def test_month_label():
     assert month_label("2026-04") == "April 2026"
+
+
+# ── join_snapshots / load_crime (historical snapshots → current view) ──
+
+def test_join_newer_snapshot_wins_per_month():
+    # April revised 112->118 in a later pull; newest non-null wins.
+    older = _snap({"04-2026": 7}, {"04-2026": 105}, agency_name="PD", max_data_date="04/2026")
+    newer = _snap({"04-2026": 9}, {"04-2026": 109}, agency_name="PD", max_data_date="05/2026")
+    merged = join_snapshots([older, newer])  # oldest -> newest
+    assert merged["offenses"]["violent-crime"]["04-2026"] == 9
+    assert merged["offenses"]["property-crime"]["04-2026"] == 109
+    assert merged["max_data_date"] == "05/2026"
+
+
+def test_join_retains_month_absent_from_later_snapshot():
+    # March present in the old pull but dropped (null) in the new one -> retained.
+    older = _snap({"03-2026": 15, "04-2026": 7}, {"03-2026": 100, "04-2026": 105})
+    newer = _snap({"04-2026": 7}, {"04-2026": 105})  # March absent (transient null)
+    merged = join_snapshots([older, newer])
+    assert merged["offenses"]["violent-crime"]["03-2026"] == 15
+    assert merged["offenses"]["violent-crime"]["04-2026"] == 7
+
+
+def test_join_fills_late_arriving_month():
+    older = _snap({"03-2026": 15}, {"03-2026": 100})
+    newer = _snap({"03-2026": 15, "04-2026": 7}, {"03-2026": 100, "04-2026": 105})
+    merged = join_snapshots([older, newer])
+    assert merged["offenses"]["violent-crime"]["04-2026"] == 7
+
+
+def test_load_crime_reads_and_joins_snapshot_dir(tmp_path):
+    root = tmp_path / "cde"
+    d = root / "CA0411600"
+    d.mkdir(parents=True)
+    (d / "2026-04-16.json").write_text(json.dumps(
+        _snap({"03-2026": 15}, {"03-2026": 100}, agency_name="San Mateo PD")))
+    (d / "2026-05-16.json").write_text(json.dumps(
+        _snap({"03-2026": 15, "04-2026": 7}, {"03-2026": 100, "04-2026": 105})))
+    crime = load_crime(root)
+    assert set(crime) == {"CA0411600"}
+    months, _ = crime_monthly(["CA0411600"], crime)
+    assert latest_full_month(months) == "2026-04"
+    assert months["2026-04"]["total"] == 112
 
 
 # ── audit_month_coverage ──

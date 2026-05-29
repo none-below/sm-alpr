@@ -19,18 +19,59 @@ import calendar
 import json
 from pathlib import Path
 
-CRIME_PATH = Path("data/fbi/crime.json")
+SNAPSHOT_DIR = Path("assets/cde.ucr.cjis.gov")
 
+_OFFENSES = ("violent-crime", "property-crime")
 _MONTHS = ["", "January", "February", "March", "April", "May", "June",
            "July", "August", "September", "October", "November", "December"]
 
 
-def load_crime(path=CRIME_PATH):
-    """Load data/fbi/crime.json, or {} if it hasn't been fetched yet."""
-    p = Path(path)
-    if p.exists():
-        return json.loads(p.read_text())
-    return {}
+def join_snapshots(snapshots):
+    """Overlay dated per-ORI snapshots into one current-best monthly view.
+
+    ``snapshots`` is an iterable of raw API pulls for a single ORI. We
+    apply them oldest->newest, so the latest non-null value wins for each
+    month while a month that dropped out of a later pull is retained from
+    the earlier one — preserving data through FBI revisions and transient
+    API nulls (each snapshot already omits null months). Same join shape
+    as build_audit_log.py's union over Flock scrapes.
+    """
+    merged = {"agency_name": None, "max_data_date": None,
+              "last_refresh_date": None,
+              "offenses": {off: {} for off in _OFFENSES}}
+    for snap in snapshots:
+        for off in _OFFENSES:
+            merged["offenses"][off].update((snap.get("offenses") or {}).get(off) or {})
+        for k in ("agency_name", "max_data_date", "last_refresh_date"):
+            if snap.get(k):
+                merged[k] = snap[k]
+    return merged
+
+
+def load_crime(path=SNAPSHOT_DIR):
+    """Join per-ORI dated snapshots into a dict keyed by ORI, or {}.
+
+    Snapshots live at ``assets/cde.ucr.cjis.gov/<ORI>/<YYYY-MM-DD>.json``
+    — append-only raw API pulls, like the Flock transparency scrapes.
+    Filenames sort chronologically (YYYY-MM-DD), so we read them in order
+    and hand them to join_snapshots. {} until anything has been fetched.
+    """
+    root = Path(path)
+    if not root.is_dir():
+        return {}
+    out = {}
+    for ori_dir in sorted(root.iterdir()):
+        if not ori_dir.is_dir():
+            continue
+        snaps = []
+        for sp in sorted(ori_dir.glob("*.json")):
+            try:
+                snaps.append(json.loads(sp.read_text()))
+            except (OSError, json.JSONDecodeError):
+                continue
+        if snaps:
+            out[ori_dir.name] = join_snapshots(snaps)
+    return out
 
 
 def _ucr_to_iso(m):
