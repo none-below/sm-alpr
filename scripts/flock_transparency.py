@@ -155,6 +155,23 @@ def content_hash(text):
     return hashlib.sha256(text.encode()).hexdigest()
 
 
+def crawled_slugs_on_disk(data_dir):
+    """Slugs that have at least one date-named portal JSON capture on disk.
+
+    Used by the refresh path (--all-agencies) to ensure every previously
+    crawled agency stays a candidate regardless of whether the seed's
+    current outbound graph still points at it. Without this, an agency
+    the seed drops from sharing (e.g. SMPD removed NCRIC on 2026-05-11)
+    silently falls off the rotation despite having years of history.
+    """
+    if not data_dir.is_dir():
+        return []
+    return [
+        d.name for d in data_dir.iterdir()
+        if d.is_dir() and not d.name.startswith(".") and portal_jsons(d)
+    ]
+
+
 def is_stale(slug, data_dir, max_age_days=STALE_DAYS):
     """Check if a slug's latest capture is older than max_age_days."""
     slug_dir = data_dir / slug
@@ -283,6 +300,9 @@ _HEADING_MAP = {
     "ALPR Policy":                           "alpr_policy",
     "ALPR":                                  "alpr_policy",
     "ALPR Manual":                           "alpr_policy",
+    "SOP":                                   "alpr_sop",
+    "Standard Operating Procedure":          "alpr_sop",
+    "Operating Procedure":                   "alpr_sop",
     "Automated License Plate Reader Usage and Privacy Policy": "alpr_policy",
     "Full ALPR Policy":                      "alpr_policy",
     "Full ALPR Policy:":                     "alpr_policy",
@@ -340,6 +360,7 @@ _HEADING_MAP = {
     "Vehicles detected in the last 30 days": "vehicles_detected_30d",
     "Unique vehicles detected in the last 30 days": "vehicles_detected_30d",
     "Unique Vehicles Detected":              "vehicles_detected_30d",
+    "Distinct Vehicles (No Duplicates) detected in the last 30 days": "vehicles_detected_30d",
     "Hotlist hits in the last 30 days":      "hotlist_hits_30d",
     "Number of Hotlist Hits":                "hotlist_hits_30d",
     "Searches in the last 30 days":          "searches_30d",
@@ -370,7 +391,9 @@ _DYNAMIC_HEADINGS = [
     # Department Automated License Plate Recognition and Internet
     # Protocol Camera System Policy" without forcing every variant
     # into _HEADING_MAP one-by-one.
-    (re.compile(r"^.+Automated License Plate (?:Recognition|Readers?).+Policy.*$", re.IGNORECASE), "alpr_policy"),
+    # Trailing word can be "Policy" or "System" — Alameda County SO uses
+    # "ACSO Policy: GO 5.42 - Automated License Plate Recognition (ALPR) System".
+    (re.compile(r"^.+Automated License Plate (?:Recognition|Readers?).+(?:Policy|System).*$", re.IGNORECASE), "alpr_policy"),
     (re.compile(r"^.+Police Department Policy Manual.*$", re.IGNORECASE), "alpr_policy"),
     # Agency-prefixed bare "Policy" headings, e.g.
     # "Marin County Sheriff's Office Policy" — Flock now bolds these
@@ -383,6 +406,9 @@ _DYNAMIC_HEADINGS = [
     # "Credit Card Skimming Ring - Success story").
     (re.compile(r"^.+ - Facebook Post - .+$", re.IGNORECASE), "success_stories"),
     (re.compile(r"^.+ - Success Stor(?:y|ies)$", re.IGNORECASE), "success_stories"),
+    # Alameda County SO posts each case under "Solved Stories with Flock
+    # ALPR Technology - <case description>" as a separate bold heading.
+    (re.compile(r"^Solved Stor(?:y|ies) with Flock", re.IGNORECASE), "success_stories"),
     # Sentence-style link blurbs, e.g. "Auburn PD's Policies and
     # Procedures can be found at the following link:" — same role as
     # the "Policy Documents" / "Policy Link" exact headings. Placed
@@ -599,6 +625,12 @@ def _parse_number(s, *, field=None, slug=None):
     """
     if not s or not s.strip():
         return None
+    # Flock shows "Data Unavailable" in place of a value when the stat
+    # isn't ready yet (seen on kensington-ca-pd hotlist_hits_30d). Return
+    # None rather than tripping the multi-paragraph-no-number error path.
+    for line in s.split("\n"):
+        if re.fullmatch(r"\s*Data Unavailable\s*", line, re.IGNORECASE):
+            return None
     for line in s.split("\n"):
         stripped = line.strip()
         if re.fullmatch(r"[\d,]+", stripped):
@@ -862,6 +894,7 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
         "overview": fields.get("overview", ""),
         "policy_info": fields.get("policy_info", ""),
         "alpr_policy": fields.get("alpr_policy", ""),
+        "alpr_sop": fields.get("alpr_sop", ""),
         "additional_info": fields.get("additional_info", ""),
         "download_csv": fields.get("download_csv", ""),
         "search_audit": fields.get("search_audit", ""),
@@ -1052,15 +1085,20 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
 
 
 def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
-                    try_variations=False):
-    """Crawl a list of slugs. Returns (results, discovered_slugs)."""
+                    try_variations=False, explicit=False):
+    """Crawl a list of slugs. Returns (results, discovered_slugs).
+
+    explicit=True means the caller named these slugs directly (vs auto-picked
+    from the oldest-agencies rotation) — in that case, don't skip on prior
+    failure. The human knows the slug; they want a fresh attempt.
+    """
     results = []
     discovered = []
 
     total = len(slugs)
     for i, slug in enumerate(slugs):
         progress = f"({i + 1}/{total})"
-        if slug in failed_slugs:
+        if slug in failed_slugs and not explicit:
             reason = failed_slugs[slug].get("reason", "unknown") if isinstance(failed_slugs[slug], dict) else "unknown"
             print(f"  {progress} {slug} -> previously failed ({reason}), skipping")
             results.append((slug, None))
@@ -1098,14 +1136,13 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
         if discovered_slugs:
             discovered.extend(discovered_slugs)
         if isinstance(status, tuple) and status[0] == "failed":
-            # parse_error means we got the page but the parser tripped on
-            # a new format variant — nothing was written to the asset tree
-            # (archive_agency stages and only commits on full success).
-            # Don't permanently quarantine these: leave them out of
-            # failed_slugs so the next crawl re-fetches and re-parses
-            # against an updated parser. The PARSE_ERROR log line is
-            # surfaced as a tracking issue by the workflow.
-            if status[1] != "parse_error":
+            # Don't permanently quarantine transient failures:
+            #   parse_error: parser tripped on a new format variant; archive_agency
+            #     stages and only commits on full success so no artifacts written.
+            #     Surfaced as a tracking issue by the workflow.
+            #   http_403: Flock's Cloudflare uses 403 (not 429) for rate limiting.
+            #     A 403 here doesn't mean blocked — it means try again next run.
+            if status[1] not in ("parse_error", "http_403"):
                 failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
         save_json(data_dir / HASH_FILE, hashes)
@@ -1230,6 +1267,14 @@ def cmd_crawl(args):
                 # appears in some peer's outbound list) get picked up on the same
                 # level it's discovered, instead of waiting for a deeper run.
                 candidates = dedupe(list(slugs) + discovered_from_existing)
+                # Refresh path: include every on-disk crawled slug as a
+                # candidate at level 0, not just those still reachable
+                # via the seed's outbound graph. Otherwise a slug the
+                # seed drops from sharing falls off the rotation despite
+                # being stale and locally captured. Level 0 only — deeper
+                # levels do BFS discovery for genuinely new slugs.
+                if args.all_agencies and level == 0:
+                    candidates = dedupe(candidates + crawled_slugs_on_disk(data_dir))
                 new_slugs = [s for s in candidates if s not in visited]
                 # Crawl order by tier:
                 #   0 never attempted — fills gaps like newly-seeded registry
@@ -1295,6 +1340,7 @@ def cmd_crawl(args):
                 page, slugs, data_dir, args.force,
                 args.delay, hashes, failed_slugs,
                 try_variations=args.try_variations,
+                explicit=True,
             )
             all_results.extend(results)
 

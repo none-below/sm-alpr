@@ -1,10 +1,6 @@
 // Feature flags
 const SHOW_SHARES_WITH_TAGS = false; // [SHARES WITH FLAGGED ENTITY] and [SHARES WITH SUED AGENCY]
 
-// Sanitization helpers
-function escapeHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
 const SLUG_RE = /^[a-z0-9][a-z0-9\-]*$/;
 function safeSlug(s) { return SLUG_RE.test(s) ? s : ''; }
 
@@ -215,7 +211,7 @@ Promise.all([
     let label = escapeHtml(info.name || s);
     let tag = '';
     if (info.state && info.state !== 'CA')
-      tag += ' <span style="color:#dc2626;font-weight:bold" title="Out-of-state sharing may violate CA Civil Code \u00a71798.90.55(b)">[' + info.state + ' \u2014 out of state]</span>';
+      tag += ' <span style="color:#dc2626;font-weight:bold" title="Out-of-state sharing may violate CA Civil Code \u00a71798.90.55(b)">[' + escapeHtml(info.state) + ' \u2014 out of state]</span>';
     // Category tag — one per entity, picked by the most specific concern.
     // Each label names the actual concern rather than a blanket "violates SB 34"
     // claim, since the problem differs by category (access controls, custodian

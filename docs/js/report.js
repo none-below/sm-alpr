@@ -106,15 +106,6 @@
   // Meeting banner data + helpers live in docs/js/meeting_banners.js
   // (loaded from report.html before this script).
 
-  function escapeHtml(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
   function fmtInt(n) {
     if (n == null) return '<span class="null">not reported</span>';
     return Number(n).toLocaleString();
@@ -194,9 +185,10 @@
     const articles = entry.articles;
     const agencyKey = entry.slug || entry.agency_id;
     const rows = articles.map(function(a) {
-      const date = a.published_at ? formatArticleDate(a.published_at) : "<span class=\"muted\">—</span>";
-      const titleCell = a.url
-        ? `<a href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.title || a.url)}</a>`
+      const date = a.published_at ? escapeHtml(formatDate(a.published_at)) : "<span class=\"muted\">—</span>";
+      const aUrl = safeUrl(a.url);
+      const titleCell = aUrl
+        ? `<a href="${escapeHtml(aUrl)}" target="_blank" rel="noopener">${escapeHtml(a.title || aUrl)}</a>`
         : escapeHtml(a.title || "");
       const primaryBadge = a.is_primary
         ? `<span class="article-primary-badge" title="This piece is substantively about ${escapeHtml(report.name)}">primary subject</span>`
@@ -219,13 +211,6 @@
         <tbody>${rows}</tbody>
       </table>
     `;
-  }
-
-  function formatArticleDate(iso) {
-    const d = new Date(iso);
-    if (isNaN(d.getTime())) return escapeHtml(iso);
-    return d.toLocaleDateString(undefined,
-      { year: "numeric", month: "short", day: "numeric" });
   }
 
   function renderNotFound(slug, data) {

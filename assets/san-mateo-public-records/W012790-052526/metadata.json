@@ -1,0 +1,42 @@
+{
+  "title": "Per-case staff-time and activity-log records for my open PRAs",
+  "summary": "Meta-request for the existing records by which the Department and the City track, log, and attribute staff time and case activity to specific PRA case numbers. SMPD has characterized the requester's PRAs as requiring substantial staff time — including a figure of approximately 10 hours — and this request seeks the records that any such figure would be derived from.\n\nIn scope: 32 PRA case numbers from W012129-020926 through W012742-051426.\n\nRecords requested:\n\n- Item 1: per-case activity / audit logs from the PRA management platform (GovQA or equivalent), including every logged entry with timestamp, action, and associated user.\n- Item 2: per-case staff-time / labor attribution records (reports, dashboard views, spreadsheets, internal memos) attributing hours or labor cost to specific PRA case numbers.\n- Item 3: timesheet / labor-distribution records coding hours to 'Public Records' / 'CPRA' / equivalent project, task, or case-number codes, linkable to the case numbers in scope. If the time-tracking system records hours at project- or department-aggregate level rather than per case, that aggregate-level record is responsive.\n- Item 4: internal communications among Department or City staff (City Attorney, City Clerk, Records Unit, Department supervisors) referencing time required, anticipated, or expended on the case numbers in scope.\n- Item 5: SOPs / written guidelines / training material governing how staff are expected to log, track, code, or attribute staff time to PRAs, and any document describing the PRA-management-system case-note / activity-log / time-tracking configuration.",
+  "tags": ["pra-process"],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.530 / Sierra Club v. Superior Court (2013) 57 Cal.4th 157",
+      "quote": "existing records only",
+      "tests": "Are the per-case activity logs, time-attribution records, and timesheet entries in scope existing routine system exports, not compilation?"
+    },
+    {
+      "policy": "City of San Jose v. Superior Court (2017) 2 Cal.5th 608",
+      "quote": "records held by a vendor on the agency's behalf are agency records",
+      "tests": "If GovQA / a SaaS timekeeping platform holds the responsive records on the City's behalf, those records are subject to production."
+    },
+    {
+      "policy": "Gov. Code § 7922.525(b)",
+      "quote": "any reasonably segregable portion of a record",
+      "tests": "Can per-case hour-attribution data be produced with employee-identifier columns redacted, or is the entire record withheld on personnel-privacy grounds?"
+    },
+    {
+      "policy": "Gov. Code § 7927.700",
+      "quote": "personnel records",
+      "tests": "Are per-case hour-attribution columns 'personnel records' within the meaning of the exemption?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012129-020926",
+      "relation": "case-list",
+      "note": "First case number in the request's 32-PRA scope list."
+    },
+    {
+      "ref": "W012742-051426",
+      "relation": "case-list",
+      "note": "Most recent case number in the request's 32-PRA scope list at filing."
+    }
+  ],
+  "filed_because": "SMPD has characterized the requester's PRAs as a substantial workload (the ~10-hours figure). This request asks for the existing records by which any such characterization would be supported — per-case activity logs, time attribution, and timesheet coding — so workload claims can be assessed against the underlying data rather than the agency's narrative.",
+  "status_override": "awaiting_initial",
+  "notes": "10-day statutory determination due 2026-06-04.\n\nThe Item 3 fallback (aggregate-level 'Public Records' coding for the staff members named in Item 1 logs) is a key shape-the-floor element: even if no per-PRA timesheet coding exists, the aggregate department-level record exists and can be linked to the named staff."
+}

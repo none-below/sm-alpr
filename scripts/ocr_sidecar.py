@@ -228,8 +228,10 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
         native = (doc[page_num].get_text() or "").strip()
         native_chars += len(native)
 
-        has_images = len(doc[page_num].get_images()) > 0
-        needs_ocr = has_images and len(native) <= 50
+        # Trigger OCR when native text is sparse. We previously gated this on
+        # has_images, but Lexipol-style PDFs render text as form XObjects that
+        # pymupdf doesn't count as images, leaving the sidecar empty.
+        needs_ocr = len(native) <= 50
 
         if needs_ocr:
             ocr_text = extract_text_from_page(doc[page_num])

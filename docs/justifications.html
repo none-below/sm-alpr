@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'self' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com;">
+<link rel="stylesheet" href="css/shared.css">
 <title>ALPR Search Justifications — California</title>
 <style>
   body {
@@ -35,59 +36,6 @@
   }
   .toolbar a:hover { background: #eff6ff; }
   .toolbar .spacer { flex: 1; }
-  .toolbar .agency-search {
-    position: relative;
-    flex: 0 1 300px;
-    min-width: 180px;
-  }
-  .toolbar .agency-search input {
-    width: 100%;
-    padding: 6px 10px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 13px;
-    font-family: inherit;
-    box-sizing: border-box;
-    background: white;
-  }
-  .toolbar .agency-search input:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
-  }
-  .toolbar .agency-search .search-results {
-    position: absolute;
-    top: calc(100% + 2px);
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    max-height: 300px;
-    overflow-y: auto;
-    z-index: 100;
-    display: none;
-  }
-  .toolbar .agency-search .search-results.open { display: block; }
-  .toolbar .agency-search .search-results a {
-    display: block;
-    padding: 6px 10px;
-    border: none;
-    border-radius: 0;
-    text-decoration: none;
-    color: #111;
-    font-size: 13px;
-  }
-  .toolbar .agency-search .search-results a:hover,
-  .toolbar .agency-search .search-results a.hl {
-    background: #eff6ff;
-  }
-  .toolbar .agency-search .search-results .sr-empty {
-    padding: 6px 10px;
-    color: #6b7280;
-    font-size: 13px;
-  }
   .page {
     max-width: 960px;
     margin: 0 auto;
@@ -1310,6 +1258,7 @@
 <div class="toolbar">
   <a href="index.html">&larr; Investigation home</a>
   <a href="sharing_map.html">Sharing map</a>
+  <a href="report.html" id="report-link" title="Per-agency compliance report for this agency">Report</a>
   <div class="agency-search" id="agency-search">
     <input type="text" id="agency-search-input" placeholder="Jump to another agency&hellip;" autocomplete="off" spellcheck="false">
     <div class="search-results" id="agency-search-results" role="listbox"></div>
@@ -1321,6 +1270,7 @@
   <p class="subtitle">Loading&hellip;</p>
 </div>
 
+<script src="js/utils.js"></script>
 <script src="js/justifications.js"></script>
 <script data-goatcounter="https://none-below.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
