@@ -219,3 +219,34 @@ hardcoded. Adjust it there if you want to broaden/narrow the topic
 scope. The discoverer is state-free: re-running over the same feed
 produces no new queue entries because `article_queue_add.py` dedupes
 URLs.
+
+## License
+
+Copyright © 2026 zero-below.
+
+This repository is licensed in two layers, plus a carve-out for third-party
+material.
+
+**Code → AGPL-3.0.** All original source code — scripts, web assets, build
+tooling — is licensed under the **GNU Affero General Public License v3.0**
+(see [LICENSE](LICENSE)). Anyone may use, study, modify, and redistribute it.
+The copyleft terms require derivative works — including modified versions
+offered to the public over a network — to be released under the same license,
+with source available. You can build on it; you can't take it private.
+
+**Findings and written content → CC BY 4.0.** The investigation's original
+prose, analysis, and findings (e.g. `docs/SMPD_ALPR_Findings.md` and the
+generated PDF) are licensed under the **Creative Commons Attribution 4.0
+International** license (see [LICENSE-CONTENT](LICENSE-CONTENT)). Republish,
+quote, adapt, and build on them freely — including commercially — as long as
+you give credit. A credit such as *"Findings by zero-below —
+github.com/none-below/sm-alpr"* satisfies the attribution requirement. (Note:
+reporting the underlying *facts* and quoting for commentary needs no license
+at all; this just makes wholesale reuse explicit.)
+
+**Third-party source material → not covered.** Content under `assets/` that
+was scraped or collected from external sources — Flock Safety transparency
+portals, news/analysis articles, government meeting packets, and FBI Crime
+Data Explorer data — remains the property of its respective owners and is
+included here for research, journalism, and archival purposes. Neither license
+above grants any rights in that source material.
