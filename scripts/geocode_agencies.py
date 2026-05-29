@@ -257,6 +257,61 @@ STATE_CITY_ALIASES = {
     ("Marta", "GA"): "Atlanta",  # MARTA is the Atlanta transit authority
     ("Wyandotte Nation", "OK"): "Wyandotte",
     ("Port of Seattle", "WA"): "Seattle",
+
+    # Single-campus colleges/universities → campus city (issue #447).
+    ("ASU", "AZ"): "Tempe",
+    ("Central Connecticut State University", "CT"): "New Britain",
+    ("Guilford Technical Community College", "NC"): "Jamestown",
+    ("Houston Christian University", "TX"): "Houston",
+    ("Ithaca College", "NY"): "Ithaca",
+    ("Kellogg Community College", "MI"): "Battle Creek",
+    ("Lamar University", "TX"): "Beaumont",
+    ("Northern Arizona University", "AZ"): "Flagstaff",
+    ("College of Mount St. Joseph", "OH"): "Cincinnati",
+    ("Oklahoma City Community College", "OK"): "Oklahoma City",
+    ("Prince George's Community College", "MD"): "Largo",
+    ("Rockhurst University", "MO"): "Kansas City",
+    ("SUNY Binghamton", "NY"): "Binghamton",
+    ("SUNY-Onondaga Community College", "NY"): "Syracuse",
+    ("SUNY Old Westbury", "NY"): "Old Westbury",
+    ("Southwestern Illinois College", "IL"): "Belleville",
+    ("Springfield College", "MA"): "Springfield",
+    ("Alvin College", "TX"): "Alvin",
+    ("Lee College", "TX"): "Baytown",
+    ("Tarleton State University", "TX"): "Stephenville",
+    ("Texas A&M International University", "TX"): "Laredo",
+    ("Texas Christian University", "TX"): "Fort Worth",
+    ("University Circle", "OH"): "Cleveland",
+    ("University of Arizona", "AZ"): "Tucson",
+    ("University of Delaware", "DE"): "Newark",
+    ("University of Houston Clear Lake", "TX"): "Houston",
+    ("University of Houston Downtown", "TX"): "Houston",
+    ("University of Michigan Ann Arbor", "MI"): "Ann Arbor",
+    ("University of North Carolina Chapel Hill", "NC"): "Chapel Hill",
+    ("University of North Carolina Charlotte", "NC"): "Charlotte",
+    ("University of Notre Dame", "IN"): "South Bend",
+    ("University of Texas Permian Basin", "TX"): "Odessa",
+    ("George Mason University", "VA"): "Fairfax",
+    ("Weatherford College", "TX"): "Weatherford",
+
+    # City-name spelling / suffix variants (issue #447). Census place
+    # names differ from the spelling Flock carries.
+    ("Desoto", "MO"): "De Soto",
+    ("Laporte", "IN"): "La Porte",
+    ("Gun Barrel", "TX"): "Gun Barrel City",
+    ("Horizon", "TX"): "Horizon City",
+    ("Town & Country", "MO"): "Town and Country",
+    ("Snowflake-Taylor", "AZ"): "Snowflake",   # twin towns; pick Snowflake
+    ("Hobart-Lawrence", "WI"): "Hobart",       # twin villages; pick Hobart
+    ("Mechanicsburg/Buffalo", "IL"): "Mechanicsburg",
+    ("Mentor on the Lake", "OH"): "Mentor-on-the-Lake",
+    ("Moorland Hills", "OH"): "Moreland Hills",
+    ("LaGrange", "KY"): "La Grange",
+    ("LaGrange Park", "IL"): "La Grange Park",
+    ("North Attleboro", "MA"): "North Attleborough",
+    ("Bloomfield", "MI"): "Bloomfield Hills",
+    ("The City of The Village", "OK"): "The Village",
+    ("Inc Village of Lake Success", "NY"): "Lake Success",
 }
 
 
@@ -602,7 +657,161 @@ MANUAL_OVERRIDES = {
         "kind": "manual", "name": "Cape Girardeau", "state": "MO",
         "lat": 37.3059, "lng": -89.5181,
     },
+    # Dallas/Fort Worth International Airport PD — the airport straddles
+    # Irving/Grapevine/Euless; no single Census place centroid fits, so
+    # pin to the airport itself (issue #447).
+    "95421760-604f-57cd-88e7-40055f0e1529": {
+        "kind": "manual", "name": "DFW Airport", "state": "TX",
+        "lat": 32.8998, "lng": -97.0403,
+    },
+    # Northern Regional PD (Allegheny County PA) — HQ in Wexford, a CDP
+    # the Census places gazetteer doesn't index; serves the northern
+    # Allegheny suburbs (issue #447).
+    "08440ba2-9d22-5fef-8f08-bec451284e95": {
+        "kind": "manual", "name": "Wexford", "state": "PA",
+        "lat": 40.6470, "lng": -80.0590,
+    },
 }
+
+
+# Gazetteer-resolved overrides for agencies whose physical location is a
+# Census place/county/cousub but whose *name* can't be auto-extracted
+# (hospital systems, park districts, transit authorities, ISDs, regional
+# task forces, state-agency HQ cities, etc.). Keyed by agency_id; resolved
+# against the gazetteer at geocode time so the coords stay in sync (and are
+# validated by tests/test_geo_cache.py) rather than being frozen here.
+# Value is (kind, name, state) or (kind, name, state, county_hint) where
+# kind is "place" | "county" | "cousub". Entries whose location genuinely
+# can't be pinned down (multi-county task forces with no base, bare TX
+# constable precincts, cryptic portal names) are deliberately omitted —
+# they stay flagged by scripts/check_recipient_coords.py.
+GAZ_OVERRIDES = {
+    # place overrides (issue #447)
+    "bb9193bd-a05e-5a85-8442-0500a92e5345": ("place", "Johnson City", "TN"),  # 1st Judicial District DTF
+    "10319f36-e697-550c-8201-d4b1aa641813": ("place", "Livingston", "TX"),  # Alabama-Coushatta Tribe
+    "04cea6da-d564-5393-9c2b-e6954ab126d7": ("place", "Boone", "NC"),  # Appalachian Regional Healthcare System
+    "578144cb-7f6b-5893-8d43-0fd67b01543b": ("place", "Baldwinsville", "NY"),  # Baldwinsville Central School District
+    "fcdbe24d-aac3-5056-8085-e6ee55c61448": ("place", "Chicago Heights", "IL"),  # Bloom Township HS District 206
+    "a94e8041-ab2e-58e7-90e8-09218338b9dd": ("place", "Syracuse", "NY"),  # CAC - Central NY
+    "d9b3e9f0-3081-5459-b234-39e4bc23ee0d": ("place", "Buffalo", "NY"),  # CAC - Erie
+    "d803558a-de4c-56cd-8e59-ea5e06e7bc93": ("place", "Goshen", "NY"),  # CAC - Hudson Valley
+    "2f033355-e355-5db0-b779-0f1f2b45cc2b": ("place", "Utica", "NY"),  # CAC - Mohawk Valley
+    "af4247e1-9428-5fff-bbeb-de37252f7e13": ("place", "Rochester", "NY"),  # CAC - Monroe
+    "e790abe7-04a0-5480-9b1f-2a6f75d4ad65": ("place", "Niagara Falls", "NY"),  # CAC - Niagara
+    "e5a4e334-e976-5d15-a5ca-5ddfb0d324ff": ("place", "Malone", "NY"),  # CAC - North Country
+    "7e6433bc-b57a-54b6-b375-fb838605e473": ("place", "Binghamton", "NY"),  # CAC - Southern Tier
+    "1fd26e6a-2b09-53ac-8f8e-fe4226969049": ("place", "Homewood", "IL"),  # CN Railroad PD (US HQ)
+    "1e65fcf9-b399-5e54-9cd4-6f68c9824fa8": ("place", "Rock Hill", "SC"),  # Catawba Nation
+    "112cf1f2-b628-5a03-b02a-63169d752db1": ("place", "Cleveland", "OH"),  # Cleveland Clinic
+    "2f781e64-cdac-50f8-87b5-907c9049ed95": ("place", "Cleveland", "OH"),  # Cleveland Metro Schools
+    "4f49b561-9ed3-5576-9576-145702229258": ("place", "Cleveland", "OH"),  # Cleveland Metroparks
+    "fb1b3ad0-6321-5316-8995-1309ed1f2e3d": ("place", "Beeville", "TX"),  # Coastal Bend College
+    "74a9fbc7-1d82-5628-aee5-e2938510d86c": ("place", "West Columbia", "SC"),  # Columbia Metro Airport
+    "14068524-23ad-5f61-be7a-ed7de5135595": ("place", "Columbus", "OH"),  # Columbus Regional Airport Authority
+    "7b710523-06a2-5f2e-948e-41a18aa58fec": ("place", "Indianapolis city (balance)", "IN"),  # Community Health Network
+    "27bbf971-facc-5637-8b79-7d2d16893da1": ("place", "Coulee Dam", "WA"),  # Coulee Dam PD
+    "76010eb9-473b-5f1d-84fe-5329196b72ba": ("place", "Dallas", "TX"),  # Dallas Area Rapid Transit
+    "bd9b53d4-d38f-50b9-90d1-15684578c915": ("place", "Greenville", "NC"),  # ECU Health
+    "28bf3b02-2dcd-5e12-98e0-0a5f3ea066a1": ("place", "Homewood", "IL"),  # ECom911 (south Cook County dispatch)
+    "7071c666-10c3-5626-9d40-7899bbaad3df": ("place", "Tyler", "TX"),  # East Texas Auto Theft Task Force
+    "54d1bc80-a170-513b-861c-79400c9cb8c1": ("place", "New Oxford", "PA"),  # Eastern Adams Regional PD
+    "9dc99f88-1f3e-572a-8f92-0c12d47f9b8f": ("place", "Piqua", "OH"),  # Edison State Community College
+    "16899400-f5d1-5e53-b38c-9890dc1d9048": ("place", "Dayton", "OH"),  # Five Rivers MetroParks
+    "f740adf6-7787-5a57-959c-83eabad5d032": ("place", "East Peoria", "IL"),  # Fon du Lac Park District
+    "efc5c6ce-a8ae-5855-8764-bb4ef22e6e05": ("place", "Cleveland", "OH"),  # Greater Cleveland RTA
+    "994cafa6-360c-5767-b9bb-1778b2182bc7": ("place", "Midland", "TX"),  # Greenwood ISD
+    "0bacfde0-4cc1-5aa2-8959-c24fc15e98c6": ("place", "Harrisburg", "PA"),  # Harrisburg Bureau of Police
+    "46448aa2-3292-5837-af4a-55a94ad6b52a": ("place", "Hermitage", "PA"),  # Hermitage PD
+    "cdf53878-f007-5349-82c3-c198d69e4737": ("place", "Houston", "TX"),  # Houston METRO transit
+    "0eee95cd-e37a-5dfc-b370-3745ed279b97": ("place", "Thornton", "IL"),  # Illinois Statewide Auto Theft TF
+    "799ad8b7-438d-5086-a14c-d396754a5644": ("place", "Lima", "OH"),  # Johnny Appleseed Metro Park District
+    "c5cde259-f76e-50ed-87c9-6b4dc48f9cf3": ("place", "Frankfort", "KY"),  # Kentucky AG
+    "85363fab-8619-55e4-aa45-15949bb864d2": ("place", "Painesville", "OH"),  # Lake Metroparks Rangers
+    "6202f013-25eb-518a-b460-2c6bd405d044": ("place", "Lakeway", "TX"),  # Lake Travis ISD
+    "04cf4606-6e6f-59ce-b518-1c9cdde0c183": ("place", "West Columbia", "SC"),  # Lexington Medical Center
+    "954e73b9-7cf7-5c4f-b490-a65a1a9cc357": ("place", "Milford", "MA"),  # Massachusetts Dept of Correction
+    "e6113b72-79ed-5300-834b-f749e617f7be": ("place", "Newtown", "PA"),  # MAGLOCLEN RISS center
+    "710baca5-ca63-52f4-925d-9cdfa9917c61": ("place", "Youngstown", "OH"),  # Mahoning Valley LE Task Force
+    "95c199f9-534a-585e-a7e9-4983399855bb": ("place", "Hedwig Village", "TX"),  # Memorial Villages PD
+    "c0667123-d485-5710-923a-dbf817b0f99c": ("place", "Midlothian", "TX"),  # Methodist Midlothian Medical Center
+    "ca1760c3-29de-5a02-be23-502ff58b205b": ("place", "Toledo", "OH"),  # Metroparks Toledo
+    "6f7dca30-e826-53d5-bb7a-33a8e21a85ef": ("place", "New York", "NY"),  # NYC Dept of Environmental Protection
+    "7ea3e352-7c88-5b18-88cb-964542ce0796": ("place", "Dallas", "TX"),  # North TX Anti-Gang Center
+    "d1c45457-4bc4-5858-a874-158dcc960ef1": ("place", "North Tonawanda", "NY"),  # North Tonawanda City PD
+    "a203ad54-323b-54d9-9a8a-94c1cbe609ee": ("place", "Leesport", "PA"),  # Northern Berks Regional PD
+    "0be79128-e1ed-5a3c-a57c-75cfd1ee2406": ("place", "Chillicothe", "OH"),  # U.S. 23 Major Crimes Task Force
+    "2d246354-acd9-5314-a529-cdb88d36e50b": ("place", "Oklahoma City", "OK"),  # Oklahoma State Bureau of Investigation
+    "01d3d28e-4e7f-5b42-8e1e-d68741684c46": ("place", "London", "OH"),  # Ohio Bureau of Criminal Investigation
+    "fe8cfc6d-73db-56ef-bb9d-4d1a4432be35": ("place", "Columbus", "OH"),  # Ohio Bureau of Motor Vehicles
+    "350b3dc3-f357-59ea-9ce1-91f5c4fbb9e8": ("place", "Columbus", "OH"),  # Ohio DPS
+    "a483e698-31f9-5d06-8f8e-973537e839a6": ("place", "Moreland Hills", "OH"),  # Ohio Drug TF (Moreland Hills)
+    "c33881fc-332e-50fa-b582-a7174f0c5637": ("place", "Reynoldsburg", "OH"),  # Ohio State Fire Marshal
+    "3ae3ebc6-f651-5660-bd47-d18c0e38330b": ("place", "Columbus", "OH"),  # Ohio Bureau of Workers' Compensation
+    "42353055-bd16-5954-87dd-ce3ce3f5d572": ("place", "Red Rock", "OK"),  # Otoe-Missouria Tribe
+    "6600f2e5-4aa7-57ba-bfc6-94434b7e40b8": ("place", "Sunbury", "OH"),  # Preservation Parks of Delaware County
+    "05f3a58d-3072-5fa9-aac2-85fefe863065": ("place", "Toledo", "OH"),  # ProMedica
+    "127b98cf-5af4-5ae9-a955-db6f2d5cade8": ("place", "Rockford", "IL"),  # Rockford Park District
+    "ea85dbdd-5957-5508-9a72-bf380ecd103d": ("place", "Sisseton", "SD"),  # Lake Traverse Reservation
+    "00404003-7cbf-5393-b423-b14d38d6fce5": ("place", "Strongsville", "OH"),  # Southwest Emergency Dispatch Center
+    "0ef3b226-05d1-577d-a97b-3b9f48bf6a19": ("place", "Sedona", "AZ"),  # Sedona PD (deactivated)
+    "0a271d12-f706-5482-bf9a-1324a3150525": ("place", "New Castle", "PA"),  # Shenango Township PD (Lawrence Co.)
+    "82ae4281-d565-5965-ae53-06f2ec921757": ("place", "Society Hill", "SC"),  # Society Hill PD
+    "df21aae3-5581-58b8-b5d2-3b81c0d2b668": ("place", "Lancaster", "OH"),  # South Central OH Major Crimes Unit
+    "f4cde793-b9ca-5de9-a379-27026fb407fd": ("place", "Lubbock", "TX"),  # South Plains Auto Theft Task Force
+    "16fd9939-edcc-5adc-8dcf-939d662158fc": ("place", "Canton", "OH"),  # Stark Parks Public Safety
+    "0b1f7152-0bf0-57e7-a020-bf9794a5bed0": ("place", "Bowler", "WI"),  # Stockbridge-Munsee Community
+    "6175cc72-e59f-509d-9bac-fc2c762895a5": ("place", "Akron", "OH"),  # Summa Health
+    "2fcedc2f-f6e5-579a-846b-8868befbeff2": ("place", "Akron", "OH"),  # Summit Metro Parks
+    "fd94ae2d-2dbc-51e9-839d-a05b87c478a3": ("place", "Syracuse", "NY"),  # Syracuse-Hancock Intl Airport
+    "f77f3cb5-93ee-52fb-9f54-223682704d1d": ("place", "Austin", "TX"),  # TX Alcoholic Beverage Commission
+    "8020a5ed-a254-5ff7-b195-d0f086713829": ("place", "Austin", "TX"),  # Texas Dept of Transportation
+    "6370abfb-0b2d-5be3-8a5d-28be2f4d14de": ("place", "Fort Worth", "TX"),  # Tarrant Regional Water District
+    "11aab840-0087-5abc-b328-35a2619958bc": ("place", "Houston", "TX"),  # Texas Medical Center
+    "77d0e5dd-585e-5feb-9574-ca7c4c3dc66f": ("place", "Payson", "AZ"),  # Tonto Apache Tribe
+    "eab53746-9866-59f2-b0a5-313f2dd081f0": ("place", "Dallas", "TX"),  # UT Southwestern Medical Center
+    "5a2c7e66-cd79-5606-8385-a761dcf9dc22": ("place", "Richmond", "VA"),  # VA Dept of Wildlife Resources
+    "50246cdc-d525-5adb-857b-642bb801df47": ("place", "Raleigh", "NC"),  # WakeMed
+    "818b8252-e20f-5986-bb60-32d66972f28d": ("place", "North Riverside", "IL"),  # West Central Consolidated Comms
+    "1b63402e-4767-5115-a837-f6c148290248": ("place", "Kansas City", "MO"),  # Westport Regional Business League
+    # county overrides (issue #447)
+    "8e84238f-abb9-5a87-a619-52905c0a2821": ("county", "Clarke", "GA"),  # Athens-Clarke County PD
+    "fde92938-d9fc-5d64-ad1a-cf0239b2ee13": ("county", "Fort Bend", "TX"),  # Fort Bend County Constable Pct 1
+    "4c590b32-1aff-5185-a6fb-c6f583505349": ("county", "Fort Bend", "TX"),  # Fort Bend County Constable Pct 4
+    "5855a3bb-f4b8-5104-92f6-512f92a16c42": ("county", "Fort Bend", "TX"),  # Fort Bend County Environmental Health
+    "c680b273-977e-5d06-a26c-c635701a4510": ("county", "Kaufman", "TX"),  # Kaufman County Constable Pct 2
+    "8d9679c1-25c2-5625-afd2-7a014384dc6f": ("county", "Rio Blanco", "CO"),  # Rio Blanco County SO
+    "4e3f6084-585f-58ac-b00a-3b21f8b5d200": ("county", "Stark", "OH"),  # Stark County SO
+    # county-subdivision (cousub) overrides (issue #447)
+    "fdf3939a-6ec5-5236-9186-f86cc9e627e7": ("cousub", "De Witt", "NY"),  # DeWitt town (Onondaga Co.)
+    "592bf6b8-db27-5a54-8802-34d5b841b2ba": ("cousub", "East Hanover", "NJ"),  # East Hanover Twp (Morris Co.)
+    "c639c3ab-f1e6-504c-baed-b5ed04d33181": ("cousub", "Monroe", "NJ", "34023"),  # Monroe Twp (Middlesex Co.)
+    "ec54b02b-0101-59bc-a7a0-27cc6f96accc": ("cousub", "Lisbon", "CT"),  # Town of Lisbon (resident troopers)
+}
+
+
+def _gaz_override_geo(spec):
+    """Resolve a GAZ_OVERRIDES spec into a geo block, or None.
+
+    spec is (kind, name, state) or (kind, name, state, county_hint).
+    """
+    kind, name, state = spec[0], spec[1], spec[2]
+    hint = spec[3] if len(spec) > 3 else None
+    if kind == "place":
+        p = lookup_place(name, state)
+        if p:
+            return {"kind": "place", "fips": p["fips"], "name": p["name"],
+                    "state": state, "lat": p["lat"], "lng": p["lng"]}
+    elif kind == "county":
+        c = lookup_county(name, state)
+        if c:
+            return {"kind": "county", "fips": c["fips"], "name": c["bare_name"],
+                    "state": state, "lat": c["lat"], "lng": c["lng"]}
+    elif kind == "cousub":
+        cs = lookup_cousub(name, state, county_hint=hint)
+        if cs:
+            return {"kind": "cousub", "fips": cs["fips"], "name": cs["bare_name"],
+                    "state": state, "lat": cs["lat"], "lng": cs["lng"]}
+    return None
 
 
 def geocode_entry(entry):
@@ -614,6 +823,10 @@ def geocode_entry(entry):
     aid = entry.get("agency_id")
     if aid in MANUAL_OVERRIDES:
         return dict(MANUAL_OVERRIDES[aid])
+    if aid in GAZ_OVERRIDES:
+        geo = _gaz_override_geo(GAZ_OVERRIDES[aid])
+        if geo:
+            return geo
 
     name = agency_display_name(entry)
     state = agency_state(entry) or infer_state_from_name(name)
@@ -787,6 +1000,23 @@ def geocode_entry(entry):
     # Try as a place (city/town)
     candidate = extract_place_candidate(name, state)
     if candidate:
+        # New England / NY style "X Town", "X Town/Village", "X Village":
+        # the Census indexes these as county subdivisions (towns), not
+        # incorporated places. Strip the trailing town-type word and look
+        # up the cousub first (e.g. "Amherst Town NY PD" -> Amherst town).
+        tm = re.search(r"\s+(?:Town/Village|Town|Village)$", candidate)
+        if tm:
+            bare = candidate[: tm.start()].strip()
+            town = lookup_cousub(bare, state)
+            if town:
+                return {
+                    "kind": "cousub",
+                    "fips": town["fips"],
+                    "name": town["bare_name"],
+                    "state": state,
+                    "lat": town["lat"],
+                    "lng": town["lng"],
+                }
         place = lookup_place(candidate, state)
         if place:
             return {
