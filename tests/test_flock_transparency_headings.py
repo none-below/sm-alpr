@@ -685,14 +685,55 @@ def test_overview_advance_template_extracts_name():
     result = parse_portal_text(text2, "x", "2026-05-29",
                                bold_headings={"Overview"})
     assert result["crawled_name"] == "Stanford University"
+    # "Operating System" product term (which _FLOCK_MARKER_RE accepts) too.
+    result = parse_portal_text(
+        "Overview\n\nThe use of Flock Safety Operating System helps advance "
+        "the City of Burlingame's public safety mission by acting on data.\n\n",
+        "x", "2026-05-29", bold_headings={"Overview"})
+    assert result["crawled_name"] == "City of Burlingame"
+
+
+def test_overview_advance_template_rejects_nameless_and_garbage():
+    """Hardening (adversarial review of _FLOCK_ADVANCE_RE): the embedded-
+    name capture must not store a bare article/adjective or absorb a
+    repeated boilerplate clause. A name-less rephrasing must fail loud."""
+    import pytest
+    # Name-less rephrasing: "advance the public safety mission of the
+    # community" → captures the article "the"; the proper-noun guard
+    # rejects it so the fail-loud raise fires instead of storing "the".
+    with pytest.raises(ValueError, match="Flock may have rephrased"):
+        parse_portal_text(
+            "Overview\n\nThe use of Flock Safety technology helps advance the "
+            "public safety mission of the community we serve.\n\n",
+            "x", "2026-05-29", bold_headings={"Overview"})
+    # Abstract/regional adjective fragment → also rejected.
+    with pytest.raises(ValueError, match="Flock may have rephrased"):
+        parse_portal_text(
+            "Overview\n\nThe use of Flock Safety technology helps advance the "
+            "shared regional public safety mission across agencies.\n\n",
+            "x", "2026-05-29", bold_headings={"Overview"})
+    # Two "helps advance" clauses on one line: the capture must not span
+    # the first clause's gap; re.search re-anchors on the named clause.
+    result = parse_portal_text(
+        "Overview\n\nFlock Safety technology helps advance the goals of our "
+        "city. Flock Safety technology helps advance the Beta County "
+        "Sheriff's public safety mission here.\n\n",
+        "x", "2026-05-29", bold_headings={"Overview"})
+    assert result["crawled_name"] == "Beta County Sheriff"
+    # A name legitimately ending in "s" (no apostrophe) must not be
+    # over-stripped, and "Department of Public Safety" (name contains the
+    # anchor words) must capture in full.
+    result = parse_portal_text(
+        "Overview\n\nThe use of Flock Safety technology helps advance the "
+        "Three Rivers public safety mission today.\n\n",
+        "x", "2026-05-29", bold_headings={"Overview"})
+    assert result["crawled_name"] == "Three Rivers"
     # A genuinely-new phrasing that mentions Flock Safety but matches no
     # marker shape must still fail loud.
-    import pytest
     with pytest.raises(ValueError, match="Flock may have rephrased"):
         parse_portal_text(
             "Overview\n\nWe partnered with Flock Safety to deploy cameras.\n\n",
-            "y", "2026-05-29", bold_headings={"Overview"},
-        )
+            "y", "2026-05-29", bold_headings={"Overview"})
 
 
 # ─── issue #223: 2026-05 rolling-refresh heading variants ──────────

@@ -828,12 +828,18 @@ _FLOCK_MARKER_RE = re.compile(
 # subject-prefix shape entirely and embeds the name mid-sentence:
 #   "The use of Flock Safety technology helps advance the <Agency Name>'s
 #    public safety mission by turning vehicle and license plate ..."
-# (wilton-ct-pd 2026-05). Capture the name between "advance [the]" and
-# "public safety mission"; the trailing possessive is matched outside the
-# group (and re-stripped below) so it isn't kept.
+# (wilton-ct-pd 2026-05). Accept the same product terms _FLOCK_MARKER_RE
+# does ("technology" / "Operating System"). Capture the name between
+# "advance [the]" and "public safety mission"; the trailing possessive is
+# matched outside the group (and re-stripped below) so it isn't kept. The
+# tempered capture refuses to cross a repeated "Flock Safety"/"helps
+# advance" clause, so a two-sentence overview can't absorb the gap into
+# the name (re.search then re-anchors on the clause that has the name).
 _FLOCK_ADVANCE_RE = re.compile(
-    r"Flock Safety(?:'s)? (?:LPR )?technology helps advance (?:the )?"
-    r"(.+?)(?:['’]s)? public safety mission",
+    r"Flock Safety(?:'s)? (?:LPR )?(?:technology|Operating System) "
+    r"helps advance (?:the )?"
+    r"((?:(?!Flock Safety|helps advance).)+?)"
+    r"(?:['’]s)? public safety mission",
     re.IGNORECASE,
 )
 
@@ -870,10 +876,15 @@ def _extract_crawled_name(overview, slug, datestamp):
     m = _FLOCK_ADVANCE_RE.search(overview)
     if m:
         name = m.group(1).strip().strip("\"'“”‘’").strip()
-        # Drop a trailing possessive the capture may still carry (e.g.
-        # an embedded clause), defensively.
+        # Drop a trailing possessive the capture may still carry.
         name = re.sub(r"['’]s$", "", name).strip()
-        return name or None
+        # Require a proper-noun-looking name. A name-less rephrasing
+        # ("...helps advance the public safety mission of the community")
+        # otherwise captures a bare article/adjective ("the", "shared
+        # regional"). Reject those so the fail-loud raise below fires
+        # instead of storing garbage as the agency's self-described name.
+        if name and re.search(r"[A-Z]", name):
+            return name
     if overview.strip() and "Flock Safety" in overview:
         raise ValueError(
             f"{slug} {datestamp}: overview mentions Flock Safety but the "
