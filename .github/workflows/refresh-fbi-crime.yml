@@ -1,0 +1,86 @@
+name: Refresh FBI Crime Data
+
+# FBI Crime Data Explorer publishes monthly offense counts with a few
+# months of lag; last_refresh_date advances mid-month and the prior
+# month's per-agency series typically lands ~mid-month following. Run
+# monthly to pick up new months and any historical revisions.
+#
+# Requires repo secret DATA_GOV_API_KEY (free key from
+# https://api.data.gov/signup/). Until the registry's `ori` lists land
+# from the FBI-ORI matcher, --crawled-only resolves to zero targets and
+# this job no-ops cleanly.
+
+on:
+  schedule:
+    - cron: '0 7 16 * *'  # 07:00 UTC on the 16th of each month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Build sharing graph (scopes --crawled-only)
+        run: uv run python scripts/build_sharing_graph.py
+
+      - name: Fetch FBI crime data (one dated snapshot per crawled agency)
+        env:
+          DATA_GOV_API_KEY: ${{ secrets.DATA_GOV_API_KEY }}
+        run: uv run python scripts/refresh_fbi_crime.py --crawled-only
+
+      - name: Check for new snapshots
+        id: diff
+        run: |
+          # Snapshots are new (untracked) files, so check status, not diff.
+          if [ -n "$(git status --porcelain -- assets/cde.ucr.cjis.gov/)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="chore/refresh-fbi-crime"
+          git checkout -B "$BRANCH"
+          git add assets/cde.ucr.cjis.gov/
+          git commit -m "chore: refresh FBI crime data ($(date -u +%Y-%m-%d) snapshot)"
+          git push --force-with-lease origin "$BRANCH"
+
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            cat > /tmp/pr-body.md <<'EOF'
+          Automated monthly snapshot of FBI Crime Data Explorer offense counts
+          (`assets/cde.ucr.cjis.gov/<ORI>/<date>.json`), one append-only file
+          per agency per fetch — same archive model as the Flock scrapes.
+
+          `fbi_crime.load_crime()` joins the snapshots into the current view
+          (latest non-null value per month). Because the FBI revises months as
+          agencies report late, the *diff between snapshot dates* is the record
+          of those revisions — nothing is overwritten, so this PR only adds
+          files. Merging keeps the history.
+          EOF
+            gh pr create \
+              --title "chore: refresh FBI crime data" \
+              --body-file /tmp/pr-body.md \
+              --head "$BRANCH" \
+              --base main
+          fi
