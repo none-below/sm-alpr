@@ -878,12 +878,16 @@ def _extract_crawled_name(overview, slug, datestamp):
         name = m.group(1).strip().strip("\"'“”‘’").strip()
         # Drop a trailing possessive the capture may still carry.
         name = re.sub(r"['’]s$", "", name).strip()
-        # Require a proper-noun-looking name. A name-less rephrasing
-        # ("...helps advance the public safety mission of the community")
-        # otherwise captures a bare article/adjective ("the", "shared
-        # regional"). Reject those so the fail-loud raise below fires
-        # instead of storing garbage as the agency's self-described name.
-        if name and re.search(r"[A-Z]", name):
+        # Require a proper-noun-looking name: at least two words AND an
+        # uppercase letter. A name-less rephrasing ("...helps advance the
+        # Community's public safety mission") otherwise captures a single
+        # generic token ("the", "Community", "Region"); reject those so the
+        # fail-loud raise below fires instead of storing a generic word as
+        # the agency's self-described name. Real agencies fill this slot
+        # with a multi-word name ("City of X", "X Police Department",
+        # "Department of Public Safety"); a genuine single-word name would
+        # fail loud — safe, and none is observed in this template.
+        if name and len(name.split()) >= 2 and re.search(r"[A-Z]", name):
             return name
     if overview.strip() and "Flock Safety" in overview:
         raise ValueError(

@@ -712,6 +712,16 @@ def test_overview_advance_template_rejects_nameless_and_garbage():
             "Overview\n\nThe use of Flock Safety technology helps advance the "
             "shared regional public safety mission across agencies.\n\n",
             "x", "2026-05-29", bold_headings={"Overview"})
+    # A single CAPITALIZED generic noun must also be rejected — the
+    # uppercase check alone would accept "Community"/"Region", so the
+    # guard additionally requires the name to be multi-word (real agencies
+    # fill this slot with "City of X" / "X Police Department").
+    for generic in ("Community", "Region", "County", "Department"):
+        with pytest.raises(ValueError, match="Flock may have rephrased"):
+            parse_portal_text(
+                "Overview\n\nThe use of Flock Safety technology helps advance "
+                f"the {generic}'s public safety mission by acting on data.\n\n",
+                "x", "2026-05-29", bold_headings={"Overview"})
     # Two "helps advance" clauses on one line: the capture must not span
     # the first clause's gap; re.search re-anchors on the named clause.
     result = parse_portal_text(
