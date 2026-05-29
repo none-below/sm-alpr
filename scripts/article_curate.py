@@ -120,6 +120,7 @@ class _MetaExtractor(HTMLParser):
         elif tag == "meta":
             prop = (a.get("property") or "").lower()
             name = (a.get("name") or "").lower()
+            itemprop = (a.get("itemprop") or "").lower()
             content = a.get("content") or ""
             if prop.startswith("og:"):
                 self.og[prop] = content
@@ -127,6 +128,11 @@ class _MetaExtractor(HTMLParser):
                 self.meta[name] = content
             if prop and content and not prop.startswith("og:"):
                 self.meta[prop] = content
+            # Schema.org microdata (smdailyjournal and other Townnews
+            # sites use <meta itemprop="datePublished" content="...">
+            # instead of OpenGraph/article:published_time).
+            if itemprop and content:
+                self.meta[itemprop] = content
         elif tag == "script" and a.get("type", "").lower() == "application/ld+json":
             self._in_ld = True
             self._ld_buf = []

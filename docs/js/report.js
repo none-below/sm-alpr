@@ -174,12 +174,14 @@
     container.innerHTML = html;
   }
 
-  // ── Press coverage ── articles that cite this agency, from
-  // assets/article_registry.json via build_articles_data.py. Hidden when
-  // no articles match (an empty table is just visual noise on the long
-  // tail of agencies). "Primary subject" badge distinguishes pieces
-  // substantively *about* this agency from pieces that merely cite it
-  // in a regional roundup.
+  // ── Press coverage ── articles substantively about this agency.
+  // We restrict to is_primary entries: the mention-only list is a
+  // long tail of regional roundups where the agency happens to be
+  // named, plus false positives from per-domain masthead noise (e.g.
+  // every smdailyjournal.com page carries "San Mateo" in its header,
+  // which the agency-lookup scorer attributes to SMPD). Curious
+  // readers get the full unfiltered mention list via the article
+  // library link below.
   function renderArticles(report, articlesData, slug) {
     if (!articlesData || !articlesData.articles_by_agency) return "";
     const byAgency = articlesData.articles_by_agency;
@@ -189,31 +191,29 @@
         if (byAgency[aid].slug === slug) { entry = byAgency[aid]; break; }
       }
     }
-    if (!entry || !entry.articles || !entry.articles.length) return "";
+    if (!entry || !entry.articles) return "";
+    const articles = entry.articles.filter(function(a) { return a.is_primary; });
+    if (!articles.length) return "";
 
-    const articles = entry.articles;
     const agencyKey = entry.slug || entry.agency_id;
     const rows = articles.map(function(a) {
       const date = a.published_at ? formatArticleDate(a.published_at) : "<span class=\"muted\">—</span>";
       const titleCell = a.url
         ? `<a href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.title || a.url)}</a>`
         : escapeHtml(a.title || "");
-      const primaryBadge = a.is_primary
-        ? `<span class="article-primary-badge" title="This piece is substantively about ${escapeHtml(report.name)}">primary subject</span>`
-        : "";
       const source = a.source_domain ? escapeHtml(a.source_domain) : "<span class=\"muted\">—</span>";
       return `<tr>
         <td class="article-date">${date}</td>
-        <td>${titleCell} ${primaryBadge}</td>
+        <td>${titleCell}</td>
         <td class="article-source">${source}</td>
       </tr>`;
     }).join("");
 
     return `
       <h2>Press Coverage</h2>
-      <p class="muted">News and analysis citing ${escapeHtml(report.name)}.
+      <p class="muted">News and analysis substantively about ${escapeHtml(report.name)}.
         See the full <a href="articles.html?agency=${encodeURIComponent(agencyKey)}">article library filtered to this agency</a>
-        for tags, summaries, and source filters.</p>
+        for regional coverage that mentions ${escapeHtml(report.name)} in passing.</p>
       <table class="article-table">
         <thead><tr><th>Date</th><th>Article</th><th>Source</th></tr></thead>
         <tbody>${rows}</tbody>
