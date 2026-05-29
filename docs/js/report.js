@@ -1484,6 +1484,37 @@
   // that tell the reader nothing.
   const UNIVERSAL_PASS_THRESHOLD = 0.90;
 
+  // Map an SB-34 checklist id to a predicate matching the removed
+  // recipient kinds that would cause it to fail. Returns the matching
+  // removed_flagged_recipients entries, sorted by removed_on desc.
+  function recentlyCleanedUpFor(itemId, report) {
+    const removed = (report && report.removed_flagged_recipients) || [];
+    if (!removed.length) return [];
+    let pred;
+    switch (itemId) {
+      case "no_private_sharing":
+        pred = function(r) { return r.kind === "private" || r.kind === "private_entity" || r.kind === "private_university"; };
+        break;
+      case "no_out_of_state_sharing":
+        pred = function(r) { return r.kind === "out_of_state"; };
+        break;
+      case "no_federal_sharing":
+        pred = function(r) { return r.kind === "federal"; };
+        break;
+      case "no_fusion_center_sharing":
+        pred = function(r) { return r.kind === "fusion_center"; };
+        break;
+      case "no_ag_lawsuit_sharing":
+        pred = function(r) { return r.ag_lawsuit === true; };
+        break;
+      default:
+        return [];
+    }
+    return removed.filter(pred).slice().sort(function(a, b) {
+      return (a.removed_on < b.removed_on) ? 1 : (a.removed_on > b.removed_on ? -1 : 0);
+    });
+  }
+
   function isUniversalPass(item) {
     const applicable = item.peer_applicable != null ? item.peer_applicable : item.peer_total;
     if (!applicable) return false;
@@ -1502,7 +1533,10 @@
     items.forEach(function(item) {
       if (item.value !== true) {
         visibleItems.push(item);
-      } else if (isUniversalPass(item)) {
+      } else if (isUniversalPass(item) && !(opts.report && recentlyCleanedUpFor(item.id, opts.report).length)) {
+        // Universal pass items are normally hidden as common baseline,
+        // but force-show one with a matching recent cleanup so the
+        // history note isn't silently dropped.
         hiddenPassItems.push(item);
       } else {
         visibleItems.push(item);
@@ -1534,6 +1568,20 @@
         const shown = names.slice(0, 3).map(escapeHtml).join(", ");
         const more = names.length > 3 ? ` <span class="muted">&mdash; and ${names.length - 3} more</span>` : "";
         html += `<span class="detail caveat"><strong>\u26a0 Caveat:</strong> shares with ${shown}${more} &mdash; fusion centers may have federal entanglements (federal funding, staff, or governance). See Flagged Recipients for specifics.</span>`;
+      }
+      // Recently-cleaned-up note: when a sharing-related check passes
+      // *because* the agency removed a flagged recipient within the
+      // tracking window, surface that history so a reader doesn't
+      // mistake the current pass for a longstanding state. Mirrors
+      // the cleanup-section callout on the Data Sharing section.
+      if (item.value === true && opts.report) {
+        const cleanup = recentlyCleanedUpFor(item.id, opts.report);
+        if (cleanup.length) {
+          const names = cleanup.map(function(r) {
+            return `${escapeHtml(r.name)} (${escapeHtml(r.removed_on)})`;
+          }).join(", ");
+          html += `<span class="detail cleanup"><strong>Recently cleaned up:</strong> removed ${names}.</span>`;
+        }
       }
       if (item.detail) {
         html += `<span class="detail">${escapeHtml(item.detail)}</span>`;
@@ -1676,6 +1724,52 @@
     // ranks for "Agencies it shares to" with both medians. Don't
     // duplicate that here — just remove the old single-state sentence.
 
+    // Deliberate render order: private entities and contested university PDs
+    // first (direct statutory concerns), then out-of-state, federal, then
+    // re-sharing hubs (multi-hop concern), then inactive and test accounts.
+    // Groups not in this list (shouldn't happen, but be safe) append at the end.
+    const FLAG_KIND_ORDER = ["private_entity", "private_university", "out_of_state", "federal", "fusion_center", "decommissioned", "test"];
+    function orderedKindsFor(groups) {
+      const ordered = FLAG_KIND_ORDER.filter(function(k) { return groups[k]; });
+      Object.keys(groups).forEach(function(k) {
+        if (ordered.indexOf(k) < 0) ordered.push(k);
+      });
+      return ordered;
+    }
+
+    // Cleanup callout: entities the agency dropped from its sharing list
+    // that would have been flagged under current registry classification.
+    // Surfaces the positive signal that an agency has been pruning
+    // problematic recipients — rendered BEFORE the active flagged
+    // section so progress leads the concern. Sharing-map analog is the
+    // strikethrough [removed DATE] row.
+    const removedFlagged = report.removed_flagged_recipients || [];
+    if (removedFlagged.length) {
+      const removedGroups = {};
+      removedFlagged.forEach(function(r) {
+        const k = refineKind(r.kind, r.name);
+        (removedGroups[k] = removedGroups[k] || []).push(r);
+      });
+      html += '<div class="cleanup-section">';
+      html += `<strong>Recently stopped sharing to ${removedFlagged.length} previously flagged recipient${removedFlagged.length === 1 ? "" : "s"}</strong> &mdash; entities that were in this agency&rsquo;s sharing list during our tracking window and have since been removed. Grouped by the same compliance categories as active flagged recipients.`;
+      orderedKindsFor(removedGroups).forEach(function(kind) {
+        const group = removedGroups[kind];
+        const label = FLAG_LABELS[kind] || kind.toUpperCase();
+        html += `<div style="margin-top:10px">`;
+        html += `<div style="font-weight:bold"><span class="flag-tag kind-${escapeHtml(kind)}">${escapeHtml(label)}</span></div>`;
+        html += '<ul style="margin-top:2px">';
+        group.forEach(function(r) {
+          html += `<li>${escapeHtml(r.name)}`;
+          if (r.ag_lawsuit) html += ` <span class="flag-tag lawsuit">AG LAWSUIT</span>`;
+          html += ` <span class="muted" style="font-size:9.5pt">&mdash; removed on/around ${escapeHtml(r.removed_on)}</span>`;
+          html += '</li>';
+        });
+        html += '</ul>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+
     if (flagged.length) {
       // Group flagged recipients by kind so we can explain each flag
       // type once instead of repeating the explanation per row.
@@ -1685,15 +1779,7 @@
         (kindGroups[k] = kindGroups[k] || []).push(f);
       });
 
-      // Deliberate render order: private entities and contested university PDs
-      // first (direct statutory concerns), then out-of-state, federal, then
-      // re-sharing hubs (multi-hop concern), then inactive and test accounts.
-      // Groups not in this list (shouldn't happen, but be safe) append at the end.
-      const KIND_ORDER = ["private_entity", "private_university", "out_of_state", "federal", "fusion_center", "decommissioned", "test"];
-      const orderedKinds = KIND_ORDER.filter(function(k) { return kindGroups[k]; });
-      Object.keys(kindGroups).forEach(function(k) {
-        if (orderedKinds.indexOf(k) < 0) orderedKinds.push(k);
-      });
+      const orderedKinds = orderedKindsFor(kindGroups);
 
       html += '<div class="flag-section">';
       html += `<strong>${flagged.length} flagged recipient${flagged.length === 1 ? "" : "s"}</strong> &mdash; entities whose inclusion raises compliance questions under CA Civil Code &sect;1798.90.55(b). Each flag type is explained below.`;
@@ -1736,25 +1822,6 @@
         html += '</ul>';
         html += '</div>';
       });
-      html += '</div>';
-    }
-
-    // Previously-flagged recipients: entities the agency dropped from
-    // its sharing list. Surfaced so cleanup is visible (and so the
-    // record doesn't disappear when a portal update removes a row).
-    const removedFlagged = report.removed_flagged_recipients || [];
-    if (removedFlagged.length) {
-      html += '<div class="flag-section" style="margin-top:12px;border-left-color:#9ca3af">';
-      html += `<strong>${removedFlagged.length} previously flagged recipient${removedFlagged.length === 1 ? "" : "s"} removed</strong> &mdash; entities that were in this agency\'s sharing list at some point during our tracking window and have since been removed.`;
-      html += '<ul style="margin-top:6px">';
-      removedFlagged.forEach(function(r) {
-        const label = FLAG_LABELS[r.kind] || r.kind.toUpperCase();
-        html += `<li>${escapeHtml(r.name)} <span class="flag-tag kind-${escapeHtml(r.kind)}">${escapeHtml(label)}</span>`;
-        if (r.ag_lawsuit) html += ` <span class="flag-tag lawsuit">AG LAWSUIT</span>`;
-        html += ` <span class="muted" style="font-size:9.5pt">&mdash; removed on/around ${escapeHtml(r.removed_on)}</span>`;
-        html += '</li>';
-      });
-      html += '</ul>';
       html += '</div>';
     }
 

@@ -655,6 +655,18 @@
     color: #78350f;
     display: block;
   }
+  /* Cleanup note: pass-state check whose pass status is RECENT (the
+     agency removed a flagged recipient within the tracking window).
+     Green box so readers see at a glance that the check passes AND
+     that the pass is freshly earned, not a longstanding state. */
+  .checklist li.yes .detail.cleanup {
+    background: #ecfdf5;
+    border-left: 2px solid var(--check-yes);
+    padding: 4px 8px;
+    margin-top: 4px;
+    color: #166534;
+    display: block;
+  }
   .checklist li.no {
     background: #fef2f2;
     border-left-color: var(--flag);
@@ -722,6 +734,12 @@
     background: var(--flag-bg);
     padding: 8px 12px;
     border-left: 3px solid var(--flag);
+    margin: 6px 0;
+  }
+  .cleanup-section {
+    background: #f0fdf4;
+    padding: 8px 12px;
+    border-left: 3px solid #16a34a;
     margin: 6px 0;
   }
   .entity-notes {
@@ -875,7 +893,7 @@
     table { page-break-inside: auto; break-inside: auto; }
     thead { display: table-header-group; }
     tr { page-break-inside: avoid; break-inside: avoid; }
-    .flag-section, .questions, .checklist li { page-break-inside: avoid; break-inside: avoid; }
+    .flag-section, .cleanup-section, .questions, .checklist li { page-break-inside: avoid; break-inside: avoid; }
     /* Hide the expandable lists entirely in print — the wall-of-
        text version bloated PDFs and wasn't the right medium for
        that data anyway. Instead, show a print-only block with a
