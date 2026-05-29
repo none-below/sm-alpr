@@ -325,7 +325,10 @@ def split_agency_message_body(body, request_text):
 
     # Classify each unmatched chunk: anything before the first echo is
     # "before" (preamble); anything after is "after" (agency response). If
-    # there are no echoes, the whole body is "after".
+    # there are no echoes at all in this body, the whole thing is "after" —
+    # it's a freestanding substantive reply rather than a quoted-and-answered
+    # response, so we don't want to mute it as preamble.
+    has_any_echo = any(kind == "echo" for kind, _ in raw)
     segments = []
     seen_echo = False
     for kind, text in raw:
@@ -338,10 +341,11 @@ def split_agency_message_body(body, request_text):
             segments.append({"type": "echo", "text": stripped})
             seen_echo = True
         else:
-            segments.append({
-                "type": "before" if not seen_echo else "after",
-                "text": stripped,
-            })
+            if not has_any_echo:
+                seg_type = "after"
+            else:
+                seg_type = "before" if not seen_echo else "after"
+            segments.append({"type": seg_type, "text": stripped})
 
     # Split the trailing closing signature off the last "after" segment.
     for i in range(len(segments) - 1, -1, -1):

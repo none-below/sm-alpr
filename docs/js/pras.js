@@ -16,13 +16,28 @@ const STATUS_ORDER = [
 
 const state = {
   registry: null,
+  productivity: null,
   knownIds: new Set(),
   search: '',
   statuses: new Set(),
   tags: new Set(),
   sort: 'filed-desc',
   expanded: new Set(),
+  expandedWeeks: new Set(),
+  activeChart: null,
 };
+
+const PRODUCTIVITY_COLUMNS = [
+  { key: 'pras', label: 'PRAs', get: w => w.totals.pras_touched },
+  { key: 'worked_on', label: 'Items', get: w => w.totals.worked_on || 0 },
+  { key: 'response', label: '↳ Response', get: w => w.totals.response || 0,
+    cellClass: 'response-num breakdown-num' },
+  { key: 'no_records', label: '↳ No records', get: w => w.totals.no_records || 0,
+    cellClass: 'no-records-num breakdown-num' },
+  { key: 'continuation', label: '↳ Continuation', get: w => w.totals.continuation || 0,
+    cellClass: 'continuation-num breakdown-num' },
+  { key: 'files', label: 'Files', get: w => w.totals.files },
+];
 
 const PRA_ID_RE = /\bW\d{6}-\d{6}\b/g;
 
@@ -300,7 +315,7 @@ function updateOverflowMarker(bodyEl, btnEl) {
 
 function renderAgencyMsgBody(msg) {
   const body = el('pre', {
-    class: 'request-text-body agency-msg-body',
+    class: 'request-text-body agency-msg-body segmented',
     tabindex: '0',
   });
   const segs = msg.body_segments;
@@ -670,6 +685,329 @@ function toggleSet(set, val) {
   else set.add(val);
 }
 
+function fmtWeekLabel(weekStart, weekEnd) {
+  // "May 18–24, 2026" — compact, no year duplication when same month.
+  const s = new Date(weekStart + 'T00:00:00');
+  const e = new Date(weekEnd + 'T00:00:00');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const sm = months[s.getMonth()];
+  const em = months[e.getMonth()];
+  if (s.getMonth() === e.getMonth()) {
+    return `${sm} ${s.getDate()}–${e.getDate()}, ${e.getFullYear()}`;
+  }
+  return `${sm} ${s.getDate()} – ${em} ${e.getDate()}, ${e.getFullYear()}`;
+}
+
+const DISPOSITION_LABELS = {
+  no_records: 'no records',
+  withheld: 'withheld',
+  redirected: 'redirected',
+  produced: 'produced',
+  other: 'other',
+  continuation: 'continuation',
+};
+
+function renderPerItemOutcomes(row) {
+  // Build one pill per request item for this (PRA, week). Disposed items use
+  // their disposition's type; un-disposed items in a week with any message
+  // become "continuation". Stub PRAs (n_items=0) fall back to per-message pills.
+  if (!row.n_items) {
+    const list = el('div', { class: 'disp-list' });
+    for (const m of row.messages || []) {
+      if (m.dispositions && m.dispositions.length) {
+        for (const d of m.dispositions) {
+          list.appendChild(el('span', { class: `disp-pill disp-${d.type}` },
+            `#${d.item} · ${DISPOSITION_LABELS[d.type] || d.type}`));
+        }
+      } else {
+        list.appendChild(el('span', { class: 'disp-pill disp-continuation' },
+          'continuation'));
+      }
+    }
+    return list.childNodes.length ? list : null;
+  }
+  const disposed = new Map();
+  for (const m of row.messages || []) {
+    for (const d of m.dispositions || []) disposed.set(d.item, d.type);
+  }
+  const list = el('div', { class: 'disp-list' });
+  for (let i = 1; i <= row.n_items; i++) {
+    const type = disposed.has(i) ? disposed.get(i) : 'continuation';
+    list.appendChild(el('span', { class: `disp-pill disp-${type}` },
+      `#${i} · ${DISPOSITION_LABELS[type] || type}`));
+  }
+  return list;
+}
+
+function renderWeekDetail(week) {
+  const tr = el('tr', { class: 'week-detail', dataset: { week: week.week_start } });
+  const td = el('td', { colspan: 7 });
+  for (const row of week.by_pra) {
+    if (!row.files.length && !row.messages.length) continue;
+    const pra = el('div', { class: 'week-pra' });
+    const head = el('div', { class: 'week-pra-head' });
+    head.appendChild(praLink(row.pra_id));
+    head.appendChild(el('span', { class: 'pra-title' }, row.title || '(untitled)'));
+    const o = row.outcomes || { response: 0, no_records: 0, continuation: 0 };
+    const worked = o.response + o.no_records + o.continuation;
+    const countBits = [];
+    if (row.files.length) countBits.push(`${row.files.length} file${row.files.length === 1 ? '' : 's'}`);
+    if (worked) {
+      const breakdown = [];
+      if (o.response) breakdown.push(`${o.response} response`);
+      if (o.no_records) breakdown.push(`${o.no_records} no-records`);
+      if (o.continuation) breakdown.push(`${o.continuation} continuation`);
+      countBits.push(`${worked} item${worked === 1 ? '' : 's'} (${breakdown.join(', ')})`);
+    }
+    if (row.messages.length) countBits.push(`${row.messages.length} msg${row.messages.length === 1 ? '' : 's'}`);
+    head.appendChild(el('span', { class: 'counts' }, countBits.join(' · ')));
+    pra.appendChild(head);
+
+    const itemList = renderPerItemOutcomes(row);
+    if (itemList) pra.appendChild(itemList);
+
+    if (row.files.length) {
+      const files = el('div', { class: 'week-pra-files' });
+      for (const f of row.files) {
+        if (f.url) {
+          files.appendChild(el('a', {
+            class: 'file-pill',
+            href: f.url,
+            target: '_blank',
+            rel: 'noopener',
+            title: `First seen ${f.date}`,
+          }, f.name));
+        } else {
+          files.appendChild(el('span', { class: 'file-pill', title: `First seen ${f.date}` }, f.name));
+        }
+      }
+      pra.appendChild(files);
+    }
+    if (row.messages.length) {
+      const msgs = el('div', { class: 'week-pra-msgs' });
+      for (const m of row.messages) {
+        const item = el('div', { class: 'week-pra-msg' });
+        const header = el('div', { class: 'week-pra-msg-header' });
+        header.appendChild(el('span', { class: 'ts' }, m.ts.replace('T', ' ').slice(0, 16)));
+        if (m.sender_name) header.appendChild(el('span', {}, '· ' + m.sender_name));
+        const body = el('div', { class: 'msg-body-full segmented' });
+        const segs = m.body_segments;
+        if (segs && segs.length) {
+          for (const s of segs) {
+            body.appendChild(el('span', { class: `seg seg-${s.type}` }, s.text));
+          }
+        } else {
+          body.textContent = m.body || '';
+        }
+        const toggle = el('button', {
+          class: 'msg-body-toggle',
+          type: 'button',
+          onclick: (e) => {
+            e.stopPropagation();
+            const isOpen = body.classList.toggle('open');
+            toggle.textContent = isOpen ? 'hide message' : 'show message';
+          },
+        }, 'show message');
+        header.appendChild(toggle);
+        item.appendChild(header);
+        item.appendChild(body);
+        msgs.appendChild(item);
+      }
+      pra.appendChild(msgs);
+    }
+    td.appendChild(pra);
+  }
+  tr.appendChild(td);
+  return tr;
+}
+
+function renderProductivity() {
+  const root = document.getElementById('productivity');
+  root.innerHTML = '';
+  if (!state.productivity || !state.productivity.weeks.length) {
+    root.style.display = 'none';
+    return;
+  }
+  root.style.display = '';
+
+  const weeks = state.productivity.weeks;
+  const totalFiles = weeks.reduce((s, w) => s + w.totals.files, 0);
+  const totalWorked = weeks.reduce((s, w) => s + (w.totals.worked_on || 0), 0);
+  const totalResp = weeks.reduce((s, w) => s + (w.totals.response || 0), 0);
+  const totalNoRecs = weeks.reduce((s, w) => s + (w.totals.no_records || 0), 0);
+  const totalCont = weeks.reduce((s, w) => s + (w.totals.continuation || 0), 0);
+
+  const summary = el('summary', {});
+  summary.appendChild(el('span', { class: 'title' }, 'Weekly throughput'));
+  summary.appendChild(document.createTextNode(
+    `  · ${totalWorked} request items worked on across ${weeks.length} weeks — ${totalResp} response, ${totalNoRecs} "no responsive records", ${totalCont} continuation`));
+  summary.appendChild(el('span', { class: 'blurb' },
+    'What SMPD has actually produced each week. Click a row to see the per-PRA breakdown; click any column header to chart that metric over time.'));
+  root.appendChild(summary);
+
+  const body = el('div', { class: 'productivity-body' });
+  body.appendChild(el('div', { class: 'productivity-claim' },
+    'San Mateo has stated they spend roughly 10 hours per week processing the requests in this investigation. The table below counts items the agency worked on each week, bucketed by ISO week (Mon–Sun). Each numbered request item, in each week with any agency activity on its PRA, resolves to one outcome: response (records produced, withheld, redirected, or otherwise substantively answered), no responsive records (the agency searched and found nothing), or continuation (the agency engaged but deferred this item, typically via an extension notice). Items in a PRA with no agency message that week are not counted.'));
+
+  const chartSlot = el('div', { class: 'productivity-chart', id: 'productivity-chart' });
+  body.appendChild(chartSlot);
+
+  const table = el('table', { class: 'productivity-table' });
+  const headRow = el('tr', {});
+  headRow.appendChild(el('th', { class: 'toggle-cell' }, ''));
+  headRow.appendChild(el('th', {}, 'Week'));
+  for (const col of PRODUCTIVITY_COLUMNS) {
+    const isActive = state.activeChart === col.key;
+    const th = el('th', {
+      class: 'num chartable' + (isActive ? ' active' : ''),
+      dataset: { metric: col.key },
+      onclick: () => {
+        state.activeChart = state.activeChart === col.key ? null : col.key;
+        renderProductivity();
+      },
+    }, col.label);
+    headRow.appendChild(th);
+  }
+  table.appendChild(el('thead', {}, headRow));
+
+  const tbody = el('tbody', {});
+  for (const w of weeks) {
+    const isOpen = state.expandedWeeks.has(w.week_start);
+    const row = el('tr', {
+      class: 'week-row' + (isOpen ? ' open' : ''),
+      dataset: { week: w.week_start },
+    });
+    row.appendChild(el('td', { class: 'toggle-cell' }, ''));
+    row.appendChild(el('td', {}, fmtWeekLabel(w.week_start, w.week_end)));
+    for (const col of PRODUCTIVITY_COLUMNS) {
+      const v = col.get(w);
+      const classes = ['num'];
+      if (col.cellClass) classes.push(col.cellClass);
+      if (v === 0) classes.push('zero');
+      row.appendChild(el('td', { class: classes.join(' ') }, String(v)));
+    }
+    tbody.appendChild(row);
+
+    const detail = renderWeekDetail(w);
+    if (isOpen) detail.classList.add('open');
+    tbody.appendChild(detail);
+
+    row.addEventListener('click', () => {
+      const nowOpen = !state.expandedWeeks.has(w.week_start);
+      if (nowOpen) state.expandedWeeks.add(w.week_start);
+      else state.expandedWeeks.delete(w.week_start);
+      row.classList.toggle('open', nowOpen);
+      detail.classList.toggle('open', nowOpen);
+    });
+  }
+  table.appendChild(tbody);
+  body.appendChild(table);
+  root.appendChild(body);
+
+  if (state.activeChart) {
+    renderChart(chartSlot, state.activeChart, weeks);
+  }
+}
+
+function svg(tag, attrs = {}, ...children) {
+  const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    node.setAttribute(k, v);
+  }
+  for (const c of children.flat()) {
+    if (c === null || c === undefined) continue;
+    node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  }
+  return node;
+}
+
+function renderChart(slot, metricKey, weeks) {
+  const col = PRODUCTIVITY_COLUMNS.find(c => c.key === metricKey);
+  if (!col) return;
+  slot.innerHTML = '';
+  slot.classList.add('open');
+
+  // Chart data goes chronological (oldest → newest left-to-right),
+  // which is the reverse of the table's newest-first row order.
+  const chartWeeks = weeks.slice().reverse();
+  const values = chartWeeks.map(w => col.get(w));
+  const maxV = Math.max(1, ...values);
+
+  const header = el('div', { class: 'productivity-chart-header' });
+  const title = el('span', { class: 'productivity-chart-title' });
+  title.appendChild(document.createTextNode(`Weekly `));
+  title.appendChild(el('span', { class: 'metric-name' }, col.label.toLowerCase()));
+  title.appendChild(document.createTextNode(` · oldest left, newest right · peak ${maxV}`));
+  header.appendChild(title);
+  header.appendChild(el('button', {
+    class: 'productivity-chart-close',
+    type: 'button',
+    onclick: (e) => {
+      e.stopPropagation();
+      state.activeChart = null;
+      renderProductivity();
+    },
+  }, 'close ×'));
+  slot.appendChild(header);
+
+  const W = 720, H = 180;
+  const padL = 30, padR = 10, padT = 14, padB = 36;
+  const innerW = W - padL - padR;
+  const innerH = H - padT - padB;
+  const n = chartWeeks.length;
+  const barW = Math.max(8, innerW / n - 4);
+  const step = innerW / n;
+
+  const root = svg('svg', { viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'xMidYMid meet' });
+
+  // Horizontal gridlines at 0, mid, max.
+  for (const t of [0, 0.5, 1]) {
+    const y = padT + innerH - t * innerH;
+    root.appendChild(svg('line', {
+      class: 'grid-line', x1: padL, x2: padL + innerW, y1: y, y2: y,
+    }));
+    root.appendChild(svg('text', {
+      class: 'axis-label', x: padL - 4, y: y + 3, 'text-anchor': 'end',
+    }, String(Math.round(t * maxV))));
+  }
+
+  for (let i = 0; i < n; i++) {
+    const w = chartWeeks[i];
+    const v = values[i];
+    const h = (v / maxV) * innerH;
+    const x = padL + i * step + (step - barW) / 2;
+    const y = padT + innerH - h;
+    const rect = svg('rect', {
+      class: 'bar' + (v === 0 ? ' zero-bar' : ''),
+      x, y: v === 0 ? padT + innerH - 2 : y,
+      width: barW, height: v === 0 ? 2 : Math.max(2, h),
+      rx: 1,
+    });
+    rect.appendChild(svg('title', {},
+      `${w.week_start} → ${w.week_end}\n${col.label}: ${v}`));
+    root.appendChild(rect);
+    if (v > 0 && barW >= 14) {
+      root.appendChild(svg('text', {
+        class: 'value-label', x: x + barW / 2, y: y - 3,
+      }, String(v)));
+    }
+    // Show every other week label to avoid overlap when many weeks.
+    if (i % Math.ceil(n / 10) === 0 || i === n - 1) {
+      const label = w.week_start.slice(5); // MM-DD
+      root.appendChild(svg('text', {
+        class: 'axis-label',
+        x: x + barW / 2, y: padT + innerH + 12,
+        'text-anchor': 'middle',
+      }, label));
+    }
+  }
+
+  slot.appendChild(root);
+  slot.appendChild(el('div', { class: 'productivity-chart-hint' },
+    'Hover a bar for the exact week range and value.'));
+}
+
 function wireControls() {
   document.getElementById('search').addEventListener('input', e => {
     state.search = e.target.value;
@@ -682,12 +1020,19 @@ function wireControls() {
 }
 
 async function init() {
-  const res = await fetch('data/pra_registry.json');
-  state.registry = await res.json();
+  const [registryRes, productivityRes] = await Promise.all([
+    fetch('data/pra_registry.json'),
+    fetch('data/pra_productivity.json').catch(() => null),
+  ]);
+  state.registry = await registryRes.json();
+  if (productivityRes && productivityRes.ok) {
+    state.productivity = await productivityRes.json();
+  }
   state.knownIds = new Set(state.registry.pras.map(p => p.id));
   document.getElementById('subtitle').textContent =
     `${state.registry.pras.length} PRAs · registry generated ${state.registry.generated_at.slice(0, 16).replace('T', ' ')} UTC`;
   wireControls();
+  renderProductivity();
   render();
 
   function parseHash() {

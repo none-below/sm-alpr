@@ -329,6 +329,306 @@
     font-size: 14px;
   }
 
+  /* Productivity timeline */
+  .productivity {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    padding: 0;
+  }
+  .productivity > summary {
+    list-style: revert;
+    cursor: pointer;
+    padding: 14px 18px;
+    color: #e2e8f0;
+    font-size: 14px;
+    user-select: none;
+  }
+  .productivity > summary:hover { color: #f8fafc; }
+  .productivity > summary .title {
+    font-weight: 600;
+    color: #f8fafc;
+  }
+  .productivity > summary .blurb {
+    display: block;
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .productivity-body {
+    padding: 0 18px 16px;
+  }
+  .productivity-claim {
+    color: #cbd5e1;
+    font-size: 13px;
+    margin: 8px 0 14px;
+    padding: 10px 12px;
+    background: #0f172a;
+    border-left: 2px solid #475569;
+    border-radius: 4px;
+  }
+  .productivity-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .productivity-table thead th {
+    text-align: left;
+    color: #94a3b8;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    padding: 8px 10px;
+    border-bottom: 1px solid #334155;
+  }
+  .productivity-table thead th.num { text-align: right; }
+  .productivity-table tbody tr.week-row {
+    cursor: pointer;
+    border-bottom: 1px solid #1e293b;
+  }
+  .productivity-table tbody tr.week-row:hover { background: #243044; }
+  .productivity-table tbody tr.week-row.open { background: #243044; }
+  .productivity-table tbody tr.week-row td {
+    padding: 8px 10px;
+    color: #e2e8f0;
+  }
+  .productivity-table tbody tr.week-row td.num {
+    text-align: right;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .productivity-table tbody tr.week-row td.num.zero {
+    color: #64748b;
+  }
+  .productivity-table .toggle-cell { width: 18px; padding-right: 0 !important; color: #64748b; }
+  .productivity-table .week-row.open .toggle-cell::after { content: "▾"; }
+  .productivity-table .toggle-cell::after { content: "▸"; }
+  .productivity-table tr.week-detail { display: none; }
+  .productivity-table tr.week-detail.open { display: table-row; }
+  .productivity-table tr.week-detail td {
+    padding: 6px 10px 14px;
+    background: #0f172a;
+    border-bottom: 1px solid #334155;
+  }
+  .week-pra {
+    margin: 8px 0;
+    padding: 8px 10px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 4px;
+  }
+  .week-pra-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+    font-size: 13px;
+  }
+  .week-pra-head .pra-link { font-size: 12px; }
+  .week-pra-head .pra-title { color: #cbd5e1; }
+  .week-pra-head .counts {
+    margin-left: auto;
+    color: #94a3b8;
+    font-size: 11px;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .week-pra-files {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  .week-pra-files .file-pill {
+    display: inline-block;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin: 2px 4px 2px 0;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 11px;
+    color: #93c5fd;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .week-pra-files .file-pill:hover { border-color: #60a5fa; color: #dbeafe; }
+  .week-pra-msgs {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #cbd5e1;
+  }
+  .week-pra-msg {
+    border-left: 2px solid #60a5fa;
+    padding: 4px 0 4px 8px;
+    margin: 6px 0;
+    color: #cbd5e1;
+  }
+  .week-pra-msg-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .week-pra-msg .ts {
+    color: #64748b;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 11px;
+  }
+  .disp-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .disp-pill {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .disp-pill.disp-no_records { background: #1e1b4b; color: #c7d2fe; border: 1px solid #4338ca; }
+  .disp-pill.disp-withheld { background: #422006; color: #fcd34d; border: 1px solid #92400e; }
+  .disp-pill.disp-redirected { background: #1e293b; color: #93c5fd; border: 1px solid #1d4ed8; }
+  .disp-pill.disp-produced { background: #064e3b; color: #6ee7b7; border: 1px solid #047857; }
+  .disp-pill.disp-other { background: #1e293b; color: #94a3b8; border: 1px solid #475569; }
+  .disp-pill.disp-continuation { background: #422006; color: #fcd34d; border: 1px solid #92400e; }
+  .msg-body-toggle {
+    background: none;
+    border: 1px solid #475569;
+    color: #94a3b8;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .msg-body-toggle:hover { border-color: #60a5fa; color: #dbeafe; }
+  .msg-body-full {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: #0f172a;
+    border-radius: 3px;
+    color: #cbd5e1;
+    font-size: 12px;
+    white-space: pre-wrap;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    max-height: 480px;
+    overflow-y: auto;
+    line-height: 1.5;
+  }
+  .msg-body-full.open { display: block; }
+  .productivity-table td.num.no-records-num { color: #c7d2fe; }
+  .productivity-table td.num.no-records-num.zero { color: #475569; }
+  .productivity-table td.num.response-num { color: #6ee7b7; }
+  .productivity-table td.num.response-num.zero { color: #475569; }
+  .productivity-table td.num.continuation-num { color: #fcd34d; }
+  .productivity-table td.num.continuation-num.zero { color: #475569; }
+  /* Subordinate breakdown columns sit at a smaller font to show they sum
+     into the Items column to their left. */
+  .productivity-table td.num.breakdown-num { font-size: 12px; }
+  .productivity-table thead th.chartable[data-metric="response"],
+  .productivity-table thead th.chartable[data-metric="no_records"],
+  .productivity-table thead th.chartable[data-metric="continuation"] {
+    font-size: 10px;
+    color: #64748b;
+  }
+  .productivity-table thead th.chartable[data-metric="response"]:hover,
+  .productivity-table thead th.chartable[data-metric="no_records"]:hover,
+  .productivity-table thead th.chartable[data-metric="continuation"]:hover,
+  .productivity-table thead th.chartable[data-metric="response"].active,
+  .productivity-table thead th.chartable[data-metric="no_records"].active,
+  .productivity-table thead th.chartable[data-metric="continuation"].active {
+    color: #dbeafe;
+  }
+
+  /* Column-header click target */
+  .productivity-table thead th.chartable {
+    cursor: pointer;
+    user-select: none;
+  }
+  .productivity-table thead th.chartable:hover { color: #dbeafe; }
+  .productivity-table thead th.chartable.active {
+    color: #dbeafe;
+    border-bottom-color: #60a5fa;
+  }
+  .productivity-table thead th.chartable::after {
+    content: " ▾";
+    color: #475569;
+    font-size: 10px;
+  }
+  .productivity-table thead th.chartable.active::after {
+    content: " ▴";
+    color: #60a5fa;
+  }
+
+  /* Chart panel */
+  .productivity-chart {
+    margin: 10px 0 14px;
+    padding: 12px 14px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    display: none;
+  }
+  .productivity-chart.open { display: block; }
+  .productivity-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .productivity-chart-title {
+    color: #f8fafc;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .productivity-chart-title .metric-name {
+    color: #93c5fd;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .productivity-chart-close {
+    background: transparent;
+    border: 1px solid #475569;
+    color: #94a3b8;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .productivity-chart-close:hover { border-color: #60a5fa; color: #dbeafe; }
+  .productivity-chart svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .productivity-chart .bar {
+    fill: #3b82f6;
+  }
+  .productivity-chart .bar:hover { fill: #60a5fa; }
+  .productivity-chart .bar.zero-bar { fill: #1e293b; stroke: #334155; }
+  .productivity-chart .axis-label {
+    fill: #64748b;
+    font-size: 9px;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .productivity-chart .value-label {
+    fill: #cbd5e1;
+    font-size: 10px;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    text-anchor: middle;
+  }
+  .productivity-chart .grid-line {
+    stroke: #1e293b;
+    stroke-width: 1;
+  }
+  .productivity-chart-hint {
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 4px;
+  }
+
   .pra-link {
     color: #93c5fd;
     text-decoration: underline;
@@ -549,25 +849,27 @@
     margin-top: 6px;
   }
 
-  /* Diff segmentation: mute echoed/quoted content, brighten agency's reply. */
-  .agency-msg-body .seg { display: block; }
-  .agency-msg-body .seg + .seg { margin-top: 6px; }
-  .agency-msg-body .seg-before {
+  /* Diff segmentation: mute echoed/quoted content, brighten agency's reply.
+     Applied to both the main agency-msg-body view and the productivity
+     msg-body-full view via the .segmented opt-in class. */
+  .segmented .seg { display: block; }
+  .segmented .seg + .seg { margin-top: 6px; }
+  .segmented .seg-before {
     color: #64748b;
     font-size: 11px;
     font-style: italic;
   }
-  .agency-msg-body .seg-echo {
+  .segmented .seg-echo {
     color: #475569;
     border-left: 2px solid #334155;
     padding-left: 10px;
     font-size: 12px;
   }
-  .agency-msg-body .seg-after {
+  .segmented .seg-after {
     color: #f8fafc;
     font-weight: 500;
   }
-  .agency-msg-body .seg-closing {
+  .segmented .seg-closing {
     color: #64748b;
     font-size: 11px;
   }
@@ -676,6 +978,7 @@
     </div>
   </div>
   <div class="status-summary" id="summary"></div>
+  <details class="productivity" id="productivity"></details>
   <div id="cards"></div>
 </main>
 <script data-goatcounter="https://none-below.goatcounter.com/count"
