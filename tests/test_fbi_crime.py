@@ -108,19 +108,72 @@ def test_join_fills_late_arriving_month():
     assert merged["offenses"]["violent-crime"]["04-2026"] == 7
 
 
-def test_load_crime_reads_and_joins_snapshot_dir(tmp_path):
-    root = tmp_path / "cde"
-    d = root / "CA0411600"
+def _write_snaps(tmp_path, ori, snaps):
+    """snaps: {date_str: (violent, property)} -> writes delta snapshot files."""
+    d = tmp_path / "cde" / ori
     d.mkdir(parents=True)
-    (d / "2026-04-16.json").write_text(json.dumps(
-        _snap({"03-2026": 15}, {"03-2026": 100}, agency_name="San Mateo PD")))
-    (d / "2026-05-16.json").write_text(json.dumps(
-        _snap({"03-2026": 15, "04-2026": 7}, {"03-2026": 100, "04-2026": 105})))
+    for date, (v, p) in snaps.items():
+        (d / f"{date}.json").write_text(json.dumps(_snap(v, p)))
+    return tmp_path / "cde"
+
+
+def test_load_crime_joins_delta_snapshots(tmp_path):
+    # Each snapshot is a delta (the month newly reported that fetch).
+    root = _write_snaps(tmp_path, "CA0411600", {
+        "2026-04-16": ({"02-2026": 14}, {"02-2026": 102}),
+        "2026-05-16": ({"03-2026": 15}, {"03-2026": 100}),
+        "2026-06-16": ({"04-2026": 7}, {"04-2026": 105}),
+    })
     crime = load_crime(root)
     assert set(crime) == {"CA0411600"}
-    months, _ = crime_monthly(["CA0411600"], crime)
+    # Values join across snapshots regardless of stability.
+    assert crime["CA0411600"]["offenses"]["property-crime"]["02-2026"] == 102
+
+
+def test_stability_holds_back_just_appeared_month(tmp_path):
+    # April only just appeared in the latest snapshot -> held back; March has
+    # survived a later snapshot unchanged -> settled and usable.
+    root = _write_snaps(tmp_path, "X", {
+        "2026-04-16": ({"02-2026": 14}, {"02-2026": 102}),
+        "2026-05-16": ({"03-2026": 15}, {"03-2026": 100}),
+        "2026-06-16": ({"04-2026": 7}, {"04-2026": 105}),
+    })
+    months, _ = crime_monthly(["X"], load_crime(root))
+    assert latest_full_month(months) == "2026-03"
+    assert "2026-04" not in months
+
+
+def test_stability_promotes_month_after_it_holds(tmp_path):
+    # April survives the June snapshot (which only adds May) unchanged -> settled.
+    root = _write_snaps(tmp_path, "X", {
+        "2026-05-16": ({"04-2026": 7}, {"04-2026": 105}),
+        "2026-06-16": ({"05-2026": 8}, {"05-2026": 110}),
+    })
+    months, _ = crime_monthly(["X"], load_crime(root))
+    assert latest_full_month(months) == "2026-04"  # April promoted
+    assert "2026-05" not in months                 # May just appeared -> held
+
+
+def test_stability_bootstrap_single_snapshot_not_suppressed(tmp_path):
+    # One snapshot (e.g. SMPD's baseline): no history to judge -> trust it.
+    root = _write_snaps(tmp_path, "X", {
+        "2026-05-29": ({"03-2026": 15, "04-2026": 7}, {"03-2026": 100, "04-2026": 105}),
+    })
+    months, _ = crime_monthly(["X"], load_crime(root))
     assert latest_full_month(months) == "2026-04"
     assert months["2026-04"]["total"] == 112
+
+
+def test_spc_skips_unstable_month():
+    # April flagged unstable (settled=False) -> metric falls back to March.
+    crime = {"X": {"max_data_date": "06/2026",
+                   "offenses": {"violent-crime": {"03-2026": 15, "04-2026": 7},
+                                "property-crime": {"03-2026": 100, "04-2026": 105}},
+                   "settled": {"violent-crime": {"03-2026": True, "04-2026": False},
+                               "property-crime": {"03-2026": True, "04-2026": False}}}}
+    b = searches_per_crime(["X"], crime, _rows("2026-03-01", "2026-03-31"), None)
+    assert b["month"] == "2026-03"
+    assert b["crime_total"] == 115
 
 
 # ── audit_month_coverage ──

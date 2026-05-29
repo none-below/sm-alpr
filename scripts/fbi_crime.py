@@ -22,6 +22,10 @@ from pathlib import Path
 SNAPSHOT_DIR = Path("assets/cde.ucr.cjis.gov")
 
 _OFFENSES = ("violent-crime", "property-crime")
+# A month's value must survive at least this many *later* snapshots
+# unchanged before the metric trusts it (see _settled_flags). 1 = "held
+# through one subsequent fetch." Raise for more caution at the cost of lag.
+_STABILITY_MIN_HOLD = 1
 _MONTHS = ["", "January", "February", "March", "April", "May", "June",
            "July", "August", "September", "October", "November", "December"]
 
@@ -48,13 +52,45 @@ def join_snapshots(snapshots):
     return merged
 
 
+def _settled_flags(dated_snaps):
+    """Per-(offense, month) stability flags from dated snapshots (ascending).
+
+    A month is "settled" once its value has held across at least
+    ``_STABILITY_MIN_HOLD`` later snapshots — i.e. it wasn't (re)written in
+    the most recent fetch(es). Snapshots are deltas (a month appears only
+    when it changed), so the latest snapshot date that contains a month is
+    its last-revision date; counting snapshots after that gives how long it
+    has held. Catches values still settling (empty→partial→whole) or being
+    revised even when they sit well behind the frontier, which the frontier
+    check alone can't. With <2 snapshots there's no history to judge, so we
+    don't suppress (bootstrap — the frontier guard still applies downstream).
+    """
+    flags = {off: {} for off in _OFFENSES}
+    if not dated_snaps:
+        return flags
+    dates = [d for d, _ in dated_snaps]
+    n = len(dates)
+    last_change = {off: {} for off in _OFFENSES}
+    for d, snap in dated_snaps:
+        for off in _OFFENSES:
+            for m in (snap.get("offenses") or {}).get(off) or {}:
+                last_change[off][m] = d
+    for off in _OFFENSES:
+        for m, lc in last_change[off].items():
+            n_after = sum(1 for d in dates if d > lc)
+            flags[off][m] = (n < 2) or (n_after >= _STABILITY_MIN_HOLD)
+    return flags
+
+
 def load_crime(path=SNAPSHOT_DIR):
     """Join per-ORI dated snapshots into a dict keyed by ORI, or {}.
 
     Snapshots live at ``assets/cde.ucr.cjis.gov/<ORI>/<YYYY-MM-DD>.json``
     — append-only raw API pulls, like the Flock transparency scrapes.
-    Filenames sort chronologically (YYYY-MM-DD), so we read them in order
-    and hand them to join_snapshots. {} until anything has been fetched.
+    Filenames sort chronologically, so we read them in order, join the
+    values (join_snapshots) and attach per-month stability flags
+    (_settled_flags). Each record gains a ``settled`` map that crime_monthly
+    uses to drop not-yet-stable months. {} until anything has been fetched.
     """
     root = Path(path)
     if not root.is_dir():
@@ -63,14 +99,17 @@ def load_crime(path=SNAPSHOT_DIR):
     for ori_dir in sorted(root.iterdir()):
         if not ori_dir.is_dir():
             continue
-        snaps = []
+        dated = []
         for sp in sorted(ori_dir.glob("*.json")):
             try:
-                snaps.append(json.loads(sp.read_text()))
+                dated.append((sp.stem, json.loads(sp.read_text())))
             except (OSError, json.JSONDecodeError):
                 continue
-        if snaps:
-            out[ori_dir.name] = join_snapshots(snaps)
+        if not dated:
+            continue
+        rec = join_snapshots([s for _, s in dated])
+        rec["settled"] = _settled_flags(dated)
+        out[ori_dir.name] = rec
     return out
 
 
@@ -98,6 +137,7 @@ def crime_monthly(oris, crime):
     for umbrellas.
     """
     violent, property_ = {}, {}
+    v_ok, p_ok = {}, {}  # iso-month -> settled for every contributing ORI?
     max_data = ""
     for ori in oris or []:
         rec = crime.get(ori)
@@ -109,16 +149,24 @@ def crime_monthly(oris, crime):
             iso = f"{yyyy}-{int(mm):02d}"
             max_data = max(max_data, iso)
         offenses = rec.get("offenses") or {}
-        for key, dest in (("violent-crime", violent), ("property-crime", property_)):
+        settled = rec.get("settled") or {}  # absent (e.g. test fixtures) -> assume settled
+        for key, dest, okdest in (("violent-crime", violent, v_ok),
+                                  ("property-crime", property_, p_ok)):
+            sflags = settled.get(key) or {}
             for m, n in (offenses.get(key) or {}).items():
                 if n is None:
                     continue
                 iso = _ucr_to_iso(m)
                 dest[iso] = dest.get(iso, 0) + n
+                okdest[iso] = okdest.get(iso, True) and bool(sflags.get(m, True))
     months = {}
     for iso in set(violent) & set(property_):
-        months[iso] = {"violent": violent[iso], "property": property_[iso],
-                       "total": violent[iso] + property_[iso]}
+        # Include only months that are settled across every contributing ORI
+        # for both offenses — a not-yet-stable month is held back until the
+        # join confirms its value (see _settled_flags).
+        if v_ok.get(iso, True) and p_ok.get(iso, True):
+            months[iso] = {"violent": violent[iso], "property": property_[iso],
+                           "total": violent[iso] + property_[iso]}
     return months, max_data
 
 
