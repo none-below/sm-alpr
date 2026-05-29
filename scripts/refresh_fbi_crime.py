@@ -48,6 +48,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lib import load_registry, save_json  # noqa: E402
+from fbi_crime import join_snapshots  # noqa: E402
 
 API_BASE = "https://api.usa.gov/crime/fbi/cde"
 OFFENSES = ["violent-crime", "property-crime"]
@@ -143,6 +144,27 @@ def _crawled_agency_ids():
     return {aid for aid, g in (graph.get("agencies") or {}).items() if g.get("crawled")}
 
 
+def _prior_view(ori, fetch_date):
+    """Joined view of an ORI's snapshots dated strictly before fetch_date.
+
+    We diff a fresh pull against this so each new snapshot stores only the
+    months that are new or revised — no re-storing of unchanged history.
+    Excluding fetch_date-and-later keeps same-day re-runs idempotent.
+    """
+    d = SNAPSHOT_DIR / ori
+    if not d.is_dir():
+        return {}
+    snaps = []
+    for sp in sorted(d.glob("*.json")):
+        if sp.stem >= fetch_date:
+            continue
+        try:
+            snaps.append(json.loads(sp.read_text()))
+        except (OSError, json.JSONDecodeError):
+            continue
+    return join_snapshots(snaps) if snaps else {}
+
+
 def target_oris(args, registry):
     if args.ori:
         out = []
@@ -197,18 +219,26 @@ def main():
     cached = len(wanted) - len(todo)
     print(f"{len(wanted)} target ORIs; {len(todo)} to snapshot for {fetch_date} ({cached} already done).")
 
-    fetched = 0
+    wrote = unchanged = 0
     for i, ori in enumerate(todo, 1):
-        record = {"ori": ori, "fetched": fetch_date, "agency_name": None,
+        prior = _prior_view(ori, fetch_date)
+        prior_off = prior.get("offenses") or {}
+        record = {"ori": ori, "fetched": fetch_date,
+                  "agency_name": prior.get("agency_name"),
                   "max_data_date": None, "last_refresh_date": None, "offenses": {}}
         for offense in OFFENSES:
             series, name, props = fetch_offense(ori, offense, key, args.date_from, date_to)
             time.sleep(THROTTLE_S)
             if series is None:
-                record["offenses"][offense] = None  # explicit: no series
                 continue
-            record["offenses"][offense] = series
-            if name and not record["agency_name"]:
+            # Store only months that are new or revised vs the joined prior
+            # view. Unchanged months are never re-written; a month that
+            # dropped to null upstream is simply absent and stays retained.
+            base = prior_off.get(offense) or {}
+            delta = {m: n for m, n in series.items() if base.get(m) != n}
+            if delta:
+                record["offenses"][offense] = delta
+            if name:
                 record["agency_name"] = name
             ucr = (props.get("max_data_date") or {}).get("UCR")
             if ucr:
@@ -216,12 +246,15 @@ def main():
             ref = (props.get("last_refresh_date") or {}).get("UCR")
             if ref:
                 record["last_refresh_date"] = ref
-        save_json(snap_path(ori), record)
-        fetched += 1
-        flag = "" if record["agency_name"] else "  [no FBI series]"
-        print(f"  [{i}/{len(todo)}] {ori}  {record['agency_name'] or '-'}{flag}")
+        if record["offenses"]:
+            save_json(snap_path(ori), record)
+            wrote += 1
+            n = sum(len(v) for v in record["offenses"].values())
+            print(f"  [{i}/{len(todo)}] {ori}  {record['agency_name'] or '-'}  (+{n} month-values)")
+        else:
+            unchanged += 1
 
-    print(f"Wrote {fetched} snapshot(s) under {SNAPSHOT_DIR}/ for {fetch_date}.")
+    print(f"Wrote {wrote} snapshot(s) under {SNAPSHOT_DIR}/ for {fetch_date}; {unchanged} unchanged.")
 
 
 if __name__ == "__main__":

@@ -227,10 +227,16 @@ def searches_per_crime(oris, crime, audit_rows, portal_searches_30d, audit_30d=N
     if not oris:
         return None
     months, max_data = crime_monthly(oris, crime)
-    month = latest_full_month(months)
+    # Exclude the dataset frontier month (== max_data_date). The most recent
+    # month is still being populated and can surface as a partial undercount
+    # before all reports land; using it would shrink the denominator and
+    # inflate the ratio. Take the latest *settled* month strictly behind the
+    # frontier — the join's revision history backfills it once it's whole.
+    settled = {m: v for m, v in months.items() if not max_data or m < max_data}
+    month = latest_full_month(settled)
     if not month:
         return None
-    cm = months[month]
+    cm = settled[month]
 
     cov = audit_month_coverage(audit_rows, month) if audit_rows else None
     # Raw exact-month inputs (transparency — surfaced regardless of source).

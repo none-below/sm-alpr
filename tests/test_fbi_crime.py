@@ -26,8 +26,12 @@ def _snap(violent, property_, **meta):
     return {"offenses": {"violent-crime": violent, "property-crime": property_}, **meta}
 
 
-def _crime(ori, violent, property_, max_data="04/2026"):
-    """One ORI's crime record: {iso-ish MM-YYYY: count} per offense."""
+def _crime(ori, violent, property_, max_data="05/2026"):
+    """One ORI's crime record: {iso-ish MM-YYYY: count} per offense.
+
+    Default frontier (max_data) is May so April data is "settled" and
+    usable by searches_per_crime (which excludes the frontier month).
+    """
     return {ori: {"agency_name": "Test PD", "max_data_date": max_data,
                   "offenses": {"violent-crime": violent, "property-crime": property_}}}
 
@@ -40,7 +44,8 @@ def _rows(*dates):
 # ── crime_monthly / latest_full_month ──
 
 def test_crime_monthly_sums_violent_and_property():
-    crime = _crime("CA0411600", {"04-2026": 7, "03-2026": 15}, {"04-2026": 105, "03-2026": 100})
+    crime = _crime("CA0411600", {"04-2026": 7, "03-2026": 15}, {"04-2026": 105, "03-2026": 100},
+                   max_data="04/2026")
     months, max_data = crime_monthly(["CA0411600"], crime)
     assert months["2026-04"] == {"violent": 7, "property": 105, "total": 112}
     assert latest_full_month(months) == "2026-04"
@@ -188,6 +193,36 @@ def test_spc_portal_30d_fallback():
     assert b["searches_source"] == "portal_30d"
     assert b["searches"] == 200
     assert b["ratio"] == round(200 / 112, 1)
+
+
+def test_spc_excludes_partial_frontier_month():
+    # May is the frontier (max_data_date) and only partially reported (low
+    # undercount). The metric must use settled April, not partial May —
+    # otherwise the denominator shrinks and the ratio inflates.
+    crime = {"X": {"max_data_date": "05/2026",
+                   "offenses": {"violent-crime": {"04-2026": 7, "05-2026": 2},
+                                "property-crime": {"04-2026": 105, "05-2026": 20}}}}
+    b = searches_per_crime(["X"], crime, _rows("2026-04-01", "2026-04-30"), None)
+    assert b["month"] == "2026-04"
+    assert b["crime_total"] == 112  # April, not May's partial 22
+
+
+def test_spc_uses_month_once_frontier_moves_past_it():
+    # Once June is the frontier, May has settled and becomes usable.
+    crime = {"X": {"max_data_date": "06/2026",
+                   "offenses": {"violent-crime": {"05-2026": 9},
+                                "property-crime": {"05-2026": 120}}}}
+    b = searches_per_crime(["X"], crime, _rows("2026-05-01", "2026-05-31"), None)
+    assert b["month"] == "2026-05"
+    assert b["crime_total"] == 129
+
+
+def test_spc_none_when_only_frontier_month_present():
+    # A brand-new agency whose only data is the unsettled frontier month.
+    crime = {"X": {"max_data_date": "05/2026",
+                   "offenses": {"violent-crime": {"05-2026": 9},
+                                "property-crime": {"05-2026": 120}}}}
+    assert searches_per_crime(["X"], crime, _rows("2026-05-10"), None) is None
 
 
 def test_spc_none_without_ori():
