@@ -1,0 +1,79 @@
+{
+  "url": "https://kstp.com/kstp-news/top-news/roadside-cameras-going-dark-another-department-makes-changes-to-program-over-accountability-concerns/",
+  "source_domain": "kstp.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Roadside cameras going dark: Another department makes changes to program over accountability concerns",
+  "byline": "Emily Baude",
+  "published_at": "2026-02-03T23:53:37+00:00",
+  "fetched_at": "2026-05-09T02:40:51Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 134 pts, HIGH/CRITICAL findings",
+  "scanner_score": 134,
+  "content_hash": "11b26c6f4f5350b098aeda9d1ff0ed4fa035e477ed571bdf05b70fe69ecf8beb",
+  "paths": {
+    "html": "assets/articles/kstp.com/kstp-news-top-news-roadside-cameras-going-dark-another-department-makes-changes_794cac8f.html",
+    "meta": "assets/articles/kstp.com/kstp-news-top-news-roadside-cameras-going-dark-another-department-makes-changes_794cac8f.meta.json",
+    "pdf": "assets/articles/kstp.com/kstp-news-top-news-roadside-cameras-going-dark-another-department-makes-changes_794cac8f.pdf",
+    "txt": "assets/articles/kstp.com/kstp-news-top-news-roadside-cameras-going-dark-another-department-makes-changes_794cac8f.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "1320544c-4c09-5a08-9264-52d844f58fd1",
+    "deb5d422-b112-5049-95c2-dd46d38d13d1"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "1320544c-4c09-5a08-9264-52d844f58fd1",
+      "display_name": "Brooklyn Park MN PD [Inactive]",
+      "state": "MN",
+      "score": 5.15,
+      "matched_forms": [
+        "Brooklyn Park"
+      ]
+    },
+    {
+      "agency_id": "deb5d422-b112-5049-95c2-dd46d38d13d1",
+      "display_name": "Anoka County MN SO",
+      "state": "MN",
+      "score": 4.033,
+      "matched_forms": [
+        "Anoka County",
+        "Anoka County Sheriff"
+      ]
+    }
+  ],
+  "summary": "Brooklyn Park, MN police canceled its Flock Safety contract at the end of December, citing concerns over customer support and data-sharing protocols. The article also notes that Anoka County Sheriff's Office added new restrictions\u2014removing two federal agencies from data access and filtering out immigration-related nationwide searches\u2014amid concerns about federal immigration access to ALPR data.",
+  "key_quotes": [
+    {
+      "quote": "The city of Brooklyn Park canceled its contract with the company Flock Safety at the end of December.",
+      "paragraph_idx": 2
+    },
+    {
+      "quote": "due to concerns over customer support and poor data sharing protocols.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "The county has since removed two federal agencies from its long list of agencies granted access to the data, and they also added a filter to be excluded from any nationwide searches involving immigration.",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T05:13:33Z",
+  "article_id": "art_085",
+  "primary_subject_agency_ids": [
+    "1320544c-4c09-5a08-9264-52d844f58fd1",
+    "deb5d422-b112-5049-95c2-dd46d38d13d1"
+  ]
+}

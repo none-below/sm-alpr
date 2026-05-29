@@ -1,0 +1,93 @@
+{
+  "url": "https://www.theolympian.com/news/state/washington/article315683941.html",
+  "source_domain": "theolympian.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Sedro-Woolley to turn back on its Flock cameras",
+  "byline": " VINCE RICHARDSON, Skagit Valley Herald, Mount Vernon, Wash. ",
+  "published_at": "2026-05-08T07:06:02-07:00",
+  "fetched_at": "2026-05-11T23:24:49Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 19 pts, HIGH/CRITICAL findings",
+  "scanner_score": 19,
+  "content_hash": "913f96ad5bf6595db0eb3b2cbb4af1a7be8e4a73f7e8024977d2a8d550b3a658",
+  "paths": {
+    "html": "assets/articles/theolympian.com/news-state-washington-article315683941-html_5e918e05.html",
+    "meta": "assets/articles/theolympian.com/news-state-washington-article315683941-html_5e918e05.meta.json",
+    "pdf": "assets/articles/theolympian.com/news-state-washington-article315683941-html_5e918e05.pdf",
+    "txt": "assets/articles/theolympian.com/news-state-washington-article315683941-html_5e918e05.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "save-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "legal:legislation",
+    "legal:pra",
+    "outcome:renewed",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "f9528ae9-97e1-555d-8dd3-f842543cb473",
+    "d791f0a4-e22d-5acd-972a-08ab21020e2e",
+    "37330114-0b02-5b61-a889-2fc214849095"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "f9528ae9-97e1-555d-8dd3-f842543cb473",
+      "display_name": "Sedro-Woolley WA PD",
+      "state": "WA",
+      "score": 12.567,
+      "matched_forms": [
+        "Sedro-Woolley",
+        "Sedro-Woolley Police"
+      ]
+    },
+    {
+      "agency_id": "d791f0a4-e22d-5acd-972a-08ab21020e2e",
+      "display_name": "Mount Vernon WA PD",
+      "state": "WA",
+      "score": 3.9,
+      "matched_forms": [
+        "Mount Vernon"
+      ]
+    },
+    {
+      "agency_id": "37330114-0b02-5b61-a889-2fc214849095",
+      "display_name": "Stanwood WA PD",
+      "state": "WA",
+      "score": 3.767,
+      "matched_forms": [
+        "Stanwood"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "f9528ae9-97e1-555d-8dd3-f842543cb473"
+  ],
+  "summary": "The Sedro-Woolley City Council voted to reactivate its seven Flock ALPR cameras, which had been disabled in June 2025 after a public records request, following new Washington state legislation restricting access and use. Police Chief Dan McIlraith expects the cameras back online by June 1 and negotiated a prorated discount with Flock. The article also notes Stanwood reactivated its cameras in April and that both cities are appealing a Skagit County ruling that ALPR images are subject to the state Public Records Act.",
+  "key_quotes": [
+    {
+      "quote": "The Sedro-Woolley City Council voted Wednesday night to turn back on the city's Flock Safety Camera System.",
+      "paragraph_idx": 2
+    },
+    {
+      "quote": "Sedro-Woolley's seven Flock cameras went live in March 2025 and were disabled in June 2025 after a public records request was filed for images taken by the cameras.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "A new state law limits images to authorized law enforcement personnel for valid law enforcement purposes. Federal agencies are prohibited from accessing Flock camera data, including for immigration enforcement.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "The cities of Sedro-Woolley and Stanwood are asking a state appeals court to reverse a Skagit County Superior Court ruling that prior to the new law being signed images taken by the cameras were subject to the state Public Records act.",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T23:26:04Z",
+  "article_id": "art_197"
+}

@@ -1,0 +1,72 @@
+{
+  "url": "https://www.kut.org/austin/2025-06-04/austin-tx-automatic-license-reader-program-police-data-privacy-flock",
+  "source_domain": "kut.org",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Austin's automatic license plate reader program will end this month",
+  "byline": "https://www.kut.org/people/luz-moreno-lozano",
+  "published_at": "2025-06-04T14:45:48.039",
+  "fetched_at": "2026-05-10T17:17:19Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 22 pts, low/medium only",
+  "scanner_score": 22,
+  "content_hash": "140d383370d48dd488f8f6238d693014d94f61e01dfc8dc08ec0ee156263aa8a",
+  "paths": {
+    "html": "assets/articles/kut.org/austin-2025-06-04-austin-tx-automatic-license-reader-program-police-data-privacy_f5bfb1b3.html",
+    "meta": "assets/articles/kut.org/austin-2025-06-04-austin-tx-automatic-license-reader-program-police-data-privacy_f5bfb1b3.meta.json",
+    "pdf": "assets/articles/kut.org/austin-2025-06-04-austin-tx-automatic-license-reader-program-police-data-privacy_f5bfb1b3.pdf",
+    "txt": "assets/articles/kut.org/austin-2025-06-04-austin-tx-automatic-license-reader-program-police-data-privacy_f5bfb1b3.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
+    "vendor:axon",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+      "display_name": "Austin Police Department",
+      "state": "TX",
+      "score": 100.5,
+      "matched_forms": [
+        "Austin",
+        "Austin Police",
+        "Austin Police Department"
+      ]
+    }
+  ],
+  "summary": "Austin's City Council postponed a vote on renewing its ALPR program with Flock Safety and Axon, effectively ending the program at month's end amid concerns about data sharing with ICE and state agencies targeting abortion or gender-affirming care seekers. A city audit found 75 million scans yielded 165 arrests, but also that 10-20% of searches lacked a clear case number. Officials said the program could return to council in five to six months, possibly with a different vendor.",
+  "key_quotes": [
+    {
+      "quote": "Austin should not be participating in Trump's mass surveillance programs",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "between 10%-20% of license plate searches in the database did not include a clear reason or case number, which is not in line with the city resolution allowing the program",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "delaying the vote will give the city more time to address the concerns raised around data privacy",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:28:01Z",
+  "article_id": "art_170",
+  "primary_subject_agency_ids": [
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58"
+  ]
+}

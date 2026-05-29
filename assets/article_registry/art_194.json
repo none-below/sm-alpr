@@ -1,0 +1,102 @@
+{
+  "url": "https://evanstonroundtable.com/2025/09/24/flock-safety-reinstalls-evanston-cameras/",
+  "source_domain": "evanstonroundtable.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Evanston orders Flock to remove reinstalled cameras - Evanston RoundTable",
+  "byline": "Alex Harrison",
+  "published_at": "2025-09-24T07:29:47+00:00",
+  "fetched_at": "2026-05-11T23:24:10Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 205 pts, HIGH/CRITICAL findings",
+  "scanner_score": 205,
+  "content_hash": "7638cc37bb5b19134aed6111a5673c408da9e64321d06b6c28568aa1632ba0c0",
+  "paths": {
+    "html": "assets/articles/evanstonroundtable.com/2025-09-24-flock-safety-reinstalls-evanston-cameras_592adcdd.html",
+    "meta": "assets/articles/evanstonroundtable.com/2025-09-24-flock-safety-reinstalls-evanston-cameras_592adcdd.meta.json",
+    "txt": "assets/articles/evanstonroundtable.com/2025-09-24-flock-safety-reinstalls-evanston-cameras_592adcdd.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260511232413/https://evanstonroundtable.com/2025/09/24/flock-safety-reinstalls-evanston-cameras/",
+  "wayback_timestamp": "20260511232413",
+  "wayback_source": "saved",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+    "09d70d09-1c2d-59cc-a227-a21fe402ac91",
+    "0e8fdf8c-1752-5528-9a84-b98041c02002",
+    "d6e1b396-2954-5026-914f-f7986c1a2bb6"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+      "display_name": "Evanston Police Department",
+      "state": "IL",
+      "score": 48.383,
+      "matched_forms": [
+        "Evanston",
+        "Evanston Police",
+        "Evanston Police Department"
+      ]
+    },
+    {
+      "agency_id": "09d70d09-1c2d-59cc-a227-a21fe402ac91",
+      "display_name": "Chicago IL PD",
+      "state": "IL",
+      "score": 3.733,
+      "matched_forms": [
+        "Chicago"
+      ]
+    },
+    {
+      "agency_id": "0e8fdf8c-1752-5528-9a84-b98041c02002",
+      "display_name": "University of Illinois - Chicago IL PD",
+      "state": "IL",
+      "score": 3.733,
+      "matched_forms": [
+        "Chicago"
+      ]
+    },
+    {
+      "agency_id": "d6e1b396-2954-5026-914f-f7986c1a2bb6",
+      "display_name": "Skokie IL PD",
+      "state": "IL",
+      "score": 3.7,
+      "matched_forms": [
+        "Skokie"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "a597ac19-0e62-585c-82a0-f9c7b87c55e8"
+  ],
+  "summary": "After Evanston ordered Flock Safety to deactivate and remove its 19 license plate cameras in August following revelations of CBP and out-of-state access, Flock reinstalled the cameras without city permission. Evanston issued a cease-and-desist on Sept. 23; Flock agreed to remove them again, though the contract termination dispute may head to litigation. RoundTable analysis of Flock's transparency portal data suggests some cameras may have continued collecting data after the shutdown order.",
+  "key_quotes": [
+    {
+      "quote": "Private surveillance vendor Flock Safety reinstalled all of its stationary license plate cameras in Evanston that had previously been removed, apparently doing so without authorization from the city, which sent the company a cease-and-desist order Tuesday afternoon demanding that the cams be taken back down.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "This decision came after Illinois Secretary of State Alexi Giannoulias discovered that Flock had allowed U.S. Customs and Border Protection to access Illinois cameras in a 'pilot program' against state law",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "The city intends to terminate the contract on Sept. 26 under its notice to Flock, but the company is challenging that termination, and the dispute could escalate to litigation.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "That suggests some number of cameras may have remained active and logging vehicles after Aug. 26, in violation of the city's order and without the city's knowledge",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T23:25:44Z",
+  "article_id": "art_194"
+}

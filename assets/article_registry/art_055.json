@@ -1,0 +1,82 @@
+{
+  "url": "https://www.eff.org/deeplinks/2025/10/victory-california-requires-transparency-ai-police-reports",
+  "source_domain": "eff.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Victory! California Requires Transparency for AI Police Reports",
+  "byline": "Matthew Guariglia",
+  "published_at": "2025-10-14T10:44:24-07:00",
+  "fetched_at": "2026-05-06T14:42:18Z",
+  "discovered_by": "claude-search:broader-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+  "scanner_score": 1,
+  "content_hash": "a3414944ddb32661da48021e9ca35454c22f11600436e197328b572468d225b4",
+  "paths": {
+    "html": "assets/articles/eff.org/deeplinks-2025-10-victory-california-requires-transparency-ai-police-reports_c10a06b4.html",
+    "meta": "assets/articles/eff.org/deeplinks-2025-10-victory-california-requires-transparency-ai-police-reports_c10a06b4.meta.json",
+    "pdf": "assets/articles/eff.org/deeplinks-2025-10-victory-california-requires-transparency-ai-police-reports_c10a06b4.pdf",
+    "txt": "assets/articles/eff.org/deeplinks-2025-10-victory-california-requires-transparency-ai-police-reports_c10a06b4.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "legal:legislation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:state",
+    "vendor:axon",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 3.933,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+      "display_name": "Imperial City CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Imperial"
+      ]
+    },
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "San Jose"
+      ]
+    }
+  ],
+  "summary": "EFF celebrates California Governor Newsom signing S.B. 524, which requires police to disclose AI use in writing reports, bans vendors from reselling submitted data, and mandates retention of first drafts. The post notes this creates compliance issues for Axon's Draft One, which doesn't retain edit logs.",
+  "key_quotes": [
+    {
+      "quote": "S.B.524 requires police to disclose, on the report, if it was used to fully or in part author a police report.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "By design, Draft One does not retain an edit log of who wrote what.",
+      "paragraph_idx": 6
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:34:32Z",
+  "article_id": "art_055",
+  "primary_subject_agency_ids": []
+}

@@ -1,0 +1,123 @@
+{
+  "url": "https://evanstonroundtable.com/2025/06/24/evanston-alpr-network-access-restricted/",
+  "source_domain": "evanstonroundtable.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Council Bytes: EPD bars out-of-state agencies from plate reader network - Evanston RoundTable",
+  "byline": "Alex Harrison, Emma Richman",
+  "published_at": "2025-06-24T09:20:19+00:00",
+  "fetched_at": "2026-05-14T13:09:42Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 155 pts, HIGH/CRITICAL findings",
+  "scanner_score": 155,
+  "content_hash": "0236abf94a014d83bb5b2a04cae8d08639e7f8f8757e0a644be80bc709aa6d47",
+  "paths": {
+    "html": "assets/articles/evanstonroundtable.com/2025-06-24-evanston-alpr-network-access-restricted_cfcc66a6.html",
+    "meta": "assets/articles/evanstonroundtable.com/2025-06-24-evanston-alpr-network-access-restricted_cfcc66a6.meta.json",
+    "txt": "assets/articles/evanstonroundtable.com/2025-06-24-evanston-alpr-network-access-restricted_cfcc66a6.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+    "09d70d09-1c2d-59cc-a227-a21fe402ac91",
+    "0e8fdf8c-1752-5528-9a84-b98041c02002",
+    "a936dc4d-21fb-5228-afe8-c027b3bd8e34",
+    "f9d0e316-2a82-5430-83ac-b575bbbd3b30",
+    "e2f7cd4f-6164-50e6-a70c-cc7ee108e7db"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+      "display_name": "Evanston Police Department",
+      "state": "IL",
+      "score": 54.583,
+      "matched_forms": [
+        "Evanston",
+        "Evanston Police",
+        "Evanston Police Department"
+      ]
+    },
+    {
+      "agency_id": "09d70d09-1c2d-59cc-a227-a21fe402ac91",
+      "display_name": "Chicago IL PD",
+      "state": "IL",
+      "score": 5.967,
+      "matched_forms": [
+        "Chicago"
+      ]
+    },
+    {
+      "agency_id": "0e8fdf8c-1752-5528-9a84-b98041c02002",
+      "display_name": "University of Illinois - Chicago IL PD",
+      "state": "IL",
+      "score": 5.967,
+      "matched_forms": [
+        "Chicago"
+      ]
+    },
+    {
+      "agency_id": "a936dc4d-21fb-5228-afe8-c027b3bd8e34",
+      "display_name": "Illinois Attorney General",
+      "state": "IL",
+      "score": 2.917,
+      "matched_forms": [
+        "Illinois Attorney General"
+      ]
+    },
+    {
+      "agency_id": "f9d0e316-2a82-5430-83ac-b575bbbd3b30",
+      "display_name": "Mount Prospect IL PD",
+      "state": "IL",
+      "score": 2.733,
+      "matched_forms": [
+        "Mount Prospect"
+      ]
+    },
+    {
+      "agency_id": "e2f7cd4f-6164-50e6-a70c-cc7ee108e7db",
+      "display_name": "Horizon TX PD",
+      "state": "TX",
+      "score": 2.617,
+      "matched_forms": [
+        "Horizon"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "a597ac19-0e62-585c-82a0-f9c7b87c55e8"
+  ],
+  "summary": "Evanston Police Department restricted access to its Flock ALPR network by disabling the National Lookup tool, cutting off out-of-state agencies, ending proximity sharing with Illinois agencies, and requiring dual authorization for new Illinois access. The changes follow RoundTable reporting that out-of-state agencies had searched nearby Mount Prospect's data for ICE-related cases, prompting a statewide audit by Illinois Secretary of State Giannoulias. Mayor Biss and several councilmembers expressed deeper skepticism about continuing to use Flock at all.",
+  "key_quotes": [
+    {
+      "quote": "The Evanston Police Department has revoked access to its network of automated license plate readers (ALPRs) from all law enforcement outside of Illinois and is requiring extra authorization to grant new access to other in-state agencies",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "had been shared with at least seven non-Illinois agencies that searched camera data in nearby Mount Prospect, Illinois for cases explicitly related to U.S. Immigrations and Customs Enforcement, or ICE, activity",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "I'm not going to rely on Flock to be a trusted entity.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "If our attitude is like, 'Eh, we'll just let a few instances slip by where we're helping ICE whisk people off the street,' I'm done",
+      "paragraph_idx": 21
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-14T13:10:43Z",
+  "article_id": "art_289"
+}

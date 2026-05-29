@@ -1,0 +1,91 @@
+{
+  "url": "https://www.kut.org/crime-justice/2025-07-23/kyle-tx-austin-texas-flock-safety-cameras-license-plate-readers",
+  "source_domain": "kut.org",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Austin rejected automatic license plate readers. Advocates want Kyle to do the same.",
+  "byline": "https://www.kut.org/people/maya-fawaz",
+  "published_at": "2025-07-23T09:00:00",
+  "fetched_at": "2026-05-09T08:54:51Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 34 pts, low/medium only",
+  "scanner_score": 34,
+  "content_hash": "579a991d62ece6c8e79f2c99d14e8d4f070f45e15fb011ac15a337f91518cd9c",
+  "paths": {
+    "html": "assets/articles/kut.org/crime-justice-2025-07-23-kyle-tx-austin-texas-flock-safety-cameras-license-plate_22c73e6f.html",
+    "meta": "assets/articles/kut.org/crime-justice-2025-07-23-kyle-tx-austin-texas-flock-safety-cameras-license-plate_22c73e6f.meta.json",
+    "pdf": "assets/articles/kut.org/crime-justice-2025-07-23-kyle-tx-austin-texas-flock-safety-cameras-license-plate_22c73e6f.pdf",
+    "txt": "assets/articles/kut.org/crime-justice-2025-07-23-kyle-tx-austin-texas-flock-safety-cameras-license-plate_22c73e6f.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260509085456/https://www.kut.org/crime-justice/2025-07-23/kyle-tx-austin-texas-flock-safety-cameras-license-plate-readers",
+  "wayback_timestamp": "20260509085456",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:false-positive",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+    "2a642c83-7602-5269-9be4-550b7632c36d",
+    "5beab980-d0ca-5fcd-9465-126e42183cb9"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+      "display_name": "Austin Police Department",
+      "state": "TX",
+      "score": 68.867,
+      "matched_forms": [
+        "Austin",
+        "Austin Police",
+        "Austin Police Department"
+      ]
+    },
+    {
+      "agency_id": "2a642c83-7602-5269-9be4-550b7632c36d",
+      "display_name": "Kyle TX PD",
+      "state": "TX",
+      "score": 20.4,
+      "matched_forms": [
+        "Kyle",
+        "Kyle Police",
+        "Kyle Police Department"
+      ]
+    },
+    {
+      "agency_id": "5beab980-d0ca-5fcd-9465-126e42183cb9",
+      "display_name": "Hays County TX SO",
+      "state": "TX",
+      "score": 3.867,
+      "matched_forms": [
+        "Hays County"
+      ]
+    }
+  ],
+  "summary": "Advocates in Kyle, Texas are urging the City Council to reject an expansion of its Flock Safety license plate reader program and reduce the 25 ALPRs and 3 live-view cameras currently deployed, citing privacy and false-positive concerns. The push follows Austin's recent termination of its Flock contract and San Marcos's rejection of a Flock proposal. Kyle police defend the program, citing crime-solving uses and audit policies.",
+  "key_quotes": [
+    {
+      "quote": "Last month, the city of Austin ended its contract with Flock and San Marcos rejected a proposal from the company to expand its program.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "There are such large discrepancies between the population size and the amount of cameras per person in the city of Kyle",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "We assure our community that comprehensive policies, restricted access, and regular audits are in place to govern the appropriate use of these systems",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:37:03Z",
+  "article_id": "art_095",
+  "primary_subject_agency_ids": [
+    "2a642c83-7602-5269-9be4-550b7632c36d"
+  ]
+}

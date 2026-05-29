@@ -1,0 +1,76 @@
+{
+  "url": "https://www.kvue.com/article/news/local/hays-county/san-marcos-lpr-police-privacy/269-4888f65f-eabd-4069-b9e8-7d5ee9ff4356",
+  "source_domain": "kvue.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "San Marcos Police Department announces new APLR privacy safeguards",
+  "byline": "Britny Eubank",
+  "published_at": "6/13/2025 12:54:28 PM",
+  "fetched_at": "2026-05-13T00:15:04Z",
+  "discovered_by": "backfill:google-search-2026-05-11",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 121 pts, HIGH/CRITICAL findings",
+  "scanner_score": 121,
+  "content_hash": "c1204e1873894302554fdc357c6bc7976b054fd2ee06a24e01992fa50c8c613d",
+  "paths": {
+    "html": "assets/articles/kvue.com/article-news-local-hays-county-san-marcos-lpr-police-privacy-269-4888f65f-eabd-4_c1805350.html",
+    "meta": "assets/articles/kvue.com/article-news-local-hays-county-san-marcos-lpr-police-privacy-269-4888f65f-eabd-4_c1805350.meta.json",
+    "pdf": "assets/articles/kvue.com/article-news-local-hays-county-san-marcos-lpr-police-privacy-269-4888f65f-eabd-4_c1805350.pdf",
+    "txt": "assets/articles/kvue.com/article-news-local-hays-county-san-marcos-lpr-police-privacy-269-4888f65f-eabd-4_c1805350.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+    "5beab980-d0ca-5fcd-9465-126e42183cb9"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+      "display_name": "Austin Police Department",
+      "state": "TX",
+      "score": 4.8,
+      "matched_forms": [
+        "Austin"
+      ]
+    },
+    {
+      "agency_id": "5beab980-d0ca-5fcd-9465-126e42183cb9",
+      "display_name": "Hays County TX SO",
+      "state": "TX",
+      "score": 2.683,
+      "matched_forms": [
+        "Hays County"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "San Marcos Police Department announced new privacy safeguards for its Flock ALPR program, including ending automatic data sharing with outside agencies, deactivating five cameras (leaving 14), formalizing annual audits, and amending its Flock contract to limit aggregated data collection. The announcement followed a city council decision a week earlier to decline adding more ALPRs; a local advocacy group expressed skepticism.",
+  "key_quotes": [
+    {
+      "quote": "The city said the SMPD stopped automatically sharing ALPR data with outside agencies on June 9. Instead, that data will now only be shared upon request and with confirmation of a criminal investigation or prosecution.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "The police department has also deactivated five ALPR cameras, leaving only the original 14 that were installed in 2022.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "All inquiries into the ALPR system must now be tied to an active investigation and users will be required to enter both a reason for the inquiry and an associated case number.",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T08:08:46Z",
+  "article_id": "art_248"
+}

@@ -1,0 +1,75 @@
+{
+  "url": "https://www.aclunorcal.org/cases/lagleva-v-doyle-license-plate-surveillance/",
+  "source_domain": "aclunorcal.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Lagleva v. Doyle (License Plate Surveillance) - ACLU of Northern California",
+  "byline": null,
+  "published_at": null,
+  "fetched_at": "2026-05-09T16:01:45Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 2 pts, low/medium only",
+  "scanner_score": 2,
+  "content_hash": "49de7effba0b3ce72fee0f86c23dcad61c4db20bbb7da60fd1b37dac3b0780c0",
+  "paths": {
+    "html": "assets/articles/aclunorcal.org/cases-lagleva-v-doyle-license-plate-surveillance_6a30cb76.html",
+    "meta": "assets/articles/aclunorcal.org/cases-lagleva-v-doyle-license-plate-surveillance_6a30cb76.meta.json",
+    "pdf": "assets/articles/aclunorcal.org/cases-lagleva-v-doyle-license-plate-surveillance_6a30cb76.pdf",
+    "txt": "assets/articles/aclunorcal.org/cases-lagleva-v-doyle-license-plate-surveillance_6a30cb76.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:press-release",
+    "incident:ice-cooperation",
+    "legal:court-ruling",
+    "legal:legislation",
+    "outcome:restricted",
+    "policy:sharing",
+    "scope:local"
+  ],
+  "agencies": [
+    "e1922365-80e2-5ec7-8580-95245cdad7f8",
+    "0649c75b-a49d-5ec7-a240-18692dea2047"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "e1922365-80e2-5ec7-8580-95245cdad7f8",
+      "display_name": "Marin County CA SO",
+      "state": "CA",
+      "score": 17.9,
+      "matched_forms": [
+        "Marin County",
+        "Marin County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "0649c75b-a49d-5ec7-a240-18692dea2047",
+      "display_name": "Marin County CA DA",
+      "state": "CA",
+      "score": 2.7,
+      "matched_forms": [
+        "Marin County"
+      ]
+    }
+  ],
+  "summary": "ACLU NorCal case page describing Lagleva v. Doyle, a 2021 lawsuit alleging Marin County Sheriff Robert Doyle illegally shared ALPR data with ICE, CBP, and out-of-state agencies in violation of California's SB 34 and SB 54. A May 2022 settlement bound the Sheriff and successors to stop sharing ALPR data with agencies outside California.",
+  "key_quotes": [
+    {
+      "quote": "community activists sued Marin County Sheriff Robert Doyle for his practice of illegally sharing millions of local drivers' license plate numbers and location data with hundreds of federal and out-of-state agencies, including Immigration and Customs Enforcement and Customs and Border Patrol.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "Sheriff Doyle has agreed to stop sharing license plate and location information with agencies outside of California to comply with state laws S.B. 34 and S.B. 54.",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:37:37Z",
+  "article_id": "art_105",
+  "primary_subject_agency_ids": [
+    "e1922365-80e2-5ec7-8580-95245cdad7f8"
+  ]
+}

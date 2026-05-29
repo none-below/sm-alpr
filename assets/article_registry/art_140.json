@@ -1,0 +1,83 @@
+{
+  "url": "https://www.denverpost.com/2026/04/02/denver-license-plate-readers-public-safety-letters/",
+  "source_domain": "denverpost.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "License plate readers are a good and valid tool for public safety in Colorado (Letters)",
+  "byline": "DP Opinion",
+  "published_at": "2026-04-02T11:03:42+00:00",
+  "fetched_at": "2026-05-10T00:06:16Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 142 pts, HIGH/CRITICAL findings",
+  "scanner_score": 142,
+  "content_hash": "3976c87bc76780f1cf4b2471b354146b4a3b206798ec7c5b51e3389c6bd02952",
+  "paths": {
+    "html": "assets/articles/denverpost.com/2026-04-02-denver-license-plate-readers-public-safety-letters_d44f2c18.html",
+    "meta": "assets/articles/denverpost.com/2026-04-02-denver-license-plate-readers-public-safety-letters_d44f2c18.meta.json",
+    "pdf": "assets/articles/denverpost.com/2026-04-02-denver-license-plate-readers-public-safety-letters_d44f2c18.pdf",
+    "txt": "assets/articles/denverpost.com/2026-04-02-denver-license-plate-readers-public-safety-letters_d44f2c18.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "outcome:renewed",
+    "policy:purpose-limitation",
+    "scope:local",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:vigilant"
+  ],
+  "agencies": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 21.3,
+      "matched_forms": [
+        "Denver"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 3.867,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "summary": "Letters to the editor in the Denver Post react to the Denver City Council's narrow 7-6 vote approving a new Axon ALPR contract. Writers praise the council majority, mayor, and police chief for retaining the cameras, while urging vigilance that data be used only as the contract specifies.",
+  "key_quotes": [
+    {
+      "quote": "I was relieved to see the article about the Denver City Council approving the new Axon automated license plate reader (ALPR) contract.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Those in the minority must make certain that the data gathered is not used in any fashion beyond what is spelled out in the contract.",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T16:39:03Z",
+  "article_id": "art_140",
+  "primary_subject_agency_ids": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ]
+}

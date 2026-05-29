@@ -1,0 +1,112 @@
+{
+  "url": "https://lookouteugene-springfield.com/story/latest-news/2025/12/09/flock-activated-camera-during-pause-chief-says-pushing-city-to-axe-contract/",
+  "source_domain": "lookouteugene-springfield.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Flock activated camera during \u2018pause,\u2019 chief says, pushing city to axe contract",
+  "byline": "Jaime Adame",
+  "published_at": "2025-12-10T02:25:55+00:00",
+  "fetched_at": "2026-05-08T19:07:32Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 185 pts, HIGH/CRITICAL findings",
+  "scanner_score": 185,
+  "content_hash": "4b728fa9f6e4a95b230f8b97b604e1613e988c0a624e009975600ccb5d1c28e7",
+  "paths": {
+    "html": "assets/articles/lookouteugene-springfield.com/story-latest-news-2025-12-09-flock-activated-camera-during-pause-chief-says-push_31be2445.html",
+    "meta": "assets/articles/lookouteugene-springfield.com/story-latest-news-2025-12-09-flock-activated-camera-during-pause-chief-says-push_31be2445.meta.json",
+    "pdf": "assets/articles/lookouteugene-springfield.com/story-latest-news-2025-12-09-flock-activated-camera-during-pause-chief-says-push_31be2445.pdf",
+    "txt": "assets/articles/lookouteugene-springfield.com/story-latest-news-2025-12-09-flock-activated-camera-during-pause-chief-says-push_31be2445.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "outcome:terminated",
+    "policy:audit",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "68f11e4a-7a56-5692-a0a2-558de9117210",
+    "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+    "13e8cfbe-64d0-54c1-837c-82ea571400ad",
+    "83af2f2e-4263-5b61-a419-485bea2445d6",
+    "2da4471d-cb8b-5631-8ab8-fb3fffcc0bad"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "68f11e4a-7a56-5692-a0a2-558de9117210",
+      "display_name": "Eugene Police Department",
+      "state": "OR",
+      "score": 42.783,
+      "matched_forms": [
+        "Eugene",
+        "Eugene Police"
+      ]
+    },
+    {
+      "agency_id": "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4",
+      "display_name": "Springfield OR PD",
+      "state": "OR",
+      "score": 30.6,
+      "matched_forms": [
+        "Springfield",
+        "Springfield Police"
+      ]
+    },
+    {
+      "agency_id": "13e8cfbe-64d0-54c1-837c-82ea571400ad",
+      "display_name": "Springfield FL PD",
+      "state": "FL",
+      "score": 7.8,
+      "matched_forms": [
+        "Springfield Police"
+      ]
+    },
+    {
+      "agency_id": "83af2f2e-4263-5b61-a419-485bea2445d6",
+      "display_name": "Springfield MO PD",
+      "state": "MO",
+      "score": 7.8,
+      "matched_forms": [
+        "Springfield Police"
+      ]
+    },
+    {
+      "agency_id": "2da4471d-cb8b-5631-8ab8-fb3fffcc0bad",
+      "display_name": "Springfield TN PD",
+      "state": "TN",
+      "score": 7.8,
+      "matched_forms": [
+        "Springfield Police"
+      ]
+    }
+  ],
+  "summary": "Eugene Police Chief Chris Skinner ended the city's contract with Flock Safety after learning that a license-plate reader camera was reactivated and collected data during a citywide pause on the technology. Flock attributed the reactivation to an automated maintenance work order and said it has changed protocols; Springfield, OR also canceled its Flock contract amid similar concerns. Eugene has requested removal of the 57 cameras.",
+  "key_quotes": [
+    {
+      "quote": "The cameras had been turned off. We had a camera that was inadvertently turned back on for a short period of time and collect some data",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "we should be seeing zero vehicles detected in the last 30 days on the transparency portal. However, nearly 8,500 UNIQUE vehicles have been detected by Eugene's Flock devices in the last 30 days.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "Automatically within the back end of our system, a maintenance tech actually was dispatched to go fix the camera",
+      "paragraph_idx": 27
+    },
+    {
+      "quote": "if a pause is requested, we basically block that maintenance request in the back end of the system in order to ensure this doesn't happen",
+      "paragraph_idx": 30
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-08T20:02:48Z",
+  "article_id": "art_068",
+  "primary_subject_agency_ids": [
+    "68f11e4a-7a56-5692-a0a2-558de9117210"
+  ]
+}

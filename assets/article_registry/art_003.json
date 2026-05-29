@@ -1,0 +1,155 @@
+{
+  "url": "https://www.eff.org/deeplinks/2025/12/effs-investigations-expose-flock-safetys-surveillance-abuses-2025-review",
+  "source_domain": "eff.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "EFF's Investigations Expose Flock Safety's Surveillance Abuses: 2025 in Review",
+  "byline": "Sarah Hamid",
+  "published_at": "2025-12-30T11:03:19-08:00",
+  "fetched_at": "2026-05-04T21:21:16Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+  "scanner_score": 1,
+  "content_hash": "be180c1f687d6f36f117956cb5bb77cbf831e3bb77364f2f1b74a5e5fbc37db6",
+  "paths": {
+    "html": "assets/articles/eff.org/deeplinks-2025-12-effs-investigations-expose-flock-safetys-surveillance-abuses-2_38a76d52.html",
+    "meta": "assets/articles/eff.org/deeplinks-2025-12-effs-investigations-expose-flock-safetys-surveillance-abuses-2_38a76d52.meta.json",
+    "pdf": "assets/articles/eff.org/deeplinks-2025-12-effs-investigations-expose-flock-safetys-surveillance-abuses-2_38a76d52.pdf",
+    "txt": "assets/articles/eff.org/deeplinks-2025-12-effs-investigations-expose-flock-safetys-surveillance-abuses-2_38a76d52.txt"
+  },
+  "wayback_url": "http://web.archive.org/web/20260504195935/https://www.eff.org/deeplinks/2025/12/effs-investigations-expose-flock-safetys-surveillance-abuses-2025-review",
+  "wayback_timestamp": "20260504195935",
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:analysis",
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "legal:court-ruling",
+    "policy:audit",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+    "ba107933-2f9d-5af5-836f-72a35dd288ba"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "display_name": "Indiana Department of Corrections",
+      "state": "IN",
+      "score": 25.833,
+      "matched_forms": [
+        "IN"
+      ]
+    },
+    {
+      "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "display_name": "Flock Safety",
+      "state": "GA",
+      "score": 10.8,
+      "matched_forms": [
+        "Flock Safety"
+      ]
+    },
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 4.9,
+      "matched_forms": [
+        "San Jose"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 3.933,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "ba107933-2f9d-5af5-836f-72a35dd288ba",
+      "display_name": "Johnson County TX SO",
+      "state": "TX",
+      "score": 2.733,
+      "matched_forms": [
+        "Johnson County"
+      ]
+    },
+    {
+      "agency_id": "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+      "display_name": "Evanston Police Department",
+      "state": "IL",
+      "score": 2.633,
+      "matched_forms": [
+        "Evanston"
+      ]
+    },
+    {
+      "agency_id": "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+      "display_name": "Imperial City CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Imperial"
+      ]
+    },
+    {
+      "agency_id": "be2a35be-0069-575f-93a2-dce581925536",
+      "display_name": "Melissa TX PD",
+      "state": "TX",
+      "score": 2.617,
+      "matched_forms": [
+        "Melissa"
+      ]
+    },
+    {
+      "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+      "display_name": "Austin Police Department",
+      "state": "TX",
+      "score": 2.6,
+      "matched_forms": [
+        "Austin"
+      ]
+    },
+    {
+      "agency_id": "726e8e4f-8295-5b33-b5c2-f8f389677337",
+      "display_name": "Johnson County IN SO",
+      "state": "IN",
+      "score": 1.233,
+      "matched_forms": [
+        "Johnson County"
+      ]
+    }
+  ],
+  "summary": "EFF's 2025 year-in-review recaps its investigations into Flock Safety's ALPR network, documenting surveillance of protesters, discriminatory searches targeting Romani people, use in a Texas abortion-related investigation, and expansion into audio detection. It highlights resulting federal and state investigations, an ACLU/EFF lawsuit against San Jose, and municipalities (Austin, Evanston, Eugene) canceling or declining to renew Flock contracts.",
+  "key_quotes": [
+    {
+      "quote": "A Johnson County official ran two searches with the note \"had an abortion, search for female.\" The second search probed 6,809 networks, accessing 83,345 cameras across nearly the entire country.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "more than 80 law enforcement agencies used language perpetuating harmful stereotypes against Romani people when searching the nationwide Flock Safety ALPR network",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Communities from Austin to Evanston to Eugene successfully canceled or refused to renew their Flock contracts",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "SJPD and other California law enforcement agencies searched San Jose's database 3,965,519 times",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:29:44Z",
+  "article_id": "art_003",
+  "primary_subject_agency_ids": []
+}

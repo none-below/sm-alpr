@@ -1,0 +1,79 @@
+{
+  "url": "https://www.kvue.com/article/news/local/hays-county/hays-county-contract-flock-license-plate-reader-cameras/269-f7276915-920a-4216-add1-42fbf17a0056",
+  "source_domain": "kvue.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Hays County ends contract with Flock for license plate reader cameras",
+  "byline": "Melia Masumoto",
+  "published_at": "10/14/2025 6:56:33 PM",
+  "fetched_at": "2026-05-08T20:21:51Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 116 pts, HIGH/CRITICAL findings",
+  "scanner_score": 116,
+  "content_hash": "7b0deaf45a1cbd285e2442932aed4f442f981d4e65664d7f1cc7597c1427862d",
+  "paths": {
+    "html": "assets/articles/kvue.com/article-news-local-hays-county-hays-county-contract-flock-license-plate-reader-c_3dacdbaa.html",
+    "meta": "assets/articles/kvue.com/article-news-local-hays-county-hays-county-contract-flock-license-plate-reader-c_3dacdbaa.meta.json",
+    "pdf": "assets/articles/kvue.com/article-news-local-hays-county-hays-county-contract-flock-license-plate-reader-c_3dacdbaa.pdf",
+    "txt": "assets/articles/kvue.com/article-news-local-hays-county-hays-county-contract-flock-license-plate-reader-c_3dacdbaa.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260508202158/https://www.kvue.com/article/news/local/hays-county/hays-county-contract-flock-license-plate-reader-cameras/269-f7276915-920a-4216-add1-42fbf17a0056",
+  "wayback_timestamp": "20260508202158",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "5beab980-d0ca-5fcd-9465-126e42183cb9",
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "5beab980-d0ca-5fcd-9465-126e42183cb9",
+      "display_name": "Hays County TX SO",
+      "state": "TX",
+      "score": 14.65,
+      "matched_forms": [
+        "Hays County",
+        "Hays County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+      "display_name": "Austin Police Department",
+      "state": "TX",
+      "score": 9.317,
+      "matched_forms": [
+        "Austin",
+        "Austin Police"
+      ]
+    }
+  ],
+  "summary": "Hays County, Texas commissioners voted to end all contracts with Flock Safety, removing its six ALPR cameras and canceling a planned purchase of four more, citing privacy concerns and worries about data sharing with ICE and out-of-state agencies. The sheriff opposed the decision, citing investigative benefits.",
+  "key_quotes": [
+    {
+      "quote": "Hays County will no longer use Flock Safety automatic license plate reader cameras (APLRs). On Tuesday, county commissioners voted to end all contracts with the security company, after facing pushback over privacy concerns.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "It's not so much what our agency might do; it's what other agencies can do that we have no control over ... We know that it has been used by ICE to target immigrants.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Hays County is the first county in the state to end its contract with Flock",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T05:12:41Z",
+  "article_id": "art_074",
+  "primary_subject_agency_ids": [
+    "5beab980-d0ca-5fcd-9465-126e42183cb9"
+  ]
+}

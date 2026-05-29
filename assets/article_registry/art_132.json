@@ -1,0 +1,99 @@
+{
+  "url": "https://www.aclunorcal.org/press-releases/lawsuit-challenges-san-jose-s-warrantless-alpr-mass-surveillance/",
+  "source_domain": "aclunorcal.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Lawsuit Challenges San Jose\u2019s Warrantless ALPR Mass Surveillance - ACLU of Northern California",
+  "byline": null,
+  "published_at": null,
+  "fetched_at": "2026-05-09T19:25:43Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 2 pts, low/medium only",
+  "scanner_score": 2,
+  "content_hash": "eb18af576c7b2088c08f4fd770c528ed033c34e61c8165309795304fbcf3311b",
+  "paths": {
+    "html": "assets/articles/aclunorcal.org/press-releases-lawsuit-challenges-san-jose-s-warrantless-alpr-mass-surveillance_ab93296a.html",
+    "meta": "assets/articles/aclunorcal.org/press-releases-lawsuit-challenges-san-jose-s-warrantless-alpr-mass-surveillance_ab93296a.meta.json",
+    "pdf": "assets/articles/aclunorcal.org/press-releases-lawsuit-challenges-san-jose-s-warrantless-alpr-mass-surveillance_ab93296a.pdf",
+    "txt": "assets/articles/aclunorcal.org/press-releases-lawsuit-challenges-san-jose-s-warrantless-alpr-mass-surveillance_ab93296a.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:press-release",
+    "legal:court-ruling",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local"
+  ],
+  "agencies": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+    "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+    "6be9f842-1658-5490-8be4-14b77cc1e96d",
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 15.633,
+      "matched_forms": [
+        "San Jose",
+        "San Jose Police",
+        "San Jose Police Department"
+      ]
+    },
+    {
+      "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+      "display_name": "Santa Clara County CA SO",
+      "state": "CA",
+      "score": 2.8,
+      "matched_forms": [
+        "Santa Clara County"
+      ]
+    },
+    {
+      "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+      "display_name": "Santa Clara DA CA",
+      "state": "CA",
+      "score": 2.8,
+      "matched_forms": [
+        "Santa Clara County"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 2.717,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    }
+  ],
+  "summary": "The EFF and ACLU of Northern California filed a lawsuit in Santa Clara County Superior Court against the City of San Jose and its police department, alleging warrantless searches of ALPR data violate the California Constitution. The suit, brought on behalf of SIREN and CAIR-CA, targets SJPD's ~500 ALPRs, one-year retention, and broad query access, and seeks a warrant requirement.",
+  "key_quotes": [
+    {
+      "quote": "San Jose and its police department routinely violate the California Constitution by conducting warrantless searches of the stored records of millions of drivers' private habits, movements, and associations",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "The San Jose Police Department has blanketed the city's roadways with nearly 500 ALPRs \u2013 indiscriminately collecting millions of records per month about people's movements \u2013 and keeps this data for an entire year.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "Access to the data should only happen once approved under a judicial warrant.",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T16:38:04Z",
+  "article_id": "art_132",
+  "primary_subject_agency_ids": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ]
+}

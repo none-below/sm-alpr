@@ -1,0 +1,76 @@
+{
+  "url": "https://www.kiro7.com/news/local/seattle-city-council-takes-steps-expand-use-automated-license-plate-readers/I4GWNP5BKZG6HKOVEYHUT7CSHY/",
+  "source_domain": "kiro7.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Seattle City Council takes steps to expand use of automated license plate readers",
+  "byline": "KIRO 7 News Staff",
+  "published_at": "2024-06-13T16:42:39.872Z",
+  "fetched_at": "2026-05-12T19:08:44Z",
+  "discovered_by": "backfill:google-search-2026-05-11",
+  "scanner_verdict": "WARNINGS \u2014 26 pts, low/medium only",
+  "scanner_score": 26,
+  "content_hash": "a413c1b6da3904e5557bf991b1aa8225b36b2bdd9e46ade013fa95f58ae4bf01",
+  "paths": {
+    "html": "assets/articles/kiro7.com/news-local-seattle-city-council-takes-steps-expand-use-automated-license-plate-r_721e9b94.html",
+    "meta": "assets/articles/kiro7.com/news-local-seattle-city-council-takes-steps-expand-use-automated-license-plate-r_721e9b94.meta.json",
+    "pdf": "assets/articles/kiro7.com/news-local-seattle-city-council-takes-steps-expand-use-automated-license-plate-r_721e9b94.pdf",
+    "txt": "assets/articles/kiro7.com/news-local-seattle-city-council-takes-steps-expand-use-automated-license-plate-r_721e9b94.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "legal:pra",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:local"
+  ],
+  "agencies": [
+    "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+    "ccebeae6-1d27-5e90-933a-4aaac0fd38df"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "display_name": "Port of Seattle WA PD",
+      "state": "WA",
+      "score": 30.95,
+      "matched_forms": [
+        "Seattle",
+        "Seattle Police",
+        "Seattle Police Department"
+      ]
+    },
+    {
+      "agency_id": "ccebeae6-1d27-5e90-933a-4aaac0fd38df",
+      "display_name": "King County International Airport (WA)",
+      "state": "WA",
+      "score": 3.867,
+      "matched_forms": [
+        "King County"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "A Seattle City Council committee voted 4-0 (with one abstention) to expand ALPR use across all 350+ SPD patrol vehicles, up from 11 vehicles authorized in 2021. Debate centered on data retention (90 days proposed vs. 48 hours preferred by Councilmember Cathy Moore) and risks that public records disclosures could expose people seeking reproductive or gender-affirming care.",
+  "key_quotes": [
+    {
+      "quote": "The main issue here is how do we protect individuals who are coming to the state of Washington to access reproductive care or gender-affirming care?",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Under the current proposal, data not tied to an active investigation would be retained for 90 days. For active investigations, the data would be retained indefinitely.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "If we have a hit on a vehicle that is not on our list but we now know was involved in a crime, having that 90-day buffer lets us look back in time to see what other crimes that car was associated with.",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-12T19:15:10Z",
+  "article_id": "art_231"
+}

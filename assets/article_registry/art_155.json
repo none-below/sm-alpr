@@ -1,0 +1,78 @@
+{
+  "url": "https://www.theolympian.com/news/state/washington/seattle/article314719001.html",
+  "source_domain": "theolympian.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "How ICE is using technology, databases to track people",
+  "byline": "Lauren Girgis, The Seattle Times",
+  "published_at": "2026-02-16T09:55:38-08:00",
+  "fetched_at": "2026-05-10T11:17:08Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 20 pts, HIGH/CRITICAL findings",
+  "scanner_score": 20,
+  "content_hash": "43d01e36684821ba17b9786eb4ef64de283fa245ab5bc2d7e16ec60cf462d728",
+  "paths": {
+    "html": "assets/articles/theolympian.com/news-state-washington-seattle-article314719001-html_e64ae603.html",
+    "meta": "assets/articles/theolympian.com/news-state-washington-seattle-article314719001-html_e64ae603.meta.json",
+    "pdf": "assets/articles/theolympian.com/news-state-washington-seattle-article314719001-html_e64ae603.pdf",
+    "txt": "assets/articles/theolympian.com/news-state-washington-seattle-article314719001-html_e64ae603.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260510111722/https://www.theolympian.com/news/state/washington/seattle/article314719001.html",
+  "wayback_timestamp": "20260510111722",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "83b05b01-74fd-5e6d-9188-816a601a64dd",
+    "0be90b3a-6759-53d7-9f92-d6ea9f9740b0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "83b05b01-74fd-5e6d-9188-816a601a64dd",
+      "display_name": "Yakima WA PD",
+      "state": "WA",
+      "score": 5.217,
+      "matched_forms": [
+        "Yakima",
+        "Yakima Police",
+        "Yakima Police Department"
+      ]
+    },
+    {
+      "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "display_name": "Port of Seattle WA PD",
+      "state": "WA",
+      "score": 3.733,
+      "matched_forms": [
+        "Seattle"
+      ]
+    }
+  ],
+  "summary": "The article surveys surveillance technologies ICE and CBP use under the Trump administration, including phone-tracking tools, spyware, facial recognition, and Palantir data integration. It highlights UW Center for Human Rights findings that at least eight Washington agencies shared Flock ALPR data with Border Patrol, and discusses pending Washington legislation (SB 6002) to restrict such sharing.",
+  "key_quotes": [
+    {
+      "quote": "Flock Safety's automated license plate reader networks data were shared with U.S. Border Patrol by at least eight Washington law enforcement agencies in 2025.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "Senate Bill 6002, which passed the Washington state Senate last week, would prohibit police from sharing automatic license plate reader data for civil immigration enforcement and require that data be deleted within 21 days unless it's needed for police evidence.",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "the Yakima Police Department, for instance, had access to Flock networks operated by more than 90 Lowe's hardware stores",
+      "paragraph_idx": 22
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T16:40:25Z",
+  "article_id": "art_155",
+  "primary_subject_agency_ids": []
+}

@@ -1,0 +1,93 @@
+{
+  "url": "https://www.aclu.org/news/privacy-technology/alpr-as-public-data",
+  "source_domain": "aclu.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "License Plate Readings Shouldn\u2019t Be Public Data | ACLU",
+  "byline": "Jay Stanley, Chad Marlow",
+  "published_at": "2026-02-25T14:52:09+00:00",
+  "fetched_at": "2026-05-05T20:18:08Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+  "scanner_score": 3,
+  "content_hash": "59dc1abf8d110303877c7f202d31ad6f384b576f63fc6c23ca41199bd480ed48",
+  "paths": {
+    "html": "assets/articles/aclu.org/news-privacy-technology-alpr-as-public-data_4c480445.html",
+    "meta": "assets/articles/aclu.org/news-privacy-technology-alpr-as-public-data_4c480445.meta.json",
+    "pdf": "assets/articles/aclu.org/news-privacy-technology-alpr-as-public-data_4c480445.pdf",
+    "txt": "assets/articles/aclu.org/news-privacy-technology-alpr-as-public-data_4c480445.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "legal:legislation",
+    "legal:pra",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+    "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+    "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+    "21fb5336-7bb7-5cc1-a4da-706673c971ed"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "display_name": "Indiana Department of Corrections",
+      "state": "IN",
+      "score": 16.533,
+      "matched_forms": [
+        "IN"
+      ]
+    },
+    {
+      "agency_id": "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+      "display_name": "New Orleans LA PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+      "display_name": "Orleans Levee District PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+      "display_name": "Page AZ PD",
+      "state": "AZ",
+      "score": 2.133,
+      "matched_forms": [
+        "Page"
+      ]
+    }
+  ],
+  "summary": "The ACLU argues that while ALPR audit and use logs should be subject to open-records laws for transparency, actual license plate numbers and vehicle-identifying data should be redacted to protect privacy. The piece responds to HaveIBeenFlocked.com, which publishes unredacted plate data released by some police departments, and lays out the ACLU's model bill recommendations.",
+  "key_quotes": [
+    {
+      "quote": "the fault here is the police departments that collected this data on innocent drivers not suspected of any wrongdoing and then released it unredacted",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "An ALPR system's audit, use, and access logs and data are all subject to production under open-records laws, but only after specific license plate numbers, as well as other identifying features about a vehicle... are redacted.",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:31:52Z",
+  "article_id": "art_028",
+  "primary_subject_agency_ids": []
+}

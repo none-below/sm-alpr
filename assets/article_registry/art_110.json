@@ -1,0 +1,144 @@
+{
+  "url": "https://www.denverpost.com/2025/10/22/denver-flock-contract-extension-council/",
+  "source_domain": "denverpost.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Mayor extends Denver\u2019s contract with Flock license-plate readers without council approval",
+  "byline": "Elliott Wenzler",
+  "published_at": "2025-10-22T16:11:37+00:00",
+  "fetched_at": "2026-05-09T16:02:16Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 145 pts, HIGH/CRITICAL findings",
+  "scanner_score": 145,
+  "content_hash": "a767b7a117c60cb69338c42d7e678f4fd833a67923f072bda9062099fae5e9aa",
+  "paths": {
+    "html": "assets/articles/denverpost.com/2025-10-22-denver-flock-contract-extension-council_7d7ee43d.html",
+    "meta": "assets/articles/denverpost.com/2025-10-22-denver-flock-contract-extension-council_7d7ee43d.meta.json",
+    "pdf": "assets/articles/denverpost.com/2025-10-22-denver-flock-contract-extension-council_7d7ee43d.pdf",
+    "txt": "assets/articles/denverpost.com/2025-10-22-denver-flock-contract-extension-council_7d7ee43d.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:restricted",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "4671f34c-d1a6-5eca-9d02-1d62c10e8844",
+    "733f750c-f7c9-5634-ab1b-a91950a83192",
+    "ec9776d2-5fcb-5599-9453-59a4cba9666b",
+    "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+    "0f86376d-b7c4-5b82-a36f-3383a2de4e65",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+    "e6b481d8-b552-51d3-9605-665358b5db6f"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 44.133,
+      "matched_forms": [
+        "Denver",
+        "Denver Police",
+        "Denver Police Department"
+      ]
+    },
+    {
+      "agency_id": "4671f34c-d1a6-5eca-9d02-1d62c10e8844",
+      "display_name": "Loveland CO PD",
+      "state": "CO",
+      "score": 7.7,
+      "matched_forms": [
+        "Loveland",
+        "Loveland Police",
+        "Loveland Police Department"
+      ]
+    },
+    {
+      "agency_id": "733f750c-f7c9-5634-ab1b-a91950a83192",
+      "display_name": "Energy IL PD",
+      "state": "IL",
+      "score": 4.8,
+      "matched_forms": [
+        "Energy"
+      ]
+    },
+    {
+      "agency_id": "ec9776d2-5fcb-5599-9453-59a4cba9666b",
+      "display_name": "Burnham IL PD",
+      "state": "IL",
+      "score": 3.733,
+      "matched_forms": [
+        "Burnham"
+      ]
+    },
+    {
+      "agency_id": "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+      "display_name": "Aurora CO PD",
+      "state": "CO",
+      "score": 3.7,
+      "matched_forms": [
+        "Aurora"
+      ]
+    },
+    {
+      "agency_id": "0f86376d-b7c4-5b82-a36f-3383a2de4e65",
+      "display_name": "Aurora IL PD",
+      "state": "IL",
+      "score": 3.7,
+      "matched_forms": [
+        "Aurora"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 2.683,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    },
+    {
+      "agency_id": "e6b481d8-b552-51d3-9605-665358b5db6f",
+      "display_name": "Summit IL PD",
+      "state": "IL",
+      "score": 2.6,
+      "matched_forms": [
+        "Summit"
+      ]
+    }
+  ],
+  "summary": "Denver Mayor Mike Johnston's office extended the city's Flock ALPR contract for five months at no cost, bypassing a City Council vote after the council unanimously rejected a longer extension in May. The new extension adds restrictions including a $100,000 penalty for any data shared with federal agencies, search-term limits excluding immigration and reproductive health queries, and required agreements barring other agencies from sharing data with ICE.",
+  "key_quotes": [
+    {
+      "quote": "Extending Flock again without a vote undermines democratic oversight and public trust.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Denver's new contract will include a requirement that Flock must pay $100,000 for any instance that data collected in the city is shared with federal agencies",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "the Denver Police Department had revoked Loveland police's access to tracking data from Denver's Flock cameras",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:38:59Z",
+  "article_id": "art_110",
+  "primary_subject_agency_ids": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ]
+}

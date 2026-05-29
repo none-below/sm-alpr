@@ -1,0 +1,86 @@
+{
+  "url": "https://www.eff.org/deeplinks/2024/11/human-toll-alpr-errors",
+  "source_domain": "eff.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "The Human Toll of ALPR Errors",
+  "byline": "Adam Schwartz",
+  "published_at": "2024-11-01T20:17:28-07:00",
+  "fetched_at": "2026-05-06T12:01:04Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+  "scanner_score": 1,
+  "content_hash": "69b07e348f4e5bd8dd3f84eaf7cdb121f4be9101a06583f3e7b56a716a844ecd",
+  "paths": {
+    "html": "assets/articles/eff.org/deeplinks-2024-11-human-toll-alpr-errors_783f87bf.html",
+    "meta": "assets/articles/eff.org/deeplinks-2024-11-human-toll-alpr-errors_783f87bf.meta.json",
+    "pdf": "assets/articles/eff.org/deeplinks-2024-11-human-toll-alpr-errors_783f87bf.pdf",
+    "txt": "assets/articles/eff.org/deeplinks-2024-11-human-toll-alpr-errors_783f87bf.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260506120202/https://www.eff.org/deeplinks/2024/11/human-toll-alpr-errors",
+  "wayback_timestamp": "20260506120202",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:false-positive",
+    "incident:misuse",
+    "incident:wrongful-stop",
+    "policy:hotlist",
+    "scope:national"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed",
+    "56f9a46f-863a-5d77-b2c9-72403bb11a8e"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 6.483,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police"
+      ]
+    },
+    {
+      "agency_id": "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed",
+      "display_name": "Atherton CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Atherton"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 2.1,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "summary": "EFF surveys multiple cases of wrongful detentions caused by ALPR misreads, stale hot-list data, and police over-reliance on the technology, including incidents in Aurora CO, San Francisco, Atherton CA, Espanola NM, Contra Costa, and Detroit. The piece argues these errors disproportionately harm Black motorists and have produced significant lawsuit settlements.",
+  "key_quotes": [
+    {
+      "quote": "One study found that ALPRs misread the state of 1-in-10 plates (not counting other reading errors).",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "the ALPR had misread a '3' as a '7' on Green's license plate",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "The city of Aurora settled Brittney Gilliam's lawsuit for $1.9 million.",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:34:03Z",
+  "article_id": "art_051",
+  "primary_subject_agency_ids": []
+}

@@ -1,0 +1,145 @@
+{
+  "url": "https://laist.com/news/south-pasadena-cancels-flock-safety-contract-privacy-concerns",
+  "source_domain": "laist.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "South Pasadena cancels contract with Flock Safety, citing privacy concerns",
+  "byline": "https://laist.com/people/libby-rainey",
+  "published_at": "2026-03-19T20:49:46.5",
+  "fetched_at": "2026-05-09T02:41:27Z",
+  "discovered_by": "manual:retag-2026-05-14-chief-meeting (was: termination-ledger-import)",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 30 pts, HIGH/CRITICAL findings",
+  "scanner_score": 30,
+  "content_hash": "8f3d617890984fc6e4ce78e9fd365a2c60843a95f830a76c05dfc19ad87f54b1",
+  "paths": {
+    "html": "assets/articles/laist.com/news-south-pasadena-cancels-flock-safety-contract-privacy-concerns_9a62041a.html",
+    "meta": "assets/articles/laist.com/news-south-pasadena-cancels-flock-safety-contract-privacy-concerns_9a62041a.meta.json",
+    "pdf": "assets/articles/laist.com/news-south-pasadena-cancels-flock-safety-contract-privacy-concerns_9a62041a.pdf",
+    "txt": "assets/articles/laist.com/news-south-pasadena-cancels-flock-safety-contract-privacy-concerns_9a62041a.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260509024132/https://laist.com/news/south-pasadena-cancels-flock-safety-contract-privacy-concerns",
+  "wayback_timestamp": "20260509024132",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "5448e966-a286-5dac-a301-1ed74914217e",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+    "2e1e1b36-7a6b-5c97-8143-65347503186c",
+    "ae8c6210-8473-5a62-96af-7ea959cb19ff",
+    "2c981ce6-8d54-565f-bb99-ac885eee8769",
+    "b02faac8-de9c-5cbc-84ab-9c8047eccfea",
+    "22f8ebcd-32d7-5e6e-888d-e61c4173a5a3",
+    "8e97dede-dc5e-518a-bd9c-ca1acce1757a"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "5448e966-a286-5dac-a301-1ed74914217e",
+      "display_name": "South Pasadena CA PD",
+      "state": "CA",
+      "score": 11.367,
+      "matched_forms": [
+        "South Pasadena"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 6.233,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    },
+    {
+      "agency_id": "2e1e1b36-7a6b-5c97-8143-65347503186c",
+      "display_name": "Oxnard CA PD",
+      "state": "CA",
+      "score": 5.217,
+      "matched_forms": [
+        "Oxnard",
+        "Oxnard Police",
+        "Oxnard Police Department"
+      ]
+    },
+    {
+      "agency_id": "ae8c6210-8473-5a62-96af-7ea959cb19ff",
+      "display_name": "Riverside County CA SO",
+      "state": "CA",
+      "score": 4.167,
+      "matched_forms": [
+        "Riverside County",
+        "Riverside County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "2c981ce6-8d54-565f-bb99-ac885eee8769",
+      "display_name": "Orange County SO CA",
+      "state": "CA",
+      "score": 3.933,
+      "matched_forms": [
+        "Orange County"
+      ]
+    },
+    {
+      "agency_id": "b02faac8-de9c-5cbc-84ab-9c8047eccfea",
+      "display_name": "Pasadena CA PD",
+      "state": "CA",
+      "score": 3.767,
+      "matched_forms": [
+        "Pasadena"
+      ]
+    },
+    {
+      "agency_id": "22f8ebcd-32d7-5e6e-888d-e61c4173a5a3",
+      "display_name": "San Marino CA PD",
+      "state": "CA",
+      "score": 2.667,
+      "matched_forms": [
+        "San Marino"
+      ]
+    },
+    {
+      "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+      "display_name": "Santa Cruz CA PD (deactivated)",
+      "state": "CA",
+      "score": 2.667,
+      "matched_forms": [
+        "Santa Cruz"
+      ]
+    }
+  ],
+  "summary": "The South Pasadena City Council voted not to renew one of its two Flock Safety contracts, ending the use of 14 cameras, amid privacy concerns following reports that Southern California agencies illegally shared ALPR data with federal immigration authorities. The city shares data with Riverside County Sheriff's Office, one of the implicated agencies. Council also discussed shortening data retention from 30 to 15 days.",
+  "key_quotes": [
+    {
+      "quote": "The South Pasadena City Council moved Wednesday not to renew a contract with Flock Safety",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "The council's decision follows public outcry after reports that some local law enforcement agencies in Southern California illegally shared license plate reader data with federal immigration agents.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "Many of our residents are very concerned about the misuse and abuse of data.",
+      "paragraph_idx": 19
+    },
+    {
+      "quote": "Council members also discussed shortening the time period that the city holds onto its data from 30 to 15 days.",
+      "paragraph_idx": 22
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-15T01:04:52Z",
+  "article_id": "art_086",
+  "primary_subject_agency_ids": [
+    "5448e966-a286-5dac-a301-1ed74914217e"
+  ]
+}

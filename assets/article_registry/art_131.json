@@ -1,0 +1,160 @@
+{
+  "url": "https://www.theolympian.com/news/state/washington/seattle/article314804119.html",
+  "source_domain": "theolympian.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "What to know about controversial automated license plate readers in WA",
+  "byline": "Catalina Gait\u00e1n, The Seattle Times",
+  "published_at": "2026-02-23T06:37:48-08:00",
+  "fetched_at": "2026-05-09T17:03:37Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 5 pts, low/medium only",
+  "scanner_score": 5,
+  "content_hash": "eaaac27aa29b914560a609b1a9bbe09d25ac813c733e7a344edcc76ba0738a36",
+  "paths": {
+    "html": "assets/articles/theolympian.com/news-state-washington-seattle-article314804119-html_af4b64db.html",
+    "meta": "assets/articles/theolympian.com/news-state-washington-seattle-article314804119-html_af4b64db.meta.json",
+    "pdf": "assets/articles/theolympian.com/news-state-washington-seattle-article314804119-html_af4b64db.pdf",
+    "txt": "assets/articles/theolympian.com/news-state-washington-seattle-article314804119-html_af4b64db.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "incident:wrongful-stop",
+    "legal:court-ruling",
+    "legal:legislation",
+    "policy:audit",
+    "policy:hotlist",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:state",
+    "vendor:axon",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+    "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+    "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+    "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+    "0a9f6f92-fc21-5938-80a2-d0abe88afa88",
+    "485d236f-0919-564f-807f-406dc4e3b6b4",
+    "ab2d4fa5-bd8b-5ffc-9aaa-cf15b53cd598",
+    "665867f8-b8cf-5e20-8d53-84fe87ef17e8"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+      "display_name": "Washington IL PD",
+      "state": "IL",
+      "score": 14.333,
+      "matched_forms": [
+        "Washington"
+      ]
+    },
+    {
+      "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "display_name": "Port of Seattle WA PD",
+      "state": "WA",
+      "score": 10.967,
+      "matched_forms": [
+        "Seattle",
+        "Seattle Police",
+        "Seattle Police Department"
+      ]
+    },
+    {
+      "agency_id": "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+      "display_name": "Redmond Police Department",
+      "state": "WA",
+      "score": 4.967,
+      "matched_forms": [
+        "Redmond",
+        "Redmond Police"
+      ]
+    },
+    {
+      "agency_id": "5b70f7bd-e72b-5f98-b6f2-58a611e13ed3",
+      "display_name": "Lynnwood Police Department",
+      "state": "WA",
+      "score": 3.767,
+      "matched_forms": [
+        "Lynnwood"
+      ]
+    },
+    {
+      "agency_id": "0a9f6f92-fc21-5938-80a2-d0abe88afa88",
+      "display_name": "Kent WA PD",
+      "state": "WA",
+      "score": 3.75,
+      "matched_forms": [
+        "Kent",
+        "Kent Police"
+      ]
+    },
+    {
+      "agency_id": "485d236f-0919-564f-807f-406dc4e3b6b4",
+      "display_name": "Kennewick WA PD",
+      "state": "WA",
+      "score": 2.65,
+      "matched_forms": [
+        "Kennewick"
+      ]
+    },
+    {
+      "agency_id": "ab2d4fa5-bd8b-5ffc-9aaa-cf15b53cd598",
+      "display_name": "Kansas IL PD",
+      "state": "IL",
+      "score": 2.6,
+      "matched_forms": [
+        "Kansas"
+      ]
+    },
+    {
+      "agency_id": "665867f8-b8cf-5e20-8d53-84fe87ef17e8",
+      "display_name": "City of West TX PD",
+      "state": "TX",
+      "score": 2.567,
+      "matched_forms": [
+        "West"
+      ]
+    },
+    {
+      "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+      "display_name": "Delete",
+      "state": null,
+      "score": 1.1,
+      "matched_forms": [
+        "Delete"
+      ]
+    }
+  ],
+  "summary": "Statewide explainer on ALPRs in Washington covering how the technology works, its expansion via state grants, controversies including federal access to Flock data and a Skagit County public records ruling, examples of misuse and wrongful arrests, and pending state legislation to regulate ALPRs. Mentions multiple cities (Lynnwood, Seattle, Redmond, Kent) and their ALPR programs.",
+  "key_quotes": [
+    {
+      "quote": "U.S. Border Patrol had searched the Flock Safety databases of at least 18 police departments in the state - often without their knowledge.",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "On Monday, the Lynnwood City Council plans to decide whether to terminate its contract with Flock, about four months after the city turned off its 25 cameras over privacy concerns.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "a Skagit County judge ruled that footage captured by two cities' Flock Safety cameras are public records and must be made public",
+      "paragraph_idx": 23
+    },
+    {
+      "quote": "The state Senate in early February approved an amended version of the bill, which would bar public agencies from using ALPRs for immigration enforcement, limit data retention to 21 days under most circumstances",
+      "paragraph_idx": 28
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T16:37:57Z",
+  "article_id": "art_131",
+  "primary_subject_agency_ids": []
+}

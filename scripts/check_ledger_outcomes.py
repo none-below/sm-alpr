@@ -3,7 +3,7 @@
 
 For each (agency, action_type, source_url) tuple in
 assets/termination_ledger.json, look up the URL in
-assets/article_registry.json. Map action_type to expected outcome:*
+assets/article_registry/ shards. Map action_type to expected outcome:*
 tag(s) and report mismatches:
 
   - missing: article exists in registry but doesn't carry the expected
@@ -38,8 +38,10 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+import article_store
+
 LEDGER_PATH = ROOT / "assets" / "termination_ledger.json"
-REGISTRY_PATH = ROOT / "assets" / "article_registry.json"
 
 
 # action_type → expected outcome:* tag(s)
@@ -160,7 +162,7 @@ def build_registry_index(registry: list[dict]) -> dict[str, dict]:
 
 def run(*, as_json: bool) -> int:
     ledger = json.loads(LEDGER_PATH.read_text())
-    registry = json.loads(REGISTRY_PATH.read_text())
+    registry = article_store.load_registry()
     actions = ledger.get("actions", [])
     idx = build_registry_index(registry)
 

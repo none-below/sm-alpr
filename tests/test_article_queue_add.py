@@ -108,11 +108,11 @@ def _setup_repo(tmp_path: Path, monkeypatch):
             {"domain": "themarkup.org","tier": 2, "name": "The Markup"},
         ],
     }))
-    (tmp_path / "assets" / "article_registry.json").write_text("[]")
+    (tmp_path / "assets" / "article_registry").mkdir()
     (tmp_path / "assets" / "articles").mkdir()
     monkeypatch.setattr(qa, "ROOT", tmp_path)
     monkeypatch.setattr(qa, "SOURCES_PATH", tmp_path / "assets/sources.json")
-    monkeypatch.setattr(qa, "REGISTRY_PATH", tmp_path / "assets/article_registry.json")
+    monkeypatch.setattr(qa, "REGISTRY_DIR", tmp_path / "assets/article_registry")
     monkeypatch.setattr(qa, "QUEUE_DIR", tmp_path / "assets/articles/queue")
     monkeypatch.setattr(qa, "PRIORITY_DIR", tmp_path / "assets/articles/queue/priority")
 
@@ -179,13 +179,12 @@ def test_add_dedup_across_priority_and_auto(tmp_path, monkeypatch, capsys):
 
 
 def test_add_dedup_against_registry(tmp_path, monkeypatch, capsys):
-    """A URL already in article_registry.json should dedup."""
+    """A URL already in the article registry should dedup."""
     _setup_repo(tmp_path, monkeypatch)
-    (tmp_path / "assets/article_registry.json").write_text(json.dumps([
+    (tmp_path / "assets/article_registry/art_001.json").write_text(json.dumps(
         {"article_id": "art_001",
          "url": "https://eff.org/already-curated",
-         "curation_status": "enriched"},
-    ]))
+         "curation_status": "enriched"}))
     rc, out, _ = _run(monkeypatch, capsys, "https://eff.org/already-curated")
     assert rc == 0
     assert "duplicate=1" in out

@@ -1,0 +1,74 @@
+{
+  "url": "https://www.kiro7.com/news/local/pierce-county-sheriffs-office-deactivates-its-automated-license-plate-readers/TXPVNII6B5D3LDKKYMOP3FW2IY/",
+  "source_domain": "kiro7.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Pierce County Sheriff\u2019s Office deactivates its automated license plate readers",
+  "byline": "KIRO 7 News Staff",
+  "published_at": "2026-03-31T02:02:59.261Z",
+  "fetched_at": "2026-05-10T16:14:22Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "WARNINGS \u2014 26 pts, low/medium only",
+  "scanner_score": 26,
+  "content_hash": "8e1a0e8123b70a3ec8a132549a5824ad1b30554089d7290b3054d4b9c0223dcd",
+  "paths": {
+    "html": "assets/articles/kiro7.com/news-local-pierce-county-sheriffs-office-deactivates-its-automated-license-plate_f384485e.html",
+    "meta": "assets/articles/kiro7.com/news-local-pierce-county-sheriffs-office-deactivates-its-automated-license-plate_f384485e.meta.json",
+    "pdf": "assets/articles/kiro7.com/news-local-pierce-county-sheriffs-office-deactivates-its-automated-license-plate_f384485e.pdf",
+    "txt": "assets/articles/kiro7.com/news-local-pierce-county-sheriffs-office-deactivates-its-automated-license-plate_f384485e.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260510161432/https://www.kiro7.com/news/local/pierce-county-sheriffs-office-deactivates-its-automated-license-plate-readers/TXPVNII6B5D3LDKKYMOP3FW2IY/",
+  "wayback_timestamp": "20260510161432",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:terminated",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "0be90b3a-6759-53d7-9f92-d6ea9f9740b0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "display_name": "Port of Seattle WA PD",
+      "state": "WA",
+      "score": 21.6,
+      "matched_forms": [
+        "Seattle"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "summary": "The Pierce County Sheriff's Office deactivated its Flock ALPR system in response to Washington's newly signed Driver Privacy Act, which restricts ALPR use near schools, hospitals, and other protected areas, with violations classified as gross misdemeanors. The Sheriff's Office said it lacks technology to ensure compliance and cited concerns about ICE-related use driving the legislation.",
+  "key_quotes": [
+    {
+      "quote": "The Pierce County Sheriff's Office says it has deactivated its Automated License Plate Reader (ALPR) system, commonly known as Flock cameras.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "At this time, there is no available technology or operational capability that allows the Sheriff's Office to ensure that ALPR cameras can reliably differentiate between restricted and permitted locations in real time.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "broader concerns surrounding privacy and the potential use of such technologies in connection with federal immigration enforcement, including issues related to Immigration and Customs Enforcement (ICE), have contributed to the passage of this legislation.",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:27:41Z",
+  "article_id": "art_163",
+  "primary_subject_agency_ids": []
+}

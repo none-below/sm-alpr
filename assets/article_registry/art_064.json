@@ -1,0 +1,84 @@
+{
+  "url": "https://www.kcrg.com/2026/02/25/coralville-removes-flock-cameras-after-council-votes-end-contract/",
+  "source_domain": "kcrg.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Coralville removes Flock cameras after council votes to end contract",
+  "byline": "Lacey Reeves",
+  "published_at": "2026-02-25T22:02:49.129Z",
+  "fetched_at": "2026-05-08T19:06:57Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "WARNINGS \u2014 13 pts, low/medium only",
+  "scanner_score": 13,
+  "content_hash": "7cf211fea6e786b47a3bfbc76ce836563bac58a5a02a6fca5e20656d6cf84fb3",
+  "paths": {
+    "html": "assets/articles/kcrg.com/2026-02-25-coralville-removes-flock-cameras-after-council-votes-end-contract_1c516f34.html",
+    "meta": "assets/articles/kcrg.com/2026-02-25-coralville-removes-flock-cameras-after-council-votes-end-contract_1c516f34.meta.json",
+    "pdf": "assets/articles/kcrg.com/2026-02-25-coralville-removes-flock-cameras-after-council-votes-end-contract_1c516f34.pdf",
+    "txt": "assets/articles/kcrg.com/2026-02-25-coralville-removes-flock-cameras-after-council-votes-end-contract_1c516f34.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:ag-bulletin",
+    "outcome:terminated",
+    "policy:purpose-limitation",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "40521632-8a29-5e5d-a064-1b57410743b5",
+    "308e7ece-43c7-53c1-90a6-82f1e7a26d68"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "40521632-8a29-5e5d-a064-1b57410743b5",
+      "display_name": "Coralville Police Department",
+      "state": "IA",
+      "score": 10.95,
+      "matched_forms": [
+        "Coralville",
+        "Coralville Police"
+      ]
+    },
+    {
+      "agency_id": "308e7ece-43c7-53c1-90a6-82f1e7a26d68",
+      "display_name": "Cedar Rapids IA PD",
+      "state": "IA",
+      "score": 6.417,
+      "matched_forms": [
+        "Cedar Rapids",
+        "Cedar Rapids Police"
+      ]
+    }
+  ],
+  "summary": "Coralville, Iowa removed its Flock ALPR cameras after the city council voted 3-1 to terminate the contract, rather than comply with an Iowa Attorney General order to strip an anti-ICE stipulation from its policy. The original policy barred using Flock data for immigration enforcement; the AG said that violated state law preempting local interference with immigration enforcement.",
+  "key_quotes": [
+    {
+      "quote": "the Iowa Attorney General's Office sent a letter to the city stating its Flock camera policy was in violation of Iowa law. That law prohibits local entities from impeding immigration enforcement.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Rather than amend the policy, the city council voted on a resolution to stop using the cameras entirely.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "Flock will not be used on the sole basis to enforce immigration law. So if ICE is requesting access to our data, it's a no,",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "The council voted 3 to 1 to terminate the contract with Flock and discontinue use of its cameras.",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:36:12Z",
+  "article_id": "art_064",
+  "primary_subject_agency_ids": [
+    "40521632-8a29-5e5d-a064-1b57410743b5"
+  ]
+}

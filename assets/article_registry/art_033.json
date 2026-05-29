@@ -1,0 +1,116 @@
+{
+  "url": "https://www.aclu.org/news/privacy-technology/how-to-pump-the-brakes-on-your-police-departments-use-of-flocks-mass-surveillance-license-plate-readers",
+  "source_domain": "aclu.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "How to Pump the Brakes on Your Police Department\u2019s Use of Flock\u2019s Mass Surveillance License Plate Readers | ACLU",
+  "byline": "Chad Marlow, Jay Stanley",
+  "published_at": "2023-02-13T21:30:27+00:00",
+  "fetched_at": "2026-05-06T00:00:20Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 12 pts, low/medium only",
+  "scanner_score": 12,
+  "content_hash": "426c659b5c145150e29ef44e3508b94d3724a9cb4f04014c17aecd6deac391c1",
+  "paths": {
+    "html": "assets/articles/aclu.org/news-privacy-technology-how-to-pump-the-brakes-on-your-police-departments-use-of_51d1061d.html",
+    "meta": "assets/articles/aclu.org/news-privacy-technology-how-to-pump-the-brakes-on-your-police-departments-use-of_51d1061d.meta.json",
+    "pdf": "assets/articles/aclu.org/news-privacy-technology-how-to-pump-the-brakes-on-your-police-departments-use-of_51d1061d.pdf",
+    "txt": "assets/articles/aclu.org/news-privacy-technology-how-to-pump-the-brakes-on-your-police-departments-use-of_51d1061d.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "policy:hotlist",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock",
+    "vendor:motorola"
+  ],
+  "agencies": [
+    "b02faac8-de9c-5cbc-84ab-9c8047eccfea",
+    "e32564b7-f694-551f-854b-82bc1a8d8689",
+    "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+    "5aad1905-8ff9-5a45-931a-7298f983153a",
+    "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "b02faac8-de9c-5cbc-84ab-9c8047eccfea",
+      "display_name": "Pasadena CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Pasadena"
+      ]
+    },
+    {
+      "agency_id": "e32564b7-f694-551f-854b-82bc1a8d8689",
+      "display_name": "Menasha WI PD",
+      "state": "WI",
+      "score": 2.617,
+      "matched_forms": [
+        "Menasha"
+      ]
+    },
+    {
+      "agency_id": "69401dfa-ca16-5bf2-b1a2-45739b331da6",
+      "display_name": "New Orleans LA PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "5aad1905-8ff9-5a45-931a-7298f983153a",
+      "display_name": "Newark CA PD",
+      "state": "CA",
+      "score": 2.6,
+      "matched_forms": [
+        "Newark"
+      ]
+    },
+    {
+      "agency_id": "bf9a43ef-94e7-5ca0-84b3-ca2e1d64d8a0",
+      "display_name": "Orleans Levee District PD",
+      "state": "LA",
+      "score": 2.6,
+      "matched_forms": [
+        "New Orleans Police"
+      ]
+    },
+    {
+      "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+      "display_name": "Delete",
+      "state": null,
+      "score": 1.1,
+      "matched_forms": [
+        "Delete"
+      ]
+    }
+  ],
+  "summary": "The ACLU urges communities to oppose Flock Safety's nationwide ALPR mass-surveillance network, and offers contract-negotiation guidance for places that can't block adoption outright. It recommends restrictions on data retention, sharing with outside agencies, and use against unreliable databases like NCIC.",
+  "key_quotes": [
+    {
+      "quote": "Flock is building a giant camera network that records people's comings and goings across the nation, and then makes that data available for search by any of its law enforcement customers.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "the three most important areas for regulation and negotiation are how long the data is retained, who the data is shared with, and how that data is used by law enforcement.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "Flock's default provisions give the company a 'worldwide' license to use its customers' APLR data",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:32:13Z",
+  "article_id": "art_033",
+  "primary_subject_agency_ids": []
+}

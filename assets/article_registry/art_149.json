@@ -1,0 +1,76 @@
+{
+  "url": "https://content.govdelivery.com/accounts/ILEVANSTON/bulletins/3efa81d",
+  "source_domain": "content.govdelivery.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Statement: Evanston Deactivates Flock Cameras and Terminates Contract",
+  "byline": null,
+  "published_at": null,
+  "fetched_at": "2026-05-10T09:54:15Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 16 pts, HIGH/CRITICAL findings",
+  "scanner_score": 16,
+  "content_hash": "0d4c4bd4c7a1ad6dc17ecc9ee2692ef6bea6eb25a4d7950576b8f25392e4acb7",
+  "paths": {
+    "html": "assets/articles/content.govdelivery.com/accounts-ilevanston-bulletins-3efa81d_e49e1842.html",
+    "meta": "assets/articles/content.govdelivery.com/accounts-ilevanston-bulletins-3efa81d_e49e1842.meta.json",
+    "pdf": "assets/articles/content.govdelivery.com/accounts-ilevanston-bulletins-3efa81d_e49e1842.pdf",
+    "txt": "assets/articles/content.govdelivery.com/accounts-ilevanston-bulletins-3efa81d_e49e1842.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:press-release",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+    "4b263c34-8305-54be-ba2c-d372af5d8cb9"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "a597ac19-0e62-585c-82a0-f9c7b87c55e8",
+      "display_name": "Evanston Police Department",
+      "state": "IL",
+      "score": 15.517,
+      "matched_forms": [
+        "Evanston",
+        "Evanston Police",
+        "Evanston Police Department"
+      ]
+    },
+    {
+      "agency_id": "4b263c34-8305-54be-ba2c-d372af5d8cb9",
+      "display_name": "Morton IL PD",
+      "state": "IL",
+      "score": 2.6,
+      "matched_forms": [
+        "Morton"
+      ]
+    }
+  ],
+  "summary": "The City of Evanston and Evanston Police Department deactivated all 19 Flock Safety ALPR cameras on August 26, 2025, and issued a termination notice effective September 26, 2025. The decision followed findings from an Illinois Secretary of State audit and Flock's admission it failed to establish distinct permissions for a federal pilot program.",
+  "key_quotes": [
+    {
+      "quote": "On August 26, the City of Evanston and the Evanston Police Department deactivated all 19 Flock Safety ALPR cameras.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "The findings of the Illinois Secretary of State's audit, combined with Flock's admission that it failed to establish distinct permissions and protocols to ensure local compliance while running a pilot program with federal users, are deeply troubling.",
+      "paragraph_idx": 5
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T05:14:47Z",
+  "article_id": "art_149",
+  "primary_subject_agency_ids": [
+    "a597ac19-0e62-585c-82a0-f9c7b87c55e8"
+  ]
+}

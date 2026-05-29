@@ -1,0 +1,115 @@
+{
+  "url": "https://oaklandside.org/2023/08/17/oaklands-license-plate-readers-have-been-off-for-months-so-why-does-the-city-want-more/",
+  "source_domain": "oaklandside.org",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Oakland\u2019s license plate readers have been off for months, so why does the city want more?",
+  "byline": "Eli Wolfe",
+  "published_at": "2023-08-17T16:00:00+00:00",
+  "fetched_at": "2026-05-26T04:29:42Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 157 pts, HIGH/CRITICAL findings",
+  "scanner_score": 157,
+  "content_hash": "a89b7b8332f9e69477776da3af955f87abe19cb4495c98bce3727e2e006b4eea",
+  "paths": {
+    "html": "assets/articles/oaklandside.org/2023-08-17-oaklands-license-plate-readers-have-been-off-for-months-so-why-does-t_289c8764.html",
+    "meta": "assets/articles/oaklandside.org/2023-08-17-oaklands-license-plate-readers-have-been-off-for-months-so-why-does-t_289c8764.meta.json",
+    "txt": "assets/articles/oaklandside.org/2023-08-17-oaklands-license-plate-readers-have-been-off-for-months-so-why-does-t_289c8764.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local"
+  ],
+  "agencies": [
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "b43d910e-99ca-56e2-8f1f-8f715885c247",
+      "display_name": "Piedmont CA PD",
+      "state": "CA",
+      "score": 1.683,
+      "matched_forms": [
+        "Piedmont Police Department"
+      ]
+    },
+    {
+      "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "display_name": "Oakland CA PD",
+      "state": "CA",
+      "score": 1.483,
+      "matched_forms": [
+        "Oakland Police"
+      ]
+    },
+    {
+      "agency_id": "94f5209c-59bb-5e33-8f58-9a7f667bdfa8",
+      "display_name": "Piedmont OK PD",
+      "state": "OK",
+      "score": 1.433,
+      "matched_forms": [
+        "Piedmont Police Department"
+      ]
+    },
+    {
+      "agency_id": "f3866ffe-6c4a-5218-98e6-1ff479d9ef18",
+      "display_name": "Oakland IL PD",
+      "state": "IL",
+      "score": 1.233,
+      "matched_forms": [
+        "Oakland Police"
+      ]
+    },
+    {
+      "agency_id": "93a2f97c-bf79-5ba7-be50-3bc3d7fe7dfd",
+      "display_name": "Oakland TN PD",
+      "state": "TN",
+      "score": 1.233,
+      "matched_forms": [
+        "Oakland Police"
+      ]
+    },
+    {
+      "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+      "display_name": "Delete",
+      "state": null,
+      "score": 1.1,
+      "matched_forms": [
+        "Delete"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6"
+  ],
+  "summary": "Oakland officials are pursuing a $1.2 million state loan to install new ALPR cameras even though OPD quietly shut off its existing ~30 vehicle-mounted ALPR cameras in February 2023 after a ransomware attack and concerns about complying with new city privacy rules on retention, audits, and reporting. The Privacy Advisory Commission chair criticized OPD for unilaterally suspending the system and questioned the push for more cameras.",
+  "key_quotes": [
+    {
+      "quote": "They fought tooth and nail for three years to keep ALPR and now they just decide to go and turn it off because, according to them, the reporting was too onerous? That's a stunning public position to take,",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "Beckman said the department eventually put the upgrade on hold and left the cameras off to avoid violating the new policies.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "in 2021, OPD acknowledged it was retaining scan data for two years, in violation of a department policy requiring it to delete data older than six months",
+      "paragraph_idx": 22
+    },
+    {
+      "quote": "the commission also learned that OPD had been giving the FBI unfettered access to license plate reader scans outside the limits established by the department's 2016 ALPR policy",
+      "paragraph_idx": 22
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-26T04:31:01Z",
+  "article_id": "art_325"
+}

@@ -1,0 +1,108 @@
+{
+  "url": "https://www.theolympian.com/news/politics-government/article314581905.html",
+  "source_domain": "theolympian.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Immigration and privacy limits on license plate cameras pass WA Senate",
+  "byline": "Simone Carter",
+  "published_at": "2026-02-05T05:00:00-08:00",
+  "fetched_at": "2026-05-10T23:06:01Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 7 pts, low/medium only",
+  "scanner_score": 7,
+  "content_hash": "a8eef2a5cb44b38b9eaf30f0d2fff7d320a4157713c817e4d7be5cd3783498c3",
+  "paths": {
+    "html": "assets/articles/theolympian.com/news-politics-government-article314581905-html_0b6a649c.html",
+    "meta": "assets/articles/theolympian.com/news-politics-government-article314581905-html_0b6a649c.meta.json",
+    "pdf": "assets/articles/theolympian.com/news-politics-government-article314581905-html_0b6a649c.pdf",
+    "txt": "assets/articles/theolympian.com/news-politics-government-article314581905-html_0b6a649c.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "80fc5e77-78d4-5499-abf4-9cda8cfb284d",
+    "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+    "8171a2b1-544d-544d-8a90-31029959bd72",
+    "a3ab48c9-e55d-5d26-b801-1b3482289307",
+    "665867f8-b8cf-5e20-8d53-84fe87ef17e8"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "80fc5e77-78d4-5499-abf4-9cda8cfb284d",
+      "display_name": "Olympia Police Department",
+      "state": "WA",
+      "score": 4.85,
+      "matched_forms": [
+        "Olympia"
+      ]
+    },
+    {
+      "agency_id": "64f3e786-cdc0-575d-ad89-b15f8695ebe8",
+      "display_name": "Redmond Police Department",
+      "state": "WA",
+      "score": 2.617,
+      "matched_forms": [
+        "Redmond"
+      ]
+    },
+    {
+      "agency_id": "8171a2b1-544d-544d-8a90-31029959bd72",
+      "display_name": "Spokane WA PD",
+      "state": "WA",
+      "score": 2.617,
+      "matched_forms": [
+        "Spokane"
+      ]
+    },
+    {
+      "agency_id": "a3ab48c9-e55d-5d26-b801-1b3482289307",
+      "display_name": "Cheney WA PD",
+      "state": "WA",
+      "score": 2.6,
+      "matched_forms": [
+        "Cheney"
+      ]
+    },
+    {
+      "agency_id": "665867f8-b8cf-5e20-8d53-84fe87ef17e8",
+      "display_name": "City of West TX PD",
+      "state": "TX",
+      "score": 2.567,
+      "matched_forms": [
+        "West"
+      ]
+    }
+  ],
+  "summary": "The Washington state Senate passed SB 6002 on a 40-9 vote, limiting ALPR data retention to 21 days and barring use for immigration enforcement, protest tracking, and near sensitive sites like schools and places of worship. The bill, sponsored by Sen. Yasmin Trudeau (D-Tacoma) with Republican co-sponsor Sen. Jeff Holy of Cheney, now heads to the state House.",
+  "key_quotes": [
+    {
+      "quote": "For me right now, without this bill, anybody can access that information. It is literally the wild, wild west when it comes to data protection.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Eight or more Washington law enforcement agencies seem to have allowed their reader networks to be shared with U.S. Border Patrol in 2025, per research conducted by the University of Washington's Center for Human Rights.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "a police department in Texas last year tapped Washington state ALPR data as it conducted a nationwide hunt for a woman who'd had an abortion",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:28:49Z",
+  "article_id": "art_183",
+  "primary_subject_agency_ids": []
+}

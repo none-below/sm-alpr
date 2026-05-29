@@ -1,0 +1,86 @@
+{
+  "url": "https://arstechnica.com/tech-policy/2026/05/fbi-seeks-us-wide-access-to-license-plate-cameras-wants-data-in-near-real-time/",
+  "source_domain": "arstechnica.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "FBI seeks US-wide access to license plate cameras, wants \"data in near real time\"",
+  "byline": "Jon Brodkin",
+  "published_at": "2026-05-19T21:29:33+00:00",
+  "fetched_at": "2026-05-20T11:56:20Z",
+  "discovered_by": "rss:arstechnica.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 70 pts, HIGH/CRITICAL findings",
+  "scanner_score": 70,
+  "content_hash": "7567482c905c67a9d04a1da6ba35d86eb0d64866581556e5ae3b64790410553a",
+  "paths": {
+    "html": "assets/articles/arstechnica.com/tech-policy-2026-05-fbi-seeks-us-wide-access-to-license-plate-cameras-wants-data_08c37bfc.html",
+    "meta": "assets/articles/arstechnica.com/tech-policy-2026-05-fbi-seeks-us-wide-access-to-license-plate-cameras-wants-data_08c37bfc.meta.json",
+    "pdf": "assets/articles/arstechnica.com/tech-policy-2026-05-fbi-seeks-us-wide-access-to-license-plate-cameras-wants-data_08c37bfc.pdf",
+    "txt": "assets/articles/arstechnica.com/tech-policy-2026-05-fbi-seeks-us-wide-access-to-license-plate-cameras-wants-data_08c37bfc.txt"
+  },
+  "wayback_url": "https://arstechnica.com/tech-policy/2026/05/fbi-seeks-us-wide-access-to-license-plate-cameras-wants-data-in-near-real-time/",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock",
+    "vendor:motorola"
+  ],
+  "agencies": [
+    "59b1f730-2412-5790-92fd-a707e3ac23cd",
+    "c8c956b2-eee0-528b-bef5-fccf51eeb1c0",
+    "4f545e10-4f02-51d7-9f85-b670f74f352c"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "59b1f730-2412-5790-92fd-a707e3ac23cd",
+      "display_name": "Pleasant Hill CA PD",
+      "state": "CA",
+      "score": 3.933,
+      "matched_forms": [
+        "Pleasant Hill"
+      ]
+    },
+    {
+      "agency_id": "c8c956b2-eee0-528b-bef5-fccf51eeb1c0",
+      "display_name": "Pleasant Hill IA PD",
+      "state": "IA",
+      "score": 3.933,
+      "matched_forms": [
+        "Pleasant Hill"
+      ]
+    },
+    {
+      "agency_id": "4f545e10-4f02-51d7-9f85-b670f74f352c",
+      "display_name": "Orange CA PD",
+      "state": "CA",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "The FBI issued an RFP seeking one or more vendors to provide nationwide, near-real-time access to license plate reader data covering 75% of US locations, with contracts worth up to $36 million over five years. Flock and Motorola Solutions are seen as likely bidders, though state laws and Flock's opt-in sharing policies may limit federal access.",
+  "key_quotes": [
+    {
+      "quote": "the FBI requires professional service firms that can provide License Plate Readers (LPRs) for tracking subjects on roads and highways over the US and its territories",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "Flock data belongs to the agency that owns the cameras. There is no backdoor into Flock. Any access is explicitly permission-based and opt-in by the local agency",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "California prohibits state and local agencies from sharing ALPR camera data with out-of-state or federal law enforcement agencies.",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T09:52:09Z",
+  "article_id": "art_319"
+}

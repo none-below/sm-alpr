@@ -1,0 +1,80 @@
+{
+  "url": "https://www.kiro7.com/news/local/renton-police-department-is-using-automatic-license-plate-readers-again/FQMLHYJCKNDQNNMAWG6OD23KSM/",
+  "source_domain": "kiro7.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Renton Police Department is using automatic license plate readers again",
+  "byline": "KIRO 7 News Staff",
+  "published_at": "2026-04-22T21:23:50.075Z",
+  "fetched_at": "2026-05-12T07:58:30Z",
+  "discovered_by": "backfill:google-search-2026-05-11",
+  "scanner_verdict": "WARNINGS \u2014 26 pts, low/medium only",
+  "scanner_score": 26,
+  "content_hash": "ab5e85fad94de01c13118dd60653b0de882c2550da5b243e64dbd44cce9705f4",
+  "paths": {
+    "html": "assets/articles/kiro7.com/news-local-renton-police-department-is-using-automatic-license-plate-readers-aga_21be01b2.html",
+    "meta": "assets/articles/kiro7.com/news-local-renton-police-department-is-using-automatic-license-plate-readers-aga_21be01b2.meta.json",
+    "pdf": "assets/articles/kiro7.com/news-local-renton-police-department-is-using-automatic-license-plate-readers-aga_21be01b2.pdf",
+    "txt": "assets/articles/kiro7.com/news-local-renton-police-department-is-using-automatic-license-plate-readers-aga_21be01b2.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "legal:legislation",
+    "outcome:restricted",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+    "d2385447-401c-562f-ab83-30559ed8bd9f"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "0be90b3a-6759-53d7-9f92-d6ea9f9740b0",
+      "display_name": "Port of Seattle WA PD",
+      "state": "WA",
+      "score": 18.25,
+      "matched_forms": [
+        "Seattle"
+      ]
+    },
+    {
+      "agency_id": "d2385447-401c-562f-ab83-30559ed8bd9f",
+      "display_name": "Renton WA PD",
+      "state": "WA",
+      "score": 13.75,
+      "matched_forms": [
+        "Renton",
+        "Renton Police",
+        "Renton Police Department"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "d2385447-401c-562f-ab83-30559ed8bd9f"
+  ],
+  "summary": "Renton Police Department reactivated its Flock ALPR cameras after Chief Jon Schuldt paused them on March 31 to align department policies with Washington's new Senate Bill 6002. The department says it strengthened data governance, retention protocols, and accountability measures, and trained authorized users on the new policy.",
+  "key_quotes": [
+    {
+      "quote": "The Renton Police Department has turned on its Flock Automatic License Plate Readers (ALPR) again.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "Chief Jon Schuldt paused the cameras on March 31 to ensure his department's policies complied with the new state law.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "strengthened data governance and retention protocols and reinforced accountability measures",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-12T08:01:12Z",
+  "article_id": "art_209"
+}

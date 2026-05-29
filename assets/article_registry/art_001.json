@@ -1,0 +1,148 @@
+{
+  "url": "https://www.eff.org/deeplinks/2025/06/flock-safetys-feature-updates-cannot-make-automated-license-plate-readers-safe",
+  "source_domain": "eff.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Flock Safety\u2019s Feature Updates Cannot Make Automated License Plate Readers Safe",
+  "byline": "Sarah Hamid and Rindala Alajaji",
+  "published_at": "2025-06-27T17:36:58-07:00",
+  "fetched_at": "2026-05-04T21:19:38Z",
+  "discovered_by": "claude-search:initial-seed-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+  "scanner_score": 1,
+  "content_hash": "8d3e3bed2e66f066465931d75a59ad6eedc01e06827d442adb9559e4e4f66252",
+  "paths": {
+    "html": "assets/articles/eff.org/deeplinks-2025-06-flock-safetys-feature-updates-cannot-make-automated-license-pl_2d2d0e4d.html",
+    "meta": "assets/articles/eff.org/deeplinks-2025-06-flock-safetys-feature-updates-cannot-make-automated-license-pl_2d2d0e4d.meta.json",
+    "pdf": "assets/articles/eff.org/deeplinks-2025-06-flock-safetys-feature-updates-cannot-make-automated-license-pl_2d2d0e4d.pdf",
+    "txt": "assets/articles/eff.org/deeplinks-2025-06-flock-safetys-feature-updates-cannot-make-automated-license-pl_2d2d0e4d.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260504195624/https://www.eff.org/deeplinks/2025/06/flock-safetys-feature-updates-cannot-make-automated-license-plate-readers-safe",
+  "wayback_timestamp": "20260504195624",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+    "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "display_name": "Indiana Department of Corrections",
+      "state": "IN",
+      "score": 23.767,
+      "matched_forms": [
+        "IN"
+      ]
+    },
+    {
+      "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "display_name": "Flock Safety",
+      "state": "GA",
+      "score": 13.2,
+      "matched_forms": [
+        "Flock Safety"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 3.933,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "d4637ecc-7773-5a1c-b251-5d4e3dc2ff58",
+      "display_name": "Austin Police Department",
+      "state": "TX",
+      "score": 3.7,
+      "matched_forms": [
+        "Austin"
+      ]
+    },
+    {
+      "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "display_name": "San Diego CA PD",
+      "state": "CA",
+      "score": 2.65,
+      "matched_forms": [
+        "San Diego"
+      ]
+    },
+    {
+      "agency_id": "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+      "display_name": "Imperial City CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Imperial"
+      ]
+    },
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "San Jose"
+      ]
+    },
+    {
+      "agency_id": "be2a35be-0069-575f-93a2-dce581925536",
+      "display_name": "Melissa TX PD",
+      "state": "TX",
+      "score": 2.617,
+      "matched_forms": [
+        "Melissa"
+      ]
+    },
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 2.6,
+      "matched_forms": [
+        "Denver"
+      ]
+    }
+  ],
+  "summary": "EFF criticizes Flock Safety's response to recent controversies over its ALPR network being used to track an abortion seeker in Texas and to assist ICE deportation efforts via informal data-sharing. The piece argues Flock's proposed feature updates and reliance on local policy cannot mitigate inherent risks of its mass surveillance network, and applauds cities pushing back.",
+  "key_quotes": [
+    {
+      "quote": "a sheriff's office in Texas searched data from more than 83,000 automated license plate reader (ALPR) cameras to track down a woman suspected of self-managing an abortion",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "more than 4,000 nation and statewide lookups by local and state police done either at the behest of the federal government or as an 'informal' favor to federal law enforcement, or with a potential immigration focus",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "Austin, Texas, had implemented one of the most restrictive ALPR programs in the country, and the program still failed",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "the only feature update we can truly rely on to protect people's rights and safety is no network at all",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:29:28Z",
+  "article_id": "art_001",
+  "primary_subject_agency_ids": [
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb"
+  ]
+}

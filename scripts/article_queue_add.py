@@ -41,8 +41,11 @@ from urllib.parse import urlparse
 print = functools.partial(print, flush=True)
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+import article_store
+
 SOURCES_PATH = ROOT / "assets" / "sources.json"
-REGISTRY_PATH = ROOT / "assets" / "article_registry.json"
+REGISTRY_DIR = ROOT / "assets" / "article_registry"
 QUEUE_DIR = ROOT / "assets" / "articles" / "queue"
 PRIORITY_DIR = QUEUE_DIR / "priority"
 
@@ -102,11 +105,10 @@ def load_known_urls() -> set[str]:
                     seen.add(json.loads(f.read_text())["url"])
                 except (json.JSONDecodeError, KeyError, OSError):
                     pass
-    if REGISTRY_PATH.exists():
-        for entry in json.loads(REGISTRY_PATH.read_text() or "[]"):
-            url = entry.get("url")
-            if url:
-                seen.add(url)
+    for entry in article_store.load_registry(REGISTRY_DIR):
+        url = entry.get("url")
+        if url:
+            seen.add(url)
     return seen
 
 

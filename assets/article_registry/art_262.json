@@ -1,0 +1,87 @@
+{
+  "url": "https://www.kcrg.com/2025/01/10/cedar-rapids-police-expanding-use-automated-license-plate-readers/",
+  "source_domain": "kcrg.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Cedar Rapids police expanding use of Automated License Plate Readers",
+  "byline": "Becky Phelps ",
+  "published_at": "2025-01-10T23:07:17.031Z",
+  "fetched_at": "2026-05-13T11:39:11Z",
+  "discovered_by": "backfill:google-search-2026-05-11",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 28 pts, HIGH/CRITICAL findings",
+  "scanner_score": 28,
+  "content_hash": "6822db3bc9bd8d6f9e16b524f59c62f0cdc6b6273f3ff4a1d0795f5e86434c72",
+  "paths": {
+    "html": "assets/articles/kcrg.com/2025-01-10-cedar-rapids-police-expanding-use-automated-license-plate-readers_ed4c6bbe.html",
+    "meta": "assets/articles/kcrg.com/2025-01-10-cedar-rapids-police-expanding-use-automated-license-plate-readers_ed4c6bbe.meta.json",
+    "pdf": "assets/articles/kcrg.com/2025-01-10-cedar-rapids-police-expanding-use-automated-license-plate-readers_ed4c6bbe.pdf",
+    "txt": "assets/articles/kcrg.com/2025-01-10-cedar-rapids-police-expanding-use-automated-license-plate-readers_ed4c6bbe.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "policy:retention",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "308e7ece-43c7-53c1-90a6-82f1e7a26d68",
+    "b8c85dfd-939e-57be-990b-33e4391c8c43",
+    "56f9a46f-863a-5d77-b2c9-72403bb11a8e"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "308e7ece-43c7-53c1-90a6-82f1e7a26d68",
+      "display_name": "Cedar Rapids IA PD",
+      "state": "IA",
+      "score": 19.183,
+      "matched_forms": [
+        "Cedar Rapids",
+        "Cedar Rapids Police",
+        "Cedar Rapids Police Department"
+      ]
+    },
+    {
+      "agency_id": "b8c85dfd-939e-57be-990b-33e4391c8c43",
+      "display_name": "Davenport IA PD",
+      "state": "IA",
+      "score": 2.65,
+      "matched_forms": [
+        "Davenport"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 2.1,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "308e7ece-43c7-53c1-90a6-82f1e7a26d68"
+  ],
+  "summary": "Cedar Rapids Police Department signed a two-year, nearly half-million-dollar contract with Flock Group to install 75 ALPR cameras across the city, expanding from two patrol-car-mounted readers. Chief David Dostal says the cameras have contributed to more than 30 arrests since October; ACLU of Iowa has raised privacy concerns, and data is deleted after 30 days.",
+  "key_quotes": [
+    {
+      "quote": "the city of Cedar Rapids signed a two-year contract this summer with Flock Group for nearly half a million dollars to add 75 cameras",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "the new cameras have played a part in more than 30 arrests since going up in October",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "the data is automatically deleted after 30 days",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T16:24:26Z",
+  "article_id": "art_262"
+}

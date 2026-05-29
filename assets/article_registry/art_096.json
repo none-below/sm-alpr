@@ -1,0 +1,115 @@
+{
+  "url": "https://www.aclunorcal.org/news/ice-using-driver-locations-vast-surveillance-database-target-immigrants/",
+  "source_domain": "aclunorcal.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Documents Reveal ICE Using Driver Location Data From Local Police for Deportations - ACLU of Northern California",
+  "byline": "Natnael Getahun",
+  "published_at": "2019-03-13T16:00:00+00:00",
+  "fetched_at": "2026-05-09T10:22:13Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "WARNINGS \u2014 2 pts, low/medium only",
+  "scanner_score": 2,
+  "content_hash": "5cc7d115b125a4e16e74cad4efff9d7f5794cc4d70822648d8e068117ad1f5a1",
+  "paths": {
+    "html": "assets/articles/aclunorcal.org/news-ice-using-driver-locations-vast-surveillance-database-target-immigrants_33d807d0.html",
+    "meta": "assets/articles/aclunorcal.org/news-ice-using-driver-locations-vast-surveillance-database-target-immigrants_33d807d0.meta.json",
+    "pdf": "assets/articles/aclunorcal.org/news-ice-using-driver-locations-vast-surveillance-database-target-immigrants_33d807d0.pdf",
+    "txt": "assets/articles/aclunorcal.org/news-ice-using-driver-locations-vast-surveillance-database-target-immigrants_33d807d0.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260509102217/https://www.aclunorcal.org/news/ice-using-driver-locations-vast-surveillance-database-target-immigrants/",
+  "wayback_timestamp": "20260509102217",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "legal:pra",
+    "policy:sharing",
+    "scope:national",
+    "vendor:vigilant"
+  ],
+  "agencies": [
+    "7f5089e9-3b53-5442-b628-865e85940409",
+    "2c981ce6-8d54-565f-bb99-ac885eee8769",
+    "2b9d6ff2-b44e-5902-b22e-f9582bb8c8db",
+    "ecbb841f-9df2-5841-9b28-91f1ce5af0fa",
+    "aeee2f0f-6386-5a1a-b93a-30babdede4f9"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "7f5089e9-3b53-5442-b628-865e85940409",
+      "display_name": "Union City CA PD",
+      "state": "CA",
+      "score": 13.767,
+      "matched_forms": [
+        "Union City",
+        "Union City Police Department"
+      ]
+    },
+    {
+      "agency_id": "2c981ce6-8d54-565f-bb99-ac885eee8769",
+      "display_name": "Orange County SO CA",
+      "state": "CA",
+      "score": 3.933,
+      "matched_forms": [
+        "Orange County"
+      ]
+    },
+    {
+      "agency_id": "2b9d6ff2-b44e-5902-b22e-f9582bb8c8db",
+      "display_name": "Union City GA PD",
+      "state": "GA",
+      "score": 2.933,
+      "matched_forms": [
+        "Union City Police Department"
+      ]
+    },
+    {
+      "agency_id": "ecbb841f-9df2-5841-9b28-91f1ce5af0fa",
+      "display_name": "Culver City CA PD",
+      "state": "CA",
+      "score": 2.683,
+      "matched_forms": [
+        "Culver City"
+      ]
+    },
+    {
+      "agency_id": "aeee2f0f-6386-5a1a-b93a-30babdede4f9",
+      "display_name": "Alameda CA PD",
+      "state": "CA",
+      "score": 2.617,
+      "matched_forms": [
+        "Alameda"
+      ]
+    }
+  ],
+  "summary": "The ACLU of Northern California reports that FOIA-obtained documents show ICE has access to Vigilant Solutions' ALPR database via a $6.1M contract, with over 80 local law enforcement agencies sharing license plate data. The article highlights informal data sharing by an Orange County fusion center detective and notes that California's SB 34 and SB 54 prohibit such sharing, while citing Alameda and Culver City as agencies that rejected ALPR contracts.",
+  "key_quotes": [
+    {
+      "quote": "Over 9,000 ICE officers have gained access to the Vigilant system under a $6.1 million contract",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "An internal report lists the 80 local agencies nationwide that granted ICE ongoing access to license plate locations of their residents, including \"sanctuary cities\" like Union City, California.",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "Some have already rejected contracts for license plate surveillance \u2014 like Alameda and Culver City in California.",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "Senate Bill 34 and the California Values Act (SB 54)... prohibit local law enforcement agencies from sharing license plate information and personal information for immigration enforcement or with out-of-state or federal agencies.",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:37:11Z",
+  "article_id": "art_096",
+  "primary_subject_agency_ids": [
+    "2c981ce6-8d54-565f-bb99-ac885eee8769",
+    "7f5089e9-3b53-5442-b628-865e85940409"
+  ]
+}

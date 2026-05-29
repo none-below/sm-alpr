@@ -1,0 +1,76 @@
+{
+  "url": "https://www.404media.co/flock-removes-states-from-national-lookup-tool-after-ice-and-abortion-searches-revealed/",
+  "source_domain": "404media.co",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Flock Removes States From National Lookup Tool After ICE and Abortion Searches Revealed",
+  "byline": "Joseph Cox",
+  "published_at": "2025-06-25T15:08:13.000Z",
+  "fetched_at": "2026-05-05T08:29:38Z",
+  "discovered_by": "claude-search:contracts-2026-05",
+  "scanner_verdict": "WARNINGS \u2014 30 pts, low/medium only",
+  "scanner_score": 30,
+  "content_hash": "9ea04f46b04da6bef3c45897b18a30b85c75c08aae08e34f77b8f56f486e36c6",
+  "paths": {
+    "html": "assets/articles/404media.co/flock-removes-states-from-national-lookup-tool-after-ice-and-abortion-searches-r_6c28f55a.html",
+    "meta": "assets/articles/404media.co/flock-removes-states-from-national-lookup-tool-after-ice-and-abortion-searches-r_6c28f55a.meta.json",
+    "pdf": "assets/articles/404media.co/flock-removes-states-from-national-lookup-tool-after-ice-and-abortion-searches-r_6c28f55a.pdf",
+    "txt": "assets/articles/404media.co/flock-removes-states-from-national-lookup-tool-after-ice-and-abortion-searches-r_6c28f55a.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "legal:legislation",
+    "outcome:restricted",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [],
+  "agency_candidates": [
+    {
+      "agency_id": "ae7300bf-3f19-525d-9d85-cad6af8a837c",
+      "display_name": "Indiana Department of Corrections",
+      "state": "IN",
+      "score": 18.033,
+      "matched_forms": [
+        "IN"
+      ]
+    },
+    {
+      "agency_id": "c03ecf42-93c9-5546-9a18-a929ea29ba77",
+      "display_name": "demo",
+      "state": null,
+      "score": 2.133,
+      "matched_forms": [
+        "Demo",
+        "demo"
+      ]
+    }
+  ],
+  "summary": "Flock has blocked out-of-state agencies from searching its ALPR cameras located in California, Illinois, and Virginia, following 404 Media reporting on ICE-related and abortion-related lookups and new Virginia legislation. The Illinois Secretary of State is investigating whether police departments violated state law by sharing data for immigration or abortion purposes.",
+  "key_quotes": [
+    {
+      "quote": "Flock, the automatic license plate reader (ALPR) company with a presence in thousands of communities across the U.S., has stopped agencies across the country from searching cameras inside Illinois, California, and Virginia",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "This practice violates multiple state laws which bar the sharing of ALPR data out of state or it being accessed for immigration or healthcare purposes.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "The Illinois Secretary of State is investigating whether Illinois police departments broke the law by sharing data with outside agencies for immigration or abortion related reasons.",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T18:30:25Z",
+  "article_id": "art_008",
+  "primary_subject_agency_ids": []
+}

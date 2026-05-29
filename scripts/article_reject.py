@@ -20,7 +20,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REGISTRY = ROOT / "assets" / "article_registry.json"
+sys.path.insert(0, str(ROOT / "scripts"))
+import article_store
 
 
 def now_iso() -> str:
@@ -42,7 +43,7 @@ def main() -> int:
         print("no ids given", file=sys.stderr)
         return 1
 
-    registry = json.loads(REGISTRY.read_text())
+    registry = article_store.load_registry()
     found, flipped, skipped = 0, 0, 0
     for e in registry:
         if e.get("article_id") not in ids:
@@ -66,7 +67,7 @@ def main() -> int:
         print(f"NOT FOUND: {m}", file=sys.stderr)
 
     if not args.dry_run and flipped:
-        REGISTRY.write_text(json.dumps(registry, indent=2, sort_keys=False) + "\n")
+        article_store.save_registry(registry)
     print(f"summary: found={found} flipped={flipped} skipped={skipped} "
           f"not_found={len(missing)}")
     return 0

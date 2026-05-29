@@ -1,0 +1,86 @@
+{
+  "url": "https://www.denverpost.com/2026/02/24/denver-flock-license-plate-cameras-contract-axon/",
+  "source_domain": "denverpost.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Denver will end relationship with Flock as mayor announces new provider for license plate cameras",
+  "byline": "Elliott Wenzler",
+  "published_at": "2026-02-24T17:12:04+00:00",
+  "fetched_at": "2026-05-10T07:35:27Z",
+  "discovered_by": "manual-seed-batch-2026-05-08",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 145 pts, HIGH/CRITICAL findings",
+  "scanner_score": 145,
+  "content_hash": "8c51667ad06da13fdd7f0933cd11b035ee98018811d0d28d885c03437894e2ca",
+  "paths": {
+    "html": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.html",
+    "meta": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.meta.json",
+    "pdf": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.pdf",
+    "txt": "assets/articles/denverpost.com/2026-02-24-denver-flock-license-plate-cameras-contract-axon_d997a542.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:axon",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 35.033,
+      "matched_forms": [
+        "Denver",
+        "Denver Police",
+        "Denver Police Department"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 3.867,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    }
+  ],
+  "summary": "Denver Mayor Mike Johnston announced the city will end its contract with Flock Safety on March 31 and proposed a one-year, $150,000 contract with Axon for license plate readers. The new deal includes a shorter 21-day retention period, no national database, no ICE access, and Denver will stop sharing camera data with other departments by default.",
+  "key_quotes": [
+    {
+      "quote": "Denver Mayor Mike Johnston proposed a contract with a new provider of license plate-reading cameras on Tuesday, saying it will come with added precautions as the city ends its controversial arrangement with Flock Safety .",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Over the past year, hundreds of Denverites had criticized Johnston for repeatedly extending the city's contract with Flock despite reports that U.S. Immigration and Customs Enforcement agents had used Flock's database to aid in President Donald Trump's mass-deportation campaign.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "The new deal will also have a shorter retention policy for the photos the cameras snap \u2014 21 days instead of 30 days under Flock.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Denver also plans to stop sharing the camera data with any other police departments, Johnston said.",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-11T16:39:47Z",
+  "article_id": "art_147",
+  "primary_subject_agency_ids": [
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "url": "https://www.cbsnews.com/colorado/news/license-plate-reading-cameras-colorado-regulation-misuse/",
+  "source_domain": "cbsnews.com",
+  "tier": 1,
+  "stance": "unknown",
+  "title": "Colorado lawmaker considers regulation to prevent abuses and misuses of license plate-reading cameras",
+  "byline": "Shaun  Boyd",
+  "published_at": "2025-09-19T22:12:00-0600",
+  "fetched_at": "2026-05-09T02:41:42Z",
+  "discovered_by": "termination-ledger-import",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 303 pts, HIGH/CRITICAL findings",
+  "scanner_score": 303,
+  "content_hash": "b29d1ac250656c643008ea46d68b2365ad28f24d32f26d9fa6935a7bf2c006ea",
+  "paths": {
+    "html": "assets/articles/cbsnews.com/colorado-news-license-plate-reading-cameras-colorado-regulation-misuse_9da938a7.html",
+    "meta": "assets/articles/cbsnews.com/colorado-news-license-plate-reading-cameras-colorado-regulation-misuse_9da938a7.meta.json",
+    "pdf": "assets/articles/cbsnews.com/colorado-news-license-plate-reading-cameras-colorado-regulation-misuse_9da938a7.pdf",
+    "txt": "assets/articles/cbsnews.com/colorado-news-license-plate-reading-cameras-colorado-regulation-misuse_9da938a7.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "incident:wrongful-stop",
+    "legal:legislation",
+    "policy:sharing",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+    "86f9f2ec-e2c9-590e-95c7-a0af226ab266",
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+    "6368fc0a-00e7-542d-88ff-3d3f418ed8fb",
+    "bae9861d-a7ef-567d-b31b-a627075decf9",
+    "0c8cf0a7-49c7-5837-8dea-b983beaea542",
+    "e6d03602-bbe7-50c4-8f03-6b4c8c87e13c",
+    "b33d2cc2-8380-57b3-b6bf-bb7664b94f90",
+    "c74c5b71-d041-5be4-b4b5-6e140c649a43"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+      "display_name": "Aurora CO PD",
+      "state": "CO",
+      "score": 6.133,
+      "matched_forms": [
+        "Aurora",
+        "Aurora Police"
+      ]
+    },
+    {
+      "agency_id": "86f9f2ec-e2c9-590e-95c7-a0af226ab266",
+      "display_name": "Boyd TX PD",
+      "state": "TX",
+      "score": 5.767,
+      "matched_forms": [
+        "Boyd"
+      ]
+    },
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 4.8,
+      "matched_forms": [
+        "Denver"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 3.867,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    },
+    {
+      "agency_id": "6368fc0a-00e7-542d-88ff-3d3f418ed8fb",
+      "display_name": "Lewisville TX PD",
+      "state": "TX",
+      "score": 3.833,
+      "matched_forms": [
+        "Lewisville"
+      ]
+    },
+    {
+      "agency_id": "bae9861d-a7ef-567d-b31b-a627075decf9",
+      "display_name": "Sacramento CA PD",
+      "state": "CA",
+      "score": 3.833,
+      "matched_forms": [
+        "Sacramento"
+      ]
+    },
+    {
+      "agency_id": "0c8cf0a7-49c7-5837-8dea-b983beaea542",
+      "display_name": "Park City KS PD",
+      "state": "KS",
+      "score": 3.633,
+      "matched_forms": [
+        "Park"
+      ]
+    },
+    {
+      "agency_id": "e6d03602-bbe7-50c4-8f03-6b4c8c87e13c",
+      "display_name": "Jefferson County CO SO",
+      "state": "CO",
+      "score": 2.767,
+      "matched_forms": [
+        "Jefferson County"
+      ]
+    },
+    {
+      "agency_id": "b33d2cc2-8380-57b3-b6bf-bb7664b94f90",
+      "display_name": "Arapahoe County CO SO",
+      "state": "CO",
+      "score": 2.75,
+      "matched_forms": [
+        "Arapahoe County"
+      ]
+    },
+    {
+      "agency_id": "c74c5b71-d041-5be4-b4b5-6e140c649a43",
+      "display_name": "Marysville CA PD",
+      "state": "CA",
+      "score": 2.667,
+      "matched_forms": [
+        "Marysville"
+      ]
+    }
+  ],
+  "summary": "Colorado state Sen. Judy Amabile is considering legislation to regulate ALPR use and data sharing after Louisville deactivated its Flock cameras when a resident discovered out-of-state and federal immigration access. Aurora's police chief defends the technology while acknowledging past misuses including a wrongful stop of an innocent family.",
+  "key_quotes": [
+    {
+      "quote": "police should only be allowed to share camera data if another agency has a warrant based on probable cause",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "I've terminated people very recently based upon them getting into information and data they should not have gotten into.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "Aurora police held an innocent family at gunpoint after a camera wrongly flagged their SUV as a stolen motorcycle from out-of-state",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-05-28T05:13:04Z",
+  "article_id": "art_081",
+  "primary_subject_agency_ids": [
+    "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b"
+  ]
+}
