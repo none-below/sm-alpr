@@ -657,3 +657,204 @@ def test_overview_marker_accepts_operating_system_phrasing():
         bold_headings={"Overview"},
     )
     assert result["crawled_name"] == "Bar PD"
+
+
+def test_overview_advance_template_extracts_name():
+    """A second 2026 boilerplate embeds the agency name mid-sentence
+    instead of as a subject prefix:
+    "The use of Flock Safety technology helps advance the <Agency>'s
+    public safety mission ..." (wilton-ct-pd 2026-05). The prefix
+    strategy can't apply; _FLOCK_ADVANCE_RE must capture the embedded
+    name and the parser must NOT raise."""
+    text = (
+        "Overview\n\n"
+        "The use of Flock Safety technology helps advance the Wilton, CT "
+        "Police Department's public safety mission by turning vehicle and "
+        "license plate information into timely, objective leads that "
+        "support crime prevention.\n\n"
+    )
+    result = parse_portal_text(text, "wilton-ct-pd", "2026-05-29",
+                               bold_headings={"Overview"})
+    assert result["crawled_name"] == "Wilton, CT Police Department"
+    # No "the", curly apostrophe — name still extracted, possessive dropped.
+    text2 = (
+        "Overview\n\n"
+        "The use of Flock Safety technology helps advance Stanford "
+        "University’s public safety mission by deterring crime.\n\n"
+    )
+    result = parse_portal_text(text2, "x", "2026-05-29",
+                               bold_headings={"Overview"})
+    assert result["crawled_name"] == "Stanford University"
+    # "Operating System" product term (which _FLOCK_MARKER_RE accepts) too.
+    result = parse_portal_text(
+        "Overview\n\nThe use of Flock Safety Operating System helps advance "
+        "the City of Burlingame's public safety mission by acting on data.\n\n",
+        "x", "2026-05-29", bold_headings={"Overview"})
+    assert result["crawled_name"] == "City of Burlingame"
+
+
+def test_overview_advance_template_rejects_nameless_and_garbage():
+    """Hardening (adversarial review of _FLOCK_ADVANCE_RE): the embedded-
+    name capture must not store a bare article/adjective or absorb a
+    repeated boilerplate clause. A name-less rephrasing must fail loud."""
+    import pytest
+    # Name-less rephrasing: "advance the public safety mission of the
+    # community" → captures the article "the"; the proper-noun guard
+    # rejects it so the fail-loud raise fires instead of storing "the".
+    with pytest.raises(ValueError, match="Flock may have rephrased"):
+        parse_portal_text(
+            "Overview\n\nThe use of Flock Safety technology helps advance the "
+            "public safety mission of the community we serve.\n\n",
+            "x", "2026-05-29", bold_headings={"Overview"})
+    # Abstract/regional adjective fragment → also rejected.
+    with pytest.raises(ValueError, match="Flock may have rephrased"):
+        parse_portal_text(
+            "Overview\n\nThe use of Flock Safety technology helps advance the "
+            "shared regional public safety mission across agencies.\n\n",
+            "x", "2026-05-29", bold_headings={"Overview"})
+    # A single CAPITALIZED generic noun must also be rejected — the
+    # uppercase check alone would accept "Community"/"Region", so the
+    # guard additionally requires the name to be multi-word (real agencies
+    # fill this slot with "City of X" / "X Police Department").
+    for generic in ("Community", "Region", "County", "Department"):
+        with pytest.raises(ValueError, match="Flock may have rephrased"):
+            parse_portal_text(
+                "Overview\n\nThe use of Flock Safety technology helps advance "
+                f"the {generic}'s public safety mission by acting on data.\n\n",
+                "x", "2026-05-29", bold_headings={"Overview"})
+    # Two "helps advance" clauses on one line: the capture must not span
+    # the first clause's gap; re.search re-anchors on the named clause.
+    result = parse_portal_text(
+        "Overview\n\nFlock Safety technology helps advance the goals of our "
+        "city. Flock Safety technology helps advance the Beta County "
+        "Sheriff's public safety mission here.\n\n",
+        "x", "2026-05-29", bold_headings={"Overview"})
+    assert result["crawled_name"] == "Beta County Sheriff"
+    # A name legitimately ending in "s" (no apostrophe) must not be
+    # over-stripped, and "Department of Public Safety" (name contains the
+    # anchor words) must capture in full.
+    result = parse_portal_text(
+        "Overview\n\nThe use of Flock Safety technology helps advance the "
+        "Three Rivers public safety mission today.\n\n",
+        "x", "2026-05-29", bold_headings={"Overview"})
+    assert result["crawled_name"] == "Three Rivers"
+    # A genuinely-new phrasing that mentions Flock Safety but matches no
+    # marker shape must still fail loud.
+    with pytest.raises(ValueError, match="Flock may have rephrased"):
+        parse_portal_text(
+            "Overview\n\nWe partnered with Flock Safety to deploy cameras.\n\n",
+            "y", "2026-05-29", bold_headings={"Overview"})
+
+
+# ─── issue #223: 2026-05 rolling-refresh heading variants ──────────
+
+def test_issue223_heading_variants_classify():
+    """Every distinct heading variant that tripped the parser across the
+    5/5–5/29 refresh batch (issue #223) must now resolve to a field or to
+    structural noise (None) rather than _UNKNOWN."""
+    from flock_transparency import _match_heading_kind, _UNKNOWN
+    expected = {
+        # spelled-out / no-prefix / Documentation policy titles
+        "License Plate Reader Policy": "alpr_policy",                       # alexandria, charlottesville
+        "Automated License Plate Reader Policy 470": "alpr_policy",         # mendocino
+        "Automated License Plate Reader (ALPR) Acceptable Use Policy": "alpr_policy",  # muskegon
+        "SDPD Automated License Plate Recognition (ALPR) Documentation": "alpr_policy",  # san-diego
+        "APD Policy Manual: Automated License Plate Readers (Section 708)": "alpr_policy",  # arlington
+        # exact aliases
+        "System Access Policy": "access_policy",                           # arlington
+        "Search Specifics": "additional_info",                             # anoka
+        "Flock Safety Contract": "additional_info",                        # charlottesville
+        "Access to external organizations": "orgs_granted_access",         # san-diego
+        "Law enforcement data sharing": "sharing_with_partners",           # tulsa
+        "Program Success": "success_stories",                              # murfreesboro
+        # dynamic stat / FAQ / success-story variants
+        "MVPD Flock Safety ALPR and Camera Use Information and Public FAQ": "additional_info",  # mill-valley
+        "City of Saratoga Success Stories": "success_stories",             # santa-clara-county
+        "Number of License Plate Reader Cameras": "camera_count",          # tulsa
+        "Individual vehicles detected in the last 30 days": "vehicles_detected_30d",  # sparks
+        "Total Searches by Sparks Police Department in the last 30 days": "searches_30d",  # sparks
+        # structural noise (None)
+        "*Hotlist hits last 30 days info": None,                           # johnson-city
+        "Monterey PD: Camera Map Locations": None,                         # monterey
+        "In Texas, license plates are not subject to Open Records Requests.": None,  # pflugerville
+        "Live Feed Data retention (in days)": None,                        # mill-valley
+    }
+    for heading, want in expected.items():
+        field, kind = _match_heading_kind(heading)
+        assert field is not _UNKNOWN, f"{heading!r} stayed _UNKNOWN"
+        assert field == want, f"{heading!r}: got {field!r}, want {want!r}"
+
+
+def test_policy_pdf_url_not_promoted_to_heading():
+    """Regression: the spelled-out ALPR-policy lookahead must NOT match a
+    policy-PDF URL whose path contains hyphenated 'policy'/'alpr' fragments
+    ('…/policies/apd-policy-424-alpr.pdf', albany-ca-pd). A bare
+    \\bALPR\\b/\\bPolicy\\b match would fire on the URL and — because dynamic
+    matches are trusted as headings — promote the URL line to a heading,
+    dropping the real policy link from alpr_policy."""
+    text = (
+        "ALPR Policy\n\n"
+        "https://www.albanyca.gov/files/assets/city/v/1/police/documents/"
+        "policies/apd-policy-424-alpr.pdf\n\n"
+    )
+    bold = {"ALPR Policy"}
+    result = parse_portal_text(text, "albany-ca-pd", "2026-05-05",
+                               bold_headings=bold)
+    assert result["alpr_policy"] == (
+        "https://www.albanyca.gov/files/assets/city/v/1/police/documents/"
+        "policies/apd-policy-424-alpr.pdf"
+    )
+
+
+def test_long_prose_line_not_promoted_to_heading():
+    """Regression: a dynamic pattern can fire on a long prose line that
+    happens to contain a title-like substring. Real headings are short, so
+    an over-length (> _MAX_HEADING_LEN) line must stay body. Covers the
+    napa-ca-pd overview ('… uses Automatic License Plate Reader technology …
+    policies …', matches the spelled-out alpr_policy lookahead) and the
+    ncric overview ('***draft version*** …', matches the '^\\*' footnote
+    noise pattern)."""
+    napa = (
+        "Overview\n\n"
+        "Napa Police Department uses Automatic License Plate Reader "
+        "technology to capture objective evidence. In an effort to ensure "
+        "proper usage and guardrails are in place, they have made the below "
+        "policies and usage statistics available to the public for review "
+        "and ongoing transparency about the program.\n\n"
+    )
+    result = parse_portal_text(napa, "napa-ca-pd", "2026-05-25",
+                               bold_headings={"Overview"})
+    assert result["overview"].startswith("Napa Police Department uses")
+    assert result["alpr_policy"] == ""
+
+    ncric = (
+        "Overview\n\n"
+        "***draft version*** The Northern California Regional Intelligence "
+        "Center is a multi-jurisdiction government program that serves "
+        "fifteen counties in Northern California and operates under a "
+        "governance structure described elsewhere on this portal.\n\n"
+    )
+    result = parse_portal_text(ncric, "ncric", "2026-05-28",
+                               bold_headings={"Overview"})
+    assert result["overview"].startswith("***draft version***")
+
+
+def test_parse_number_negative_infinity_returns_none():
+    """Flock occasionally renders a JS sentinel ('-Infinity days') for an
+    unset retention value (monte-sereno-ca-pd data_retention). Treat it
+    like 'Data Unavailable' — return None, don't raise."""
+    assert _parse_number(
+        "The number of days data is retained.\n\n-Infinity days",
+        field="data_retention", slug="monte-sereno-ca-pd",
+    ) is None
+    assert _parse_number("Infinity") is None
+
+
+def test_parse_org_names_drops_none_empty_state():
+    """When an agency shares with no one, some portals render the org-list
+    body as just 'None' (san-diego-ca-pd 'Access to external
+    organizations'). 'None' is an empty-state marker, not an agency."""
+    assert _parse_org_names("None") == []
+    assert _parse_org_names("N/A") == []
+    # A real agency name that merely starts with "No..." is unaffected.
+    assert _parse_org_names("Novato CA PD") == ["Novato CA PD"]
