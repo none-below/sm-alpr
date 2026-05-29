@@ -56,6 +56,24 @@
     }
   },
   {
+    "agency_id": "0bf7878d-415e-5d4d-92fd-c44280ef0e82",
+    "slug": "265",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "265"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
     "agency_id": "aeee2f0f-6386-5a1a-b93a-30babdede4f9",
     "slug": "alameda-ca-pd",
     "flock_active_slug": "alameda-ca-pd",
@@ -1291,6 +1309,34 @@
       "lng": -122.970947
     },
     "flags": []
+  },
+  {
+    "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+    "slug": "charlottesville-va-pd",
+    "flock_active_slug": "charlottesville-va-pd",
+    "flock_slugs": [
+      "charlottesville-va-pd"
+    ],
+    "flock_names": [
+      "Charlottesville Police Department"
+    ],
+    "display_name": "Charlottesville Police Department",
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "notes": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5114968",
+      "name": "Charlottesville",
+      "state": "VA",
+      "lat": 38.037658,
+      "lng": -78.485381
+    }
   },
   {
     "agency_id": "858ea72e-7bb7-5769-91db-a2c06ab11a86",
@@ -5718,6 +5764,32 @@
       "state": "CA",
       "lat": 37.655104,
       "lng": -122.376234
+    },
+    "flags": []
+  },
+  {
+    "agency_id": "33f2410a-d3bc-59c8-9076-2f363c25b8ea",
+    "slug": "sparks-police-department-nv",
+    "flock_active_slug": "sparks-nv-pd",
+    "flock_slugs": [
+      "sparks-nv-pd"
+    ],
+    "flock_names": [
+      "Sparks Police Department - NV"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "geo": {
+      "kind": "manual",
+      "state": "NV",
+      "lat": 39.5349,
+      "lng": -119.7527
     },
     "flags": []
   },
@@ -132271,32 +132343,6 @@
     "flags": []
   },
   {
-    "agency_id": "33f2410a-d3bc-59c8-9076-2f363c25b8ea",
-    "slug": "sparks-police-department-nv",
-    "flock_active_slug": "sparks-nv-pd",
-    "flock_slugs": [
-      "sparks-nv-pd"
-    ],
-    "flock_names": [
-      "Sparks Police Department - NV"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
-    "website": null,
-    "tags": [
-      "federal",
-      "public"
-    ],
-    "geo": {
-      "kind": "manual",
-      "state": "NV",
-      "lat": 39.5349,
-      "lng": -119.7527
-    },
-    "flags": []
-  },
-  {
     "agency_id": "db8b5934-0b06-5420-893c-9295c3aaf07d",
     "slug": "st-charles-county-mo-pd",
     "flock_active_slug": null,
@@ -134093,34 +134139,6 @@
       "state": "CO",
       "lat": 39.76185,
       "lng": -104.881105
-    }
-  },
-  {
-    "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
-    "slug": "charlottesville-va-pd",
-    "flock_active_slug": "charlottesville-va-pd",
-    "flock_slugs": [
-      "charlottesville-va-pd"
-    ],
-    "flock_names": [
-      "Charlottesville Police Department"
-    ],
-    "display_name": "Charlottesville Police Department",
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "notes": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "5114968",
-      "name": "Charlottesville",
-      "state": "VA",
-      "lat": 38.037658,
-      "lng": -78.485381
     }
   },
   {
