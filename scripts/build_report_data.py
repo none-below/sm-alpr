@@ -50,6 +50,7 @@ from gazetteer import (
     lookup_vehicles,
     population_meta,
 )
+from fbi_crime import audit_searches_30d, load_crime, searches_per_crime
 
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 DATA_DIR = Path("assets/transparency.flocksafety.com")
@@ -480,32 +481,11 @@ def _audit_searches_30d(audit):
     agency do in a 30-day month" should slide with whatever data we
     have. Returns {count, window_start, window_end} or None when there
     are no usable date rows.
+
+    Delegates to fbi_crime.audit_searches_30d so the report and the
+    scoreboard derive identical trailing-30-day counts.
     """
-    from datetime import date as _date, timedelta
-    rows = audit.get("rows") or []
-    dates = []
-    for r in rows:
-        d = r.get("searchDate")
-        if not d:
-            continue
-        d = str(d)[:10]
-        if len(d) == 10:
-            dates.append(d)
-    if not dates:
-        return None
-    try:
-        max_d = _date.fromisoformat(max(dates))
-    except ValueError:
-        return None
-    cutoff = max_d - timedelta(days=29)
-    cutoff_str = cutoff.isoformat()
-    max_str = max_d.isoformat()
-    count = sum(1 for d in dates if d >= cutoff_str)
-    return {
-        "count": count,
-        "window_start": cutoff_str,
-        "window_end": max_str,
-    }
+    return audit_searches_30d(audit.get("rows") or [])
 
 
 def _audit_vs_inbound(audit, direct_inbound):
@@ -706,6 +686,11 @@ def percentile_of(value, sorted_values):
 def main():
     registry = load_registry()
     reg_by_id = registry_by_id()
+    # FBI Crime Data Explorer monthly offense counts, keyed by individual
+    # ORI (data/fbi/crime.json from refresh_fbi_crime.py). {} until fetched
+    # / until the registry's `ori` lists land — the metric degrades to
+    # absent, never errors.
+    crime = load_crime()
     # Filter out entries with null slug — those agencies have no crawlable
     # Flock portal and can't produce per-agency reports (reports are keyed
     # by slug for the report.html?agency=<slug> URL pattern).
@@ -1741,12 +1726,27 @@ def main():
         #      last 30 days" stat still get a number in the report.
         audit_vs_inbound = None
         searches_30d_audit = None
+        audit_json = {}
         if crawled:
             audit_json = _load_audit_json(reg)
             if audit_json:
                 if inbound_count:
                     audit_vs_inbound = _audit_vs_inbound(audit_json, inbound_count)
                 searches_30d_audit = _audit_searches_30d(audit_json)
+
+        # ── Searches per reported crime ──
+        # For the latest full month of FBI Crime Data Explorer data,
+        # ALPR searches that month / Part 1 crimes reported that month.
+        # Numerator from the audit log (exact-month count) when available,
+        # else the portal's rolling 30-day count; None if neither the ORI
+        # nor the FBI data is present. See fbi_crime.searches_per_crime.
+        searches_per_crime_block = searches_per_crime(
+            reg.get("ori") or [],
+            crime,
+            audit_json.get("rows") or [],
+            searches_30d,
+            audit_30d=searches_30d_audit,
+        )
 
         # ── Inferred inbound (for uncrawled agencies mostly) ──
         inbound_source_ids = set(inbound_ids) | inbound_inferred_by_id.get(aid, set())
@@ -1923,6 +1923,10 @@ def main():
             "geo": reg.get("geo") or {},
             "crawled": crawled,
             "crawled_date": crawl_status(reg, DATA_DIR)[1],
+            # Searches per reported Part 1 crime, latest full FBI month.
+            # None when the agency has no ORI / no FBI data. See
+            # fbi_crime.searches_per_crime for the block shape.
+            "searches_per_crime": searches_per_crime_block,
             "population": population,
             "household_vehicles": household_vehicles,
             "land_sqmi": land_sqmi,

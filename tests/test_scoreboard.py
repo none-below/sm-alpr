@@ -118,7 +118,11 @@ class TestScoreboardData:
         self.data = json.loads(SCOREBOARD_DATA.read_text())
 
     def test_has_categories(self):
-        assert len(self.data["categories"]) == 11
+        assert len(self.data["categories"]) == 12
+
+    def test_searches_per_crime_category_present(self):
+        ids = [c["id"] for c in self.data["categories"]]
+        assert "searches_per_crime" in ids
 
     def test_category_ids_unique(self):
         ids = [c["id"] for c in self.data["categories"]]

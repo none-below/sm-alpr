@@ -716,6 +716,49 @@
       });
     }
 
+    // ── Metric 1b: Searches per reported crime ───────────────────
+    // For the most recent full month of FBI Crime Data Explorer data,
+    // ALPR searches that month per Part 1 crime (violent + property)
+    // reported to the FBI. The numerator is resolved build-side
+    // (scripts/fbi_crime.py): exact-month audit count when the audit log
+    // covers the whole month, else that count scaled to a full month
+    // (estimate), else a trailing-30-day count, else the portal's
+    // self-reported 30-day figure. Only rendered when a ratio exists.
+    const spc = report.searches_per_crime;
+    if (spc && spc.ratio != null) {
+      const t30 = spc.trailing_30d;
+      let caveat;
+      if (spc.searches_source === "audit_month") {
+        caveat = `${fmtInt(spc.searches)} ALPR searches in ${escapeHtml(spc.month_label)} ÷ ${fmtInt(spc.crime_total)} Part 1 crimes reported to the FBI (${fmtInt(spc.crime_violent)} violent + ${fmtInt(spc.crime_property)} property).`;
+      } else if (spc.searches_source === "audit_month_prorated") {
+        caveat = `<strong>Estimated.</strong> ${escapeHtml(short)} recorded ${fmtInt(spc.month_count)} searches over ${spc.month_covered_days} of ${spc.days_in_month} days in ${escapeHtml(spc.month_label)} (audit data begins ${spc.month_first}); scaled to a full month ≈ ${fmtInt(spc.searches)}. Denominator: ${fmtInt(spc.crime_total)} Part 1 crimes (${fmtInt(spc.crime_violent)} violent + ${fmtInt(spc.crime_property)} property).`;
+        if (t30) caveat += ` For reference, the trailing 30 days (${t30.window_start}–${t30.window_end}) hold ${fmtInt(t30.count)} searches.`;
+      } else if (spc.searches_source === "audit_trailing_30d") {
+        caveat = `${fmtInt(spc.searches)} searches in the 30 days ending ${t30 ? t30.window_end : ""} ÷ ${fmtInt(spc.crime_total)} Part 1 crimes reported in ${escapeHtml(spc.month_label)} (most recent FBI data). The 30-day search window isn’t aligned to the crime month.`;
+      } else {
+        caveat = `${fmtInt(spc.searches)} searches (${escapeHtml(short)}’s self-reported last-30-days) ÷ ${fmtInt(spc.crime_total)} Part 1 crimes reported in ${escapeHtml(spc.month_label)}.`;
+      }
+      const ratioCell = statsCellHtml({
+        cellClass: "raw",
+        label: "Searches per reported crime",
+        value: (spc.estimated ? "≈" : "") + fmtNum(spc.ratio, 1),
+        extrasHtml: `<div class="per-vehicle"><span class="muted">Part 1 crime = violent + property, reported to the FBI</span></div>`,
+      });
+      const mathCell = statsCellHtml({
+        cellClass: "per-capita",
+        label: spc.month_label,
+        value: `${fmtInt(spc.searches)} ÷ ${fmtInt(spc.crime_total)}`,
+        extrasHtml: `<div class="per-vehicle"><span class="muted">searches ÷ Part 1 crimes</span></div>`,
+      });
+      html += metricBlockHtml({
+        title: `${short}'s ALPR searches per reported crime`,
+        subtitle: `${spc.month_label} · most recent FBI data`,
+        concernMild: spc.estimated,
+        caveatHtml: caveat,
+        cellsHtml: ratioCell + mathCell,
+      });
+    }
+
     // ── Metric 2: Searches reaching this data (downstream) ───────
     {
       const v = report.downstream_total;
