@@ -1,0 +1,112 @@
+name: Refresh FBI ORI + Sworn Data
+
+# Maintains the FBI data the sharing report uses to estimate how many people
+# have access to a city's ALPR data:
+#   - data/fbi/agencies.tsv      ORI directory (one row per US agency)
+#   - assets/agency_registry.json `ori` field (list; umbrella agencies get many)
+#   - data/fbi/sworn_officers.json  full-time sworn + civilian counts per ORI
+#
+# FBI Police-Employment data is annual and the agency directory changes rarely,
+# so a monthly cadence is plenty. The sworn fetch is RESUMABLE via the committed
+# cache and bounded per run (api.data.gov allows ~1,000 req/hr), so a cold start
+# converges over a few runs instead of timing out.
+#
+# Requires repo secret DATA_GOV_API_KEY (a free api.data.gov key).
+
+on:
+  schedule:
+    - cron: '0 9 5 * *'  # 09:00 UTC on the 5th, monthly
+  workflow_dispatch:
+    inputs:
+      fetch_limit:
+        description: 'Max NEW sworn-officer fetches this run (rate-limit budget)'
+        default: '800'
+      refresh_sworn:
+        description: 'Re-fetch sworn data even for cached ORIs (set true after a yearly FBI update)'
+        default: 'false'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: refresh-fbi-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Refresh FBI agency directory (ORIs)
+        env:
+          DATA_GOV_API_KEY: ${{ secrets.DATA_GOV_API_KEY }}
+        run: uv run python scripts/refresh_fbi_agencies.py
+
+      - name: Match new/unmatched agencies to ORIs
+        # Never overwrites an existing ori — only fills gaps (new Flock agencies,
+        # better geocoding). Umbrella agencies (CHP, State Parks) get their full
+        # family of ORIs.
+        run: uv run python scripts/match_ori.py --apply
+
+      - name: Refresh sworn-officer counts (resumable, bounded)
+        env:
+          DATA_GOV_API_KEY: ${{ secrets.DATA_GOV_API_KEY }}
+        run: |
+          ARGS="--all --limit ${{ inputs.fetch_limit || '800' }}"
+          if [ "${{ inputs.refresh_sworn }}" = "true" ]; then ARGS="$ARGS --refresh"; fi
+          uv run python scripts/refresh_fbi_sworn.py $ARGS
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet data/fbi/ assets/agency_registry.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="chore/refresh-fbi-data"
+          git checkout -B "$BRANCH"
+          git add data/fbi/ assets/agency_registry.json
+          git commit -m "chore: refresh FBI ORI + sworn-officer data"
+          git push --force-with-lease origin "$BRANCH"
+
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            cat > /tmp/pr-body.md <<'EOF'
+          Automated refresh of FBI data used by the sharing report's
+          "people with access" estimate.
+
+          Changes here come from:
+          - New/updated FBI agency directory (`data/fbi/agencies.tsv`)
+          - Newly-discovered Flock agencies matched to an ORI (`assets/agency_registry.json`)
+          - Updated sworn-officer / civilian counts (`data/fbi/sworn_officers.json`)
+
+          The sworn fetch is resumable and bounded per run, so a cold start
+          may take a few scheduled runs to fully populate.
+          EOF
+            gh pr create \
+              --title "chore: refresh FBI ORI + sworn-officer data" \
+              --body-file /tmp/pr-body.md \
+              --head "$BRANCH" \
+              --base main
+          fi

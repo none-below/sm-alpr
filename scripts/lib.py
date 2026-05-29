@@ -11,6 +11,7 @@ import re
 from pathlib import Path
 
 REGISTRY_PATH = Path("assets/agency_registry.json")
+SWORN_PATH = Path("data/fbi/sworn_officers.json")
 
 # Flock portal constants — shared by flock_transparency.py and slug_probe.py
 BASE_URL = "https://transparency.flocksafety.com"
@@ -71,6 +72,76 @@ def load_registry():
 def registry_by_id():
     """Return agency_id -> registry entry lookup."""
     return {e["agency_id"]: e for e in load_registry()}
+
+
+_sworn_cache = None
+
+
+def load_sworn():
+    """Load FBI sworn-officer counts keyed by ORI (from refresh_fbi_sworn.py).
+    Cached. Returns {} if the file isn't present. Values are
+    {year, officers, civilians, total} or null (ORI has no FBI PE series)."""
+    global _sworn_cache
+    if _sworn_cache is None:
+        _sworn_cache = json.loads(SWORN_PATH.read_text()) if SWORN_PATH.exists() else {}
+    return _sworn_cache
+
+
+def sworn_latest_year(sworn=None):
+    """Most recent data year present in the sworn table, or None if empty.
+    FBI Police-Employment data is annual (~1-year publication lag), so this is
+    the freshest vintage we have across all agencies."""
+    sworn = load_sworn() if sworn is None else sworn
+    years = [v["year"] for v in sworn.values() if v and v.get("year")]
+    return max(years) if years else None
+
+
+def sworn_for_oris(oris, sworn=None, min_year=None):
+    """Sum full-time sworn officers (and civilians) across a set of ORIs,
+    deduping so a shared/umbrella ORI is counted once.
+
+    min_year: if set, an ORI whose latest FBI data predates it is treated as
+    STALE (counted in oris_stale, not summed) — so a department that stopped
+    reporting in 2019 doesn't get presented as current staffing. Applied at
+    read time (not baked into the cache) so an agency re-counts automatically
+    once it reports fresh data.
+
+    Returns {officers, civilians, total, data_year, oris_with_data,
+    oris_stale, oris_no_data}. data_year = newest year actually counted.
+    """
+    sworn = load_sworn() if sworn is None else sworn
+    seen = set()
+    officers = civilians = total = with_data = stale = no_data = 0
+    data_year = None
+    for o in oris:
+        if not o or o in seen:
+            continue
+        seen.add(o)
+        rec = sworn.get(o)
+        if not rec:
+            no_data += 1
+        elif min_year is not None and rec.get("year", 0) < min_year:
+            stale += 1
+        else:
+            officers += rec.get("officers", 0)
+            civilians += rec.get("civilians", 0)
+            total += rec.get("total", 0)
+            with_data += 1
+            if rec.get("year") and (data_year is None or rec["year"] > data_year):
+                data_year = rec["year"]
+    return {"officers": officers, "civilians": civilians, "total": total,
+            "data_year": data_year, "oris_with_data": with_data,
+            "oris_stale": stale, "oris_no_data": no_data}
+
+
+def agency_sworn(entry, sworn=None, min_year=None):
+    """Sworn/civilian totals for one registry entry, summed over its ori list
+    (umbrella agencies carry many ORIs). Returns the same dict as
+    sworn_for_oris, or None if the entry has no ori."""
+    oris = entry.get("ori") or []
+    if not oris:
+        return None
+    return sworn_for_oris(oris, sworn, min_year=min_year)
 
 
 def registry_by_slug():
