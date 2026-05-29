@@ -41,6 +41,9 @@ from lib import (
     portal_jsons,
     registry_by_id,
     resolve_agency,
+    agency_sworn,
+    sworn_for_oris,
+    sworn_latest_year,
 )
 from gazetteer import (
     county_fips_for_place,
@@ -1120,6 +1123,13 @@ def main():
             if source_id != target_id:
                 outbound_inferred_by_id[source_id].add(target_id)
 
+    # Freshness window for FBI sworn data: count an agency only if its latest
+    # FBI Police-Employment year is within one year of the newest vintage we
+    # have (e.g. 2024–2025). Agencies that stopped reporting (last seen 2019)
+    # are excluded rather than presented as current staffing.
+    _latest_sworn_year = sworn_latest_year()
+    sworn_min_year = (_latest_sworn_year - 1) if _latest_sworn_year else None
+
     reports = {}
     for e in registry:
         aid = e["agency_id"]
@@ -1551,6 +1561,59 @@ def main():
             "self_included": isinstance(searches_30d, (int, float)),
             "top_researchers": top_researchers[:10],
         } if outbound_ids else None
+
+        # ── Sworn-officer reach (who can access this agency's data) ──
+        # Sum of FULL-TIME SWORN OFFICERS across the FBI ORIs of all outbound
+        # recipients, deduped so a shared/umbrella ORI counts once. Civilians
+        # (analysts, dispatchers, records clerks who may also query ALPR) are
+        # tracked alongside. Umbrella agencies (CHP, State Parks) carry many
+        # ORIs. Recipients with NO FBI ORI — DA offices, fusion centers, most
+        # fire, private campus PDs — are uncounted and surfaced as
+        # recipients_no_ori so the report can disclose the gap. Conservative by
+        # construction: the real number is higher than what we can confirm.
+        recip_oris = set()
+        recip_with_ori = 0
+        top_employers = []
+        for target_id in outbound_ids:
+            tr = reg_by_id.get(target_id, {})
+            t_oris = tr.get("ori") or []
+            if not t_oris:
+                continue
+            recip_with_ori += 1
+            recip_oris.update(t_oris)
+            t_sw = sworn_for_oris(t_oris, min_year=sworn_min_year)
+            if t_sw["officers"]:
+                top_employers.append({
+                    "slug": id_to_slug.get(target_id, target_id),
+                    "name": agency_display_name(tr, id_to_slug.get(target_id, target_id)),
+                    "officers": t_sw["officers"],
+                })
+        top_employers.sort(key=lambda r: -r["officers"])
+        sw = sworn_for_oris(recip_oris, min_year=sworn_min_year)
+        sworn_access = {
+            "officers": sw["officers"],
+            "civilians": sw["civilians"],
+            "total": sw["total"],
+            "data_year": sw["data_year"],
+            "recipients_total": len(outbound_ids),
+            "recipients_with_ori": recip_with_ori,
+            "recipients_no_ori": len(outbound_ids) - recip_with_ori,
+            "oris_with_data": sw["oris_with_data"],
+            "oris_stale": sw["oris_stale"],
+            "oris_no_data": sw["oris_no_data"],
+            "top_employers": top_employers[:10],
+        } if outbound_ids else None
+
+        # ── Search intensity per officer ──
+        # This agency's OWN monthly searches divided by its OWN full-time sworn
+        # officers — how heavily each officer leans on ALPR. `sworn_self` is the
+        # agency's own FBI headcount (from its own ori); None if unmatched.
+        sworn_self = agency_sworn(reg, min_year=sworn_min_year)
+        own_officers = sworn_self["officers"] if sworn_self else None
+        searches_per_officer_30d = (
+            round(searches_30d / own_officers, 1)
+            if own_officers and isinstance(searches_30d, (int, float)) else None
+        )
 
         # ── Outbound reach metrics ──
         # farthest: single farthest recipient — shows extreme reach.
@@ -1992,6 +2055,9 @@ def main():
             "farthest_outbound": farthest,
             "outbound_avg_km": outbound_avg_km,
             "downstream_searches": downstream_searches,
+            "sworn_access": sworn_access,
+            "sworn_self": sworn_self,
+            "searches_per_officer_30d": searches_per_officer_30d,
             "percentiles_local": percentiles_local,
             "medians_local": medians_local,
             "peer_sample_local": peer_sample_local,

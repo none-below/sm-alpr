@@ -665,6 +665,13 @@
         sparkMetricKey: "searches_30d",
         statePeer: peerSample.searches_30d,
       });
+      // Search intensity per officer: this agency's monthly searches divided
+      // by its own full-time sworn officers (FBI count). Contextualizes raw
+      // volume against staffing — a small agency running many searches per
+      // officer leans heavily on ALPR.
+      const spoExtras = (report.searches_per_officer_30d != null && report.sworn_self)
+        ? `<div class="per-vehicle"><strong>${fmtNum(report.searches_per_officer_30d, 1)}</strong> <span class="muted">per sworn officer on staff (${fmtInt(report.sworn_self.officers)} officers, FBI)</span></div>`
+        : "";
       const rawCell = statsCellHtml({
         cellClass: "raw",
         concernClass: (notReported || usingAudit) ? "" : (cellClassFor(pctile, "searches_30d")),
@@ -672,6 +679,7 @@
         value: v,
         valueIsNotReported: notReported,
         notReportedHint: notReported ? notReportedHintFor(report, "searches_30d") : "",
+        extrasHtml: spoExtras,
         rankPillsHtml: pills,
       });
       // Per-capita cell. The build-side per-capita value is only
@@ -940,6 +948,41 @@
         concernMild: noSharingList,
         cellsHtml: rawCell + reachCell,
         inlineConcernHtml: concernsForSection(report, "stat:outbound"),
+      });
+    }
+
+    // ── Metric 3: Personnel at recipient agencies (sworn-officer reach) ──
+    // The total full-time sworn STAFFING of the agencies that receive this
+    // agency's data — the institutional pool that COULD be granted access,
+    // NOT a count of Flock accounts or confirmed queries. Headline = sworn
+    // officers (FBI Police-Employment data, deduped by ORI); civilians shown
+    // alongside. Recipients with no FBI ORI are excluded, so it's conservative.
+    if (report.sworn_access && report.sworn_access.officers > 0) {
+      const sa = report.sworn_access;
+      const officersExtras =
+        `<div class="per-vehicle"><strong>${fmtInt(sa.total)}</strong> <span class="muted">incl. ${fmtInt(sa.civilians)} civilian staff (analysts, dispatchers, records)</span></div>`;
+      const accessCell = statsCellHtml({
+        cellClass: "raw",
+        label: "Sworn officers on staff",
+        value: sa.officers,
+        extrasHtml: officersExtras,
+      });
+      const topEmp = (sa.top_employers || []).slice(0, 6).map(function (e) {
+        return `<div><strong>${fmtInt(e.officers)}</strong> <span class="muted">&mdash; ${escapeHtml(e.name)}</span></div>`;
+      }).join("");
+      const employersCell =
+        `<div class="metric-cell reach"><div class="cell-label">Largest recipients</div><div class="reach-lines">${topEmp}</div></div>`;
+      const uncounted = sa.recipients_no_ori > 0
+        ? ` ${fmtInt(sa.recipients_no_ori)} of ${fmtInt(sa.recipients_total)} recipients have no FBI count (DA offices, fusion centers, campus or private police) and aren’t included.`
+        : "";
+      const vintage = sa.data_year ? ` ${sa.data_year}` : "";
+      const accessNote =
+        `<div class="coverage-tag">Full-time sworn officers employed by the ${fmtInt(sa.recipients_with_ori)} recipient agencies (FBI Police-Employment data,${vintage || " latest available"}) &mdash; the <strong>pool of personnel who could hold access</strong>, not a count of active Flock accounts or confirmed searches. In practice many agencies grant ALPR access to all sworn staff and don’t always remove departed officers’ accounts, so the number with credentials can approach or exceed this figure.${uncounted}</div>`;
+      html += metricBlockHtml({
+        title: `Personnel at agencies ${short} shares to`,
+        subtitle: "sworn staffing of recipient agencies",
+        caveatHtml: accessNote,
+        cellsHtml: accessCell + employersCell,
       });
     }
 
