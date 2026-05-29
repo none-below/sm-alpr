@@ -508,30 +508,32 @@ def _audit_searches_30d(audit):
     }
 
 
-def _audit_vs_inbound(audit, direct_inbound):
-    """Compare audit-log row networkCounts against the agency's own
-    published inbound list size.
+def _audit_vs_inbound(audit, direct_inbound, outbound_count):
+    """Summarize audit-log networkCounts against the agency's own
+    published inbound and outbound list sizes.
 
     A search row's networkCount is how many agency networks that one
-    query touched. If networkCount routinely exceeds the agency's
-    own published inbound list, the agency is using Flock's
-    statewide / nationwide lookup features — capabilities not granted
-    by bilateral sharing. That's the disclosure question.
+    query touched. Three discrepancies are worth surfacing:
 
-    We only compare against the agency's DIRECT inbound (the count
-    published on its own transparency portal), not against inferred
-    inbound from peer outbound lists. The question's bite is that the
-    agency's own numbers don't add up; pulling in cross-portal
-    inference would make us assert a number the department itself
-    didn't publish, which weakens the question. The cost is that this
-    only fires for agencies that publish both an inbound list and a
-    search audit (about half a dozen CA agencies as of writing).
+      1. networkCount routinely exceeds the agency's published inbound
+         list — agency is using statewide/nationwide lookup beyond what
+         bilateral sharing grants. (`exceeding_inbound_*` populated.)
+      2. agency publishes no inbound list at all, but audit shows broad
+         reach — residents have no published baseline to evaluate.
+         (`inbound_count` is None.)
+      3. networkCount exceeds the agency's outbound list — the agency
+         pulls data from a much broader set than it pushes to. Softer
+         finding; useful context. (`exceeding_outbound_*` populated.)
 
-    Returns None if no usable rows or direct_inbound is zero/missing.
+    We only compare against DIRECT inbound (published on the agency's
+    own portal), not inferred-from-peer-outbound. The question's bite
+    is that the agency's own numbers don't add up; pulling in
+    cross-portal inference would make us assert a number the
+    department itself didn't publish, which weakens the question.
+
+    Returns None only if the audit log has zero usable rows.
     """
     rows = audit.get("rows") or []
-    if not direct_inbound:
-        return None
     network_counts = []
     for r in rows:
         nc = r.get("networkCount")
@@ -544,17 +546,28 @@ def _audit_vs_inbound(audit, direct_inbound):
     if not network_counts:
         return None
     total = len(network_counts)
-    over = sum(1 for x in network_counts if x > direct_inbound)
-    return {
+    result = {
         "rows_analyzed": total,
         "max_network_count": max(network_counts),
         "median_network_count": int(sorted(network_counts)[total // 2]),
-        "exceeding_inbound_count": over,
-        "exceeding_inbound_pct": round(100.0 * over / total, 1),
-        "inbound_count": direct_inbound,
+        "inbound_count": direct_inbound if direct_inbound else None,
+        "exceeding_inbound_count": None,
+        "exceeding_inbound_pct": None,
+        "outbound_count": outbound_count if outbound_count else None,
+        "exceeding_outbound_count": None,
+        "exceeding_outbound_pct": None,
         "search_date_min": audit.get("search_date_min"),
         "search_date_max": audit.get("search_date_max"),
     }
+    if direct_inbound:
+        over_i = sum(1 for x in network_counts if x > direct_inbound)
+        result["exceeding_inbound_count"] = over_i
+        result["exceeding_inbound_pct"] = round(100.0 * over_i / total, 1)
+    if outbound_count:
+        over_o = sum(1 for x in network_counts if x > outbound_count)
+        result["exceeding_outbound_count"] = over_o
+        result["exceeding_outbound_pct"] = round(100.0 * over_o / total, 1)
+    return result
 
 
 # ── Geography ──
@@ -1729,23 +1742,24 @@ def main():
         )
 
         # ── Audit-log derived fields ──
-        # If the agency publishes a search audit (or we've imported one
-        # via PRA), surface two derived signals:
-        #   1. audit_vs_inbound: per-search networkCount vs the agency's
-        #      own published inbound list size — searches touching more
-        #      networks than the agency receives from imply use of
-        #      Flock's statewide/nationwide lookup features.
-        #   2. searches_30d_audit: a trailing 30-day count anchored to
-        #      the latest searchDate in the union log. Lets agencies
-        #      that publish the CSV but not a top-line "searches in the
-        #      last 30 days" stat still get a number in the report.
+        # If the agency publishes a search audit, summarize the
+        # per-search networkCount distribution and compare against
+        # both the published inbound and outbound list sizes.
+        # Searches that touch more networks than the agency receives
+        # data from imply use of Flock's statewide/nationwide lookup
+        # features. Fires even when inbound is unpublished (the audit
+        # alone reveals the actual reach).
+        # searches_30d_audit is a trailing 30-day count anchored to
+        # the latest searchDate in the union log, for agencies that
+        # publish the CSV but no top-line 30-day stat.
         audit_vs_inbound = None
         searches_30d_audit = None
         if crawled:
             audit_json = _load_audit_json(reg)
             if audit_json:
-                if inbound_count:
-                    audit_vs_inbound = _audit_vs_inbound(audit_json, inbound_count)
+                audit_vs_inbound = _audit_vs_inbound(
+                    audit_json, inbound_count, outbound_count
+                )
                 searches_30d_audit = _audit_searches_30d(audit_json)
 
         # ── Inferred inbound (for uncrawled agencies mostly) ──

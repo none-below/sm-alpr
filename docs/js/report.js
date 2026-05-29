@@ -1453,8 +1453,86 @@
     // show agencies that pass every heuristic signal while having
     // substantial compliance gaps.
     html += `<p class="legal-note" style="border-left: 3px solid var(--warn-border); background: var(--warn-bg); color: #78350f; margin: 6px 0 10px 0"><strong>Surface-signal checks only.</strong> A green check means the signal appears on the transparency page &mdash; not that the agency substantively complies. A posted policy may be stale, an &ldquo;audit process&rdquo; may not be executed, a clean sharing list may include unvetted recipients. Starting point for questions, not a compliance certification.</p>`;
+    html += renderInboundAuditDiscrepancy(report);
     html += renderChecklistItems(items, { report: report });
     return html;
+  }
+
+  // Flag box: the agency publishes a search audit, and its
+  // per-query networkCount tells a story the transparency portal
+  // doesn't. Three cases in priority order:
+  //   (1) Inbound published, audit routinely exceeds it. Strongest —
+  //       agency's own numbers don't add up.
+  //   (2) No inbound published, audit reaches > 100 networks. The
+  //       audit is the only evidence of operational scope.
+  //   (3) Outbound published, audit routinely exceeds it. Softer —
+  //       agency pulls broader than it pushes; not a discrepancy
+  //       per se, but useful context.
+  function renderInboundAuditDiscrepancy(report) {
+    const avi = report.audit_vs_inbound;
+    if (!avi) return "";
+
+    // Case 1: strong — inbound exists and audit exceeds it routinely.
+    if (avi.exceeding_inbound_pct != null && avi.exceeding_inbound_pct >= 10) {
+      let html = '<div class="flag-section">';
+      html += `<strong>Search audit reaches beyond the published inbound sharing list</strong>`;
+      html += '<div style="margin-top:6px;font-size:10pt">';
+      html += `Published inbound sharing list: <strong>${fmtInt(avi.inbound_count)}</strong> agencies. `;
+      html += `Search audit shows <strong>${avi.exceeding_inbound_pct}%</strong> of queries `;
+      html += `(${fmtInt(avi.exceeding_inbound_count)} of ${fmtInt(avi.rows_analyzed)}) `;
+      html += `reached more agency networks than that &mdash; at least one query reached `;
+      html += `<strong>${fmtInt(avi.max_network_count)}</strong> networks.`;
+      html += '</div>';
+      html += '<div style="margin-top:6px;font-size:10pt">';
+      html += `This implies use of Flock&rsquo;s statewide or nationwide lookup features &mdash; access that bilateral sharing relationships do not grant. The inbound list on the transparency page does not reflect the actual scope of data this agency reaches.`;
+      html += '</div>';
+      html += '</div>';
+      return html;
+    }
+
+    // Case 2: strong — no inbound published, but audit shows
+    // meaningful reach. 100-network floor filters out agencies that
+    // run only a handful of local-only queries.
+    if (avi.inbound_count == null && avi.max_network_count > 100) {
+      let html = '<div class="flag-section">';
+      html += `<strong>No inbound sharing list published &mdash; audit shows broad reach anyway</strong>`;
+      html += '<div style="margin-top:6px;font-size:10pt">';
+      html += `This agency&rsquo;s transparency portal does not publish an inbound sharing list. `;
+      html += `Its search audit shows queries reaching up to `;
+      html += `<strong>${fmtInt(avi.max_network_count)}</strong> agency networks `;
+      html += `across ${fmtInt(avi.rows_analyzed)} audited searches.`;
+      html += '</div>';
+      html += '<div style="margin-top:6px;font-size:10pt">';
+      html += `Reaching hundreds of networks per query indicates use of Flock&rsquo;s statewide or nationwide lookup features. Without a published inbound list, residents cannot see which agencies&rsquo; camera data appears in those results.`;
+      html += '</div>';
+      html += '</div>';
+      return html;
+    }
+
+    // Case 3: soft — audit reaches beyond outbound. Softer wording
+    // because the agency may simply consume a broader network than
+    // it contributes to, which isn't a disclosure failure on its
+    // face. Useful as context for the asymmetry.
+    if (avi.exceeding_outbound_pct != null
+        && avi.exceeding_outbound_pct >= 10
+        && avi.outbound_count != null) {
+      let html = '<div class="flag-section" style="border-left-color:#9ca3af">';
+      html += `<strong>For context: search reach exceeds the agency&rsquo;s own sharing footprint</strong>`;
+      html += '<div style="margin-top:6px;font-size:10pt">';
+      html += `This agency shares its ALPR data with <strong>${fmtInt(avi.outbound_count)}</strong> other agencies. `;
+      html += `Its search audit shows <strong>${avi.exceeding_outbound_pct}%</strong> of queries `;
+      html += `(${fmtInt(avi.exceeding_outbound_count)} of ${fmtInt(avi.rows_analyzed)}) `;
+      html += `reached more agency networks than that &mdash; up to `;
+      html += `<strong>${fmtInt(avi.max_network_count)}</strong> networks per query.`;
+      html += '</div>';
+      html += '<div style="margin-top:6px;font-size:10pt">';
+      html += `The agency draws data from a much broader set than it contributes to. Not by itself a disclosure failure, but useful context for understanding the asymmetry between what this agency pushes out and what it pulls in.`;
+      html += '</div>';
+      html += '</div>';
+      return html;
+    }
+
+    return "";
   }
 
   function renderTransparencyChecklist(report, meta) {
@@ -2681,7 +2759,7 @@
     // question relies on the agency's own numbers not adding up;
     // cross-portal inference would weaken that claim.
     const avi = report.audit_vs_inbound;
-    if (avi && avi.exceeding_inbound_pct >= 10) {
+    if (avi && avi.exceeding_inbound_pct != null && avi.exceeding_inbound_pct >= 10) {
       add(90,
         `${Dept}'s published search audit shows searches reaching more agency ` +
         `networks than ${deptShort}'s transparency portal lists as sharing data inbound &mdash; ` +
