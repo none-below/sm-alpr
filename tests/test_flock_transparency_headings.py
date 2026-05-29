@@ -659,6 +659,42 @@ def test_overview_marker_accepts_operating_system_phrasing():
     assert result["crawled_name"] == "Bar PD"
 
 
+def test_overview_advance_template_extracts_name():
+    """A second 2026 boilerplate embeds the agency name mid-sentence
+    instead of as a subject prefix:
+    "The use of Flock Safety technology helps advance the <Agency>'s
+    public safety mission ..." (wilton-ct-pd 2026-05). The prefix
+    strategy can't apply; _FLOCK_ADVANCE_RE must capture the embedded
+    name and the parser must NOT raise."""
+    text = (
+        "Overview\n\n"
+        "The use of Flock Safety technology helps advance the Wilton, CT "
+        "Police Department's public safety mission by turning vehicle and "
+        "license plate information into timely, objective leads that "
+        "support crime prevention.\n\n"
+    )
+    result = parse_portal_text(text, "wilton-ct-pd", "2026-05-29",
+                               bold_headings={"Overview"})
+    assert result["crawled_name"] == "Wilton, CT Police Department"
+    # No "the", curly apostrophe — name still extracted, possessive dropped.
+    text2 = (
+        "Overview\n\n"
+        "The use of Flock Safety technology helps advance Stanford "
+        "University’s public safety mission by deterring crime.\n\n"
+    )
+    result = parse_portal_text(text2, "x", "2026-05-29",
+                               bold_headings={"Overview"})
+    assert result["crawled_name"] == "Stanford University"
+    # A genuinely-new phrasing that mentions Flock Safety but matches no
+    # marker shape must still fail loud.
+    import pytest
+    with pytest.raises(ValueError, match="Flock may have rephrased"):
+        parse_portal_text(
+            "Overview\n\nWe partnered with Flock Safety to deploy cameras.\n\n",
+            "y", "2026-05-29", bold_headings={"Overview"},
+        )
+
+
 # ─── issue #223: 2026-05 rolling-refresh heading variants ──────────
 
 def test_issue223_heading_variants_classify():

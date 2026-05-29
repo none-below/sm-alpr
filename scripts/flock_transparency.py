@@ -824,6 +824,19 @@ _FLOCK_MARKER_RE = re.compile(
     r"(?: \(?[Aa]LPR\)?)? technology)"
 )
 
+# A 2026 boilerplate variant drops the "<Agency> uses Flock Safety ..."
+# subject-prefix shape entirely and embeds the name mid-sentence:
+#   "The use of Flock Safety technology helps advance the <Agency Name>'s
+#    public safety mission by turning vehicle and license plate ..."
+# (wilton-ct-pd 2026-05). Capture the name between "advance [the]" and
+# "public safety mission"; the trailing possessive is matched outside the
+# group (and re-stripped below) so it isn't kept.
+_FLOCK_ADVANCE_RE = re.compile(
+    r"Flock Safety(?:'s)? (?:LPR )?technology helps advance (?:the )?"
+    r"(.+?)(?:['’]s)? public safety mission",
+    re.IGNORECASE,
+)
+
 
 def _extract_crawled_name(overview, slug, datestamp):
     """Pull the agency's self-described name from the overview prose.
@@ -834,12 +847,17 @@ def _extract_crawled_name(overview, slug, datestamp):
     stray surrounding quotes too (San Rafael wraps the whole sentence
     in `"…"`, leaving a leading `"` that .strip() alone won't drop).
 
+    A second 2026 boilerplate puts the name mid-sentence instead —
+    "The use of Flock Safety technology helps advance the <Agency>'s
+    public safety mission ..." (wilton-ct-pd) — so the prefix strategy
+    can't apply; _FLOCK_ADVANCE_RE captures the embedded name.
+
     Returns None silently when the overview is empty or doesn't follow
-    the boilerplate at all (NCRIC, for example, writes a custom intro
+    any known boilerplate (NCRIC, for example, writes a custom intro
     that never mentions Flock Safety). Raises when "Flock Safety" IS
-    mentioned but the marker shape doesn't match — that's the regression
-    we want to surface, since it means Flock rephrased the boilerplate
-    or an agency picked a verb we haven't seen.
+    mentioned but no marker shape matches — that's the regression we want
+    to surface, since it means Flock rephrased the boilerplate again or
+    an agency picked a verb we haven't seen.
     """
     m = _FLOCK_MARKER_RE.search(overview)
     if m:
@@ -849,6 +867,13 @@ def _extract_crawled_name(overview, slug, datestamp):
             .strip("\"'“”‘’")
             .strip()
         ) or None
+    m = _FLOCK_ADVANCE_RE.search(overview)
+    if m:
+        name = m.group(1).strip().strip("\"'“”‘’").strip()
+        # Drop a trailing possessive the capture may still carry (e.g.
+        # an embedded clause), defensively.
+        name = re.sub(r"['’]s$", "", name).strip()
+        return name or None
     if overview.strip() and "Flock Safety" in overview:
         raise ValueError(
             f"{slug} {datestamp}: overview mentions Flock Safety but the "
