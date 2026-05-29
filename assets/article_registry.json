@@ -10488,6 +10488,10 @@
     "wayback_source": "submit-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:explainer",
+      "outcome:terminated",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [],
@@ -10529,10 +10533,23 @@
         ]
       }
     ],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-09T02:45:20Z",
+    "summary": "A San Jos\u00e9 Spotlight fact brief confirms that Campbell decommissioned its 22 Flock ALPR cameras and is switching to an in-house system, per a February LinkedIn post from Councilmember Sergio Lopez. The brief notes the change occurs amid Bay Area scrutiny of Flock, including a recent Mountain View incident in which Flock enabled a national 'look up' setting without the city's knowledge.",
+    "key_quotes": [
+      {
+        "quote": "Campbell will no longer be using Flock Safety automated license plate reading cameras.",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "In a LinkedIn post, Councilmember Sergio Lopez said in February the city was decommissioning its Flock cameras and switching to an in-house system.",
+        "paragraph_idx": 5
+      },
+      {
+        "quote": "Flock enabled a national \"look up\" setting on Mountain View's camera system without the city's knowledge.",
+        "paragraph_idx": 7
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:29:40Z",
     "article_id": "art_088",
     "primary_subject_agency_ids": []
   },
@@ -10612,10 +10629,11 @@
     "agency_candidates": [],
     "summary": null,
     "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-09T02:45:21Z",
+    "curation_status": "needs_review",
+    "curated_at": "2026-05-29T21:36:39Z",
     "article_id": "art_090",
-    "primary_subject_agency_ids": []
+    "primary_subject_agency_ids": [],
+    "curation_error": "rejected: junk fetch: anti-bot interstitial / video landing page, no article text"
   },
   {
     "url": "https://www.watertownmanews.com/2026/01/28/watertown-cancelling-contract-for-flock-license-plate-reading-cameras/",
@@ -16390,6 +16408,12 @@
     "wayback_source": "saved",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:purpose-limitation",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -16468,12 +16492,35 @@
         ]
       }
     ],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-10T09:54:35Z",
+    "summary": "The Santa Cruz City Council voted 6-1 to terminate its contract with Flock Safety after controversy over out-of-state agency access to its ALPR data and concerns the data could be used for immigration enforcement. The city's eight cameras have already been deactivated and will be removed within weeks; staff was directed to explore alternatives.",
+    "key_quotes": [
+      {
+        "quote": "The Santa Cruz City Council voted 6-1 to terminate the city's contract with Flock Safety",
+        "paragraph_idx": 4
+      },
+      {
+        "quote": "Continuing to use the Flock cameras is irreconcilably inconsistent with Santa Cruz being a sanctuary city",
+        "paragraph_idx": 13
+      },
+      {
+        "quote": "Santa Cruz \u2014 along with several other California communities, including Capitola \u2014 was 'unwittingly' opted into a nationwide sharing portal",
+        "paragraph_idx": 15
+      },
+      {
+        "quote": "Frankly, this is not about you. This is about a company we can't trust",
+        "paragraph_idx": 17
+      },
+      {
+        "quote": "The Santa Cruz Police Department has already discontinued its use of Flock cameras",
+        "paragraph_idx": 19
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:29:49Z",
     "article_id": "art_150",
-    "primary_subject_agency_ids": []
+    "primary_subject_agency_ids": [
+      "8e97dede-dc5e-518a-bd9c-ca1acce1757a"
+    ]
   },
   {
     "url": "https://www.smdailyjournal.com/news/local/millbrae-council-approves-23-new-surveillance-cameras/article_2f3f8308-50f4-11ec-949a-dbef87a34dce.html",
@@ -18609,10 +18656,11 @@
     "agency_candidates": [],
     "summary": null,
     "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-10T17:19:45Z",
+    "curation_status": "needs_review",
+    "curated_at": "2026-05-29T21:36:39Z",
     "article_id": "art_171",
-    "primary_subject_agency_ids": []
+    "primary_subject_agency_ids": [],
+    "curation_error": "rejected: junk fetch: anti-bot interstitial / video landing page, no article text"
   },
   {
     "url": "https://www.heraldnet.com/2026/03/12/automated-license-plate-reader-bill-heads-to-governors-desk/",
@@ -19130,6 +19178,11 @@
     "wayback_source": "saved",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -19197,10 +19250,23 @@
         ]
       }
     ],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-10T21:09:41Z",
+    "summary": "The Los Altos Hills Town Council voted Jan. 15 to end its contract with Flock Safety and remove its 31 ALPR cameras when the contract expires in June, citing data-privacy concerns (including indirect ICE access via other agencies' searches), cost, and doubts about effectiveness in reducing burglaries. Officials credited private security rather than ALPRs for declining burglary numbers and said funds could be redirected to other public safety needs.",
+    "key_quotes": [
+      {
+        "quote": "Los Altos Hills has decided to remove its Flock Safety automated license plate reader cameras around town, citing concerns about data privacy, cost considerations and overall effectiveness.",
+        "paragraph_idx": 12
+      },
+      {
+        "quote": "These concerns related to U.S. Immigration and Customs Enforcement (ICE) having indirect access to automated license plate reader cameras (ALPR) data through Flock network searches conducted by state and local police agencies",
+        "paragraph_idx": 14
+      },
+      {
+        "quote": "I would come down to the side of acknowledging that we tried this experiment, and it didn't work out the way we hoped",
+        "paragraph_idx": 18
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:29:57Z",
     "article_id": "art_176",
     "primary_subject_agency_ids": []
   },
@@ -19414,6 +19480,12 @@
     "wayback_source": "poll-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:press-release",
+      "incident:ice-cooperation",
+      "outcome:terminated",
+      "policy:audit",
+      "policy:sharing",
+      "scope:local",
       "vendor:flock"
     ],
     "agencies": [
@@ -19442,12 +19514,23 @@
         ]
       }
     ],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-10T22:08:40Z",
+    "summary": "The Oxnard Police Department announced it has suspended use of its 19 Flock Safety fixed-position ALPR cameras after an internal audit revealed that a vendor-side bug allowed out-of-state and federal agencies to query its data despite 'California only' settings. The audit identified two nationwide queries by a federal VA police agency in May 2025, unrelated to immigration. The suspension will remain until safeguards are proven reliable.",
+    "key_quotes": [
+      {
+        "quote": "a vendor-enabled \"nationwide query\" allowed agencies from outside of California, which also include federal agencies, to query OPD's data without OPD's knowledge or approval.",
+        "paragraph_idx": 9
+      },
+      {
+        "quote": "the Oxnard Police Department has decided to suspend the use of its Flock Safety fixed-position ALPR cameras. This suspension will remain in place until we are fully confident that our data is secure",
+        "paragraph_idx": 11
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:30:05Z",
     "article_id": "art_179",
-    "primary_subject_agency_ids": []
+    "primary_subject_agency_ids": [
+      "2e1e1b36-7a6b-5c97-8143-65347503186c"
+    ]
   },
   {
     "url": "https://www.wkow.com/news/city-of-verona-votes-to-not-renew-flock-cameras/article_083afa08-5b8a-4955-9876-ad8fd2b9f3aa.html",
@@ -29995,6 +30078,8 @@
     "wayback_source": "saved",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "scope:local",
       "vendor:axon"
     ],
     "agencies": [
@@ -30041,11 +30126,30 @@
         ]
       }
     ],
-    "primary_subject_agency_ids": [],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-13T21:52:01Z",
+    "primary_subject_agency_ids": [
+      "981e7edd-d5e6-549a-9c63-9f5e6e6238a9"
+    ],
+    "summary": "Inglewood City Council unanimously approved up to $6.3 million in new police technology from Axon, including body-worn cameras, Tasers, drones, and automated license plate readers (98 stationary cameras plus 25 vehicle-mounted Fleet 3 devices). The decision follows activist pressure after Bryan Bostic's March death in police custody, with critics calling for oversight protections before deployment.",
+    "key_quotes": [
+      {
+        "quote": "Inglewood police will get drones, automated license plate readers and body-worn cameras after the City Council approved purchasing up to $6.3 million in new tech.",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "The Automated License Plate Recognition, or ALPR, tech will also be rolled out via 98 stationary cameras mounted on light posts and in other locations.",
+        "paragraph_idx": 17
+      },
+      {
+        "quote": "There are no guarantees that body camera footage will be released. No independent oversight. No clear rules about who controls the data or how it will be used",
+        "paragraph_idx": 20
+      },
+      {
+        "quote": "Technology alone does not create public trust",
+        "paragraph_idx": 23
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:30:13Z",
     "article_id": "art_276"
   },
   {
@@ -30543,9 +30647,10 @@
     "primary_subject_agency_ids": [],
     "summary": null,
     "key_quotes": [],
-    "curation_status": "mechanical",
+    "curation_status": "needs_review",
     "curated_at": "2026-05-13T23:25:49Z",
-    "article_id": "art_280"
+    "article_id": "art_280",
+    "curation_error": "refusal: Article is not about ALPR or police surveillance technology; it concerns immigration enforcement activism in Inglewood and unrelated topics."
   },
   {
     "url": "https://oaklandside.org/2026/03/23/alameda-county-sheriff-flock-safety-license-plate-camera-thieves/",
@@ -31500,9 +31605,10 @@
     "primary_subject_agency_ids": [],
     "summary": null,
     "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-14T10:38:05Z",
-    "article_id": "art_288"
+    "curation_status": "needs_review",
+    "curated_at": "2026-05-29T21:36:39Z",
+    "article_id": "art_288",
+    "curation_error": "rejected: junk fetch: anti-bot interstitial / video landing page, no article text"
   },
   {
     "url": "https://evanstonroundtable.com/2025/06/24/evanston-alpr-network-access-restricted/",
@@ -36111,7 +36217,12 @@
     "wayback_timestamp": "20260526042512",
     "wayback_source": "saved",
     "pdf_status": "rendered",
-    "tags": [],
+    "tags": [
+      "genre:investigative",
+      "legal:legislation",
+      "policy:sharing",
+      "scope:national"
+    ],
     "agencies": [
       "5610e604-ad2c-5626-8287-33433f9c275f",
       "6e8b5384-5568-5425-873a-3b938ef50bdd",
@@ -36176,10 +36287,23 @@
       }
     ],
     "primary_subject_agency_ids": [],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-26T04:30:51Z",
+    "summary": "WIRED's security news roundup leads with a report that procurement records show the FBI Directorate of Intelligence is seeking to purchase nationwide, 'near real-time' access to automated license plate reader data. The item also notes a bipartisan federal amendment proposed this week that would effectively bar state and local police use of ALPRs by stripping highway funds.",
+    "key_quotes": [
+      {
+        "quote": "the Federal Bureau of Investigation is planning to buy nationwide access to the cameras and access \u201cnear real time\u201d data about vehicle movements.",
+        "paragraph_idx": 15
+      },
+      {
+        "quote": "The FBI has a crucial need for accessible LPRs to provide a diverse and reliable range of collections across the United States",
+        "paragraph_idx": 16
+      },
+      {
+        "quote": "One line tucked into a federal highway bill would strip funds from cities and states unless they kill their automated plate tracking programs\u2014effectively banning the tech for all but toll collection.",
+        "paragraph_idx": 25
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:30:24Z",
     "article_id": "art_326"
   },
   {
@@ -37660,6 +37784,9 @@
     "wayback_source": "submit-failed",
     "pdf_status": "rendered",
     "tags": [
+      "genre:press-release",
+      "legal:legislation",
+      "scope:national",
       "vendor:flock"
     ],
     "agencies": [
@@ -37677,10 +37804,19 @@
       }
     ],
     "primary_subject_agency_ids": [],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-28T12:45:58Z",
+    "summary": "EPIC joined over 40 civil society groups urging the U.S. House Committee on Transportation and Infrastructure to back a Perry-Garc\u00eda amendment to the Highway Bill that would ban ALPR use except for tolling. The letter cites Flock Safety's rapid expansion and a planned $36 million FBI nationwide ALPR system as reasons for federal action.",
+    "key_quotes": [
+      {
+        "quote": "urge the U.S. House Committee on Transportation and Infrastructure to support an amendment that would ban the use of automatic license plate readers for any purpose other than tolling",
+        "paragraph_idx": 1
+      },
+      {
+        "quote": "As the FBI prepares to spend $36 million on a nationwide license plate reader system capable of tracking any vehicle in 'near real time,' it is more critical than ever that Congress shields Americans from being subjected to warrantless, suspicionless tracking of their everyday lives.",
+        "paragraph_idx": 2
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:30:30Z",
     "article_id": "art_337"
   },
   {
@@ -37733,9 +37869,10 @@
     "primary_subject_agency_ids": [],
     "summary": null,
     "key_quotes": [],
-    "curation_status": "mechanical",
+    "curation_status": "needs_review",
     "curated_at": "2026-05-28T12:46:00Z",
-    "article_id": "art_338"
+    "article_id": "art_338",
+    "curation_error": "refusal: Article is about CCPA privacy policy comments, not ALPR or police surveillance."
   },
   {
     "url": "https://www.heraldnet.com/2026/05/27/edmonds-becomes-3rd-city-in-the-county-to-cancel-flock-safety-contract/",
@@ -37899,6 +38036,10 @@
     "wayback_source": "saved",
     "pdf_status": "rendered",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "policy:audit",
+      "policy:sharing",
       "vendor:flock"
     ],
     "agencies": [
@@ -37993,11 +38134,27 @@
         ]
       }
     ],
-    "primary_subject_agency_ids": [],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-28T23:43:33Z",
+    "primary_subject_agency_ids": [
+      "d3f6c374-11c6-5edb-abf1-21199f1c5445",
+      "a597ac19-0e62-585c-82a0-f9c7b87c55e8"
+    ],
+    "summary": "Dayton, Ohio has covered its Flock ALPR cameras with trash bags as a stop-gap while officials figure out whether they can terminate the contract, following an immigration-data-sharing scandal and a $30,000 audit. Evanston, Illinois did the same last year while awaiting Flock's removal of cameras.",
+    "key_quotes": [
+      {
+        "quote": "Dayton Police Department agreed to work with Public Works to put bags over the cameras",
+        "paragraph_idx": 6
+      },
+      {
+        "quote": "a scandal in which the city was sharing Flock camera data for immigration enforcement apparently on accident, and a $30,000 audit into how the cameras are being used",
+        "paragraph_idx": 5
+      },
+      {
+        "quote": "both Dayton and Evanston city officials told residents that they were not sure whether they could immediately deactivate or remove the cameras under the terms of their contracts",
+        "paragraph_idx": 10
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:30:41Z",
     "article_id": "art_340"
   },
   {
@@ -38023,7 +38180,13 @@
     "wayback_timestamp": null,
     "wayback_source": "submit-failed",
     "pdf_status": "rendered",
-    "tags": [],
+    "tags": [
+      "genre:investigative",
+      "incident:false-positive",
+      "incident:misuse",
+      "incident:wrongful-stop",
+      "scope:national"
+    ],
     "agencies": [
       "14b510e3-7bde-5474-8249-6ef49a16cfc5",
       "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
@@ -38128,11 +38291,27 @@
         ]
       }
     ],
-    "primary_subject_agency_ids": [],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-28T23:43:37Z",
+    "primary_subject_agency_ids": [
+      "b4e46fa4-4dfa-5a47-851f-52189c4e22d9",
+      "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b"
+    ],
+    "summary": "CBS News' six-month investigation documented over a dozen incidents where Automated License Plate Reader systems contributed to wrongful stops, armed detainments, or misuse by officers. Cases highlighted include Brian Hofer's 2018 armed stop, a 12-year-old handcuffed in Espa\u00f1ola, NM after a plate misread, and a 2020 Aurora, CO incident in which a family including a 6-year-old was forced face-down at gunpoint, leading to a $1.9M settlement.",
+    "key_quotes": [
+      {
+        "quote": "There are billions of scans a day in America. If there's even just a 10% error rate, that means there are so many opportunities for abuse to happen",
+        "paragraph_idx": 21
+      },
+      {
+        "quote": "a 12-year-old was handcuffed after an ALPR camera misread the last number of a license plate on a vehicle driven by her older sister as a \"7\" instead of the \"2\" it actually ended with",
+        "paragraph_idx": 18
+      },
+      {
+        "quote": "Police mistakenly flagged their Colorado license plate as matching that of a completely different vehicle from a different state \u2014 a stolen motorcycle registered in Montana. The incident, captured on video and widely condemned, led to a $1.9 million settlement from the city in 2024.",
+        "paragraph_idx": 19
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:30:52Z",
     "article_id": "art_341"
   },
   {
@@ -38158,6 +38337,9 @@
     "wayback_source": "saved",
     "pdf_status": "skipped-curl-fallback",
     "tags": [
+      "genre:investigative",
+      "incident:ice-cooperation",
+      "policy:sharing",
       "vendor:axon",
       "vendor:flock"
     ],
@@ -38266,11 +38448,30 @@
         ]
       }
     ],
-    "primary_subject_agency_ids": [],
-    "summary": null,
-    "key_quotes": [],
-    "curation_status": "mechanical",
-    "curated_at": "2026-05-28T23:43:43Z",
+    "primary_subject_agency_ids": [
+      "6f2b98a1-957a-5dc9-935c-7b8127a223d6"
+    ],
+    "summary": "Flock Safety hosted a private webinar training law enforcement officers on how to advocate for its license plate reader technology before city councils, amid growing pushback in Bay Area cities. The Oaklandside's attempt to observe was blocked; the article situates the training in context of Oakland's contract approval, Berkeley's pullback from expansion, and Richmond's prior shutdown and planned reactivation.",
+    "key_quotes": [
+      {
+        "quote": "The training, according to a public description on Flock's website, equips police with \"clear ways to reframe common concerns and respond to misinformation.\"",
+        "paragraph_idx": 8
+      },
+      {
+        "quote": "Since August 2021, 88 of Flock's contracts have been terminated, according to Secure Justice's most recent tally.",
+        "paragraph_idx": 27
+      },
+      {
+        "quote": "Berkeley city leaders pulled back from a planned $2 million expansion of their contract with Flock earlier this month",
+        "paragraph_idx": 11
+      },
+      {
+        "quote": "In Richmond, police shut down their Flock license plate reader network last year after finding out that their local data safeguards weren't as stringent as they thought. However, Richmond police recently announced on their website that they're \"in the process of reactivating\" their Flock system.",
+        "paragraph_idx": 12
+      }
+    ],
+    "curation_status": "enriched",
+    "curated_at": "2026-05-29T21:31:01Z",
     "article_id": "art_342"
   },
   {
