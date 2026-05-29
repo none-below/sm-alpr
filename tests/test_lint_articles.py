@@ -96,6 +96,17 @@ def test_lint_passes_on_valid_entries(tmp_path):
     assert rc == 0, err
 
 
+def test_lint_accepts_hashed_article_id(tmp_path):
+    # Current minting is art_<12 hex> (article_curate.article_id_for_url);
+    # legacy art_NNN must keep validating alongside the new hashed form.
+    repo, _ = _make_repo(tmp_path, registry=[
+        _good_entry("art_a1b2c3d4e5f6"),
+        _good_entry("art_001", url="https://eff.org/legacy"),
+    ])
+    rc, out, err = _run(repo)
+    assert rc == 0, err
+
+
 # ── Failure cases ────────────────────────────────────────────────
 
 

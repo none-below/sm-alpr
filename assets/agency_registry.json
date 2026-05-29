@@ -1413,6 +1413,37 @@
     ]
   },
   {
+    "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
+    "slug": "charlottesville-va-pd",
+    "flock_active_slug": "charlottesville-va-pd",
+    "flock_slugs": [
+      "charlottesville-va-pd"
+    ],
+    "flock_names": [
+      "Charlottesville Police Department"
+    ],
+    "display_name": "Charlottesville Police Department",
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "notes": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5114968",
+      "name": "Charlottesville",
+      "state": "VA",
+      "lat": 38.037658,
+      "lng": -78.485381
+    },
+    "ori": [
+      "VA1020000"
+    ]
+  },
+  {
     "agency_id": "858ea72e-7bb7-5769-91db-a2c06ab11a86",
     "slug": "cheektowaga-town-ny-pd",
     "flock_active_slug": "cheektowaga-town-ny-pd",
@@ -6277,6 +6308,32 @@
     ]
   },
   {
+    "agency_id": "33f2410a-d3bc-59c8-9076-2f363c25b8ea",
+    "slug": "sparks-police-department-nv",
+    "flock_active_slug": "sparks-nv-pd",
+    "flock_slugs": [
+      "sparks-nv-pd"
+    ],
+    "flock_names": [
+      "Sparks Police Department - NV"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "geo": {
+      "kind": "manual",
+      "state": "NV",
+      "lat": 39.5349,
+      "lng": -119.7527
+    },
+    "flags": []
+  },
+  {
     "agency_id": "8b8e35cd-c8ac-51a2-9f4f-2aa18b5d0028",
     "slug": "st-helena-ca-pd",
     "flock_active_slug": "st-helena-ca-pd",
@@ -7203,6 +7260,24 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "0bf7878d-415e-5d4d-92fd-c44280ef0e82",
+    "slug": "265",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "265"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": null
   },
   {
     "agency_id": "fd74ddc3-184d-5628-8e8c-f80bc92fd49a",
@@ -11015,8 +11090,10 @@
   {
     "agency_id": "e2f8427f-eb7a-580d-9c0a-eea576f679b9",
     "slug": "north-kingstown-ri-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
+    "flock_active_slug": "north-kingstown-ri-pd",
+    "flock_slugs": [
+      "north-kingstown-ri-pd"
+    ],
     "flock_names": [
       "North Kingstown RI PD"
     ],
@@ -144918,32 +144995,6 @@
     ]
   },
   {
-    "agency_id": "33f2410a-d3bc-59c8-9076-2f363c25b8ea",
-    "slug": "sparks-police-department-nv",
-    "flock_active_slug": "sparks-nv-pd",
-    "flock_slugs": [
-      "sparks-nv-pd"
-    ],
-    "flock_names": [
-      "Sparks Police Department - NV"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
-    "website": null,
-    "tags": [
-      "federal",
-      "public"
-    ],
-    "geo": {
-      "kind": "manual",
-      "state": "NV",
-      "lat": 39.5349,
-      "lng": -119.7527
-    },
-    "flags": []
-  },
-  {
     "agency_id": "db8b5934-0b06-5420-893c-9295c3aaf07d",
     "slug": "st-charles-county-mo-pd",
     "flock_active_slug": null,
@@ -146872,37 +146923,6 @@
     },
     "ori": [
       "CODPD0000"
-    ]
-  },
-  {
-    "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
-    "slug": "charlottesville-va-pd",
-    "flock_active_slug": "charlottesville-va-pd",
-    "flock_slugs": [
-      "charlottesville-va-pd"
-    ],
-    "flock_names": [
-      "Charlottesville Police Department"
-    ],
-    "display_name": "Charlottesville Police Department",
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "notes": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "5114968",
-      "name": "Charlottesville",
-      "state": "VA",
-      "lat": 38.037658,
-      "lng": -78.485381
-    },
-    "ori": [
-      "VA1020000"
     ]
   },
   {

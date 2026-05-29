@@ -33,6 +33,7 @@ runs over everything since it's free.
 
 import argparse
 import functools
+import hashlib
 import json
 import os
 import re
@@ -81,14 +82,22 @@ def now_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def next_article_id(registry: list[dict]) -> str:
-    """Sequential art_NNN; lint_articles enforces uniqueness across PRs."""
-    used: set[int] = set()
-    for e in registry:
-        m = re.match(r"^art_(\d+)$", e.get("article_id", ""))
-        if m:
-            used.add(int(m.group(1)))
-    return f"art_{(max(used) + 1) if used else 1:03d}"
+def article_id_for_url(url: str) -> str:
+    """Stable, collision-free article id derived from the URL.
+
+    Hash-based rather than a max(n)+1 counter: every branch derives the
+    SAME id for a given URL and DIFFERENT ids for different URLs, so two
+    PRs curating concurrently can't mint the same id the way the sequential
+    counter did (each branch read the same max from its own snapshot, picked
+    the same next number, and merged without a git conflict — the collision
+    only surfaced in lint after the fact). Also idempotent: re-crawling a
+    URL reuses its id instead of spawning a second entry. Mirrors the
+    sha256(url)[:8] filename convention in scripts/article_crawl.py
+    (url_filename); 12 hex chars (~48 bits) keep birthday-collision odds
+    negligible at corpus scale. Legacy art_NNN ids are grandfathered by
+    lint_articles.ARTICLE_ID_RE — minting changes, existing ids don't.
+    """
+    return "art_" + hashlib.sha256(url.encode("utf-8")).hexdigest()[:12]
 
 
 # ───────────────────────── HTML metadata extraction ─────────────────────────
@@ -323,7 +332,7 @@ def run_phase1(registry: list[dict], *, tags_data: dict,
             continue
         if entry is None:
             continue
-        entry["article_id"] = next_article_id(registry)
+        entry["article_id"] = article_id_for_url(entry["url"])
         registry.append(entry)
         seen.add(entry["url"])
         added += 1
