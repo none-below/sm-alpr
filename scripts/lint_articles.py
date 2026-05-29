@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """Lint assets/article_registry.json for structural integrity.
 
-Parallel PRs adding article entries can collide on art_NNN IDs without
-touching the same line. CI runs this on every PR. The same shape as
+article_id is now hashed from the URL (collision-free by construction —
+see scripts/article_curate.py:article_id_for_url), so parallel PRs can no
+longer mint the same new id. This lint stays as defense-in-depth: it still
+guards the legacy art_NNN ids, hand-edits, URL uniqueness, and the other
+structural invariants. CI runs it on every PR. Same shape as
 scripts/lint_findings.py — fail closed on any error, list every error,
 exit 1.
 
 Checks (errors — exit 1):
-  - article_id format (art_NNN) and uniqueness
+  - article_id format (art_NNN legacy or art_<hex>) and uniqueness
   - URL uniqueness
   - source_domain present and listed in assets/sources.json
   - agencies[] entries resolve to assets/agency_registry.json agency_ids
@@ -39,7 +42,10 @@ SOURCES = ROOT / "assets" / "sources.json"
 TAGS = ROOT / "assets" / "tags.json"
 AGENCY_REGISTRY = ROOT / "assets" / "agency_registry.json"
 
-ARTICLE_ID_RE = re.compile(r"^art_\d{3,}$")
+# art_NNN (legacy sequential) or art_<hex> (current, hashed from the URL —
+# see scripts/article_curate.py:article_id_for_url). Decimal digits are a
+# subset of hex, so one pattern accepts both.
+ARTICLE_ID_RE = re.compile(r"^art_[0-9a-f]{3,}$")
 KNOWN_STATUSES = {"mechanical", "enriched", "needs_review"}
 
 # Word-boundary regex hits suggesting the article reports a contract
@@ -128,7 +134,8 @@ def main() -> int:
         if not aid:
             errors.append(f"{prefix}: missing article_id")
         elif not ARTICLE_ID_RE.match(aid):
-            errors.append(f"{prefix}: article_id {aid!r} doesn't match art_NNN")
+            errors.append(
+                f"{prefix}: article_id {aid!r} doesn't match art_<digits-or-hex>")
         elif aid in seen_ids:
             errors.append(
                 f"{prefix}: duplicate article_id (also at entry[{seen_ids[aid]}])"
