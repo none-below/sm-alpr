@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'self' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com; frame-src https://raw.githubusercontent.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com; frame-src https://raw.githubusercontent.com;">
+<link rel="stylesheet" href="css/shared.css">
 <title>PRA Tracker — SMPD ALPR Investigation</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,15 +39,6 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .back-link {
-    display: inline-block;
-    color: #60a5fa;
-    text-decoration: none;
-    font-size: 13px;
-    margin-bottom: 12px;
-  }
-  .back-link:hover { text-decoration: underline; }
-
   main {
     max-width: 1100px;
     margin: 0 auto;
@@ -959,7 +951,7 @@
 </head>
 <body>
 <div class="header">
-  <a class="back-link" href="index.html">← Back</a>
+  <a class="back-link" href="index.html">&larr; Investigation home</a>
   <h1>PRA Tracker</h1>
   <p id="subtitle">California Public Records Act requests filed in the SMPD ALPR investigation</p>
   <p class="intro-blurb">Every request below is published with its full text. If you are investigating a similar program in your own city, expand "Read the request text" on any card to copy the exact wording that was filed.</p>

@@ -8,12 +8,6 @@
 const PREVIEW_PASSWORD = 'preview';
 const UNLOCK_KEY = 'contracts-preview-unlocked';
 
-function escapeHtml(s) {
-  return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
-
 function safeUrl(u) {
   if (typeof u !== 'string') return '';
   return /^https?:\/\//.test(u) ? u : '';

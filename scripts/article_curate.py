@@ -585,7 +585,8 @@ def call_claude_for_curation(entry: dict, text: str, *,
 def run_phase2(registry: list[dict], *, tags_data: dict,
                limit: int, model: str, dry_run: bool,
                reenrich: bool = False,
-               include_flagged: bool = False) -> int:
+               include_flagged: bool = False,
+               ids: set[str] | None = None) -> int:
     if not dry_run and not os.environ.get("ANTHROPIC_API_KEY"):
         print("phase2: ANTHROPIC_API_KEY not set; skipping (Phase 1 still ran)")
         return 0
@@ -608,6 +609,15 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
 
     eligible = []
     for e in registry:
+        # --ids targets a specific approved set (e.g. from the review UI);
+        # those bypass the scanner gate AND the status/tier filters, since
+        # the user vouched for each id. Lets you retry timed-out
+        # needs_review entries by id without flipping them back manually.
+        if ids is not None:
+            if e.get("article_id") not in ids:
+                continue
+            eligible.append(e)
+            continue
         if e.get("curation_status") not in accepted_statuses:
             continue
         if e.get("tier") not in PHASE2_ELIGIBLE_TIERS:
@@ -681,6 +691,16 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
         existing_tags.add(f"genre:{data['genre']}")
         entry["tags"] = sorted(existing_tags)
         entry["primary_subject_agency_ids"] = data["primary_subject_agency_ids"]
+        # LLM judgment on PSA trumps the Phase-1 fuzzy-score cutoff: if the
+        # model identifies a candidate as the article's subject, fold it into
+        # agencies[] so downstream lookups (and lint_articles.py's subset
+        # check) see it.
+        if data["primary_subject_agency_ids"]:
+            merged = list(entry.get("agencies") or [])
+            for psa in data["primary_subject_agency_ids"]:
+                if psa not in merged:
+                    merged.append(psa)
+            entry["agencies"] = merged
         entry["curation_status"] = "enriched"
         entry["curated_at"] = now_iso()
         entry.pop("curation_error", None)
@@ -715,6 +735,10 @@ def main() -> int:
                         "scanner verdict REVIEW REQUIRED. Use on known-source "
                         "batches; Phase 2 has no tools so the scanner is "
                         "defense-in-depth rather than a hard wall.")
+    p.add_argument("--ids", default=None,
+                   help="Phase 2 only: comma- or space-separated article_ids "
+                        "to enrich. Bypasses the scanner gate for those ids "
+                        "(use after human review, e.g. review_mechanical.py).")
     args = p.parse_args()
 
     registry = read_json(REGISTRY_PATH, [])
@@ -727,10 +751,17 @@ def main() -> int:
 
     if args.phase in ("2", "both"):
         limit = args.limit if args.limit is not None else DEFAULT_PHASE2_LIMIT
+        ids = None
+        if args.ids:
+            ids = {t for t in re.split(r"[,\s]+", args.ids) if t}
+            # --ids implies "I picked these deliberately, run them all"
+            if args.limit is None:
+                limit = len(ids)
         run_phase2(registry, tags_data=tags_data, limit=limit,
                    model=args.model, dry_run=args.dry_run,
                    reenrich=args.reenrich,
-                   include_flagged=args.include_flagged)
+                   include_flagged=args.include_flagged,
+                   ids=ids)
 
     if not args.dry_run:
         write_json(REGISTRY_PATH, registry)

@@ -9,23 +9,6 @@ var STATE = {
   markerLayer: null
 };
 
-function escapeHtml(s) {
-  if (s == null) return '';
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-function formatDate(iso) {
-  if (!iso) return '';
-  var d = new Date(iso);
-  if (isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString(undefined,
-    { year: 'numeric', month: 'short', day: 'numeric' });
-}
 
 function cycleFilter(tag) {
   var cur = STATE.filters[tag];
@@ -303,22 +286,24 @@ function renderArticleCard(article) {
     }
   }
 
+  var articleUrl = safeUrl(article.url);
+  var waybackUrl = safeUrl(article.wayback_url);
   var links = [];
-  if (article.url) {
-    links.push('<a href="' + escapeHtml(article.url)
+  if (articleUrl) {
+    links.push('<a href="' + escapeHtml(articleUrl)
       + '" target="_blank" rel="noopener">original</a>');
   }
   if (article.paths && article.paths.pdf) {
     links.push('<a href="../' + escapeHtml(article.paths.pdf)
       + '" target="_blank">pdf</a>');
   }
-  if (article.wayback_url) {
-    links.push('<a href="' + escapeHtml(article.wayback_url)
+  if (waybackUrl) {
+    links.push('<a href="' + escapeHtml(waybackUrl)
       + '" target="_blank" rel="noopener">archive.org</a>');
   }
 
-  var titleHtml = article.url
-    ? '<a href="' + escapeHtml(article.url)
+  var titleHtml = articleUrl
+    ? '<a href="' + escapeHtml(articleUrl)
       + '" target="_blank" rel="noopener">' + escapeHtml(article.title) + '</a>'
     : escapeHtml(article.title);
 
@@ -481,9 +466,10 @@ function renderMap(matched) {
       + '</div><ul>';
     for (var k = 0; k < arts.length; k++) {
       var art = arts[k];
+      var artUrl = safeUrl(art.url);
       popup += '<li>'
-        + (art.url
-            ? '<a href="' + escapeHtml(art.url) + '" target="_blank" rel="noopener">'
+        + (artUrl
+            ? '<a href="' + escapeHtml(artUrl) + '" target="_blank" rel="noopener">'
               + escapeHtml(art.title) + '</a>'
             : escapeHtml(art.title))
         + (art.published_at
@@ -519,9 +505,10 @@ function renderMap(matched) {
       + ' <span class="pop-meta">no specific city</span></div><ul>';
     for (var v = 0; v < arts.length; v++) {
       var art = arts[v];
+      var artUrl = safeUrl(art.url);
       popup += '<li>'
-        + (art.url
-            ? '<a href="' + escapeHtml(art.url) + '" target="_blank" rel="noopener">'
+        + (artUrl
+            ? '<a href="' + escapeHtml(artUrl) + '" target="_blank" rel="noopener">'
               + escapeHtml(art.title) + '</a>'
             : escapeHtml(art.title))
         + (art.published_at
