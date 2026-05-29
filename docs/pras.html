@@ -532,6 +532,23 @@
   .productivity-table td.num.response-num.zero { color: #475569; }
   .productivity-table td.num.continuation-num { color: #fcd34d; }
   .productivity-table td.num.continuation-num.zero { color: #475569; }
+  /* Subordinate breakdown columns sit at a smaller font to show they sum
+     into the Items column to their left. */
+  .productivity-table td.num.breakdown-num { font-size: 12px; }
+  .productivity-table thead th.chartable[data-metric="response"],
+  .productivity-table thead th.chartable[data-metric="no_records"],
+  .productivity-table thead th.chartable[data-metric="continuation"] {
+    font-size: 10px;
+    color: #64748b;
+  }
+  .productivity-table thead th.chartable[data-metric="response"]:hover,
+  .productivity-table thead th.chartable[data-metric="no_records"]:hover,
+  .productivity-table thead th.chartable[data-metric="continuation"]:hover,
+  .productivity-table thead th.chartable[data-metric="response"].active,
+  .productivity-table thead th.chartable[data-metric="no_records"].active,
+  .productivity-table thead th.chartable[data-metric="continuation"].active {
+    color: #dbeafe;
+  }
 
   /* Column-header click target */
   .productivity-table thead th.chartable {

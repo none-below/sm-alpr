@@ -29,13 +29,13 @@ const state = {
 
 const PRODUCTIVITY_COLUMNS = [
   { key: 'pras', label: 'PRAs', get: w => w.totals.pras_touched },
-  { key: 'worked_on', label: 'Worked on', get: w => w.totals.worked_on || 0 },
-  { key: 'response', label: 'Response', get: w => w.totals.response || 0,
-    cellClass: 'response-num' },
-  { key: 'no_records', label: 'No records', get: w => w.totals.no_records || 0,
-    cellClass: 'no-records-num' },
-  { key: 'continuation', label: 'Continuation', get: w => w.totals.continuation || 0,
-    cellClass: 'continuation-num' },
+  { key: 'worked_on', label: 'Items', get: w => w.totals.worked_on || 0 },
+  { key: 'response', label: '↳ Response', get: w => w.totals.response || 0,
+    cellClass: 'response-num breakdown-num' },
+  { key: 'no_records', label: '↳ No records', get: w => w.totals.no_records || 0,
+    cellClass: 'no-records-num breakdown-num' },
+  { key: 'continuation', label: '↳ Continuation', get: w => w.totals.continuation || 0,
+    cellClass: 'continuation-num breakdown-num' },
   { key: 'files', label: 'Files', get: w => w.totals.files },
 ];
 
