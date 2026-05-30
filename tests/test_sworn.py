@@ -13,6 +13,7 @@ are easy to get subtly wrong:
     collapse.
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -95,6 +96,40 @@ def test_min_year_excludes_stale():
 
 def test_sworn_latest_year():
     assert lib.sworn_latest_year(sworn=SWORN) == 2024
+
+
+def test_join_sworn_snapshots_overlays_by_year():
+    # Later snapshots win per year; earlier-only years are retained.
+    snaps = [
+        {"by_year": {"2024": {"officers": 100, "civilians": 40, "total": 140}}},
+        {"by_year": {"2024": {"officers": 102, "civilians": 41, "total": 143},
+                     "2025": {"officers": 110, "civilians": 45, "total": 155}}},
+    ]
+    j = lib.join_sworn_snapshots(snaps)
+    assert j["2024"]["officers"] == 102  # revised
+    assert j["2025"]["officers"] == 110  # added
+
+
+def test_load_sworn_joins_dated_snapshots(tmp_path, monkeypatch):
+    # load_sworn joins each ORI's dated snapshots → newest-year summary.
+    d = tmp_path / "sworn"
+    o = d / "CA0010000"
+    o.mkdir(parents=True)
+    (o / "2026-01-01.json").write_text(json.dumps(
+        {"ori": "CA0010000", "fetched": "2026-01-01",
+         "by_year": {"2024": {"officers": 100, "civilians": 40, "total": 140}}}))
+    (o / "2026-05-01.json").write_text(json.dumps(
+        {"ori": "CA0010000", "fetched": "2026-05-01",
+         "by_year": {"2025": {"officers": 110, "civilians": 45, "total": 155}}}))
+    nd = d / "CA0NULL00"
+    nd.mkdir(parents=True)
+    (nd / "2026-05-01.json").write_text(json.dumps(
+        {"ori": "CA0NULL00", "fetched": "2026-05-01", "by_year": {}}))
+    monkeypatch.setattr(lib, "SWORN_DIR", d)
+    monkeypatch.setattr(lib, "_sworn_cache", None)
+    s = lib.load_sworn()
+    assert s["CA0010000"] == {"year": 2025, "officers": 110, "civilians": 45, "total": 155}
+    assert s["CA0NULL00"] is None
 
 
 # ── match_ori guards ─────────────────────────────────────────────
