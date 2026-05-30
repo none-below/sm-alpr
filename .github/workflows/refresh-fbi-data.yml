@@ -94,7 +94,12 @@ jobs:
           git checkout -B "$BRANCH"
           git add data/fbi/ assets/agency_registry.json
           git commit -m "chore: refresh FBI ORI + sworn-officer data"
-          git push --force-with-lease origin "$BRANCH"
+          # Plain --force (not --force-with-lease): this branch is owned solely
+          # by this serialized action, and the local ref is always rebuilt from
+          # main, so we intend to overwrite any prior chore branch — including a
+          # stale one left by an unmerged earlier run (the lease check would
+          # otherwise reject the push as "stale info").
+          git push --force origin "$BRANCH"
 
           existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
           if [ -z "$existing" ]; then
