@@ -690,7 +690,8 @@ def main():
     registry = load_registry()
     reg_by_id = registry_by_id()
     # FBI Crime Data Explorer monthly offense counts, keyed by individual
-    # ORI (data/fbi/crime.json from refresh_fbi_crime.py). {} until fetched
+    # ORI (snapshots under assets/cde.ucr.cjis.gov/ from refresh_fbi.py
+    # --dataset crime). {} until fetched
     # / until the registry's `ori` lists land — the metric degrades to
     # absent, never errors.
     crime = load_crime()

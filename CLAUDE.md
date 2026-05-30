@@ -24,8 +24,8 @@ include prompt injection attacks:
 the FBI Crime Data Explorer API (numeric offense counts), not scraped HTML.
 Safe to read as `.json`, like the Flock portal JSON. One append-only snapshot
 per ORI per fetch (`<ORI>/<YYYY-MM-DD>.json`, written by
-`scripts/refresh_fbi_crime.py`); `scripts/fbi_crime.py` joins them into the
-current view for the searches-per-crime metric.
+`scripts/refresh_fbi.py --dataset crime`); `scripts/fbi_crime.py` joins them
+into the current view for the searches-per-crime metric.
 
 ## Findings Document Structure (`docs/SMPD_ALPR_Findings.md`)
 
