@@ -1464,9 +1464,10 @@
     "4e876f28-fcca-5c87-9e65-f0730980ea1d": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-05T01:21:17.699496+00:00",
+      "last_probed": "2026-05-30T20:39:10.101404+00:00",
       "tried": {
-        "corcoran-ca-po": "http_404"
+        "corcoran-ca-po": "http_404",
+        "corcoran-ca-police-department": "http_404"
       }
     },
     "4ec54275-baff-59d8-8b65-ab55b6ab864b": {
@@ -1990,7 +1991,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-30T18:53:01.982885+00:00",
+      "last_probed": "2026-05-30T20:39:14.433160+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -2020,6 +2021,7 @@
         "-beverlyhills-ca-ps": "http_403",
         "-beverlyhills-pd-ca": "http_404",
         "-beverlyhills-po-ca": "http_404",
+        "-beverlyhills-police-department-ca": "http_404",
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
@@ -3622,6 +3624,14 @@
         "creve-coeur-mo-pd": "http_404"
       }
     },
+    "bde50179-1511-5cde-a89b-c04228d0b2a9": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-30T20:39:04.024675+00:00",
+      "tried": {
+        "decatur-in-pd": "http_403"
+      }
+    },
     "be5124a8-2b29-578f-b2d7-b63b9947b18f": {
       "exhausted": false,
       "found": null,
@@ -4748,6 +4758,6 @@
       }
     }
   },
-  "updated": "2026-05-30T18:53:02.023955+00:00",
+  "updated": "2026-05-30T20:39:14.473692+00:00",
   "version": 1
 }
