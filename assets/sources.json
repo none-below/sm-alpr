@@ -61,6 +61,14 @@
       "notes": "Formerly aclunc.org; redirects to aclunorcal.org."
     },
     {
+      "domain": "almanacnews.com",
+      "tier": 2,
+      "name": "The Almanac",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Menlo Park / Atherton / Woodside / Portola Valley (San Mateo County). Embarcadero Media Foundation network; shares one RSS with rwcpulse/paloaltoonline/mv-voice — rwcpulse.com is the network feed-bearer, so this entry is feedless to avoid 4x duplicate crawls of shared stories."
+    },
+    {
       "domain": "apnews.com",
       "tier": 1,
       "name": "Associated Press",
@@ -108,6 +116,15 @@
       "stance": "unknown",
       "last_reviewed": "2026-05-08",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "berkeleyscanner.com",
+      "tier": 2,
+      "name": "The Berkeley Scanner",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.berkeleyscanner.com/feed/",
+      "notes": "Berkeley police-beat newsroom; crime/policing focus — high signal for ALPR/surveillance coverage."
     },
     {
       "domain": "berkeleyside.org",
@@ -334,6 +351,14 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "hmbreview.com",
+      "tier": 2,
+      "name": "Half Moon Bay Review",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "San Mateo County coastside (Half Moon Bay / Coastside). No usable RSS feed found (TownNews/BLOX platform); Bing + manual discovery only."
+    },
+    {
       "domain": "hngnews.com",
       "tier": 2,
       "name": "hngnews.com",
@@ -411,12 +436,30 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "kron4.com",
+      "tier": 2,
+      "name": "KRON4",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.kron4.com/feed/",
+      "notes": "Bay Area TV news (Nexstar)."
+    },
+    {
       "domain": "kstp.com",
       "tier": 2,
       "name": "kstp.com",
       "stance": "unknown",
       "last_reviewed": "2026-05-08",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "ktvu.com",
+      "tier": 2,
+      "name": "KTVU FOX 2",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.ktvu.com/rss/category/news.xml",
+      "notes": "Bay Area TV news (FOX)."
     },
     {
       "domain": "kut.org",
@@ -462,6 +505,15 @@
       "notes": "California desk feed."
     },
     {
+      "domain": "localnewsmatters.org",
+      "tier": 2,
+      "name": "Local News Matters (Bay City News)",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://localnewsmatters.org/feed/",
+      "notes": "Bay City News regional wire; broad Bay Area / Northern California coverage, syndicated to many local outlets."
+    },
+    {
       "domain": "lookouteugene-springfield.com",
       "tier": 2,
       "name": "lookouteugene-springfield.com",
@@ -485,6 +537,14 @@
       "last_reviewed": "2026-05-11",
       "feed_url": "https://madison.com/search/?f=rss&t=article&l=50&s=start_time&sd=desc&k%5B%5D=%23topstory",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "marinij.com",
+      "tier": 1,
+      "name": "Marin Independent Journal",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Marin County daily (MediaNews Group). Feed returns HTTP 403 to bots — Bing + manual discovery only, same as mercurynews.com / eastbaytimes.com."
     },
     {
       "domain": "mercurynews.com",
@@ -535,6 +595,15 @@
       "stance": "unknown",
       "last_reviewed": "2026-05-08",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "nbcbayarea.com",
+      "tier": 2,
+      "name": "NBC Bay Area",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.nbcbayarea.com/?rss=y",
+      "notes": "Bay Area TV news (NBC)."
     },
     {
       "domain": "news10.com",
@@ -614,12 +683,38 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "padailypost.com",
+      "tier": 2,
+      "name": "Palo Alto Daily Post",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://padailypost.com/feed/",
+      "notes": "Palo Alto / Peninsula daily."
+    },
+    {
+      "domain": "paloaltoonline.com",
+      "tier": 2,
+      "name": "Palo Alto Online",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Palo Alto / Peninsula. Embarcadero Media Foundation network; shares one RSS with rwcpulse (the feed-bearer) — feedless here to avoid duplicate crawls of shared stories."
+    },
+    {
       "domain": "patch.com",
       "tier": 2,
       "name": "patch.com",
       "stance": "unknown",
       "last_reviewed": "2026-05-08",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "peninsula360press.com",
+      "tier": 2,
+      "name": "Peninsula 360 Press",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://peninsula360press.com/feed/",
+      "notes": "Redwood City / Peninsula bilingual (English + Spanish) outlet; apex is peninsula360press.com (p360press.com is a short alias). Spanish-language items won't trip the English keyword list, but English ALPR coverage will."
     },
     {
       "domain": "police1.com",
@@ -679,6 +774,15 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "rwcpulse.com",
+      "tier": 2,
+      "name": "Redwood City Pulse",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.rwcpulse.com/rss",
+      "notes": "Redwood City (San Mateo County). Embarcadero Media Foundation network feed-bearer: this one RSS carries the shared network's stories (almanacnews/paloaltoonline/mv-voice publish the same items under their own domains), so only this domain polls the feed to avoid duplicate crawls."
+    },
+    {
       "domain": "sacbee.com",
       "tier": 1,
       "name": "Sacramento Bee",
@@ -727,6 +831,24 @@
       "stance": "neutral",
       "last_reviewed": "2026-04-27",
       "notes": "Hard paywall; no public RSS. Discoverable via search mode."
+    },
+    {
+      "domain": "sfgate.com",
+      "tier": 2,
+      "name": "SFGATE",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.sfgate.com/rss/feed/bay-area-news-429.php",
+      "notes": "Hearst Bay Area digital outlet (sister to sfchronicle.com); Bay Area News section feed."
+    },
+    {
+      "domain": "sfstandard.com",
+      "tier": 2,
+      "name": "The San Francisco Standard",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://sfstandard.com/feed/",
+      "notes": "San Francisco nonprofit newsroom; policing/surveillance coverage."
     },
     {
       "domain": "shorewoodmn.gov",
