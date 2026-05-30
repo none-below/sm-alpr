@@ -1948,8 +1948,9 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-29T22:59:56.317086+00:00",
+      "last_probed": "2026-05-30T01:31:58.239966+00:00",
       "tried": {
+        "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
         "-beverly-hills-ca-pd": "http_404",
         "-beverly-hills-ca-po": "http_404",
@@ -4261,6 +4262,14 @@
         "ca-wasco-ca-pd": "http_404"
       }
     },
+    "ec4bad31-edce-5f57-9491-5351b3ff3ce0": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-30T01:31:53.512585+00:00",
+      "tried": {
+        "beverly-hills-mi-pd": "http_404"
+      }
+    },
     "ec938401-adce-513f-a651-b52d3f8387b5": {
       "exhausted": false,
       "found": null,
@@ -4585,9 +4594,10 @@
     "fda043f8-008d-5ce2-a2bb-0d9b9cfbbba2": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-25T11:26:49.382798+00:00",
+      "last_probed": "2026-05-30T01:31:47.047478+00:00",
       "tried": {
         "sonoma-county-ca-sd": "http_404",
+        "sonoma-county-ca-sheriffs-department": "http_404",
         "sonoma-county-ca-sheriffs-office": "http_404"
       }
     },
@@ -4616,6 +4626,6 @@
       }
     }
   },
-  "updated": "2026-05-29T22:59:56.356312+00:00",
+  "updated": "2026-05-30T01:31:58.278750+00:00",
   "version": 1
 }
