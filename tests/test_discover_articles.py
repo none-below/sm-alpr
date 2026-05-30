@@ -26,6 +26,10 @@ import discover_articles as da  # noqa: E402
     # appears earlier in the list than "automated license plate".
     ("Automated license plate recognition systems",  "license plate recognition"),
     ("FLOCK SAFETY launches new product",            "flock safety"),  # case-insensitive
+    # Municipal-program / euphemistic framings (headline names no vendor).
+    ("City to review its street camera program",     "street camera"),
+    ("Police roll out a Fusus integration",          "fusus"),
+    ("New public safety camera network goes live",   "public safety camera"),
     ("Unrelated story about politics",               None),
 ])
 def test_matches_keywords(text, expected):
