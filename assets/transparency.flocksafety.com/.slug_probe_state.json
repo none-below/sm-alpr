@@ -1991,7 +1991,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-30T20:39:14.433160+00:00",
+      "last_probed": "2026-05-30T21:45:15.026808+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -2021,6 +2021,7 @@
         "-beverlyhills-ca-ps": "http_403",
         "-beverlyhills-pd-ca": "http_404",
         "-beverlyhills-po-ca": "http_404",
+        "-beverlyhills-police-ca": "http_404",
         "-beverlyhills-police-department-ca": "http_404",
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
@@ -2559,6 +2560,14 @@
       "last_probed": "2026-05-10T21:34:55.107391+00:00",
       "tried": {
         "west-saint-paul-mn-pd": "http_200"
+      }
+    },
+    "877a3737-0a7b-588b-a1ab-09901c0ad645": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-30T21:45:03.028996+00:00",
+      "tried": {
+        "tahlequah-ok-pd": "http_403"
       }
     },
     "87a1c161-c069-5a52-aa60-2a9a899efb89": {
@@ -4419,6 +4428,14 @@
         "la-grange-mo-pd": "http_404"
       }
     },
+    "eec5c484-c3df-5f3d-8434-00561fc760da": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-30T21:45:09.347614+00:00",
+      "tried": {
+        "magnolia-tx-pd": "http_404"
+      }
+    },
     "eef11480-824c-5b76-9049-541470c862b1": {
       "exhausted": false,
       "found": null,
@@ -4758,6 +4775,6 @@
       }
     }
   },
-  "updated": "2026-05-30T20:39:14.473692+00:00",
+  "updated": "2026-05-30T21:45:15.064407+00:00",
   "version": 1
 }
