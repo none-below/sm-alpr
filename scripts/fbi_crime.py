@@ -1,7 +1,8 @@
 """Read FBI crime data and derive the searches-per-reported-crime metric.
 
-Data source: data/fbi/crime.json, written by refresh_fbi_crime.py — flat,
-keyed by INDIVIDUAL ORI. An agency's registry ``ori`` field is a LIST
+Data source: per-ORI dated snapshots under assets/cde.ucr.cjis.gov/, written
+by ``refresh_fbi.py --dataset crime`` and joined here by load_crime(), keyed by
+INDIVIDUAL ORI. An agency's registry ``ori`` field is a LIST
 (99% length 1; umbrella agencies like CHP carry many reporting ORIs), so
 every total here is summed across that list at read time.
 

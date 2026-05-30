@@ -24,6 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          # REFRESH_PAT so the chore-branch push + PR are authed as the PAT
+          # owner: GITHUB_TOKEN can't push a branch carrying .github/workflows/
+          # files, and PRs it opens don't trigger CI. Matches refresh-fbi-data.
+          token: ${{ secrets.REFRESH_PAT || github.token }}
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -39,13 +44,14 @@ jobs:
       - name: Fetch FBI crime data (one dated snapshot per crawled agency)
         env:
           DATA_GOV_API_KEY: ${{ secrets.DATA_GOV_API_KEY }}
-        run: uv run python scripts/refresh_fbi_crime.py --crawled-only
+        run: uv run python scripts/refresh_fbi.py --dataset crime --crawled-only
 
       - name: Check for new snapshots
         id: diff
         run: |
-          # Snapshots are new (untracked) files, so check status, not diff.
-          if [ -n "$(git status --porcelain -- assets/cde.ucr.cjis.gov/)" ]; then
+          # Snapshots are new (untracked) files + the scrape-state file changes
+          # each run, so check status, not diff.
+          if [ -n "$(git status --porcelain -- assets/cde.ucr.cjis.gov/ data/fbi/crime_scrape_state.json)" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -54,16 +60,19 @@ jobs:
       - name: Create PR
         if: steps.diff.outputs.changed == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PAT so the push (workflow-carrying branch) and the PR (CI trigger)
+          # are authed as the PAT owner. Matches refresh-fbi-data.
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           BRANCH="chore/refresh-fbi-crime"
           git checkout -B "$BRANCH"
-          git add assets/cde.ucr.cjis.gov/
+          git add assets/cde.ucr.cjis.gov/ data/fbi/crime_scrape_state.json
           git commit -m "chore: refresh FBI crime data ($(date -u +%Y-%m-%d) snapshot)"
-          git push --force-with-lease origin "$BRANCH"
+          # Plain --force: action-owned branch, rebuilt from main, serialized.
+          git push --force origin "$BRANCH"
 
           existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
           if [ -z "$existing" ]; then
