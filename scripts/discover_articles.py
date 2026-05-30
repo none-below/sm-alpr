@@ -79,6 +79,18 @@ KEYWORDS = [
     "flock surveillance",
     "vigilant solutions",
     "axon alpr",
+    # Municipal-program / real-time-crime-center framings. Local outlets
+    # often describe ALPR/Flock deployments euphemistically ("street
+    # camera program", "public safety cameras") rather than naming the
+    # vendor, so the headline alone carries no ALPR term. These broaden
+    # recall for that framing; "fusus"/"real-time crime center" cover the
+    # adjacent surveillance stack (see Axon Fusus). Modest false-positive
+    # cost is absorbed by the two PR-review gates before crawl/merge.
+    "real-time crime center",
+    "real time crime center",
+    "fusus",
+    "street camera",
+    "public safety camera",
 ]
 
 # Bing News RSS search queries. Bing doesn't support quoted OR (e.g.
