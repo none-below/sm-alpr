@@ -66,7 +66,7 @@
       "name": "The Almanac",
       "stance": "neutral",
       "last_reviewed": "2026-05-29",
-      "notes": "Menlo Park / Atherton / Woodside / Portola Valley (San Mateo County). Embarcadero Media Foundation network; shares one RSS with rwcpulse/paloaltoonline/mv-voice — rwcpulse.com is the network feed-bearer, so this entry is feedless to avoid 4x duplicate crawls of shared stories."
+      "notes": "Menlo Park / Atherton / Woodside / Portola Valley (San Mateo County). Embarcadero Media Foundation network; shares one RSS with rwcpulse/paloaltoonline/mv-voice \u2014 rwcpulse.com is the network feed-bearer, so this entry is feedless to avoid 4x duplicate crawls of shared stories."
     },
     {
       "domain": "apnews.com",
@@ -102,6 +102,15 @@
       "notes": ""
     },
     {
+      "domain": "augustafreepress.com",
+      "tier": 2,
+      "name": "Augusta Free Press",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.augustafreepress.com/feed/",
+      "notes": "Staunton / Augusta County VA local news; Flock/ALPR coverage."
+    },
+    {
       "domain": "axon.com",
       "tier": 2,
       "name": "Axon (vendor)",
@@ -118,13 +127,22 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "azfamily.com",
+      "tier": 2,
+      "name": "Arizona's Family (KTVK/KPHO)",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.azfamily.com/arc/outboundfeeds/rss/?outputType=xml",
+      "notes": "Phoenix AZ TV news; Flock contract-cancellation coverage."
+    },
+    {
       "domain": "berkeleyscanner.com",
       "tier": 2,
       "name": "The Berkeley Scanner",
       "stance": "neutral",
       "last_reviewed": "2026-05-29",
       "feed_url": "https://www.berkeleyscanner.com/feed/",
-      "notes": "Berkeley police-beat newsroom; crime/policing focus — high signal for ALPR/surveillance coverage."
+      "notes": "Berkeley police-beat newsroom; crime/policing focus \u2014 high signal for ALPR/surveillance coverage."
     },
     {
       "domain": "berkeleyside.org",
@@ -193,6 +211,14 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "chicagotribune.com",
+      "tier": 1,
+      "name": "Chicago Tribune",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Major metro daily; ALPR/Flock coverage in Chicago and suburbs. No simple public RSS \u2014 Bing + manual discovery."
+    },
+    {
       "domain": "chronline.com",
       "tier": 2,
       "name": "chronline.com",
@@ -232,6 +258,14 @@
       "last_reviewed": "2026-05-11",
       "feed_url": "https://cvillerightnow.com/feed/",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "daytondailynews.com",
+      "tier": 2,
+      "name": "Dayton Daily News",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Dayton OH daily (Cox); Flock program-suspension coverage. Bing + manual discovery."
     },
     {
       "domain": "denvergazette.com",
@@ -367,6 +401,15 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "hoodline.com",
+      "tier": 2,
+      "name": "Hoodline",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.hoodline.com/rss",
+      "notes": "San Francisco / Bay Area hyperlocal; covers how police pitch Flock/ALPR to city hall."
+    },
+    {
       "domain": "ithacavoice.org",
       "tier": 2,
       "name": "ithacavoice.org",
@@ -393,6 +436,14 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "khq.com",
+      "tier": 2,
+      "name": "KHQ",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Spokane WA TV news. Bing + manual discovery."
+    },
+    {
       "domain": "kiro7.com",
       "tier": 2,
       "name": "kiro7.com",
@@ -408,6 +459,14 @@
       "stance": "unknown",
       "last_reviewed": "2026-05-08",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "kmbc.com",
+      "tier": 2,
+      "name": "KMBC",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Kansas City MO TV news (Hearst). Bing + manual discovery."
     },
     {
       "domain": "koamnewsnow.com",
@@ -505,6 +564,14 @@
       "notes": "California desk feed."
     },
     {
+      "domain": "law.com",
+      "tier": 2,
+      "name": "Law.com (ALM)",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Legal-industry news and dockets; ALPR litigation (e.g. v. Vigilant Solutions). Bing + manual discovery."
+    },
+    {
       "domain": "localnewsmatters.org",
       "tier": 2,
       "name": "Local News Matters (Bay City News)",
@@ -544,7 +611,7 @@
       "name": "Marin Independent Journal",
       "stance": "neutral",
       "last_reviewed": "2026-05-29",
-      "notes": "Marin County daily (MediaNews Group). Feed returns HTTP 403 to bots — Bing + manual discovery only, same as mercurynews.com / eastbaytimes.com."
+      "notes": "Marin County daily (MediaNews Group). Feed returns HTTP 403 to bots \u2014 Bing + manual discovery only, same as mercurynews.com / eastbaytimes.com."
     },
     {
       "domain": "mercurynews.com",
@@ -553,6 +620,15 @@
       "stance": "neutral",
       "last_reviewed": "2026-04-27",
       "notes": "MediaNews Group; direct feed blocked (403). Discoverable via search mode."
+    },
+    {
+      "domain": "miaminewtimes.com",
+      "tier": 2,
+      "name": "Miami New Times",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.miaminewtimes.com/feed/",
+      "notes": "Miami alt-weekly; investigative ALPR / ICE data-sharing coverage."
     },
     {
       "domain": "missionlocal.org",
@@ -640,6 +716,22 @@
       "notes": ""
     },
     {
+      "domain": "nwaonline.com",
+      "tier": 2,
+      "name": "NW Arkansas Democrat-Gazette",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Northwest Arkansas daily (WEHCO); LPR-purchase coverage. Bing + manual discovery."
+    },
+    {
+      "domain": "nydailynews.com",
+      "tier": 1,
+      "name": "New York Daily News",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Major metro daily; Ring/Flock coverage. Bing + manual discovery."
+    },
+    {
       "domain": "nytimes.com",
       "tier": 1,
       "name": "The New York Times",
@@ -664,6 +756,14 @@
       "last_reviewed": "2026-05-11",
       "feed_url": "https://www.oakpark.com/feed/",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "officer.com",
+      "tier": 2,
+      "name": "Officer.com",
+      "stance": "supportive",
+      "last_reviewed": "2026-05-29",
+      "notes": "Law-enforcement trade publication (Endeavor B2B); vendor/LE-side ALPR coverage. Peer to police1.com. Bing + manual discovery."
     },
     {
       "domain": "opb.org",
@@ -697,7 +797,7 @@
       "name": "Palo Alto Online",
       "stance": "neutral",
       "last_reviewed": "2026-05-29",
-      "notes": "Palo Alto / Peninsula. Embarcadero Media Foundation network; shares one RSS with rwcpulse (the feed-bearer) — feedless here to avoid duplicate crawls of shared stories."
+      "notes": "Palo Alto / Peninsula. Embarcadero Media Foundation network; shares one RSS with rwcpulse (the feed-bearer) \u2014 feedless here to avoid duplicate crawls of shared stories."
     },
     {
       "domain": "patch.com",
@@ -825,6 +925,14 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "securitysystemsnews.com",
+      "tier": 2,
+      "name": "Security Systems News",
+      "stance": "industry",
+      "last_reviewed": "2026-05-29",
+      "notes": "Security-industry trade; ALPR vendor/partnership news (e.g. Ring/Flock). RSS feed 403s our research-bot UA, so Bing + manual discovery only."
+    },
+    {
       "domain": "sfchronicle.com",
       "tier": 1,
       "name": "San Francisco Chronicle",
@@ -932,6 +1040,23 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "timescall.com",
+      "tier": 2,
+      "name": "Longmont Times-Call",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Longmont CO daily (MediaNews); LPR coverage. Bing + manual (MediaNews feeds 403 bots)."
+    },
+    {
+      "domain": "timesofsandiego.com",
+      "tier": 2,
+      "name": "Times of San Diego",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.timesofsandiego.com/feed/",
+      "notes": "San Diego CA digital daily; ALPR / SDPD coverage."
+    },
+    {
       "domain": "timesunion.com",
       "tier": 1,
       "name": "timesunion.com",
@@ -997,6 +1122,14 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "wgal.com",
+      "tier": 2,
+      "name": "WGAL",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "notes": "Lancaster / Harrisburg PA TV news (Hearst). Bing + manual discovery."
+    },
+    {
       "domain": "whsv.com",
       "tier": 2,
       "name": "whsv.com",
@@ -1029,6 +1162,15 @@
       "stance": "unknown",
       "last_reviewed": "2026-05-08",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "wowt.com",
+      "tier": 2,
+      "name": "WOWT",
+      "stance": "neutral",
+      "last_reviewed": "2026-05-29",
+      "feed_url": "https://www.wowt.com/arc/outboundfeeds/rss/?outputType=xml",
+      "notes": "Omaha NE TV news (Gray); ALPR / ACLU-report coverage."
     },
     {
       "domain": "wpri.com",
