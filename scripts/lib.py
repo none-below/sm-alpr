@@ -11,7 +11,10 @@ import re
 from pathlib import Path
 
 REGISTRY_PATH = Path("assets/agency_registry.json")
-SWORN_PATH = Path("data/fbi/sworn_officers.json")
+# Per-ORI sworn-officer shards (one <ORI>.json file each), mirroring the
+# article_store layout. Avoids a single big file that the refresh action would
+# rewrite wholesale; each ORI is written/diffed independently.
+SWORN_DIR = Path("data/fbi/sworn")
 
 # Flock portal constants — shared by flock_transparency.py and slug_probe.py
 BASE_URL = "https://transparency.flocksafety.com"
@@ -77,13 +80,50 @@ def registry_by_id():
 _sworn_cache = None
 
 
+def join_sworn_snapshots(snaps):
+    """Overlay dated per-ORI sworn snapshots into one by_year view. Apply
+    oldest->newest so the latest fetch wins per year while years that dropped
+    from a later pull are retained (preserves data through FBI revisions).
+    Each snapshot stores only changed years, so this is a plain per-year
+    update. Mirrors fbi_crime.join_snapshots."""
+    by_year = {}
+    for s in snaps:
+        by_year.update(s.get("by_year") or {})
+    return by_year
+
+
+def _latest_year_summary(by_year):
+    """Newest year's {year, officers, civilians, total} from a by_year view,
+    or None. 4-digit year strings sort correctly, so max() picks the latest."""
+    if not by_year:
+        return None
+    y = max(by_year)
+    r = by_year[y]
+    return {"year": int(y), "officers": r.get("officers", 0),
+            "civilians": r.get("civilians", 0), "total": r.get("total", 0)}
+
+
 def load_sworn():
-    """Load FBI sworn-officer counts keyed by ORI (from refresh_fbi_sworn.py).
-    Cached. Returns {} if the file isn't present. Values are
-    {year, officers, civilians, total} or null (ORI has no FBI PE series)."""
+    """Join per-ORI dated snapshots under data/fbi/sworn/<ORI>/<date>.json into
+    {ORI: latest-year summary} (the current staffing the report uses). Cached.
+    The full per-year history stays in the snapshots for future year-accurate
+    metrics; this reader surfaces the most recent year. {} if the dir is absent.
+    """
     global _sworn_cache
     if _sworn_cache is None:
-        _sworn_cache = json.loads(SWORN_PATH.read_text()) if SWORN_PATH.exists() else {}
+        cache = {}
+        if SWORN_DIR.is_dir():
+            for ori_dir in SWORN_DIR.iterdir():
+                if not ori_dir.is_dir():
+                    continue
+                snaps = []
+                for sp in sorted(ori_dir.glob("*.json")):
+                    try:
+                        snaps.append(json.loads(sp.read_text()))
+                    except (OSError, json.JSONDecodeError):
+                        continue
+                cache[ori_dir.name] = _latest_year_summary(join_sworn_snapshots(snaps))
+        _sworn_cache = cache
     return _sworn_cache
 
 

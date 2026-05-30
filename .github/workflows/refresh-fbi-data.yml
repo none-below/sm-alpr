@@ -15,14 +15,18 @@ name: Refresh FBI ORI + Sworn Data
 
 on:
   schedule:
-    - cron: '0 9 5 * *'  # 09:00 UTC on the 5th, monthly
+    # Monthly rolling refresh: the fetcher re-checks the OLDEST-checked ORIs
+    # first (new agencies sort oldest), so over a few runs it cycles the whole
+    # set — catching new agencies promptly and the annual FBI vintage within a
+    # few months, with no single huge re-pull.
+    - cron: '0 9 5 * *'
   workflow_dispatch:
     inputs:
       fetch_limit:
-        description: 'Max NEW sworn-officer fetches this run (rate-limit budget)'
-        default: '800'
+        description: 'Max sworn-officer fetches this run (oldest-first budget)'
+        default: '1000'
       refresh_sworn:
-        description: 'Re-fetch sworn data even for cached ORIs (set true after a yearly FBI update)'
+        description: 'Re-check even ORIs already checked today (forced full re-pull)'
         default: 'false'
 
 permissions:
@@ -63,9 +67,11 @@ jobs:
         env:
           DATA_GOV_API_KEY: ${{ secrets.DATA_GOV_API_KEY }}
         run: |
-          ARGS="--all --limit ${{ inputs.fetch_limit || '800' }}"
+          # Rolling oldest-first refresh over the registry's ORIs. Bounded per
+          # run; write-on-change keeps the diff to agencies whose counts moved.
+          ARGS="--dataset pe --all --limit ${{ inputs.fetch_limit || '1000' }}"
           if [ "${{ inputs.refresh_sworn }}" = "true" ]; then ARGS="$ARGS --refresh"; fi
-          uv run python scripts/refresh_fbi_sworn.py $ARGS
+          uv run python scripts/refresh_fbi.py $ARGS
 
       - name: Check for changes
         id: diff
