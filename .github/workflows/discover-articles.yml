@@ -28,6 +28,7 @@ concurrency:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 jobs:
   discover:
@@ -84,7 +85,34 @@ jobs:
             ARGS="$ARGS --dry-run"
           fi
           # shellcheck disable=SC2086
-          uv run python scripts/discover_articles.py $ARGS
+          uv run python scripts/discover_articles.py $ARGS --rejects-json /tmp/rejects.json
+
+      - name: Triage issue for off-allowlist rejects
+        # Only on full runs (scheduled, or manual without a single --source /
+        # dry-run), so a partial run can't wrongly close the rolling issue.
+        if: ${{ inputs.source == '' && inputs.dry_run != 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          uv run python scripts/discover_reject_issue.py /tmp/rejects.json > /tmp/reject-issue.md || true
+          gh label create article-rejects --color FBCA04 \
+            --description "Discovery surfaced off-allowlist domains to triage" \
+            --force >/dev/null 2>&1 || true
+          existing=$(gh issue list --label article-rejects --state open \
+                       --json number --jq '.[0].number')
+          if [ -s /tmp/reject-issue.md ]; then
+            if [ -z "$existing" ]; then
+              gh issue create \
+                --title "📥 Discovery triage: domains seen but not allow-listed" \
+                --label article-rejects \
+                --body-file /tmp/reject-issue.md
+            else
+              gh issue edit "$existing" --body-file /tmp/reject-issue.md
+            fi
+          elif [ -n "$existing" ]; then
+            gh issue close "$existing" \
+              --comment "All surfaced domains triaged — nothing pending. A fresh issue opens if discovery finds new ones."
+          fi
 
       - name: Commit and push
         id: commit
