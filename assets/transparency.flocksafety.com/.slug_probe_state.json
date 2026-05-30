@@ -1990,7 +1990,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-30T17:47:33.590204+00:00",
+      "last_probed": "2026-05-30T18:53:01.982885+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -2019,6 +2019,7 @@
         "-beverlyhills-ca-police-department": "http_404",
         "-beverlyhills-ca-ps": "http_403",
         "-beverlyhills-pd-ca": "http_404",
+        "-beverlyhills-po-ca": "http_404",
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
@@ -3059,6 +3060,14 @@
       "last_probed": "2026-05-20T16:40:52.395922+00:00",
       "tried": {
         "haywood-county-nc-so": "http_404"
+      }
+    },
+    "a0b054c4-fd13-52f4-9b23-4d4e5188532e": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-30T18:52:52.351665+00:00",
+      "tried": {
+        "northport-ny-pd": "http_404"
       }
     },
     "a17a8e7d-6ebb-50e2-ad83-14ecd689e810": {
@@ -4351,6 +4360,14 @@
         "beverly-hills-mi-pd": "http_404"
       }
     },
+    "ec62b92f-8175-540c-b2c2-24467240567f": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-30T18:52:57.600474+00:00",
+      "tried": {
+        "gering-ne-pd": "http_404"
+      }
+    },
     "ec938401-adce-513f-a651-b52d3f8387b5": {
       "exhausted": false,
       "found": null,
@@ -4731,6 +4748,6 @@
       }
     }
   },
-  "updated": "2026-05-30T17:47:33.623281+00:00",
+  "updated": "2026-05-30T18:53:02.023955+00:00",
   "version": 1
 }
