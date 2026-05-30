@@ -30,6 +30,7 @@ Usage:
 import argparse
 import functools
 import json
+import re
 import subprocess
 import sys
 import time
@@ -166,13 +167,34 @@ def fetch_feed(url: str, *, ua: str = USER_AGENT) -> tuple[list, str | None]:
     return parsed.entries, None
 
 
+# queue_add.py rejects an off-allowlist URL with a line shaped like:
+#   REJECT https://site.com/x: domain 'site.com' not in sources.json. ...
+# We harvest those (and only those — not malformed-URL rejects) so the
+# discovery run can surface un-listed domains for triage.
+REJECT_RE = re.compile(r"^REJECT (\S+): domain '([^']+)' not in sources\.json")
+
+
+def parse_rejects(stderr: str) -> list[tuple[str, str]]:
+    """Extract (url, domain) pairs from queue_add stderr for domain-not-in-
+    sources rejections. Malformed-URL rejects (no domain) are skipped."""
+    out: list[tuple[str, str]] = []
+    for line in stderr.splitlines():
+        m = REJECT_RE.match(line.strip())
+        if m:
+            out.append((m.group(1), m.group(2)))
+    return out
+
+
 def queue_add_batch(urls: list[str], *, discovered_by: str,
-                    dry_run: bool) -> tuple[int, str]:
-    """Run article_queue_add.py with the given URLs. Returns (rc, output)."""
+                    dry_run: bool) -> tuple[int, str, list[tuple[str, str]]]:
+    """Run article_queue_add.py with the given URLs.
+
+    Returns (rc, stdout, rejects) where rejects is a list of (url, domain)
+    pairs for URLs dropped because their domain isn't in sources.json."""
     if dry_run or not urls:
         for u in urls:
             print(f"  [dry-run] would queue: {u}")
-        return 0, ""
+        return 0, "", []
     cmd = [sys.executable, str(QUEUE_ADD),
            "--discovered-by", discovered_by, *urls]
     result = subprocess.run(cmd, capture_output=True, text=True, check=False)
@@ -182,7 +204,7 @@ def queue_add_batch(urls: list[str], *, discovered_by: str,
         # queue_add prints REJECT lines and friendly errors to stderr;
         # echo them so the workflow log captures them.
         print(result.stderr.strip(), file=sys.stderr)
-    return result.returncode, result.stdout
+    return result.returncode, result.stdout, parse_rejects(result.stderr)
 
 
 def parse_qa_stats(qa_out: str, stats: dict) -> None:
@@ -236,12 +258,17 @@ def process_source(source: dict, *, kws: list[str], dry_run: bool) -> dict:
     for url, kw in matches:
         print(f"    [{kw}]  {url}")
 
-    _, qa_out = queue_add_batch(
+    discovered_by = f"rss:{domain}"
+    _, qa_out, rejects = queue_add_batch(
         [u for u, _ in matches],
-        discovered_by=f"rss:{domain}",
+        discovered_by=discovered_by,
         dry_run=dry_run,
     )
     parse_qa_stats(qa_out, stats)
+    stats["rejects"] = [
+        {"url": u, "domain": d, "discovered_by": discovered_by}
+        for u, d in rejects
+    ]
     return stats
 
 
@@ -253,7 +280,8 @@ def process_search_queries(queries: list[tuple[str, str]], *,
     Domain validation in article_queue_add.py rejects unknown sources.
     Returns aggregate stats dict.
     """
-    agg = {"items": 0, "matched": 0, "appended": 0, "duplicate": 0, "errors": 0}
+    agg = {"items": 0, "matched": 0, "appended": 0, "duplicate": 0,
+           "errors": 0, "rejects": []}
 
     for i, (query, label) in enumerate(queries):
         if i > 0:
@@ -289,10 +317,14 @@ def process_search_queries(queries: list[tuple[str, str]], *,
         for url, kw in matches:
             print(f"    [{kw}]  {url}")
 
-        _, qa_out = queue_add_batch(
+        _, qa_out, rejects = queue_add_batch(
             [u for u, _ in matches], discovered_by=label, dry_run=dry_run
         )
         parse_qa_stats(qa_out, agg)
+        agg["rejects"].extend(
+            {"url": u, "domain": d, "discovered_by": label}
+            for u, d in rejects
+        )
 
     return agg
 
@@ -311,6 +343,10 @@ def main() -> int:
                         "(default: built-in ALPR/Flock set)")
     p.add_argument("--no-search", action="store_true",
                    help="skip Bing News search queries; RSS feeds only")
+    p.add_argument("--rejects-json", default=None,
+                   help="write off-allowlist rejected URLs as JSON to this "
+                        "path (for the discovery-triage issue); written even "
+                        "when empty")
     args = p.parse_args()
 
     kws = ([k.strip().lower() for k in args.keywords.split(",") if k.strip()]
@@ -338,6 +374,22 @@ def main() -> int:
         search_agg = process_search_queries(
             SEARCH_QUERIES, kws=kws, dry_run=args.dry_run
         )
+
+    # --- Rejected (off-allowlist) URLs, for the triage issue ---
+    if args.rejects_json:
+        rejects: list[dict] = []
+        for s in rss_stats:
+            rejects.extend(s.get("rejects", []))
+        rejects.extend(search_agg.get("rejects", []))
+        seen: set[str] = set()
+        deduped = []
+        for r in rejects:
+            if r["url"] in seen:
+                continue
+            seen.add(r["url"])
+            deduped.append(r)
+        Path(args.rejects_json).write_text(json.dumps(deduped, indent=2) + "\n")
+        print(f"\nwrote {len(deduped)} rejected URL(s) -> {args.rejects_json}")
 
     # --- Summary ---
     print("\n=== summary ===")

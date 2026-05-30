@@ -197,6 +197,7 @@ jobs:
             tests/test_article_curate.py \
             tests/test_article_store.py \
             tests/test_discover_articles.py \
+            tests/test_discover_reject_issue.py \
             -v
 
       - name: Check recipient coordinates

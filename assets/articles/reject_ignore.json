@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "description": "Domains that article discovery keeps surfacing but that we deliberately do NOT allow-list: aggregators, PR/press-release wires, and off-topic syndicators that republish rather than originate ALPR coverage. scripts/discover_reject_issue.py suppresses these so the triage issue only flags genuinely new candidates. To stop a domain appearing, add its apex here (no scheme, no www); subdomains match automatically.",
+  "ignored_domains": [
+    "msn.com",
+    "yahoo.com",
+    "aol.com",
+    "businessinsider.com",
+    "prnewswire.com",
+    "prnewswire.co.uk",
+    "bolsamania.com",
+    "upi.com",
+    "edn.com",
+    "bizjournals.com",
+    "hstoday.us"
+  ]
+}
