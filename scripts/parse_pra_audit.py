@@ -36,6 +36,9 @@ from pathlib import Path
 
 import fitz  # pymupdf
 
+sys.path.insert(0, str(Path(__file__).parent))
+from lib import audit_integrity, parse_pra_datetime
+
 UUID_RE = re.compile(
     r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
     re.IGNORECASE,
@@ -117,9 +120,17 @@ def main() -> int:
 
     by_id: dict[str, dict] = {}
     per_file: list[dict] = []
+    rows_in = 0
     for pdf in pdfs:
         rows = parse_pdf(pdf)
-        per_file.append({"file": pdf.name, "row_count": len(rows)})
+        rows_in += len(rows)
+        # integrity is computed on the PDF's AS-DELIVERED order (userId-then-date)
+        # BEFORE the merge/sort below erases it — date_resets ≈ distinct users − 1.
+        per_file.append({
+            "file": pdf.name,
+            "row_count": len(rows),
+            "integrity": audit_integrity(rows, to_dt=parse_pra_datetime),
+        })
         for r in rows:
             existing = by_id.get(r["id"])
             if existing is None:
@@ -135,9 +146,22 @@ def main() -> int:
     rows = sorted(by_id.values(),
                   key=lambda r: (r.get("searchDate", ""), r.get("id", "")))
 
+    integrity = {
+        "note": ("per-file integrity reflects each PDF's raw userId-then-date "
+                 "order; the merged/sorted row array is re-ordered by "
+                 "(searchDate, id) into a canonical timeline, which erases the "
+                 "per-user grouping. To recover users, read per-file date_resets, "
+                 "not the sorted rows."),
+        "source_pdfs": len(pdfs),
+        "rows_in": rows_in,
+        "rows_unique": len(by_id),
+        "duplicate_ids_merged": rows_in - len(by_id),
+    }
+
     payload = {
         "source": "PRA-produced PDF exports of Flock search audit log",
         "pra_folder": folder.name,
+        "integrity": integrity,
         "files": per_file,
         "row_count": len(rows),
         "rows": rows,
