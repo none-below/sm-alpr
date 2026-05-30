@@ -1981,7 +1981,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-30T11:58:56.052507+00:00",
+      "last_probed": "2026-05-30T14:19:28.111666+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -2007,6 +2007,7 @@
         "-beverlyhills-ca-po": "http_404",
         "-beverlyhills-ca-police": "http_404",
         "-beverlyhills-ca-police-department": "http_404",
+        "-beverlyhills-ca-ps": "http_403",
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
@@ -4594,6 +4595,14 @@
         "ada-county-id-sd": "http_404"
       }
     },
+    "fa76668b-f6e2-5703-850a-724a856e27e8": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-30T14:19:21.918185+00:00",
+      "tried": {
+        "lee-county-ga-so": "http_403"
+      }
+    },
     "fad50c3f-54b7-5bac-9093-b41b977dac71": {
       "exhausted": false,
       "found": null,
@@ -4634,6 +4643,14 @@
       "last_probed": "2026-05-10T05:23:54.460198+00:00",
       "tried": {
         "madison-in-pd": "http_404"
+      }
+    },
+    "fba15b64-1a12-5f54-8002-3e730717fd99": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-30T14:19:18.257409+00:00",
+      "tried": {
+        "springfield-il-pd": "http_403"
       }
     },
     "fc97bf62-065b-507f-a327-4fd4c94453c6": {
@@ -4687,6 +4704,6 @@
       }
     }
   },
-  "updated": "2026-05-30T11:58:56.095952+00:00",
+  "updated": "2026-05-30T14:19:28.185621+00:00",
   "version": 1
 }
