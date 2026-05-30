@@ -737,14 +737,14 @@
       const t30 = spc.trailing_30d;
       let caveat;
       if (spc.searches_source === "audit_month") {
-        caveat = `${fmtInt(spc.searches)} ALPR searches in ${escapeHtml(spc.month_label)} ÷ ${fmtInt(spc.crime_total)} Part 1 crimes reported to the FBI (${fmtInt(spc.crime_violent)} violent + ${fmtInt(spc.crime_property)} property).`;
+        caveat = `In ${escapeHtml(spc.month_label)}, ${escapeHtml(short)} ran ${fmtInt(spc.searches)} ALPR searches against the ${fmtInt(spc.crime_total)} Part 1 crimes it reported to the FBI (${fmtInt(spc.crime_violent)} violent + ${fmtInt(spc.crime_property)} property) — about ${fmtNum(spc.ratio, 1)} searches per crime.`;
       } else if (spc.searches_source === "audit_month_prorated") {
-        caveat = `<strong>Estimated.</strong> ${escapeHtml(short)} recorded ${fmtInt(spc.month_count)} searches over ${spc.month_covered_days} of ${spc.days_in_month} days in ${escapeHtml(spc.month_label)} (audit data begins ${spc.month_first}); scaled to a full month ≈ ${fmtInt(spc.searches)}. Denominator: ${fmtInt(spc.crime_total)} Part 1 crimes (${fmtInt(spc.crime_violent)} violent + ${fmtInt(spc.crime_property)} property).`;
-        if (t30) caveat += ` For reference, the trailing 30 days (${t30.window_start}–${t30.window_end}) hold ${fmtInt(t30.count)} searches.`;
+        caveat = `<strong>Estimated.</strong> ${escapeHtml(short)} ran about ${fmtInt(spc.searches)} ALPR searches in ${escapeHtml(spc.month_label)} against the ${fmtInt(spc.crime_total)} Part 1 crimes it reported to the FBI (${fmtInt(spc.crime_violent)} violent + ${fmtInt(spc.crime_property)} property) — roughly ${fmtNum(spc.ratio, 1)} searches per crime. That ${fmtInt(spc.searches)} extrapolates the ${fmtInt(spc.month_count)} searches logged over ${spc.month_covered_days} of the month’s ${spc.days_in_month} days (the log begins ${spc.month_first}) to a full month.`;
+        if (t30) caveat += ` The most recent 30 days (${t30.window_start}–${t30.window_end}) show ${fmtInt(t30.count)} searches.`;
       } else if (spc.searches_source === "audit_trailing_30d") {
-        caveat = `${fmtInt(spc.searches)} searches in the 30 days ending ${t30 ? t30.window_end : ""} ÷ ${fmtInt(spc.crime_total)} Part 1 crimes reported in ${escapeHtml(spc.month_label)} (most recent FBI data). The 30-day search window isn’t aligned to the crime month.`;
+        caveat = `${escapeHtml(short)} ran ${fmtInt(spc.searches)} ALPR searches in the 30 days ending ${t30 ? t30.window_end : ""} against the ${fmtInt(spc.crime_total)} Part 1 crimes it reported to the FBI in ${escapeHtml(spc.month_label)} — about ${fmtNum(spc.ratio, 1)} searches per crime. The 30-day search window isn’t aligned to the crime month (${escapeHtml(spc.month_label)} is the most recent FBI data).`;
       } else {
-        caveat = `${fmtInt(spc.searches)} searches (${escapeHtml(short)}’s self-reported last-30-days) ÷ ${fmtInt(spc.crime_total)} Part 1 crimes reported in ${escapeHtml(spc.month_label)}.`;
+        caveat = `${escapeHtml(short)} self-reports ${fmtInt(spc.searches)} ALPR searches over its last 30 days, set against the ${fmtInt(spc.crime_total)} Part 1 crimes it reported to the FBI in ${escapeHtml(spc.month_label)} — about ${fmtNum(spc.ratio, 1)} searches per crime. The two windows don’t line up exactly.`;
       }
       const ratioCell = statsCellHtml({
         cellClass: "raw",
@@ -755,8 +755,8 @@
       const mathCell = statsCellHtml({
         cellClass: "per-capita",
         label: spc.month_label,
-        value: `${fmtInt(spc.searches)} ÷ ${fmtInt(spc.crime_total)}`,
-        extrasHtml: `<div class="per-vehicle"><span class="muted">searches ÷ Part 1 crimes</span></div>`,
+        value: `${spc.estimated ? "≈" : ""}${fmtInt(spc.searches)} searches`,
+        extrasHtml: `<div class="per-vehicle"><span class="muted">for ${fmtInt(spc.crime_total)} Part 1 crimes</span></div>`,
       });
       html += metricBlockHtml({
         title: `${short}'s ALPR searches per reported crime`,
