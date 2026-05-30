@@ -272,6 +272,14 @@
         "kingsburg-ca-po": "http_404"
       }
     },
+    "10077de6-6b5b-5aed-80e9-3bd5943177f6": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-30T10:29:54.606146+00:00",
+      "tried": {
+        "bryan-oh-pd": "http_404"
+      }
+    },
     "10a2a498-db9d-56c0-a06d-8f3a667b6632": {
       "exhausted": false,
       "found": null,
@@ -959,9 +967,10 @@
     "3605ccef-4c03-5aeb-9dd6-8c4408f99752": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-13T08:27:08.390389+00:00",
+      "last_probed": "2026-05-30T10:29:50.429819+00:00",
       "tried": {
-        "beech-grove-in-pd": "http_404"
+        "beech-grove-in-pd": "http_404",
+        "beech-grove-in-po": "http_403"
       }
     },
     "365adb5d-03ad-55ca-bfdd-fea851bc2525": {
@@ -1972,7 +1981,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-30T08:10:33.640759+00:00",
+      "last_probed": "2026-05-30T10:29:59.619344+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -1996,6 +2005,7 @@
         "-beverly-hills-psca": "http_404",
         "-beverlyhills-ca-pd": "http_404",
         "-beverlyhills-ca-po": "http_404",
+        "-beverlyhills-ca-police-department": "http_404",
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
@@ -4660,6 +4670,6 @@
       }
     }
   },
-  "updated": "2026-05-30T08:10:33.674498+00:00",
+  "updated": "2026-05-30T10:29:59.662180+00:00",
   "version": 1
 }
