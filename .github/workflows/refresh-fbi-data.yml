@@ -43,6 +43,12 @@ jobs:
     timeout-minutes: 350
     steps:
       - uses: actions/checkout@v6
+        with:
+          # Use the REFRESH_PAT (if configured) so the chore-branch push is
+          # authed as the PAT owner — the default GITHUB_TOKEN is forbidden from
+          # pushing a branch that carries .github/workflows/ files. Same pattern
+          # as refresh-flock-data / article-registry. Falls back to github.token.
+          token: ${{ secrets.REFRESH_PAT || github.token }}
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
