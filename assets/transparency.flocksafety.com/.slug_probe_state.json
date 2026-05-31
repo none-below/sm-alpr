@@ -2007,7 +2007,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-30T23:44:25.345670+00:00",
+      "last_probed": "2026-05-31T01:54:31.465894+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -2037,6 +2037,7 @@
         "-beverlyhills-ca-ps": "http_403",
         "-beverlyhills-pd": "http_404",
         "-beverlyhills-pd-ca": "http_404",
+        "-beverlyhills-po": "http_404",
         "-beverlyhills-po-ca": "http_404",
         "-beverlyhills-police-ca": "http_404",
         "-beverlyhills-police-department-ca": "http_404",
@@ -2787,9 +2788,10 @@
     "9079f9e0-e3c2-5611-8f09-a0276b7911f8": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T08:45:38.324251+00:00",
+      "last_probed": "2026-05-31T01:54:27.623875+00:00",
       "tried": {
         "california-state-university-long-beach-campus-ca-pd": "http_404",
+        "california-state-university-long-beach-campus-ca-police": "http_404",
         "california-state-university-long-beach-campus-ca-ps": "http_404"
       }
     },
@@ -4750,6 +4752,14 @@
         "springfield-il-pd": "http_403"
       }
     },
+    "fbb44875-d16a-5dfd-a9eb-e185878f06f7": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-31T01:54:22.827274+00:00",
+      "tried": {
+        "new-london-oh-pd": "http_404"
+      }
+    },
     "fc97bf62-065b-507f-a327-4fd4c94453c6": {
       "exhausted": false,
       "found": null,
@@ -4809,6 +4819,6 @@
       }
     }
   },
-  "updated": "2026-05-30T23:44:25.383487+00:00",
+  "updated": "2026-05-31T01:54:31.495703+00:00",
   "version": 1
 }
