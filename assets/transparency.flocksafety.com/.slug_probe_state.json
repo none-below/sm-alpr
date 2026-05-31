@@ -2023,7 +2023,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-31T13:03:41.485021+00:00",
+      "last_probed": "2026-05-31T15:06:18.201967+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -2056,6 +2056,7 @@
         "-beverlyhills-pdca": "http_404",
         "-beverlyhills-po": "http_404",
         "-beverlyhills-po-ca": "http_404",
+        "-beverlyhills-poca": "http_404",
         "-beverlyhills-police": "http_404",
         "-beverlyhills-police-ca": "http_404",
         "-beverlyhills-police-department": "http_404",
@@ -3093,6 +3094,14 @@
       "last_probed": "2026-05-18T23:48:56.889784+00:00",
       "tried": {
         "des-moines-wa-pd": "http_200"
+      }
+    },
+    "9e465cf6-7c91-5e2b-be77-9bec891549d9": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-31T15:06:12.611366+00:00",
+      "tried": {
+        "rock-island-il-pd": "http_404"
       }
     },
     "9eb7354b-b6ff-590b-b3bb-f097e0b30033": {
@@ -4244,6 +4253,14 @@
         "tupelo-regional-airport-ms-pd": "http_404"
       }
     },
+    "e0aa38df-56ab-5093-9f3c-a25264a69fe5": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-31T15:06:07.770585+00:00",
+      "tried": {
+        "commons-of-lake-houston-tx-pd": "http_404"
+      }
+    },
     "e102b80b-a734-5182-8c3b-c752bb3060d6": {
       "exhausted": false,
       "found": null,
@@ -4887,6 +4904,6 @@
       }
     }
   },
-  "updated": "2026-05-31T13:03:41.538924+00:00",
+  "updated": "2026-05-31T15:06:18.239226+00:00",
   "version": 1
 }
