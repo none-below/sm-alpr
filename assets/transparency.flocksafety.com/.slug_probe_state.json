@@ -2015,7 +2015,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-31T06:43:51.289645+00:00",
+      "last_probed": "2026-05-31T09:38:19.126305+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -2047,6 +2047,7 @@
         "-beverlyhills-pd-ca": "http_404",
         "-beverlyhills-po": "http_404",
         "-beverlyhills-po-ca": "http_404",
+        "-beverlyhills-police": "http_404",
         "-beverlyhills-police-ca": "http_404",
         "-beverlyhills-police-department": "http_404",
         "-beverlyhills-police-department-ca": "http_404",
@@ -2199,6 +2200,14 @@
       "last_probed": "2026-05-27T17:46:49.896812+00:00",
       "tried": {
         "fallsburg-town-ny-pd": "http_403"
+      }
+    },
+    "6e35ebef-a2b4-5481-a20e-fe8f337c5604": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-31T09:38:14.729089+00:00",
+      "tried": {
+        "mclean-county-il-so": "http_404"
       }
     },
     "6fc47404-6f79-5f5d-ace0-18db02bc2391": {
@@ -4745,6 +4754,14 @@
         "ravenna-oh-pd": "http_404"
       }
     },
+    "fb466a3f-e69c-5252-9b71-e2d7af224600": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-31T09:38:08.639269+00:00",
+      "tried": {
+        "oh-butler-county-oh-so": "http_403"
+      }
+    },
     "fb63b4c3-2516-5d13-9633-c5319bec1ee1": {
       "exhausted": false,
       "found": null,
@@ -4836,6 +4853,6 @@
       }
     }
   },
-  "updated": "2026-05-31T06:43:51.326177+00:00",
+  "updated": "2026-05-31T09:38:19.167580+00:00",
   "version": 1
 }
