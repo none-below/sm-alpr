@@ -2023,7 +2023,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-31T15:06:18.201967+00:00",
+      "last_probed": "2026-05-31T16:48:29.716674+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -2063,6 +2063,7 @@
         "-beverlyhills-police-department-ca": "http_404",
         "-beverlyhills-ps": "http_404",
         "-beverlyhills-ps-ca": "http_404",
+        "-beverlyhills-psca": "http_404",
         "beverly-hills": "http_404",
         "beverly-hills-ca": "http_404",
         "beverly-hills-ca-po": "http_404",
@@ -2243,6 +2244,14 @@
       "last_probed": "2026-05-13T01:31:27.538166+00:00",
       "tried": {
         "warsaw-in-pd": "http_404"
+      }
+    },
+    "71627991-85e6-5b17-8e25-1f853008d087": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-05-31T16:48:08.366901+00:00",
+      "tried": {
+        "hoisington-ks-pd": "http_404"
       }
     },
     "727915ef-bda7-5399-8e79-0369d7bb7782": {
@@ -4573,6 +4582,14 @@
         "soledad-ca-po": "http_404"
       }
     },
+    "f00e11f3-4122-5fc0-a6a7-b699061ae390": {
+      "exhausted": false,
+      "found": "auglaize-county-oh-so",
+      "last_probed": "2026-05-31T16:48:18.704784+00:00",
+      "tried": {
+        "auglaize-county-oh-so": "http_200"
+      }
+    },
     "f0611d4b-4911-5e4c-ae43-e30fd897e328": {
       "exhausted": false,
       "found": "huron-oh-pd",
@@ -4904,6 +4921,6 @@
       }
     }
   },
-  "updated": "2026-05-31T15:06:18.239226+00:00",
+  "updated": "2026-05-31T16:48:29.777184+00:00",
   "version": 1
 }
