@@ -4975,31 +4975,6 @@
     ]
   },
   {
-    "agency_id": "9b5d6592-5a0f-5f21-a35b-08782612000f",
-    "slug": "pawnee-county-ok-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Pawnee County OK SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "40117",
-      "name": "Pawnee",
-      "state": "OK",
-      "lat": 36.313704,
-      "lng": -96.696669
-    }
-  },
-  {
     "agency_id": "c67c6899-283e-5420-a550-bde165680c3c",
     "slug": "payson-az-pd",
     "flock_active_slug": "payson-az-pd",
@@ -6680,31 +6655,6 @@
     }
   },
   {
-    "agency_id": "9b051243-edb3-5745-80c2-6b905745fe07",
-    "slug": "thackerville-ok-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Thackerville OK PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "4073200",
-      "name": "Thackerville",
-      "state": "OK",
-      "lat": 33.787525,
-      "lng": -97.13918
-    }
-  },
-  {
     "agency_id": "4a508123-c296-5f67-b3c9-c1ccfa64db33",
     "slug": "tiburon-ca-pd",
     "flock_active_slug": "tiburon-ca-pd",
@@ -7276,6 +7226,36 @@
     ]
   },
   {
+    "agency_id": "86c72fef-6a54-5780-a13d-734f681442c6",
+    "slug": "wilton-ct-pd",
+    "flock_active_slug": "wilton-ct-pd",
+    "flock_slugs": [
+      "wilton-ct-pd"
+    ],
+    "flock_names": [
+      "Wilton CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0919086370",
+      "name": "Wilton",
+      "state": "CT",
+      "lat": 41.211277,
+      "lng": -73.440977
+    },
+    "ori": [
+      "CT0016100"
+    ]
+  },
+  {
     "agency_id": "5171e5b4-92db-5770-bc7e-88bc2edea21e",
     "slug": "wise-county-va-so",
     "flock_active_slug": "wise-county-va-so",
@@ -7457,6 +7437,716 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "fd4a2e06-6d26-5cf8-86f4-14c23be60383",
+    "slug": "beacon-falls-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Beacon Falls CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0914003250",
+      "name": "Beacon Falls",
+      "state": "CT",
+      "lat": 41.443685,
+      "lng": -73.051925
+    }
+  },
+  {
+    "agency_id": "f33341c9-4f9e-5ee7-90a4-8ff6262d02e4",
+    "slug": "bethel-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Bethel CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0904790",
+      "name": "Bethel",
+      "state": "CT",
+      "lat": 41.360293,
+      "lng": -73.413942
+    }
+  },
+  {
+    "agency_id": "400076bb-c7ea-5861-abbc-02c63a7d9f41",
+    "slug": "bloomfield-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Bloomfield CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0911005910",
+      "name": "Bloomfield",
+      "state": "CT",
+      "lat": 41.843772,
+      "lng": -72.741002
+    }
+  },
+  {
+    "agency_id": "68385604-91aa-59c1-82f1-318ff894f8e4",
+    "slug": "city-of-norwalk-ct",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "City of Norwalk CT"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0955990",
+      "name": "Norwalk",
+      "state": "CT",
+      "lat": 41.092739,
+      "lng": -73.419796
+    }
+  },
+  {
+    "agency_id": "242d498c-5204-54e3-a45a-f0f4e0d1bff2",
+    "slug": "farmington-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Farmington CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0911027600",
+      "name": "Farmington",
+      "state": "CT",
+      "lat": 41.729774,
+      "lng": -72.842031
+    }
+  },
+  {
+    "agency_id": "42bdf53d-1ea1-5bc2-a417-c196e9f0641d",
+    "slug": "gordon-ne-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Gordon NE PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3119350",
+      "name": "Gordon",
+      "state": "NE",
+      "lat": 42.806378,
+      "lng": -102.204002
+    }
+  },
+  {
+    "agency_id": "634ed431-dda2-5cb2-9db3-a1c7c2e7d031",
+    "slug": "manchester-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Manchester CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0944690",
+      "name": "Manchester",
+      "state": "CT",
+      "lat": 41.77963,
+      "lng": -72.520157
+    }
+  },
+  {
+    "agency_id": "e2221d48-ef27-5010-9f22-643175e984f2",
+    "slug": "norwich-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Norwich CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0956200",
+      "name": "Norwich",
+      "state": "CT",
+      "lat": 41.548006,
+      "lng": -72.089454
+    }
+  },
+  {
+    "agency_id": "75f3ad6a-fa90-5858-8b9c-190057a9887f",
+    "slug": "orange-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Orange CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0957670",
+      "name": "Orange",
+      "state": "CT",
+      "lat": 41.284951,
+      "lng": -73.024637
+    }
+  },
+  {
+    "agency_id": "f88cfa8a-074c-5dc2-b636-5d9e3ba6c584",
+    "slug": "south-windsor-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "South Windsor CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0911071390",
+      "name": "South Windsor",
+      "state": "CT",
+      "lat": 41.83809,
+      "lng": -72.577836
+    }
+  },
+  {
+    "agency_id": "ebf78c9a-629f-5e57-9ab9-3afd625ad305",
+    "slug": "southington-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Southington CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0911070550",
+      "name": "Southington",
+      "state": "CT",
+      "lat": 41.60716,
+      "lng": -72.87876
+    }
+  },
+  {
+    "agency_id": "070d9906-8500-55b2-8ff6-1a6bbc3981d6",
+    "slug": "state-capitol-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "State Capitol CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CT"
+    }
+  },
+  {
+    "agency_id": "609fdc63-79ff-583e-abac-5f9c10cf3a44",
+    "slug": "town-of-killingworth-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Town of Killingworth CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "0913040710",
+      "name": "Killingworth",
+      "state": "CT",
+      "lat": 41.374419,
+      "lng": -72.578328
+    }
+  },
+  {
+    "agency_id": "157b958c-a801-558f-bf7f-b80437791be2",
+    "slug": "tribal-police-at-foxwoods-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Tribal Police at Foxwoods CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CT"
+    }
+  },
+  {
+    "agency_id": "e200e57b-8244-52ac-ae67-b4551a015b2c",
+    "slug": "university-of-new-haven-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "University of New Haven CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CT"
+    }
+  },
+  {
+    "agency_id": "91defbf0-3fdb-5aec-a570-b6fed9fc7d37",
+    "slug": "university-of-saint-joseph-ct-public-safety",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "University of Saint Joseph CT Public Safety"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CT"
+    }
+  },
+  {
+    "agency_id": "2532fb93-20b2-57c3-87d6-a1f17c59d289",
+    "slug": "wethersfield-ct-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Wethersfield CT PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0984970",
+      "name": "Wethersfield",
+      "state": "CT",
+      "lat": 41.702484,
+      "lng": -72.669301
+    }
+  },
+  {
+    "agency_id": "f7848204-d2d5-537a-b94a-f2ae34c4356f",
+    "slug": "addison-al-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Addison AL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0100484",
+      "name": "Addison",
+      "state": "AL",
+      "lat": 34.202681,
+      "lng": -87.178004
+    }
+  },
+  {
+    "agency_id": "799add63-f541-5621-92cd-49af311daaf6",
+    "slug": "berkeley-county-sc-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Berkeley County SC SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "45015",
+      "name": "Berkeley",
+      "state": "SC",
+      "lat": 33.2077,
+      "lng": -79.953655
+    }
+  },
+  {
+    "agency_id": "e10eb98f-fc9a-5458-97c5-b7df1a730465",
+    "slug": "dallas-ga-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Dallas GA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1321324",
+      "name": "Dallas",
+      "state": "GA",
+      "lat": 33.916513,
+      "lng": -84.840847
+    }
+  },
+  {
+    "agency_id": "1acd52e2-127f-507b-9547-f43aa615d967",
+    "slug": "effingham-county-ga-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Effingham County GA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "13103",
+      "name": "Effingham",
+      "state": "GA",
+      "lat": 32.361688,
+      "lng": -81.343355
+    }
+  },
+  {
+    "agency_id": "c481f91f-3f5a-53d4-baf0-710c8a5368b5",
+    "slug": "flemington-nj-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Flemington NJ PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3423700",
+      "name": "Flemington",
+      "state": "NJ",
+      "lat": 40.508641,
+      "lng": -74.859869
+    }
+  },
+  {
+    "agency_id": "bee2af9a-bc8c-5af4-a1ff-0717b6da53c0",
+    "slug": "marlborough-town-ny-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Marlborough Town NY PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "3611145722",
+      "name": "Marlborough",
+      "state": "NY",
+      "lat": 41.636294,
+      "lng": -73.9871
+    }
+  },
+  {
+    "agency_id": "20e6c18b-1a59-55a3-afce-6ff58a14c3f6",
+    "slug": "mcintosh-county-ga-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "McIntosh County GA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "13191",
+      "name": "McIntosh",
+      "state": "GA",
+      "lat": 31.485629,
+      "lng": -81.372141
+    }
+  },
+  {
+    "agency_id": "2fb63ae7-97cd-5c00-a4ab-c4476d023917",
+    "slug": "slocomb-al-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Slocomb AL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0171040",
+      "name": "Slocomb",
+      "state": "AL",
+      "lat": 31.112126,
+      "lng": -85.59866
+    }
+  },
+  {
+    "agency_id": "757d298a-116f-5b3b-ac89-2185c7148b2c",
+    "slug": "spalding-county-ga-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Spalding County GA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "13255",
+      "name": "Spalding",
+      "state": "GA",
+      "lat": 33.262348,
+      "lng": -84.284905
+    }
+  },
+  {
+    "agency_id": "08d63ca5-d642-5cc7-a47d-d2ec7c700530",
+    "slug": "northeast-state-community-college-tn",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Northeast State Community College TN"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "TN"
+    }
+  },
+  {
+    "agency_id": "9b5d6592-5a0f-5f21-a35b-08782612000f",
+    "slug": "pawnee-county-ok-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Pawnee County OK SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "40117",
+      "name": "Pawnee",
+      "state": "OK",
+      "lat": 36.313704,
+      "lng": -96.696669
+    }
+  },
+  {
+    "agency_id": "9b051243-edb3-5745-80c2-6b905745fe07",
+    "slug": "thackerville-ok-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Thackerville OK PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4073200",
+      "name": "Thackerville",
+      "state": "OK",
+      "lat": 33.787525,
+      "lng": -97.13918
+    }
   },
   {
     "agency_id": "301c5ce2-475c-5e62-966b-e9b2ec1a93a6",
@@ -37508,36 +38198,6 @@
     },
     "ori": [
       "DE0020600"
-    ]
-  },
-  {
-    "agency_id": "86c72fef-6a54-5780-a13d-734f681442c6",
-    "slug": "wilton-ct-pd",
-    "flock_active_slug": "wilton-ct-pd",
-    "flock_slugs": [
-      "wilton-ct-pd"
-    ],
-    "flock_names": [
-      "Wilton CT PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "cousub",
-      "fips": "0919086370",
-      "name": "Wilton",
-      "state": "CT",
-      "lat": 41.211277,
-      "lng": -73.440977
-    },
-    "ori": [
-      "CT0016100"
     ]
   },
   {
