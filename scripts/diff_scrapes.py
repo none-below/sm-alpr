@@ -11,7 +11,10 @@ from lib import portal_jsons
 DATA_DIR = Path("assets/transparency.flocksafety.com")
 
 # Fields to skip in diffs (always change between scrapes)
-SKIP_FIELDS = {"archived_date"}
+# `integrity` is a structural fingerprint of the audit CSV (row_count, date
+# resets, span) — it moves every scrape and isn't portal "content", so diffing
+# it would bury the real changes in noise.
+SKIP_FIELDS = {"archived_date", "integrity"}
 
 # Fields where we show set diffs instead of full values
 # Support both old and new field names during transition

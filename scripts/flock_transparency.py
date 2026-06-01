@@ -51,7 +51,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from lib import (
     BASE_URL, FAILED_FILE, USER_AGENT,
-    dedupe, load_json, save_json,
+    audit_integrity, dedupe, load_json, save_json,
     portal_jsons, portal_txts, resolve_agency,
 )
 
@@ -1079,6 +1079,24 @@ def extract_csvs_from_html(html_text):
     return results
 
 
+def attach_csv_integrity(portal_data):
+    """Add an `integrity` fingerprint per embedded *_csv table.
+
+    We store the CSV rows in their as-delivered order (no sort on ingest), and
+    this records the structural properties of that order — row_count, date_resets,
+    duplicate_ids, date_span — so anomalies (e.g. a portal that ever ships rows
+    grouped by user instead of by date) are visible in the JSON we read instead
+    of needing a re-parse of the raw HTML. Excluded from diff_scrapes.SKIP_FIELDS:
+    these move every scrape and aren't portal "content"."""
+    blocks = {
+        key: audit_integrity(val)
+        for key, val in portal_data.items()
+        if key.endswith("_csv") and isinstance(val, list) and val
+    }
+    if blocks:
+        portal_data["integrity"] = blocks
+
+
 # ═══════════════════════════════════════════════════════════
 # Crawl: fetch pages, save .txt + .pdf
 # ═══════════════════════════════════════════════════════════
@@ -1167,6 +1185,7 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         field = csv_name.replace(".csv", "").replace("-", "_") + "_csv"
         portal_data[field] = csv_rows
         print(f"    extracted {csv_name}: {len(csv_rows)} rows")
+    attach_csv_integrity(portal_data)
 
     cdp = page.context.new_cdp_session(page)
     result = cdp.send("Page.printToPDF", {
@@ -1541,6 +1560,7 @@ def cmd_parse(args):
                     field = csv_name.replace(".csv", "").replace("-", "_") + "_csv"
                     portal_data[field] = csv_rows
                     print(f"    extracted {csv_name}: {len(csv_rows)} rows")
+            attach_csv_integrity(portal_data)
 
             json_path.write_text(json.dumps(portal_data, indent=2) + "\n")
             cameras = portal_data.get("camera_count") or "?"

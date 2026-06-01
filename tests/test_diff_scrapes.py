@@ -142,3 +142,17 @@ class TestDiffAgency:
         slug_dir = tmp_path / "empty-agency"
         slug_dir.mkdir()
         assert diff_agency(slug_dir) == []
+
+    def test_integrity_block_not_diffed(self, tmp_path):
+        # The audit-CSV integrity fingerprint moves every scrape; it must not
+        # surface as a change (it lives in SKIP_FIELDS).
+        slug_dir = tmp_path / "test-agency"
+        _write_json(slug_dir / "2026-03-27.json", {
+            "slug": "test-agency", "archived_date": "2026-03-27",
+            "integrity": {"search_audit_csv": {"row_count": 100, "date_resets": 0}},
+        })
+        _write_json(slug_dir / "2026-04-03.json", {
+            "slug": "test-agency", "archived_date": "2026-04-03",
+            "integrity": {"search_audit_csv": {"row_count": 142, "date_resets": 0}},
+        })
+        assert diff_agency(slug_dir) == []

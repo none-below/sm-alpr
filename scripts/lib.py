@@ -8,6 +8,7 @@ lookup helpers against the registry.
 
 import json
 import re
+from datetime import datetime
 from pathlib import Path
 
 REGISTRY_PATH = Path("assets/agency_registry.json")
@@ -56,6 +57,117 @@ def portal_txts(slug_dir):
 def portal_jsons(slug_dir):
     """Sorted YYYY-MM-DD.json portal parses in a slug dir (excludes sidecar artifacts)."""
     return sorted(p for p in slug_dir.iterdir() if _PORTAL_JSON_RE.match(p.name))
+
+
+# ── Ingest integrity ──────────────────────────────────────────────────────
+# When we convert ingested data (HTML/PDF → JSON) the row array can be sorted,
+# deduped or otherwise normalized, which silently destroys signals that only
+# live in the as-delivered order — e.g. the PRA audit's userId-then-date blocks,
+# whose date "resets" reveal distinct (redacted) users. We read the JSON, not
+# the raw artifact, so those signals must be surfaced as *fields*. audit_integrity
+# computes that structural fingerprint on the rows in the order given.
+
+# Flock PRA PDF export datetime, e.g. "01/23/2023, 06:15:22 PM UTC".
+_PRA_DATETIME_RE = re.compile(
+    r"^(\d{2})/(\d{2})/(\d{4}),\s+(\d{2}):(\d{2}):(\d{2})\s+(AM|PM)\s+UTC$"
+)
+
+
+def parse_iso_dt(s):
+    """Tolerant ISO-8601 parse (handles a trailing Z). None on miss/non-str."""
+    if not isinstance(s, str) or not s:
+        return None
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def parse_pra_datetime(s):
+    """Tolerant parse of the PRA PDF datetime format. None on miss.
+
+    Diagnostic sibling of import_pra_audit.to_iso_utc — that one RAISES on drift
+    (a normalizer should be loud); this one stays quiet (a fingerprint shouldn't
+    crash the ingest)."""
+    if not isinstance(s, str):
+        return None
+    m = _PRA_DATETIME_RE.match(s.strip())
+    if not m:
+        return None
+    mm, dd, yyyy, h, mi, ss, ampm = m.groups()
+    h = int(h)
+    if ampm == "PM" and h != 12:
+        h += 12
+    elif ampm == "AM" and h == 12:
+        h = 0
+    return datetime(int(yyyy), int(mm), int(dd), h, int(mi), int(ss))
+
+
+def audit_integrity(rows, date_key="searchDate", id_key="id", to_dt=None):
+    """Structural fingerprint of an as-ingested audit-row list.
+
+    Surfaces the properties that sorting/normalization would otherwise hide, so a
+    discrepancy is a *visible field* in the JSON we read — not something you only
+    catch by re-parsing the raw artifact. Computed on ``rows`` IN THE ORDER GIVEN:
+    pass the as-delivered order to capture it.
+
+    date_resets counts positions where the date column steps backwards. 0 means
+    the rows are already in date order (e.g. the Flock portal CSV); a positive
+    count means an outer sort key groups them — the PRA's userId-then-date blocks
+    produce ~one reset per user boundary — or the data is unordered. date_ordering
+    summarizes this: ascending / descending / grouped / constant.
+
+    to_dt parses the date STRING at date_key into a comparable value (default:
+    ISO-8601). Pass parse_pra_datetime for the PRA PDF format.
+    """
+    to_dt = to_dt or parse_iso_dt
+    dts, unparsed, seen, dups = [], 0, set(), 0
+    for r in rows:
+        rid = r.get(id_key)
+        if rid in seen:
+            dups += 1
+        else:
+            seen.add(rid)
+        d = to_dt(r.get(date_key))
+        if d is None:
+            unparsed += 1
+        dts.append(d)
+
+    def cmp(i):  # comparison of consecutive parsed dates, else None
+        a, b = dts[i - 1], dts[i]
+        return None if a is None or b is None else (b > a) - (b < a)
+
+    steps = [cmp(i) for i in range(1, len(dts))]
+    resets = steps.count(-1)
+    ascents = steps.count(1)
+    if resets and ascents:
+        ordering = "grouped"          # both directions => outer sort key present
+    elif ascents:
+        ordering = "ascending"
+    elif resets:
+        ordering = "descending"
+    else:
+        ordering = "constant"         # all equal, or <2 comparable dates
+
+    known = [d for d in dts if d is not None]
+    span = None
+    if known:
+        span = {
+            "first": dts[0].isoformat() if dts[0] is not None else None,
+            "last": dts[-1].isoformat() if dts[-1] is not None else None,
+            "min": min(known).isoformat(),
+            "max": max(known).isoformat(),
+        }
+    out = {
+        "row_count": len(rows),
+        "date_resets": resets,
+        "date_ordering": ordering,
+        "duplicate_ids": dups,
+        "date_span": span,
+    }
+    if unparsed:
+        out["unparsed_dates"] = unparsed
+    return out
 
 
 _registry_cache = None
