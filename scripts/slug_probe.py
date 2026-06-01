@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """
 Slug probe crawler — find the Flock transparency portal slug for agencies
 where our guess 404'd.
@@ -266,12 +268,24 @@ PORTAL_MARKERS = [
 
 WAIT_MS = 5000  # matches flock_transparency.py — let SPA hydrate
 
+# A 403 from Flock's edge is a bot-challenge, not a real answer about the
+# slug — the same block the module dodges with Chromium, leaking through
+# intermittently. They arrive in bursts once the session is fingerprinted,
+# so we back off (exponential, jittered, capped) instead of plowing through
+# and burning candidates as permanent misses, and bail the run entirely
+# after this many consecutive 403s.
+MAX_CONSECUTIVE_FORBIDDEN = 3
+FORBIDDEN_COOLDOWN_CAP = 120  # seconds — ceiling on per-strike backoff
+
 
 def probe(page, slug, timeout_ms=30000):
     """Probe a candidate slug via playwright.
 
     Flock blocks non-browser clients at the edge (403 on curl/urllib), so we
-    need a real Chromium. Returns ("hit"|"miss"|"rate_limited"|"error", detail).
+    need a real Chromium. Even then the edge bot-challenges a fraction of our
+    requests with a 403 — that's a "we flagged you," NOT a "this slug is dead,"
+    so it's reported distinctly from a genuine 404/4xx miss.
+    Returns ("hit"|"miss"|"forbidden"|"rate_limited"|"error", detail).
     """
     url = f"{BASE_URL}/{slug}"
     try:
@@ -283,6 +297,8 @@ def probe(page, slug, timeout_ms=30000):
         return "error", "no_response"
     if response.status == 429:
         return "rate_limited", "http_429"
+    if response.status == 403:
+        return "forbidden", "http_403"
     if response.status == 404:
         return "miss", "http_404"
     if response.status >= 400:
@@ -506,6 +522,7 @@ def main():
     print(f"Budget split: tier A = {a_budget}, tier B = {b_budget}")
 
     probes_done = 0
+    consecutive_forbidden = 0  # carried across both tiers — the edge flag is session-wide
     hits = []
 
     # Authoritative-hint lookup: an external crawler (eyesonflock.com)
@@ -584,7 +601,7 @@ def main():
         # against separate queues with separate budgets. Return value is
         # whether we hit a rate_limit and should stop the whole run.
         def run_tier(queues, budget, label):
-            nonlocal probes_done
+            nonlocal probes_done, consecutive_forbidden
             q_idx = 0
             consumed = 0
             while consumed < budget and queues:
@@ -605,6 +622,8 @@ def main():
                 st["last_probed"] = datetime.now(timezone.utc).isoformat()
                 probes_done += 1
                 consumed += 1
+                if result != "forbidden":
+                    consecutive_forbidden = 0
 
                 if result == "hit":
                     print(f"    HIT ({detail}) — promoting to registry")
@@ -638,6 +657,28 @@ def main():
                     probes_done -= 1
                     consumed -= 1
                     return True  # signal: stop the whole run
+                elif result == "forbidden":
+                    # Edge bot-challenge, not a real answer. Roll it back like a
+                    # rate-limit (don't burn the candidate — it regenerates next
+                    # run) and don't charge it against the probe budget. Then
+                    # slow down: 403s come serially once the session is flagged,
+                    # so back off before the next try and bail if they persist.
+                    st["tried"].pop(candidate, None)
+                    probes_done -= 1
+                    consumed -= 1
+                    consecutive_forbidden += 1
+                    if consecutive_forbidden >= MAX_CONSECUTIVE_FORBIDDEN:
+                        print(f"    FORBIDDEN x{consecutive_forbidden} — edge is "
+                              f"blocking us, stopping this run")
+                        return True  # signal: stop the whole run
+                    cooldown = min(args.delay * 2 ** consecutive_forbidden,
+                                   FORBIDDEN_COOLDOWN_CAP) * random.uniform(0.7, 1.3)
+                    print(f"    forbidden (http_403) — backing off {cooldown:.0f}s "
+                          f"(strike {consecutive_forbidden}/{MAX_CONSECUTIVE_FORBIDDEN})")
+                    save_state(data_dir, state)
+                    time.sleep(cooldown)
+                    q_idx += 1
+                    continue  # skip the normal save + inter-probe sleep tail
                 else:  # error
                     print(f"    error ({detail}) — leaving as tried to avoid retry loops")
                     q_idx += 1
