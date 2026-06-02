@@ -143,22 +143,23 @@ jobs:
       - name: Commit and push
         id: commit
         run: |
-          # On a hit, slug_probe also runs archive_agency to save the
-          # captured page (.txt/.html/.json/.pdf) under the new slug's
-          # directory, and updates .content_hashes.json. Stage the whole
-          # transparency.flocksafety.com tree so those artifacts come
-          # along with the registry/state changes.
-          git add \
-            assets/agency_registry.json \
-            assets/transparency.flocksafety.com/
+          # The probe never edits the shared registry / content-hash /
+          # failed-slug files — that's the crawler's job. On a hit it writes a
+          # .slug_probe_hits/<agency_id>.json hand-off plus the captured page
+          # (.txt/.html/.json/.pdf) under the new slug's directory, and always
+          # updates its own .slug_probe_state.json. Stage the whole tree so the
+          # hand-off, capture, and state all come along; the crawler ingests
+          # the hand-off and updates the shared files on its next run.
+          git add assets/transparency.flocksafety.com/
           if git diff --cached --quiet; then
             echo "No changes to commit"
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
-          # Detect hit vs. pure state bookkeeping for commit message
-          if git diff --cached --quiet assets/agency_registry.json; then
+          # Hit vs. pure state bookkeeping: a hit is the presence of staged
+          # hand-off files under .slug_probe_hits/.
+          if git diff --cached --quiet assets/transparency.flocksafety.com/.slug_probe_hits/; then
             git commit -m "chore: slug probe state update (no hits)"
           else
             git commit -m "chore: slug probe found new Flock portal slug(s)"
@@ -174,7 +175,7 @@ jobs:
           if [ -z "$existing" ]; then
             gh pr create \
               --title "chore: slug probe finds" \
-              --body "Automated rolling slug probe. Each run attempts up to 3 candidate slugs across two tiers: Tier A — registry entries with no flock_active_slug set (peer-outbound discoveries that need a first try). Tier B — registry entries whose flock_active_slug is in failed_slugs.json (variant search on broken slugs). Default budget split is 2:1 favoring tier A because its single-try hit rate is higher. On a hit, the registry is updated and the captured page is archived under the new slug, so the primary crawler picks up refresh on its next run." \
+              --body "Automated rolling slug probe. Each run attempts up to 3 candidate slugs across two tiers: Tier A — registry entries with no flock_active_slug set (peer-outbound discoveries that need a first try). Tier B — registry entries whose flock_active_slug is in failed_slugs.json (variant search on broken slugs). Default budget split is 2:1 favoring tier A because its single-try hit rate is higher. On a hit, the probe captures the page and writes a .slug_probe_hits/<agency_id>.json hand-off; it never edits the shared registry, content-hash, or failed-slug files. The primary crawler ingests the hand-off on its next run (promoting the slug, clearing the failed entries, recording the hash), so the two bots never rewrite the same files and conflict at merge time." \
               --head slug-probe \
               --base main
           fi
