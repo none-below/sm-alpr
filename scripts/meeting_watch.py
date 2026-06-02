@@ -572,15 +572,24 @@ def finding_path(gov_id, platform, meeting_id):
     return MEETINGS_DIR / gov_id / f"{platform}-{meeting_id}.json"
 
 
+def _core(rec):
+    """A finding's content minus the volatile timestamp, for change detection."""
+    return {k: v for k, v in rec.items() if k != "last_checked"}
+
+
 def write_finding(portal, meeting, matches, source, dry_run):
+    """Write/refresh a finding. Idempotent: if the flagged content is unchanged
+    from what's on disk, the file is left untouched (no last_checked churn) so a
+    daily cron only produces a git diff when something genuinely changed.
+    Returns (record, is_new, is_changed)."""
     path = finding_path(portal["id"], portal["platform"], meeting["meeting_id"])
     now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    first_seen = now_iso
+    existing = None
     if path.exists():
         try:
-            first_seen = json.loads(path.read_text()).get("first_seen", now_iso)
+            existing = json.loads(path.read_text())
         except Exception:
-            pass
+            existing = None
     rec = {
         "gov_id": portal["id"],
         "gov_name": portal["city"],
@@ -595,13 +604,17 @@ def write_finding(portal, meeting, matches, source, dry_run):
         "matched_terms": [m["term"] for m in matches],
         "matches": matches,
         "source": source,
-        "first_seen": first_seen,
+        "first_seen": (existing or {}).get("first_seen", now_iso),
         "last_checked": now_iso,
     }
-    if not dry_run:
+    is_new = existing is None
+    is_changed = existing is not None and _core(existing) != _core(rec)
+    if not dry_run and (is_new or is_changed):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(rec, indent=2) + "\n")
-    return rec
+    elif existing is not None:
+        rec = existing  # unchanged — keep the file (and its last_checked) as-is
+    return rec, is_new, is_changed
 
 
 def load_findings():
@@ -640,6 +653,32 @@ def print_report(findings, past_days):
     print()
 
 
+def print_report_md(findings, past_days):
+    """Markdown variant for PR/issue bodies (clickable agenda links)."""
+    today = date.today().isoformat()
+    cutoff = (date.today() - timedelta(days=past_days)).isoformat()
+    upcoming = sorted((f for f in findings if f["meeting_date"] >= today),
+                      key=lambda f: f["meeting_date"])
+    past = sorted((f for f in findings if cutoff <= f["meeting_date"] < today),
+                  key=lambda f: f["meeting_date"], reverse=True)
+
+    def table(items):
+        if not items:
+            return "_none_"
+        head = "| Date | Government | Body | Terms | Agenda |\n|---|---|---|---|---|"
+        rows = [
+            f"| {f['meeting_date']} | {f['gov_name']} | {f.get('body', '')} | "
+            f"{', '.join(f.get('matched_terms') or [])} | [agenda]({f.get('agenda_url', '')}) |"
+            for f in items
+        ]
+        return "\n".join([head] + rows)
+
+    print(f"### ⏰ Upcoming flagged meetings ({len(upcoming)}) — act before the vote\n")
+    print(table(upcoming))
+    print(f"\n### 🗓️ Past {past_days}d flagged meetings ({len(past)})\n")
+    print(table(past))
+
+
 # ═══════════════════════════════════════════════════════════
 # Main
 # ═══════════════════════════════════════════════════════════
@@ -660,7 +699,7 @@ def run_watch(args):
           f"| window: {since_date.isoformat()} → future"
           + ("  [DRY RUN]" if args.dry_run else ""))
 
-    findings, hits, scanned = [], 0, 0
+    findings, new_findings, changed, hits, scanned = [], [], 0, 0, 0
     for p in portals:
         adapter = ADAPTERS.get(p["platform"])
         if not adapter:
@@ -676,20 +715,27 @@ def run_watch(args):
             matches = find_matches(m["agenda_text"]) if m["agenda_text"] else []
             if not matches:
                 continue
-            rec = write_finding(p, m, matches, f"{p['platform']}:watch", args.dry_run)
+            rec, is_new, is_changed = write_finding(p, m, matches, f"{p['platform']}:watch", args.dry_run)
             findings.append(rec)
+            if is_new:
+                new_findings.append(rec)
+            elif is_changed:
+                changed += 1
             hits += 1
             flagged_here += 1
         print(f"  {p['id']:<24} {len(meetings):>3} meetings in window, {flagged_here} flagged")
 
-    print(f"\nScanned {scanned} meetings across {len(portals)} governments → {hits} flagged.")
+    print(f"\nScanned {scanned} meetings across {len(portals)} governments → "
+          f"{hits} flagged ({len(new_findings)} new, {changed} changed).")
+    if args.emit_new:
+        Path(args.emit_new).write_text(json.dumps(new_findings, indent=2) + "\n")
     # Report uses freshly written findings plus anything already on disk.
     all_findings = load_findings() if not args.dry_run else findings
     print_report(all_findings, args.past_days)
 
 
 def run_report(args):
-    print_report(load_findings(), args.past_days)
+    (print_report_md if args.md else print_report)(load_findings(), args.past_days)
 
 
 def main():
@@ -700,6 +746,10 @@ def main():
     parser.add_argument("--platforms", default="", help="comma list to limit (primegov,legistar,civicclerk)")
     parser.add_argument("--gov", default="", help="limit to gov ids containing this substring")
     parser.add_argument("--dry-run", action="store_true", help="detect + report but write no files")
+    parser.add_argument("--emit-new", default="", metavar="PATH",
+                        help="write JSON of findings newly created this run to PATH (for alerting)")
+    parser.add_argument("--md", action="store_true",
+                        help="in report mode, render as markdown (for PR/issue bodies)")
     args = parser.parse_args()
 
     if not PORTALS_FILE.exists():

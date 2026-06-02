@@ -133,3 +133,41 @@ def test_strip_html_drops_tags_and_unescapes():
     out = mw.strip_html("<p>Flock&nbsp;Safety</p><br><script>x</script>")
     assert "Flock" in out and "Safety" in out
     assert "<" not in out and "script" not in out
+
+
+# ── findings are idempotent (no churn on unchanged re-runs) ──
+
+
+class TestWriteFindingIdempotency:
+    PORTAL = {"id": "belmont-ca", "city": "Belmont", "state": "CA",
+              "county": "San Mateo", "platform": "granicus-viewpublisher"}
+    MEETING = {"meeting_id": "1139", "body": "Public Safety Committee",
+               "meeting_date": "2025-02-24", "meeting_datetime": "2025-02-24T00:00:00-08:00",
+               "agenda_url": "https://x/AgendaViewer.php?clip_id=1139"}
+
+    def test_new_then_unchanged_does_not_rewrite(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(mw, "MEETINGS_DIR", tmp_path)
+        matches = [{"term": "license plate reader", "snippet": "automated license plate readers"}]
+        rec1, is_new, is_changed = mw.write_finding(self.PORTAL, self.MEETING, matches, "test", False)
+        assert is_new and not is_changed
+        path = mw.finding_path("belmont-ca", "granicus-viewpublisher", "1139")
+        on_disk = path.read_text()
+
+        rec2, is_new2, is_changed2 = mw.write_finding(self.PORTAL, self.MEETING, matches, "test", False)
+        assert not is_new2 and not is_changed2
+        assert path.read_text() == on_disk                     # file untouched -> no git churn
+        assert rec2["first_seen"] == rec1["first_seen"]         # first_seen preserved
+
+    def test_changed_terms_marks_changed_and_rewrites(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(mw, "MEETINGS_DIR", tmp_path)
+        mw.write_finding(self.PORTAL, self.MEETING, [{"term": "lpr", "snippet": "a"}], "test", False)
+        _, is_new, is_changed = mw.write_finding(
+            self.PORTAL, self.MEETING, [{"term": "alpr", "snippet": "b"}], "test", False)
+        assert not is_new and is_changed
+
+    def test_dry_run_writes_nothing(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(mw, "MEETINGS_DIR", tmp_path)
+        _, is_new, _ = mw.write_finding(self.PORTAL, self.MEETING,
+                                        [{"term": "alpr", "snippet": "x"}], "test", True)
+        assert is_new
+        assert not mw.finding_path("belmont-ca", "granicus-viewpublisher", "1139").exists()
