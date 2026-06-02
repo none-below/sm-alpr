@@ -2045,7 +2045,7 @@
     "6b18acc6-e4b8-5f72-97e5-9942b2582e96": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-06-02T11:53:38.097977+00:00",
+      "last_probed": "2026-06-02T17:09:50.893439+00:00",
       "tried": {
         "-beverly-hills": "http_404",
         "-beverly-hills-ca": "http_404",
@@ -2075,6 +2075,7 @@
         "-beverlyhills-ca-ps": "http_403",
         "-beverlyhills-pd": "http_404",
         "-beverlyhills-pd-ca": "http_404",
+        "-beverlyhills-pdca": "http_404",
         "-beverlyhills-po": "http_404",
         "-beverlyhills-po-ca": "http_404",
         "-beverlyhills-police": "http_404",
@@ -4263,6 +4264,14 @@
         "tupelo-regional-airport-ms-pd": "http_404"
       }
     },
+    "e0b50edb-250d-5a3b-9818-8560346c651e": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-06-02T17:09:45.360860+00:00",
+      "tried": {
+        "hunterdon-county-nj-prosecutors-office-nj-pd": "http_404"
+      }
+    },
     "e102b80b-a734-5182-8c3b-c752bb3060d6": {
       "exhausted": false,
       "found": null,
@@ -4334,6 +4343,14 @@
       "last_probed": "2026-05-16T19:50:08.836794+00:00",
       "tried": {
         "smith-county-tx-so": "http_404"
+      }
+    },
+    "e5535966-5a7c-586e-8abc-ec6b4943e8b9": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-06-02T17:09:41.733666+00:00",
+      "tried": {
+        "clarkston-ga-pd": "http_404"
       }
     },
     "e668c431-d7e2-5cd3-b908-7aa1ff04decf": {
@@ -4882,6 +4899,6 @@
       }
     }
   },
-  "updated": "2026-06-02T11:53:38.131762+00:00",
+  "updated": "2026-06-02T17:09:50.935529+00:00",
   "version": 1
 }
