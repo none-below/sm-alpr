@@ -187,6 +187,9 @@ jobs:
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py -v
 
+      - name: Run meeting-watcher tests
+        run: uv run pytest tests/test_meeting_watch.py -v
+
       - name: Run article-registry tests
         run: |
           uv run pytest \
