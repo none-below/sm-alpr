@@ -61,6 +61,14 @@ VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
 STALE_DAYS = 14
 
+# Cloudflare bot-challenges the FIRST request from a cold (datacenter) IP with a
+# 403, then waves through once that IP is "warm" — so a 403 is transient, not a
+# block (a warmed retry on the same session almost always clears). This is why a
+# lone-agency dispatch always 403s: its one request is forever the cold first
+# request, with nothing after it to benefit. run_crawl_batch retries in-session.
+FORBIDDEN_RETRIES = 3      # in-session retries on a 403 edge challenge
+FORBIDDEN_BACKOFF = 8      # base seconds before the first retry; doubles, ±30% jitter
+
 
 # ═══════════════════════════════════════════════════════════
 # Shared utilities
@@ -1104,7 +1112,8 @@ def attach_csv_integrity(portal_data):
 def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     """Returns (status, discovered_slugs).
 
-    status: Path (saved), "unchanged", "rate_limited", or ("failed", reason).
+    status: Path (saved), "unchanged", "rate_limited", "forbidden", or
+    ("failed", reason).
 
     Artifact-set integrity: a slug-dir capture is the four-tuple
     .txt/.html/.json/.pdf. The whole set is staged in a `mktemp -d`
@@ -1132,6 +1141,12 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     if response and response.status == 429:
         print(f"    RATE LIMITED (429), will retry later")
         return "rate_limited", []
+
+    if response and response.status == 403:
+        # Not a real block: Flock's edge bot-challenges a cold IP's first request,
+        # then waves it through once warm. run_crawl_batch retries in-session.
+        print(f"    got HTTP 403 (edge bot-challenge), will retry in-session")
+        return "forbidden", []
 
     if response and response.status >= 400:
         print(f"    WARNING: got HTTP {response.status}, skipping")
@@ -1271,6 +1286,24 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                 save_json(data_dir / HASH_FILE, hashes)
                 continue
 
+        if status == "forbidden":
+            # The cold-IP 403 challenge clears once the IP is warm, so retry the
+            # SAME url on the SAME session (a fresh run would just get another
+            # cold IP). Back off between tries so we don't hammer the edge.
+            for attempt in range(FORBIDDEN_RETRIES):
+                backoff = max(delay, FORBIDDEN_BACKOFF) * (2 ** attempt) * random.uniform(0.7, 1.3)
+                print(f"    403 edge challenge, warming + retrying same session in "
+                      f"{backoff:.0f}s (attempt {attempt + 1}/{FORBIDDEN_RETRIES})...")
+                time.sleep(backoff)
+                status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
+                if status != "forbidden":
+                    break
+            if status == "forbidden":
+                print(f"    still 403 after {FORBIDDEN_RETRIES} retries, skipping for now (not quarantined)")
+                results.append((slug, None))
+                save_json(data_dir / HASH_FILE, hashes)
+                continue
+
         results.append((slug, status))
         if discovered_slugs:
             discovered.extend(discovered_slugs)
@@ -1279,9 +1312,10 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             #   parse_error: parser tripped on a new format variant; archive_agency
             #     stages and only commits on full success so no artifacts written.
             #     Surfaced as a tracking issue by the workflow.
-            #   http_403: Flock's Cloudflare uses 403 (not 429) for rate limiting.
-            #     A 403 here doesn't mean blocked — it means try again next run.
-            if status[1] not in ("parse_error", "http_403"):
+            # (403 edge challenges return "forbidden" and are retried in-session
+            #  above — they never reach here. Other HTTP 4xx/5xx are real failures
+            #  and do get quarantined until the next --retry-failed.)
+            if status[1] != "parse_error":
                 failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
         save_json(data_dir / HASH_FILE, hashes)
