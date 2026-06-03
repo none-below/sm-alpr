@@ -180,7 +180,7 @@ jobs:
         run: make build
 
       - name: Run smoke tests
-        run: uv run pytest tests/test_map_smoke.py -v
+        run: uv run pytest tests/test_map_smoke.py tests/test_dashboard.py -v
 
       - name: Run meeting-watcher tests
         run: uv run pytest tests/test_meeting_watch.py -v
