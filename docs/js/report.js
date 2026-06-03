@@ -83,6 +83,33 @@
       ? 'private_university' : 'private_entity';
   }
 
+  // State-neutral flag explanations for non-California agencies. The CA
+  // report frames each flag as an SB 34 / Civil Code concern; outside
+  // California we drop the statutory citations and explain why each
+  // category warrants scrutiny on its own terms. The out_of_state flag
+  // is source-relative (computed against the sharing agency's own state
+  // in build_report_data.py), so its explanation names that state and
+  // makes the "another state may have weaker rules" point.
+  function flagExplanationFor(kind, report) {
+    if (report.state === "CA") return FLAG_EXPLANATIONS[kind] || "";
+    const st = report.state ? escapeHtml(report.state) : "this agency’s state";
+    switch (kind) {
+      case "private_entity":
+        return "Not a government agency. Sharing ALPR data with a private company, HOA, or other non-public entity moves it outside the public-records and oversight rules that govern law-enforcement agencies.";
+      case "private_university":
+        return "Private university police departments operate outside the public-agency oversight framework that governs municipal and county law enforcement. Their inclusion in a government sharing list warrants scrutiny.";
+      case "out_of_state":
+        return `Recipient is outside ${st}. Data shared across state lines leaves the protections of ${st}’s ALPR rules and enters a jurisdiction that may impose fewer restrictions on how that data is used, retained, or re-shared.`;
+      case "federal":
+        return "Federal agencies (e.g., ICE, CBP, FBI) operate outside state and local ALPR oversight. Sharing with them can route locally collected data into national systems beyond the agency’s control.";
+      case "fusion_center":
+        return "Multi-agency re-sharing hub — data sent here is redistributed to many downstream entities, some of which may not be public agencies. See the per-entity notes below for concerns specific to each one.";
+      // decommissioned and test explanations carry no CA-specific framing.
+      default:
+        return FLAG_EXPLANATIONS[kind] || "";
+    }
+  }
+
   // Maps a stats-table metric key to the corresponding transparency
   // checklist id. When the agency doesn't publish a given stat, we
   // use this to look up the peer publish-rate and show it as a
@@ -1868,11 +1895,19 @@
       const orderedKinds = orderedKindsFor(kindGroups);
 
       html += '<div class="flag-section">';
-      html += `<strong>${flagged.length} flagged recipient${flagged.length === 1 ? "" : "s"}</strong> &mdash; entities whose inclusion raises compliance questions under CA Civil Code &sect;1798.90.55(b). Each flag type is explained below.`;
+      // CA reports tie the flag list to SB 34 (§1798.90.55(b)); outside
+      // California there is no single statute to cite, so the intro
+      // drops the legal framing and just says these recipients warrant
+      // a closer look. Per-kind explanations below do the same.
+      if (report.state === "CA") {
+        html += `<strong>${flagged.length} flagged recipient${flagged.length === 1 ? "" : "s"}</strong> &mdash; entities whose inclusion raises compliance questions under CA Civil Code &sect;1798.90.55(b). Each flag type is explained below.`;
+      } else {
+        html += `<strong>${flagged.length} flagged recipient${flagged.length === 1 ? "" : "s"}</strong> &mdash; recipients in this agency&rsquo;s sharing list that warrant a closer look. Each flag type is explained below.`;
+      }
       orderedKinds.forEach(function(kind) {
         const group = kindGroups[kind];
         const label = FLAG_LABELS[kind] || kind.toUpperCase();
-        const explanation = FLAG_EXPLANATIONS[kind] || "";
+        const explanation = flagExplanationFor(kind, report);
         html += `<div style="margin-top:10px">`;
         html += `<div style="font-weight:bold"><span class="flag-tag kind-${escapeHtml(kind)}">${escapeHtml(label)}</span></div>`;
         if (explanation) {
