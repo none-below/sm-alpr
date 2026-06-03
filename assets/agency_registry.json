@@ -1592,31 +1592,6 @@
     "flags": []
   },
   {
-    "agency_id": "d369b4a9-843d-50ab-8dea-3f19160eb49c",
-    "slug": "city-of-waverly-pd-mo",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "City of Waverly PD MO"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "2977866",
-      "name": "Waverly",
-      "state": "MO",
-      "lat": 39.207007,
-      "lng": -93.518133
-    }
-  },
-  {
     "agency_id": "f168928f-b50b-5bd7-8c25-6da6521fdb93",
     "slug": "clear-lake-ia-pd",
     "flock_active_slug": "clear-lake-ia-pd",
@@ -1795,31 +1770,6 @@
     "ori": [
       "CA0300400"
     ]
-  },
-  {
-    "agency_id": "249711ca-2162-5c14-97a5-389689224219",
-    "slug": "coulee-dam-wa-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Coulee Dam WA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "5315115",
-      "name": "Coulee Dam",
-      "state": "WA",
-      "lat": 47.968511,
-      "lng": -118.97628
-    }
   },
   {
     "agency_id": "bc4aafb5-f44a-53c7-9255-eb0967f455ef",
@@ -7517,6 +7467,56 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "d369b4a9-843d-50ab-8dea-3f19160eb49c",
+    "slug": "city-of-waverly-pd-mo",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "City of Waverly PD MO"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "2977866",
+      "name": "Waverly",
+      "state": "MO",
+      "lat": 39.207007,
+      "lng": -93.518133
+    }
+  },
+  {
+    "agency_id": "249711ca-2162-5c14-97a5-389689224219",
+    "slug": "coulee-dam-wa-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Coulee Dam WA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5315115",
+      "name": "Coulee Dam",
+      "state": "WA",
+      "lat": 47.968511,
+      "lng": -118.97628
+    }
   },
   {
     "agency_id": "fd4a2e06-6d26-5cf8-86f4-14c23be60383",
