@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com;">
+<link rel="stylesheet" href="css/shared.css">
+<title>Backlog Dashboard — California ALPR Network</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, system-ui, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 28px 20px 60px; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .lede { color: #94a3b8; font-size: 14px; max-width: 680px; }
+  .built { color: #64748b; font-size: 12px; margin-top: 8px; }
+  h2 {
+    font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: #94a3b8; border-bottom: 1px solid #1e293b;
+    padding-bottom: 6px; margin: 34px 0 14px;
+  }
+
+  /* Summary stat cards */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .stat {
+    background: #1e293b; border: 1px solid #334155; border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .stat .num { font-size: 28px; font-weight: 700; line-height: 1.1; }
+  .stat .label { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+  .stat .sub { font-size: 11px; color: #64748b; margin-top: 2px; }
+  .stat.alert .num { color: #fca5a5; }
+  .stat.warn .num { color: #fcd34d; }
+  .stat.ok .num { color: #86efac; }
+
+  /* Controls */
+  .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 12px; }
+  .controls input[type=text] {
+    background: #1e293b; border: 1px solid #334155; color: #e2e8f0;
+    border-radius: 6px; padding: 6px 10px; font-size: 13px; min-width: 220px;
+  }
+  .controls label { font-size: 13px; color: #cbd5e1; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .controls .count { font-size: 12px; color: #64748b; margin-left: auto; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid #1e293b; }
+  th { color: #94a3b8; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: #16213a; }
+  .badge {
+    display: inline-block; padding: 1px 8px; border-radius: 10px;
+    font-size: 11px; font-weight: 600;
+  }
+  .badge.overdue { background: #450a0a; color: #fca5a5; }
+  .badge.due { background: #451a03; color: #fcd34d; }
+  .badge.fresh { background: #052e16; color: #86efac; }
+  .flag { color: #c4b5fd; font-size: 11px; margin-left: 6px; }
+  .empty { color: #64748b; font-size: 13px; padding: 16px 0; }
+
+  /* Article pipeline mini-grid */
+  .pipe { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+  .pipe .stat .num { font-size: 22px; }
+  a.src { color: #60a5fa; }
+
+  /* Pipeline-health layout: stat row + trend sparkline */
+  .health { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .sparkwrap { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px; }
+  .sparkwrap .caption { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
+  .spark { display: flex; align-items: flex-end; gap: 3px; height: 52px; }
+  .spark .bar { flex: 1; background: #334155; border-radius: 2px 2px 0 0; min-height: 2px; }
+  .spark .bar.today { background: #60a5fa; }
+  .sparkwrap .axis { display: flex; justify-content: space-between; color: #64748b; font-size: 11px; margin-top: 6px; }
+
+  /* Quarantine callout */
+  .note { font-size: 12px; color: #94a3b8; margin-top: 10px; }
+  .note code { background: #1e293b; border: 1px solid #334155; border-radius: 4px; padding: 1px 5px; }
+  .badge.stuck { background: #3b0764; color: #d8b4fe; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">&larr; Back to investigation</a>
+  <h1>Backlog Dashboard</h1>
+  <p class="lede">What's waiting to be picked up — transparency portals due for a re-crawl,
+    and where each news article sits in the curation pipeline. Staleness is recomputed in
+    your browser against the current time, so the "due" counts stay live between rebuilds.</p>
+  <div class="built" id="built"></div>
+
+  <h2>At a glance</h2>
+  <div class="stats" id="stats"><div class="empty">Loading…</div></div>
+
+  <h2>Pipeline health — crawl throughput</h2>
+  <div class="health" id="health"></div>
+  <div class="sparkwrap" id="sparkwrap"></div>
+
+  <h2>Stuck — quarantined portals</h2>
+  <div id="quarantined"></div>
+
+  <h2>Crawl backlog — transparency portals due for re-crawl</h2>
+  <div class="controls">
+    <input type="text" id="filter" placeholder="Filter by agency or state…">
+    <label><input type="checkbox" id="dueOnly" checked> Due only</label>
+    <span class="count" id="crawlCount"></span>
+  </div>
+  <div id="crawl"></div>
+
+  <h2>Article pipeline</h2>
+  <div class="pipe" id="articles"></div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/dashboard.js"></script>
+
+<script data-goatcounter="https://none-below.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

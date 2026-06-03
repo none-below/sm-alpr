@@ -42,6 +42,7 @@ BUILD_FILES := \
 	docs/data/report_data.json \
 	docs/data/justifications.json \
 	docs/data/agency_changelog.json \
+	docs/data/dashboard.json \
 	assets/transparency.flocksafety.com/.sharing_graph_full.json
 BUILD_DIRS := docs/data/audit docs/data/history
 # Touched on a successful `make build`. `make test` depends on it, so the
@@ -62,6 +63,7 @@ build: ## Force-rebuild all site/data artifacts + findings PDF
 	uv run python scripts/build_scoreboard.py
 	uv run python scripts/build_report_data.py
 	uv run python scripts/build_justifications.py
+	uv run python scripts/build_dashboard.py
 	uv run python scripts/md_to_pdf.py
 	@mkdir -p $(dir $(BUILD_STAMP))
 	@touch $(BUILD_STAMP)
