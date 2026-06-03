@@ -44,6 +44,12 @@ def main() -> int:
     tag_counts: dict[str, int] = {}
 
     for entry in registry:
+        # Off-topic entries (the curator's not-about-ALPR verdict) stay in
+        # the registry as dedup tombstones but never reach the public viewer
+        # — skip them here so they're absent from the article list, tag/
+        # source counts, and the per-agency index alike.
+        if entry.get("curation_status") == "off_topic":
+            continue
         agencies = []
         for aid in entry.get("agencies") or []:
             ag = reg_by_id.get(aid)
