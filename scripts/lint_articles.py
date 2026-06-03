@@ -48,7 +48,7 @@ AGENCY_REGISTRY = ROOT / "assets" / "agency_registry.json"
 # see scripts/article_curate.py:article_id_for_url). Decimal digits are a
 # subset of hex, so one pattern accepts both.
 ARTICLE_ID_RE = re.compile(r"^art_[0-9a-f]{3,}$")
-KNOWN_STATUSES = {"mechanical", "enriched", "needs_review"}
+KNOWN_STATUSES = {"mechanical", "enriched", "needs_review", "off_topic"}
 
 # Word-boundary regex hits suggesting the article reports a contract
 # action — terminating, turning off, pausing, declining renewal, etc.

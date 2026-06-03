@@ -38,12 +38,22 @@ def test_matches_keywords(text, expected):
     assert got == expected
 
 
-def test_matches_keywords_skips_bare_flock():
-    """We deliberately excluded bare 'flock' from the keyword list —
-    it's too generic (flocks of birds, etc.). 'flock safety' or
-    'flock cameras' must appear to match."""
-    assert da.matches_keywords("A flock of geese flew overhead.", da.KEYWORDS) is None
+def test_matches_bare_flock_word_boundary():
+    """A bare standalone 'Flock' now matches — the company is frequently
+    named only as 'Flock' in headlines ('…ditching Flock'), which carry no
+    qualified keyword. The residual false positive (a literal flock of
+    birds, Flock Freight, a congregation) is dropped downstream by the
+    curator's off_topic verdict, so we accept it here for recall. Inflected
+    common-noun forms stay excluded via the word boundary."""
+    # Standalone token → matches (curator backstops the bird/Freight case).
+    assert da.matches_keywords("Palo Alto considers ditching Flock", da.KEYWORDS) == "flock"
+    assert da.matches_keywords("Evanston orders Flock to remove cameras", da.KEYWORDS) == "flock"
+    assert da.matches_keywords("A flock of geese flew overhead.", da.KEYWORDS) == "flock"
+    # Qualified forms still win the (more specific) label.
+    assert da.matches_keywords("Flock Safety launches product", da.KEYWORDS) == "flock safety"
+    # Inflected forms are not a standalone 'flock' token → no match.
     assert da.matches_keywords("Bird flocking behavior in winter", da.KEYWORDS) is None
+    assert da.matches_keywords("Shoppers arrived in their flocks", da.KEYWORDS) is None
 
 
 def test_matches_keywords_empty_input():

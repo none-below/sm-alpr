@@ -351,6 +351,8 @@ CURATION_SCHEMA = {
     "properties": {
         "refusal": {"type": "boolean"},
         "refusal_reason": {"type": ["string", "null"]},
+        "off_topic": {"type": "boolean"},
+        "off_topic_reason": {"type": ["string", "null"]},
         "summary": {"type": "string"},
         "key_quotes": {
             "type": "array",
@@ -376,8 +378,9 @@ CURATION_SCHEMA = {
         },
     },
     "required": [
-        "refusal", "refusal_reason", "summary", "key_quotes",
-        "topic_tags", "genre", "primary_subject_agency_ids",
+        "refusal", "refusal_reason", "off_topic", "off_topic_reason",
+        "summary", "key_quotes", "topic_tags", "genre",
+        "primary_subject_agency_ids",
     ],
     "additionalProperties": False,
 }
@@ -499,9 +502,25 @@ fields are:
   Return an empty list for national, vendor-focused, or legal-doctrine
   pieces with no specific agency subjects.
 
-If you cannot complete the task — paywalled stub, language you can't
-read, content that turned out not to be about ALPR — set refusal=true
-and provide refusal_reason. Otherwise refusal=false, refusal_reason=null.
+Two distinct escape hatches:
+
+- refusal — you CANNOT evaluate the article: paywalled stub, truncated
+  or empty body, a language you can't read. Set refusal=true with a
+  refusal_reason. These go to a human review queue.
+
+- off_topic — you CAN read it, but it simply isn't about ALPR /
+  license-plate readers / police surveillance cameras at all. The
+  discovery filter now queues any article naming "Flock," which
+  occasionally catches an unrelated use — a literal flock of birds,
+  Flock Freight (the trucking company), a church congregation, the Flock
+  messaging app, etc. Set off_topic=true with a brief off_topic_reason.
+  off_topic articles are DROPPED from the public viewer, so reserve it
+  for genuinely unrelated content — not for on-topic articles you merely
+  find thin or tangential. When unsure whether a surveillance-camera
+  story counts, treat it as on-topic (off_topic=false).
+
+When neither applies: refusal=false, refusal_reason=null, off_topic=false,
+off_topic_reason=null.
 
 Controlled topic tag vocabulary (apply only these IDs):
 
@@ -690,6 +709,18 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
             entry["curation_status"] = "needs_review"
             entry["curation_error"] = f"refusal: {data.get('refusal_reason')}"
             print(f"phase2: refused {entry['article_id']} ({data.get('refusal_reason')})")
+            continue
+        if data.get("off_topic"):
+            # Terminal, not a review queue: the curator read it and it's
+            # simply not about ALPR (a literal flock of birds, Flock Freight,
+            # etc. that the loosened keyword gate let through). The entry
+            # stays in the registry as a tombstone so article_queue_add's URL
+            # dedup never re-queues it (one crawl + one curation, ever), and
+            # build_articles_data drops it from the viewer.
+            entry["curation_status"] = "off_topic"
+            entry["curation_error"] = f"off_topic: {data.get('off_topic_reason')}"
+            entry["curated_at"] = now_iso()
+            print(f"phase2: off_topic {entry['article_id']} ({data.get('off_topic_reason')})")
             continue
         ok, err = validate_curation_output(data, entry, tags_data)
         if not ok:
