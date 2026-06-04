@@ -21,6 +21,10 @@
   "wayback_source": "poll-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +132,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-02T10:58:08Z",
+  "primary_subject_agency_ids": [
+    "d22f3264-52b5-5139-ad7c-849564e02eb1",
+    "2cc3a31d-7f98-5714-bc85-927815444575"
+  ],
+  "summary": "Activists with Flock Off Ithaca covered at least five Flock Safety cameras with black bags during a May 30 protest, demanding faster removal after both the City of Ithaca and Tompkins County terminated their Flock contracts months earlier. Officials say cameras are deactivated and county cameras are expected to come down within the week, while the city awaits Flock's removal schedule.",
+  "key_quotes": [
+    {
+      "quote": "About three months ago, the City of Ithaca and Tompkins County separately voted to end their contracts with Flock Safety after facing sustained public pressure.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "the county-controlled Flock devices were shut off when the county terminated its contract on May 28 and are expected to be removed this week",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "all Flock Safety equipment, such as license plate reader cameras and gunshot detection devices, must be turned off and disconnected within 14 days of the contract being terminated",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-04T21:37:58Z",
   "article_id": "art_07885c762694"
 }

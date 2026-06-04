@@ -22,6 +22,13 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:reconsidering",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +135,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-02T10:58:13Z",
+  "primary_subject_agency_ids": [
+    "663b82ca-427a-5e74-83ce-823a973242d9"
+  ],
+  "summary": "Palo Alto City Council discussed Flock Safety's nationwide lookup feature that allowed out-of-state searches of the city's ALPR data without permission, violating California's SB 34 and city policy. Council members expressed distrust of Flock and its CEO, with the mayor seeking a financial penalty, while police defended the cameras' crime-solving value. The council has tasked a police auditor to investigate; the contract runs through December 2029.",
+  "key_quotes": [
+    {
+      "quote": "Flock allowed nationwide searches of Palo Alto's camera data without the city's knowledge or permission, Chief James Reifschneider revealed in an April 21 statement.",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "I'm just not sure about being able to trust this company going forward",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Why does my trip to the supermarket earn me a spot in a government database controlled by a company that so recklessly disregards state law and indeed your own robust policies?",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "Still, council is having a police auditor look into Flock. The city's contract with Flock ends in December 2029.",
+      "paragraph_idx": 21
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-04T21:38:13Z",
   "article_id": "art_7cd48b57842f"
 }
