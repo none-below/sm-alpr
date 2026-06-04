@@ -166,6 +166,37 @@ class TestLoadPortalRows:
         assert rows[1]["offenseType"] == "Theft"
         assert set(meta["schema_seen"]) >= {"reason", "caseNumber", "offenseType"}
 
+    def test_merges_columns_for_same_id_across_sources(self, scrape_dir):
+        # The live portal feed publishes offenseType; the PRA import publishes
+        # reason. The same search id from both sources must merge into one row
+        # that keeps BOTH columns, not drop whichever was seen second.
+        portal_row = {"id": "s1", "userId": "***", "searchDate": "2026-05-01T00:00:00Z",
+                      "networkCount": "10", "offenseType": "Drugs/Narcotics"}
+        pra_row = {"id": "s1", "userId": "***", "searchDate": "2026-05-01T00:00:00Z",
+                   "networkCount": "10", "reason": "Drugs/Narcotics - drug sales"}
+        _write_scrape(scrape_dir, "agency-x", "2026-05-02", [portal_row])
+        (scrape_dir / "agency-x" / "pra-W0001.json").write_text(
+            json.dumps({"search_audit_csv": [pra_row]}))
+        rows, meta = load_portal_rows("agency-x")
+        assert meta["row_count"] == 1
+        assert rows[0]["offenseType"] == "Drugs/Narcotics"
+        assert rows[0]["reason"] == "Drugs/Narcotics - drug sales"
+        # first_seen anchors to the portal scrape, seen before the pra-* import
+        assert rows[0]["first_seen"] == "2026-05-02"
+
+    def test_reason_prefers_longer_value(self, scrape_dir):
+        # When two sources both carry reason for the same id, keep the longer:
+        # SMPD's export appends the officer's free text to the offense category.
+        short = {"id": "s1", "userId": "***", "searchDate": "2026-05-01T00:00:00Z",
+                 "networkCount": "10", "reason": "Theft"}
+        long_ = {"id": "s1", "userId": "***", "searchDate": "2026-05-01T00:00:00Z",
+                 "networkCount": "10", "reason": "Theft - vehicle burglary"}
+        _write_scrape(scrape_dir, "agency-x", "2026-05-02", [short])
+        (scrape_dir / "agency-x" / "pra-W0001.json").write_text(
+            json.dumps({"search_audit_csv": [long_]}))
+        rows, _ = load_portal_rows("agency-x")
+        assert rows[0]["reason"] == "Theft - vehicle burglary"
+
     def test_skips_rows_without_id(self, scrape_dir):
         _write_scrape(
             scrape_dir,
