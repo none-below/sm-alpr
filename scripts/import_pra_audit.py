@@ -108,11 +108,18 @@ def main() -> int:
     normalized = [normalize_row(r) for r in raw_rows]
     normalized.sort(key=lambda r: (r["searchDate"], r["id"]))
 
+    # Carry the raw-order integrity forward from parse_pra_audit. search_audit_csv
+    # below is re-sorted by date (to merge with portal scrapes), so the per-user
+    # block structure only survives in this block's per-file date_resets — keep it
+    # visible in the file we actually read, not just the PRA folder's audit_rows.
+    out = {}
+    if payload.get("integrity"):
+        out["integrity"] = {**payload["integrity"], "files": payload.get("files", [])}
+    out["search_audit_csv"] = normalized
+
     request_id = request_id_from_folder(folder)
     out_path = portal_dir / f"pra-{request_id}.json"
-    out_path.write_text(
-        json.dumps({"search_audit_csv": normalized}, indent=2) + "\n"
-    )
+    out_path.write_text(json.dumps(out, indent=2) + "\n")
 
     dates = [r["searchDate"][:10] for r in normalized]
     print(f"wrote {out_path}")

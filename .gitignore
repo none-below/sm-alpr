@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 .claude/
+# `make build` success stamp; `make test` rebuilds when it's absent.
+.make/
 .DS_Store
 .env*
 outputs/pii_scan_results.txt
@@ -17,6 +19,7 @@ docs/data/agency_changelog.json
 docs/data/contract_map_data.json
 docs/data/justifications.json
 docs/data/articles_data.json
+docs/data/dashboard.json
 docs/js/map.js
 assets/transparency.flocksafety.com/.sharing_graph_full.json
 assets/**/_pending/

@@ -24,6 +24,7 @@ PAGES = [
     # SMPD is the project's canonical subject so it's the natural
     # example for PR previews.
     ("report.html?agency=san-mateo-ca-pd", "report_san-mateo-ca-pd", {"width": 1000, "height": 1400}),
+    ("dashboard.html", "dashboard", {"width": 1000, "height": 1100}),
 ]
 
 

@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """Tests for the slug probe candidate generator.
 
 The generator is the load-bearing part: if it doesn't produce the right
@@ -16,6 +18,7 @@ from slug_probe import (
     eyesonflock_hint,
     generate_candidates,
     normalize_name,
+    probe,
     select_targets,
 )
 
@@ -397,3 +400,67 @@ def test_eyesonflock_hint_returns_none_without_geo_block():
         {"agency_role": "police", "geo": {"kind": "place", "state": "CA"}},
         eof_index,
     ) is None
+
+
+# ── probe() HTTP-status outcome mapping ─────────────────────────
+
+
+class _FakeResponse:
+    def __init__(self, status):
+        self.status = status
+
+
+class _FakePage:
+    """Minimal stand-in for a playwright Page. probe() only calls goto()
+    (returns a response with .status), and — on the 200 path — wait_for_timeout
+    and inner_text. The 403/404/429 paths return before those, so a fake is
+    enough to pin the status→outcome mapping without a real browser."""
+
+    def __init__(self, status, body=""):
+        self._status = status
+        self._body = body
+
+    def goto(self, url, wait_until=None, timeout=None):
+        return _FakeResponse(self._status) if self._status is not None else None
+
+    def wait_for_timeout(self, ms):
+        pass
+
+    def inner_text(self, selector):
+        return self._body
+
+
+def test_probe_403_is_forbidden_not_a_miss():
+    """A 403 is Flock's edge bot-challenge, NOT evidence the slug is dead.
+    It must be reported as 'forbidden' (distinct from a 404 'miss') so the
+    run loop backs off and rolls it back instead of burning the candidate
+    as a permanent tried-miss."""
+    assert probe(_FakePage(403), "anytown-ca-pd") == ("forbidden", "http_403")
+
+
+def test_probe_404_is_a_real_miss():
+    """404 reached the origin and means the slug genuinely doesn't exist —
+    a trustworthy answer, recorded as a permanent miss."""
+    assert probe(_FakePage(404), "anytown-ca-pd") == ("miss", "http_404")
+
+
+def test_probe_429_is_rate_limited():
+    assert probe(_FakePage(429), "anytown-ca-pd") == ("rate_limited", "http_429")
+
+
+def test_probe_other_4xx_is_miss():
+    """Any other 4xx (not 403/404/429) is a generic miss."""
+    assert probe(_FakePage(410), "anytown-ca-pd") == ("miss", "http_410")
+
+
+def test_probe_200_with_portal_marker_is_hit():
+    body = "Welcome. Provided by Flock Safety. Acceptable Use Policy ..."
+    assert probe(_FakePage(200, body=body), "anytown-ca-pd") == ("hit", "http_200")
+
+
+def test_probe_200_without_marker_is_miss():
+    """A 200 with no portal marker is an SPA shell / marketing page, not a
+    real portal."""
+    assert probe(
+        _FakePage(200, body="Page not found"), "anytown-ca-pd"
+    ) == ("miss", "http_200_no_marker")

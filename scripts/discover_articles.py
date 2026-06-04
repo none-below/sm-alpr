@@ -61,9 +61,13 @@ USER_AGENT_BROWSER = (
 )
 
 # Substrings we look for (case-insensitive) in feed-item title or
-# summary. Keep "flock" out of the bare list — it's too generic
-# (covers flocks of birds, demographic flocking, etc.). Require a
-# disambiguating second word.
+# summary. Most entries are plain substrings; the bare "flock" sentinel
+# at the end is special-cased in _keyword_hit to match on a word boundary,
+# so a headline that names the company only as "Flock" ("Palo Alto
+# considers ditching Flock") still queues while common-noun inflections
+# ("flocking", "flocks of geese") don't. The looser bare-"flock" recall is
+# backstopped by the curator's off_topic verdict, which drops the rare
+# bird / Flock-Freight / congregation false positive from display.
 KEYWORDS = [
     "alpr",
     "license plate reader",
@@ -92,6 +96,10 @@ KEYWORDS = [
     "fusus",
     "street camera",
     "public safety camera",
+    # Bare company name, word-boundary matched (see _keyword_hit). Listed
+    # last so the qualified "flock safety"/"flock camera" forms win the
+    # label when present. Kept safe by the curator's off_topic backstop.
+    "flock",
 ]
 
 # Bing News RSS search queries. Bing doesn't support quoted OR (e.g.
@@ -109,13 +117,31 @@ SEARCH_QUERIES = [
 ]
 
 
+_BARE_FLOCK_RE = re.compile(r"\bflock\b", re.IGNORECASE)
+
+
+def _keyword_hit(kw: str, text: str, low: str) -> bool:
+    """True if ``kw`` matches ``text``.
+
+    Most keywords are plain case-insensitive substrings. The bare "flock"
+    sentinel is the exception: it matches only on a word boundary, so the
+    company name in a headline like "…ditching Flock" counts while
+    common-noun inflections ("flocking", "flocks of geese") don't. Treating
+    it as a sentinel (rather than a substring or an unconditional fallback)
+    keeps custom --keywords lists unaffected unless they opt in to "flock".
+    """
+    if kw == "flock":
+        return _BARE_FLOCK_RE.search(text) is not None
+    return kw in low
+
+
 def matches_keywords(text: str, kws: list[str]) -> str | None:
     """Return the first matching keyword (lowercased), or None."""
     if not text:
         return None
     low = text.lower()
     for kw in kws:
-        if kw in low:
+        if _keyword_hit(kw, text, low):
             return kw
     return None
 

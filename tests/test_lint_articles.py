@@ -225,6 +225,14 @@ def test_lint_rejects_unknown_curation_status(tmp_path):
     assert "unknown curation_status" in err
 
 
+def test_lint_accepts_off_topic_status(tmp_path):
+    """off_topic is a terminal verdict (curator: not about ALPR); the entry
+    stays in the registry as a dedup tombstone, so lint must accept it."""
+    repo, _ = _make_repo(tmp_path, registry=[_good_entry(curation_status="off_topic")])
+    rc, out, err = _run(repo)
+    assert rc == 0, err
+
+
 def test_lint_rejects_missing_paths(tmp_path):
     repo, _ = _make_repo(tmp_path, registry=[_good_entry(
         paths={"html": "assets/articles/eff.org/missing.html"},

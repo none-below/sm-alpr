@@ -9,6 +9,12 @@ drop off over time. This tool unions rows by `id` across every scrape we have,
 preserving the earliest-seen scrape date, and writes a stable per-portal JSON
 log that can extend beyond Flock's rolling cutoff.
 
+Rows for the same `id` are merged column-by-column across sources, not kept
+whole from whichever source was seen first. This matters where a portal also
+has a PRA-imported export (e.g. SMPD): the live feed publishes `offenseType`
+while the PRA export publishes `reason` (the offense category plus the
+officer's free-text justification), and the merge keeps both on one row.
+
 Output: docs/data/audit/<portal-slug>.json (one file per portal that has
 ever published an audit CSV). Rebuilt from scratch on every run; the
 committed scrape archive is the source of truth. The output dir is
@@ -104,9 +110,26 @@ def load_portal_rows(portal):
             if not rid:
                 continue
             schema_seen.update(r.keys())
-            if rid not in first_seen_by_id:
+            if rid not in by_id:
+                by_id[rid] = {}
                 first_seen_by_id[rid] = scrape_date
-                by_id[rid] = r
+            cur = by_id[rid]
+            # Per-column merge across sources for the same search id. The live
+            # portal feed and SMPD's PRA-imported export carry *different*
+            # columns for the same id (portal -> offenseType; PRA export ->
+            # reason, where reason = "<offenseType> - <free-text justification>").
+            # Union the columns so a merged row keeps both, instead of letting
+            # whichever source we saw first win and silently drop the other's
+            # column. First non-empty value wins per key; `reason` prefers the
+            # longer string, since the export appends the officer's free-text
+            # justification to the offense category.
+            for k, v in r.items():
+                if v is None or (isinstance(v, str) and not v.strip()):
+                    continue
+                if k not in cur:
+                    cur[k] = v
+                elif k == "reason" and len(str(v)) > len(str(cur[k])):
+                    cur[k] = v
 
     if not by_id:
         return None, None
