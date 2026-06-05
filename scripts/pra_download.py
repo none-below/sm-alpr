@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """
 Download attachments from the San Mateo public records portal (GovQA).
 
@@ -16,6 +18,7 @@ Regular use:
   uv run python scripts/pra_download.py W012297-030826     # one request
   uv run python scripts/pra_download.py --all              # every request folder
   uv run python scripts/pra_download.py                    # same as --all
+  uv run python scripts/pra_download.py --active           # every folder except closed ones
   uv run python scripts/pra_download.py --discover         # stub new portal ids, then scrape all
 
 After downloading, run OCR to refresh sidecars:
@@ -1481,8 +1484,18 @@ def run(args, config: dict) -> None:
                 print("no new requests on portal")
 
         targets = list(args.requests)
-        if args.all or not targets:
+        if args.all or args.active or not targets:
             targets = discover_requests()
+        if args.active and not args.all:
+            # A closed PRA won't gain new messages, so skip it. --all overrides
+            # (re-checks everything in case a closed request changed).
+            from build_pra_registry import closed_ids
+            closed = closed_ids()
+            skipped = sorted(t for t in targets if t in closed)
+            targets = [t for t in targets if t not in closed]
+            if skipped:
+                print(f"{_c('—', 'yellow', 'bold')} --active: skipping "
+                      f"{len(skipped)} closed PRA(s): {', '.join(skipped)}")
         if not targets:
             print("No target requests.", file=sys.stderr)
             browser.close()
@@ -1511,6 +1524,10 @@ def main() -> int:
                              "or PRA_USERNAME/PRA_PASSWORD env vars)")
     parser.add_argument("--all", action="store_true",
                         help="Iterate every W* folder (default when no ids given)")
+    parser.add_argument("--active", action="store_true",
+                        help="Like --all but skip PRAs already closed (a closed "
+                             "request won't gain new messages). Use --all to "
+                             "re-check closed ones in case something changed.")
     parser.add_argument("--discover", action="store_true",
                         help="Walk the portal list and create stub folders for "
                              "any new request ids before scraping")
