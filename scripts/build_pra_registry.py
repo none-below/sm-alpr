@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """
 Build the PRA registry by combining curated per-PRA metadata.json files with
 data parsed deterministically from the portal's Message_History.pdf exports.
@@ -556,6 +558,23 @@ def build(roots):
         "tags": TAGS,
         "pras": sorted(entries, key=lambda x: x["id"]),
     }
+
+
+def closed_ids(roots=ROOTS):
+    """Set of PRA ids whose display_status is "closed".
+
+    Computed exactly as the registry does — display_status folds in both the
+    curated status_override and the parser's derived status, so it catches the
+    ~40% of closed PRAs that are closed only by derived status, not override.
+    Recomputed from the on-disk *_Message_History.pdf files, so it needs no
+    pre-built (gitignored) registry artifact.
+
+    Consumed by scripts/pra_download.py --active to skip already-closed
+    requests: a closed PRA won't gain new messages. Like build(), this assumes
+    the CWD is the repo root (ROOTS holds repo-relative paths).
+    """
+    registry = build(roots)
+    return {e["id"] for e in registry["pras"] if e["display_status"] == "closed"}
 
 
 def main():
