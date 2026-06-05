@@ -21,6 +21,13 @@
   "wayback_source": "poll-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -139,10 +146,33 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T17:50:39Z",
+  "primary_subject_agency_ids": [
+    "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed"
+  ],
+  "summary": "An Almanac investigation found that Atherton allows 295 outside agencies to conduct millions of searches of its Flock ALPR data, with thousands of searches citing federal immigration-related purposes (HSI, ICE, CBP) despite California law and Atherton's own policy. Atherton police acknowledge the policy requiring commander review of each request and a stated purpose is no longer followed, calling it 'no longer feasible.' Neighboring agencies including San Mateo County Sheriff, Menlo Park, and Redwood City run similar Flock networks now under records requests.",
+  "key_quotes": [
+    {
+      "quote": "Atherton claims it does not share the license plate data with federal agencies, thousands of searches were done on behalf of federal authorities by partner agencies.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Given the volume of searches that occur across the network, it is no longer feasible to manually approve each one, and we are in the process of updating our policy accordingly",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "From Jan. 1 to July 15, 2025, outside agencies searched Atherton's ALPR database over 2.9 million times.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "In February, the Bakersfield Police Department searched Atherton's and 758 other law enforcement agencies' Flock ALPR systems 18 times with the reason of \"HSI.\"",
+      "paragraph_idx": 23
+    },
+    {
+      "quote": "The Anaheim Police Department searched Atherton's ALPR database 14 times with the reason \"ICE.\"",
+      "paragraph_idx": 25
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T18:07:27Z",
   "article_id": "art_763ceeed69cf"
 }

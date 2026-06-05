@@ -21,6 +21,13 @@
   "wayback_source": "poll-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -133,10 +140,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T17:50:54Z",
+  "primary_subject_agency_ids": [
+    "e29c469f-b2b6-515e-8d3c-93b3075ad896"
+  ],
+  "summary": "The Woodside Town Council voted to keep its Flock ALPR cameras while strengthening oversight, including reinstating direct Sheriff's Office audit reports and hiring a third-party auditor. The decision came amid resident concerns and recent revelations of unauthorized Flock data access in Atherton, Menlo Park, and Mountain View. Council member Jenn Wall's proposal to pause the program was not adopted.",
+  "key_quotes": [
+    {
+      "quote": "Woodside officials are taking a closer look at the security of data gathered by automated license plate cameras in town after the company it contracts with came under fire for allowing unauthorized searches in other Midpeninsula cities.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "members voted to approve the annual audit and unanimously moved to reinstate a relationship with the San Mateo County Sheriff's Office to provide direct audit reports to the council. The council also voted 4-1 to search for a third-party auditor for license plate reader search inquiries.",
+      "paragraph_idx": 33
+    },
+    {
+      "quote": "I think the Mountain View example is a false equivalency",
+      "paragraph_idx": 30
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T18:08:37Z",
   "article_id": "art_f405dd5146e9"
 }

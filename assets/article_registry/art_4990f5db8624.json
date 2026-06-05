@@ -21,7 +21,13 @@
   "wayback_timestamp": "20260605175006",
   "wayback_source": "saved",
   "pdf_status": "rendered",
-  "tags": [],
+  "tags": [
+    "genre:investigative",
+    "incident:wrongful-stop",
+    "legal:court-ruling",
+    "policy:hotlist",
+    "scope:local"
+  ],
   "agencies": [
     "86e42e3d-4245-5dc8-b64c-89d45592a7bb",
     "14b510e3-7bde-5474-8249-6ef49a16cfc5",
@@ -109,10 +115,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T17:51:19Z",
+  "primary_subject_agency_ids": [
+    "86e42e3d-4245-5dc8-b64c-89d45592a7bb"
+  ],
+  "summary": "The Contra Costa County Sheriff's Office paid $49,500 to privacy advocate Brian Hofer to settle a federal civil rights suit after deputies detained him at gunpoint in November 2019 when an ALPR flagged his rental car as stolen. The car had been recovered but not removed from the hot list. Hofer criticized the agency's high-risk stop training.",
+  "key_quotes": [
+    {
+      "quote": "Brian Hofer, chair of Oakland's Privacy Advisory Commission, received $49,500 in an August payout from the sheriff's department.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "the rental car Hofer was driving had indeed been stolen from San Jose in October. But either the police or the rental car agency hadn't updated the proper authorities that the white Getaround Kia had been recovered and should therefore be removed from the \"hot list\" database.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "the Contra Costa County Sheriff's Department teaches its cadets in the academy that \"every single stolen vehicle is a high risk stop, and that guns are necessary\"",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T18:06:48Z",
   "article_id": "art_4990f5db8624"
 }

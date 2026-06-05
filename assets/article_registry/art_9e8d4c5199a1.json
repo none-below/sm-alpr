@@ -21,6 +21,14 @@
   "wayback_source": "poll-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:ag-bulletin",
+    "legal:pra",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -133,10 +141,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T17:50:49Z",
+  "primary_subject_agency_ids": [
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84"
+  ],
+  "summary": "Menlo Park PD inadvertently allowed Houston PD and Sauk Village (IL) PD access to its Flock ALPR data, in violation of California law prohibiting sharing with out-of-state agencies. The department did not disclose the breach until questioned by The Almanac, did not include it in its quarterly council report, and refused a PRA request for search logs. The article also notes the city's online ALPR policy was never updated to reflect 2024 changes.",
+  "key_quotes": [
+    {
+      "quote": "Although state law and Menlo Park policy forbid sharing ALPR data with out-of-state agencies, access to the city's system was shared with departments in both Illinois and Texas.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "During the period in which Houston had access to Menlo Park's system, Houston sent tens of thousands of requests that queried Menlo Park's database.",
+      "paragraph_idx": 20
+    },
+    {
+      "quote": "State law explicitly prohibits the sharing of ALPR information with out-of-state or federal agencies. And the Attorney General confirmed that again in 2023 guidance",
+      "paragraph_idx": 23
+    },
+    {
+      "quote": "Menlo Park refused to provide the reports claiming that it would cause the city to generate new records",
+      "paragraph_idx": 33
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T18:07:59Z",
   "article_id": "art_9e8d4c5199a1"
 }

@@ -22,6 +22,12 @@
   "wayback_source": "poll-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
     "vendor:flock",
     "vendor:motorola",
     "vendor:vigilant"
@@ -103,10 +109,30 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T17:51:17Z",
+  "primary_subject_agency_ids": [
+    "4219823b-c553-51fd-9a9b-5618cb5f82b5",
+    "2c981ce6-8d54-565f-bb99-ac885eee8769"
+  ],
+  "summary": "EFF reports that emails obtained through an ACLU FOIA lawsuit show ICE accessed ALPR data collected at Irvine Company shopping malls via the Orange County Intelligence Assessment Center and a La Habra PD detective, contradicting public denials by Irvine Company and Vigilant Solutions. EFF calls for the California legislature and state auditor to investigate Vigilant Solutions and its law enforcement clients. Irvine Company quietly terminated its ALPR program after EFF's earlier report.",
+  "key_quotes": [
+    {
+      "quote": "In October 2017, an official with Homeland Security Investigations, an arm of ICE, sent an email to a detective with the La Habra Police Department, who was working out of the regional \"fusion center,\" the Orange County Intelligence Assessment Center.",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "Neither La Habra nor OCIAC are one of the three agencies the data access was supposed to be limited to.",
+      "paragraph_idx": 26
+    },
+    {
+      "quote": "Within hours of receiving the request from ICE, the La Habra Detective was easily able to copy the data as a PDF and share it with ICE via email.",
+      "paragraph_idx": 28
+    },
+    {
+      "quote": "What they wouldn't say publicly is that within within two weeks, Irvine Company quietly terminated its whole ALPR program.",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T18:07:39Z",
   "article_id": "art_862c94c13ab6"
 }

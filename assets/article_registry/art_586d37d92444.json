@@ -22,6 +22,12 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:audit",
+    "policy:sharing",
     "vendor:flock"
   ],
   "agencies": [
@@ -134,10 +140,30 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T17:51:11Z",
+  "primary_subject_agency_ids": [
+    "b5b9bd9a-9242-5f99-8bc0-d4b96114a2d3",
+    "2e1e1b36-7a6b-5c97-8143-65347503186c"
+  ],
+  "summary": "A Ventura County Sheriff's Office audit found Flock's 'National Lookup' feature had been reactivated without explanation, allowing out-of-state agencies to access VCSO ALPR data over 364,000 times in February\u2013March, including 299 searches referencing immigration enforcement. VCSO said it will explore alternative vendors, and the Oxnard Police Department suspended its Flock use. A class-action lawsuit was also filed against Flock.",
+  "key_quotes": [
+    {
+      "quote": "out-of-state agencies accessed the Ventura County Sheriff's Office's data more than 364,000 times between February and March last year without the department's approval or knowledge",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "299 justifications to enter the system referenced immigration enforcement",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "the Oxnard Police Department suspending its use of Flock readers",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "The Sheriff's Office said that it will explore alternative vendors for automatic license plate readers after encountering this issue with Flock.",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T18:07:08Z",
   "article_id": "art_586d37d92444"
 }

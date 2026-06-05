@@ -21,6 +21,13 @@
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:ag-bulletin",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:state",
     "vendor:flock"
   ],
   "agencies": [
@@ -132,10 +139,32 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T17:51:09Z",
+  "primary_subject_agency_ids": [
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+    "4f545e10-4f02-51d7-9f85-b670f74f352c",
+    "ae8c6210-8473-5a62-96af-7ea959cb19ff"
+  ],
+  "summary": "CalMatters reports that Southern California law enforcement agencies \u2014 including LAPD and the sheriff's departments of San Diego, Orange, and Riverside counties \u2014 violated SB 34 more than 100 times in a month by running ALPR queries on behalf of ICE and CBP, according to a Flock audit log obtained by Oakland Privacy. The database also showed tens of thousands of queries with vague justifications, raising concerns about compliance with AG Bonta's 2023 guidance.",
+  "key_quotes": [
+    {
+      "quote": "Law enforcement agencies across Southern California violated state law more than 100 times last month by sharing information from automated license plate readers with federal agents, records show.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "This is a big deal, it's part of the problem, and we need the attorney general's office to start litigating.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Among the 10 agencies that conducted searches on behalf of ICE, six are in Los Angeles County and nine are in Southern California.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "this happened more than 64,000 times out of the 491,000 queries in the database of searches from April 28 to May 30.",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T18:06:40Z",
   "article_id": "art_368c60e356ff"
 }

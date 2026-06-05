@@ -21,6 +21,12 @@
   "wayback_source": "submit-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "legal:pra",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -131,10 +137,33 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T17:51:46Z",
+  "primary_subject_agency_ids": [
+    "663b82ca-427a-5e74-83ce-823a973242d9"
+  ],
+  "summary": "Public records obtained by Palo Alto Online show that hundreds of out-of-state and federal agencies searched Flock's nationwide ALPR database including Palo Alto's cameras between July 2023 and October 2024, contradicting prior assurances from city officials. Palo Alto police say they only learned of the nationwide search feature in December 2025, that no actual plate data was returned in matches, and pledge to publish monthly redacted search logs while seeking an independent audit.",
+  "key_quotes": [
+    {
+      "quote": "hundreds of law enforcement agencies from around the country searched data from Palo Alto's automatic license plate reader cameras over a period of about a year",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Sharing ALPR data with out-of-state and federal agencies is prohibited under state law that became effective in 2016.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "PAPD had no records that matched the 'Nationwide Lookup' searches performed by out of state or federal agencies",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "It is no longer possible for California agencies to create sharing relationships with out-of-state or federal agencies, either deliberately or by mistake",
+      "paragraph_idx": 25
+    },
+    {
+      "quote": "the department will begin proactively publishing redacted Flock search logs on a monthly basis",
+      "paragraph_idx": 29
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T18:07:49Z",
   "article_id": "art_9a47b8c1a07b"
 }

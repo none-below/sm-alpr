@@ -21,6 +21,13 @@
   "wayback_source": "submit-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
     "vendor:axon",
     "vendor:flock"
   ],
@@ -136,10 +143,33 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T17:51:00Z",
+  "primary_subject_agency_ids": [
+    "eca5a0e5-4ab4-5868-a688-c03da1dff9b1"
+  ],
+  "summary": "Berkeley is tightening its Sanctuary Contracting Ordinance and reviewing its Flock Safety ALPR and fixed-camera contracts amid threats of a lawsuit from nonprofit Secure Justice, after revelations that outside agencies ran searches on Berkeley's ALPR network using terms like 'ICE' and 'CBP.' BPD says it has disabled statewide search responses and tightened sharing controls, while the city manager is now considering alternatives to Flock for a separate fixed-camera network.",
+  "key_quotes": [
+    {
+      "quote": "BPD figured out that several agencies had been making searches on its ALPR network with keywords like \"ICE\" and \"CBP.\"",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "they completely disabled their network from responding to the sort of statewide searches that had included those search terms",
+      "paragraph_idx": 24
+    },
+    {
+      "quote": "The city manager and BPD staff have been assessing issues regarding Flock cameras in other jurisdictions and evaluating other potential fixed camera vendors",
+      "paragraph_idx": 31
+    },
+    {
+      "quote": "Berkeley \"cannot base its contracting decisions on unsubstantiated speculation regarding Flock's conduct,\"",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "If we are prohibiting our vendors from helping ICE with deportations, as the current sanctuary city contracting ordinance says, they should also not be able to help CBP with deportations",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T18:06:59Z",
   "article_id": "art_51eda54d77c5"
 }
