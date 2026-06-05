@@ -162,6 +162,14 @@ This document presents eight findings across seven sections, grounded in the dep
 
 - For the 39 months before May 2026 — 37,967 searches in the PRA-produced log [58] — the portal published nothing, and its rolling 30-day window cannot show them retroactively [54].
 
+- Several "no responsive records" answers were later contradicted by the Department's own productions:
+
+| Records the Department reported it did not have | When | Later produced | What surfaced |
+|---|---|---|---|
+| Any audits before December 2025 | O'Keefe Feb 10; W012160 Feb; W012461 Apr 8, 2026 | W012666, May 2026 | four 2021 quarterly audits [56] |
+| A platform log of sharing-list changes | W012328, Mar 2026 | W012570, Apr 2026 | the Flock event log [50] |
+| External-agency access records | W012174, Feb 2026 | W012297, Mar–May 2026 | Flock camera-access-request emails [28] |
+
 ---
 
 ## 3. Council Representations
@@ -420,6 +428,10 @@ Device counts from department sources and public records:
 - The December 2025 revision resolved a 27-month conflict between policy and contract. Policy 462.5 required a minimum one-year retention period [1]. The Flock contract specified 30 days [5, Exhibit A]. For the entire period between contract execution and the policy revision, one of them was being violated. The audit memos do not note this discrepancy [17].
 
 - For regional context: the Attorney General sued El Cajon for out-of-state ALPR sharing in late 2025 [13]. Mountain View discovered in January 2026 that Flock had enabled unauthorized statewide access on 29 of 30 cameras for 17 months [13].
+
+- The records behind these findings came through public-records requests, and the production pattern bears on the timing:
+  - Requests scoped to exclude email have nonetheless been routed through the withdrawn 211,872-document Flock email corpus [48]; W012686 — which states its records "cannot be satisfied through review of any @flocksafety.com email corpus" — was met with "211,872 documents requiring evaluation" and rolling production [53].
+  - On May 6, 2026, hours after the requester asked to deprioritize that corpus, SMPD closed W012297 into it and extended W012373 and W012459 under the same email-search framing [52].
 
 ---
 
