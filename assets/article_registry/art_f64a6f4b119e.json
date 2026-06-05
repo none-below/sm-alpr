@@ -1,0 +1,87 @@
+{
+  "url": "https://www.inforum.com/opinion/letters/letter-urge-moorhead-leaders-to-cancel-contracts-with-flock-safety-and-other-ice-linked-vendors",
+  "source_domain": "inforum.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Letter: Urge Moorhead leaders to cancel contracts with Flock Safety and other ICE-linked vendors",
+  "byline": null,
+  "published_at": "2026-02-18T22:04:00",
+  "fetched_at": "2026-06-05T16:19:05Z",
+  "discovered_by": "manual-seed: triage-565",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 148 pts, HIGH/CRITICAL findings",
+  "scanner_score": 148,
+  "content_hash": "857c4afb9c9c8014f580374c29aa7b4d298dc8e28c35b1d7e46a2a123f64a665",
+  "paths": {
+    "html": "assets/articles/inforum.com/opinion-letters-letter-urge-moorhead-leaders-to-cancel-contracts-with-flock-safe_f64a6f4b.html",
+    "meta": "assets/articles/inforum.com/opinion-letters-letter-urge-moorhead-leaders-to-cancel-contracts-with-flock-safe_f64a6f4b.meta.json",
+    "pdf": "assets/articles/inforum.com/opinion-letters-letter-urge-moorhead-leaders-to-cancel-contracts-with-flock-safe_f64a6f4b.pdf",
+    "txt": "assets/articles/inforum.com/opinion-letters-letter-urge-moorhead-leaders-to-cancel-contracts-with-flock-safe_f64a6f4b.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "save-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "34742246-1bed-5515-8ae8-9d58ae703d8b",
+    "f310219f-9ab8-511e-a2d1-5d60e83c7ae6",
+    "c6fca789-0599-5076-bbe7-7effc41f8eff"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "34742246-1bed-5515-8ae8-9d58ae703d8b",
+      "display_name": "Fargo ND PD",
+      "state": "ND",
+      "score": 13.65,
+      "matched_forms": [
+        "Fargo",
+        "Fargo Police"
+      ]
+    },
+    {
+      "agency_id": "f310219f-9ab8-511e-a2d1-5d60e83c7ae6",
+      "display_name": "West Fargo ND PD",
+      "state": "ND",
+      "score": 6.167,
+      "matched_forms": [
+        "West Fargo"
+      ]
+    },
+    {
+      "agency_id": "c6fca789-0599-5076-bbe7-7effc41f8eff",
+      "display_name": "Bismarck ND PD",
+      "state": "ND",
+      "score": 2.633,
+      "matched_forms": [
+        "Bismarck"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "A letter to the editor urges the Moorhead, MN City Council to cancel its contract with Flock Safety, citing the recent installation of eight Flock cameras, concerns about data sharing with ICE and federal agencies, and weak contractual limits on Flock's disclosure of footage.",
+  "key_quotes": [
+    {
+      "quote": "Moorhead Police Department announced the installation of eight Flock cameras using $29,300 from the city budget",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "This legal language in the contracts clearly gives Flock Safety the right to share data at its discretion.",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "the Moorhead City Council should also stop all contracts with Flock Safely",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T16:49:14Z",
+  "article_id": "art_f64a6f4b119e"
+}
