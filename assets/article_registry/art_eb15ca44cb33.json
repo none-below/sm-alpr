@@ -1,0 +1,110 @@
+{
+  "url": "https://www.theverge.com/2018/2/7/16988058/ice-license-plate-reader-backlash-alameda-deportation-aclu",
+  "source_domain": "theverge.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "ICE contract sparks license plate reader backlash from cities",
+  "byline": "Russell Brandom",
+  "published_at": "2018-02-07T21:26:57+00:00",
+  "fetched_at": "2026-06-05T16:24:43Z",
+  "discovered_by": "manual-seed: triage-565",
+  "scanner_verdict": "WARNINGS \u2014 19 pts, low/medium only",
+  "scanner_score": 19,
+  "content_hash": "d2fbcc765f7466e0e40cec9bc6f067caa4ec0496d4c936c7f2bd66ec58a5fff1",
+  "paths": {
+    "html": "assets/articles/theverge.com/2018-2-7-16988058-ice-license-plate-reader-backlash-alameda-deportation-aclu_eb15ca44.html",
+    "meta": "assets/articles/theverge.com/2018-2-7-16988058-ice-license-plate-reader-backlash-alameda-deportation-aclu_eb15ca44.meta.json",
+    "pdf": "assets/articles/theverge.com/2018-2-7-16988058-ice-license-plate-reader-backlash-alameda-deportation-aclu_eb15ca44.pdf",
+    "txt": "assets/articles/theverge.com/2018-2-7-16988058-ice-license-plate-reader-backlash-alameda-deportation-aclu_eb15ca44.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "save-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:rejected",
+    "policy:sharing",
+    "scope:local",
+    "vendor:vigilant"
+  ],
+  "agencies": [
+    "aeee2f0f-6386-5a1a-b93a-30babdede4f9",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "aeee2f0f-6386-5a1a-b93a-30babdede4f9",
+      "display_name": "Alameda CA PD",
+      "state": "CA",
+      "score": 8.2,
+      "matched_forms": [
+        "Alameda"
+      ]
+    },
+    {
+      "agency_id": "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+      "display_name": "NCRIC",
+      "state": "CA",
+      "score": 3.667,
+      "matched_forms": [
+        "NCRIC"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 2.717,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "display_name": "Oakland CA PD",
+      "state": "CA",
+      "score": 2.617,
+      "matched_forms": [
+        "Oakland"
+      ]
+    },
+    {
+      "agency_id": "5d07ba57-485b-59c0-ac64-1d8d4634c23a",
+      "display_name": "MSD Wayne Township IN PD",
+      "state": "IN",
+      "score": 1.15,
+      "matched_forms": [
+        "IN Police"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "aeee2f0f-6386-5a1a-b93a-30babdede4f9"
+  ],
+  "summary": "Alameda's city council voted down a proposed $500,000 contract for 13 Vigilant Solutions license plate readers over concerns that the data could be shared with ICE, conflicting with the city's sanctuary status. The article frames this as part of a broader backlash against Vigilant following its agency-wide ICE contract, with the ACLU pushing model surveillance-oversight legislation.",
+  "key_quotes": [
+    {
+      "quote": "The measure was voted down by the council, which cited new concerns over federal data-sharing.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "Even my colleagues who were very clearly in support of license plate readers still didn't like the idea of contracting with Vigilant",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "One of those partner agencies was the local fusion center, known as NCRIC, which shared data with ICE until a state bill in October restricted data-sharing with federal immigration authorities.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "We expect this to spark not just scrutiny of Vigilant contracts nationwide, but also the introduction of more local ordinances that require robust public debate and oversight of surveillance proposals and data sharing with feds",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-05T16:49:07Z",
+  "article_id": "art_eb15ca44cb33"
+}
