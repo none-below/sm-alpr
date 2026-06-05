@@ -85,6 +85,18 @@ This document presents eight findings across seven sections, grounded in the dep
 
 - A PRA specifically requesting search activity compliance records — distinguished from sharing configuration audits — returned "no records responsive." The department identified the sharing configuration memos as "all audit records maintained by the Department" [32]. On April 22, 2026, the city restated the full request and responded "At this time there are no responsive records to your request" [32]. No search-activity audit has surfaced for any period after 2021 — yet the 2021 audits, exactly the search-activity records this request describes, were produced under a separate PRA in May 2026 [56].
 
+- The Department's own December 2025 audit standard, set by Lt. Casazza: a search needs an offense type, a descriptive reason, and a case number — and "investigation" or "Flock hit" alone is "not a justified reason" [56].
+
+- In the Department's own search log, the bare word "investigation" was the stated reason for the large majority of searches for years: 96% in January 2023, 95% in October 2024, and 92% in January 2025 [58].
+
+- Across the produced log, 20,189 of 37,967 searches (53%) gave bare "investigation"; the average is pulled down only by a late-2025 drop [58].
+
+- The December 2025 audit emailed warnings to five staff about roughly nine searches [56].
+
+- Bare "investigation" fell from 92% in October 2025 to 3.5% in January 2026 [58] — coinciding with Flock replacing the free-text reason field with a required offense-type selection, not with departmental enforcement [56].
+
+- The month that audit reviewed — November 2025 — is not in the produced log (only 23 rows) [58].
+
 - The Flock transparency page listed University of the Pacific — a private institution — among the 283 entities with access to SMPD data [10]. California Civil Code § 1798.90.55(b) permits ALPR sharing only with public agencies [12] (see §6 for entity-type analysis).
 
 - To determine whether UOP qualifies as a "public agency," records requests were sent to three entities. SMPD’s PRA produced no records of any entity-type review [16]. Stockton PD — UOP’s local law enforcement agency — confirmed it performed no legal review; authorization consists of clicking "agree" in the Flock platform [27]. UOP’s Chief of Police responded to a CPRA by confirming that "University of the Pacific is a private institution and therefore not subject to the CPRA" [29].
