@@ -54,6 +54,7 @@ from gazetteer import (
     population_meta,
 )
 from fbi_crime import audit_searches_30d, load_crime, searches_per_crime
+from federal_le_queries import build_index as build_federal_le_index
 
 GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json")
 DATA_DIR = Path("assets/transparency.flocksafety.com")
@@ -704,6 +705,18 @@ def main():
     for e in registry:
         for fs in e.get("flock_slugs", []):
             slug_to_id.setdefault(fs, e["agency_id"])
+
+    # ── Federal-LE / out-of-state query index ──
+    # Scan every published audit log for reason text naming a federal LE
+    # agency (USMS / FBI / DEA / ATF / DHS / Secret Service) or an
+    # out-of-state LE agency (e.g. "Assist Talent PD (Oregon)"). Keyed by
+    # agency_id. Pattern-driven (see federal_le_queries.py), so a new
+    # agency entering such reasons is picked up automatically. Used below
+    # to flag, in each agency's SB 34 section, any OUTBOUND recipient that
+    # has run such queries — the recipient can reach the sharer's plate
+    # data on those searches, putting it within range of an entity outside
+    # §1798.90.5(f)'s "public agency" definition.
+    federal_le_index = build_federal_le_index(AUDIT_DIR, key_by=slug_to_id)
 
     graph = json.loads(GRAPH_PATH.read_text())
     graph_agencies = graph["agencies"]
@@ -1686,6 +1699,33 @@ def main():
                         pass
                 flagged_recipients.append(entry_out)
 
+        # ── Federal-LE query exposure ──
+        # Outbound recipients whose OWN published audit log contains
+        # searches naming a federal LE agency (USMS / FBI / DEA / ATF /
+        # DHS / Secret Service — see federal_le_queries.py). Distinct from
+        # the "no_federal_sharing" check, which catches sharing TO a
+        # federal entity directly. Here the recipient is a California
+        # agency, but because it can reach this agency's plate data, those
+        # federal-tagged searches put this agency's data within range of an
+        # entity outside §1798.90.5(f)'s "public agency" definition.
+        federal_query_recipients = []
+        for target_id in outbound_ids:
+            summary = federal_le_index.get(target_id)
+            if not summary:
+                continue
+            tr = reg_by_id.get(target_id, {})
+            federal_query_recipients.append({
+                "agency_id": target_id,
+                "slug": id_to_slug.get(target_id, target_id),
+                "name": agency_display_name(tr, id_to_slug.get(target_id, target_id)),
+                "total": summary["total"],
+                "categories": summary["categories"],
+                "samples": summary["samples"],
+                "date_min": summary["date_min"],
+                "date_max": summary["date_max"],
+            })
+        federal_query_recipients.sort(key=lambda r: (-r["total"], r["name"]))
+
         # Removed-flagged: targets that were in sharing at some point,
         # have since been removed, and would be flagged by current
         # registry classification. Dedupe by agency_id keeping the most
@@ -2068,6 +2108,7 @@ def main():
             "checklist_sb34": checklist_sb34,
             "checklist_transparency": checklist_transparency,
             "flagged_recipients": flagged_recipients,
+            "federal_query_recipients": federal_query_recipients,
             "removed_flagged_recipients": removed_flagged_recipients,
             "outbound": outbound_list,
             "inbound": inbound_list,

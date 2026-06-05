@@ -1519,10 +1519,59 @@
   }
 
   // ── Checklists ──
+  // Recipients of THIS agency's ALPR data whose own published search-audit
+  // logs contain searches naming a federal LE agency (USMS / FBI / DEA /
+  // ATF / DHS / Secret Service). Distinct from the "no_federal_sharing"
+  // check above, which catches sharing TO a federal entity directly. Here
+  // the recipient is itself a California agency, but because this agency
+  // granted it access, those federal-tagged searches reach this agency's
+  // plate data. Built pattern-side in federal_le_queries.py, so the list
+  // grows automatically as new agencies enter such reasons.
+  function renderFederalQueryFlag(report) {
+    const recips = report.federal_query_recipients || [];
+    if (!recips.length) return "";
+    const n = recips.length;
+    const who = escapeHtml(shortAgencyName(report) || report.name || "This agency");
+
+    let html = `<div class="fed-query-flag">`;
+    html += `<div class="fed-query-header">⚠ ${n} recipient${n === 1 ? "" : "s"} of this agency's ALPR data ran federal or out-of-state law-enforcement searches</div>`;
+    html += `<div class="fed-query-sub">${who} grants the California agencies below access to its license-plate data. Each one's <em>own</em> public search-audit log records searches whose stated reason names a federal or out-of-state agency. California Civil Code &sect;1798.90.55(b), as read by AG Bulletin 2023-DLE-06, limits ALPR sharing to California public agencies and excludes federal and out-of-state agencies &mdash; so a search run for such an agency reaches ${who}'s data through that grant.</div>`;
+    html += `<ul class="fed-query-list">`;
+    recips.forEach(function(r) {
+      const url = `https://transparency.flocksafety.com/${r.slug}`;
+      const cats = (r.categories || []).map(function(c) {
+        return `${c.count}&nbsp;${escapeHtml(c.label)}`;
+      }).join(", ");
+      let when = "";
+      if (r.date_min) {
+        when = r.date_max && r.date_max !== r.date_min
+          ? ` <span class="muted">(${r.date_min} – ${r.date_max})</span>`
+          : ` <span class="muted">(${r.date_min})</span>`;
+      }
+      const sample = (r.samples && r.samples.length)
+        ? `<div class="fed-query-sample">e.g. &ldquo;${escapeHtml(r.samples[0])}&rdquo;</div>`
+        : "";
+      html += `<li>`;
+      html += `<a href="${url}" target="_blank" rel="noopener">${escapeHtml(r.name)}</a>`;
+      html += ` &mdash; <strong>${r.total}</strong> flagged search${r.total === 1 ? "" : "es"}: ${cats}${when}`;
+      html += sample;
+      html += `</li>`;
+    });
+    html += `</ul>`;
+    html += `<div class="fed-query-foot">Counts are unioned from each recipient's published Flock search-audit log. The reason field is officer-entered free text &mdash; it reflects what was typed, and does not by itself establish that data was delivered to a federal agency (e.g. a joint task force may include both state and federal officers). Follow each link to verify against the recipient's live audit.</div>`;
+    html += `</div>`;
+    return html;
+  }
+
   function renderSB34Checklist(report, meta) {
     if (report.state !== "CA") return "";
     const items = report.checklist_sb34 || [];
-    if (!items.length) return "";
+    const fedQueryHtml = renderFederalQueryFlag(report);
+    // No checklist signals but a federal-query flag still applies: emit
+    // the section with just the heading + flag rather than dropping it.
+    if (!items.length) {
+      return fedQueryHtml ? `<h2>SB 34 Compliance Concerns</h2>${fedQueryHtml}` : "";
+    }
 
     let html = `<h2>SB 34 Compliance Concerns</h2>`;
     html += `<p class="muted">Signals tied to California Civil Code &sect;1798.90.51&ndash;.55. Red items indicate potential compliance concerns a council member may want to raise with their agency.</p>`;
@@ -1540,6 +1589,7 @@
     // substantial compliance gaps.
     html += `<p class="legal-note" style="border-left: 3px solid var(--warn-border); background: var(--warn-bg); color: #78350f; margin: 6px 0 10px 0"><strong>Surface-signal checks only.</strong> A green check means the signal appears on the transparency page &mdash; not that the agency substantively complies. A posted policy may be stale, an &ldquo;audit process&rdquo; may not be executed, a clean sharing list may include unvetted recipients. Starting point for questions, not a compliance certification.</p>`;
     html += renderChecklistItems(items, { report: report });
+    html += fedQueryHtml;
     return html;
   }
 

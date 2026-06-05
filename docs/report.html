@@ -362,6 +362,52 @@
     margin-top: 3px;
   }
   .data-concern-source a { color: #b91c1c; }
+  /* Federal-LE query flag — recipients of this agency's ALPR data whose
+     own audit logs show searches naming a federal agency. Red callout in
+     the SB 34 section, styled like .data-concerns. */
+  .fed-query-flag {
+    background: #fef2f2;
+    border: 1px solid #dc2626;
+    border-left: 4px solid #dc2626;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 12px 0 16px 0;
+  }
+  .fed-query-header {
+    font-weight: bold;
+    color: #991b1b;
+    font-size: 11pt;
+    margin-bottom: 4px;
+  }
+  .fed-query-sub {
+    font-size: 9.5pt;
+    color: #7f1d1d;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .fed-query-list {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .fed-query-list li {
+    margin: 4px 0;
+    color: #450a0a;
+    font-size: 10pt;
+    line-height: 1.35;
+  }
+  .fed-query-list a { color: #b91c1c; font-weight: 600; }
+  .fed-query-sample {
+    font-size: 9pt;
+    color: #7f1d1d;
+    font-style: italic;
+    margin: 1px 0 0 2px;
+  }
+  .fed-query-foot {
+    font-size: 8.5pt;
+    color: #7f1d1d;
+    margin-top: 8px;
+    line-height: 1.35;
+  }
   /* Mini regional map — inline SVG showing subject agency surrounded
      by geocoded outbound recipients. Floated left so the surrounding
      sharing-section text (reach metrics, flagged recipients) wraps
