@@ -136,7 +136,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - Self-review: in the posted March 6, 2026 version, the Field Operations Captain both holds administrative responsibility for the ALPR platforms and is the official the audit is submitted to — the program's office reviews the audit of its own program, with no independent recipient [54] [56].
 
-- On April 9, 2026, Lt. Casazza approved a revision fixing both problems — audits monthly, submitted to the Chief of Police — and Lt. Pak prepared to "release it." The copy posted six weeks later is still the uncorrected March 6 version; the approved revision remains an unpublished, "DRAFT"-watermarked file [55] [56].
+- On April 9, 2026, Lt. Casazza approved a revision fixing both problems — audits monthly, submitted to the Chief of Police — and Lt. Pak prepared to "release it." Yet roughly six weeks after approving that correction, the Department posted the older, uncorrected March 6 version instead — not the April 9 revision it had already approved; the approved revision remains an unpublished, "DRAFT"-watermarked file [55] [56].
 
 - State law requires the published policy to list job titles of employees authorized to use or access the ALPR system [12]. Policy 463 uses only "members" and "authorized designee" [3]. SOP 205 names oversight committee roles [4, §205.7] but not authorized users — and is not publicly posted regardless. The only document listing authorized user titles (Officers, Crime Analysts, Dispatchers, CSOs) is an internal PRA response [17], not a published policy.
 
@@ -158,7 +158,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - The portal CSV carries only the offense category; the search-audit logs SMPD produced under PRA also carry the officer's free-text reason — and neither carries a case number [58] [59].
 
-- For May 2026 — the only window where the portal overlaps a log SMPD produced under PRA — the portal shows about one-quarter of the searches: 640 published versus 2,526 in the PRA log over May 5–June 1, 2026 [59].
+- For the one window where the portal overlaps a PRA-produced log (May 5–June 1, 2026), the portal's public CSV published 640 search rows while a PRA for the same data produced 2,526 [59] — the portal omits roughly three-quarters (about 75%) of the searches.
 
 - Every published row's identifier appears in the PRA export; the portal is a strict subset of the underlying log, not a separate dataset [59].
 
