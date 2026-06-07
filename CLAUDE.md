@@ -73,10 +73,16 @@ The PDF generator (`scripts/md_to_pdf.py`) parses the findings markdown by split
 - Empty lines (stripped)
 
 **Release process:**
-- The PDF is a build artifact, not committed to git.
+- The PDF is a build artifact, not committed to git. Only a tiny redirect-stub
+  PDF is committed at `docs/SMPD_ALPR_Findings.pdf`; the deploy workflow overwrites
+  it with the freshly-built PDF in the Pages artifact (working-tree only, never
+  committed), so the live site serves the real, current document same-origin.
 - Pushing changes to `docs/SMPD_ALPR_Findings.md` or `scripts/md_to_pdf.py`
   triggers a GitHub release with the built PDF attached.
-- The Pages site links to the latest release download.
+- The Pages site serves the PDF directly (`SMPD_ALPR_Findings.pdf`); it renders
+  inline because Pages sets `Content-Type: application/pdf` with no attachment
+  disposition. Do NOT route it through mozilla's pdf.js viewer against the release
+  download — that host sends no CORS header, so the cross-origin fetch is blocked.
 
 **Source-numbering integrity:**
 - Every source row must have a unique `| N |` number; every inline `[N]`
