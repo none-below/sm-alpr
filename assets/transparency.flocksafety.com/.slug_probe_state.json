@@ -823,8 +823,10 @@
     "25b5736d-ca58-5b4c-8338-ba3dbedf97a2": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-06-06T21:47:06.794188+00:00",
-      "tried": {}
+      "last_probed": "2026-06-07T10:57:23.711207+00:00",
+      "tried": {
+        "carmel-in-po": "http_404"
+      }
     },
     "2684c7c8-9632-51fe-8fe8-0d6204e917eb": {
       "exhausted": false,
@@ -2675,6 +2677,14 @@
         "anderson-ca-po": "http_404"
       }
     },
+    "70d9a3e7-a4b3-5ecd-b578-24c2d48ba88d": {
+      "exhausted": false,
+      "found": "lexington-sc-pd",
+      "last_probed": "2026-06-07T10:57:36.830063+00:00",
+      "tried": {
+        "lexington-sc-pd": "http_200"
+      }
+    },
     "70e7b525-fb35-53b2-81bc-3d2278ff37cc": {
       "exhausted": false,
       "found": null,
@@ -3177,6 +3187,12 @@
       "tried": {
         "arvin-ca-po": "http_404"
       }
+    },
+    "8a46c63c-dfde-594c-b228-17e8fc245d7a": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-06-07T10:57:11.407748+00:00",
+      "tried": {}
     },
     "8a88be54-e69a-5e38-88f2-02bc79b89ebe": {
       "exhausted": false,
@@ -3832,6 +3848,14 @@
       "found": null,
       "last_probed": "2026-06-04T22:13:09.132571+00:00",
       "tried": {}
+    },
+    "a4b91ce4-8edc-5911-8220-0e084b6706f0": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-06-07T10:57:27.605812+00:00",
+      "tried": {
+        "niagara-falls-town-ny-pd": "http_404"
+      }
     },
     "a5b59684-abcc-5a43-949d-3aec089d30a4": {
       "exhausted": false,
@@ -5874,6 +5898,6 @@
       }
     }
   },
-  "updated": "2026-06-07T08:40:28.895563+00:00",
+  "updated": "2026-06-07T10:57:43.036996+00:00",
   "version": 1
 }
