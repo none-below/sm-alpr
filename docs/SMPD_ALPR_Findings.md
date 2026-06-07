@@ -79,7 +79,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - The audit memos confirm the department reviews sharing settings — the January 2026 memo verifies "Revoke Out-of-State Sharing" is selected. [17]
 
-- A PRA specifically requesting search activity compliance records — distinguished from the monthly audit memos — returned "no records responsive." The department identified the monthly audit memos as "all audit records maintained by the Department" [32]. On April 22, 2026, the city restated the full request and responded "At this time there are no responsive records to your request" [32]. No search-activity audit has surfaced for any period after 2021 — yet the 2021 audits, exactly the search-activity records this request describes, were produced under a separate PRA in May 2026 [56].
+- A PRA specifically requesting search activity compliance records — distinguished from the monthly audit memos — returned "no records responsive." The department identified the monthly audit memos as "all audit records maintained by the Department" [32]. On April 22, 2026, the city restated the full request and responded "At this time there are no responsive records to your request" [32]. The post-2021 monthly memos do review search reasons (see above), but no search-activity audit with the 2021 memos' compliance detail — per-platform counts and percent meeting required criteria — has surfaced for any later period; those 2021 audits, exactly the search-activity records this request describes, were produced under a separate PRA in May 2026 [56].
 
 - The Department's standard for a valid search: an offense type and a substantive reason are required [17], the reason being — per Policy 463.4(e) — "usually an agency case number, incident number, or a warrant number" [3, §463.4(e)]; bare "investigation" or "Flock hit" is "not a justified reason" [65]. In the audit emails the reviewing lieutenant asks for a case number only "if available" [65].
 
@@ -93,7 +93,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - The same audit flagged a search whose stated reason was "Lost veh," which the lieutenant characterized as "assisting an RO look for their misplaced vehicle which is fine," and asked the user to "list an incident number or an offense code" for such searches going forward — "ALPR systems are under a lot of scrutiny right now" [65].
 
-- Helping an owner locate a misplaced personal vehicle is not a crime — no offense code applies — and is not an authorized purpose under Policy 463.2 [3]. The corrective addressed how the search would be recorded, not whether it should have been run.
+- Helping an owner locate a misplaced personal vehicle is not a crime — no offense code applies — and is not an authorized purpose under Policy 463.2 [3]. The corrective did not address whether the search was valid — only that the entered reason needed to appear valid.
 
 - Bare "investigation" fell from 57% in October 2025 to 3.6% in January 2026 [58] — coinciding with Flock replacing the free-text reason field with a required offense-type selection, not with departmental enforcement [56].
 
