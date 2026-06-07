@@ -178,7 +178,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 | Topic | Staff Report | Documented Reality |
 |---|---|---|
-| Audits | "Conducts regular audits" (2020 study session) [7] | Quarterly audits documented in 2021, then a lapse; denied, then produced May 2026 [56] [11] |
+| Audits | "Conducts regular audits" (2020 study session) [7] | Quarterly audits documented in 2021, then a lapse; Department stated no pre-Dec-2025 audit records existed (Feb 10, 2026) [11], then produced the 2021 memos (May 14, 2026) [56] |
 | Standards | "Strictest industry standards" (2023 staff report) [8] | No audits at the time [11] |
 | Data retention | "Raw LPR data is not stored or retained" [8] | 30-day retention in contract; SOP describes data storage [5] |
 | Sharing scope | "NCRIC and allied County agencies" [8] | 283 agencies statewide (Feb 18, 2026) [10]; 263 (June 4, 2026) [54] |
