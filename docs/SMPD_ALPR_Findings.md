@@ -267,6 +267,8 @@ Device counts from department sources and public records:
 
 - No department policy governs video surveillance cameras. Policy 462/463 and SOP 205 cover ALPRs only. SB 34 applies only to ALPR data. Flock’s own contract categorizes Condor cameras as "Video Products." Data retention, access controls, sharing, and auditing of non-ALPR camera data are unaddressed [1] [3] [4] [6, Exhibit C].
 
+- The City also operates Verkada cameras under a separate contract at city sites; O'Keefe confirmed these "do not have ALPR" [23]. A July 2025 news report describes a $91,000 Verkada contract for cameras in six parks [25]. No surveillance policy governing these cameras has been identified.
+
 - The 2016-2017 San Mateo County Civil Grand Jury found that no jurisdiction in San Mateo County had enacted any ordinance governing acquisition, use, or data management of surveillance technology (Finding F2), and recommended all agencies bring such a policy before their governing body by December 31, 2017 (Recommendation R3). [24]
 
 - San Mateo did not adopt an ordinance in response. A review of the San Mateo Municipal Code (current through February 2026) identified no such ordinance. Council Member Nicole Fernandez confirmed in a July 2025 news report: "We don’t have a CCOPS ordinance." [25]
