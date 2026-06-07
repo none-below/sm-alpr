@@ -81,7 +81,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - A PRA specifically requesting search activity compliance records — distinguished from the monthly audit memos — returned "no records responsive." The department identified the monthly audit memos as "all audit records maintained by the Department" [32]. On April 22, 2026, the city restated the full request and responded "At this time there are no responsive records to your request" [32]. No search-activity audit has surfaced for any period after 2021 — yet the 2021 audits, exactly the search-activity records this request describes, were produced under a separate PRA in May 2026 [56].
 
-- The Department's own December 2025 audit standard, set by Lt. Casazza: a search needs an offense type, a descriptive reason, and a case number — and "investigation" or "Flock hit" alone is "not a justified reason" [56].
+- The Department's standard for a valid search: an offense type and a substantive reason are required [17], the reason being — per Policy 463.4(e) — "usually an agency case number, incident number, or a warrant number" [3, §463.4(e)]; bare "investigation" or "Flock hit" is "not a justified reason" [65]. In the audit emails the reviewing lieutenant asks for a case number only "if available" [65].
 
 - In the Department's own search log, the bare word "investigation" was the stated reason for the large majority of searches for years: 96% in January 2023, 95% in October 2024, and 92% in January 2025 [58].
 
