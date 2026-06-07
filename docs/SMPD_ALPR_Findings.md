@@ -15,7 +15,7 @@ A review of public records and the department's own statements identified signif
 
 Council approved 55 Flock Safety devices across two actions (August 2023 and March 2024). A 2020 service agreement for 12 cameras at $24,000/year, signed by a lieutenant, does not appear in any Council agenda as an approval item [34]. The 2023 staff report presented the program as new without disclosing this prior relationship [8]. The department’s Flock Camera Manager reports 80 devices [20]. For over a decade, the department represented its ALPR program as regularly audited and compliant with policy. The only audit records produced from before December 2025 are four quarterly end-user memos for 2021 [56]; none exist for 2022 through November 2025. Asked for pre-December-2025 audit records, the Department repeatedly answered that none existed [11], then produced the 2021 memos in May 2026 [56]. The audits that resumed in December 2025 are narrower still — they review sharing configuration only, not the search-activity compliance the 2021 memos covered, and no operator or end-user audit has been conducted since 2021 (see §1).
 
-This document presents eight findings across seven sections, grounded in the department's own records and statements. The findings do not argue for or against the ALPR program. They compare the department's documented commitments against its documented actions.
+This document presents eight findings across eight sections, grounded in the department's own records and statements. The findings do not argue for or against the ALPR program. They compare the department's documented commitments against its documented actions.
 
 ## Key Findings
 
@@ -426,6 +426,36 @@ Device counts from department sources and public records:
 
 - For regional context: the Attorney General sued El Cajon for out-of-state ALPR sharing in late 2025 [13]. Mountain View discovered in January 2026 that 29 of its 30 cameras had been accessed by California agencies that had not been approved [13].
 
+---
+
+## 8. Removal Practice
+
+- The Department describes its removal practice as reactive — acting on a partner when that partner's conduct comes to its attention, often through news coverage.
+
+- Over this period it removed two partners whose ALPR problems had become public: El Cajon PD (sued by the Attorney General for out-of-state sharing) and Mountain View PD (unauthorized access; it suspended its own program) [13]. It added one — Tiburon PD [64].
+
+- The recurring cause across these incidents is the setting SMPD's own monthly audits attest to controlling: Flock re-enabling nationwide "National Lookup" queries vendor-side, without notice, exposing California-only departments to out-of-state and federal access [64].
+
+- As of the June 4, 2026 snapshot, the access list still includes partners with publicly documented, agency-specific ALPR problems — most reported before SMPD's two removals:
+
+| Partner | Publicly documented ALPR problem | Public | On 6/4 list |
+|---|---|---|---|
+| El Cajon PD | AG sued — illegal out-of-state sharing | Oct 2025 | removed (6/1–6/4) |
+| Mountain View PD | unauthorized federal/CA access; suspended own program | Feb 2026 | removed |
+| **Tiburon PD** | ~16,000 potentially unlawful federal searches; own sharing expanded 132→199 agencies | Mar 2026 | **added** |
+| San Mateo County SO (incl. Woodside) | audits ~10 of ~117,723 external search requests | Feb 2026 | yes |
+| Menlo Park PD | shared ALPR data out-of-state (Houston TX; Sauk Village IL) | Aug 2025 | yes |
+| California Highway Patrol | search across 845 agency databases labeled "ICE case" | Jul 2025 | yes |
+| San Francisco PD | ~1.6M searches by ~4,000 out-of-state agencies, ≥19 ICE-tied | Sep 2025 | yes |
+| Atherton PD | 832 federal-immigration searches; broke its own review policy | Jul 2025 | yes |
+| Palo Alto PD | nationwide + federal access via Flock "Nationwide Lookup" | Apr 2026 | yes |
+| Ventura County SO | 364,000+ out-of-state/federal queries after National Lookup reactivated | Feb 2026 | yes |
+| Orange County SO | searches for CBP / Border Patrol | Jun 2025 | yes |
+| Berkeley PD | searched by other agencies using "ICE"/"CBP" labels | Nov 2025 | yes |
+| Costa Mesa PD | officer used Flock to track his wife and mistress; pleaded guilty | Apr 2026 | yes |
+
+*Public dates and incident details: [64]; El Cajon and Mountain View also [13]. Membership is as of the June 4, 2026 snapshot [54]; the table does not assert SMPD removed, retained, or added any partner because of these reports.*
+
 - The records behind these findings came through public-records requests, and the production pattern bears on the timing:
   - Requests scoped to exclude email have nonetheless been routed through the withdrawn 211,872-document Flock email corpus [48]; W012686 — which states its records "cannot be satisfied through review of any @flocksafety.com email corpus" — was met with "211,872 documents requiring evaluation" and rolling production [53].
   - On May 6, 2026, hours after the requester asked to deprioritize that corpus, SMPD closed W012297 into it and extended W012373 and W012459 under the same email-search framing [52].
@@ -501,6 +531,7 @@ Device counts from department sources and public records:
 | 61 | PRA W012663-050426 — NCRIC onward disclosure of SMPD ALPR data to private universities (closed May 2026) | NCRIC's Flock transparency portal (captured April 25, 2026) listed 319 outbound recipients, three of them private institutions — University of the Pacific, Stanford University CA PD, and University of San Francisco CA PD. Asked for records of SMPD-originated ALPR data disclosed by NCRIC to those recipients, SMPD withheld them as "investigatory records compiled by a law enforcement agency for law enforcement purposes" under Gov. Code § 7923.600. [PRA response](https://github.com/none-below/sm-alpr/blob/main/assets/san-mateo-public-records/W012663-050426/W012663-050426_Message_History.pdf) |
 | 62 | PRA W012741-051426 — § 7923.600 determination and segregability records (closed May 2026) | Challenged SMPD's § 7923.600 withholdings on the NCRIC-onward records: the exemption covers investigations conducted by "a state or local police agency," not disclosures to private universities — which UOP's own Chief of Police confirmed are not public agencies. SMPD withheld the § 7923.600 determination records under attorney-client privilege (Gov. Code § 7927.705), citing Haynie v. Superior Court — confirming a City Attorney legal analysis of the invocations exists. [PRA response](https://github.com/none-below/sm-alpr/blob/main/assets/san-mateo-public-records/W012741-051426/W012741-051426_Message_History.pdf) |
 | 63 | PRA W012672-050426 — ALPR training records (closed May 2026) | Produced SMPD's Flock/ALPR training materials — course rosters, a training slide deck, an ALPR Operating Guidelines memo, and the full text of SB 34 (Civil Code §§ 1798.90.5–.55). The training deck teaches the § 1798.90.55(a) public-comment requirement verbatim and asserts the program "was presented to our City Council in 2018 (PIPs) and 2020 (Flock) providing an opportunity for public comment fulfilling CA Civil Code 1798.90.55(a) requirement." Internal operator and end-user training records exist (the doc's training gap is external-agency only). [Training deck](https://github.com/none-below/sm-alpr/blob/main/assets/san-mateo-public-records/W012672-050426/Flock_training.pdf) · [SB 34 text](https://github.com/none-below/sm-alpr/blob/main/assets/san-mateo-public-records/W012672-050426/_CA_Civil_Code.pdf) |
+| 64 | Partner-agency ALPR incidents — California news coverage (2025–2026) | Publicly reported, agency-specific ALPR problems at SMPD sharing partners, identified by a search of all 263 current partners and source-verified. Tiburon PD ([localnewsmatters](https://localnewsmatters.org/2026/03/25/ark-investigation-follow-up-audit-finds-far-broader-access-to-tiburon-license-plate-data/)); San Mateo County SO / Town of Woodside (SMCSO) ([padailypost](https://padailypost.com/2026/02/19/woodside-wants-to-know-about-federal-agencies-tapping-into-its-surveillance-cameras/) · [almanacnews](https://www.almanacnews.com/woodside/2026/02/19/woodside-looks-into-stronger-safeguards-for-its-license-plate-cameras-data-security/)); Menlo Park PD ([almanacnews](https://www.almanacnews.com/investigative-story/2025/08/19/menlo-park-police-broke-state-law-shared-license-plate-data-out-of-state/)); California Highway Patrol ([sfstandard](https://sfstandard.com/2025/07/23/california-police-sharing-flock-license-plate-data/)); San Francisco PD ([sfstandard](https://sfstandard.com/2025/09/08/sfpd-flock-alpr-ice-data-sharing/)); Atherton PD ([almanacnews](https://www.almanacnews.com/investigative-story/2025/07/30/hundreds-of-agencies-tap-athertons-surveillance-system-for-feds-town-fails-to-follow-own-rules/)); Palo Alto PD ([paloaltoonline](https://www.paloaltoonline.com/police/2026/04/22/palo-alto-license-plate-data-searched-by-hundreds-of-out-of-state-agencies/)); Ventura County SO ([cbsnews](https://www.cbsnews.com/losangeles/news/flock-license-plate-readers-shared-data-with-out-of-state-federal-agencies/)); Orange County SO ([calmatters](https://calmatters.org/economy/technology/2025/06/california-police-sharing-license-plate-reader-data/)); Berkeley PD ([berkeleyside](https://www.berkeleyside.org/2025/11/20/berkeley-flock-surveillance-cameras-ice-cbp-secure-justice)); Costa Mesa PD ([cbsnews](https://www.cbsnews.com/losangeles/news/ex-costa-mesa-police-officer-accused-of-using-flock-cameras-to-track-his-mistress/)). |
 
 ---
 
