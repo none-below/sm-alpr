@@ -189,6 +189,12 @@
         "san-luis-obispo-county-ca-so": "http_404"
       }
     },
+    "07575ae4-bfea-55dc-a070-654d27a2d7cb": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-06-07T23:54:00.762936+00:00",
+      "tried": {}
+    },
     "081ce3e5-5a44-50b9-a898-eca30706590d": {
       "exhausted": false,
       "found": null,
@@ -2822,6 +2828,14 @@
         "calhoun-county-mi-so": "http_404"
       }
     },
+    "77b73c77-0191-5cb1-8b1c-b18007b904b3": {
+      "exhausted": false,
+      "found": "henrico-county-va-pd",
+      "last_probed": "2026-06-07T23:54:24.096933+00:00",
+      "tried": {
+        "henrico-county-va-pd": "http_200"
+      }
+    },
     "77e04206-2f50-5e78-96a9-63fda0cc1c1a": {
       "exhausted": false,
       "found": null,
@@ -4148,6 +4162,14 @@
         "san-joaquin-delta-college-ca-police": "http_404",
         "san-joaquin-delta-college-ca-ps": "http_404",
         "san-joaquin-delta-college-ca-public-safety": "http_404"
+      }
+    },
+    "b01b6f68-7fce-570d-bf70-9081477e2895": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-06-07T23:54:34.117556+00:00",
+      "tried": {
+        "priceville-al-pd": "http_404"
       }
     },
     "b1eec57c-0fcc-5546-bfb6-7005adc695d3": {
@@ -5622,6 +5644,14 @@
         "cheviot-oh-pd": "http_404"
       }
     },
+    "f0d229af-66ac-56b7-a95b-f15052cee024": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-06-07T23:54:13.652170+00:00",
+      "tried": {
+        "williamson-county-tn-so": "http_404"
+      }
+    },
     "f168928f-b50b-5bd7-8c25-6da6521fdb93": {
       "exhausted": false,
       "found": "clear-lake-ia-pd",
@@ -6022,6 +6052,6 @@
       }
     }
   },
-  "updated": "2026-06-07T22:48:19.561222+00:00",
+  "updated": "2026-06-07T23:54:34.178943+00:00",
   "version": 1
 }
