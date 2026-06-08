@@ -233,6 +233,10 @@ This document presents eight findings across eight sections, grounded in the dep
 - The opportunity was provided in 2020: the proposed fixed ALPR was an agenda item at the June 1 regular meeting, and four residents spoke — on citizens' rights, deployment discretion, and whether the data "would be used with other law enforcement agencies"; Council asked that privacy be "addressed in a very transparent way" [40].
 - But that comment was on a proposal to "explore the deployment" of fixed ALPR, funded by absorbing the lease into the Police Department operating budget [40]. When the program became permanent — the $501,350 MSA, August 2023 — it was placed on the consent calendar [8], and the statewide-sharing program it became never returned for a § 1798.90.55(a) opportunity [9].
 
+- The program runs on two staggered contracts: the August 2023 MSA (60-month term through ~August 2028, then 24-month renewals) [66] and Amendment No. 1 (a separate 36-month term, March 2024 through ~March 2027, then 24-month renewals) [6].
+
+- Their non-renewal windows fall in alternating years — the Amendment in 2027/2029/…, the MSA in 2028/2030/… — so the City never faces a single decision to renew or cancel the whole Flock program. There is no one moment at which the Council, or residents, can review the entire program and end it; one contract is always mid-term, auto-renewing for 24 months absent ~30 days' notice.
+
 ---
 
 ## 4. Device Inventory & Non-ALPR Governance
