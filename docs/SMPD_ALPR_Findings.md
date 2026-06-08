@@ -557,7 +557,7 @@ Device counts from department sources and public records:
 - **Capt. Matt Lethin** — Support Services Captain (1/5/25–6/13/25). [15] Staff contact on March 2024 amendment. [9] Email "no longer valid." [14]
 - **Bahar Abdollahi** — Assistant City Attorney. "Approved as to Form" on Amendment No. 1 (not on original MSA). [6]
 - **Mark Smith** — Flock Safety General Counsel. Signed original MSA, Aug 25, 2023. [66]
-- **Andrew Trujillo** — Organized the February 25, 2025 LPR meeting; required attendee of the April 23, 2024 ALPR Committee Meeting. [14]
+- **Andrew Trujillo** — Organized the February 25, 2025 LPR meeting; ALPR Committee Meeting attendee. [14]
 - **Samantha Leung** — ALPR Committee Meeting attendee. [14]
 - **Mikhail Venikov** — ALPR Committee Meeting attendee. [14]
 - **Jillian Goshin** — ALPR Committee Meeting attendee. Email no longer valid. [14]
