@@ -131,7 +131,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - Both state law and SOP 205 itself require conspicuous public posting. SOP 205.1: "This Operating Procedure, along with SMPD Lexipol Policy 462, shall be posted conspicuously on our Department website" [4, §205.1]. State law requires the same [12]. Every version of the posted ALPR policy delegates audit procedures, training requirements, and data collection processes to SOP 205 [1] [2] [3].
 
-- SOP 205 is not posted on the department website. The city acknowledged on March 3, 2026 [19]: "The Department does not currently have the associated SOPs posted on its website. We acknowledge this oversight and are actively working to ensure the SOPs are published as soon as possible." It was finally linked on or about May 27, 2026 — on the Flock transparency portal, not the Department's own LPR page, which still directs readers to the 400-page manual [33] [54].
+- SOP 205 is not posted on the department website. The city acknowledged on March 3, 2026 [19]: "The Department does not currently have the associated SOPs posted on its website. We acknowledge this oversight and are actively working to ensure the SOPs are published as soon as possible." It was finally linked on or about May 27, 2026 — on the Flock transparency portal, not the Department's own LPR page, which still directs readers to the 400-page manual [33] [54] — and the copy posted was already a superseded version, the March 6 SOP rather than the April 9 revision the Department had approved weeks earlier (see below) [56].
 
 - SOP 205.1 requires the SOP to be posted "conspicuously on our Department website." The posted copy still says so, while sitting on a vendor portal instead [4, §205.1].
 
