@@ -231,11 +231,13 @@ This document presents eight findings across eight sections, grounded in the dep
 - SMPD's own ALPR training teaches this requirement and states the program "was presented to our City Council in 2018 (PIPs) and 2020 (Flock) providing an opportunity for public comment fulfilling CA Civil Code 1798.90.55(a) requirement" [63].
 
 - The opportunity was provided in 2020: the proposed fixed ALPR was an agenda item at the June 1 regular meeting, and four residents spoke — on citizens' rights, deployment discretion, and whether the data "would be used with other law enforcement agencies"; Council asked that privacy be "addressed in a very transparent way" [40].
-- But that comment was on a proposal to "explore the deployment" of fixed ALPR, funded by absorbing the lease into the Police Department operating budget [40]. When the program became permanent — the $501,350 MSA, August 2023 — it was placed on the consent calendar [8], and the statewide-sharing program it became never returned for a § 1798.90.55(a) opportunity [9].
+- But that comment was on a proposal to "explore the deployment" of fixed ALPR, funded by absorbing the lease into the Police Department operating budget [40]. When the program became permanent — the $501,350 MSA, August 2023 — it was placed on the consent calendar and, on the record, received no standalone hearing or separate Council discussion [8]; the statewide-sharing program it became never returned for a § 1798.90.55(a) opportunity [9].
 
-- The program runs on two staggered contracts: the August 2023 MSA (60-month term through ~August 2028, then 24-month renewals) [66] and Amendment No. 1 (a separate 36-month term, March 2024 through ~March 2027, then 24-month renewals) [6].
+- The program runs under one Agreement with staggered renewal terms: the August 2023 MSA covers 40 cameras on a 60-month term through ~August 2028 [66]; Amendment No. 1 added 15 devices on a separate 36-month subscription term through ~March 2027 [6]. Each auto-renews for 24 months unless the City gives ~30 days' notice of non-renewal.
 
-- Their non-renewal windows fall in alternating years — the Amendment in 2027/2029/…, the MSA in 2028/2030/… — so the City never faces a single decision to renew or cancel the whole Flock program. There is no one moment at which the Council, or residents, can review the entire program and end it; one contract is always mid-term, auto-renewing for 24 months absent ~30 days' notice.
+- Because the two windows fall in different years — the amendment's in 2027/2029/…, the MSA's in 2028/2030/… — the contract calendar never brings the whole program up for a single renew-or-cancel decision; one term is always mid-cycle.
+
+- Council's only request to revisit the program — the June 2020 ask for a one-year report-back [40] — went unfulfilled [49]; with the MSA and amendment both consent-calendared [8] [9], no Council action has ever brought the full, expanded program back for a single consolidated public review.
 
 ---
 
