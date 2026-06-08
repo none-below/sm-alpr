@@ -229,7 +229,8 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - SMPD's own ALPR training teaches this requirement and states the program "was presented to our City Council in 2018 (PIPs) and 2020 (Flock) providing an opportunity for public comment fulfilling CA Civil Code 1798.90.55(a) requirement" [63].
 
-- The 2020 presentation was an informational item ("Review and provide feedback"; "no budget impact") [40]; the program was implemented by a lieutenant's signature [34], not a governing-body decision taking comment on the program.
+- The opportunity was provided in 2020: the proposed fixed ALPR was an agenda item at the June 1 regular meeting, and four residents spoke — on citizens' rights, deployment discretion, and whether the data "would be used with other law enforcement agencies"; Council asked that privacy be "addressed in a very transparent way" [40].
+- But that comment was on a proposal to "explore the deployment" of fixed ALPR, funded by absorbing the lease into the Police Department operating budget [40]. When the program became permanent — the $501,350 MSA, August 2023 — it was placed on the consent calendar [8], and the statewide-sharing program it became never returned for a § 1798.90.55(a) opportunity [9].
 
 ---
 
@@ -625,7 +626,7 @@ SMPD is both an ALPR **operator** (§ 1798.90.51 — it operates Flock cameras) 
 | 9 | Retention | Retention period and destruction process [§.51(b)(2)(G)] | 463.5: 30 days. SOP: 30-day auto-delete for Flock video [3] [4] | Retention stated and implemented. Prior 27-month policy/contract conflict now resolved [5] [1] | ✅ Addressed |
 | 10 | End-user audit process | Periodic system audits for end-user data access [§.53(b)(2)(C)] | Not separately addressed for end-user data [3] [4] | Community camera data accessed via Flock; audit memos review only "our" cameras [17] [20] | ❌ Non-compliant |
 | 11 | Sharing restrictions | Share only with public agencies [§.55(b)] | 463.8: CA public agencies only [3] | University of the Pacific (private, does not qualify under §.5(f)) on access list. No public agency determination by SMPD or Stockton PD; UOP Chief confirmed private institution [29]. Subsequently removed from SMPD portal; remains on Stockton [30]. § 5.3 authorizes Flock disclosure to third parties [10] [5] | ❌ Non-compliant |
-| 12 | Public comment | Opportunity for public comment at a governing-body meeting before implementing the program [§.55(a)] | Not addressed in Policy 463 or SOP 205 [3] [4] | Presented as an informational item June 2020 ("Review and provide feedback"; no budget impact) [40]; program implemented administratively [34]; distinct March 2024 contract on consent calendar [9]. SMPD's training asserts the 2018/2020 presentations fulfilled § .55(a) [63] | ⚠️ Partial |
+| 12 | Public comment | Opportunity for public comment at a governing-body meeting before implementing the program [§.55(a)] | Not addressed in Policy 463 or SOP 205 [3] [4] | Opportunity provided June 2020 — proposed fixed ALPR on the agenda, four public speakers on privacy/data-sharing [40] — but on a proposal absorbed into the operating budget; the permanent $501K program was consent-calendared Aug 2023 [8] and the statewide expansion never returned for comment [9]. SMPD's training asserts the 2018/2020 presentations fulfilled § .55(a) [63] | ⚠️ Partial |
 
 **Summary:** 1 addressed, 5 partial, 6 non-compliant.
 
