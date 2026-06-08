@@ -133,7 +133,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - SOP 205 is not posted on the department website. The city acknowledged on March 3, 2026 [19]: "The Department does not currently have the associated SOPs posted on its website. We acknowledge this oversight and are actively working to ensure the SOPs are published as soon as possible." It was finally linked on or about May 27, 2026 — on the Flock transparency portal, not the Department's own LPR page, which still directs readers to the 400-page manual [33] [54] — and the copy posted was already a superseded version, the March 6 SOP rather than the April 9 revision the Department had approved weeks earlier (see below) [56].
 
-- SOP 205.1 requires the SOP to be posted "conspicuously on our Department website." The posted copy still says so, while sitting on a vendor portal instead [4, §205.1].
+- SOP 205.1 requires the SOP to be posted "conspicuously on our Department website" [4, §205.1]. It was instead posted to a vendor portal page — not the required conspicuous posting on the Department's own website — while the posted copy still recites that requirement.
 
 - Self-review: in the posted March 6, 2026 version, the Field Operations Captain both holds administrative responsibility for the ALPR platforms and is the official the audit is submitted to — the program's office reviews the audit of its own program, with no independent recipient [54] [56].
 
