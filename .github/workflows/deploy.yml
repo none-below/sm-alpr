@@ -105,6 +105,15 @@ jobs:
           git push origin readme-assets --force
           git checkout main
 
+      - name: Publish full findings PDF to Pages
+        # docs/SMPD_ALPR_Findings.pdf is committed only as a tiny redirect stub, to
+        # keep the binary (and its staleness) out of git. Overwrite it here with the
+        # PDF built above so the Pages site serves the real, current document
+        # same-origin (Pages sends Content-Type: application/pdf + ACAO:*, so it
+        # renders inline in the browser — no pdf.js shim, no CORS-blocked release
+        # fetch). Working-tree only; never committed.
+        run: cp "${{ runner.temp }}/SMPD_ALPR_Findings.pdf" docs/SMPD_ALPR_Findings.pdf
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:

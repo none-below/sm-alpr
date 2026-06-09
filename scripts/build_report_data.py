@@ -411,12 +411,23 @@ ALL_CHECKS = SB34_CHECKLIST + TRANSPARENCY_CHECKLIST
 
 # ── Flag classification (mirrors build_scoreboard.py) ──────────────────────
 
-def is_flagged_entity(aid, reg_by_id):
+def is_flagged_entity(aid, reg_by_id, source_state="CA"):
+    """Classify a recipient as a flag kind, or None.
+
+    `source_state` is the two-letter state of the agency doing the
+    sharing. The out-of-state flag is source-relative: a recipient is
+    "out_of_state" when its state differs from the sharer's, not when it
+    differs from California. Defaults to "CA" so CA-only callers
+    (checklist evaluation, scoreboard-style peer counts) keep their
+    existing behavior unchanged; per-agency report sites pass the
+    subject agency's own state so a Washington PD's Washington partners
+    aren't mislabeled out-of-state.
+    """
     r = reg_by_id.get(aid, {})
     if has_tag(r, "private"):
         return "private"
     r_state = agency_state(r)
-    if r_state and r_state != "CA":
+    if r_state and source_state and r_state != source_state:
         return "out_of_state"
     t = r.get("agency_type")
     if t in ("federal", "decommissioned", "test", "fusion_center"):
@@ -1664,7 +1675,7 @@ def main():
 
         flagged_recipients = []
         for target_id in outbound_ids:
-            kind = is_flagged_entity(target_id, reg_by_id)
+            kind = is_flagged_entity(target_id, reg_by_id, state)
             if kind:
                 tr = reg_by_id.get(target_id, {})
                 entry_out = {
@@ -1696,7 +1707,7 @@ def main():
             aid_r = ev["agency_id"]
             if not aid_r or aid_r in current_outbound_set:
                 continue
-            kind = is_flagged_entity(aid_r, reg_by_id)
+            kind = is_flagged_entity(aid_r, reg_by_id, state)
             if not kind:
                 continue
             existing = removed_flagged_by_aid.get(aid_r)
@@ -1735,7 +1746,7 @@ def main():
             if days_since > RECENT_ADD_WINDOW_DAYS:
                 continue
             tr = reg_by_id.get(target_id, {})
-            kind = is_flagged_entity(target_id, reg_by_id)
+            kind = is_flagged_entity(target_id, reg_by_id, state)
             recent_outbound_additions.append({
                 "agency_id": target_id,
                 "slug": id_to_slug.get(target_id, target_id),
@@ -1763,7 +1774,7 @@ def main():
                 continue
             seen_removed.add(aid_r)
             tr = reg_by_id.get(aid_r, {})
-            kind = is_flagged_entity(aid_r, reg_by_id)
+            kind = is_flagged_entity(aid_r, reg_by_id, state)
             recent_outbound_removals.append({
                 "agency_id": aid_r,
                 "slug": id_to_slug.get(aid_r, aid_r),
@@ -1846,7 +1857,7 @@ def main():
                 "agency_id": target_id,
                 "slug": t_slug,
                 "name": agency_display_name(tr, t_slug),
-                "kind": is_flagged_entity(target_id, reg_by_id),
+                "kind": is_flagged_entity(target_id, reg_by_id, state),
                 "inferred": is_inferred,
                 "lat": t_lat,
                 "lng": t_lng,
@@ -1912,7 +1923,7 @@ def main():
                 "agency_id": bid,
                 "slug": bslug,
                 "name": agency_display_name(br, bslug),
-                "kind": is_flagged_entity(bid, reg_by_id),
+                "kind": is_flagged_entity(bid, reg_by_id, state),
                 "state": agency_state(br),
                 "crawled": bool(graph_agencies.get(bid, {}).get("crawled")),
             }
