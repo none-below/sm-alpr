@@ -336,7 +336,7 @@ Device counts from department sources and public records:
 | Written agreements | — | — | Required [§462.8(b)–(c)] | — | ❌ No records produced [16] | ❌ |
 | Training (external) | — | — | "Shall ensure" [§463.9] | — | ❌ "We do not retain records" [16] | ❌ |
 | Network governance | — | Review vendor agreements | ❌ Not addressed | — | ❌ Not addressed in any policy [5, Exhibit A] | ❌ |
-| Out-of-state/federal | Prohibited [§.55(b)] | Prohibited | ✅ Excluded [§463.8] | — | ⚠️ Direct sharing disabled; El Cajon (sued by AG for out-of-state sharing) listed through June 1, removed by June 4, 2026 [54] | ⚠️ |
+| Out-of-state/federal | Public agencies only [§.55(b)] | Prohibited [18] | ✅ Excluded [§463.8] | — | ⚠️ Direct sharing disabled; El Cajon (sued by AG for out-of-state sharing) listed through June 1, removed by June 4, 2026 [54] | ⚠️ |
 | NCRIC re-sharing to non-conforming entities | Public agencies only [§.55(b)] | — | ❌ Not addressed | — | ❌ NCRIC MOU §9 allows NCRIC to re-share SMPD data without approval; NCRIC's own portal lists entities that may not qualify under §.5(f) [36] | ❌ |
 
 *Note: UOP entity-type findings and the access list composition are also discussed in §1 (audit scope gaps).*
