@@ -356,7 +356,9 @@ Device counts from department sources and public records:
 
 - El Cajon PD — which the California Attorney General is suing for refusing to stop sharing ALPR data with out-of-state agencies in violation of SB 34 [13] — remained on SMPD's access list through the June 1, 2026 portal capture and was absent from the June 4, 2026 snapshot [54].
 
-- NCRIC appears on SMPD's Flock transparency portal as a sharing partner [10]. SMPD's NCRIC Memorandum of Understanding (August 2014) grants NCRIC authority to "execute information sharing agreements with new Member Agencies and to incorporate new information sharing systems into the NCRIC-DSP" without "further review or approval by member agencies" [36, §9]. SMPD has not exercised its right to restrict NCRIC's re-sharing [36]. As of March 27, 2026, NCRIC's own Flock transparency portal lists 318 organizations it shares with, including University of the Pacific and University of San Francisco — both private institutions that do not qualify as public agencies under § 1798.90.5(f) [12] [37] [45]. By April 25, 2026 the list had grown to 319, adding Stanford University PD — a third private institution [61]. UOP is the same entity previously flagged on SMPD’s direct sharing list (see above).
+- SMPD has named NCRIC as a sharing partner since at least June 2020: the 2020 Council presentation and the August 2023 staff report both describe a "records sharing agreement" with NCRIC [40] [8], under a Memorandum of Understanding executed in August 2014 [36].
+
+- On the Flock transparency portal, NCRIC appeared as a sharing partner through May 4, 2026; it was removed between the May 4 and May 11 snapshots [10] [54]. SMPD's NCRIC Memorandum of Understanding (August 2014) grants NCRIC authority to "execute information sharing agreements with new Member Agencies and to incorporate new information sharing systems into the NCRIC-DSP" without "further review or approval by member agencies" [36, §9]. SMPD has not exercised its right to restrict NCRIC's re-sharing [36]. As of March 27, 2026, NCRIC's own Flock transparency portal lists 318 organizations it shares with, including University of the Pacific and University of San Francisco — both private institutions that do not qualify as public agencies under § 1798.90.5(f) [12] [37] [45]. By April 25, 2026 the list had grown to 319, adding Stanford University PD — a third private institution [61]. UOP is the same entity previously flagged on SMPD’s direct sharing list (see above).
 
 - When asked for records of SMPD-originated ALPR data that NCRIC disclosed to University of the Pacific, Stanford, or USF, SMPD withheld them as investigatory records under Gov. Code § 7923.600 [61].
 
@@ -376,7 +378,7 @@ Device counts from department sources and public records:
   - NCRIC’s Flock transparency page states it will not share ALPR data with "federal law enforcement" [37]. Federal law enforcement agencies hold half the seats on its governing board [42].
 - Either way, § 1798.90.55(b) is implicated:
   - If NCRIC is a public agency under § 1798.90.5(f), its own sharing to University of the Pacific, Stanford, and USF — all private institutions [37] [61] — is prohibited by § 1798.90.55(b) [12].
-  - If NCRIC is not a public agency under § 1798.90.5(f), SMPD's sharing to NCRIC — which appears on San Mateo's sharing list [10] — is prohibited by § 1798.90.55(b) [12].
+  - If NCRIC is not a public agency under § 1798.90.5(f), SMPD's sharing to NCRIC — on San Mateo's sharing list until its removal between May 4 and May 11, 2026 [10] [54] — was prohibited by § 1798.90.55(b) for the period it ran [12].
 
 - These questions are under live state review: the California State Auditor approved an audit of the state's fusion centers in March 2026 (Report 2026-134) covering compliance with state law and data-sharing practices, including with ICE; the report is pending [44].
 
