@@ -374,9 +374,9 @@ Device counts from department sources and public records:
   - Operates under 28 CFR Part 23, a federal regulation governing federally funded criminal intelligence systems [41].
   - Member-level governance is informal: EFF documented in 2022 that SFPD's police chief chaired NCRIC's executive board while SFPD had not signed a data-sharing MOU with NCRIC [43].
   - NCRIC’s Flock transparency page states it will not share ALPR data with "federal law enforcement" [37]. Federal law enforcement agencies hold half the seats on its governing board [42].
-  - NCRIC’s Flock sharing list includes University of the Pacific, Stanford University, and University of San Francisco — all private institutions [37]. If NCRIC is a public agency under § 1798.90.5(f), this sharing is prohibited by § 1798.90.55(b) [12].
-
-- San Mateo’s sharing list includes NCRIC [10]. If NCRIC is not a public agency under § 1798.90.5(f), this sharing is prohibited by § 1798.90.55(b) [12].
+- Either way, § 1798.90.55(b) is implicated:
+  - If NCRIC is a public agency under § 1798.90.5(f), its own sharing to University of the Pacific, Stanford, and USF — all private institutions [37] [61] — is prohibited by § 1798.90.55(b) [12].
+  - If NCRIC is not a public agency under § 1798.90.5(f), SMPD's sharing to NCRIC — which appears on San Mateo's sharing list [10] — is prohibited by § 1798.90.55(b) [12].
 
 - These questions are under live state review: the California State Auditor approved an audit of the state's fusion centers in March 2026 (Report 2026-134) covering compliance with state law and data-sharing practices, including with ICE; the report is pending [44].
 
