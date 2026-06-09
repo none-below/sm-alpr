@@ -203,6 +203,14 @@
       "last_probed": "2026-06-07T23:54:00.762936+00:00",
       "tried": {}
     },
+    "07f34f26-2d72-5260-bb38-a2bae82fd89a": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-06-09T04:56:19.682467+00:00",
+      "tried": {
+        "colleton-county-sc-so": "http_404"
+      }
+    },
     "081ce3e5-5a44-50b9-a898-eca30706590d": {
       "exhausted": false,
       "found": null,
@@ -276,9 +284,10 @@
     "0b1422ff-05c0-5eac-87aa-a03e7df22a5d": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-17T14:14:32.167820+00:00",
+      "last_probed": "2026-06-09T04:56:24.481220+00:00",
       "tried": {
         "barton-county-ks-sd": "http_404",
+        "barton-county-ks-sheriffs-office": "http_404",
         "barton-county-ks-so": "http_404"
       }
     },
@@ -478,6 +487,12 @@
       "tried": {
         "elk-grove-ca-po": "http_404"
       }
+    },
+    "1668cdc7-6b67-556b-a809-c25e2f0e3d05": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-06-09T04:56:07.843956+00:00",
+      "tried": {}
     },
     "17453cbc-25c2-54d6-a06b-edbebd3c64b2": {
       "exhausted": false,
@@ -3261,9 +3276,10 @@
     "8706dd16-9417-56e0-9a5c-c7c8facb8a4a": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-06-05T05:05:20.915264+00:00",
+      "last_probed": "2026-06-09T04:56:30.221819+00:00",
       "tried": {
-        "wonder-lake-il-pd": "http_404"
+        "wonder-lake-il-pd": "http_404",
+        "wonder-lake-il-po": "http_404"
       }
     },
     "87147070-af8c-5f25-a680-a2ef1b6a42bd": {
@@ -6237,6 +6253,6 @@
       }
     }
   },
-  "updated": "2026-06-08T23:52:21.518556+00:00",
+  "updated": "2026-06-09T04:56:30.263127+00:00",
   "version": 1
 }
