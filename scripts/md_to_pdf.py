@@ -181,7 +181,8 @@ def parse_md(path):
     # Build the doc dict that builders expect, interpreting blocks generically
     doc = dict(preamble_lines=preamble, exec_paras=[], key_findings=[], sections=[],
                source_intro='', source_rows=[], contacts=[],
-               appendix_a_lines=[], appendix_b_lines=[], verify_items=[])
+               appendix_a_lines=[], appendix_b_lines=[], verify_items=[],
+               revision_lines=[])
     for block in blocks:
         title_low = block['title'].lower()
         nm = re.match(r'^(\d+)\.\s+(.+)', block['title'])
@@ -233,6 +234,8 @@ def parse_md(path):
             doc['appendix_b_lines'] = block['lines']
         elif 'items requiring verification' in title_low:
             doc['verify_items'] = [s.strip()[2:] for s in block['lines'] if s.strip().startswith('- ')]
+        elif title_low.startswith('revision history'):
+            doc['revision_lines'] = [s.strip() for s in block['lines'] if s.strip()]
         # Sub-headings (### within a ## block) and unrecognized headings are
         # already captured in their parent block's lines by the splitter above,
         # since only the first heading creates a new block.  No action needed.
@@ -269,6 +272,7 @@ def build_toc(S, dd):
             ("Appendix A: Agency Access Breakdown","appendix_a")]
     if dd.get('appendix_b_lines'): extras.append(("Appendix B: Statutory Gap Analysis","appendix_b"))
     if dd.get('verify_items'): extras.append(("Items Requiring Verification","verify"))
+    if dd.get('revision_lines'): extras.append(("Revision History","revisions"))
     for label,anchor in extras:
         els.append(Paragraph(ilink(f"<u>{label}</u>",anchor,LINK_BLUE),S['toc_entry']))
     els+=[Spacer(1,12),HRFlowable(width="100%",thickness=0.5,color=MED_GRAY,spaceAfter=6),PageBreak()]
@@ -509,6 +513,14 @@ def build_verify(S, dd):
         els.append(Paragraph(md_to_xml(text),S['verify']))
     return els
 
+def build_revisions(S, dd):
+    if not dd.get('revision_lines'): return []
+    els=[BookmarkAnchor("revisions"),_back(S),Paragraph("Revision History",S['sec_head'])]
+    for item in dd['revision_lines']:
+        text = item[2:] if item.startswith('- ') else item
+        els.append(Paragraph(md_to_xml(text),S['verify']))
+    return els
+
 def main():
     global _MD5_HASH
     import hashlib
@@ -535,6 +547,8 @@ def main():
         story.append(PageBreak()); story.extend(build_appendix_b(S,dd))
     if dd.get('verify_items'):
         story.append(Spacer(1,16)); story.extend(build_verify(S,dd))
+    if dd.get('revision_lines'):
+        story.append(PageBreak()); story.extend(build_revisions(S,dd))
     pdf.build(story)
     nb=sum(len(s['bullets']) for s in dd['sections'])
     nt=sum(1 for s in dd['sections'] if s.get('table_rows'))
