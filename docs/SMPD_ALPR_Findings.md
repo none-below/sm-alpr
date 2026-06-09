@@ -160,9 +160,9 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - A follow-up request sought the same row-per-search export with every value redacted — disclosing only each search's existence, timestamp, and which compliance fields were filled — expressly structured to satisfy the CPRA's segregability requirement [Gov. Code § 7922.525(b)] and mirroring the redaction the city itself applied under W012541 [58] [68].
 
-- The city denied it in full, asserting in one response both that the export "does not exist as a record maintained by the Department or within the Flock platform" and that the records are exempt as investigatory records (§ 7923.600, the § 7922.000 balancing test, and Evidence Code § 1040) — content exemptions applied to a request that disclosed no content values [68].
+- The city denied the redacted-export request in full, asserting in one response both that the export "does not exist as a record maintained by the Department or within the Flock platform" and that the records are exempt as investigatory records (§ 7923.600, the § 7922.000 balancing test, and Evidence Code § 1040) — content exemptions applied to a request that disclosed no content values [68].
 
-- The same response states the Department "is not the originating agency for these investigative records and is not in a position to assess whether disclosure would compromise another agency's ongoing or pending investigations" [68] — the external search activity it disclaims the ability to assess is the same activity its own policy directs it to audit [3, §463.10] (see §1).
+- The same denial states the Department "is not the originating agency for these investigative records and is not in a position to assess whether disclosure would compromise another agency's ongoing or pending investigations" [68] — the external search activity it disclaims the ability to assess is the same activity its own policy directs it to audit [3, §463.10] (see §1).
 
 - Every published row's identifier appears in the PRA export; the portal is a strict subset of the underlying log, not a separate dataset [59].
 
