@@ -94,7 +94,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - The same audit flagged a search whose stated reason was "Lost veh," which the lieutenant characterized as "assisting an RO look for their misplaced vehicle which is fine," and asked the user to "list an incident number or an offense code" for such searches going forward — "ALPR systems are under a lot of scrutiny right now" [65].
 
-- Helping an owner locate a misplaced personal vehicle is not a crime — no offense code applies — and is not an authorized purpose under Policy 463.2 [3]. The corrective did not address whether the search was valid — only that the entered reason needed to appear valid.
+- Helping an owner locate a misplaced personal vehicle is not a crime — no offense code applies — and is not an authorized purpose under Policy 463.2 [3]. § 463.4(b)'s broader allowance for "any routine patrol operation or criminal investigation" does not rescue it: the auditor's own corrective demands "an incident number or an offense code" [65], and a non-crime has neither. The corrective did not address whether the search was valid — only that the entered reason needed to appear valid.
 
 - Bare "investigation" fell from 57% in October 2025 to 3.6% in January 2026 [58] — coinciding with Flock replacing the free-text reason field with a required offense-type selection, not with departmental enforcement [17].
 
@@ -159,7 +159,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - The portal CSV carries only the offense category; the search-audit logs SMPD produced under PRA also carry the officer's free-text reason — and neither carries a case number [58] [59].
 
-- For the one window where the portal overlaps a PRA-produced log (May 5–June 1, 2026), the portal's public CSV published 640 search rows while a PRA for the same data produced 2,526 [59] — the portal omits roughly three-quarters (about 75%) of the searches.
+- For the one window where the portal overlaps a PRA-produced log (May 5–June 1, 2026), the portal's public CSV published 640 search rows while a PRA for the same data produced 2,526 [59] — the portal omits roughly three-quarters (about 75%) of the searches. No documentation of the public CSV's inclusion criteria has been produced; a definitional explanation — a feed designed to publish only certain categories of searches — cannot be ruled out, but none has been offered.
 
 - Every published row's identifier appears in the PRA export; the portal is a strict subset of the underlying log, not a separate dataset [59].
 
@@ -298,7 +298,7 @@ Device counts from department sources and public records:
 
 - Policy 462.8 (2012–December 2025) required that external "Agency members accessing ALPR data are subject to a pre-approval process by SMPD and the database management administration" [1, §462.8(a)]. Policy 463.8 (December 2025–present) restricts sharing to California public agencies only, reviewed by the ALPR Committee Captain, and explicitly excludes out-of-state and federal agencies [3, §463.8].
 
-- Flock MSA § 5.3 authorizes Flock to independently "access, use, preserve and/or disclose the Footage to law enforcement authorities, government officials, and/or third parties" based on Flock's own "good faith belief" that disclosure is "reasonably necessary." This includes disclosures to comply with legal process, enforce the agreement, or address "security, privacy, fraud or technical issues, or emergency situations." No SMPD approval, notification, or involvement is required. [5, §5.3]
+- Flock MSA § 5.3 authorizes Flock to independently "access, use, preserve and/or disclose the Footage to law enforcement authorities, government officials, and/or third parties" based on Flock's own "good faith belief" that disclosure is "reasonably necessary." This includes disclosures to comply with legal process, enforce the agreement, or address "security, privacy, fraud or technical issues, or emergency situations." No SMPD approval, notification, or involvement is required. [5, §5.3] Legal-process and emergency-disclosure clauses of this kind are common in cloud-vendor contracts; the tension is statutory — § 1798.90.55(b) permits ALPR data to reach only public agencies [12], while § 5.3 authorizes disclosure to "third parties" on the vendor's own judgment, and no SMPD process would detect such a disclosure (see below).
 
 - This authority is not incidental to data hosting. § 4.1 provides that SMPD retains ownership; § 4.3 lets Flock use Customer Data only once anonymized. § 5.3 applies to identifiable "Footage" — defined in the contract as "still images, video, audio and other data." The scope covers everything the cameras capture [5, §1.10]. [5, §5.3] [5, §4.1] [5, §4.3]
 
