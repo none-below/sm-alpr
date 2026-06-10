@@ -480,7 +480,7 @@ Device counts from department sources and public records:
 
 ## 8. Removal Practice
 
-- **Policy requires:** monthly internal and quarterly external audits of the ALPR system, reported to the Chief of Police [3, §463.10]; the resulting memos attest to reviewing data-sharing settings [17].
+- **Policy requires:** monthly internal and quarterly external audits of the ALPR system, reported to the Chief of Police [3, §463.10]; the January 2026 audit memo states the auditor "verified that we are not sharing data with law enforcement agencies outside the state of California" [17].
 
 - The Department describes its removal practice as reactive — acting on a partner when that partner's conduct comes to its attention, often through news coverage.
 
