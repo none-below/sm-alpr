@@ -419,7 +419,7 @@ Device counts from department sources and public records:
 
 - SMPD's California-only restriction governs which agencies hold access [3, §463.8], and Stockton — a California agency — passes the audits' geography check (see §1). Neither the restriction nor the check reaches on whose behalf a partner searches, and the published audit fields do not show which shared networks a given search queried [72].
 
-- SMPD has invoked § 1798.90.55(b) broadly — to deny a vehicle's registered owner records of their own vehicle [26], to withhold audit records and partner names [32], and to deny even a fully-redacted export that disclosed no data values [68] — and the Attorney General's guidance bars disclosure to federal agencies [18]. Under those readings, a search run for a "Usms case" either never delivers its results to the Marshals Service, or delivers data drawn from hundreds of California networks to a federal agency.
+- SMPD has invoked § 1798.90.55(b) broadly — to deny a vehicle's registered owner records of their own vehicle [26], to withhold audit records and partner names [32], and to deny even a fully-redacted export that disclosed no data values [68] — and the Attorney General's guidance bars disclosure to federal agencies [18]. Under those readings, the results of a "Usms case" search could not be provided to the Marshals Service — leaving no apparent lawful use for a search run in that agency's name.
 
 - The Flock contract includes "State Network (LP Lookup Only)" and "Nationwide Network (LP Lookup Only)" as standard FlockOS features. Neither Policy 462/463 [1] [3] nor SOP 205 [4] addresses how these network sharing features are governed, audited, or restricted. [5, Exhibit A]
 
