@@ -366,7 +366,7 @@ Device counts from department sources and public records:
 
 - The produced MOU is dated August 2014 [36] — before SB 34's ALPR provisions took effect on January 1, 2016 [12].
 
-- NCRIC's currently published MOU template (2018) adds a California Values Act compliance clause and supersedes prior MOUs upon execution [69]. It was not among the agreements SMPD produced; no record shows SMPD's NCRIC agreement was updated after SB 34 [36] [69].
+- NCRIC's currently published MOU template (2018) adds a California Values Act compliance clause, but it replaces a member's prior MOU only when that member signs the new form [69]. It was not among the agreements SMPD produced, and no record shows SMPD signed it — on the produced record, SMPD's NCRIC sharing remained governed by the 2014 terms, which contain no SB 34 or Values Act provision [36] [69].
 
 - As of March 27, 2026, NCRIC's own Flock transparency portal lists 318 organizations it shares with, including University of the Pacific and University of San Francisco — both private institutions that do not qualify as public agencies under § 1798.90.5(f) [12] [37] [45]. By April 25, 2026 the list had grown to 319, adding Stanford University PD — a third private institution [61]. UOP is the same entity previously flagged on SMPD’s direct sharing list (see above).
 
