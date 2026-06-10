@@ -1712,33 +1712,6 @@
     ]
   },
   {
-    "agency_id": "54799b35-73d9-5a21-89f8-edee65eed42b",
-    "slug": "columbia-heights-mn-pd-inactive",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Columbia Heights MN PD [Inactive]"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [
-      "inactive"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "2712700",
-      "name": "Columbia Heights",
-      "state": "MN",
-      "lat": 45.049104,
-      "lng": -93.246749
-    }
-  },
-  {
     "agency_id": "86e42e3d-4245-5dc8-b64c-89d45592a7bb",
     "slug": "contra-costa-county-ca-so",
     "flock_active_slug": "contra-costa-county-ca-so",
@@ -7100,6 +7073,31 @@
     ]
   },
   {
+    "agency_id": "51b245e3-0dc7-560d-9493-af6bc967c46b",
+    "slug": "warren-county-mo-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Warren County MO SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "29219",
+      "name": "Warren",
+      "state": "MO",
+      "lat": 38.761902,
+      "lng": -91.159306
+    }
+  },
+  {
     "agency_id": "33b64315-34e3-56d8-b0ba-fc370daf3169",
     "slug": "watsonville-ca-pd",
     "flock_active_slug": "watsonville-ca-pd",
@@ -7611,6 +7609,33 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "54799b35-73d9-5a21-89f8-edee65eed42b",
+    "slug": "columbia-heights-mn-pd-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Columbia Heights MN PD [Inactive]"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "2712700",
+      "name": "Columbia Heights",
+      "state": "MN",
+      "lat": 45.049104,
+      "lng": -93.246749
+    }
   },
   {
     "agency_id": "e9102040-1c83-54e5-a587-16d260a1314a",
