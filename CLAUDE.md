@@ -60,7 +60,9 @@ The PDF generator (`scripts/md_to_pdf.py`) parses the findings markdown by split
 - Bullet points: `- text` (top-level) or `  - text` (indented sub-bullet, kept together with parent)
 - Tables: standard markdown pipe tables. First row = header. Separator rows are stripped.
 - Paragraphs: plain text lines (used in Executive Summary).
-- Numbered lists: `1. text` (used in Key Findings).
+- Numbered lists: `1. text` (used in Key Findings). Keep each Key Finding a single
+  numbered paragraph — the PDF builder keeps only `N.` lines in that section, so
+  sub-bullets under a Key Finding are silently dropped from the PDF.
 
 **Source citations:**
 - Inline: `[N]` links to source N in the Source Documents table.
