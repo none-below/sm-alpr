@@ -250,6 +250,10 @@ This document presents nine findings across nine sections, grounded in the depar
 
 ## 4. Device Inventory & Non-ALPR Governance
 
+- **Contracts authorize:** 55 devices under the MSA and Amendment No. 1 — 53 ALPR and 2 Condor video cameras [5] [6].
+- **SMPD told Council:** "forty LPRs, to be deployed" (August 2023) and "15 automated license plate readers" (March 2024) [8] [9].
+- **SMPD operates:** 80 devices, per its own Camera Manager dashboard — including 13 Picard and 1 Avicore units that appear in no contract or procurement document, and 10 privately-owned community cameras [20].
+
 ### Device count timeline
 
 Device counts from department sources and public records:
@@ -475,6 +479,8 @@ Device counts from department sources and public records:
 ---
 
 ## 8. Removal Practice
+
+- **Policy requires:** monthly internal and quarterly external audits of the ALPR system, reported to the Chief of Police [3, §463.10]; the resulting memos attest to reviewing data-sharing settings [17].
 
 - The Department describes its removal practice as reactive — acting on a partner when that partner's conduct comes to its attention, often through news coverage.
 
