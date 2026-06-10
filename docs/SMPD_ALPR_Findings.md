@@ -415,6 +415,8 @@ Device counts from department sources and public records:
 
 - SMPD's California-only restriction governs which agencies hold access [3, §463.8], and Stockton — a California agency — passes the audits' geography check (see §1). Neither the restriction nor the check reaches on whose behalf a partner searches, and the published audit fields do not show which shared networks a given search queried [72].
 
+- The Department's own reading of § 1798.90.55(b) sharpens the point. SMPD has invoked the provision broadly — to deny a vehicle's registered owner records of their own vehicle [26] and to withhold audit records and partner names [32] — and the Attorney General's guidance bars disclosure to federal agencies [18]. Under those readings, a search run for a "Usms case" presents a dilemma: either its results are never provided to the Marshals Service, or data drawn from hundreds of California networks is.
+
 - The Flock contract includes "State Network (LP Lookup Only)" and "Nationwide Network (LP Lookup Only)" as standard FlockOS features. Neither Policy 462/463 [1] [3] nor SOP 205 [4] addresses how these network sharing features are governed, audited, or restricted. [5, Exhibit A]
 
 - For regional context: Mountain View PD discovered in January 2026 that approximately 240 agencies had access to its ALPR data — against an intended list of roughly 75. Mountain View suspended its Flock program in response [13]. SMPD’s transparency portal listed 283 agencies as of February 18, 2026 [10], reduced to 263 by June 4, 2026 [54]. Whether SMPD intended this scope is unknown — no records of access determinations were produced [16], so the department cannot demonstrate which agencies it deliberately chose to authorize.
