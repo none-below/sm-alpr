@@ -31,7 +31,7 @@ This document presents eight findings across eight sections, grounded in the dep
    - SOP update, first substantive policy revision in nearly five years, and the resumption of audits after a multi-year lapse all occurred within approximately six weeks (November–December 2025).
    - Audits remain narrowly scoped. SOP 205 — required to be conspicuously posted by both state law and its own text — went unposted for its entire existence, from its first version in October 2019 until May 2026. The city acknowledged the oversight on March 3, 2026 and stated it was "actively working" to publish it. It was finally linked on or about May 27, 2026 — on the Flock transparency portal, not the Department's own LPR page — and the posted copy is the superseded March 6, 2026 version — not the April 9 revision the Department had already approved, nearly seven weeks before the posting, to correct it (see §2).
 
-7. **Non-ALPR surveillance operates with no policy framework.** The department’s internal Camera Manager dashboard reports 80 Flock devices — 25 more than the 55 Council approved, and 14 more than the public transparency page lists. Twenty-six are not license plate readers: 13 Picard edge-computing units and 1 Avicore that appear in no contract or procurement document, 2 Condor video cameras, and 10 privately-owned community cameras the department accesses but does not own. At multiple locations, the edge computing hardware paired with ALPR cameras converts the same feed into live video — producing ungoverned surveillance data alongside governed ALPR data. The department also operates Verkada cameras under a separate contract with no identified surveillance policy. The City does not have the surveillance technology ordinance recommended by the 2016–2017 Civil Grand Jury (see §4).
+7. **Non-ALPR surveillance operates with no policy framework.** The department’s internal Camera Manager dashboard reports 80 Flock devices — 25 more than the 55 Council approved, and 14 more than the public transparency page lists. Twenty-six are not license plate readers: 13 Picard edge-computing units and 1 Avicore that appear in no contract or procurement document, 2 Condor video cameras, and 10 privately-owned community cameras the department accesses but does not own. At multiple locations the department's own spreadsheet lists a Picard unit as the "Live Feed" paired with an ALPR camera — live video that no identified policy governs. The department also operates Verkada cameras under a separate contract with no identified surveillance policy. The City does not have the surveillance technology ordinance recommended by the 2016–2017 Civil Grand Jury (see §4).
 
 8. **No public record of who accesses SMPD’s surveillance data.** City policies require documented approval processes and audit logs for external agency access. In practice, all sharing decisions are made within the Flock platform — a private system not subject to the California Public Records Act. When the platform does maintain logs, the city denies their release under blanket ALPR exemptions. When it doesn’t, no record exists at all. No entity in the chain maintains a retrievable public record of who has accessed public surveillance data, or when access was granted or revoked (see §6, §2).
 
@@ -91,7 +91,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - The audit emails also flagged a search whose stated reason was "Lost veh," which the lieutenant characterized as "assisting an RO look for their misplaced vehicle which is fine," and asked the user to "list an incident number or an offense code" for such searches going forward — "ALPR systems are under a lot of scrutiny right now" [65].
 
-- Helping an owner locate a misplaced personal vehicle is not a crime — no offense code applies — and is not an authorized purpose under Policy 463.2 [3]. § 463.4(b)'s broader allowance for "any routine patrol operation or criminal investigation" does not rescue it: the auditor's own corrective demands "an incident number or an offense code" [65] — the search cited neither, and a non-crime supplies no offense code. The corrective did not address whether the search was valid — only that the entered reason needed to appear valid.
+- Helping an owner locate a misplaced personal vehicle is not among Policy 463.2's enumerated purposes [3]; whether § 463.4(b)'s "any routine patrol operation" reaches such an assist is a question the audit never engaged. The auditor approved the search while demanding "an incident number or an offense code" [65] — the search cited neither, and a non-crime supplies no offense code. The corrective did not address whether the search was valid — only that the entered reason needed to appear valid.
 
 - Bare "investigation" fell from 57% in October 2025 to 3.6% in January 2026 [58] — coinciding with Flock replacing the free-text reason field with a required offense-type selection, not with departmental enforcement [17].
 
@@ -142,7 +142,7 @@ This document presents eight findings across eight sections, grounded in the dep
 
 - The Flock transparency page for San Mateo listed 68 devices as of February 18, 2026 [10]; reduced to 66 after the department asked Flock to remove 2 decommissioned units [21]. The department's Camera Manager reports 80 [20] — 26 of them non-LPR devices: 13 Picard edge-computing units, 1 Avicore, 2 Condor PTZ cameras, and 10 community cameras. The 13 Picard and 1 Avicore appear in no invoice, contract, amendment, or council presentation [5] [6].
 
-- The Picard units are edge computing hardware paired with ALPR cameras at the same locations. They convert the ALPR camera feed into live video — producing ungoverned surveillance data alongside governed ALPR data. Neither the devices nor the video feeds appear on the public transparency portal [20].
+- The Picard units are edge computing hardware paired with ALPR cameras at the same locations; the department's device spreadsheet lists each Picard as the "Live Feed" beside its paired camera [20]. Neither the devices nor their video appear on the public transparency portal [20].
 
 - The department's internal inventory lists 10 privately-owned community cameras [20] whose data SMPD accesses through Flock's "Community Camera Full Access" feature [5, Exhibit A]. No public notice of this access has been identified.
 
@@ -272,7 +272,7 @@ Device counts from department sources and public records:
 
 - Of the 80 devices, 13 are identified in Camera Manager as "Picard" and 1 as "Avicore" — device types that appear in neither the original contract [5, Exhibit A], Amendment No. 1 [6, Exhibit C], nor any publicly available procurement document. [20]
 
-- Picard devices are co-located with LPR cameras at multiple sites. The PRA spreadsheet lists Picard IDs in the "Live Feed" column next to their paired cameras — the Picard provides the video feed. Each paired location produces both ALPR data and non-ALPR video data. Policy 463 and SB 34 govern the ALPR data. Nothing governs the video. [20]
+- Picard devices are co-located with LPR cameras at multiple sites. The PRA spreadsheet lists Picard IDs in the "Live Feed" column next to their paired cameras, indicating the Picard supplies the video feed. On that record, each paired location produces both ALPR data and non-ALPR video. Policy 463 and SB 34 govern the ALPR data; no produced policy addresses the video. [20]
 
 - The Flock contract [5, Exhibit A] and amendment [6, Exhibit C] account for only 2 non-ALPR devices (the Condor PTZ cameras).
 
@@ -458,7 +458,7 @@ Device counts from department sources and public records:
 
 - The December 2025 revision resolved a 27-month conflict between policy and contract. Policy 462.5 required a minimum one-year retention period [1]. The Flock contract specified 30 days [5, Exhibit A]. For the entire period between contract execution and the policy revision, one of them was being violated. The audit memos do not note this discrepancy [17].
 
-- For regional context: the Attorney General sued El Cajon for out-of-state ALPR sharing in late 2025 [13]. Mountain View discovered in January 2026 that 29 of its 30 cameras had been accessed by California agencies that had not been approved [13].
+- For regional context: the Attorney General sued El Cajon for out-of-state ALPR sharing in late 2025 [13]. Mountain View discovered in January 2026 that 29 of its 30 cameras had been accessed by California agencies that had not been approved [13]. The El Cajon suit preceded the November–December 2025 compliance cluster; this document's first records requests followed it, in February 2026 [14] [16].
 
 ---
 
