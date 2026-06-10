@@ -528,7 +528,7 @@ Device counts from department sources and public records:
 
 - By June 2026 the authorities stacked: the response to W012789 asserts simultaneously that the requested report "does not exist" and that the records are exempt under § 7923.600, the § 7922.000 balancing test, and Evidence Code § 1040 [68].
 
-- Five "no records" answers were later contradicted by the Department's own productions; the instances are tabulated in §2.
+- Five "no records" answers were later contradicted by the Department's own productions: W012160 [15], W012320 [32], and W012461 [47] denied pre-December-2025 audit records that W012666 produced [56]; W012328 denied a platform log of sharing-list changes that W012570 produced [31] [50]; W012174 denied external-agency access records that surfaced under W012297 [16] [28]. The episodes are tabulated in §2.
 
 ---
 
