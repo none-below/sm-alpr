@@ -1039,7 +1039,7 @@ function conductTooltip(e) {
   const lines = [
     `${e.id} — ${e.title || ''}`.trim(),
     `Filed ${e.filed_date} · ${STATUS_LABELS[e.status] || e.status}` +
-      (e.days_open !== null ? ` · ${e.days_open} days` : ''),
+      (e.days_open !== null ? ` · ${e.days_open} days open` : ''),
     fr
       ? `First substantive response: ${fr.date} (${fr.days} days` +
         (fr.past_24day ? ', past the 24-day extension ceiling)' :
@@ -1111,8 +1111,7 @@ function renderConductGantt(pras, maxIso) {
     if (!e.filed_date) return;
     const rowTop = padT + i * rowH;
     const y = rowTop + rowH / 2;
-    const endIso = (e.status === 'closed' || e.status === 'withdrawn') && e.closed_date
-      ? e.closed_date : maxIso;
+    const endIso = e.end_date || maxIso;
 
     if (i % 2 === 1) {
       root.appendChild(svg('rect', {
@@ -1173,9 +1172,9 @@ function renderConductGantt(pras, maxIso) {
       }));
     }
 
-    if ((e.status === 'closed' || e.status === 'withdrawn') && e.closed_date) {
+    if (e.end_date) {
       root.appendChild(svg('rect', {
-        x: x(e.closed_date) - 2.5, y: y - 2.5, width: 5, height: 5,
+        x: x(e.end_date) - 2.5, y: y - 2.5, width: 5, height: 5,
         fill: trackColor(e.status),
       }));
     }

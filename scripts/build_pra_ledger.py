@@ -253,8 +253,15 @@ def conduct_entry(pra, prod_dates, today_iso):
         slip = days_between(promises[0]["promise_date"], promises[-1]["promise_date"])
 
     status = pra.get("display_status", derived.get("status"))
-    end_iso = closed_date if status in ("closed", "withdrawn") and closed_date else today_iso
-    days_open = days_between(filed, end_iso) if filed else None
+    # A request can be closed without the canonical closure phrase ever
+    # appearing (curated status_override, or a withdrawal by the requester).
+    # Its record then ends at its last message — counting to "today" would
+    # overstate days_open for every such request.
+    end_date = None
+    if status in ("closed", "withdrawn"):
+        last_message_date = messages[-1]["ts"][:10] if messages else None
+        end_date = closed_date or last_message_date
+    days_open = days_between(filed, end_date or today_iso) if filed else None
 
     labels = dict((k, lbl) for k, lbl, _rx in EXEMPTIONS)
     exemptions = [
@@ -310,6 +317,7 @@ def conduct_entry(pra, prod_dates, today_iso):
             "dates": sorted(set(prod_dates)),
         },
         "closed_date": closed_date,
+        "end_date": end_date,
         "days_open": days_open,
         "contradictions": {
             "contradicted_by": contradicted_by,

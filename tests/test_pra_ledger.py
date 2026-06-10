@@ -199,6 +199,34 @@ def test_promise_slip_days():
     assert e["promises"]["extensions"] == 1
 
 
+def test_override_closed_without_closure_phrase_ends_at_last_message():
+    # W012807 pattern: status_override "closed" but the agency's final
+    # message lacks the canonical "considers ... closed" phrasing. days_open
+    # must end at the last message, not run to the build date.
+    messages = [
+        msg("2026-05-28T09:00:00", "agency", AUTO_ACK),
+        msg("2026-06-04T09:00:00", "agency",
+            "Records are exempt under Gov. Code § 7923.600."),
+    ]
+    e = ledger.conduct_entry(make_pra(messages, filed="2026-05-28"), [],
+                             "2026-06-09")
+    assert e["closed_date"] is None
+    assert e["end_date"] == "2026-06-04"
+    assert e["days_open"] == 7
+
+
+def test_explicit_closure_date_still_wins():
+    messages = [
+        msg("2026-01-01T09:00:00", "agency", AUTO_ACK),
+        msg("2026-01-05T09:00:00", "agency",
+            "The City now considers this record request closed."),
+    ]
+    e = ledger.conduct_entry(make_pra(messages), [], "2026-02-01")
+    assert e["closed_date"] == "2026-01-05"
+    assert e["end_date"] == "2026-01-05"
+    assert e["days_open"] == 4
+
+
 # --- contradiction links ---
 
 def test_contradiction_refs_filter():
