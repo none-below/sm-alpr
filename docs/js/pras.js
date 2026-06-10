@@ -1068,7 +1068,7 @@ function renderConductGantt(pras, maxIso) {
   const maxD = isoToDays(maxIso) + 2;
   const span = Math.max(1, maxD - minD);
 
-  const padL = 118, padR = 14, padT = 22, padB = 6, rowH = 15;
+  const padL = 118, padR = 14, padT = 26, padB = 6, rowH = 20;
   const W = 960;
   const innerW = W - padL - padR;
   const H = padT + pras.length * rowH + padB;
@@ -1091,26 +1091,37 @@ function renderConductGantt(pras, maxIso) {
       class: 'gantt-grid', x1: gx, x2: gx, y1: padT - 8, y2: H - padB,
     }));
     root.appendChild(svg('text', {
-      class: 'gantt-axis', x: gx + 2, y: padT - 10,
+      class: 'gantt-axis', x: gx + 2, y: padT - 12,
     }, iso.slice(0, 7)));
     cursor.setUTCMonth(cursor.getUTCMonth() + 1);
   }
 
+  // "Today" reference line at the right edge of the data.
+  const todayX = x(maxIso);
+  root.appendChild(svg('line', {
+    x1: todayX, x2: todayX, y1: padT - 8, y2: H - padB,
+    stroke: '#94a3b8', 'stroke-width': 1, 'stroke-dasharray': '2,3', opacity: 0.6,
+  }));
+  root.appendChild(svg('text', {
+    class: 'gantt-axis', x: todayX - 2, y: padT - 12, 'text-anchor': 'end',
+    fill: '#cbd5e1',
+  }, 'today'));
+
   pras.forEach((e, i) => {
     if (!e.filed_date) return;
-    const y = padT + i * rowH + rowH / 2;
+    const rowTop = padT + i * rowH;
+    const y = rowTop + rowH / 2;
     const endIso = (e.status === 'closed' || e.status === 'withdrawn') && e.closed_date
       ? e.closed_date : maxIso;
 
-    const label = svg('text', {
-      class: 'gantt-label', x: padL - 6, y: y + 3,
-      'text-anchor': 'end', 'font-size': 10,
-    }, e.id.slice(0, e.id.indexOf('-')));
-    label.addEventListener('click', () => focusPra(e.id));
-    root.appendChild(label);
+    if (i % 2 === 1) {
+      root.appendChild(svg('rect', {
+        class: 'gantt-stripe', x: 0, y: rowTop, width: W, height: rowH,
+      }));
+    }
 
     if (e.contradictions.contradicted_by.length) {
-      const dot = svg('circle', { cx: 8, cy: y, r: 3, fill: GANTT.past24 });
+      const dot = svg('circle', { cx: 10, cy: y, r: 3.5, fill: GANTT.past24 });
       dot.appendChild(svg('title', {},
         'A "no records" answer on this request was contradicted by a later production'));
       root.appendChild(dot);
@@ -1118,14 +1129,14 @@ function renderConductGantt(pras, maxIso) {
 
     root.appendChild(svg('line', {
       x1: x(e.filed_date), x2: x(endIso), y1: y, y2: y,
-      stroke: trackColor(e.status), 'stroke-width': 2, opacity: 0.55,
+      stroke: trackColor(e.status), 'stroke-width': 3, opacity: 0.65,
     }));
 
     const tenIso = new Date((isoToDays(e.filed_date) + 10) * 86400000)
       .toISOString().slice(0, 10);
     if (tenIso <= maxIso) {
       root.appendChild(svg('line', {
-        x1: x(tenIso), x2: x(tenIso), y1: y - 4, y2: y + 4,
+        x1: x(tenIso), x2: x(tenIso), y1: y - 5, y2: y + 5,
         stroke: GANTT.tick10day, 'stroke-width': 1,
       }));
     }
@@ -1133,22 +1144,22 @@ function renderConductGantt(pras, maxIso) {
     for (const p of e.promises.dates) {
       if (p > maxIso) continue;
       root.appendChild(svg('rect', {
-        x: x(p) - 1, y: y - 3, width: 2, height: 6,
-        fill: GANTT.promise, opacity: 0.8,
+        x: x(p) - 1, y: y - 4, width: 2, height: 8,
+        fill: GANTT.promise, opacity: 0.85,
       }));
     }
 
     for (const d of e.production.dates) {
       root.appendChild(svg('line', {
-        x1: x(d), x2: x(d), y1: y - 4, y2: y + 4,
-        stroke: GANTT.production, 'stroke-width': 1.5,
+        x1: x(d), x2: x(d), y1: y - 5, y2: y + 5,
+        stroke: GANTT.production, 'stroke-width': 2,
       }));
     }
 
     if (e.corpus_routing) {
       root.appendChild(svg('text', {
-        x: x(e.corpus_routing.first_date) - 3, y: y + 3,
-        fill: GANTT.corpus, 'font-size': 9, 'font-weight': 700,
+        x: x(e.corpus_routing.first_date) - 3.5, y: y + 3.5,
+        fill: GANTT.corpus, 'font-size': 10, 'font-weight': 700,
       }, '✕'));
     }
 
@@ -1157,23 +1168,34 @@ function renderConductGantt(pras, maxIso) {
       const color = fr.past_24day ? GANTT.past24
         : fr.past_10day ? GANTT.past10 : GANTT.within10;
       root.appendChild(svg('circle', {
-        cx: x(fr.date), cy: y, r: 3, fill: color,
+        cx: x(fr.date), cy: y, r: 3.5, fill: color,
         stroke: '#0f172a', 'stroke-width': 0.75,
       }));
     }
 
     if ((e.status === 'closed' || e.status === 'withdrawn') && e.closed_date) {
       root.appendChild(svg('rect', {
-        x: x(e.closed_date) - 2, y: y - 2, width: 4, height: 4,
+        x: x(e.closed_date) - 2.5, y: y - 2.5, width: 5, height: 5,
         fill: trackColor(e.status),
       }));
     }
 
+    // Label goes last so nothing overlaps it; the hover rect starts at padL
+    // so it never intercepts label clicks or the gutter dot's tooltip.
+    const label = svg('text', {
+      class: 'gantt-label', x: padL - 6, y: y + 3.5,
+      'text-anchor': 'end', 'font-size': 11,
+    }, e.id.slice(0, e.id.indexOf('-')));
+    label.appendChild(svg('title', {}, `Open the ${e.id} card`));
+    label.addEventListener('click', () => focusPra(e.id));
+    root.appendChild(label);
+
     const hover = svg('rect', {
-      x: 0, y: padT + i * rowH, width: W, height: rowH,
-      fill: 'transparent',
+      class: 'gantt-hover',
+      x: padL, y: rowTop, width: W - padL - padR, height: rowH,
     });
     hover.appendChild(svg('title', {}, conductTooltip(e)));
+    hover.addEventListener('click', () => focusPra(e.id));
     root.appendChild(hover);
   });
 
@@ -1258,9 +1280,14 @@ function renderConduct() {
     lists.appendChild(el('h4', {}, 'Withholding authorities invoked'));
     const ul = el('ul', {});
     for (const ex of agg.exemption_tally) {
-      ul.appendChild(el('li', {},
+      const li = el('li', {},
         `${ex.label} — ${ex.pra_count} request${ex.pra_count === 1 ? '' : 's'}` +
-        ` (first ${ex.first_cited})`));
+        ` (first ${ex.first_cited}): `);
+      (ex.pras || []).forEach((id, i) => {
+        if (i) li.appendChild(document.createTextNode(', '));
+        li.appendChild(praLink(id));
+      });
+      ul.appendChild(li);
     }
     lists.appendChild(ul);
   }

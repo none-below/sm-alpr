@@ -325,9 +325,12 @@ def aggregate(entries):
     tally = {}
     for e in entries:
         for ex in e["exemptions"]:
-            t = tally.setdefault(ex["key"], {"pra_count": 0, "first_cited": ex["first_cited"]})
+            t = tally.setdefault(
+                ex["key"],
+                {"pra_count": 0, "first_cited": ex["first_cited"], "pras": []})
             t["pra_count"] += 1
             t["first_cited"] = min(t["first_cited"], ex["first_cited"])
+            t["pras"].append(e["id"])
     return {
         "pra_count": len(entries),
         "first_response": {
@@ -419,7 +422,10 @@ def to_markdown(ledger):
                      for c in agg["contradicted_denials"]) or "none"),
     ]
     for ex in agg["exemption_tally"]:
-        lines.append(f"- {ex['label']}: {ex['pra_count']} PRAs (first {ex['first_cited']})")
+        lines.append(
+            f"- {ex['label']}: {ex['pra_count']} PRA"
+            f"{'s' if ex['pra_count'] != 1 else ''} "
+            f"(first {ex['first_cited']}) — {', '.join(ex['pras'])}")
     return "\n".join(lines)
 
 
