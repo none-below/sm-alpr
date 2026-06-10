@@ -95,9 +95,10 @@ pra-ocr: ## Generate OCR sidecars for new PRA PDFs
 pra-init: ## Seed stub metadata.json for new W-folders (no overwrite)
 	uv run python scripts/build_pra_registry.py --init
 
-pra-build: ## Regenerate docs/data/pra_registry.json and pra_productivity.json
+pra-build: ## Regenerate docs/data/pra_registry.json, pra_productivity.json, pra_ledger.json
 	uv run python scripts/build_pra_registry.py
 	uv run python scripts/build_pra_productivity.py
+	uv run python scripts/build_pra_ledger.py
 
 serve: ## Serve docs/ locally on http://127.0.0.1:8765
 	cd docs && python3 -m http.server 8765 --bind 127.0.0.1
@@ -107,7 +108,8 @@ serve-public: ## Serve docs/ on all interfaces (LAN-visible)
 
 clean: ## Remove generated site/data + PRA artifacts
 	rm -f $(BUILD_FILES) $(BUILD_STAMP) \
-	      docs/data/pra_registry.json docs/data/pra_productivity.json
+	      docs/data/pra_registry.json docs/data/pra_productivity.json \
+	      docs/data/pra_ledger.json
 	rm -rf $(BUILD_DIRS)
 	@echo "Removed generated artifacts. 'make build' rebuilds the site/data;"
 	@echo "'make pra-build' rebuilds the PRA registry."

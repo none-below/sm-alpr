@@ -368,6 +368,62 @@
     border-left: 2px solid #475569;
     border-radius: 4px;
   }
+  .conduct-gantt {
+    width: 100%;
+    overflow-x: auto;
+    margin: 10px 0 4px;
+  }
+  .conduct-gantt svg {
+    width: 100%;
+    height: auto;
+    min-width: 720px;
+    display: block;
+  }
+  .conduct-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 8px 0 2px;
+  }
+  .conduct-legend .swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 4px;
+    vertical-align: -1px;
+  }
+  .conduct-list {
+    font-size: 13px;
+    color: #cbd5e1;
+    margin: 10px 0 0;
+  }
+  .conduct-list h4 {
+    margin: 12px 0 4px;
+    font-size: 12.5px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .conduct-list ul {
+    margin: 4px 0;
+    padding-left: 20px;
+  }
+  .conduct-list li { margin: 3px 0; }
+  .conduct-notes {
+    font-size: 11.5px;
+    color: #64748b;
+    margin-top: 12px;
+    padding-left: 20px;
+  }
+  .conduct-notes li { margin: 2px 0; }
+  .gantt-label { cursor: pointer; fill: #94a3b8; }
+  .gantt-label:hover { fill: #f8fafc; text-decoration: underline; }
+  .gantt-axis { fill: #64748b; font-size: 9px; }
+  .gantt-grid { stroke: #334155; stroke-width: 0.5; }
   .productivity-table {
     width: 100%;
     border-collapse: collapse;
@@ -979,6 +1035,7 @@
   </div>
   <div class="status-summary" id="summary"></div>
   <details class="productivity" id="productivity"></details>
+  <details class="productivity" id="conduct"></details>
   <div id="cards"></div>
 </main>
 <script data-goatcounter="https://none-below.goatcounter.com/count"
