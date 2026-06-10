@@ -3393,31 +3393,6 @@
     ]
   },
   {
-    "agency_id": "e9102040-1c83-54e5-a587-16d260a1314a",
-    "slug": "lawnside-nj-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Lawnside NJ PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "3439420",
-      "name": "Lawnside",
-      "state": "NJ",
-      "lat": 39.867308,
-      "lng": -75.028903
-    }
-  },
-  {
     "agency_id": "0d0c9d09-e1fe-5f74-9c7c-0fa048f5e15d",
     "slug": "lebanon-mo-pd",
     "flock_active_slug": "lebanon-mo-pd",
@@ -4184,31 +4159,6 @@
       "lng": -118.133165
     },
     "flags": []
-  },
-  {
-    "agency_id": "851c3b4c-8ace-58d5-b519-6a5965882cfa",
-    "slug": "morgan-county-oh-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Morgan County OH SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "39115",
-      "name": "Morgan",
-      "state": "OH",
-      "lat": 39.624946,
-      "lng": -81.861697
-    }
   },
   {
     "agency_id": "9a214b33-798d-5cdd-a431-85742e891e5f",
@@ -7333,31 +7283,6 @@
     ]
   },
   {
-    "agency_id": "8ac7fa77-b5f7-5dcb-ad8a-ceb535542200",
-    "slug": "westampton-township-nj-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Westampton Township NJ PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "cousub",
-      "fips": "3400578200",
-      "name": "Westampton",
-      "state": "NJ",
-      "lat": 40.016732,
-      "lng": -74.820906
-    }
-  },
-  {
     "agency_id": "e1c69fca-7a58-547f-87ff-5fcb9e5ec3dc",
     "slug": "westminster-ca-pd",
     "flock_active_slug": "westminster-ca-pd",
@@ -7659,6 +7584,81 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "e9102040-1c83-54e5-a587-16d260a1314a",
+    "slug": "lawnside-nj-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Lawnside NJ PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3439420",
+      "name": "Lawnside",
+      "state": "NJ",
+      "lat": 39.867308,
+      "lng": -75.028903
+    }
+  },
+  {
+    "agency_id": "851c3b4c-8ace-58d5-b519-6a5965882cfa",
+    "slug": "morgan-county-oh-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Morgan County OH SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "39115",
+      "name": "Morgan",
+      "state": "OH",
+      "lat": 39.624946,
+      "lng": -81.861697
+    }
+  },
+  {
+    "agency_id": "8ac7fa77-b5f7-5dcb-ad8a-ceb535542200",
+    "slug": "westampton-township-nj-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Westampton Township NJ PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "3400578200",
+      "name": "Westampton",
+      "state": "NJ",
+      "lat": 40.016732,
+      "lng": -74.820906
+    }
   },
   {
     "agency_id": "105c1caf-451b-54b4-a721-2542abc748c7",
