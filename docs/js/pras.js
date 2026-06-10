@@ -1122,7 +1122,7 @@ function renderConductGantt(pras, maxIso) {
     if (e.contradictions.contradicted_by.length) {
       const dot = svg('circle', { cx: 10, cy: y, r: 3.5, fill: GANTT.past24 });
       dot.appendChild(svg('title', {},
-        'A "no records" answer on this request was contradicted by a later production'));
+        'A denial on this request was contradicted by the Department’s own production under another request'));
       root.appendChild(dot);
     }
 
@@ -1245,7 +1245,7 @@ function renderConduct() {
     `  · ${fr.past_10day} of ${responded} first responses past the 10-day window` +
     ` · ${agg.extensions_total} promised-date extensions adding ${agg.slip_days_total} days` +
     ` · ${agg.corpus_routed.length} requests routed into the W012462 email corpus` +
-    ` · ${agg.contradicted_denials.length} "no records" answers contradicted by later productions`));
+    ` · ${agg.contradicted_denials.length} denials contradicted by the Department's own productions`));
   summary.appendChild(el('span', { class: 'blurb' },
     'Each request’s processing timeline, reported against the CPRA’s ' +
     '10-day determination window (Gov. Code § 7922.535). Click a request ID ' +
@@ -1260,12 +1260,12 @@ function renderConduct() {
   const lists = el('div', { class: 'conduct-list' });
 
   if (agg.contradicted_denials.length) {
-    lists.appendChild(el('h4', {}, 'Denials contradicted by later production'));
+    lists.appendChild(el('h4', {}, 'Denials contradicted by the Department’s own productions'));
     const ul = el('ul', {});
     for (const c of agg.contradicted_denials) {
       const li = el('li', {});
       li.appendChild(praLink(c.id));
-      li.appendChild(document.createTextNode(' answered "no records" — later production under '));
+      li.appendChild(document.createTextNode(' — contradicted by production under '));
       c.contradicted_by.forEach((ref, i) => {
         if (i) li.appendChild(document.createTextNode(', '));
         li.appendChild(praLink(ref));
