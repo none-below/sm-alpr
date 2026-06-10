@@ -536,33 +536,6 @@
     ]
   },
   {
-    "agency_id": "cf3cd038-b96c-56f6-9fa2-fc41c2bb0a7c",
-    "slug": "avon-oh-pd-inactive",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Avon OH PD [inactive]"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [
-      "inactive"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "3903352",
-      "name": "Avon",
-      "state": "OH",
-      "lat": 41.4451,
-      "lng": -82.005109
-    }
-  },
-  {
     "agency_id": "dcfedabb-a49f-55a6-9f9f-eae5283c92ef",
     "slug": "bakersfield-ca-pd",
     "flock_active_slug": "bakersfield-ca-pd",
@@ -6947,31 +6920,6 @@
     ]
   },
   {
-    "agency_id": "d833098d-8e86-5dd7-ab3d-1bae835f31d9",
-    "slug": "tx-waskom-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "TX - Waskom PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "4876636",
-      "name": "Waskom",
-      "state": "TX",
-      "lat": 32.47663,
-      "lng": -94.064559
-    }
-  },
-  {
     "agency_id": "7f5089e9-3b53-5442-b628-865e85940409",
     "slug": "union-city-ca-pd",
     "flock_active_slug": "union-city-ca-pd",
@@ -7093,31 +7041,6 @@
     "ori": [
       "CA0560000"
     ]
-  },
-  {
-    "agency_id": "f3ff762c-8a98-50e1-9bdb-90a45ff14984",
-    "slug": "vermilion-parish-la-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Vermilion Parish LA SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "22113",
-      "name": "Vermilion",
-      "state": "LA",
-      "lat": 29.806638,
-      "lng": -92.321394
-    }
   },
   {
     "agency_id": "e6d3f4c0-575b-5bc5-86d4-939b2cd50a3f",
@@ -7661,6 +7584,83 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "cf3cd038-b96c-56f6-9fa2-fc41c2bb0a7c",
+    "slug": "avon-oh-pd-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Avon OH PD [inactive]"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "3903352",
+      "name": "Avon",
+      "state": "OH",
+      "lat": 41.4451,
+      "lng": -82.005109
+    }
+  },
+  {
+    "agency_id": "d833098d-8e86-5dd7-ab3d-1bae835f31d9",
+    "slug": "tx-waskom-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "TX - Waskom PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4876636",
+      "name": "Waskom",
+      "state": "TX",
+      "lat": 32.47663,
+      "lng": -94.064559
+    }
+  },
+  {
+    "agency_id": "f3ff762c-8a98-50e1-9bdb-90a45ff14984",
+    "slug": "vermilion-parish-la-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Vermilion Parish LA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "22113",
+      "name": "Vermilion",
+      "state": "LA",
+      "lat": 29.806638,
+      "lng": -92.321394
+    }
   },
   {
     "agency_id": "51b245e3-0dc7-560d-9493-af6bc967c46b",
