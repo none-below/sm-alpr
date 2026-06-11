@@ -1742,26 +1742,6 @@
     ]
   },
   {
-    "agency_id": "5b1daea9-ac4e-50ac-bd09-ccbbb9716c62",
-    "slug": "corinth-city-marshal-inactive",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Corinth City Marshal [inactive]"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [
-      "inactive"
-    ],
-    "geo": null
-  },
-  {
     "agency_id": "d08c0756-3527-5f74-a605-2a6f1d65af2c",
     "slug": "coronado-ca-pd",
     "flock_active_slug": "coronado-ca-pd",
@@ -5349,6 +5329,27 @@
     ]
   },
   {
+    "agency_id": "03e33852-8173-5c02-acb9-f1acace99988",
+    "slug": "port-of-oakland-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Port Of Oakland (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
+  },
+  {
     "agency_id": "50358086-9549-58ba-ab96-bb6984cd6ab0",
     "slug": "port-of-stockton-ca-pd",
     "flock_active_slug": "port-of-stockton-ca-pd",
@@ -7604,6 +7605,26 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "5b1daea9-ac4e-50ac-bd09-ccbbb9716c62",
+    "slug": "corinth-city-marshal-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Corinth City Marshal [inactive]"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": null
   },
   {
     "agency_id": "cf3cd038-b96c-56f6-9fa2-fc41c2bb0a7c",
