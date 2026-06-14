@@ -1,0 +1,835 @@
+<!DOCTYPE html><html lang="en" data-color-scheme="dark"><head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>This Company Will Add Phone, AirPod, and Smartwatch Trackers to License Plate Readers</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+    <link rel="manifest" href="https://www.404media.co/assets/manifest.webmanifest?v=0eb389d701">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="preload" href="https://www.404media.co/assets/dist/app.min.js?v=0eb389d701" as="script">
+    <link rel="preload" href="https://www.404media.co/assets/dist/app.min.css?v=0eb389d701" as="style">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    <script id="ctx-loader" src="https://assets.context.ly/kit/6.latest/loader.js"></script><script>
+  // ===============
+  // Basic Config
+  // ===============
+  let config = {
+    color_scheme_default: `Dark`,
+    enable_progress_bar: !!`true`,
+    enable_image_lightbox: !!`true`,
+    open_links_in_new_tab: !!`true`,
+    enable_hyphens: false, /* Enable hyphens */
+    enable_pwa: false, /* Enable PWA - Progressive Web App */
+    disqus_shortname: 'biron-demo', /* Replace 'biron-demo' with your disqus account shortname */
+  }
+
+  // =========================
+  // Dark/Light Theme Handling
+  // =========================
+  let preferredTheme; 
+  if (config.color_scheme_default.toLowerCase() === 'system') {
+    const preferredColorScheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || preferredColorScheme;
+  } else {
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || config.color_scheme_default.toLowerCase();
+  }
+  document.documentElement.setAttribute("data-color-scheme", preferredTheme);
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  const root = document.documentElement;
+  if (config.enable_hyphens) {
+    root.style.setProperty('--global-hyphens', 'auto')
+  }
+  
+  // ===============================
+  // Global values used in the theme
+  // ===============================
+  const global = {
+    pagination_current_page: parseInt(``),
+    pagination_next_page: parseInt(``),
+    pagination_next_page_link: '',
+    pagination_max_pages: parseInt(''), 
+    pagination_posts_per_page: parseInt('12'),
+  }
+</script>
+
+    <link rel="stylesheet" type="text/css" href="https://www.404media.co/assets/dist/app.min.css?v=0eb389d701">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700" rel="stylesheet">
+    </noscript>
+    <style>
+      body {
+        --font-family-accent: 'Space Mono';
+        --font-family-body: 'Inter';
+        --font-family-headline: 'Space Grotesk';
+        --font-family-monospace: 'Space Mono';
+      }
+    </style>
+
+    <script async="" defer="" src="https://www.404media.co/assets/dist/app.min.js?v=0eb389d701"></script>
+
+    <meta name="description" content="SignalTrace “links devices that regularly travel together, correlating them to license plate.” It is a surveillance product that will sweep up and add all sorts of Bluetooth and other data to license plate readers, linking specific devices—and people—to cars.">
+    <link rel="icon" href="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w256h256/format/png/2023/08/favicon-3.svg" type="image/png">
+    <link rel="canonical" href="https://www.404media.co/this-company-will-add-phone-airpod-and-smartwatch-trackers-to-license-plate-readers/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="404 Media">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="This Company Will Add Phone, AirPod, and Smartwatch Trackers to License Plate Readers">
+    <meta property="og:description" content="SignalTrace “links devices that regularly travel together, correlating them to license plate.” It is a surveillance product that will sweep up and add all sorts of Bluetooth and other data to license plate readers, linking specific devices—and people—to cars.">
+    <meta property="og:url" content="https://www.404media.co/this-company-will-add-phone-airpod-and-smartwatch-trackers-to-license-plate-readers/">
+    <meta property="og:image" content="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1200/2026/06/signaltrace-art.png">
+    <meta property="article:published_time" content="2026-06-08T19:08:01.000Z">
+    <meta property="article:modified_time" content="2026-06-09T00:41:30.000Z">
+    <meta property="article:tag" content="Privacy">
+    <meta property="article:tag" content="News">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/404mediaco">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="This Company Will Add Phone, AirPod, and Smartwatch Trackers to License Plate Readers">
+    <meta name="twitter:description" content="SignalTrace “links devices that regularly travel together, correlating them to license plate.” It is a surveillance product that will sweep up and add all sorts of Bluetooth and other data to license plate readers, linking specific devices—and people—to cars.">
+    <meta name="twitter:url" content="https://www.404media.co/this-company-will-add-phone-airpod-and-smartwatch-trackers-to-license-plate-readers/">
+    <meta name="twitter:image" content="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1200/2026/06/signaltrace-art.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Joseph Cox">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Privacy, News">
+    <meta name="twitter:site" content="@404mediaco">
+    <meta name="twitter:creator" content="@josephfcox">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="792">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "404 Media",
+        "url": "https://www.404media.co/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/2023/08/Logo-Color-on-White@24x.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Joseph Cox",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1200/2023/08/404-joseph-01-1.jpg",
+            "width": 1200,
+            "height": 1199
+        },
+        "url": "https://www.404media.co/author/joseph-cox/",
+        "sameAs": [
+            "https://x.com/josephfcox"
+        ]
+    },
+    "headline": "This Company Will Add Phone, AirPod, and Smartwatch Trackers to License Plate Readers",
+    "url": "https://www.404media.co/this-company-will-add-phone-airpod-and-smartwatch-trackers-to-license-plate-readers/",
+    "datePublished": "2026-06-08T19:08:01.000Z",
+    "dateModified": "2026-06-09T00:41:30.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1200/2026/06/signaltrace-art.png",
+        "width": 1200,
+        "height": 792
+    },
+    "keywords": "Privacy, News",
+    "description": "SignalTrace “links devices that regularly travel together, correlating them to license plate.” It is a surveillance product that will sweep up and add all sorts of Bluetooth and other data to license plate readers, linking specific devices—and people—to cars.",
+    "mainEntityOfPage": "https://www.404media.co/this-company-will-add-phone-airpod-and-smartwatch-trackers-to-license-plate-readers/"
+}
+    </script>
+
+    <meta name="generator" content="Ghost 6.44">
+    <link rel="alternate" type="application/rss+xml" title="404 Media" href="https://www.404media.co/rss/">
+    <script defer="" src="https://cdn.jsdelivr.net/ghost/portal@~2.68/umd/portal.min.js" data-i18n="true" data-ghost="https://www.404media.co/" data-key="0e2aa0e707c0eb7082f8f3d13b" data-api="https://404-media.ghost.io/ghost/api/content/" data-locale="en" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style><script async="" src="https://js.stripe.com/v3/"></script>
+    <script defer="" src="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/sodo-search.min.js" data-key="0e2aa0e707c0eb7082f8f3d13b" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css" data-sodo-search="https://404-media.ghost.io/" data-locale="en" crossorigin="anonymous"></script>
+    <script defer="" src="https://cdn.jsdelivr.net/ghost/announcement-bar@~1.1/umd/announcement-bar.min.js" data-announcement-bar="https://www.404media.co/" data-api-url="https://www.404media.co/members/api/announcement/" crossorigin="anonymous"></script>
+    <link href="https://www.404media.co/webmentions/receive/" rel="webmention">
+    <script defer="" src="/public/cards.min.js?v=0eb389d701"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=0eb389d701">
+    <script defer="" src="/public/comment-counts.min.js?v=0eb389d701" data-ghost-comments-counts-api="https://www.404media.co/members/api/comments/counts/"></script>
+    <script defer="" src="/public/member-attribution.min.js?v=0eb389d701"></script>
+    <script defer="" src="/public/ghost-stats.min.js?v=0eb389d701" data-stringify-payload="false" data-datasource="analytics_events" data-storage="localStorage" data-host="https://www.404media.co/.ghost/analytics/api/v1/page_hit" tb_site_uuid="0f76b548-bc58-4f25-abc3-3f5ebca07da4" tb_post_uuid="c7db2678-7f21-4019-9560-30fcbb40064e" tb_post_type="post" tb_member_uuid="undefined" tb_member_status="undefined"></script><style>:root {--ghost-accent-color: #45B003;}</style>
+    <meta name="robots" content="max-image-preview:standard">
+<script defer="" data-domain="www.404media.co" src="https://plausible.io/js/script.hash.outbound-links.js"></script>
+
+  <style class="fslightbox-styles">.fslightbox-absoluted{position:absolute;top:0;left:0}.fslightbox-fade-in{animation:fslightbox-fade-in .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out{animation:fslightbox-fade-out .3s ease}.fslightbox-fade-in-strong{animation:fslightbox-fade-in-strong .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out-strong{animation:fslightbox-fade-out-strong .3s ease}@keyframes fslightbox-fade-in{from{opacity:.65}to{opacity:1}}@keyframes fslightbox-fade-out{from{opacity:.35}to{opacity:0}}@keyframes fslightbox-fade-in-strong{from{opacity:.3}to{opacity:1}}@keyframes fslightbox-fade-out-strong{from{opacity:1}to{opacity:0}}.fslightbox-cursor-grabbing{cursor:grabbing}.fslightbox-full-dimension{width:100%;height:100%}.fslightbox-open{overflow:hidden;height:100%}.fslightbox-flex-centered{display:flex;justify-content:center;align-items:center}.fslightbox-opacity-0{opacity:0!important}.fslightbox-opacity-1{opacity:1!important}.fslightbox-scrollbarfix{padding-right:17px}.fslightbox-transform-transition{transition:transform .3s}.fslightbox-container{font-family:Arial,sans-serif;position:fixed;top:0;left:0;background:linear-gradient(rgba(30,30,30,.9),#000 1810%);touch-action:pinch-zoom;z-index:1000000000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}.fslightbox-container *{box-sizing:border-box}.fslightbox-svg-path{transition:fill .15s ease;fill:#ddd}.fslightbox-nav{height:45px;width:100%;position:absolute;top:0;left:0}.fslightbox-slide-number-container{display:flex;justify-content:center;align-items:center;position:relative;height:100%;font-size:15px;color:#d7d7d7;z-index:0;max-width:55px;text-align:left}.fslightbox-slide-number-container .fslightbox-flex-centered{height:100%}.fslightbox-slash{display:block;margin:0 5px;width:1px;height:12px;transform:rotate(15deg);background:#fff}.fslightbox-toolbar{position:absolute;z-index:3;right:0;top:0;height:100%;display:flex;background:rgba(35,35,35,.65)}.fslightbox-toolbar-button{height:100%;width:45px;cursor:pointer}.fslightbox-toolbar-button:hover .fslightbox-svg-path{fill:#fff}.fslightbox-slide-btn-container{display:flex;align-items:center;padding:12px 12px 12px 6px;position:absolute;top:50%;cursor:pointer;z-index:3;transform:translateY(-50%)}@media (min-width:476px){.fslightbox-slide-btn-container{padding:22px 22px 22px 6px}}@media (min-width:768px){.fslightbox-slide-btn-container{padding:30px 30px 30px 6px}}.fslightbox-slide-btn-container:hover .fslightbox-svg-path{fill:#f1f1f1}.fslightbox-slide-btn{padding:9px;font-size:26px;background:rgba(35,35,35,.65)}@media (min-width:768px){.fslightbox-slide-btn{padding:10px}}@media (min-width:1600px){.fslightbox-slide-btn{padding:11px}}.fslightbox-slide-btn-container-previous{left:0}@media (max-width:475.99px){.fslightbox-slide-btn-container-previous{padding-left:3px}}.fslightbox-slide-btn-container-next{right:0;padding-left:12px;padding-right:3px}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-left:22px}}@media (min-width:768px){.fslightbox-slide-btn-container-next{padding-left:30px}}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-right:6px}}.fslightbox-down-event-detector{position:absolute;z-index:1}.fslightbox-slide-swiping-hoverer{z-index:4}.fslightbox-invalid-file-wrapper{font-size:22px;color:#eaebeb;margin:auto}.fslightbox-video{object-fit:cover}.fslightbox-youtube-iframe{border:0}.fslightboxl{display:block;margin:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:67px;height:67px}.fslightboxl div{box-sizing:border-box;display:block;position:absolute;width:54px;height:54px;margin:6px;border:5px solid;border-color:#999 transparent transparent transparent;border-radius:50%;animation:fslightboxl 1.2s cubic-bezier(.5,0,.5,1) infinite}.fslightboxl div:nth-child(1){animation-delay:-.45s}.fslightboxl div:nth-child(2){animation-delay:-.3s}.fslightboxl div:nth-child(3){animation-delay:-.15s}@keyframes fslightboxl{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.fslightbox-source{position:relative;z-index:2;opacity:0}</style><style>.App{text-align:center}.App-logo{height:40vmin;pointer-events:none}@media(prefers-reduced-motion:no-preference){.App-logo{animation:App-logo-spin infinite 20s linear}}.App-header{background-color:#282c34;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:calc(10px + 2vmin);color:#fff}.App-link{color:#61dafb}@keyframes App-logo-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+/*$vite$:1*/</style><style>.gh-announcement-bar,.gh-announcement-bar *{box-sizing:border-box!important}.gh-announcement-bar{position:relative;z-index:90;display:flex;align-items:center;justify-content:center;padding:12px 48px;min-height:48px;font-size:15px;line-height:23px;text-align:center}.gh-announcement-bar.light{background-color:#f0f0f0;color:#15171a}.gh-announcement-bar.accent{background-color:var(--ghost-accent-color);color:#fff}.gh-announcement-bar.dark{background-color:#15171a;color:#fff}.gh-announcement-bar *:not(path){all:unset}.gh-announcement-bar strong{font-weight:700}.gh-announcement-bar :is(i,em){font-style:italic}.gh-announcement-bar a{color:#fff;font-weight:700;text-decoration:underline;cursor:pointer}.gh-announcement-bar.light a{color:var(--ghost-accent-color)!important}.gh-announcement-bar button{position:absolute;top:50%;right:8px;display:flex;align-items:center;justify-content:center;margin-top:-16px;width:32px;height:32px;padding:0;background-color:transparent;border:0;color:#fff;cursor:pointer}.gh-announcement-bar.light button{color:#888}.gh-announcement-bar svg{width:10px;height:10px;fill:currentColor}
+/*$vite$:1*/</style><script id="_monetization_js" type="text/javascript" src="//m.servedby-buysellads.com/monetization.js" async=""></script><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></head>
+
+  <body class="post-template tag-privacy tag-news post tag-privacy tag-news featured" data-user="visitor"><div id="announcement-bar-root"></div>
+
+
+    <div class="menu" id="menu">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 is-flex end-xs">
+        <a tabindex="0" class="menu--close" id="menu-close">
+          <i class="icon icon-x icon--lg">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=0eb389d701#x"></use>
+  </svg>
+</i>        </a>
+      </div>
+      <div class="col-xs-12">
+          <div class="menu__section">
+            <h6 class="menu__heading">Account</h6>
+              <ul>
+                <li><a href="/signin/" data-portal="signin" class="gh-portal-close">Log in</a></li>
+                <li><a href="/signup/" data-portal="signup" class="gh-portal-close">Subscribe</a></li>
+              </ul>
+          </div>
+        <div class="menu__section">
+          <h6 class="menu__heading">Navigation</h6>
+          <ul class="nav">
+            <li class="nav-home"><a href="https://www.404media.co">Home</a></li>
+          </ul>
+          <ul class="nav">
+    <li class="nav-about"><a href="https://www.404media.co/about/">About</a></li>
+    <li class="nav-rss"><a href="https://www.404media.co/404-media-now-has-a-full-text-rss-feed/">RSS</a></li>
+    <li class="nav-support-faq"><a href="https://www.404media.co/faq/">Support/FAQ</a></li>
+    <li class="nav-podcast"><a href="https://www.404media.co/the-404-media-podcast/">Podcast</a></li>
+    <li class="nav-foia-forum-archive"><a href="https://www.404media.co/foia-forum-archive/">FOIA Forum Archive</a></li>
+    <li class="nav-merch"><a href="https://404media.myshopify.com/">Merch</a></li>
+    <li class="nav-advertise"><a href="https://www.404media.co/advertise-with-404-media/">Advertise</a></li>
+    <li class="nav-thanks"><a href="https://www.404media.co/thank-yous/">Thanks</a></li>
+    <li class="nav-privacy"><a href="https://www.404media.co/privacy-policy/">Privacy</a></li>
+</ul>
+
+        </div>
+        <div class="menu__section">
+          <h6 class="menu__heading">Follow us</h6>
+          <div class="social-links">
+  <a class="social-links__item twitter" href="https://x.com/404mediaco" target="_blank" title="Twitter" aria-label="Twitter">Twitter</a>
+  <a class="social-links__item bluesky" href="https://bsky.app/profile/404media.co" target="_blank" title="Bluesky" aria-label="Bluesky">Bluesky</a>
+  <a class="social-links__item mastodon" href="https://mastodon.social/@404mediaco" target="_blank" title="Mastodon" aria-label="Mastodon" rel="me">Mastodon</a>
+  <a class="social-links__item instagram" href="https://instagram.com/404mediaco" target="_blank" title="Instagram" aria-label="Instagram">Instagram</a>
+  <a class="social-links__item tiktok" href="https://tiktok.com/@404.media" target="_blank" title="TikTok" aria-label="TikTok">TikTok</a>
+  <a class="social-links__item facebook" href="https://www.facebook.com/404mediaco" target="_blank" title="Facebook" aria-label="Facebook">Facebook</a>
+  <a class="social-links__item rss" href="/rss" target="_blank" title="RSS" aria-label="RSS">RSS</a>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <header class="header">
+  <div id="progress"></div>
+  <div class="header__top">
+    <div class="container-fluid wrapper">
+      <div class="row">
+        <div class="col-xs-3 col-md-4 middle-xs is-flex">
+          <div class="header__search">
+            <a class="header__search--open" data-ghost-search="" tabindex="0" title="Search" aria-label="Search">
+              <i class="icon icon-search icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=0eb389d701#search"></use>
+  </svg>
+</i>            </a>
+          </div>
+          
+          <div class="header__theme">
+            <a class="header__theme--toggle" id="theme-dark" tabindex="0" title="Dark Theme" aria-label="Dark Theme">
+              <i class="icon icon-moon icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=0eb389d701#moon"></use>
+  </svg>
+</i>            </a>
+            <a class="header__theme--toggle" id="theme-light" tabindex="0" title="Light Theme" aria-label="Light Theme">
+              <i class="icon icon-sun icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=0eb389d701#sun"></use>
+  </svg>
+</i>            </a>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-md-4 center-xs">
+          <div class="header__brand flex-cc">
+            <a class="header__logo" href="https://www.404media.co">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118.89 37.86">
+                  <path class="header__logo-text" d="M25.6,.73h13.52l-5,22.98h4.68v6.55h-6.12l-1.49,6.86h-7.03l1.49-6.86H9.47v-9.67L25.6,.73ZM15.38,22.78v.94h11.71L31.35,4.16h-.96L15.38,22.78Z"></path>
+                  <path class="header__logo-text" d="M44.92,14.87c1.1-5.13,2.94-8.89,5.51-11.28s6.11-3.59,10.62-3.59c1.88,0,3.55,.29,5,.86,1.46,.57,2.68,1.37,3.67,2.39s1.75,2.23,2.26,3.61c.51,1.39,.77,2.88,.77,4.47,0,.59-.03,1.18-.08,1.77-.05,.59-.15,1.18-.29,1.77l-1.76,8.11c-1.1,5.13-2.94,8.89-5.51,11.28-2.57,2.39-6.11,3.59-10.62,3.59-1.88,0-3.55-.29-5-.86s-2.68-1.37-3.67-2.39c-.99-1.02-1.75-2.22-2.26-3.59-.51-1.37-.77-2.87-.77-4.5,0-.59,.03-1.18,.08-1.77,.05-.59,.15-1.18,.29-1.77l1.76-8.11Zm10.22,16.74c1.21,0,2.27-.22,3.19-.65,.92-.43,1.73-1.01,2.42-1.74,.69-.73,1.26-1.59,1.7-2.6,.44-1,.79-2.08,1.04-3.22l1.97-8.94c.11-.55,.19-1.03,.24-1.43,.05-.4,.08-.79,.08-1.17,0-1.77-.47-3.15-1.41-4.13-.94-.99-2.26-1.48-3.97-1.48-1.21,0-2.27,.22-3.19,.65-.92,.43-1.73,1.01-2.42,1.74-.69,.73-1.26,1.59-1.7,2.6-.44,1.01-.79,2.08-1.04,3.22l-1.97,8.94c-.21,.94-.32,1.8-.32,2.6,0,1.77,.47,3.15,1.41,4.13s2.26,1.48,3.97,1.48Z"></path>
+                  <path class="header__logo-text" d="M90.76,.73h13.52l-5,22.98h4.68v6.55h-6.12l-1.49,6.86h-7.03l1.49-6.86h-16.18v-9.67L90.76,.73Zm-10.22,22.05v.94h11.71l4.26-19.55h-.96l-15.01,18.62Z"></path>
+                  <path class="header__logo-line" d="M1.07,31.42c-.58,.04-1.07-.41-1.07-.99v-.47c0-.23,.07-.46,.22-.64l1.07-1.31c.16-.19,.24-.43,.22-.68l-.27-5.39c0-.5,.36-.93,.86-1,9.83-1.36,104.88-12.17,115.62-13.39,.55-.06,1.03,.33,1.09,.88l.07,.68c.04,.42-.18,.82-.56,1.01l-1.51,.73c-.15,.07-.26,.21-.29,.37l-.8,4.31c-.08,.42-.41,.75-.84,.81C105.82,17.59,12.17,30.56,1.07,31.42Z"></path>
+                  <path class="header__logo-overlap" d="M35.59,16.96c-2.48,.29-4.89,.57-7.21,.84l-1.29,5.92H15.38v-.94l3.08-3.82c-3.2,.38-6.05,.71-8.48,1.01l-.51,.63v9.67h1.88c7.04-.87,16.75-2.14,27.45-3.56v-2.99h-4.68l1.47-6.76Zm59.62-6.84l-2.01,9.22c2.58-.35,5.01-.69,7.24-1l1.97-9.04c-2.24,.25-4.65,.53-7.2,.82Zm-20.58,10.48v1.28c2.54-.35,5.04-.69,7.46-1.02l8.21-10.18c-2.69,.31-5.5,.63-8.39,.96l-7.27,8.96Zm-31.46,2.39c-.14,.59-.24,1.18-.29,1.77-.04,.47-.06,.95-.06,1.42,2.31-.31,4.65-.62,7.01-.94,.05-.58,.12-1.18,.27-1.83l1.83-8.33c-2.43,.28-4.84,.56-7.22,.83l-1.53,7.08Zm22.3-8.53l-1.97,8.93c2.44-.33,4.86-.66,7.26-.99l1.63-7.53c.14-.59,.24-1.18,.29-1.77,.01-.14,0-.28,.02-.42-2.33,.27-4.69,.54-7.06,.81-.05,.29-.1,.6-.17,.96Z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="col-xs-3 col-md-4 end-xs middle-xs is-flex">
+            <div class="header__member">
+              <div class="header__member-options">
+                  <a class="signin-link gh-portal-close" href="/signin/" data-portal="signin">Sign in</a>
+                  <a class="signup-link header-cta gh-portal-close" href="/signup/" data-portal="signup">Subscribe</a>
+              </div>
+            </div>
+          <button id="menu-open" class="header__menu--open hamburger" type="button" title="Menu" aria-label="Menu">
+            <i class="icon icon-menu icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=0eb389d701#menu"></use>
+  </svg>
+</i>          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="header__bottom">
+    <div class="container-fluid wrapper">
+      <nav class="header__nav">
+        <ul class="nav">
+    <li class="nav-about"><a href="https://www.404media.co/about/">About</a></li>
+    <li class="nav-rss"><a href="https://www.404media.co/404-media-now-has-a-full-text-rss-feed/">RSS</a></li>
+    <li class="nav-support-faq"><a href="https://www.404media.co/faq/">Support/FAQ</a></li>
+    <li class="nav-podcast"><a href="https://www.404media.co/the-404-media-podcast/">Podcast</a></li>
+    <li class="nav-foia-forum-archive"><a href="https://www.404media.co/foia-forum-archive/">FOIA Forum Archive</a></li>
+    <li class="nav-merch"><a href="https://404media.myshopify.com/">Merch</a></li>
+    <li class="nav-advertise"><a href="https://www.404media.co/advertise-with-404-media/">Advertise</a></li>
+    <li class="nav-thanks"><a href="https://www.404media.co/thank-yous/">Thanks</a></li>
+    <li class="nav-privacy"><a href="https://www.404media.co/privacy-policy/">Privacy</a></li>
+</ul>
+
+
+      </nav>
+    </div>
+  </div>
+</header>
+    <main class="main">
+      
+  <div class="container-fluid wrapper">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="post-hero">
+      <div class="post-hero__ad">
+        
+
+      <div class="ad ad-leaderboard">
+        <div class="ad__disclaimer">
+          <div class="ad__title">Advertisement</div>
+          <div>•</div>
+          <div class="ad__upsell">
+            <a href="#/portal/signup">Go ad free</a>
+          </div>
+        </div>
+        <div id="bsa-zone_1694817838459-1_123456" class="bsa-standard"></div>
+      </div>
+
+
+      </div>
+  <div class="post-hero__content">
+    <div class="post-hero__header">
+        <a class="tag-privacy post-hero__tag" href="/tag/privacy/" title="Privacy" aria-label="Privacys">Privacy</a>
+      <h1 class="post-hero__title">This Company Will Add Phone, AirPod, and Smartwatch Trackers to License Plate Readers</h1>
+      <div class="byline">
+    <div class="byline__author">
+      <a href="/author/joseph-cox/" title="Joseph Cox">
+          <img class="lazyload byline__author-image entered loading" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w100/2023/08/404-joseph-01-1.jpg" alt="Joseph Cox" src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w100/2023/08/404-joseph-01-1.jpg" data-ll-status="loading">  
+        <span>Joseph Cox</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-06-08" class="byline__date">
+    Jun 8, 2026
+    at 3:08 PM
+  </time>
+</div>    </div>
+    <div class="post-hero__excerpt">SignalTrace “links devices that regularly travel together, correlating them to license plate.” It is a surveillance product that will sweep up and add all sorts of Bluetooth and other data to license plate readers, linking specific devices—and people—to cars.</div>
+  </div>
+    <figure class="post-hero__image">
+      <img class="lazyload entered loading" data-srcset="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w300/2026/06/signaltrace-art.png 300w,
+                https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w600/2026/06/signaltrace-art.png 600w,
+                https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/06/signaltrace-art.png 1000w,
+                https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/06/signaltrace-art.png 2000w" data-sizes="(max-width: 800px) 50vw,
+                (max-width: 1170px) 60vw,
+                1400px" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/06/signaltrace-art.png" src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/06/signaltrace-art.png" alt="This Company Will Add Phone, AirPod, and Smartwatch Trackers to License Plate Readers" data-ll-status="loading" sizes="(max-width: 800px) 50vw,
+                (max-width: 1170px) 60vw,
+                1400px" srcset="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w300/2026/06/signaltrace-art.png 300w,
+                https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w600/2026/06/signaltrace-art.png 600w,
+                https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/06/signaltrace-art.png 1000w,
+                https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/06/signaltrace-art.png 2000w">
+        <figcaption><span style="white-space: pre-wrap;">Images from SignalTrace product here, </span><a href="https://www.documentcloud.org/documents/28215440-signaltrace-us/" rel="noreferrer"><span style="white-space: pre-wrap;">available here</span></a><span style="white-space: pre-wrap;">. Collage by 404 Media.</span></figcaption>
+    </figure>
+</div>      </div>
+      <div class="col-xs-12 col-lg-8 col-xl-9">
+        <article class="post tag-privacy tag-news featured post-access-members has-sidebar">
+          <div class="post__content no-overflow">
+              <div class="post-sneak-peek fading">
+  
+<!--kg-card-begin: html-->
+<div class="outpost-pub-container" data-btn-allmembers=""></div>
+<!--kg-card-end: html-->
+<p>A surveillance company plans to add sensors to automatic license plate readers (ALPRs) that would mean the devices, as well as capture the license plate of passing vehicles, would also sweep up unique identifiers of mobile phones, wearables, and other Bluetooth-enabled devices in those cars, potentially letting law enforcement identify specific drivers or passengers.</p><p>The technology, called SignalTrace, would turn ALPR cameras from devices focused on tracking cars to ones that can more readily track the location of particular people. ALPR cameras have become a commonly deployed technology all across the U.S.; SignalTrace would make some of those cameras capable of collecting much more data.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text"><b><strong style="white-space: pre-wrap;">Do you know anything else about SignalTrace? Do you work for Leonardo? I would love to hear from you. Using a non-work device, you can message me securely on Signal at joseph.404 or send me an email at joseph@404media.co.</strong></b></div></div>
+</div>
+
+<div class="post-access-cta p-lg text-center members">
+  <div class="paid">
+    <h2>This post is for paid members only</h2>
+    <div class="description">Become a paid member for unlimited ad-free access to articles, bonus podcast content, and more.</div>
+    <a class="btn btn--brand m-b-lg" href="/membership/">Subscribe</a>
+  </div>
+  <div class="members">
+    <h2>Sign up for free access to this post</h2>
+    <div class="description">Free members get access to posts like this one along with an email round-up of our week's stories.</div>
+    <a class="btn btn--brand m-b-lg" href="/signup/">Subscribe</a>
+  </div>
+  <div class="sign-in">Already have an account? <a class="post-access-alt gh-portal-close" href="/signin/" data-portal="signin">Sign in</a></div>
+</div>          </div>
+        </article>
+      </div>
+      <div class="col-xs-12 col-lg-4 col-xl-3 has-sidebar">
+        <aside class="sidebar">
+
+    <div class="sidebar__section">
+      <h6 class="sidebar__title">More like this</h6>
+      <div class="sidebar__grid">
+              <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/the-fbi-wants-to-buy-nationwide-access-to-license-plate-readers/" title="The FBI Wants to Buy Nationwide Access to License Plate Readers" aria-label="The FBI Wants to Buy Nationwide Access to License Plate Readers">
+      <img class="lazyload" data-srcset="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w300/2026/05/david-trinks-Vvh_9ooeEZ0-unsplash.jpg 300w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w600/2026/05/david-trinks-Vvh_9ooeEZ0-unsplash.jpg 600w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/05/david-trinks-Vvh_9ooeEZ0-unsplash.jpg 1000w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/05/david-trinks-Vvh_9ooeEZ0-unsplash.jpg 2000w" data-sizes="(max-width: 1000px) 50vw, 700px" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/05/david-trinks-Vvh_9ooeEZ0-unsplash.jpg" src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=0eb389d701" alt="The FBI Wants to Buy Nationwide Access to License Plate Readers">
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/the-fbi-wants-to-buy-nationwide-access-to-license-plate-readers/" title="The FBI Wants to Buy Nationwide Access to License Plate Readers" aria-label="The FBI Wants to Buy Nationwide Access to License Plate Readers">The FBI Wants to Buy Nationwide Access to License Plate Readers</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      Only a couple vendors could likely fulfill what the FBI is after, namely Flock and Motorola.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/joseph-cox/" title="Joseph Cox">
+          <img class="lazyload byline__author-image" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w100/2023/08/404-joseph-01-1.jpg" alt="Joseph Cox" src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w30/2023/08/404-joseph-01-1.jpg">  
+        <span>Joseph Cox</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-05-18" class="byline__date">
+    May 18, 2026
+    
+  </time>
+</div>  </div>
+</div>              <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/researchers-wanted-preschool-teachers-to-wear-cameras-to-train-ai/" title="Researchers Wanted Preschool Teachers to Wear Cameras to Train AI" aria-label="Researchers Wanted Preschool Teachers to Wear Cameras to Train AI">
+      <img class="lazyload" data-srcset="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w300/2026/05/cdc-gsRi9cWCIB0-unsplash.jpg 300w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w600/2026/05/cdc-gsRi9cWCIB0-unsplash.jpg 600w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/05/cdc-gsRi9cWCIB0-unsplash.jpg 1000w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/05/cdc-gsRi9cWCIB0-unsplash.jpg 2000w" data-sizes="(max-width: 1000px) 50vw, 700px" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/05/cdc-gsRi9cWCIB0-unsplash.jpg" src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=0eb389d701" alt="Researchers Wanted Preschool Teachers to Wear Cameras to Train AI">
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/researchers-wanted-preschool-teachers-to-wear-cameras-to-train-ai/" title="Researchers Wanted Preschool Teachers to Wear Cameras to Train AI" aria-label="Researchers Wanted Preschool Teachers to Wear Cameras to Train AI">Researchers Wanted Preschool Teachers to Wear Cameras to Train AI</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      “With your permission, your child’s lead teacher may wear a small teacher-worn camera that captures the teacher's approximate first-person perspective, and/or we may place a fixed video camera in the classroom,” a document given to parents and later shared with 404 Media reads.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/joseph-cox/" title="Joseph Cox">
+          <img class="lazyload byline__author-image" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w100/2023/08/404-joseph-01-1.jpg" alt="Joseph Cox" src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w30/2023/08/404-joseph-01-1.jpg">  
+        <span>Joseph Cox</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-05-18" class="byline__date">
+    May 18, 2026
+    
+  </time>
+</div>  </div>
+</div>              <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/mayo-clinic-is-using-ai-to-listen-to-emergency-room-visits/" title="Mayo Clinic is Using AI to Listen to Emergency Room Visits" aria-label="Mayo Clinic is Using AI to Listen to Emergency Room Visits">
+      <img class="lazyload" data-srcset="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w300/2026/05/mayo-clinic-2.png 300w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w600/2026/05/mayo-clinic-2.png 600w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/05/mayo-clinic-2.png 1000w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/05/mayo-clinic-2.png 2000w" data-sizes="(max-width: 1000px) 50vw, 700px" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/05/mayo-clinic-2.png" src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=0eb389d701" alt="Mayo Clinic is Using AI to Listen to Emergency Room Visits">
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/mayo-clinic-is-using-ai-to-listen-to-emergency-room-visits/" title="Mayo Clinic is Using AI to Listen to Emergency Room Visits" aria-label="Mayo Clinic is Using AI to Listen to Emergency Room Visits">Mayo Clinic is Using AI to Listen to Emergency Room Visits</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      Mayo Clinic's "Ambient Listening" has been around for a couple of years, but clearly not all patients know their interactions with nurses are being passively recorded and processed by AI.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/joseph-cox/" title="Joseph Cox">
+          <img class="lazyload byline__author-image" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w100/2023/08/404-joseph-01-1.jpg" alt="Joseph Cox" src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w30/2023/08/404-joseph-01-1.jpg">  
+        <span>Joseph Cox</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-05-15" class="byline__date">
+    May 15, 2026
+    
+  </time>
+</div>  </div>
+</div>            <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/microsoft-hacked-to-deliver-malware-to-claude-and-gemini-users/" title="Microsoft Hacked to Deliver Malware to Claude and Gemini Users" aria-label="Microsoft Hacked to Deliver Malware to Claude and Gemini Users">
+      <img class="lazyload" data-srcset="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w300/2026/06/simon-ray-TICJQELFmg4-unsplash.jpg 300w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w600/2026/06/simon-ray-TICJQELFmg4-unsplash.jpg 600w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/06/simon-ray-TICJQELFmg4-unsplash.jpg 1000w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/06/simon-ray-TICJQELFmg4-unsplash.jpg 2000w" data-sizes="(max-width: 1000px) 50vw, 700px" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/06/simon-ray-TICJQELFmg4-unsplash.jpg" src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=0eb389d701" alt="Microsoft Hacked to Deliver Malware to Claude and Gemini Users">
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/microsoft-hacked-to-deliver-malware-to-claude-and-gemini-users/" title="Microsoft Hacked to Deliver Malware to Claude and Gemini Users" aria-label="Microsoft Hacked to Deliver Malware to Claude and Gemini Users">Microsoft Hacked to Deliver Malware to Claude and Gemini Users</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      Microsoft took the highly unusual step of shutting down more than 70 of its own GitHub repositories after hackers pushed malware that would steal credentials from AI coding agent users.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/joseph-cox/" title="Joseph Cox">
+          <img class="lazyload byline__author-image" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w100/2023/08/404-joseph-01-1.jpg" alt="Joseph Cox" src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w30/2023/08/404-joseph-01-1.jpg">  
+        <span>Joseph Cox</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-06-08" class="byline__date">
+    Jun 8, 2026
+    
+  </time>
+</div>  </div>
+</div>            <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/its-so-not-over-for-hollywood-with-devindra-hardawar/" title="It’s So Not Over for Hollywood (with Devindra Hardawar)" aria-label="It’s So Not Over for Hollywood (with Devindra Hardawar)">
+      <img class="lazyload" data-srcset="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w300/2026/06/hollywoodsace.png 300w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w600/2026/06/hollywoodsace.png 600w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/06/hollywoodsace.png 1000w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/06/hollywoodsace.png 2000w" data-sizes="(max-width: 1000px) 50vw, 700px" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/06/hollywoodsace.png" src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=0eb389d701" alt="It’s So Not Over for Hollywood (with Devindra Hardawar)">
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/its-so-not-over-for-hollywood-with-devindra-hardawar/" title="It’s So Not Over for Hollywood (with Devindra Hardawar)" aria-label="It’s So Not Over for Hollywood (with Devindra Hardawar)">It’s So Not Over for Hollywood (with Devindra Hardawar)</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      Emanuel talks to Devindra Hardawar about AI in Hollywood and the state of the movie industry.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/emanuel-maiberg/" title="Emanuel Maiberg">
+          <img class="lazyload byline__author-image" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w100/2023/08/headshot-1.jpg" alt="Emanuel Maiberg" src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w30/2023/08/headshot-1.jpg">  
+        <span>Emanuel Maiberg</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-06-08" class="byline__date">
+    Jun 8, 2026
+    
+  </time>
+</div>  </div>
+</div>            <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/a-farmer-donated-land-to-turn-into-a-park-the-city-is-building-a-massive-data-center-instead/" title="A Farmer Donated Land to Turn into a Park. The City Is Building a Massive Data Center Instead" aria-label="A Farmer Donated Land to Turn into a Park. The City Is Building a Massive Data Center Instead">
+      <img class="lazyload" data-srcset="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w300/2026/06/Griffin-1.jpg 300w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w600/2026/06/Griffin-1.jpg 600w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/06/Griffin-1.jpg 1000w,
+                  https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w2000/2026/06/Griffin-1.jpg 2000w" data-sizes="(max-width: 1000px) 50vw, 700px" data-src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1000/2026/06/Griffin-1.jpg" src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=0eb389d701" alt="A Farmer Donated Land to Turn into a Park. The City Is Building a Massive Data Center Instead">
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/a-farmer-donated-land-to-turn-into-a-park-the-city-is-building-a-massive-data-center-instead/" title="A Farmer Donated Land to Turn into a Park. The City Is Building a Massive Data Center Instead" aria-label="A Farmer Donated Land to Turn into a Park. The City Is Building a Massive Data Center Instead">A Farmer Donated Land to Turn into a Park. The City Is Building a Massive Data Center Instead</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      In 1999, a farmer gave away 87 acres of land to a small Texas city to use as a park. The city sold to a data center developer for $10 million.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/matthew/" title="Matthew Gault">
+          <img class="lazyload byline__author-image" data-src="https://www.gravatar.com/avatar/87e07bd5bb3d003b0b135303a3e7f8b9?s=250&amp;r=x&amp;d=mp" alt="Matthew Gault" src="https://www.gravatar.com/avatar/87e07bd5bb3d003b0b135303a3e7f8b9?s=250&amp;r=x&amp;d=mp">  
+        <span>Matthew Gault</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-06-08" class="byline__date">
+    Jun 8, 2026
+    
+  </time>
+</div>  </div>
+</div>      </div>
+    </div>
+
+
+        <div class="sidebar__section is-sticky">
+          
+
+      <div class="ad ad-sidebar">
+        <div class="ad__disclaimer">
+          <div class="ad__title">Advertisement</div>
+          <div>•</div>
+          <div class="ad__upsell">
+            <a href="#/portal/signup">Go ad free</a>
+          </div>
+        </div>
+        <div id="bsa-zone_1694814567700-7_123456" class="bsa-standard"></div>
+      </div>
+
+
+        </div>
+  
+</aside>
+      </div>
+    </div>
+  </div>
+  <div class="comments__container">
+    <div class="comments__container-content">
+      <div class="container-fluid wrapper">
+        <div class="row">
+          <div class="col-xs-12 col-lg-8 col-xl-9">
+                <div class="post">
+                  
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+
+      <div class="ad-fixed__wrapper">
+        <div class="container-fluid wrapper">
+          <div class="row">
+            <div class="ad ad-fixed is-active" id="ad-fixed">
+              <div class="ad__disclaimer">
+                <div class="ad__title">Advertisement</div>
+                <div>•</div>
+                <div class="ad__upsell">
+                  <a href="#/portal/signup">Go ad free</a>
+                </div>
+                <div>•</div>
+                <div class="ad__dismiss">
+                  <a id="ad-fixed-close">Hide</a>
+                </div>
+              </div>
+              <div class="ad-fixed__bsa-container">
+                <div id="bsa-zone_1694463200946-7_123456" class="bsa-standard"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+    </main>
+
+      <footer class="footer">
+  <div class="footer__top">
+    <div class="footer__top-content">
+      <div class="container-fluid wrapper">
+        <div class="row">
+          <div class="col-xs-12 col-md-6 col-md-offset-6">
+            <h3 class="footer__slogan">Unparalleled access to hidden worlds both online and IRL.</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-3">
+            <div class="nav__description">
+              404 Media is an independent media company founded by technology journalists Jason Koebler, Emanuel Maiberg, Samantha Cole, and Joseph Cox.
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-2 col-md-offset-2">
+            <ul class="nav">
+    <li class="nav-about"><a href="https://www.404media.co/about/">About</a></li>
+    <li class="nav-rss"><a href="https://www.404media.co/404-media-now-has-a-full-text-rss-feed/">RSS</a></li>
+    <li class="nav-support-faq"><a href="https://www.404media.co/faq/">Support/FAQ</a></li>
+    <li class="nav-podcast"><a href="https://www.404media.co/the-404-media-podcast/">Podcast</a></li>
+    <li class="nav-foia-forum-archive"><a href="https://www.404media.co/foia-forum-archive/">FOIA Forum Archive</a></li>
+    <li class="nav-merch"><a href="https://404media.myshopify.com/">Merch</a></li>
+    <li class="nav-advertise"><a href="https://www.404media.co/advertise-with-404-media/">Advertise</a></li>
+    <li class="nav-thanks"><a href="https://www.404media.co/thank-yous/">Thanks</a></li>
+    <li class="nav-privacy"><a href="https://www.404media.co/privacy-policy/">Privacy</a></li>
+</ul>
+
+          </div>
+          <div class="col-xs-12 col-md-2">
+            <div class="social-links">
+  <a class="social-links__item twitter" href="https://x.com/404mediaco" target="_blank" title="Twitter" aria-label="Twitter">Twitter</a>
+  <a class="social-links__item bluesky" href="https://bsky.app/profile/404media.co" target="_blank" title="Bluesky" aria-label="Bluesky">Bluesky</a>
+  <a class="social-links__item mastodon" href="https://mastodon.social/@404mediaco" target="_blank" title="Mastodon" aria-label="Mastodon" rel="me">Mastodon</a>
+  <a class="social-links__item instagram" href="https://instagram.com/404mediaco" target="_blank" title="Instagram" aria-label="Instagram">Instagram</a>
+  <a class="social-links__item tiktok" href="https://tiktok.com/@404.media" target="_blank" title="TikTok" aria-label="TikTok">TikTok</a>
+  <a class="social-links__item facebook" href="https://www.facebook.com/404mediaco" target="_blank" title="Facebook" aria-label="Facebook">Facebook</a>
+  <a class="social-links__item rss" href="/rss" target="_blank" title="RSS" aria-label="RSS">RSS</a>
+</div>
+          </div>
+          <div class="col-xs-12 col-md-3">
+            <div>Join the newsletter to get the latest updates.</div>
+              <form class="subscribe-form" data-members-form="subscribe">
+                <input aria-labelledby="footer-subscribe" data-members-email="" type="email" placeholder="Your email" required="">
+                <button type="submit" title="Subscribe" aria-label="Subscribe">
+                  <i class="icon icon-arrow-right">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=0eb389d701#arrow-right"></use>
+  </svg>
+</i>                </button>
+                <div class="message message-success">
+                  <div class="message__header">
+                    <div class="message__type">Success</div> 
+                    <div class="message__close js-msg-close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=0eb389d701#x"></use>
+  </svg>
+</i></div>
+                  </div>
+                  <div class="message__content">
+                    Great! Check your inbox and click the link to confirm your subscription
+                  </div>
+                </div>
+                <p data-members-error=""><!-- error message will appear here --></p>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid wrapper">
+    <div class="footer__bottom">
+      <svg class="footer__icon" width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H24.8889V3.55556H28.4444V7.11106H32L32 32H0V0ZM17.7778 3.55554H21.3333V7.1111H17.7778V3.55554ZM24.8889 10.6668V7.11121L21.3333 7.1111V10.6667H17.7778V14.2223H21.3333V10.6667L24.8889 10.6668ZM24.8889 10.6668L28.4445 10.6667V14.2223H24.8889L24.8889 10.6668ZM3.55556 3.55558H7.11111V7.11114H3.55556V3.55558ZM10.6667 7.11121L7.11111 7.11114L7.11112 10.6668L3.55556 10.6667V14.2223H7.11112V10.6668H10.6667L10.6667 14.2223H14.2222V10.6667L10.6667 10.6668V7.11121ZM10.6667 7.11121L10.6667 3.55554H14.2222V7.1111L10.6667 7.11121ZM7.11112 21.3334H3.55556V24.8889L7.1111 24.8889V28.4444H24.8889V24.8889L28.4445 24.8889V21.3334H24.8889L24.8889 24.8889H7.1111L7.11112 21.3334Z"></path>
+      </svg>
+      <div class="footer__copyright">
+        <span class="footer__copyright-symbol">©</span>&nbsp;2026&nbsp;404 Media. Published with&nbsp;<a href="https://ghost.org">Ghost</a>.
+      </div>
+    </div>
+  </div>
+</footer>
+      <div class="scroll-to-top"><i class="icon icon-arrow-up">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=0eb389d701#arrow-up"></use>
+  </svg>
+</i></div>
+
+    <svg class="wave-gradient" version="1.1">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="var(--color-primary)"></stop>
+      <stop offset="100%" stop-color="var(--color-primary)"></stop>
+    </linearGradient>
+  </defs>
+</svg>
+    <script>
+      if (config.enable_pwa && 'serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
+    
+    <script>
+  const OutpostPub = {
+    apiDomain: "https://404mediaco.outpost.pub",
+    apiKey: "69a897f3-1637-4019-bab5-339ec5d54819",
+    siteName: "404 Media",
+    memberId: "",
+    memberEmail: "",
+        post: {
+          id: "6a2710c116645500018feca4",
+          tags: ["Privacy", "News"],
+        }
+  }
+</script>
+<script src="https://assets.outpost.pub/assets/v2/js/outpost-pub.js"></script>
+    <script>
+!function(w,d,id,ns,s){var c=w[ns]=w[ns]||{};if(c.ready||(c.q=[],c.ready=function(){c.q.push(arguments)}),!d.getElementById(id)){var e=d.createElement(s);e.id=id,e.src="https://assets.context.ly/kit/6.latest/loader.js";var h=d.getElementsByTagName(s)[0];h.parentNode.insertBefore(e,h)}}(window,document,"ctx-loader","Contextly","script");
+</script>
+<script>
+Contextly.ready('widgets');
+</script>
+
+      <script type="text/javascript" defer="" src="https://www.404media.co/assets/js/bsa.js?v=0eb389d701"></script>
+	
+  
+
+
+<div id="ghost-portal-root" data-testid="portal-root"></div><div id="sodo-search-root"></div></body></html>
