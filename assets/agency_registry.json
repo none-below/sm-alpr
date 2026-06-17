@@ -5474,31 +5474,6 @@
     ]
   },
   {
-    "agency_id": "13c52161-5832-567f-ba3e-34eb8cdec7ea",
-    "slug": "red-bay-al-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Red Bay AL PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "0163576",
-      "name": "Red Bay",
-      "state": "AL",
-      "lat": 34.436097,
-      "lng": -88.136515
-    }
-  },
-  {
     "agency_id": "dbb41fa5-9662-50ba-ae51-7061815de463",
     "slug": "redlands-ca-pd",
     "flock_active_slug": "redlands-ca-pd",
@@ -5734,31 +5709,6 @@
       "lng": -122.700896
     },
     "flags": []
-  },
-  {
-    "agency_id": "91517667-e812-5acf-be3a-4f2b3e8f8abc",
-    "slug": "saginaw-township-mi-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Saginaw Township MI PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "cousub",
-      "fips": "2614570540",
-      "name": "Saginaw",
-      "state": "MI",
-      "lat": 43.449494,
-      "lng": -84.022255
-    }
   },
   {
     "agency_id": "bc23d548-e468-55ce-845b-ddee21abe171",
@@ -7634,6 +7584,56 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "13c52161-5832-567f-ba3e-34eb8cdec7ea",
+    "slug": "red-bay-al-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Red Bay AL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0163576",
+      "name": "Red Bay",
+      "state": "AL",
+      "lat": 34.436097,
+      "lng": -88.136515
+    }
+  },
+  {
+    "agency_id": "91517667-e812-5acf-be3a-4f2b3e8f8abc",
+    "slug": "saginaw-township-mi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Saginaw Township MI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "2614570540",
+      "name": "Saginaw",
+      "state": "MI",
+      "lat": 43.449494,
+      "lng": -84.022255
+    }
   },
   {
     "agency_id": "4fcb9bdc-b78a-5f3e-87ff-3e5c8dcd51da",
