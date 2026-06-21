@@ -1470,31 +1470,6 @@
     ]
   },
   {
-    "agency_id": "41625874-663f-560e-8314-5f776f13f575",
-    "slug": "centralia-wa-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Centralia WA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "5311160",
-      "name": "Centralia",
-      "state": "WA",
-      "lat": 46.72205,
-      "lng": -122.970947
-    }
-  },
-  {
     "agency_id": "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3",
     "slug": "charlottesville-va-pd",
     "flock_active_slug": "charlottesville-va-pd",
@@ -1554,31 +1529,6 @@
     "ori": [
       "NY0145500"
     ]
-  },
-  {
-    "agency_id": "15b7af9e-7b8f-5619-b162-5d3e588ccf6e",
-    "slug": "chelan-county-wa-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Chelan County WA SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "53007",
-      "name": "Chelan",
-      "state": "WA",
-      "lat": 47.860974,
-      "lng": -120.619041
-    }
   },
   {
     "agency_id": "2329d5a6-b311-56d2-bd0b-3d6caa375ab0",
@@ -7634,6 +7584,56 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "41625874-663f-560e-8314-5f776f13f575",
+    "slug": "centralia-wa-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Centralia WA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "5311160",
+      "name": "Centralia",
+      "state": "WA",
+      "lat": 46.72205,
+      "lng": -122.970947
+    }
+  },
+  {
+    "agency_id": "15b7af9e-7b8f-5619-b162-5d3e588ccf6e",
+    "slug": "chelan-county-wa-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Chelan County WA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "53007",
+      "name": "Chelan",
+      "state": "WA",
+      "lat": 47.860974,
+      "lng": -120.619041
+    }
   },
   {
     "agency_id": "28078be2-8b0b-5e5a-80b4-b465d97b06af",
