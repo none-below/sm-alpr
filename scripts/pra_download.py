@@ -332,6 +332,15 @@ def _resolve_collision_path(folder: Path, name: str, new_bytes: bytes) -> Path:
         existing_hashed = folder / f"{out.stem}.{existing_hash}{out.suffix}"
         if existing_hashed != hashed and not existing_hashed.exists():
             out.rename(existing_hashed)
+        # A produced file's content changed under the same name — most likely SMPD
+        # re-uploaded a "fixed" copy. Never lose the original: both versions are kept
+        # as content-hashed siblings. Warn loudly so a re-upload isn't ingested unnoticed
+        # (and so an audit re-upload doesn't silently double-count in the pipeline).
+        warn(
+            f"   ⚠ CONTENT CHANGED for {sanitize(name)}: differs from a copy already on disk. "
+            f"Original preserved as {existing_hashed.name}; new copy saved as {hashed.name}. "
+            f"Review for a re-uploaded/edited version before ingesting."
+        )
         return hashed
 
     peer_pattern = re.compile(

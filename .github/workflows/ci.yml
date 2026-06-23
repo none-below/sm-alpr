@@ -198,6 +198,9 @@ jobs:
             tests/test_discover_reject_issue.py \
             -v
 
+      - name: Run PRA download immutability tests
+        run: uv run pytest tests/test_pra_immutability.py -v
+
       - name: Check recipient coordinates
         id: coords
         run: |
