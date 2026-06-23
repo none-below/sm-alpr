@@ -221,12 +221,25 @@
 
   // git-diff-style inline highlight: removed words struck red, their paired
   // replacement (if any) shown green right after.
-  function highlightRow(text, removedSet, replaceMap) {
-    return text.split(" ").map(function (w) {
-      if (removedSet[w]) {
+  function isPunct(w) { return !/[A-Za-z0-9]/.test(w); }
+
+  function highlightRow(text, removedSet, replaceMap, addedSet) {
+    var words = text.split(" ");
+    var rem = words.map(function (w) { return !!(removedSet && removedSet[w]); });
+    // The word diff ignores bare punctuation, but a removed value usually takes its
+    // separator with it (e.g. "- 2602190261"). Extend the strike to punctuation-only
+    // tokens immediately adjacent to a removed word so the whole removed span shows red.
+    for (var i = 0; i < words.length; i++) {
+      if (!rem[i]) continue;
+      var j = i - 1; while (j >= 0 && !rem[j] && isPunct(words[j])) { rem[j] = true; j--; }
+      var k = i + 1; while (k < words.length && !rem[k] && isPunct(words[k])) { rem[k] = true; k++; }
+    }
+    return words.map(function (w, idx) {
+      if (rem[idx]) {
         var ins = replaceMap && replaceMap[w] ? ' <ins>' + esc(replaceMap[w]) + "</ins>" : "";
         return "<del>" + esc(w) + "</del>" + ins;
       }
+      if (addedSet && addedSet[w]) return "<ins>" + esc(w) + "</ins>";
       return esc(w);
     }).join(" ");
   }
@@ -294,8 +307,7 @@
           if (anchor) {
             var rep = {}; rep[rr.tok] = aa.tok;
             var set = {}; set[rr.tok] = true;
-            html += '<div class="rowdiff"><span class="tag">row ' + esc(anchor.id.slice(0, 8)) + '&hellip;</span>' +
-                    highlightRow(anchor.text, set, rep) + "</div>";
+            html += '<div class="rowdiff">' + highlightRow(anchor.text, set, rep) + "</div>";
           } else {
             html += '<div class="rowdiff"><del>' + esc(rr.tok) + "</del> <ins>" + esc(aa.tok) + "</ins></div>";
           }
@@ -307,12 +319,12 @@
             else noRow.push(x.tok);
           });
           Object.keys(byRow).forEach(function (id) {
-            html += '<div class="rowdiff"><span class="tag">row ' + esc(id.slice(0, 8)) + '&hellip;</span>' +
-                    highlightRow(byRow[id].text, byRow[id].set, null) + "</div>";
+            html += '<div class="rowdiff">' + highlightRow(byRow[id].text, byRow[id].set, null) + "</div>";
           });
           noRow.forEach(function (t) { html += '<div class="rowdiff"><del>' + esc(t) + "</del>  (no unique row)</div>"; });
           d.added.forEach(function (x) {
-            html += '<div class="rowdiff"><ins>' + esc(x.tok) + "</ins>" + (x.row ? '  <span class="tag">row ' + esc(x.row.id.slice(0, 8)) + "&hellip;</span>" : "  (added)") + "</div>";
+            if (x.row) { var as = {}; as[x.tok] = true; html += '<div class="rowdiff">' + highlightRow(x.row.text, null, null, as) + "</div>"; }
+            else html += '<div class="rowdiff"><ins>' + esc(x.tok) + "</ins>  (added)</div>";
           });
         }
         d.deletedRows.forEach(function (r) { html += '<div class="rowdiff"><span class="tag">row deleted</span><del>' + esc(r.text) + "</del></div>"; });
