@@ -219,6 +219,18 @@
                  : "  (appears in multiple rows / no unique row)";
   }
 
+  // git-diff-style inline highlight: removed words struck red, their paired
+  // replacement (if any) shown green right after.
+  function highlightRow(text, removedSet, replaceMap) {
+    return text.split(" ").map(function (w) {
+      if (removedSet[w]) {
+        var ins = replaceMap && replaceMap[w] ? ' <ins>' + esc(replaceMap[w]) + "</ins>" : "";
+        return "<del>" + esc(w) + "</del>" + ins;
+      }
+      return esc(w);
+    }).join(" ");
+  }
+
   async function analyzeBytes(buf, name) {
     var ends = revisionEnds(buf);
     var html = '<div class="file-title">' + esc(name) + "</div>";
@@ -277,15 +289,34 @@
         edits++;
         html += '<div class="editblk"><h4>EDIT ' + edits + " &mdash; saved " + esc(ts) + by + "  [" + esc(tool) + "]  (" + total + " change" + (total === 1 ? "" : "s") + ")</h4>";
         if (d.removed.length === 1 && d.added.length === 1 && !d.deletedRows.length && !d.addedRows.length) {
+          // one field reworded (e.g. typo fix): show the row, old word struck red, new word green
           var rr = d.removed[0], aa = d.added[0], anchor = rr.row || aa.row;
-          html += '<div class="change"><div class="o"><span class="tag">changed</span>&lsquo;' + esc(rr.tok) + "&rsquo; &rarr; &lsquo;" + esc(aa.tok) + "&rsquo;" + (anchor ? "  row " + esc(anchor.id) : "") + "</div>" +
-                  (anchor ? '<div class="n"><span class="tag">context</span>' + esc(anchor.text) + "</div>" : "") + "</div>";
+          if (anchor) {
+            var rep = {}; rep[rr.tok] = aa.tok;
+            var set = {}; set[rr.tok] = true;
+            html += '<div class="rowdiff"><span class="tag">row ' + esc(anchor.id.slice(0, 8)) + '&hellip;</span>' +
+                    highlightRow(anchor.text, set, rep) + "</div>";
+          } else {
+            html += '<div class="rowdiff"><del>' + esc(rr.tok) + "</del> <ins>" + esc(aa.tok) + "</ins></div>";
+          }
         } else {
-          d.removed.forEach(function (x) { html += '<div class="change"><div class="rm"><span class="tag">removed</span>&lsquo;' + esc(x.tok) + "&rsquo;" + rowCtx(x) + "</div></div>"; });
-          d.added.forEach(function (x) { html += '<div class="change"><div class="ad"><span class="tag">added</span>&lsquo;' + esc(x.tok) + "&rsquo;" + rowCtx(x) + "</div></div>"; });
+          // group removed words by their row so each affected row renders once, words struck red
+          var byRow = {}, noRow = [];
+          d.removed.forEach(function (x) {
+            if (x.row) { if (!byRow[x.row.id]) byRow[x.row.id] = { text: x.row.text, set: {} }; byRow[x.row.id].set[x.tok] = true; }
+            else noRow.push(x.tok);
+          });
+          Object.keys(byRow).forEach(function (id) {
+            html += '<div class="rowdiff"><span class="tag">row ' + esc(id.slice(0, 8)) + '&hellip;</span>' +
+                    highlightRow(byRow[id].text, byRow[id].set, null) + "</div>";
+          });
+          noRow.forEach(function (t) { html += '<div class="rowdiff"><del>' + esc(t) + "</del>  (no unique row)</div>"; });
+          d.added.forEach(function (x) {
+            html += '<div class="rowdiff"><ins>' + esc(x.tok) + "</ins>" + (x.row ? '  <span class="tag">row ' + esc(x.row.id.slice(0, 8)) + "&hellip;</span>" : "  (added)") + "</div>";
+          });
         }
-        d.deletedRows.forEach(function (r) { html += '<div class="change"><div class="rm"><span class="tag">row deleted</span>' + esc(r.text) + "</div></div>"; });
-        d.addedRows.forEach(function (r) { html += '<div class="change"><div class="ad"><span class="tag">row added</span>' + esc(r.text) + "</div></div>"; });
+        d.deletedRows.forEach(function (r) { html += '<div class="rowdiff"><span class="tag">row deleted</span><del>' + esc(r.text) + "</del></div>"; });
+        d.addedRows.forEach(function (r) { html += '<div class="rowdiff"><span class="tag">row added</span><ins>' + esc(r.text) + "</ins></div>"; });
         html += "</div>";
       }
     }
