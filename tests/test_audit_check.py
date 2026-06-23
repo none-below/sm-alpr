@@ -36,3 +36,10 @@ def test_js_repo_loader_and_shareable_link():
     assert "raw.githubusercontent.com/none-below/sm-alpr" in JS
     assert "history.replaceState" in JS  # shareable ?pdf= link
     assert 'params.get("pdf")' in JS     # auto-load from query
+
+
+def test_js_uses_order_independent_token_diff_and_editor():
+    # token/UUID-set diff (not the old coordinate-binned line diff) + editor name
+    assert "diffRevisions" in JS and "rowsOf" in JS and "isTrivial" in JS
+    assert "dcCreator" in JS              # Author / XMP dc:creator (who edited)
+    assert "transform[5]" not in JS       # no y-coordinate line binning (the false-positive cause)
