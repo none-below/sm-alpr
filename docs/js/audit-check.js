@@ -324,6 +324,46 @@
     out.innerHTML = html;
   }
 
+  // ---- built-in picker for the W012541 audit PDFs (the only PRA with edits) ----
+  // `edited` reflects a confirmed content change (not a mere re-save), per
+  // scripts/pdf_audit_revisions.py over the files currently on `main`.
+  var W012541 = "assets/san-mateo-public-records/W012541-041426/";
+  var MANIFEST = [
+    { label: "Jan 2023", file: "1_1_2023-1_31_2023-San_Mateo_CA_PD-Audit2.pdf" },
+    { label: "Oct 2023", file: "10_1_2023-10_31_2023-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Nov 2023", file: "11_1_2023-11_30_2023-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Jan 2024", file: "1_1_2024-1_31_2024-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Oct 2024", file: "10_1_2024-10_31_2024-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Jan 2025 (pt1)", file: "1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_1_.pdf", edited: true, note: "2 edits" },
+    { label: "Jan 2025 (pt2)", file: "1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_2_.pdf" },
+    { label: "Oct 2025", file: "10_1_2025-10_31_2025-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Dec 2025", file: "12_1_2025-12_31_2025-San_Mateo_CA_PD_Audit.pdf" },
+    { label: "Jan 2026 (pt1)", file: "1_1_2026-1_31_2026-San_Mateo_CA_PD-Audit__1___Part_1_.pdf" },
+    { label: "Jan 2026 (pt2)", file: "1_1_2026-1_31_2026-San_Mateo_CA_PD-Audit__1___Part_2_.pdf", edited: true, note: "1 edit" },
+    { label: "Feb 2026", file: "2_1_2026-2_28_2026-San_Mateo_CA_PD-Audit__2_.pdf", edited: true, note: "case # removed · Jodi Ferreira" },
+    { label: "Mar 2026", file: "3_1_2026-3_31_2026-San_Mateo_CA_PD-Audit__1_.pdf", edited: true, note: "typo fix" }
+  ];
+
+  function renderPicker() {
+    var el = document.getElementById("picker");
+    if (!el) return;
+    var edited = MANIFEST.filter(function (m) { return m.edited; }).length;
+    var h = "<h2>W012541 audit PDFs &middot; " + MANIFEST.length + " files on main, " + edited + " with edits</h2><div class=\"chips\">";
+    MANIFEST.forEach(function (m, i) {
+      h += '<button type="button" class="chip' + (m.edited ? " edited" : "") + '" data-i="' + i + '">' +
+           '<span class="dot"></span>' + esc(m.label) + (m.edited ? ' <small>' + esc(m.note || "edited") + "</small>" : "") + "</button>";
+    });
+    h += "</div><div class=\"legend\">Amber = a confirmed content edit recovered from the file&rsquo;s revision history. Loads from <code>main</code> via GitHub; more files appear as PRAs merge.</div>";
+    el.innerHTML = h;
+    el.querySelectorAll(".chip").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var m = MANIFEST[+this.getAttribute("data-i")];
+        document.getElementById("url").value = W012541 + m.file;
+        loadFromUrl(W012541 + m.file, null, true);
+      });
+    });
+  }
+
   // ---- wiring + shareable ?pdf= auto-load ----
   document.getElementById("loadbtn").addEventListener("click", function () {
     loadFromUrl(document.getElementById("url").value, null, true);
@@ -331,6 +371,7 @@
   document.getElementById("url").addEventListener("keydown", function (e) {
     if (e.key === "Enter") { e.preventDefault(); loadFromUrl(this.value, null, true); }
   });
+  renderPicker();
   (function () {
     var params = new URLSearchParams(location.search);
     var pdf = params.get("pdf");

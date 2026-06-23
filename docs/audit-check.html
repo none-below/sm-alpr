@@ -26,6 +26,16 @@
   .urlrow button:hover { background: #0369a1; }
   .hint { color: #64748b; font-size: 12px; max-width: 720px; }
   .hint code { background: #1e293b; padding: 1px 5px; border-radius: 4px; }
+  .picker { margin: 18px 0 4px; }
+  .picker h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px; border-radius: 8px; border: 1px solid #334155; background: #0e1830; color: #e2e8f0; font-size: 13px; cursor: pointer; }
+  .chip:hover { border-color: #38bdf8; }
+  .chip.edited { border-color: #b45309; background: #1c1408; }
+  .chip .dot { width: 8px; height: 8px; border-radius: 999px; background: #475569; flex: none; }
+  .chip.edited .dot { background: #f59e0b; }
+  .chip small { color: #f59e0b; font-size: 11px; }
+  .picker .legend { color: #64748b; font-size: 12px; margin-top: 8px; }
   #out { margin-top: 8px; }
   .file-title { font-size: 16px; margin: 22px 0 4px; word-break: break-all; }
   .meta { color: #64748b; font-size: 12px; margin-bottom: 12px; }
@@ -87,6 +97,8 @@
     <code>&amp;ref=&lt;branch&gt;</code>) to this page&rsquo;s address &mdash; so a reviewer opens the link and sees
     the result without re-uploading.
   </p>
+
+  <div class="picker" id="picker"></div>
 
   <div id="out"></div>
 

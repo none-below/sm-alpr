@@ -28,8 +28,14 @@ def test_semi_hidden_noindex():
 def test_wiring_elements_present():
     assert "js/audit-check.js" in HTML
     assert "cdnjs.cloudflare.com/ajax/libs/pdf.js" in HTML
-    for el in ('id="file"', 'id="url"', 'id="loadbtn"', 'id="out"'):
+    for el in ('id="file"', 'id="url"', 'id="loadbtn"', 'id="out"', 'id="picker"'):
         assert el in HTML, el
+
+
+def test_js_has_w012541_picker():
+    assert "MANIFEST" in JS and "renderPicker" in JS
+    assert "W012541-041426" in JS
+    assert "Jodi Ferreira" in JS  # the Feb 2026 edited chip note
 
 
 def test_js_repo_loader_and_shareable_link():
