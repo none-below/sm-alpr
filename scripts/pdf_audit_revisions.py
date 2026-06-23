@@ -3,7 +3,8 @@
 # SPDX-FileCopyrightText: 2026 zero-below
 """
 pdf_audit_revisions.py — recover the hidden revision history of a PDF, fingerprint
-the tool behind each revision, and diff the text that changed between them.
+the tool behind each revision, and produce a timestamped, per-edit breakdown of
+what changed.
 
 Why this exists:
   An agency sometimes answers a request for a Flock search-audit export by producing
@@ -11,13 +12,17 @@ Why this exists:
   silently deleting a case number from a search-justification field. If the editor
   uses a plain "Save", the change is written as an *incremental update* appended to
   the file, and the pre-edit revision survives inside it. This tool reconstructs every
-  revision (by truncating the file at each %%EOF), reports the producing/editing tool
-  for each revision (from the Producer/Creator strings and the XMP toolkit), flags
-  re-saves (DocumentID != InstanceID, or ModifyDate after CreateDate), and diffs the
-  extracted text so removed or altered content is recovered.
+  revision (by truncating the file at each %%EOF), reports the generating/editing tool
+  per revision (Producer/Creator string + XMP toolkit), flags re-saves, and — for each
+  edit — prints when it was saved and exactly which text changed, was removed, or added.
 
-  A row whose id is present in an earlier revision and absent later was deleted; a
-  row present in both with different reason text was edited.
+Diffing is order-independent:
+  Editing in Acrobat re-serializes the page, so a text extractor may return content in
+  a different ORDER in the edited revision even where nothing visibly changed. The diff
+  therefore compares the *multiset of normalized lines* between revisions (order does
+  not matter) and pairs a removed line with an added line that shares a leading token,
+  so a changed reason shows as original -> produced. This avoids the false positives a
+  position/order-sensitive diff would produce.
 
 Limitation:
   A PDF re-rendered/flattened to a new file ("Print to PDF") carries no prior
@@ -80,6 +85,22 @@ def classify(s: str) -> str:
     return ""
 
 
+def fmt_date(d: str) -> str:
+    """Render a PDF (D:YYYYMMDD...) or XMP-ISO date as 'YYYY-MM-DD HH:MM:SS TZ'."""
+    if not d:
+        return ""
+    s = d[2:] if d.startswith("D:") else d
+    m = re.match(r"^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(.*)$", s)
+    if m:
+        y, mo, da, h, mi, se, tz = m.groups()
+        tz = tz.replace("'", ":").strip(":")
+        return f"{y}-{mo}-{da} {h}:{mi}:{se}" + (f" {tz}" if tz else "")
+    m = re.match(r"^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})(.*)$", s)
+    if m:
+        return f"{m.group(1)} {m.group(2)}" + (f" {m.group(3)}" if m.group(3) else "")
+    return d
+
+
 def norm(line: str) -> str:
     """Collapse whitespace so pure layout/reflow shifts are not flagged as edits."""
     return " ".join(line.split())
@@ -88,7 +109,10 @@ def norm(line: str) -> str:
 def extract_lines(doc: "fitz.Document") -> list[str]:
     out: list[str] = []
     for page in doc:
-        out.extend(page.get_text("text").splitlines())
+        for line in page.get_text("text").splitlines():
+            nl = norm(line)
+            if nl:
+                out.append(nl)
     return out
 
 
@@ -96,7 +120,7 @@ def revision_record(data: bytes, end: int) -> dict:
     rec: dict = {"bytes": end}
     try:
         doc = fitz.open(stream=data[:end], filetype="pdf")
-    except Exception as e:  # truncated/partial revision that won't parse
+    except Exception as e:
         return {"bytes": end, "error": f"unparseable ({e})", "lines": []}
     md = doc.metadata or {}
     try:
@@ -112,23 +136,26 @@ def revision_record(data: bytes, end: int) -> dict:
     rec["pages"] = doc.page_count
     rec["generator"] = classify(rec["producer"]) or classify(rec["creator"])
     rec["xmp_tool"] = classify(x["xmptk"])
-    edited = bool(x["doc_id"] and x["inst_id"] and x["doc_id"] != x["inst_id"])
-    if rec["create"] and rec["modify"] and rec["create"] != rec["modify"]:
-        edited = True
-    rec["edited_marker"] = edited
+    rec["edited_marker"] = bool(x["doc_id"] and x["inst_id"] and x["doc_id"] != x["inst_id"]) or (
+        bool(rec["create"]) and bool(rec["modify"]) and rec["create"] != rec["modify"]
+    )
     rec["lines"] = extract_lines(doc)
     doc.close()
     return rec
 
 
-def multiset_diff(old: list[str], new: list[str]) -> tuple[list[str], list[str]]:
-    co = Counter(norm(x) for x in old if norm(x))
-    cn = Counter(norm(x) for x in new if norm(x))
-    return list((co - cn).elements()), list((cn - co).elements())
+def diff_revisions(a: dict, b: dict):
+    """Order-independent multiset line diff; pair removed/added by leading token.
 
+    Returns (changed, removed, added):
+      changed = [(old_line, new_line)]  paired by shared leading token
+      removed = [line]                  present before, gone after (no pair)
+      added   = [line]                  new after (no pair)
+    """
+    co, cn = Counter(a.get("lines", [])), Counter(b.get("lines", []))
+    removed = list((co - cn).elements())
+    added = list((cn - co).elements())
 
-def pair_by_leading_token(removed: list[str], added: list[str]):
-    """Pair removed/added lines that share a leading token (e.g. a row's UUID)."""
     def key(s: str) -> str:
         parts = s.split()
         return parts[0] if parts else ""
@@ -136,16 +163,21 @@ def pair_by_leading_token(removed: list[str], added: list[str]):
     rem, add = defaultdict(list), defaultdict(list)
     for r in removed:
         rem[key(r)].append(r)
-    for a in added:
-        add[key(a)].append(a)
-    pairs, only_removed, only_added = [], [], []
+    for a_ in added:
+        add[key(a_)].append(a_)
+    changed, only_removed, only_added = [], [], []
     for k in set(rem) | set(add):
         rs, as_ = rem[k], add[k]
-        n = min(len(rs), len(as_))
-        pairs.extend(zip(rs[:n], as_[:n]))
-        only_removed.extend(rs[n:])
-        only_added.extend(as_[n:])
-    return pairs, only_removed, only_added
+        m = min(len(rs), len(as_))
+        changed.extend(zip(rs[:m], as_[:m]))
+        only_removed.extend(rs[m:])
+        only_added.extend(as_[m:])
+    # lone unpaired removed+added in one edit is almost certainly the same field
+    # reworded (e.g. a typo fix) — pair it so it reads as a change, not delete+add.
+    if len(only_removed) == 1 and len(only_added) == 1:
+        changed.append((only_removed[0], only_added[0]))
+        only_removed, only_added = [], []
+    return changed, only_removed, only_added
 
 
 def analyze(path: Path) -> None:
@@ -162,56 +194,58 @@ def analyze(path: Path) -> None:
             print(f"  rev {i}: {r['error']}")
             continue
         flag = "   [EDITED / RE-SAVED]" if r["edited_marker"] else ""
-        gen = r["generator"] or "unidentified"
-        print(f"  rev {i}: {r['pages']}pp   generated by: {gen}{flag}")
+        print(f"  rev {i}: {r['pages']}pp   generated by: {r['generator'] or 'unidentified'}{flag}")
         if r["xmp_tool"] and r["xmp_tool"] != r["generator"]:
-            print(f"         XMP last written by: {r['xmp_tool']}  (i.e. opened/edited in this app after generation)")
-        print(f"         Producer={r['producer']!r}  Creator={r['creator']!r}  xmptk={r.get('xmptk', '')!r}")
-        print(f"         create={r['create']}   modify={r['modify']}")
+            print(f"         XMP last written by: {r['xmp_tool']}  (opened/edited in this app after generation)")
+        print(f"         Producer={r['producer']!r}  xmptk={r.get('xmptk', '')!r}")
+        print(f"         created={fmt_date(r['create'])}   modified={fmt_date(r['modify'])}")
         if r.get("doc_id") or r.get("inst_id"):
             same = "==" if r.get("doc_id") == r.get("inst_id") else "!=  (content re-saved)"
             print(f"         DocumentID {same} InstanceID")
 
-    # plain-English headline
     good = [r for r in recs if not r.get("error")]
     if good:
         first, last = good[0], good[-1]
         made = first["generator"] or first["xmp_tool"] or "an unidentified tool"
         line = f"  SUMMARY: generated by {made}"
         if first.get("create"):
-            line += f" ({first['create']})"
+            line += f" ({fmt_date(first['create'])})"
         editor = last["xmp_tool"] or last["generator"]
         if len(good) > 1 or last["edited_marker"]:
-            if editor and editor != made:
-                line += f"; last edited in {editor}"
-            else:
-                line += "; re-saved after generation"
+            line += f"; last edited in {editor}" if editor and editor != made else "; re-saved after generation"
             if last.get("modify"):
-                line += f" ({last['modify']})"
+                line += f" ({fmt_date(last['modify'])})"
         print(line)
 
+    if len(recs) < 2:
+        return
+    print("  --- edit timeline ---")
+    edits = 0
     for i in range(1, len(recs)):
         a, b = recs[i - 1], recs[i]
         if a.get("error") or b.get("error"):
             continue
-        removed, added = multiset_diff(a["lines"], b["lines"])
-        if not removed and not added:
-            print(f"  rev {i}->{i + 1}: no text change (re-save only — linearization or metadata)")
+        ts = fmt_date(b["modify"] or b["create"])
+        tool = b["xmp_tool"] or b["generator"] or "unidentified tool"
+        changed, removed, added = diff_revisions(a, b)
+        total = len(changed) + len(removed) + len(added)
+        if total == 0:
+            print(f"  rev {i + 1} saved {ts} [{tool}]: re-saved, no text change (linearization/metadata)")
             continue
-        print(f"  rev {i}->{i + 1}: TEXT CHANGED  (-{len(removed)} / +{len(added)} lines, whitespace-normalized)")
-        pairs, only_removed, only_added = pair_by_leading_token(removed, added)
-        for old, new in pairs:
-            print(f"      CHANGED   original: {old}")
-            print(f"                produced: {new}")
-        for r in only_removed:
-            print(f"      REMOVED   {r}")
-        for a_ in only_added:
+        edits += 1
+        print(f"  EDIT {edits} — saved {ts}  [{tool}]  ({total} change(s)):")
+        for o, n in changed:
+            print(f"      CHANGED   original: {o}")
+            print(f"                produced: {n}")
+        for r in removed:
+            print(f"      REMOVED   {r}   (present in earlier revision, absent here)")
+        for a_ in added:
             print(f"      ADDED     {a_}")
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(
-        description="Recover a PDF's incremental-update revisions, per-revision tool, and changed text."
+        description="Recover a PDF's incremental-update revisions, per-revision tool, and a timestamped per-edit diff."
     )
     ap.add_argument("paths", nargs="*", help="PDF file(s) to analyze")
     ap.add_argument("--dir", help="analyze every *.pdf in this folder")

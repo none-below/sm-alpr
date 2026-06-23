@@ -3,15 +3,19 @@
 //
 // audit-check.js — client-side PDF revision/edit recovery, the browser companion to
 // scripts/pdf_audit_revisions.py. Finds incremental-update revisions inside a PDF,
-// fingerprints the tool behind each (Producer string + XMP toolkit), and diffs the
-// extracted text so removed/altered content surfaces. Runs entirely in the browser;
-// the PDF is never uploaded.
+// fingerprints the tool behind each (Producer string + XMP toolkit), and produces a
+// timestamped per-edit diff of what changed. Runs entirely in the browser; an
+// uploaded PDF is never sent anywhere.
+//
+// The diff is order-independent (multiset of normalized lines, pairing a removed line
+// with an added line that shares a leading token). Editing in Acrobat re-serializes the
+// page, so a position/order-sensitive diff would report false changes on unedited rows;
+// this mirrors the validated Python tool to avoid that.
 
 (function () {
   "use strict";
 
   if (window.pdfjsLib) {
-    // Cross-origin worker; pdf.js falls back to a main-thread worker if the browser blocks it.
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
   }
@@ -40,6 +44,8 @@
     });
   }
 
+  function norm(s) { return s.split(/\s+/).filter(Boolean).join(" "); }
+
   // ---- byte scan for %%EOF markers; each marks the end of one revision ----
   function revisionEnds(bytes) {
     var ends = [];
@@ -54,7 +60,6 @@
     return ends;
   }
 
-  // ---- map a Producer/Creator/XMP-toolkit string to a recognizable application ----
   function classify(s) {
     var t = (s || "").toLowerCase();
     if (!t) return "";
@@ -72,24 +77,31 @@
 
   function grab(xmp, re) { var m = re.exec(xmp || ""); return m ? m[1].trim() : ""; }
 
-  // ---- reconstruct visual lines from a page's text items, grouped by y position ----
-  function pageLines(textContent) {
-    var rows = new Map();
-    textContent.items.forEach(function (it) {
-      if (!it.str) return;
-      var y = Math.round(it.transform[5]);
-      var x = it.transform[4];
-      if (!rows.has(y)) rows.set(y, []);
-      rows.get(y).push([x, it.str]);
-    });
-    var ys = Array.from(rows.keys()).sort(function (a, b) { return b - a; }); // top -> bottom
-    return ys.map(function (y) {
-      return rows.get(y).sort(function (a, b) { return a[0] - b[0]; })
-        .map(function (p) { return p[1]; }).join(" ");
-    });
+  function fmtDate(d) {
+    if (!d) return "";
+    var s = d.indexOf("D:") === 0 ? d.slice(2) : d;
+    var m = /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(.*)$/.exec(s);
+    if (m) {
+      var tz = m[7].replace(/'/g, ":").replace(/:+$/, "");
+      return m[1] + "-" + m[2] + "-" + m[3] + " " + m[4] + ":" + m[5] + ":" + m[6] + (tz ? " " + tz : "");
+    }
+    m = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})(.*)$/.exec(s);
+    if (m) return m[1] + " " + m[2] + (m[3] ? " " + m[3] : "");
+    return d;
   }
 
-  function norm(s) { return s.split(/\s+/).filter(Boolean).join(" "); }
+  // ---- reading-order lines via pdf.js hasEOL (no coordinate binning => stable) ----
+  function pageLines(textContent) {
+    var lines = [], cur = "";
+    textContent.items.forEach(function (it) {
+      if (typeof it.str !== "string") return;
+      cur += it.str + " ";
+      if (it.hasEOL) { var L = norm(cur); if (L) lines.push(L); cur = ""; }
+    });
+    var tail = norm(cur);
+    if (tail) lines.push(tail);
+    return lines;
+  }
 
   async function readRevision(buf, end) {
     // buf.slice() makes an owned copy so pdf.js can't detach the shared buffer.
@@ -129,34 +141,32 @@
     return rec;
   }
 
-  function multisetDiff(oldL, newL) {
-    var co = new Map(), cn = new Map(), removed = [], added = [];
-    oldL.forEach(function (l) { var k = norm(l); if (k) co.set(k, (co.get(k) || 0) + 1); });
-    newL.forEach(function (l) { var k = norm(l); if (k) cn.set(k, (cn.get(k) || 0) + 1); });
-    co.forEach(function (c, k) { for (var i = 0, d = c - (cn.get(k) || 0); i < d; i++) removed.push(k); });
-    cn.forEach(function (c, k) { for (var i = 0, d = c - (co.get(k) || 0); i < d; i++) added.push(k); });
-    return { removed: removed, added: added };
-  }
-
   function pushTo(map, k, v) { if (!map.has(k)) map.set(k, []); map.get(k).push(v); }
 
-  function pairByLeadingToken(removed, added) {
+  function diffRevisions(a, b) {
+    var co = new Map(), cn = new Map(), removed = [], added = [];
+    (a.lines || []).forEach(function (l) { co.set(l, (co.get(l) || 0) + 1); });
+    (b.lines || []).forEach(function (l) { cn.set(l, (cn.get(l) || 0) + 1); });
+    co.forEach(function (c, k) { for (var i = 0, d = c - (cn.get(k) || 0); i < d; i++) removed.push(k); });
+    cn.forEach(function (c, k) { for (var i = 0, d = c - (co.get(k) || 0); i < d; i++) added.push(k); });
+
     var key = function (s) { return s.split(/\s+/)[0] || ""; };
     var rem = new Map(), add = new Map();
     removed.forEach(function (r) { pushTo(rem, key(r), r); });
-    added.forEach(function (a) { pushTo(add, key(a), a); });
-    var pairs = [], onlyR = [], onlyA = [];
+    added.forEach(function (a_) { pushTo(add, key(a_), a_); });
+    var changed = [], onlyR = [], onlyA = [];
     var keys = new Set();
     rem.forEach(function (_, k) { keys.add(k); });
     add.forEach(function (_, k) { keys.add(k); });
     keys.forEach(function (k) {
       var rs = rem.get(k) || [], as = add.get(k) || [];
-      var n = Math.min(rs.length, as.length);
-      for (var i = 0; i < n; i++) pairs.push([rs[i], as[i]]);
-      onlyR = onlyR.concat(rs.slice(n));
-      onlyA = onlyA.concat(as.slice(n));
+      var m = Math.min(rs.length, as.length);
+      for (var i = 0; i < m; i++) changed.push([rs[i], as[i]]);
+      onlyR = onlyR.concat(rs.slice(m));
+      onlyA = onlyA.concat(as.slice(m));
     });
-    return { pairs: pairs, onlyR: onlyR, onlyA: onlyA };
+    if (onlyR.length === 1 && onlyA.length === 1) { changed.push([onlyR[0], onlyA[0]]); onlyR = []; onlyA = []; }
+    return { changed: changed, removed: onlyR, added: onlyA };
   }
 
   async function handleFile(file) {
@@ -173,8 +183,8 @@
   function resolveUrl(value, ref) {
     value = (value || "").trim();
     if (!value) return null;
-    if (/^https?:\/\//i.test(value)) return value;            // full URL passthrough
-    return REPO_RAW + (ref || "main") + "/" + value.replace(/^\/+/, ""); // repo-relative path
+    if (/^https?:\/\//i.test(value)) return value;
+    return REPO_RAW + (ref || "main") + "/" + value.replace(/^\/+/, "");
   }
 
   function baseName(u) {
@@ -231,9 +241,8 @@
       var kv = "generated by: " + (r.generator || "unidentified");
       if (r.xmpTool && r.xmpTool !== r.generator)
         kv += "\nXMP last written by: " + r.xmpTool + "  (opened/edited in this app after generation)";
-      kv += "\nProducer=" + JSON.stringify(r.producer) + "  Creator=" + JSON.stringify(r.creator);
-      kv += "\nxmptk=" + JSON.stringify(r.xmptk);
-      kv += "\ncreate=" + r.create + "   modify=" + r.modify;
+      kv += "\nProducer=" + JSON.stringify(r.producer) + "  xmptk=" + JSON.stringify(r.xmptk);
+      kv += "\ncreated=" + fmtDate(r.create) + "   modified=" + fmtDate(r.modify);
       if (r.docId || r.instId)
         kv += "\nDocumentID " + (r.docId === r.instId ? "==" : "!=  (content re-saved)") + " InstanceID";
       html += '<div class="kv">' + esc(kv) + "</div></div>";
@@ -243,40 +252,47 @@
     if (good.length) {
       var first = good[0], last = good[good.length - 1];
       var made = first.generator || first.xmpTool || "an unidentified tool";
-      var s = "Generated by " + made + (first.create ? " (" + first.create + ")" : "");
+      var s = "Generated by " + made + (first.create ? " (" + fmtDate(first.create) + ")" : "");
       var editor = last.xmpTool || last.generator;
       if (good.length > 1 || last.edited) {
         s += (editor && editor !== made) ? "; last edited in " + editor : "; re-saved after generation";
-        if (last.modify) s += " (" + last.modify + ")";
+        if (last.modify) s += " (" + fmtDate(last.modify) + ")";
       } else {
         s += "; no later revision recovered";
       }
       html += '<div class="summary">' + esc(s) + "</div>";
     }
 
-    for (var i = 1; i < recs.length; i++) {
-      var a = recs[i - 1], b = recs[i];
-      if (a.error || b.error) continue;
-      var d = multisetDiff(a.lines, b.lines);
-      html += '<div class="diff"><h4>rev ' + i + " &rarr; " + (i + 1) + "</h4>";
-      if (!d.removed.length && !d.added.length) {
-        html += '<p class="nochange">No text change (re-save only &mdash; linearization or metadata).</p></div>';
-        continue;
+    if (recs.length >= 2) {
+      html += '<h2 class="tl">edit timeline</h2>';
+      var edits = 0;
+      for (var i = 1; i < recs.length; i++) {
+        var a = recs[i - 1], b = recs[i];
+        if (a.error || b.error) continue;
+        var ts = fmtDate(b.modify || b.create);
+        var tool = b.xmpTool || b.generator || "unidentified tool";
+        var d = diffRevisions(a, b);
+        var total = d.changed.length + d.removed.length + d.added.length;
+        if (total === 0) {
+          html += '<p class="nochange">rev ' + (i + 1) + " saved " + esc(ts) + " [" + esc(tool) +
+                  "]: re-saved, no text change (linearization or metadata).</p>";
+          continue;
+        }
+        edits++;
+        html += '<div class="editblk"><h4>EDIT ' + edits + " &mdash; saved " + esc(ts) +
+                "  [" + esc(tool) + "]  (" + total + " change" + (total === 1 ? "" : "s") + ")</h4>";
+        d.changed.forEach(function (pair) {
+          html += '<div class="change"><div class="o"><span class="tag">original</span>' + esc(pair[0]) +
+                  '</div><div class="n"><span class="tag">produced</span>' + esc(pair[1]) + "</div></div>";
+        });
+        d.removed.forEach(function (r) {
+          html += '<div class="change"><div class="rm"><span class="tag">removed</span>' + esc(r) + "</div></div>";
+        });
+        d.added.forEach(function (ad) {
+          html += '<div class="change"><div class="ad"><span class="tag">added</span>' + esc(ad) + "</div></div>";
+        });
+        html += "</div>";
       }
-      html += '<p class="nochange">Text changed: &minus;' + d.removed.length + " / +" + d.added.length +
-              " lines (whitespace-normalized).</p>";
-      var pr = pairByLeadingToken(d.removed, d.added);
-      pr.pairs.forEach(function (pair) {
-        html += '<div class="change"><div class="o"><span class="tag">original</span>' + esc(pair[0]) +
-                '</div><div class="n"><span class="tag">produced</span>' + esc(pair[1]) + "</div></div>";
-      });
-      pr.onlyR.forEach(function (r) {
-        html += '<div class="change"><div class="rm"><span class="tag">removed</span>' + esc(r) + "</div></div>";
-      });
-      pr.onlyA.forEach(function (ad) {
-        html += '<div class="change"><div class="ad"><span class="tag">added</span>' + esc(ad) + "</div></div>";
-      });
-      html += "</div>";
     }
 
     out.innerHTML = html;
