@@ -35,7 +35,10 @@ def test_wiring_elements_present():
 def test_js_has_w012541_picker():
     assert "MANIFEST" in JS and "renderPicker" in JS
     assert "W012541-041426" in JS
-    assert "Jodi Ferreira" in JS  # the Feb 2026 edited chip note
+    assert "audit_check_manifest.json" in JS  # loads the build-time picker manifest
+    assert "flattened" in JS                  # opaque-file (Print-to-PDF) flag
+    # chips carry flags only — no recovered edit detail or person names baked in
+    assert "Jodi Ferreira" not in JS
 
 
 def test_js_repo_loader_and_shareable_link():

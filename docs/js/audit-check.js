@@ -25,6 +25,10 @@
   var drop = document.getElementById("drop");
   var fileInput = document.getElementById("file");
 
+  // Blob URLs minted for the per-revision "open / download this version" links;
+  // revoked and rebuilt on each new analysis so they don't leak across files.
+  var objUrls = [];
+
   fileInput.addEventListener("change", function () {
     if (this.files && this.files[0]) handleFile(this.files[0]);
   });
@@ -57,6 +61,14 @@
       for (var j = 0; j < P.length; j++) if (bytes[i + j] !== P[j]) { hit = false; break; }
       if (hit) ends.push(i + P.length);
     }
+    // A linearized PDF's FIRST %%EOF ends the first-page cross-reference table, not a
+    // complete earlier revision — slicing there yields a rootless fragment ("Invalid
+    // Root reference"). Drop it so the first revision is the full document.
+    if (ends.length > 1) {
+      var head = "";
+      for (var h = 0; h < Math.min(bytes.length, 2048); h++) head += String.fromCharCode(bytes[h]);
+      if (head.indexOf("/Linearized") !== -1) ends = ends.slice(1);
+    }
     return ends;
   }
 
@@ -73,6 +85,18 @@
     if (t.indexOf("itext") !== -1) return "iText";
     if (t.indexOf("quartz") !== -1 || t.indexOf("mac os x") !== -1) return "Apple Quartz / macOS";
     return "";
+  }
+
+  // A render/print-to-PDF tool writes a fresh single file with no incremental
+  // history, so any edit made before it rendered is unrecoverable ("collapsed").
+  // Acrobat and the legacy XMP-toolkit native export are NOT flattens — they can
+  // append recoverable revisions — so they are deliberately excluded here.
+  function isFlatten(label) {
+    return !!label && /Print to PDF|Skia|wkhtmltopdf|ReportLab|iText|Quartz|macOS/i.test(label);
+  }
+
+  function versionName(n, k) {
+    return String(n).replace(/\.pdf$/i, "") + ".rev" + k + ".pdf";
   }
 
   function grab(xmp, re) { var m = re.exec(xmp || ""); return m ? m[1].trim() : ""; }
@@ -141,14 +165,20 @@
     rec.editor = rec.dcCreator || rec.author || "";
     rec.edited = (!!rec.docId && !!rec.instId && rec.docId !== rec.instId) ||
                  (!!rec.create && !!rec.modify && rec.create !== rec.modify);
-    var s = "";
+    var s = "", pageOf = {}, pre = new RegExp(UUID.source, "gi");
     for (var p = 1; p <= doc.numPages; p++) {
       var page = await doc.getPage(p);
       var tc = await page.getTextContent();
-      for (var k = 0; k < tc.items.length; k++) if (typeof tc.items[k].str === "string") s += tc.items[k].str + " ";
+      var ptext = "";
+      for (var k = 0; k < tc.items.length; k++) if (typeof tc.items[k].str === "string") ptext += tc.items[k].str + " ";
+      pre.lastIndex = 0;
+      var mm;
+      while ((mm = pre.exec(ptext)) !== null) { var pid = mm[0].toLowerCase(); if (!(pid in pageOf)) pageOf[pid] = p; }
+      s += ptext + " ";
     }
     rec.text = cleanText(s);
     rec.rows = rowsOf(rec.text);
+    rec.pageOf = pageOf;   // row UUID -> 1-based page it first appears on (for #page= links)
     await doc.destroy();
     return rec;
   }
@@ -244,7 +274,85 @@
     }).join(" ");
   }
 
+  // ---- surrounding-rows context for an edit (a few rows above/below the change) ----
+  // We anchor ENTIRELY on the original revision's rows, which are cleanly segmented.
+  // The edited revision re-flows its text (an Acrobat re-save detaches the reason
+  // column from its row), so its raw extraction can't be split back into rows — see
+  // the multiset diff above. We therefore DERIVE the edited column from the original
+  // rows plus the recovered token delta, which is exact and immune to that re-flow.
+  function contextBox(a, b, d, revNum, urlA, urlB) {
+    var ar = a.rows || [];
+    if (!ar.length) return "";
+    var N = 3;
+
+    var remByRow = {};                    // original-row id -> { removedToken: true }
+    d.removed.forEach(function (x) {
+      if (x.row) (remByRow[x.row.id] = remByRow[x.row.id] || {})[x.tok] = true;
+    });
+    var deleted = {};
+    d.deletedRows.forEach(function (r) { deleted[r.id] = true; });
+    var hot = {};
+    Object.keys(remByRow).forEach(function (id) { hot[id] = true; });
+    Object.keys(deleted).forEach(function (id) { hot[id] = true; });
+    // added text is shown as the replacement on the changed row (green)
+    var addedToks = d.added.map(function (x) { return x.tok; });
+
+    var center = -1;
+    for (var i = 0; i < ar.length; i++) if (hot[ar[i].id]) { center = i; break; }
+    if (center === -1) return "";         // change not locatable in the original rows
+    var lo = Math.max(0, center - N), hi = Math.min(ar.length - 1, center + N);
+
+    // jump-to-page links: browser PDF viewers honor #page=N (line-level isn't
+    // addressable), so we land the reader on the page holding the changed row.
+    var centerId = ar[center].id;
+    // the changed row's position on its page — a hint for where to look, since #page
+    // can't address a specific line. Derived from the original revision's clean order.
+    function rowHint(pageOf) {
+      var pg = pageOf && pageOf[centerId];
+      if (!pg) return "";
+      var onpg = ar.filter(function (r) { return pageOf[r.id] === pg; });
+      for (var z = 0; z < onpg.length; z++) if (onpg[z].id === centerId) return " &middot; row " + (z + 1) + " of " + onpg.length;
+      return "";
+    }
+    function openLink(url, pageOf) {
+      if (!url) return "";
+      var pg = pageOf && pageOf[centerId];
+      return ' <a class="ctxopen" href="' + url + (pg ? "#page=" + pg : "") +
+             '" target="_blank" rel="noopener">open' + (pg ? " p." + pg : " pdf") + rowHint(pageOf) + " &#8599;</a>";
+    }
+
+    function side(edited) {
+      var h = "";
+      for (var k = lo; k <= hi; k++) {
+        var row = ar[k], isHot = !!hot[row.id], txt;
+        if (!isHot) {
+          txt = esc(row.text);
+        } else if (deleted[row.id]) {
+          txt = edited ? '<span class="gone">(row deleted)</span>' : "<del>" + esc(row.text) + "</del>";
+        } else if (!edited) {
+          txt = highlightRow(row.text, remByRow[row.id], null);          // strike removed
+        } else {
+          var rem = remByRow[row.id] || {};
+          var kept = row.text.split(" ").filter(function (w) { return !rem[w] && w !== "-"; }).join(" ");
+          txt = esc(kept);
+          if (k === center && addedToks.length)
+            txt += " " + addedToks.map(function (t) { return "<ins>" + esc(t) + "</ins>"; }).join(" ");
+        }
+        h += '<div class="ctxrow' + (isHot ? " hot" : "") + '">' + txt + "</div>";
+      }
+      return h;
+    }
+
+    return '<div class="ctx"><h5>context &middot; surrounding rows, before and after</h5>' +
+           '<div class="ctxnote">The edited column is the original rows with the recovered change applied — the edited file re-flows its text, so its raw layout can&rsquo;t be split back into rows.</div>' +
+           '<div class="ctxside"><div class="ctxlbl">original &mdash; rev ' + revNum + openLink(urlA, a.pageOf) + '</div>' + side(false) + "</div>" +
+           '<div class="ctxside"><div class="ctxlbl">edited &mdash; rev ' + (revNum + 1) + openLink(urlB, b.pageOf) + '</div>' + side(true) + "</div>" +
+           "</div>";
+  }
+
   async function analyzeBytes(buf, name) {
+    objUrls.forEach(function (u) { try { URL.revokeObjectURL(u); } catch (e) { /* ignore */ } });
+    objUrls = [];
     var ends = revisionEnds(buf);
     var html = '<div class="file-title">' + esc(name) + "</div>";
     html += '<div class="meta">' + buf.length.toLocaleString() + " bytes &middot; " + ends.length + " revision marker(s)</div>";
@@ -265,12 +373,29 @@
     function changeCount(d) { return d ? d.removed.length + d.added.length + d.deletedRows.length + d.addedRows.length : 0; }
     var anyChange = diffs.some(function (d) { return changeCount(d) > 0; });
 
+    var revUrls = [];   // per-revision standalone blob URL, indexed by revision
+
+    // When the base is a flattened render, the document existed before it but that
+    // history was discarded — represent it as an explicit "unknown" placeholder above
+    // the first recoverable revision, so a flattened file doesn't read as "clean".
+    var base0 = recs[0];
+    if (base0 && !base0.error && isFlatten(base0.generator)) {
+      html += '<div class="rev ghost"><h3>??? &middot; earlier history unknown</h3>' +
+              '<div class="kv">' + esc("This file was produced by a flattened render (" + base0.generator +
+              "). That format keeps no prior revision history, so any earlier version — and any edit made " +
+              "before this render — was discarded and cannot be recovered. The absence of a recovered edit " +
+              "below is therefore no indication of whether or not the content was altered.") + "</div></div>";
+    }
+
     recs.forEach(function (r, i) {
       if (r.error) { html += '<div class="rev"><h3>rev ' + (i + 1) + '</h3><div class="err">' + esc(r.error) + "</div></div>"; return; }
       var changed = i > 0 && changeCount(diffs[i]) > 0;
       var badge = i === 0 ? '<span class="badge base">base</span>'
                 : changed ? '<span class="badge edit">EDITED</span>'
                           : '<span class="badge ok">re-saved, no change</span>';
+      // only the BASE is a flattened render; later revisions are incremental edits
+      // appended on top (they inherit the same Producer string but aren't flattens).
+      if (i === 0 && isFlatten(r.generator)) badge += ' <span class="badge flat">flattened</span>';
       html += '<div class="rev' + (changed ? " edited" : "") + '">';
       html += "<h3>rev " + (i + 1) + " &middot; " + r.pages + "pp&ensp;" + badge + "</h3>";
       var kv = "generated by: " + (r.generator || "unidentified");
@@ -279,7 +404,15 @@
       kv += "\nProducer=" + JSON.stringify(r.producer) + "  xmptk=" + JSON.stringify(r.xmptk);
       kv += "\ncreated=" + fmtDate(r.create) + "   modified=" + fmtDate(r.modify);
       if (r.docId || r.instId) kv += "\nDocumentID " + (r.docId === r.instId ? "==" : "!=  (content re-saved)") + " InstanceID";
-      html += '<div class="kv">' + esc(kv) + "</div></div>";
+      html += '<div class="kv">' + esc(kv) + "</div>";
+      // standalone copy of the document exactly as it stood at this revision
+      var vurl = URL.createObjectURL(new Blob([buf.slice(0, r.bytes)], { type: "application/pdf" }));
+      objUrls.push(vurl);
+      revUrls[i] = vurl;
+      html += '<div class="revlinks"><a href="' + vurl + '" target="_blank" rel="noopener">open this version &#8599;</a>' +
+              '<a href="' + vurl + '" download="' + esc(versionName(name, i + 1)) + '">download</a>' +
+              '<span class="vsz">' + r.bytes.toLocaleString() + " bytes</span></div>";
+      html += "</div>";
     });
 
     var good = recs.filter(function (r) { return !r.error; });
@@ -347,6 +480,7 @@
         d.deletedRows.forEach(function (r) { html += '<div class="rowdiff"><span class="tag">row deleted</span><del>' + esc(r.text) + "</del></div>"; });
         d.addedRows.forEach(function (r) { html += '<div class="rowdiff"><span class="tag">row added</span><ins>' + esc(r.text) + "</ins></div>"; });
         html += "</div>";
+        html += contextBox(a, b, d, i, revUrls[i - 1], revUrls[i]);
       }
     }
 
@@ -354,41 +488,60 @@
   }
 
   // ---- built-in picker for the W012541 audit PDFs (the only PRA with edits) ----
-  // `edited` reflects a confirmed content change (not a mere re-save), per
-  // scripts/pdf_audit_revisions.py over the files currently on `main`.
-  var W012541 = "assets/san-mateo-public-records/W012541-041426/";
+  // The list is generated at build time by scripts/build_audit_check_manifest.py into
+  // docs/data/audit_check_manifest.json (loaded below); this inline copy is the
+  // fallback when that artifact isn't deployed. Flags only: `edited` = a content edit
+  // recovered from the file's revision history (chip: "altered"); `flattened` = a
+  // Print-to-PDF re-render with no recoverable history (chip: "flattened" — opaque,
+  // can't be checked). No edit detail or names are baked in — the page re-derives
+  // what/who/when live when a chip is clicked.
+  var DIR = "assets/san-mateo-public-records/W012541-041426/";
   var MANIFEST = [
-    { label: "Jan 2023", file: "1_1_2023-1_31_2023-San_Mateo_CA_PD-Audit2.pdf" },
-    { label: "Oct 2023", file: "10_1_2023-10_31_2023-San_Mateo_CA_PD-Audit.pdf" },
-    { label: "Nov 2023", file: "11_1_2023-11_30_2023-San_Mateo_CA_PD-Audit.pdf" },
-    { label: "Jan 2024", file: "1_1_2024-1_31_2024-San_Mateo_CA_PD-Audit.pdf" },
-    { label: "Oct 2024", file: "10_1_2024-10_31_2024-San_Mateo_CA_PD-Audit.pdf" },
-    { label: "Jan 2025 (pt1)", file: "1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_1_.pdf", edited: true, note: "2 edits" },
-    { label: "Jan 2025 (pt2)", file: "1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_2_.pdf" },
-    { label: "Oct 2025", file: "10_1_2025-10_31_2025-San_Mateo_CA_PD-Audit.pdf" },
-    { label: "Dec 2025", file: "12_1_2025-12_31_2025-San_Mateo_CA_PD_Audit.pdf" },
-    { label: "Jan 2026 (pt1)", file: "1_1_2026-1_31_2026-San_Mateo_CA_PD-Audit__1___Part_1_.pdf" },
-    { label: "Jan 2026 (pt2)", file: "1_1_2026-1_31_2026-San_Mateo_CA_PD-Audit__1___Part_2_.pdf", edited: true, note: "1 edit" },
-    { label: "Feb 2026", file: "2_1_2026-2_28_2026-San_Mateo_CA_PD-Audit__2_.pdf", edited: true, note: "case # removed · Jodi Ferreira" },
-    { label: "Mar 2026", file: "3_1_2026-3_31_2026-San_Mateo_CA_PD-Audit__1_.pdf", edited: true, note: "typo fix" }
+    { label: "Jan 2023", path: DIR + "1_1_2023-1_31_2023-San_Mateo_CA_PD-Audit2.pdf" },
+    { label: "Feb 2023", path: DIR + "2_1_2023-2_28_2023-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Mar 2023", path: DIR + "3_1_2023-3_31_2023-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Oct 2023", path: DIR + "10_1_2023-10_31_2023-San_Mateo_CA_PD-Audit.pdf", flattened: true },
+    { label: "Nov 2023", path: DIR + "11_1_2023-11_30_2023-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Dec 2023", path: DIR + "12_1_2023-12_31_2023-San_Mateo_CA_PD-Audit.pdf", edited: true },
+    { label: "Jan 2024", path: DIR + "1_1_2024-1_31_2024-San_Mateo_CA_PD-Audit.pdf", flattened: true },
+    { label: "Feb 2024", path: DIR + "2_1_2024-2_29_2024-San_Mateo_CA_PD-Audit.pdf", edited: true },
+    { label: "Oct 2024", path: DIR + "10_1_2024-10_31_2024-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Nov 2024", path: DIR + "11_1_2024-11_30_2024-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "Dec 2024", path: DIR + "12_1_2024-12_31_2024-San_Mateo_CA_PD-Audit.pdf", flattened: true },
+    { label: "Jan 2025 (pt1)", path: DIR + "1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_1_.pdf", edited: true },
+    { label: "Jan 2025 (pt2)", path: DIR + "1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_2_.pdf" },
+    { label: "Feb 2025", path: DIR + "2_1_2025-2_28_2025-San_Mateo_CA_PD-Audit.pdf", flattened: true },
+    { label: "Oct 2025", path: DIR + "10_1_2025-10_31_2025-San_Mateo_CA_PD-Audit.pdf", flattened: true },
+    { label: "Nov 2025", path: DIR + "11_1_2025-11_30_2025-San_Mateo_CA_PD-Audit.pdf", flattened: true },
+    { label: "Dec 2025", path: DIR + "12_1_2025-12_31_2025-San_Mateo_CA_PD_Audit.pdf", flattened: true },
+    { label: "Jan 2026 (pt1)", path: DIR + "1_1_2026-1_31_2026-San_Mateo_CA_PD-Audit__1___Part_1_.pdf" },
+    { label: "Jan 2026 (pt2)", path: DIR + "1_1_2026-1_31_2026-San_Mateo_CA_PD-Audit__1___Part_2_.pdf", edited: true },
+    { label: "Feb 2026", path: DIR + "2_1_2026-2_28_2026-San_Mateo_CA_PD-Audit__2_.pdf", edited: true, flattened: true },
+    { label: "Mar 2026", path: DIR + "3_1_2026-3_31_2026-San_Mateo_CA_PD-Audit__1_.pdf", edited: true }
   ];
 
   function renderPicker() {
     var el = document.getElementById("picker");
     if (!el) return;
     var edited = MANIFEST.filter(function (m) { return m.edited; }).length;
-    var h = "<h2>W012541 audit PDFs &middot; " + MANIFEST.length + " files on main, " + edited + " with edits</h2><div class=\"chips\">";
+    var flat = MANIFEST.filter(function (m) { return !m.edited && m.flattened; }).length;
+    var h = "<h2>W012541 audit PDFs &middot; " + MANIFEST.length + " files on main &middot; " +
+            edited + " altered &middot; " + flat + " flattened (history opaque)</h2><div class=\"chips\">";
     MANIFEST.forEach(function (m, i) {
-      h += '<button type="button" class="chip' + (m.edited ? " edited" : "") + '" data-i="' + i + '">' +
-           '<span class="dot"></span>' + esc(m.label) + (m.edited ? ' <small>' + esc(m.note || "edited") + "</small>" : "") + "</button>";
+      var cls = m.edited ? " edited" : (m.flattened ? " flat" : "");
+      var mark = m.edited ? (m.note || "altered") : (m.flattened ? "flattened" : "");
+      h += '<button type="button" class="chip' + cls + '" data-i="' + i + '">' +
+           '<span class="dot"></span>' + esc(m.label) + (mark ? ' <small>' + esc(mark) + "</small>" : "") + "</button>";
     });
-    h += "</div><div class=\"legend\">Amber = a confirmed content edit recovered from the file&rsquo;s revision history. Loads from <code>main</code> via GitHub; more files appear as PRAs merge.</div>";
+    h += "</div><div class=\"legend\">Amber = a content edit recovered from the file&rsquo;s revision history. " +
+         "Gray dashed = a flattened render (Print-to-PDF) that keeps no history, so it can&rsquo;t be checked either way. " +
+         "Loads from <code>main</code> via GitHub; more files appear as PRAs merge.</div>";
     el.innerHTML = h;
     el.querySelectorAll(".chip").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var m = MANIFEST[+this.getAttribute("data-i")];
-        document.getElementById("url").value = W012541 + m.file;
-        loadFromUrl(W012541 + m.file, null, true);
+        document.getElementById("url").value = m.path;
+        loadFromUrl(m.path, null, true);
       });
     });
   }
@@ -401,6 +554,12 @@
     if (e.key === "Enter") { e.preventDefault(); loadFromUrl(this.value, null, true); }
   });
   renderPicker();
+  // prefer the build-time manifest (auto-updated as new audit PDFs merge); the inline
+  // list above is the fallback when the artifact isn't deployed.
+  fetch("data/audit_check_manifest.json")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) { if (j && j.length) { MANIFEST = j; renderPicker(); } })
+    .catch(function () { /* keep inline fallback */ });
   (function () {
     var params = new URLSearchParams(location.search);
     var pdf = params.get("pdf");

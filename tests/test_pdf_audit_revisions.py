@@ -34,6 +34,23 @@ def test_revision_ends_counts_eof_markers():
     assert len(par.revision_ends(data)) == 2
 
 
+def test_revision_ends_drops_linearized_first_eof():
+    # A linearized PDF's first %%EOF ends the first-page xref stub, not a real
+    # revision; truncating there gives a rootless fragment ("Invalid Root reference").
+    lin = b"%PDF-1.6\n1 0 obj<</Linearized 1/L 99>>endobj\nx\n%%EOF\nmore objs\n%%EOF\n"
+    assert len(par.revision_ends(lin)) == 1
+    # non-linearized files keep every marker
+    assert len(par.revision_ends(b"%PDF-1.4\n...\n%%EOF\nmore\n%%EOF\n")) == 2
+
+
+def test_is_flatten():
+    assert par.is_flatten("Microsoft (Office / Print to PDF)")
+    assert par.is_flatten("Apple Quartz / macOS")
+    assert not par.is_flatten("Adobe Acrobat / Adobe PDF Library")
+    assert not par.is_flatten("legacy XMP toolkit 3.1 (older library)")
+    assert not par.is_flatten("")
+
+
 def test_norm_and_fmt_date():
     assert par.norm("a   b\tc\n") == "a b c"
     assert par.fmt_date("D:20260603170653-07'00'") == "2026-06-03 17:06:53 -07:00"

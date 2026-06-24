@@ -54,8 +54,15 @@ BOILERPLATE = [
 
 
 def revision_ends(data: bytes) -> list[int]:
-    """Byte offset just past each %%EOF marker; each is the end of one revision."""
-    return [m.end() for m in EOF_RE.finditer(data)]
+    """Byte offset just past each %%EOF marker; each is the end of one revision.
+
+    A linearized PDF's first %%EOF ends the first-page cross-reference table, not a
+    complete earlier revision — truncating there yields a rootless fragment that
+    won't parse. Drop it so the first revision is the full document."""
+    ends = [m.end() for m in EOF_RE.finditer(data)]
+    if len(ends) > 1 and b"/Linearized" in data[:2048]:
+        ends = ends[1:]
+    return ends
 
 
 def parse_xmp(xmp: str) -> dict:
@@ -97,6 +104,16 @@ def classify(s: str) -> str:
     if "quartz" in t or "mac os x" in t:
         return "Apple Quartz / macOS"
     return ""
+
+
+def is_flatten(label: str) -> bool:
+    """A render/print-to-PDF tool writes a fresh single file with no incremental
+    history, so any edit made before it rendered the file is unrecoverable. Acrobat
+    and the legacy XMP-toolkit native export can append recoverable revisions and are
+    deliberately excluded."""
+    return bool(label) and bool(
+        re.search(r"Print to PDF|Skia|wkhtmltopdf|ReportLab|iText|Quartz|macOS", label, re.I)
+    )
 
 
 def fmt_date(d: str) -> str:
@@ -233,6 +250,13 @@ def analyze(path: Path) -> None:
             if last.get("modify"):
                 line += f" ({fmt_date(last['modify'])})"
         print(line)
+        if is_flatten(first["generator"]):
+            print(
+                f"  NOTE: base revision is a flattened render ({first['generator']}). "
+                "No incremental history is kept in this format; changes made before the "
+                "file was rendered are not recoverable, and the absence of recovered edits "
+                "is no indication of whether or not the content was altered."
+            )
 
     if len(recs) < 2:
         return
