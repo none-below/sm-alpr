@@ -534,7 +534,7 @@ Device counts from department sources and public records:
 
 - Gov. Code § 7922.535(a) requires an agency to determine within 10 days whether a request seeks disclosable records, and to state an estimated production date; § 7922.535(b) permits one 14-day extension, in writing, for enumerated "unusual circumstances." § 7922.530 requires records to be made "promptly available" [70].
 
-- First determinations were largely timely: 35 of 36 requests received a determination within the statutory 10 days; the exception (W012541) came 3 days past the deadline — 13 calendar days from filing [71].
+- A first response reached 35 of 36 requests within the 10-day window (W012541's came 3 days late [71]) — but a response is not the per-item determination § 7922.535(a) requires. On multi-item requests the Department routinely answered some items and left the rest undetermined, deferred as "no responsive records at this time" or under rolling extensions. In W012373, item 1 was determined in the first response while item 2 — records authorizing the deployment — was left "no responsive records at this time" across three updates and not finally determined until June 2, 2026, more than two months after filing [34].
 
 - Production was not: agency messages moved their own promised production dates 20 times across the request set, extending them by a cumulative 275 days [71].
 
