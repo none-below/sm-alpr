@@ -144,7 +144,7 @@ COUNCIL_SOURCE_NUMS = set(COUNCIL_FILE_IDS.keys())
 
 # ═══════════════════ PARSER ═══════════════════
 
-def parse_md(path):
+def parse_md(path, pd_mode=False):
     """Split markdown into sections by headings.  Returns a list of
     {'title': str, 'anchor': str, 'lines': [str]} dicts,
     plus a preamble (lines before the first heading)."""
@@ -153,8 +153,19 @@ def parse_md(path):
     # Strip HTML comments and --- separators
     lines = []
     in_comment = False
+    in_pd_exclude = False
     for line in raw_lines:
         s = line.rstrip('\n')
+        st = s.strip()
+        # PD-handout variant: content between <!-- pd-exclude --> and
+        # <!-- /pd-exclude --> stays in the full build (markers stripped) and is
+        # dropped only when pd_mode (the version handed to the PD).
+        if st == '<!-- pd-exclude -->':
+            in_pd_exclude = True; continue
+        if st == '<!-- /pd-exclude -->':
+            in_pd_exclude = False; continue
+        if in_pd_exclude and pd_mode:
+            continue
         if '<!--' in s:
             if '-->' in s: continue
             in_comment = True; continue
@@ -524,12 +535,14 @@ def build_revisions(S, dd):
 def main():
     global _MD5_HASH
     import hashlib
-    md_path=str(Path(sys.argv[1]).resolve()) if len(sys.argv)>1 else "docs/SMPD_ALPR_Findings.md"
-    out_path=str(Path(sys.argv[2]).resolve()) if len(sys.argv)>2 else str(Path(tempfile.gettempdir())/"SMPD_ALPR_Findings.pdf")
+    argv=[a for a in sys.argv[1:] if not a.startswith('--')]
+    pd_mode='--pd' in sys.argv[1:]
+    md_path=str(Path(argv[0]).resolve()) if len(argv)>0 else "docs/SMPD_ALPR_Findings.md"
+    out_path=str(Path(argv[1]).resolve()) if len(argv)>1 else str(Path(tempfile.gettempdir())/"SMPD_ALPR_Findings.pdf")
     if not md_path.endswith('.md') or not out_path.endswith('.pdf'):
         raise SystemExit("Error: expected .md input and .pdf output paths")
     with open(md_path,'rb') as f: _MD5_HASH=hashlib.md5(f.read()).hexdigest()
-    dd=parse_md(md_path); S=mkstyles()
+    dd=parse_md(md_path, pd_mode=pd_mode); S=mkstyles()
     frame=Frame(ML,MB,PAGE_W-ML-MR,PAGE_H-MT-MB,id='main')
     pdf=BaseDocTemplate(out_path,pagesize=letter,title="SMPD ALPR Investigation — Findings",author="",subject="ALPR")
     pdf.addPageTemplates([PageTemplate(id='cover',frames=[frame],onPage=on_cover),
