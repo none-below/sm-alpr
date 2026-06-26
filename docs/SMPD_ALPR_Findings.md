@@ -546,6 +546,8 @@ Device counts from department sources and public records:
 
 - The corpus's only production ran at fewer than one record per day — 32 records over 33 days, against a disclosed scope of 211,872 documents [48].
 
+- That production also defied segregability. The requester invoked § 7922.525(b), asking that any withheld email be released in redacted form and that the Department provide an index of withheld records identifying each by sender, recipient, date, and subject, with the exemption asserted [48]. The Department provided neither — withholding under § 7923.600, declining a privilege log under Haynie v. Superior Court, and releasing only the 32 innocuous records above — though it was reviewing every email by hand and could have redacted, or logged, as it went [48].
+
 - Withholding authorities accumulated as the requests narrowed: Gov. Code § 7923.600 has been invoked on six requests and attorney-client privilege on nine, both first appearing in mid-March 2026 [71].
 
 - By June 2026 the authorities stacked: W012789 sought a single record — the Flock search-audit export already produced under W012541 [58], with the platform's additional compliance columns included and every populated value redacted. Of that one record, the response asserts that it "does not exist as a record maintained by the Department or within the Flock platform" and that it is exempt under § 7923.600, the § 7922.000 balancing test, and Evidence Code § 1040 [68].
