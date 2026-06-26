@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://gc.zgo.at; worker-src 'self' blob: https://cdnjs.cloudflare.com; connect-src 'self' blob: https://cdnjs.cloudflare.com https://raw.githubusercontent.com https://gc.zgo.at https://none-below.goatcounter.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none';">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/shared.css">
+<title>PDF revision &amp; edit checker</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; line-height: 1.5; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 28px 20px 80px; }
+  h1 { font-size: 22px; margin-bottom: 6px; }
+  .lede { color: #94a3b8; font-size: 14px; max-width: 720px; }
+  .lede code { background: #1e293b; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  .privacy { color: #34d399; font-size: 13px; margin-top: 10px; }
+  .drop { display: block; margin: 24px 0; border: 1.5px dashed #334155; border-radius: 10px; padding: 30px 20px; text-align: center; background: #111c34; cursor: pointer; transition: border-color .15s, background .15s; }
+  .drop.hover { border-color: #38bdf8; background: #16233f; }
+  .drop input { display: none; }
+  .drop b { color: #e2e8f0; }
+  .drop span { color: #94a3b8; font-size: 13px; }
+  .urlrow { display: flex; gap: 8px; margin: 14px 0 4px; }
+  .urlrow input { flex: 1; min-width: 0; padding: 9px 11px; border-radius: 8px; border: 1px solid #334155; background: #0e1830; color: #e2e8f0; font-size: 13px; font-family: ui-monospace, Menlo, monospace; }
+  .urlrow button { padding: 9px 18px; border-radius: 8px; border: 1px solid #0c4a6e; background: #075985; color: #e0f2fe; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .urlrow button:hover { background: #0369a1; }
+  .hint { color: #64748b; font-size: 12px; max-width: 720px; }
+  .hint code { background: #1e293b; padding: 1px 5px; border-radius: 4px; }
+  .picker { margin: 18px 0 4px; }
+  .picker h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px; border-radius: 8px; border: 1px solid #334155; background: #0e1830; color: #e2e8f0; font-size: 13px; cursor: pointer; }
+  .chip:hover { border-color: #38bdf8; }
+  .chip.edited { border-color: #b45309; background: #1c1408; }
+  .chip .dot { width: 8px; height: 8px; border-radius: 999px; background: #475569; flex: none; }
+  .chip.edited .dot { background: #f59e0b; }
+  .chip small { color: #f59e0b; font-size: 11px; }
+  .chip.flat { border-style: dashed; border-color: #475569; }
+  .chip.flat .dot { background: #64748b; }
+  .chip.flat small { color: #94a3b8; }
+  .picker .legend { color: #64748b; font-size: 12px; margin-top: 8px; }
+  #out { margin-top: 8px; }
+  .file-title { font-size: 16px; margin: 22px 0 4px; word-break: break-all; }
+  .meta { color: #64748b; font-size: 12px; margin-bottom: 12px; }
+  .rev { border: 1px solid #1e293b; border-radius: 8px; padding: 12px 14px; margin: 10px 0; background: #0e1830; }
+  .rev.edited { border-color: #b45309; background: #1c1408; }
+  .rev h3 { font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; line-height: 1.5; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+  .badge.edit { background: #7c2d12; color: #fed7aa; }
+  .badge.ok { background: #1e3a5f; color: #bae6fd; }
+  .badge.base { background: #334155; color: #cbd5e1; }
+  .kv { font-size: 12px; color: #94a3b8; font-family: ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-all; }
+  .summary { margin: 16px 0; padding: 12px 14px; border-radius: 8px; background: #082f49; color: #e0f2fe; font-size: 14px; border: 1px solid #0c4a6e; }
+  .diff { margin: 12px 0 4px; }
+  .diff h4 { font-size: 13px; color: #f1f5f9; margin-bottom: 6px; }
+  .tl { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; border-bottom: 1px solid #1e293b; padding-bottom: 6px; margin: 24px 0 12px; }
+  .editblk { border: 1px solid #1e293b; border-radius: 8px; padding: 10px 14px; margin: 10px 0; background: #0e1830; }
+  .editblk h4 { font-size: 13px; color: #fde68a; margin-bottom: 8px; }
+  .rowdiff { font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; background: #0b1426; border: 1px solid #1e293b; border-radius: 6px; padding: 6px 9px; margin: 6px 0; white-space: pre-wrap; word-break: break-word; line-height: 1.7; }
+  .rowdiff del { color: #fca5a5; background: #3f1d1d; text-decoration: line-through; padding: 0 2px; border-radius: 3px; }
+  .rowdiff ins { color: #bbf7d0; background: #14361f; text-decoration: none; padding: 0 2px; border-radius: 3px; }
+  .change { font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; border-radius: 6px; overflow: hidden; margin: 6px 0; border: 1px solid #1e293b; }
+  .change .o, .change .n, .change .rm, .change .ad { padding: 4px 8px; white-space: pre-wrap; word-break: break-word; }
+  .change .o  { background: #3f1d1d; color: #fecaca; }
+  .change .n  { background: #14361f; color: #bbf7d0; }
+  .change .rm { background: #3f1d1d; color: #fecaca; }
+  .change .ad { background: #14361f; color: #bbf7d0; }
+  .tag { display: inline-block; width: 78px; color: #94a3b8; font-weight: 600; }
+  .nochange { color: #64748b; font-size: 13px; margin: 8px 0; }
+  .err { color: #fca5a5; font-size: 13px; }
+  .note { color: #64748b; font-size: 12px; margin-top: 18px; max-width: 720px; }
+  .rev.ghost { border-style: dashed; border-color: #475569; background: #0b1426; }
+  .rev.ghost h3 { color: #94a3b8; letter-spacing: .04em; }
+  .rev.ghost .kv { color: #64748b; white-space: normal; }
+  .badge.flat { background: #3b2f0a; color: #fde68a; }
+  .revlinks { font-size: 12px; margin-top: 8px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .revlinks a { color: #38bdf8; }
+  .revlinks .vsz { color: #64748b; }
+  .ctx { border: 1px solid #1e293b; border-radius: 8px; padding: 10px 14px; margin: 8px 0 18px; background: #0b1426; }
+  .ctx h5 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
+  .ctxnote { font-size: 11px; color: #64748b; margin-bottom: 8px; line-height: 1.45; }
+  .ctxside { margin: 8px 0; }
+  .ctxrow .gone { color: #64748b; font-style: italic; }
+  .ctxlbl { font-size: 11px; color: #64748b; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .05em; }
+  .ctxopen { color: #38bdf8; text-transform: none; letter-spacing: 0; margin-left: 8px; font-size: 11px; }
+  .ctxrow { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #64748b; padding: 3px 8px; border-left: 2px solid #1e293b; white-space: pre-wrap; word-break: break-word; line-height: 1.55; }
+  .ctxrow.hot { color: #e2e8f0; border-left-color: #f59e0b; background: #0e1830; }
+  .ctxrow del { color: #fca5a5; background: #3f1d1d; text-decoration: line-through; padding: 0 2px; border-radius: 3px; }
+  .ctxrow ins { color: #bbf7d0; background: #14361f; text-decoration: none; padding: 0 2px; border-radius: 3px; }
+  a { color: #38bdf8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>PDF revision &amp; edit checker</h1>
+  <p class="lede">
+    Drop in a PDF to recover its hidden <b>revision history</b>. Many editors save changes as an
+    <i>incremental update</i> appended to the file, leaving every earlier version inside it. This tool
+    reconstructs each revision, fingerprints the <b>tool that generated or edited</b> each one (from the
+    <code>Producer</code> string and the XMP toolkit), and <b>diffs the text</b> so deleted or altered
+    content is recovered. A file that was re-rendered/flattened (&ldquo;Print to PDF&rdquo;) has no prior
+    revisions to recover &mdash; it will show a single revision.
+  </p>
+  <p class="privacy">&#128274; Everything runs in your browser. The PDF is never uploaded anywhere.</p>
+
+  <label class="drop" id="drop">
+    <input type="file" id="file" accept="application/pdf,.pdf">
+    <b>Choose a PDF</b> or drag one here<br>
+    <span>processed locally &mdash; nothing leaves this page</span>
+  </label>
+
+  <div class="urlrow">
+    <input type="text" id="url" placeholder="&hellip;or a repo path / URL, e.g. assets/san-mateo-public-records/W012541-041426/2_1_2026-2_28_2026-San_Mateo_CA_PD-Audit__2_.pdf">
+    <button type="button" id="loadbtn">Load</button>
+  </div>
+  <p class="hint">
+    Paste a path from the <a href="https://github.com/none-below/sm-alpr" rel="noopener">repo</a> (fetched from
+    <code>main</code> via GitHub), a full URL, or add <code>?pdf=&lt;path&gt;</code> (optionally
+    <code>&amp;ref=&lt;branch&gt;</code>) to this page&rsquo;s address &mdash; so a reviewer opens the link and sees
+    the result without re-uploading.
+  </p>
+
+  <div class="picker" id="picker"></div>
+
+  <div id="out"></div>
+
+  <p class="note">
+    Notes: &ldquo;EDITED / RE-SAVED&rdquo; means a revision&rsquo;s <code>DocumentID</code> differs from its
+    <code>InstanceID</code>, or its modify date is later than its create date &mdash; signatures of a file opened
+    and saved again after creation. Text diffs are whitespace-normalized, so pure layout reflow is ignored and
+    only real content changes appear. Absence of recoverable revisions is not proof a file was never edited &mdash;
+    a flattened re-render discards the prior versions.
+  </p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="js/audit-check.js" defer></script>
+<script data-goatcounter="https://none-below.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

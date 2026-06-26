@@ -13,6 +13,7 @@ TAGS = {
     "policy-463.10": "Policy 463.10 (Data Search Audits)",
     "sop-205": "SOP 205 (ALPR Operating Procedures)",
     "sop-205.5.1": "SOP 205.5.1 (Audit Procedures)",
+    "procedure-1102": "Procedure 1102 (RTIC ALPR Systems)",
     # Contracts
     "flock-msa": "Flock Master Services Agreement",
     "msa-5.3": "MSA §5.3 (Vendor Disclosure)",
