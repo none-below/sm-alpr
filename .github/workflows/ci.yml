@@ -35,6 +35,14 @@ jobs:
         with:
           enable-cache: true
 
+      - name: Install Node
+        # Needed by tests/test_justifications_agg.py, which runs the
+        # browser-side justifications aggregator under Node to prove it
+        # still matches build_justifications.py.
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Install dependencies
         run: uv sync
 
@@ -181,6 +189,9 @@ jobs:
 
       - name: Run smoke tests
         run: uv run pytest tests/test_map_smoke.py tests/test_dashboard.py -v
+
+      - name: Run justifications aggregation parity test
+        run: uv run pytest tests/test_justifications_agg.py -v
 
       - name: Run meeting-watcher tests
         run: uv run pytest tests/test_meeting_watch.py -v

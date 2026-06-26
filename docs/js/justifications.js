@@ -463,6 +463,26 @@
   // attributes the top N sources inline.
   var hideExternal = false;
 
+  // ── Date-window slider state ──
+  // The page renders from the build's prebuilt per-agency aggregate at
+  // the full window (exact, canonical). When the user narrows the
+  // window, we re-aggregate live from the agency's raw audit rows
+  // (data/audit/<slug>.json, fetched once and precomputed by JustAgg).
+  // The parity test guarantees the client aggregation equals the build
+  // at the full window, so dragging in from "All" never jumps.
+  var baseAgencyData = null;   // monolith entry: window-independent fields
+  var rawPre = null;           // JustAgg.precompute(rows), or null until loaded
+  var rawLoading = false;
+  var fullEpochMin = null;     // domain: oldest PT day (integer day index)
+  var fullEpochMax = null;     // domain: newest PT day
+  var selEpochStart = null;    // current selection
+  var selEpochEnd = null;
+
+  function windowIsFull() {
+    return rawPre === null ||
+      (selEpochStart <= fullEpochMin && selEpochEnd >= fullEpochMax);
+  }
+
   // For agencies without their own published audit. Replaces the
   // data-window banner / stats grid / own-audit framing with a
   // brief "no own audit" callout that surfaces what's known: this
@@ -556,6 +576,13 @@
       'almost certainly included. ' +
       '<a class="external-summary-jump" href="#external-bars">' +
       'Top phrases &darr;</a>' +
+      // The date slider filters this agency's OWN audit rows; partner
+      // searches live in other agencies' audits (not fetched here), so
+      // this cross-agency total always reflects the full data window.
+      (windowIsFull() ? '' :
+        '<div class="external-breakdown-est">Cross-agency partner totals ' +
+        'cover the full data window &mdash; the date filter applies to ' +
+        escapeHTML(agencyData.display_name) + '&rsquo;s own searches only.</div>') +
       breakdown +
       '</div>';
   }
@@ -1212,14 +1239,33 @@
         summarySentences.join(' ') + '</div>'
       : '';
 
+    // Daily/weekly cadence. When the raw rows are loaded we draw the
+    // phrase's FULL history (every search ever, not just the selected
+    // window) and gray the bars outside the window, so a narrowed view
+    // keeps the long history as context. Otherwise fall back to the
+    // build's windowed series.
     var dailyHtml = '';
-    if (detail.daily && detail.daily.length) {
+    var full = (rawPre && phrase) ? JustAgg.fullPhraseSeries(phrase, rawPre) : null;
+    if (full && full.daily && full.daily.length) {
+      var unitF = full.daily_unit === 'week' ? 'week' : 'day';
+      dailyHtml = '<div class="phrase-detail-row">' +
+        '<div class="phrase-detail-chart phrase-detail-chart-full">' +
+        '<div class="phrase-detail-label">Searches per ' + unitF +
+        ' &middot; full history' +
+        (windowIsFull() ? '' : ' (selected window in color)') + '</div>' +
+        renderDailySparkFull(full) +
+        '</div></div>';
+    } else if (detail.daily && detail.daily.length) {
       var unit = detail.daily_unit === 'week' ? 'week' : 'day';
       dailyHtml = '<div class="phrase-detail-row">' +
         '<div class="phrase-detail-chart phrase-detail-chart-full">' +
         '<div class="phrase-detail-label">Searches per ' + unit +
         ' (' + detail.daily.length + ' ' + unit + 's)</div>' +
         renderDailySpark(detail.daily, detail.from, detail.daily_unit) +
+        (detail.from && detail.to
+          ? '<div class="spark-axis"><span>' + escapeHTML(detail.from) +
+            '</span><span>' + escapeHTML(detail.to) + '</span></div>'
+          : '') +
         '</div></div>';
     }
 
@@ -1277,11 +1323,58 @@
     return html;
   }
 
+  // Full-history sparkline: `full` is JustAgg.fullPhraseSeries output
+  // (the phrase's entire span, independent of the selected window).
+  // Bars whose period falls outside the selected window render gray, so
+  // the user sees the long history with the chosen slice highlighted.
+  // A date axis is always drawn (the windowed spark above had none).
+  function renderDailySparkFull(full) {
+    var series = full.daily;
+    if (!series || !series.length) return '';
+    var fromED = full.fromEpochDay;
+    var step = full.step || 1;
+    var max = 1;
+    for (var i = 0; i < series.length; i++) if (series[i] > max) max = series[i];
+    var isFull = windowIsFull();
+    var selS = isFull ? -Infinity : selEpochStart;
+    var selE = isFull ? Infinity : selEpochEnd;
+    var html = '<div class="daily-spark">';
+    for (var i2 = 0; i2 < series.length; i2++) {
+      var v = series[i2];
+      var ph = max > 0 ? Math.round(100 * v / max) : 0;
+      var barStart = fromED + i2 * step;
+      var barEnd = barStart + step - 1;
+      var inWin = (barEnd >= selS && barStart <= selE);
+      var label = JustAgg.isoFromEpochDay(barStart);
+      var titleText = label + (step > 1 ? ' (week)' : '') + ': ' + v +
+        ' search' + (v === 1 ? '' : 'es');
+      var cls = 'spark-bar' + (v === 0 ? ' empty' : '') + (inWin ? '' : ' out');
+      html += '<div class="' + cls + '" title="' + escapeHTML(titleText) + '">' +
+        '<div class="spark-fill" style="height:' + ph + '%"></div>' +
+        '</div>';
+    }
+    html += '</div>';
+    html += '<div class="spark-axis"><span>' + escapeHTML(full.from) +
+      '</span><span>' + escapeHTML(full.to) + '</span></div>';
+    if (!isFull) {
+      html += '<div class="spark-window-note">Highlighted window: ' +
+        escapeHTML(JustAgg.isoFromEpochDay(selEpochStart)) + ' &rarr; ' +
+        escapeHTML(JustAgg.isoFromEpochDay(selEpochEnd)) + '</div>';
+    }
+    return html;
+  }
+
   // Click-handler for bar rows / cloud words / case-callout rows.
   // Toggles a sibling detail row containing renderPhraseDetail output
   // for the clicked phrase. Single delegated listener attached at
   // init time.
   function handleExpandClick(ev) {
+    // Date-window preset buttons.
+    var presetBtn = ev.target.closest && ev.target.closest('.dw-preset');
+    if (presetBtn) {
+      applyPreset(presetBtn.getAttribute('data-dw-preset'));
+      return;
+    }
     // Local-only toggle — flip the global flag and re-render.
     if (ev.target && ev.target.id === 'local-only-toggle') {
       hideExternal = !!ev.target.checked;
@@ -1579,6 +1672,176 @@
     return 'Predominantly free-text: many distinct reasons, no single phrase carries the bulk of searches.';
   }
 
+  // ── Date-window slider ──────────────────────────────────────────
+
+  var DW_PRESETS = [
+    { k: '30', label: '30d', days: 30 },
+    { k: '90', label: '90d', days: 90 },
+    { k: '180', label: '6mo', days: 180 },
+    { k: '365', label: '1yr', days: 365 },
+    { k: 'all', label: 'All', days: null }
+  ];
+
+  // [startEpochDay, endEpochDay] for a preset; `days` null means full range.
+  function presetWindow(days) {
+    if (days == null) return [fullEpochMin, fullEpochMax];
+    return [Math.max(fullEpochMin, fullEpochMax - days + 1), fullEpochMax];
+  }
+
+  function isPresetActive(p) {
+    var w = presetWindow(p.days);
+    return selEpochStart === w[0] && selEpochEnd === w[1];
+  }
+
+  // Renders the slider control inside the data-window banner. Returns ''
+  // until raw rows are available (own-audit agencies only); shows a
+  // loading line while they're being fetched.
+  function renderDateSlider() {
+    if (!rawPre) {
+      return rawLoading
+        ? '<div class="date-window-control">' +
+          '<div class="dw-loading">Loading full history to enable date filtering&hellip;</div>' +
+          '</div>'
+        : '';
+    }
+    var total = fullEpochMax - fullEpochMin;
+    var startIdx = selEpochStart - fullEpochMin;
+    var endIdx = selEpochEnd - fullEpochMin;
+    var leftPct = total > 0 ? (100 * startIdx / total) : 0;
+    var rightPct = total > 0 ? (100 * endIdx / total) : 100;
+    var fromIso = JustAgg.isoFromEpochDay(selEpochStart);
+    var toIso = JustAgg.isoFromEpochDay(selEpochEnd);
+    var spanDays = (selEpochEnd - selEpochStart) + 1;
+    var filtered = !windowIsFull();
+    var presetHtml = DW_PRESETS.map(function (p) {
+      return '<button type="button" class="dw-preset' +
+        (isPresetActive(p) ? ' active' : '') +
+        '" data-dw-preset="' + p.k + '">' + p.label + '</button>';
+    }).join('');
+    return '<div class="date-window-control">' +
+      '<div class="dw-top">' +
+      '<span class="dw-readout">' + escapeHTML(fromIso) + ' &rarr; ' + escapeHTML(toIso) +
+      ' <span class="dw-span">(' + spanDays.toLocaleString() +
+      ' day' + (spanDays === 1 ? '' : 's') + ')</span></span>' +
+      (filtered ? ' <span class="dw-filtered-badge">Filtered</span>' : '') +
+      '<span class="dw-presets">' + presetHtml + '</span>' +
+      '</div>' +
+      '<div class="dw-slider" id="dw-slider">' +
+      '<div class="dw-track"></div>' +
+      '<div class="dw-fill" style="left:' + leftPct.toFixed(2) + '%;right:' +
+      (100 - rightPct).toFixed(2) + '%"></div>' +
+      '<input type="range" id="dw-start" min="0" max="' + total + '" step="1" value="' +
+      startIdx + '" aria-label="Window start day">' +
+      '<input type="range" id="dw-end" min="0" max="' + total + '" step="1" value="' +
+      endIdx + '" aria-label="Window end day">' +
+      '</div>' +
+      '</div>';
+  }
+
+  // Per-agency data for the current selection: the canonical prebuilt
+  // entry at the full window, else a live re-aggregation from raw rows
+  // merged with the window-independent fields.
+  function windowedAgencyData() {
+    if (!baseAgencyData) return null;
+    if (windowIsFull()) return baseAgencyData;
+    var filtered = [];
+    for (var i = 0; i < rawPre.length; i++) {
+      var pt = rawPre[i].pt;
+      if (pt && pt.epochDay >= selEpochStart && pt.epochDay <= selEpochEnd) {
+        filtered.push(rawPre[i]);
+      }
+    }
+    var agg = JustAgg.aggregate(filtered);
+    var merged = {};
+    var k;
+    for (k in baseAgencyData) {
+      if (Object.prototype.hasOwnProperty.call(baseAgencyData, k)) merged[k] = baseAgencyData[k];
+    }
+    for (k in agg) {
+      if (Object.prototype.hasOwnProperty.call(agg, k)) merged[k] = agg[k];
+    }
+    merged.search_date_min = JustAgg.isoFromEpochDay(selEpochStart);
+    merged.search_date_max = JustAgg.isoFromEpochDay(selEpochEnd);
+    merged._windowed = true;
+    return merged;
+  }
+
+  function rerender() {
+    var data = windowedAgencyData();
+    installPhraseContext(data); // also sets currentAgencyData
+    document.getElementById('page').innerHTML = renderAgency(data, currentSlug);
+  }
+
+  // Live feedback during a drag — moves the fill bar and updates the
+  // readout without a full re-render (which would destroy the thumb
+  // mid-drag). The expensive re-aggregation happens on 'change'.
+  function onSliderInput() {
+    var s = document.getElementById('dw-start');
+    var e = document.getElementById('dw-end');
+    if (!s || !e) return;
+    var lo = Math.min(+s.value, +e.value);
+    var hi = Math.max(+s.value, +e.value);
+    var total = fullEpochMax - fullEpochMin;
+    var fill = document.querySelector('#dw-slider .dw-fill');
+    if (fill) {
+      fill.style.left = (total > 0 ? 100 * lo / total : 0) + '%';
+      fill.style.right = (total > 0 ? 100 * (1 - hi / total) : 0) + '%';
+    }
+    var readout = document.querySelector('.dw-readout');
+    if (readout) {
+      var fromIso = JustAgg.isoFromEpochDay(fullEpochMin + lo);
+      var toIso = JustAgg.isoFromEpochDay(fullEpochMin + hi);
+      var span = (hi - lo) + 1;
+      readout.innerHTML = escapeHTML(fromIso) + ' &rarr; ' + escapeHTML(toIso) +
+        ' <span class="dw-span">(' + span.toLocaleString() +
+        ' day' + (span === 1 ? '' : 's') + ')</span>';
+    }
+  }
+
+  function onSliderChange() {
+    var s = document.getElementById('dw-start');
+    var e = document.getElementById('dw-end');
+    if (!s || !e) return;
+    selEpochStart = fullEpochMin + Math.min(+s.value, +e.value);
+    selEpochEnd = fullEpochMin + Math.max(+s.value, +e.value);
+    rerender();
+  }
+
+  function applyPreset(key) {
+    if (!rawPre) return;
+    var days = key === 'all' ? null : +key;
+    var w = presetWindow(days);
+    selEpochStart = w[0];
+    selEpochEnd = w[1];
+    rerender();
+  }
+
+  // Fetch the agency's raw audit rows (already published, same file the
+  // "View raw audit data" link points at), precompute, and enable the
+  // slider. Falls back silently to the unfiltered build view on error.
+  function loadRawRows(slug) {
+    fetch('data/audit/' + encodeURIComponent(slug) + '.json')
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (audit) {
+        var rows = (audit && audit.rows) || [];
+        var pre = rows.length ? JustAgg.precompute(rows) : [];
+        var lo = Infinity, hi = -Infinity;
+        for (var i = 0; i < pre.length; i++) {
+          var pt = pre[i].pt;
+          if (!pt) continue;
+          if (pt.epochDay < lo) lo = pt.epochDay;
+          if (pt.epochDay > hi) hi = pt.epochDay;
+        }
+        rawLoading = false;
+        if (!isFinite(lo)) { rawPre = null; rerender(); return; }
+        rawPre = pre;
+        fullEpochMin = lo; fullEpochMax = hi;
+        selEpochStart = lo; selEpochEnd = hi;
+        rerender();
+      })
+      .catch(function () { rawLoading = false; rawPre = null; rerender(); });
+  }
+
   function renderAgency(agencyData, slug) {
     currentSlug = slug || '';
     if (!agencyData) {
@@ -1595,17 +1858,22 @@
       agencyData.row_count
     );
     var windowBanner = '';
-    if (agencyData.search_date_min && agencyData.search_date_max) {
-      var dms = Date.parse(agencyData.search_date_min + 'T12:00:00Z');
-      var dms2 = Date.parse(agencyData.search_date_max + 'T12:00:00Z');
+    // The banner shows the FULL data window (from the canonical build
+    // entry); the slider below it shows the currently-selected slice.
+    // When the user narrows the window, agencyData carries the windowed
+    // dates, so read the full range off baseAgencyData instead.
+    var fullData = baseAgencyData || agencyData;
+    if (fullData.search_date_min && fullData.search_date_max) {
+      var dms = Date.parse(fullData.search_date_min + 'T12:00:00Z');
+      var dms2 = Date.parse(fullData.search_date_max + 'T12:00:00Z');
       var spanD = (!isNaN(dms) && !isNaN(dms2))
         ? Math.round((dms2 - dms) / 86400000) + 1
         : null;
       var rawLink = 'data/audit/' + encodeURIComponent(agencyData.slug) + '.json';
       windowBanner = '<div class="audit-window">' +
         '<span class="audit-window-label">Data window</span>' +
-        '<strong>' + escapeHTML(agencyData.search_date_min) +
-        ' &rarr; ' + escapeHTML(agencyData.search_date_max) + '</strong>' +
+        '<strong>' + escapeHTML(fullData.search_date_min) +
+        ' &rarr; ' + escapeHTML(fullData.search_date_max) + '</strong>' +
         (spanD ? ' <span class="audit-window-span">(' + spanD +
           ' day' + (spanD === 1 ? '' : 's') + ')</span>' : '') +
         ' <a class="audit-window-raw" href="' + rawLink +
@@ -1615,6 +1883,7 @@
         'Flock exposes a rolling ~30-day window; older rows persist here only ' +
         'because they were captured before they aged out.' +
         '</span>' +
+        renderDateSlider() +
         '<span class="audit-window-scope">' +
         '<strong>Scope:</strong> only searches run by ' +
         escapeHTML(agencyData.display_name) + '&rsquo;s own staff. ' +
@@ -1889,17 +2158,38 @@
           reportLink.href = 'report.html?agency=' + encodeURIComponent(slug);
         }
         wireAgencySearch(agencies, slug);
-        installPhraseContext(slug ? agencies[slug] : null);
-        document.getElementById('page').innerHTML =
-          renderAgency(slug ? agencies[slug] : null, slug || '');
-        document.getElementById('page').addEventListener('click', handleExpandClick);
-        document.getElementById('page').addEventListener('keydown', function (ev) {
+        var agencyData = slug ? agencies[slug] : null;
+        baseAgencyData = agencyData;
+        currentSlug = slug || '';
+        // Own-audit agencies get the date slider, powered by a
+        // background fetch of their raw rows. Show the loading line in
+        // the banner from the first paint so the control doesn't pop in.
+        var hasAgg = typeof JustAgg !== 'undefined';
+        rawLoading = !!(agencyData && agencyData.has_own_audit !== false && hasAgg);
+        installPhraseContext(agencyData);
+        var page = document.getElementById('page');
+        page.innerHTML = renderAgency(agencyData, slug || '');
+        page.addEventListener('click', handleExpandClick);
+        page.addEventListener('keydown', function (ev) {
           if (ev.key !== 'Enter' && ev.key !== ' ') return;
           var row = ev.target.closest('.bar-item, tr.bar-row');
           if (!row) return;
           ev.preventDefault();
           handleExpandClick({ target: row });
         });
+        // Delegated slider listeners survive the per-render innerHTML
+        // rebuild because they're bound to #page, not the inputs.
+        page.addEventListener('input', function (ev) {
+          if (ev.target && (ev.target.id === 'dw-start' || ev.target.id === 'dw-end')) {
+            onSliderInput();
+          }
+        });
+        page.addEventListener('change', function (ev) {
+          if (ev.target && (ev.target.id === 'dw-start' || ev.target.id === 'dw-end')) {
+            onSliderChange();
+          }
+        });
+        if (rawLoading) loadRawRows(slug);
       })
       .catch(function (err) {
         document.getElementById('page').innerHTML =
