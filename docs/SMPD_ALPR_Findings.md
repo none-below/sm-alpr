@@ -534,7 +534,7 @@ Device counts from department sources and public records:
 
 - Gov. Code § 7922.535(a) requires an agency to determine within 10 days whether a request seeks disclosable records, and to state an estimated production date; § 7922.535(b) permits one 14-day extension, in writing, for enumerated "unusual circumstances." § 7922.530 requires records to be made "promptly available" [70].
 
-- Determinations were essentially timely: 35 of 36 requests received a determination within the statutory 10 days; the exception (W012541) came one business day late — the Monday after a Friday deadline, 13 calendar days from filing [71].
+- First determinations were largely timely: 35 of 36 requests received a determination within the statutory 10 days; the exception (W012541) came 3 days past the deadline — 13 calendar days from filing [71].
 
 - Production was not: agency messages moved their own promised production dates 20 times across the request set, extending them by a cumulative 275 days [71].
 
