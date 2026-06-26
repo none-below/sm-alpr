@@ -398,6 +398,7 @@ Promise.all([
     // Overlay recent sharing changes for the selected agency (last 90d)
     const chg = showChanges ? changelogBySlug[m.slug] : null;
     if (chg) {
+      const currentOut = new Set(m.outbound_slugs || []);
       (chg.sharing_outbound_added || []).forEach(it => {
         if (it.slug && coords[it.slug]) {
           L.polyline([[m.lat, m.lng], coords[it.slug]], {
@@ -408,7 +409,38 @@ Promise.all([
           );
         }
       });
+      // Re-added: removed then added back within the window. Still active,
+      // so it keeps its normal solid edge — we overlay an amber highlight
+      // and a ↻ marker noting the gap, rather than crossing it out (which
+      // is what made a re-added target look both struck-out and live).
+      (chg.sharing_outbound_readded || []).forEach(it => {
+        if (it.slug && coords[it.slug]) {
+          const tCoord = coords[it.slug];
+          const gap = 'removed on/around ' + it.removed_date +
+            ', re-added on/around ' + it.readded_date;
+          L.polyline([[m.lat, m.lng], tCoord], {
+            color: '#f59e0b', weight: 4, opacity: 0.6,
+          }).addTo(lineLayer).bindTooltip(gap, { direction: 'top', sticky: true });
+          const rIcon = L.divIcon({
+            html: '<div style="font-size:15px;font-weight:bold;color:#b45309;text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 2px #fff;line-height:1">↻</div>',
+            className: '',
+            iconSize: [18, 18],
+            iconAnchor: [9, 9],
+          });
+          const tName = (agencyInfo[it.slug] || {}).name || it.name;
+          L.marker(tCoord, { icon: rIcon, zIndexOffset: 500 })
+            .addTo(lineLayer)
+            .bindTooltip(
+              escapeHtml(tName) + ' — ' + gap,
+              { direction: 'top', offset: [0, -8], sticky: true }
+            );
+        }
+      });
       (chg.sharing_outbound_removed || []).forEach(it => {
+        // Defensive: never cross out a target that's currently shared. The
+        // builder keeps added/removed/readded mutually exclusive, but a race
+        // between snapshots shouldn't ever paint a live edge as stopped.
+        if (it.slug && currentOut.has(it.slug)) return;
         if (it.slug && coords[it.slug]) {
           const tCoord = coords[it.slug];
           L.polyline([[m.lat, m.lng], tCoord], {
@@ -548,6 +580,18 @@ Promise.all([
         ' <span style="color:#6b7280;font-style:italic;font-size:11px" title="Was on this agency\'s sharing list during our tracking window but has since been removed">[removed ' + escapeHtml(date) + ']</span>' +
         '</div>';
     };
+    // Re-added targets (removed then added back in-window) are still active,
+    // so they render in the normal active list — annotated with the gap
+    // dates rather than struck through. Keyed by slug for an inline tag.
+    const readdedBySlug = Object.create(null);
+    (sidebarChg.sharing_outbound_readded || []).forEach(function(r) {
+      if (r.slug) readdedBySlug[r.slug] = r;
+    });
+    const readdedTag = function(slug) {
+      const r = readdedBySlug[slug];
+      if (!r) return '';
+      return ' <span style="color:#b45309;font-style:italic;font-size:11px" title="Removed then re-added during our tracking window">[removed ' + escapeHtml(r.removed_date) + ', re-added ' + escapeHtml(r.readded_date) + ']</span>';
+    };
 
     if ((m.outbound_slugs && m.outbound_slugs.length) || removedFlagged.length || removedClean.length) {
       const sorted = sortOutbound(m.outbound_slugs || [], m.lat, m.lng);
@@ -566,7 +610,7 @@ Promise.all([
           html += removedRow(r.slug, slugLabel(r.slug), r.date);
         });
         directFlagged.forEach(function(s) {
-          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + readdedTag(s) + '</div>';
         });
         html += '</div>';
       }
@@ -601,7 +645,7 @@ Promise.all([
           html += removedRow(r.slug, label, r.date);
         });
         clean.forEach(function(s) {
-          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + '</div>';
+          html += '<div style="cursor:pointer" data-slug="' + escapeHtml(s) + '">' + slugLabel(s) + (inferredOut.has(s) ? inferTag : '') + readdedTag(s) + '</div>';
         });
         html += '</div>';
       }
@@ -1020,6 +1064,11 @@ Promise.all([
     removedItem.className = 'legend-item';
     removedItem.innerHTML = '<div style="width:20px;height:2px;background:repeating-linear-gradient(90deg,#9ca3af 0,#9ca3af 4px,transparent 4px,transparent 7px)"></div> <span style="color:#dc2626;font-weight:bold;margin:0 2px">\u2716</span> Sharing stopped (last 90d)';
     legendEl.appendChild(removedItem);
+
+    const readdedItem = document.createElement('div');
+    readdedItem.className = 'legend-item';
+    readdedItem.innerHTML = '<div style="width:20px;height:3px;background:#f59e0b"></div> <span style="color:#b45309;font-weight:bold;margin:0 2px">\u21bb</span> Removed then re-added (last 90d)';
+    legendEl.appendChild(readdedItem);
 
     const toggleWrap = document.createElement('label');
     toggleWrap.className = 'legend-item';
