@@ -1924,7 +1924,12 @@
         visibleGroup.forEach(function(f) {
           html += `<li>${escapeHtml(f.name)}`;
           if (f.ag_lawsuit) html += ` <span class="flag-tag lawsuit">AG LAWSUIT</span>`;
-          if (f.days_since_added != null) {
+          if (f.readded_on) {
+            // Flapping flagged recipient: dropped then restored in-window.
+            // A reversed decision, not a steady relationship — flag it as
+            // such rather than as a plain NEW addition.
+            html += ` <span class="flag-tag" style="background:#fde68a;color:#92400e" title="Dropped on/around ${escapeHtml(f.removed_on)}, then re-added on/around ${escapeHtml(f.readded_on)}">DROPPED &amp; RE-ADDED</span>`;
+          } else if (f.days_since_added != null) {
             const days = f.days_since_added;
             const ago = days === 0 ? "today" : days === 1 ? "1 day ago" : `${days} days ago`;
             html += ` <span class="flag-tag" style="background:#fef3c7;color:#92400e" title="Sharing first appeared on ${escapeHtml(f.added_on)}">NEW &mdash; started ${ago}</span>`;
@@ -1943,6 +1948,37 @@
         html += '</ul>';
         html += '</div>';
       });
+      html += '</div>';
+    }
+
+    // Flapping: partners dropped then re-added within the tracking window.
+    // Currently shared (so not in the "stopped sharing" cleanup above), but
+    // the add/remove cycling is a sharper signal than a steady partner — each
+    // reversal implies a decision that was made, unmade, and remade. Shown
+    // with the full shared -> dropped -> reshared trail.
+    const readdsList = report.recent_outbound_readds || [];
+    if (readdsList.length) {
+      html += '<div class="flag-section" style="border-left-color:#f59e0b">';
+      html += `<strong>${readdsList.length} dropped-then-re-added recipient${readdsList.length === 1 ? "" : "s"}</strong> &mdash; partners this agency removed from its sharing list and later restored, both within our 90-day tracking window. A reversed sharing decision raises a sharper question than a steady relationship.`;
+      html += '<ul style="margin-top:6px">';
+      readdsList.forEach(function(r) {
+        html += `<li>${escapeHtml(r.name)}`;
+        if (r.ag_lawsuit) html += ` <span class="flag-tag lawsuit">AG LAWSUIT</span>`;
+        if (r.kind) {
+          const k = refineKind(r.kind, r.name);
+          html += ` <span class="flag-tag kind-${escapeHtml(k)}">${escapeHtml(FLAG_LABELS[k] || k.toUpperCase())}</span>`;
+        }
+        // shared -> dropped DATE -> reshared DATE. Lead with "shared" when
+        // the first in-window change was a drop (it was on the list before).
+        const seq = r.sequence || [];
+        const lead = (seq[0] && seq[0].action === "removed") ? "shared &rarr; " : "";
+        const steps = seq.map(function(s) {
+          return (s.action === "removed" ? "dropped " : "re-added ") + escapeHtml(s.date);
+        }).join(" &rarr; ");
+        html += ` <span class="muted" style="font-size:9.5pt">&mdash; ${lead}${steps}</span>`;
+        html += '</li>';
+      });
+      html += '</ul>';
       html += '</div>';
     }
 
@@ -2675,6 +2711,30 @@
       // sharpest version of this question.
       const addPri = flaggedAdds.length ? 80 : (recentAdds.length >= 5 ? 65 : 50);
       add(addPri, q);
+    }
+
+    // Re-added / flapping partners: a reversed sharing decision is a sharper
+    // question than a one-way add or removal — the partner was on the list,
+    // taken off, and put back, all in 90 days. Ranked above plain additions;
+    // flagged flapping (a lawsuit-tagged or private partner cycling on and
+    // off) is the sharpest version.
+    const recentReadds = report.recent_outbound_readds || [];
+    if (recentReadds.length) {
+      const flaggedReadds = recentReadds.filter(function(r) { return r.kind || r.ag_lawsuit; });
+      const ordered = flaggedReadds.concat(recentReadds.filter(function(r) { return !(r.kind || r.ag_lawsuit); }));
+      const namesShown = ordered.slice(0, 3).map(function(r) {
+        return `<strong>${escapeHtml(r.name)}</strong> (dropped ${escapeHtml(r.removed_on)}, re-added ${escapeHtml(r.readded_on)})`;
+      }).join("; ");
+      const remainder = ordered.length - 3;
+      const namesList = remainder > 0
+        ? `${namesShown}; and ${remainder} other${remainder === 1 ? "" : "s"}`
+        : namesShown;
+      let q = `In the last 90 days, ${dept} removed and then re-added <strong>${recentReadds.length}</strong> sharing partner${recentReadds.length === 1 ? "" : "s"} (${namesList}). For each one, what prompted dropping the partner, what prompted restoring it, and what records document both decisions?`;
+      if (flaggedReadds.length) {
+        const isOne = flaggedReadds.length === 1;
+        q += ` <span class="muted">(<strong>${flaggedReadds.length}</strong> of these ${isOne ? "is" : "are"} flagged in this report &mdash; see Flagged Recipients section.)</span>`;
+      }
+      add(flaggedReadds.length ? 85 : 70, q);
     }
 
     // Recent outbound removals: implies the agency is now reviewing
