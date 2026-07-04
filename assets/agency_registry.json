@@ -2570,6 +2570,32 @@
     ]
   },
   {
+    "agency_id": "344fc7d5-d851-5920-adc2-8b131d778250",
+    "slug": "franklin-township-nj-pd-somerset",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Franklin Township NJ PD (Somerset)"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "ambiguous",
+      "fips": "34",
+      "name": "NJ",
+      "state": "NJ",
+      "lat": 40.28042971428572,
+      "lng": -74.62094428571429,
+      "note": "township name matches multiple county subdivisions in state"
+    }
+  },
+  {
     "agency_id": "4398b153-1fbd-5ded-9f89-bc27c442cf94",
     "slug": "fullerton-ca-pd",
     "flock_active_slug": "fullerton-ca-pd",
@@ -2866,6 +2892,31 @@
     "ori": [
       "CA0160200"
     ]
+  },
+  {
+    "agency_id": "be5ffa11-20c0-5e97-a2d8-bbd6389c59ec",
+    "slug": "haskell-county-tx-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Haskell County TX SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "48207",
+      "name": "Haskell",
+      "state": "TX",
+      "lat": 33.175964,
+      "lng": -99.730774
+    }
   },
   {
     "agency_id": "831b5ef5-d075-5433-b2d0-60f3a4e95ecd",
