@@ -1,0 +1,74 @@
+{
+  "url": "https://techcrunch.com/2024/05/16/oh-great-i-feel-safer-already/",
+  "source_domain": "techcrunch.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Flock Safety's solar-powered cameras could make surveillance more widespread | TechCrunch",
+  "byline": "Haje Jan Kamps",
+  "published_at": "2024-05-16T14:29:00+00:00",
+  "fetched_at": "2026-07-04T04:41:21Z",
+  "discovered_by": "bing-reject-backfill",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 84 pts, HIGH/CRITICAL findings",
+  "scanner_score": 84,
+  "content_hash": "705598e5c01a7373ec86ce03902e2a89f38c17eb3a4cf52f7203ae726642ead7",
+  "paths": {
+    "html": "assets/articles/techcrunch.com/2024-05-16-oh-great-i-feel-safer-already_6e36990b.html",
+    "meta": "assets/articles/techcrunch.com/2024-05-16-oh-great-i-feel-safer-already_6e36990b.meta.json",
+    "pdf": "assets/articles/techcrunch.com/2024-05-16-oh-great-i-feel-safer-already_6e36990b.pdf",
+    "txt": "assets/articles/techcrunch.com/2024-05-16-oh-great-i-feel-safer-already_6e36990b.txt"
+  },
+  "wayback_url": "http://web.archive.org/web/20251119050630/https://techcrunch.com/2024/05/16/oh-great-i-feel-safer-already/",
+  "wayback_timestamp": "20251119050630",
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:analysis",
+    "incident:wrongful-stop",
+    "policy:retention",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "4c1fa0aa-e0cd-55af-b874-14ac5f0bb7c9",
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "4c1fa0aa-e0cd-55af-b874-14ac5f0bb7c9",
+      "display_name": "Independence OH PD",
+      "state": "OH",
+      "score": 2.7,
+      "matched_forms": [
+        "Independence"
+      ]
+    },
+    {
+      "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "display_name": "Oakland CA PD",
+      "state": "CA",
+      "score": 2.617,
+      "matched_forms": [
+        "Oakland"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "TechCrunch profiles Flock Safety's new solar-powered, 5G-enabled Condor cameras, which the company says can be deployed anywhere, and discusses privacy concerns, accuracy problems, data retention, and the scale of Flock's ALPR rollout. The piece includes an interview with Flock's chief strategy officer Bailey Quintrell and cites ACLU criticisms and prior misidentification incidents.",
+  "key_quotes": [
+    {
+      "quote": "'several tens of thousands' of the company's cameras in operation",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "[Data] is stored on the device for 30 days, and then it is either viewed live, or you can download it from the device",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "police mistakenly treated some drivers as potentially violent criminal suspects and held them at gunpoint after the firm's cameras misread license plates",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-04T16:33:32Z",
+  "article_id": "art_6e36990b6814"
+}

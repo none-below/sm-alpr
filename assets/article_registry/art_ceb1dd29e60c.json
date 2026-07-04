@@ -1,0 +1,74 @@
+{
+  "url": "https://www.cnbc.com/2025/10/16/amazon-ring-cameras-surveillance-law-enforcement-crime-police-investigations.html",
+  "source_domain": "cnbc.com",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "Amazon Ring security cameras moving deeper into law enforcement with Flock Safety, Axon deals",
+  "byline": "https://www.facebook.com/CNBC",
+  "published_at": "2025-10-16T16:00:25+0000",
+  "fetched_at": "2026-07-04T04:42:47Z",
+  "discovered_by": "bing-reject-backfill",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 129 pts, HIGH/CRITICAL findings",
+  "scanner_score": 129,
+  "content_hash": "ccf604fb4a11eeed50f6e0ec44e203cf3107e78107bbdcfae1ec2861a922fb8e",
+  "paths": {
+    "html": "assets/articles/cnbc.com/2025-10-16-amazon-ring-cameras-surveillance-law-enforcement-crime-police-investi_ceb1dd29.html",
+    "meta": "assets/articles/cnbc.com/2025-10-16-amazon-ring-cameras-surveillance-law-enforcement-crime-police-investi_ceb1dd29.meta.json",
+    "pdf": "assets/articles/cnbc.com/2025-10-16-amazon-ring-cameras-surveillance-law-enforcement-crime-police-investi_ceb1dd29.pdf",
+    "txt": "assets/articles/cnbc.com/2025-10-16-amazon-ring-cameras-surveillance-law-enforcement-crime-police-investi_ceb1dd29.txt"
+  },
+  "wayback_url": "http://web.archive.org/web/20260609032452/https://www.cnbc.com/2025/10/16/amazon-ring-cameras-surveillance-law-enforcement-crime-police-investigations.html",
+  "wayback_timestamp": "20260609032452",
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:analysis",
+    "policy:sharing",
+    "scope:national",
+    "vendor:axon",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "8cc8d9b2-f3e3-5cef-a31b-a5e8990199b5",
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "8cc8d9b2-f3e3-5cef-a31b-a5e8990199b5",
+      "display_name": "San Rafael CA PD",
+      "state": "CA",
+      "score": 2.667,
+      "matched_forms": [
+        "San Rafael"
+      ]
+    },
+    {
+      "agency_id": "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+      "display_name": "CA",
+      "state": "CA",
+      "score": 2.533,
+      "matched_forms": [
+        "CA"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "Flock Safety and Amazon Ring announced a partnership integrating Ring's Community Requests into FlockOS/Flock Nova, letting police request video from Ring owners who can opt in. It's the second such Ring deal after a similar one with Axon, and comes amid ongoing debate over surveillance tech, with EFF criticizing the expansion.",
+  "key_quotes": [
+    {
+      "quote": "The Ring Community Requests feature will be available for use with the FlockOS and Flock Nova platforms that are contracted by local public safety agencies.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "RFA was inside the Ring data app. There was no chain of custody. In this case, while the request goes out in the Ring app, any footage shared by users goes into the Flock platform, which is fully secure",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "their technology doesn't make people safer, it just subjects them to a round-the-clock warrantless digital dragnet that keeps tabs on everyone whether or not they're suspected of any crime",
+      "paragraph_idx": 22
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-04T16:38:04Z",
+  "article_id": "art_ceb1dd29e60c"
+}
