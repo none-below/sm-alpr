@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """
 Generate per-agency report data for the printable city report.
 
@@ -63,9 +65,11 @@ OUT_PATH = Path("docs/data/report_data.json")
 RECENT_ADD_WINDOW_DAYS = 90
 
 
-def _load_sharing_history(reg_entry):
-    """Reconcile windowed outbound sharing changes from history files into
-    three views, mirroring scripts/build_history.py:_reconcile_sharing (which
+def _load_sharing_history(reg_entry, cutoff=None):
+    """Reconcile outbound sharing changes from history files into four views.
+    The first three are windowed on `cutoff` (default: today minus
+    RECENT_ADD_WINDOW_DAYS; injectable so tests with fixed event dates never
+    age out), mirroring scripts/build_history.py:_reconcile_sharing (which
     feeds the map) so the two never disagree:
 
       added_by_aid:   {aid: iso_date} — present now, never removed in-window
@@ -79,6 +83,15 @@ def _load_sharing_history(reg_entry):
                       [{action, date}], so the report can tell the full
                       shared -> dropped -> reshared story.
 
+    The fourth is NOT windowed:
+
+      removed_all_events: [{agency_id, name, date}] — one entry per raw
+                      removal event across the full history, no netting.
+                      Feeds removed_flagged_recipients, which keeps a
+                      dropped flagged partner on the report indefinitely;
+                      consumers must guard on current membership themselves
+                      (a flapping partner's removals appear here too).
+
     Targets are keyed by resolved agency_id, not raw name, so a portal relabel
     of the same partner ("Sacramento PD - CA" -> "Sacramento CA PD") nets out
     on its shared date instead of reading as a remove + add.
@@ -88,10 +101,12 @@ def _load_sharing_history(reg_entry):
     if base and base not in slugs:
         slugs.append(base)
 
-    cutoff = (date.today() - timedelta(days=RECENT_ADD_WINDOW_DAYS)).isoformat()
+    if cutoff is None:
+        cutoff = (date.today() - timedelta(days=RECENT_ADD_WINDOW_DAYS)).isoformat()
 
     # identity key (aid or unresolved name) -> {agency_id, name, name_date, by_date}
     targets = {}
+    removed_all_events = []
     for slug in slugs:
         hist_path = HISTORY_DIR / f"{slug}.json"
         if not hist_path.exists():
@@ -104,12 +119,18 @@ def _load_sharing_history(reg_entry):
             if ev.get("field") != "sharing_outbound" or ev.get("kind") != "set":
                 continue
             ev_date = ev.get("date", "")
-            if ev_date < cutoff:
-                continue
+            in_window = ev_date >= cutoff
             for name, delta in ([(n, 1) for n in ev.get("added", [])] +
                                 [(n, -1) for n in ev.get("removed", [])]):
+                if not in_window and delta > 0:
+                    continue  # pre-window adds feed no view
                 target = resolve_agency(name=name)
                 aid = target["agency_id"] if target else None
+                if delta < 0:
+                    removed_all_events.append(
+                        {"agency_id": aid, "name": name, "date": ev_date})
+                if not in_window:
+                    continue
                 key = aid or name
                 t = targets.setdefault(
                     key, {"agency_id": aid, "name": name, "name_date": ev_date, "by_date": {}})
@@ -140,7 +161,7 @@ def _load_sharing_history(reg_entry):
                 }
         elif aid:  # present, never removed — a new partner
             added_by_aid[aid] = seq[-1][0]
-    return added_by_aid, removed_events, readds
+    return added_by_aid, removed_events, readds, removed_all_events
 
 RANKED_STATE = "CA"
 # 25 miles, expressed in km (the native unit of dist_km). Matches the
@@ -1702,7 +1723,8 @@ def main():
         # flagged targets) and surface a "previously shared with X,
         # removed DATE" list for flagged targets the agency has since
         # dropped. Build_history.py must have run first.
-        added_on_by_aid, removed_events, readds = _load_sharing_history(reg)
+        (added_on_by_aid, removed_events, readds,
+         removed_all_events) = _load_sharing_history(reg)
         today = date.today()
 
         flagged_recipients = []
@@ -1740,10 +1762,13 @@ def main():
         # Removed-flagged: targets that were in sharing at some point,
         # have since been removed, and would be flagged by current
         # registry classification. Dedupe by agency_id keeping the most
-        # recent removal date.
+        # recent removal date. Reads the un-windowed raw-removal view: a
+        # dropped flagged partner stays on the report indefinitely, unlike
+        # the recent_* lists below, which age out after
+        # RECENT_ADD_WINDOW_DAYS.
         current_outbound_set = set(outbound_ids)
         removed_flagged_by_aid = {}
-        for ev in removed_events:
+        for ev in removed_all_events:
             aid_r = ev["agency_id"]
             if not aid_r or aid_r in current_outbound_set:
                 continue
