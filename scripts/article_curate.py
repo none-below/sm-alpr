@@ -13,7 +13,7 @@ Two phases:
 
   Phase 2 — Semantic enrichment (Claude API, opt-in)
     Walks registry entries with curation_status="mechanical" that are
-    eligible by handler policy (tier 1/2 + scanner-clean).  Calls the
+    eligible by handler policy (tier 1/2 + .txt scans clean).  Calls the
     Anthropic API with NO tools and a strict json_schema output
     constraint — model can only return structured fields, can't take
     actions. Fills in summary, key_quotes, genre, refined topic_tags,
@@ -59,8 +59,8 @@ DEFAULT_PHASE2_LIMIT = 5
 
 # Eligibility for Phase 2 — keep aligned with sources.json _handler_policy.
 PHASE2_ELIGIBLE_TIERS = {1, 2}
-PHASE2_ELIGIBLE_SCANNER = {"CLEAN — no findings", "WARNINGS"}
-# Scanner verdicts are prose strings, not enum codes; we substring-match.
+# txt_scanner_prefix() returns exactly one of these tokens; we substring-match
+# so a future "CLEAN — no findings" style suffix still passes.
 PHASE2_SCANNER_PREFIXES = ("CLEAN", "WARNINGS")
 
 
@@ -616,6 +616,35 @@ def call_claude_for_curation(entry: dict, text: str, *,
         return None, raw
 
 
+def txt_scanner_prefix(entry: dict) -> str:
+    """Injection-scanner verdict prefix (CLEAN / WARNINGS / REVIEW) for the
+    entry's extracted .txt — the ONLY artifact Phase 2 feeds the model.
+
+    The stored ``scanner_verdict`` scans the raw .html AND the .txt together.
+    News HTML reliably trips HIGH/CRITICAL findings (hidden CSS, zero-width
+    chars, inline scripts that look like injection sentinels), so gating Phase 2
+    on it flags ~every article REVIEW REQUIRED and blocks enrichment on markup
+    the model never sees. Re-scan the .txt the curator actually reads instead;
+    the .html signal stays in scanner_verdict for human review. Verdict
+    thresholds mirror check_injection.py's --json output exactly.
+    """
+    from check_injection import scan_text, severity_rank
+
+    txt_rel = (entry.get("paths") or {}).get("txt")
+    if not txt_rel:
+        return "REVIEW"  # no vettable text → don't auto-enrich
+    txt_path = ROOT / txt_rel
+    if not txt_path.exists():
+        return "REVIEW"
+    text = txt_path.read_text(encoding="utf-8", errors="replace")
+    findings = scan_text(text, html=False)
+    total_score = sum(f.score() for f in findings)
+    worst = max((severity_rank(f.severity) for f in findings), default=0)
+    if total_score == 0:
+        return "CLEAN"
+    return "REVIEW" if worst >= 3 else "WARNINGS"
+
+
 def run_phase2(registry: list[dict], *, tags_data: dict,
                limit: int, model: str, dry_run: bool,
                reenrich: bool = False,
@@ -633,10 +662,12 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
     if reenrich:
         accepted_statuses.add("enriched")
 
-    # Default: only scanner-clean entries pass to the LLM. --include-flagged
-    # opts in to processing REVIEW REQUIRED entries too — Phase 2 has no tools
-    # and json_schema-constrained output, so the scanner is defense-in-depth
-    # rather than a hard safety wall. Use only on known-source batches.
+    # Default: only entries whose extracted .txt scans clean pass to the LLM
+    # (see txt_scanner_prefix — we gate on the .txt fed to the model, not the
+    # stored .html+.txt scanner_verdict). --include-flagged opts in to entries
+    # whose .txt itself trips HIGH/CRITICAL — Phase 2 has no tools and
+    # json_schema-constrained output, so the scanner is defense-in-depth
+    # rather than a hard safety wall. Use --include-flagged on known sources.
     accepted_prefixes = PHASE2_SCANNER_PREFIXES
     if include_flagged:
         accepted_prefixes = accepted_prefixes + ("REVIEW",)
@@ -656,7 +687,7 @@ def run_phase2(registry: list[dict], *, tags_data: dict,
             continue
         if e.get("tier") not in PHASE2_ELIGIBLE_TIERS:
             continue
-        verdict = (e.get("scanner_verdict") or "")
+        verdict = txt_scanner_prefix(e)
         # Manually-seeded URLs (article_queue_add.py default discovered_by
         # is "manual"; the seed-batch tool stamps "manual-seed-…") bypass
         # the scanner gate. The user vouched for the source when they
@@ -777,8 +808,9 @@ def main() -> int:
                         "entries (oldest curated_at first), to backfill "
                         "after a prompt change. Honors --limit.")
     p.add_argument("--include-flagged", action="store_true",
-                   help="Phase 2 only: opt in to processing entries with "
-                        "scanner verdict REVIEW REQUIRED. Use on known-source "
+                   help="Phase 2 only: opt in to entries whose extracted .txt "
+                        "itself trips HIGH/CRITICAL (the default gate already "
+                        "ignores .html-only noise). Use on known-source "
                         "batches; Phase 2 has no tools so the scanner is "
                         "defense-in-depth rather than a hard wall.")
     p.add_argument("--ids", default=None,
