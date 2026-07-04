@@ -810,7 +810,11 @@ def _parse_org_names(body):
             names[-1] = f"{names[-1]}, {part}"
         else:
             names.append(part)
-    return names
+    # Some portals fill the shared-orgs section with a bare count instead
+    # of a partner list ("External organizations with access: 265" on
+    # sparks-nv-pd). A pure number is never an org name — drop it rather
+    # than minting a fake agency (issue #636).
+    return [n for n in names if not n.isdigit()]
 
 
 _PORTAL_CONTENT_MARKERS = (

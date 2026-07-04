@@ -7848,8 +7848,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MO"
+      "kind": "place",
+      "fips": "2915670",
+      "name": "Columbia",
+      "state": "MO",
+      "lat": 38.94729,
+      "lng": -92.326387
     }
   },
   {
@@ -7870,8 +7874,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CA"
+      "kind": "place",
+      "fips": "0606000",
+      "name": "Berkeley",
+      "state": "CA",
+      "lat": 37.865673,
+      "lng": -122.298725
     }
   },
   {
@@ -9019,8 +9027,8 @@
       "Fort Bend County Const TX Pct 4 (inactive)"
     ],
     "display_name": null,
-    "agency_role": "other",
-    "agency_type": "county",
+    "agency_role": "decommissioned",
+    "agency_type": "decommissioned",
     "website": null,
     "tags": [
       "needs-review",
@@ -9725,8 +9733,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CA"
+      "kind": "place",
+      "fips": "0653000",
+      "name": "Oakland",
+      "state": "CA",
+      "lat": 37.769846,
+      "lng": -122.22569
     }
   },
   {
@@ -9747,7 +9759,14 @@
     "flags": [
       "inactive"
     ],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "4816696",
+      "name": "Corinth",
+      "state": "TX",
+      "lat": 33.144714,
+      "lng": -97.070766
+    }
   },
   {
     "agency_id": "cf3cd038-b96c-56f6-9fa2-fc41c2bb0a7c",
@@ -11304,8 +11323,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1311784",
+      "name": "Buford",
+      "state": "GA",
+      "lat": 34.118562,
+      "lng": -83.98861
     }
   },
   {
@@ -11435,8 +11458,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "PA"
+      "kind": "place",
+      "fips": "4261000",
+      "name": "Pittsburgh",
+      "state": "PA",
+      "lat": 40.439936,
+      "lng": -79.975676
     },
     "ori": [
       "PA0022F9E"
@@ -11763,8 +11790,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1320932",
+      "name": "Cumming",
+      "state": "GA",
+      "lat": 34.206067,
+      "lng": -84.133848
     }
   },
   {
@@ -11891,8 +11922,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "SC"
+      "kind": "place",
+      "fips": "4553080",
+      "name": "Orangeburg",
+      "state": "SC",
+      "lat": 33.493596,
+      "lng": -80.86688
     }
   },
   {
@@ -11941,8 +11976,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1304000",
+      "name": "Atlanta",
+      "state": "GA",
+      "lat": 33.762909,
+      "lng": -84.422675
     },
     "ori": [
       "GA060309E"
@@ -12634,8 +12673,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1374964",
+      "name": "Swainsboro",
+      "state": "GA",
+      "lat": 32.585588,
+      "lng": -82.334784
     }
   },
   {
@@ -13061,7 +13104,14 @@
       "private"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "4748000",
+      "name": "Memphis",
+      "state": "TN",
+      "lat": 35.109026,
+      "lng": -89.967455
+    }
   },
   {
     "agency_id": "e21d2016-0503-55e2-a5a0-9cc84c7ab258",
@@ -13072,11 +13122,11 @@
       "Flock Safety - Machine Learning Test"
     ],
     "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
+    "agency_role": "test",
+    "agency_type": "test",
     "website": null,
     "tags": [
-      "needs-review"
+      "private"
     ],
     "flags": [],
     "geo": null
@@ -13286,8 +13336,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "SC"
+      "kind": "place",
+      "fips": "4572430",
+      "name": "Travelers Rest",
+      "state": "SC",
+      "lat": 34.959971,
+      "lng": -82.444972
     },
     "ori": [
       "SC0231000"
@@ -13366,8 +13420,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MI"
+      "kind": "cousub",
+      "fips": "2604929020",
+      "name": "Flint",
+      "state": "MI",
+      "lat": 43.004396,
+      "lng": -83.765627
     }
   },
   {
@@ -13468,7 +13526,14 @@
       "public"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "1345488",
+      "name": "Lawrenceville",
+      "state": "GA",
+      "lat": 33.952875,
+      "lng": -83.992231
+    }
   },
   {
     "agency_id": "d919e136-cd32-54f0-8f04-a6e97894a26d",
@@ -13488,8 +13553,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1373256",
+      "name": "Statesboro",
+      "state": "GA",
+      "lat": 32.437726,
+      "lng": -81.775637
     },
     "ori": [
       "GA0160400"
@@ -13513,8 +13582,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1304000",
+      "name": "Atlanta",
+      "state": "GA",
+      "lat": 33.762909,
+      "lng": -84.422675
     },
     "ori": [
       "GA0600900"
@@ -13537,8 +13610,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1304000",
+      "name": "Atlanta",
+      "state": "GA",
+      "lat": 33.762909,
+      "lng": -84.422675
     }
   },
   {
@@ -13613,7 +13690,14 @@
       "needs-review"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "1729938",
+      "name": "Glenview",
+      "state": "IL",
+      "lat": 42.085162,
+      "lng": -87.827388
+    }
   },
   {
     "agency_id": "9d50bf7e-cbb8-5650-b04b-4063fbef26c6",
@@ -13768,7 +13852,14 @@
       "needs-review"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "1335324",
+      "name": "Griffin",
+      "state": "GA",
+      "lat": 33.243188,
+      "lng": -84.271861
+    }
   },
   {
     "agency_id": "c8d64dad-acbe-514a-a471-0b4a82af40a0",
@@ -13841,8 +13932,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "VA"
+      "kind": "place",
+      "fips": "5134304",
+      "name": "Hampden-Sydney",
+      "state": "VA",
+      "lat": 37.244012,
+      "lng": -78.475746
     }
   },
   {
@@ -14555,8 +14650,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MO"
+      "kind": "place",
+      "fips": "2932248",
+      "name": "Hillsboro",
+      "state": "MO",
+      "lat": 38.232954,
+      "lng": -90.567195
     }
   },
   {
@@ -14688,8 +14787,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TN"
+      "kind": "place",
+      "fips": "4740000",
+      "name": "Knoxville",
+      "state": "TN",
+      "lat": 35.97068,
+      "lng": -83.94927
     }
   },
   {
@@ -14701,8 +14804,8 @@
       "La Salle County IL PD - OLD"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "county",
+    "agency_role": "decommissioned",
+    "agency_type": "decommissioned",
     "website": null,
     "tags": [
       "public"
@@ -14761,8 +14864,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TN"
+      "kind": "place",
+      "fips": "4740000",
+      "name": "Knoxville",
+      "state": "TN",
+      "lat": 35.97068,
+      "lng": -83.94927
     }
   },
   {
@@ -14783,8 +14890,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "SC"
+      "kind": "place",
+      "fips": "4530895",
+      "name": "Greenwood",
+      "state": "SC",
+      "lat": 34.195409,
+      "lng": -82.153666
     },
     "ori": [
       "SC0240500"
@@ -15001,8 +15112,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "KY"
+      "kind": "place",
+      "fips": "2148000",
+      "name": "Louisville",
+      "state": "KY",
+      "lat": 38.224728,
+      "lng": -85.740614
     }
   },
   {
@@ -15022,8 +15137,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "KY"
+      "kind": "place",
+      "fips": "2148000",
+      "name": "Louisville",
+      "state": "KY",
+      "lat": 38.224728,
+      "lng": -85.740614
     }
   },
   {
@@ -15322,8 +15441,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NC"
+      "kind": "place",
+      "fips": "3755000",
+      "name": "Raleigh",
+      "state": "NC",
+      "lat": 35.831868,
+      "lng": -78.641042
     }
   },
   {
@@ -15343,8 +15466,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "place",
+      "fips": "1706613",
+      "name": "Bloomington",
+      "state": "IL",
+      "lat": 40.475777,
+      "lng": -88.969912
     }
   },
   {
@@ -15392,7 +15519,14 @@
       "public"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "1349008",
+      "name": "Macon-Bibb County",
+      "state": "GA",
+      "lat": 32.808845,
+      "lng": -83.694194
+    }
   },
   {
     "agency_id": "2db4d130-ca61-5205-80d1-186063c14d83",
@@ -15411,8 +15545,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "VA"
+      "kind": "place",
+      "fips": "5180864",
+      "name": "Verona",
+      "state": "VA",
+      "lat": 38.194307,
+      "lng": -79.009469
     }
   },
   {
@@ -15516,8 +15654,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MO"
+      "kind": "place",
+      "fips": "2937000",
+      "name": "Jefferson City",
+      "state": "MO",
+      "lat": 38.567461,
+      "lng": -92.175254
     }
   },
   {
@@ -15647,8 +15789,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1304000",
+      "name": "Atlanta",
+      "state": "GA",
+      "lat": 33.762909,
+      "lng": -84.422675
     },
     "ori": [
       "GA0604400"
@@ -15976,8 +16122,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "VA"
+      "kind": "place",
+      "fips": "5157000",
+      "name": "Norfolk",
+      "state": "VA",
+      "lat": 36.923015,
+      "lng": -76.244641
     },
     "ori": [
       "VA1170400"
@@ -16000,8 +16150,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "VA"
+      "kind": "place",
+      "fips": "5157000",
+      "name": "Norfolk",
+      "state": "VA",
+      "lat": 36.923015,
+      "lng": -76.244641
     }
   },
   {
@@ -16050,8 +16204,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NC"
+      "kind": "place",
+      "fips": "3728000",
+      "name": "Greensboro",
+      "state": "NC",
+      "lat": 36.09485,
+      "lng": -79.823624
     }
   },
   {
@@ -16233,8 +16391,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "place",
+      "fips": "1754820",
+      "name": "Oak Lawn",
+      "state": "IL",
+      "lat": 41.713885,
+      "lng": -87.752777
     }
   },
   {
@@ -16697,8 +16859,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "place",
+      "fips": "4846056",
+      "name": "Magnolia",
+      "state": "TX",
+      "lat": 30.213032,
+      "lng": -95.7426
     }
   },
   {
@@ -16747,8 +16913,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "SC"
+      "kind": "place",
+      "fips": "4515295",
+      "name": "Clinton",
+      "state": "SC",
+      "lat": 34.473887,
+      "lng": -81.860899
     },
     "ori": [
       "SC0309E00"
@@ -16827,8 +16997,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "place",
+      "fips": "1749009",
+      "name": "Milan",
+      "state": "IL",
+      "lat": 41.435497,
+      "lng": -90.562661
     }
   },
   {
@@ -16849,8 +17023,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1379948",
+      "name": "Waleska",
+      "state": "GA",
+      "lat": 34.317022,
+      "lng": -84.550982
     }
   },
   {
@@ -16927,8 +17105,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "place",
+      "fips": "1718823",
+      "name": "Decatur",
+      "state": "IL",
+      "lat": 39.855983,
+      "lng": -88.933746
     }
   },
   {
@@ -17116,8 +17298,12 @@
       "inactive"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "MI"
+      "kind": "cousub",
+      "fips": "2614543800",
+      "name": "Kochville",
+      "state": "MI",
+      "lat": 43.505646,
+      "lng": -83.98515
     }
   },
   {
@@ -17214,8 +17400,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "AL"
+      "kind": "place",
+      "fips": "0135800",
+      "name": "Homewood",
+      "state": "AL",
+      "lat": 33.45855,
+      "lng": -86.80965
     },
     "ori": [
       "AL001419E"
@@ -17266,8 +17456,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "place",
+      "fips": "1717887",
+      "name": "Crystal Lake",
+      "state": "IL",
+      "lat": 42.233209,
+      "lng": -88.33436
     }
   },
   {
@@ -17592,8 +17786,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "place",
+      "fips": "1772000",
+      "name": "Springfield",
+      "state": "IL",
+      "lat": 39.791063,
+      "lng": -89.644572
     }
   },
   {
@@ -18122,11 +18320,11 @@
       "Test IL - PD - Do not use"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
+    "agency_role": "test",
+    "agency_type": "test",
     "website": null,
     "tags": [
-      "public"
+      "private"
     ],
     "flags": [],
     "geo": {
@@ -18150,7 +18348,14 @@
       "needs-review"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "2973618",
+      "name": "Town and Country",
+      "state": "MO",
+      "lat": 38.630602,
+      "lng": -90.477191
+    }
   },
   {
     "agency_id": "5293b0f3-ec8d-5fd7-a52d-168b57ddc295",
@@ -18197,8 +18402,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TN"
+      "kind": "place",
+      "fips": "4748000",
+      "name": "Memphis",
+      "state": "TN",
+      "lat": 35.109026,
+      "lng": -89.967455
     }
   },
   {
@@ -18350,8 +18559,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "AL"
+      "kind": "place",
+      "fips": "0177256",
+      "name": "Tuscaloosa",
+      "state": "AL",
+      "lat": 33.234404,
+      "lng": -87.5283
     }
   },
   {
@@ -18456,8 +18669,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "AL"
+      "kind": "place",
+      "fips": "0177256",
+      "name": "Tuscaloosa",
+      "state": "AL",
+      "lat": 33.234404,
+      "lng": -87.5283
     }
   },
   {
@@ -18616,8 +18833,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "VA"
+      "kind": "place",
+      "fips": "5167000",
+      "name": "Richmond",
+      "state": "VA",
+      "lat": 37.531399,
+      "lng": -77.476009
     },
     "ori": [
       "VA1300300"
@@ -18918,8 +19139,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1379808",
+      "name": "Waco",
+      "state": "GA",
+      "lat": 33.7026,
+      "lng": -85.189244
     },
     "ori": [
       "GA0710500"
@@ -19192,8 +19417,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CO"
+      "kind": "county",
+      "fips": "28159",
+      "name": "Winston",
+      "state": "MS",
+      "lat": 33.078724,
+      "lng": -89.037391
     }
   },
   {
@@ -19214,8 +19443,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NC"
+      "kind": "place",
+      "fips": "3775000",
+      "name": "Winston-Salem",
+      "state": "NC",
+      "lat": 36.102863,
+      "lng": -80.260829
     },
     "ori": [
       "NC0340300"
@@ -19239,8 +19472,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "SC"
+      "kind": "place",
+      "fips": "4561405",
+      "name": "Rock Hill",
+      "state": "SC",
+      "lat": 34.938216,
+      "lng": -81.019177
     },
     "ori": [
       "SC0460600"
@@ -19401,8 +19638,12 @@
       "inactive"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "place",
+      "fips": "4840984",
+      "name": "Lakeway",
+      "state": "TX",
+      "lat": 30.354982,
+      "lng": -97.986269
     }
   },
   {
@@ -19422,8 +19663,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "place",
+      "fips": "4840984",
+      "name": "Lakeway",
+      "state": "TX",
+      "lat": 30.354982,
+      "lng": -97.986269
     }
   },
   {
@@ -19502,8 +19747,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "place",
+      "fips": "4805000",
+      "name": "Austin",
+      "state": "TX",
+      "lat": 30.298622,
+      "lng": -97.754134
     },
     "ori": [
       "TX227279E"
@@ -19525,7 +19774,14 @@
       "public"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "4805000",
+      "name": "Austin",
+      "state": "TX",
+      "lat": 30.298622,
+      "lng": -97.754134
+    }
   },
   {
     "agency_id": "b779b2fe-4892-5835-bb42-83a4d2ea4639",
@@ -19959,8 +20215,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CT"
+      "kind": "place",
+      "fips": "0937000",
+      "name": "Hartford",
+      "state": "CT",
+      "lat": 41.765933,
+      "lng": -72.681579
     },
     "ori": [
       "CT0020000"
@@ -20031,8 +20291,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CT"
+      "kind": "place",
+      "fips": "0982800",
+      "name": "West Haven",
+      "state": "CT",
+      "lat": 41.272121,
+      "lng": -72.967497
     }
   },
   {
@@ -20053,8 +20317,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CT"
+      "kind": "place",
+      "fips": "0982660",
+      "name": "West Hartford",
+      "state": "CT",
+      "lat": 41.766568,
+      "lng": -72.754944
     }
   },
   {
@@ -20352,8 +20620,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TN"
+      "kind": "place",
+      "fips": "4706740",
+      "name": "Blountville",
+      "state": "TN",
+      "lat": 36.532994,
+      "lng": -82.32887
     },
     "ori": [
       "TN0820800"
@@ -20657,8 +20929,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TN"
+      "kind": "place",
+      "fips": "4738320",
+      "name": "Johnson City",
+      "state": "TN",
+      "lat": 36.342325,
+      "lng": -82.380915
     }
   },
   {
@@ -21060,8 +21336,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TN"
+      "kind": "place",
+      "fips": "4740000",
+      "name": "Knoxville",
+      "state": "TN",
+      "lat": 35.97068,
+      "lng": -83.94927
     }
   },
   {
@@ -21082,8 +21362,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TN"
+      "kind": "place",
+      "fips": "4748000",
+      "name": "Memphis",
+      "state": "TN",
+      "lat": 35.109026,
+      "lng": -89.967455
     },
     "ori": [
       "TN0792400"
@@ -21159,8 +21443,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TN"
+      "kind": "place",
+      "fips": "4779980",
+      "name": "White Bluff",
+      "state": "TN",
+      "lat": 36.100947,
+      "lng": -87.211874
     },
     "ori": [
       "TN0220300"
@@ -21429,24 +21717,6 @@
       "kind": "state-only",
       "state": "VA"
     }
-  },
-  {
-    "agency_id": "0bf7878d-415e-5d4d-92fd-c44280ef0e82",
-    "slug": "265",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "265"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": null
   },
   {
     "agency_id": "fd74ddc3-184d-5628-8e8c-f80bc92fd49a",
@@ -27611,7 +27881,14 @@
       "needs-review"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "place",
+      "fips": "4833188",
+      "name": "Hemphill",
+      "state": "TX",
+      "lat": 31.3433,
+      "lng": -93.851913
+    }
   },
   {
     "agency_id": "bf5b6336-9225-5112-b80c-3157ecc2aa64",
@@ -31312,8 +31589,8 @@
       "Melrose Park (IL) Regional RTIC - DO NOT USE"
     ],
     "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
+    "agency_role": "decommissioned",
+    "agency_type": "decommissioned",
     "website": null,
     "tags": [
       "needs-review"
@@ -64467,8 +64744,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "AL"
+      "kind": "place",
+      "fips": "0138272",
+      "name": "Jacksonville",
+      "state": "AL",
+      "lat": 33.810066,
+      "lng": -85.755217
     }
   },
   {
@@ -81950,8 +82231,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "county",
+      "fips": "48491",
+      "name": "Williamson",
+      "state": "TX",
+      "lat": 30.649082,
+      "lng": -97.605065
     }
   },
   {
@@ -89102,7 +89387,14 @@
       "needs-review"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "county",
+      "fips": "01111",
+      "name": "Randolph",
+      "state": "AL",
+      "lat": 33.296461,
+      "lng": -85.464064
+    }
   },
   {
     "agency_id": "f0d21634-6075-57d9-b5c2-08b1908dcf93",
@@ -96719,8 +97011,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "place",
+      "fips": "4866000",
+      "name": "Savannah",
+      "state": "TX",
+      "lat": 33.225738,
+      "lng": -96.908125
     }
   },
   {
@@ -108202,8 +108498,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "OK"
+      "kind": "place",
+      "fips": "4055000",
+      "name": "Oklahoma City",
+      "state": "OK",
+      "lat": 35.467079,
+      "lng": -97.513657
     }
   },
   {
@@ -109815,8 +110115,11 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "manual",
+      "name": "New Caney",
+      "state": "TX",
+      "lat": 30.1395,
+      "lng": -95.2171
     }
   },
   {
@@ -147169,8 +147472,12 @@
       "needs-review"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "place",
+      "fips": "4872656",
+      "name": "The Woodlands",
+      "state": "TX",
+      "lat": 30.172562,
+      "lng": -95.509813
     },
     "flags": []
   },
