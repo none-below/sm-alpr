@@ -123,6 +123,7 @@ jobs:
           if [ ! -f /tmp/crawl.log ]; then exit 0; fi
           ERRORS=$(grep -E "PARSE_ERROR: " /tmp/crawl.log | sort -u || true)
           if [ -z "$ERRORS" ]; then exit 0; fi
+          ERRORS_HASH=$(echo "$ERRORS" | sha256sum | cut -d' ' -f1)
           {
             echo "Parser tripped on one or more agency portals. Files were"
             echo "saved; re-parse via \`parse --force --slug <slug>\` after"
@@ -133,10 +134,22 @@ jobs:
             echo '```'
             echo
             echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            echo "<!-- parse-errors-hash: $ERRORS_HASH -->"
           } > /tmp/parse-issue-body.md
           EXISTING=$(gh issue list --label parser --state open --json number -q '.[0].number' || true)
           if [ -n "$EXISTING" ]; then
-            gh issue comment "$EXISTING" --body-file /tmp/parse-issue-body.md
+            # Skip the comment when this run's errors match the newest ones
+            # already on the issue — repeat failures on every refresh run
+            # flooded the rolling issue with identical comments (#223).
+            LAST_HASH=$(gh issue view "$EXISTING" --json body,comments \
+              -q '[.body, (.comments[-1].body // "")] | join("\n")' \
+              | grep -oE 'parse-errors-hash: [0-9a-f]+' | tail -1 || true)
+            if [ "$LAST_HASH" = "parse-errors-hash: $ERRORS_HASH" ]; then
+              echo "Same parse errors already reported on issue #$EXISTING; not commenting."
+            else
+              gh issue comment "$EXISTING" --body-file /tmp/parse-issue-body.md
+            fi
           else
             gh issue create \
               --title "Parser tripped on a new Flock portal variant" \
@@ -169,36 +182,46 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if ! uv run python scripts/check_recipient_coords.py > /tmp/coord-check.txt 2>&1; then
+          if uv run python scripts/check_recipient_coords.py > /tmp/coord-check.txt 2>&1; then
             cat /tmp/coord-check.txt
-            EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
-            if [ -n "$EXISTING" ]; then
-              {
-                echo "Updated from flock refresh:"
-                echo
-                echo '```'
-                cat /tmp/coord-check.txt
-                echo '```'
-              } > /tmp/coord-issue-body.md
-              gh issue comment "$EXISTING" --body-file /tmp/coord-issue-body.md
-            else
-              {
-                echo "The following agencies receive data from public agencies but have no lat/lng in the registry:"
-                echo
-                echo '```'
-                cat /tmp/coord-check.txt
-                echo '```'
-                echo
-                echo "Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
-              } > /tmp/coord-issue-body.md
-              gh issue create \
-                --title "Recipients missing coordinates in agency registry" \
-                --label geocoding \
-                --body-file /tmp/coord-issue-body.md
-            fi
-          else
-            cat /tmp/coord-check.txt
+            exit 0
           fi
+          cat /tmp/coord-check.txt
+          {
+            echo "The following agencies receive data from public agencies but have no lat/lng in the registry:"
+            echo
+            echo '```'
+            cat /tmp/coord-check.txt
+            echo '```'
+            echo
+            echo "Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
+          } > /tmp/coord-issue-body.md
+          EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
+          if [ -z "$EXISTING" ]; then
+            gh issue create \
+              --title "Recipients missing coordinates in agency registry" \
+              --label geocoding \
+              --body-file /tmp/coord-issue-body.md
+            exit 0
+          fi
+          # The issue body is bot-owned and always holds the current list.
+          # Only touch the issue when the list changes — commenting the full
+          # list on every refresh run flooded the issue with hundreds of
+          # identical comments (#516, #636).
+          gh issue view "$EXISTING" --json body -q .body | tr -d '\r' > /tmp/coord-issue-old.md
+          if diff -u /tmp/coord-issue-old.md /tmp/coord-issue-body.md > /tmp/coord-issue-diff.txt; then
+            echo "Recipient list unchanged; leaving issue #$EXISTING alone."
+            exit 0
+          fi
+          gh issue edit "$EXISTING" --body-file /tmp/coord-issue-body.md
+          {
+            echo "Recipient list changed:"
+            echo
+            echo '```diff'
+            grep -E '^[-+][^-+]' /tmp/coord-issue-diff.txt || true
+            echo '```'
+          } > /tmp/coord-issue-comment.md
+          gh issue comment "$EXISTING" --body-file /tmp/coord-issue-comment.md
 
       - name: Commit and push
         id: commit
