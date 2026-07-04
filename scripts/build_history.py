@@ -232,6 +232,75 @@ def _resolve_name(name: str) -> dict:
     return {"name": name, "slug": None, "agency_id": None}
 
 
+def _reconcile_sharing(events: list[dict], field: str, cutoff_str: str):
+    """Reconcile windowed add/remove events for one sharing field into three
+    MUTUALLY EXCLUSIVE per-target buckets, so the map never double-renders a
+    target that churned (present -> removed -> re-added):
+
+      added:   present now, never removed in-window — a new relationship.
+               [{name, slug, agency_id, date}]  (date = start date)
+      removed: absent now (last in-window event was a removal).
+               [{name, slug, agency_id, date}]  (date = stop date)
+      readded: present now but removed then re-added in-window — the churn
+               case. [{name, slug, agency_id, removed_date, readded_date}]
+
+    Targets are keyed by resolved identity (slug/agency_id), not raw name, so
+    a partner the portal simply relabels between scrapes ("Sacramento PD - CA"
+    -> "Sacramento CA PD") doesn't read as a remove + add. Such a rename lands
+    as a +1 and a -1 on the SAME date for one identity; we net each date and
+    drop zero-net dates, so a rename collapses to nothing while a genuine
+    remove-then-re-add (different dates) survives as `readded`.
+
+    A target's membership strictly alternates across distinct dates, so the
+    LAST surviving transition fixes its current status and the most recent
+    negative transition is the removal we surface. Events older than the
+    window are dropped, so a removal predating the window is invisible and a
+    re-add then reads as a plain `added` — acceptable, since the relationship
+    instance did (re)start inside the window.
+    """
+    # identity key -> {"resolved": {...}, "name_date": <iso>, "by_date": {date: net}}
+    targets: dict[str, dict] = {}
+    for ev in events:
+        if ev["date"] < cutoff_str:
+            continue
+        if ev["field"] != field or ev["kind"] != "set":
+            continue
+        for name, delta in ([(n, 1) for n in ev.get("added", [])] +
+                            [(n, -1) for n in ev.get("removed", [])]):
+            resolved = _resolve_name(name)
+            key = resolved["slug"] or resolved["agency_id"] or name
+            t = targets.setdefault(key, {"resolved": resolved, "name_date": ev["date"], "by_date": {}})
+            t["by_date"][ev["date"]] = t["by_date"].get(ev["date"], 0) + delta
+            # Display the label seen at the most recent date (the current name).
+            if ev["date"] >= t["name_date"]:
+                t["name_date"] = ev["date"]
+                t["resolved"] = resolved
+
+    added, removed, readded = [], [], []
+    for t in targets.values():
+        trans = [(d, 1 if net > 0 else -1)
+                 for d, net in sorted(t["by_date"].items()) if net != 0]
+        if not trans:
+            continue  # pure rename(s) — no real membership change
+        resolved = t["resolved"]
+        if trans[-1][1] < 0:  # currently absent
+            removed.append({**resolved, "date": trans[-1][0]})
+        elif any(sign < 0 for _, sign in trans):  # present, but churned
+            removed_date = max(d for d, sign in trans if sign < 0)
+            readded.append({
+                **resolved,
+                "removed_date": removed_date,
+                "readded_date": trans[-1][0],
+            })
+        else:  # present, never removed in-window
+            added.append({**resolved, "date": trans[-1][0]})
+
+    added.sort(key=lambda x: x["date"], reverse=True)
+    removed.sort(key=lambda x: x["date"], reverse=True)
+    readded.sort(key=lambda x: x["readded_date"], reverse=True)
+    return added, removed, readded
+
+
 def _build_changelog(all_histories: list[dict], oldest_snapshot: str | None) -> dict:
     """Flatten recent events into a per-source-slug map for map-client use.
 
@@ -247,39 +316,41 @@ def _build_changelog(all_histories: list[dict], oldest_snapshot: str | None) -> 
 
     for hist in all_histories:
         slug = hist["slug"]
+        events = hist["events"]
         entry = {
             "display_name": hist["display_name"],
             "agency_id": hist["agency_id"],
             "sharing_outbound_added": [],
             "sharing_outbound_removed": [],
+            "sharing_outbound_readded": [],
             "sharing_inbound_added": [],
             "sharing_inbound_removed": [],
+            "sharing_inbound_readded": [],
             "policy_events": [],
         }
         has_any = False
-        for ev in hist["events"]:
+        for field in ("sharing_outbound", "sharing_inbound"):
+            added, removed, readded = _reconcile_sharing(events, field, cutoff_str)
+            entry[f"{field}_added"] = added
+            entry[f"{field}_removed"] = removed
+            entry[f"{field}_readded"] = readded
+            if added or removed or readded:
+                has_any = True
+        for ev in events:
             if ev["date"] < cutoff_str:
                 continue
             field = ev["field"]
             if field in ("sharing_outbound", "sharing_inbound") and ev["kind"] == "set":
-                added_key = f"{field}_added"
-                removed_key = f"{field}_removed"
-                for name in ev.get("added", []):
-                    entry[added_key].append({**_resolve_name(name), "date": ev["date"]})
-                    has_any = True
-                for name in ev.get("removed", []):
-                    entry[removed_key].append({**_resolve_name(name), "date": ev["date"]})
-                    has_any = True
-            else:
-                entry["policy_events"].append({
-                    "date": ev["date"],
-                    "field": field,
-                    "kind": ev["kind"],
-                    **({"before": ev["before"], "after": ev["after"]}
-                       if ev["kind"] in ("scalar", "text")
-                       else {"added": ev.get("added", []), "removed": ev.get("removed", [])}),
-                })
-                has_any = True
+                continue  # handled by _reconcile_sharing above
+            entry["policy_events"].append({
+                "date": ev["date"],
+                "field": field,
+                "kind": ev["kind"],
+                **({"before": ev["before"], "after": ev["after"]}
+                   if ev["kind"] in ("scalar", "text")
+                   else {"added": ev.get("added", []), "removed": ev.get("removed", [])}),
+            })
+            has_any = True
         if has_any:
             by_slug[slug] = entry
 

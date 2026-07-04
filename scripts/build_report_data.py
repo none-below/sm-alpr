@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """
 Generate per-agency report data for the printable city report.
 
@@ -26,7 +28,7 @@ import math
 import re
 import sys
 from collections import defaultdict
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -63,18 +65,60 @@ OUT_PATH = Path("docs/data/report_data.json")
 RECENT_ADD_WINDOW_DAYS = 90
 
 
-def _load_sharing_history(reg_entry):
-    """Return (outbound_added_by_aid, outbound_removed_events) from history files.
+def _load_sharing_history(reg_entry, cutoff=None):
+    """Reconcile outbound sharing changes from history files into four views.
+    The first three are windowed on `cutoff` (default: today minus
+    RECENT_ADD_WINDOW_DAYS; injectable so tests with fixed event dates never
+    age out), mirroring scripts/build_history.py:_reconcile_sharing (which
+    feeds the map) so the two never disagree:
 
-    outbound_added_by_aid: {target_agency_id: iso_date} — most recent add date
-    outbound_removed_events: [{agency_id, name, date, kind}] — one per removal event
+      added_by_aid:   {aid: iso_date} — present now, never removed in-window
+                      (a genuinely NEW partner; date = start).
+      removed_events: [{agency_id, name, date}] — partners that are NOT
+                      currently shared (net-absent); one entry per net-removed
+                      target, dated at its most recent removal.
+      readds:         {aid: {name, removed_on, readded_on, sequence}} — present
+                      now but dropped then re-added in-window (FLAPPING). The
+                      sequence is the ordered in-window transition list
+                      [{action, date}], so the report can tell the full
+                      shared -> dropped -> reshared story.
+
+    The fourth is NOT windowed:
+
+      removed_all_events: [{agency_id, name, date}] — one entry per raw
+                      removal event across the full history, no netting.
+                      Feeds removed_flagged_recipients, which keeps a
+                      dropped flagged partner on the report indefinitely;
+                      consumers must guard on current membership themselves
+                      (a flapping partner's removals appear here too).
+
+    Targets are keyed by resolved agency_id, not raw name, so a portal relabel
+    of the same partner ("Sacramento PD - CA" -> "Sacramento CA PD") nets out
+    on its shared date instead of reading as a remove + add.
+
+    Each slug's history is netted INDEPENDENTLY (exactly the input the map's
+    per-slug _reconcile_sharing sees) and the per-slug classifications are
+    unioned afterwards. Merging events across slugs before netting could
+    fabricate a flapping partner out of a portal migration — removed on the
+    old portal, added on the new one is a portal artifact, not a reversed
+    sharing decision. A drop must be visible within a single portal's history
+    to count as flapping; a cross-portal remove+add degrades to added (the
+    old portal's net-removal entry is suppressed downstream by the
+    currently-shared guards). Buckets are therefore mutually exclusive per
+    portal, not necessarily per agency across portals.
     """
     slugs = list(reg_entry.get("flock_slugs") or [])
     base = reg_entry.get("slug")
     if base and base not in slugs:
         slugs.append(base)
-    added_by_aid = {}
-    removed_events = []
+
+    if cutoff is None:
+        cutoff = (date.today() - timedelta(days=RECENT_ADD_WINDOW_DAYS)).isoformat()
+
+    # slug -> identity key (aid or unresolved name)
+    #      -> {agency_id, name, name_date, by_date}
+    targets_by_slug = {}
+    removed_all_events = []
     for slug in slugs:
         hist_path = HISTORY_DIR / f"{slug}.json"
         if not hist_path.exists():
@@ -83,32 +127,69 @@ def _load_sharing_history(reg_entry):
             hist = json.loads(hist_path.read_text())
         except json.JSONDecodeError:
             continue
+        targets = targets_by_slug.setdefault(slug, {})
         for ev in hist.get("events", []):
             if ev.get("field") != "sharing_outbound" or ev.get("kind") != "set":
                 continue
             ev_date = ev.get("date", "")
-            for name in ev.get("added", []):
+            in_window = ev_date >= cutoff
+            for name, delta in ([(n, 1) for n in ev.get("added", [])] +
+                                [(n, -1) for n in ev.get("removed", [])]):
+                if not in_window and delta > 0:
+                    continue  # pre-window adds feed no view
                 target = resolve_agency(name=name)
-                if target:
-                    aid = target["agency_id"]
-                    prev = added_by_aid.get(aid)
-                    if prev is None or ev_date > prev:
-                        added_by_aid[aid] = ev_date
-            for name in ev.get("removed", []):
-                target = resolve_agency(name=name)
-                if target:
-                    removed_events.append({
-                        "agency_id": target["agency_id"],
-                        "name": name,
-                        "date": ev_date,
-                    })
-                else:
-                    removed_events.append({
-                        "agency_id": None,
-                        "name": name,
-                        "date": ev_date,
-                    })
-    return added_by_aid, removed_events
+                aid = target["agency_id"] if target else None
+                if delta < 0:
+                    removed_all_events.append(
+                        {"agency_id": aid, "name": name, "date": ev_date})
+                if not in_window:
+                    continue
+                key = aid or name
+                t = targets.setdefault(
+                    key, {"agency_id": aid, "name": name, "name_date": ev_date, "by_date": {}})
+                t["by_date"][ev_date] = t["by_date"].get(ev_date, 0) + delta
+                if ev_date >= t["name_date"]:  # display the most recent label
+                    t["name_date"] = ev_date
+                    t["name"] = name
+
+    # Union of the per-slug classifications. Ties across slugs (possible
+    # only when one registry entry has several history files): added keeps
+    # the earliest date (start-date contract), removed and readds keep the
+    # latest occurrence.
+    added_by_aid = {}
+    removed_by_key = {}
+    readds = {}
+    for targets in targets_by_slug.values():
+        for t in targets.values():
+            seq = [(d, 1 if net > 0 else -1)
+                   for d, net in sorted(t["by_date"].items()) if net != 0]
+            if not seq:
+                continue  # pure rename(s) — no real membership change
+            aid, name = t["agency_id"], t["name"]
+            if seq[-1][1] < 0:  # net-absent now
+                key = aid or name
+                prev = removed_by_key.get(key)
+                if prev is None or seq[-1][0] > prev["date"]:
+                    removed_by_key[key] = {
+                        "agency_id": aid, "name": name, "date": seq[-1][0]}
+            elif any(sign < 0 for _, sign in seq):  # present, churned — flapping
+                if aid:  # need an id to classify/link; nameless re-adds are dropped
+                    prev = readds.get(aid)
+                    if prev is None or seq[-1][0] > prev["readded_on"]:
+                        readds[aid] = {
+                            "name": name,
+                            "removed_on": max(d for d, sign in seq if sign < 0),
+                            "readded_on": seq[-1][0],
+                            "sequence": [{"action": "added" if sign > 0 else "removed",
+                                          "date": d}
+                                         for d, sign in seq],
+                        }
+            elif aid:  # present, never removed — a new partner
+                prev = added_by_aid.get(aid)
+                if prev is None or seq[-1][0] < prev:
+                    added_by_aid[aid] = seq[-1][0]
+    removed_events = list(removed_by_key.values())
+    return added_by_aid, removed_events, readds, removed_all_events
 
 RANKED_STATE = "CA"
 # 25 miles, expressed in km (the native unit of dist_km). Matches the
@@ -1670,7 +1751,8 @@ def main():
         # flagged targets) and surface a "previously shared with X,
         # removed DATE" list for flagged targets the agency has since
         # dropped. Build_history.py must have run first.
-        added_on_by_aid, removed_events = _load_sharing_history(reg)
+        (added_on_by_aid, removed_events, readds,
+         removed_all_events) = _load_sharing_history(reg)
         today = date.today()
 
         flagged_recipients = []
@@ -1686,6 +1768,14 @@ def main():
                     "ag_lawsuit": has_tag(tr, "ag-lawsuit"),
                     "notes": tr.get("notes"),
                 }
+                # Flapping flagged recipient: dropped then re-added in-window.
+                # Annotate so the report tags it (instead of "NEW") and the
+                # flapping question can name it.
+                rd = readds.get(target_id)
+                if rd:
+                    entry_out["removed_on"] = rd["removed_on"]
+                    entry_out["readded_on"] = rd["readded_on"]
+                    entry_out["sequence"] = rd["sequence"]
                 added_on = added_on_by_aid.get(target_id)
                 if added_on:
                     try:
@@ -1700,10 +1790,13 @@ def main():
         # Removed-flagged: targets that were in sharing at some point,
         # have since been removed, and would be flagged by current
         # registry classification. Dedupe by agency_id keeping the most
-        # recent removal date.
+        # recent removal date. Reads the un-windowed raw-removal view: a
+        # dropped flagged partner stays on the report indefinitely, unlike
+        # the recent_* lists below, which age out after
+        # RECENT_ADD_WINDOW_DAYS.
         current_outbound_set = set(outbound_ids)
         removed_flagged_by_aid = {}
-        for ev in removed_events:
+        for ev in removed_all_events:
             aid_r = ev["agency_id"]
             if not aid_r or aid_r in current_outbound_set:
                 continue
@@ -1787,6 +1880,35 @@ def main():
         recent_outbound_removals.sort(
             key=lambda x: x["removed_on"], reverse=True
         )
+
+        # ── Re-added / flapping partners ──
+        # Partners dropped then re-added in-window: currently shared, but the
+        # add/remove cycling is a sharper governance signal than a steady
+        # partner — it implies a decision was reversed. Kept separate from
+        # additions/removals (which net these out) so the report can ask
+        # about the reversal specifically and show the full sequence.
+        recent_outbound_readds = []
+        for target_id, info in readds.items():
+            # Same stale-history guard as the additions/removals lists
+            # above: "re-added" asserts the partner is shared NOW, so a
+            # history file lagging the current graph must not produce a
+            # restored-partner claim (and a dangling "see Flagged
+            # Recipients" reference) for a target the graph doesn't hold.
+            if target_id not in current_outbound_set:
+                continue
+            tr = reg_by_id.get(target_id, {})
+            kind = is_flagged_entity(target_id, reg_by_id, state)
+            recent_outbound_readds.append({
+                "agency_id": target_id,
+                "slug": id_to_slug.get(target_id, target_id),
+                "name": agency_display_name(tr, id_to_slug.get(target_id, target_id)),
+                "kind": kind,
+                "ag_lawsuit": has_tag(tr, "ag-lawsuit"),
+                "removed_on": info["removed_on"],
+                "readded_on": info["readded_on"],
+                "sequence": info["sequence"],
+            })
+        recent_outbound_readds.sort(key=lambda x: x["readded_on"], reverse=True)
 
         # ── Audit-log derived fields ──
         # If the agency publishes a search audit (or we've imported one
@@ -2087,6 +2209,7 @@ def main():
             "audit_vs_inbound": audit_vs_inbound,
             "recent_outbound_additions": recent_outbound_additions,
             "recent_outbound_removals": recent_outbound_removals,
+            "recent_outbound_readds": recent_outbound_readds,
             "portal_language_notes": portal_language_notes,
         }
 
