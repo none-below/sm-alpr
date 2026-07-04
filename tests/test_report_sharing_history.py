@@ -108,6 +108,38 @@ def test_same_date_relabel_collapses(patched):
         [("sacramento", "2026-05-12")]
 
 
+def test_cross_slug_migration_is_not_flapping(patched):
+    """A portal migration — partner removed in the OLD portal's history,
+    added in the NEW portal's history — must not read as dropped-then-
+    re-added: that's a portal artifact, not a reversed sharing decision.
+    Per-slug netting classifies it added (new portal) + net-removed (old
+    portal, suppressed downstream by the currently-shared guards)."""
+    _hist(patched, "old-portal", [_set_ev("2026-05-01", removed=["El Cajon CA PD"])])
+    _hist(patched, "new-portal", [_set_ev("2026-05-20", added=["El Cajon CA PD"])])
+    added, removed, readds, removed_all = build_report_data._load_sharing_history(
+        {"slug": "old-portal", "flock_slugs": ["new-portal"]}, cutoff=CUTOFF
+    )
+    assert readds == {}
+    assert added == {"el-cajon": "2026-05-20"}
+    assert [(e["agency_id"], e["date"]) for e in removed] == [("el-cajon", "2026-05-01")]
+
+
+def test_same_slug_flap_across_two_slugs_still_flapping(patched):
+    """The migration guard must not swallow genuine flapping: a drop and
+    re-add visible within ONE portal's history stays classified readded
+    even when the agency has a second history file."""
+    _hist(patched, "old-portal", [_set_ev("2026-04-15", added=["Newark CA PD"])])
+    _hist(patched, "new-portal", [
+        _set_ev("2026-05-06", removed=["El Cajon CA PD"]),
+        _set_ev("2026-06-03", added=["El Cajon CA PD"]),
+    ])
+    added, removed, readds, removed_all = build_report_data._load_sharing_history(
+        {"slug": "old-portal", "flock_slugs": ["new-portal"]}, cutoff=CUTOFF
+    )
+    assert "el-cajon" in readds
+    assert added == {"newark": "2026-04-15"} and removed == []
+
+
 def test_pre_window_removal_still_feeds_flagged_view(patched):
     """A removal older than the window must vanish from the netted views but
     survive in removed_all_events: removed_flagged_recipients has no window,

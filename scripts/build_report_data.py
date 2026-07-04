@@ -95,6 +95,17 @@ def _load_sharing_history(reg_entry, cutoff=None):
     Targets are keyed by resolved agency_id, not raw name, so a portal relabel
     of the same partner ("Sacramento PD - CA" -> "Sacramento CA PD") nets out
     on its shared date instead of reading as a remove + add.
+
+    Each slug's history is netted INDEPENDENTLY (exactly the input the map's
+    per-slug _reconcile_sharing sees) and the per-slug classifications are
+    unioned afterwards. Merging events across slugs before netting could
+    fabricate a flapping partner out of a portal migration — removed on the
+    old portal, added on the new one is a portal artifact, not a reversed
+    sharing decision. A drop must be visible within a single portal's history
+    to count as flapping; a cross-portal remove+add degrades to added (the
+    old portal's net-removal entry is suppressed downstream by the
+    currently-shared guards). Buckets are therefore mutually exclusive per
+    portal, not necessarily per agency across portals.
     """
     slugs = list(reg_entry.get("flock_slugs") or [])
     base = reg_entry.get("slug")
@@ -104,8 +115,9 @@ def _load_sharing_history(reg_entry, cutoff=None):
     if cutoff is None:
         cutoff = (date.today() - timedelta(days=RECENT_ADD_WINDOW_DAYS)).isoformat()
 
-    # identity key (aid or unresolved name) -> {agency_id, name, name_date, by_date}
-    targets = {}
+    # slug -> identity key (aid or unresolved name)
+    #      -> {agency_id, name, name_date, by_date}
+    targets_by_slug = {}
     removed_all_events = []
     for slug in slugs:
         hist_path = HISTORY_DIR / f"{slug}.json"
@@ -115,6 +127,7 @@ def _load_sharing_history(reg_entry, cutoff=None):
             hist = json.loads(hist_path.read_text())
         except json.JSONDecodeError:
             continue
+        targets = targets_by_slug.setdefault(slug, {})
         for ev in hist.get("events", []):
             if ev.get("field") != "sharing_outbound" or ev.get("kind") != "set":
                 continue
@@ -139,28 +152,43 @@ def _load_sharing_history(reg_entry, cutoff=None):
                     t["name_date"] = ev_date
                     t["name"] = name
 
+    # Union of the per-slug classifications. Ties across slugs (possible
+    # only when one registry entry has several history files): added keeps
+    # the earliest date (start-date contract), removed and readds keep the
+    # latest occurrence.
     added_by_aid = {}
-    removed_events = []
+    removed_by_key = {}
     readds = {}
-    for t in targets.values():
-        seq = [(d, 1 if net > 0 else -1)
-               for d, net in sorted(t["by_date"].items()) if net != 0]
-        if not seq:
-            continue  # pure rename(s) — no real membership change
-        aid, name = t["agency_id"], t["name"]
-        if seq[-1][1] < 0:  # net-absent now
-            removed_events.append({"agency_id": aid, "name": name, "date": seq[-1][0]})
-        elif any(sign < 0 for _, sign in seq):  # present, churned — flapping
-            if aid:  # need an id to classify/link; nameless re-adds are dropped
-                readds[aid] = {
-                    "name": name,
-                    "removed_on": max(d for d, sign in seq if sign < 0),
-                    "readded_on": seq[-1][0],
-                    "sequence": [{"action": "added" if sign > 0 else "removed", "date": d}
-                                 for d, sign in seq],
-                }
-        elif aid:  # present, never removed — a new partner
-            added_by_aid[aid] = seq[-1][0]
+    for targets in targets_by_slug.values():
+        for t in targets.values():
+            seq = [(d, 1 if net > 0 else -1)
+                   for d, net in sorted(t["by_date"].items()) if net != 0]
+            if not seq:
+                continue  # pure rename(s) — no real membership change
+            aid, name = t["agency_id"], t["name"]
+            if seq[-1][1] < 0:  # net-absent now
+                key = aid or name
+                prev = removed_by_key.get(key)
+                if prev is None or seq[-1][0] > prev["date"]:
+                    removed_by_key[key] = {
+                        "agency_id": aid, "name": name, "date": seq[-1][0]}
+            elif any(sign < 0 for _, sign in seq):  # present, churned — flapping
+                if aid:  # need an id to classify/link; nameless re-adds are dropped
+                    prev = readds.get(aid)
+                    if prev is None or seq[-1][0] > prev["readded_on"]:
+                        readds[aid] = {
+                            "name": name,
+                            "removed_on": max(d for d, sign in seq if sign < 0),
+                            "readded_on": seq[-1][0],
+                            "sequence": [{"action": "added" if sign > 0 else "removed",
+                                          "date": d}
+                                         for d, sign in seq],
+                        }
+            elif aid:  # present, never removed — a new partner
+                prev = added_by_aid.get(aid)
+                if prev is None or seq[-1][0] < prev:
+                    added_by_aid[aid] = seq[-1][0]
+    removed_events = list(removed_by_key.values())
     return added_by_aid, removed_events, readds, removed_all_events
 
 RANKED_STATE = "CA"
