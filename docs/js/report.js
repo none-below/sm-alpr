@@ -1970,10 +1970,19 @@
         }
         // shared -> dropped DATE -> reshared DATE. Lead with "shared" when
         // the first in-window change was a drop (it was on the list before).
+        // An add only reads as a RE-add once a drop precedes it in-window;
+        // a sequence that opens with an add is the partner's first observed
+        // appearance, and calling it "re-added" would assert membership
+        // before a date we have no record for.
         const seq = r.sequence || [];
         const lead = (seq[0] && seq[0].action === "removed") ? "shared &rarr; " : "";
+        let dropSeen = false;
         const steps = seq.map(function(s) {
-          return (s.action === "removed" ? "dropped " : "re-added ") + escapeHtml(s.date);
+          if (s.action === "removed") {
+            dropSeen = true;
+            return "dropped " + escapeHtml(s.date);
+          }
+          return (dropSeen ? "re-added " : "added ") + escapeHtml(s.date);
         }).join(" &rarr; ");
         html += ` <span class="muted" style="font-size:9.5pt">&mdash; ${lead}${steps}</span>`;
         html += '</li>';

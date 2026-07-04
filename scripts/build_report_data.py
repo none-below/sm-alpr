@@ -1861,6 +1861,13 @@ def main():
         # about the reversal specifically and show the full sequence.
         recent_outbound_readds = []
         for target_id, info in readds.items():
+            # Same stale-history guard as the additions/removals lists
+            # above: "re-added" asserts the partner is shared NOW, so a
+            # history file lagging the current graph must not produce a
+            # restored-partner claim (and a dangling "see Flagged
+            # Recipients" reference) for a target the graph doesn't hold.
+            if target_id not in current_outbound_set:
+                continue
             tr = reg_by_id.get(target_id, {})
             kind = is_flagged_entity(target_id, reg_by_id, state)
             recent_outbound_readds.append({

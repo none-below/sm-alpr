@@ -414,6 +414,12 @@ Promise.all([
       // and a ↻ marker noting the gap, rather than crossing it out (which
       // is what made a re-added target look both struck-out and live).
       (chg.sharing_outbound_readded || []).forEach(it => {
+        // Defensive mirror of the removed-path guard below: "re-added"
+        // asserts the edge is live now, so never paint the amber highlight
+        // to a target the current graph doesn't contain (the base-edge
+        // loop draws only from outbound_slugs, so it would be the ONLY
+        // edge — a stale changelog inventing an active relationship).
+        if (it.slug && !currentOut.has(it.slug)) return;
         if (it.slug && coords[it.slug]) {
           const tCoord = coords[it.slug];
           const gap = 'removed on/around ' + it.removed_date +
@@ -568,7 +574,14 @@ Promise.all([
     // resolved to a registry slug are dropped \u2014 without a slug we
     // can't classify as flagged/clean or link to a report.
     const sidebarChg = showChanges ? (changelogBySlug[m.slug] || {}) : {};
-    const allRemoved = (sidebarChg.sharing_outbound_removed || []).filter(r => r.slug);
+    // Same never-strike-a-live-edge guard as the map overlay: outbound_slugs
+    // includes inferred edges (the target's portal names this agency), so a
+    // partner the source portal dropped can still be live here — rendering
+    // it both struck-through and active is the contradiction this overlay
+    // exists to avoid.
+    const sidebarOut = new Set(m.outbound_slugs || []);
+    const allRemoved = (sidebarChg.sharing_outbound_removed || [])
+      .filter(r => r.slug && !sidebarOut.has(r.slug));
     const removedFlagged = allRemoved.filter(r => isFlagged(r.slug));
     const removedClean = allRemoved.filter(r => !isFlagged(r.slug));
     // Renders one row as: <struck-through name+tags> [removed DATE].
