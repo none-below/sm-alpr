@@ -1,0 +1,77 @@
+{
+  "url": "https://losbanosenterprise.com/local-news/2026/merced-residents-named-in-lawsuit-against-motorola-solutions-over-license-plate-reader-data-sharing/",
+  "source_domain": "losbanosenterprise.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Merced Residents Named in Lawsuit Against Motorola Solutions Over License Plate Reader Data Sharing",
+  "byline": "Publisher",
+  "published_at": "2026-06-12T10:48:20-07:00",
+  "fetched_at": "2026-07-04T04:41:01Z",
+  "discovered_by": "bing-reject-backfill",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 87 pts, HIGH/CRITICAL findings",
+  "scanner_score": 87,
+  "content_hash": "e4c971d3db847e5ae8f58aee91d7ca20211e65068e445a640b4384ddca006ff2",
+  "paths": {
+    "html": "assets/articles/losbanosenterprise.com/local-news-2026-merced-residents-named-in-lawsuit-against-motorola-solutions-ove_e399ec3c.html",
+    "meta": "assets/articles/losbanosenterprise.com/local-news-2026-merced-residents-named-in-lawsuit-against-motorola-solutions-ove_e399ec3c.meta.json",
+    "txt": "assets/articles/losbanosenterprise.com/local-news-2026-merced-residents-named-in-lawsuit-against-motorola-solutions-ove_e399ec3c.txt"
+  },
+  "wayback_url": "http://web.archive.org/web/20260618113350/https://losbanosenterprise.com/local-news/2026/merced-residents-named-in-lawsuit-against-motorola-solutions-over-license-plate-reader-data-sharing/",
+  "wayback_timestamp": "20260618113350",
+  "wayback_source": "existing",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:ag-bulletin",
+    "legal:court-ruling",
+    "policy:audit",
+    "policy:sharing",
+    "vendor:flock",
+    "vendor:motorola",
+    "vendor:vigilant"
+  ],
+  "agencies": [
+    "971ef5e8-3761-532f-ac31-4406140dcbe0",
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "971ef5e8-3761-532f-ac31-4406140dcbe0",
+      "display_name": "El Cajon CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "El Cajon"
+      ]
+    },
+    {
+      "agency_id": "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+      "display_name": "CA",
+      "state": "CA",
+      "score": 2.533,
+      "matched_forms": [
+        "CA"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "Two Merced residents filed a proposed class-action lawsuit against Motorola Solutions alleging its ALPR technology collected California vehicle-location data that was improperly shared with federal and out-of-state agencies. The suit follows Merced PD's April disclosure that an internal review found its Vigilant/Motorola ALPR system had been configured to share data with federal agencies, connections it says have since been disabled.",
+  "key_quotes": [
+    {
+      "quote": "The lawsuit also alleges that license plate reader data collected in California was improperly shared with federal and out-of-state law enforcement agencies.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "that review found prior system configurations allowed data sharing with certain federal agencies. Merced Police said it immediately disabled the identified connections and would continue additional audits to ensure ongoing compliance.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "In a separate 2025 enforcement action, the Attorney General's Office sued the City of El Cajon, alleging the city unlawfully shared license plate reader data with out-of-state and federal law enforcement agencies.",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-04T16:38:19Z",
+  "article_id": "art_e399ec3c6c6a"
+}

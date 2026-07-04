@@ -1,0 +1,465 @@
+--- page 1 ---
+PCMag editors select and review products independently. If you buy through affiliate links, we may earn commissions, which
+help support our testing.
+Home
+Explainers
+Security
+The Creepy Reality Behind the License Plate
+Cameras in Your Town
+Those cameras you keep seeing? They're run by Flock Safety, a private company that
+tracks more than just your car's plates.
+With more than 10 years of experience in tech journalism, Kim can help you avoid scams, prevent
+hacking, and protect your privacy.
+Edited By:  Alan Henry
+May 5, 2026
+Add as a preferred source on Google
+Kim Key
+Senior Writer, Security
+OUR EXPERT
+
+--- page 2 ---
+(Credit: Zain bin Awais/PCMag/Getty Images)
+Getting your Trinity Audio player ready...
+Did you know that all those cameras you see on street corners in your neighborhood aren’t
+owned (and in some cases, aren’t monitored) by your local government or police department?
+Instead, the cameras are leased from and operated by Flock Safety, a private company. People
+in communities around the country are calling for the cameras to come down, so I asked Benn
+Jordan, a YouTuber who recently worked with security researchers and journalists at 404 Media
+to uncover vulnerabilities in those camera systems, about what the company and its cameras
+really do.
+How Flock Put Cameras on Thousands of Street Corners
+The most well-known of the current crop of public safety cameras belongs to Flock Safety, a
+company that creates and sells access to highly connected video hardware and software. You
+might remember hearing about the company following online backlash after Ring’s Super Bowl
+Table of Contents
+
+--- page 3 ---
+ad for Search Party. While Flock wasn't actually involved with Search Party, the company
+planned to support Ring Community Requests, which allow law enforcement and other public
+agencies to access video recordings from Ring's network of outdoor cameras if their owners
+allow it. The partnership was canceled in February, but Flock found new clients: local
+governments.
+ADVERTISEMENT
+The Flock Safety cameras you’ve probably seen most often are automated license plate readers
+(ALPR) that capture 6 to 12 images of each vehicle that passes by. The cameras use a
+combination of AI and machine learning to record data such as license plate numbers and a
+car’s color, make, and model, along with extras like bumper stickers, body damage, roof racks,
+and temporary paper tags. Flock’s ALPR cameras can also identify vehicles with missing license
+plates or obscured tags.
+You May Also Like
+
+--- page 4 ---
+While looking for information about the different kinds of cameras and who’s viewing the video
+feeds, I found Benn Jordan’s YouTube videos about Flock cameras. I contacted him for a video
+interview, and the musician spoke to me from a workroom littered with synths.
+(Credit: Benn Jordan/YouTube)
+ADVERTISEMENT
+
+--- page 5 ---
+“I figured they were just emergency cameras for accidents or maybe to see what traffic's doing. I
+finally just Googled it and found out [they were owned] by a third-party company, looked further
+into that third-party company, and then the rabbit hole opened. That was over a year ago,”
+Jordan told me.
+“They have drones!” he said. “They have pan-tilt- zoom cameras that recognize people and
+zoom into their faces. You can even see what they're doing on their phone. Their ALPR cameras
+can recognize people. They do store pictures of people. I know this because I've accessed the
+footage and found pictures of myself. I'm not a car or a license plate.”
+Why Was a Flock Employee Watching Kids on Camera?
+At one point, it was possible for random strangers, stalkers, and creeps of all kinds to track your
+movements around your city or town using misconfigured cameras connected to Flock’s
+network. According to a resident in a leafy Atlanta suburb, the stranger danger problem with
+Flock persists because some Flock employees can view camera feeds at any time. 
+Jason Hunyar lives in Dunwoody, GA, and attended several city council meetings over a period
+of months, while filing dozens of public records requests to learn more about the city’s contracts
+with Flock Safety. In a Substack post, Hunyar identified a Flock employee who accessed
+cameras in a children’s gymnastics room at the nearby Jewish community center.
+
+--- page 6 ---
+(Credit: City of Dunwoody/YouTube)
+ADVERTISEMENT
+In the days since the post went live, Flock responded by saying the sales employee accessed
+the camera in a children’s gymnastics room because he was demonstrating the camera’s
+content moderation features to a potential client:
+“In Dunwoody, a Flock employee performed a demo of this content moderation policy by
+searching for both “Star of David”, which our search moderation tool blocked, and “Cowboy
+hat,” which the search moderation tool allowed.”
+The statement is part of a blog post that also alleges “claims of inappropriate conduct by our
+employees are false,” and frames Hunyar’s concerns as “accusations used to win a political
+argument.”
+
+--- page 7 ---
+Benn Jordan’s response: “If I owned a business, and a company was trying to sell me a
+surveillance camera, and they just showed me little girls working out in a gymnastics center, I
+would be like, ‘Call the police!’ ‘Get out of my office.’”
+Sales demonstration or not, it’s doubtful that most parents would be OK with a stranger
+accessing a live video feed of their kids without expressed consent. Flock employees aren’t the
+only ones accessing live feeds, either. Hunyar’s public records requests revealed that Dunwoody
+police department employees were accessing live video at baseball fields, gyms, libraries,
+playgrounds, and pools.
+What Researchers Found Inside Flock Safety’s System
+In a February blog post, Flock pushed back against being labeled a mass surveillance tool,
+stating that misuse of its cameras accounted for a “small fraction” of overall network activity. It’s
+worth noting that Flock’s US patent describes it as a “system and method for object-based
+query of video content captured by a dynamic surveillance network.”
+ADVERTISEMENT
+
+--- page 8 ---
+(Credit: US Patent Office/PCMag)
+The Flock Safety patent also states that it will use neural networks to identify and track humans,
+and then filter them into searchable databases using a person’s age, clothing type, gait/posture,
+gender, height, race, and weight.
+We’ve also seen some significant security concerns regarding Flock cameras. I mentioned it
+earlier, but while conducting research, Jordan’s team successfully accessed misconfigured
+Flock cameras via the open web. He told me he found 70 cameras accessible without a
+username or password, and browsed the video feeds for a month. 
+Thirty days’ worth of video is more than enough time to learn someone’s daily habits, and that’s
+what Jordan did while watching. 
+“I was able to find out if somebody was jogging on a trail every morning at 7:00 in the morning
+at dawn. I was able to see that person, see their habit of what they're doing every single day.”
+ADVERTISEMENT
+
+--- page 9 ---
+Jordan was doing it for research purposes, to be clear, but that’d be deeply creepy and invasive
+levels of monitoring in any other context. Before posting the video, the group shared its findings
+with Flock and the federal government, so rest easy, that specific problem has been fixed. That
+said, the team also uncovered several hardware and software vulnerabilities in Flock police
+cameras, as seen in this video. 
+The group’s most disturbing video, to me, addressed how Flock’s cameras can be used to track
+people through the company’s software. Jordan explained that if you’re a business owner, a law
+enforcement officer, or even a homeowner’s association representative with access to Flock’s
+network, you could search for a car’s characteristics and then find a wealth of information about
+the human driving it. 
+“It's basically like having a GPS tracker on your car that a complete stranger can access, but the
+person who can access it can't even tell you who else has access to it because it’s shared on a
+national network.”
+Do the Stats Behind These Cameras Hold Up?
+“[Flock’s sales team] shows up to the police and tells them a bunch of statistics that don't check
+out. The research that they most often point to is literally written by their own employees and not
+reviewed or anything”, said Jordan.
+
+--- page 10 ---
+It sounds like Flock’s sales team could be taking a page from Shotspotter. On its website, the
+company claims the technology, which continuously monitors community spaces for noises that
+could be gunshots, “enhances overall responses to gunfire, improves speed of response,
+improves spatial accuracy of response, reduces transport time and saves lives, and improves
+evidence recovery” in addition to impacting gun violence levels. No hard numbers accompany
+these very broad claims. So does it work? Well, the city of Detroit spent $7 million to use
+ShotSpotter over a three-year period, and recent numbers show that ShotSpotter actually
+increased emergency response times and increased the odds of police falsely identifying
+suspects.
+ADVERTISEMENT
+RECOMMENDED BY OUR EDITORS
+Ring Cancels Deal With Flock Safety Amid Surveillance Concerns
+Could Drones One Day Chase Shoplifters in Real Time?
+
+--- page 11 ---
+Ring Wants You to Share Your Camera Footage With Police (Again)
+Flock Safety’s media kit contains vague statistics extolling the technology's efficacy, boasting
+that the company has cameras in more than 6,000 communities in 49 states, and that the
+technology helps solve 2,800 crimes each week. Flock’s website states that its ALPR technology
+solved 10% of reported crimes in the United States over an unspecified period, and that 700,000
+crimes were solved annually using Flock.
+(Credit: Flock Safety/PCMag)
+ADVERTISEMENT
+
+--- page 12 ---
+Flock’s website also links to a whitepaper written by a Flock employee and a team of
+researchers, based heavily on results from a 2023 three-month survey of Flock ALPR customers,
+described by the research team as a “preliminary, exploratory study.”
+In the end, no matter what the marketing language says, Flock's real value to local officials
+comes from its vast network of public safety cameras, which are usually leased by cities and
+towns with a stated aim of assisting law enforcement agencies with investigative work, such as
+collecting crime scene evidence or tracking license plates. Flock’s software can tap into nearby
+internet-connected cameras, including private business owners’ security feeds, making it a
+powerful tool for tracking people over vast distances and for extended periods.
+In November of 2025, the Electronic Frontier Foundation revealed that police used Flock’s ALPR
+network to track activists and protestors. Last May, Flock made headlines when a 404 Media
+investigation revealed that ICE agents accessed its data through local police departments.
+Residents Are Starting to Fight Back
+A quick glance at online discussions on local community forums in states where Flock has
+contracts shows that concerns around widespread video surveillance are rising. Many
+commenters say they didn’t know their local officials were signing expensive contracts with
+public safety camera companies until the poles started appearing on street corners. 
+“In my experiences here in Georgia, I would go as far as to call it corruption,” said Jordan. 
+“I've sat down with city council members and showed them vulnerabilities that haven't been
+reported yet that are really, really concerning, and then they've voted along with Flock anyway.
+
+--- page 13 ---
+It's like, OK, I don't know what else to do.”
+ADVERTISEMENT
+Local news outlets are telling a similar tale, as reports of taxpayers questioning government
+officials about contracts with Flock Safety at city council meetings and other public forums are
+increasingly common. For example, the city council in Weston, MO, voted this week to remove
+Flock cameras following significant resident pushback. San Jose residents even sued their city
+over its Flock Safety camera contract, claiming the license plate-reading technology is a mass
+surveillance system.
+
+--- page 14 ---
+(Credit: 9News/YouTube)
+Among these reports, there are also signs that frustrated residents are doing more than just
+talking about the cameras. In Oakland, CA, this week, drivers were greeted by purple paint-
+splattered camera poles dotting the city, after someone paint-bombed the Flock Safety
+cameras. The vandalism follows the city council’s decision to renew its contract for nearly 300
+ALPRs and to approve the installation of 40 livestream-enabled Flock Condor cameras. Also this
+week, in Auburn, CA, local police are searching for at least one person who stole three Flock
+cameras and dumped two of them in a nearby canal.
+ADVERTISEMENT
+I don’t recommend destroying or vandalizing anyone’s property for any reason. But I asked
+Jordan for advice for readers who don’t want to see more camera poles in their hometown. He
+said to get involved in city council discussions and to follow the money Flock spends to secure
+contracts. 
+“They bring city council members and police officers out to dinner," said Jordan. “Then, police
+departments recommend to city council members to keep increasing Flock cameras. They
+extend the contract, get better stuff, and the taxpayers foot the bill.”
+About Our Expert
+
+--- page 15 ---
+Kim Key
+Senior Writer, Security
+Experience
+I review privacy tools like hardware security keys, password managers, private
+messaging apps, and ad-blocking software. I also report on online scams and offer
+advice to families and individuals about staying safe on the internet. Before joining
+PCMag, I wrote about tech and video games for CNN, Fanbyte, Mashable, The New York
+Times, and TechRadar. I also worked at CNN International, where I did field producing
+and reporting on sports that are popular with worldwide audiences.
+In addition to the categories below, I exclusively cover ad blockers, authenticator apps,…
+Areas of Expertise
+Security
+Password Managers
+Parental Control
+VPN
+Proxies
+Latest By Kim Key
+Dashlane Review: Polished, Powerful, and Pricey Password Management
+LastPass Review: Intuitive Apps and Free Dark Web Monitoring
+6 Easy Ways to Stop Companies From Tracking You
+Shop Safe Online: 4 Tricks I Use for Every Purchase
+Looking for a New Password Manager After the LastPass Data Breach? Here's the
+Best Way to Switch
+More from Kim Key
+READ FULL BIO
+
+--- page 16 ---
+WEEKEND PROJECT
+Never Miss a Beat: This
+Echo Trick Lets You Play
+Music Throughout Your
+Home
+BY LANCE WHITNEY
+Wait! Instead of Throwing
+Away That Old PC, Try One
+of These 20 Fun Projects
+BY ERIC GRIFFITH
+Admit It, Your Scree
+Is Out of Control. M
+Digital Detox Tips C
+BY JILL DUFFY
+KEEP SCROLLING FOR NEXT ARTICLE
+
+--- page 17 ---
+Follow PCMag
+Honest, Objective, Lab-Tested Reviews
+PCMag.com is a leading authority on technology, delivering lab-based, independent reviews of
+the latest products and services. Our expert industry analysis and practical solutions help you
+make better buying decisions and get more from technology.
+Editorial Principles
+How We Test
+44
+Years of
+Experience
+65
+Tech
+Experts
+43K+
+Product
+Reviews
+BEST PRODUCTS
+3D Printers
+Android Phones
+Android Tablets
+Antivirus Apps
+Car Phone Mounts
+CPUs For Gaming
+Ereaders
+Fastest VPNs
+PCMag Newsletters
+Our Best Stories in Your Inbox
+
+--- page 18 ---
+Apple iPads
+Apple iPhones
+Apple Watches
+Bluetooth Speakers
+Fitness Trackers
+Gaming Keyboards
+Gaming Laptops
+Gaming Monitors
+Graphics Cards
+Headphones
+Keyboards
+Laptops
+Laptops For College Students
+Media Streaming Devices
+Password Managers
+Photo Printers
+Robot Vacuums
+Smart Thermostats
+Smartwatches
+Soundbars
+Tablets
+Tax Software
+TVs
+Video Editing Software
+VPN Services
+VPNs for Android
+VPNs for iPhones
+VPNs for Mac
+VPNs for Pornhub
+VPNs for TikTok
+VR Headsets
+POPULAR REVIEWS
+Apple MacBook Neo Review
+Incogni Review
+
+--- page 19 ---
+Dell XPS 14 (2026) Review
+FreshBooks Review
+H&R Block 2025 Review
+HBO Max Review
+Intuit TurboTax Review
+Lenovo Legion Go Review
+McAfee Antivirus Review
+Meta Ray-Ban Display Review
+NordVPN Review
+Nvidia GeForce RTX 5090 Review
+Perplexity Review
+Proton VPN Review
+Samsung Galaxy S26 Ultra Review
+Samsung Galaxy Watch 7 Review
+SimpliSafe Home Security System Review
+Starlink Review
+Surfshark VPN Review
+POPULAR PRODUCT COMPARISONS
+Apple AirPods Pro 3 vs. Pro 2
+Apple iPhone 17 vs. iPhone 16
+Apple Watch Series 10 vs. Series 9
+FreshBooks vs. QuickBooks
+Mac vs. Windows
+Meta Quest 3 vs. 3S
+Nest vs. Ring
+OLED vs. QLED
+Proton VPN vs. NordVPN
+Samsung Galaxy S26 vs. Apple iPhone 17
+Samsung Galaxy S26 vs. S26+ vs. S26 Ultra
+Sony PlayStation 5 vs. PlayStation 5 Pro
+SSD vs. Hard Drive
+Wi-Fi Extender vs. Mesh
+Windows 11 Home vs. Pro
+
+--- page 20 ---
+TOP EXPLAINERS
+How Do AirTags Work?
+How Does Starlink Work?
+How to Organize Tax Documents
+How to Set Up a VPN
+How to Unblock Netflix With a VPN
+Is Google Password Manager Safe?
+What Is a Proxy Server?
+What Is Agentic AI?
+What Is an AI PC?
+What Is an eSim Card?
+What Is Discord?
+What Is Microsoft Copilot?
+What Is the Best Browser?
+What Is USB-C?
+What Is Wi-Fi 6E?
+What Is Wi-Fi 7?
+What To Stream This Weekend
+Why You Need a VPN
+POPULAR BRANDS
+Acer
+Adobe
+AMD
+Apple
+Asus
+Bitdefender
+Dell
+Facebook
+Google
+HP
+Instagram
+Intel
+
+--- page 21 ---
+Lenovo
+LG
+Microsoft
+Motorola
+MSI
+Netflix
+NordVPN
+Nvidia
+OpenAI
+Qualcomm
+Samsung
+Sony
+SpaceX
+Tesla
+X/Twitter
+SERIES
+All About AI
+Android
+Apple
+Back to School Tech
+Best ISPs
+Connected Traveler
+Get Organized
+Holiday Gift Guide
+NextCar
+Readers' Choice
+Rigged Up
+SecurityWatch
+Weekend Project
+Windows 11
+EVENTS
+Amazon Prime Day
+Apple WWDC
+Cyber Monday
+IFA
+
+--- page 22 ---
+Black Friday
+Black Hat
+CES
+Computex
+Mobile World Congress
+RSAC
+Samsung Unpacked
+Reviews
+Best Products
+Categories
+Brands
+Events
+Series
+Newsletters
+Encyclopedia
+Sitemap
+About PCMag
+Careers
+Contact Us
+Press Center
+
+--- page 23 ---
+© 1996-2026 ZIFF DAVIS, LLC., A ZIFF DAVIS COMPANY. ALL RIGHTS RESERVED.
+PCMag, PCMag.com and PC Magazine are among the federally registered trademarks of Ziff Davis and may
+not be used by third parties without explicit permission. The display of third-party trademarks and trade
+names on this site does not necessarily indicate any affiliation or the endorsement of PCMag. If you click an
+affiliate link and buy a product or service, we may be paid a fee by that merchant.
+About Ziff Davis
+Privacy Policy
+Terms of Use
+Advertise
+Accessibility
+Do Not Sell My Personal Information
+ AdChoices

@@ -1,0 +1,126 @@
+{
+  "url": "https://tucson.com/news/local/crime-courts/article_6a7f0331-3c13-4181-aa6b-c521d8c0eea9.html",
+  "source_domain": "tucson.com",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "Oro Valley police leasing controversial Flock Safety drones",
+  "byline": "Sarah Lapidus Arizona Republic",
+  "published_at": "2026-06-29T06:30:00-07:00",
+  "fetched_at": "2026-07-04T04:41:39Z",
+  "discovered_by": "bing-reject-backfill",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 145 pts, HIGH/CRITICAL findings",
+  "scanner_score": 145,
+  "content_hash": "f7402a1064aee522c93febcabcb7c6db2a7ac2c1043922c1b2ec2e97201d552b",
+  "paths": {
+    "html": "assets/articles/tucson.com/news-local-crime-courts-article-6a7f0331-3c13-4181-aa6b-c521d8c0eea9-html_7fd82a7e.html",
+    "meta": "assets/articles/tucson.com/news-local-crime-courts-article-6a7f0331-3c13-4181-aa6b-c521d8c0eea9-html_7fd82a7e.meta.json",
+    "pdf": "assets/articles/tucson.com/news-local-crime-courts-article-6a7f0331-3c13-4181-aa6b-c521d8c0eea9-html_7fd82a7e.pdf",
+    "txt": "assets/articles/tucson.com/news-local-crime-courts-article-6a7f0331-3c13-4181-aa6b-c521d8c0eea9-html_7fd82a7e.txt"
+  },
+  "wayback_url": "http://web.archive.org/web/20260701140009/https://tucson.com/news/local/crime-courts/article_6a7f0331-3c13-4181-aa6b-c521d8c0eea9.html",
+  "wayback_timestamp": "20260701140009",
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "435bc0e6-d538-5025-92b5-109406116c66",
+    "7c278978-39fe-52ea-b95c-155a39b75553",
+    "c0283c21-1bfd-5fef-9c0e-6d9ff8c7c964",
+    "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+    "44f5dbfd-a873-5eab-aa2a-644efa3f49ee",
+    "56f9a46f-863a-5d77-b2c9-72403bb11a8e"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "435bc0e6-d538-5025-92b5-109406116c66",
+      "display_name": "Oro Valley AZ PD",
+      "state": "AZ",
+      "score": 30.5,
+      "matched_forms": [
+        "Oro Valley",
+        "Oro Valley Police",
+        "Oro Valley Police Department"
+      ]
+    },
+    {
+      "agency_id": "7c278978-39fe-52ea-b95c-155a39b75553",
+      "display_name": "University of Arizona Campus AZ PD",
+      "state": "AZ",
+      "score": 26.8,
+      "matched_forms": [
+        "Tucson"
+      ]
+    },
+    {
+      "agency_id": "c0283c21-1bfd-5fef-9c0e-6d9ff8c7c964",
+      "display_name": "Pima County AZ SO",
+      "state": "AZ",
+      "score": 4.0,
+      "matched_forms": [
+        "Pima County",
+        "Pima County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+      "display_name": "Page AZ PD",
+      "state": "AZ",
+      "score": 3.633,
+      "matched_forms": [
+        "Page"
+      ]
+    },
+    {
+      "agency_id": "44f5dbfd-a873-5eab-aa2a-644efa3f49ee",
+      "display_name": "Phoenix AZ PD",
+      "state": "AZ",
+      "score": 2.617,
+      "matched_forms": [
+        "Phoenix"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 2.1,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "435bc0e6-d538-5025-92b5-109406116c66"
+  ],
+  "summary": "Oro Valley, Arizona's Town Council unanimously authorized $145,887 from a border support grant for its police department to lease four Flock Safety Drone as First Responder units, intended for border-related crimes and general emergency response. The article details the department's existing Flock ALPR use, data-sharing practices with regional partners considered case-by-case, 30-day retention, and responds to DeFlock Tucson's criticism over an audit-log search labeled 'protest.'",
+  "key_quotes": [
+    {
+      "quote": "The Oro Valley Town Council authorized the town's police to use $145,887 to lease drones to help detain people charged with drug trafficking, human smuggling, illegal immigration and other border-related crimes",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "In a recent social media post, activist group DeFlock Tucson posted the department's audit logs obtained through a public records request. It showed Oro Valley police logging one search for \"protest.\"",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "Asked if crossing undocumented is a case the department would consider a legitimate reason to access data or footage, Wright said it depends on whether the case was tied to criminal activity.",
+      "paragraph_idx": 24
+    },
+    {
+      "quote": "Data from the department's Flock cameras is retained for 30 days.",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-04T16:33:49Z",
+  "article_id": "art_7fd82a7e6256"
+}

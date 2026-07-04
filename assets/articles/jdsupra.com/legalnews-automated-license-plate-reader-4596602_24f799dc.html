@@ -1,0 +1,1678 @@
+<!DOCTYPE html><html lang="en"><head><style><!----> <!--?lit$64624901524$-->:export{fadeTransitionTime:700ms;slideTransitionTime:400ms}.osano-cm-window{font-size:16px;font-family:Helvetica,Arial,"Hiragino Sans GB",STXihei,"Microsoft YaHei","WenQuanYi Micro Hei",Hind,"MS Gothic","Apple SD Gothic Neo",NanumBarunGothic,sans-serif;font-smooth:always;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothingz:auto;display:block;position:absolute;left:0;top:0;z-index:2147483638;line-height:1;width:100%}.osano-cm-window--context_amp{height:100%}.osano-cm-window{--fade-transition-time: 700ms;--slide-transition-time: 400ms;--osano-focus-outline: 3px solid var(--osano-focus-outline-color);--osano-focus-outline-offset: 2px}.osano-visually-hidden{height:1px;width:1px;margin:-1px;opacity:0;position:absolute;left:-10000px;overflow:hidden}.osano-cm-button{border-width:thin;border-style:solid;border-radius:.25em;font-weight:bold;font-size:1em;padding:.5em .75em;margin:.125em;line-height:1;flex:1 1 auto;min-width:6em;cursor:pointer;transition-duration:200ms;transition-property:background-color;transition-timing-function:ease-out;background-color:var(--osano-button-background-color);border-color:var(--osano-button-border-color);color:var(--osano-button-foreground-color)}.osano-cm-button:hover{--osano-button-background-color: var(--osano-button-background-color-hover)}.osano-cm-button:focus-visible{--osano-button-background-color: var(--osano-button-background-color-hover);outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset)}.osano-cm-button--type_icon{min-width:1em;width:1em;line-height:0;height:1em;border-radius:50%}.osano-cm-button--type_accept,.osano-cm-button--type_accept-all{--osano-button-background-color: var(--osano-button-accept-background-color);--osano-button-border-color: var(--osano-button-accept-border-color);--osano-button-foreground-color: var(--osano-button-accept-foreground-color)}.osano-cm-button--type_accept:focus-visible,.osano-cm-button--type_accept:hover,.osano-cm-button--type_accept-all:focus-visible,.osano-cm-button--type_accept-all:hover{--osano-button-background-color: var(--osano-button-accept-background-color-hover)}.osano-cm-button--type_deny{--osano-button-background-color: var(--osano-button-deny-background-color);--osano-button-border-color: var(--osano-button-deny-border-color);--osano-button-foreground-color: var(--osano-button-deny-foreground-color)}.osano-cm-button--type_deny:focus-visible,.osano-cm-button--type_deny:hover{--osano-button-background-color: var(--osano-button-deny-background-color-hover)}.osano-cm-button--type_denyAll{--osano-button-background-color: var(--osano-button-reject-all-background-color);--osano-button-border-color: var(--osano-button-reject-all-border-color);--osano-button-foreground-color: var(--osano-button-reject-all-foreground-color)}.osano-cm-button--type_denyAll:focus-visible,.osano-cm-button--type_denyAll:hover{--osano-button-background-color: var( --osano-button-reject-all-background-color-hover )}.osano-cm-button--type_manage{--osano-button-background-color: var(--osano-button-manage-background-color);--osano-button-border-color: var(--osano-button-manage-border-color);--osano-button-foreground-color: var(--osano-button-manage-foreground-color)}.osano-cm-button--type_manage:focus-visible,.osano-cm-button--type_manage:hover{--osano-button-background-color: var(--osano-button-manage-background-color-hover)}.osano-cm-close{--osano-button-close-background-color: transparent;--osano-button-close-stroke-color: var(--osano-button-close-color);border-radius:50%;border-style:solid;border-width:2px;cursor:pointer;order:0;overflow:hidden;margin:.5em;min-height:20px;min-width:20px;padding:0;box-sizing:content-box;width:20px;height:20px;stroke-width:1px;text-decoration:none;transform:rotate(0deg);transition-property:transform,color,background-color,stroke,stroke-width;transition-duration:200ms;transition-timing-function:ease-out;z-index:2;line-height:normal;justify-content:center;display:flex;background-color:var(--osano-button-close-background-color);border-color:var(--osano-button-close-background-color);color:var(--osano-button-close-stroke-color);stroke:var(--osano-button-close-stroke-color)}.osano-cm-close:focus-visible{--osano-button-close-background-color: var(--osano-button-close-color);--osano-button-close-stroke-color: var(--osano-dialog-background-color);transform:rotate(90deg);stroke-width:2px;outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset)}.osano-cm-close:hover{transform:rotate(90deg);stroke-width:2px}.ccpa-opt-out-icon{display:flex;flex:1 1 auto}.ccpa-opt-out-icon svg{max-width:40px}.osano-cm-powered-by__logo{display:block;width:14em;max-width:100%;height:auto}.osano-cm-powered-by{align-items:center;display:flex;flex-direction:column;justify-content:center;margin:1em 0;font-weight:bold}.osano-cm-powered-by__link{font-size:.625em;text-decoration:none}.osano-cm-powered-by__link:hover{text-decoration:underline}.osano-cm-powered-by__link:focus-visible{outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);text-decoration:underline}.osano-cm-link{cursor:pointer;text-decoration:underline;transition-duration:200ms;transition-property:color;transition-timing-function:ease-out;color:var(--osano-link-color)}.osano-cm-link:hover,.osano-cm-link:active{outline:none;color:var(--osano-link-color-contrast)}.osano-cm-link:visited{outline:none;color:var(--osano-link-color-contrast)}.osano-cm-link:focus-visible{font-weight:bold;outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);color:var(--osano-link-color-contrast)}.osano-cm-link--type_purpose,.osano-cm-link--type_specialPurpose,.osano-cm-link--type_feature,.osano-cm-link--type_specialFeature{cursor:help;display:block;font-weight:normal;text-decoration:dashed}.osano-cm-link--type_purpose:active,.osano-cm-link--type_purpose:hover,.osano-cm-link--type_specialPurpose:active,.osano-cm-link--type_specialPurpose:hover,.osano-cm-link--type_feature:active,.osano-cm-link--type_feature:hover,.osano-cm-link--type_specialFeature:active,.osano-cm-link--type_specialFeature:hover{font-weight:normal;text-decoration:underline}.osano-cm-link--type_purpose:focus-visible,.osano-cm-link--type_specialPurpose:focus-visible,.osano-cm-link--type_feature:focus-visible,.osano-cm-link--type_specialFeature:focus-visible{outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);font-weight:normal;text-decoration:underline}.osano-cm-link--type_denyAll{display:block;text-align:right}[dir=rtl] .osano-cm-link--type_denyAll{text-align:left}.osano-cm-link--type_vendor,.osano-cm-link--type_link{display:block}.osano-cm-link-separator::before{content:"|";padding:0 .5em}.osano-cm-vendor-link{font-size:.75em}.osano-cm-list-item{margin:0}.osano-cm-list-item--type_term{border-top-width:1px;border-top-style:solid;font-size:.875rem;font-weight:normal;margin-bottom:.25em;margin-top:.5em;padding:0 .75rem;padding-top:.5em;position:relative;top:-1px}.osano-cm-list-item--type_description{font-size:.75rem;font-weight:lighter;padding:0 .75rem}.osano-cm-list{list-style-position:outside;list-style-type:none;margin:0;padding:0}.osano-cm-list__list-item{text-indent:0}.osano-cm-list--type_description{margin:0 -1em}.osano-cm-list:first-of-type .osano-cm-list__list-item:first-of-type{border-top-width:0;margin-top:0;padding-top:0}.osano-cm-toggle{align-items:center;display:flex;flex-direction:row-reverse;justify-content:flex-start;margin:.25em 0;position:relative;pointer-events:auto;--osano-toggle-track-color: var(--osano-toggle-off-track-color);--osano-toggle-thumb-color: var(--osano-toggle-off-thumb-color);--osano-toggle-border-color: transparent}.osano-cm-toggle:hover{cursor:pointer}.osano-cm-toggle__label{margin:0 .5em 0 0}[dir=rtl] .osano-cm-toggle__label{margin:0 0 0 .5em}.osano-cm-toggle__switch{box-sizing:content-box;color:rgba(0,0,0,0);line-height:0;text-indent:-9999px;width:40px;height:18px;display:block;flex-shrink:0;border-radius:14px;border-style:solid;border-width:2px;margin:0;position:relative;transition-duration:200ms;transition-property:background-color,filter,border-color;transition-timing-function:ease-out;background-color:var(--osano-toggle-track-color);border-color:var(--osano-toggle-track-color)}.osano-cm-toggle__switch:hover{cursor:pointer}.osano-cm-toggle__switch::after{border-width:0;top:0;left:0;width:18px;height:18px;border-radius:9px;background-color:var(--osano-toggle-thumb-color);border-color:var(--osano-toggle-thumb-color)}.osano-cm-toggle__switch::before{border-radius:16px;border-width:2px;box-sizing:border-box;bottom:-6px;left:-6px;right:-6px;top:-6px;border-color:var(--osano-toggle-border-color)}.osano-cm-toggle__switch::after,.osano-cm-toggle__switch::before{border-style:solid;content:"";position:absolute;margin:0;transform:translateX(0);transition-duration:300ms;transition-property:transform,left,border-color;transition-timing-function:ease-out}.osano-cm-toggle__switch::after:active,.osano-cm-toggle__switch::before:active{transition-duration:100ms}.osano-cm-toggle__switch::after:active{width:26px}.osano-cm-toggle__switch::before:active{width:34px}[dir=rtl] .osano-cm-toggle__switch::after{left:100%;transform:translateX(-100%)}.osano-cm-toggle__input{height:1px;width:1px;margin:-1px;opacity:0;left:-10000px;position:absolute;overflow:hidden}[dir=rtl] .osano-cm-toggle__input{left:0;right:-10000px}.osano-cm-toggle__input:disabled{cursor:default}.osano-cm-toggle--type_checkbox .osano-cm-toggle__switch{border-style:solid;border-radius:4px;border-width:1px;height:22px;width:22px}.osano-cm-toggle--type_checkbox .osano-cm-toggle__switch::after{background-color:rgba(0,0,0,0) !important;border-bottom-width:2px;border-left-width:2px;border-radius:0;content:none;height:6px;left:3px;top:3px;transform:rotate(-45deg);transition-property:color;transition-timing-function:ease-out;width:12px}.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch{border-style:solid;border-radius:4px;border-width:1px;height:22px;width:22px}.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch::after,.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch::before{background-color:rgba(0,0,0,0) !important;border-top-width:1px;border-bottom-width:1px;border-radius:0;content:none;height:0;left:-3px;top:7px;transition-property:color;transition-timing-function:ease-out;width:12px}.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch::after{transform:translate(50%, 50%) rotate(-45deg)}.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch::before{transform:translate(50%, 50%) rotate(45deg)}.osano-cm-toggle__input:checked+.osano-cm-toggle__switch{--osano-toggle-track-color: var(--osano-toggle-on-track-color);--osano-toggle-thumb-color: var(--osano-toggle-on-thumb-color)}.osano-cm-toggle__input:checked+.osano-cm-toggle__switch::after{left:100%;transform:translateX(-100%)}[dir=rtl] .osano-cm-toggle__input:checked+.osano-cm-toggle__switch::after{left:0;transform:translateX(0)}.osano-cm-toggle__input:focus-visible+.osano-cm-toggle__switch,.osano-cm-toggle__input:hover+.osano-cm-toggle__switch{--osano-toggle-track-color: var(--osano-toggle-off-track-color-hover);--osano-toggle-thumb-color: var(--osano-toggle-off-thumb-color-hover)}.osano-cm-toggle__input:focus-visible+.osano-cm-toggle__switch::before{--osano-toggle-border-color: var(--osano-toggle-off-track-color-hover)}.osano-cm-toggle__input:disabled+.osano-cm-toggle__switch{cursor:default}.osano-cm-toggle--type_checkbox .osano-cm-toggle__input:checked+.osano-cm-toggle__switch::after{content:"";left:3px;top:3px;transform:rotate(-45deg)}.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:checked+.osano-cm-toggle__switch::before,.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:checked+.osano-cm-toggle__switch::after{content:"";left:-1px;top:9px}.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:checked+.osano-cm-toggle__switch::after{transform:translate(50%, 50%) rotate(-45deg)}.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:checked+.osano-cm-toggle__switch::before{transform:translate(50%, 50%) rotate(45deg)}.osano-cm-toggle--type_checkbox .osano-cm-toggle__input:disabled+.osano-cm-toggle__switch,.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:disabled+.osano-cm-toggle__switch{opacity:.3}.osano-cm-toggle__input:checked:focus-visible+.osano-cm-toggle__switch,.osano-cm-toggle__input:checked:hover+.osano-cm-toggle__switch{--osano-toggle-track-color: var(--osano-toggle-on-track-color-hover);--osano-toggle-thumb-color: var(--osano-toggle-on-thumb-color-hover)}.osano-cm-toggle__input:checked:focus-visible+.osano-cm-toggle__switch::before{--osano-toggle-border-color: var(--osano-toggle-on-track-color-hover)}.osano-cm-toggle__input:disabled+.osano-cm-toggle__switch,.osano-cm-toggle__input:disabled:focus-visible+.osano-cm-toggle__switch,.osano-cm-toggle__input:disabled:hover+.osano-cm-toggle__switch{--osano-toggle-track-color: var(--osano-toggle-off-track-color-disabled)}.osano-cm-toggle__input:disabled+.osano-cm-toggle__switch::after,.osano-cm-toggle__input:disabled:focus-visible+.osano-cm-toggle__switch::after,.osano-cm-toggle__input:disabled:hover+.osano-cm-toggle__switch::after{--osano-toggle-thumb-color: var(--osano-toggle-off-thumb-color-disabled)}.osano-cm-toggle__input:disabled+.osano-cm-toggle__switch::before,.osano-cm-toggle__input:disabled:focus-visible+.osano-cm-toggle__switch::before,.osano-cm-toggle__input:disabled:hover+.osano-cm-toggle__switch::before{--osano-toggle-border-color: transparent}.osano-cm-toggle__input:disabled:checked+.osano-cm-toggle__switch,.osano-cm-toggle__input:disabled:checked:focus-visible+.osano-cm-toggle__switch,.osano-cm-toggle__input:disabled:checked:hover+.osano-cm-toggle__switch{--osano-toggle-track-color: var(--osano-toggle-on-track-color-disabled)}.osano-cm-toggle__input:disabled:checked+.osano-cm-toggle__switch::after,.osano-cm-toggle__input:disabled:checked:focus-visible+.osano-cm-toggle__switch::after,.osano-cm-toggle__input:disabled:checked:hover+.osano-cm-toggle__switch::after{--osano-toggle-thumb-color: var(--osano-toggle-on-thumb-color-disabled)}.osano-cm-toggle__input:disabled:checked+.osano-cm-toggle__switch::before,.osano-cm-toggle__input:disabled:checked:focus-visible+.osano-cm-toggle__switch::before,.osano-cm-toggle__input:disabled:checked:hover+.osano-cm-toggle__switch::before{--osano-toggle-border-color: transparent}.osano-cm-widget{cursor:pointer;position:fixed;background:none;border:none;bottom:12px;z-index:2147483636;width:40px;height:40px;opacity:.9;outline:none;padding:0;transition:transform 100ms linear 0s,opacity 200ms linear 0ms,visibility 0ms linear 0ms;visibility:visible}.osano-cm-widget--position_right{right:12px}.osano-cm-widget--position_left{left:12px}.osano-cm-widget:focus-visible{outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);opacity:1;transform:scale(1.1)}.osano-cm-widget:hover{opacity:1;transform:scale(1.1)}.osano-cm-widget--hidden{opacity:0;visibility:hidden}.osano-cm-widget--hidden:focus-visible,.osano-cm-widget--hidden:hover{opacity:0;transform:scale(1)}.osano-cm-widget__outline{fill:var(--osano-widget-fill-color);stroke:var(--osano-widget-outline-color)}.osano-cm-widget__dot{fill:var(--osano-widget-color)}.osano-cm-dialog{--osano-gpc-color: var(--osano-dialog-gpc-color);--osano-gpc-border-color: var(--osano-dialog-gpc-border-color);--osano-gpc-background-color: var(--osano-dialog-gpc-background-color);--osano-gpc-foreground-color: var(--osano-dialog-gpc-foreground-color);box-sizing:border-box;font-size:1em;line-height:1.25;align-items:center;position:fixed;z-index:2147483637;padding:1.5em;overflow:auto;transition-property:opacity,visibility;transition-duration:700ms,0ms;transition-delay:0ms,0ms;visibility:visible;max-height:100vh;background:var(--osano-dialog-background-color);color:var(--osano-dialog-foreground-color)}.osano-cm-dialog--hidden{opacity:0;transition-delay:0ms,700ms;visibility:hidden}.osano-cm-dialog--type_bar{display:flex;flex-direction:column;box-sizing:border-box;right:0;left:0}.osano-cm-dialog--type_bar .osano-cm-button{flex:none;margin:.125em auto;width:80%}@media screen and (min-width: 768px){.osano-cm-dialog--type_bar{flex-direction:row}.osano-cm-dialog--type_bar .osano-cm-button{flex:1 1 100%;width:auto;margin:.25em .5em}}.osano-cm-dialog--type_box{width:calc(100vw - 2em);flex-direction:column;max-width:20em;max-height:calc(100vh - 2em)}.osano-cm-dialog__close{position:absolute;right:0;top:0}.osano-cm-dialog__list{margin:.5em 0 0;padding:0}.osano-cm-dialog__list .osano-cm-item{display:flex;margin-top:0}.osano-cm-dialog__list .osano-cm-item:last-child{margin-bottom:0}.osano-cm-dialog__list .osano-cm-toggle{flex-direction:row}[dir=rtl] .osano-cm-dialog__list .osano-cm-toggle{flex-direction:row-reverse}.osano-cm-dialog__list .osano-cm-label{white-space:nowrap}*[dir=ltr] .osano-cm-dialog__list .osano-cm-label{margin-left:.375em}*[dir=rtl] .osano-cm-dialog__list .osano-cm-label{margin-right:.375em}.osano-cm-dialog__buttons{display:flex;flex-wrap:wrap}.osano-cm-dialog--type_bar .osano-cm-dialog__content{flex:5;margin-bottom:.25em;width:100%}.osano-cm-dialog--type_bar .osano-cm-powered-by{align-items:flex-start;margin:1em 0 0}.osano-cm-dialog--type_box .osano-cm-dialog__content{display:flex;flex-direction:column;flex-grow:.0001;transition:flex-grow 1000ms linear}.osano-cm-dialog--type_box .osano-cm-link-separator::before{content:"";padding:0}.osano-cm-dialog--type_box .osano-cm-content__link{margin-bottom:.5em}.osano-cm-dialog--type_bar .osano-cm-dialog__list{display:flex;flex-direction:column;flex-wrap:wrap;justify-content:flex-start;margin:.75em auto}@media screen and (min-width: 376px){.osano-cm-dialog--type_bar .osano-cm-dialog__list{flex-direction:row}}@media screen and (min-width: 768px){.osano-cm-dialog--type_bar .osano-cm-dialog__list{margin:.5em 0 0 auto}[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__list{margin:.5em auto 0 0}}[dir=ltr] .osano-cm-dialog--type_bar .osano-cm-dialog__list .osano-cm-item{margin-right:.5em}[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__list .osano-cm-item{margin-left:.5em}.osano-cm-dialog--type_bar .osano-cm-dialog__list .osano-cm-label{padding-top:0}.osano-cm-dialog--type_bar .osano-cm-dialog__buttons{flex:1;justify-content:flex-end;width:100%;margin:0}@media screen and (min-width: 768px){.osano-cm-dialog--type_bar .osano-cm-dialog__buttons{position:sticky;top:0;width:auto;max-width:30vw;min-width:16em;margin:0 0 0 .5em}[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__buttons{margin:0 .5em 0 0}}.osano-cm-dialog--type_box .osano-cm-dialog__buttons{margin:.5em 0 0}.osano-cm-dialog--type_bar.osano-cm-dialog--position_top{top:0}.osano-cm-dialog--type_bar.osano-cm-dialog--position_bottom{bottom:0}.osano-cm-dialog--type_box.osano-cm-dialog--position_top-left{top:1em;left:1em}.osano-cm-dialog--type_box.osano-cm-dialog--position_top-right{top:1em;right:1em}.osano-cm-dialog--type_box.osano-cm-dialog--position_bottom-left{bottom:1em;left:1em}.osano-cm-dialog--type_box.osano-cm-dialog--position_bottom-right{bottom:1em;right:1em}.osano-cm-dialog--type_box.osano-cm-dialog--position_center{top:50%;left:50%;transform:translate(-50%, -50%)}.osano-cm-dialog--type_box.osano-cm-dialog--wide{max-width:50em}@media screen and (max-height: 800px)and (max-width: 1200px){.osano-cm-dialog--type_box.osano-cm-dialog--wide{max-width:calc(100vw - 4em)}}.osano-cm-dialog--type_box.osano-cm-dialog--wide .osano-cm-dialog__list{display:flex;flex-wrap:wrap}.osano-cm-dialog--context_amp{position:relative;height:100%}.osano-cm-content__message{margin-bottom:1em;word-break:break-word;white-space:pre-line}.osano-cm-drawer-links{margin:.5em 0 0}.osano-cm-drawer-links__link{display:block}.osano-cm-storage-policy{display:inline-block}.osano-cm-usage-list{margin:0 0 .5em}.osano-cm-usage-list__list{list-style-position:inside;list-style-type:initial}.osano-cm-info-dialog{--osano-dialog-background-color: var(--osano-info-dialog-background-color);--osano-dialog-foreground-color: var(--osano-info-dialog-foreground-color);--osano-toggle-off-track-color: var(--osano-info-dialog-toggle-off-track-color);--osano-toggle-off-thumb-color: var(--osano-info-dialog-toggle-off-thumb-color);--osano-toggle-on-track-color: var(--osano-info-dialog-toggle-on-track-color);--osano-toggle-on-thumb-color: var(--osano-info-dialog-toggle-on-thumb-color);--osano-toggle-off-track-color-hover: var(--osano-info-dialog-toggle-off-track-color-hover);--osano-toggle-off-track-color-focus: var(--osano-info-dialog-toggle-off-track-color-focus);--osano-toggle-off-thumb-color-hover: var(--osano-info-dialog-toggle-off-thumb-color-hover);--osano-toggle-off-thumb-color-focus: var(--osano-info-dialog-toggle-off-thumb-color-focus);--osano-toggle-on-track-color-hover: var(--osano-info-dialog-toggle-on-track-color-hover);--osano-toggle-on-track-color-focus: var(--osano-info-dialog-toggle-on-track-color-focus);--osano-toggle-on-thumb-color-hover: var(--osano-info-dialog-toggle-on-thumb-color-hover);--osano-toggle-on-thumb-color-focus: var(--osano-info-dialog-toggle-on-thumb-color-focus);--osano-toggle-off-track-color-contrast: var( --osano-info-dialog-toggle-off-track-color-contrast );--osano-toggle-off-thumb-color-contrast: var( --osano-info-dialog-toggle-off-thumb-color-contrast );--osano-toggle-on-track-color-contrast: var(--osano-info-dialog-toggle-on-track-color-contrast);--osano-toggle-on-thumb-color-contrast: var(--osano-info-dialog-toggle-on-thumb-color-contrast);--osano-toggle-on-track-color-disabled: var(--osano-info-dialog-toggle-on-track-color-disabled);--osano-toggle-on-thumb-color-disabled: var(--osano-info-dialog-toggle-on-thumb-color-disabled);--osano-toggle-off-track-color-disabled: var( --osano-info-dialog-toggle-off-track-color-disabled );--osano-toggle-off-thumb-color-disabled: var( --osano-info-dialog-toggle-off-thumb-color-disabled );--osano-button-background-color: var(--osano-info-dialog-button-background-color);--osano-button-border-color: var(--osano-info-dialog-button-border-color);--osano-button-foreground-color: var(--osano-info-dialog-button-foreground-color);--osano-button-foreground-color-focus: var(--osano-info-dialog-button-foreground-color-focus);--osano-button-background-color-focus: var(--osano-info-dialog-button-background-color-focus);--osano-button-foreground-color-hover: var(--osano-info-dialog-button-foreground-color-hover);--osano-button-background-color-hover: var(--osano-info-dialog-button-background-color-hover);--osano-button-accept-background-color: var(--osano-info-dialog-button-background-color);--osano-button-accept-border-color: var(--osano-info-dialog-button-border-color);--osano-button-accept-foreground-color: var(--osano-info-dialog-button-foreground-color);--osano-button-accept-foreground-color-focus: var( --osano-info-dialog-button-foreground-color-focus );--osano-button-accept-background-color-focus: var( --osano-info-dialog-button-background-color-focus );--osano-button-accept-foreground-color-hover: var( --osano-info-dialog-button-foreground-color-hover );--osano-button-accept-background-color-hover: var( --osano-info-dialog-button-background-color-hover );--osano-button-deny-background-color: var(--osano-info-dialog-button-background-color);--osano-button-deny-border-color: var(--osano-info-dialog-button-border-color);--osano-button-deny-foreground-color: var(--osano-info-dialog-button-foreground-color);--osano-button-deny-foreground-color-focus: var( --osano-info-dialog-button-foreground-color-focus );--osano-button-deny-background-color-focus: var( --osano-info-dialog-button-background-color-focus );--osano-button-deny-foreground-color-hover: var( --osano-info-dialog-button-foreground-color-hover );--osano-button-deny-background-color-hover: var( --osano-info-dialog-button-background-color-hover );--osano-link-color: var(--osano-info-dialog-link-color);--osano-link-color-contrast: var(--osano-info-dialog-link-color-contrast);--osano-link-color-hover: var(--osano-info-dialog-link-color-hover);--osano-link-color-focus: var(--osano-info-dialog-link-color-focus);--osano-button-close-color: var(--osano-info-dialog-button-close-color);--osano-gpc-color: var(--osano-info-dialog-gpc-color);--osano-gpc-border-color: var(--osano-info-dialog-gpc-border-color);--osano-gpc-background-color: var(--osano-info-dialog-gpc-background-color);--osano-gpc-foreground-color: var(--osano-info-dialog-gpc-foreground-color);position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2147483638;transition-property:opacity,visibility;transition-duration:200ms,0ms;transition-delay:0ms,0ms;visibility:visible;background:var(--osano-info-dialog-overlay-color)}.osano-cm-info-dialog--hidden{opacity:0;transition-delay:0ms,200ms;visibility:hidden}.osano-cm-header{margin:0 0 -1em;padding:1em 0;position:sticky;top:0;z-index:1;background:var(--osano-dialog-background-color);background:linear-gradient(180deg, var(--osano-dialog-background-color) 2.5em, var(--osano-clear-dialog-background) 100%)}.osano-cm-info{animation:400ms delay-overflow;box-sizing:border-box;position:fixed;bottom:0;top:0;max-width:20em;transition-property:transform;transition-duration:400ms;box-shadow:0 0 2px 2px #ccc;overflow:visible visible;width:100%;background:var(--osano-dialog-background-color);color:var(--osano-dialog-foreground-color)}.osano-cm-info--position_left{left:0;transform:translate(-100%, 0)}.osano-cm-info--position_right{right:0;transform:translate(100%, 0)}.osano-cm-info--open{animation:none;overflow:hidden auto;transform:translate(0, 0)}.osano-cm-info--do_not_sell{animation:none;transition:none;position:fixed;top:50%;left:50%;right:auto;transform:translate(-50%, -50%);height:fit-content;max-height:100vh}.osano-cm-info--do_not_sell .osano-cm-close{order:-1}.osano-cm-info--do_not_sell .osano-cm-header{box-sizing:content-box;display:block;flex:none}.osano-cm-info-views{align-items:flex-start;display:flex;flex-direction:row;flex-wrap:nowrap;height:100%;transition-property:transform;transition-duration:400ms;width:100%}*[dir=rtl] .osano-cm-info-views{flex-direction:row-reverse}.osano-cm-info-views__view{box-sizing:border-box;flex-shrink:0;width:100%}.osano-cm-info-views--position_0>*:not(:nth-of-type(1)){max-height:100%;overflow:hidden}.osano-cm-info-views--position_1>*:not(:nth-of-type(2)){max-height:100%;overflow:hidden}.osano-cm-info-views--position_1{transform:translateX(-100%)}.osano-cm-info-views--position_2>*:not(:nth-of-type(3)){max-height:100%;overflow:hidden}.osano-cm-info-views--position_2{transform:translateX(-200%)}.osano-cm-info--do_not_sell .osano-cm-info-views{height:fit-content}.osano-cm-view{height:0;padding:0 .75em 1em;width:100%;transition-property:height,visibility;transition-duration:0ms;transition-delay:400ms;visibility:hidden}.osano-cm-view__button{font-size:.875em;width:100%;margin:1em 0 0}.osano-cm-view--active{height:auto;transition-delay:0ms;visibility:visible}.osano-cm-description{font-size:.75em;font-weight:300;line-height:1.375;margin:1em 0 0;white-space:pre-line}.osano-cm-description:first-child{margin:0}.osano-cm-description:last-of-type{margin-bottom:1em}.osano-cm-drawer-toggle .osano-cm-label{font-size:.875em;margin:0 auto 0 0;line-height:1.375em}[dir=rtl] .osano-cm-drawer-toggle .osano-cm-label{margin:0 0 0 auto}.osano-cm-info-dialog-header{align-items:center;display:flex;flex-direction:row-reverse;min-height:3.25em;position:sticky;top:0;left:auto;width:100%;z-index:1;background:var(--osano-dialog-background-color);background:linear-gradient(180deg, var(--osano-dialog-background-color) 2.5em, var(--osano-clear-dialog-background) 100%)}*[dir=rtl] .osano-cm-info-dialog-header{flex-direction:row}.osano-cm-info-dialog-header__header{align-items:center;display:flex;flex:1 1 auto;font-size:1em;justify-content:flex-start;margin:0;order:1;padding:1em .75em}.osano-cm-info-dialog-header__description{font-size:.75em;line-height:1.375}.osano-cm-info-dialog-header__close{position:relative}.osano-cm-back{flex:0 1 auto;margin:0 0 0 .5em;min-width:0;order:2;position:relative;width:auto;z-index:2}[dir=rtl] .osano-cm-back{margin:0 .5em 0 0}@keyframes delay-overflow{from{overflow:hidden auto}}.osano-cm-drawer-iab-button-container{display:flex;justify-content:center;gap:.5em;margin-bottom:2em}.osano-cm-illustrations__list>.osano-cm-list-item--type_description{padding:.2rem 1rem}.osano-cm-drawer-item.osano-cm-description__list li{padding-top:.75em}.osano-cm-consent-id-box{display:flex;align-items:center;gap:.5em;margin:1em 0;padding:.5em;border-width:thin;border-style:solid;border-color:var(--osano-button-border-color);border-radius:.25em;background:rgba(0,0,0,.02);cursor:pointer;transition:background-color .2s ease-out}.osano-cm-consent-id-box:hover{background-color:var(--osano-button-background-color-hover)}.osano-cm-consent-id-box:focus-visible{background-color:var(--osano-button-background-color-hover);outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset)}.osano-cm-consent-id-box__content{flex:5;display:flex;flex-direction:column;min-width:0}.osano-cm-consent-id-box__label{font-size:.625em;font-weight:bold;margin-bottom:.25em}.osano-cm-consent-id-box__uuid{font-size:.75em;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.osano-cm-consent-id-box__button{flex-shrink:0;font-size:.75em;padding:.25em .3em;margin:0;width:auto;min-width:0}.osano-cm-consent-id-box__button--copied{--osano-button-background-color: var(--osano-button-accept-background-color-hover);--osano-button-border-color: var(--osano-button-accept-background-color-hover);--osano-button-foreground-color: var(--osano-button-accept-foreground-color-hover)}.osano-cm-tcf-purpose__label{display:block;padding:.25em 0 .5em;border-bottom:1px solid rgba(0,0,0,.1);margin-bottom:.5em}.osano-cm-tcf-purpose__toggle{float:right;margin-right:.5em;accent-color:var(--osano-toggle-on-track-color)}.osano-cm-opt-out-honored-wrapper{display:flex;align-items:center;max-width:max-content;padding:.5em;border-radius:1em;gap:.5em;margin:0 0 1em;border:1px solid;background:none;outline:none;position:relative}.osano-cm-opt-out-honored-wrapper__label{font-size:.75em;font-style:normal;font-weight:400;line-height:1.25;letter-spacing:.0625em;margin-right:.25em}.osano-cm-opt-out-honored-wrapper__additional-label{margin:.5em 0 0;font-size:.75em;font-weight:400;color:inherit;line-height:1.5}.osano-cm-opt-out-honored-wrapper__tooltip{position:absolute;background:#fff;color:#333;padding:1rem;border-radius:.25em;max-width:calc(100vw - 4em);white-space:normal;width:14rem;opacity:0;visibility:hidden;transition:opacity 200ms linear 0ms,visibility 200ms linear 200ms;z-index:2147483636;box-shadow:0 1px 10px rgba(0,0,0,.12),0 4px 5px rgba(0,0,0,.14),0 2px 4px rgba(0,0,0,.2);bottom:calc(100% + 12px)}.osano-cm-opt-out-honored-wrapper__tooltip::before{content:"";position:absolute;bottom:-6px;left:15%;transform:translateX(-50%) rotate(45deg);width:12px;height:12px;background:#fff;box-shadow:2px 2px 4px rgba(0,0,0,.1)}.osano-cm-opt-out-honored-wrapper__tooltip{display:flex;gap:.5rem;align-items:flex-start}.osano-cm-opt-out-honored-wrapper__tooltip-icon{flex-shrink:0}.osano-cm-opt-out-honored-wrapper__tooltip-icon svg{display:block}.osano-cm-opt-out-honored-wrapper__tooltip-content{flex:1;display:flex;flex-direction:column;gap:.25rem}.osano-cm-opt-out-honored-wrapper__tooltip-title{margin:.125em 0;font-size:.875em;font-weight:600;color:#333;line-height:1.25}.osano-cm-opt-out-honored-wrapper__tooltip-subtitle{margin:0;font-size:.75em;font-weight:400;color:#666;line-height:1.25}.osano-cm-opt-out-honored-wrapper--position_right{bottom:1em;right:.75em}.osano-cm-opt-out-honored-wrapper--position_left{bottom:1em;left:.75em}.osano-cm-opt-out-honored-wrapper--position_right,.osano-cm-opt-out-honored-wrapper--position_left{background:var(--osano-gpc-background-color, );border-color:var(--osano-gpc-border-color);color:var(--osano-gpc-foreground-color);margin:0;max-width:calc(100vw - 2.5em);position:fixed;opacity:.9;transition:opacity 200ms linear 0ms,visibility 0ms linear 0ms;visibility:visible;z-index:2147483636}.osano-cm-opt-out-honored-wrapper--position_right:hover,.osano-cm-opt-out-honored-wrapper--position_left:hover{background:var(--osano-gpc-background-color-hover);opacity:1}.osano-cm-opt-out-honored-wrapper--position_right.osano-cm-opt-out-honored-wrapper--has-main-widget{bottom:1em;right:4em}.osano-cm-opt-out-honored-wrapper--position_left.osano-cm-opt-out-honored-wrapper--has-main-widget{bottom:1em;left:4em}.osano-cm-opt-out-honored-wrapper--clickable{cursor:pointer}.osano-cm-opt-out-honored-wrapper--hidden{opacity:0;transition-delay:0ms,200ms;visibility:hidden}.osano-cm-opt-out-honored-wrapper--context_dialog,.osano-cm-opt-out-honored-wrapper--context_description,.osano-cm-opt-out-honored-wrapper--context_list-item{background:var(--osano-gpc-background-color);border-color:var(--osano-gpc-border-color);color:var(--osano-gpc-foreground-color)}.osano-cm-opt-out-honored-wrapper--context_dialog,.osano-cm-opt-out-honored-wrapper--context_description{position:static;margin:0 0 .5em;opacity:1;z-index:auto;cursor:default}.osano-cm-opt-out-honored-wrapper--context_dialog .osano-cm-opt-out-honored-wrapper__label,.osano-cm-opt-out-honored-wrapper--context_description .osano-cm-opt-out-honored-wrapper__label{color:inherit}.osano-cm-opt-out-honored-wrapper--context_dialog .osano-cm-opt-out-honored-wrapper__tooltip,.osano-cm-opt-out-honored-wrapper--context_description .osano-cm-opt-out-honored-wrapper__tooltip{display:none}.osano-cm-opt-out-honored-wrapper--tooltip-active:hover .osano-cm-opt-out-honored-wrapper__tooltip,.osano-cm-opt-out-honored-wrapper--tooltip-active:focus-within .osano-cm-opt-out-honored-wrapper__tooltip{opacity:1;transition-delay:0ms,0ms;visibility:visible}.osano-cm-opt-out-honored-wrapper--clickable:focus-visible{outline:2px solid var(--osano-gpc-border-color, #06c);outline-offset:2px}.osano-cm-dialog .osano-cm-opt-out-honored-wrapper{margin:0 0 .5em}.osano-cm-opt-out-honored-wrapper__dot{fill:var(--osano-gpc-color)}.osano-cm-expansion-panel{display:block;font-size:.75em;margin:0 -1.5em 1em;padding:1.5em 1.5em 0;border-bottom:1px solid rgba(0,0,0,.1)}.osano-cm-expansion-panel--expanded{border-bottom:none}.osano-cm-expansion-panel--empty,.osano-cm-expansion-panel--empty:not([open]){border-bottom:1px solid rgba(0,0,0,.1);padding-bottom:0}.osano-cm-expansion-panel__body{background-color:rgba(0,0,0,.1);list-style:none;overflow:hidden;max-height:0;margin:0 -1.5em;padding:0 1.5em;transition-property:max-height,padding-top,padding-bottom,visibility;transition-duration:.3s,.3s,.3s,0s;transition-delay:0ms,0ms,0ms,.3s;transition-timing-function:ease-out;line-height:1.25;visibility:hidden}.osano-cm-expansion-panel__toggle{cursor:pointer;display:block;line-height:1.25;margin:0 auto 1em 0;position:relative;color:var(--osano-link-color)}.osano-cm-expansion-panel__toggle:hover,.osano-cm-expansion-panel__toggle:active{outline:none;color:var(--osano-link-color-hover)}.osano-cm-expansion-panel__toggle:focus-visible{outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);color:var(--osano-link-color-focus)}[dir=rtl] .osano-cm-expansion-panel__toggle{margin:0 0 1em auto}.osano-cm-expansion-panel--expanded .osano-cm-expansion-panel__body{max-height:none;padding:1.25em 1.5em 1em;transition-delay:0ms,0ms,0ms,0ms;visibility:visible}.osano-cm-disclosure-item__title{border:0;clear:both;display:block;flex:0 1 30%;font-size:1em;font-weight:bold;line-height:1.375;margin:0 0 .5em;padding:0}.osano-cm-disclosure-item__description{flex:0 1 70%;font-size:1em;line-height:1.375;margin:0 0 .5em;overflow:hidden;padding:0;text-overflow:ellipsis;white-space:pre-line}.osano-cm-disclosure{display:block;font-size:.75em;margin:0 -1.5em 1em;padding:1.5em 1.5em 0;border-bottom:none;padding-bottom:0}.osano-cm-disclosure--collapse{border-bottom:1px solid rgba(0,0,0,.1);padding-bottom:1em}.osano-cm-disclosure--empty,.osano-cm-disclosure--empty:not([open]){border-bottom:1px solid rgba(0,0,0,.1);padding-bottom:0}.osano-cm-disclosure__list{line-height:1.25;list-style:none;margin:0 -1.5em;padding:1.25em 1.5em 1em;background-color:rgba(0,0,0,.1)}.osano-cm-disclosure__list:empty{border:none;padding:0 1.5em}.osano-cm-disclosure__list:first-of-type{margin-top:1em;padding:1.25em 1.5em 1em}.osano-cm-disclosure__list:first-of-type::after{background-color:var(--osano-link-color)}.osano-cm-disclosure__list:first-of-type:empty{padding:1.75em 1.5em .75em}.osano-cm-disclosure__list:not(:first-of-type):not(:empty){border-top:1px solid rgba(0,0,0,.1)}.osano-cm-disclosure__list:empty+.osano-cm-disclosure__list:not(:empty){border:none;padding:0 1.5em}.osano-cm-disclosure__list:not(:empty)~.osano-cm-disclosure__list:empty+.osano-cm-disclosure__list:not(:empty){border-top:1px solid rgba(0,0,0,.1)}.osano-cm-disclosure__list>.osano-cm-list-item{line-height:1.25}.osano-cm-disclosure__list>.osano-cm-list-item:not(:first-of-type){border-top:1px solid rgba(0,0,0,.1);margin:1em -1.25em 0;padding:1em 1.25em 0}.osano-cm-disclosure__toggle{appearance:none;background:rgba(0,0,0,0);border:0;padding:0;font:inherit;cursor:pointer;display:block;line-height:1.25;margin:0 auto 0 0;position:relative;font-weight:bold;color:var(--osano-link-color)}.osano-cm-disclosure__toggle:hover{text-decoration:underline}.osano-cm-disclosure__toggle:active,.osano-cm-disclosure__toggle:hover{color:var(--osano-link-color)}.osano-cm-disclosure__toggle:focus-visible{outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);text-decoration:underline;color:var(--osano-link-color-contrast)}[dir=rtl] .osano-cm-disclosure__toggle{margin:0 0 0 auto}.osano-cm-disclosure--loading .osano-cm-disclosure__list{height:0;line-height:0;max-height:0}.osano-cm-disclosure--loading .osano-cm-disclosure__list>*{display:none}.osano-cm-disclosure--loading .osano-cm-disclosure__list::after{content:"";display:block;transform:translate(0, -50%);width:1em;height:1em;border-radius:100%;animation-name:osano-load-scale;animation-duration:1s;animation-iteration-count:infinite;animation-timing-function:ease-in-out;top:-0.125em;position:relative}.osano-cm-disclosure--collapse .osano-cm-disclosure__list{display:none}.osano-cm-disclosure--collapse .osano-cm-disclosure__list::after{content:none}.osano-cm-disclosure-item{display:flex;flex-wrap:wrap;margin:0}.osano-cm-disclosure-item__title:last-of-type{margin-bottom:0}.osano-cm-disclosure-item__description:hover{word-break:break-word}.osano-cm-disclosure-item__description:last-of-type{margin-bottom:0}@keyframes osano-load-scale{0%{transform:translate(0, -50%) scale(0)}100%{transform:translate(0, -50%) scale(1);opacity:0}} :root { --osano-clear-dialog-background: <!--?lit$64624901524$-->rgba(0,0,0,0); <!--?lit$64624901524$-->--osano-button-border-color: #fff;
+--osano-dialog-type: bar;
+--osano-display-position: bottom;
+--osano-info-dialog-position: right;
+--osano-widget-position: left;
+--osano-opt-out-widget-position: left;
+--osano-button-background-color: rgba(248,248,34,0);
+--osano-button-foreground-color: #ffffff;
+--osano-dialog-background-color: #e2e1e1;
+--osano-dialog-foreground-color: #090909;
+--osano-info-dialog-overlay-color: rgba(0,0,0,0.45);
+--osano-link-color: rgba(7,61,247,0.56);
+--osano-toggle-off-track-color: #7A3FF1;
+--osano-toggle-off-thumb-color: #FFFFFF;
+--osano-toggle-on-track-color: #37CD8F;
+--osano-toggle-on-thumb-color: #FFFFFF;
+--osano-widget-color: #37cd8f;
+--osano-widget-outline-color: #29246a;
+--osano-widget-fill-color: #fff;
+--osano-focus-outline-color: Highlight;
+--osano-button-close-color: var(--osano-dialog-foreground-color);
+--osano-button-accept-background-color: #fefefd;
+--osano-button-accept-border-color: var(--osano-button-border-color, var(--osano-button-foreground-color));
+--osano-button-accept-foreground-color: #060606;
+--osano-button-deny-background-color: #fdfdfb;
+--osano-button-deny-border-color: var(--osano-button-border-color, var(--osano-button-foreground-color));
+--osano-button-deny-foreground-color: #030303;
+--osano-button-reject-all-background-color: var(--osano-button-background-color);
+--osano-button-reject-all-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+--osano-button-reject-all-border-color: var(--osano-button-border-color, var(--osano-button-foreground-color));
+--osano-button-reject-all-foreground-color: var(--osano-button-foreground-color);
+--osano-button-manage-background-color: #fefefb;
+--osano-button-manage-border-color: var(--osano-button-border-color, var(--osano-button-foreground-color));
+--osano-button-manage-foreground-color: #090909;
+--osano-info-dialog-link-color: var(--osano-link-color);
+--osano-info-dialog-button-close-color: var(--osano-info-dialog-foreground-color, var(--osano-dialog-foreground-color));
+--osano-info-dialog-toggle-off-track-color: var(--osano-toggle-off-track-color);
+--osano-info-dialog-toggle-off-thumb-color: var(--osano-toggle-off-thumb-color);
+--osano-info-dialog-toggle-on-track-color: var(--osano-toggle-on-track-color);
+--osano-info-dialog-toggle-on-thumb-color: var(--osano-toggle-on-thumb-color);
+--osano-info-dialog-button-background-color: var(--osano-button-background-color);
+--osano-info-dialog-button-border-color: var(--osano-info-dialog-button-foreground-color, var(--osano-button-foreground-color));
+--osano-info-dialog-button-foreground-color: var(--osano-button-foreground-color);
+--osano-dialog-gpc-background-color: var(--osano-dialog-background-color);
+--osano-dialog-gpc-border-color: var(--osano-dialog-foreground-color);
+--osano-dialog-gpc-foreground-color: var(--osano-dialog-foreground-color);
+--osano-dialog-gpc-color: #37cd84;
+--osano-info-dialog-gpc-background-color: var(--osano-info-dialog-background-color, var(--osano-dialog-background-color));
+--osano-info-dialog-gpc-border-color: var(--osano-info-dialog-foreground-color, var(--osano-dialog-foreground-color));
+--osano-info-dialog-gpc-foreground-color: var(--osano-info-dialog-foreground-color, var(--osano-dialog-foreground-color));
+--osano-info-dialog-gpc-color: var(--osano-dialog-gpc-color);
+--osano-gpc-background-color: #ffffff;
+--osano-gpc-border-color: #058a5e;
+--osano-gpc-foreground-color: #058a5e;
+--osano-gpc-color: #37cd84;
+--osano-gpc-background-color-hover: #ffffff;
+--osano-toggle-off-background-color: #d2cfff;
+--osano-toggle-button-off-color: #ffffff;
+--osano-toggle-on-background-color: #37cd8f;
+--osano-toggle-button-on-color: #f4f4f4;
+--osano-button-background-color-contrast: #e4e40e;
+--osano-button-foreground-color-contrast: #ebebeb;
+--osano-button-accept-background-color-contrast: #eaeae9;
+--osano-button-accept-foreground-color-contrast: #1a1a1a;
+--osano-button-deny-background-color-contrast: #e9e9e7;
+--osano-button-deny-foreground-color-contrast: #171717;
+--osano-button-manage-background-color-contrast: #eaeae7;
+--osano-button-manage-foreground-color-contrast: #1d1d1d;
+--osano-dialog-background-color-contrast: #cecdcd;
+--osano-dialog-foreground-color-contrast: #1d1d1d;
+--osano-link-color-contrast: #1b51ff;
+--osano-toggle-off-track-color-contrast: #8e53ff;
+--osano-toggle-off-track-color-disabled: #ba7fff;
+--osano-toggle-off-thumb-color-contrast: #ebebeb;
+--osano-toggle-off-thumb-color-disabled: #bfbfbf;
+--osano-toggle-on-track-color-contrast: #23b97b;
+--osano-toggle-on-track-color-disabled: #008d4f;
+--osano-toggle-on-thumb-color-contrast: #ebebeb;
+--osano-toggle-on-thumb-color-disabled: #bfbfbf;
+--osano-gpc-background-color-contrast: #ebebeb;
+--osano-button-background-color-hover: var(--osano-button-background-color-contrast, #e4e40e);
+--osano-button-foreground-color-hover: var(--osano-button-foreground-color-contrast, #ebebeb);
+--osano-button-background-color-focus: var(--osano-button-foreground-color-hover, var(--osano-button-foreground-color-contrast));
+--osano-button-foreground-color-focus: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+--osano-toggle-off-track-color-hover: var(--osano-toggle-off-track-color-contrast, #8e53ff);
+--osano-toggle-off-thumb-color-hover: var(--osano-toggle-off-thumb-color-contrast, #ebebeb);
+--osano-toggle-off-track-color-focus: var(--osano-toggle-off-thumb-color-hover, var(--osano-toggle-off-thumb-color-contrast));
+--osano-toggle-off-thumb-color-focus: var(--osano-toggle-off-track-color-hover, var(--osano-toggle-off-track-color-contrast));
+--osano-toggle-on-track-color-hover: var(--osano-toggle-on-track-color-contrast, #23b97b);
+--osano-toggle-on-thumb-color-hover: var(--osano-toggle-on-thumb-color-contrast, #ebebeb);
+--osano-toggle-on-track-color-focus: var(--osano-toggle-on-thumb-color-hover, var(--osano-toggle-on-thumb-color-contrast));
+--osano-toggle-on-thumb-color-focus: var(--osano-toggle-on-track-color-hover, var(--osano-toggle-on-track-color-contrast));
+--osano-button-accept-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+--osano-button-accept-foreground-color-hover: var(--osano-button-accept-foreground-color-contrast, #1a1a1a);
+--osano-button-accept-background-color-focus: var(--osano-button-accept-foreground-color-hover, var(--osano-button-accept-foreground-color-contrast));
+--osano-button-accept-foreground-color-focus: var(--osano-button-accept-background-color-hover, var(--osano-button-background-color-hover));
+--osano-button-deny-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+--osano-button-deny-foreground-color-hover: var(--osano-button-deny-foreground-color-contrast, #171717);
+--osano-button-deny-background-color-focus: var(--osano-button-deny-foreground-color-hover, var(--osano-button-deny-foreground-color-contrast));
+--osano-button-deny-foreground-color-focus: var(--osano-button-deny-background-color-hover, var(--osano-button-background-color-hover));
+--osano-button-reject-all-background-color-contrast: var(--osano-button-background-color-contrast, #e4e40e);
+--osano-button-reject-all-foreground-color-contrast: var(--osano-button-foreground-color-contrast, #ebebeb);
+--osano-button-reject-all-foreground-color-hover: var(--osano-button-reject-all-foreground-color-contrast, var(--osano-button-foreground-color-contrast));
+--osano-button-reject-all-background-color-focus: var(--osano-button-reject-all-foreground-color-hover, var(--osano-button-reject-all-foreground-color-contrast));
+--osano-button-reject-all-foreground-color-focus: var(--osano-button-reject-all-background-color-hover, var(--osano-button-background-color-hover));
+--osano-button-manage-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+--osano-button-manage-foreground-color-hover: var(--osano-button-manage-foreground-color-contrast, #1d1d1d);
+--osano-button-manage-background-color-focus: var(--osano-button-manage-foreground-color-hover, var(--osano-button-manage-foreground-color-contrast));
+--osano-button-manage-foreground-color-focus: var(--osano-button-manage-background-color-hover, var(--osano-button-background-color-hover));
+--osano-info-dialog-foreground-color: var(--osano-dialog-foreground-color);
+--osano-info-dialog-background-color: var(--osano-dialog-background-color);
+--osano-info-dialog-button-background-color-contrast: var(--osano-button-background-color-contrast, #e4e40e);
+--osano-info-dialog-button-foreground-color-contrast: var(--osano-button-foreground-color-contrast, #ebebeb);
+--osano-info-dialog-button-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+--osano-info-dialog-button-foreground-color-hover: var(--osano-info-dialog-button-foreground-color-contrast, var(--osano-button-foreground-color-contrast));
+--osano-info-dialog-button-background-color-focus: var(--osano-info-dialog-button-foreground-color-hover, var(--osano-info-dialog-button-foreground-color-contrast));
+--osano-info-dialog-button-foreground-color-focus: var(--osano-info-dialog-button-background-color-hover, var(--osano-button-background-color-hover));
+--osano-info-dialog-toggle-off-track-color-contrast: var(--osano-toggle-off-track-color-contrast, #8e53ff);
+--osano-info-dialog-toggle-off-thumb-color-contrast: var(--osano-toggle-off-thumb-color-contrast, #ebebeb);
+--osano-info-dialog-toggle-off-track-color-hover: var(--osano-info-dialog-toggle-off-track-color-contrast, var(--osano-toggle-off-track-color-contrast));
+--osano-info-dialog-toggle-off-thumb-color-hover: var(--osano-info-dialog-toggle-off-thumb-color-contrast, var(--osano-toggle-off-thumb-color-contrast));
+--osano-info-dialog-toggle-off-track-color-focus: var(--osano-info-dialog-toggle-off-thumb-color-hover, var(--osano-info-dialog-toggle-off-thumb-color-contrast));
+--osano-info-dialog-toggle-off-thumb-color-focus: var(--osano-info-dialog-toggle-off-track-color-hover, var(--osano-info-dialog-toggle-off-track-color-contrast));
+--osano-info-dialog-toggle-off-track-color-disabled: var(--osano-toggle-off-track-color-disabled, #ba7fff);
+--osano-info-dialog-toggle-off-thumb-color-disabled: var(--osano-toggle-off-thumb-color-disabled, #bfbfbf);
+--osano-info-dialog-toggle-on-track-color-contrast: var(--osano-toggle-on-track-color-contrast, #23b97b);
+--osano-info-dialog-toggle-on-thumb-color-contrast: var(--osano-toggle-on-thumb-color-contrast, #ebebeb);
+--osano-info-dialog-toggle-on-track-color-hover: var(--osano-info-dialog-toggle-on-track-color-contrast, var(--osano-toggle-on-track-color-contrast));
+--osano-info-dialog-toggle-on-thumb-color-hover: var(--osano-info-dialog-toggle-on-thumb-color-contrast, var(--osano-toggle-on-thumb-color-contrast));
+--osano-info-dialog-toggle-on-track-color-focus: var(--osano-info-dialog-toggle-on-thumb-color-hover, var(--osano-info-dialog-toggle-on-thumb-color-contrast));
+--osano-info-dialog-toggle-on-thumb-color-focus: var(--osano-info-dialog-toggle-on-track-color-hover, var(--osano-info-dialog-toggle-on-track-color-contrast));
+--osano-info-dialog-toggle-on-track-color-disabled: var(--osano-toggle-on-track-color-disabled, #008d4f);
+--osano-info-dialog-toggle-on-thumb-color-disabled: var(--osano-toggle-on-thumb-color-disabled, #bfbfbf);
+--osano-info-dialog-link-color-contrast: var(--osano-link-color-contrast, #1b51ff); } .osano-cm-window { direction: <!--?lit$64624901524$-->ltr; text-align: <!--?lit$64624901524$-->left; } </style><meta http-equiv="origin-trial" content="A7vZI3v+Gz7JfuRolKNM4Aff6zaGuT7X0mf3wtoZTnKv6497cVMnhy03KDqX7kBz/q/iidW7srW31oQbBt4VhgoAAACUeyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGUuY29tOjQ0MyIsImZlYXR1cmUiOiJEaXNhYmxlVGhpcmRQYXJ0eVN0b3JhZ2VQYXJ0aXRpb25pbmczIiwiZXhwaXJ5IjoxNzU3OTgwODAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==">
+    <meta charset="utf-8">   
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">   
+    <!--<meta http-equiv="X-Frame-Options" content="allow">-->
+    <title>Automated License Plate Reader Technology Raises Concerns Over Private Sector Compliance and Government Overreach | Seyfarth Shaw LLP - JDSupra</title>
+    <meta name="description" content="Automated License Plate Reader (ALPR) technology is facing increasing legal scrutiny as courts, regulators and individuals attempt to examine and...">
+    <link rel="image_src" href="https://jdsupra-static.s3.amazonaws.com/profile-images/og.15521_4328.jpg">   
+    <meta property="og:title" content="Automated License Plate Reader Technology Raises Concerns Over Private Sector Compliance and Government Overreach | JD Supra"> 
+    <meta property="og:url" content="https://www.jdsupra.com/legalnews/automated-license-plate-reader-4596602/">
+    <meta property="og:image" content="https://jdsupra-static.s3.amazonaws.com/profile-images/og.15521_4328.jpg">
+    <meta property="og:site_name" content="JD Supra">
+    <meta property="og:description" content="Automated License Plate Reader (ALPR) technology is facing increasing legal scrutiny as courts, regulators and individuals attempt to examine and...">   
+    <meta property="fb:app_id" content="87741124305">
+    <meta property="og:type" content="article">
+    
+    
+        
+        
+    
+    
+    
+       
+    <meta name="twitter:card" content="summary"> 
+    <meta name="twitter:title" content="Automated License Plate Reader Technology Raises Concerns Over Private Sector Compliance and Government Overreach">    
+    <meta name="twitter:description" content="Automated License Plate Reader (ALPR) technology is facing increasing legal scrutiny as courts, regulators and individuals attempt to examine and expose the various ways in which license plate...">  
+    <meta name="twitter:image" content="https://jdsupra-static.s3.amazonaws.com/profile-images/hr.15521_4328.jpg">    
+    <meta name="twitter:site" content="@jdsupra"> 
+    <meta name="twitter:creator" content="@seyfarthshawllp">   
+       
+      
+     
+    
+    
+    <link rel="alternate" href="https://www.jdsupra.com/oembed/index.asmx/GetOembedObject?url=https%3a%2f%2fwww.jdsupra.com%2flegalnews%2fautomated-license-plate-reader-4596602%2f" type="text/xml+oembed">
+    <link rel="canonical" href="https://www.jdsupra.com/legalnews/automated-license-plate-reader-4596602/">
+    <link rel="shortcut icon" href="/img/fav-jdsupra.ico">
+        <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/theme/jds-main/jds-main.min.css?v=2">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-HX5QvHXoIsrUAY0tE/wG8+Wt1MwvaY28d9Zciqcj6Ob7Tw99tFPo4YUXcZw9l930" crossorigin="anonymous">
+
+
+<!-- Start of Osano Code -->
+<script type="text/javascript" async="" charset="utf-8" src="https://www.gstatic.com/recaptcha/releases/TnA7HacJFoBWt9hnlunBlYfK/recaptcha__zh_hk.js" crossorigin="anonymous" integrity="sha384-BY8IGhFxtq4hI+Gy1LE1Pk8QspkruXCOp9idWilO+lQ/M3nsgkh1u3NwRljBTUNK"></script><script src="https://cmp.osano.com/AzqL3GTFuphBJ1BTD/6ff569dd-8241-4321-b005-5489049176ca/osano.js"></script>
+<style>
+    .osano-cm-widget{display: none;} 
+    label[for=osano-cm-drawer-toggle--category_OPT_OUT]{ display: none;}    
+    #osano-cm-drawer-toggle--category_OPT_OUT--description { display: none;}
+</style>
+<!-- End of Osano Code -->
+
+
+    
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-G6PSXZ5JN3" type="osano/blocked"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-G6PSXZ5JN3');
+    function ga(send, event, action, category, label) {
+        if ((send == 'send') && (event == 'event')) {
+            gtag('event', action, { 'event_category': category, 'event_label': label });
+        }
+    };
+</script>
+
+
+</head>
+
+<body id="docviewer" class="cf Seyfarth_Shaw "><div data-nosnippet="" class="osano-cm-window" dir="ltr"><!----> <!--?lit$64624901524$--><div hidden="" class="osano-visually-hidden"> <span id="osano-cm-aria.newWindow"><!--?lit$64624901524$-->Opens in a new window</span> <span id="osano-cm-aria.external"><!--?lit$64624901524$-->Opens an external website</span> <span id="osano-cm-aria.externalNewWindow"><!--?lit$64624901524$-->Opens an external website in a new window</span> </div> <!--?lit$64624901524$--> <div role="dialog" id="6b861e6d-8d66-4c37-a68c-176139b3bdc7" aria-label="Cookie Consent Banner" aria-describedby="6b861e6d-8d66-4c37-a68c-176139b3bdc7__label" class="osano-cm-window__dialog osano-cm-dialog osano-cm-dialog--position_bottom osano-cm-dialog--type_bar"> <!--?lit$64624901524$--> <div class=" osano-cm-dialog__content osano-cm-content "> <!--?lit$64624901524$--> <!--?lit$64624901524$--> <span id="6b861e6d-8d66-4c37-a68c-176139b3bdc7__label" class=" osano-cm-content__message osano-cm-message "> <!--?lit$64624901524$-->This website utilizes technologies such as cookies to enable essential site functionality, as well as for analytics, personalization, and targeted advertising. <!--?lit$64624901524$--> <!--?lit$64624901524$--> </span>  <!--?lit$64624901524$--> <!--?lit$64624901524$--><!--?lit$64624901524$--><a rel="noopener" tabindex="0" href="https://www.jdsupra.com/terms/privacy.aspx" target="_blank" class=" osano-cm-storage-policy osano-cm-content__link osano-cm-link " aria-describedby="osano-cm-aria.newWindow"><!--?lit$64624901524$-->Privacy Policy</a><!--?--><!--?lit$64624901524$--> <!--?lit$64624901524$--> <!--?lit$64624901524$--> <!--?lit$64624901524$--> </div> <!--?lit$64624901524$--> <div class="osano-cm-dialog__buttons osano-cm-buttons"> <!--?lit$64624901524$--><!--?lit$64624901524$--><button class=" osano-cm-accept osano-cm-buttons__button osano-cm-button osano-cm-button--type_accept " tabindex="0"> <!--?lit$64624901524$-->Accept </button><!--?--> <!--?lit$64624901524$--><!--?lit$64624901524$--><button class=" osano-cm-deny osano-cm-buttons__button osano-cm-button osano-cm-button--type_deny " tabindex="0"> <!--?lit$64624901524$-->Deny Non-Essential </button><!--?--> <!--?lit$64624901524$--> <!--?lit$64624901524$--><!--?lit$64624901524$--><button class=" osano-cm-manage osano-cm-buttons__button osano-cm-button osano-cm-button--type_manage " tabindex="0"> <!--?lit$64624901524$-->Manage Preferences </button><!--?--> </div> <!--?lit$64624901524$--> </div>  <!--?lit$64624901524$--> <!--?lit$64624901524$--> <button id="4dedcd35-a34b-459c-855e-2f6f569c6f81" class=" osano-cm-window__widget osano-cm-widget osano-cm-widget--hidden osano-cm-widget--position_left " title="Cookie Preferences" aria-label="Cookie Preferences"> <svg role="img" width="40" height="40" viewBox="0 0 71.85 72.23" xmlns="http://www.w3.org/2000/svg" aria-labelledby="4dedcd35-a34b-459c-855e-2f6f569c6f81"> <path d="m67.6 36.73a6.26 6.26 0 0 1 -3.2-2.8 5.86 5.86 0 0 0 -5.2-3.1h-.3a11 11 0 0 1 -11.4-9.5 6 6 0 0 1 -.1-1.4 9.2 9.2 0 0 1 .4-2.9 8.65 8.65 0 0 0 .2-1.6 5.38 5.38 0 0 0 -1.9-4.3 7.3 7.3 0 0 1 -2.5-5.5 3.91 3.91 0 0 0 -3.5-3.9 36.46 36.46 0 0 0 -15 1.5 33.14 33.14 0 0 0 -22.1 22.7 35.62 35.62 0 0 0 -1.5 10.2 34.07 34.07 0 0 0 4.8 17.6.75.75 0 0 0 .07.12c.11.17 1.22 1.39 2.68 3-.36.47 5.18 6.16 5.65 6.52a34.62 34.62 0 0 0 55.6-21.9 4.38 4.38 0 0 0 -2.7-4.74z" stroke-width="3" class=" osano-cm-widget__outline osano-cm-outline "></path> <path d="m68 41.13a32.37 32.37 0 0 1 -52 20.5l-2-1.56c-2.5-3.28-5.62-7.15-5.81-7.44a32 32 0 0 1 -4.5-16.5 34.3 34.3 0 0 1 1.4-9.6 30.56 30.56 0 0 1 20.61-21.13 33.51 33.51 0 0 1 14.1-1.4 1.83 1.83 0 0 1 1.6 1.8 9.38 9.38 0 0 0 3.3 7.1 3.36 3.36 0 0 1 1.2 2.6 3.37 3.37 0 0 1 -.1 1 12.66 12.66 0 0 0 -.5 3.4 9.65 9.65 0 0 0 .1 1.7 13 13 0 0 0 10.5 11.2 16.05 16.05 0 0 0 3.1.2 3.84 3.84 0 0 1 3.5 2 10 10 0 0 0 4.1 3.83 2 2 0 0 1 1.4 2z" stroke-width="3" class=" osano-cm-widget__outline osano-cm-outline "></path> <g class=" osano-cm-widget__dot osano-cm-dot "> <path d="m26.6 31.43a5.4 5.4 0 1 1 5.4-5.43 5.38 5.38 0 0 1 -5.33 5.43z"></path> <path d="m25.2 53.13a5.4 5.4 0 1 1 5.4-5.4 5.44 5.44 0 0 1 -5.4 5.4z"></path> <path d="m47.9 52.33a5.4 5.4 0 1 1 5.4-5.4 5.32 5.32 0 0 1 -5.24 5.4z"></path> </g> </svg> </button>  <!--?lit$64624901524$--><div role="dialog" aria-modal="true" id="a71b82d4-56c1-40cd-aa16-3b0c57467da8" aria-labelledby="a71b82d4-56c1-40cd-aa16-3b0c57467da8__label" inert="" class=" osano-cm-window__info-dialog osano-cm-info-dialog osano-cm-info-dialog--hidden "> <!--?lit$64624901524$--><!--?lit$64624901524$--><span tabindex="0" aria-hidden="true" data-focus="first"></span><!--?--> <div role="presentation" class=" osano-cm-info-dialog__info osano-cm-info osano-cm-info--position_right "> <!--?lit$64624901524$--><div role="presentation" class=" osano-cm-info__info-dialog-header osano-cm-info-dialog-header "> <p role="heading" aria-level="1" aria-hidden="true" id="a71b82d4-56c1-40cd-aa16-3b0c57467da8__label" class=" osano-cm-info-dialog-header__header osano-cm-header "> <!--?lit$64624901524$-->Storage Preferences </p> <!--?lit$64624901524$--> <!--?lit$64624901524$--><button class=" osano-cm-info-dialog-header__close osano-cm-close "> <!--?lit$64624901524$--><svg width="20px" height="20px" viewBox="0 0 20 20" aria-labelledby="53174d87-8beb-4692-826f-d77637eefb05"> <title id="53174d87-8beb-4692-826f-d77637eefb05"><!---->Close Cookie Preferences<!----></title> <line role="presentation" x1="2" y1="2" x2="18" y2="18"></line> <line role="presentation" x1="2" y1="18" x2="18" y2="2"></line> </svg> </button> </div> <div role="presentation" class=" osano-cm-info__info-views osano-cm-info-views osano-cm-info-views--hidden osano-cm-info-views--position_0 "> <!--?lit$64624901524$--> </div> </div> <!--?lit$64624901524$--><!--?lit$64624901524$--><span tabindex="0" aria-hidden="true" data-focus="last"></span><!--?--> </div> </div>
+<!--theme/jds-main header-->
+<span id="pageNameDebug"></span>
+<a name="top"></a>
+
+<header id="nav_header" class="bb bg-white b--light-gray relative shadow-1 top-0 w-100 z-999">
+<nav class="cf f6 relative">
+    <div class="fl-l pv3">
+        <div class="cf">
+            <div class="hamburger dn-l fr menu-toggle">
+                <div class="dib v-mid"><span class="line"></span><span class="line"></span><span class="line"></span></div>
+                <div class="dib v-mid ttu red f5 mt2 mb1 pr3">Menu</div>
+            </div>
+            <a href="/" class="fl pl2 pl3-m pl4-l"><img src="/img/logo/logo-jdsupra-opt.svg" alt="JD Supra" class="dib v-mid" onerror="this.src='/img/logo/jdsupra-logo-web-sm.png'; this.onerror=null;"></a><!--svg fallback for ie8-->
+        </div>
+    </div>
+    <div class="bt bn-l b--black-20 fr-l nav-block navmenu tc w-80-l">
+    <div class="flex-l h3-l items-center-l justify-start-l">        
+        <div class="megadropdown">
+            <a class="db link mid-gray mr2 mr3-l pv3" href="/law-news/" onclick="ga('send', 'event', 'topnav', 'topnav-news', 'topnav-news');">News &amp; Insights <span class="light-red caret"></span> </a>
+
+            <div class="pv3 submenu topNavLawNews tl z-999">
+                <div class="mw8-ns center cf">                                   
+                    <div class="fl w-100 w-third-ns pa2">
+                       <div class="fl"><i class="fa fa-bolt fa-lg fa-fw ba br-100 mb2 mr2 mt1 pa3 red tc" aria-hidden="true"></i></div> 
+                        <ul class="list fl mt1 pl2">
+                            <li class="ttu red f5 mt2 mb1">Popular</li>
+                            <li><a href="/law-news/labor-employment/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-news-col1', 'topnav-news-col1');">Labor &amp; Employment</a></li>        
+<li><a href="/law-news/finance-banking-law/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-news-col1', 'topnav-news-col1');">Finance &amp; Banking</a></li>
+<li><a href="/law-news/ip-law/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-news-col1', 'topnav-news-col1');">Intellectual Property</a></li>
+<li><a href="/law-news/health-law/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-news-col1', 'topnav-news-col1');">Health &amp; Healthcare</a></li>
+<li><a href="/law-news/environmental-law/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-news-col1', 'topnav-news-col1');">Environmental Issues</a></li>
+
+
+                            <li><a href="/browse/legal-news.aspx" class="red">more…</a></li>
+                        </ul>
+                    </div>
+                    <div class="fl w-100 w-third-ns pa2">
+                       <div class="fl"><i class="far fa-briefcase fa-lg fa-fw ba br-100 mb2 mr2 mt1 pa3 red tc" aria-hidden="true"></i></div> 
+                        <ul class="list fl mt1 pl2">
+                            <li class="ttu red f5 mt2 mb1">Business</li>
+                            <li><a href="/law-news/insurance-law/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col2');">Insurance</a></li>
+                            <li><a href="/law-news/commercial-real-estate/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col2');">Commercial Real Estate</a></li>        
+                            <li><a href="/topics/corporate-taxes/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col2');">Corporate Taxes</a></li>
+                            <li><a href="/law-news/immigration-law/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col2');">Immigration</a></li>
+                            <li><a href="/law-news/securities-law/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col2');">Securities</a></li>                                    
+                            <li><a href="/browse/legal-news.aspx" class="red" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col2');">more…</a></li>
+                        </ul>
+                    </div>
+                    <div class="fl w-100 w-third-ns pa2">
+                       <div class="fl"><i class="fas fa-user fa-2 fa-lg fa-fw ba br-100 mb2 mr2 mt1 pa3 red tc" aria-hidden="true"></i></div> 
+                        <ul class="list fl mt1 pl2">
+                            <li class="ttu red f5 mt2 mb1">Personal</li>        
+                            <li><a href="/law-news/residential-real-estate-law/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col3');">Residential Real Estate</a></li>
+                            <li><a href="/topics/estate-planning/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col3');">Estate Planning</a></li>
+                            <li><a href="/law-news/civil-rights/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col3');">Civil Rights</a></li>
+                            <li><a href="/topics/income-taxes/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col3');">Personal Taxes</a></li>
+                            <li><a href="/law-news/bankruptcy-law/" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col3');">Bankruptcy</a></li>
+                            <li><a href="/browse/legal-news.aspx" class="red" onclick="ga('send', 'event', 'topnav', 'topnav-news-col2', 'topnav-news-col3');">more…</a></li>
+                        </ul>
+                   </div>
+               </div>              
+                <div class="tc mt3 mb4"><a href="/law-news/" class="ba b--red br-pill ph4 pv2 red">Jump to: Latest Updates »</a></div> 
+            </div> 
+        </div>
+        <div class="megadropdown">
+            <a class="db link mid-gray mr2 mr3-l pv3" href="/topics/popular/" onclick="ga('send', 'event', 'topnav', 'topnav-trending', 'topNav-Trending');">Trending [<span class="light-red">7</span>] <span class="light-red caret"></span></a>
+            <div class="pt4 pb3 submenu topNavTrending tl z-999">
+                <div class="mw8 center">
+                    <ol class="list list-number">
+                        <li><a href="https://www.surveymonkey.com/r/LLJDSupraSurvey10" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-trending', 'topnav-trending');">[Survey] What do GC want from law firm guidance? Your input matters...</a></li>
+<li><a href="/topics/artificial-intelligence/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-trending', 'topnav-trending');">[Hot Topic] Artificial Intelligence</a></li>
+<li><a href="/topics/employer-liability-issues/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-trending', 'topnav-trending');">[Hot Topic] Employer Liability Issues</a></li>
+<li><a href="/law-news/immigration-law/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-trending', 'topnav-trending');">Latest IMMIGRATION News &amp; Updates</a></li>
+<li><a href="/topics/popular/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-trending', 'topnav-trending');">Stay Informed: Popular Reads on JD Supra</a></li>
+<li><a href="https://spotlight.jdsupra.com/readerschoice/2026" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-trending', 'topnav-trending');">Meet JD Supra's Top Authors!</a></li>
+<li><a href="/follow/manageyourinterests/" class="lnk" onclick="ga('send', 'event', 'topnav', 'topnav-trending', 'topnav-trending');">Build a Morning News Digest: Easy, Custom Content, Free!</a></li>
+                                                  
+                    </ol>
+                    <div class="tc mt3 mb4"><a href="/browse/legal-news.aspx" class="ba b--red br-pill ph4 pv2 red">Browse All Law News Topics »</a></div>                                   
+                </div>
+            </div>             
+        </div>
+        <div class="megadropdown">
+            <a class="db link mid-gray mr2 mr3-l pv3" href="#" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor', 'topnav-findauthor');">Find Author <span class="light-red caret"></span></a>
+            <div class="pv3 submenu topNavFindLawyer tl z-999">
+                <div class="mw8-ns center cf">                                   
+                    <div class="fl w-100 w-third-ns pa2">
+                       <div class="fl"><i class="far fa-building fa-lg fa-fw ba br-100 mb2 mr2 mt1 pa3 red tc" aria-hidden="true"></i></div> 
+                        <ul class="list fl mt1 pl2">
+                            <li class="ttu red f5 mt2 mb1">By Business Matters</li>
+                            <li><a href="/search/searchResults.aspx?sTerm=labor+employment&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col1', 'topnav-findauthor-col1');">Labor &amp; Employment</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=finance+banking&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col1', 'topnav-findauthor-col1');">Finance &amp; Banking</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=intellectual+property&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col1', 'topnav-findauthor-col1');">Intellectual Property</a></li>                                                                         
+                            <li><a href="/search/searchResults.aspx?sTerm=insurance&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col1', 'topnav-findauthor-col1');">Insurance</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=taxes&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col1', 'topnav-findauthor-col1');">Taxes</a></li>
+                            <!--<li><a href="/findauthor/" class="red" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col1', 'topnav-findauthor-col1');">See All Subjects &raquo;</a></li>-->
+                        </ul>
+                    </div>
+                    <div class="fl w-100 w-third-ns pa2">
+                       <div class="fl"><i class="fas fa-user fa-lg fa-fw ba br-100 mb2 mr2 mt1 pa3 red tc" aria-hidden="true"></i></div> 
+                        <ul class="list fl mt1 pl2">
+                            <li class="ttu red f5 mt2 mb1">By Personal Issues</li>
+                            <li><a href="/search/searchResults.aspx?sTerm=civil+rights&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col2', 'topnav-findauthor-col2');">Civil Rights</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=family+law&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col2', 'topnav-findauthor-col2');">Family Matters</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=personal+injury&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col2', 'topnav-findauthor-col2');">Personal Injury</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=wills+trusts+estate+planning&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col2', 'topnav-findauthor-col2');">Wills, Trusts, &amp; Estate Planning</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=workers+compensation&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col2', 'topnav-findauthor-col2');">Worker’s Compensation</a></li>
+                            <!--<li><a href="/findauthor/" class="red" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col2', 'topnav-findauthor-col2');">See All Subjects &raquo;</a></li>-->
+                        </ul>
+                    </div>
+                    <div class="fl w-100 w-third-ns pa2">
+                       <div class="fl"><i class="fas fa-map-marker fa-lg fa-fw ba br-100 mb2 mr2 mt1 pa3 red tc" aria-hidden="true"></i></div> 
+                        <ul class="list fl mt1 pl2">
+                            <li class="ttu red f5 mt2 mb1">By Location</li>
+                            <li><a href="/search/searchResults.aspx?sTerm=california&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col3', 'topnav-findauthor-col3');">California</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=new+york&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col3', 'topnav-findauthor-col3');">New York</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=texas&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col3', 'topnav-findauthor-col3');">Texas</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=canada&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col3', 'topnav-findauthor-col3');">Canada</a></li>
+                            <li><a href="/search/searchResults.aspx?sTerm=united+kingdom&amp;tab=Authors" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col3', 'topnav-findauthor-col3');">United Kingdom</a></li>
+                            <!--<li><a href="/findauthor/" class="red" onclick="ga('send', 'event', 'topnav', 'topnav-findauthor-col3', 'topnav-findauthor-col3');">See All Locations &raquo;</a></li>-->
+                        </ul>
+                   </div>
+               </div>
+            </div>
+        </div>
+        <div class="megadropdown">
+            <a class="db link mid-gray mr2 mr3-l pv3" href="/follow/manageyourinterests/" onclick="ga('send', 'event', 'topnav', 'topnav-subscribe', 'topnav-subscribe');">Subscribe <span class="light-red caret"></span></a>
+            <div class="pt3 pb2 submenu topNavFollow tl z-999">
+                <div class="flex flex-wrap mw7-l mw8-m center cf ph3">
+                    <div class="w-50-ns w-third-l w-100 mb2 pr4-ns">
+                        <div class="flex items-center">
+                            <i class="far fa-envelope fa-lg ba br-100 mb2 mr2 mt1 pa3 red tc" aria-hidden="true"></i> 
+                            <a href="/follow/manageyourinterests/" onclick="ga('send', 'event', 'follow', 'Topnav Email Link - Subscribe', 'Custom Email Digests');">Custom Email Digests</a>
+                        </div>
+                        <div class="f6 dn db-m db-l mid-gray fw5">Build a custom email digest by following topics, people, and firms published on JD Supra.</div>
+                    </div>
+                    <div class="flex flex-wrap w-50-ns w-two-thirds-l w-100">
+                        <div class="flex items-center w-50"> 
+
+                            <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;" class="fa-lg fa-fw ba br-100 mb2 mr2 mt1 pa3 red tc"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" style="fill: #ef5350;"></path></svg>
+
+                            <a href="/legal-news/twitter-law-feeds.aspx" onclick="ga('send', 'event', 'topnav', 'topnav-subscribe-twitter', 'topnav-subscribe-twitter');">X (formerly Twitter)</a>
+                        </div>
+                        <div class="flex items-center w-50"><i class="fas fa-rss fa-lg ba br-100 mb2 mr2 mt1 pa3 red tc" aria-hidden="true"></i>  <a href="/legal-news/rss-law-feeds.aspx" onclick="ga('send', 'event', 'topnav', 'topnav-subscribe-rss', 'topnav-subscribe-rss');">RSS</a></div>
+                        <div class="flex items-center w-50"><i class="far fa-file-code fa-lg ba br-100 mb2 mr2 mt1 pa3 red tc" style="width: 18px;" aria-hidden="true"></i>  <a href="/legal-news/publisher-law-feeds.aspx" onclick="ga('send', 'event', 'topnav', 'topnav-subscribe-publisher', 'topnav-subscribe-publisher');">Feeds for Publishers</a></div> 
+                    </div>                                
+                </div>
+            </div>
+        </div>
+        <div class="mv3 mv0-l"><a class="link mid-gray mr3 pb3" href="/perspective/media-query.aspx" onclick="ga('send', 'event', 'topnav', 'topnav-reporters', 'topnav-reporters');">For Reporters</a>
+        </div>
+        <div class="center ma2 tl v-mid w-40-l w-50-m" id="search-blk">
+            <div id="headerSearchBox"></div>
+        </div>    
+        <div class="megadropdown ph2">
+            <a onclick="ga('send', 'event', 'topnav', 'topnav-mgmtacct', 'topnav-mgmtacct');" class="f7 flex items-center justify-center mid-gray" id="nav-account"><i class="fas fa-cog fa-2x pv3 red"></i>
+            <span class="dn-l f6 pl1">My Account</span>
+            <!---->
+            
+            </a>
+
+            
+
+             
+
+            
+                <div class="pv3 submenu topNavAccountLoggedOut">
+                <div class="center mw8">             
+                    <a href="/login.aspx" class="flex items-center justify-center justify-end-l" onclick="ga('send', 'event', 'topnav', 'topnav-login', 'topnav-login');"><i class="fas fa-sign-in fa-lg ba br-100 mb2 mr2 mt1 pa3 red tc" aria-hidden="true"></i> Log In</a>                  
+                </div></div><!--end topNavAccountLoggedOut-->
+            
+
+        </div> 
+      </div>                                        
+    </div><!--end nav-block-->
+ </nav><!--end new header-->
+
+<!--MEGA MENU-->        
+
+</header>
+<!-- THIS FILE IS GENERATED AUTOMATICALLY BY WEBPACK. PLEASE BE CAREFUL EDITING THIS FILE DIRECTLY. WHAT YOU PROBABLY WANT TO DO IS INSTEAD EDIT THE TEMPLATE
+      scripts_template.html
+-->
+<script type="text/javascript" src="/inc/dist/runtime~main.eab6bb50b2a8ab71e2ef.js"></script><script type="text/javascript" src="/inc/dist/vendors.2bcbf25b5dee2d7c0038.js"></script><script type="text/javascript" src="/inc/dist/main.cd03d2203e4e5a682dfc.js"></script><script type="text/javascript" src="/inc/dist/runtime~vendor.c8de0ae0012746effc10.js"></script><script type="text/javascript" src="/inc/dist/vendor.eddf22890b65e82f4306.js"></script> 
+
+<div class="bg-slant gradient bg-custom"></div>   
+
+<div class="nt7 relative">
+    <!--CMS links-->
+    
+    <!--  -->
+    <!--  -->
+    
+
+    <!--Owner Message-->
+    
+
+<div class="bg-white cf center mw8 pa3 pa4-ns w-100 w-90-m w-80-l shadow-1-ns mb4">
+    <form method="post" action="/legalnews/automated-license-plate-reader-4596602/" id="superForm">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['superForm'];
+if (!theForm) {
+    theForm = document.superForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZGabzXKQGZ4WNZpEEb_Pyta3bGLc0kc8H8a6oU7DzPD5-nuDRTcWOh6S_Ha-iKuZkA2&amp;t=638914112334897068" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=D9drwtSJ4hBA6O8UhT6CQpUddwa0JbvPBWlsfauvbqtLUrVuNs_JaWB-VEdZfQbz9SYH0X_NG_iImCMtq4jlF2ToG2JjGcf48FQRwl0oysZi36gTjBxM1veHklxVBDneX5Rajy3DekViMYQXW9WDg6-dWSG4hZ5fvquJPFOz6p41&amp;t=ffffffff9763f56e" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=JnUc-DEDOM5KzzVKtsL1tYkXgyh5bfyRtKVZZ6YaKY3DQm7uGSfVUDCL6H_jVBSuzmAD3g-H-NNWomywxUVhPT8ParLukdwKYDXhH12CtIfxA-dQvq0WZS_cwk3GJns1WdbWL0_mqIxWIUPG2SCSJWlhLQRuOgftXZqx48rIfaPuvnrNN-qMfcIqS00EnkuI0&amp;t=ffffffff9763f56e" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+var PageMethods = function() {
+PageMethods.initializeBase(this);
+this._timeout = 0;
+this._userContext = null;
+this._succeeded = null;
+this._failed = null;
+}
+PageMethods.prototype = {
+_get_path:function() {
+ var p = this.get_path();
+ if (p) return p;
+ else return PageMethods._staticInstance.get_path();},
+OpenGate:function(gateData,gateFieldData,succeededCallback, failedCallback, userContext) {
+/// <param name="gateData" type="jdsupra.DocGate.GateData">jdsupra.DocGate.GateData</param>
+/// <param name="gateFieldData" type="jdsupra.DocGate.GateFieldData">jdsupra.DocGate.GateFieldData</param>
+/// <param name="succeededCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="failedCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="userContext" optional="true" mayBeNull="true"></param>
+return this._invoke(this._get_path(), 'OpenGate',false,{gateData:gateData,gateFieldData:gateFieldData},succeededCallback,failedCallback,userContext); },
+GetGateFieldData:function(fileID,succeededCallback, failedCallback, userContext) {
+/// <param name="fileID" type="Number">System.Int32</param>
+/// <param name="succeededCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="failedCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="userContext" optional="true" mayBeNull="true"></param>
+return this._invoke(this._get_path(), 'GetGateFieldData',true,{fileID:fileID},succeededCallback,failedCallback,userContext); },
+AbandonGate:function(gateData,succeededCallback, failedCallback, userContext) {
+/// <param name="gateData" type="jdsupra.DocGate.GateData">jdsupra.DocGate.GateData</param>
+/// <param name="succeededCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="failedCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="userContext" optional="true" mayBeNull="true"></param>
+return this._invoke(this._get_path(), 'AbandonGate',false,{gateData:gateData},succeededCallback,failedCallback,userContext); },
+OnClickEvent:function(eventData,succeededCallback, failedCallback, userContext) {
+/// <param name="eventData" type="Models.ClickEventData">Models.ClickEventData</param>
+/// <param name="succeededCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="failedCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="userContext" optional="true" mayBeNull="true"></param>
+return this._invoke(this._get_path(), 'OnClickEvent',false,{eventData:eventData},succeededCallback,failedCallback,userContext); }}
+PageMethods.registerClass('PageMethods',Sys.Net.WebServiceProxy);
+PageMethods._staticInstance = new PageMethods();
+PageMethods.set_path = function(value) {
+PageMethods._staticInstance.set_path(value); }
+PageMethods.get_path = function() { 
+/// <value type="String" mayBeNull="true">The service url.</value>
+return PageMethods._staticInstance.get_path();}
+PageMethods.set_timeout = function(value) {
+PageMethods._staticInstance.set_timeout(value); }
+PageMethods.get_timeout = function() { 
+/// <value type="Number">The service timeout.</value>
+return PageMethods._staticInstance.get_timeout(); }
+PageMethods.set_defaultUserContext = function(value) { 
+PageMethods._staticInstance.set_defaultUserContext(value); }
+PageMethods.get_defaultUserContext = function() { 
+/// <value mayBeNull="true">The service default user context.</value>
+return PageMethods._staticInstance.get_defaultUserContext(); }
+PageMethods.set_defaultSucceededCallback = function(value) { 
+ PageMethods._staticInstance.set_defaultSucceededCallback(value); }
+PageMethods.get_defaultSucceededCallback = function() { 
+/// <value type="Function" mayBeNull="true">The service default succeeded callback.</value>
+return PageMethods._staticInstance.get_defaultSucceededCallback(); }
+PageMethods.set_defaultFailedCallback = function(value) { 
+PageMethods._staticInstance.set_defaultFailedCallback(value); }
+PageMethods.get_defaultFailedCallback = function() { 
+/// <value type="Function" mayBeNull="true">The service default failed callback.</value>
+return PageMethods._staticInstance.get_defaultFailedCallback(); }
+PageMethods.set_enableJsonp = function(value) { PageMethods._staticInstance.set_enableJsonp(value); }
+PageMethods.get_enableJsonp = function() { 
+/// <value type="Boolean">Specifies whether the service supports JSONP for cross domain calling.</value>
+return PageMethods._staticInstance.get_enableJsonp(); }
+PageMethods.set_jsonpCallbackParameter = function(value) { PageMethods._staticInstance.set_jsonpCallbackParameter(value); }
+PageMethods.get_jsonpCallbackParameter = function() { 
+/// <value type="String">Specifies the parameter name that contains the callback function name for a JSONP request.</value>
+return PageMethods._staticInstance.get_jsonpCallbackParameter(); }
+PageMethods.set_path("documentViewer.aspx");
+PageMethods.OpenGate= function(gateData,gateFieldData,onSuccess,onFailed,userContext) {
+/// <param name="gateData" type="jdsupra.DocGate.GateData">jdsupra.DocGate.GateData</param>
+/// <param name="gateFieldData" type="jdsupra.DocGate.GateFieldData">jdsupra.DocGate.GateFieldData</param>
+/// <param name="succeededCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="failedCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="userContext" optional="true" mayBeNull="true"></param>
+PageMethods._staticInstance.OpenGate(gateData,gateFieldData,onSuccess,onFailed,userContext); }
+PageMethods.GetGateFieldData= function(fileID,onSuccess,onFailed,userContext) {
+/// <param name="fileID" type="Number">System.Int32</param>
+/// <param name="succeededCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="failedCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="userContext" optional="true" mayBeNull="true"></param>
+PageMethods._staticInstance.GetGateFieldData(fileID,onSuccess,onFailed,userContext); }
+PageMethods.AbandonGate= function(gateData,onSuccess,onFailed,userContext) {
+/// <param name="gateData" type="jdsupra.DocGate.GateData">jdsupra.DocGate.GateData</param>
+/// <param name="succeededCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="failedCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="userContext" optional="true" mayBeNull="true"></param>
+PageMethods._staticInstance.AbandonGate(gateData,onSuccess,onFailed,userContext); }
+PageMethods.OnClickEvent= function(eventData,onSuccess,onFailed,userContext) {
+/// <param name="eventData" type="Models.ClickEventData">Models.ClickEventData</param>
+/// <param name="succeededCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="failedCallback" type="Function" optional="true" mayBeNull="true"></param>
+/// <param name="userContext" optional="true" mayBeNull="true"></param>
+PageMethods._staticInstance.OnClickEvent(eventData,onSuccess,onFailed,userContext); }
+var gtc = Sys.Net.WebServiceProxy._generateTypedConstructor;
+Type.registerNamespace('jdsupra.DocGate');
+if (typeof(jdsupra.DocGate.GateData) === 'undefined') {
+jdsupra.DocGate.GateData=gtc("jdsupra.DocGate.GateData");
+jdsupra.DocGate.GateData.registerClass('jdsupra.DocGate.GateData');
+}
+if (typeof(jdsupra.DocGate.GateFieldData) === 'undefined') {
+jdsupra.DocGate.GateFieldData=gtc("jdsupra.DocGate.GateFieldData");
+jdsupra.DocGate.GateFieldData.registerClass('jdsupra.DocGate.GateFieldData');
+}
+Type.registerNamespace('Models');
+if (typeof(Models.ClickEventData) === 'undefined') {
+Models.ClickEventData=gtc("Models.ClickEventData");
+Models.ClickEventData.registerClass('Models.ClickEventData');
+}
+//]]>
+</script>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="1D9A11B9">
+</div>
+    <input type="hidden" name="curContentID" id="curContentID" value="126cf8ff-3fec-4b0e-9e15-6ebdf9c05798">
+
+
+ <!--File unavailable-->
+    
+<!--/File unavailable--> 
+
+          
+        <!--Content Header-->
+        <div class="tc-ns f7 silver mv2"><time>June 25, 2026</time></div>
+        <div class="tc-ns f6">
+               
+        </div>
+        <div id="DocumentHeaderPanel" class="ph4-l tc-ns">
+	
+            <h1 class="doc_name f2-ns f3 mv0">Automated License Plate Reader Technology Raises Concerns Over Private Sector Compliance and Government Overreach</h1><!--Title-->
+        
+</div>
+        
+        <div class="f6 silver db dn-l lh-copy mt2 tc-ns">
+            <!--show authors on top on mobile only-->
+            <div class="mb1"><a href="/authors/kathleen-mcconnell/" class="dib mb2">Kathleen McConnell</a>, <a href="/authors/vincent-smolczynski/" class="dib mb2">Vince Smolczynski</a></div>
+
+            <a href="/profile/Seyfarth_Shaw_docs/">Seyfarth Shaw LLP</a> 
+
+            <div class="mv2">
+                <span class="br-pill dib follow-action-lnk follow-lnk" onclick="PostChange('',18211,'Seyfarth Shaw LLP',4,1)" name="follow_4_18211">+ Follow</span>
+                <span class="br-pill dib follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_4_18211">x&nbsp;Following</span>
+                <span class="br-pill dib follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',18211,'Seyfarth Shaw LLP',4,0)" name="unfollow_4_18211">x&nbsp;Following</span> 
+                <span class="br-pill dib follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_4_18211">- Unfollow</span>
+                <a href="/profile/contributor-contact.aspx" id="ContactNowBTNlink2" class="dn-l ml1 pv1 ph3 br-pill bg-red white f6 dib" onclick="ga('send', 'event', 'follow', 'Contact Button - Doc View mobile', 'Contact Button - Doc View mobile');">Contact</a>
+            </div>
+        </div>
+        <!--/Content Header-->
+       
+        <!--Social Media Row-->        
+        <div id="followPanel">
+	
+            <div class="mt3 dn flex-ns items-center justify-center no-print">        
+
+                <a onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fwww.jdsupra.com%2flegalnews%2fautomated-license-plate-reader-4596602%2f', 'LinkedInShare', 'width=520,height=570');">
+                    <div class="bg-animate bg-dark-blue br-pill pointer f7 hover-bg-blue link mr2 ph3 pv2 white">
+                        <i class="fab fa-linkedin-in pr1"></i> LinkedIn
+                    </div>
+                </a>
+
+                <a onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.jdsupra.com%2flegalnews%2fautomated-license-plate-reader-4596602%2f', 'FacebookShare', 'width=600,height=570');">
+                    <div class="bg-animate bg-blue br-pill pointer f7 hover-bg-dark-blue link mr2 ph3 pv2 white">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </div>
+                </a>
+
+                <a onclick="window.open('https://twitter.com/intent/tweet?text=Automated+License+Plate+Reader+Technology+Raises+Concerns+Over+Private+Sector+Compliance+and+Government+Overreach&amp;url=https%3a%2f%2fwww.jdsupra.com%2flegalnews%2fautomated-license-plate-reader-4596602%2f', 'TwitterShare', 'width=600,height=300');">
+                    <div class="bg-animate bg-near-black br-pill pointer f7 hover-bg-mid-gray link mr2 ph3 pv2 white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="mr1" style="width: 12px;"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" style="fill: #fff;"></path></svg> X
+                    </div>
+                </a>
+
+                <div class="SendPanelLink drkgraylnk mr2">
+                    <a href="javascript:sendit();" class="br-pill ba dim link ph2 pv1 mid-gray pointer f7"><i class="far fa-envelope" aria-hidden="true"></i> Send</a></div>
+                
+                  <div class="dib EmbedPanelLink drkgraylnk pointer v-mid">
+                    <span onclick="HideShowEmbed();" class="br-pill ba dim mr3 mr0-ns ph2 pv1 dib mid-gray f7"><i class="fa fa-code" aria-hidden="true"></i> Embed</span>
+                  </div>               
+                
+            </div><!--end socialIconRow-->     
+            <div id="EmbedPanel">
+		 
+                <div class="embedBox f6 bg-light-gray mt2 pa3" style="display: none;">
+                <div class="fw7 tc lh-title mb2">To embed, copy and paste the code into your website or blog:</div>
+                <textarea class="ba pa3 b--black-20 w-100 f6 mid-gray">&lt;iframe src="//www.jdsupra.com/post/contentViewerEmbed.aspx?fid=126cf8ff-3fec-4b0e-9e15-6ebdf9c05798" width="100%" height="620" frameborder="1" style="border: 2px solid #ccc; overflow-x:hidden !important; overflow:hidden;" scrolling="auto"&gt;&lt;/iframe&gt;</textarea></div>             
+            
+	</div> 
+        
+</div>   
+        <!--/Social Media Row--> 
+
+<!--primary content-->
+<div class="cf mv2 mv4-l">
+    <div class="br-l b--light-gray fl-l pl2-l pr4-l w-70-l">           
+
+              
+
+            <!--Case 1: PDF View-->
+                          
+            <!--/End PDF View-->    
+
+        
+            <!--Case 2: Video View-->
+                
+            <!--/Video View-->   
+     
+            <!--Case 3: HTML Content View-->
+            <div id="HTMLContentViewPanel">
+	
+                <div id="html-view-content" class="jds-main-content"><p>Automated License Plate Reader (ALPR) technology is facing increasing legal scrutiny as courts, regulators and individuals attempt to examine and expose the various ways in which license plate data is captured, collected, shared and used.&nbsp;Recent disputes over ALPR technology have shifted away from issues of public safety and toward whether the private sector businesses and governmental organizations, among others, that utilize ALPR adequately disclose its use and sharing, as well as implement proper safeguards around this potentially sensitive, location-based personal information.</p>
+
+<h5 class="wp-block-heading">1. <strong><em>Private Sector’s Failure to Disclose Use of ALPR Technology Can Be Sufficient to Constitute Harm to Consumers</em></strong></h5>
+
+<p>The private sector’s use of ALPR technology is facing challenges and possible legal exposure.&nbsp;In February of this year, California’s First Appellate District addressed the requirements imposed by the state’s ALPR Law in <em>Bartholomew v. Parking Concepts, Inc., </em>and in particular addressed&nbsp;what constitutes sufficient “harm” under the law to state a claim.<sup class="fn" data-fn="a3f5f7ed-6539-4403-95f5-cb13d58a0224"><a href="https://www.globalprivacywatch.com/2026/06/automated-license-plate-reader-technology-raises-concerns-over-private-sector-compliance-and-government-overreach/#a3f5f7ed-6539-4403-95f5-cb13d58a0224" id="a3f5f7ed-6539-4403-95f5-cb13d58a0224-link">1</a></sup><sup>,</sup><sup class="fn" data-fn="84533db3-4e14-497b-a08a-975788377150"><a href="https://www.globalprivacywatch.com/2026/06/automated-license-plate-reader-technology-raises-concerns-over-private-sector-compliance-and-government-overreach/#84533db3-4e14-497b-a08a-975788377150" id="84533db3-4e14-497b-a08a-975788377150-link">2</a></sup> In that matter, the plaintiff alleged that a parking garage owned and operated by Parking Concepts collected his license plate data without making a privacy policy regarding the collection publicly available.&nbsp;First, the Court determined that the parking garage camera system constituted a ALPR system under the law – that is, that it was “a searchable computerized database resulting from the operation of one or more mobile or fixed cameras combined with computer algorithms to read and convert images of registration plates and the characters they contain into computer-readable data.”&nbsp;But more importantly, the Court concluded that using ALPR technology without a publicly disclosed privacy policy stating when and how ALPR is collected and used violates an individual’s “right to know” of the activity, which is sufficient to allege harm under the law.</p>
+
+<p>The Bartholomew decision quickly drew the attention of plaintiffs’ attorneys both in California and beyond. Because the statute provides for $2,500 in damages per violation—and, following Bartholomew, arguably requires no showing of harm beyond the violation of an individual’s “right to know”—the conditions were ripe for a surge in class action litigation.</p>
+
+<p>In the wake of <em>Bartholomew</em>, nearly any commercial entity utilizing ALPR technology is potentially at risk: big-box retailers, grocery stores, hotels, college campuses, parking garage management companies, and the vendors of ALPR technology themselves.&nbsp;In just the few short months since the decision issued, scores of class actions have been filed claiming violations of the law. The allegations across many of the matters are similar in nature:&nbsp; customers of businesses allege the businesses used ALPR technology to track the movements of customer vehicles without their knowledge or consent in violation of California’s ALPR Privacy Act and the California Constitution.&nbsp;Further, many of these suits allege that the data points collected about the consumers’ vehicles, including plate number, vehicle make, model and color, were illegally shared with law enforcement agencies and databases.</p>
+
+<h5 class="wp-block-heading">2. <strong><em>Municipalities’ Collection and Sharing of ALPR Data Questioned by California Attorney General and Private Citizens</em></strong></h5>
+
+<p>The potential issues around ALPR technology are not limited solely to the private sector.&nbsp; Recently, the California Attorney General pursued litigation against the City of El Cajon alleging unlawful sharing of ALPR data with out-of-state and federal law enforcement agencies.&nbsp;The lawsuit highlights the AG’s concern of cross-jurisdictional access to personal data and whether the City was in compliance with state privacy regulations to the extent it did share such data. El Cajon is not alone in facing such allegations, as a number of other cities have been subjected to similar claims.</p>
+
+<p>Private plaintiffs have also claimed that widespread ALPR networks create detailed tracking and location data of individuals’ movements, in essence functioning as persistent location tracking that is accessible to law enforcement. In a similar vein, privacy organizations have asserted that the City of San Jose utilized ALPR searches to permit law enforcement officers to constantly search for and reconstruct vehicle movements without judicial authorization, a process that plaintiffs contend is ripe for abuse.&nbsp;Other challenges to municipal ALPR programs have focused on back-end systems, including the data retention periods, search capabilities, and whether the amount of data collected and stored exceeds the purpose for collection in the first place. As concerns about ALPR technology continue to mount, several municipalities have canceled vendor contracts for the technology and discontinued ALPR use in response.</p>
+
+<h5 class="wp-block-heading">3. <strong><em>ALPR Compliance and Governance Frameworks for Businesses</em></strong></h5>
+
+<p>Businesses and other private-sector organizations currently using or considering deploying ALPR technology should proactively evaluate their compliance obligations under state and local laws and regulations that govern sensitive personal information and location data. Initial steps toward an actionable ALPR compliance program involve:</p>
+
+<ul class="wp-block-list">
+	<li>Evaluating and outlining the legitimate business purposes for collecting ALPR data;</li>
+	<li>Establishing defined retention periods for ALPR data;</li>
+	<li>Posting a privacy policy disclosing that ALPR is collected, processed and shared, if applicable, conspicuously on the business’s website and in on-location sites;</li>
+	<li>Limiting access controls to ALPR data; and</li>
+	<li>Reviewing any third-party vendor agreements relating to the collection, processing, use and sharing of ALPR data.&nbsp;</li>
+</ul>
+
+<p>For businesses seeking assistance evaluating their ALPR compliance requirements and governance frameworks, consultation with experienced data privacy legal counsel can help reduce regulatory and litigation exposure.</p>
+
+<hr class="wp-block-separator has-alpha-channel-opacity">
+<ol class="wp-block-footnotes">
+	<li id="a3f5f7ed-6539-4403-95f5-cb13d58a0224">California Civil Code §§ 1798.90.5-1798.90.55 <a aria-label="Jump to footnote reference 1" href="https://www.globalprivacywatch.com/2026/06/automated-license-plate-reader-technology-raises-concerns-over-private-sector-compliance-and-government-overreach/#a3f5f7ed-6539-4403-95f5-cb13d58a0224-link">↩︎</a></li>
+	<li id="84533db3-4e14-497b-a08a-975788377150"><em>Bartholomew v. Parking Concepts, Inc.</em>, 118 Cal.App.5th 438 (Feb. 5, 2026; As modified on denial of rehearing on Feb. 27, 2026). <a aria-label="Jump to footnote reference 2" href="https://www.globalprivacywatch.com/2026/06/automated-license-plate-reader-technology-raises-concerns-over-private-sector-compliance-and-government-overreach/#84533db3-4e14-497b-a08a-975788377150-link">↩︎</a></li>
+</ol>
+
+</div>
+            
+</div>        
+            
+            <!--Case 5: Events Content View-->
+                    
+
+
+
+            <!--Content Info-->                 
+            <div id="BottomFileInfoPanel" class="t-cv-info-panel">
+	
+       
+            <!--Case Info-->
+             
+
+            <div class="f5 mt4">
+                <a href="javascript:sendit();" class="br-pill ba dim link ph3 pv1 mb2 dib mid-gray pointer mr2 f7"><i class="far fa-envelope" aria-hidden="true"></i> Send</a>
+                <a id="PrintHTMLHyperLink" class="br-pill ba dim link ph3 pv1 mb2 dib mid-gray pointer mr2 f7" href="javascript:window.print();"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
+                <a id="reportproblemDocViewer2" class="br-pill ba dim link ph3 pv1 mb2 dib mid-gray pointer f7" href="/reportaproblem/index.aspx"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Report</a>
+            </div>
+
+            
+
+
+            <!--Related/latest docs-->
+            <div id="ContentViewRelatedPanel" class="connect-related-list">
+		 
+                <h3 class="bt bw1 pt3 f4 mb3 ttu">Related Posts</h3><ul class="lh-copy flex flex-wrap f6 fw7 ml0 pl3">
+<li class="pb3 pr4 w-50-ns"><a href="/legalnews/southeastern-privacy-laws-taking-shape-6041158/" onclick="ga('send', 'event', 'docview', 'read-more-links', 'related-doc-link');">Southeastern Privacy Laws Taking Shape: Current and Upcoming Omnibus Laws for Alabama, Georgia, Florida, and Tennessee</a></li>
+<li class="pb3 pr4 w-50-ns"><a href="/legalnews/the-paper-trail-state-privacy-law-5620636/" onclick="ga('send', 'event', 'docview', 'read-more-links', 'related-doc-link');">The Paper Trail: State Privacy Law Contracting Requirements</a></li>
+<li class="pb3 pr4 w-50-ns"><a href="/legalnews/california-privacy-protection-agency-5848069/" onclick="ga('send', 'event', 'docview', 'read-more-links', 'related-doc-link');">California Privacy Protection Agency (CPPA) Finally Voted to Adopt Much Debated Update to CCPA Regulations: What Your Business Should Know</a></li>
+</ul>
+
+
+                <h3 class="bt bw1 pt3 f4 mb3 ttu">Latest Posts</h3><ul class="lh-copy cf f6 fw7 ml0 pl3"><li class="fl pb3 pr4 w-50-ns"><a href="/legalnews/the-week-in-weed-july-2026-5858721/" onclick="ga('send', 'event', 'docview', 'read-more-links', 'latest-doc-link');">The Week in Weed: July 2026</a></li>
+<li class="fl pb3 pr4 w-50-ns"><a href="/legalnews/texas-supreme-court-documented-conduct-9403980/" onclick="ga('send', 'event', 'docview', 'read-more-links', 'latest-doc-link');">Texas Supreme Court: Documented Conduct Showing Actual Job Impairment Is Key to Avoiding Disability Discrimination Liability</a></li>
+</ul><p class="moreLessLink f7 tr"><a class="red" href="/profile/Seyfarth_Shaw_docs/" onclick="ga('send', 'event', 'docview', 'read-more-links', 'latest-doc-see-more');">See more »</a></p>
+
+            
+	</div>  
+
+            <!--Video Ribbon--> 
+            
+
+        
+            <div class="mv4 f7 gray lh-copy bt bb b--black-20 pv3 bb-0-ns">
+                <div id="disclaimerDisplay">
+		
+                    <!--Law Firm Only-->
+                    <p>DISCLAIMER: Because of the generality of this update, the information provided herein may not be applicable in all situations and should not be acted upon without specific legal advice based on particular situations.
+                    Attorney Advertising.</p>
+                
+	</div>
+
+                <p>© 
+                    Seyfarth Shaw LLP 
+                    <script>var today = new Date(); var yyyy = today.getFullYear();document.write(yyyy + " ");</script>2026 
+                </p>
+            </div>
+
+            <!--Subscribe Ad-->
+                    
+    
+</div> <!--End BottomFileInfoPanel--> 
+
+
+</div><!--end primary columm-->      
+
+<div id="attributionPanel">
+	
+<div class="fl-l pl3-m pl4-l w-30-l">
+        <a name="FollowSection"></a>
+        <div class="bg-light-green dark-green pv3 ph2 mb4 db lh-title tc fw7" name="MasterAlerter" style="display: none;">
+            <div class="mb1"><i class="far fa-check-circle fa-2x" aria-hidden="true"></i></div>
+            
+            <p class="mb0"><a href="/follow/manageyourinterests//">Refine your interests »</a></p>
+        </div>
+     
+        <h4 class="ttu mb2 mid-gray f6 mt0 mb2">
+        Written by:
+        </h4>
+
+        <!--Follow Firm-->
+        <div class="f6 dt w-100 pb3 lh-title">
+
+            <div id="ProfileImagePanel" class="dtc w3 v-top">
+		
+                <a onclick="ga('send', 'event', 'docview', 'follow', 'firm-img');" href="/profile/Seyfarth_Shaw_docs/"><img src="https://jdsupra-static.s3.amazonaws.com/profile-images/og.15521_4328.jpg" alt="Seyfarth Shaw LLP" class="border-light br2"></a>
+            
+	</div>  
+
+            <div class="dtc pl2 v-top">
+                <div class="mb1"><a onclick="ga('send', 'event', 'docview', 'follow', 'firm-link');" href="/profile/Seyfarth_Shaw_docs/">Seyfarth Shaw LLP</a></div>
+
+                <a href="/profile/contributor-contact.aspx" id="ContactNowBTNlink" class="dib mb1 no-underline pv1 ph2 br-pill bg-red white f7" onclick="ga('send', 'event', 'follow', 'Contact Button - Doc View Top', 'Contact Button - Doc View Top');">Contact</a>
+
+                <span class="br-pill dib follow-action-lnk follow-lnk f7" onclick="PostChange('',18211,'Seyfarth Shaw LLP',4,1)" name="follow_4_18211">+ Follow</span>
+                <span class="br-pill dib follow-action-lnk following-lnk f7" style="display: none;" name="follow_spinner_4_18211">x&nbsp;Following</span>
+                <span class="br-pill dib follow-action-lnk following-lnk f7" style="display: none;" onclick="PostChange('',18211,'Seyfarth Shaw LLP',4,0)" name="unfollow_4_18211">x&nbsp;Following</span> 
+                <span class="br-pill dib follow-action-lnk unfollowing-lnk blue f7" style="display: none;" name="unfollow_spinner_4_18211">- Unfollow</span>
+            </div>
+        </div> 
+
+    <!--Follow People-->
+    <div id="followPeopleSection">
+         <div class="follow-people-list f6 lh-title">      
+            <!--Follow Author Buttons-->
+             
+                <div class="js-followauthor cf pv3 bt b--black-10">
+                    <div class="dt w-100">
+
+                        <div id="rptAuthors_ActiveAuthorFollowPanel_0">
+		
+                            <div class="dtc v-mid w2 pr1">
+                                <a onclick="ga('send', 'event', 'docview', 'follow', 'author-img');" href="/authors/kathleen-mcconnell/"><img src="https://jdsupra-static.s3.amazonaws.com/authors/6427005f9098b.30h.jpg" alt="Kathleen McConnell" class="br2 v-mid"></a>
+                            </div>
+                            <div class="dtc v-mid">
+                                <a onclick="ga('send', 'event', 'docview', 'follow', 'author-link');" href="/authors/kathleen-mcconnell/">Kathleen McConnell</a>
+                            </div>
+                        
+	</div>
+                        
+
+                        <div class="dtc f7 v-mid tr w-40">
+                            <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',129846,'Kathleen McConnell',1,1)" name="follow_1_129846">+ Follow</span>
+                            <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_1_129846">x&nbsp;Following</span>
+                            <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',129846,'Kathleen McConnell',1,0)" name="unfollow_1_129846">x&nbsp;Following</span> 
+                            <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_1_129846">- Unfollow</span>
+                        </div>
+                    </div>
+                </div> 
+                
+                <div class="js-followauthor cf pv3 bt b--black-10">
+                    <div class="dt w-100">
+
+                        <div id="rptAuthors_ActiveAuthorFollowPanel_1">
+		
+                            <div class="dtc v-mid w2 pr1">
+                                <a onclick="ga('send', 'event', 'docview', 'follow', 'author-img');" href="/authors/vincent-smolczynski/"><img src="https://jdsupra-static.s3.amazonaws.com/authors/5dbfbc0875ef2.30h.jpg" alt="Vince Smolczynski" class="br2 v-mid"></a>
+                            </div>
+                            <div class="dtc v-mid">
+                                <a onclick="ga('send', 'event', 'docview', 'follow', 'author-link');" href="/authors/vincent-smolczynski/">Vince Smolczynski</a>
+                            </div>
+                        
+	</div>
+                        
+
+                        <div class="dtc f7 v-mid tr w-40">
+                            <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',73716,'Vince Smolczynski',1,1)" name="follow_1_73716">+ Follow</span>
+                            <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_1_73716">x&nbsp;Following</span>
+                            <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',73716,'Vince Smolczynski',1,0)" name="unfollow_1_73716">x&nbsp;Following</span> 
+                            <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_1_73716">- Unfollow</span>
+                        </div>
+                    </div>
+                </div> 
+                  
+        </div>
+        <div class="blue b--black-10 bt doc_trunk_more dn f7 mt2 pointer pt2 tc" onclick="showMoreTags('#followPeopleSection')">more <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+        <div class="blue b--black-10 bt doc_trunk_less dn f7 mt2 pointer pt2 tc" onclick="hideMoreTags('#followPeopleSection')">less <i class="fa fa-angle-up" aria-hidden="true"></i></div>
+    </div><!--end truncate tags-->
+
+    <!--JDS Promo-->
+    <div class="b--black-20 bt bb lh-copy f6 mt2 pv4">
+        <h3 class="black-70 f6 fw7 lh-title mv0">
+            PUBLISH YOUR CONTENT ON JD&nbsp;SUPRA
+        </h3>
+        <ul class="ml0 mb3 mt2 pl0 list">
+            <li><span class="mh1">✔</span> Increased readership</li>
+            <li><span class="mh1">✔</span> Actionable analytics</li>
+            <li><span class="mh1">✔</span> Ongoing writing guidance</li>
+        </ul>
+        <p class="f6">Join more than 70,000 authors publishing their insights on JD Supra</p>
+        <a href="https://resources.jdsupra.com/what-is-jd-supra-overview?utm_campaign=Marketing%20Resource&amp;utm_source=JDSDocView&amp;utm_medium=docviewpromo&amp;utm_term=docviewpromo&amp;utm_content=docviewpromo" class="bg-yellow pv2 ph3 br-pill black-90 fw6 db tc" target="_blank">Start Publishing »</a>
+    </div>
+    <!--End JDS Promo-->
+
+<!--Follow Topics/Subjects-->
+<div class="mv4 follow-trunk-List block-with-bot-border lh-title is-more" id="followTopSubSection">
+    <h4 class="ttu mb2 mid-gray f6 mt0 mb2">Published In:</h4>
+
+     <div class="follow-subtop-list f6">             
+        <!--Follow Topics Buttons-->
+        
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/automatic-license-plate-readers/">Automatic License Plate Readers</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',9572,'Automatic License Plate Readers',2,1)" name="follow_2_9572">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_9572">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',9572,'Automatic License Plate Readers',2,0)" name="unfollow_2_9572">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_9572">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/california/">California</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',34390,'California',2,1)" name="follow_2_34390">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_34390">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',34390,'California',2,0)" name="unfollow_2_34390">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_34390">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/class-action/">Class Action</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',20,'Class Action',2,1)" name="follow_2_20">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_20">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',20,'Class Action',2,0)" name="unfollow_2_20">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_20">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/data-collection/">Data Collection</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',324,'Data Collection',2,1)" name="follow_2_324">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_324">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',324,'Data Collection',2,0)" name="unfollow_2_324">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_324">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/data-privacy/">Data Privacy</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',20901,'Data Privacy',2,1)" name="follow_2_20901">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_20901">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',20901,'Data Privacy',2,0)" name="unfollow_2_20901">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_20901">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/data-protection/">Data Protection</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',190,'Data Protection',2,1)" name="follow_2_190">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_190">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',190,'Data Protection',2,0)" name="unfollow_2_190">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_190">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/data-retention/">Data Retention</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',4107,'Data Retention',2,1)" name="follow_2_4107">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_4107">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',4107,'Data Retention',2,0)" name="unfollow_2_4107">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_4107">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/disclosure-requirements/">Disclosure Requirements</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',561,'Disclosure Requirements',2,1)" name="follow_2_561">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_561">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',561,'Disclosure Requirements',2,0)" name="unfollow_2_561">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_561">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/enforcement-actions/">Enforcement Actions</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',2248,'Enforcement Actions',2,1)" name="follow_2_2248">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_2248">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',2248,'Enforcement Actions',2,0)" name="unfollow_2_2248">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_2248">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/location-data/">Location Data</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',24433,'Location Data',2,1)" name="follow_2_24433">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_24433">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',24433,'Location Data',2,0)" name="unfollow_2_24433">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_24433">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/personal-data/">Personal Data</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',21271,'Personal Data',2,1)" name="follow_2_21271">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_21271">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',21271,'Personal Data',2,0)" name="unfollow_2_21271">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_21271">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/privacy-laws/">Privacy Laws</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',4051,'Privacy Laws',2,1)" name="follow_2_4051">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_4051">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',4051,'Privacy Laws',2,0)" name="unfollow_2_4051">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_4051">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/regulatory-oversight/">Regulatory Oversight</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',22107,'Regulatory Oversight',2,1)" name="follow_2_22107">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_22107">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',22107,'Regulatory Oversight',2,0)" name="unfollow_2_22107">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_22107">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/state-and-local-government/">State and Local Government</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',8799,'State and Local Government',2,1)" name="follow_2_8799">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_8799">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',8799,'State and Local Government',2,0)" name="unfollow_2_8799">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_8799">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/state-attorneys-general/">State Attorneys General</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',35147,'State Attorneys General',2,1)" name="follow_2_35147">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_35147">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',35147,'State Attorneys General',2,0)" name="unfollow_2_35147">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_35147">- Unfollow</span>
+                </div>         
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="/topics/state-privacy-laws/">State Privacy Laws</a>
+                </div>               
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',34090,'State Privacy Laws',2,1)" name="follow_2_34090">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_2_34090">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',34090,'State Privacy Laws',2,0)" name="unfollow_2_34090">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_2_34090">- Unfollow</span>
+                </div>         
+            </div> 
+            
+
+        <!--Follow Subject Buttons-->
+        
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">          
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="https://www.jdsupra.com/law-news/consumer-protection-law/">Consumer Protection</a>
+                </div>   
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',78,'Consumer Protection',3,1)" name="follow_3_78">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_3_78">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',78,'Consumer Protection',3,0)" name="unfollow_3_78">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_3_78">- Unfollow</span>
+                </div>                          
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">          
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="https://www.jdsupra.com/law-news/privacy/">Privacy</a>
+                </div>   
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',81,'Privacy',3,1)" name="follow_3_81">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_3_81">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',81,'Privacy',3,0)" name="unfollow_3_81">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_3_81">- Unfollow</span>
+                </div>                          
+            </div> 
+            
+            <div class="js-followsubtops pv3 bb b--black-10 dt w-100">          
+                <div class="dtc">
+                    <a onclick="ga('send', 'event', 'docview', 'follow', 'topic-link');" href="https://www.jdsupra.com/law-news/science-technology-law/">Science, Computers &amp; Technology</a>
+                </div>   
+                <div class="dtc w-40 f7 tr f7">
+                    <span class="br-pill follow-action-lnk follow-lnk" onclick="PostChange('',65,'Science, Computers &amp; Technology',3,1)" name="follow_3_65">+ Follow</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" name="follow_spinner_3_65">x&nbsp;Following</span>
+                    <span class="br-pill follow-action-lnk following-lnk" style="display: none;" onclick="PostChange('',65,'Science, Computers &amp; Technology',3,0)" name="unfollow_3_65">x&nbsp;Following</span> 
+                    <span class="br-pill follow-action-lnk unfollowing-lnk blue" style="display: none;" name="unfollow_spinner_3_65">- Unfollow</span>
+                </div>                          
+            </div> 
+              
+
+        
+    </div>
+    <div class="doc_trunk_more tr f7 mt2 dn blue pointer" onclick="showMoreTags('#followTopSubSection')">more <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+    <div class="doc_trunk_less tr f7 mt2 dn blue pointer" onclick="hideMoreTags('#followTopSubSection')">less <i class="fa fa-angle-up" aria-hidden="true"></i></div>    
+</div>
+
+
+        <!--Start Connect Panel-->  
+        <div id="ContactPanelStatic">
+		  
+
+            <h4 class="ttu mb2 mid-gray f6 mt0 mb2">Seyfarth Shaw LLP on:</h4>
+            <div class="follow-social-content">
+                <div class="dib mr1 v-mid"><a href="http://www.linkedin.com/company/seyfarth-shaw" id="hrefLinkedin" target="_blank"><i class="fab fa-linkedin fa-2x" style="color: #2866C2;"></i></a></div>
+                <div class="dib mr1 v-mid"><a href="http://facebook.com/official.seyfarthshaw" id="hrefFacebook" target="_blank"><i class="fab fa-facebook-square fa-2x" style="color: #3166FF;"></i></a></div>
+                <div class="dib mr1 v-mid"><a href="http://twitter.com/seyfarthshawllp" id="hrefTwitter" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="br2 bg-black mt1" style="width: 28px;"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" style="fill: #ffffff;"></path></svg></a></div>
+                <div id="ClickTrackHome" class="dib mr1 v-mid"><a href="https://www.seyfarth.com/" id="hrefWebsite" target="_blank"><i class="fas fa-home fa-2x gray"></i></a></div>    
+                <div class="dib mr1 v-mid"><a href="/profile/Seyfarth_Shaw_rss" id="hrefRSS" target="_blank"><i class="fas fa-rss fa-2x orange"></i></a></div>
+            </div>
+        
+	</div>
+        <!--/End Connect Panel-->
+ <!--End written by and published section-->
+
+<!--Rotating Ads-->
+    <div id="adPanel1">
+		
+    
+	</div>            
+     
+<!--/Rotating Ads-->
+
+<div class="dn mt4 no-print">
+  <!--RCA PROMO-->
+</div>
+
+<div class="mt4 tc no-print">            
+    <a href="/perspective/media-query.aspx"><img src="/img/ad-for-journalists.png" alt="Reporters on Deadline" class="br2"></a>
+</div>
+
+<!--Citations-->
+
+
+<!--End Citations-->
+          
+</div><!--end jds-doc-side-content-->
+
+</div><!--attributionPanel i reuse this panel so i didn't have to write one in .vb file-->
+
+</div><!--end jds-content-viewer-->
+
+</form></div><!--end outer div-->
+      
+
+     
+    <div id="FollowLinkedInSignIn" class="reveal-modal mw7 center pa4 overflow-y-scroll">
+        <a class="close-reveal-modal tr db silver" onclick="ga('send', 'event', 'follow', 'Close LinkedIn MDB - Doc View', 'X icon in LI MDB - Doc View');"><i class="fa fa-times" aria-hidden="true"></i></a>
+        <h2 class="f4 tc georgia tracked mb2 gray mt0">"My best business intelligence, in one easy email…"</h2>
+        <div class="gray mb3 lh-title measure center">Your first step to building a free, personalized, morning email brief covering pertinent authors and topics on JD Supra:</div>    
+        <div class="tc">
+            <a href="/follow/subscribe-form.aspx" onclick="ga('send', 'event', 'follow', 'Email Signup MDB - Doc View', 'Email Signup MDB - Doc View');" class="ba bg-yellow black b--yellow br-pill dib f5 fw7 grow mb3 mr1-ns ph4 pv2">Sign Up</a> 
+            <a href="/login.aspx" onclick="ga('send', 'event', 'follow', 'Already signed up MDB - Doc View', 'Already signed up MDB - Doc View');" class="ba br-pill b--blue blue fw7 grow ph3 pv2">Log in</a>
+        </div>
+
+        <div class="f7 gray tc"><em><span class="red">*</span>By using the service, you signify your acceptance of <span id="policy-click" class="blue pointer">JD Supra's Privacy Policy.</span></em>
+        </div>
+
+        <div class="tc mt3" id="digest-img"><a href="/linkedinlogin/" onclick="ga('send', 'event', 'follow', 'Digest Image MDB - Doc View', 'Digest Screenshot Image - Doc View');"><img src="/img/digest-screenshot.jpg" alt="Custom Email Digest"></a>
+        </div>
+
+        <div id="policy-blk" class="mv3 dn f7"> 
+            <div class="f7 blue close-lnk mb2 pointer tr">- hide</div>
+             <iframe src="/inc/modals/privacy-policy-iframe.aspx" class="ba b--black-30 bg-white h5 w-100"></iframe>
+            <div class="f7 blue close-lnk mt2 pointer tr">- hide</div> 
+        </div>
+
+ 
+    </div><!--end follow mdb-->
+    
+<!--end form-->
+
+</div><iframe name="__uspapiLocator" style="display: none;"></iframe>    
+<!--End markup-->
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+  $(".hamburger").click(function(){
+    $(this).toggleClass("is-active");
+    $(".nav-block").slideToggle(100);
+  });
+  // Toggle the submenus on desktop versions
+  $('.megadropdown > a').click(function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $('.nav-open').not($(this).siblings()).removeClass('nav-open'); //remove red border class on other opened megadropdown
+    $('.submenu').not($(this).siblings()).slideUp(100); //close other open megadropdown
+    $(this).siblings(".submenu").slideToggle(100); //open megadropdown
+    $(this).toggleClass('nav-open'); //red hover border
+  });
+  
+  /* Hide nav if shown in iframe */
+  if (window !== window.parent || window.self !== window.top || top.location.href !== location.href) {
+      $('#nav_header').hide();
+      $('#nav_footer').hide();
+  }
+});
+$(document).on("click", function () {
+    $(".submenu").hide();
+    $(".megadropdown > a").removeClass('nav-open');
+});
+</script>
+
+<!--MDB GDPR Cookies - REMOVED 9/13/2022 - FEL-->
+
+<script src="/inc/js/cookies.js"></script>
+<script src="/inc/js/libs/uuidv4.js"></script>
+  
+
+<!-- Start of HubSpot Embed Code -->
+<script type="osano/blocked" id="hs-script-loader" async="" defer="" src="//js.hs-scripts.com/4091418.js"></script>
+<!-- End of HubSpot Embed Code -->
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+
+         $("#lnkRefreshCache").click(function () {
+            $.ajax({ url: "", success:function(responseText){
+                location.reload();
+                }});
+        });
+       //ImageResize();
+
+       //  /* Edit/Close Page: toggle & reload iframe (FF) */
+        $("#cms_file_edit_div_OUT").click(function() {
+                $("#cms_file_edit").toggle(function() {
+                    // if Firefox & in visible mode, reload the iframe
+                    if ($.browser.mozilla == true && $(this).is(':visible')) {
+                       document.getElementById('cms_file_edit').src = document.getElementById('cms_file_edit').src
+                    }
+
+            if ($(this).is(':visible')) {
+                $("#cms_file_edit_div").text('Close Page');
+                    } else {
+                $("#cms_file_edit_div").text('Edit Page');
+                    }
+                });
+        });
+
+         /*initiate video ribbon*/
+        $('#mycarousel').jcarousel({scroll: 2});
+        $('#mycarousel').show();
+    });
+
+    /*$(window).resize(function(){
+        ImageResize();
+    });
+    */
+
+    /*function ImageResize(){
+        $width = $('#HTMLContentViewPanel').width();
+        $('#HTMLContentViewPanel img').css({
+            'max-width' : $width , 'height' : 'auto'
+        });
+        //Hide show images on smaller viewport
+        /*if ($width > 300 && $(window).width() > 600)
+        if ($width > 300 && $(window).width() > 600)
+            $('#HTMLContentViewPanel img').first().show();
+        else
+            $('#HTMLContentViewPanel img').first().hide();
+        */
+    //}
+
+    Sys.WebForms.PageRequestManager.getInstance().add_pageLoaded(pageLoadedHandler)
+    function pageLoadedHandler(sender, args)
+    {
+        window.scrollTo(0,0);
+    }
+
+    function HideShowEmbed() {
+        if ($('.embedBox').is(':visible'))
+            $('.embedBox').hide();
+        else
+            $('.embedBox').show();
+    }
+
+    function CopyToClipboard(e) {
+        $(e).focus();
+        $(e).select();
+
+        $('#embedURLCopyBtn').hide();
+        $('#embedCopyHint').show();
+    }
+    function sumShowLink() {$('#vidSumSubStr').hide();$('#vidSummary').show();}
+    function sumHideLink() {$('#vidSummary').hide();$('#vidSumSubStr').show();}
+
+    </script>
+    <script type="text/javascript" src="/inc/js/addLoadEvent.js"></script>
+    <script type="text/javascript"> 
+
+        addLoadEvent(documentOnLoad);
+
+        function documentOnLoad() {
+
+            var msg;
+            var s = document.getElementById("statement");
+            var pdfWindow = document.getElementById("pdf");
+            var googlepdfWindow = document.getElementById("googlePDF");
+            var googlepdfFrame = document.getElementById("googlePDFiframe");
+
+            var embedURL = "https://s3.amazonaws.com/documents.jdsupra.com/126cf8ff-3fec-4b0e-9e15-6ebdf9c05798.pdf"
+            var embedURLGoogle = "https://docs.google.com/viewer?url=http%3A%2F%2Fdocuments.jdsupra.com%2F126cf8ff-3fec-4b0e-9e15-6ebdf9c05798.pdf&embedded=true"
+
+            if (false) {
+                $('html').addClass('ie11');
+            }
+
+            var myPDF = null;
+            try {
+                myPDF = (PDFObject.supportsPDFs);
+            } catch (e) {
+                myPDF = false;
+            }
+
+            if(myPDF){
+                show_embedded_viewer(embedURL);
+            } else {
+                show_google_viewer(embedURLGoogle);
+            }
+
+        }
+
+        function show_google_viewer(url){
+
+            var s = document.getElementById("statement");
+            if (s) { s.className = "fail"; }
+
+            var pdfWindow = document.getElementById("pdf");
+            if (pdfWindow && pdfWindow.style) { pdfWindow.style.display = 'none'; }
+
+            var googlepdfFrame = document.getElementById("googlePDFiframe");
+            if (googlepdfFrame) { googlepdfFrame.src = url; }
+
+            var googlepdfWindow = document.getElementById("googlePDF");
+            if (googlepdfWindow && googlepdfWindow.style) { googlepdfWindow.style.display = 'block'; }
+        }
+
+        function show_embedded_viewer(url){
+
+            var params = {pdfOpenParams: {navpanes: 0,toolbar: 0,statusbar: 0,view: "FitH"}};
+
+            try {
+                PDFObject.embed(url, "#pdf", params);
+            } catch (e){
+                alert("PDFObject EMBED ERROR" + e.message);
+            }
+
+            var s = document.getElementById("statement");
+            if (s) { s.className = "success"; }
+
+            var pdfWindow = document.getElementById("pdf");
+            if (pdfWindow && pdfWindow.style) { pdfWindow.style.display = 'block'; }
+
+            var googlepdfFrame = document.getElementById("googlePDFiframe");
+            if (googlepdfFrame) { googlepdfFrame.src = ''; }
+
+            var googlepdfWindow = document.getElementById("googlePDF");
+            if (googlepdfWindow && googlepdfWindow.style) { googlepdfWindow.style.display = 'none'; }
+        }
+
+        function get_cookie(name){
+            var a_all_cookies = document.cookie.split(';');
+            var a_temp_cookie = '';
+            var cookie_name = '';
+            var cookie_value = '';
+            var b_cookie_found = false;
+            for (i=0;i<a_all_cookies.length;i++){
+                a_temp_cookie = a_all_cookies[i].split('=');
+                cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g,'');
+                if ( cookie_name == name ){
+                    b_cookie_found = true;
+                    if (a_temp_cookie.length>1){
+                        cookie_value = unescape(a_temp_cookie[1].replace(/^\s+|\s+$/g,''));
+                    }
+                    return cookie_value;
+                    break;
+                }
+                a_temp_cookie = null;
+                cookie_name = '';
+            }
+            if (!b_cookie_found){
+                return null;
+            }
+        }
+
+        function set_cookie(name, value){
+            var today = new Date();
+            var expires = 365 * 1000 * 60 * 60 * 24;
+            today.setTime( today.getTime() );
+            var expires_date = new Date( today.getTime() + (expires) );
+            document.cookie = name + "=" + escape( value ) +
+                ";expires=" + expires_date.toGMTString() ;
+        }
+
+
+        var whitespace = " \t\n\r";
+
+        function isEmpty(s)
+        {   return ((s == null) || (s.length == 0))
+        }
+
+        function isWhitespace (s)
+        {   var i;
+            if (isEmpty(s)) return true;
+            for (i = 0; i < s.length; i++)
+            {
+                var c = s.charAt(i);
+                if (whitespace.indexOf(c) == -1) return false;
+            }
+            return true;
+        }
+
+    </script>
+  
+    <!--HTML TYPE ONLY - LOAD DOUBLEBAR SCRIPT FOR LARGE TABLES-->
+    <div id="DoubleScrollBarJSPanel">
+	
+        <script type="text/javascript" src="/inc/js/jquery.doubleScroll.js"></script>
+        <script type="text/javascript">  
+        $(document).ready(function() {
+           $('.double-scroll').doubleScroll();
+        });
+        </script>
+    
+</div>
+
+    <script type="text/javascript">
+       // Once the video is ready
+       //videojs.plugin('wavesurfer',wavesufer);
+
+
+       // we need to check and make sure we're on a video page. Grab the player ID, make sure it's a valid element, and only then try working with it. If we're a PDF, there's no video player.
+       var playerName = '';       
+       if (playerName!='' && document.getElementById(playerName)!=null){
+           videojs(playerName).ready(function(){
+               var myPlayer = this;    // Store the video object
+               var aspectRatio = 9/16; // Make up an aspect ratio
+
+               function resizeVideoJS(){
+                   // Get the parent element's actual width
+                   var width = document.getElementById('VideoContentViewPanel').offsetWidth;
+                   // Set width to fill parent element, Set height
+                   myPlayer.width(width).height( width * aspectRatio );
+               }
+
+               resizeVideoJS(); // Initialize the function
+               window.onresize = resizeVideoJS; // Call the function on resize
+
+               this.on('play', function(){ 
+                ga('send', 'event', 'Videos', 'Play', '') });
+               this.on('ended', function(){ ga('send', 'event', 'Videos', 'Ended', '') });
+               this.on('error', function(){ ga('send', 'event', 'Videos', 'Error', '') });
+           });
+
+           /*$(window).on( "orientationchange", function( event ) {
+               resizeVideoJS();
+               ImageResize();
+           });*/      
+       }
+    </script>    
+
+    <!-- FOLLOW BUTTON SCRIPTS -->
+    <script src="/inc/js/JDSupraFollow.js?v=1.1" type="text/javascript"></script>
+    <script src="/inc/js/DisplayFollowAlertScript.js" type="text/javascript"></script>  
+    <script type="text/javascript">
+            
+        $(document).ready(function(){             
+
+            if (true) {
+
+                LinkedInConfirmed=false;
+
+                if ($(window).width() < 650) {
+                    $('#FollowLinkedInSignIn').addClass('small');
+                }
+                $('.follow-action-lnk').click(function(){
+                    $('#FollowLinkedInSignIn').reveal();
+                });
+                $('input[name=FollowFrequency]').click(function(){
+                    $('#FollowLinkedInSignIn').reveal();
+                });
+
+                if(false) {
+                        $('#FollowLinkedInSignIn').reveal();
+                }
+                
+            } else {
+                LinkedInConfirmed = true;
+            }
+
+            CheckReCaptcha('document', null, null);
+
+        });  
+
+        $( ".following-lnk" ).mouseover(function() {
+            $(this).html('-&nbsp;Unfollow'); 
+            $(this).addClass('blue');
+        });
+        $( ".following-lnk" ).mouseout(function() {
+            $(this).html('x&nbsp;Following'); 
+            $(this).removeClass('blue');
+        });
+
+        //Privacy Policy
+        $( "#policy-click" ).click(function() {
+                $( "#policy-blk" ).show();
+                $( "#digest-img" ).hide();
+        });    
+        $( ".close-lnk" ).click(function() {
+                $( "#policy-blk" ).hide();
+                $( "#digest-img" ).show();
+        });
+
+    </script>
+    <!-- END - FOLLOW BUTTON SCRIPTS - END -->
+    <script type="text/javascript">
+
+        var registrationButtonUri = '' ;
+        var eventUserId = '' ;
+        var fileGuid = '126cf8ff-3fec-4b0e-9e15-6ebdf9c05798';
+
+    </script>
+    <script src="/inc/js/RegistrationButtonClick.js" type="text/javascript"></script>   
+
+    <!-- GATED DOCUMENTS -->    
+    <!--Gated-->
+    <script src="/inc/js/jquery.reveal.min.js" type="text/javascript"></script> 
+    <script type="text/javascript">
+
+        // Basics
+        var firm_id = 18211 ;
+
+        // Gated
+        var gated = 0 ;
+
+        // Document Attributes
+        var gatedDocumentTitle = 'Automated License Plate Reader Technology Raises Concerns Over Private Sector Compliance and Government Overreach' ;
+        var gatedDocumentURL = '/legalnews/automated-license-plate-reader-4596602' ;
+        var gatedUniqueFileID = '126cf8ff-3fec-4b0e-9e15-6ebdf9c05798'  ;
+        var gatedFileID = '855535' ;
+
+        if (gated) {
+            //$.getScript("/inc/js/jquery.reveal.min.js", function () {
+            //});
+
+            $.getScript("/inc/js/DocGate.js", function () {
+            });
+        }
+
+    </script>
+                
+    <!-- Gated Doc 'Form' -->
+    <div id="documentGatePanel" class="reveal-modal mw7 center pa4">
+
+        <form id="documentGateForm">
+            <a id="gatedModalClose" class="close-reveal-modal tr db silver" onclick="btnAbandonGate_Click();" href="/profile/Seyfarth_Shaw_docs/"><i class="fa fa-times" aria-hidden="true"></i></a>            
+            <div id="documentGateFields" class="lh-copy">
+                <!-- dynamically constructed -->
+            </div>
+            <div id="verifyStatus" class="red"></div>
+            <div class="tc mt2">
+                <input type="submit" id="btnGateOpen" value="View Document »" onclick="CheckReCaptcha('gate', gateCallback, this); return false;" class="ba dib grow mt2 no-underline pv2 ph4 br-pill bg-yellow b--yellow dark-gray fw7 f5">
+            </div> 
+        </form>
+    </div>
+
+
+<script type="text/javascript">
+    function sendit() {
+    var fromLocation = escape(document.location);
+    var fromTitle = escape(document.title);
+    var sendWindow;
+    sendWindow = window.open ("/inc/sendToColleague.aspx?loc=" + fromLocation + "&title=" + fromTitle,"SendToColleague","toolbar=0,scrollbars=1,location=0,statusbar=0,status=0,menubar=0,resizable=0,width=400,height=900");
+    sendWindow.focus ();
+    }
+    /*truncate authors*/
+    if ($('#followPeopleSection').height() > 385) {
+        $('#followPeopleSection').addClass('is-more');
+    }
+    /*truncate subject*/
+    if ($('#followTopSubSection').height() > 595) {
+        $('#followTopSubSection').addClass('is-more');
+    }
+    function showMoreTags(e) {
+        $(e).removeClass('is-more');
+        $(e).addClass('is-less');
+    }
+    function hideMoreTags(e) {
+        $(e).removeClass('is-less');
+        $(e).addClass('is-more');
+    }
+
+    // Related Post - see more, see less slider
+    function seeMoreExpand(e) {
+        if ($(e).children('.moreLessLink').text()=="See more")
+        {
+            $(e + ' .dn').addClass('db');
+            $(e + ' .dn').slideDown(800);
+            $(e + ' .dn').removeClass('dn');
+            $(e).children('.moreLessLink').html("See less<i class='fas fa-angle-up ml1'></i>");
+            $('html,body').animate({scrollTop: $(e).offset().top},'slow');
+        }
+        else 
+        {
+            $(e + ' .db').slideUp(800);
+            $(e + ' .db').addClass('dn');
+            $(e).children('.moreLessLink').html("See more<i class='fas fa-angle-down ml1'></i>");
+            $('html,body').animate({scrollTop: $(e).offset().top},'slow');
+            $(e + ' .db').removeClass('db');
+            $(e + ' .dn').attr('style','display: none');
+        }
+    }
+
+</script>
+<script defer="" src="/theme/plugins/jquery.jcarousel.min.js"></script>
+
+ 
+<footer class="site-footer f6 tc pv3 white" id="nav_footer">
+    <p class="mb4 f7"><a href="#" onclick="ga('send', 'event', 'footer', 'backtotop-lnk', 'backtotop-lnk');">Back to Top</a></p>
+
+<a href="/" class="dib-ns db pv2 ph2 link" onclick="ga('send', 'event', 'footer', 'home-lnk', 'home-lnk');">Home</a>
+<a href="https://resources.jdsupra.com/" class="dib-ns db pv2 ph2 link" onclick="ga('send', 'event', 'footer', 'about-lnk', 'about-lnk');" target="_blank">What Is JD Supra?</a>
+<a href="/follow/manageyourinterests/" onclick="ga('send', 'event', 'footer', 'Footer Nav Email Link', 'Custom Email Digests');" class="dib-ns db pv2 ph2 link">Subscribe</a>
+<a href="https://resources.jdsupra.com/what-is-jd-supra-overview" class="dib-ns db pv2 ph2 link" onclick="ga('send', 'event', 'footer', 'become-contributor-lnk', 'become-contributor-lnk');" target="_blank">Leverage Your Thought Leadership</a>
+<a href="/terms/privacy.aspx" class="dib-ns db pv2 ph2 link" onclick="ga('send', 'event', 'footer', 'privacy-lnk', 'privacy-lnk');">Privacy Policy</a>
+<a href="/terms/termsandconditions.aspx" class="dib-ns db pv2 ph2 link" onclick="ga('send', 'event', 'footer', 'terms-lnk', 'terms-lnk');">Terms &amp; Conditions</a>
+<a href="/about/contact.aspx" class="dib-ns db pv2 ph2 link" onclick="ga('send', 'event', 'footer', 'contact-lnk', 'contact-lnk');">Contact</a>
+<a href="/services/team.aspx" class="dib-ns db pv2 ph2 link" onclick="ga('send', 'event', 'footer', 'team-lnk', 'team-lnk');">Team</a>
+<a href="#" class="dib-ns db pv2 ph2 link" onclick="window.Osano.cm.showDrawer('osano-cm-dom-info-dialog-open')">Cookie Preferences</a>
+
+<p class="tc mt3"><a href="https://spotlight.jdsupra.com/readerschoice/2026" onclick="ga('send', 'event', 'readerschoice', 'footer link click', 'footer link click');">Explore 2026 Readers' Choice Awards</a></p>
+
+   <p class="mt4 f7">Copyright © <script>var today = new Date(); var yyyy = today.getFullYear();document.write(yyyy + " ");</script>2026  JD Supra, LLC</p>
+</footer>    
+
+
+
+<!-- Recaptcha -->
+
+<div id="jds-recaptcha" class="g-recaptcha"></div>
+
+<!-- <script src="https://www.google.com/recaptcha/api.js?onload=LoadReCaptchaV2"></script> -->
+<script src="https://www.google.com/recaptcha/api.js?onload=LoadReCaptchaV3&amp;render=6LcMsSchAAAAAMe2nLcodRSUJAZFIoZiZDqvhfnZ"></script>
+<script src="/recaptcha/Recaptcha.js" type="text/javascript"></script> 
+
+<!-- ClickTrack -->
+<script src="/clicktrack/ClickTrack.js" type="osano/blocked"></script> 
+<script type="text/javascript">
+    $(document).ready(function () {
+        ClickTrackTag('#HTMLContentViewPanel', 3, 2, firm_id, fileGuid)
+        ClickTrackTag('#ClickTrackHome', 1, 2, firm_id, fileGuid)
+        //ClickTrackTag('#RegistrationButton1', 1, 1, firm_id, fileGuid)
+        //ClickTrackTag('#RegistrationButton2', 1, 1, firm_id, fileGuid)
+    })
+</script>
+
+
+
+</body></html>
