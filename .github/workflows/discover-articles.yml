@@ -98,14 +98,24 @@ jobs:
           gh label create article-rejects --color FBCA04 \
             --description "Discovery surfaced off-allowlist domains to triage" \
             --force >/dev/null 2>&1 || true
+          # Label attach at create has failed silently before (the June
+          # 2026 run forked a new unlabeled issue every day because this
+          # label-only lookup never matched), so fall back to a title
+          # match and re-apply the label after create.
           existing=$(gh issue list --label article-rejects --state open \
                        --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            existing=$(gh issue list --state open \
+                         --search 'in:title "Discovery triage: domains seen but not allow-listed"' \
+                         --json number --jq '.[0].number')
+          fi
           if [ -s /tmp/reject-issue.md ]; then
             if [ -z "$existing" ]; then
-              gh issue create \
+              url=$(gh issue create \
                 --title "📥 Discovery triage: domains seen but not allow-listed" \
                 --label article-rejects \
-                --body-file /tmp/reject-issue.md
+                --body-file /tmp/reject-issue.md)
+              gh issue edit "$url" --add-label article-rejects || true
             else
               gh issue edit "$existing" --body-file /tmp/reject-issue.md
             fi
