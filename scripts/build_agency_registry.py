@@ -86,7 +86,8 @@ KNOWN_PRIVATE = [
 
 TEST_NAMES = [
     "Demo", "Delete", "DNU", "DUPLICATE", "Test Demo",
-    "Decommissioned", "Jaime LE Training",
+    "Decommissioned", "Jaime LE Training", "Do Not Use",
+    "Machine Learning Test",
 ]
 
 

@@ -671,6 +671,14 @@ MANUAL_OVERRIDES = {
         "kind": "manual", "name": "Wexford", "state": "PA",
         "lat": 40.6470, "lng": -80.0590,
     },
+    # Montgomery County Constable Pct 4 — office at 21130 US-59,
+    # New Caney, TX (unincorporated; not a census place). The account
+    # name is a comma-split fragment of "Montgomery County Constable,
+    # Precinct 4 (TX)" (issue #636).
+    "c555da83-0c47-5b2b-8988-5a09bf3ef980": {
+        "kind": "manual", "name": "New Caney", "state": "TX",
+        "lat": 30.1395, "lng": -95.2171,
+    },
 }
 
 
@@ -786,6 +794,81 @@ GAZ_OVERRIDES = {
     "592bf6b8-db27-5a54-8802-34d5b841b2ba": ("cousub", "East Hanover", "NJ"),  # East Hanover Twp (Morris Co.)
     "c639c3ab-f1e6-504c-baed-b5ed04d33181": ("cousub", "Monroe", "NJ", "34023"),  # Monroe Twp (Middlesex Co.)
     "ec54b02b-0101-59bc-a7a0-27cc6f96accc": ("cousub", "Lisbon", "CT"),  # Town of Lisbon (resident troopers)
+    # issue #636 — recipients missing coordinates (researched + verified
+    # per-entity; see the issue for the triage record)
+    "5095ae77-a4ff-57bd-956a-5d09630dff5f": ("place", "Hemphill", "TX"),  # 1st Judicial District
+    "4a90ab8e-1b8b-5a79-994e-49dd35818740": ("place", "Jacksonville", "AL"),  # AL - Jacksonville State University Campus PD
+    "c753700e-a641-5f4b-a85c-14b657a14822": ("county", "Randolph", "AL"),  # Alabama Drug Enforcement Task Force Region G
+    "e82c9df2-d04b-5dda-bb3a-b99e2ef82931": ("place", "Buford", "GA"),  # Buford City Schools GA
+    "a5f6beb7-35d3-51a8-aff2-d8d009f96609": ("place", "Pittsburgh", "PA"),  # Carnegie Mellon University PA PD
+    "0e88d56f-0f2c-5484-ae48-b6a011079bda": ("place", "Cumming", "GA"),  # City of Cumming - City Center GA
+    "8576dbae-204e-50a2-8aea-28833c64442d": ("place", "Orangeburg", "SC"),  # Claflin University SC PD
+    "b24639ba-80bc-59af-9c86-da976dd41a34": ("place", "Atlanta", "GA"),  # Clark Atlanta University GA PD
+    "5b1daea9-ac4e-50ac-bd09-ccbbb9716c62": ("place", "Corinth", "TX"),  # Corinth City Marshal [inactive]
+    "595c59c6-1d8b-513a-aa22-fc0e4c1b59f9": ("place", "Swainsboro", "GA"),  # East Georgia State College Campus PD (GA)
+    "4d11f85a-c572-5307-a191-01fccb09acff": ("place", "Johnson City", "TN"),  # East Tennessee State University TN Campus PD
+    "238ad3de-f4cd-5cbf-9aaf-121bb1243444": ("place", "Savannah", "TX"),  # Elm Ridge TX PD
+    "727f66e6-bff5-5b50-b250-6af9200d9453": ("place", "Memphis", "TN"),  # FedEx Air Carrier PD
+    "5ebd965e-7d8f-5c61-8e8e-4979011f1bb9": ("place", "Travelers Rest", "SC"),  # Furman University SC PD
+    "513e2c7e-7c22-5e33-b341-28b85fa3eb45": ("place", "Glenview", "IL"),  # GPSDC (Glenview Dispatch)
+    "36b4faf1-d039-55ef-9dc3-40b8e556404c": ("cousub", "Flint", "MI", "26049"),  # Genesee Co. MI 911 Dispatch Authority
+    "29f8e61a-a729-5dc2-a83e-6890367c2e4a": ("place", "Lawrenceville", "GA"),  # Georgia Gwinnett College PD
+    "d919e136-cd32-54f0-8f04-a6e97894a26d": ("place", "Statesboro", "GA"),  # Georgia Southern University PD (GA)
+    "0a0db7cb-160e-5aed-823e-f11ba091e7cb": ("place", "Atlanta", "GA"),  # Georgia State University GA PD
+    "32851fd9-6d22-589d-b7cd-0ff8df78611a": ("place", "Atlanta", "GA"),  # Georgia Tech GA PD
+    "db24fdeb-80e4-51c2-9a78-cb56b57b70bd": ("place", "Griffin", "GA"),  # Griffin Judicial Circuit
+    "e587d408-7d98-542c-b982-0293da8e129b": ("place", "Hampden-Sydney", "VA"),  # Hampden-Sydney College Campus VA PD
+    "0d679b98-fa65-50aa-a172-8347bf2fe7b8": ("place", "Hillsboro", "MO"),  # Jefferson College Campus MO PD
+    "cc3b2418-9795-5de1-99a4-3cb8cab8cecb": ("place", "Knoxville", "TN"),  # Knoxville Fire Dept TN
+    "01b34cf7-422f-5ddf-b5c3-95e400e0c4b8": ("place", "Lakeway", "TX"),  # Lake Travis ISD TX PD [Inactive]
+    "05b77c43-33f5-5f4f-809d-a76385765016": ("place", "Knoxville", "TN"),  # Lakeshore Park Conservancy (TN)
+    "3aa99c45-2421-51dd-b623-9de3f2f5787c": ("place", "Lakeway", "TX"),  # Lakeway & Bee Cave TX PD(Disp)
+    "2c89a44e-a806-5053-8523-6a998f0055ea": ("place", "Greenwood", "SC"),  # Lander University SC PD
+    "322365a4-00c4-5999-a24b-6fdc1ccb8b35": ("place", "Louisville", "KY"),  # Louisville Metro KY Alcoholic Beverage Control
+    "4923d2ca-c927-5c91-9ede-c6968d133c84": ("place", "Louisville", "KY"),  # Louisville Metro KY Arson Bureau
+    "537b9143-dd76-5e15-a652-f974af6d962b": ("place", "Raleigh", "NC"),  # Meredith College Campus PD (NC)
+    "b86094fb-9d4f-5e4b-a0b6-2f10f32ee624": ("place", "Bloomington", "IL"),  # Metcom Disptach Center IL
+    "9cb6fc81-0706-5a2d-ae5a-3c44be5274b6": ("place", "Macon-Bibb County", "GA"),  # Middle Georgia State University Campus PD
+    "2db4d130-ca61-5205-80d1-186063c14d83": ("place", "Verona", "VA"),  # Middle River VA Jail
+    "4000b55a-faea-5357-860e-702733e8f126": ("place", "Jefferson City", "MO"),  # Missouri Capitol MO PD
+    "062ed728-9122-528d-b281-2a9099be966f": ("place", "Atlanta", "GA"),  # Morehouse College GA PD
+    "0dcdadc8-a6d0-57cf-9f43-300ac3acab55": ("place", "Norfolk", "VA"),  # Norfolk State University VA PD
+    "1fc2cc4a-2531-5a63-aa4e-64eeb60f1020": ("place", "Norfolk", "VA"),  # Norfolk VA Housing Authority
+    "5792ba00-373f-5e22-a66d-ccfc634a29c3": ("place", "Greensboro", "NC"),  # North Carolina A&T University NC PD
+    "08d63ca5-d642-5cc7-a47d-d2ec7c700530": ("place", "Blountville", "TN"),  # Northeast State Community College TN
+    "598aca59-bd7e-5d67-80df-e93bcbdef150": ("place", "Oklahoma City", "OK"),  # OK - 477
+    "0facc144-81b9-5951-9e3d-be23cb11656a": ("place", "Oak Lawn", "IL"),  # OLREC IL Dispatch
+    "03e33852-8173-5c02-acb9-f1acace99988": ("place", "Oakland", "CA"),  # Port Of Oakland (CA)
+    "cf916c0a-c36c-52b7-9bd3-b82703c502bb": ("place", "The Woodlands", "TX"),  # Precinct 3 (TX)
+    "43ff10f6-3ea5-5df1-b594-dc3dd2dfc324": ("place", "Magnolia", "TX"),  # Precinct 5 (TX)
+    "65d079be-0bf9-5384-bd97-d01b6c77cd3f": ("place", "Clinton", "SC"),  # Presbyterian College SC PD
+    "d38ca136-aa34-59e8-b13c-59cdf8567b88": ("place", "Milan", "IL"),  # QComm911 Dispatch IL
+    "d27486bc-f265-5158-a0ae-10038f258e62": ("county", "Williamson", "TX"),  # Regional Vehicle Burglary Suppression Taskforce TX
+    "34fafb70-7bc2-5eb9-8057-e18b1a94ff8b": ("place", "Waleska", "GA"),  # Reinhardt University GA PD
+    "e57e14ad-2bd8-5df7-a315-f2723972292a": ("place", "Decatur", "IL"),  # Richland Community College Campus IL PD
+    "e47473b6-09f4-51d2-af5e-777a47048145": ("place", "Crystal Lake", "IL"),  # SEECOM Dispatch Center IL
+    "90b3e5a4-915e-51ac-b486-4018e64a1a0b": ("cousub", "Kochville", "MI"),  # Saginaw Valley State University PD (MI) [Inactive]
+    "494a32c2-2763-55c3-8842-27dad589ad32": ("place", "Homewood", "AL"),  # Samford University AL PD
+    "14e400d1-5c90-54ae-a2fd-3a659dbc6b33": ("place", "Knoxville", "TN"),  # South College TN PD
+    "cdcbf72d-b0ce-59bf-b973-e00dfdc32bde": ("place", "Memphis", "TN"),  # Southwest Tennessee Community College TN PD
+    "110d1853-7254-5be2-9520-ca30d756e920": ("place", "Springfield", "IL"),  # Springfield Park District IL PD
+    "e8c47b49-e42f-5119-b523-fbbfc7584532": ("place", "Austin", "TX"),  # St. Edward's University (TX)
+    "070d9906-8500-55b2-8ff6-1a6bbc3981d6": ("place", "Hartford", "CT"),  # State Capitol CT PD
+    "343ba750-f243-5c12-b481-0ebf04c57414": ("place", "Memphis", "TN"),  # TN - Loeb Properties Inc - Security
+    "6a4187fd-6b1a-5bc9-acfb-ca201fc7204d": ("place", "Austin", "TX"),  # Texas Parks & Wildlife Department
+    "34865368-fd21-5ffa-a764-a0033c556f9a": ("place", "Town and Country", "MO"),  # The West Central Dispatch Center (WCDC)
+    "62b9849e-9459-5c94-9126-0606536f1432": ("place", "White Bluff", "TN"),  # Town of Whitebluff TN PD
+    "18271f3b-d3be-5d62-a8ce-4474d4da86f1": ("place", "Tuscaloosa", "AL"),  # Tuscaloosa Academy (AL)
+    "b885c35d-d975-5e7c-8dc1-16da3a5ba133": ("place", "Tuscaloosa", "AL"),  # University of Alabama AL PD
+    "33a31834-8b55-5873-8508-38830443168a": ("place", "Berkeley", "CA"),  # University of California, Berkeley PD
+    "3d7326eb-a86e-5074-a75e-5d9d5a2f9019": ("place", "Columbia", "MO"),  # University of Missouri Campus MO PD
+    "e200e57b-8244-52ac-ae67-b4551a015b2c": ("place", "West Haven", "CT"),  # University of New Haven CT PD
+    "91defbf0-3fdb-5aec-a570-b6fed9fc7d37": ("place", "West Hartford", "CT"),  # University of Saint Joseph CT Public Safety
+    "757e5e7d-4ff4-58f9-8be5-aa9ff29ccdce": ("place", "Richmond", "VA"),  # Virginia Commonwealth University VA PD
+    "0e406815-56da-5b2e-81bc-cb1cf63f4a40": ("place", "Waco", "GA"),  # West Georgia Technical College (GA)
+    "a4f56a5f-9099-5866-9dd0-dc1df44cf4ce": ("county", "Winston", "MS"),  # Winston Count MS CO
+    "68af1aa4-7d22-522e-8c81-16a59402cc63": ("place", "Winston-Salem", "NC"),  # Winston Salem State University NC PD
+    "8de1aa86-5746-54ab-b18f-f7fd35e8fdb1": ("place", "Rock Hill", "SC"),  # Winthrop University SC PD
 }
 
 
