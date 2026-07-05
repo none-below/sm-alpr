@@ -8977,28 +8977,6 @@
     }
   },
   {
-    "agency_id": "d10f2e4f-ab30-5258-9079-0f2462dd0ec8",
-    "slug": "fort-bend-county-const-tx-pct-4-inactive",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Fort Bend County Const TX Pct 4 (inactive)"
-    ],
-    "display_name": null,
-    "agency_role": "decommissioned",
-    "agency_type": "decommissioned",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "TX"
-    }
-  },
-  {
     "agency_id": "ba548af3-04cd-589d-9818-79bacbc1a4d3",
     "slug": "riverbend-houston-tx",
     "flock_active_slug": null,
@@ -38987,9 +38965,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Fort Bend County Const TX Pct 4"
+      "Fort Bend County Const TX Pct 4",
+      "Fort Bend County Const TX Pct 4 (inactive)"
     ],
-    "display_name": null,
+    "display_name": "Fort Bend County Const TX Pct 4 (inactive)",
     "agency_role": "other",
     "agency_type": "county",
     "website": null,
@@ -39005,7 +38984,8 @@
       "state": "TX",
       "lat": 29.526602,
       "lng": -95.771015
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "c05d0a86-674e-5f72-a705-81a4f0348e0f",
