@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 zero-below
 /* Client-side re-implementation of scripts/build_justifications.py's
    per-agency aggregation, so the justifications page can re-aggregate a
    narrowed date window live from the already-published raw audit rows
@@ -5,10 +7,15 @@
 
    PARITY CONTRACT: aggregate(allRows) must equal the build's per-agency
    entry for every window-dependent field. scripts/verify_justifications_agg.js
-   asserts this against docs/data/justifications.json — run it (or
-   `make test`, via tests/test_justifications_agg.py) after touching
-   either this file or build_justifications.py. The two are a matched
-   pair; if you change the parser/tokenizer in one, change it in both.
+   asserts this against docs/data/justifications.json. After touching
+   build_justifications.py, run `make build` first — the check compares
+   against the built artifacts, and `make test` alone will not pick up
+   generator changes — then the verifier (or `make test`, via
+   tests/test_justifications_agg.py). The two are a matched pair; if you
+   change the parser/tokenizer in one, change it in both. The verifier
+   fails closed: a per-agency field added to the build that aggregate()
+   doesn't reproduce is an error until it is either ported here or
+   explicitly allowlisted as window-independent there.
 
    Works in the browser (exposes window.JustAgg) and in Node
    (module.exports) so the same code is what's tested and what ships. */
@@ -102,9 +109,11 @@
   };
 
   // ── Regexes (mirror build_justifications.py; see notes there) ──
-  // JS \w is ASCII-only where Python used re.UNICODE; audit reason text
-  // is overwhelmingly ASCII, and the parity test guards any divergence.
-  var PUNCT_RE = /[^\w\s./()-]+/g;
+  // Python compiled \w with re.UNICODE (letters/digits in any script,
+  // plus underscore); JS \w is ASCII-only, so spell out the Unicode
+  // property classes to keep non-ASCII reason text normalizing the
+  // same way. The parity test guards any residual divergence.
+  var PUNCT_RE = /[^\p{L}\p{N}_\s./()-]+/gu;
   var TOKEN_RE = /[A-Za-z]{2,}|[0-9]{2,5}(?:\.[0-9]+)?/g;
   var LONG_DIGITS_RE = /\b\d{8,}\b/g;
   var WS_RE = /\s+/g;
@@ -179,13 +188,27 @@
   });
   var _ptCache = Object.create(null);
 
+  // Timestamps must carry an explicit UTC offset ('Z' or ±HH[:]MM),
+  // mirroring Python's parse_search_date_pt, which returns None for
+  // naive datetimes. Without this check, JS `new Date` would silently
+  // parse a naive timestamp in the VIEWER's local zone and diverge
+  // from the build. This is an approximation of fromisoformat's aware
+  // formats, not a clone (e.g. Python also accepts ±HH:MM:SS offsets;
+  // engines differ on space-separated dates): Flock emits only
+  // 'YYYY-MM-DDTHH:MM:SS[.fff]Z', and the parity test over the real
+  // corpus is the guard if that ever changes.
+  var TZ_OFFSET_RE = /(?:Z|[+-]\d{2}:?\d{2})$/;
+
   function ptPartsFromIso(iso) {
     if (!iso) return null;
-    var key = iso.slice(0, 13); // YYYY-MM-DDTHH
+    var s = String(iso);
+    if (!TZ_OFFSET_RE.test(s)) return null;
+    var d = new Date(s);
+    var t = d.getTime();
+    if (isNaN(t)) return null;
+    var key = Math.floor(t / 3600000); // UTC hour index
     var cached = _ptCache[key];
     if (cached !== undefined) return cached;
-    var d = new Date(iso);
-    if (isNaN(d.getTime())) { _ptCache[key] = null; return null; }
     var parts = _ptFmt.formatToParts(d);
     var y, mo, da, hr;
     for (var i = 0; i < parts.length; i++) {
@@ -258,12 +281,6 @@
     return (n == null) ? arr : arr.slice(0, n);
   }
 
-  function median(sortedNums) {
-    var n = sortedNums.length;
-    if (!n) return 0;
-    return sortedNums[Math.floor(n / 2)];
-  }
-
   // Mirror of compute_phrase_details(): {phrase: detail} for each phrase
   // in the set, single pass over rows. `pre` are precomputed rows.
   function computePhraseDetails(phraseSet, pre) {
@@ -304,34 +321,12 @@
         weekly: acc.weekly
       };
       if (dateCounts.size) {
-        var keys = Array.from(dateCounts.keys()).sort();
-        var fromIso = keys[0];
-        var toIso = keys[keys.length - 1];
-        var fromED = epochDayOfIso(fromIso);
-        var toED = epochDayOfIso(toIso);
-        var span = (toED - fromED) + 1;
-        d.from = fromIso;
-        d.to = toIso;
-        d.span_days = span;
-        var series = [];
-        var cur;
-        if (span <= 365) {
-          for (cur = fromED; cur <= toED; cur++) {
-            series.push(dateCounts.get(isoFromEpochDay(cur)) || 0);
-          }
-          d.daily = series;
-          d.daily_unit = 'day';
-        } else {
-          for (cur = fromED; cur <= toED; cur += 7) {
-            var wt = 0;
-            for (var off = 0; off < 7; off++) {
-              wt += dateCounts.get(isoFromEpochDay(cur + off)) || 0;
-            }
-            series.push(wt);
-          }
-          d.daily = series;
-          d.daily_unit = 'week';
-        }
+        var s = seriesFromDateCounts(dateCounts);
+        d.from = s.from;
+        d.to = s.to;
+        d.span_days = s.span_days;
+        d.daily = s.daily;
+        d.daily_unit = s.daily_unit;
       }
       if (ncs.length) {
         d.nc_min = ncs[0];
@@ -351,6 +346,47 @@
     // stable integer day index.
     var y = +iso.slice(0, 4), m = +iso.slice(5, 7), da = +iso.slice(8, 10);
     return Math.floor(Date.UTC(y, m - 1, da) / 86400000);
+  }
+
+  // Zero-filled daily series across the span of a Map of ISO date ->
+  // count; weekly 7-day buckets anchored at the first date when the
+  // span exceeds 365 days (mirror of the series logic in Python's
+  // compute_phrase_details). Single implementation shared by
+  // computePhraseDetails (parity-gated against the build) and
+  // fullPhraseSeries (cross-checked against phrase_details by the
+  // verifier) so the two bucketings cannot drift. Returns
+  // {from,to,span_days,daily,daily_unit,fromEpochDay}, or null for an
+  // empty Map.
+  function seriesFromDateCounts(dates) {
+    if (!dates.size) return null;
+    var keys = Array.from(dates.keys()).sort();
+    var fromIso = keys[0];
+    var toIso = keys[keys.length - 1];
+    var fromED = epochDayOfIso(fromIso);
+    var toED = epochDayOfIso(toIso);
+    var span = (toED - fromED) + 1;
+    var series = [];
+    var unit;
+    var cur;
+    if (span <= 365) {
+      unit = 'day';
+      for (cur = fromED; cur <= toED; cur++) {
+        series.push(dates.get(isoFromEpochDay(cur)) || 0);
+      }
+    } else {
+      unit = 'week';
+      for (cur = fromED; cur <= toED; cur += 7) {
+        var wt = 0;
+        for (var off = 0; off < 7; off++) {
+          wt += dates.get(isoFromEpochDay(cur + off)) || 0;
+        }
+        series.push(wt);
+      }
+    }
+    return {
+      from: fromIso, to: toIso, span_days: span,
+      daily: series, daily_unit: unit, fromEpochDay: fromED
+    };
   }
 
   // Mirror of find_long_active_cases(). Uses the UTC date slice for the
@@ -495,10 +531,13 @@
     return (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
   }
 
-  // Per-phrase daily series over the phrase's FULL span (every row, not
-  // a window) — used by the expand panel to show full history with the
-  // out-of-window portion grayed. Returns {from,to,span_days,daily,
-  // daily_unit,fromEpochDay} or null.
+  // Per-phrase daily/weekly series over the phrase's FULL span (every
+  // row, not a window) — used by the expand panel to show full history
+  // with the out-of-window portion grayed. Built by the same
+  // seriesFromDateCounts the parity-gated aggregation uses, and the
+  // verifier additionally cross-checks it against phrase_details at
+  // the full window. Returns the seriesFromDateCounts shape, or null
+  // when the phrase has no timestamped rows.
   function fullPhraseSeries(phrase, pre) {
     var dates = new Map();
     for (var i = 0; i < pre.length; i++) {
@@ -506,29 +545,7 @@
       if (p.norm !== phrase || !p.pt) continue;
       dates.set(p.pt.dateISO, (dates.get(p.pt.dateISO) || 0) + 1);
     }
-    if (!dates.size) return null;
-    var keys = Array.from(dates.keys()).sort();
-    var fromED = epochDayOfIso(keys[0]);
-    var toED = epochDayOfIso(keys[keys.length - 1]);
-    var span = (toED - fromED) + 1;
-    var series = [];
-    var unit, step;
-    var cur;
-    if (span <= 365) {
-      unit = 'day'; step = 1;
-      for (cur = fromED; cur <= toED; cur++) series.push(dates.get(isoFromEpochDay(cur)) || 0);
-    } else {
-      unit = 'week'; step = 7;
-      for (cur = fromED; cur <= toED; cur += 7) {
-        var wt = 0;
-        for (var off = 0; off < 7; off++) wt += dates.get(isoFromEpochDay(cur + off)) || 0;
-        series.push(wt);
-      }
-    }
-    return {
-      from: keys[0], to: keys[keys.length - 1], span_days: span,
-      daily: series, daily_unit: unit, fromEpochDay: fromED, step: step
-    };
+    return seriesFromDateCounts(dates);
   }
 
   var api = {

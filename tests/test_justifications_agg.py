@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """Parity gate for the justifications date-window slider.
 
 The slider re-aggregates a narrowed window in the browser from
