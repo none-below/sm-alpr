@@ -2817,9 +2817,10 @@
       "hamilton-township-oh-pd"
     ],
     "flock_names": [
-      "Hamilton Township OH PD"
+      "Hamilton Township OH PD",
+      "Hamilton Township OH PD (Warren County)"
     ],
-    "display_name": null,
+    "display_name": "Hamilton Township OH PD (Warren County)",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -2828,14 +2829,14 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "ambiguous",
-      "fips": "39",
-      "name": "OH",
+      "kind": "cousub",
+      "fips": "3916533068",
+      "name": "Hamilton",
       "state": "OH",
-      "lat": 40.317420761363636,
-      "lng": -82.83129609090909,
-      "note": "township name matches multiple county subdivisions in state"
-    }
+      "lat": 39.317319,
+      "lng": -84.19657
+    },
+    "ori": null
   },
   {
     "agency_id": "14c8d3ff-2f0c-5b4a-a82b-3b75e10d4bec",
@@ -3337,30 +3338,6 @@
     "ori": [
       "CA0170000"
     ]
-  },
-  {
-    "agency_id": "05c2b9c0-aceb-5390-a6dc-2bb64d316ddb",
-    "slug": "las-vegas-metro-police-department-nv",
-    "flock_active_slug": "las-vegas-metro-nv-pd",
-    "flock_slugs": [
-      "las-vegas-metro-nv-pd"
-    ],
-    "flock_names": [
-      "Las Vegas Metro Police Department - NV"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "federal",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "NV"
-    }
   },
   {
     "agency_id": "ad5d1953-7d8a-5cf5-b0c7-c7c12bd430d3",
@@ -7862,9 +7839,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "University of California, Berkeley PD"
+      "University of California, Berkeley PD",
+      "University of California, Berkeley"
     ],
-    "display_name": null,
+    "display_name": "University of California, Berkeley PD",
     "agency_role": "campus_safety",
     "agency_type": "university",
     "website": null,
@@ -7880,7 +7858,10 @@
       "state": "CA",
       "lat": 37.865673,
       "lng": -122.298725
-    }
+    },
+    "ori": [
+      "CA0019700"
+    ]
   },
   {
     "agency_id": "b668cce0-ccee-570e-9eec-780170b75f20",
@@ -8775,39 +8756,15 @@
     }
   },
   {
-    "agency_id": "15b7af9e-7b8f-5619-b162-5d3e588ccf6e",
-    "slug": "chelan-county-wa-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Chelan County WA SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "53007",
-      "name": "Chelan",
-      "state": "WA",
-      "lat": 47.860974,
-      "lng": -120.619041
-    }
-  },
-  {
     "agency_id": "28078be2-8b0b-5e5a-80b4-b465d97b06af",
     "slug": "greenbrier-tn-pd-duplicate-do-not-use",
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Greenbrier TN PD (duplicate DO NOT USE)"
+      "Greenbrier TN PD (duplicate DO NOT USE)",
+      "Greenbrier TN PD (duplicate)"
     ],
-    "display_name": null,
+    "display_name": "Greenbrier TN PD (duplicate DO NOT USE)",
     "agency_role": "test",
     "agency_type": "test",
     "website": null,
@@ -8820,7 +8777,8 @@
     "geo": {
       "kind": "state-only",
       "state": "TN"
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "7c432380-2802-5721-a843-f6f99bec2f5d",
@@ -9084,33 +9042,6 @@
       "state": "TX",
       "lat": 28.011794,
       "lng": -97.517157
-    }
-  },
-  {
-    "agency_id": "0a2048c0-304f-50cd-b270-84bfbf59f248",
-    "slug": "inactive-oxnard-ca-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "[INACTIVE] Oxnard CA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [
-      "inactive"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0654652",
-      "name": "Oxnard",
-      "state": "CA",
-      "lat": 34.199436,
-      "lng": -119.207515
     }
   },
   {
@@ -9667,31 +9598,6 @@
     }
   },
   {
-    "agency_id": "c1b8b042-b50d-5a58-9b88-3a73efd72f28",
-    "slug": "ky-kentucky-state-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "KY - Kentucky State PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state",
-      "fips": "21",
-      "name": "KY",
-      "state": "KY",
-      "lat": 37.621722758333334,
-      "lng": -85.20171535833333
-    }
-  },
-  {
     "agency_id": "353059f3-c39f-5dd9-982e-fde1783351d8",
     "slug": "dekalb-il-pd",
     "flock_active_slug": null,
@@ -9747,9 +9653,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Corinth City Marshal [inactive]"
+      "Corinth City Marshal [inactive]",
+      "Corinth City Marshal"
     ],
-    "display_name": null,
+    "display_name": "Corinth City Marshal [inactive]",
     "agency_role": "other",
     "agency_type": "other",
     "website": null,
@@ -9766,34 +9673,8 @@
       "state": "TX",
       "lat": 33.144714,
       "lng": -97.070766
-    }
-  },
-  {
-    "agency_id": "cf3cd038-b96c-56f6-9fa2-fc41c2bb0a7c",
-    "slug": "avon-oh-pd-inactive",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Avon OH PD [inactive]"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [
-      "inactive"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "3903352",
-      "name": "Avon",
-      "state": "OH",
-      "lat": 41.4451,
-      "lng": -82.005109
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "d833098d-8e86-5dd7-ab3d-1bae835f31d9",
@@ -9868,33 +9749,6 @@
       "state": "MO",
       "lat": 38.761902,
       "lng": -91.159306
-    }
-  },
-  {
-    "agency_id": "54799b35-73d9-5a21-89f8-edee65eed42b",
-    "slug": "columbia-heights-mn-pd-inactive",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Columbia Heights MN PD [Inactive]"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [
-      "inactive"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "2712700",
-      "name": "Columbia Heights",
-      "state": "MN",
-      "lat": 45.049104,
-      "lng": -93.246749
     }
   },
   {
@@ -10789,16 +10643,19 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Avon OH PD"
+      "Avon OH PD",
+      "Avon OH PD [inactive]"
     ],
-    "display_name": null,
+    "display_name": "Avon OH PD [inactive]",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
     "tags": [
       "public"
     ],
-    "flags": [],
+    "flags": [
+      "inactive"
+    ],
     "geo": {
       "kind": "place",
       "fips": "3903352",
@@ -12258,24 +12115,6 @@
     "ori": [
       "KY1180100"
     ]
-  },
-  {
-    "agency_id": "ffe63970-7777-5dc8-b6f3-6eff6bd83566",
-    "slug": "corinth-city-marshal",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Corinth City Marshal"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": null
   },
   {
     "agency_id": "e4f3768f-bd9c-590e-9e39-16c4d3214998",
@@ -19625,9 +19464,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Lake Travis ISD TX PD [Inactive]"
+      "Lake Travis ISD TX PD [Inactive]",
+      "Lake Travis ISD TX PD"
     ],
-    "display_name": null,
+    "display_name": "Lake Travis ISD TX PD [Inactive]",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -19644,7 +19484,8 @@
       "state": "TX",
       "lat": 30.354982,
       "lng": -97.986269
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "3aa99c45-2421-51dd-b623-9de3f2f5787c",
@@ -21019,29 +20860,6 @@
     ]
   },
   {
-    "agency_id": "43f774f4-d8ba-5921-9722-a3a785613fef",
-    "slug": "greenbrier-tn-pd-duplicate",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Greenbrier TN PD (duplicate)"
-    ],
-    "display_name": null,
-    "agency_role": "test",
-    "agency_type": "test",
-    "website": null,
-    "tags": [
-      "private"
-    ],
-    "flags": [
-      "duplicate"
-    ],
-    "geo": {
-      "kind": "state-only",
-      "state": "TN"
-    }
-  },
-  {
     "agency_id": "0d20fd72-db37-5672-98f7-7195c6cc0205",
     "slug": "hardeman-county-tn-so",
     "flock_active_slug": null,
@@ -21570,9 +21388,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Banner Elk NC PD [DO NOT USE]"
+      "Banner Elk NC PD [DO NOT USE]",
+      "Banner Elk NC PD"
     ],
-    "display_name": null,
+    "display_name": "Banner Elk NC PD [DO NOT USE]",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -22760,9 +22579,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Mountain View AR PD"
+      "Mountain View AR PD",
+      "AR - Mountain View PD"
     ],
-    "display_name": null,
+    "display_name": "Mountain View AR PD",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -22777,7 +22597,8 @@
       "state": "AR",
       "lat": 35.861559,
       "lng": -92.109657
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "b5900bec-80fd-52d3-a0bb-22bbb3383710",
@@ -23891,16 +23712,19 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "East Cleveland OH PD"
+      "East Cleveland OH PD",
+      "East Cleveland OH PD [deactivated]"
     ],
-    "display_name": null,
+    "display_name": "East Cleveland OH PD",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
     "tags": [
       "public"
     ],
-    "flags": [],
+    "flags": [
+      "deactivated"
+    ],
     "geo": {
       "kind": "place",
       "fips": "3923380",
@@ -23908,7 +23732,8 @@
       "state": "OH",
       "lat": 41.530657,
       "lng": -81.578516
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "2ee38861-654d-5197-88a8-2991301a190a",
@@ -31089,31 +30914,6 @@
     ]
   },
   {
-    "agency_id": "6202f013-25eb-518a-b460-2c6bd405d044",
-    "slug": "lake-travis-isd-tx-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Lake Travis ISD TX PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "4840984",
-      "name": "Lakeway",
-      "state": "TX",
-      "lat": 30.354982,
-      "lng": -97.986269
-    }
-  },
-  {
     "agency_id": "c138f61d-9bf6-5002-b969-ef3f74fe0710",
     "slug": "lakeside-city-tx",
     "flock_active_slug": null,
@@ -33591,9 +33391,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Streetsboro OH PD [inactive]"
+      "Streetsboro OH PD [inactive]",
+      "Streetsboro OH PD"
     ],
-    "display_name": null,
+    "display_name": "Streetsboro OH PD [inactive]",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -33610,7 +33411,8 @@
       "state": "OH",
       "lat": 41.239608,
       "lng": -81.345862
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "7c153e15-688b-5903-9d25-a02ad57a4d8a",
@@ -38791,31 +38593,6 @@
     ]
   },
   {
-    "agency_id": "def23147-b644-5501-b150-9d113ac1f900",
-    "slug": "cozad-ne-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Cozad NE PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "3111020",
-      "name": "Cozad",
-      "state": "NE",
-      "lat": 40.861301,
-      "lng": -99.986366
-    }
-  },
-  {
     "agency_id": "b1c58318-88e3-5467-82cc-f605b6b92c98",
     "slug": "davenport-fl-pd",
     "flock_active_slug": null,
@@ -39420,31 +39197,6 @@
     "ori": [
       "FL0230000"
     ]
-  },
-  {
-    "agency_id": "67ee7c5b-7231-557f-b7a5-d364cf9d5a40",
-    "slug": "hamilton-township-oh-pd-warren-county",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Hamilton Township OH PD (Warren County)"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "cousub",
-      "fips": "3916533068",
-      "name": "Hamilton",
-      "state": "OH",
-      "lat": 39.317319,
-      "lng": -84.19657
-    }
   },
   {
     "agency_id": "4632fc00-0af1-5ddf-9234-70968d3d43b9",
@@ -53271,33 +53023,6 @@
     ]
   },
   {
-    "agency_id": "dfa420ca-3de7-506d-8bb1-5b17dd76d9e5",
-    "slug": "east-cleveland-oh-pd-deactivated",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "East Cleveland OH PD [deactivated]"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [
-      "deactivated"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "3923380",
-      "name": "East Cleveland",
-      "state": "OH",
-      "lat": 41.530657,
-      "lng": -81.578516
-    }
-  },
-  {
     "agency_id": "f5a6d071-3059-5cac-9036-8f490ba63465",
     "slug": "east-hempfield-twp-pa-pd",
     "flock_active_slug": null,
@@ -60105,31 +59830,6 @@
     ]
   },
   {
-    "agency_id": "cf15a8d8-11c9-5ab9-9b85-32210e40e224",
-    "slug": "streetsboro-oh-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Streetsboro OH PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "3975014",
-      "name": "Streetsboro",
-      "state": "OH",
-      "lat": 41.239608,
-      "lng": -81.345862
-    }
-  },
-  {
     "agency_id": "f8a51c54-cafd-5f34-9344-67ae870015d8",
     "slug": "suffolk-va-pd",
     "flock_active_slug": null,
@@ -65275,34 +64975,6 @@
       "lat": 40.198826,
       "lng": -85.395059
     }
-  },
-  {
-    "agency_id": "e01d7b4b-bea9-5f71-87a5-e11eca612faa",
-    "slug": "banner-elk-nc-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Banner Elk NC PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "3703500",
-      "name": "Banner Elk",
-      "state": "NC",
-      "lat": 36.158699,
-      "lng": -81.867556
-    },
-    "ori": [
-      "NC0060200"
-    ]
   },
   {
     "agency_id": "10b7e322-0ca0-597b-b9f1-dcd9f5dab9e2",
@@ -87389,9 +87061,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Woodbury MN"
+      "Woodbury MN",
+      "Woodbury MN DPS"
     ],
-    "display_name": null,
+    "display_name": "Woodbury MN",
     "agency_role": "other",
     "agency_type": "other",
     "website": null,
@@ -87406,7 +87079,8 @@
       "state": "MN",
       "lat": 44.906283,
       "lng": -92.923703
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "f0e4b97a-2f60-5a1b-abe5-049c8e3b94cc",
@@ -89840,31 +89514,6 @@
     "ori": [
       "AR0560300"
     ]
-  },
-  {
-    "agency_id": "fb01478d-3233-55c1-a65c-74b6e23a6b6a",
-    "slug": "ar-mountain-view-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "AR - Mountain View PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "0547540",
-      "name": "Mountain View",
-      "state": "AR",
-      "lat": 35.861559,
-      "lng": -92.109657
-    }
   },
   {
     "agency_id": "82224cc9-3df9-5f00-9aaf-a777477d5859",
@@ -102585,9 +102234,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Kentucky State KY PD"
+      "Kentucky State KY PD",
+      "KY - Kentucky State PD"
     ],
-    "display_name": null,
+    "display_name": "KY - Kentucky State PD",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -102602,7 +102252,8 @@
       "state": "KY",
       "lat": 37.621722758333334,
       "lng": -85.20171535833333
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "0860b7e0-5f28-51b2-97e0-75887a516e6f",
@@ -110732,9 +110383,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Richland WA PD"
+      "Richland WA PD",
+      "Richland PD WA"
     ],
-    "display_name": null,
+    "display_name": "Richland WA PD",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -110749,7 +110401,8 @@
       "state": "WA",
       "lat": 46.284086,
       "lng": -119.294046
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "faeaae90-2988-5568-bd81-6eff3b9c11e7",
@@ -119066,31 +118719,6 @@
     ]
   },
   {
-    "agency_id": "cccec80d-f9a8-5296-a394-27cc4a9aa2d6",
-    "slug": "richland-pd-wa",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Richland PD WA"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "5358235",
-      "name": "Richland",
-      "state": "WA",
-      "lat": 46.284086,
-      "lng": -119.294046
-    }
-  },
-  {
     "agency_id": "f9528ae9-97e1-555d-8dd3-f842543cb473",
     "slug": "sedro-woolley-wa-pd",
     "flock_active_slug": null,
@@ -119501,9 +119129,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "WA - Chelan County SO"
+      "WA - Chelan County SO",
+      "Chelan County WA SO"
     ],
-    "display_name": null,
+    "display_name": "Chelan County WA SO",
     "agency_role": "sheriff",
     "agency_type": "county",
     "website": null,
@@ -122856,16 +122485,19 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Columbia Heights MN PD"
+      "Columbia Heights MN PD",
+      "Columbia Heights MN PD [Inactive]"
     ],
-    "display_name": null,
+    "display_name": "Columbia Heights MN PD [Inactive]",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
     "tags": [
       "public"
     ],
-    "flags": [],
+    "flags": [
+      "inactive"
+    ],
     "geo": {
       "kind": "place",
       "fips": "2712700",
@@ -131296,9 +130928,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "NE - Cozad PD"
+      "NE - Cozad PD",
+      "Cozad NE PD"
     ],
-    "display_name": null,
+    "display_name": "Cozad NE PD",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -131313,7 +130946,8 @@
       "state": "NE",
       "lat": 40.861301,
       "lng": -99.986366
-    }
+    },
+    "ori": null
   },
   {
     "agency_id": "b15c1511-b3b6-5e99-b290-b0df7f6f21fc",
@@ -138167,31 +137801,6 @@
     "ori": [
       "IL0222300"
     ]
-  },
-  {
-    "agency_id": "f2c31c3d-455d-5e50-bdb3-704546e06d5d",
-    "slug": "woodbury-mn-dps",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Woodbury MN DPS"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "2771428",
-      "name": "Woodbury",
-      "state": "MN",
-      "lat": 44.906283,
-      "lng": -92.923703
-    }
   },
   {
     "agency_id": "96e8f723-e16d-57dd-8a37-90838394a5c8",
@@ -155634,17 +155243,21 @@
   {
     "agency_id": "03f39921-e81f-5d88-ba5a-cf79a6969ecb",
     "slug": "las-vegas-metro-nv-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Las Vegas Metro NV PD"
+    "flock_active_slug": "las-vegas-metro-nv-pd",
+    "flock_slugs": [
+      "las-vegas-metro-nv-pd"
     ],
-    "display_name": null,
+    "flock_names": [
+      "Las Vegas Metro NV PD",
+      "Las Vegas Metro Police Department - NV"
+    ],
+    "display_name": "Las Vegas Metro Police Department - NV",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
     "tags": [
-      "public"
+      "public",
+      "federal"
     ],
     "geo": {
       "kind": "place",
@@ -155654,7 +155267,8 @@
       "lat": 36.233499,
       "lng": -115.264037
     },
-    "flags": []
+    "flags": [],
+    "ori": null
   },
   {
     "agency_id": "7b4d182e-412e-59e3-9967-75d4f4f1bedf",
@@ -157190,9 +156804,10 @@
     "flock_active_slug": null,
     "flock_slugs": [],
     "flock_names": [
-      "Oxnard CA PD"
+      "Oxnard CA PD",
+      "[INACTIVE] Oxnard CA PD"
     ],
-    "display_name": null,
+    "display_name": "[INACTIVE] Oxnard CA PD",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -157207,7 +156822,9 @@
       "lat": 34.199436,
       "lng": -119.207515
     },
-    "flags": [],
+    "flags": [
+      "inactive"
+    ],
     "ori": [
       "CA0560400"
     ]
@@ -160103,33 +159720,6 @@
     "flags": [],
     "ori": [
       "CA0429700"
-    ]
-  },
-  {
-    "agency_id": "eaef691d-609c-566f-ad67-3a187a241852",
-    "slug": "university-of-california-berkeley",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "University of California, Berkeley"
-    ],
-    "display_name": null,
-    "agency_role": "campus_safety",
-    "agency_type": "university",
-    "website": null,
-    "notes": "Public university (UC Berkeley). Part of the <a href=\"https://www.universityofcalifornia.edu/campuses\" target=\"_blank\">University of California</a> system.",
-    "tags": [
-      "public"
-    ],
-    "geo": {
-      "kind": "manual",
-      "state": "CA",
-      "lat": 37.872,
-      "lng": -122.259
-    },
-    "flags": [],
-    "ori": [
-      "CA0019700"
     ]
   },
   {
