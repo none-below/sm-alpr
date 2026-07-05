@@ -735,7 +735,7 @@ GAZ_OVERRIDES = {
     "799ad8b7-438d-5086-a14c-d396754a5644": ("place", "Lima", "OH"),  # Johnny Appleseed Metro Park District
     "c5cde259-f76e-50ed-87c9-6b4dc48f9cf3": ("place", "Frankfort", "KY"),  # Kentucky AG
     "85363fab-8619-55e4-aa45-15949bb864d2": ("place", "Painesville", "OH"),  # Lake Metroparks Rangers
-    "6202f013-25eb-518a-b460-2c6bd405d044": ("place", "Lakeway", "TX"),  # Lake Travis ISD
+    "01b34cf7-422f-5ddf-b5c3-95e400e0c4b8": ("place", "Lakeway", "TX"),  # Lake Travis ISD
     "04cf4606-6e6f-59ce-b518-1c9cdde0c183": ("place", "West Columbia", "SC"),  # Lexington Medical Center
     "954e73b9-7cf7-5c4f-b490-a65a1a9cc357": ("place", "Milford", "MA"),  # Massachusetts Dept of Correction
     "e6113b72-79ed-5300-834b-f749e617f7be": ("place", "Newtown", "PA"),  # MAGLOCLEN RISS center
