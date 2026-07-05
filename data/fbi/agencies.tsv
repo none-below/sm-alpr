@@ -1089,7 +1089,7 @@ CA0100400	Fowler Police Department	City	CA	FRESNO	36.630894	-119.67752	0
 CA0100500	Fresno Police Department	City	CA	FRESNO	36.761006	-119.655019	1
 CA0100600	Huron Police Department	City	CA	FRESNO	36.761006	-119.655019	0
 CA0100700	Kerman Police Department	City	CA	FRESNO	36.722088	-120.06027	0
-CA0100800	Kingsburg Police Department	City	CA	FRESNO	36.761006	-119.655019	0
+CA0100800	Kingsburg Police Department	City	CA	FRESNO	36.761006	-119.655019	1
 CA0100900	Mendota Police Department	City	CA	FRESNO	36.759174	-120.373276	0
 CA0101000	Orange Cove Police Department	City	CA	FRESNO	36.761006	-119.655019	0
 CA0101100	Parlier Police Department	City	CA	FRESNO	36.761006	-119.655019	0
@@ -1273,7 +1273,7 @@ CA0197800	California State Polytechnic University: Pomona	University or College	
 CA0198000	Rancho Palos Verdes Police Department	City	CA	LOS ANGELES	34.06067	-118.167885	0
 CA0198100	California State University: Dominguez Hills	University or College	CA	LOS ANGELES	33.867218	-118.25527	1
 CA0198200	California State University: Long Beach	University or College	CA	LOS ANGELES	33.783516	-118.10802	1
-CA0198300	California State University: Los Angeles	University or College	CA	LOS ANGELES	34.06248	-118.16909	0
+CA0198300	California State University: Los Angeles	University or College	CA	LOS ANGELES	34.06248	-118.16909	1
 CA0198400	California State University: Northridge	University or College	CA	LOS ANGELES	34.235504	-118.52776	1
 CA0198800	Los Angeles Port Police	Other	CA	LOS ANGELES			1
 CA019900X	La Canada Flintridge Police Department	City	CA	LOS ANGELES	34.06067	-118.167885	0
@@ -1899,7 +1899,6 @@ CO0100100	Idaho Springs Police Department	City	CO	CLEAR CREEK	39.689403	-105.670
 CO0100300	Empire Police Department	City	CO	CLEAR CREEK	39.689403	-105.670791	1
 CO0110000	Conejos County Sheriff's Office	County	CO	CONEJOS	37.213406	-106.176447	1
 CO0110300	La Jara Police Department	City	CO	CONEJOS	37.213406	-106.176447	0
-CO0110500	Sanford Police Department	City	CO	CONEJOS	37.213406	-106.176447	0
 CO0120000	Costilla County Sheriff's Office	County	CO	COSTILLA	37.277547	-105.42894	1
 CO0130000	Crowley County Sheriff's Office	County	CO	CROWLEY	38.221676	-103.75666	1
 CO0140000	Custer County Sheriff's Office	County	CO	CUSTER	38.101994	-105.373515	1
@@ -2098,7 +2097,6 @@ CO0622400	Hudson Police Department	City	CO	WELD	40.555794	-104.383649	1
 CO0622600	Mead Police Department	City	CO	WELD	40.555794	-104.383649	1
 CO0622700	Garden City Police Department	City	CO	WELD	40.39324	-104.68806	1
 CO0622800	Severance Police Department	City	CO	WELD	40.555794	-104.383649	1
-CO0622900	Aims Community College	University or College	CO	WELD	40.555794	-104.383649	1
 CO0628000	Weld County Drug Task Force	Other	CO	WELD			1
 CO0630000	Yuma County Sheriff's Office	County	CO	YUMA	40.078796	-102.22071	1
 CO0630100	Wray Police Department	City	CO	YUMA	40.000631	-102.422649	1
@@ -2429,7 +2427,7 @@ FL0110300	Marco Island Police Department	City	FL	COLLIER	25.937738	-81.71461	1
 FL0110600	Department of Corrections, Office of the Inspector General: Collier County	Other State Agency	FL	COLLIER			0
 FL011500X	Division of Alcoholic Beverages and Tobacco: Collier County	Other State Agency	FL	COLLIER	30.423128	-84.28066	0
 FL0118000	Florida Game Commission: Collier County	Other State Agency	FL	COLLIER	26.158545	-81.75276	0
-FL0119000	Highway Patrol: Collier County	State Police	FL	COLLIER	26.13852	-81.76764	0
+FL0119000	Highway Patrol: Collier County	State Police	FL	COLLIER	26.13852	-81.76764	1
 FL011A00X	Department of Agriculture and Consumer Services, Office of Agricultural Law Enforcement: Collier	Other State Agency	FL	COLLIER			0
 FL011A20X	Department of Environmental Protection, Law Enforcement: Collier County	Other State Agency	FL	COLLIER			0
 FL0120000	Columbia County Sheriff's Office	County	FL	COLUMBIA	30.221333	-82.623168	1
@@ -2733,7 +2731,7 @@ FL0371400	Leon County Agriculture and Consumer Services Tallahassee	Other State 
 FL0371700	State Treasurer's Office Division of Insurance Fraud	Other State Agency	FL	LEON	30.4355	-84.2806	0
 FL0372200	Tallahassee Community College	University or College	FL	LEON	30.450592	-84.33794	1
 FL0372900	Department of Corrections, Office of the Inspector General: Leon County	Other State Agency	FL	LEON			0
-FL0373800	Florida Gaming Control Commission	Other State Agency	FL	NOT SPECIFIED			0
+FL0373800	Florida Gaming Control Commission	Other State Agency	FL	NOT SPECIFIED			1
 FL0375000	Division of Alcoholic Beverages and Tobacco: Leon County	Other State Agency	FL	LEON	30.423128	-84.28066	0
 FL0379000	Highway Patrol: Leon County	State Police	FL	LEON	30.453127	-84.24729	1
 FL037A00X	Department of Agriculture and Consumer Services, Office of Agricultural Law Enforcement: Leon	Other State Agency	FL	LEON			0
@@ -2872,7 +2870,7 @@ FL0500300	Boynton Beach Police Department	City	FL	PALM BEACH	26.528902	-80.06406
 FL0500400	Delray Beach Police Department	City	FL	PALM BEACH	26.461609	-80.076645	1
 FL0500500	Lake Worth Police Department	City	FL	PALM BEACH	26.645763	-80.448673	0
 FL0500600	Palm Beach Police Department	City	FL	PALM BEACH	26.645763	-80.448673	1
-FL0500700	Riviera Beach Police Department	City	FL	PALM BEACH	26.645763	-80.448673	0
+FL0500700	Riviera Beach Police Department	City	FL	PALM BEACH	26.645763	-80.448673	1
 FL0500800	West Palm Beach Police Department	City	FL	PALM BEACH	26.645763	-80.448673	1
 FL0500900	Atlantis Police Department	City	FL	PALM BEACH	26.595604	-80.09745	1
 FL0501200	Greenacres City Police Department	City	FL	PALM BEACH	26.631987	-80.146095	0
@@ -2880,7 +2878,7 @@ FL0501300	Gulf Stream Police Department	City	FL	PALM BEACH	26.500366	-80.0532	0
 FL0501500	Hypoluxo Police Department	City	FL	PALM BEACH	26.645763	-80.448673	0
 FL0501600	Juno Beach Police Department	City	FL	PALM BEACH	26.645763	-80.448673	1
 FL0501700	Jupiter Police Department	City	FL	PALM BEACH	26.645763	-80.448673	1
-FL0501800	Jupiter Inlet Colony Police Department	City	FL	PALM BEACH	26.952261	-80.07602	0
+FL0501800	Jupiter Inlet Colony Police Department	City	FL	PALM BEACH	26.952261	-80.07602	1
 FL0501900	Lake Park Police Department	City	FL	PALM BEACH	26.645763	-80.448673	0
 FL0502000	Lantana Police Department	City	FL	PALM BEACH	26.57751	-80.05586	0
 FL0502100	Manalapan Police Department	City	FL	PALM BEACH	26.547405	-80.04303	0
@@ -4238,6 +4236,7 @@ IL0100600	Urbana Police Department	City	IL	CHAMPAIGN	39.96348	-88.34521	1
 IL0100700	University of Illinois: Urbana	University or College	IL	CHAMPAIGN	40.13915	-88.197201	1
 IL0100800	Fisher Police Department	City	IL	CHAMPAIGN	40.13915	-88.197201	1
 IL0101100	Gifford Police Department	City	IL	CHAMPAIGN	40.13915	-88.197201	1
+IL0101300	Ludlow Police Department	City	IL	CHAMPAIGN	40.13915	-88.197201	0
 IL0101500	Parkland College	University or College	IL	CHAMPAIGN	40.12754	-88.28658	1
 IL0110000	Christian County Sheriff's Office	County	IL	CHRISTIAN	39.545524	-89.279593	1
 IL0110100	Pana Police Department	City	IL	CHRISTIAN, SHELBY	39.387722	-89.08104	1
@@ -4483,6 +4482,7 @@ IL0223100	Burr Ridge Police Department	City	IL	COOK, DUPAGE	41.7501	-87.91556	1
 IL0223300	DuPage County Forest Preserve	Other	IL	DUPAGE	41.852058	-88.086038	1
 IL0223700	College of DuPage	University or College	IL	DUPAGE	41.84443	-88.07428	1
 IL0225000	Naperville Park District	Other	IL	DUPAGE	41.772045	-88.15515	1
+IL022709E	Benedictine University: Lisle	University or College	IL	DUPAGE			0
 IL0230000	Edgar County Sheriff's Office	County	IL	EDGAR	39.679037	-87.74711	1
 IL0230100	Chrisman Police Department	City	IL	EDGAR	39.804432	-87.679436	1
 IL0230200	Kansas Police Department	City	IL	EDGAR			1
@@ -4866,6 +4866,7 @@ IL0720700	Peoria Police Department	City	IL	PEORIA	40.696304	-89.58248	1
 IL0720900	Peoria Heights Police Department	City	IL	PEORIA	40.74634	-89.574005	1
 IL0721200	Glasford Police Department	City	IL	PEORIA	40.785993	-89.767097	0
 IL0721400	Peoria Park District	Other	IL	PEORIA	40.785993	-89.767097	1
+IL072219E	Bradley University	University or College	IL	PEORIA			1
 IL0730000	Perry County Sheriff's Office	County	IL	PERRY	38.08011	-89.381836	1
 IL0730100	Du Quoin Police Department	City	IL	PERRY	38.010124	-89.23596	1
 IL0730200	Pinckneyville Police Department	City	IL	PERRY	38.0794	-89.38293	1
@@ -4910,7 +4911,7 @@ IL0820600	Dupo Police Department	City	IL	ST CLAIR	38.519066	-90.20963	1
 IL0820700	East St. Louis Police Department	City	IL	ST CLAIR	38.62846	-90.170235	0
 IL0820800	Freeburg Police Department	City	IL	ST CLAIR	38.418346	-89.90492	1
 IL0820900	Lebanon Police Department	City	IL	ST CLAIR	38.603943	-89.81189	1
-IL0821000	Marissa Police Department	City	IL	ST CLAIR	38.24658	-89.7541	0
+IL0821000	Marissa Police Department	City	IL	ST CLAIR	38.24658	-89.7541	1
 IL0821100	Mascoutah Police Department	City	IL	ST CLAIR	38.470198	-89.928546	1
 IL0821200	Millstadt Police Department	City	IL	ST CLAIR	38.459778	-90.09284	1
 IL0821500	New Athens Police Department	City	IL	ST CLAIR	38.317448	-89.87143	1
@@ -4922,6 +4923,7 @@ IL0822200	Sauget Police Department	City	IL	ST CLAIR	38.585518	-90.1701	1
 IL0822300	Swansea Police Department	City	IL	ST CLAIR	38.53059	-89.98391	1
 IL0822400	Fairview Heights Police Department	City	IL	ST CLAIR	38.470198	-89.928546	1
 IL0822500	Shiloh Police Department	City	IL	ST CLAIR	38.55872	-89.89787	1
+IL0822600	Summerfield Police Department	City	IL	ST CLAIR	38.470198	-89.928546	1
 IL0822800	Smithton Police Department	City	IL	ST CLAIR	38.408028	-89.99219	1
 IL0824000	East Carondelet Police Department	City	IL	ST CLAIR	38.53994	-90.23099	0
 IL0824400	Southwestern Illinois College	University or College	IL	ST CLAIR	38.519474	-89.92843	1
@@ -5070,6 +5072,7 @@ IL0992000	University Park Police Department	City	IL	COOK, WILL	41.44679	-87.6864
 IL0992100	Shorewood Police Department	City	IL	WILL	41.523247	-88.10319	1
 IL0992200	Mokena Police Department	City	IL	WILL	41.533203	-87.882614	1
 IL0992400	Governors State University	University or College	IL	WILL	41.448474	-87.978456	0
+IL099269E	Elgin, Joliet and Eastern Railway	Other	IL	WILL	41.53531	-88.055786	0
 IL0993000	Will County Forest Preserve	Other	IL	WILL	41.47694	-88.022415	1
 IL0993100	Joliet Junior College	University or College	IL	WILL	41.448474	-87.978456	1
 IL0993200	Lockport Township Park District	Other	IL	WILL			1
@@ -5098,12 +5101,14 @@ IL1010900	Winnebago Police Department	City	IL	WINNEBAGO	42.266224	-89.241554	1
 IL1011000	Durand Police Department	City	IL	WINNEBAGO	42.337396	-89.161205	1
 IL1011200	Rock Valley College	University or College	IL	WINNEBAGO	42.30852	-88.99945	1
 IL1011300	Rockford Park District	Other	IL	WINNEBAGO	42.27415	-89.09234	1
+IL1011400	Greater Rockford Airport	Other	IL	WINNEBAGO	42.188698	-89.1254	0
 IL1011700	Machesney Park Police Department	City	IL	WINNEBAGO	42.272087	-89.09654	1
 IL1011800	Rockford Metro Centre	Other	IL	WINNEBAGO	42.270714	-89.09578	1
 IL1020000	Woodford County Sheriff's Office	County	IL	WOODFORD	40.789596	-89.210301	0
 IL1020100	El Paso Police Department	City	IL	WOODFORD	40.737396	-89.00902	1
 IL1020200	Eureka Police Department	City	IL	WOODFORD	40.721718	-89.27287	0
 IL1020300	Metamora Police Department	City	IL	WOODFORD	40.79055	-89.36182	0
+IL1020600	Washburn Police Department	City	IL	MARSHALL, WOODFORD	40.789596	-89.210301	0
 IL1021300	Goodfield Police Department	City	IL	TAZEWELL, WOODFORD	40.789596	-89.210301	0
 IL102149E	Eureka College	University or College	IL	WOODFORD			1
 ILCPD0000	Chicago Police Department	City	IL	COOK	41.830837	-87.62327	1
@@ -6176,6 +6181,7 @@ KY0760000	Madison County Sheriff's Office	County	KY	MADISON	37.744884	-84.27752	
 KY0760100	Berea Police Department	City	KY	MADISON	37.723528	-84.277008	1
 KY0760200	Richmond Police Department	City	KY	MADISON	37.723528	-84.277008	1
 KY0760300	Eastern Kentucky University	University or College	KY	MADISON	37.723528	-84.277008	1
+KY0761000	Madison County Public Schools	Other	KY	MADISON			0
 KY0770000	Magoffin County Sheriff's Office	County	KY	MAGOFFIN	37.698953	-83.069716	1
 KY0770100	Salyersville Police Department	City	KY	MAGOFFIN	37.698953	-83.069716	1
 KY0780000	Marion County Sheriff's Office	County	KY	MARION	37.568565	-85.25187	1
@@ -7454,6 +7460,7 @@ MI2796700	Lac Vieux Desert Tribal	Tribal	MI	NOT SPECIFIED	46.488054	-89.788314	1
 MI2802800	State Police: Grand Traverse County	State Police	MI	GRAND TRAVERSE	44.751575	-85.618774	1
 MI2812800	Grand Traverse County Sheriff's Office	County	MI	GRAND TRAVERSE	44.752533	-85.607414	1
 MI2878100	Traverse City Police Department	City	MI	GRAND TRAVERSE, LEELANAU	44.718688	-85.553848	1
+MI2878200	Northwest Regional Airport Authority	Other	MI	GRAND TRAVERSE			1
 MI2902900	State Police: Gratiot County	State Police	MI	GRATIOT	43.3188	-84.60743	1
 MI2912900	Gratiot County Sheriff's Office	County	MI	GRATIOT	43.292326	-84.60469	1
 MI2921300	Alma Police Department	City	MI	GRATIOT	43.292326	-84.60469	1
@@ -8597,7 +8604,7 @@ MO0510300	Warrensburg Police Department	City	MO	JOHNSON	38.762787	-93.7404	1
 MO0510400	University of Central Missouri	University or College	MO	JOHNSON	38.760643	-93.73571	1
 MO0510900	Leeton Police Department	City	MO	JOHNSON	38.582184	-93.69738	1
 MO0520000	Knox County Sheriff's Office	County	MO	KNOX	40.136776	-92.146809	1
-MO0520200	Edina Police Department	City	MO	KNOX	40.16849	-92.1764	0
+MO0520200	Edina Police Department	City	MO	KNOX	40.16849	-92.1764	1
 MO0530000	Laclede County Sheriff's Office	County	MO	LACLEDE	37.6827	-92.66453	1
 MO0530200	Lebanon Police Department	City	MO	LACLEDE	37.65969	-92.594832	1
 MO0540000	Lafayette County Sheriff's Office	County	MO	LAFAYETTE	39.185898	-93.88218	1
@@ -8862,7 +8869,7 @@ MO0980100	Marshall Police Department	City	MO	SALINE	39.12041	-93.20152	1
 MO0980300	Sweet Springs Police Department	City	MO	SALINE	38.964317	-93.41781	1
 MO0980600	Emma Police Department	City	MO	LAFAYETTE, SALINE	39.13584	-93.204164	1
 MO0990000	Schuyler County Sheriff's Office	County	MO	SCHUYLER	40.469361	-92.519016	1
-MO1000000	Scotland County Sheriff's Office	County	MO	SCOTLAND	40.45912	-92.16938	0
+MO1000000	Scotland County Sheriff's Office	County	MO	SCOTLAND	40.45912	-92.16938	1
 MO1000100	Memphis Police Department	City	MO	SCOTLAND	40.45908	-92.16935	0
 MO1000400	Rutledge Police Department	City	MO	SCOTLAND	40.447686	-92.142824	0
 MO1010000	Scott County Sheriff's Office	County	MO	SCOTT	37.047793	-89.568098	1
@@ -9440,7 +9447,6 @@ NB0360000	Garfield County Sheriff's Office	County	NE	GARFIELD	41.905571	-98.9229
 NB0370000	Gosper County Sheriff's Office	County	NE	GOSPER	40.509838	-99.824078	1
 NB0380000	Grant County Sheriff's Office	County	NE	GRANT	41.915867	-101.756875	1
 NB0390000	Greeley County Sheriff's Office	County	NE	GREELEY	41.5676	-98.530566	1
-NB0390100	Scotia Police Department	City	NE	GREELEY			1
 NB0400000	Hall County Sheriff's Office	County	NE	HALL	40.866023	-98.498004	1
 NB0400100	Grand Island Police Department	City	NE	HALL	40.866023	-98.498004	1
 NB0410000	Hamilton County Sheriff's Office	County	NE	HAMILTON	40.877145	-98.021943	1
@@ -10572,7 +10578,7 @@ NJ0024400	Oradell Police Department	City	NJ	BERGEN	40.953396	-74.03177	1
 NJ0024500	Palisades Park Police Department	City	NJ	BERGEN	40.959648	-74.07486	0
 NJ0024600	Paramus Police Department	City	NJ	BERGEN	40.926895	-74.07081	1
 NJ0024700	Park Ridge Police Department	City	NJ	BERGEN	41.033936	-74.03984	1
-NJ0024800	Ramsey Police Department	City	NJ	BERGEN	40.959648	-74.07486	0
+NJ0024800	Ramsey Police Department	City	NJ	BERGEN	40.959648	-74.07486	1
 NJ0024900	Ridgefield Police Department	City	NJ	BERGEN	40.835297	-74.00822	1
 NJ0025000	Ridgefield Park Police Department	City	NJ	BERGEN	40.858017	-74.024796	1
 NJ0025100	Ridgewood Police Department	City	NJ	BERGEN	40.98219	-74.112564	1
@@ -10863,7 +10869,7 @@ NJ0132400	Loch Arbour Police Department	City	NJ	MONMOUTH	40.247128	-74.00072	1
 NJ0132500	Long Branch Police Department	City	NJ	MONMOUTH	40.303596	-73.99368	0
 NJ0132600	Manalapan Township Police Department	City	NJ	MONMOUTH	40.288692	-74.33915	0
 NJ0132700	Manasquan Police Department	City	NJ	MONMOUTH	40.12197	-74.04868	1
-NJ0132800	Marlboro Township Police Department	City	NJ	MONMOUTH	40.326744	-74.26664	0
+NJ0132800	Marlboro Township Police Department	City	NJ	MONMOUTH	40.326744	-74.26664	1
 NJ0132900	Matawan Police Department	City	NJ	MONMOUTH	40.414375	-74.22989	0
 NJ0133000	Aberdeen Township Police Department	City	NJ	MONMOUTH	40.287056	-74.152446	1
 NJ0133100	Middletown Township Police Department	City	NJ	MONMOUTH	40.393738	-74.10226	0
@@ -11138,7 +11144,7 @@ NM0140300	Ruidoso Downs Police Department	City	NM	LINCOLN	33.740941	-105.449083	
 NM0140400	Capitan Police Department	City	NM	LINCOLN	33.740941	-105.449083	1
 NM0150100	Los Alamos Police Department	City	NM	LOS ALAMOS	35.870047	-106.307968	1
 NM0160000	Luna County Sheriff's Office	County	NM	LUNA	32.184295	-107.746922	1
-NM0160100	Deming Police Department	City	NM	LUNA	32.269485	-107.75179	0
+NM0160100	Deming Police Department	City	NM	LUNA	32.269485	-107.75179	1
 NM0170000	McKinley County Sheriff's Office	County	NM	MCKINLEY	35.50843	-108.733536	1
 NM0170100	Gallup Police Department	City	NM	MCKINLEY	35.526714	-108.74098	1
 NM0170300	Zuni Tribal	Tribal	NM	NOT SPECIFIED	35.573874	-108.255158	1
@@ -11295,7 +11301,7 @@ NY0010200	Cohoes Police Department	City	NY	ALBANY	42.774536	-73.700066	0
 NY0010300	Watervliet Police Department	City	NY	ALBANY	42.725674	-73.69997	0
 NY0012000	Green Island Village Police Department	City	NY	ALBANY	42.74209	-73.69237	0
 NY0012100	Altamont Village Police Department	City	NY	ALBANY	42.588272	-73.974015	0
-NY0012500	Menands Village Police Department	City	NY	ALBANY	42.690357	-73.725815	0
+NY0012500	Menands Village Police Department	City	NY	ALBANY	42.690357	-73.725815	1
 NY0015100	Bethlehem Town Police Department	City	NY	ALBANY	42.588272	-73.974015	1
 NY0015200	Guilderland Town Police Department	City	NY	ALBANY	42.588272	-73.974015	0
 NY0015300	Colonie Town Police Department	City	NY	ALBANY	42.588272	-73.974015	1
@@ -11544,17 +11550,17 @@ NY0330000	Onondaga County Sheriff's Office	County	NY	ONONDAGA	43.047646	-76.1474
 NY0330100	Syracuse Police Department	City	NY	ONONDAGA	43.046753	-76.14747	0
 NY0330500	Syracuse Regional Airport Authority	Other	NY	ONONDAGA			1
 NY0332400	Jordan Village Police Department	City	NY	ONONDAGA	43.00653	-76.196117	1
-NY0332600	Solvay Village Police Department	City	NY	ONONDAGA	43.061012	-76.21294	0
-NY0332700	Baldwinsville Village Police Department	City	NY	ONONDAGA	43.158607	-76.33341	0
+NY0332600	Solvay Village Police Department	City	NY	ONONDAGA	43.061012	-76.21294	1
+NY0332700	Baldwinsville Village Police Department	City	NY	ONONDAGA	43.158607	-76.33341	1
 NY0332900	Manlius Town Police Department	City	NY	ONONDAGA	43.00653	-76.196117	1
 NY0333000	Marcellus Village Police Department	City	NY	ONONDAGA	42.98244	-76.341354	1
 NY0333100	Liverpool Village Police Department	City	NY	ONONDAGA	43.103813	-76.20982	1
-NY0333200	Skaneateles Village Police Department	City	NY	ONONDAGA	42.945023	-76.432106	0
+NY0333200	Skaneateles Village Police Department	City	NY	ONONDAGA	42.945023	-76.432106	1
 NY0333500	North Syracuse Village Police Department	City	NY	ONONDAGA	43.13237	-76.12807	0
 NY0335000	Camillus Town and Village Police Department	City	NY	ONONDAGA	43.035553	-76.3154	1
 NY0335100	Cicero Town Police Department	City	NY	ONONDAGA	43.00653	-76.196117	0
 NY0335300	Dewitt Town Police Department	City	NY	ONONDAGA	43.00653	-76.196117	0
-NY0335600	Geddes Town Police Department	City	NY	ONONDAGA	43.060307	-76.21281	0
+NY0335600	Geddes Town Police Department	City	NY	ONONDAGA	43.060307	-76.21281	1
 NY0339000	State Park: Central Region	Other State Agency	NY	NOT SPECIFIED	42.99434	-76.09826	0
 NY0340000	Ontario County Sheriff's Office	County	NY	ONTARIO	42.889885	-77.27641	0
 NY0340200	Geneva Police Department	City	NY	ONTARIO	42.871147	-76.98003	0
@@ -11710,7 +11716,7 @@ NY0542400	Trumansburg Village Police Department	City	NY	TOMPKINS	42.453003	-76.4
 NY0542500	Cayuga Heights Village Police Department	City	NY	TOMPKINS	42.469223	-76.47913	1
 NY0549000	State Park: Finger Lakes Region	Other State Agency	NY	NOT SPECIFIED	42.453003	-76.473481	0
 NY0550000	Ulster County Sheriff's Office	County	NY	ULSTER	41.947216	-74.265458	1
-NY0550100	Kingston Police Department	City	NY	ULSTER	41.947216	-74.265458	0
+NY0550100	Kingston Police Department	City	NY	ULSTER	41.947216	-74.265458	1
 NY0550300	Ulster Regional Gang Enforcement Narcotics Team	Other	NY	ULSTER	41.912647	-74.01875	1
 NY0552600	Ellenville Village Police Department	City	NY	ULSTER	41.947216	-74.265458	1
 NY0552700	New Paltz Town and Village Police Department	City	NY	ULSTER	41.947216	-74.265458	1
@@ -11768,7 +11774,7 @@ NY0593700	Pelham Manor Village Police Department	City	NY	WESTCHESTER	40.890064	-
 NY0593900	Elmsford Village Police Department	City	NY	WESTCHESTER	41.15277	-73.745912	0
 NY0594100	Buchanan Village Police Department	City	NY	WESTCHESTER	41.26186	-73.938286	0
 NY0595000	Bedford Town Police Department	City	NY	WESTCHESTER	41.239838	-73.69817	1
-NY0595200	Eastchester Town Police Department	City	NY	WESTCHESTER	40.956276	-73.81135	0
+NY0595200	Eastchester Town Police Department	City	NY	WESTCHESTER	40.956276	-73.81135	1
 NY0595300	Greenburgh Town Police Department	City	NY	WESTCHESTER	41.0404	-73.78661	1
 NY0595400	Harrison Town Police Department	City	NY	WESTCHESTER	40.99811	-73.72359	0
 NY0595500	Lewisboro Town Police Department	City	NY	WESTCHESTER	41.15277	-73.745912	0
@@ -13490,7 +13496,6 @@ PA0022D00	Allegheny County Port Authority	Other	PA	ALLEGHENY	40.441807	-79.99865
 PA0022F9E	Carnegie Mellon University	University or College	PA	ALLEGHENY			0
 PA0022H9E	Chatham University	University or College	PA	ALLEGHENY			0
 PA0022M00	Gateway School District	Other	PA	ALLEGHENY			0
-PA0022N00	Plum Borough School District	Other	PA	ALLEGHENY			0
 PA0023100	Edgewood Police Department	City	PA	ALLEGHENY	40.434032	-79.88377	0
 PA0023200	Glassport Police Department	City	PA	ALLEGHENY	40.32891	-79.89254	1
 PA0023300	Hampton Township Police Department	City	PA	ALLEGHENY	40.46892	-79.98092	1
@@ -13541,11 +13546,9 @@ PA002A400	Brentwood Borough School District	Other	PA	ALLEGHENY			0
 PA002A500	Allegheny County Community College	University or College	PA	ALLEGHENY			0
 PA002A600	State Park Rangers: Point	Other State Agency	PA	ALLEGHENY			0
 PA002B100	South Park School District	Other	PA	ALLEGHENY			0
-PA002B200	McKeesport Area School District	Other	PA	ALLEGHENY			0
 PA002B700	Bethel Park School District	Other	PA	ALLEGHENY			0
 PA002B800	Eastern Regional Mon Valley Police Department	City	PA	ALLEGHENY			1
 PA002BF0X	Bureau of Forestry: Allegheny County	Other State Agency	PA	ALLEGHENY			0
-PA002C100	Carlynton School District	Other	PA	ALLEGHENY			0
 PA002C200	Swissvale-Braddock Hills Regional Police Department	City	PA	ALLEGHENY			0
 PA002C39P	Western Pennsylvania School for Blind Children	Other	PA	ALLEGHENY			0
 PA002DE0X	Office of Attorney General Region 3: Allegheny County	Other State Agency	PA	ALLEGHENY			0
@@ -13609,8 +13612,6 @@ PA0050200	Everett Police Department	City	PA	BEDFORD	39.99862	-78.494751	0
 PA0050400	Saxton Police Department	City	PA	BEDFORD	39.99862	-78.494751	1
 PA0050900	State Park Rangers: Blue Knob	Other State Agency	PA	BEDFORD	39.99862	-78.494751	0
 PA0051000	State Park Rangers: Shawnee	Other State Agency	PA	BEDFORD	39.99862	-78.494751	0
-PA0051200	Bedford School District	Other	PA	BEDFORD			0
-PA0051300	Everett Area School District	Other	PA	BEDFORD			0
 PA005BF0X	Bureau of Forestry: Bedford County	Other State Agency	PA	BEDFORD			0
 PA005DE0X	Office of Attorney General Region 3: Bedford County	Other State Agency	PA	BEDFORD			0
 PA005SP00	State Police: Bedford County	State Police	PA	BEDFORD	40.024338	-78.42955	1
@@ -13761,7 +13762,6 @@ PA0103700	Butler County Community College	University or College	PA	BUTLER			0
 PA0103800	State Park Rangers: Moraine	Other State Agency	PA	BUTLER	40.913834	-79.91896	0
 PA0103900	State Park Rangers: Jennings Environmental Education Center	Other State Agency	PA	BUTLER	40.913834	-79.91896	0
 PA0104200	Mars Area School District	Other	PA	BUTLER			0
-PA0104300	Moniteau School District	Other	PA	BUTLER			0
 PA010BF0X	Bureau of Forestry: Butler County	Other State Agency	PA	BUTLER			0
 PA010DE0X	Office of Attorney General Region 3: Butler County	Other State Agency	PA	BUTLER			0
 PA010SP00	State Police: Butler County	State Police	PA	BUTLER	40.86474	-79.91555	1
@@ -13900,7 +13900,6 @@ PA0160700	Clarion University	University or College	PA	CLARION	41.211235	-79.3803
 PA0161100	State Park Rangers: Cook Forest	Other State Agency	PA	CLARION	41.198159	-79.420369	0
 PA0161500	Forest Rangers: Clear Creek State Forest District 8	Other State Agency	PA	CLARION			0
 PA0161600	Southern Clarion County Regional Police Department	City	PA	CLARION			0
-PA0161800	Keystone School District	Other	PA	CLARION			0
 PA016BF0X	Bureau of Forestry: Clarion County	Other State Agency	PA	CLARION			0
 PA016DE0X	Office of Attorney General Region 3: Clarion County	Other State Agency	PA	CLARION			0
 PA016SP00	State Police: Clarion County	State Police	PA	CLARION	41.18254	-79.39601	1
@@ -13919,7 +13918,6 @@ PA0180600	Woodward Township Police Department	City	PA	CLINTON	41.140522	-77.4301
 PA0180900	Mill Hall Police Department	City	PA	CLINTON	41.111156	-77.4933	0
 PA0181200	Lock Haven University	University or College	PA	CLINTON	41.129604	-77.45304	0
 PA0181600	Pine Creek Township Police Department	City	PA	CLINTON	41.245301	-77.649141	0
-PA0182400	Keystone Central School District	Other	PA	CLINTON			0
 PA0182500	State Park Rangers: Kettle Creek	Other State Agency	PA	CLINTON	41.245301	-77.649141	0
 PA0182600	Forest Rangers: Sproul State Forest District 10	Other State Agency	PA	CLINTON			0
 PA018BF0X	Bureau of Forestry: Clinton County	Other State Agency	PA	CLINTON			0
@@ -14087,7 +14085,6 @@ PA0251900	Pennsylvania State University: Behrend	University or College	PA	ERIE	4
 PA0252200	Erie Municipal Airport Authority	Other	PA	ERIE	42.117952	-80.096386	0
 PA025239E	Mercyhurst University	University or College	PA	ERIE			0
 PA025249E	Gannon University	University or College	PA	ERIE			0
-PA0252900	General McLane School District	Other	PA	ERIE			0
 PA0253200	Fairview School District	Other	PA	ERIE			0
 PA0255500	Harbor Creek School District	Other	PA	ERIE			0
 PA025BF0X	Bureau of Forestry: Erie County	Other State Agency	PA	ERIE			0
@@ -14110,7 +14107,6 @@ PA0262100	County Detective: Fayette County	Other	PA	FAYETTE			0
 PA0263600	State Park Rangers: Ohiopyle	Other State Agency	PA	FAYETTE	39.918725	-79.639946	0
 PA0264000	Pennsylvania State University: Fayette	University or College	PA	FAYETTE			0
 PA0264100	German Township Police Department	City	PA	FAYETTE			0
-PA0264200	Fayette County Career & Technology Institute	University or College	PA	FAYETTE			0
 PA026BF0X	Bureau of Forestry: Fayette County	Other State Agency	PA	FAYETTE			0
 PA026DE0X	Office of Attorney General Region 3: Fayette County	Other State Agency	PA	FAYETTE			0
 PA026SP00	State Police: Fayette County	State Police	PA	FAYETTE	39.918725	-79.639946	1
@@ -14162,7 +14158,7 @@ PA0320300	Indiana Police Department	City	PA	INDIANA	40.6241	-79.154655	1
 PA0320400	Clymer Police Department	City	PA	INDIANA	40.668484	-79.01217	0
 PA0320500	Cherry Tree Police Department	City	PA	INDIANA	40.651432	-79.087545	0
 PA0320700	Saltsburg Police Department	City	PA	INDIANA	40.651432	-79.087545	0
-PA0320900	County Detective: Indiana County	Other	PA	INDIANA			0
+PA0320900	County Detective: Indiana County	Other	PA	INDIANA			1
 PA0321000	Indiana University	University or College	PA	INDIANA	40.614574	-79.15767	0
 PA0321600	State Park Rangers: Yellow Creek	Other State Agency	PA	INDIANA	40.651432	-79.087545	0
 PA032BF0X	Bureau of Forestry: Indiana County	Other State Agency	PA	INDIANA			0
@@ -14282,7 +14278,6 @@ PA0382200	South Londonderry Township Police Department	City	PA	LEBANON	40.367344
 PA0382400	Millcreek Township Police Department, Lebanon County	City	PA	LEBANON			0
 PA0382500	Fort Indiantown Gap	Other	PA	LEBANON	40.367344	-76.458009	0
 PA0382800	Lebanon Valley College	University or College	PA	LEBANON			0
-PA0383000	Eastern Lebanon County School District	Other	PA	LEBANON			0
 PA0383200	Northern Lebanon School District	Other	PA	LEBANON			0
 PA0383300	Western Lebanon County Regional Police Department	City	PA	LEBANON			1
 PA0384100	Lebanon County Regional Police Department	City	PA	LEBANON			1
@@ -14303,7 +14298,7 @@ PA0391100	Upper Saucon Township Police Department	City	PA	LEHIGH	40.53528	-75.40
 PA0391200	Macungie Police Department	City	PA	LEHIGH	40.514797	-75.55704	0
 PA0391300	South Whitehall Township Police Department	City	PA	LEHIGH	40.611725	-75.56682	1
 PA0391400	Alburtis Police Department	City	PA	LEHIGH	40.614241	-75.590627	0
-PA0392100	Lehigh Valley International Airport	Other	PA	LEHIGH	40.655144	-75.42878	0
+PA0392100	Lehigh Valley International Airport	Other	PA	LEHIGH	40.655144	-75.42878	1
 PA039249E	DeSales University	University or College	PA	LEHIGH			0
 PA0392700	Upper Macungie Township Police Department	City	PA	LEHIGH	40.56693	-75.62926	0
 PA0392900	Lehigh Career and Technical Institute	University or College	PA	LEHIGH			0
@@ -14376,7 +14371,6 @@ PA0411700	Muncy Township Police Department	City	PA	LYCOMING	41.242695	-76.80092	
 PA0412100	State Park Rangers: Little Pine	Other State Agency	PA	LYCOMING	41.34362	-77.055225	0
 PA0412200	Forest Rangers: Tiadaghton State Forest District 12	Other State Agency	PA	LYCOMING			0
 PA0412500	Loyalsock Township School District	Other	PA	LYCOMING			0
-PA0412600	Montgomery Area School District	Other	PA	LYCOMING			0
 PA0412700	South Williamsport Area School District	Other	PA	LYCOMING			0
 PA0412800	Lycoming Regional Police Department	City	PA	LYCOMING			0
 PA041BF0X	Bureau of Forestry: Lycoming County	Other State Agency	PA	LYCOMING			0
@@ -14416,7 +14410,6 @@ PA0432600	State Park Rangers: Maurice K. Goddard	Other State Agency	PA	MERCER	41
 PA0432700	Pennsylvania State University: Shenango Valley	University or College	PA	MERCER			0
 PA0432800	Farrell Police Department	City	PA	MERCER			0
 PA0433100	Grove City Area School District	Other	PA	MERCER			0
-PA0433500	Greenville School District	Other	PA	MERCER			0
 PA043BF0X	Bureau of Forestry: Mercer County	Other State Agency	PA	MERCER			0
 PA043DE0X	Office of Attorney General Region 3: Mercer County	Other State Agency	PA	MERCER			0
 PA043SP00	State Police: Mercer County	State Police	PA	MERCER	41.263557	-80.17558	1
@@ -14537,7 +14530,6 @@ PA0483800	State Park Rangers: Jacobsburg Environmental Education Center	Other St
 PA048439E	Lafayette College	University or College	PA	NORTHAMPTON			0
 PA0484800	Slate Belt Regional Police Department	City	PA	NORTHAMPTON			0
 PA0484900	West Easton Police Department	City	PA	NORTHAMPTON			0
-PA0486000	Nazareth Area School District	Other	PA	NORTHUMBERLAND			0
 PA048BF0X	Bureau of Forestry: Northampton County	Other State Agency	PA	NORTHAMPTON			0
 PA048DE0X	Office of Attorney General Region 1: Northampton County	Other State Agency	PA	NORTHAMPTON			0
 PA048SP00	State Police: Northampton County	State Police	PA	NORTHAMPTON	40.773144	-75.27	1
@@ -14555,7 +14547,6 @@ PA0491400	Watsontown Police Department	City	PA	NORTHUMBERLAND	40.851524	-76.7098
 PA0491600	Point Township Police Department	City	PA	NORTHUMBERLAND	40.918793	-76.81919	0
 PA0491800	Mount Carmel Township Police Department	City	PA	NORTHUMBERLAND	40.851524	-76.709877	0
 PA0492100	State Park Rangers: Shikellamy	Other State Agency	PA	NORTHUMBERLAND	40.851524	-76.709877	0
-PA0492300	Shikellamy School District	Other	PA	NORTHUMBERLAND			0
 PA0492500	Shamokin Area School District	Other	PA	NORTHUMBERLAND			0
 PA049BF0X	Bureau of Forestry: Northumberland County	Other State Agency	PA	NORTHUMBERLAND			0
 PA049DE0X	Office of Attorney General Region 2: Northumberland County	Other State Agency	PA	NORTHUMBERLAND			0
@@ -14627,7 +14618,6 @@ PA0545300	East Union Township Police Department	City	PA	SCHUYLKILL	40.703682	-76
 PA0545400	State Park Rangers: Tuscarora	Other State Agency	PA	SCHUYLKILL	40.703682	-76.217788	0
 PA0545500	Forest Rangers: Weiser State Forest District 18	Other State Agency	PA	COLUMBIA			0
 PA0545700	Foster Township Police Department, Schuylkill County	City	PA	SCHUYLKILL	40.706352	-76.32887	0
-PA0545900	Mahanoy Area School District	Other	PA	SCHUYLKILL			0
 PA0546100	Shenandoah Valley School District	Other	PA	SCHUYLKILL			0
 PA054BF0X	Bureau of Forestry: Schuylkill County	Other State Agency	PA	SCHUYLKILL			0
 PA054DE0X	Office of Attorney General Region 1: Schuylkill County	Other State Agency	PA	SCHUYLKILL			0
@@ -14749,6 +14739,7 @@ PA0635000	West Pike Run Police Department	City	PA	WASHINGTON	40.200005	-80.25213
 PA0635300	Jefferson Township Police Department, Washington County	City	PA	WASHINGTON	40.200005	-80.252132	0
 PA063589E	Washington and Jefferson College	University or College	PA	WASHINGTON			0
 PA0636000	Charelroi Regional Police Department	City	PA	WASHINGTON	40.200005	-80.252132	0
+PA0638000	Washington School District	Other	PA	WASHINGTON			0
 PA0638200	Greene Washington Regional Police Department	City	PA	GREENE, WASHINGTON			0
 PA063BF0X	Bureau of Forestry: Washington County	Other State Agency	PA	WASHINGTON			0
 PA063DE0X	Office of Attorney General Region 3: Washington County	Other State Agency	PA	WASHINGTON			0
@@ -16317,6 +16308,7 @@ TX0360700	Mont Belvieu Police Department	City	TX	CHAMBERS, LIBERTY	29.703933	-94
 TX0361000	Independent School District: Barbers Hill	Other	TX	CHAMBERS	29.703933	-94.668875	1
 TX0370000	Cherokee County Sheriff's Office	County	TX	CHEROKEE	31.806877	-95.15124	1
 TX0370100	Jacksonville Police Department	City	TX	CHEROKEE	31.843872	-95.156345	1
+TX0370200	New Summerfield Police Department	City	TX	CHEROKEE			1
 TX0370300	Rusk Police Department	City	TX	CHEROKEE	31.79308	-95.150444	1
 TX0370400	Cherokee County Constable: Precinct 1	Other	TX	CHEROKEE			1
 TX0370500	Cherokee County Constable: Precinct 2	Other	TX	CHEROKEE			1
@@ -16820,8 +16812,11 @@ TX1020000	Harrison County Sheriff's Office	County	TX	HARRISON	32.547991	-94.3744
 TX1020100	Hallsville Police Department	City	TX	HARRISON	32.547991	-94.374434	1
 TX1020200	Marshall Police Department	City	TX	HARRISON	32.547991	-94.374434	1
 TX1020500	Waskom Police Department	City	TX	HARRISON			1
+TX1020900	Harrison County Constable: Precinct 3	Other	TX	HARRISON			1
+TX1021000	Harrison County Constable: Precinct 4	Other	TX	HARRISON			1
 TX1021300	Independent School District: Hallsville	Other	TX	HARRISON	32.547991	-94.374434	1
 TX1021500	Independent School District: Marshall	Other	TX	HARRISON			1
+TX1021800	Independent School District: Elysian Fields	Other	TX	HARRISON			1
 TX1030000	Hartley County Sheriff's Office	County	TX	HARTLEY	35.840244	-102.610047	1
 TX1040000	Haskell County Sheriff's Office	County	TX	HASKELL	33.175965	-99.730773	1
 TX1040100	Haskell Police Department	City	TX	HASKELL	33.175965	-99.730773	1
@@ -17195,6 +17190,7 @@ TX1580300	Marion County Constable: Precinct 1	Other	TX	MARION			1
 TX1580400	Marion County Constable: Precinct 2	Other	TX	MARION			1
 TX1590000	Martin County Sheriff's Office	County	TX	MARTIN	32.30983	-101.961836	1
 TX1590100	Stanton Police Department	City	TX	MARTIN	32.30983	-101.961836	1
+TX1590200	Independent School District: Stanton	Other	TX	MARTIN			1
 TX1600000	Mason County Sheriff's Office	County	TX	MASON	30.703232	-99.237608	1
 TX1610000	Matagorda County Sheriff's Office	County	TX	MATAGORDA	28.980654	-95.966286	1
 TX1610100	Bay City Police Department	City	TX	MATAGORDA	28.981882	-95.96749	1
@@ -17414,11 +17410,14 @@ TX2010000	Rusk County Sheriff's Office	County	TX	RUSK	32.154736	-94.80016	1
 TX2010100	Henderson Police Department	City	TX	RUSK	32.1575	-94.78392	1
 TX2010200	New London Police Department	City	TX	RUSK			1
 TX2010300	Overton Police Department	City	TX	RUSK, SMITH	32.109423	-94.756382	1
+TX2010400	Rusk County Constable: Precinct 1	Other	TX	RUSK			1
 TX2010500	Independent School District: Tatem	Other	TX	RUSK			1
 TX2010600	Rusk County Constable: Precinct 2	Other	TX	RUSK			1
+TX2010800	Rusk County Constable: Precinct 4	Other	TX	RUSK			1
 TX2010900	Rusk County Constable: Precinct 5	Other	TX	RUSK			1
 TX2011000	Mount Enterprise Police Department	City	TX	RUSK			1
 TX2011100	Tatum Police Department	City	TX	PANOLA, RUSK	32.109423	-94.756382	1
+TX2011400	Independent School District: Mount Enterprise	Other	TX	RUSK			1
 TX2020000	Sabine County Sheriff's Office	County	TX	SABINE	31.3433	-93.851913	1
 TX2020100	Hemphill Police Department	City	TX	SABINE	31.3433	-93.851913	1
 TX2020200	Pineland Police Department	City	TX	SABINE	31.3433	-93.851913	1
@@ -17970,7 +17969,6 @@ VA0250000	Cumberland County Sheriff's Office	County	VA	CUMBERLAND	37.520189	-78.
 VA025SP00	State Police: Cumberland County	State Police	VA	CUMBERLAND	37.520189	-78.252836	1
 VA0260000	Dickenson County Sheriff's Office	County	VA	DICKENSON	37.137081	-82.349208	1
 VA0260100	Clintwood Police Department	City	VA	DICKENSON	37.137081	-82.349208	1
-VA0260200	Haysi Police Department	City	VA	DICKENSON	37.137081	-82.349208	1
 VA026SP00	State Police: Dickenson County	State Police	VA	DICKENSON	37.137081	-82.349208	1
 VA0270000	Dinwiddie County Sheriff's Office	County	VA	DINWIDDIE	37.073498	-77.635492	1
 VA027SP00	State Police: Dinwiddie County	State Police	VA	DINWIDDIE	37.073498	-77.635492	1
@@ -18149,7 +18147,6 @@ VA0800300	Roanoke County Police Department	County	VA	ROANOKE	37.320732	-80.02192
 VA080S100	State Police: Salem	State Police	VA	NOT SPECIFIED	37.277058	-80.12723	1
 VA080SP00	State Police: Roanoke County	State Police	VA	ROANOKE	37.331077	-80.19011	1
 VA0810000	Rockbridge County Sheriff's Office	County	VA	ROCKBRIDGE	37.804523	-79.42585	1
-VA0810100	Glasgow Police Department	City	VA	ROCKBRIDGE	37.814517	-79.447754	1
 VA0810200	Lexington Police Department	City	VA	LEXINGTON CITY	37.782332	-79.44432	1
 VA0810300	Virginia Military Institute	University or College	VA	ROCKBRIDGE	37.782332	-79.44432	1
 VA081S200	State Police: Lexington	State Police	VA	NOT SPECIFIED	37.782332	-79.44432	1
@@ -18168,7 +18165,6 @@ VA0830100	Lebanon Police Department	City	VA	RUSSELL	36.93342	-82.095934	1
 VA083SP00	State Police: Russell County	State Police	VA	RUSSELL	36.93342	-82.095934	1
 VA0840000	Scott County Sheriff's Office	County	VA	SCOTT	36.712778	-82.613627	1
 VA0840100	Gate City Police Department	City	VA	SCOTT	36.63981	-82.578316	1
-VA0840200	Weber City Police Department	City	VA	SCOTT	36.6275	-82.55487	1
 VA084SP00	State Police: Scott County	State Police	VA	SCOTT	36.6167	-82.12577	1
 VA0850000	Shenandoah County Sheriff's Office	County	VA	SHENANDOAH	38.856204	-78.573987	1
 VA0850200	Mount Jackson Police Department	City	VA	SHENANDOAH	38.856204	-78.573987	1
@@ -19566,8 +19562,8 @@ WY0050100	Douglas Police Department	City	WY	CONVERSE	42.972839	-105.507367	1
 WY0050200	Glenrock Police Department	City	WY	CONVERSE	42.972839	-105.507367	1
 WY0060000	Crook County Sheriff's Office	County	WY	CROOK	44.589266	-104.567298	1
 WY0060300	Moorcroft Police Department	City	WY	CROOK	44.589266	-104.567298	1
-WY0070000	Fremont County Sheriff's Office	County	WY	FREMONT	42.83573	-108.72449	0
-WY0070100	Lander Police Department	City	WY	FREMONT	43.055303	-108.605531	0
+WY0070000	Fremont County Sheriff's Office	County	WY	FREMONT	42.83573	-108.72449	1
+WY0070100	Lander Police Department	City	WY	FREMONT	43.055303	-108.605531	1
 WY0070200	Riverton Police Department	City	WY	FREMONT	43.03264	-108.38061	1
 WY0070400	Shoshoni Police Department	City	WY	FREMONT	43.055303	-108.605531	1
 WY0080000	Goshen County Sheriff's Office	County	WY	GOSHEN	42.065266	-104.18166	1
