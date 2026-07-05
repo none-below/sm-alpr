@@ -25,6 +25,18 @@ token cloud:
   - Plate-pattern strings (mixed letter+digit, 5-8 chars) are excluded.
 
 Output: docs/data/justifications.json
+
+PARITY CONTRACT: docs/js/justifications_agg.js re-implements this
+module's per-agency aggregation so the justifications page can
+re-aggregate a narrowed date window live in the browser. If you change
+the parser, tokenizer, penal-code table, or any per-agency aggregate
+here, mirror it there. tests/test_justifications_agg.py
+(scripts/verify_justifications_agg.js) asserts the two agree at the full
+window for every own-audit agency and will fail if they drift — run
+`make build` first so the compared artifacts reflect your change
+(`make test` alone will not rebuild them). The check fails closed: a
+NEW per-agency field added here trips it until the field is either
+ported to the JS or allowlisted as window-independent in the verifier.
 """
 
 import json
