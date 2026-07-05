@@ -53,7 +53,7 @@ This document presents nine findings across nine sections, grounded in the depar
 
 - Policy 462/463 required ALPR audits "on a regular basis, as described in SOP 205" [1, §462.6(c)] [3, §463.6(c)]. SOP 205.5.1 specified quarterly end-user audits for the NCRIC platform and quarterly operator audits across all platforms including Flock [4, §205.5.1]. The end-user audit criteria — case number entry, connection between searched data and justification — apply only to NCRIC, which the department confirmed it no longer uses [21]. No equivalent audit requirement exists for Flock search activity, despite the SOP describing that Flock stores this data.
 
-- The annual SOP reviews required by §205.6 were not conducted [15]. The end-user audit requirement still references NCRIC, a platform the department abandoned when it adopted Flock. The SOP was updated in February 2021 to add Flock-specific platform descriptions but did not extend the end-user audit requirement to cover it [4] [21].
+- No records of the annual SOP reviews required by §205.6 exist [15]. The end-user audit requirement still references NCRIC, a platform the department abandoned when it adopted Flock. The SOP was updated in February 2021 to add Flock-specific platform descriptions but did not extend the end-user audit requirement to cover it [4] [21].
 
 - SMPD presented to Council on September 1, 2020 (File ID: 20-3547) that "SMPD conducts regular audits to ensure access to the ALPR Databases are within policy" [7]. No audit records from before 2021 have been produced [56] [11].
 
@@ -107,13 +107,13 @@ This document presents nine findings across nine sections, grounded in the depar
 
 - To determine whether UOP qualifies as a "public agency," records requests were sent to three entities. SMPD’s PRA produced no records of any entity-type review [16]. Stockton PD — UOP’s local law enforcement agency — confirmed it performed no legal review; authorization consists of clicking "agree" in the Flock platform [27]. UOP’s Chief of Police responded to a CPRA by confirming that "University of the Pacific is a private institution and therefore not subject to the CPRA" [29].
 
-- The access list [10] includes 10 District Attorney offices, 12 campus police departments, and 4 state agencies. Policy 463.2 limits program purposes to patrol-related activities [3]. No policy defines what purposes external agencies may query SMPD data for. The audit memos do not review entity types or authorized purposes for external agencies [17].
+- The access list [10] includes 10 District Attorney offices, 12 campus police departments, 3 state agencies, and NCRIC. Policy 463.2 limits program purposes to patrol-related activities [3]. No policy defines what purposes external agencies may query SMPD data for. The audit memos do not review entity types or authorized purposes for external agencies [17].
 
 - State law requires "reasonable security procedures" to protect ALPR information from unauthorized access [12]. While SOP 205 requires authentication for data access (VPN and/or multi-factor) [4], neither Policy 463 [3] nor SOP 205 addresses user account management — no process for revoking access when personnel leave. The audit memos do not review user offboarding [17].
 
-- The department accesses data from 10 privately-owned community cameras through Flock's "Community Camera Full Access" feature [20] [5, Exhibit A]. It does not own or control these cameras. The audit memos review only "our" cameras and "our" users [17]. Under § 1798.90.53 [12], SMPD's obligations as an end-user apply to all ALPR data it accesses — including data from cameras it does not own.
+- The department accesses data from 10 privately-owned community cameras through Flock's "Community Cameras (Full Access)" feature [20] [5, Exhibit A]. It does not own or control these cameras. The audit memos review only "our" cameras and "our" users [17]. Under § 1798.90.53 [12], SMPD's obligations as an end-user apply to all ALPR data it accesses — including data from cameras it does not own.
 
-- SOP 205.6 requires the Support Services Captain to review the SOP itself on an annual basis [4, §205.6].
+- SOP 205.6 provides that the SOP itself "should be reviewed on an annual basis with the Support Services Captain, or their designee" [4, §205.6].
 
 - A PRA for records of annual reviews produced no responsive documents [15].
 
@@ -170,7 +170,7 @@ This document presents nine findings across nine sections, grounded in the depar
 
 - The Picard units are edge computing hardware paired with ALPR cameras at the same locations; the department's device spreadsheet lists each Picard as the "Live Feed" beside its paired camera [20]. Neither the devices nor their video appear on the public transparency portal [20].
 
-- The department's internal inventory lists 10 privately-owned community cameras [20] whose data SMPD accesses through Flock's "Community Camera Full Access" feature [5, Exhibit A]. No public notice of this access has been identified.
+- The department's internal inventory lists 10 privately-owned community cameras [20] whose data SMPD accesses through Flock's "Community Cameras (Full Access)" feature [5, Exhibit A]. No public notice of this access has been identified.
 
 - Sharing agreements that determine which agencies access SMPD’s ALPR data are maintained exclusively by Flock. O’Keefe stated the approval process "is completed within the Flock platform." Flock is a private company. These records cannot be obtained through public records requests to any government agency. [16]
 
@@ -212,16 +212,16 @@ This document presents nine findings across nine sections, grounded in the depar
 |---|---|---|
 | Audits | "Conducts regular audits" (2020 study session) [7] | Quarterly audits documented in 2021, then a lapse; Department stated no pre-Dec-2025 audit records existed (Feb 10, 2026) [11], then produced the 2021 memos (May 14, 2026) [56] |
 | Standards | "Strictest industry standards" (2023 staff report) [8] | No audits at the time [11] |
-| Data retention | "Raw LPR data is not stored or retained" [8] | 30-day retention in contract; SOP describes data storage [5] |
+| Data retention | "Raw LPR data is not stored or retained by SMPD" [8] | 30-day retention in contract [5]; SOP describes data storage [4, §205.5.1] |
 | Sharing scope | "NCRIC and allied County agencies" [8] | 283 agencies statewide (Feb 18, 2026) [10]; 263 (June 4, 2026) [54] |
-| Devices | "40 LPRs, to be deployed" (2023) [8]; "+15 automated license plate readers" (2024) [9] | 40 cameras grew from a 12-camera program operating since 2020 [34] [35] [20] (see §4 device count timeline). |
+| Devices | "forty LPRs, to be deployed" (2023) [8]; "15 additional automated license plate readers" (2024) [9] | 40 cameras grew from a 12-camera program operating since 2020 [34] [35] [20] (see §4 device count timeline). |
 | Capabilities | Not disclosed in staff report [8] | Statewide/nationwide network, community cameras, Vehicle Fingerprint, audio [5, Exhibit A] |
 | Council approval date | "City council approval...in 2020" (audit memo) [17] | Flock activity began in 2020 (informational presentation June 2020 [40]; service agreement signed Aug 2020 [34]), but no Council vote or approval action appears in council records until Aug 2023 [8]. The June 2020 staff report's budget impact section states "there is no budget impact as a result of this informational item" [40]. When asked directly for any Council vote, resolution, or motion authorizing 2020 Flock use, the city produced the June 1 agenda report, the meeting minutes, and its Business Purchasing Policy [46] |
 | Prior Flock relationship | Not disclosed [8] | 2020 service agreement (12 cameras, $24K/year) signed by Lt. Mefford; does not appear in Council agendas as an approval item [34]; by Jan 2022, 22 cameras deployed — exceeding the contract’s 12 [35]; 2023 staff report presented program as new |
 
 - During the September 1, 2020 Study Session on Police Accountability (File ID: 20-3547), SMPD presented to Council that "SMPD conducts regular audits to ensure access to the ALPR Databases are within policy" [7]. SOP 205.5 requires quarterly audit results to be submitted to the Support Services Captain [4, §205.5]. The earliest audit records the Department has produced are from 2021; the 2021 memos use a "Quarterly Average" baseline (see §1). No audit record for 2020 or earlier has surfaced [56] [11].
 
-- The August 21, 2023 agenda report (File ID: 23-7622) stated "Staff utilizes strictest industry standards with respect to how data is accessed and by whom" [8]. No documented audits were being conducted at the time [11]. No process for approving external agency access existed [16]. No user offboarding process was in place [3] [4]. Department policy only provided for end-user access audits of the NCRIC platform, not Flock [4, §205.5.1].
+- The August 21, 2023 agenda report (File ID: 23-7622) stated "Staff utilizes the strictest industry standards with respect to how data is accessed and by whom" [8]. No documented audits were being conducted at the time [11]. No documented process for approving external agency access existed [16]. No user offboarding process was in place [3] [4]. Department policy only provided for end-user access audits of the NCRIC platform, not Flock [4, §205.5.1].
 
 - The same August 2023 staff report stated "Raw LPR data is not stored or retained by SMPD." The Flock contract specifies a 30-day retention period [5, Exhibit A]. SOP 205 describes in detail how each ALPR platform stores license plate data, photos, and video footage on SMPD’s behalf [4, §205.5.1]. [8]
 
@@ -277,7 +277,7 @@ This document presents nine findings across nine sections, grounded in the depar
 ## 4. Device Inventory & Non-ALPR Governance
 
 - **Contracts authorize:** 55 devices under the MSA and Amendment No. 1 — 53 ALPR and 2 Condor video cameras [5] [6].
-- **Presented to Council:** "forty LPRs, to be deployed" (August 2023) and "15 automated license plate readers" (March 2024) [8] [9].
+- **Presented to Council:** "forty LPRs, to be deployed" (August 2023) and "15 additional automated license plate readers" (March 2024) [8] [9].
 - **SMPD operates:** 80 devices, per its own Camera Manager dashboard — including 13 Picard and 1 Avicore units that appear in no contract or procurement document, and 10 privately-owned community cameras [20].
 
 ### Device count timeline
@@ -289,7 +289,7 @@ Device counts from department sources and public records:
 | Aug 2020 | Flock Service Agreement | 12 | Original contract scope | [34] |
 | Jan 2022 | Council goal-setting packet, p. 6 | 22 | Progress update: "22 Flock ALPRs deployed" — 10 beyond contract scope | [35] |
 | Aug 2023 | Staff report / MSA order form | 40 | "forty LPRs, to be deployed" — presented as new; absorbed the existing 12 (order form: two "Falcon" line items, 31 + 9) | [8] [5] |
-| Mar 2024 | Amendment No. 1 order form | +15 | Described as "15 automated license plate readers"; actually 13 LPR + 2 Condor video cameras | [9] [6] |
+| Mar 2024 | Amendment No. 1 order form | +15 | Described as "15 additional automated license plate readers"; actually 13 LPR + 2 Condor video cameras | [9] [6] |
 | — | Contracted total (MSA + Amendment) | 55 | 53 ALPR + 2 non-ALPR | [5] [6] |
 | Jan 2026 | Flock Questions response | 31 | "none of its 31 cameras have statewide or national lookup capabilities enabled" | [17] |
 | Feb 2026 | O’Keefe spreadsheet (PRA) | 55 + 10 | 55 numbered locations + 10 community; the "Decommissioned" column logs relocations (four numbers reappear as current locations) and one returned unit (#56 Flex), not device subtractions | [20] |
@@ -314,7 +314,7 @@ Device counts from department sources and public records:
 
 - The Department's published video-surveillance policy — Policy 378, in the posted policy manual from at least the August 2020 snapshot [1] through the current edition [3] — applies "only to overt, marked public safety video surveillance systems operated by the Department" and expressly not to "any other image-capturing devices used by the Department" [1, §378.1]. No produced record applies Policy 378, or any policy, to the Condor or Picard video; on that record, retention, access controls, sharing, and auditing of non-ALPR camera data remain unaddressed [20] [6, Exhibit C].
 
-- The City also operates Verkada cameras under a separate contract at city sites; O'Keefe confirmed these "do not have ALPR" [23]. A July 2025 news report describes a $91,000 Verkada contract for cameras in six parks [25]. Whether any policy reaches these cameras is undetermined; Policy 378 (above) is scoped to department-operated systems.
+- The City also operates Verkada cameras under a separate contract at city sites; O'Keefe confirmed these "do not have ALPR" [23]. A July 2025 news report describes a $91,000 Verkada contract for cameras in city parks [25]. Whether any policy reaches these cameras is undetermined; Policy 378 (above) is scoped to department-operated systems.
 
 - Council records disclose two further systems beyond Flock and Verkada. A June 20, 2025 Council Weekly Update disclosed the Axon Fusus integration and the rebrand of NEST to "San Mateo Connect" [49]. The March 2024 ORT-grant agenda report disclosed C3AI — "a data integration and investigative technology system" funded by the same grant, purchased by Daly City "on behalf of both San Mateo Police Department and San Bruno Police Department," and "in the process of implementation throughout San Mateo County" [49]. No policy governing either system has been identified in the produced records.
 
@@ -326,7 +326,7 @@ Device counts from department sources and public records:
 
 - The same response rests on the premise that "[l]aw enforcement agencies make policies that govern the use of our basic police surveillance tools and technologies publicly available" [24]. The Department's ALPR operating procedure went unposted from its October 2019 creation until May 2026 (see §2).
 
-- San Mateo did not adopt an ordinance in response. A review of the San Mateo Municipal Code (current through February 2026) identified no such ordinance. Council Member Nicole Fernandez confirmed in a July 2025 news report: "We don’t have a CCOPS ordinance." [25]
+- San Mateo did not adopt an ordinance in response. A review of the San Mateo Municipal Code (current through February 2026) identified no such ordinance. A July 2025 news report confirmed the city has no CCOPS ordinance [25].
 
 - By contrast, at least eight other California jurisdictions have adopted surveillance technology ordinances since 2016: [Santa Clara County](https://justicereforms.santaclaracounty.gov/initiatives/surveillance-technology-and-community-safety-ordinance) (2016), [Berkeley](https://berkeley.municipal.codes/BMC/2.99) (2018), [Oakland](https://library.municode.com/ca/oakland/codes/code_of_ordinances?nodeId=TIT9PUPEMOWE_CH9.64REACUSSUTE) (2018), [Davis](https://ecode360.com/44639712) (2018), [Palo Alto](https://www.cityofpaloalto.org/files/assets/public/v/1/city-clerk/ordinances/ordinances-1909-to-present/ordinances-by-number/ord-5450.pdf) (2018), [San Francisco](https://codelibrary.amlegal.com/codes/san_francisco/latest/sf_admin/0-0-0-47320) (2019), [San Diego](https://docs.sandiego.gov/council_reso_ordinance/rao2022/O-21514.pdf) (2022), and [BART](https://www.bart.gov/about/reports/surveillance) (2018).
 
@@ -339,11 +339,11 @@ Device counts from department sources and public records:
 | Pre-approval process | — | — | Required for external agencies [§462.8(a)] [§463.8] | — | ❌ No documented process; no approval records produced [16] |
 | Sharing restricted to public agencies | Public agencies only; non-public prohibited [§.55(b)] | State or local only [18] | ✅ CA public agencies only [§463.8] | — | ❌ Private university on access list; does not qualify under §.5(f) [10] |
 | Vendor agreement review | — | Review contracts for non-public access provisions [18] | ❌ Not addressed | § 5.3 authorizes disclosure to non-public entities [5] | ❌ No evidence of review; § 5.3 remains in contract [6] |
-| Vendor disclosure authority (§ 5.3) | Non-public sharing prohibited [§.55(b)] | — | ❌ Not addressed | Flock discloses independently to third parties [5] | ❌ No process to detect disclosures [17] |
+| Vendor disclosure authority (§ 5.3) | Non-public sharing prohibited [§.55(b)] | — | ❌ Not addressed | Flock may disclose independently to third parties [5] | ❌ No process to detect disclosures [17] |
 | Vendor notification to SMPD | — | — | — | Not required [5] | ❌ Not addressed in audits [17] |
 | Survival of terms | — | — | — | § 5.3 survives termination [5] | ❌ Not addressed [3] |
 
-- Policy 462.8 (2012–December 2025) required that external "Agency members accessing ALPR data are subject to a pre-approval process by SMPD and the database management administration" [1, §462.8(a)]. Policy 463.8 (December 2025–present) restricts sharing to California public agencies only, reviewed by the ALPR Committee Captain, and explicitly excludes out-of-state and federal agencies [3, §463.8].
+- Policy 462.8 (2012–December 2025) required that external "Agency members accessing ALPR data are subject to a pre-approval process by SMPD and the database management administration" [1, §462.8(a)]. Policy 463.8 (December 2025–present) restricts sharing to California public agencies only, reviewed by the ALPR Committee Captain or an authorized designee, and explicitly excludes out-of-state and federal agencies [3, §463.8].
 
 - Flock MSA § 5.3 authorizes Flock to independently "access, use, preserve and/or disclose the Footage to law enforcement authorities, government officials, and/or third parties" based on Flock's own "good faith belief" that disclosure is "reasonably necessary." This includes disclosures to comply with legal process, enforce the agreement, or address "security, privacy, fraud or technical issues, or emergency situations." No SMPD approval, notification, or involvement is required. [5, §5.3] Legal-process and emergency-disclosure clauses of this kind are common in cloud-vendor contracts; the tension is statutory — § 1798.90.55(b) permits ALPR data to reach only public agencies [12], while § 5.3 authorizes disclosure to "third parties" on the vendor's own judgment, and no SMPD process would detect such a disclosure (see below).
 
@@ -387,8 +387,8 @@ Device counts from department sources and public records:
 | Written agreements | — | — | Required [§462.8(b)–(c)] | — | ❌ No records produced [16] | ❌ |
 | Training (external) | — | — | "Shall ensure" [§463.9] | — | ❌ "We do not retain records" [16] | ❌ |
 | Network governance | — | Review vendor agreements | ❌ Not addressed | — | ❌ Not addressed in any policy [5, Exhibit A] | ❌ |
-| Out-of-state/federal | Public agencies only [§.55(b)] | Prohibited [18] | ✅ Excluded [§463.8] | — | ⚠️ Direct sharing disabled; El Cajon (sued by AG for out-of-state sharing) listed through June 1, removed by June 4, 2026 [54] | ⚠️ |
-| NCRIC re-sharing to non-conforming entities | Public agencies only [§.55(b)] | — | ❌ Not addressed | — | ❌ NCRIC MOU §9 allows NCRIC to re-share SMPD data without approval; NCRIC's own portal lists entities that may not qualify under §.5(f) [36] | ❌ |
+| Out-of-state/federal | Public agencies only [§.55(b)] | Prohibited [18] | ✅ Excluded [§463.8] | — | ⚠️ Direct sharing disabled; El Cajon (sued by AG for out-of-state sharing [13]) listed through June 1, removed by June 4, 2026 [54] | ⚠️ |
+| NCRIC re-sharing to non-conforming entities | Public agencies only [§.55(b)] | — | ❌ Not addressed | — | ❌ NCRIC MOU §9 allows NCRIC to re-share SMPD data without approval; NCRIC's own portal lists entities that may not qualify under §.5(f) [37] | ❌ |
 
 *Note: UOP entity-type findings and the access list composition are also discussed in §1 (audit scope gaps).*
 
@@ -396,7 +396,7 @@ Device counts from department sources and public records:
 
 - As of February 18, 2026, the Flock transparency page for San Mateo listed 283 organizations with access to San Mateo ALPR data. The list spanned the entire state, from Yuba County to San Diego, and included agencies in Imperial, Kern, Los Angeles, Riverside, and Orange counties — beyond "allied County law enforcement agencies." [10]
 
-- The access list has been reduced since February 18, 2026: archived snapshots record 283 organizations on February 18 [10]; 278 by March 12; 279 from late March through early May; 278 on May 11; 264 on May 18 (fourteen removed at once — ten campus police departments and four state fire and parks agencies); and 263 on June 4, 2026 [54].
+- The access list has been reduced since February 18, 2026: archived snapshots record 283 organizations on February 18 [10]; 278 by March 12; 279 from late March through early May; 278 on May 11; 264 on May 18 (fourteen removed at once — ten campus police departments and four fire and parks agencies); and 263 on June 4, 2026 [54].
 
 - The entities removed over this period include University of the Pacific (private; removed by March 11 [30]), NCRIC, Cal Fire, Orange County Fire Authority, California State Parks, Sacramento County Parks Department, ten campus police departments (among them UC Berkeley, UC Irvine, and San Jose State), Mountain View PD (which had suspended its own Flock program [13]), and El Cajon PD [54].
 
@@ -455,9 +455,9 @@ Device counts from department sources and public records:
 - University of the Pacific — a private university, confirmed by its own Chief of Police [29] — held a network share of SMPD's ALPR data during this period [50] [10].
 - The reading of § 1798.90.55(b) SMPD used to deny the resident is the same reading under which that UOP share was impermissible.
 
-- The access list includes 10 District Attorney offices, 12 campus police departments, and 4 state agencies. Policy 463.2 limits the program to identifying stolen vehicles, suspect interdiction, warrant service, and stolen property recovery. § 463.4(b) broadens use to "any routine patrol operation or criminal investigation" — but that section applies to "Department members," not external agencies. No policy defines what purposes external agencies may query SMPD data for [3] [4]. [10]
+- The access list includes 10 District Attorney offices, 12 campus police departments, 3 state agencies, and NCRIC. Policy 463.2 limits the program to identifying stolen vehicles, suspect interdiction, warrant service, and stolen property recovery. § 463.4(b) broadens use to "any routine patrol operation or criminal investigation" — but that section applies to "Department members," not external agencies. No policy defines what purposes external agencies may query SMPD data for [3] [4]. [10]
 
-- Stockton PD — which holds access to SMPD's ALPR data [54] — publishes its own Flock search audit; it records 152 distinct searches with the stated reason "Usms case" between March 4 and June 3, 2026 — 54 in March, 68 in April, 23 in May — each querying a median of 676 Flock sharing networks [72]. The U.S. Marshals Service is a federal law-enforcement agency.
+- Stockton PD — which holds access to SMPD's ALPR data [54] — publishes its own Flock search audit; it records 152 distinct searches with the stated reason "Usms case" between March 4 and June 3, 2026 — 54 in March, 68 in April, 23 in May, 7 in June — each querying a median of 676 Flock sharing networks [72]. The U.S. Marshals Service is a federal law-enforcement agency.
 
 - SMPD's California-only restriction governs which agencies hold access [3, §463.8], and Stockton — a California agency — passes the audits' geography check (see §1). Neither the restriction nor the check reaches on whose behalf a partner searches, and the published audit fields do not show which shared networks a given search queried [72].
 
@@ -469,7 +469,7 @@ Device counts from department sources and public records:
 
 - PRA W012174-021826 (filed February 18, 2026) requested four categories of records related to external agency access. The city's blanket response: "A good faith and diligent search yielded no records responsive to your request." Each item corresponded to a specific policy requirement: [16]
 
-  - **Pre-approval process:** Policy 462.8(a) required external agencies to be subject to "a pre-approval process by SMPD and the database management administration." Policy 463.8(b) requires ALPR Committee Captain review before access is granted. O'Keefe stated the process "is completed within the Flock platform" and that she "was unable to locate documentation associated." [1, §462.8(a)] [3, §463.8(b)] [16]
+  - **Pre-approval process:** Policy 462.8(a) required external agencies to be subject to "a pre-approval process by SMPD and the database management administration." Policy 463.8(b) requires ALPR Committee Captain or authorized-designee review before access is granted. O'Keefe stated the process "is completed within the Flock platform" and that she "was unable to locate documentation associated." [1, §462.8(a)] [3, §463.8(b)] [16]
 
   - **Written agreements:** Policy 462.8(b) required a written request including the agency name, person requesting, and intended purpose. Policy 462.8(c) required "the approved request is retained on file." No MOUs, data sharing agreements, or written agreements were produced. [1, §462.8(b)–(c)] [16]
 
@@ -479,7 +479,7 @@ Device counts from department sources and public records:
 
 - The January 2026 audit memo states Lt. Casazza "verified that we are not sharing data with law enforcement agencies outside the state of California" [17]. The Flock Questions response confirms "none of its 31 cameras have statewide or national lookup capabilities enabled." This checks geography. It does not check entity type. University of the Pacific is in California — it passes the geographic check. But it is a private university that does not qualify as a public agency under § 1798.90.5(f) [12]. The February and March 2026 audits certified California-only sharing while UOP was on the list — added February 12, removed by March 11 [50] [30] — and did not flag the entity-type gap [47].
 
-- Three independent records document how sharing authorization works in practice. O’Keefe: the approval process "is completed within the Flock platform" [16]. Stockton PD’s records custodian described authorization as clicking "agree" when requested by another department: "All of the paperwork is created and kept by Flock. We do not retain or have any copies" [27]. A follow-up PRA to Stockton confirmed the administrator who authorized UOP’s access is "most likely no longer here" [38]. No agency in the chain described any independent legal review of whether sharing partners qualify as public agencies under § 1798.90.5(f).
+- Three independent records document how sharing authorization works in practice. O’Keefe: the approval process "is completed within the Flock platform" [16]. Stockton PD’s records custodian described authorization as clicking "agree" when requested by another department: "All of the paperwork is created and kept by Flock. We do not retain or have any copies" [27]. A follow-up PRA to Stockton confirmed the administrator who authorized UOP’s access is "most likely [...] no longer here" [38]. No agency in the chain described any independent legal review of whether sharing partners qualify as public agencies under § 1798.90.5(f).
 
 - SMPD’s data sharing with NCRIC operates under a 2014 Memorandum of Understanding [36]. Its §9 grants NCRIC authority to "execute information sharing agreements with new Member Agencies" without "further review or approval by member agencies" [36]. The city’s reserved controls — choosing what to contribute, redacting, and withdrawing data — are reactive only; the agreement requires no review or approval by the city when NCRIC adds partners or systems, and contains no provision notifying the city that it has. Asked for any record of restricting NCRIC’s onward sharing, the city produced "no responsive records" [36]. No produced record describes any process by which SMPD monitors what NCRIC does with its contributed data.
 
@@ -512,7 +512,7 @@ Device counts from department sources and public records:
 
 - The Attorney General issued Bulletin 2023-DLE-06 on October 27, 2023 — two months after the Flock contract was executed — guiding all California law enforcement agencies to review vendor contracts for SB 34 compliance and to conspicuously post ALPR policies [18]. The bulletin opens by citing the State Auditor's February 2020 report — which found the agencies it reviewed were not meeting SB 34's requirements and warned the deficiencies likely extended to many others — and attaches the model ALPR policy template the Auditor had recommended [18] [73]. SMPD did not post its SOP until over two years later. The bulletin also restated SB 34's § 1798.90.55(a) public-comment requirement and urged agencies that implemented after January 1, 2016 without public comment to "consider providing such an opportunity"; the distinct March 2024 Flock contract was placed on the consent calendar five months later [9].
 
-- The program — and its governance gaps — predate the December 2025 compliance window by more than five years (see §3). A department-level Flock contract was signed in August 2020 with no corresponding approval action in council records [34]. By January 2022, 22 cameras were deployed — exceeding the contract's 12-camera scope [35]. The purchase order for the initial cameras was not issued until July 2023 [20, POAR PO-0000656]. Council records indicate the first Flock approval was August 2023 [8] — over three years after the 2020 service agreement [34].
+- The program — and its governance gaps — predate the December 2025 compliance window by more than five years (see §3). A department-level Flock contract was signed in August 2020 with no corresponding approval action in council records [34] [46]. By January 2022, 22 cameras were deployed — exceeding the contract's 12-camera scope [35]. The purchase order for the initial cameras was not issued until July 2023 [20, POAR PO-0000656]. Council records indicate the first Flock approval was August 2023 [8] — over three years after the 2020 service agreement [34].
 
 - Lt. Steve Casazza was assigned as Flock Committee administrator in July 2025 [17] — five months before the first Policy 463.10 audit memo, and two years into the Flock contract [11].
 
@@ -566,7 +566,7 @@ Device counts from department sources and public records:
 
 - The records behind these findings came through public-records requests, and the production pattern bears on the timing:
   - Requests scoped to exclude email have nonetheless been routed through the withdrawn 211,872-document Flock email corpus [48].
-  - W012686 — which states its records "cannot be satisfied through review of any @flocksafety.com email corpus" — was met with "211,872 documents requiring evaluation" and rolling production [53].
+  - W012686 — two of whose five items seek internal records that "are not email records and cannot be satisfied through review of any @flocksafety.com email corpus" — was met with "211,872 documents requiring evaluation" and rolling production [53].
   - On May 6, 2026, hours after the requester asked to deprioritize that corpus, SMPD closed W012297 into it, declared two further pending requests (W012596/W012597) "encompassed by" it, and extended W012373 and W012459 under the same email-search framing [52] [48].
 
 ---
@@ -591,7 +591,7 @@ Device counts from department sources and public records:
 
 - Twelve rolling updates produced nothing — a repeated "no responsive records at this time," or a new promised date alone [71].
 
-- Seven requests were routed into the withdrawn 211,872-document W012462 email corpus: six on May 6, 2026 — the day the corpus request was withdrawn — and the seventh, W012686, on May 14, eight days after the withdrawal, despite text stating its records could not be satisfied by an email search (see §8) [48] [52] [53] [71].
+- Seven requests were routed into the withdrawn 211,872-document W012462 email corpus: six on May 6, 2026 — the day the corpus request was withdrawn — and the seventh, W012686, on May 14, eight days after the withdrawal, despite text stating its internal-records items could not be satisfied by an email search (see §8) [48] [52] [53] [71].
 
 - The corpus's only production ran at fewer than one record per day — 32 records over 33 days, against a disclosed scope of 211,872 documents [48].
 
@@ -733,7 +733,7 @@ Device counts from department sources and public records:
 
 ### Entity types on the access list
 
-The 2023 staff report described sharing with "NCRIC and allied County law enforcement agencies." [8] The access list includes the following categories of organizations beyond county law enforcement:
+The 2023 staff report described sharing with NCRIC and "allied County law enforcement agencies." [8] The access list includes the following categories of organizations beyond county law enforcement:
 
 **District Attorney offices (10):** Kings County CA DAs Office, Marin County CA DA, Monterey County District Attorney's Office, Placer County CA DA Office, Riverside County CA District Attorney, Sacramento CA DA, San Francisco District Attorney CA, San Joaquin CA DA, Santa Clara DA CA, Solano County DA CA
 
