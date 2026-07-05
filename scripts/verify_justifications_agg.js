@@ -60,8 +60,13 @@ const WINDOW_INDEPENDENT = new Set([
   'search_date_max',
 ]);
 
-// Python round() is half-to-even, JS Math.round half-up — allow 0.1.
+// Python round() is half-to-even, JS Math.round half-up — a value on a
+// .x5 boundary can round one ulp apart, so allow a full 0.1 divergence.
+// The +EPS guards the comparison itself: both sides are already rounded to
+// one decimal, and e.g. 31.3 - 31.2 is 0.10000000000000142 in IEEE-754, so a
+// bare `> 0.1` would reject a legitimately-tolerated one-step difference.
 const PCT_FIELDS = new Set(['top1_share_pct', 'top3_share_pct']);
+const PCT_TOLERANCE = 0.1 + 1e-9;
 
 // Canonical JSON with object keys sorted recursively, so we compare
 // values rather than key insertion order (the Python build emits
@@ -119,7 +124,7 @@ function main() {
         continue;
       }
       if (PCT_FIELDS.has(f)) {
-        if (Math.abs((got[f] || 0) - (a[f] || 0)) > 0.1) {
+        if (Math.abs((got[f] || 0) - (a[f] || 0)) > PCT_TOLERANCE) {
           problems.push({ slug, field: f + ' (got ' + got[f] + ' want ' + a[f] + ')' });
         }
       } else if (canon(got[f]) !== canon(a[f])) {
