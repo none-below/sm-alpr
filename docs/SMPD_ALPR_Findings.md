@@ -156,7 +156,7 @@ This document presents nine findings across nine sections, grounded in the depar
 
 - On April 9, 2026, Lt. Casazza approved a revision setting audits to monthly and submitted to the Chief of Police, and Lt. Pak prepared to "release it" [55].
 
-- Roughly six weeks later, the Department posted the March 6 version, not the approved April 9 revision [56].
+- Roughly seven weeks later, the Department posted the March 6 version, not the approved April 9 revision [56].
 
 - The April 9 version is now posted to the City document center, but only as a search-only file; the transparency portal still links the March 6 version, and the LPR page links neither SOP version — only the full policy manual [33] [67].
 
@@ -221,7 +221,7 @@ This document presents nine findings across nine sections, grounded in the depar
 
 - During the September 1, 2020 Study Session on Police Accountability (File ID: 20-3547), SMPD presented to Council that "SMPD conducts regular audits to ensure access to the ALPR Databases are within policy" [7]. SOP 205.5 requires quarterly audit results to be submitted to the Support Services Captain [4, §205.5]. The earliest audit records the Department has produced are from 2021; the 2021 memos use a "Quarterly Average" baseline (see §1). No audit record for 2020 or earlier has surfaced [56] [11].
 
-- The August 21, 2023 agenda report (File ID: 23-7622) stated "Staff utilizes the strictest industry standards with respect to how data is accessed and by whom" [8]. No documented audits were being conducted at the time [11]. No documented process for approving external agency access existed [16]. No user offboarding process was in place [3] [4]. Department policy only provided for end-user access audits of the NCRIC platform, not Flock [4, §205.5.1].
+- The August 21, 2023 agenda report (File ID: 23-7622) stated "Staff utilizes the strictest industry standards with respect to how data is accessed and by whom" [8]. No documented audits were being conducted at the time [11]. No documented process for approving external agency access existed [16]. No user offboarding process was in place [2] [3] [4]. Department policy only provided for end-user access audits of the NCRIC platform, not Flock [4, §205.5.1].
 
 - The same August 2023 staff report stated "Raw LPR data is not stored or retained by SMPD." The Flock contract specifies a 30-day retention period [5, Exhibit A]. SOP 205 describes in detail how each ALPR platform stores license plate data, photos, and video footage on SMPD’s behalf [4, §205.5.1]. [8]
 
