@@ -3460,31 +3460,6 @@
     ]
   },
   {
-    "agency_id": "632bc648-b27e-5013-971e-8593f7322195",
-    "slug": "limestone-county-tx-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Limestone County TX SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "48293",
-      "name": "Limestone",
-      "state": "TX",
-      "lat": 31.547543,
-      "lng": -96.593623
-    }
-  },
-  {
     "agency_id": "c0f0a490-a28c-5b8e-ac71-76e025e7eb56",
     "slug": "lincoln-ca-pd",
     "flock_active_slug": "lincoln-ca-pd",
@@ -5416,31 +5391,6 @@
     ]
   },
   {
-    "agency_id": "6fa25448-725d-575b-a8ac-8a490b96a6f4",
-    "slug": "poteet-tx-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Poteet TX PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "4859084",
-      "name": "Poteet",
-      "state": "TX",
-      "lat": 29.037277,
-      "lng": -98.572758
-    }
-  },
-  {
     "agency_id": "c94ce662-7a0d-54c8-8bc5-396c277d837f",
     "slug": "prescott-valley-az-pd",
     "flock_active_slug": "prescott-valley-az-pd",
@@ -5887,31 +5837,6 @@
     "ori": [
       "CA0370000"
     ]
-  },
-  {
-    "agency_id": "8d6f25b0-efe9-5015-9bcc-926378c5d4b6",
-    "slug": "san-felipe-tx-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "San Felipe TX PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "4865372",
-      "name": "San Felipe",
-      "state": "TX",
-      "lat": 29.794557,
-      "lng": -96.105867
-    }
   },
   {
     "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
@@ -7002,31 +6927,6 @@
     ]
   },
   {
-    "agency_id": "c3254ca0-7273-50b4-8b8e-1c3b643c6b32",
-    "slug": "tx-stephens-county-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "TX - Stephens County SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "48429",
-      "name": "Stephens",
-      "state": "TX",
-      "lat": 32.738052,
-      "lng": -98.839344
-    }
-  },
-  {
     "agency_id": "7f5089e9-3b53-5442-b628-865e85940409",
     "slug": "union-city-ca-pd",
     "flock_active_slug": "union-city-ca-pd",
@@ -7691,6 +7591,106 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "632bc648-b27e-5013-971e-8593f7322195",
+    "slug": "limestone-county-tx-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Limestone County TX SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "48293",
+      "name": "Limestone",
+      "state": "TX",
+      "lat": 31.547543,
+      "lng": -96.593623
+    }
+  },
+  {
+    "agency_id": "6fa25448-725d-575b-a8ac-8a490b96a6f4",
+    "slug": "poteet-tx-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Poteet TX PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4859084",
+      "name": "Poteet",
+      "state": "TX",
+      "lat": 29.037277,
+      "lng": -98.572758
+    }
+  },
+  {
+    "agency_id": "8d6f25b0-efe9-5015-9bcc-926378c5d4b6",
+    "slug": "san-felipe-tx-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "San Felipe TX PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4865372",
+      "name": "San Felipe",
+      "state": "TX",
+      "lat": 29.794557,
+      "lng": -96.105867
+    }
+  },
+  {
+    "agency_id": "c3254ca0-7273-50b4-8b8e-1c3b643c6b32",
+    "slug": "tx-stephens-county-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "TX - Stephens County SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "48429",
+      "name": "Stephens",
+      "state": "TX",
+      "lat": 32.738052,
+      "lng": -98.839344
+    }
   },
   {
     "agency_id": "3755b8f4-f764-52d2-8025-e368bf9fad85",
