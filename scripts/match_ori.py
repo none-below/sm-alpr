@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """Match registry agencies to FBI ORIs and (optionally) write the `ori` field.
 
 The agency registry keys identity off Flock portal slugs and display names —
@@ -147,7 +149,16 @@ def _raw_tokens(s):
     sub-agency from the parent city it was geocoded onto."""
     if not s:
         return set()
-    return set(re.findall(r"[a-z0-9]+", s.lower())) - _RAW_STOP
+    toks = set(re.findall(r"[a-z0-9]+", s.lower())) - _RAW_STOP
+    # "Metropolitan" is not a transit qualifier — consolidated city-county
+    # forces (Las Vegas Metro, Nashville Metro, Louisville Metro) style
+    # themselves "Metro". Fold "metropolitan" → "metro" so a registry
+    # "…Metro PD" and the FBI "…Metropolitan Police Department" don't register a
+    # spurious `metro` qualifier mismatch. A real transit agency still carries
+    # "transit"/"rail"/"bart"/"marta" and stays guarded.
+    if "metropolitan" in toks:
+        toks = (toks - {"metropolitan"}) | {"metro"}
+    return toks
 
 
 # A sub-agency qualifier present on ONE side but not the other means the two
@@ -210,14 +221,18 @@ def _fbi_role(name, type_name):
         return "campus_safety"
     if "tribal" in n or type_name == "Tribal":
         return "tribal"
-    if "park" in n:
-        return "parks"
     if "fish" in n and "wildlife" in n:
         return "fish_wildlife"
     if "correction" in n or "department of corrections" in n:
         return "corrections"
+    # "Park" as part of a CITY name (Baldwin Park, Menlo Park, Overland Park,
+    # Oak Park) must NOT be read as a parks agency — check police/city first. A
+    # genuine parks force ("East Bay Regional Parks", "…Park District") carries
+    # no "police" in its name and falls through to the parks branch below.
     if "police" in n or type_name == "City":
         return "police"
+    if "park" in n:
+        return "parks"
     return "other"
 
 
@@ -332,12 +347,25 @@ def best_match(entry, candidates):
     if not scored:
         return None, {"tier": "none", "reason": "no same-state candidates"}
 
-    # Rank LEXICOGRAPHICALLY: name first, then role, then geo as a tiebreaker.
-    # FBI's per-agency coordinates are unreliable (e.g. Corona PD's longitude is
-    # ~145 km off), so geo must never override an exact name+role match — it
-    # only breaks ties among equally-named candidates. `geo or 0.0` keeps
-    # coordinate-less candidates competitive at a tie.
-    scored.sort(key=lambda t: (round(t[0], 3), t[1], t[2] if t[2] is not None else 0.0),
+    # Rank LEXICOGRAPHICALLY by role-compatibility BUCKET first, then name, then
+    # geo. A role-compatible agency must beat a role-incompatible one that merely
+    # shares the place name — e.g. the actual "Las Vegas Metropolitan Police
+    # Department" (role=police) over the same-city "City of Las Vegas Department
+    # of Public Safety" (FBI "Other"), even though both reduce to "las vegas".
+    # Within a bucket, name decides; FBI per-agency coordinates are unreliable
+    # (e.g. Corona PD's longitude is ~145 km off), so geo only breaks ties among
+    # equally-named candidates. `geo or 0.0` keeps coordinate-less candidates
+    # competitive at a tie.
+    def _role_bucket(r):
+        if r >= 1.0:
+            return 3   # strong: same role
+        if r >= 0.5:
+            return 2   # plausible (campus↔city, parks↔other, …)
+        if r > 0.0:
+            return 1   # weak (0.2 fallback)
+        return 0       # conflict (0.0) — only picked if it's the sole candidate
+    scored.sort(key=lambda t: (_role_bucket(t[1]), round(t[0], 3),
+                               t[2] if t[2] is not None else 0.0),
                 reverse=True)
     place, role, geo, dist, f = scored[0]
 
