@@ -60,7 +60,9 @@ The PDF generator (`scripts/md_to_pdf.py`) parses the findings markdown by split
 - Bullet points: `- text` (top-level) or `  - text` (indented sub-bullet, kept together with parent)
 - Tables: standard markdown pipe tables. First row = header. Separator rows are stripped.
 - Paragraphs: plain text lines (used in Executive Summary).
-- Numbered lists: `1. text` (used in Key Findings).
+- Numbered lists: `1. text` (used in Key Findings). Keep each Key Finding a single
+  numbered paragraph — the PDF builder keeps only `N.` lines in that section, so
+  sub-bullets under a Key Finding are silently dropped from the PDF.
 
 **Source citations:**
 - Inline: `[N]` links to source N in the Source Documents table.
@@ -71,6 +73,16 @@ The PDF generator (`scripts/md_to_pdf.py`) parses the findings markdown by split
 - `---` horizontal rules (stripped)
 - HTML comments `<!-- ... -->` (stripped)
 - Empty lines (stripped)
+
+**Audience variants (PD handout):**
+- Content between `<!-- pd-exclude -->` and `<!-- /pd-exclude -->` (each on its own
+  line) is kept in the default/full build and dropped only when `md_to_pdf.py` is run
+  with `--pd`. Use it to omit sections from the version physically handed to the
+  Department while keeping them in the full doc (grand-jury submission + public site).
+- Default (no flag) = full; the deploy/release publishes the full doc. The PD handout
+  is a manual local build: `md_to_pdf.py docs/SMPD_ALPR_Findings.md out_PD.pdf --pd`.
+- Co-mark an excluded finding together with any Source Documents rows ONLY it cites, so
+  the stripped PD build has no dangling `[N]`. Verify the PD build before handing it out.
 
 **Release process:**
 - The PDF is a build artifact, not committed to git. Only a tiny redirect-stub

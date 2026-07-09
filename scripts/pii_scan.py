@@ -43,6 +43,20 @@ EXCLUDED_PATH_PREFIXES = (
     # intentionally contain external agency email addresses from dozens of
     # non-allowlisted domains. Not a PII leak; expected content.
     "assets/san-mateo-public-records/W012462-040226/",
+    # Verbatim-archived published government documents used as framing sources:
+    # California State Auditor reports, AG bulletins, county Civil Grand Jury
+    # reports and the agencies' Penal Code 933 response letters, NCRIC's
+    # published MOU template, and the City's posted ALPR SOPs. These are
+    # published by their issuing bodies and carry agency/public-official
+    # business contacts (main lines, .gov clerk/PIO addresses, mayor's office)
+    # by design — already public on the source sites. Not a PII leak surface;
+    # enumerating dozens of other-agency contacts in ALLOWED_PHONES would be
+    # the wrong granularity.
+    "assets/auditor.ca.gov/",
+    "assets/oag.ca.gov/",
+    "assets/sanmateocourt.org/",
+    "assets/ncric.org/",
+    "assets/cityofsanmateo.org/",
 )
 
 ALLOWED_EMAIL_DOMAINS = {

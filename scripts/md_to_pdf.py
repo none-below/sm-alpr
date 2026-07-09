@@ -144,7 +144,7 @@ COUNCIL_SOURCE_NUMS = set(COUNCIL_FILE_IDS.keys())
 
 # ═══════════════════ PARSER ═══════════════════
 
-def parse_md(path):
+def parse_md(path, pd_mode=False):
     """Split markdown into sections by headings.  Returns a list of
     {'title': str, 'anchor': str, 'lines': [str]} dicts,
     plus a preamble (lines before the first heading)."""
@@ -153,8 +153,19 @@ def parse_md(path):
     # Strip HTML comments and --- separators
     lines = []
     in_comment = False
+    in_pd_exclude = False
     for line in raw_lines:
         s = line.rstrip('\n')
+        st = s.strip()
+        # PD-handout variant: content between <!-- pd-exclude --> and
+        # <!-- /pd-exclude --> stays in the full build (markers stripped) and is
+        # dropped only when pd_mode (the version handed to the PD).
+        if st == '<!-- pd-exclude -->':
+            in_pd_exclude = True; continue
+        if st == '<!-- /pd-exclude -->':
+            in_pd_exclude = False; continue
+        if in_pd_exclude and pd_mode:
+            continue
         if '<!--' in s:
             if '-->' in s: continue
             in_comment = True; continue
@@ -181,7 +192,8 @@ def parse_md(path):
     # Build the doc dict that builders expect, interpreting blocks generically
     doc = dict(preamble_lines=preamble, exec_paras=[], key_findings=[], sections=[],
                source_intro='', source_rows=[], contacts=[],
-               appendix_a_lines=[], appendix_b_lines=[], verify_items=[])
+               appendix_a_lines=[], appendix_b_lines=[], verify_items=[],
+               revision_lines=[])
     for block in blocks:
         title_low = block['title'].lower()
         nm = re.match(r'^(\d+)\.\s+(.+)', block['title'])
@@ -233,6 +245,8 @@ def parse_md(path):
             doc['appendix_b_lines'] = block['lines']
         elif 'items requiring verification' in title_low:
             doc['verify_items'] = [s.strip()[2:] for s in block['lines'] if s.strip().startswith('- ')]
+        elif title_low.startswith('revision history'):
+            doc['revision_lines'] = [s.strip() for s in block['lines'] if s.strip()]
         # Sub-headings (### within a ## block) and unrecognized headings are
         # already captured in their parent block's lines by the splitter above,
         # since only the first heading creates a new block.  No action needed.
@@ -269,6 +283,7 @@ def build_toc(S, dd):
             ("Appendix A: Agency Access Breakdown","appendix_a")]
     if dd.get('appendix_b_lines'): extras.append(("Appendix B: Statutory Gap Analysis","appendix_b"))
     if dd.get('verify_items'): extras.append(("Items Requiring Verification","verify"))
+    if dd.get('revision_lines'): extras.append(("Revision History","revisions"))
     for label,anchor in extras:
         els.append(Paragraph(ilink(f"<u>{label}</u>",anchor,LINK_BLUE),S['toc_entry']))
     els+=[Spacer(1,12),HRFlowable(width="100%",thickness=0.5,color=MED_GRAY,spaceAfter=6),PageBreak()]
@@ -509,15 +524,25 @@ def build_verify(S, dd):
         els.append(Paragraph(md_to_xml(text),S['verify']))
     return els
 
+def build_revisions(S, dd):
+    if not dd.get('revision_lines'): return []
+    els=[BookmarkAnchor("revisions"),_back(S),Paragraph("Revision History",S['sec_head'])]
+    for item in dd['revision_lines']:
+        text = item[2:] if item.startswith('- ') else item
+        els.append(Paragraph(md_to_xml(text),S['verify']))
+    return els
+
 def main():
     global _MD5_HASH
     import hashlib
-    md_path=str(Path(sys.argv[1]).resolve()) if len(sys.argv)>1 else "docs/SMPD_ALPR_Findings.md"
-    out_path=str(Path(sys.argv[2]).resolve()) if len(sys.argv)>2 else str(Path(tempfile.gettempdir())/"SMPD_ALPR_Findings.pdf")
+    argv=[a for a in sys.argv[1:] if not a.startswith('--')]
+    pd_mode='--pd' in sys.argv[1:]
+    md_path=str(Path(argv[0]).resolve()) if len(argv)>0 else "docs/SMPD_ALPR_Findings.md"
+    out_path=str(Path(argv[1]).resolve()) if len(argv)>1 else str(Path(tempfile.gettempdir())/"SMPD_ALPR_Findings.pdf")
     if not md_path.endswith('.md') or not out_path.endswith('.pdf'):
         raise SystemExit("Error: expected .md input and .pdf output paths")
     with open(md_path,'rb') as f: _MD5_HASH=hashlib.md5(f.read()).hexdigest()
-    dd=parse_md(md_path); S=mkstyles()
+    dd=parse_md(md_path, pd_mode=pd_mode); S=mkstyles()
     frame=Frame(ML,MB,PAGE_W-ML-MR,PAGE_H-MT-MB,id='main')
     pdf=BaseDocTemplate(out_path,pagesize=letter,title="SMPD ALPR Investigation — Findings",author="",subject="ALPR")
     pdf.addPageTemplates([PageTemplate(id='cover',frames=[frame],onPage=on_cover),
@@ -535,6 +560,8 @@ def main():
         story.append(PageBreak()); story.extend(build_appendix_b(S,dd))
     if dd.get('verify_items'):
         story.append(Spacer(1,16)); story.extend(build_verify(S,dd))
+    if dd.get('revision_lines'):
+        story.append(PageBreak()); story.extend(build_revisions(S,dd))
     pdf.build(story)
     nb=sum(len(s['bullets']) for s in dd['sections'])
     nt=sum(1 for s in dd['sections'] if s.get('table_rows'))
