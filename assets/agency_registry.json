@@ -566,31 +566,6 @@
     ]
   },
   {
-    "agency_id": "e33b986b-059f-5e81-83a6-2068ae672744",
-    "slug": "baldwin-ga-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Baldwin GA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "1304980",
-      "name": "Baldwin",
-      "state": "GA",
-      "lat": 34.49779,
-      "lng": -83.542599
-    }
-  },
-  {
     "agency_id": "7166c3d7-483b-58fe-b154-74480f768bd9",
     "slug": "baldwin-park-ca-pd",
     "flock_active_slug": "baldwin-park-ca-pd",
@@ -1556,31 +1531,6 @@
     ]
   },
   {
-    "agency_id": "70b0ea03-1bd3-5acc-afc5-46daca9a0677",
-    "slug": "cherokee-county-nc-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Cherokee County NC SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "37039",
-      "name": "Cherokee",
-      "state": "NC",
-      "lat": 35.13715,
-      "lng": -84.061449
-    }
-  },
-  {
     "agency_id": "2329d5a6-b311-56d2-bd0b-3d6caa375ab0",
     "slug": "chula-vista-ca-pd",
     "flock_active_slug": "chula-vista-ca-pd",
@@ -2416,32 +2366,6 @@
     "ori": [
       "CA0480300"
     ]
-  },
-  {
-    "agency_id": "3aa16b5a-78c0-5fa2-a77f-c46e87be1daa",
-    "slug": "fairview-township-pa-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Fairview Township PA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "ambiguous",
-      "fips": "42",
-      "name": "PA",
-      "state": "PA",
-      "lat": 40.82024428358209,
-      "lng": -77.61764129850746,
-      "note": "township name matches multiple county subdivisions in state"
-    }
   },
   {
     "agency_id": "66a47e2e-147b-55eb-ba49-6b49239dc935",
@@ -7667,6 +7591,82 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "e33b986b-059f-5e81-83a6-2068ae672744",
+    "slug": "baldwin-ga-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Baldwin GA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1304980",
+      "name": "Baldwin",
+      "state": "GA",
+      "lat": 34.49779,
+      "lng": -83.542599
+    }
+  },
+  {
+    "agency_id": "70b0ea03-1bd3-5acc-afc5-46daca9a0677",
+    "slug": "cherokee-county-nc-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Cherokee County NC SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "37039",
+      "name": "Cherokee",
+      "state": "NC",
+      "lat": 35.13715,
+      "lng": -84.061449
+    }
+  },
+  {
+    "agency_id": "3aa16b5a-78c0-5fa2-a77f-c46e87be1daa",
+    "slug": "fairview-township-pa-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Fairview Township PA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "ambiguous",
+      "fips": "42",
+      "name": "PA",
+      "state": "PA",
+      "lat": 40.82024428358209,
+      "lng": -77.61764129850746,
+      "note": "township name matches multiple county subdivisions in state"
+    }
   },
   {
     "agency_id": "6aaae188-0468-5e16-87c6-577de1350d02",
