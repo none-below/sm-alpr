@@ -2869,31 +2869,6 @@
     ]
   },
   {
-    "agency_id": "41f48d53-2923-5ce2-b374-e18a2039a49b",
-    "slug": "harrison-county-ms-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Harrison County MS SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "28047",
-      "name": "Harrison",
-      "state": "MS",
-      "lat": 30.416536,
-      "lng": -89.083376
-    }
-  },
-  {
     "agency_id": "831b5ef5-d075-5433-b2d0-60f3a4e95ecd",
     "slug": "hayward-ca-pd",
     "flock_active_slug": "hayward-ca-pd",
@@ -3986,28 +3961,6 @@
     "ori": [
       "CA0240000"
     ]
-  },
-  {
-    "agency_id": "2f9c48e2-79cd-5d5b-866f-d4b24ff7bcad",
-    "slug": "meridian-community-college-ms-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Meridian Community College MS PD"
-    ],
-    "display_name": null,
-    "agency_role": "campus_safety",
-    "agency_type": "university",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "MS"
-    }
   },
   {
     "agency_id": "0046d4c9-07ce-5064-aa1c-0a02d26d0360",
@@ -7638,6 +7591,53 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "41f48d53-2923-5ce2-b374-e18a2039a49b",
+    "slug": "harrison-county-ms-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Harrison County MS SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "28047",
+      "name": "Harrison",
+      "state": "MS",
+      "lat": 30.416536,
+      "lng": -89.083376
+    }
+  },
+  {
+    "agency_id": "2f9c48e2-79cd-5d5b-866f-d4b24ff7bcad",
+    "slug": "meridian-community-college-ms-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Meridian Community College MS PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "MS"
+    }
   },
   {
     "agency_id": "353059f3-c39f-5dd9-982e-fde1783351d8",
