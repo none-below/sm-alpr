@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """
 PII scanner for PDF assets.
 
@@ -80,6 +82,7 @@ ALLOWED_PHONES = {
     "6505227633",
     "6505227663",  # Lt. S. Casazza, SMPD audit officer (W012665/W012666 audit email signatures)
     "6505237663",  # OCR variant of 650-522-7663 (Casazza, same emails)
+    "6505227664",  # J. Santiago, Management Analyst, Office of the Chief (chief email signatures, sources 56-60)
     "6505227662",  # SMPD (W012665 Emails_Sent_to_Users_Re_Audit.pdf)
     "6505227660",  # SMPD (W012672 _Re__ALPR_Training.pdf)
     "6505227002",  # A. Khojikian, SMPD (W012666 _Re__Flock_Camera_Concerns.pdf)
