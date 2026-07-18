@@ -22,6 +22,13 @@
   "wayback_source": "existing",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:renewed",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +136,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-07-02T11:48:22Z",
+  "primary_subject_agency_ids": [
+    "9c1c5b61-7dec-5fce-a5ec-a3be9ed47c86"
+  ],
+  "summary": "The Alameda County Board of Supervisors voted 3-2 to approve a one-year $2.4 million extension of the Sheriff's Office's Flock Safety contract, covering ALPRs, drones, and related tech through June 2027. The vote came despite recent revelations that county Flock data had been accessed by out-of-state entities in violation of SB 34, and included debate over liability caps for data breaches. The Sheriff's Office plans a competitive bid for a replacement vendor over the next 12-18 months.",
+  "key_quotes": [
+    {
+      "quote": "The Alameda County Board of Supervisors approved a one-year $2.4 million contract extension for Flock Safety surveillance technologies with the Sheriff's Office in a 3-2 vote Tuesday, despite opponents' warnings of contract loopholes that could put the region's immigrant community at risk.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "As recently as June, Alameda County camera data has been accessed by out-of-state entities, a violation of Senate Bill 34, a state law restricting California law enforcement agencies from sharing data with out-of-state and federal agencies.",
+      "paragraph_idx": 25
+    },
+    {
+      "quote": "The contract with the county stipulates that Flock Safety is liable for such breaches of personal identifiable information, but sets a maximum cap of liability as the total amount of money the county has paid within the last 12 months.",
+      "paragraph_idx": 27
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-18T10:36:21Z",
   "article_id": "art_079d3881dddf"
 }
