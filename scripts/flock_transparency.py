@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """
 Flock Safety transparency portal archiver, parser, and analyzer.
 
@@ -1205,6 +1207,15 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         portal_data[field] = csv_rows
         print(f"    extracted {csv_name}: {len(csv_rows)} rows")
     attach_csv_integrity(portal_data)
+
+    # Flock renders the sharing lists inside fixed-height "slider" boxes that
+    # scroll; in print those clip to the first few visible rows. The rows are
+    # already all in the DOM (the parser reads the full list from the saved
+    # HTML), so overriding max-height/overflow flows the complete list into the
+    # PDF instead of truncating it.
+    page.add_style_tag(content=(
+        "*{max-height:none !important;overflow:visible !important;}"
+    ))
 
     cdp = page.context.new_cdp_session(page)
     result = cdp.send("Page.printToPDF", {
