@@ -974,6 +974,14 @@
         "new-madrid-county-mo-so": "http_404"
       }
     },
+    "2cd6cde2-43b6-58c3-b7f4-481670319c70": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-18T22:34:23.605199+00:00",
+      "tried": {
+        "fairburn-ga-pd": "http_404"
+      }
+    },
     "2d857199-5bc0-5332-b306-57ffbccffedf": {
       "exhausted": false,
       "found": null,
@@ -1761,6 +1769,12 @@
       "tried": {
         "saline-county-ks-so": "http_404"
       }
+    },
+    "4edde838-765e-5031-8160-00c8869a40fc": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-18T22:33:55.369605+00:00",
+      "tried": {}
     },
     "4f241c0e-e0e9-56fe-acb8-531d82bc7f0c": {
       "exhausted": false,
@@ -4471,10 +4485,19 @@
     "cb959829-2ddf-5780-841e-4d78cf1df75e": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-18T19:54:51.913507+00:00",
+      "last_probed": "2026-07-18T22:34:29.198865+00:00",
       "tried": {
         "el-cerrito-ca-po": "http_404",
+        "el-cerrito-ca-police": "http_404",
         "el-cerrito-ca-police-department": "http_404"
+      }
+    },
+    "cb9adcb1-a263-5c3e-987a-e501ce34f08c": {
+      "exhausted": false,
+      "found": "hingham-ma-pd",
+      "last_probed": "2026-07-18T22:34:12.733475+00:00",
+      "tried": {
+        "hingham-ma-pd": "http_200"
       }
     },
     "cc1000e2-0754-5577-95b3-76649924222d": {
@@ -5587,6 +5610,6 @@
       }
     }
   },
-  "updated": "2026-07-18T21:36:20.449826+00:00",
+  "updated": "2026-07-18T22:34:29.256531+00:00",
   "version": 1
 }
