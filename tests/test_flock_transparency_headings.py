@@ -858,3 +858,26 @@ def test_parse_org_names_drops_none_empty_state():
     assert _parse_org_names("N/A") == []
     # A real agency name that merely starts with "No..." is unaffected.
     assert _parse_org_names("Novato CA PD") == ["Novato CA PD"]
+
+
+def test_issue_2026_07_17_heading_variants_classify():
+    """Two agency-specific heading variants seen in the 7/17/2026 refresh:
+
+    - mill-valley-ca-pd bolds "MVPD Public Safety Video Surveillance System
+      Policy:" — a broader-scope policy doc, distinct from its ALPR-specific
+      policy link. Routes to policy_info so alpr_policy stays the ALPR policy.
+    - palm-springs-ca-pd bolds "PSPD ALPR Technology/Community Presentation
+      page" — an outreach link, not a policy. Routes to additional_info.
+
+    Both are static agency-specific strings, so they're exact aliases (no
+    dynamic regex) and can't promote body text elsewhere in the corpus.
+    """
+    from flock_transparency import _match_heading_kind
+    field, kind = _match_heading_kind(
+        "MVPD Public Safety Video Surveillance System Policy:"
+    )
+    assert (field, kind) == ("policy_info", "exact")
+    field, kind = _match_heading_kind(
+        "PSPD ALPR Technology/Community Presentation page"
+    )
+    assert (field, kind) == ("additional_info", "exact")

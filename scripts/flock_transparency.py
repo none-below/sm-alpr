@@ -320,6 +320,10 @@ _HEADING_MAP = {
     "Full LPR Policy Here:":                 "alpr_policy",
     "Complete ALPR Policy":                  "alpr_policy",
     "OPD Policy: DGO I-12 - Automated License Plate Readers": "alpr_policy",
+    # mill-valley-ca-pd links a separate broader-scope video-surveillance
+    # policy alongside its ALPR-specific policy link. Route to policy_info,
+    # not alpr_policy, so the ALPR policy field stays the ALPR policy.
+    "MVPD Public Safety Video Surveillance System Policy:": "policy_info",
     # ── other structural fields ──
     "Additional Info":                       "additional_info",
     "Additional Information":                "additional_info",
@@ -327,6 +331,10 @@ _HEADING_MAP = {
     "Community Safeguards":                  "additional_info",
     "LPR and other Cameras":                 "additional_info",
     "Search Specifics":                      "additional_info",
+    # palm-springs-ca-pd bolds a link to a community-outreach slideshow, not
+    # a policy — same supplementary role as the FAQ/Community Safeguards
+    # entries, captured as text with no value parse.
+    "PSPD ALPR Technology/Community Presentation page": "additional_info",
     "Flock Safety Contract":                 "additional_info",
     "Download CSV":                          "download_csv",
     "Public Search Audit":                   "search_audit",
