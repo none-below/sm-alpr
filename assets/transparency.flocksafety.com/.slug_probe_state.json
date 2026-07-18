@@ -1792,6 +1792,12 @@
         "el-centro-ca-po": "http_404"
       }
     },
+    "55ac05cf-0eb2-55d0-a4c4-69e64fb8304b": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-18T12:40:12.731154+00:00",
+      "tried": {}
+    },
     "56a072e1-66f8-5ee4-b646-bdf99ca1eeee": {
       "exhausted": false,
       "found": "north-royalton-oh-pd",
@@ -2521,9 +2527,10 @@
     "731b41be-02b5-52e5-a7f7-3d00b5d034e9": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-18T10:05:26.129329+00:00",
+      "last_probed": "2026-07-18T12:40:34.930305+00:00",
       "tried": {
-        "manteca-ca-po": "http_404"
+        "manteca-ca-po": "http_404",
+        "manteca-ca-police-department": "http_404"
       }
     },
     "74177e29-6bac-5f35-8a72-d1fa6e6c4357": {
@@ -4066,6 +4073,14 @@
         "creedmoor-nc-pd": "http_200"
       }
     },
+    "bc71f6fb-d7a8-5a0e-a582-0e8b7f30be0b": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-18T12:40:22.770779+00:00",
+      "tried": {
+        "fletcher-nc-pd": "http_404"
+      }
+    },
     "bc92b231-0416-54f3-ad73-e1db1ace2f71": {
       "exhausted": false,
       "found": null,
@@ -4528,6 +4543,14 @@
       "last_probed": "2026-05-09T23:32:34.706225+00:00",
       "tried": {
         "herrin-il-pd": "http_200"
+      }
+    },
+    "d8478956-ba44-51fd-92b1-b6b179ae6181": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-18T12:40:29.319587+00:00",
+      "tried": {
+        "tennessee-highway-patrol-tn-pd": "http_404"
       }
     },
     "d86039c6-93d0-55fd-acd1-b4af855ffd27": {
@@ -5426,6 +5449,6 @@
       }
     }
   },
-  "updated": "2026-07-18T11:38:56.137036+00:00",
+  "updated": "2026-07-18T12:40:34.967495+00:00",
   "version": 1
 }
