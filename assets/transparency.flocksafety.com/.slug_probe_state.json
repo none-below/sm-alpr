@@ -63,9 +63,10 @@
     "029812b1-3af3-5baf-bcec-7c7bacbda20d": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-07T01:25:13.095888+00:00",
+      "last_probed": "2026-07-18T19:54:40.616573+00:00",
       "tried": {
-        "somerset-ma-pd": "http_404"
+        "somerset-ma-pd": "http_404",
+        "somerset-ma-po": "http_404"
       }
     },
     "0356e0c1-db5d-54dd-9651-f37bf59df0b1": {
@@ -820,6 +821,12 @@
       "tried": {
         "california-department-of-insurance-fraud-ca-pd": "http_404"
       }
+    },
+    "2598ff19-984a-5531-996a-b16764fc49f8": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-18T19:54:29.599355+00:00",
+      "tried": {}
     },
     "25df913b-7b02-5410-8bb8-c33285586778": {
       "exhausted": false,
@@ -2824,11 +2831,12 @@
     "81e727b4-f1d6-5aea-8cd4-db0cf88a7306": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-28T01:23:27.772655+00:00",
+      "last_probed": "2026-07-18T19:54:45.920455+00:00",
       "tried": {
         "solano-county-ca": "http_404",
         "solano-county-ca-da": "http_404",
-        "solano-county-ca-district-attorney": "http_404"
+        "solano-county-ca-district-attorney": "http_404",
+        "solano-county-district-attorney-ca": "http_404"
       }
     },
     "82224cc9-3df9-5f00-9aaf-a777477d5859": {
@@ -4447,9 +4455,10 @@
     "cb959829-2ddf-5780-841e-4d78cf1df75e": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-18T14:11:50.486481+00:00",
+      "last_probed": "2026-07-18T19:54:51.913507+00:00",
       "tried": {
-        "el-cerrito-ca-po": "http_404"
+        "el-cerrito-ca-po": "http_404",
+        "el-cerrito-ca-police-department": "http_404"
       }
     },
     "cc1000e2-0754-5577-95b3-76649924222d": {
@@ -5554,6 +5563,6 @@
       }
     }
   },
-  "updated": "2026-07-18T18:39:18.783231+00:00",
+  "updated": "2026-07-18T19:54:51.954227+00:00",
   "version": 1
 }
