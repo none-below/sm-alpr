@@ -292,6 +292,12 @@
         "maize-ks-pd": "http_404"
       }
     },
+    "0de80765-57cc-5918-8cd1-bafe3af1b9be": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-18T18:38:57.615345+00:00",
+      "tried": {}
+    },
     "0e4678e7-cfa4-5b91-83f3-9daf5e3653ea": {
       "exhausted": false,
       "found": null,
@@ -1619,6 +1625,14 @@
         "niles-oh-pd": "http_200"
       }
     },
+    "4a8611b7-772b-5264-b85c-c74f5adf79b7": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-18T18:39:09.881409+00:00",
+      "tried": {
+        "jacksonville-il-pd": "http_404"
+      }
+    },
     "4a99a1f3-e9ec-5fdc-b620-ba8c356dc19c": {
       "exhausted": false,
       "found": null,
@@ -2564,11 +2578,12 @@
     "731b41be-02b5-52e5-a7f7-3d00b5d034e9": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-18T15:40:22.093717+00:00",
+      "last_probed": "2026-07-18T18:39:18.740192+00:00",
       "tried": {
         "manteca-ca-po": "http_404",
         "manteca-ca-police": "http_404",
-        "manteca-ca-police-department": "http_404"
+        "manteca-ca-police-department": "http_404",
+        "manteca-ca-ps": "http_404"
       }
     },
     "74177e29-6bac-5f35-8a72-d1fa6e6c4357": {
@@ -3741,6 +3756,14 @@
       "last_probed": "2026-05-30T15:53:27.151766+00:00",
       "tried": {
         "alvin-tx-pd": "http_404"
+      }
+    },
+    "a9edb45d-8dd9-51ed-bb2c-ea6f84b13956": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-18T18:39:14.768013+00:00",
+      "tried": {
+        "tonganoxie-ks-pd": "http_404"
       }
     },
     "aa1aa6e8-1827-5686-a60c-de76fb77aa78": {
@@ -5531,6 +5554,6 @@
       }
     }
   },
-  "updated": "2026-07-18T17:44:24.027118+00:00",
+  "updated": "2026-07-18T18:39:18.783231+00:00",
   "version": 1
 }
