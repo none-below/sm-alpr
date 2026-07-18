@@ -21,6 +21,12 @@
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -88,10 +94,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-26T09:52:39Z",
+  "primary_subject_agency_ids": [
+    "2cc3a31d-7f98-5714-bc85-927815444575"
+  ],
+  "summary": "Tompkins County legislators began discussing a policy to review surveillance technologies before adoption, following the April 12-1 vote to end the county's Flock Safety ALPR contract. Sheriff Derek Osborne reported the cameras appear to have been removed, and legislators plan a more formal discussion in August or September, possibly with ACLU input.",
+  "key_quotes": [
+    {
+      "quote": "In April, county legislators voted 12-1 to end the county's contract with Flock Safety, an Atlanta-based tech company.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "I think that if we had a policy in place, we could have avoided some of the issues around Flock",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "At the common law and under the Constitution, privacy is much more narrowly defined than one might assume",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-18T10:36:33Z",
   "article_id": "art_13b727274fa0"
 }

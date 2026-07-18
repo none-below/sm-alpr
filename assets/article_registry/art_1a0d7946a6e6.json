@@ -21,6 +21,13 @@
   "wayback_source": "submit-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:renewed",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +136,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-07-02T11:48:27Z",
+  "primary_subject_agency_ids": [
+    "9c1c5b61-7dec-5fce-a5ec-a3be9ed47c86"
+  ],
+  "summary": "The Alameda County Board of Supervisors voted 3-2 to approve a $2.4 million bridge contract extension with Flock Safety for ALPRs, PTZ cameras, drones, and Nova software, despite recent revelations that NCRIC and the Western States Information Network improperly accessed county ALPR data and shared it with out-of-state and federal agencies. The sheriff said she responded by cutting sharing with half the state, while opponents raised concerns about ICE, reproductive-healthcare surveillance, and the county's 365-day retention window.",
+  "key_quotes": [
+    {
+      "quote": "I am disclosing to you and the community what happened, and what corrective actions we took,",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "But we need to have stronger safeguards in this county, which we currently don't have.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "These cameras are meant to keep us safe. I don't believe that they are widely used by ICE.",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-18T10:36:42Z",
   "article_id": "art_1a0d7946a6e6"
 }
