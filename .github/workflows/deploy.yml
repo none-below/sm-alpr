@@ -59,6 +59,11 @@ jobs:
           uv run python scripts/build_justifications.py &
           uv run python scripts/build_articles_data.py &
           uv run python scripts/build_dashboard.py &
+          # Regenerates docs/data/audit_check_manifest.json (the audit-check.html
+          # file picker) from the merged W012541 PDFs so new/altered months appear
+          # without hand-editing the inline fallback in docs/js/audit-check.js.
+          # Canonical generator list is `make build` (Makefile); keep this in sync.
+          uv run python scripts/build_audit_check_manifest.py &
           uv run python scripts/md_to_pdf.py docs/SMPD_ALPR_Findings.md "${{ runner.temp }}/SMPD_ALPR_Findings.pdf" &
           uv run python scripts/build_pra_registry.py
           uv run python scripts/build_pra_productivity.py &
