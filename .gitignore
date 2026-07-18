@@ -35,6 +35,14 @@ docs/data/pra_productivity.json
 # scripts/match_ori.py. Not read by any build — the durable output is the
 # registry `ori` field. ~2 MB, would churn monthly via the FBI refresh action.
 data/fbi/ori_matches.json
+# LLM-verified backfill intermediates: candidate shortlists + per-batch splits
+# (scripts/ori_backfill_candidates.py), and the decision/provenance dumps from
+# the verification workflow. Durable output is the registry `ori` field.
+data/fbi/ori_backfill_candidates.json
+data/fbi/ori_backfill_compact.json
+data/fbi/ori_backfill.json
+data/fbi/ori_decisions.json
+data/fbi/ori_batches/
 # Legacy single-file article registry — replaced by per-article shards under
 # assets/article_registry/ (see scripts/article_store.py). Gitignored so a
 # stale copy or old script can't re-add it.
