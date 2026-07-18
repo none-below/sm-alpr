@@ -22,6 +22,13 @@
   "wayback_source": "poll-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -131,10 +138,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-28T09:29:34Z",
+  "primary_subject_agency_ids": [
+    "f6aeb1c0-7b6b-5b5f-a678-2876c35afccd"
+  ],
+  "summary": "Cook County commissioners advanced Sheriff Tom Dart's $900,000 contract for additional Flock-powered license plate readers after hours of debate, with three progressive commissioners voting no over concerns about Flock's record of sharing data with federal immigration agencies and misuse in an out-of-state abortion tracking case. Separately, commissioners deferred a $1.12 million contract for Briefcam AI video surveillance at the Cook County Jail after opposition from 80+ community groups.",
+  "key_quotes": [
+    {
+      "quote": "Several commissioners said they view Flock Group, which is part of the contract, as a \"bad actor.\"",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "Secretary of State Alexi Giannoulias has alleged Flock improperly shared Illinois data from its broad network of license plate readers with U.S. Customs and Border Patrol, a violation of a 2023 Illinois law explicitly barring outside law enforcement from using license plate reader data \"to track or penalize individuals seeking abortion care or criminalize a person's immigration status.\"",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "when we have vendors who have been on the record violating state law \u2026 I think we have an oversight issue with this vendor, I think this vendor is not a good actor",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "Outside of administrative access \u2014 like sticking to the county's 30-day deletion policy \u2014 the company can't use, share or make reports using county data without explicit written consent.",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-18T12:02:00Z",
   "article_id": "art_afabe995e965"
 }

@@ -22,6 +22,11 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -69,10 +74,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-29T11:24:17Z",
+  "primary_subject_agency_ids": [
+    "1c8d9b52-2963-5081-8848-dcad04034507"
+  ],
+  "summary": "The St. Paul City Council's Public Safety Committee held a hearing on the city's use of Flock Safety ALPR cameras, with police defending safeguards and the ACLU of Minnesota urging tighter restrictions or cancellation. No changes were made to the contract, which runs through 2028.",
+  "key_quotes": [
+    {
+      "quote": "SPPD Sr. Cmdr. Ryan Murphy added that the department's license plate reader data is not shared outside of Minnesota, and no searches had been performed by out-of-state agencies over the past six months.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Boehler also recommended an end to sharing data with any jurisdiction that has signed a 287(g) agreement to assist with federal immigration enforcement.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "No changes were made to St. Paul's Flock contract on Wednesday, but council members made it clear the debate is far from over",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-18T12:02:08Z",
   "article_id": "art_fdb67a667e2b"
 }
