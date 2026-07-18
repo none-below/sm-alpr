@@ -21,6 +21,12 @@
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "policy:hotlist",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -121,10 +127,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-06T10:19:18Z",
+  "primary_subject_agency_ids": [
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6"
+  ],
+  "summary": "Oakland's Flock Safety ALPR system captured over 638 million license plates in 2025, generating about 1.1 million hotlist alerts \u2014 mostly for stolen plates, which OPD has deactivated due to staffing shortages. The Privacy Advisory Commission approved expanded data sharing with Public Works and the City Attorney for illegal dumping enforcement, while a lawsuit from former commissioner Brian Hofer over alleged out-of-state data sharing remains pending.",
+  "key_quotes": [
+    {
+      "quote": "In 2025, Oakland's Flock Safety camera system recorded 638,747,333 license plates",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "There were so many hits for stolen vehicles and plates last year that OPD kept these alerts deactivated, according to the report. The department said it doesn't have the staffing or resources to respond to them.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "Hofer later sued Oakland, alleging that OPD has repeatedly violated state law that forbids the sharing of data with out-of-state agencies.",
+      "paragraph_idx": 22
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:30:25Z",
   "article_id": "art_0952efe03a7b"
 }

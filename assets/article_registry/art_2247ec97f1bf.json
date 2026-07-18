@@ -22,6 +22,10 @@
   "wayback_source": "poll-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "legal:court-ruling",
+    "legal:legislation",
+    "legal:pra",
     "vendor:flock"
   ],
   "agencies": [
@@ -88,10 +92,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-06T10:19:14Z",
+  "primary_subject_agency_ids": [
+    "37330114-0b02-5b61-a889-2fc214849095",
+    "f9528ae9-97e1-555d-8dd3-f842543cb473"
+  ],
+  "summary": "Everett, WA approved a $25,000 settlement ending litigation over a public records request for Flock ALPR footage. After a Snohomish County judge ruled the footage was subject to the Public Records Act, the city appealed and temporarily paused its Flock network; a new state law signed in March 2026 exempted Flock footage from PRA disclosure, after which Everett restarted the cameras.",
+  "key_quotes": [
+    {
+      "quote": "On Feb. 24, Judge Joseph Wilson ruled that the city's footage was subject to public records requests.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "On March 31, Gov. Bob Ferguson signed a bill into a law that explicitly exempts Flock footage from the Public Records Act.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "In response to the ruling, Everett temporarily paused its Flock camera network, citing privacy concerns.",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:32:43Z",
   "article_id": "art_2247ec97f1bf"
 }

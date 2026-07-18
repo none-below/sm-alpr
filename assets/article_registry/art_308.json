@@ -21,6 +21,11 @@
   "wayback_source": "submit-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
     "vendor:axon",
     "vendor:flock"
   ],
@@ -112,10 +117,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-14T23:17:14Z",
+  "primary_subject_agency_ids": [
+    "68f11e4a-7a56-5692-a0a2-558de9117210",
+    "bf2b80b2-d258-558f-b1f1-fa17fb8b4af4"
+  ],
+  "summary": "Eugene and Springfield, Oregon police departments announced on Dec. 5, 2025 that they are terminating their contracts with Flock Safety, citing unspecified 'vulnerabilities and limitations' in the system and loss of confidence in the vendor. Both departments said ALPR technology remains valuable and may seek alternative vendors; the move follows months of community opposition organized by Eyes Off Eugene and a unanimous Oct. 8 City Council vote to pause use.",
+  "key_quotes": [
+    {
+      "quote": "The department has identified vulnerabilities and limitations that raise concerns about the system's ability to meet EPD's operational needs, data security requirements, and community expectations",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "all Flock automatic license plate recognition (ALPR) cameras within the city will be covered in the coming days, pending their full removal.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "It was a joint call by me and [Eugene Police Chief Chris Skinner] and ultimately came down to trust",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:35:41Z",
   "article_id": "art_308"
 }

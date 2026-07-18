@@ -22,6 +22,12 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -66,10 +72,25 @@
       ]
     }
   ],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-10T13:58:41Z",
+  "summary": "The Windsor, CT Town Council voted 8-1 to direct the town manager to shut off the town's 16 Flock ALPR cameras and return with either an alternative system or revised contract language complying with Windsor's recently adopted ALPR policy. The town may face an early termination penalty of roughly $8,000, and the contract auto-renews in early June absent notice.",
+  "key_quotes": [
+    {
+      "quote": "the Windsor Town Council voted Tuesday night to direct the town manager to turn off the town\u2019s Flock automated license plate reader (ALPR) cameras and return with either an alternative system or a contract that complies with Windsor\u2019s policy.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "Town Manager Peter Souza said that if shutting off the cameras is interpreted as a contract termination, the town could face an early cancellation charge.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "The policy also states that ALPR data should be deleted within 30 days unless tied to an active criminal investigation or required for court proceedings.",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:32:09Z",
   "article_id": "art_158",
-  "primary_subject_agency_ids": []
+  "primary_subject_agency_ids": [
+    "50dc11c1-7f4e-557f-b65c-6666d43832a0"
+  ]
 }

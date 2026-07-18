@@ -21,7 +21,12 @@
   "wayback_timestamp": "20260531092000",
   "wayback_source": "saved",
   "pdf_status": "rendered",
-  "tags": [],
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:sharing"
+  ],
   "agencies": [
     "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
     "14b510e3-7bde-5474-8249-6ef49a16cfc5",
@@ -112,10 +117,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-31T09:23:44Z",
+  "primary_subject_agency_ids": [
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "A San Francisco Standard report found that seven federal agencies, including ICE, obtained ALPR data from Oakland and San Francisco police via a shared CHP database, potentially in violation of California law. OPD issued a statement denying direct involvement and saying it requires agencies accessing its data to comply with state law.",
+  "key_quotes": [
+    {
+      "quote": "In at least one case, The Standard reported, Oakland police shared license plate reader data with federal law enforcement, including fulfilling a request related to an Immigration and Customs Enforcement investigation.",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "To be clear, no member of the Oakland Police Department was involved in this alleged sharing of ALPR information with Immigration and Customs Enforcement",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "California law prohibits local agencies from sharing data, including automatic license plate readers from out-of-state or federal law enforcement.",
+      "paragraph_idx": 6
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:39:46Z",
   "article_id": "art_8449f0c8e9ff"
 }

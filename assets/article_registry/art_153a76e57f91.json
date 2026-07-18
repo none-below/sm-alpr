@@ -22,6 +22,9 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "policy:retention",
+    "policy:sharing",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +133,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-30T07:56:59Z",
+  "primary_subject_agency_ids": [
+    "b07067f6-feea-5216-9df7-02c559d1433e",
+    "c6473a76-a8d3-5d92-8689-978a475dc22c"
+  ],
+  "summary": "Liberty (MO) police used the Flock ALPR database to locate a missing man with Alzheimer's who had driven away from home; a Clay County Sheriff's deputy responded to a camera ping and returned him safely. The article is paired with a 'Heart of the Matter' segment featuring privacy concerns about license plate readers.",
+  "key_quotes": [
+    {
+      "quote": "A Liberty Police Department officer entered the vehicle's license plate number into the Flock database to try to find him.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "A Clay County Sheriff's Office deputy heard that one of the Flock cameras pinged the man's license plate about an hour and a half later.",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "A combination of technology and caring led to the man getting home safely",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:32:02Z",
   "article_id": "art_153a76e57f91"
 }

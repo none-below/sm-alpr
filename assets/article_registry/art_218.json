@@ -22,6 +22,12 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "legal:legislation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:state",
     "vendor:flock"
   ],
   "agencies": [
@@ -70,10 +76,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-12T10:48:43Z",
+  "primary_subject_agency_ids": [
+    "f5f58d7a-0f1e-5f15-ba9f-1d4ce0da5ab3"
+  ],
+  "summary": "A Virginia General Assembly bill (HB2724) would regulate use of automated license plate readers, including a 30-day retention cap. Charlottesville PD says its 10 Flock cameras already comply with stricter local policy (7-day retention, criminal-justice uses), while Albemarle County PD is relaunching mobile in-car ALPRs in five vehicles.",
+  "key_quotes": [
+    {
+      "quote": "Automatic license plate readers are a tool of mass surveillance, so they capture not only the license plate as the name suggests, but the make and model of the vehicle as well",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "there are currently zero state laws regulating the use of ALPRs in Virginia",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Charlottesville only holds onto Flock data for seven days, which is well within the bill's proposed 30-day retention period",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:32:36Z",
   "article_id": "art_218"
 }

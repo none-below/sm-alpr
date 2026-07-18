@@ -21,6 +21,8 @@
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -77,10 +79,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-04T12:15:08Z",
+  "primary_subject_agency_ids": [
+    "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+    "9997bf96-b2ff-595c-950f-27a68b2ba166"
+  ],
+  "summary": "Imperial Beach City Council unanimously approved a two-month pilot program to install four Flock Safety automated license plate readers and two public safety cameras, in partnership with the San Diego Sheriff's Office. Staff cited ALPR contributions to arrests across the county, while one public speaker raised privacy and false-arrest concerns.",
+  "key_quotes": [
+    {
+      "quote": "Imperial Beach city councilmembers voted to enter into an agreement with the San Diego Sheriff's Office to place four license plate readers manufactured by surveillance giant Flock Safety at four proposed intersections",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "This is a pilot program. We have to consider the trade-off of privacy for security. People have been falsely arrested and falsely identified through the use of these cameras.",
+      "paragraph_idx": 22
+    },
+    {
+      "quote": "The era of big brother has passed, if you have a cell phone, you know there is already tracking.",
+      "paragraph_idx": 24
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:29:20Z",
   "article_id": "art_0175b2d5e26f"
 }

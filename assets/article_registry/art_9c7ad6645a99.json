@@ -20,7 +20,10 @@
   "wayback_timestamp": null,
   "wayback_source": "poll-failed",
   "pdf_status": "skipped-curl-fallback",
-  "tags": [],
+  "tags": [
+    "genre:explainer",
+    "scope:local"
+  ],
   "agencies": [
     "14b510e3-7bde-5474-8249-6ef49a16cfc5",
     "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
@@ -87,10 +90,17 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-11T11:53:47Z",
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "SFPD released body cam video and additional details about a May 31 incident in which an ALPR alerted officers to armed robbery suspects entering San Francisco via the Bay Bridge, leading to a pursuit, crash, and shootout that injured Officer Brittney Taylor and a suspect passenger. The driver, Norris Reed III, was arrested and charged with attempted murder.",
+  "key_quotes": [
+    {
+      "quote": "Acting Cmdr. Thomas Harvey said an automatic license plate reader alerted officers at 10:29 p.m. on May 31 of armed suspects associated with a robbery who were on the Bay Bridge entering San Francisco.",
+      "paragraph_idx": 3
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:47:48Z",
   "article_id": "art_9c7ad6645a99"
 }

@@ -1,0 +1,151 @@
+{
+  "url": "https://localnewsmatters.org/2026/06/18/flock-denies-feds-accessed-sf-camera-system/",
+  "source_domain": "localnewsmatters.org",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Flock Safety denies that feds directly accessed San Francisco's camera system - Local News Matters",
+  "byline": "Alise Maripuu, Bay City News",
+  "published_at": "2026-06-19T04:00:00+00:00",
+  "fetched_at": "2026-06-19T11:02:50Z",
+  "discovered_by": "rss:localnewsmatters.org",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 179 pts, HIGH/CRITICAL findings",
+  "scanner_score": 179,
+  "content_hash": "190da51c9868c0781ef79892535f34bb481f681a4f49eb863de6cd91bbe1ca71",
+  "paths": {
+    "html": "assets/articles/localnewsmatters.org/2026-06-18-flock-denies-feds-accessed-sf-camera-system_8a10f707.html",
+    "meta": "assets/articles/localnewsmatters.org/2026-06-18-flock-denies-feds-accessed-sf-camera-system_8a10f707.meta.json",
+    "txt": "assets/articles/localnewsmatters.org/2026-06-18-flock-denies-feds-accessed-sf-camera-system_8a10f707.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260619110256/https://localnewsmatters.org/2026/06/18/flock-denies-feds-accessed-sf-camera-system/",
+  "wayback_timestamp": "20260619110256",
+  "wayback_source": "saved",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+    "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+    "6be9f842-1658-5490-8be4-14b77cc1e96d",
+    "9b86a732-064e-54d3-8b51-126061153dfb",
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+    "6d11ec03-586d-570a-b110-56f9e37261ff",
+    "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+    "294a2f8e-cad6-5439-b849-ed2ff73ec216"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 15.683,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+      "display_name": "NCRIC",
+      "state": "CA",
+      "score": 6.917,
+      "matched_forms": [
+        "NCRIC"
+      ]
+    },
+    {
+      "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+      "display_name": "Santa Clara County CA SO",
+      "state": "CA",
+      "score": 6.7,
+      "matched_forms": [
+        "Santa Clara County"
+      ]
+    },
+    {
+      "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+      "display_name": "Santa Clara DA CA",
+      "state": "CA",
+      "score": 6.7,
+      "matched_forms": [
+        "Santa Clara County"
+      ]
+    },
+    {
+      "agency_id": "9b86a732-064e-54d3-8b51-126061153dfb",
+      "display_name": "Stockton CA PD",
+      "state": "CA",
+      "score": 6.033,
+      "matched_forms": [
+        "Stockton"
+      ]
+    },
+    {
+      "agency_id": "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+      "display_name": "CA",
+      "state": "CA",
+      "score": 5.633,
+      "matched_forms": [
+        "CA"
+      ]
+    },
+    {
+      "agency_id": "6d11ec03-586d-570a-b110-56f9e37261ff",
+      "display_name": "San Mateo County CA SO",
+      "state": "CA",
+      "score": 4.167,
+      "matched_forms": [
+        "San Mateo County",
+        "San Mateo County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+      "display_name": "Santa Cruz CA PD (deactivated)",
+      "state": "CA",
+      "score": 2.667,
+      "matched_forms": [
+        "Santa Cruz"
+      ]
+    },
+    {
+      "agency_id": "294a2f8e-cad6-5439-b849-ed2ff73ec216",
+      "display_name": "San Bruno CA PD",
+      "state": "CA",
+      "score": 2.65,
+      "matched_forms": [
+        "San Bruno"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd"
+  ],
+  "summary": "After an SFPD audit found its Flock ALPR system was improperly queried hundreds of times by NCRIC on behalf of out-of-state and federal agencies (including the Western States Information Network), SFPD disabled NCRIC and WSIN access. Flock Safety and SFPD say no federal agencies directly accessed the system and that no queries involved immigration enforcement or reproductive rights.",
+  "key_quotes": [
+    {
+      "quote": "Upon discovering the improper searches, Chief Derrick Lew immediately turned off NCRIC's access to SFPD's ALPR system and initiated an internal review",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "It involved searches conducted by authorized users at a California state agency that were later determined to be inconsistent with California's ALPR data-sharing requirements.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "NCRIC and WSIN's access to SFPD ALPR network currently remains disabled",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:47:20Z",
+  "article_id": "art_8a10f707764b"
+}

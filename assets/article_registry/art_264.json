@@ -21,6 +21,11 @@
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "legal:ag-bulletin",
+    "policy:audit",
+    "policy:sharing",
     "vendor:flock",
     "vendor:vigilant"
   ],
@@ -131,10 +136,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-13T11:45:03Z",
+  "primary_subject_agency_ids": [
+    "b78b4a4c-e8ea-5a96-9edd-585d0b0d1ce1",
+    "f453f0f0-f6ae-5f5b-9c49-d890e836b697"
+  ],
+  "summary": "Wednesday Journal reports on new AP findings that U.S. Border Patrol accessed Flock Safety and other ALPR networks nationwide, including in Illinois where an audit by the Secretary of State found Flock violated state law by allowing CBP access. The article recaps Oak Park's August 5 vote to terminate its Flock contract over immigration-enforcement concerns and notes Palos Heights searched Oak Park's Flock data 28 times citing 'immigration violation.'",
+  "key_quotes": [
+    {
+      "quote": "Border Patrol for a time had access to at least 1,600 license plate readers across 22 states, and some counties have reported looking up license plates on behalf of Border Patrol even in states like California and Illinois that ban sharing data with federal immigration authorities",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "the company had broken Illinois law by allowing data collected from license plate readers to be accessed by U.S. Customs and Border Protection agents",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "a Flock account associated with the south suburban Palos Heights Police Department had searched Oak Park Flock data 28 times with a stated purpose of investigating 'immigration violation.'",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:34:47Z",
   "article_id": "art_264"
 }

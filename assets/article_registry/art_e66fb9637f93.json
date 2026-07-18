@@ -1,0 +1,127 @@
+{
+  "url": "https://missionlocal.org/2026/06/federal-agencies-sf-surveillance-flock-data-audit/",
+  "source_domain": "missionlocal.org",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Feds \u2018improperly\u2019 accessed S.F. license-plate surveillance data, audit finds",
+  "byline": "Abigail V\u00e2n Neely, Hamza Fahmy",
+  "published_at": "2026-06-18T03:14:17+00:00",
+  "fetched_at": "2026-06-18T10:51:02Z",
+  "discovered_by": "rss:missionlocal.org",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 159 pts, HIGH/CRITICAL findings",
+  "scanner_score": 159,
+  "content_hash": "f8fc3806c7d1c4ce1b68edc953229af405f8cfb524ef355e3c156b101a69e786",
+  "paths": {
+    "html": "assets/articles/missionlocal.org/2026-06-federal-agencies-sf-surveillance-flock-data-audit_e66fb963.html",
+    "meta": "assets/articles/missionlocal.org/2026-06-federal-agencies-sf-surveillance-flock-data-audit_e66fb963.meta.json",
+    "txt": "assets/articles/missionlocal.org/2026-06-federal-agencies-sf-surveillance-flock-data-audit_e66fb963.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "bae9861d-a7ef-567d-b31b-a627075decf9",
+    "6607f630-2279-5b12-b723-b94b16c81122",
+    "61659896-6870-5421-9b6c-8edf08f0e86b",
+    "eca5a0e5-4ab4-5868-a688-c03da1dff9b1",
+    "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 20.15,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "bae9861d-a7ef-567d-b31b-a627075decf9",
+      "display_name": "Sacramento CA PD",
+      "state": "CA",
+      "score": 3.833,
+      "matched_forms": [
+        "Sacramento"
+      ]
+    },
+    {
+      "agency_id": "6607f630-2279-5b12-b723-b94b16c81122",
+      "display_name": "Richmond CA PD",
+      "state": "CA",
+      "score": 3.767,
+      "matched_forms": [
+        "Richmond"
+      ]
+    },
+    {
+      "agency_id": "61659896-6870-5421-9b6c-8edf08f0e86b",
+      "display_name": "Stanford University CA PD",
+      "state": "CA",
+      "score": 2.817,
+      "matched_forms": [
+        "Stanford University"
+      ]
+    },
+    {
+      "agency_id": "eca5a0e5-4ab4-5868-a688-c03da1dff9b1",
+      "display_name": "Berkeley CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Berkeley"
+      ]
+    },
+    {
+      "agency_id": "3f90431b-2cb9-5b7e-84aa-7fb9a03c955b",
+      "display_name": "Aurora CO PD",
+      "state": "CO",
+      "score": 2.6,
+      "matched_forms": [
+        "Aurora"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "An SFPD audit found 299 improper queries of San Francisco's Flock ALPR data by federal and out-of-state agencies including the DEA, IRS, U.S. Marshals, and Idaho and Oregon state police, routed through the Northern California Regional Intelligence Center and the Western States Information Network in violation of California law barring out-of-state sharing. Chief Derrick Lew said ICE and DHS did not directly access the data but cut off the fusion center's access pending review by the Human Rights Commission and Department of Police Accountability.",
+  "key_quotes": [
+    {
+      "quote": "Federal and out-of-state agencies \"improperly\" searched San Francisco license-plate data gathered through the police department's Flock system of surveillance cameras, a department audit released Wednesday found.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "SFPD discovered that there had been 299 illegal inquiries of its Flock camera network over the course of a year",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "California law prohibits law enforcement agencies from sharing license plate data to any out-of-state entity.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Upon learning about the breach, Lew \"immediately turned off\" access to the surveillance system from the Northern California Regional Intelligence Center, where the leak originated.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "The analysts were purportedly unaware that California law prohibits such data sharing, and have since updated their policies.",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:50:35Z",
+  "article_id": "art_e66fb9637f93"
+}

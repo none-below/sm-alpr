@@ -22,6 +22,11 @@
   "wayback_source": "existing",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +135,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-10T12:35:08Z",
+  "primary_subject_agency_ids": [
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+  ],
+  "summary": "Emails obtained by the LA Times show LAPD boosters, the LA Police Foundation, council offices and lobbyists pressuring LA's Bureau of Street Lighting to speed up installation of Flock Safety ALPRs on city light poles, even as the Police Commission audits LAPD's use of the technology and declines new camera donations. The push comes amid broader concerns about Flock data being shared with federal immigration authorities.",
+  "key_quotes": [
+    {
+      "quote": "Hundreds of emails obtained by The Times through public records requests reveal how LAPD boosters, homeowner associations and elected officials have engaged in a months-long campaign to pressure the Bureau of Street Lighting to speed up installations of the plate readers.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "The commission ordered its inspector general to conduct an audit of the LAPD's use of license plate reader technology, with the findings expected to be released in the summer.",
+      "paragraph_idx": 19
+    },
+    {
+      "quote": "refrain from entering into any new Memoranda of Understanding, Contracts, or other Agreements, or implement any pilot programs with Flock Safety or its affiliates.",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:53:21Z",
   "article_id": "art_f92d429a1680"
 }

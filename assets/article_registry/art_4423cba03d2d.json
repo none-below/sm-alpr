@@ -1,0 +1,136 @@
+{
+  "url": "https://sfstandard.com/2026/06/18/sfpd-license-plate-reader-illegal-searches/",
+  "source_domain": "sfstandard.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Audit reveals hundreds of illegal searches of SFPD\u2019s license plate reader system",
+  "byline": "George Kelly",
+  "published_at": "2026-06-18T11:24:30-07:00",
+  "fetched_at": "2026-06-19T10:57:47Z",
+  "discovered_by": "rss:sfstandard.com",
+  "scanner_verdict": "WARNINGS \u2014 14 pts, low/medium only",
+  "scanner_score": 14,
+  "content_hash": "01a725452802131b6ecef53e98c81eca5007c7efc3a1e4c6fe5071b5b86d5670",
+  "paths": {
+    "html": "assets/articles/sfstandard.com/2026-06-18-sfpd-license-plate-reader-illegal-searches_4423cba0.html",
+    "meta": "assets/articles/sfstandard.com/2026-06-18-sfpd-license-plate-reader-illegal-searches_4423cba0.meta.json",
+    "pdf": "assets/articles/sfstandard.com/2026-06-18-sfpd-license-plate-reader-illegal-searches_4423cba0.pdf",
+    "txt": "assets/articles/sfstandard.com/2026-06-18-sfpd-license-plate-reader-illegal-searches_4423cba0.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+    "e10eb98f-fc9a-5458-97c5-b7df1a730465",
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 7.983,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+      "display_name": "NCRIC",
+      "state": "CA",
+      "score": 6.917,
+      "matched_forms": [
+        "NCRIC"
+      ]
+    },
+    {
+      "agency_id": "e10eb98f-fc9a-5458-97c5-b7df1a730465",
+      "display_name": "Dallas GA PD",
+      "state": "GA",
+      "score": 2.9,
+      "matched_forms": [
+        "Dallas Police Department"
+      ]
+    },
+    {
+      "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "display_name": "Flock Safety",
+      "state": "GA",
+      "score": 2.7,
+      "matched_forms": [
+        "Flock Safety"
+      ]
+    },
+    {
+      "agency_id": "bc36858b-ad3b-59d8-84ec-719a6c34de87",
+      "display_name": "Baylor Scott & White PD (TX)",
+      "state": "TX",
+      "score": 1.4,
+      "matched_forms": [
+        "Dallas Police Department"
+      ]
+    },
+    {
+      "agency_id": "76010eb9-473b-5f1d-84fe-5329196b72ba",
+      "display_name": "Dallas Area Rapid Transit PD TX",
+      "state": "TX",
+      "score": 1.4,
+      "matched_forms": [
+        "Dallas Police Department"
+      ]
+    },
+    {
+      "agency_id": "4236130a-8a86-56ca-99d2-3df76a83785e",
+      "display_name": "Dallas TX PD",
+      "state": "TX",
+      "score": 1.4,
+      "matched_forms": [
+        "Dallas Police Department"
+      ]
+    },
+    {
+      "agency_id": "1d8cb468-cbbb-535f-a315-a79da4dd4f16",
+      "display_name": "Methodist Health System PD (TX)",
+      "state": "TX",
+      "score": 1.4,
+      "matched_forms": [
+        "Dallas Police Department"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd"
+  ],
+  "summary": "An SFPD compliance audit uncovered 299 improper queries of the department's Flock-based license plate reader database by Western States Information Network analysts who had been granted nighttime access through NCRIC without SFPD's knowledge. Chief Derrick Lew disabled NCRIC and WSIN access; officials said no ICE or immigration-related queries were found. The disclosure follows prior reporting that out-of-state agencies, including a Georgia sheriff and Dallas PD, ran over 1.6 million searches of SFPD data.",
+  "key_quotes": [
+    {
+      "quote": "The San Francisco Police Department said it uncovered 299 improper inquiries within what it described as \u201cover roughly a year\u201d through a routine compliance audit in May",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "NCRIC had granted the network\u2019s Watch Center access to the city\u2019s data during night hours without the SFPD\u2019s knowledge",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "Police Chief Derrick Lew disabled NCRIC\u2019s access upon discovering the searches and opened an internal review",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-19T11:03:46Z",
+  "article_id": "art_4423cba03d2d"
+}

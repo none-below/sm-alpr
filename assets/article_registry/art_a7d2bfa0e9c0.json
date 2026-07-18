@@ -22,14 +22,30 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "scope:national",
     "vendor:flock"
   ],
   "agencies": [],
   "agency_candidates": [],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-12T10:42:47Z",
+  "summary": "404 Media reports that Flock's ALPR search queries\u2014including license plates, vehicle descriptors, and stated reasons for searches\u2014were indexed by search engines like DuckDuckGo and Bing, exposing roughly 70 results from 2024-2025. Flock confirmed the exposure and said it is working to remove cached content.",
+  "key_quotes": [
+    {
+      "quote": "Flock appears to be leaking tons of law enforcement vehicle queries and possible user data. Data publicly visible in search result URLs includes: license plate state and numbers, make, model, color, identifiers such as 'window stickers' and 'top rack,' case number, and more",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "We are continuing to review how this information may have been indexed and are working with relevant parties to remove any cached content where appropriate",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Flock said the results appear to be around 70 in total, and date from 2024 to 2025.",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:48:21Z",
   "article_id": "art_a7d2bfa0e9c0"
 }

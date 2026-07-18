@@ -1,0 +1,128 @@
+{
+  "url": "https://www.nbcbayarea.com/news/local/sfpd-license-plate-readers-access-out-of-state-federal-agencies/4101113/",
+  "source_domain": "nbcbayarea.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "SFPD says license plate readers 'improperly' accessed by out-of-state, federal agencies",
+  "byline": "Bay City News",
+  "published_at": "2026-06-18T08:57:56-07:00",
+  "fetched_at": "2026-06-19T10:59:19Z",
+  "discovered_by": "rss:nbcbayarea.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 163 pts, HIGH/CRITICAL findings",
+  "scanner_score": 163,
+  "content_hash": "4a19bbc6c8ab83994a3c7ea5074813594e064586ac7cd1387963d7defa4c776a",
+  "paths": {
+    "html": "assets/articles/nbcbayarea.com/news-local-sfpd-license-plate-readers-access-out-of-state-federal-agencies-41011_54b3d74b.html",
+    "meta": "assets/articles/nbcbayarea.com/news-local-sfpd-license-plate-readers-access-out-of-state-federal-agencies-41011_54b3d74b.meta.json",
+    "pdf": "assets/articles/nbcbayarea.com/news-local-sfpd-license-plate-readers-access-out-of-state-federal-agencies-41011_54b3d74b.pdf",
+    "txt": "assets/articles/nbcbayarea.com/news-local-sfpd-license-plate-readers-access-out-of-state-federal-agencies-41011_54b3d74b.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+    "f296ea7d-37b7-583c-aef6-5058b2df232d",
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+    "86e42e3d-4245-5dc8-b64c-89d45592a7bb",
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 12.683,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police"
+      ]
+    },
+    {
+      "agency_id": "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+      "display_name": "NCRIC",
+      "state": "CA",
+      "score": 4.75,
+      "matched_forms": [
+        "NCRIC"
+      ]
+    },
+    {
+      "agency_id": "f296ea7d-37b7-583c-aef6-5058b2df232d",
+      "display_name": "Fremont CA PD",
+      "state": "CA",
+      "score": 3.733,
+      "matched_forms": [
+        "Fremont"
+      ]
+    },
+    {
+      "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "display_name": "Oakland CA PD",
+      "state": "CA",
+      "score": 3.733,
+      "matched_forms": [
+        "Oakland"
+      ]
+    },
+    {
+      "agency_id": "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+      "display_name": "CA",
+      "state": "CA",
+      "score": 3.567,
+      "matched_forms": [
+        "CA"
+      ]
+    },
+    {
+      "agency_id": "86e42e3d-4245-5dc8-b64c-89d45592a7bb",
+      "display_name": "Contra Costa County CA SO",
+      "state": "CA",
+      "score": 2.817,
+      "matched_forms": [
+        "Contra Costa County"
+      ]
+    },
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "San Jose"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "SFPD disabled NCRIC and Western States Information Network access to its Flock ALPR network after a routine audit found 299 improper queries by out-of-state and federal agencies over roughly a year. Police said no ICE or DHS queries were involved and no immigration or reproductive-rights inquiries were found.",
+  "key_quotes": [
+    {
+      "quote": "There were 299 improper inquiries over approximately one year, which account for 0.005% of inquiries over that period",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "Upon discovering the improper searches, Chief Derrick Lew immediately turned off NCRIC's access to SFPD's ALPR system and initiated an internal review",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "California law places clear restrictions on sharing license plate reader information with out-of-state or federal agencies.",
+      "paragraph_idx": 6
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:38:14Z",
+  "article_id": "art_54b3d74bde92"
+}

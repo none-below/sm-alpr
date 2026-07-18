@@ -22,6 +22,11 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:restricted",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -84,10 +89,25 @@
       ]
     }
   ],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-09T16:06:34Z",
+  "summary": "The Windsor, CT Town Council voted to suspend its Flock automatic license plate readers after residents raised concerns about data storage and potential federal misuse. The mayor said the suspension is temporary while the town renegotiates contract language with Flock to better protect resident data; early termination would cost about $8,000.",
+  "key_quotes": [
+    {
+      "quote": "The Windsor Town Council voted to suspend automatic license plate readers after residents raised concerns about where their personal information is being stored.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "While our police department has policies in place to ensure our officers handle the information collected correctly, we have no power over others who have access to that data",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Windsor's mayor said the suspension is temporary while the town works to revise contract language with Flock to better protect resident data. If the contract is terminated early, the town will pay around $8,000.",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:30:51Z",
   "article_id": "art_118",
-  "primary_subject_agency_ids": []
+  "primary_subject_agency_ids": [
+    "50dc11c1-7f4e-557f-b65c-6666d43832a0"
+  ]
 }

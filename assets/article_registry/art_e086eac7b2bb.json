@@ -22,6 +22,13 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "outcome:reconsidering",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +137,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-30T14:50:19Z",
+  "primary_subject_agency_ids": [
+    "d3f6c374-11c6-5edb-abf1-21199f1c5445"
+  ],
+  "summary": "Dayton has covered all 72 of its Flock ALPR cameras with bags following suspension of the program after discovering more than 7,000 immigration-related searches by outside agencies violated city policy. City commissioners are calling for removal, and an independent audit will inform a final decision; the Dayton Daily News also reports other area agencies denied records requests about Flock data sharing.",
+  "key_quotes": [
+    {
+      "quote": "a policy violation in the city's Flock camera system resulted in more than 7,000 searches related to immigration enforcement made by outside agencies",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "I join my colleagues in requesting the Flock cameras be taken down. I think we're working through how soon we can do that",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "The Dayton Police Department, the Montgomery County Sheriff's Office and other regional police departments denied Dayton Daily News requests... that seek to obtain audit information showing how those agencies are sharing Flock ALPR data.",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:49:58Z",
   "article_id": "art_e086eac7b2bb"
 }

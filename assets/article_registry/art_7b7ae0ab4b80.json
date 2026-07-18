@@ -22,6 +22,8 @@
   "wayback_source": "poll-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "scope:national",
     "vendor:flock",
     "vendor:motorola"
   ],
@@ -40,9 +42,18 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-09T12:19:46Z",
+  "summary": "404 Media reports on SignalTrace, a product that would add Bluetooth and other wireless sensors to automatic license plate readers, allowing them to collect unique identifiers from phones, AirPods, smartwatches and other devices in passing vehicles and link those devices to license plates. The article frames this as expanding ALPR cameras from vehicle tracking to person tracking.",
+  "key_quotes": [
+    {
+      "quote": "SignalTrace \"links devices that regularly travel together, correlating them to license plate.\"",
+      "paragraph_idx": 2
+    },
+    {
+      "quote": "would turn ALPR cameras from devices focused on tracking cars to ones that can more readily track the location of particular people.",
+      "paragraph_idx": 3
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:39:30Z",
   "article_id": "art_7b7ae0ab4b80"
 }

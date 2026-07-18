@@ -21,6 +21,12 @@
   "wayback_source": "poll-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:reconsidering",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +135,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-03T15:06:09Z",
+  "primary_subject_agency_ids": [
+    "663b82ca-427a-5e74-83ce-823a973242d9"
+  ],
+  "summary": "Palo Alto City Council heard public outcry urging cancellation of the city's Flock ALPR contract after revelations that out-of-state and federal agencies had unauthorized access to its camera data. The council took no formal action but expressed skepticism of Flock, ordered an independent audit via OIR Group, and will revisit a potential contract cancellation after summer recess.",
+  "key_quotes": [
+    {
+      "quote": "in March, this publication found that the same unauthorized access was granted in Palo Alto without the police department's knowledge",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "he conceded that the department was \"not wedded to Flock\" as a vendor for the technology given the data privacy concerns",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "I'm worried about us being complicit in a nationwide system to systematically dismantle Fourth Amendment rights of Americans.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "The audit results, and a potential vote on whether to cancel the contract with Flock, will return to the council after the summer recess",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:38:24Z",
   "article_id": "art_5529303c8497"
 }

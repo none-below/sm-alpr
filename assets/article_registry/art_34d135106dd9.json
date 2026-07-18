@@ -21,6 +21,10 @@
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:false-positive",
+    "incident:wrongful-stop",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -37,10 +41,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-08T11:22:20Z",
+  "primary_subject_agency_ids": [
+    "56f9a46f-863a-5d77-b2c9-72403bb11a8e"
+  ],
+  "summary": "San Diego man Hugo Parra was wrongfully arrested and jailed nearly a month after a Flock ALPR 'match' on a red Alfa Romeo was used to link him to a Golden Hill armed assault, despite the camera hit being five miles away seconds after the incident. Parra and driver Ariel Beltran are filing a civil rights lawsuit seeking $1.5 million each, as San Diego continues to expand its $7M Flock contract and pilot Flock Nova.",
+  "key_quotes": [
+    {
+      "quote": "Era obvio que esta coincidencia de Flock correspond\u00eda al veh\u00edculo equivocado, ya que no pod\u00eda estar en ambos lugares simult\u00e1neamente",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "Las fuerzas del orden generan falsos positivos constantemente mientras m\u00e1s amplia sea la red de vigilancia",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Mientras otras ciudades han cancelado contratos para compartir datos con agencias federales, incluidas autoridades migratorias, San Diego mantiene y expande el programa",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:36:05Z",
   "article_id": "art_34d135106dd9"
 }

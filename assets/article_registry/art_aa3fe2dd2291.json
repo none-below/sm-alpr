@@ -21,7 +21,13 @@
   "wayback_timestamp": "20260530121625",
   "wayback_source": "saved",
   "pdf_status": "rendered",
-  "tags": [],
+  "tags": [
+    "genre:analysis",
+    "incident:misuse",
+    "incident:wrongful-stop",
+    "policy:hotlist",
+    "scope:state"
+  ],
   "agencies": [
     "1ff68981-e83d-5009-9aa3-4e0f0154a554",
     "308e7ece-43c7-53c1-90a6-82f1e7a26d68"
@@ -47,9 +53,30 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-30T12:21:59Z",
+  "summary": "A new ACLU of Iowa and University of Iowa report finds 48 Iowa agencies use ALPR cameras with little state regulation, citing privacy concerns, a roughly 1-in-10 error rate, and significant spending (e.g., Cedar Rapids up to $240,000/year). The ACLU recommends cities pause adding cameras until safeguards exist.",
+  "key_quotes": [
+    {
+      "quote": "48 agencies now using ALPR cameras",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "About 1 in 10 license plates recorded contain an error",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "Under Iowa law, no warrant is required for law enforcement to use the ALPR database.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "Cedar Rapids has spent as much as $240,000 per year in taxpayer money on the cameras.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "our recommendation to cities is number one just don't do this",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:48:34Z",
   "article_id": "art_aa3fe2dd2291"
 }

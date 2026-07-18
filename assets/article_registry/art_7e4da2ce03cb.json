@@ -22,6 +22,14 @@
   "wayback_source": "poll-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:court-ruling",
+    "legal:legislation",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -132,10 +140,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-04T12:15:06Z",
+  "primary_subject_agency_ids": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "summary": "Three San Jose residents, represented by the Institute for Justice, filed a class-action federal lawsuit alleging the city's 474-camera Flock ALPR network violates the Fourth Amendment. The suit seeks 24-hour data deletion absent a warrant and follows a separate November 2025 state lawsuit and recent city-imposed restrictions on ALPR use.",
+  "key_quotes": [
+    {
+      "quote": "Ordinary people shouldn't have to live their lives in a fishbowl, knowing the government is tracking where they drive and compiling that information in a database potentially to be used against them",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "Last month, San Jose placed added restrictions on its ALPR network, limiting where the devices can be installed and reducing the data storage period from one year to 30 days.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "The new rules prohibit ALPRs from recording vehicles at houses of worship and reproductive health clinics and restrict access by federal and immigration agencies.",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:39:38Z",
   "article_id": "art_7e4da2ce03cb"
 }
