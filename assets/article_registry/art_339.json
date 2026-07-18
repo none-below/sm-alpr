@@ -22,6 +22,12 @@
   "wayback_source": "existing",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock",
     "vendor:motorola"
   ],
@@ -129,10 +135,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-28T12:46:02Z",
+  "primary_subject_agency_ids": [
+    "a1cf1765-8422-5372-8166-020721a41000"
+  ],
+  "summary": "Edmonds, Washington has canceled its contract with Flock Safety for 19 automated license plate reader cameras, becoming the third Snohomish County city to do so after Mountlake Terrace and Lynnwood. Mayor Mike Rosen cited federal agency access to Flock networks (including in Edmonds), a recent report on the FBI seeking nationwide ALPR access, and community concerns about surveillance and immigration enforcement.",
+  "key_quotes": [
+    {
+      "quote": "The city of Edmonds has canceled its automated license place reader contract with Flock Safety, Mayor Mike Rosen said at a council meeting Tuesday.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "records later obtained by The Daily Herald show that some federal agencies accessed Edmonds' network in the same time frame.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "We will not be bringing Flock cameras back to Edmonds anytime soon",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Gov. Bob Ferguson signed Senate Bill 6002, which placed statewide restrictions on automated license plate readers, including prohibiting local agencies from providing direct network access to federal and out-of-state agencies.",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:35:56Z",
   "article_id": "art_339"
 }

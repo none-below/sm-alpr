@@ -1,0 +1,118 @@
+{
+  "url": "https://localnewsmatters.org/2026/06/18/sfpd-license-cameras-improperly-accessed/",
+  "source_domain": "localnewsmatters.org",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "SFPD says license plate readers 'improperly' accessed by out-of-state, fed agencies - Local News Matters",
+  "byline": "Pete Young, Bay City News",
+  "published_at": "2026-06-18T15:00:00+00:00",
+  "fetched_at": "2026-06-19T10:56:34Z",
+  "discovered_by": "rss:localnewsmatters.org",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 175 pts, HIGH/CRITICAL findings",
+  "scanner_score": 175,
+  "content_hash": "6a95dbde358fa13159baa383c1c93b1cef16fa68d47be3c6f2381efc25ba137d",
+  "paths": {
+    "html": "assets/articles/localnewsmatters.org/2026-06-18-sfpd-license-cameras-improperly-accessed_38d74f93.html",
+    "meta": "assets/articles/localnewsmatters.org/2026-06-18-sfpd-license-cameras-improperly-accessed_38d74f93.meta.json",
+    "txt": "assets/articles/localnewsmatters.org/2026-06-18-sfpd-license-cameras-improperly-accessed_38d74f93.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260619105725/https://localnewsmatters.org/2026/06/18/sfpd-license-cameras-improperly-accessed/",
+  "wayback_timestamp": "20260619105725",
+  "wayback_source": "saved",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+    "6be9f842-1658-5490-8be4-14b77cc1e96d",
+    "9b86a732-064e-54d3-8b51-126061153dfb",
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 11.867,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+      "display_name": "Santa Clara County CA SO",
+      "state": "CA",
+      "score": 6.7,
+      "matched_forms": [
+        "Santa Clara County"
+      ]
+    },
+    {
+      "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+      "display_name": "Santa Clara DA CA",
+      "state": "CA",
+      "score": 6.7,
+      "matched_forms": [
+        "Santa Clara County"
+      ]
+    },
+    {
+      "agency_id": "9b86a732-064e-54d3-8b51-126061153dfb",
+      "display_name": "Stockton CA PD",
+      "state": "CA",
+      "score": 6.033,
+      "matched_forms": [
+        "Stockton"
+      ]
+    },
+    {
+      "agency_id": "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+      "display_name": "CA",
+      "state": "CA",
+      "score": 5.633,
+      "matched_forms": [
+        "CA"
+      ]
+    },
+    {
+      "agency_id": "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+      "display_name": "NCRIC",
+      "state": "CA",
+      "score": 4.75,
+      "matched_forms": [
+        "NCRIC"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "SFPD disabled NCRIC and Western States Information Network access to its Flock ALPR network after an audit found 299 improper queries over about a year by out-of-state and federal agencies. Police said no ICE or DHS queries or immigration/reproductive-rights inquiries were identified, and that no federal agencies had direct access.",
+  "key_quotes": [
+    {
+      "quote": "San Francisco police say they have disabled access to its network of Flock Automated License Plate Reader cameras after it was \"improperly queried\" for out-of-state and federal agencies.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "There were 299 improper inquiries over approximately one year, which account for 0.005% of inquiries over that period",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "Upon discovering the improper searches, Chief Derrick Lew immediately turned off NCRIC's access to SFPD's ALPR system and initiated an internal review",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:36:18Z",
+  "article_id": "art_38d74f938e73"
+}

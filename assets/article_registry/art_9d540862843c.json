@@ -21,7 +21,10 @@
   "wayback_timestamp": null,
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
-  "tags": [],
+  "tags": [
+    "genre:explainer",
+    "scope:local"
+  ],
   "agencies": [
     "9c1c5b61-7dec-5fce-a5ec-a3be9ed47c86",
     "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
@@ -87,10 +90,17 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-08T11:22:13Z",
+  "primary_subject_agency_ids": [
+    "9c1c5b61-7dec-5fce-a5ec-a3be9ed47c86"
+  ],
+  "summary": "Five vehicles were stolen from an Alameda County Sheriff's Office maintenance garage in Oakland early Sunday. Authorities used automated license plate readers to recover four vehicles initially, and the fifth, an unmarked sheriff's Ford Explorer, was recovered later that afternoon.",
+  "key_quotes": [
+    {
+      "quote": "Authorities were able to recover four of the vehicles by using automated license plate readers",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:47:54Z",
   "article_id": "art_9d540862843c"
 }

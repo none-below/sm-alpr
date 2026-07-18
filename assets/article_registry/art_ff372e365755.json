@@ -22,6 +22,10 @@
   "wayback_source": "poll-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +134,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-09T12:19:57Z",
+  "primary_subject_agency_ids": [
+    "eca5a0e5-4ab4-5868-a688-c03da1dff9b1"
+  ],
+  "summary": "Berkeley police held a community meeting to gather input on a proposal to expand their existing 52-camera Flock ALPR system and add drone cameras, with formal proposals expected before City Council in February and March. Residents raised concerns about data access, retention, and potential sharing with ICE, while Chief Jennifer Louis cited Berkeley's sanctuary city policies and case-by-case data release controls.",
+  "key_quotes": [
+    {
+      "quote": "Berkeley already has 52 fixed Flock cameras installed throughout the city that function as automated license plate readers.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "We are a sanctuary city. We follow state law and we believe very deeply in our sanctuary city policies, which is we do not gather and share information to federal agencies for the purpose of immigration enforcement",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "This week, the Santa Cruz City Council voted to terminate its contract with the company, citing concerns that data could potentially be accessed by out-of-state agencies.",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:53:29Z",
   "article_id": "art_ff372e365755"
 }

@@ -20,7 +20,12 @@
   "wayback_timestamp": "20260530075134",
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
-  "tags": [],
+  "tags": [
+    "genre:explainer",
+    "outcome:renewed",
+    "policy:purpose-limitation",
+    "scope:local"
+  ],
   "agencies": [
     "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
     "56f9a46f-863a-5d77-b2c9-72403bb11a8e"
@@ -46,10 +51,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-30T07:57:04Z",
+  "primary_subject_agency_ids": [
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad"
+  ],
+  "summary": "San Diego's Public Safety Committee approved continued use of 54 surveillance technologies including ALPRs, with Mayor Todd Gloria publicly endorsing the technology as a proven crime-fighting tool. SDPD reported ALPRs have aided 600 investigations, 420+ arrests, and recovery of 440 stolen vehicles since 2024. The city council will revisit ALPR use on Dec. 9.",
+  "key_quotes": [
+    {
+      "quote": "ALPR technology is a \"proven tool that's solved homicides, recovered stolen vehicles and stopped kidnappings.\"",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "since ALPR was launched in 2024, the technology has assisted the SDPD in 600 investigations, including the recovery of at least 20 firearms, $5.8 million in stolen property involving 440 stolen vehicles and resulted in more than 420 arrests",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "The operation and access to ALPR data shall be for official law enforcement purposes only",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:30:32Z",
   "article_id": "art_0b4156be809a"
 }

@@ -21,6 +21,8 @@
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:opinion",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -107,10 +109,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-13T08:15:34Z",
+  "primary_subject_agency_ids": [
+    "b78b4a4c-e8ea-5a96-9edd-585d0b0d1ce1"
+  ],
+  "summary": "A letter to the editor urges Oak Park trustees to reconsider their cancellation of the village's Flock ALPR contract, citing statistics from the 2024 Annual Police Report on stolen vehicles, missing persons, and violent offenders detected via Flock.",
+  "key_quotes": [
+    {
+      "quote": "I was aware the Flock contract for license-plate-reader cameras had been cancelled and I felt less safe as a result.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "In 2024, Flock alerted police to 1,728 stolen vehicles, 81 missing persons, 33 violent offenders",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "I hope our village leaders reconsider the Flock contract in the near future.",
+      "paragraph_idx": 6
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:33:29Z",
   "article_id": "art_259"
 }

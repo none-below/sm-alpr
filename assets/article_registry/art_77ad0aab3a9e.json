@@ -22,6 +22,13 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock",
     "vendor:vigilant"
   ],
@@ -131,10 +138,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-05T12:21:57Z",
+  "primary_subject_agency_ids": [
+    "e1922365-80e2-5ec7-8580-95245cdad7f8"
+  ],
+  "summary": "Marin County Sheriff Jamie Scardina is asking the Board of Supervisors to approve installing 31 Flock-operated ALPR cameras at nine choke-point locations in unincorporated areas to deter theft and aid investigations. The proposal follows a 2022 settlement with the ACLU/EFF over the sheriff's prior Vigilant Solutions system sharing data with ICE and out-of-state agencies, and includes a 30-day retention policy and in-state-only sharing.",
+  "key_quotes": [
+    {
+      "quote": "Our objective here is to make the streets of Marin County safer by deterring any criminal activity that comes through our county",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "The group claimed the sheriff's office was violating state law by sharing license plate data with U.S. Immigration and Customs Enforcement and other federal and out-of-state law enforcement agencies.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "All data would be permanently deleted after 30 days on a rolling basis.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "Flock has a much greater potential to violate civil rights and create a dangerous level of surveillance, particularly in communities like Marin City where people of color are overpoliced already.",
+      "paragraph_idx": 21
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:39:19Z",
   "article_id": "art_77ad0aab3a9e"
 }

@@ -22,6 +22,14 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
     "vendor:axon",
     "vendor:flock"
   ],
@@ -133,10 +141,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-30T07:56:51Z",
+  "primary_subject_agency_ids": [
+    "d3f6c374-11c6-5edb-abf1-21199f1c5445"
+  ],
+  "summary": "The Dayton Daily News explains how Flock automated license plate readers work and details concerns about data-sharing and oversight in southwest Ohio. It notes Dayton suspended its fixed-site Flock program after discovering data was being accessed for immigration purposes in violation of city policy, and quotes police, a UD cybersecurity researcher, and the ACLU of Ohio on the technology's capabilities and lack of regulation.",
+  "key_quotes": [
+    {
+      "quote": "The city of Dayton suspended use of its Flock cameras \u2014 a type of ALPR that generates data that can be accessed by departments all over the country \u2014 after realizing its data was being scanned for immigration reasons in violation of city policy.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "This comes down to the fundamental question of, How much do you trust your government?",
+      "paragraph_idx": 25
+    },
+    {
+      "quote": "The pause was ordered after a review of the cameras revealed that a network-sharing feature had been enabled, allowing data to be accessed more broadly than what was authorized.",
+      "paragraph_idx": 30
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:29:38Z",
   "article_id": "art_05ddad05c96e"
 }

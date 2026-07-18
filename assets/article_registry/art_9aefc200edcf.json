@@ -22,6 +22,10 @@
   "wayback_source": "poll-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "legal:pra",
+    "policy:audit",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -110,10 +114,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-13T09:35:39Z",
+  "primary_subject_agency_ids": [
+    "50f214c1-a194-5ee4-bd91-88ac327403a5"
+  ],
+  "summary": "At a Madison County, North Carolina Board of Commissioners meeting, Chairman Michael Garrison refused to let dozens of residents individually speak in opposition to the Sheriff's Office's use of Flock ALPRs, forcing them to designate a single spokesperson. Garrison argued the board lacks oversight over the elected Sheriff's surveillance spending, while residents complained of a lack of transparency and unanswered public records requests.",
+  "key_quotes": [
+    {
+      "quote": "You will not speak on Flock tonight",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Madison County has searched the nationwide database over 1,200 times over just a 60 day period.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "Cities and counties are sometimes buying Flock surveillance technology without any transparency, with no public process, and with very little oversight",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:47:42Z",
   "article_id": "art_9aefc200edcf"
 }

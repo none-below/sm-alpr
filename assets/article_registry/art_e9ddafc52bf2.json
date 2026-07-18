@@ -22,6 +22,12 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
     "vendor:flock"
   ],
   "agencies": [
@@ -141,10 +147,33 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-31T09:23:38Z",
+  "primary_subject_agency_ids": [
+    "8a781284-7e4d-5782-8c97-7f13cff6c1e9",
+    "576c3c84-781b-58a9-91cf-cc380a304709",
+    "e14a36b1-6fac-5490-8b23-84bf05584d93",
+    "6e7f6f6a-84ec-593b-bbbf-2928d7b02a99",
+    "f9d4504f-5437-58e4-9e3f-8d63a293d753"
+  ],
+  "summary": "A Dayton Daily News investigation found that out-of-state and Ohio law enforcement agencies routinely query area police departments' Flock ALPR databases \u2014 including Kettering, Tipp City, Miami Twp., Miamisburg and Springboro \u2014 for immigration-related and often vaguely stated reasons. Hundreds of immigration-tagged searches occurred in single months, many by agencies with 287(g) ICE agreements; Kettering changed its practice on May 4 to block immigration-purpose access after reporter inquiries.",
+  "key_quotes": [
+    {
+      "quote": "On May 4, Kettering police changed their practice \"so that an agency can no longer access Kettering's cameras just by stating it's for immigration purposes,\" according to police Chief Chip Protsman.",
+      "paragraph_idx": 22
+    },
+    {
+      "quote": "Of the 184 times immigration was listed as a reason for accessing Kettering's ALPR data in January, 23 searches were done by the Sharonville Police Department, 19 came from the Greene County Sheriff's Office, 10 from the Ohio Bureau of Motor Vehicles, three from the Montgomery County Sheriff's Office and two from the Miamisburg Police Department",
+      "paragraph_idx": 28
+    },
+    {
+      "quote": "About 95% of the immigration-related searches were conducted by out-of-state law enforcement",
+      "paragraph_idx": 35
+    },
+    {
+      "quote": "It's just too easy for officers to put in very vague terms or no terms at all or just lie.",
+      "paragraph_idx": 50
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:52:49Z",
   "article_id": "art_e9ddafc52bf2"
 }

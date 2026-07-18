@@ -1,0 +1,105 @@
+{
+  "url": "https://ww2.kqed.org/news/2026/06/18/san-francisco-police-audit-shows-feds-accessed-license-plate-data-hundreds-of-times/",
+  "source_domain": "kqed.org",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "San Francisco Police Audit Shows Feds \u2018Improperly\u2019 Accessed License Plate Data Hundreds of Times | KQED",
+  "byline": "Katie DeBenedetti",
+  "published_at": "2026-06-18T09:45:04-07:00",
+  "fetched_at": "2026-06-19T10:55:23Z",
+  "discovered_by": "rss:kqed.org",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 74 pts, HIGH/CRITICAL findings",
+  "scanner_score": 74,
+  "content_hash": "bf3439c26d748279170fb2c8d38fa50d454184ad2e31fa2c8151407410369469",
+  "paths": {
+    "html": "assets/articles/kqed.org/news-2026-06-18-san-francisco-police-audit-shows-feds-accessed-license-plate-dat_1eb37159.html",
+    "meta": "assets/articles/kqed.org/news-2026-06-18-san-francisco-police-audit-shows-feds-accessed-license-plate-dat_1eb37159.meta.json",
+    "pdf": "assets/articles/kqed.org/news-2026-06-18-san-francisco-police-audit-shows-feds-accessed-license-plate-dat_1eb37159.pdf",
+    "txt": "assets/articles/kqed.org/news-2026-06-18-san-francisco-police-audit-shows-feds-accessed-license-plate-dat_1eb37159.txt"
+  },
+  "wayback_url": "https://www.kqed.org/news/12088076/san-francisco-police-audit-shows-feds-accessed-license-plate-data-hundreds-of-times",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+    "665867f8-b8cf-5e20-8d53-84fe87ef17e8"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 22.5,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+      "display_name": "NCRIC",
+      "state": "CA",
+      "score": 7.417,
+      "matched_forms": [
+        "NCRIC"
+      ]
+    },
+    {
+      "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "display_name": "Oakland CA PD",
+      "state": "CA",
+      "score": 3.117,
+      "matched_forms": [
+        "Oakland"
+      ]
+    },
+    {
+      "agency_id": "665867f8-b8cf-5e20-8d53-84fe87ef17e8",
+      "display_name": "City of West TX PD",
+      "state": "TX",
+      "score": 2.567,
+      "matched_forms": [
+        "West"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd"
+  ],
+  "summary": "An SFPD audit found that NCRIC and the West States Information Network improperly accessed San Francisco's Flock ALPR data hundreds of times, including queries on behalf of out-of-state agencies, in apparent violation of California's 2015 law restricting ALPR data sharing. SFPD has since disabled NCRIC and WSIN access; Secure Justice plans to sue, while SFPD says no ICE or DHS access has been identified.",
+  "key_quotes": [
+    {
+      "quote": "San Francisco's license plate reader data has been improperly accessed hundreds of times by out-of-state and federal agencies since last May, police officials said Wednesday.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Under a 2015 state law, California public agencies are barred from sharing license plate reader data with federal and out-of-state agencies",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "The department has since disabled both NCRIC and WSIN's access to the city's camera network",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "It involved searches conducted by authorized users at a California state agency that were later determined to be inconsistent with California's ALPR data-sharing requirements.",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:22:23Z",
+  "article_id": "art_1eb37159e2e3"
+}

@@ -22,6 +22,11 @@
   "wayback_source": "poll-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -68,10 +73,23 @@
       ]
     }
   ],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-10T22:08:42Z",
+  "summary": "The Verona, Wisconsin Common Council voted not to renew contracts for its three Flock ALPR cameras, citing resident concerns about data security and federal access. Police defended the program, noting 30-day retention and that they had opted out of federal and out-of-state data sharing. The contracts expire in April and July 2026.",
+  "key_quotes": [
+    {
+      "quote": "The City of Verona Common Council has voted against renewing contracts for police data-collecting cameras known as Flock cameras.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "We've opted out of sharing data with federal agencies. We understand the concerns there. We have revoked automatic access to our data from out-of-state agencies to address some of the privacy concerns.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "Data this valuable will be targeted by hackers. Once your movement history is exposed, there's no getting it back.",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:32:22Z",
   "article_id": "art_180",
   "primary_subject_agency_ids": []
 }

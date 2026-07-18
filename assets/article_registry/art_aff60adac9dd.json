@@ -22,6 +22,10 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +132,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-30T12:21:42Z",
+  "primary_subject_agency_ids": [
+    "86e9b8be-f02d-50c0-a0f8-9ed7b2b378a4"
+  ],
+  "summary": "Flagstaff's city council voted unanimously to end its contract with Flock Safety after months of privacy concerns from residents, including a local activist group called 'Flock Out of Flag.' Police defended the technology as useful for solving crimes, but the council sided with privacy advocates. Coconino County still has 18 Flock cameras, which activists now hope to remove.",
+  "key_quotes": [
+    {
+      "quote": "The city of Flagstaff just canceled its contract with the surveillance camera company Flock Safety this week after a unanimous city council vote.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "It's the fact that they are keeping and maintaining a record of movements of all drivers, which, 99.8% of which will never be suspected of anything.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Flock goes way too far in one direction, and that personally, I believe a hot-list-only ALPR system would be a much better balance for the people of Arizona",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:48:41Z",
   "article_id": "art_aff60adac9dd"
 }

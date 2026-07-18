@@ -21,6 +21,12 @@
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -133,10 +139,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-12T22:29:25Z",
+  "primary_subject_agency_ids": [
+    "b78b4a4c-e8ea-5a96-9edd-585d0b0d1ce1"
+  ],
+  "summary": "The Oak Park, IL village board voted 4-3 on Aug. 5, 2025 to cancel its contract with Flock Safety and shut off eight license plate reader cameras, rejecting an alternative 90-day pause. Trustees cited privacy concerns, distrust of Flock, and risks of the data being used for immigration enforcement, following an Illinois Secretary of State investigation into out-of-state searches of Illinois Flock data.",
+  "key_quotes": [
+    {
+      "quote": "The Oak Park board of trustees voted to cancel the village's contract with Flock Safety, shutting off the eight license plate reading cameras the company operates in the village.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "We can't protect the data that's being collected in our community from being used to harm innocent people, and we're challenged to protect those people.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "Early work on the program audit found that last January south suburban Palos Heights Police had conducted 28 statewide Flock searches that included Oak Park data and had listed the reason for the searches as an investigation into 'immigrations violation,'",
+      "paragraph_idx": 22
+    },
+    {
+      "quote": "the state believed that 46 different law enforcement agencies from around the country had made illegal searches of Illinois Flock Safety datasets",
+      "paragraph_idx": 24
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:33:11Z",
   "article_id": "art_243"
 }

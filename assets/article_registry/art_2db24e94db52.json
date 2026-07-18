@@ -22,6 +22,13 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:retention",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -88,10 +95,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-11T11:53:43Z",
+  "primary_subject_agency_ids": [
+    "a1cf1765-8422-5372-8166-020721a41000"
+  ],
+  "summary": "The Edmonds City Council unanimously voted to cancel its Flock Safety ALPR contract after Mayor Rosen and Police Chief Dawkins had prematurely terminated it without council approval. Officials cited new state ALPR legislation, retention/audit liability, federal access to Flock networks, and community concerns about surveillance and immigration enforcement.",
+  "key_quotes": [
+    {
+      "quote": "After a procedural error, the Edmonds City Council unanimously voted Tuesday to cancel the city's contract with Flock Safety.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "There have been some changes in legislation, and that's led us to believe that with those changes comes a lot of liability",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Edmonds is the third city in Snohomish County to cancel its contract with the automated license plate reader company.",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:35:30Z",
   "article_id": "art_2db24e94db52"
 }

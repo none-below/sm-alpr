@@ -22,6 +22,11 @@
   "wayback_source": "existing",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "outcome:renewed",
+    "policy:sharing",
+    "scope:national",
     "vendor:axon",
     "vendor:flock",
     "vendor:motorola"
@@ -132,10 +137,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-11T11:53:54Z",
+  "primary_subject_agency_ids": [
+    "7b0525fb-a2de-517b-8d62-0e66d83a5f8a",
+    "96ab8fbc-f76a-5cc0-8a9f-05dd6a836de8"
+  ],
+  "summary": "WIRED mapped 1,181 ALPR cameras within 5 miles of the 11 US World Cup stadiums, mostly manufactured by Flock Safety, using crowdsourced DeFlock data. The article highlights stadium-by-stadium counts (notably 323 Flock cameras around Houston's NRG Stadium and large deployments near SoFi, Mercedes-Benz, and MetLife stadiums) and notes Harris County's recent ~$869K Flock renewal and Cobb County's $9.6M Axon anti-drone contract tied to World Cup prep.",
+  "key_quotes": [
+    {
+      "quote": "WIRED identified 1,181 automatic license plate reader cameras, or ALPRs, within a five-mile radius of the 11 US stadiums playing host to the World Cup this summer.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "Out of all the World Cup stadiums in the US, WIRED counted the greatest number of ALPRs\u2014323 Flock cameras\u2014around the NRG Stadium in Houston, Texas, which will host seven matches. Harris County, where the stadium is located, recently renewed its contract with Flock Safety for nearly $869,000.",
+      "paragraph_idx": 22
+    },
+    {
+      "quote": "the Cobb County Police Department recently got approval to enter into a $9.6 million contract with policing technology giant Axon Enterprise for anti-drone tech, which it said was in preparation for both the World Cup and America 250 events.",
+      "paragraph_idx": 24
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:48:07Z",
   "article_id": "art_9f51ab4c0063"
 }

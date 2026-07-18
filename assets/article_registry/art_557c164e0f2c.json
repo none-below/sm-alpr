@@ -22,6 +22,9 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "policy:hotlist",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +133,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-11T11:53:34Z",
+  "primary_subject_agency_ids": [
+    "25b04479-d425-52a6-a197-c941bcd88952"
+  ],
+  "summary": "CBS Detroit interviewed Flock Safety about its drone pilot program approved by Oakland County, Michigan, which allows the Sheriff's Office to deploy drones in response to 911 calls. The nine-month pilot is free but would cost $2.5 million for two years; a Flock spokesman addressed residents' privacy concerns, saying the drones lack facial recognition but integrate with ALPR systems to respond to hits like Amber Alerts.",
+  "key_quotes": [
+    {
+      "quote": "It does not have license plate readers built in but it is connected to our license plate reader system, so if a car passes by a license plate reader that's connected potentially to an Amber Alert, it will automatically pop up on the screen",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Flock does not have any facial recognition technology at all, and we don't have any in development",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "The pilot program is free to the county but would cost $2.5 million if officials approve it for two years",
+      "paragraph_idx": 5
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:38:31Z",
   "article_id": "art_557c164e0f2c"
 }

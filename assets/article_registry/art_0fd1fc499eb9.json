@@ -22,6 +22,14 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:court-ruling",
+    "outcome:restricted",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -132,10 +140,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-03T15:06:14Z",
+  "primary_subject_agency_ids": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "summary": "San Jose Police Chief Paul Joseph proposed reining in the city's Flock ALPR program by shortening data retention from one year to 30 days, restricting camera recording near houses of worship and reproductive clinics, requiring detailed justification from outside agencies, and disabling federal data sharing \u2014 while preserving the 474-camera system. The article situates the changes amid a civil-rights lawsuit by EFF/ACLU and a wave of Bay Area agencies (Mountain View, Santa Cruz, Richmond, Santa Clara County, El Cerrito, Oakland) reassessing Flock contracts.",
+  "key_quotes": [
+    {
+      "quote": "In a policy memo released Thursday, San Jose Police Chief Paul Joseph asked the City Council to shrink the retention period for plate data from one year to 30 days, and ban cameras from recording vehicles entering and leaving houses of worship and reproductive health clinics.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "Joseph also says SJPD has disabled a \"Federal Sharing\" setting in the police data portal to block requests from federal agencies.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "By holding on to ALPR data for a full month, San Jose still possesses detailed files about anyone who drives in the city, revealing their patterns of travel, who they associate with and much more",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "research conducted for this news organization by a security analyst who requested anonymity out of fear of professional retaliation indicates that as recently as June 2025, San Jose police fulfilled plate data searches requested by other California agencies in instances the analyst described as tied to federal authorities, including inquiries related to ICE protests.",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:30:44Z",
   "article_id": "art_0fd1fc499eb9"
 }

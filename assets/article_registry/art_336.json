@@ -22,6 +22,10 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +134,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-27T12:38:12Z",
+  "primary_subject_agency_ids": [
+    "29545821-ba90-50b6-93a9-3804382846bb"
+  ],
+  "summary": "The Fitchburg, Wisconsin Common Council voted unanimously to end its contract with Flock Safety and discontinue use of the license plate reader cameras, following nearly 45 minutes of resident testimony about privacy and data-sharing concerns. The article notes similar recent decisions in Dane County, Verona, Appleton, and Oshkosh, and references a Milwaukee officer misuse case.",
+  "key_quotes": [
+    {
+      "quote": "The Common Council of Fitchburg voted unanimously Tuesday to discontinue its contract with Flock Safety and the use of the traffic cameras.",
+      "paragraph_idx": 0
+    },
+    {
+      "quote": "residents spoke for nearly 45 minutes before the vote, voicing concerns of privacy and how accessible data from the cameras is to outside agencies.",
+      "paragraph_idx": 0
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:35:48Z",
   "article_id": "art_336"
 }

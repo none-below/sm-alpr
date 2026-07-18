@@ -22,6 +22,14 @@
   "wayback_source": "saved",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "legal:legislation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:state",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +138,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-30T14:50:17Z",
+  "primary_subject_agency_ids": [
+    "f9d0e316-2a82-5430-83ac-b575bbbd3b30"
+  ],
+  "summary": "The Illinois Secretary of State's office announced an audit of the state's ALPR system after Texas authorities used Flock Safety's National Lookup feature to search 83,000 cameras nationwide\u2014including Mount Prospect's\u2014to track a woman regarding a self-administered abortion, in apparent violation of an Illinois law restricting ALPR use for abortion and immigration enforcement. Mount Prospect police opted out of National Lookup and revoked out-of-state access; Flock shut off 46 out-of-state agencies found to have violated the law.",
+  "key_quotes": [
+    {
+      "quote": "Texas law enforcement authorities in May performed a nationwide search of more than 83,000 license plate reader cameras \u2014 which can be found on squad cars, street lights and along highways \u2014 to find a woman they said had a self-administered abortion.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "between Jan. 14 and April 30, there were 262 searches for immigration-related matters in Mount Prospect alone",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "by opting into the 'National Lookup' feature, which the department did, it allowed other law enforcement agencies who also utilized this feature to conduct searches of Mount Prospect's data without a data sharing agreement",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "the service had 'identified 46 individual out-of-state agencies' who violated the law, and their access has been shut off",
+      "paragraph_idx": 25
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:50:08Z",
   "article_id": "art_e1dffebb0962"
 }

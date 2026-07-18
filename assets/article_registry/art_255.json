@@ -21,6 +21,10 @@
   "wayback_source": "submit-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "outcome:reconsidering",
+    "policy:retention",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -110,10 +114,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-13T05:07:38Z",
+  "primary_subject_agency_ids": [
+    "b78b4a4c-e8ea-5a96-9edd-585d0b0d1ce1"
+  ],
+  "summary": "Oak Park, IL village board postponed a vote on a $112,500 two-year contract with Flock Safety for 20 ALPR cameras after a four-hour meeting with 54 public comments. Police Chief LaDon Reynolds backed the cameras to fight carjackings, while trustees raised concerns about bias, cybersecurity, and privacy. The motion to table passed 4-3 until early April.",
+  "key_quotes": [
+    {
+      "quote": "Data in the hands of biased people will always be biased data.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "It basically alerts police to wanted vehicles based on the registration information.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "I do understand the need for tools for police to do their job, but I don't think that this is the tool we need right now",
+      "paragraph_idx": 23
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:33:18Z",
   "article_id": "art_255"
 }

@@ -21,6 +21,11 @@
   "wayback_source": "saved",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "outcome:reconsidering",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -97,10 +102,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-12T19:15:02Z",
+  "primary_subject_agency_ids": [
+    "b78b4a4c-e8ea-5a96-9edd-585d0b0d1ce1",
+    "f453f0f0-f6ae-5f5b-9c49-d890e836b697"
+  ],
+  "summary": "A Wednesday Journal editorial reports that Oak Park is set to revisit its Flock ALPR contract after Police Chief Shatonya Johnson disclosed that Palos Heights police accessed Oak Park's Flock data in January to locate an alleged immigrant. The editorial notes Oak Park's sanctuary-city status and supports a renewed debate over continued camera use.",
+  "key_quotes": [
+    {
+      "quote": "south suburban Palos Heights had tapped into Oak Park Flock data in an effort to locate an alleged immigrant",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "ordinances that specifically prohibit local police or other village entities from cooperating with federal immigration efforts",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "some members of the board want another discussion as surveillance worries began to coalesce around potential misuse of data by federal ICE agents",
+      "paragraph_idx": 6
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:32:55Z",
   "article_id": "art_233"
 }

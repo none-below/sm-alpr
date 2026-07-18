@@ -22,6 +22,9 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:false-positive",
+    "incident:wrongful-stop",
     "vendor:flock"
   ],
   "agencies": [
@@ -119,10 +122,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-09T12:19:51Z",
+  "primary_subject_agency_ids": [
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad"
+  ],
+  "summary": "Hugo Parra was jailed for nearly a month after San Diego police arrested him based on a Flock camera alert and witness ID, despite Flock data showing his friend's car was five miles from the carjacking scene. Parra and the car's owner are suing San Diego for $1.5 million each, alleging negligence and civil rights violations. The article situates the case amid broader Flock backlash and notes San Diego continues investing $2M/year in the system.",
+  "key_quotes": [
+    {
+      "quote": "This Flock hit was obviously the wrong car, as it could not have been in both places simultaneously",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "San Diego Police misread its own surveillance system and ignored exculpatory evidence in a rush to judgment",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "mass surveillance without any sense of skepticism, or common sense, is a recipe for disaster",
+      "paragraph_idx": 25
+    },
+    {
+      "quote": "the Flock alert that popped up and set cops on Parra's trail was logged 23 seconds after the cops tried and failed to stop the actual suspect",
+      "paragraph_idx": 23
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:53:06Z",
   "article_id": "art_ed777bfce43e"
 }

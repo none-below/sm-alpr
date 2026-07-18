@@ -20,7 +20,10 @@
   "wayback_timestamp": null,
   "wayback_source": "submit-failed",
   "pdf_status": "skipped-curl-fallback",
-  "tags": [],
+  "tags": [
+    "genre:press-release",
+    "scope:local"
+  ],
   "agencies": [
     "f94b9663-269f-51eb-b204-b6d4c8cee4de",
     "6d11ec03-586d-570a-b110-56f9e37261ff",
@@ -128,10 +131,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-05-30T05:21:57Z",
+  "primary_subject_agency_ids": [
+    "f94b9663-269f-51eb-b204-b6d4c8cee4de"
+  ],
+  "summary": "Redwood City police arrested a 52-year-old man in connection with a fatal hit-and-run after using surveillance video and Automated License Plate Reader data to identify the suspect vehicle, a white Toyota Tundra. The ALPR search returned a single matching vehicle linked to a local address, leading to the suspect's arrest.",
+  "key_quotes": [
+    {
+      "quote": "Investigators determined the vehicle was a late-model white Toyota Tundra and used data from their Automated License Plate Reader, or ALPR, to search for matching vehicles in the area at the time of the crash.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "According to police, the search identified a single vehicle linked to a local address.",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-06-26T08:47:30Z",
   "article_id": "art_965a3e81f301"
 }
