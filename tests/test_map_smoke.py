@@ -42,9 +42,22 @@ class TestMapData:
         slugs = [m["slug"] for m in self.data["markers"]]
         assert "san-mateo-ca-pd" in slugs
 
-    def test_san_mateo_has_outbound(self):
+    def test_san_mateo_outbound_is_inferred_only(self):
+        # SMPD emptied its transparency-portal outbound sharing list on
+        # ~2026-07-16 (259 partners -> 0). The map still shows a handful of
+        # outbound edges, but they are now entirely the Flock vendor edge plus
+        # edges INFERRED from partner portals that still list SMPD as an inbound
+        # source and haven't been re-scraped yet. That residual decays toward 0
+        # as partners refresh, so we assert the invariant rather than a count:
+        # SMPD's own portal now contributes no direct outbound partners.
         smpd = next(m for m in self.data["markers"] if m["slug"] == "san-mateo-ca-pd")
-        assert smpd["outbound_count"] > 200
+        inferred = set(smpd.get("inferred_outbound", []))
+        direct = [
+            s
+            for s in smpd["outbound_slugs"]
+            if s != "flock-safety-vendor" and s not in inferred
+        ]
+        assert direct == [], f"SMPD portal outbound expected empty, got {direct}"
 
     def test_san_mateo_has_inbound(self):
         smpd = next(m for m in self.data["markers"] if m["slug"] == "san-mateo-ca-pd")
