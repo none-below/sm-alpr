@@ -1025,6 +1025,12 @@
         "coromandel-park-ca-pd": "http_404"
       }
     },
+    "2da4471d-cb8b-5631-8ab8-fb3fffcc0bad": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T14:14:37.071476+00:00",
+      "tried": {}
+    },
     "2db217d7-59f8-5e34-aa94-5b731a320245": {
       "exhausted": false,
       "found": null,
@@ -2511,6 +2517,14 @@
         "coalinga-ca-pd": "http_404"
       }
     },
+    "6b95aa96-a5aa-5c57-96cd-861f47ac2ae0": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T14:15:00.881315+00:00",
+      "tried": {
+        "troutman-nc-pd": "http_404"
+      }
+    },
     "6b9c1c80-8c06-5e0a-a0c6-30913fad84fd": {
       "exhausted": false,
       "found": "wellington-ks-pd",
@@ -3860,6 +3874,14 @@
       "last_probed": "2026-06-04T22:13:09.132571+00:00",
       "tried": {}
     },
+    "a4a2b8c6-7342-5bd2-ad2d-7c41e484af82": {
+      "exhausted": false,
+      "found": "thomasville-ga-pd",
+      "last_probed": "2026-07-19T14:14:50.700529+00:00",
+      "tried": {
+        "thomasville-ga-pd": "http_200"
+      }
+    },
     "a5b59684-abcc-5a43-949d-3aec089d30a4": {
       "exhausted": false,
       "found": null,
@@ -4608,11 +4630,12 @@
     "cb959829-2ddf-5780-841e-4d78cf1df75e": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-18T22:34:29.198865+00:00",
+      "last_probed": "2026-07-19T14:15:04.985419+00:00",
       "tried": {
         "el-cerrito-ca-po": "http_404",
         "el-cerrito-ca-police": "http_404",
-        "el-cerrito-ca-police-department": "http_404"
+        "el-cerrito-ca-police-department": "http_404",
+        "el-cerrito-ca-ps": "http_404"
       }
     },
     "cb9adcb1-a263-5c3e-987a-e501ce34f08c": {
@@ -5770,6 +5793,6 @@
       }
     }
   },
-  "updated": "2026-07-19T12:39:34.494108+00:00",
+  "updated": "2026-07-19T14:15:05.044818+00:00",
   "version": 1
 }
