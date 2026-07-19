@@ -2681,8 +2681,9 @@
     "731b41be-02b5-52e5-a7f7-3d00b5d034e9": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-18T18:39:18.740192+00:00",
+      "last_probed": "2026-07-19T12:39:34.449611+00:00",
       "tried": {
+        "manteca-ca": "http_404",
         "manteca-ca-po": "http_404",
         "manteca-ca-police": "http_404",
         "manteca-ca-police-department": "http_404",
@@ -3111,6 +3112,12 @@
       "tried": {
         "west-saint-paul-mn-pd": "http_200"
       }
+    },
+    "8716e502-e668-506c-a375-089463c3fa76": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T12:39:15.113198+00:00",
+      "tried": {}
     },
     "877a3737-0a7b-588b-a1ab-09901c0ad645": {
       "exhausted": false,
@@ -3922,9 +3929,10 @@
     "aab5c575-2a5c-593b-9369-2359c211ca2e": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-06T10:51:57.459940+00:00",
+      "last_probed": "2026-07-19T12:39:22.558403+00:00",
       "tried": {
-        "grant-county-ar-so1-ar-pd": "http_404"
+        "grant-county-ar-so1-ar-pd": "http_404",
+        "grant-county-ar-so1-ar-po": "http_404"
       }
     },
     "ab728c4f-75ab-5426-a128-347510fd59ae": {
@@ -5011,6 +5019,14 @@
       "last_probed": "2026-07-18T14:11:27.503459+00:00",
       "tried": {}
     },
+    "df26fef8-dda3-5220-82a5-aa99520f621a": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T12:39:29.085162+00:00",
+      "tried": {
+        "walton-hills-oh-pd": "http_404"
+      }
+    },
     "df8bf624-7dd9-5f4f-961c-4ee511165e59": {
       "exhausted": false,
       "found": null,
@@ -5754,6 +5770,6 @@
       }
     }
   },
-  "updated": "2026-07-19T11:45:13.030284+00:00",
+  "updated": "2026-07-19T12:39:34.494108+00:00",
   "version": 1
 }
