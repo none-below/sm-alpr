@@ -22,6 +22,10 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "policy:audit",
+    "policy:purpose-limitation",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +134,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-07-19T11:29:29Z",
+  "primary_subject_agency_ids": [
+    "964b689d-8756-5e44-956c-1a60c34fee33"
+  ],
+  "summary": "Fayetteville, Georgia police fired three officers after a new Flock auditing feature revealed they conducted searches unrelated to law enforcement work, including looking up plates of friends and family. The department referred the matter to the GBI for criminal investigation. The article notes similar recent misuse incidents by deputies in Greene and Cherokee counties.",
+  "key_quotes": [
+    {
+      "quote": "testing of a new auditing feature revealed that the officers had conducted searches outside their scope of work \u2014 including looking for their own plates or those of friends and family",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "searches of this nature are subject to strict scrutiny and were determined to have been conducted without a legitimate law-enforcement purpose, thereby constituting a violation of department policy",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-19T13:49:08Z",
   "article_id": "art_e3fb2d88e4a6"
 }
