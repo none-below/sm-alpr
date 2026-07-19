@@ -22,6 +22,14 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:false-positive",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:axon",
     "vendor:flock",
     "vendor:motorola"
@@ -133,10 +141,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-07-19T09:22:25Z",
+  "primary_subject_agency_ids": [
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+  ],
+  "summary": "The LAPD let its previous operating agreement with Flock Safety lapse over data-ownership and sharing concerns, and is negotiating a new contract that would give LAPD ownership of all captured data, bar Flock from sharing or using it for AI training, and require 24-hour breach notification. The article also cites an LAPD Inspector General report finding misidentification issues and no formal contracts with Axon and Motorola ALPR vendors, plus council and community pressure to end the Flock relationship outright.",
+  "key_quotes": [
+    {
+      "quote": "Goddard said the department let its previous operating agreement with Flock lapse last week because of lingering questions over who owns the data collected by the company's plate readers and who has access to it.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "the LAPD would retain ownership of \"every image, every record, all metadata\" from data captured on the cameras.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "Flock cameras scanned more than 210 million license plates. In 161 instances, according to the report, a plate that the system flagged as being stolen turned out to be wrong",
+      "paragraph_idx": 23
+    },
+    {
+      "quote": "the department lacks formal contracts or agreements with its two other plate reader vendors \u2014 Axon and Motorola",
+      "paragraph_idx": 25
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-19T11:29:48Z",
   "article_id": "art_8093c4cf5ee1"
 }
