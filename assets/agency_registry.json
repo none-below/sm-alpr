@@ -1700,31 +1700,6 @@
     ]
   },
   {
-    "agency_id": "5aec9d48-167f-5b67-8f36-8fda45e9403c",
-    "slug": "coconut-creek-fl-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Coconut Creek FL PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "1213275",
-      "name": "Coconut Creek",
-      "state": "FL",
-      "lat": 26.280943,
-      "lng": -80.184718
-    }
-  },
-  {
     "agency_id": "daeeaa81-10ea-53a3-86e8-684280bd07c8",
     "slug": "colma-ca-pd",
     "flock_active_slug": "colma-ca-pd",
@@ -2650,31 +2625,6 @@
     "ori": [
       "CA0300800"
     ]
-  },
-  {
-    "agency_id": "edef107a-cf38-5f16-9955-8b682d528252",
-    "slug": "galion-city-school-district-oh",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Galion City School District (OH)"
-    ],
-    "display_name": null,
-    "agency_role": "school",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "3929162",
-      "name": "Galion",
-      "state": "OH",
-      "lat": 40.738216,
-      "lng": -82.781327
-    }
   },
   {
     "agency_id": "813bae37-fafe-5daa-ae6d-22d15479c0c9",
@@ -4925,31 +4875,6 @@
     ]
   },
   {
-    "agency_id": "adf85561-3afb-555c-ae91-01ffd4bf57a2",
-    "slug": "osceola-county-fl-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Osceola County FL SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "12097",
-      "name": "Osceola",
-      "state": "FL",
-      "lat": 28.059027,
-      "lng": -81.139312
-    }
-  },
-  {
     "agency_id": "42811e97-66b2-569c-9eb5-71791f5549f6",
     "slug": "owatonna-mn-pd",
     "flock_active_slug": "owatonna-mn-pd",
@@ -7063,28 +6988,6 @@
     ]
   },
   {
-    "agency_id": "658094b2-08e0-53b6-806f-e49562cc8528",
-    "slug": "truett-mcconnell-university-ga-campus-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Truett McConnell University GA Campus PD"
-    ],
-    "display_name": null,
-    "agency_role": "campus_safety",
-    "agency_type": "university",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "GA"
-    }
-  },
-  {
     "agency_id": "7f5089e9-3b53-5442-b628-865e85940409",
     "slug": "union-city-ca-pd",
     "flock_active_slug": "union-city-ca-pd",
@@ -7206,31 +7109,6 @@
     "ori": [
       "CA0560000"
     ]
-  },
-  {
-    "agency_id": "00aa8c2a-5f05-502f-9b96-fe626cf688c1",
-    "slug": "vidalia-ga-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Vidalia GA PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "1379388",
-      "name": "Vidalia",
-      "state": "GA",
-      "lat": 32.212079,
-      "lng": -82.402187
-    }
   },
   {
     "agency_id": "e6d3f4c0-575b-5bc5-86d4-939b2cd50a3f",
@@ -7774,6 +7652,128 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "5aec9d48-167f-5b67-8f36-8fda45e9403c",
+    "slug": "coconut-creek-fl-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Coconut Creek FL PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1213275",
+      "name": "Coconut Creek",
+      "state": "FL",
+      "lat": 26.280943,
+      "lng": -80.184718
+    }
+  },
+  {
+    "agency_id": "edef107a-cf38-5f16-9955-8b682d528252",
+    "slug": "galion-city-school-district-oh",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Galion City School District (OH)"
+    ],
+    "display_name": null,
+    "agency_role": "school",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "3929162",
+      "name": "Galion",
+      "state": "OH",
+      "lat": 40.738216,
+      "lng": -82.781327
+    }
+  },
+  {
+    "agency_id": "adf85561-3afb-555c-ae91-01ffd4bf57a2",
+    "slug": "osceola-county-fl-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Osceola County FL SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "12097",
+      "name": "Osceola",
+      "state": "FL",
+      "lat": 28.059027,
+      "lng": -81.139312
+    }
+  },
+  {
+    "agency_id": "658094b2-08e0-53b6-806f-e49562cc8528",
+    "slug": "truett-mcconnell-university-ga-campus-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Truett McConnell University GA Campus PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "GA"
+    }
+  },
+  {
+    "agency_id": "00aa8c2a-5f05-502f-9b96-fe626cf688c1",
+    "slug": "vidalia-ga-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Vidalia GA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1379388",
+      "name": "Vidalia",
+      "state": "GA",
+      "lat": 32.212079,
+      "lng": -82.402187
+    }
   },
   {
     "agency_id": "07b92c2e-170a-598c-91b3-0b7ef8941018",
