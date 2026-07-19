@@ -1809,8 +1809,9 @@
     "4f6bc272-61fc-51e5-a0b4-e3de97e105d5": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-18T21:36:20.414272+00:00",
+      "last_probed": "2026-07-19T04:56:32.246694+00:00",
       "tried": {
+        "monte-sereno-ca": "http_404",
         "monte-sereno-ca-po": "http_404"
       }
     },
@@ -2654,9 +2655,10 @@
     "74719b7b-43cb-57ec-a0bc-26515454b5dc": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-04-26T15:29:46.877101+00:00",
+      "last_probed": "2026-07-19T04:56:22.168062+00:00",
       "tried": {
-        "orange-county-da-office-ca-da": "http_404"
+        "orange-county-da-office-ca-da": "http_404",
+        "orange-county-da-office-ca-district-attorney": "http_404"
       }
     },
     "766398e8-c016-5fef-a86d-66536e41611a": {
@@ -2860,6 +2862,14 @@
       "last_probed": "2026-04-29T01:26:32.418127+00:00",
       "tried": {
         "amador-county-ca-so": "http_404"
+      }
+    },
+    "812d4df1-3d40-5ea7-843f-2082300303a3": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T04:56:28.390938+00:00",
+      "tried": {
+        "winnetka-il-pd": "http_404"
       }
     },
     "814ab822-3fb6-5aa8-9f9a-c7d722e3ebe3": {
@@ -5215,6 +5225,12 @@
         "beverly-hills-mi-pd": "http_404"
       }
     },
+    "ec54b02b-0101-59bc-a7a0-27cc6f96accc": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T04:56:10.683841+00:00",
+      "tried": {}
+    },
     "ec62b92f-8175-540c-b2c2-24467240567f": {
       "exhausted": false,
       "found": null,
@@ -5669,6 +5685,6 @@
       }
     }
   },
-  "updated": "2026-07-19T01:12:51.971039+00:00",
+  "updated": "2026-07-19T04:56:32.284809+00:00",
   "version": 1
 }
