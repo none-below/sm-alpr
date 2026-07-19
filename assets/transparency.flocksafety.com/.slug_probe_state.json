@@ -1592,9 +1592,10 @@
     "447d3fff-1d7e-58ed-8254-2dc784fc0275": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-15T01:32:19.613122+00:00",
+      "last_probed": "2026-07-19T15:41:11.953148+00:00",
       "tried": {
         "st-landry-parish-la-sd": "http_404",
+        "st-landry-parish-la-sheriffs-office": "http_404",
         "st-landry-parish-la-so": "http_404"
       }
     },
@@ -1768,6 +1769,14 @@
       "found": null,
       "last_probed": "2026-06-03T22:55:03.597674+00:00",
       "tried": {}
+    },
+    "4d9ec015-8562-5169-8a5b-abbb1c95d01f": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T15:41:05.625852+00:00",
+      "tried": {
+        "adrian-township-mi-pd": "http_404"
+      }
     },
     "4dbd0622-ec7c-546f-b018-9c55f83d579f": {
       "exhausted": false,
@@ -2695,13 +2704,14 @@
     "731b41be-02b5-52e5-a7f7-3d00b5d034e9": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-19T12:39:34.449611+00:00",
+      "last_probed": "2026-07-19T15:41:15.813174+00:00",
       "tried": {
         "manteca-ca": "http_404",
         "manteca-ca-po": "http_404",
         "manteca-ca-police": "http_404",
         "manteca-ca-police-department": "http_404",
-        "manteca-ca-ps": "http_404"
+        "manteca-ca-ps": "http_404",
+        "manteca-pd-ca": "http_404"
       }
     },
     "74177e29-6bac-5f35-8a72-d1fa6e6c4357": {
@@ -4846,6 +4856,12 @@
         "herrin-il-pd": "http_200"
       }
     },
+    "d70682e4-a868-5406-ae56-d2e8b8e5d608": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T15:40:57.616402+00:00",
+      "tried": {}
+    },
     "d8478956-ba44-51fd-92b1-b6b179ae6181": {
       "exhausted": false,
       "found": null,
@@ -5793,6 +5809,6 @@
       }
     }
   },
-  "updated": "2026-07-19T14:15:05.044818+00:00",
+  "updated": "2026-07-19T15:41:15.844266+00:00",
   "version": 1
 }
