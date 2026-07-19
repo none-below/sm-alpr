@@ -25,6 +25,12 @@
         "kosciusko-county-in-so": "http_404"
       }
     },
+    "00980aa6-9821-55cd-a24b-9ebf8e15186c": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T11:44:48.781703+00:00",
+      "tried": {}
+    },
     "00e249d7-0d9a-5b27-ba9d-64b1a286a081": {
       "exhausted": false,
       "found": null,
@@ -595,9 +601,10 @@
     "1b719ab9-5230-5a7a-bcb4-a495a4e716eb": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-18T16:39:11.425709+00:00",
+      "last_probed": "2026-07-19T11:45:12.989799+00:00",
       "tried": {
         "santa-clara-county-ca-sd": "http_404",
+        "santa-clara-county-ca-sheriffs-department": "http_404",
         "santa-clara-county-ca-sheriffs-office": "http_404"
       }
     },
@@ -1823,8 +1830,9 @@
     "4f3529e4-27d7-5da5-86a9-07a72a3c70e1": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-05-28T09:05:57.191512+00:00",
+      "last_probed": "2026-07-19T11:45:06.831768+00:00",
       "tried": {
+        "bannock-county-id-sd": "http_404",
         "bannock-county-id-so": "http_403"
       }
     },
@@ -2309,6 +2317,14 @@
       "last_probed": "2026-06-04T10:51:51.739385+00:00",
       "tried": {
         "university-of-louisiana-at-lafayette-la-pd": "http_404"
+      }
+    },
+    "670947e8-edc9-58ae-9beb-beae4e49f89f": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T11:45:01.758675+00:00",
+      "tried": {
+        "rochester-il-pd": "http_404"
       }
     },
     "680fc3ac-d8e4-56f1-8538-678d32cd53dd": {
@@ -5738,6 +5754,6 @@
       }
     }
   },
-  "updated": "2026-07-19T10:17:09.835765+00:00",
+  "updated": "2026-07-19T11:45:13.030284+00:00",
   "version": 1
 }
