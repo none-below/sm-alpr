@@ -4150,6 +4150,14 @@
         "turlock-ca-po": "http_404"
       }
     },
+    "b215079d-cedb-52e8-901a-10d2bba14604": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T18:42:29.359848+00:00",
+      "tried": {
+        "audrain-county-mo-so": "http_404"
+      }
+    },
     "b2811480-11a5-5016-95e2-c64107c8a87b": {
       "exhausted": false,
       "found": null,
@@ -5219,6 +5227,14 @@
         "clarkston-ga-pd": "http_404"
       }
     },
+    "e64f8056-039e-5cf5-b163-cefc44718885": {
+      "exhausted": false,
+      "found": "powell-oh-pd",
+      "last_probed": "2026-07-19T18:42:17.739223+00:00",
+      "tried": {
+        "powell-oh-pd": "http_200"
+      }
+    },
     "e668c431-d7e2-5cd3-b908-7aa1ff04decf": {
       "exhausted": false,
       "found": null,
@@ -5624,6 +5640,12 @@
         "black-diamond-wa-pd": "http_404"
       }
     },
+    "f535b12a-f4b5-5572-9d50-2567fa966c05": {
+      "exhausted": false,
+      "found": null,
+      "last_probed": "2026-07-19T18:41:59.460550+00:00",
+      "tried": {}
+    },
     "f59bbd7c-b6e8-574c-9d7b-d6883b9d4519": {
       "exhausted": false,
       "found": null,
@@ -5681,9 +5703,10 @@
     "f94b9663-269f-51eb-b204-b6d4c8cee4de": {
       "exhausted": false,
       "found": null,
-      "last_probed": "2026-07-19T07:51:02.780317+00:00",
+      "last_probed": "2026-07-19T18:42:35.554899+00:00",
       "tried": {
-        "redwood-city-ca-po": "http_404"
+        "redwood-city-ca-po": "http_404",
+        "redwood-city-ca-police-department": "http_404"
       }
     },
     "f956bd27-1e18-5852-b090-834ad2d61378": {
@@ -5855,6 +5878,6 @@
       }
     }
   },
-  "updated": "2026-07-19T17:44:48.750974+00:00",
+  "updated": "2026-07-19T18:42:35.615555+00:00",
   "version": 1
 }
