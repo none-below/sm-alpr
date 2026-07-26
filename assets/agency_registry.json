@@ -5325,24 +5325,6 @@
     ]
   },
   {
-    "agency_id": "67b9c5f4-3d83-5dba-9d12-08e748fa6431",
-    "slug": "policy-trust",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Policy & Trust"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": null
-  },
-  {
     "agency_id": "0978eac6-e1f4-5841-892a-f7225fe73ea3",
     "slug": "pontiac-il-pd",
     "flock_active_slug": "pontiac-il-pd",
@@ -7006,31 +6988,6 @@
     ]
   },
   {
-    "agency_id": "0b44bfaf-8677-59a4-9c8c-a90f259af9a5",
-    "slug": "tx-jones-county-so",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "TX - Jones County SO"
-    ],
-    "display_name": null,
-    "agency_role": "sheriff",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "48253",
-      "name": "Jones",
-      "state": "TX",
-      "lat": 32.743709,
-      "lng": -99.87443
-    }
-  },
-  {
     "agency_id": "7f5089e9-3b53-5442-b628-865e85940409",
     "slug": "union-city-ca-pd",
     "flock_active_slug": "union-city-ca-pd",
@@ -7484,31 +7441,6 @@
     ]
   },
   {
-    "agency_id": "2f772fc9-a8fd-5bfb-ba28-cec2d6b14160",
-    "slug": "wilmer-tx-pd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Wilmer TX PD"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "4879576",
-      "name": "Wilmer",
-      "state": "TX",
-      "lat": 32.599015,
-      "lng": -96.681585
-    }
-  },
-  {
     "agency_id": "86c72fef-6a54-5780-a13d-734f681442c6",
     "slug": "wilton-ct-pd",
     "flock_active_slug": "wilton-ct-pd",
@@ -7720,6 +7652,74 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "67b9c5f4-3d83-5dba-9d12-08e748fa6431",
+    "slug": "policy-trust",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Policy & Trust"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "0b44bfaf-8677-59a4-9c8c-a90f259af9a5",
+    "slug": "tx-jones-county-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "TX - Jones County SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "48253",
+      "name": "Jones",
+      "state": "TX",
+      "lat": 32.743709,
+      "lng": -99.87443
+    }
+  },
+  {
+    "agency_id": "2f772fc9-a8fd-5bfb-ba28-cec2d6b14160",
+    "slug": "wilmer-tx-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Wilmer TX PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4879576",
+      "name": "Wilmer",
+      "state": "TX",
+      "lat": 32.599015,
+      "lng": -96.681585
+    }
   },
   {
     "agency_id": "ebf12879-e1bc-5829-87c4-4ebbfad2d63a",
