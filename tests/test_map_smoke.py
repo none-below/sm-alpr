@@ -42,14 +42,19 @@ class TestMapData:
         slugs = [m["slug"] for m in self.data["markers"]]
         assert "san-mateo-ca-pd" in slugs
 
-    def test_san_mateo_outbound_is_inferred_only(self):
+    def test_san_mateo_outbound_only_known_readds(self):
         # SMPD emptied its transparency-portal outbound sharing list on
-        # ~2026-07-16 (259 partners -> 0). The map still shows a handful of
-        # outbound edges, but they are now entirely the Flock vendor edge plus
-        # edges INFERRED from partner portals that still list SMPD as an inbound
-        # source and haven't been re-scraped yet. That residual decays toward 0
-        # as partners refresh, so we assert the invariant rather than a count:
-        # SMPD's own portal now contributes no direct outbound partners.
+        # ~2026-07-16 (259 partners -> 0), then re-added Belmont in late July
+        # 2026 (observed live on the portal 2026-07-30; first scrape carrying
+        # it lands whenever the refresh Action next crawls SMPD). The map may
+        # also show outbound edges that are the Flock vendor edge plus edges
+        # INFERRED from partner portals that still list SMPD as an inbound
+        # source and haven't been re-scraped yet; that residual decays toward
+        # 0 as partners refresh. So the invariant: SMPD's own portal
+        # contributes no direct outbound partners beyond the known re-adds.
+        # Anything new here is a deliberate SMPD sharing change — update the
+        # allowlist only after confirming it on the live portal.
+        allowed = {"belmont-ca-pd"}
         smpd = next(m for m in self.data["markers"] if m["slug"] == "san-mateo-ca-pd")
         inferred = set(smpd.get("inferred_outbound", []))
         direct = [
@@ -57,7 +62,11 @@ class TestMapData:
             for s in smpd["outbound_slugs"]
             if s != "flock-safety-vendor" and s not in inferred
         ]
-        assert direct == [], f"SMPD portal outbound expected empty, got {direct}"
+        unexpected = [s for s in direct if s not in allowed]
+        assert unexpected == [], (
+            f"SMPD portal outbound has partners beyond the known re-adds "
+            f"{sorted(allowed)}: {unexpected}"
+        )
 
     def test_san_mateo_has_inbound(self):
         smpd = next(m for m in self.data["markers"] if m["slug"] == "san-mateo-ca-pd")
