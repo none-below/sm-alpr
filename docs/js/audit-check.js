@@ -11,7 +11,10 @@
 // so a text extractor returns the same visible content with different line breaks and
 // ordering on the edited revision. We therefore compare the MULTISET OF WORDS (immune
 // to re-layout) for field changes, and the SET OF ROW UUIDs for deleted/added rows.
-// Each changed word is mapped back to the row that uniquely contains it for context.
+// Changed words are attributed to rows by containment counts (all containing rows when
+// the counts match, narrowed via the other revision's same-UUID rows otherwise), so a
+// value scrubbed from several rows in one save shows on each affected row. When a file
+// carries multiple content edits, a net original-vs-produced view sums the sequence.
 
 (function () {
   "use strict";
@@ -131,9 +134,31 @@
 
   function isTrivial(tok) { return !/[A-Za-z0-9]/.test(tok) || UUID.test(tok) && new RegExp("^" + UUID.source + "$", "i").test(tok); }
 
-  function findUniqueRow(rows, tok) {
-    var hits = rows.filter(function (r) { return r.text.split(" ").indexOf(tok) !== -1; });
-    return hits.length === 1 ? hits[0] : null;
+  // Pin removed/added tokens to the rows they left/entered (mirrors attribute_tokens
+  // in scripts/pdf_audit_revisions.py). rowsSrc is the side the tokens disappeared
+  // from (removals) or appeared in (additions); rowsOther narrows by same-UUID
+  // counterpart. One {tok,row} per occurrence; row null when unattributable.
+  function attributeTokens(counts, rowsSrc, rowsOther) {
+    var otherWords = {};
+    (rowsOther || []).forEach(function (r) {
+      var s = otherWords[r.id] = otherWords[r.id] || {};
+      r.text.split(" ").forEach(function (w) { s[w] = true; });
+    });
+    var pairs = [];
+    Object.keys(counts).forEach(function (tok) {
+      var mult = counts[tok], i;
+      var hits = (rowsSrc || []).filter(function (r) { return r.text.split(" ").indexOf(tok) !== -1; });
+      var use = null;
+      if (hits.length === mult) use = hits;
+      else {
+        var cand = hits.filter(function (r) { return !(otherWords[r.id] && otherWords[r.id][tok]); });
+        if (cand.length === mult) use = cand;
+        else if (hits.length === 1) { use = []; for (i = 0; i < mult; i++) use.push(hits[0]); }
+      }
+      if (use) use.forEach(function (r) { pairs.push({ tok: tok, row: r }); });
+      else for (i = 0; i < mult; i++) pairs.push({ tok: tok, row: null });
+    });
+    return pairs;
   }
 
   async function readRevision(buf, end) {
@@ -195,13 +220,13 @@
     var ca = {}, cb = {};
     wa.forEach(function (w) { ca[w] = (ca[w] || 0) + 1; });
     wb.forEach(function (w) { cb[w] = (cb[w] || 0) + 1; });
-    var removed = [], added = [];
-    Object.keys(ca).forEach(function (k) { for (var i = 0, d = ca[k] - (cb[k] || 0); i < d; i++) removed.push(k); });
-    Object.keys(cb).forEach(function (k) { for (var i = 0, d = cb[k] - (ca[k] || 0); i < d; i++) added.push(k); });
+    var remCounts = {}, addCounts = {};
+    Object.keys(ca).forEach(function (k) { var d = ca[k] - (cb[k] || 0); if (d > 0) remCounts[k] = d; });
+    Object.keys(cb).forEach(function (k) { var d = cb[k] - (ca[k] || 0); if (d > 0) addCounts[k] = d; });
     return {
       deletedRows: deletedRows, addedRows: addedRows,
-      removed: removed.map(function (t) { return { tok: t, row: findUniqueRow(a.rows || [], t) }; }),
-      added: added.map(function (t) { return { tok: t, row: findUniqueRow(b.rows || [], t) }; })
+      removed: attributeTokens(remCounts, a.rows || [], b.rows || []),
+      added: attributeTokens(addCounts, b.rows || [], a.rows || [])
     };
   }
 
@@ -244,9 +269,41 @@
     analyzeBytes(buf, baseName(url));
   }
 
-  function rowCtx(x) {
-    return x.row ? "  row " + esc(x.row.id) + ": " + esc(x.row.text)
-                 : "  (appears in multiple rows / no unique row)";
+  // One .rowdiff line per affected row: removed words struck red on the original
+  // row text; a 1:1 removal/addition shows its replacement green inline, otherwise
+  // added words highlight green on their own row. Tokens that cannot be pinned to a
+  // row fall back to bare del/ins lines. Shared by the per-edit and net-change views.
+  function renderRowDiffs(d) {
+    var byRow = {}, order = [], html = "";
+    function slot(row, bSide) {
+      if (!byRow[row.id]) { byRow[row.id] = { text: row.text, bSide: bSide, rem: {}, add: [] }; order.push(row.id); }
+      return byRow[row.id];
+    }
+    var looseRem = [], looseAdd = [];
+    d.removed.forEach(function (x) { if (x.row) slot(x.row, false).rem[x.tok] = true; else looseRem.push(x.tok); });
+    d.added.forEach(function (x) { if (x.row) slot(x.row, true).add.push(x.tok); else looseAdd.push(x.tok); });
+    order.forEach(function (id) {
+      var s = byRow[id], remToks = Object.keys(s.rem), line;
+      if (s.bSide) {
+        // added-only row: its text is from the edited side and already contains the words
+        var as = {};
+        s.add.forEach(function (t) { as[t] = true; });
+        line = highlightRow(s.text, null, null, as);
+      } else if (remToks.length === 1 && s.add.length === 1) {
+        var rep = {};
+        rep[remToks[0]] = s.add[0];
+        line = highlightRow(s.text, s.rem, rep);
+      } else {
+        line = highlightRow(s.text, remToks.length ? s.rem : null, null);
+        if (s.add.length) line += " " + s.add.map(function (t) { return "<ins>" + esc(t) + "</ins>"; }).join(" ");
+      }
+      html += '<div class="rowdiff">' + line + "</div>";
+    });
+    looseRem.forEach(function (t) { html += '<div class="rowdiff"><del>' + esc(t) + "</del>  (ambiguous across rows)</div>"; });
+    looseAdd.forEach(function (t) { html += '<div class="rowdiff"><ins>' + esc(t) + "</ins>  (added)</div>"; });
+    d.deletedRows.forEach(function (r) { html += '<div class="rowdiff"><span class="tag">row deleted</span><del>' + esc(r.text) + "</del></div>"; });
+    d.addedRows.forEach(function (r) { html += '<div class="rowdiff"><span class="tag">row added</span><ins>' + esc(r.text) + "</ins></div>"; });
+    return html;
   }
 
   // git-diff-style inline highlight: removed words struck red, their paired
@@ -280,7 +337,7 @@
   // column from its row), so its raw extraction can't be split back into rows — see
   // the multiset diff above. We therefore DERIVE the edited column from the original
   // rows plus the recovered token delta, which is exact and immune to that re-flow.
-  function contextBox(a, b, d, revNum, urlA, urlB) {
+  function contextBox(a, b, d, revA, revB, urlA, urlB) {
     var ar = a.rows || [];
     if (!ar.length) return "";
     var N = 3;
@@ -345,8 +402,8 @@
 
     return '<div class="ctx"><h5>context &middot; surrounding rows, before and after</h5>' +
            '<div class="ctxnote">The edited column is the original rows with the recovered change applied — the edited file re-flows its text, so its raw layout can&rsquo;t be split back into rows.</div>' +
-           '<div class="ctxside"><div class="ctxlbl">original &mdash; rev ' + revNum + openLink(urlA, a.pageOf) + '</div>' + side(false) + "</div>" +
-           '<div class="ctxside"><div class="ctxlbl">edited &mdash; rev ' + (revNum + 1) + openLink(urlB, b.pageOf) + '</div>' + side(true) + "</div>" +
+           '<div class="ctxside"><div class="ctxlbl">original &mdash; rev ' + revA + openLink(urlA, a.pageOf) + '</div>' + side(false) + "</div>" +
+           '<div class="ctxside"><div class="ctxlbl">edited &mdash; rev ' + revB + openLink(urlB, b.pageOf) + '</div>' + side(true) + "</div>" +
            "</div>";
   }
 
@@ -433,6 +490,26 @@
       html += '<div class="summary">' + esc(s) + "</div>";
     }
 
+    // A sequence of saves fragments one logical edit (e.g. scrub a value, then tidy
+    // the leftover wording). When more than one save changed content, lead with the
+    // summed original-vs-produced view so the full change per row reads at a glance;
+    // the per-save timeline below still shows each step.
+    var editCount = diffs.filter(function (d) { return changeCount(d) > 0; }).length;
+    if (editCount >= 2) {
+      var gidx = [];
+      recs.forEach(function (r, z) { if (!r.error) gidx.push(z); });
+      var iA = gidx[0], iB = gidx[gidx.length - 1];
+      var dNet = diffRevisions(recs[iA], recs[iB]);
+      var nTot = changeCount(dNet);
+      if (nTot > 0) {
+        html += '<h2 class="tl">net change &mdash; original vs produced</h2>';
+        html += '<div class="editblk"><h4>rev ' + (iA + 1) + " &rarr; rev " + (iB + 1) +
+                "  (" + nTot + " change" + (nTot === 1 ? "" : "s") + " &mdash; the edits below sum to this)</h4>";
+        html += renderRowDiffs(dNet) + "</div>";
+        html += contextBox(recs[iA], recs[iB], dNet, iA + 1, iB + 1, revUrls[iA], revUrls[iB]);
+      }
+    }
+
     if (recs.length >= 2) {
       html += '<h2 class="tl">edit timeline</h2>';
       var edits = 0;
@@ -451,36 +528,9 @@
         }
         edits++;
         html += '<div class="editblk"><h4>EDIT ' + edits + " &mdash; saved " + esc(ts) + by + "  [" + esc(tool) + "]  (" + total + " change" + (total === 1 ? "" : "s") + ")</h4>";
-        if (d.removed.length === 1 && d.added.length === 1 && !d.deletedRows.length && !d.addedRows.length) {
-          // one field reworded (e.g. typo fix): show the row, old word struck red, new word green
-          var rr = d.removed[0], aa = d.added[0], anchor = rr.row || aa.row;
-          if (anchor) {
-            var rep = {}; rep[rr.tok] = aa.tok;
-            var set = {}; set[rr.tok] = true;
-            html += '<div class="rowdiff">' + highlightRow(anchor.text, set, rep) + "</div>";
-          } else {
-            html += '<div class="rowdiff"><del>' + esc(rr.tok) + "</del> <ins>" + esc(aa.tok) + "</ins></div>";
-          }
-        } else {
-          // group removed words by their row so each affected row renders once, words struck red
-          var byRow = {}, noRow = [];
-          d.removed.forEach(function (x) {
-            if (x.row) { if (!byRow[x.row.id]) byRow[x.row.id] = { text: x.row.text, set: {} }; byRow[x.row.id].set[x.tok] = true; }
-            else noRow.push(x.tok);
-          });
-          Object.keys(byRow).forEach(function (id) {
-            html += '<div class="rowdiff">' + highlightRow(byRow[id].text, byRow[id].set, null) + "</div>";
-          });
-          noRow.forEach(function (t) { html += '<div class="rowdiff"><del>' + esc(t) + "</del>  (no unique row)</div>"; });
-          d.added.forEach(function (x) {
-            if (x.row) { var as = {}; as[x.tok] = true; html += '<div class="rowdiff">' + highlightRow(x.row.text, null, null, as) + "</div>"; }
-            else html += '<div class="rowdiff"><ins>' + esc(x.tok) + "</ins>  (added)</div>";
-          });
-        }
-        d.deletedRows.forEach(function (r) { html += '<div class="rowdiff"><span class="tag">row deleted</span><del>' + esc(r.text) + "</del></div>"; });
-        d.addedRows.forEach(function (r) { html += '<div class="rowdiff"><span class="tag">row added</span><ins>' + esc(r.text) + "</ins></div>"; });
+        html += renderRowDiffs(d);
         html += "</div>";
-        html += contextBox(a, b, d, i, revUrls[i - 1], revUrls[i]);
+        html += contextBox(a, b, d, i, i + 1, revUrls[i - 1], revUrls[i]);
       }
     }
 
@@ -500,17 +550,21 @@
     { label: "Jan 2023", path: DIR + "1_1_2023-1_31_2023-San_Mateo_CA_PD-Audit2.pdf" },
     { label: "Feb 2023", path: DIR + "2_1_2023-2_28_2023-San_Mateo_CA_PD-Audit.pdf" },
     { label: "Mar 2023", path: DIR + "3_1_2023-3_31_2023-San_Mateo_CA_PD-Audit.pdf" },
+    { label: "May 2023", path: DIR + "5_1_2023-5_31_2023-San_Mateo_CA_PD-Audit.pdf" },
     { label: "Oct 2023", path: DIR + "10_1_2023-10_31_2023-San_Mateo_CA_PD-Audit.pdf", flattened: true },
     { label: "Nov 2023", path: DIR + "11_1_2023-11_30_2023-San_Mateo_CA_PD-Audit.pdf" },
     { label: "Dec 2023", path: DIR + "12_1_2023-12_31_2023-San_Mateo_CA_PD-Audit.pdf", edited: true },
     { label: "Jan 2024", path: DIR + "1_1_2024-1_31_2024-San_Mateo_CA_PD-Audit.pdf", flattened: true },
     { label: "Feb 2024", path: DIR + "2_1_2024-2_29_2024-San_Mateo_CA_PD-Audit.pdf", edited: true },
+    { label: "Apr 2024", path: DIR + "4_1_2024-4_30_2024-San_Mateo_CA_PD-Audit.pdf", edited: true },
+    { label: "May 2024", path: DIR + "5_1_2024-5_31_2024-San_Mateo_CA_PD-Audit.pdf", edited: true },
     { label: "Oct 2024", path: DIR + "10_1_2024-10_31_2024-San_Mateo_CA_PD-Audit.pdf" },
     { label: "Nov 2024", path: DIR + "11_1_2024-11_30_2024-San_Mateo_CA_PD-Audit.pdf" },
     { label: "Dec 2024", path: DIR + "12_1_2024-12_31_2024-San_Mateo_CA_PD-Audit.pdf", flattened: true },
     { label: "Jan 2025 (pt1)", path: DIR + "1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_1_.pdf", edited: true },
     { label: "Jan 2025 (pt2)", path: DIR + "1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_2_.pdf" },
     { label: "Feb 2025", path: DIR + "2_1_2025-2_28_2025-San_Mateo_CA_PD-Audit.pdf", flattened: true },
+    { label: "Apr 2025", path: DIR + "4_1_2025-4_30_2025-San_Mateo_CA_PD-Audit.pdf", edited: true, flattened: true },
     { label: "Oct 2025", path: DIR + "10_1_2025-10_31_2025-San_Mateo_CA_PD-Audit.pdf", flattened: true },
     { label: "Nov 2025", path: DIR + "11_1_2025-11_30_2025-San_Mateo_CA_PD-Audit.pdf", flattened: true },
     { label: "Dec 2025", path: DIR + "12_1_2025-12_31_2025-San_Mateo_CA_PD_Audit.pdf", flattened: true },
