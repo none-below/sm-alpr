@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """Tests for scripts/check_injection.py.
 
 Covers:
@@ -211,6 +213,43 @@ class TestEntityDecoding:
         findings = ci.scan_text(s, html=True)
         ed = [f for f in findings if "entity-decoded" in f.category]
         assert ed == [], f"expected no entity-decoded finds; got {ed}"
+
+
+# ── style-block hash baseline ──────────────────────────────────────
+
+HIDING_STYLE_BODY = " .tpHeaderNav { display: none; } "
+HIDING_STYLE_HTML = f"<html><style>{HIDING_STYLE_BODY}</style><body>x</body></html>"
+
+
+class TestStyleBaseline:
+    def _digest(self, body):
+        import hashlib
+        return hashlib.sha256(body.encode("utf-8")).hexdigest()
+
+    def test_unbaselined_hiding_block_flags_high_with_hash(self):
+        findings = ci.scan_text(HIDING_STYLE_HTML, html=True)
+        hits = [f for f in findings if f.category == "hidden-css-rule-with-content"]
+        assert hits and hits[0].severity == "high"
+        assert f"[style-sha256={self._digest(HIDING_STYLE_BODY)}]" in hits[0].snippet
+
+    def test_baselined_block_is_skipped(self, monkeypatch):
+        monkeypatch.setattr(
+            ci, "KNOWN_BENIGN_STYLE_SHA256",
+            ci.KNOWN_BENIGN_STYLE_SHA256 | {self._digest(HIDING_STYLE_BODY)},
+        )
+        findings = ci.scan_text(HIDING_STYLE_HTML, html=True)
+        assert not any(f.category == "hidden-css-rule-with-content" for f in findings)
+
+    def test_edited_baselined_block_flags_again(self, monkeypatch):
+        monkeypatch.setattr(
+            ci, "KNOWN_BENIGN_STYLE_SHA256",
+            ci.KNOWN_BENIGN_STYLE_SHA256 | {self._digest(HIDING_STYLE_BODY)},
+        )
+        edited = HIDING_STYLE_HTML.replace(
+            "</style>", ".injected { display: none; } </style>"
+        )
+        findings = ci.scan_text(edited, html=True)
+        assert any(f.category == "hidden-css-rule-with-content" for f in findings)
 
 
 # ── exit codes ─────────────────────────────────────────────────────
