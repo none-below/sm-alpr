@@ -991,8 +991,17 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
         elif body:
             fields[field_name] = fields[field_name] + "\n\n" + body if fields[field_name] else body
 
-    outbound_names = _parse_org_names(fields.get("orgs_granted_access", ""))
+    outbound_body = fields.get("orgs_granted_access", "")
+    outbound_names = _parse_org_names(outbound_body)
     inbound_names = _parse_org_names(fields.get("orgs_sharing_with", ""))
+    # "Declared none" = the section carries the template's explicit
+    # empty-state sentence ("<Agency> is not sharing data with any
+    # partner networks."). Matched per line — the sentence is usually
+    # followed by the trailing "Policy & Trust" label, so an end-anchored
+    # search over the whole body would miss it.
+    outbound_declared_none = any(
+        _NOT_SHARING_RE.search(L) for L in outbound_body.splitlines()
+    )
 
     #   "<Agency Name> uses Flock Safety's Operating System..."
     # Flock has rephrased the boilerplate over time — older portals say
@@ -1049,6 +1058,16 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
         "searches_30d": _parse_number(fields.get("searches_30d", ""), field="searches_30d", slug=slug),
         "sharing_outbound": outbound_names,
         "sharing_inbound": inbound_names,
+        # Portal-opacity discriminator: an empty sharing_outbound can mean
+        # either "section present but no partners listed / declared none"
+        # or "the portal removed the sharing section entirely"
+        # (merced-county-ca-so and summerset-sd-pd, July 2026). Only the
+        # latter leaves the agency's sharing status unknown — the drop in
+        # list length alone can't tell the two apart. Legacy parses
+        # predate these keys (absent = unknown).
+        "sharing_outbound_section_present": "orgs_granted_access" in fields,
+        "sharing_inbound_section_present": "orgs_sharing_with" in fields,
+        "sharing_outbound_declared_none": outbound_declared_none,
         # ── newly captured fields (empty string when absent) ──
         "overview": fields.get("overview", ""),
         "policy_info": fields.get("policy_info", ""),

@@ -355,6 +355,51 @@ def test_parse_number_handles_n_days_pattern():
     ) == 30
 
 
+def test_sharing_section_presence_fields():
+    """[] in sharing_outbound is ambiguous: "section present, no partners"
+    vs "portal removed the section entirely" (merced-county-ca-so and
+    summerset-sd-pd, July 2026 — the opacity case, where sharing status
+    is unknown). The presence/declared-none fields disambiguate."""
+    bold = {"Organizations granted access"}
+    with_section = "\n".join([
+        "Organizations granted access",
+        "",
+        "Belmont CA PD",
+        "",
+    ])
+    parsed = parse_portal_text(with_section, "test-agency", "2026-07-30",
+                               bold_headings=bold)
+    assert parsed["sharing_outbound"] == ["Belmont CA PD"]
+    assert parsed["sharing_outbound_section_present"] is True
+    assert parsed["sharing_outbound_declared_none"] is False
+
+    declared_none = "\n".join([
+        "Organizations granted access",
+        "",
+        "Test Agency PD is not sharing data with any partner networks.",
+        "Policy & Trust",
+        "",
+    ])
+    parsed = parse_portal_text(declared_none, "test-agency", "2026-07-30",
+                               bold_headings=bold)
+    assert parsed["sharing_outbound"] == []
+    assert parsed["sharing_outbound_section_present"] is True
+    assert parsed["sharing_outbound_declared_none"] is True
+
+    no_section = "\n".join([
+        "Acceptable Use Policy",
+        "",
+        "Some prose here.",
+        "",
+    ])
+    parsed = parse_portal_text(no_section, "test-agency", "2026-07-30",
+                               bold_headings={"Acceptable Use Policy"})
+    assert parsed["sharing_outbound"] == []
+    assert parsed["sharing_outbound_section_present"] is False
+    assert parsed["sharing_inbound_section_present"] is False
+    assert parsed["sharing_outbound_declared_none"] is False
+
+
 def test_portal_content_without_styled_headings_raises():
     """If the page has clearly-portal content ("What's Detected" etc.)
     but extract_bold_headings returned nothing, Flock changed the
