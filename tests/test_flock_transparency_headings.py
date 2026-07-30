@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """Pin the heading-kind gating fix in flock_transparency.parse_sections.
 
 Body text that starts with a known heading prefix (e.g. "California SVS,
@@ -235,6 +237,30 @@ def test_parse_org_names_description_only_empty_table():
     ) == []
     assert _parse_org_names(
         "Organizations sharing with Culver City CA PD data."
+    ) == []
+
+
+def test_parse_org_names_drops_2026_07_policy_trust_label():
+    """The 2026-07 template renders a "Policy & Trust" section label
+    right after the sharing lists with no blank line, so it lands in
+    the org-list body. Long lists grew a fake trailing entry; lists
+    short enough for the comma-layout branch got it space-joined onto
+    the last real name (cal-maritime → "Vallejo CA PD Policy & Trust")."""
+    assert _parse_org_names(
+        "Alameda County CA SO\nAtherton CA PD\nBerkeley CA PD\nPolicy & Trust"
+    ) == ["Alameda County CA SO", "Atherton CA PD", "Berkeley CA PD"]
+    assert _parse_org_names("Vallejo CA PD\nPolicy & Trust") == ["Vallejo CA PD"]
+
+
+def test_parse_org_names_drops_2026_07_not_sharing_empty_state():
+    """2026-07 empty state: "<Agency> is not sharing data with any
+    partner networks." where the org list would be. At 12 words it sits
+    exactly on _looks_like_disclaimer's `> 12` boundary, so without its
+    own filter it minted a fake recipient (san-mateo-ca-pd 2026-07-26,
+    glued with the trailing label by the comma-layout branch)."""
+    assert _parse_org_names(
+        "San Mateo CA PD is not sharing data with any partner networks."
+        "\nPolicy & Trust"
     ) == []
 
 
