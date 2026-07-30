@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """Heuristic scanner for prompt-injection content in untrusted files.
 
 Triage tool for files before letting an LLM read them. Complements the
@@ -30,6 +32,7 @@ Exit codes:
 """
 
 import argparse
+import hashlib
 import html as _html
 import json
 import re
@@ -159,6 +162,24 @@ SAFE_UI_PSEUDO = re.compile(
     r"calendar-picker-indicator|color-swatch|details-marker)",
     re.IGNORECASE,
 )
+# Known-benign <style> blocks, keyed by SHA-256 of the exact block body
+# (the text between <style...> and </style>). Flock's portal template
+# ships chrome-hiding rules (.tpHeaderMenu/.tpHeaderNav/.tpBrandTitle
+# display:none; summary-arrow opacity:0) that _stylesheet_hides_content
+# rightly refuses to clear by selector — a class selector can hide page
+# text as easily as chrome. Pinning the exact bytes accepts only this
+# stylesheet: any edit, including an appended hiding rule, changes the
+# hash and flags again. When a template rollout trips the scanner
+# fleet-wide (same finding at identical offsets across many agencies),
+# review one flagged block, then add its hash here — the finding's
+# snippet prints it as [style-sha256=...].
+KNOWN_BENIGN_STYLE_SHA256 = frozenset({
+    # transparency.flocksafety.com [data-tp-root="true"] design-system
+    # stylesheet, first seen in 2026-07-26 scrapes (byte-identical
+    # across all 142 portals in the 2026-07-26..30 refresh).
+    "40f42ee26c70b2e4cea119b0cf48ac069434eca8e09df30c45e480cea4116509",
+})
+
 HTML_COMMENT = re.compile(r"<!--(.*?)-->", re.DOTALL)
 SUSPICIOUS_ATTRS = re.compile(
     r'\b(?:alt|title|aria-label|aria-describedby|data-[\w-]+)\s*='
@@ -503,9 +524,14 @@ def scan_text(text: str, *, html: bool) -> list[Finding]:
 
         for m in STYLE_BLOCK.finditer(text):
             if capped(): return findings
-            if _stylesheet_hides_content(m.group(1)):
+            body = m.group(1)
+            digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+            if digest in KNOWN_BENIGN_STYLE_SHA256:
+                continue
+            if _stylesheet_hides_content(body):
                 emit(findings, HIGH, "hidden-css-rule-with-content",
                      text, m.start(), m.end())
+                findings[-1].snippet += f" [style-sha256={digest}]"
 
         for m in SUSPICIOUS_ATTRS.finditer(text):
             if capped(): return findings
