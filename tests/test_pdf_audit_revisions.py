@@ -11,6 +11,7 @@ import pdf_audit_revisions as par  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 EDITED = REPO / "assets/san-mateo-public-records/W012541-041426/2_1_2026-2_28_2026-San_Mateo_CA_PD-Audit__2_.pdf"
+MULTI_EDITED = REPO / "assets/san-mateo-public-records/W012541-041426/5_1_2024-5_31_2024-San_Mateo_CA_PD-Audit.pdf"
 
 U1 = "11111111-1111-1111-1111-111111111111"
 U2 = "22222222-2222-2222-2222-222222222222"
@@ -76,6 +77,25 @@ def test_word_diff_detects_removed_case_number_only():
     assert all((row is None) or row[0] == U1 for _, row in d["removed"])
 
 
+def test_same_token_removed_from_two_rows_attributes_both():
+    # e.g. the same plate scrubbed from two rows in one save — previously "(no
+    # unique row)"; every containing row is affected when the counts match
+    a = _rev(f"{U1} *** 1 d investigation via license 8fpp888 {U2} *** 1 d investigation via license 8fpp888")
+    b = _rev(f"{U1} *** 1 d investigation via license {U2} *** 1 d investigation via license")
+    d = par.diff_revisions(a, b)
+    assert sorted(row[0] for tok, row in d["removed"] if tok == "8fpp888") == [U1, U2]
+
+
+def test_partial_removal_narrowed_by_other_side():
+    # both rows contain "via license"; only U1 loses it — the survivor's same-UUID
+    # row on the other side pins the change to U1
+    a = _rev(f"{U1} *** 1 d investigation via license {U2} *** 1 d investigation via license")
+    b = _rev(f"{U1} *** 1 d investigation {U2} *** 1 d investigation via license")
+    d = par.diff_revisions(a, b)
+    assert {tok for tok, _ in d["removed"]} == {"via", "license"}
+    assert all(row is not None and row[0] == U1 for _, row in d["removed"])
+
+
 def test_diff_is_order_independent():
     # rows reordered (as an Acrobat re-save can cause) => no spurious change
     a = _rev(f"{U1} *** 1 d Reason One {U2} *** 2 d Reason Two")
@@ -102,3 +122,20 @@ def test_recovers_removed_case_number_no_false_positives(capsys):
     # unchanged neighbor row / reason must NOT be reported (the false-positive bug)
     assert "815fc148" not in out
     assert "Traffic Infraction" not in out
+    # single content edit — no net-change section
+    assert "net change" not in out
+
+
+@pytest.mark.skipif(not MULTI_EDITED.exists(), reason="sample multi-edited audit PDF not present")
+def test_multi_save_edit_attributes_rows_and_sums_net_change(capsys):
+    # May 2024: plate scrubbed from two rows (save 1), leftover "via license"
+    # groomed out (saves 2-3). Every removal must carry row context, and the net
+    # section must show each row's full original -> produced text.
+    par.analyze(MULTI_EDITED)
+    out = capsys.readouterr().out
+    assert "EDIT 3" in out
+    assert "no unique row" not in out and "ambiguous" not in out
+    assert "net change" in out
+    for uuid in ("1e318b30", "d19a461a"):
+        assert f"ROW {uuid}" in out
+    assert out.count("stolen plate/vehicle investigation via license # 8fpp888") >= 4  # 2 per-edit + 2 net
