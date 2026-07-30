@@ -1,0 +1,35 @@
+{
+  "title": "Flock network audit — Costa Mesa slice, narrowed refile of W013113 (non-investigatory fields only)",
+  "summary": "Narrowed refile of W013113-072526 after its July 29, 2026 full denial. Asks for the same network-audit slice — searches against SMPD's cameras and network attributed to Costa Mesa PD credentials (user recorded as \"R. Jos\"), January 1 – June 30, 2024 — but limited to fields the denial did not name as investigatory:\n\n- Item 1: searching organization/agency name, searching user's name as maintained in the export, date and time of the search, search type, number of networks searched, number of devices searched.\n- Expressly excluded: stated reason, offense type or category, case number, and the search \"time frame\"/look-back window — every field the W013113 denial characterized as revealing \"the category of criminal offense under investigation and the time frame of the search.\"\n\nThe request records that the W013113 denial produced no segregable portions (Gov. Code § 7922.525(b)), and asks that any field still claimed exempt be redacted field-by-field with the exemption identified per § 7922.540. States for context that SMPD produces its own search-audit exports monthly under W012541 (May 2024 export produced the same day W013113 was denied) and that 65+ California agencies, including seven San Mateo County departments, publish search-audit data from the same platform.",
+  "tags": [
+    "audit-compliance",
+    "external-sharing"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.525(b)",
+      "quote": "any reasonably segregable portion of a record shall be available for inspection ... after deletion of the portions that are exempted by law",
+      "tests": "Whether SMPD will produce non-investigatory audit fields when the segregation has been done for it in the request, after producing no segregable portions on W013113."
+    },
+    {
+      "policy": "Gov. Code § 7923.600",
+      "quote": "records of investigations conducted by, or investigatory files compiled by, any state or local police agency",
+      "tests": "Whether the investigatory-records theory survives removal of every field the W013113 denial named — denying agency name plus timestamp alone asserts the bare fact of a search is investigatory."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013113-072526",
+      "relation": "scope-narrowing",
+      "note": "W013113 was denied in full 2026-07-29 (§ 7923.600, § 7922.000, Evid. Code § 1040) with no segregability analysis. This refile drops the reason, offense-type, case-number, and look-back fields the denial relied on."
+    },
+    {
+      "ref": "W012541-041426",
+      "relation": "context",
+      "note": "Cited in the request: SMPD produces its own Flock search-audit exports monthly under W012541 — including the May 2024 export produced 2026-07-29, the same day it denied W013113 — with date/time, network count, and free-text justification per row."
+    }
+  ],
+  "filed_because": "Tests the W013113 denial's own theory by subtraction: with the offense category, reason, case number, and look-back window removed, what remains is the bare fact that Costa Mesa PD credentials searched SMPD's network — data of the category peer agencies publish. Also records contemporaneously, for any later enforcement, that the W013113 denial produced no segregable portions.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-07-29 (11:53 PM portal time). Statutory 10-day determination due 2026-08-08. Awaiting initial response."
+}
