@@ -1,0 +1,224 @@
+--- page 1 ---
+MATT BURGESS
+ DHRUV MEHROTRA
+SECURITY
+JAN 7, 2025 1:38 PM
+License Plate Readers Are Leaking Real-Time Video Feeds
+and Vehicle Data
+Misconfigured license-plate-recognition systems reveal the livestreams
+of individual cameras and the wealth of data they collect about every
+vehicle that passes by them.
+
+--- page 2 ---
+PHOTOGRAPH:
+
+KENA BETANCUR/GETTY IMAGES
+
+
+--- page 3 ---
+IN JUST 20 minutes this morning, an automated license-plate-recognition
+(ALPR) system with an IP address geolocated to Tennessee captured photographs
+and detailed information from nearly 1,000 vehicles as they passed by. Among
+them: eight black Jeep Wranglers, six Honda Accords, an ambulance, and a yellow
+Ford Fiesta with a vanity plate.
+This trove of real-time vehicle data, collected by one of Motorola’s ALPR systems,
+is meant to be accessible by law enforcement. However, a flaw discovered by a
+security researcher has exposed live video feeds and detailed records of passing
+vehicles, revealing the staggering scale of surveillance enabled by this widespread
+technology.
+More than 150 Motorola ALPR cameras have exposed their video feeds and
+leaking data in recent months, according to security researcher Matt Brown, who
+first publicized the issues in a series of YouTube videos after buying an ALPR
+camera on eBay and reverse engineering it.
+As well as broadcasting live footage accessible to anyone on the internet, the
+misconfigured cameras also exposed data they have collected, including photos of
+cars and logs of license plates. The real-time video and data feeds don’t require
+any usernames or passwords to access.
+Alongside other technologists, WIRED has reviewed video feeds from several of
+the cameras, confirming vehicle data—including makes, models, and colors of
+cars—have been accidentally exposed. Motorola confirmed the exposures, telling
+WIRED it was working with its customers to close the access.
+Over the last decade, thousands of ALPR cameras have appeared in towns and
+cities across the US. The cameras, which are manufactured by companies such as
+SAVE THIS STORY
+
+--- page 4 ---
+Motorola and Flock Safety, automatically take pictures when they detect a car
+passing by. The cameras and databases of collected data are frequently used by
+police to search for suspects. ALPR cameras can be placed along roads, on the
+dashboards of cop cars, and even in trucks. These cameras capture billions of
+photos of cars—including occasionally bumper stickers, lawn signs, and T-shirts.
+“Every one of them that I found exposed was in a fixed location over some
+roadway,” Brown, who runs cybersecurity company Brown Fine Security, tells
+WIRED. The exposed video feeds each cover a single lane of traffic, with cars
+driving through the camera’s view. In some streams, snow is falling. Brown found
+two streams for each exposed camera system, one in color and another in
+infrared.
+Broadly, when a car passes an ALPR camera, a photograph of the vehicle is taken,
+and the system uses machine learning to extract text from the license plate. This is
+stored alongside details such as where the photograph was taken, the time, as
+well as metadata such as the make and model of the vehicle.
+Brown says the camera feeds and vehicle data were likely exposed as they had not
+been set up on private networks, possibly by law enforcement bodies deploying
+them, and instead exposed to the internet without any authentication. “It’s been
+misconfigured. It shouldn’t be open on the public internet,” he says.
+WIRED tested the flaw by analyzing data streams from 37 different IP addresses
+apparently tied to Motorola cameras, spanning more than a dozen cities across
+the United States, from Omaha, Nebraska, to New York City. Within just 20
+minutes, those cameras recorded the make, model, color, and license plates of
+nearly 4,000 vehicles. Some cars were even captured multiple times—up to three
+times in some cases—as they passed different cameras.
+Jehan Wickramasuriya, corporate vice president overseeing license plate
+recognition products at Motorola Solutions, confirmed to WIRED that some
+devices were exposed, and that the company plans to introduce new security
+measures going forward.
+
+--- page 5 ---
+“Some customer-modified network configurations potentially exposed certain IP
+addresses,” Wickramasuriya says in a statement. The company did not address
+how many systems were incorrectly configured. Wickramasuriya says if its
+customers use its “recommended configurations,” there is not a risk of cameras
+being exposed.
+“We are working directly with these customers to restore their system
+configurations consistent with our recommendations and industry best practices,”
+Wickramasuriya says. “Our next firmware update will introduce additional
+security hardening.”
+“By leaving these incredibly insecure tracking devices on the open internet, police
+have not only breached public trust but created a bounty of location data for
+everyone who drives by which can be abused by stalkers and other criminals,”
+says Cooper Quintin, senior staff technologist at the Electronic Frontier
+Foundation, which last year found security vulnerabilities in ALPR cameras.
+“Police shouldn't be collecting this data at all unless there is an active
+investigation, and even then, the devices must be strictly scrutinized for security
+and public safety."
+Brown initially found the exposed camera data after recently buying one of
+Motorola’s ALPR cameras on eBay, he says, and reverse engineered it to extract
+the device’s firmware. The researcher says he found details of both the color and
+infrared video streams on the device he purchased and was able to access the
+video from the camera in his testing lab.
+Brown then set out to see whether any devices in the real world were publicly
+available online. Brown was able to use text from a “404” error page shown by the
+cameras—including unique language and peculiar grammar—to find IP addresses
+of exposed devices on the public internet. “I think that is a very unique type of
+error page that only exists on this device,” Brown says.
+More than 150 results appear when using publicly available internet-scanning
+tools. The researcher says these likely belong to a sort of “hub” that is connected
+
+--- page 6 ---
+to individual cameras, each of which have their own streaming URLs.
+As ALPR cameras have been deployed by law enforcement agencies, there has
+been little public debate on their use and the privacy implications that come with
+collecting and storing billions of images that include people’s location. Civil
+liberties campaigners have questioned how long data is stored for and the need
+for such widespread surveillance systems.
+“This is part of a general pattern where governments are inclined to roll out
+technical systems to meet the specific goals they have without thinking about, let
+alone working on, the potential negative impacts that those systems have and
+doing the work that you need to do to minimize the negative impacts,” says Daniel
+Kahn Gillmor, a senior staff technologist at the American Civil Liberties Union.
+Gillmor points to New Hampshire’s ALPR law as one that is “reasonable.” The law
+says records from cameras should not “be recorded or transmitted anywhere and
+shall be purged from the system within 3 minutes of their capture.”
+Update 9:45 am EST, January 10, 2025: An ALPR system's IP address reviewed by
+WIRED geolocated it to Nashville, Tennessee. However, a Motorola spokesperson
+says “Nashville's is not among the customer-modified network configurations
+that potentially exposed certain IP addresses.” Given the relative imprecision of
+IP-based geolocation data, we have removed the specific reference to Nashville.
+You Might Also Like
+In your inbox: Brian Kahn’s guide to how the universe works
+Leak exposes members of Peter Thiel’s secretive ‘Dialog’ society
+Big Story: How Hunter Biden won the internet
+Tesla batteries keep getting stolen before they even leave the factory
+Special edition: The future of home
+
+--- page 7 ---
+Matt Burgess is a senior writer at WIRED focused on information security, privacy, and data
+regulation in Europe. He graduated from the University of Sheffield with a degree in journalism
+and now lives in London. Send tips to Matt_Burgess@wired.com. ... Read More
+SENIOR WRITER
+Dhruv Mehrotra is an investigative data reporter at WIRED, where he uses technology to find,
+build, and analyze datasets for accountability journalism. His reporting has examined
+surveillance, policing, data brokers, platforms, and the government agencies and companies that
+use them. Before joining WIRED, he worked at Bloomberg News, the Center for ... Read More
+SENIOR CORRESPONDENT, INVESTIGATIONS
+TOPICS
+PRIVACY
+SAFETY
+POLICE
+SURVEILLANCE
+CARS
+AUTOMOBILES
+READ MORE
+
+--- page 8 ---
+AI Found a Root Bug in Linux That Everyone Missed for 15 Years
+Plus: The Pentagon is training amateurs to become part of its hacker army, a Flock license plate
+reader error led to cops surrounding a car reviewer, and more.
+DELL CAMERON
+
+--- page 9 ---
+A $10K Bounty Aims to Make Sony’s PlayStation 5 a Computer Again
+Nice PlayStation you got. Bet it could probably run Linux too.
+BOONE ASHWORTH
+San Francisco Demands Apple and Google Delete AI ‘Nudify’ Apps From App
+Stores
+The City Attorney’s Office sent the tech giants cease-and-desist letters this week telling them to
+stop profiting from 13 “face-swap” apps that are overwhelmingly used to target women and girls.
+MATT BURGESS
+
+--- page 10 ---
+Data Centers Are Quietly Taking Over Texas. The Pollution Could Be
+Catastrophic
+Thousands of new fossil-fuel power sources are quietly firing up across the state to power the AI
+boom, thanks to a regulatory loophole, leaving residents feeling blindsided.
+EVAN SIMON
+
+--- page 11 ---
+A Majority of European Lawmakers Voted Against Letting Big Tech Read Our
+Messages. They’re Going to Anyway
+Companies will once again be allowed to scan citizens’ personal texts, emails, and social media
+messages via the “Chat Control” bill to find child abuse material online.
+ISABELLA WARD
+Apple Is Suing OpenAI for Allegedly Stealing Hardware Secrets
+The iPhone maker claims OpenAI encouraged poached employees to bring over confidential
+presentations, secret prototypes, and key supplier details.
+MAXWELL ZEFF
+
+--- page 12 ---
+My Ebike Delivery Went Missing. When I Tried to Recover It, I Ended Up in
+Chatbot Hell
+Companies’ increasing reliance on AI chatbots isn’t making the customer service experience
+smarter. It’s just making it more infuriating.
+DILLON THOMPSON
+
+--- page 13 ---
+Federal Investigators Say Certain DOGE Records Were Deleted
+A government report claims DOGE didn’t access sensitive systems. It also says the agency deleted
+records that would show if they had.
+VITTORIA ELLIOTT
+DOGE Used AI for Housing Policy. The Government Won’t Say How
+In response to a public records request, HUD has withheld documents about DOGE’s use of AI—
+in part by citing a privilege that doesn’t exist.
+VITTORIA ELLIOTT
+
+--- page 14 ---
+Why Apple Sued OpenAI, New York Takes on Data Centers, and What to
+Know about Cyclosporiasis
+On today’s Uncanny Valley, we unpack OpenAI’s ongoing drama, both legal and reputational, and
+whether these developments could further hurt the company—particularly in its fight against
+Anthropic.
+BRIAN BARRETT
+
+--- page 15 ---
+OnlyFans Models Are Accidentally Making Hacked Government Websites
+Disappear
+Scammers are hijacking government websites to upload ads for “leaked” OnlyFans content.
+Thousands of copyright complaints from adult creators are helping people avoid malicious links.
+MATT BURGESS
+
+--- page 16 ---
+ICE Is Using Data Broker Tools to ‘Identify Unaccompanied Minors’ and
+‘Fraud’
+A newly renewed, $25 million-per-year contract with a subsidiary of Thomson Reuters further
+expands the power of ICE under the Trump administration.
+CAROLINE HASKINS

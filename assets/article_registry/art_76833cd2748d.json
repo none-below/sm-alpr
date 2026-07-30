@@ -21,6 +21,14 @@
   "wayback_source": "submit-failed",
   "pdf_status": "skipped-curl-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:renewed",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -98,10 +106,30 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-07-02T11:48:18Z",
+  "primary_subject_agency_ids": [
+    "9c1c5b61-7dec-5fce-a5ec-a3be9ed47c86",
+    "eca5a0e5-4ab4-5868-a688-c03da1dff9b1"
+  ],
+  "summary": "The Alameda County Board of Supervisors approved a $2.4 million bridge contract extension with Flock Safety covering ALPRs, PTZ cameras, drones, and Nova software, despite disclosures that NCRIC and the Western States Information Network had improperly accessed and shared county Flock data. Meanwhile, Berkeley's City Council authorized an RFP for up to $2.4 million in surveillance tech from multiple vendors and adopted use policies with safeguards including bans on facial recognition and federal immigration/reproductive-care use.",
+  "key_quotes": [
+    {
+      "quote": "Sheriff Yesenia Sanchez said she responded by reducing the number of agencies her office directly shares data with... her office \"shut off half the state\" in response.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "the county's agreement with Flock retains data captured on the license plate reader system for 365 days, which is far longer than in most other jurisdictions",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "the City Council voted 8-1 in May to stop a proposed $2 million surveillance network expansion with Flock and instead directed city staff to pursue a bidding process with multiple companies",
+      "paragraph_idx": 19
+    },
+    {
+      "quote": "safeguards added after a previous review... such as a ban on facial recognition, prohibitions on using the tools for federal immigration enforcement or out-of-state cases targeting reproductive or gender-affirming care",
+      "paragraph_idx": 21
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-18T12:01:41Z",
   "article_id": "art_76833cd2748d"
 }
