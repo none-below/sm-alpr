@@ -854,26 +854,32 @@ class TestBaselineRegression:
         # Use JSON output so we can assert structurally on severities.
         # --threshold suppresses LOW/MEDIUM exit-code noise; HIGH/CRITICAL
         # still produces exit 2.
-        proc = subprocess.run(
-            [
-                sys.executable, str(SCRIPT),
-                "--json", "--threshold", "999999999",
-                "--files", *map(str, files),
-            ],
-            capture_output=True, text=True,
-        )
-        assert proc.returncode != 2, (
-            f"baseline scrapes have HIGH/CRITICAL findings (exit {proc.returncode}); "
-            f"investigate before merging"
-        )
+        # Batch the argv: the corpus (6k+ paths, ~450KB) exceeds macOS's
+        # effective exec arg-space limit in a single invocation.
         import json as _json
-        data = _json.loads(proc.stdout)
-        for f in data["files"]:
-            for finding in f["findings"]:
-                assert finding["severity"] not in ("high", "critical"), (
-                    f"unexpected {finding['severity']} finding in {f['path']}: "
-                    f"{finding['category']}"
-                )
+        CHUNK = 800
+        for i in range(0, len(files), CHUNK):
+            chunk = files[i:i + CHUNK]
+            proc = subprocess.run(
+                [
+                    sys.executable, str(SCRIPT),
+                    "--json", "--threshold", "999999999",
+                    "--files", *map(str, chunk),
+                ],
+                capture_output=True, text=True,
+            )
+            assert proc.returncode != 2, (
+                f"baseline scrapes have HIGH/CRITICAL findings "
+                f"(exit {proc.returncode}, chunk starting {chunk[0]}); "
+                f"investigate before merging"
+            )
+            data = _json.loads(proc.stdout)
+            for f in data["files"]:
+                for finding in f["findings"]:
+                    assert finding["severity"] not in ("high", "critical"), (
+                        f"unexpected {finding['severity']} finding in {f['path']}: "
+                        f"{finding['category']}"
+                    )
 
 
 # ── source hygiene ────────────────────────────────────────────────

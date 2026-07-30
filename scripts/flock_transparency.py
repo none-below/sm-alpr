@@ -766,6 +766,21 @@ _ORG_DESCRIPTION_RE = re.compile(
 # instead of ingesting a bogus recipient.
 _EMPTY_ORG_RE = re.compile(r"^(?:None|N/?A)\.?$", re.IGNORECASE)
 
+# The 2026-07 template renders a "Policy & Trust" section label directly
+# after the sharing lists with no blank line before it, so it lands in
+# the org-list body as a trailing line. For lists short enough to take
+# the comma-layout branch it then gets space-joined onto the last real
+# name ("Vallejo CA PD Policy & Trust", cal-maritime 2026-07-28).
+_PORTAL_NAV_RE = re.compile(r"^Policy & Trust$")
+
+# 2026-07 template empty state: "<Agency> is not sharing data with any
+# partner networks." rendered where the org list would be. At 12 words
+# it sits exactly on _looks_like_disclaimer's `> 12` boundary, so it
+# needs its own filter (san-mateo-ca-pd 2026-07-26).
+_NOT_SHARING_RE = re.compile(
+    r" is not sharing data with any partner networks\.$"
+)
+
 
 def _looks_like_disclaimer(line):
     """True if a line in the orgs section is a policy sentence, not an
@@ -802,6 +817,8 @@ def _parse_org_names(body):
         L for L in lines
         if not _ORG_DESCRIPTION_RE.match(L)
         and not _EMPTY_ORG_RE.match(L)
+        and not _PORTAL_NAV_RE.match(L)
+        and not _NOT_SHARING_RE.search(L)
         and not _looks_like_disclaimer(L)
     ]
     if not lines:
@@ -974,8 +991,17 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
         elif body:
             fields[field_name] = fields[field_name] + "\n\n" + body if fields[field_name] else body
 
-    outbound_names = _parse_org_names(fields.get("orgs_granted_access", ""))
+    outbound_body = fields.get("orgs_granted_access", "")
+    outbound_names = _parse_org_names(outbound_body)
     inbound_names = _parse_org_names(fields.get("orgs_sharing_with", ""))
+    # "Declared none" = the section carries the template's explicit
+    # empty-state sentence ("<Agency> is not sharing data with any
+    # partner networks."). Matched per line — the sentence is usually
+    # followed by the trailing "Policy & Trust" label, so an end-anchored
+    # search over the whole body would miss it.
+    outbound_declared_none = any(
+        _NOT_SHARING_RE.search(L) for L in outbound_body.splitlines()
+    )
 
     #   "<Agency Name> uses Flock Safety's Operating System..."
     # Flock has rephrased the boilerplate over time — older portals say
@@ -1032,6 +1058,16 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
         "searches_30d": _parse_number(fields.get("searches_30d", ""), field="searches_30d", slug=slug),
         "sharing_outbound": outbound_names,
         "sharing_inbound": inbound_names,
+        # Portal-opacity discriminator: an empty sharing_outbound can mean
+        # either "section present but no partners listed / declared none"
+        # or "the portal removed the sharing section entirely"
+        # (merced-county-ca-so and summerset-sd-pd, July 2026). Only the
+        # latter leaves the agency's sharing status unknown — the drop in
+        # list length alone can't tell the two apart. Legacy parses
+        # predate these keys (absent = unknown).
+        "sharing_outbound_section_present": "orgs_granted_access" in fields,
+        "sharing_inbound_section_present": "orgs_sharing_with" in fields,
+        "sharing_outbound_declared_none": outbound_declared_none,
         # ── newly captured fields (empty string when absent) ──
         "overview": fields.get("overview", ""),
         "policy_info": fields.get("policy_info", ""),
