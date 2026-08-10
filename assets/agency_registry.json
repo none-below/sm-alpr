@@ -7654,6 +7654,263 @@
     ]
   },
   {
+    "agency_id": "67402503-d65a-5bf3-bb57-23194bf7748c",
+    "slug": "western-illinois-university-il-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Western Illinois University IL PD"
+    ],
+    "display_name": null,
+    "agency_role": "campus_safety",
+    "agency_type": "university",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "IL"
+    }
+  },
+  {
+    "agency_id": "53116d94-4a39-57a0-b5b0-d232d8e35bc0",
+    "slug": "almont-mi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Almont MI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "2601660",
+      "name": "Almont",
+      "state": "MI",
+      "lat": 42.920766,
+      "lng": -83.043472
+    }
+  },
+  {
+    "agency_id": "05f6f496-00ef-531a-bece-274b6a92aeaa",
+    "slug": "baker-county-ga-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Baker County GA SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "13007",
+      "name": "Baker",
+      "state": "GA",
+      "lat": 31.31958,
+      "lng": -84.454881
+    }
+  },
+  {
+    "agency_id": "7955ab2c-ae22-5ef1-a3fe-ebf16fb806b4",
+    "slug": "federal-ohio-drug-tf-hidta-moreland-hills-oh-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "[Federal] Ohio Drug TF (HIDTA / Moreland Hills OH PD)"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "OH"
+    }
+  },
+  {
+    "agency_id": "c0ba85b0-f49a-5597-a0b7-8c974f2a3046",
+    "slug": "kidder-township-pa-pd-carbon-co",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Kidder Township PA PD (Carbon Co.)"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "4202539608",
+      "name": "Kidder",
+      "state": "PA",
+      "lat": 41.060706,
+      "lng": -75.64656
+    }
+  },
+  {
+    "agency_id": "59f00261-3778-58bc-83f2-b6fc2ec4304f",
+    "slug": "pickaway-county-oh-so",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Pickaway County OH SO"
+    ],
+    "display_name": null,
+    "agency_role": "sheriff",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "39129",
+      "name": "Pickaway",
+      "state": "OH",
+      "lat": 39.648947,
+      "lng": -83.052827
+    }
+  },
+  {
+    "agency_id": "26e764e8-250b-54dd-ad6b-be85abb01a34",
+    "slug": "plymouth-township-mi-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Plymouth Township MI PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "cousub",
+      "fips": "2616365080",
+      "name": "Plymouth",
+      "state": "MI",
+      "lat": 42.374077,
+      "lng": -83.495499
+    }
+  },
+  {
+    "agency_id": "5274f847-05ef-5462-9a2f-9ae5178ee624",
+    "slug": "los-gatos-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Los Gatos CA"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0644112",
+      "name": "Los Gatos",
+      "state": "CA",
+      "lat": 37.229912,
+      "lng": -121.956814
+    }
+  },
+  {
+    "agency_id": "dbb5a4d3-2b3a-5dfa-a3c9-cb4b914bd067",
+    "slug": "federal-indiana-hidta",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "[Federal] Indiana HIDTA"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "4c5962dd-7016-548c-841d-8e3d3bae7624",
+    "slug": "federal-midwest-hidta",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "[Federal] Midwest HIDTA"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": null
+  },
+  {
+    "agency_id": "41d48a9e-f3d3-588a-a2bf-74426a3218f3",
+    "slug": "town-of-white-bluff-tn-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Town of White Bluff TN PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "4779980",
+      "name": "White Bluff",
+      "state": "TN",
+      "lat": 36.100947,
+      "lng": -87.211874
+    }
+  },
+  {
     "agency_id": "9594e68f-393a-5804-8bb2-df5ce07104aa",
     "slug": "dracut-ma-pd",
     "flock_active_slug": null,
