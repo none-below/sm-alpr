@@ -1612,32 +1612,6 @@
     ]
   },
   {
-    "agency_id": "3cfdc81a-c68b-5345-ae80-55cc2a06aea4",
-    "slug": "city-of-commerce-ca-lasd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "City of Commerce CA (LASD)"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "0614974",
-      "name": "Commerce",
-      "state": "CA",
-      "lat": 33.994523,
-      "lng": -118.149952
-    }
-  },
-  {
     "agency_id": "9101f109-689a-5ad2-9a41-b7e859fc5121",
     "slug": "city-of-lemoore-ca",
     "flock_active_slug": "city-of-lemoore-ca",
@@ -1664,32 +1638,6 @@
       "lng": -119.798253
     },
     "flags": []
-  },
-  {
-    "agency_id": "34a6a919-cdcc-5a0d-bb08-9e98a1bf37ab",
-    "slug": "city-of-pico-rivera-ca-lasd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "City of Pico Rivera CA (LASD)"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "0656924",
-      "name": "Pico Rivera",
-      "state": "CA",
-      "lat": 33.989524,
-      "lng": -118.089295
-    }
   },
   {
     "agency_id": "f168928f-b50b-5bd7-8c25-6da6521fdb93",
@@ -7704,6 +7652,58 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "3cfdc81a-c68b-5345-ae80-55cc2a06aea4",
+    "slug": "city-of-commerce-ca-lasd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "City of Commerce CA (LASD)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0614974",
+      "name": "Commerce",
+      "state": "CA",
+      "lat": 33.994523,
+      "lng": -118.149952
+    }
+  },
+  {
+    "agency_id": "34a6a919-cdcc-5a0d-bb08-9e98a1bf37ab",
+    "slug": "city-of-pico-rivera-ca-lasd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "City of Pico Rivera CA (LASD)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0656924",
+      "name": "Pico Rivera",
+      "state": "CA",
+      "lat": 33.989524,
+      "lng": -118.089295
+    }
   },
   {
     "agency_id": "1514c26b-b808-5df0-8fc3-7a1c3be79a5f",
