@@ -1640,32 +1640,6 @@
     "flags": []
   },
   {
-    "agency_id": "7e45faeb-d56a-5421-839a-7d75f57fb2d0",
-    "slug": "city-of-west-hollywood-ca-lasd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "City of West Hollywood CA (LASD)"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "0684410",
-      "name": "West Hollywood",
-      "state": "CA",
-      "lat": 34.088268,
-      "lng": -118.371831
-    }
-  },
-  {
     "agency_id": "f168928f-b50b-5bd7-8c25-6da6521fdb93",
     "slug": "clear-lake-ia-pd",
     "flock_active_slug": "clear-lake-ia-pd",
@@ -3316,31 +3290,6 @@
     ]
   },
   {
-    "agency_id": "f8dd0006-437d-5c37-9c04-744bca5de340",
-    "slug": "kern-county-fire-department-ca-arson-investigation-unit",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Kern County Fire Department CA - Arson Investigation Unit"
-    ],
-    "display_name": null,
-    "agency_role": "fire",
-    "agency_type": "county",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "county",
-      "fips": "06029",
-      "name": "Kern",
-      "state": "CA",
-      "lat": 35.346629,
-      "lng": -118.729506
-    }
-  },
-  {
     "agency_id": "e5ddd1d8-36a1-5879-9dd6-9b9b36fbda83",
     "slug": "kings-county-ca-das-office",
     "flock_active_slug": "kings-county-ca-das-office",
@@ -3364,31 +3313,6 @@
       "lng": -119.8159
     },
     "flags": []
-  },
-  {
-    "agency_id": "98a850df-5c32-56be-93ce-b2128c78a158",
-    "slug": "la-canada-flintridge-ca-lasd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "La Canada Flintridge CA (LASD)"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "0639003",
-      "name": "La Ca\u00f1ada Flintridge",
-      "state": "CA",
-      "lat": 34.20969,
-      "lng": -118.200139
-    }
   },
   {
     "agency_id": "af9ca9ad-22f2-5472-bbdd-f195383212bf",
@@ -7728,6 +7652,82 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "7e45faeb-d56a-5421-839a-7d75f57fb2d0",
+    "slug": "city-of-west-hollywood-ca-lasd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "City of West Hollywood CA (LASD)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0684410",
+      "name": "West Hollywood",
+      "state": "CA",
+      "lat": 34.088268,
+      "lng": -118.371831
+    }
+  },
+  {
+    "agency_id": "f8dd0006-437d-5c37-9c04-744bca5de340",
+    "slug": "kern-county-fire-department-ca-arson-investigation-unit",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Kern County Fire Department CA - Arson Investigation Unit"
+    ],
+    "display_name": null,
+    "agency_role": "fire",
+    "agency_type": "county",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "county",
+      "fips": "06029",
+      "name": "Kern",
+      "state": "CA",
+      "lat": 35.346629,
+      "lng": -118.729506
+    }
+  },
+  {
+    "agency_id": "98a850df-5c32-56be-93ce-b2128c78a158",
+    "slug": "la-canada-flintridge-ca-lasd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "La Canada Flintridge CA (LASD)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0639003",
+      "name": "La Ca\u00f1ada Flintridge",
+      "state": "CA",
+      "lat": 34.20969,
+      "lng": -118.200139
+    }
   },
   {
     "agency_id": "3cfdc81a-c68b-5345-ae80-55cc2a06aea4",
