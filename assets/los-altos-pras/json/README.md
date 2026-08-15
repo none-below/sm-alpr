@@ -1,106 +1,151 @@
-# Los Altos PD — ALPR audit logs (PRA 26-366)
+# Los Altos PD — ALPR audit logs (PRA 25-312 + 26-366)
 
 Flock **Network Audit** and **Organization Audit** exports produced by the Los
-Altos Police Department under the California Public Records Act (City of Los
-Altos request **26-366**, filed 2026-07-06 by Los Altos for Representation and
-Equity (LARE), closed 2026-07-09), released as public records.
+Altos Police Department under the California Public Records Act, released as
+public records on the city's NextRequest portal.
 
 Flock's two audit reports answer different questions, and both are here:
 
 - **Network Audit** — searches of *Los Altos' Flock network* by any agency in
   the Flock system. This is the outside-agency view.
-- **Organization Audit** — searches run *by Los Altos PD's own personnel*.
+- **Organization Audit** — searches run *by Los Altos PD's own personnel*. This
+  is the source the per-agency justifications page uses.
 
-The city produced **more than was asked for**: the request sought August 1 2025
-onward, and LAPD returned all of calendar 2025 plus 2026 through July 6.
+## The two productions
+
+| | PRA 25-312 | PRA 26-366 |
+| --- | --- | --- |
+| Filed | 2025-07-22 | 2026-07-06 |
+| Closed | 2025-08-13 | 2026-07-09 |
+| Requested by | Working Partnerships USA | Los Altos for Representation and Equity (LARE) |
+| Period requested | 2024-03-01 → processing date | 2025-08-01 → processing date |
+| Period produced | 2024-03 → 2025-08-13 | 2025-01 → 2026-07-06 |
+| Rows | 3,790,065 | 3,510,714 |
+| Portal | [requests/25-312](https://losaltosca.nextrequest.com/requests/25-312) | [requests/26-366](https://losaltosca.nextrequest.com/requests/26-366) |
+
+Both productions returned **more than was requested** — 25-312 asked from March
+2024 but got whole-year workbooks; 26-366 asked from August 2025 and got all of
+calendar 2025. Together they cover **March 2024 – July 6 2026**, with
+January–August 2025 produced twice.
 
 ## Format
 
-One **gzipped NDJSON** file per workbook *sheet* (`*.ndjson.gz`): one JSON object
-per line, one line per search. The workbooks carry one sheet per month, so file
-names are `<workbook>__<MONTH>.ndjson.gz`. Keys are the column headers exactly as
-the department produced them (e.g. `"Org Name"`, `"Search Time"`, `"Reason"`).
-Empty cells are omitted; redaction markers are preserved verbatim. Read a file
-with e.g. `gzip -dc Los_Altos_PD_Network_Audit_2025__JANUARY.ndjson.gz | jq .`
+`pra-25-312/` and `pra-26-366/` each hold one **gzipped NDJSON** per workbook
+*sheet* (`<workbook>__<MONTH>.ndjson.gz`) — one JSON object per line, one line
+per search. Keys are the column headers exactly as the department produced them
+(e.g. `"Org Name"`, `"Search Time"`, `"Reason"`). Empty cells are omitted;
+redaction markers are preserved verbatim. Read one with e.g.
+`gzip -dc pra-26-366/Los_Altos_PD_Network_Audit_2025__JANUARY.ndjson.gz | jq .`
 
-`_manifest.json` lists every file with its row count, gzipped size, source
-workbook and sheet, the header row as produced, per-field populated/redacted
-counts, and any header repairs (see *Hand-edited headers* below).
+Each folder's `_manifest.json` lists every file with its row count, gzipped
+size, source workbook and sheet, the header row as produced, per-field
+populated/redacted counts, and any header repairs. The `SharedNetworks*.csv`
+each production supplied (item 3 of both requests) sit alongside, verbatim.
 
-## Coverage
+## The overlap is consistent — with one exception
 
-| Audit | Period | Rows |
-| --- | --- | --- |
-| Network 2025 | Jan – Dec 2025 | 3,172,647 |
-| Network 2026 | Jan 1 – Jul 6 2026 | 329,897 |
-| Organization 2025 | Jan – Dec 2025 | 4,882 |
-| Organization 2026 | Jan 1 – Jul 6 2026 | 3,288 |
-| **Total** | | **3,510,714** |
+January–August 2025 exists in both productions, a year apart. The network audits
+are **byte-identical** where they overlap (full content diff of January and July
+2025: 0 differing rows; all Jan–Jul row counts and per-field populated counts
+match exactly). August differs only because 25-312 was produced mid-month
+(35,070 rows vs the full month's 362,205).
 
-Note on reading the network-audit counts: a row's `Total Networks Searched` is
-how many networks that one search spanned (often thousands), so these rows are
-searches that *touched* Los Altos' network, not searches aimed at Los Altos.
+The one substantive difference is in the **May 2025 Organization Audit**: four
+rows released with their `Reason` intact in 2025 were redacted to `REDACTED` in
+2026. All four are Flock-generated reasons for alert-triggered searches that
+embed a plate number in the text, e.g. `Dispatch quick search associated with
+Alert: Stolen Plate <plate> - 2025-05-21T17:33:59.072Z`. The 2025 production is
+therefore the more complete record for those rows.
+
+**Neither production declared any redaction.** Both closed with identical
+boilerplate ("To the extent that the City has provided all responsive and
+non-privileged public records…"), citing no exemption and giving no notice that
+anything had been withheld — in 26-366 despite the requester expressly asking
+for "a signed notification citing the legal authorities on which you rely."
 
 ## Fields & redaction
 
 Unlike Redwood City's production (`assets/redwood-city-pras/json/`), which
 withheld the `Reason` field under Gov. Code §§ 7923.600 / 7922.000, **Los Altos
-released the search reason essentially in full**: `Reason` is populated in
-99.5–100% of rows in every file, with 5 redacted cells across all 3.5M rows.
+released the search reason essentially in full** — populated in 99.5–100% of
+rows, with 5 redacted cells across all 3.5M rows of 26-366.
 
-What *is* withheld is consistent with PII redaction: `Name` (the searching
-officer) and `License Plate` are redacted in ~100% of rows throughout.
+Two redaction *mechanics* appear, and they are diagnostic:
 
-`Case #` and `Filters` changed mid-corpus. Through 2025 they were released
-largely intact (of the rows where `Case #` appears at all, 3.2% are redaction
-markers); from January 2026 they are redacted in ~99.8% of the rows where they
-appear. The 2025 files therefore contain roughly 692k real case numbers and 894k
-real filter strings.
+- **`REDACTED`** — typed over cells in Excel by the department.
+- **`***`** — Flock's own export marker.
 
-Two redaction *mechanics* appear: the 2025 workbooks were redacted by typing the
-literal string `REDACTED` over the cells in Excel, while the 2026 workbooks carry
-Flock's native `***` marker. Both are kept verbatim and counted separately in
-`_manifest.json`.
+The 2026 *Organization* audit uses `REDACTED` while the 2026 *Network* audit
+uses `***`, in the same production. So the `***` in the network audits is
+Flock's export blanking partner-agency data, not the city's redaction.
 
-Schema drifts within the corpus. `Total Devices Searched` is present for 2025 and
-January 2026, then disappears. `Text Prompt` (Flock's free-text / natural-language
-search) and `Moderation` (Flock's allow/warn/block label on that prompt) appear as
-columns in 2025 but are populated in only 117 and 32 rows respectively. `Reason`
-itself shifts form: free text in 2025 (`RECKLESS DRIVING`, `459 suspects`,
-`invest`), Flock's structured offense-type picker in 2026 (`Wanted Person (Arrest
-Warrant/Fugitive)`, `Motor Vehicle Theft/Stolen - 9373`).
+That distinction matters for a claim Redwood City made about the same period —
+that "due to updates by Flock… more recent network audits no longer include" the
+searcher name, plate, case number or filter. In Los Altos' network audits every
+one of those four columns is present in **every month through July 2026**, and
+for Los Altos' *own* rows they carry real values through February 2026:
+
+| 2026 month | Los Altos' own rows | with real Name | plate | case # | filters |
+| --- | --- | --- | --- | --- | --- |
+| January | 486 | 486 | 345 | 252 | 120 |
+| February | 537 | 537 | 365 | 274 | 200 |
+| March | 398 | 0 | 0 | 0 | 0 |
+| April | 625 | 0 | 0 | 0 | 0 |
+
+Flock's blanking of the requesting agency's own rows takes effect between
+February and March 2026; before that the export delivered them intact. (A
+consequence: ~1,042 plates and ~1,483 officer names survive in the network
+audits, all in Los Altos' own rows, where the city's redaction pass did not
+reach. They are preserved verbatim here as produced.)
+
+What Flock actually *removed* from the export schema over this period is a
+different list: `Moderation` (after Aug 2025), `Text Prompt` (after Sep 2025),
+and `Total Devices Searched` (after Jan 2026).
+
+`Case #` and `Filters` were released largely intact through 2025, then redacted
+in ~99.8% of the rows where they appear from January 2026.
 
 ## Hand-edited headers
 
-The workbooks were edited in Excel before release, and the header rows did not
-survive intact. The converter type-checks every header label against its column's
-data rather than trusting position, so these are detected and recorded, not
-silently mis-keyed:
+The workbooks were edited in Excel before release and the header rows did not
+always survive. The converter type-checks every header label against its
+column's data rather than trusting position, so these are detected and recorded
+rather than silently mis-keyed:
 
-- **Organization Audit 2025 / September** — the header retains a
-  `Total Devices Searched` label for a column that is not in the data. Left
-  as-is, every later field would shift one column left. The orphan label is
-  dropped (`phantom_headers` in the manifest); the two date columns landing
-  exactly on `Time Frame` and `Search Time` confirm the resulting alignment.
-- **Organization Audit 2025 / October and November** — data columns whose header
-  label was blanked out. These are kept under `column_<N>` keys rather than
-  dropped (`unlabeled_columns` in the manifest). Both are 100% redacted and sit
-  where `Name` and `License Plate` sit in the neighbouring months.
+- **26-366 Organization Audit 2025 / September** — the header retains a
+  `Total Devices Searched` label for a column absent from the data. Left alone,
+  every later field would shift one column left. The orphan label is dropped
+  (`phantom_headers` in the manifest); the two date columns landing exactly on
+  `Time Frame` and `Search Time` confirm the alignment.
+- **26-366 Organization Audit 2025 / October and November** — data columns whose
+  header label was blanked. Kept under `column_<N>` keys rather than dropped
+  (`unlabeled_columns`). Both are 100% redacted and sit where `Name` and
+  `License Plate` sit in neighbouring months.
 
-## Also produced
-
-`../SharedNetworks_2026_July_6.csv` — the city's answer to item 3 of the request
-(networks shared with Los Altos), 259 organizations, committed verbatim.
+Corroborating the editing: the 26-366 workbooks' `sheetId` sequences have gaps
+(Organization Audit 2025 runs 1–8 then 12–15; both "through July 6, 2026"
+workbooks skip 6), i.e. sheets were deleted and recreated — and the gap in the
+Organization Audit sits exactly where the mangled headers are. No hidden
+columns, hidden rows, hidden sheets or saved autofilters were found in any of
+the workbooks.
 
 ## Provenance
 
-Generated from the workbooks as released on the city's NextRequest portal. The
-raw ~245 MB of `.xlsx` are kept local (too large for git); this parsed NDJSON is
-the committed, machine-readable record.
+Generated from the workbooks as released on the city's public NextRequest
+portal (no login required). The raw ~520 MB of `.xlsx` are kept local (too large
+for git); this parsed NDJSON is the committed, machine-readable record.
 
 Regenerate with:
 
 ```
 uv run --with openpyxl python scripts/xlsx_to_audit_ndjson.py \
-    --out assets/los-altos-pras/json <workbook.xlsx> ...
+    --out assets/los-altos-pras/json/pra-26-366 <workbook.xlsx> ...
+```
+
+The justifications source for the site is derived from the Organization Audits:
+
+```
+uv run python scripts/xlsx_to_audit_rows.py --slug los-altos-ca-pd \
+    --pra-id 26-366 --org "Los Altos CA PD" \
+    assets/los-altos-pras/json/pra-26-366/Los_Altos_PD_Organizational_Audit_*.ndjson.gz
 ```
