@@ -75,6 +75,24 @@ Promise.all([
   let showChanges = localStorage.getItem('smalpr-show-changes') !== 'false';
   let currentSelectionSlug = null;
 
+  // Former sharing partners recovered from PRA-produced network-audit logs
+  // (scripts/audit_departures.py). Distinct from the changelog's removals,
+  // which only cover the last 90 days and only what happened after we began
+  // scraping — these reach back years and carry a real date. Off by default and
+  // fetched on first use: one agency alone contributes thousands of entries.
+  let showDeparted = localStorage.getItem('smalpr-show-departed') === 'true';
+  let departedData = null;
+  let departedPromise = null;
+
+  function loadDeparted() {
+    if (departedPromise) return departedPromise;
+    departedPromise = fetch('data/audit_departures.json?v=CACHE_BUST')
+      .then(r => r.ok ? r.json() : {})
+      .catch(() => ({}))
+      .then(d => { departedData = d || {}; return departedData; });
+    return departedPromise;
+  }
+
   const map = MapCommon.createCartoMap('map', { theme: 'light', center: [37.5, -121.5], zoom: 7 });
 
   const markerLayer = L.markerClusterGroup(MapCommon.clusterOptions({
@@ -318,10 +336,51 @@ Promise.all([
     tempMarkers = [];
   }
 
+  // Cross out partners that used to search this agency's network and stopped.
+  // Drawn into lineLayer so the normal per-selection clear removes them.
+  function renderDepartedPartners(m) {
+    if (!showDeparted) return;
+    if (departedData === null) {
+      // First use: fetch, then redraw the selection that asked for it.
+      loadDeparted().then(() => {
+        if (currentSelectionSlug === m.slug) renderDepartedPartners(m);
+      });
+      return;
+    }
+    const entry = departedData[m.slug];
+    if (!entry || !entry.departed) return;
+    const stillShared = new Set(m.outbound_slugs || []);
+    entry.departed.forEach(d => {
+      // Never cross out a partner the current sharing list still contains.
+      if (!d.slug || stillShared.has(d.slug)) return;
+      const tCoord = coords[d.slug];
+      if (!tCoord) return;
+      const when = d.approx
+        ? 'no later than ' + d.removed_on + ' (gap in the produced logs)'
+        : 'removed on ' + d.removed_on;
+      const label = escapeHtml((agencyInfo[d.slug] || {}).name || d.name) +
+        ' — ' + when + '; last searched ' + d.last_search_month +
+        ', ' + d.searches.toLocaleString() + ' searches';
+      L.polyline([[m.lat, m.lng], tCoord], {
+        color: '#9ca3af', weight: 1, opacity: 0.28, dashArray: '3,5',
+      }).addTo(lineLayer).bindTooltip(label, { direction: 'top', sticky: true });
+      const xIcon = L.divIcon({
+        html: '<div style="font-size:13px;font-weight:bold;color:#dc2626;opacity:0.75;text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 2px #fff;line-height:1">✖</div>',
+        className: '',
+        iconSize: [16, 16],
+        iconAnchor: [8, 8],
+      });
+      L.marker(tCoord, { icon: xIcon, zIndexOffset: 400 })
+        .addTo(lineLayer)
+        .bindTooltip(label, { direction: 'top', offset: [0, -8], sticky: true });
+    });
+  }
+
   function showAgency(m) {
     lineLayer.clearLayers();
     clearTempMarkers();
     currentSelectionSlug = m.slug;
+    renderDepartedPartners(m);
 
     // Reveal hidden markers connected to the selected agency
     const connectedSlugs = new Set([
@@ -1101,6 +1160,28 @@ Promise.all([
       }
     });
     legendEl.appendChild(toggleWrap);
+
+    // Former partners from audit logs — a separate, much longer history than
+    // the 90-day changelog above, so it gets its own opt-in toggle.
+    const depWrap = document.createElement('label');
+    depWrap.className = 'legend-item';
+    depWrap.style.cssText = 'cursor:pointer;user-select:none';
+    const depCb = document.createElement('input');
+    depCb.type = 'checkbox';
+    depCb.checked = showDeparted;
+    depCb.style.cssText = 'margin:0 6px 0 0';
+    depWrap.appendChild(depCb);
+    depWrap.appendChild(document.createTextNode('Show former partners (audit logs)'));
+    depCb.addEventListener('change', () => {
+      showDeparted = depCb.checked;
+      localStorage.setItem('smalpr-show-departed', String(showDeparted));
+      if (showDeparted) loadDeparted();
+      if (currentSelectionSlug) {
+        const md = markerDataBySlug[currentSelectionSlug];
+        if (md) showAgency(md);
+      }
+    });
+    legendEl.appendChild(depWrap);
 
     if (!changelogMeta.window_complete && changelogMeta.tracking_days != null) {
       const note = document.createElement('div');
