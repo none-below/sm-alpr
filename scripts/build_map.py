@@ -298,6 +298,35 @@ def main():
     (docs_dir / "data" / "map_data.json").write_text(json.dumps(map_data) + "\n")
     print(f"Data written to {docs_dir}/data/map_data.json")
 
+    # Former partners derived from network-audit logs (scripts/audit_departures.py).
+    # Kept in its own file, loaded only when the map's toggle is switched on:
+    # Los Altos alone contributes ~3.6k entries, and map_data.json is fetched on
+    # every page view. Coordinates are not repeated here — the client resolves
+    # them through the `coords` map it already has.
+    departures = {}
+    for src in sorted(Path("assets/audit_departures").glob("*.json")):
+        data = json.loads(src.read_text())
+        rows = [{
+            "slug": d["slug"],
+            "name": d["name"],
+            "removed_on": d["removed_on"],
+            "last_search_month": d["last_search_month"],
+            "searches": d["searches"],
+            "approx": bool(d.get("coverage_gap_before_removal")),
+        } for d in data.get("departed", []) if d.get("slug")]
+        if rows:
+            departures[data["portal"]] = {
+                "corpus_first_month": data.get("corpus_first_month"),
+                "corpus_last_month": data.get("corpus_last_month"),
+                "counts": data.get("counts", {}),
+                "departed": rows,
+            }
+    out_dep = docs_dir / "data" / "audit_departures.json"
+    out_dep.write_text(json.dumps(departures) + "\n")
+    print(f"Former partners written to {out_dep} "
+          f"({sum(len(v['departed']) for v in departures.values())} across "
+          f"{len(departures)} agencies)")
+
     # Write JS — read template, inject cache-bust and marker count
     import time
     js_template = Path(__file__).parent / "map.js"
