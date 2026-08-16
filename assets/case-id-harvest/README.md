@@ -53,6 +53,14 @@ contribute no IDs.
   `categories` (Flock category strings it appeared under), `multi_category`,
   `searchers` (names as produced — RWC initials only), up to 3
   `sample_reasons`, and `cad_date`/`county`/`agency_prefix` where applicable.
+- `suspect_case_ids.json` — the shortlist for the future case-lookup step,
+  produced by `scripts/select_suspect_case_ids.py`: cad_event IDs dated
+  2025-03-01+ (CitizenRIMS dense window) flagged for multi-category use
+  (adjacent vs divergent), high volume (≥40 searches), long span (≥30 days),
+  stale start (first search ≥60 days after the CAD date), or a Traffic
+  Infraction category. Heavy-use IDs that cannot be resolved in CitizenRIMS
+  (Jan 2025 CAD dates, court cases, other agencies' RMS) are kept under
+  `excluded_notable`.
 
 ## Headline numbers (this snapshot)
 
