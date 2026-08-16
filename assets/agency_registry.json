@@ -4364,27 +4364,6 @@
     ]
   },
   {
-    "agency_id": "5d5c8ef5-459f-58aa-bf76-4c470950b7f0",
-    "slug": "mystique-community-association-ca",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Mystique Community Association (CA)"
-    ],
-    "display_name": null,
-    "agency_role": "hoa",
-    "agency_type": "community",
-    "website": null,
-    "tags": [
-      "private"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "CA"
-    }
-  },
-  {
     "agency_id": "1aadd012-9a3a-5b5a-b2e0-24ab5ec2685e",
     "slug": "napa-ca-pd",
     "flock_active_slug": "napa-ca-pd",
@@ -5731,27 +5710,6 @@
     ]
   },
   {
-    "agency_id": "7cc14925-7a9b-54c9-828a-055ab6a8cda7",
-    "slug": "riverchase-ca",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Riverchase (CA)"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "CA"
-    }
-  },
-  {
     "agency_id": "ae8c6210-8473-5a62-96af-7ea959cb19ff",
     "slug": "riverside-county-ca-so",
     "flock_active_slug": "riverside-county-ca-sd",
@@ -5810,33 +5768,6 @@
     "ori": [
       "CA0490400"
     ]
-  },
-  {
-    "agency_id": "7f5e4cb0-406b-56b3-af52-458ae84663b4",
-    "slug": "sacramento-ca-pd-inactive",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Sacramento CA PD [Inactive]"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "public"
-    ],
-    "flags": [
-      "inactive"
-    ],
-    "geo": {
-      "kind": "place",
-      "fips": "0664000",
-      "name": "Sacramento",
-      "state": "CA",
-      "lat": 38.567694,
-      "lng": -121.468161
-    }
   },
   {
     "agency_id": "bc23d548-e468-55ce-845b-ddee21abe171",
@@ -7721,6 +7652,75 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "5d5c8ef5-459f-58aa-bf76-4c470950b7f0",
+    "slug": "mystique-community-association-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Mystique Community Association (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "hoa",
+    "agency_type": "community",
+    "website": null,
+    "tags": [
+      "private"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
+  },
+  {
+    "agency_id": "7cc14925-7a9b-54c9-828a-055ab6a8cda7",
+    "slug": "riverchase-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Riverchase (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
+  },
+  {
+    "agency_id": "7f5e4cb0-406b-56b3-af52-458ae84663b4",
+    "slug": "sacramento-ca-pd-inactive",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Sacramento CA PD [Inactive]"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": {
+      "kind": "place",
+      "fips": "0664000",
+      "name": "Sacramento",
+      "state": "CA",
+      "lat": 38.567694,
+      "lng": -121.468161
+    }
   },
   {
     "agency_id": "7e45faeb-d56a-5421-839a-7d75f57fb2d0",
