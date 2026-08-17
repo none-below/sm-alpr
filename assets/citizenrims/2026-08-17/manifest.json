@@ -1,0 +1,117 @@
+{
+ "fetched_at_utc": "2026-08-17T07:33:02+00:00",
+ "base": "https://api.v1.citizenrims.com",
+ "agency_id": 362,
+ "params": {
+  "start": "2023-01",
+  "end": "2024-12",
+  "sleep": 4.0,
+  "cases_only": false,
+  "out_root": "/Users/bc/src/github.com/none-below/sm-alpr/.claude/worktrees/audit-case-hydration/assets/citizenrims"
+ },
+ "files": {
+  "config.json": {
+   "bytes": 12714
+  },
+  "cases.json.gz": {
+   "rows": 2056,
+   "raw_bytes": 1914804
+  },
+  "incidents/2023-01.json.gz": {
+   "rows": 7,
+   "raw_bytes": 3959
+  },
+  "incidents/2023-02.json.gz": {
+   "rows": 1,
+   "raw_bytes": 555
+  },
+  "incidents/2023-03.json.gz": {
+   "rows": 2,
+   "raw_bytes": 1135
+  },
+  "incidents/2023-04.json.gz": {
+   "rows": 5,
+   "raw_bytes": 2780
+  },
+  "incidents/2023-05.json.gz": {
+   "rows": 6,
+   "raw_bytes": 3351
+  },
+  "incidents/2023-06.json.gz": {
+   "rows": 5,
+   "raw_bytes": 2795
+  },
+  "incidents/2023-07.json.gz": {
+   "rows": 6,
+   "raw_bytes": 3332
+  },
+  "incidents/2023-08.json.gz": {
+   "rows": 7,
+   "raw_bytes": 3896
+  },
+  "incidents/2023-09.json.gz": {
+   "rows": 9,
+   "raw_bytes": 5062
+  },
+  "incidents/2023-10.json.gz": {
+   "rows": 8,
+   "raw_bytes": 4523
+  },
+  "incidents/2023-11.json.gz": {
+   "rows": 18,
+   "raw_bytes": 10101
+  },
+  "incidents/2023-12.json.gz": {
+   "rows": 15,
+   "raw_bytes": 8517
+  },
+  "incidents/2024-01.json.gz": {
+   "rows": 13,
+   "raw_bytes": 7275
+  },
+  "incidents/2024-02.json.gz": {
+   "rows": 11,
+   "raw_bytes": 6159
+  },
+  "incidents/2024-03.json.gz": {
+   "rows": 21,
+   "raw_bytes": 11767
+  },
+  "incidents/2024-04.json.gz": {
+   "rows": 20,
+   "raw_bytes": 11235
+  },
+  "incidents/2024-05.json.gz": {
+   "rows": 17,
+   "raw_bytes": 9479
+  },
+  "incidents/2024-06.json.gz": {
+   "rows": 11,
+   "raw_bytes": 6125
+  },
+  "incidents/2024-07.json.gz": {
+   "rows": 14,
+   "raw_bytes": 7838
+  },
+  "incidents/2024-08.json.gz": {
+   "rows": 18,
+   "raw_bytes": 10119
+  },
+  "incidents/2024-09.json.gz": {
+   "rows": 22,
+   "raw_bytes": 12343
+  },
+  "incidents/2024-10.json.gz": {
+   "rows": 23,
+   "raw_bytes": 12929
+  },
+  "incidents/2024-11.json.gz": {
+   "rows": 29,
+   "raw_bytes": 16254
+  },
+  "incidents/2024-12.json.gz": {
+   "rows": 31,
+   "raw_bytes": 17283
+  }
+ }
+}
