@@ -1,0 +1,36 @@
+{
+  "title": "Flock device inventory refresh — changes since Feb 2026, invoices/POs, portal corrections (follow-up to W012201)",
+  "summary": "Six-month refresh of the W012201-022326 device inventory, reordered and extended:\n\n- Item 1: all devices installed, activated, replaced, relocated, decommissioned, or taken offline since February 1, 2026, with prior/new locations for relocations, device type, ALPR capability, change date, and reason records.\n- Item 2: all invoices, purchase orders, order forms, quotes, and contract amendments with Flock dated on or after February 1, 2026, including charges beyond the MSA and Amendment No. 1.\n- Item 3: a current list of all Flock devices in the same form as the February 26, 2026 production (Camera Manager screenshots or device-list export), including Falcon/Condor/Picard designation, ALPR capability, ownership status, and activation date.\n- Item 4: all communications with Flock since February 1, 2026 requesting additions, removals, or corrections to the device information displayed on the transparency portal, anchored to the Department's February 2026 statements that two decommissioned devices would be \"deducted from the transparency site by Flock\" and that \"in planning\" cameras were rejected locations being removed.",
+  "tags": [
+    "flock-msa",
+    "condor",
+    "website-posting"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Flock MSA + Amendment No. 1",
+      "quote": "contracted total of 55 devices (53 ALPR + 2 non-ALPR Condor)",
+      "tests": "Whether device changes since February 2026 have any contract, order form, or PO paper trail. The February 2026 production documented 13 devices beyond the contracted 55, with O'Keefe stating there was \"no contract for the additional cameras\" because the cost was \"below the threshold requiring a new contract.\""
+    },
+    {
+      "policy": "Civ. Code § 1798.90.51(b)",
+      "quote": "implement a usage and privacy policy ... available to the public in writing",
+      "tests": "Whether the public-facing device picture (transparency portal) tracks the actual inventory. The portal count has been static at 66 since March 2026 while the February production recorded pending relocations and portal corrections handled ad hoc through Flock."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012201-022326",
+      "relation": "temporal-followup",
+      "note": "The February 2026 inventory production this request refreshes: 80 Camera Manager devices vs 68/66 per O'Keefe vs 60 on the location spreadsheet, 12 Picards and 1 Avicore in no contract, and a #30 unit marked \"Out of Service (Relocation to S/B Delaware @ Concar).\""
+    },
+    {
+      "ref": "W012339-031326",
+      "relation": "context",
+      "note": "Invoice/PO production folder for the W012201 money-trail item; Item 2 here extends that trail from February 2026 forward."
+    }
+  ],
+  "filed_because": "Six months after the February 2026 inventory production, the transparency portal has shown the same 66-camera count in every snapshot since March, while that production left changes explicitly in flight: a camera pending relocation, two decommissioned units to be deducted by Flock, and \"in planning\" locations awaiting removal from the portal. This refresh captures the change records, the money trail for anything added or replaced, and the portal-correction communications for the intervening period — testing whether inventory changes generate records and whether the public device picture is maintained.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-08-16; initial determination due within 10 days under Gov. Code § 7922.535 (by 2026-08-26, extendable 14 days). Only the portal acknowledgment exists so far."
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Flock network audit — Josett/Costa Mesa, narrowed refile of W013113 (investigative fields excluded)",
+  "summary": "Narrowed refile of W013113-072526, filed the same day that request was denied. The W013113 denial characterized each network-audit entry as documenting \"the existence, timing, and nature of an investigative act by another agency, including the category of criminal offense under investigation and the time frame of the search.\" This request expressly excludes every field that language identified — the stated reason, the offense type or category, any case number, and the look-back window — and asks only for: searching agency name, searching user's name as maintained in the export, date/time, search type, network count, and device count, for Costa Mesa PD / Robert Josett (\"R. Jos\") entries, January 1 – June 30, 2024. It asks that any field still claimed exempt be redacted field-by-field with the exemption identified per field, citing the segregability duties in Gov. Code §§ 7922.525(b) and 7922.540.\n\nDenied in full on 2026-08-04, six days after filing, restating the W013113 exemption stack (Gov. Code § 7923.600, § 7922.000 balancing, Evid. Code § 1040) and adding a fourth ground: Gov. Code § 7927.705 via Civil Code § 1798.90.55(b) (ALPR sharing restriction). No field-level segregability analysis was provided. The letter adds that \"the Flock Platform does not display the names of officers from external agencies on our portal\" and directs any such request to the originating agency, while pointing to the W012541 rolling internal-search production and the portal's live spreadsheet as the disclosed alternative.",
+  "tags": [
+    "audit-compliance",
+    "external-sharing",
+    "pra-process"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code §§ 7922.525(b), 7922.540",
+      "quote": "any reasonably segregable portion of a record shall be available for inspection ... after deletion of the portions that are exempted by law",
+      "tests": "Whether a full denial can survive when the request pre-excluded every field the City's own W013113 denial identified as investigative, and asked for per-field redaction of anything still claimed exempt. The 8/4 response again performed no segregability analysis."
+    },
+    {
+      "policy": "Civ. Code § 1798.90.55(b)",
+      "quote": "prohibits a public agency from selling, sharing, or transferring ALPR information, except to another public agency",
+      "tests": "Whether audit metadata about who searched (agency, user, timestamp, counts) is \"ALPR information\" at all — and whether the position is consistent with SMPD publishing its own internal search history, from the same platform audit, on its public transparency portal."
+    },
+    {
+      "policy": "463.10",
+      "quote": "an audit is conducted of ALPR data searches at least monthly for internal ALPR users and quarterly for external CA public agency users",
+      "tests": "Whether the external-user audit Policy 463.10 requires SMPD to conduct is consistent with the claim that external search entries are other agencies' confidential investigative activity SMPD cannot assess."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013113-072526",
+      "relation": "scope-narrowing",
+      "note": "Parent request, denied in full 7/29/2026. This refile drops every field the parent denial called investigative and keeps only actor/timestamp/count metadata."
+    },
+    {
+      "ref": "W012541-041426",
+      "relation": "context",
+      "note": "The denial points to W012541's rolling internal search-audit production as the disclosed alternative — internal search history only, not the external-search side this request seeks."
+    },
+    {
+      "ref": "W012320-031126",
+      "relation": "context",
+      "note": "W012320 Item 3 sought external-agency search counts against SMPD's data; declined under the same § 7923.600 / § 1798.90.55(b) pairing."
+    }
+  ],
+  "filed_because": "Tests whether the W013113 denial's own reasoning survives contact with a request built around it: if the investigative character of the audit entries lives in the reason, offense category, case number, and look-back fields — as the City's denial said — then entries stripped to actor, timestamp, and count metadata should be producible under the segregability mandate. The 8/4 full denial, with a new fourth exemption added and no per-field analysis, records that the City's position is not field-based but categorical.",
+  "status_override": "closed",
+  "notes": "Denied in full 2026-08-04 (Juliana Santiago transmittal + response letter). Exemption stack: Gov. Code § 7923.600, § 7922.000, Evid. Code § 1040, and — new relative to W013113 — Gov. Code § 7927.705 via Civ. Code § 1798.90.55(b). No per-field segregability analysis despite the request's express structure. Letter also asserts the Flock platform does not display external officers' names on SMPD's portal and directs the requester to the originating agency; per the RWC 26-217 corpus, the searching user's name is a field in the same audit export SMPD produces monthly under W012541."
+}
