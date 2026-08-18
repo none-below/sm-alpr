@@ -1,0 +1,41 @@
+{
+  "title": "Policy 463.8 sharing approvals — the 2026 recipient-list collapse and rebuild",
+  "summary": "Asks for the request-and-approval records Policy 463.8 describes for ALPR data sharing, covering 2025-12-22 through the date of production:\n\n- Item 1: any written criteria governing approval, denial, periodic review, or termination of sharing relationships with CA public agencies beyond the text of 463.8 itself, including criteria applied in the 2026 changes.\n- Item 2: records of the decision reflected on the transparency portal on or about 2026-07-16, when the recipient list went from approximately 259 agencies to none — memorandum, directive, instruction, authorization, and the criterion applied.\n- Item 3: for each of the six agencies listed as recipients as of 2026-08-17 (Belmont PD, Brisbane PD, CHP, Foster City PD, Palo Alto PD, South San Francisco PD), the 463.8(a) request record (agency name, requesting person, intended purpose) and the 463.8(b) review and approval record, whether the relationship was newly created or reinstated.\n- Item 4: review, approval, or authorization records for every other addition or removal during the period.\n- Item 5: the Flock platform event log limited to networkShare and other sharing-configuration events (creation, modification, deletion), in native export format.\n\nThe request records the observed portal sequence — ~259 agencies in early July 2026, zero on or about 2026-07-16, five as of 2026-08-13, six as of 2026-08-17 — and asserts that records held by Flock as the Department's contractor are Department records under Gov. Code § 7920.530 and City of San Jose v. Superior Court (2017) 2 Cal.5th 608.",
+  "tags": [
+    "policy-463",
+    "external-sharing",
+    "audit-compliance"
+  ],
+  "policy_promises": [
+    {
+      "policy": "463.8",
+      "quote": "The agency makes a request for the ALPR data that includes: 1. The name of the agency. 2. The name of the person requesting. 3. The intended purpose of obtaining the information.",
+      "tests": "Whether a request record exists for each of the six agencies currently receiving SMPD ALPR data."
+    },
+    {
+      "policy": "463.8",
+      "quote": "The request is reviewed by the ALPR Committee Captain or the authorized designee and approved before the request is fulfilled.",
+      "tests": "Whether the reinstated sharing relationships were reviewed and approved before being enabled, and whether that review generates any record outside the Flock platform."
+    },
+    {
+      "policy": "Gov. Code § 7920.530",
+      "quote": "records held by a contractor on behalf of an agency",
+      "tests": "Whether the Flock platform event log is produced as a Department record, as it was under W012570-041926."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012666-050426",
+      "relation": "evidence-source",
+      "note": "Produced the Policy 463 text effective 2025-12-22 that section 463.8 is quoted from."
+    },
+    {
+      "ref": "W012570-041926",
+      "relation": "evidence-source",
+      "note": "The Department produced a Flock platform event log export under this request; item 5 asks for the same record type for the current period and sharing-event scope."
+    }
+  ],
+  "filed_because": "The portal's recipient list collapsed from roughly 259 agencies to zero in mid-July 2026 and has since been rebuilt to six. Policy 463.8 requires a written request and an approval before any sharing relationship is fulfilled, so the rebuild should have generated a fresh request-and-approval record for each of the six. This asks for those records, for the decision behind the collapse, and for the platform event log that would show the configuration changes independently.",
+  "status_override": null,
+  "notes": "Filed 2026-08-18; 10-day statutory determination due 2026-08-28.\n\nEach item is severable. If the Department contends 463.8 review and approval happen inside the Flock platform without a separate record, the request asks it to identify the platform records reflecting each approval and produce them under item 5 — closing the gap between \"no responsive records\" and the platform's own event log."
+}
