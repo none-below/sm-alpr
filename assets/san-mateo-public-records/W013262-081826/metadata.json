@@ -1,0 +1,51 @@
+{
+  "title": "Denial process records — §7922.540(b) names and the segregability record for W013113/W013137",
+  "summary": "Process request following the two full denials of the Flock network-audit requests. Asks for:\n\n- Item 1: the names and titles or positions of each person responsible for the denial of W013113-072526, of W013137-072926, and of item 3 of W012665-050426, as set forth in Gov. Code § 7922.540(b), plus any record identifying who made each determination.\n- Item 2: the Flock platform event log for 2026-07-20 forward, limited to report generation, audit export, network-audit, and search-audit query events, in native export format — the record type produced under W012570-041926.\n- Item 3: routing, transmittal, assignment, and tasking records for the legal review the August 4 letter describes, between SMPD staff and the City Attorney's Office, with dates. Expressly not the content of any legal advice.\n- Item 4: any record identifying which fields, portions, or categories were considered for release or redaction — review worksheet, redaction log, field-by-field notation, marked-up export, or exemption index. The record itself, not a narrative description.\n- Item 5: a privilege index for anything withheld under items 3 or 4, by date, author, recipient, record type, and privilege asserted.\n\nThe context paragraph records that all three denial letters conclude without a signature block, name, or title, and quotes the August 4 letter's statement that \"a legal review of your request was completed.\"",
+  "tags": [
+    "pra-process",
+    "audit-compliance",
+    "external-sharing"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.540(b)",
+      "quote": "The notification of denial shall set forth the names and titles or positions of each person responsible for the denial.",
+      "tests": "Whether any denial notification identifies a responsible person, given that the letters are unsigned and the transmitting analyst is not the person the letters attribute the determination to."
+    },
+    {
+      "policy": "Gov. Code § 7922.525(b)",
+      "quote": "Any reasonably segregable portion of a record shall be available for inspection ... after deletion of the portions that are exempt by law",
+      "tests": "Whether any record documents field-level consideration of partial release before both requests were denied in full."
+    },
+    {
+      "policy": "Gov. Code § 7920.530",
+      "quote": "records held by a contractor on behalf of an agency",
+      "tests": "Whether the Flock event log shows any export or network-audit query during the response windows — i.e. whether the withheld records were ever retrieved."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013113-072526",
+      "relation": "process-meta",
+      "note": "Denied in full 2026-07-29. Item 1 seeks the responsible-person names for that denial."
+    },
+    {
+      "ref": "W013137-072926",
+      "relation": "process-meta",
+      "note": "Narrowed refile of W013113, denied in full 2026-08-04. Its letter states a legal review was completed, which items 1 and 3 key on."
+    },
+    {
+      "ref": "W012665-050426",
+      "relation": "process-meta",
+      "note": "Item 3 denied by letter; third instance of an unsigned determination letter."
+    },
+    {
+      "ref": "W012570-041926",
+      "relation": "evidence-source",
+      "note": "SMPD produced a Flock platform event log export under this request; item 2 seeks the same record type for a different event scope and period."
+    }
+  ],
+  "filed_because": "Both network-audit denials rest on a rationale — the offense category and search time frame — that W013137 excluded by name, and neither letter offered a segregability analysis for the six fields actually requested. This asks for the records that would exist if partial release had been considered, and for the § 7922.540(b) identification the letters omit. A \"no responsive records\" answer to item 4 establishes that no field-level consideration was documented; an empty item 2 establishes that the withheld records were never retrieved.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-08-18; 10-day statutory determination due 2026-08-28.\n\nItem 4 is deliberately scoped to record types rather than to a description of the analysis — W012741-051426 asked SMPD to \"describe the segregability analysis performed\" and that ask was absorbed into a privilege claim.\n\nEvery prior § 7922.540 reference across the filed corpus invokes the section for exemption-citation specificity (subdivision (c)); this is the first request to invoke (b)."
+}
