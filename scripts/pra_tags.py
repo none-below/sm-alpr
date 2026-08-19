@@ -28,6 +28,7 @@ TAGS = {
     "website-posting": "Website / transparency-page posting",
     "council-authorization": "Council authorization process",
     "pra-process": "PRA process / portal mechanics",
+    "grand-jury": "Civil Grand Jury report / Penal Code §933 responses",
     # Tech adjacent
     "condor": "Condor (non-ALPR) cameras",
     "fusus": "Axon Fusus",
