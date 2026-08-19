@@ -70,6 +70,10 @@ ALLOWED_EMAIL_DOMAINS = {
     "ncric.ca.gov",
     # South San Francisco PD — appears in W012665 _Re__SMPD_ALPR_Stuff.pdf
     "ssf.net",
+    # San Mateo County Assessor-County Clerk-Recorder-Elections — published
+    # public-records intake address (countyclerk@). Appears in emails/ source 62,
+    # the outbound CPRA request for the Penal Code §933(c) responses on file.
+    "smcacre.gov",
 }
 
 # Known public phone numbers from published City of San Mateo records.
