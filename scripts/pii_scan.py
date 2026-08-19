@@ -45,6 +45,11 @@ EXCLUDED_PATH_PREFIXES = (
     # intentionally contain external agency email addresses from dozens of
     # non-allowlisted domains. Not a PII leak; expected content.
     "assets/san-mateo-public-records/W012462-040226/",
+    # Agency productions under W-folders are kept byte-exact so they stay
+    # hash-comparable against what the agency produced. GovQA audit histories
+    # log every notification delivery, so they contain the requester address
+    # by construction. Do not rewrite them; exclude them from the scan.
+    "assets/san-mateo-public-records/W0",
 )
 
 ALLOWED_EMAIL_DOMAINS = {
@@ -63,9 +68,6 @@ ALLOWED_EMAIL_DOMAINS = {
     "mycusthelp.net",
     "ncric.net",
     "ncric.ca.gov",
-    # Requester's own domain — appears in produced records where SMPD
-    # includes requester's outbound emails (e.g. W012666 Flock Camera Concerns thread)
-    "zerobelow.org",
     # South San Francisco PD — appears in W012665 _Re__SMPD_ALPR_Stuff.pdf
     "ssf.net",
 }
@@ -115,6 +117,9 @@ PHONE_650_RE = re.compile(
 )
 
 
+WEBMAIL_TITLE_RE = re.compile(r'\S+\s+Webmail\s*::', re.I)
+
+
 def extract_text_from_page(page):
     """Extract text from a PDF page, falling back to OCR for image pages."""
     text = page.get_text()
@@ -159,7 +164,49 @@ def scan_pdf(pdf_path):
         print(f"  WARNING: could not open {pdf_path}: {e}", file=sys.stderr)
         return []
 
+    for key, value in (doc.metadata or {}).items():
+        if not value:
+            continue
+        if WEBMAIL_TITLE_RE.search(str(value)):
+            results.append({
+                "file": str(pdf_path), "page": 0, "category": "METADATA",
+                "match": f"{key}: webmail client stamp",
+                "context": str(value)[:80],
+            })
+        for category, match, context in scan_text(str(value)):
+            results.append({
+                "file": str(pdf_path), "page": 0, "category": f"META-{category}",
+                "match": match, "context": context,
+            })
+
+    # Link annotations can carry a mailto: URI action that never appears in the
+    # text layer, is not returned by get_links() when the annotation is reachable
+    # only from the structure tree, and survives garbage collection. Walk the raw
+    # objects so that vector cannot hide.
+    seen_obj = set()
+    for xref in range(1, doc.xref_length()):
+        try:
+            obj = doc.xref_object(xref, compressed=False)
+        except Exception:
+            continue
+        if not obj or "/URI" not in obj:
+            continue
+        for category, match, context in scan_text(obj):
+            if match in seen_obj:
+                continue
+            seen_obj.add(match)
+            results.append({
+                "file": str(pdf_path), "page": 0,
+                "category": f"OBJ-{category}", "match": match, "context": context,
+            })
+
     for page_num in range(len(doc)):
+        for link in doc[page_num].get_links():
+            for category, match, context in scan_text(link.get("uri", "") or ""):
+                results.append({
+                    "file": str(pdf_path), "page": page_num + 1,
+                    "category": f"LINK-{category}", "match": match, "context": context,
+                })
         text = extract_text_from_page(doc[page_num])
         if not text:
             continue
