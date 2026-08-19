@@ -1,0 +1,45 @@
+{
+  "title": "Federal-agency search awareness — Stockton/Yuba City assessment records",
+  "summary": "Tests the Department's own stated practice against a documented instance of awareness. Covers 2026-06-04 through the date of production:\n\n- Item 1: communications with Stockton PD or Yuba City PD referencing searches conducted on behalf of, or at the request of, federal agencies.\n- Item 2: records of any assessment conducted under the July 4, 2026 practice with respect to either agency — initiation, criteria applied, and disposition.\n- Item 3: communications between the ALPR Committee Captain or designee (Lt. Steve Casazza per the Department's records) and Flock Safety referencing those searches or federal-agency-related search activity by partner agencies.\n- Item 4: any record of review of either agency's status as a recipient of San Mateo ALPR data in connection with sharing-configuration changes during July and August 2026.\n- Item 5: any network audit report or equivalent record listing searches conducted by other agencies against San Mateo ALPR data, for any period, plus any request to Flock Safety for such a report and any response.\n\nThe context paragraph quotes the Department's July 4, 2026 correspondence — \"when the San Mateo Police Department becomes aware that an agency is not complying with applicable state law, the department assesses whether to discontinue data sharing with that agency,\" and that it may act \"[r]egardless of how the City becomes aware\" — and records the dates on which the requester raised the searches: the June 4, 2026 meeting and correspondence of June 22 and July 12, 2026.\n\nItems 1 and 3 are scoped to named counterparties and this subject, with an express statement that no review of any general email corpus is requested.",
+  "tags": [
+    "external-sharing",
+    "audit-compliance"
+  ],
+  "policy_promises": [
+    {
+      "policy": "SMPD correspondence, July 4, 2026",
+      "quote": "when the San Mateo Police Department becomes aware that an agency is not complying with applicable state law, the department assesses whether to discontinue data sharing with that agency",
+      "tests": "Whether any assessment record exists for Stockton or Yuba City, given that the Department's awareness is dated and in writing."
+    },
+    {
+      "policy": "463.8",
+      "quote": "ALPR data may be shared only with public agencies and only as otherwise permitted by law",
+      "tests": "Whether either agency's recipient status was reviewed during the July–August 2026 sharing-configuration changes."
+    },
+    {
+      "policy": "Gov. Code § 7920.530",
+      "quote": "records held by a contractor on behalf of an agency",
+      "tests": "Whether the Department has ever obtained, or requested from Flock, a network audit report listing partner-agency searches against its data."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013113-072526",
+      "relation": "context",
+      "note": "Sought network-audit entries for one external agency; denied in full. Item 5 approaches the same record type from the other side — whether SMPD has ever obtained such a report at all."
+    },
+    {
+      "ref": "W013137-072926",
+      "relation": "context",
+      "note": "Narrowed refile of W013113, also denied in full."
+    },
+    {
+      "ref": "W013261-081826",
+      "relation": "companion",
+      "note": "Covers the July–August 2026 sharing-configuration changes generally; item 4 here asks specifically whether Stockton or Yuba City status was reviewed as part of them."
+    }
+  ],
+  "filed_because": "The Department has stated a practice of assessing whether to discontinue sharing once it becomes aware an agency may not be complying with state law, and it may act regardless of how it learns. Awareness here is documented and dated — raised at the June 4 meeting and in June 22 and July 12 correspondence. This asks for the assessment that practice describes. Item 5 is the structural one: if no network audit report exists and none was ever requested, that is a written record that the Department has not examined who searches its data, which is also the mechanism Policy 463.10's quarterly external audit would depend on.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-08-19; 10-day statutory determination due 2026-08-29.\n\nThe request is framed on documented awareness, not on any assertion that San Mateo data was delivered to a federal agency — it states only that the searches had potential reach into the regional sharing network that included San Mateo data. The characterization of the searches is attributed to Stockton's and Yuba City's own published audit records.\n\nItems 1 and 3 carry an express scope guard against a general email-corpus search, following the deferral pattern seen on W012462."
+}
