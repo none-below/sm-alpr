@@ -74,6 +74,10 @@ ALLOWED_EMAIL_DOMAINS = {
     # public-records intake address (countyclerk@). Appears in emails/ source 62,
     # the outbound CPRA request for the Penal Code §933(c) responses on file.
     "smcacre.gov",
+    # Typo variant of smcacre.gov: the County Clerk signature block's mailto:
+    # hyperlink target reads .org while its visible text reads .gov. Source 63 is
+    # kept as the office sent it rather than corrected, so allow the variant.
+    "smcacre.org",
 }
 
 # Known public phone numbers from published City of San Mateo records.
@@ -104,6 +108,11 @@ ALLOWED_PHONES = {
     "6505227720",  # R. Sianez, Field Operations admin (W012459-040226 ORT email + PO-0001042, 2024)
     "6505227100",  # S. Wong, Buyer (W012459-040226 PO-0001042, 2024)
     "6505333539",  # San Mateo County community chapter (Council packet, 2022-04-04)
+    # Office of the County Clerk (San Mateo County Assessor-County Clerk-Recorder-
+    # Elections) — direct and fax lines published in the office's own email
+    # signature block; appear in emails/ sources 63-64.
+    "6503634779",
+    "6507809952",
 }
 
 # ── Patterns ──
