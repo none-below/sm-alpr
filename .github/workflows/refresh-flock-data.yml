@@ -90,6 +90,16 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
 
+      - name: Ingest slug-probe hits
+        # Apply any .slug_probe_hits/ hand-off files the probe left — promote
+        # found slugs into the registry, clear the old/new failed entries, and
+        # record the captured content hash. Runs BEFORE the crawl so a freshly
+        # promoted slug becomes an active refresh target in this same run. The
+        # crawler is the sole writer of agency_registry.json / .content_hashes
+        # / .failed_slugs.json; the probe never edits them, which is what keeps
+        # the two bots' parallel branches from conflicting at merge time.
+        run: uv run python scripts/flock_transparency.py ingest-probe-hits
+
       - name: Crawl oldest agencies
         id: crawl
         run: |
