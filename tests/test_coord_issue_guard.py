@@ -66,6 +66,9 @@ MOCK_GH = """\
 #!/usr/bin/env bash
 case "$2" in
   view)
+    # Simulate a transient gh failure (502, secondary rate limit, ...):
+    # no output, non-zero exit.
+    if [ -n "${GH_VIEW_FAIL:-}" ]; then exit 1; fi
     # Exactly what `--json body -q .body` emits: the stored body verbatim,
     # then the newline `jq -r` appends. Deliberately does NOT normalize —
     # normalizing here would apply the fix under test and mask a regression.
@@ -119,7 +122,7 @@ def _extract_guard(workflow, step_name):
     return textwrap.dedent("\n".join(out))
 
 
-def _run_guard(guard, tmp_path, stored_body, fresh_body):
+def _run_guard(guard, tmp_path, stored_body, fresh_body, view_fails=False):
     """Run the guard with a mocked gh; return (actions, comment_body)."""
     rec = tmp_path / "rec"
     rec.mkdir()
@@ -140,6 +143,8 @@ def _run_guard(guard, tmp_path, stored_body, fresh_body):
         "STORED_BODY": str(tmp_path / "stored_body"),
         "REC": str(rec),
     }
+    if view_fails:
+        env["GH_VIEW_FAIL"] = "1"
     proc = subprocess.run(
         ["bash", "-c", 'EXISTING=999\n' + guard],
         capture_output=True, text=True, env=env,
@@ -196,6 +201,58 @@ def test_real_change_still_comments(workflow, step, stored_list, fresh_list, tmp
     assert "EDIT" in actions, "body must be refreshed on a real change"
     assert "COMMENT" in actions, "a real change must still be announced"
     assert "Epsilon PD" in comment, f"changelog lost the changed line: {comment!r}"
+
+
+@pytest.mark.parametrize("workflow,step", GUARD_SITES)
+def test_carriage_return_in_a_name_is_not_a_change(workflow, step, tmp_path):
+    """A stray \\r must not pin the guard permanently open.
+
+    `tr -d '\\r'` used to be applied only to the FETCHED side. Agency display
+    names come from raw scraped portal text, so a CR in a name reaches the
+    freshly built body, survives there, and is stripped only from the copy
+    read back from GitHub — leaving the two permanently unequal. Both sides
+    carry the CR here, which is the real shape: the body was uploaded from a
+    file that contained it.
+    """
+    guard = _extract_guard(workflow, step)
+    with_cr = LIST_A.replace("Alpha PD", "Alpha\r PD")
+    stored = BODY_TMPL.format(block=with_cr) + "\n"
+    fresh = BODY_TMPL.format(block=with_cr) + "\n"
+    actions, comment = _run_guard(guard, tmp_path, stored, fresh)
+    assert "COMMENT" not in actions, f"a carriage return read as a change: {comment!r}"
+
+
+@pytest.mark.parametrize("workflow,step", GUARD_SITES)
+def test_unreadable_body_does_not_post_a_full_list_change(workflow, step, tmp_path):
+    """A failed body fetch must skip, not manufacture a whole-list change.
+
+    The normalization turns a 0-byte fetch into a lone newline, so without a
+    fail-closed check `diff` reports every recipient as an insertion and the
+    step posts the entire list as if it were new.
+    """
+    guard = _extract_guard(workflow, step)
+    body = BODY_TMPL.format(block=LIST_A) + "\n"
+    actions, comment = _run_guard(guard, tmp_path, body, body, view_fails=True)
+    assert actions == [], (
+        f"wrote to the issue despite an unreadable body: {actions} {comment!r}"
+    )
+
+
+@pytest.mark.parametrize("workflow,step", GUARD_SITES)
+def test_changed_line_starting_with_a_dash_survives_rendering(workflow, step, tmp_path):
+    """A content line whose own first character is '-' must reach the comment.
+
+    Such a line renders as '+-…' in the diff, which a `^[-+][^-+]` pattern
+    discards — guard 1 would say "changed", guard 2 would find nothing, and a
+    real change would be swallowed with the body silently rewritten.
+    """
+    guard = _extract_guard(workflow, step)
+    odd = LIST_A + "-unindented row  <- Somewhere PD\n"
+    stored = BODY_TMPL.format(block=LIST_A) + "\n"
+    fresh = BODY_TMPL.format(block=odd) + "\n"
+    actions, comment = _run_guard(guard, tmp_path, stored, fresh)
+    assert "COMMENT" in actions, "a real change was swallowed"
+    assert "-unindented row" in comment, f"changelog dropped the line: {comment!r}"
 
 
 @pytest.mark.parametrize("workflow,step", GUARD_SITES)
