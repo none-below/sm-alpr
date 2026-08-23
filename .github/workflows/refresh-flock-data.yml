@@ -240,17 +240,39 @@ jobs:
           # Only touch the issue when the list changes — commenting the full
           # list on every refresh run flooded the issue with hundreds of
           # identical comments (#516, #636).
-          gh issue view "$EXISTING" --json body -q .body | tr -d '\r' > /tmp/coord-issue-old.md
-          if diff -u /tmp/coord-issue-old.md /tmp/coord-issue-body.md > /tmp/coord-issue-diff.txt; then
+          gh issue view "$EXISTING" --json body -q .body | tr -d '\r' > /tmp/coord-issue-old.raw
+          # Normalize trailing newlines on BOTH sides before comparing.
+          # `--json body -q .body` pipes the stored body through jq -r, which
+          # appends its own newline to a body GitHub already stored with one,
+          # so the fetched copy is always exactly one blank line longer than
+          # the file just built above. diff therefore reported "changed" on
+          # every single run even when the list was byte-identical, and the
+          # changelog rendered EMPTY because the sole differing line is a bare
+          # "-" that the grep below filters out. That is what drove #673 into
+          # GitHub's 2500-comment cap: 1,643 of its 2,500 comments (66%) were
+          # empty-diff no-ops. `$(cat …)` strips all trailing newlines and
+          # printf restores exactly one, making both sides canonical.
+          printf '%s\n' "$(cat /tmp/coord-issue-old.raw)" > /tmp/coord-issue-old.md
+          printf '%s\n' "$(cat /tmp/coord-issue-body.md)" > /tmp/coord-issue-new.md
+          if diff -u /tmp/coord-issue-old.md /tmp/coord-issue-new.md > /tmp/coord-issue-diff.txt; then
             echo "Recipient list unchanged; leaving issue #$EXISTING alone."
             exit 0
           fi
-          gh issue edit "$EXISTING" --body-file /tmp/coord-issue-body.md
+          # Second guard, independent of the first: never post a changelog
+          # with nothing in it. If every differing line is blank or a diff
+          # header, the rendered comment carries no information, so update the
+          # body (the durable signal) and stop.
+          grep -E '^[-+][^-+]' /tmp/coord-issue-diff.txt > /tmp/coord-issue-changes.txt || true
+          gh issue edit "$EXISTING" --body-file /tmp/coord-issue-new.md
+          if [ ! -s /tmp/coord-issue-changes.txt ]; then
+            echo "Only formatting differed; body refreshed on #$EXISTING, no comment posted."
+            exit 0
+          fi
           {
             echo "Recipient list changed:"
             echo
             echo '```diff'
-            grep -E '^[-+][^-+]' /tmp/coord-issue-diff.txt || true
+            cat /tmp/coord-issue-changes.txt
             echo '```'
           } > /tmp/coord-issue-comment.md
           gh issue comment "$EXISTING" --body-file /tmp/coord-issue-comment.md
