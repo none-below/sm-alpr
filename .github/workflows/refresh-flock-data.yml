@@ -202,6 +202,15 @@ jobs:
           wait
 
       - name: Check recipient coordinates
+        # Reporting-only, like "Surface parser failures as an issue" above —
+        # never fail the job. Missing coordinates are a cosmetic map gap, but
+        # a failure here skips "Commit and push", so every crawl of the run is
+        # thrown away and the same agencies are re-crawled next run. That is
+        # what happened from 2026-08-15 on: issue #673 crossed GitHub's
+        # 2500-comment ceiling, `gh issue comment` started returning
+        # "Commenting is disabled on issues with more than 2500 comments",
+        # and a week of refreshes never landed.
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
