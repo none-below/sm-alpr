@@ -51,6 +51,11 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+try:
+    from playwright_stealth import stealth_sync
+except ImportError:  # pragma: no cover - optional dependency
+    stealth_sync = None
+
 from lib import (
     BASE_URL, FAILED_FILE, USER_AGENT,
     audit_integrity, dedupe, load_json, save_json,
@@ -59,6 +64,14 @@ from lib import (
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 HASH_FILE = ".content_hashes.json"
+# Every crawl attempt, successful or not, stamps its date here. A 403 or a
+# parse_error writes nothing to the slug dir (archive_agency stages and only
+# commits on full success), so without this log a slug that fails is
+# indistinguishable from one never tried: it keeps its old .txt date, stays at
+# the head of the stalest-first queue, and gets re-picked every run while the
+# other ~250 agencies never get a turn. Recording the attempt separately keeps
+# the capture corpus pure (no fake .txt) while letting the rotation advance.
+ATTEMPT_FILE = ".attempts.json"
 VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
 STALE_DAYS = 14
@@ -248,23 +261,70 @@ def split_batch_across_levels(batch, num_levels):
     ]
 
 
-def latest_capture_attempt_date(slug, data_dir):
-    """Return the latest *attempted* capture date — date of the latest .txt
-    even if parsing failed afterwards. Used only for crawl-queue ordering
-    so a slug whose parser is broken doesn't stay pinned to queue position
-    #1 forever. Downstream consumers should keep using latest_capture_date,
-    which only counts successful captures.
-    """
-    slug_dir = data_dir / slug
-    if not slug_dir.is_dir():
-        return None
-    txts = portal_txts(slug_dir)
-    if not txts:
-        return None
+_ATTEMPTS_CACHE = {}
+
+
+def load_attempts(data_dir):
+    """Read the attempt log, cached on the file's mtime."""
+    path = data_dir / ATTEMPT_FILE
     try:
-        return datetime.strptime(txts[-1].stem, "%Y-%m-%d").date()
-    except ValueError:
-        return None
+        mtime = path.stat().st_mtime
+    except OSError:
+        return {}
+    key = str(path)
+    hit = _ATTEMPTS_CACHE.get(key)
+    if hit and hit[0] == mtime:
+        return hit[1]
+    data = load_json(path) or {}
+    _ATTEMPTS_CACHE[key] = (mtime, data)
+    return data
+
+
+def record_attempt(slug, data_dir, when=None):
+    """Stamp today's date against `slug` in the attempt log."""
+    path = data_dir / ATTEMPT_FILE
+    attempts = dict(load_attempts(data_dir))
+    attempts[slug] = (when or date.today()).isoformat()
+    save_json(path, attempts)
+    _ATTEMPTS_CACHE.pop(str(path), None)
+
+
+def latest_capture_attempt_date(slug, data_dir):
+    """Return the latest *attempted* capture date: the newer of the latest
+    .txt on disk and the slug's stamp in the attempt log.
+
+    Consulting the log is what makes this work. archive_agency stages the
+    whole artifact set in a temp dir and only commits on full success, so a
+    403 or a parse_error leaves NO .txt behind — the disk date alone can't
+    distinguish "tried and failed today" from "last seen three weeks ago",
+    and a slug whose fetch or parser is broken stays pinned to queue
+    position #1 forever. That is exactly what happened from 2026-08-17.
+
+    Used for crawl-queue ordering, and by the dashboard to flag agencies
+    whose attempts aren't turning into captures. Downstream consumers that
+    want "when did we last actually get this page" must keep using
+    latest_capture_date, which only counts successful captures.
+    """
+    from_txt = None
+    slug_dir = data_dir / slug
+    if slug_dir.is_dir():
+        txts = portal_txts(slug_dir)
+        if txts:
+            try:
+                from_txt = datetime.strptime(txts[-1].stem, "%Y-%m-%d").date()
+            except ValueError:
+                from_txt = None
+
+    from_log = None
+    logged = load_attempts(data_dir).get(slug)
+    if logged:
+        try:
+            from_log = date.fromisoformat(logged)
+        except ValueError:
+            from_log = None
+
+    candidates = [d for d in (from_txt, from_log) if d is not None]
+    return max(candidates) if candidates else None
 
 
 # ═══════════════════════════════════════════════════════════
@@ -1341,6 +1401,7 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                     break
             if status == "rate_limited":
                 print(f"    still rate limited after 4 retries, skipping for now")
+                record_attempt(slug, data_dir)
                 results.append((slug, None))
                 save_json(data_dir / HASH_FILE, hashes)
                 continue
@@ -1359,10 +1420,12 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                     break
             if status == "forbidden":
                 print(f"    still 403 after {FORBIDDEN_RETRIES} retries, skipping for now (not quarantined)")
+                record_attempt(slug, data_dir)
                 results.append((slug, None))
                 save_json(data_dir / HASH_FILE, hashes)
                 continue
 
+        record_attempt(slug, data_dir)
         results.append((slug, status))
         if discovered_slugs:
             discovered.extend(discovered_slugs)
@@ -1415,16 +1478,39 @@ def cmd_crawl(args):
         failed_slugs.clear()
 
     with sync_playwright() as p:
+        # channel="chrome" launches the OS-installed real Chrome instead of
+        # Playwright's bundled Chromium. Bundled Chromium's TLS handshake
+        # fingerprint (JA3/JA4) doesn't match the real-Chrome population, so
+        # Flock's edge scores it as a bot and returns HTTP 403 before any HTTP
+        # transaction. article_crawl.py hit the same wall in May 2026 and this
+        # is the fix that cleared it; the Flock crawler never got it, and when
+        # Flock tightened their edge the whole rotation started 403ing.
+        # Falls back to bundled Chromium so a machine without real Chrome
+        # still runs (it will likely 403, but that is better than crashing).
         launch_args = ["--headless=new"]
+        launch_kwargs = {"headless": True, "args": launch_args}
         if args.proxy:
-            browser = p.chromium.launch(headless=True, args=launch_args, proxy={"server": args.proxy})
-        else:
-            browser = p.chromium.launch(headless=True, args=launch_args)
+            launch_kwargs["proxy"] = {"server": args.proxy}
+        try:
+            browser = p.chromium.launch(channel="chrome", **launch_kwargs)
+        except Exception as e:
+            print(f"  real Chrome unavailable ({e.__class__.__name__}); "
+                  f"falling back to bundled Chromium — expect 403s")
+            browser = p.chromium.launch(**launch_kwargs)
         context = browser.new_context(
             viewport=VIEWPORT,
             user_agent=USER_AGENT,
         )
         page = context.new_page()
+        # tf-playwright-stealth patches the JS-layer detection signals
+        # (navigator.webdriver, plugin enumeration, WebGL vendor strings).
+        # Stacks on the TLS-layer fix above. Optional import so the crawler
+        # still runs where the package isn't installed.
+        if stealth_sync is not None:
+            try:
+                stealth_sync(page)
+            except Exception as e:
+                print(f"  stealth patch failed ({e.__class__.__name__}), continuing")
 
         if args.all_agencies and not slugs:
             slugs = list(DEFAULT_SLUGS)
@@ -1585,8 +1671,17 @@ def cmd_crawl(args):
     failed = sum(1 for _, r in all_results if _is_failed(r))
     print(f"\nDone: {captured} captured, {unchanged} unchanged, {failed} failed.")
 
+    # A batch where every single agency failed is not a normal outcome — it
+    # means the crawler is blocked (edge 403s, rate limiting) rather than
+    # merely finding nothing new. This used to print a note and exit 0, so
+    # ~48 green workflow runs a day reported success while capturing nothing
+    # for four days straight and the backlog dashboard silently filled up.
+    # Partial failures stay green; a total wipeout goes red.
     if failed and not captured and not unchanged:
-        print("  (all agencies failed — not treated as error for batch crawls)")
+        print(f"\nERROR: all {failed} agency portal(s) failed — crawler is "
+              f"blocked, not caught up.")
+        return 1
+    return 0
 
 
 
@@ -1949,7 +2044,7 @@ def main():
     args = parser.parse_args()
 
     if args.command == "crawl":
-        cmd_crawl(args)
+        sys.exit(cmd_crawl(args) or 0)
     elif args.command == "parse":
         cmd_parse(args)
     elif args.command == "aggregate":
