@@ -86,24 +86,47 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('**/uv.lock') }}-v2
 
-      - name: Install Chromium for Playwright
+      - name: Install real Chrome for Playwright
+        # The crawler launches with channel="chrome" so its TLS handshake
+        # fingerprint (JA3/JA4) matches the real-user population. Bundled
+        # Chromium's does not, and Flock's edge 403s it — that is what
+        # blocked the entire rotation from 2026-08-17 onward. Ungated by the
+        # cache: `playwright install chrome` shells out to the OS package
+        # manager, so it lands outside ~/.cache/ms-playwright and a cache hit
+        # would otherwise skip it and leave no Chrome on the runner.
+        run: uv run playwright install chrome --with-deps
+
+      - name: Install Chromium fallback
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
 
       - name: Crawl oldest agencies
         id: crawl
         run: |
+          # pipefail is load-bearing: without it `| tee` reports tee's exit
+          # status and the crawler's non-zero "everything failed" code is
+          # swallowed, which is half of why four days of total failure looked
+          # green. Record rc rather than dying here — the attempt log written
+          # by the crawl still needs to be committed below, otherwise the
+          # queue can never rotate past the slugs that just failed. The job
+          # is failed for real in the last step.
+          set -o pipefail
+          rc=0
           if [ -n "${{ inputs.slugs }}" ]; then
             # shellcheck disable=SC2086
             uv run python scripts/flock_transparency.py crawl \
               ${{ inputs.slugs }} \
-              --delay 1 | tee /tmp/crawl.log
+              --delay 1 | tee /tmp/crawl.log || rc=$?
           else
             uv run python scripts/flock_transparency.py crawl \
               --all \
               --batch ${{ inputs.batch_size || '3' }} \
               --max-age ${{ inputs.max_age || '7' }} \
-              --delay 1 | tee /tmp/crawl.log
+              --delay 1 | tee /tmp/crawl.log || rc=$?
+          fi
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          if [ "$rc" -ne 0 ]; then
+            echo "::warning::Crawl captured nothing (exit $rc). Persisting the attempt log, then failing this job at the end."
           fi
 
       - name: Parse new data
@@ -259,7 +282,7 @@ jobs:
           # agency in the dataset," which dumps ~200 unrelated agencies
           # into the PR.
           slugs_cum=$(git diff origin/main...HEAD --name-only -- 'assets/transparency.flocksafety.com/' \
-            | sed 's|assets/transparency.flocksafety.com/||' | cut -d/ -f1 | sort -u)
+            | sed 's|assets/transparency.flocksafety.com/||' | cut -d/ -f1 | grep -v '^\.' | sort -u)
           if [ -n "$slugs_cum" ]; then
             uv run python scripts/diff_scrapes.py $slugs_cum > /tmp/diff-cumulative.txt
           else
@@ -267,7 +290,7 @@ jobs:
           fi
 
           slugs_batch=$(git diff HEAD~1 --name-only -- 'assets/transparency.flocksafety.com/' \
-            | sed 's|assets/transparency.flocksafety.com/||' | cut -d/ -f1 | sort -u)
+            | sed 's|assets/transparency.flocksafety.com/||' | cut -d/ -f1 | grep -v '^\.' | sort -u)
           if [ -n "$slugs_batch" ]; then
             uv run python scripts/diff_scrapes.py $slugs_batch > /tmp/diff-batch.txt
           else
@@ -335,3 +358,13 @@ jobs:
             } > /tmp/pr-comment.md
             gh pr comment "$pr_num" --body-file /tmp/pr-comment.md
           fi
+
+      - name: Fail if the crawl was fully blocked
+        # Runs last so the attempt log and any partial state are committed
+        # first. A red run here means "the crawler is blocked", which is a
+        # genuinely different condition from "nothing changed upstream" —
+        # the latter still exits 0 and stays green.
+        if: steps.crawl.outputs.rc != '0'
+        run: |
+          echo "::error::Every portal in this batch failed — the refresh is blocked, not caught up. See the Crawl step log for the failure mode (edge 403 / rate limit / parse error)."
+          exit 1
