@@ -336,6 +336,9 @@ _HEADING_MAP = {
     # entries, captured as text with no value parse.
     "PSPD ALPR Technology/Community Presentation page": "additional_info",
     "Flock Safety Contract":                 "additional_info",
+    # alameda-ca-pd bolds the shortened form (rendered "FLOCK Contract";
+    # heading lookup is case-insensitive so one spelling covers both).
+    "Flock Contract":                        "additional_info",
     "Download CSV":                          "download_csv",
     "Public Search Audit":                   "search_audit",
     "Search Audit":                          "search_audit",
@@ -347,6 +350,10 @@ _HEADING_MAP = {
     "Success Stories":                       "success_stories",
     "Safe City Success Stories":             "success_stories",
     "Program Success":                       "success_stories",
+    # hollister-ca-pd titles an individual case write-up with a bare
+    # outcome label. Exact entry rather than a dynamic pattern: a two-word
+    # generic phrase as a regex would promote body lines to headings.
+    "Suspect Identified":                    "success_stories",
     "Disclaimer":                            "disclaimer",
     "California SVS":                        "california_svs",
     "SB54: California Values Act":           "sb54",
@@ -456,6 +463,12 @@ _DYNAMIC_HEADINGS = [
     # Alameda County SO posts each case under "Solved Stories with Flock
     # ALPR Technology - <case description>" as a separate bold heading.
     (re.compile(r"^Solved Stor(?:y|ies) with Flock", re.IGNORECASE), "success_stories"),
+    # city-of-lemoore-ca titles each case study "How FLOCK Helped Our
+    # Community - <case type>". Anchored on the full opening phrase, not a
+    # loose "How Flock..." prefix: dynamic matches are trusted as section
+    # boundaries without bold evidence, so a looser pattern could promote a
+    # body sentence and swallow the field that follows.
+    (re.compile(r"^How Flock(?: Safety)? Help(?:s|ed) Our Community\b", re.IGNORECASE), "success_stories"),
     # Stat-heading variants the exact map doesn't list — Flock prefixes the
     # standard labels with agency-specific qualifiers ("Total Searches by
     # Sparks Police Department in the last 30 days", "Individual vehicles
