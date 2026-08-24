@@ -1910,6 +1910,26 @@
     ]
   },
   {
+    "agency_id": "2340f498-9c67-5163-9802-1435fb00de48",
+    "slug": "deactivated-dnu",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "[DEACTIVATED] - DNU"
+    ],
+    "display_name": null,
+    "agency_role": "test",
+    "agency_type": "test",
+    "website": null,
+    "tags": [
+      "private"
+    ],
+    "flags": [
+      "deactivated"
+    ],
+    "geo": null
+  },
+  {
     "agency_id": "6aa1115d-85f2-56a4-942b-9c84030a1ff3",
     "slug": "del-city-ok-pd",
     "flock_active_slug": "del-city-ok-pd",
@@ -3733,6 +3753,31 @@
     "ori": [
       "OH0312000"
     ]
+  },
+  {
+    "agency_id": "3e536b0e-63b2-55a4-bc70-a880309845fd",
+    "slug": "lyons-ga-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Lyons GA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "1348232",
+      "name": "Lyons",
+      "state": "GA",
+      "lat": 32.204913,
+      "lng": -82.321218
+    }
   },
   {
     "agency_id": "1cec8612-4875-5e97-b85c-226bd1702c2c",
@@ -7652,6 +7697,31 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "5222d12a-178b-5d4a-a75e-9853e6d6edc4",
+    "slug": "zachary-la-pd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Zachary LA PD"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "2283405",
+      "name": "Zachary",
+      "state": "LA",
+      "lat": 30.664377,
+      "lng": -91.165778
+    }
   },
   {
     "agency_id": "e3788506-d413-5a6f-b433-80550cb8efa0",
