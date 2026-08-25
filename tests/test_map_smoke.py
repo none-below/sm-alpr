@@ -47,16 +47,19 @@ class TestMapData:
         # ~2026-07-16 (259 partners -> 0), then began re-adding partners one
         # at a time: Belmont in late July (2026-07-30 scrape), then CHP,
         # Foster City, Palo Alto and South San Francisco (2026-08-13 scrape,
-        # portal outbound 1 -> 5). The map may also show outbound edges that
-        # are the Flock vendor edge plus edges INFERRED from partner portals
-        # that still list SMPD as an inbound source and haven't been
-        # re-scraped yet; that residual decays toward 0 as partners refresh.
+        # portal outbound 1 -> 5), then Brisbane (2026-08-24 evening Pacific
+        # scrape, portal outbound 5 -> 6). The map may also show outbound
+        # edges that are the Flock vendor edge plus edges INFERRED from
+        # partner portals that still list SMPD as an inbound source and
+        # haven't been re-scraped yet; that residual decays toward 0 as
+        # partners refresh.
         # So the invariant: SMPD's own portal contributes no direct outbound
         # partners beyond the known re-adds. Anything new here is a deliberate
         # SMPD sharing change — update the allowlist only after confirming it
         # in the portal JSON snapshot.
         allowed = {
             "belmont-ca-pd",
+            "brisbane-ca-pd",
             "california-highway-patrol",
             "foster-city-ca-pd",
             "palo-alto-ca-pd",
