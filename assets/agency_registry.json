@@ -1910,26 +1910,6 @@
     ]
   },
   {
-    "agency_id": "997e5302-5a2a-560a-b0d8-d642848c1f9d",
-    "slug": "deactivated-colby-demo",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "[DEACTIVATED] - Colby Demo"
-    ],
-    "display_name": null,
-    "agency_role": "test",
-    "agency_type": "test",
-    "website": null,
-    "tags": [
-      "private"
-    ],
-    "flags": [
-      "deactivated"
-    ],
-    "geo": null
-  },
-  {
     "agency_id": "6aa1115d-85f2-56a4-942b-9c84030a1ff3",
     "slug": "del-city-ok-pd",
     "flock_active_slug": "del-city-ok-pd",
@@ -3515,28 +3495,6 @@
     "ori": [
       "KY0430100"
     ]
-  },
-  {
-    "agency_id": "77089dd1-603a-59e8-9445-823c06ea22fc",
-    "slug": "leon-county-sheriffs-office-fl",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Leon County Sheriffs Office (FL)"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
-    "website": null,
-    "tags": [
-      "federal",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "FL"
-    }
   },
   {
     "agency_id": "c0f0a490-a28c-5b8e-ac71-76e025e7eb56",
@@ -7694,6 +7652,48 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "997e5302-5a2a-560a-b0d8-d642848c1f9d",
+    "slug": "deactivated-colby-demo",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "[DEACTIVATED] - Colby Demo"
+    ],
+    "display_name": null,
+    "agency_role": "test",
+    "agency_type": "test",
+    "website": null,
+    "tags": [
+      "private"
+    ],
+    "flags": [
+      "deactivated"
+    ],
+    "geo": null
+  },
+  {
+    "agency_id": "77089dd1-603a-59e8-9445-823c06ea22fc",
+    "slug": "leon-county-sheriffs-office-fl",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Leon County Sheriffs Office (FL)"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "FL"
+    }
   },
   {
     "agency_id": "9d9657e4-7a95-5f29-a454-2c18c681b21f",
