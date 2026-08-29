@@ -1,0 +1,130 @@
+name: Watch ALPR/Flock Meeting Agendas
+
+# Polls the agenda portals in assets/meeting_portals.json and flags upcoming +
+# recent council/committee meetings whose agendas mention ALPR/Flock, writing
+# one finding per flagged meeting under assets/meetings/. CA's Brown Act posts
+# agendas >=72h before a regular meeting, so a daily run catches items a few
+# days before the vote.
+#
+# Findings are idempotent (meeting_watch.py only rewrites on a genuine change),
+# so this commits to the meeting-watch-bot branch and opens/updates ONE PR only
+# when something is actually new or changed. The PR body IS the alert — upcoming
+# flagged meetings are listed first, and GitHub emails you when it opens/updates.
+
+on:
+  schedule:
+    - cron: '23 13 * * *'   # daily ~06:23 America/Los_Angeles (after overnight agenda posts)
+  workflow_dispatch:
+    inputs:
+      past_days:
+        description: 'How many days back to include'
+        default: '21'
+      platforms:
+        description: 'Comma list to limit (primegov,legistar,civicclerk,granicus-viewpublisher,selfhosted-webapps,selfhosted-pdf)'
+        default: ''
+
+concurrency:
+  group: meeting-watch
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0   # full history so the bot-branch rebase finds a common ancestor
+          token: ${{ secrets.REFRESH_PAT || github.token }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up long-lived bot branch
+        run: |
+          git fetch origin meeting-watch-bot || true
+          if git rev-parse --verify origin/meeting-watch-bot >/dev/null 2>&1; then
+            git checkout meeting-watch-bot
+            # Never auto-reset to main on rebase failure — it would destroy
+            # accumulated, not-yet-merged findings. Leave the branch untouched.
+            git rebase origin/main || {
+              git rebase --abort
+              echo "::error::rebase against origin/main conflicts. Bot branch left untouched — resolve manually."
+              exit 1
+            }
+          else
+            git checkout -b meeting-watch-bot
+          fi
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-chromium
+
+      - name: Install Chromium for Playwright
+        run: uv run playwright install chromium
+
+      - name: Run the watcher
+        run: |
+          ARGS="--past-days ${{ inputs.past_days || '21' }} --emit-new /tmp/new.json"
+          if [ -n "${{ inputs.platforms }}" ]; then
+            ARGS="$ARGS --platforms ${{ inputs.platforms }}"
+          fi
+          # shellcheck disable=SC2086
+          uv run python scripts/meeting_watch.py $ARGS
+
+      - name: Commit findings
+        id: commit
+        run: |
+          git add assets/meetings 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No new/changed findings"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          git commit -m "chore: ALPR/Flock meeting-agenda findings ($(date -u +%Y-%m-%d))"
+          git push --force-with-lease origin meeting-watch-bot
+
+      - name: Build alert / PR body
+        if: steps.commit.outputs.has_changes == 'true'
+        run: |
+          NEW=$(jq 'length' /tmp/new.json 2>/dev/null || echo 0)
+          {
+            echo "## 🚨 ALPR / Flock on meeting agendas"
+            echo
+            echo "**${NEW} newly-flagged meeting(s)** this run. Upcoming items are time-sensitive — CA's Brown Act posts agendas ~72h before a meeting, so act on them now."
+            echo
+            uv run python scripts/meeting_watch.py report --past-days "${{ inputs.past_days || '21' }}" --md
+          } > /tmp/body.md
+
+      - name: Open or update the alert PR
+        if: steps.commit.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh pr list --head meeting-watch-bot --state open --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            gh pr create \
+              --title "🚨 ALPR/Flock meeting-agenda findings" \
+              --body-file /tmp/body.md \
+              --head meeting-watch-bot \
+              --base main
+          else
+            gh pr edit "$existing" --body-file /tmp/body.md
+          fi
