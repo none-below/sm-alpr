@@ -17,6 +17,7 @@ const STATUS_ORDER = [
 const state = {
   registry: null,
   productivity: null,
+  ledger: null,
   knownIds: new Set(),
   search: '',
   statuses: new Set(),
@@ -1008,6 +1009,298 @@ function renderChart(slot, metricKey, weeks) {
     'Hover a bar for the exact week range and value.'));
 }
 
+// --- Processing-conduct panel (data/pra_ledger.json) ---
+
+const GANTT = {
+  trackClosed: '#475569',
+  trackWithdrawn: '#8b5cf6',
+  trackOpen: '#f59e0b',
+  within10: '#34d399',
+  past10: '#fbbf24',
+  past24: '#f87171',
+  tick10day: '#64748b',
+  production: '#34d399',
+  promise: '#fbbf24',
+  corpus: '#c084fc',
+};
+
+function isoToDays(iso) {
+  return Date.parse(iso + 'T00:00:00Z') / 86400000;
+}
+
+function trackColor(status) {
+  if (status === 'closed') return GANTT.trackClosed;
+  if (status === 'withdrawn') return GANTT.trackWithdrawn;
+  return GANTT.trackOpen;
+}
+
+function conductTooltip(e) {
+  const fr = e.first_response;
+  const lines = [
+    `${e.id} — ${e.title || ''}`.trim(),
+    `Filed ${e.filed_date} · ${STATUS_LABELS[e.status] || e.status}` +
+      (e.days_open !== null ? ` · ${e.days_open} days open` : ''),
+    fr
+      ? `First substantive response: ${fr.date} (${fr.days} days` +
+        (fr.past_24day ? ', past the 24-day extension ceiling)' :
+         fr.past_10day ? ', past the 10-day window)' : ')')
+      : 'No substantive response yet',
+    `Promises: ${e.promises.count} (${e.promises.extensions} extensions, ` +
+      `${e.promises.slip_days} days slipped) · Empty updates: ${e.empty_updates.count}`,
+    `Files received: ${e.production.files}`,
+  ];
+  if (e.corpus_routing) {
+    lines.push(`Routed into W012462 corpus: ${e.corpus_routing.first_date}`);
+  }
+  if (e.exemptions.length) {
+    lines.push('Exemptions: ' + e.exemptions.map(x => x.label).join('; '));
+  }
+  for (const c of e.contradictions.contradicted_by) {
+    lines.push(`Denial contradicted by ${c.ref}`);
+  }
+  return lines.join('\n');
+}
+
+function renderConductGantt(pras, maxIso) {
+  const minIso = pras.reduce(
+    (m, e) => (e.filed_date && e.filed_date < m ? e.filed_date : m), maxIso);
+  const minD = isoToDays(minIso) - 2;
+  const maxD = isoToDays(maxIso) + 2;
+  const span = Math.max(1, maxD - minD);
+
+  const padL = 118, padR = 14, padT = 26, padB = 6, rowH = 20;
+  const W = 960;
+  const innerW = W - padL - padR;
+  const H = padT + pras.length * rowH + padB;
+  const x = iso => padL + ((isoToDays(iso) - minD) / span) * innerW;
+
+  const root = svg('svg', {
+    viewBox: `0 0 ${W} ${H}`,
+    preserveAspectRatio: 'xMidYMid meet',
+    role: 'img',
+    'aria-label': 'Per-request processing timelines',
+  });
+
+  // Month gridlines across the full height.
+  const start = new Date((minD + 2) * 86400000);
+  const cursor = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 1, 1));
+  while (cursor.getTime() / 86400000 < maxD) {
+    const iso = cursor.toISOString().slice(0, 10);
+    const gx = x(iso);
+    root.appendChild(svg('line', {
+      class: 'gantt-grid', x1: gx, x2: gx, y1: padT - 8, y2: H - padB,
+    }));
+    root.appendChild(svg('text', {
+      class: 'gantt-axis', x: gx + 2, y: padT - 12,
+    }, iso.slice(0, 7)));
+    cursor.setUTCMonth(cursor.getUTCMonth() + 1);
+  }
+
+  // "Today" reference line at the right edge of the data.
+  const todayX = x(maxIso);
+  root.appendChild(svg('line', {
+    x1: todayX, x2: todayX, y1: padT - 8, y2: H - padB,
+    stroke: '#94a3b8', 'stroke-width': 1, 'stroke-dasharray': '2,3', opacity: 0.6,
+  }));
+  root.appendChild(svg('text', {
+    class: 'gantt-axis', x: todayX - 2, y: padT - 12, 'text-anchor': 'end',
+    fill: '#cbd5e1',
+  }, 'today'));
+
+  pras.forEach((e, i) => {
+    if (!e.filed_date) return;
+    const rowTop = padT + i * rowH;
+    const y = rowTop + rowH / 2;
+    const endIso = e.end_date || maxIso;
+
+    if (i % 2 === 1) {
+      root.appendChild(svg('rect', {
+        class: 'gantt-stripe', x: 0, y: rowTop, width: W, height: rowH,
+      }));
+    }
+
+    if (e.contradictions.contradicted_by.length) {
+      const dot = svg('circle', { cx: 10, cy: y, r: 3.5, fill: GANTT.past24 });
+      dot.appendChild(svg('title', {},
+        'A denial on this request was contradicted by the Department’s own production under another request'));
+      root.appendChild(dot);
+    }
+
+    root.appendChild(svg('line', {
+      x1: x(e.filed_date), x2: x(endIso), y1: y, y2: y,
+      stroke: trackColor(e.status), 'stroke-width': 3, opacity: 0.65,
+    }));
+
+    const tenIso = new Date((isoToDays(e.filed_date) + 10) * 86400000)
+      .toISOString().slice(0, 10);
+    if (tenIso <= maxIso) {
+      root.appendChild(svg('line', {
+        x1: x(tenIso), x2: x(tenIso), y1: y - 5, y2: y + 5,
+        stroke: GANTT.tick10day, 'stroke-width': 1,
+      }));
+    }
+
+    for (const p of e.promises.dates) {
+      if (p > maxIso) continue;
+      root.appendChild(svg('rect', {
+        x: x(p) - 1, y: y - 4, width: 2, height: 8,
+        fill: GANTT.promise, opacity: 0.85,
+      }));
+    }
+
+    for (const d of e.production.dates) {
+      root.appendChild(svg('line', {
+        x1: x(d), x2: x(d), y1: y - 5, y2: y + 5,
+        stroke: GANTT.production, 'stroke-width': 2,
+      }));
+    }
+
+    if (e.corpus_routing) {
+      root.appendChild(svg('text', {
+        x: x(e.corpus_routing.first_date) - 3.5, y: y + 3.5,
+        fill: GANTT.corpus, 'font-size': 10, 'font-weight': 700,
+      }, '✕'));
+    }
+
+    if (e.first_response) {
+      const fr = e.first_response;
+      const color = fr.past_24day ? GANTT.past24
+        : fr.past_10day ? GANTT.past10 : GANTT.within10;
+      root.appendChild(svg('circle', {
+        cx: x(fr.date), cy: y, r: 3.5, fill: color,
+        stroke: '#0f172a', 'stroke-width': 0.75,
+      }));
+    }
+
+    if (e.end_date) {
+      root.appendChild(svg('rect', {
+        x: x(e.end_date) - 2.5, y: y - 2.5, width: 5, height: 5,
+        fill: trackColor(e.status),
+      }));
+    }
+
+    // Label goes last so nothing overlaps it; the hover rect starts at padL
+    // so it never intercepts label clicks or the gutter dot's tooltip.
+    const label = svg('text', {
+      class: 'gantt-label', x: padL - 6, y: y + 3.5,
+      'text-anchor': 'end', 'font-size': 11,
+    }, e.id.slice(0, e.id.indexOf('-')));
+    label.appendChild(svg('title', {}, `Open the ${e.id} card`));
+    label.addEventListener('click', () => focusPra(e.id));
+    root.appendChild(label);
+
+    const hover = svg('rect', {
+      class: 'gantt-hover',
+      x: padL, y: rowTop, width: W - padL - padR, height: rowH,
+    });
+    hover.appendChild(svg('title', {}, conductTooltip(e)));
+    hover.addEventListener('click', () => focusPra(e.id));
+    root.appendChild(hover);
+  });
+
+  const wrap = el('div', { class: 'conduct-gantt' });
+  wrap.appendChild(root);
+  return wrap;
+}
+
+function conductLegend() {
+  const items = [
+    [GANTT.within10, 'first response ≤ 10 days'],
+    [GANTT.past10, 'first response 11–24 days / promised-date extension'],
+    [GANTT.past24, 'past 24 days / contradicted denial'],
+    [GANTT.production, 'records received'],
+    [GANTT.corpus, '✕ routed into W012462 corpus'],
+    [GANTT.tick10day, '| 10-day statutory mark'],
+    [GANTT.trackOpen, 'open'],
+    [GANTT.trackClosed, 'closed'],
+    [GANTT.trackWithdrawn, 'withdrawn'],
+  ];
+  const legend = el('div', { class: 'conduct-legend' });
+  for (const [color, label] of items) {
+    const chip = el('span', {});
+    chip.appendChild(el('span', { class: 'swatch', style: `background:${color}` }));
+    chip.appendChild(document.createTextNode(label));
+    legend.appendChild(chip);
+  }
+  return legend;
+}
+
+function renderConduct() {
+  const root = document.getElementById('conduct');
+  if (!root) return;
+  root.innerHTML = '';
+  if (!state.ledger || !state.ledger.pras.length) {
+    root.style.display = 'none';
+    return;
+  }
+  root.style.display = '';
+
+  const agg = state.ledger.aggregate;
+  const fr = agg.first_response;
+  const responded = fr.within_10day + fr.past_10day;
+
+  const summary = el('summary', {});
+  summary.appendChild(el('span', { class: 'title' }, 'Processing conduct'));
+  summary.appendChild(document.createTextNode(
+    `  · ${fr.past_10day} of ${responded} first responses past the 10-day window` +
+    ` · ${agg.extensions_total} promised-date extensions adding ${agg.slip_days_total} days` +
+    ` · ${agg.corpus_routed.length} requests routed into the W012462 email corpus` +
+    ` · ${agg.contradicted_denials.length} denials contradicted by the Department's own productions`));
+  summary.appendChild(el('span', { class: 'blurb' },
+    'Each request’s processing timeline, reported against the CPRA’s ' +
+    '10-day determination window (Gov. Code § 7922.535). Click a request ID ' +
+    'to jump to its card; hover a row for detail.'));
+  root.appendChild(summary);
+
+  const body = el('div', { class: 'productivity-body' });
+  body.appendChild(conductLegend());
+  body.appendChild(renderConductGantt(
+    state.ledger.pras, state.ledger.generated_at.slice(0, 10)));
+
+  const lists = el('div', { class: 'conduct-list' });
+
+  if (agg.contradicted_denials.length) {
+    lists.appendChild(el('h4', {}, 'Denials contradicted by the Department’s own productions'));
+    const ul = el('ul', {});
+    for (const c of agg.contradicted_denials) {
+      const li = el('li', {});
+      li.appendChild(praLink(c.id));
+      li.appendChild(document.createTextNode(' — contradicted by production under '));
+      c.contradicted_by.forEach((ref, i) => {
+        if (i) li.appendChild(document.createTextNode(', '));
+        li.appendChild(praLink(ref));
+      });
+      ul.appendChild(li);
+    }
+    lists.appendChild(ul);
+  }
+
+  if (agg.exemption_tally.length) {
+    lists.appendChild(el('h4', {}, 'Withholding authorities invoked'));
+    const ul = el('ul', {});
+    for (const ex of agg.exemption_tally) {
+      const li = el('li', {},
+        `${ex.label} — ${ex.pra_count} request${ex.pra_count === 1 ? '' : 's'}` +
+        ` (first ${ex.first_cited}): `);
+      (ex.pras || []).forEach((id, i) => {
+        if (i) li.appendChild(document.createTextNode(', '));
+        li.appendChild(praLink(id));
+      });
+      ul.appendChild(li);
+    }
+    lists.appendChild(ul);
+  }
+  body.appendChild(lists);
+
+  const notes = el('ul', { class: 'conduct-notes' });
+  for (const n of state.ledger.method_notes || []) {
+    notes.appendChild(el('li', {}, n));
+  }
+  body.appendChild(notes);
+
+  root.appendChild(body);
+}
+
 function wireControls() {
   document.getElementById('search').addEventListener('input', e => {
     state.search = e.target.value;
@@ -1020,19 +1313,24 @@ function wireControls() {
 }
 
 async function init() {
-  const [registryRes, productivityRes] = await Promise.all([
+  const [registryRes, productivityRes, ledgerRes] = await Promise.all([
     fetch('data/pra_registry.json'),
     fetch('data/pra_productivity.json').catch(() => null),
+    fetch('data/pra_ledger.json').catch(() => null),
   ]);
   state.registry = await registryRes.json();
   if (productivityRes && productivityRes.ok) {
     state.productivity = await productivityRes.json();
+  }
+  if (ledgerRes && ledgerRes.ok) {
+    state.ledger = await ledgerRes.json();
   }
   state.knownIds = new Set(state.registry.pras.map(p => p.id));
   document.getElementById('subtitle').textContent =
     `${state.registry.pras.length} PRAs · registry generated ${state.registry.generated_at.slice(0, 16).replace('T', ' ')} UTC`;
   wireControls();
   renderProductivity();
+  renderConduct();
   render();
 
   function parseHash() {
