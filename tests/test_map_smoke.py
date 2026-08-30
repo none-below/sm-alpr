@@ -9,6 +9,7 @@ using Playwright. Run with: uv run pytest tests/test_map_smoke.py
 import http.server
 import json
 import subprocess
+import sys
 import threading
 import time
 from pathlib import Path
@@ -17,6 +18,10 @@ import pytest
 
 DOCS_DIR = Path("docs")
 MAP_DATA = DOCS_DIR / "data" / "map_data.json"
+SMPD_PORTAL_DIR = Path("assets/transparency.flocksafety.com/san-mateo-ca-pd")
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+from lib import portal_jsons, resolve_agency  # noqa: E402
 
 
 # ── Data tests (no browser needed) ──
@@ -42,37 +47,71 @@ class TestMapData:
         slugs = [m["slug"] for m in self.data["markers"]]
         assert "san-mateo-ca-pd" in slugs
 
-    def test_san_mateo_outbound_only_known_readds(self):
-        # SMPD emptied its transparency-portal outbound sharing list on
-        # ~2026-07-16 (259 partners -> 0), then began re-adding partners one
-        # at a time: Belmont in late July (2026-07-30 scrape), then CHP,
-        # Foster City, Palo Alto and South San Francisco (2026-08-13 scrape,
-        # portal outbound 1 -> 5). The map may also show outbound edges that
-        # are the Flock vendor edge plus edges INFERRED from partner portals
-        # that still list SMPD as an inbound source and haven't been
-        # re-scraped yet; that residual decays toward 0 as partners refresh.
-        # So the invariant: SMPD's own portal contributes no direct outbound
-        # partners beyond the known re-adds. Anything new here is a deliberate
-        # SMPD sharing change — update the allowlist only after confirming it
-        # in the portal JSON snapshot.
-        allowed = {
-            "belmont-ca-pd",
-            "california-highway-patrol",
-            "foster-city-ca-pd",
-            "palo-alto-ca-pd",
-            "south-san-francisco-ca-pd",
-        }
-        smpd = next(m for m in self.data["markers"] if m["slug"] == "san-mateo-ca-pd")
+    def _smpd(self):
+        return next(m for m in self.data["markers"] if m["slug"] == "san-mateo-ca-pd")
+
+    def _smpd_direct_outbound(self):
+        """SMPD outbound edges the map got from SMPD's own portal.
+
+        Excludes the Flock vendor edge and edges INFERRED from partner
+        portals that still list SMPD as an inbound source but haven't been
+        re-scraped since it emptied its list (that residual decays as
+        partners refresh).
+        """
+        smpd = self._smpd()
         inferred = set(smpd.get("inferred_outbound", []))
-        direct = [
+        return {
             s
             for s in smpd["outbound_slugs"]
             if s != "flock-safety-vendor" and s not in inferred
-        ]
-        unexpected = [s for s in direct if s not in allowed]
-        assert unexpected == [], (
-            f"SMPD portal outbound has partners beyond the known re-adds "
-            f"{sorted(allowed)}: {unexpected}"
+        }
+
+    def _smpd_portal_outbound(self):
+        """(slugs, unresolved names) from SMPD's newest portal JSON snapshot."""
+        snap = json.loads(portal_jsons(SMPD_PORTAL_DIR)[-1].read_text())
+        names = snap.get("sharing_outbound") or snap.get("shared_org_names") or []
+        slugs, unresolved = set(), []
+        for name in names:
+            entry = resolve_agency(name=name)
+            if entry is None:
+                unresolved.append(name)
+            elif entry.get("slug"):
+                slugs.add(entry["slug"])
+        return slugs, unresolved
+
+    def test_san_mateo_direct_outbound_matches_portal(self):
+        # SMPD emptied its transparency-portal outbound list on ~2026-07-16
+        # (259 partners -> 0) and has re-added partners one at a time since
+        # (Belmont 7/30; CHP, Foster City, Palo Alto and South San Francisco
+        # 8/13; Brisbane 8/24). Enumerating the re-adds in an allowlist broke
+        # CI on every new one, so assert the durable property instead: the
+        # map's direct outbound edges are exactly what SMPD's own newest
+        # portal snapshot publishes — no phantom partners, and none silently
+        # dropped when a name fails to resolve to a registry entry. The
+        # re-adds themselves are recorded, with dates, in
+        # docs/data/history/san-mateo-ca-pd.json and shown in the refresh
+        # PR's diff; that's the change signal, not a test failure.
+        expected, unresolved = self._smpd_portal_outbound()
+        assert not unresolved, (
+            f"SMPD portal lists outbound partners with no agency registry "
+            f"entry, so they vanish from the map: {unresolved}"
+        )
+        direct = self._smpd_direct_outbound()
+        assert direct == expected, (
+            f"map's direct SMPD outbound disagrees with the portal snapshot; "
+            f"on map only={sorted(direct - expected)}, "
+            f"in portal only={sorted(expected - direct)}"
+        )
+
+    def test_san_mateo_outbound_not_mass_restored(self):
+        # One-at-a-time re-adds are expected and must not fail CI. A jump
+        # back toward the pre-7/16 posture (259 partners) is a material
+        # change in SMPD's sharing and should stop a merge until it's read.
+        direct = self._smpd_direct_outbound()
+        assert len(direct) < 25, (
+            f"SMPD portal outbound jumped to {len(direct)} partners — that's "
+            f"a bulk re-share, not the one-at-a-time re-add pattern: "
+            f"{sorted(direct)}"
         )
 
     def test_san_mateo_has_inbound(self):
