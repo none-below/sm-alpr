@@ -1,0 +1,50 @@
+{
+  "title": "Flock data protection agreement — the instrument the vendor directs customers to execute",
+  "summary": "Asks for the data protection agreement Flock's own Privacy Policy directs its customers to execute, and the contract-file records around it. Covers 2020-01-01 through the date of production, across the 2020 service agreement, the 2023 Master Services Agreement, and Amendments No. 1 and No. 2:\n\n- Item 1: the executed \"mutually agreed upon data protection agreement\" described in Flock's Privacy Policy, under whatever title it carries.\n- Item 2: any Flock-provided template, form, model, or standard version of that instrument held in City or Department files — executed, unexecuted, draft, or redlined.\n- Item 3: the index, inventory, or file listing for the Flock vendor and contract file as maintained in the City's contract management, purchasing, or records system — the listing itself, not the underlying documents.\n- Item 4: contract review checklists, routing and approval forms, contract summary sheets, and signature routing slips for each agreement and amendment.\n- Item 5: the City's standard contract provision, exhibit, or template addressing vendor data security and privacy, plus any record of its inclusion in, waiver from, or omission from the Flock agreements.\n- Item 6: any Management Control Agreement, CJIS Security Addendum, or equivalent executed with Flock or a Flock subcontractor, plus records sufficient to identify whether any hot list used in the platform derives from CLETS, NCIC, or the Stolen Vehicle System.\n- Item 7: any copy of Flock's Privacy Policy or Terms of Service maintained in the contract or vendor files, and any record identifying which version was reviewed at each execution.\n- Item 8: records sufficient to identify each Flock subcontractor or third party storing or processing San Mateo ALPR data, and any City approval of them.\n- Item 9: any notification from Flock of a data breach, security incident, or unauthorized access affecting San Mateo ALPR data.\n\nThe context paragraph quotes Flock's Privacy Policy (version marked \"Last Updated: August 1, 2025\"): \"You are responsible for ensuring that you comply with all applicable laws when you use the Flock Services or products, including, where so required, to execute a mutually agreed upon data protection agreement.\" It pairs that with the operator and end-user security-procedure duties of Civ. Code §§ 1798.90.51 and 1798.90.53, and asks whether the City did what its vendor directs.",
+  "tags": [
+    "flock-msa",
+    "vendor-disclosure"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Flock Privacy Policy, version marked \"Last Updated: August 1, 2025\"",
+      "quote": "You are responsible for ensuring that you comply with all applicable laws when you use the Flock Services or products, including, where so required, to execute a mutually agreed upon data protection agreement",
+      "tests": "Whether the City executed the instrument its own vendor directs customers to execute, or made any determination that it was not required."
+    },
+    {
+      "policy": "Civ. Code § 1798.90.51(a) / § 1798.90.53(a)",
+      "quote": "maintain reasonable security procedures and practices, including operational, administrative, technical, and physical safeguards, to protect ALPR information from unauthorized access, destruction, use, modification, or disclosure",
+      "tests": "Whether any of those safeguards are documented in an agreement binding the vendor, rather than only in Policy 463 and SOP 205, which bind only the Department."
+    },
+    {
+      "policy": "Flock MSA § 3.2",
+      "quote": "Customer shall use Flock Services only in compliance with this Agreement and all applicable laws and regulations, including but not limited to any laws relating to the recording or sharing of data, video, photo, or audio content",
+      "tests": "How the City satisfies the compliance duty the contract assigns entirely to it, given that no corresponding vendor data-handling duty appears in the agreement."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012159-021226",
+      "relation": "context",
+      "note": "Produced the 2023 Master Services Agreement and Amendment No. 1 — the agreements this request tests for a data-protection instrument."
+    },
+    {
+      "ref": "W012373-032026",
+      "relation": "context",
+      "note": "Produced the 2020 Flock service agreement predating the 2023 MSA; included in this request's date range."
+    },
+    {
+      "ref": "W012339-031326",
+      "relation": "context",
+      "note": "Produced purchase orders with agreements attached, establishing that a contract file and purchasing system exist — the records item 3 indexes."
+    },
+    {
+      "ref": "W012686-050726",
+      "relation": "context",
+      "note": "Refile of W012297 that was routed into the W012462 email review despite express scope exclusions. That deferral pattern is why this request contains no email item at all."
+    }
+  ],
+  "filed_because": "Flock's Privacy Policy tells customers they are responsible for legal compliance and directs them to execute a data protection agreement where their jurisdiction imposes data-protection responsibilities. California imposes them: §§ 1798.90.51(a) and 1798.90.53(a) require reasonable operational, administrative, technical, and physical safeguards over ALPR information. This asks for the instrument the vendor names. Item 3 is the structural one — a contract-file index is a single small record that either lists a data protection agreement or does not, which resolves the question without any email review and leaves no room for a burden objection.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-08-19; 10-day statutory determination due 2026-08-29. Addressed to the City, department selectors City Clerk and Finance — not Police. Every custodian named holds contract, purchasing, or vendor-file records.\n\nDesigned as a documents-only request. It contains no email item, states expressly that no item is satisfied by production from the W012462-040226 review, and notes that item 3 can be produced independently of every other item. A companion request for bounded correspondence with Flock (named custodians, the flocksafety.com domain, four 120-day windows keyed to execution dates, enumerated terms) is drafted but deliberately held until this determination lands, so a deferral cannot take both.\n\nThe quoted Privacy Policy version is marked \"Last Updated: August 1, 2025,\" which postdates both the 2020 and 2023 agreements. There are no Wayback snapshots of that URL on either the current /legal/privacy-policy path or the legacy /privacy-policy path, so what the policy said at either signing cannot be established. The claim is therefore present-tense: the vendor's current policy names an instrument the City does not appear to have. Item 7 asks which version the City reviewed at each execution.\n\nContract review before filing found no data-protection exhibit in the 2023 MSA. Its integration clause (§ 11.4) names only the Order Forms, the reinstall fee schedule, and attached exhibits; the exhibits are A (order form), B (insurance), and C (customer obligations, added by Amendment No. 2). The City required $5M cyber liability insurance but no vendor data-handling terms, and the agreement carries no breach-notification duty running from Flock to the City. None of that was stated in the request — the items were written to let the City answer first."
+}

@@ -159,10 +159,36 @@ def is_trivial(tok: str) -> bool:
     return not re.search(r"[A-Za-z0-9]", tok) or bool(UUID_RE.fullmatch(tok))
 
 
-def find_unique_row(rows: list[tuple[str, str]], tok: str):
-    """Return the single row whose words contain tok, or None if 0 or many match."""
-    hits = [r for r in rows if tok in r[1].split()]
-    return hits[0] if len(hits) == 1 else None
+def attribute_tokens(counts: Counter, rows_src: list[tuple[str, str]], rows_other: list[tuple[str, str]]) -> list[tuple]:
+    """Pin removed/added tokens to the rows they left/entered.
+
+    rows_src is the revision the tokens disappeared from (for removals) or appeared
+    in (for additions); rows_other is the other side, keyed by the same UUIDs. One
+    (tok, row) pair is returned per occurrence; row is None when the token cannot be
+    pinned. Rules, in order:
+      - every src row containing tok lost/gained one (hit count == multiplicity),
+        e.g. the same value scrubbed from two rows in one save;
+      - narrowed by the other side: of the rows containing tok, exactly those whose
+        same-UUID counterpart lacks it (handles a token removed from some rows while
+        surviving in others);
+      - a single containing row takes all occurrences."""
+    other_words: dict[str, set] = {}
+    for rid, text in rows_other:
+        other_words.setdefault(rid, set()).update(text.split())
+    pairs: list[tuple] = []
+    for tok, mult in counts.items():
+        hits = [r for r in rows_src if tok in r[1].split()]
+        if len(hits) == mult:
+            pairs += [(tok, r) for r in hits]
+            continue
+        cand = [r for r in hits if tok not in other_words.get(r[0], set())]
+        if len(cand) == mult:
+            pairs += [(tok, r) for r in cand]
+        elif len(hits) == 1:
+            pairs += [(tok, hits[0])] * mult
+        else:
+            pairs += [(tok, None)] * mult
+    return pairs
 
 
 def revision_record(data: bytes, end: int) -> dict:
@@ -206,8 +232,8 @@ def diff_revisions(a: dict, b: dict) -> dict:
     wa = [w for w in a.get("text", "").split() if not is_trivial(w)]
     wb = [w for w in b.get("text", "").split() if not is_trivial(w)]
     ca, cb = Counter(wa), Counter(wb)
-    removed = [(t, find_unique_row(ra, t)) for t in (ca - cb).elements()]
-    added = [(t, find_unique_row(rb, t)) for t in (cb - ca).elements()]
+    removed = attribute_tokens(ca - cb, ra, rb)
+    added = attribute_tokens(cb - ca, rb, ra)
     return {"deleted_rows": deleted_rows, "added_rows": added_rows, "removed": removed, "added": added}
 
 
@@ -298,6 +324,35 @@ def analyze(path: Path) -> None:
             print(f"      ROW DELETED  {uuid}: {text}   (present in earlier revision, absent here)")
         for uuid, text in addr:
             print(f"      ROW ADDED    {uuid}: {text}")
+
+    # A sequence of saves fragments one logical edit (e.g. scrub a value, then tidy
+    # the leftover wording); the per-save timeline shows the pieces. Sum them here as
+    # one original-vs-produced view so the full change per row is visible at a glance.
+    if edits >= 2:
+        goods = [(i, r) for i, r in enumerate(recs) if not r.get("error")]
+        (ia, first), (ib, last) = goods[0], goods[-1]
+        d = diff_revisions(first, last)
+        by_a = dict(first["rows"])
+        by_b = dict(last["rows"])
+        changed_ids: list[str] = []
+        for _tok, row in d["removed"] + d["added"]:
+            if row and row[0] in by_a and row[0] in by_b and row[0] not in changed_ids:
+                changed_ids.append(row[0])
+        loose = [(t, "REMOVED") for t, r in d["removed"] if r is None] + [
+            (t, "ADDED") for t, r in d["added"] if r is None
+        ]
+        if changed_ids or loose or d["deleted_rows"] or d["added_rows"]:
+            print(f"  --- net change: original (rev {ia + 1}) -> produced (rev {ib + 1}) ---")
+            for rid in changed_ids:
+                print(f"      ROW {rid}:")
+                print(f"        - {by_a[rid]}")
+                print(f"        + {by_b[rid]}")
+            for tok, kind in loose:
+                print(f"      {kind}   '{tok}'  (ambiguous across rows)")
+            for uuid, text in d["deleted_rows"]:
+                print(f"      ROW DELETED  {uuid}: {text}")
+            for uuid, text in d["added_rows"]:
+                print(f"      ROW ADDED    {uuid}: {text}")
 
 
 def main() -> int:

@@ -1,0 +1,40 @@
+{
+  "title": "Single search-audit record — search ID 9920424e…, 2026-03-05 10:15:07 PM UTC",
+  "summary": "A one-item request for a single row of the Department's Flock search-audit log:\n\n- Item 1: the search-audit record for the search bearing ID 9920424e-bfd0-4f87-8423-6abce941fdc7, search time 03/05/2026 10:15:07 PM UTC, \"as that record exists in the platform, including every field the platform's audit export includes for it.\"\n\nThe request states expressly that it seeks the platform's audit record of the query itself, not any investigative file, case report, or other record the entry may reference.\n\nProduction terms are written to close the usual escapes: produce in the platform's standard audit-export format, add the CSV form if the platform can export one, and — if the export function operates on date ranges rather than individual records — an export covering March 5, 2026 that includes this row is acceptable. All export fields must be present, with any withheld information indicated in place.\n\nIf information is withheld from any field, the request asks the Department to state, as to this record specifically, each field withheld, the exemption relied upon for that field, and the basis on which no reasonably segregable portion of that field could be released under Gov. Code § 7922.525(b).",
+  "tags": [
+    "audit-compliance",
+    "pra-process"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.525(b)",
+      "quote": "Any reasonably segregable portion of a record shall be available for inspection ... after deletion of the portions that are exempt by law",
+      "tests": "Whether segregability can be asserted field-by-field on a single audit row whose non-exempt fields (ID, timestamp, network count) the Department already publishes."
+    },
+    {
+      "policy": "Gov. Code § 7923.600",
+      "quote": "records of investigations conducted by, or investigatory files compiled by, any state or local police agency",
+      "tests": "Whether the reason field of one specific audit row contains investigative content, or whether the exemption is being applied categorically to the row's existence."
+    },
+    {
+      "policy": "Gov. Code § 7922.535(a) / § 7922.540",
+      "quote": "agency must notify requester within 10 calendar days whether it will produce records, and state the exemption in writing if it withholds",
+      "tests": "Whether a request for one identified record produces a record-specific written determination rather than a restatement of a prior blanket response."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012541-041426",
+      "relation": "evidence-source",
+      "note": "The March 2026 audit export produced under W012541 on a rolling basis is where this row appears (3_1_2026-3_31_2026-San_Mateo_CA_PD-Audit, networkCount 610). Deliberately not cited in the request text, so the response cannot be folded into the W012541 rolling production."
+    },
+    {
+      "ref": "W013137-072926",
+      "relation": "context",
+      "note": "Denied in full 2026-08-04 on a § 7923.600 theory applied to audit-export fields generally. This request puts that theory on one row."
+    }
+  ],
+  "filed_because": "The audit PDFs produced under W012541 were edited in Acrobat after export, and the Department's 2026-08-24 reply conceded the edits while justifying them wholesale under Gov. Code § 7923.600. CPRA has no privilege-log requirement, so nothing compels the Department to itemize which fields were changed. Requesting one identified row as its own portal matter forces a record-specific determination instead: this row's reason field was a four-letter fragment before the edit, so there is no investigative content for the exemption to attach to, and every available answer is informative — an unredacted production shows what the field now says, a redaction asserts that a typo is investigative, and silence is a § 7922.540 failure. The request does not mention W012541 or the alteration, so the answer stands on its own.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-08-24 11:40 PM; auto-acknowledged the same minute and forwarded to department(s). Statutory determination due 2026-09-03.\n\nFirst of a serial queue of single-row requests. The second (the 01/07/2026 row whose case-number detail was deleted rather than substituted, testing the deletion leg) is deliberately held back roughly two weeks — near-simultaneous near-identical requests get consolidated into one blended response, which defeats the purpose."
+}

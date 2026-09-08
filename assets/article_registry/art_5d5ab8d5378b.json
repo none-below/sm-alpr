@@ -22,6 +22,12 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "policy:hotlist",
+    "policy:sharing",
+    "scope:national",
     "vendor:flock"
   ],
   "agencies": [
@@ -145,9 +151,22 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-06-26T09:52:35Z",
+  "summary": "EFF explains how Flock Safety ALPR systems can be configured to query the FBI NCIC 'Immigration Violator' hotlist, which is populated exclusively by ICE, effectively enabling immigration enforcement via local police cameras. Through public records requests to 13 agencies, EFF identified Blue Island (IL) and Sparks (NV) as having the hotlist enabled, and provides a how-to guide for residents to investigate their own agencies.",
+  "key_quotes": [
+    {
+      "quote": "the 'Immigration Violator' hotlist is populated exclusively by ICE, and it is the only agency authorized to enter or maintain records in this system",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Sparks Police Department's ALPR transparency portal lists immigration enforcement among the \"prohibited uses.\" Yet, records show Sparks utilizes ICE's Immigration Violator hotlist.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "If Immigration Violator is selected, the local agency will receive an alert that a vehicle ICE is looking for has been sighted.",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-18T12:01:30Z",
   "article_id": "art_5d5ab8d5378b"
 }

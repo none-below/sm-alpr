@@ -40,7 +40,7 @@ AL0010000	Jefferson County Sheriff's Office	County	AL	JEFFERSON	33.553444	-86.89
 AL0010100	Bessemer Police Department	City	AL	JEFFERSON	33.396152	-86.95345	1
 AL0010200	Birmingham Police Department	City	AL	JEFFERSON, SHELBY	33.553444	-86.896536	1
 AL0010300	Mountain Brook Police Department	City	AL	JEFFERSON	33.50124	-86.75607	1
-AL0010400	Fairfield Police Department	City	AL	JEFFERSON	33.553444	-86.896536	0
+AL0010400	Fairfield Police Department	City	AL	JEFFERSON	33.553444	-86.896536	1
 AL0010500	Gardendale Police Department	City	AL	JEFFERSON	33.553444	-86.896536	1
 AL0010600	Leeds Police Department	City	AL	JEFFERSON, SHELBY, ST CLAIR	33.553444	-86.896536	1
 AL0010700	Midfield Police Department	City	AL	JEFFERSON	33.553444	-86.896536	1
@@ -71,7 +71,6 @@ AL001419E	Samford University	University or College	AL	JEFFERSON			1
 AL0014500	Trussville Fire Department Fire and Explosion Investigation Unit	Other	AL	JEFFERSON	33.6301	-86.59608	0
 AL0020000	Mobile County Sheriff's Office	County	AL	MOBILE	30.684572	-88.196568	1
 AL0020100	Mobile Police Department	City	AL	MOBILE	30.673004	-88.09793	1
-AL0020200	Prichard Police Department	City	AL	MOBILE	30.730814	-88.0808	1
 AL0020300	Chickasaw Police Department	City	AL	MOBILE	30.684572	-88.196568	1
 AL0020400	Citronelle Police Department	City	AL	MOBILE	31.089754	-88.22756	1
 AL0020500	Saraland Police Department	City	AL	MOBILE	30.80567	-88.071266	1
@@ -462,7 +461,7 @@ AL0640300	Cordova Police Department	City	AL	WALKER	33.791558	-87.301094	1
 AL0640400	Dora Police Department	City	AL	WALKER	33.738365	-87.08069	1
 AL0640500	Sumiton Police Department	City	AL	JEFFERSON, WALKER	33.791558	-87.301094	1
 AL0640600	Parrish Police Department	City	AL	WALKER	33.791558	-87.301094	1
-AL0641100	Bevill State Community College	University or College	AL	WALKER	33.791558	-87.301094	0
+AL0641100	Bevill State Community College	University or College	AL	WALKER	33.791558	-87.301094	1
 AL0650000	Washington County Sheriff's Office	County	AL	WASHINGTON	31.405217	-88.197564	1
 AL0650100	McIntosh Police Department	City	AL	WASHINGTON	31.405217	-88.197564	1
 AL0650200	Millry Police Department	City	AL	WASHINGTON	31.405217	-88.197564	1
@@ -929,7 +928,7 @@ AZ0090900	Winslow Police Department	City	AZ	NAVAJO	35.026752	-110.70396	0
 AZ0091300	Pinetop-Lakeside Police Department	City	AZ	NAVAJO	34.15297	-109.97676	1
 AZ0098900	White Mountain Apache Tribal	Tribal	AZ	NOT SPECIFIED	35.390934	-110.320908	1
 AZ0100000	Pima County Sheriff's Office	County	AZ	PIMA	32.170643	-110.94519	1
-AZ0100100	South Tucson Police Department	City	AZ	PIMA	32.2026	-110.96844	0
+AZ0100100	South Tucson Police Department	City	AZ	PIMA	32.2026	-110.96844	1
 AZ0100300	Tucson Police Department	City	AZ	PIMA	32.21807	-110.9706	1
 AZ0100400	Sahuarita Police Department	City	AZ	PIMA	32.128238	-111.783018	1
 AZ0100700	Oro Valley Police Department	City	AZ	PIMA	32.406918	-110.99574	1
@@ -1003,7 +1002,7 @@ CA0011200	San Leandro Police Department	City	CA	ALAMEDA	37.648134	-121.913291	1
 CA0011300	Union City Police Department	City	CA	ALAMEDA	37.58882	-122.02747	1
 CA0011400	East Bay Regional Parks: Alameda County	Other	CA	ALAMEDA	37.71378	-122.10035	1
 CA0011500	California State University: East Bay	University or College	CA	ALAMEDA	37.658787	-122.062225	1
-CA0011600	Ohlone Community College	University or College	CA	ALAMEDA	37.798763	-122.24971	0
+CA0011600	Ohlone Community College	University or College	CA	ALAMEDA	37.798763	-122.24971	1
 CA0012100	San Francisco Bay Area Rapid Transit: Alameda County	Other	CA	ALAMEDA	37.79742	-122.26664	1
 CA001300X	Dublin Police Department	City	CA	ALAMEDA	37.799427	-122.262505	1
 CA001320X	Union Pacific Railroad: Alameda County	Other	CA	ALAMEDA	34.01037	-118.1547	1
@@ -1085,7 +1084,7 @@ CA0100100	Clovis Police Department	City	CA	FRESNO	36.82397	-119.692795	1
 CA010015M	Coalinga State Hospital	Other State Agency	CA	FRESNO			1
 CA0100200	Coalinga Police Department	City	CA	FRESNO	36.139175	-120.362045	0
 CA0100300	Firebaugh Police Department	City	CA	FRESNO	36.761006	-119.655019	0
-CA0100400	Fowler Police Department	City	CA	FRESNO	36.630894	-119.67752	0
+CA0100400	Fowler Police Department	City	CA	FRESNO	36.630894	-119.67752	1
 CA0100500	Fresno Police Department	City	CA	FRESNO	36.761006	-119.655019	1
 CA0100600	Huron Police Department	City	CA	FRESNO	36.761006	-119.655019	0
 CA0100700	Kerman Police Department	City	CA	FRESNO	36.722088	-120.06027	0
@@ -1095,7 +1094,7 @@ CA0101000	Orange Cove Police Department	City	CA	FRESNO	36.761006	-119.655019	0
 CA0101100	Parlier Police Department	City	CA	FRESNO	36.761006	-119.655019	0
 CA0101200	Reedley Police Department	City	CA	FRESNO	36.598927	-119.453575	0
 CA0101300	Sanger Police Department	City	CA	FRESNO	36.70591	-119.56111	0
-CA0101500	Selma Police Department	City	CA	FRESNO	36.567337	-119.611984	0
+CA0101500	Selma Police Department	City	CA	FRESNO	36.567337	-119.611984	1
 CA0101700	State Center Community College District	University or College	CA	FRESNO	36.739437	-119.79724	0
 CA0101900	California Department of Forestry and Fire Protection, Fresno-Kings	Other State Agency	CA	FRESNO	36.761006	-119.655019	1
 CA0102400	Union Pacific Railroad: Fresno County	Other	CA	FRESNO	37.798763	-122.24971	1
@@ -1391,7 +1390,7 @@ CA0300600	La Palma Police Department	City	CA	ORANGE	33.849407	-118.03725	1
 CA0300700	Fountain Valley Police Department	City	CA	ORANGE	33.70901	-117.95065	1
 CA0300800	Fullerton Police Department	City	CA	ORANGE	33.870346	-117.92736	1
 CA0300900	Garden Grove Police Department	City	CA	ORANGE	33.675687	-117.777207	1
-CA0301000	Huntington Beach Police Department	City	CA	ORANGE	33.675687	-117.777207	0
+CA0301000	Huntington Beach Police Department	City	CA	ORANGE	33.675687	-117.777207	1
 CA0301100	Laguna Beach Police Department	City	CA	ORANGE	33.545933	-117.78176	1
 CA0301200	La Habra Police Department	City	CA	ORANGE	33.93234	-117.946106	1
 CA0301300	Los Alamitos Police Department	City	CA	ORANGE	33.803204	-118.07573	1
@@ -2351,12 +2350,12 @@ FL0060200	Deerfield Beach Police Department	City	FL	BROWARD	26.193535	-80.476683
 FL0060300	Fort Lauderdale Police Department	City	FL	BROWARD	26.121895	-80.15851	1
 FL0060400	Hallandale Beach Police Department	City	FL	BROWARD	25.981018	-80.14207	0
 FL0060500	Hollywood Police Department	City	FL	BROWARD	26.010834	-80.17272	0
-FL0060600	Plantation Police Department	City	FL	BROWARD	26.127132	-80.24233	0
+FL0060600	Plantation Police Department	City	FL	BROWARD	26.127132	-80.24233	1
 FL0060700	Pompano Beach Police Department	City	FL	BROWARD	26.193535	-80.476683	0
 FL0060800	Pembroke Pines Police Department	City	FL	BROWARD	26.00853	-80.27197	1
 FL0060900	Wilton Manors Police Department	City	FL	BROWARD	26.154964	-80.13936	0
 FL0061000	Cooper City Police Department	City	FL	BROWARD	26.0444	-80.28743	0
-FL0061100	Coconut Creek Police Department	City	FL	BROWARD	26.25963	-80.18973	0
+FL0061100	Coconut Creek Police Department	City	FL	BROWARD	26.25963	-80.18973	1
 FL0061200	Davie Police Department	City	FL	BROWARD	26.103151	-80.28184	1
 FL0061400	Hillsboro Beach Police Department	City	FL	BROWARD	26.193535	-80.476683	1
 FL0061600	Lauderdale-by-the-Sea Police Department	City	FL	BROWARD	26.193535	-80.476683	0
@@ -2649,7 +2648,7 @@ FL030A00X	Department of Agriculture and Consumer Services, Office of Agricultura
 FL030A20X	Department of Environmental Protection, Law Enforcement: Holmes County	Other State Agency	FL	HOLMES			0
 FL0310000	Indian River County Sheriff's Office	County	FL	INDIAN RIVER	27.666946	-80.42692	1
 FL0310100	Fellsmere Police Department	City	FL	INDIAN RIVER	27.766813	-80.60363	0
-FL0310200	Sebastian Police Department	City	FL	INDIAN RIVER	27.817184	-80.47476	0
+FL0310200	Sebastian Police Department	City	FL	INDIAN RIVER	27.817184	-80.47476	1
 FL0310300	Vero Beach Police Department	City	FL	INDIAN RIVER	27.638018	-80.3945	1
 FL0310400	Indian River Shores Police Department	City	FL	INDIAN RIVER	27.700638	-80.574803	0
 FL0310600	Department of Corrections, Office of the Inspector General: Indian River County	Other State Agency	FL	INDIAN RIVER			0
@@ -2692,7 +2691,7 @@ FL0350300	Clermont Police Department	City	FL	LAKE	28.764113	-81.712282	1
 FL0350400	Fruitland Park Police Department	City	FL	LAKE	28.764113	-81.712282	0
 FL0350500	Groveland Police Department	City	FL	LAKE	28.561514	-81.8591	1
 FL0350600	Howey-In-the-Hills Police Department	City	FL	LAKE	28.71339	-81.77265	1
-FL0350700	Mascotte Police Department	City	FL	LAKE	28.578428	-81.89611	0
+FL0350700	Mascotte Police Department	City	FL	LAKE	28.578428	-81.89611	1
 FL0350800	Minneola Police Department	City	FL	LAKE	28.801252	-81.73048	1
 FL0351000	Mount Dora Police Department	City	FL	LAKE	28.807991	-81.64475	1
 FL0351100	Tavares Police Department	City	FL	LAKE	28.764113	-81.712282	1
@@ -2708,7 +2707,7 @@ FL035A20X	Department of Environmental Protection, Law Enforcement: Lake County	O
 FL0360000	Lee County Sheriff's Office	County	FL	LEE	26.528137	-81.86337	1
 FL0360100	Fort Myers Police Department	City	FL	LEE	26.639778	-81.868385	1
 FL0360200	Cape Coral Police Department	City	FL	LEE	26.551527	-81.892457	1
-FL0360300	Sanibel Police Department	City	FL	LEE	26.551527	-81.892457	0
+FL0360300	Sanibel Police Department	City	FL	LEE	26.551527	-81.892457	1
 FL0360400	Lee County Port Authority	Other	FL	LEE	26.551527	-81.892457	0
 FL0360500	Department of Law Enforcement: Lee County, Fort Myers	Other State Agency	FL	LEE	26.591562	-81.86315	1
 FL0360700	Florida Gulf Coast University	University or College	FL	LEE	26.463182	-81.777	0
@@ -2836,12 +2835,12 @@ FL0480000	Orange County Sheriff's Office	County	FL	ORANGE	28.514435	-81.323295	1
 FL0480100	Apopka Police Department	City	FL	ORANGE	28.670673	-81.50905	0
 FL0480200	Maitland Police Department	City	FL	ORANGE	28.627409	-81.4036	0
 FL0480300	Ocoee Police Department	City	FL	ORANGE	28.549383	-81.534546	1
-FL0480400	Orlando Police Department	City	FL	ORANGE	28.514435	-81.323295	0
+FL0480400	Orlando Police Department	City	FL	ORANGE	28.514435	-81.323295	1
 FL0480500	Winter Garden Police Department	City	FL	ORANGE	28.565187	-81.5884	1
-FL0480600	Winter Park Police Department	City	FL	ORANGE	28.602503	-81.35485	0
+FL0480600	Winter Park Police Department	City	FL	ORANGE	28.602503	-81.35485	1
 FL0480700	Eatonville Police Department	City	FL	ORANGE	28.618223	-81.377	0
 FL0480800	Oakland Police Department	City	FL	ORANGE	28.514435	-81.323295	0
-FL0480900	Windermere Police Department	City	FL	ORANGE	28.514435	-81.323295	0
+FL0480900	Windermere Police Department	City	FL	ORANGE	28.514435	-81.323295	1
 FL0481000	Edgewood Police Department	City	FL	ORANGE	28.478191	-81.371376	1
 FL0481100	Department of Law Enforcement: Orange County, Orlando	Other State Agency	FL	ORANGE	28.545675	-81.38558	1
 FL0481400	University of Central Florida	University or College	FL	ORANGE	28.514435	-81.323295	1
@@ -3021,14 +3020,14 @@ FL0588000	Florida Game Commission: Sarasota County	Other State Agency	FL	SARASOT
 FL0589000	Highway Patrol: Sarasota County	State Police	FL	SARASOTA	27.049711	-82.399666	1
 FL058A00X	Department of Agriculture and Consumer Services, Office of Agricultural Law Enforcement: Sarasota	Other State Agency	FL	SARASOTA			0
 FL058A20X	Department of Environmental Protection, Law Enforcement: Sarasota County	Other State Agency	FL	SARASOTA			0
-FL0590000	Seminole County Sheriff's Office	County	FL	SEMINOLE	28.690079	-81.13198	0
+FL0590000	Seminole County Sheriff's Office	County	FL	SEMINOLE	28.690079	-81.13198	1
 FL0590100	Altamonte Springs Police Department	City	FL	SEMINOLE	28.665546	-81.359795	0
 FL0590200	Casselberry Police Department	City	FL	SEMINOLE	28.690079	-81.13198	0
 FL0590300	Longwood Police Department	City	FL	SEMINOLE	28.700865	-81.34972	0
 FL0590400	Oviedo Police Department	City	FL	SEMINOLE	28.65237	-81.205795	0
 FL0590500	Sanford Police Department	City	FL	SEMINOLE	28.805168	-81.27311	0
 FL0590600	Winter Springs Police Department	City	FL	SEMINOLE	28.704489	-81.30372	0
-FL0590700	Lake Mary Police Department	City	FL	SEMINOLE	28.758984	-81.320816	0
+FL0590700	Lake Mary Police Department	City	FL	SEMINOLE	28.758984	-81.320816	1
 FL0591000	Sanford Airport	Other	FL	SEMINOLE			0
 FL0591100	Department of Corrections, Office of the Inspector General: Seminole County	Other State Agency	FL	SEMINOLE			0
 FL059500X	Division of Alcoholic Beverages and Tobacco: Seminole County	Other State Agency	FL	SEMINOLE	30.423128	-84.28066	0
@@ -3068,7 +3067,7 @@ FL0638000	Florida Game Commission: Union County	Other State Agency	FL	UNION	30.0
 FL0639000	Highway Patrol: Union County	State Police	FL	UNION	30.05428	-82.366918	0
 FL063A00X	Department of Agriculture and Consumer Services, Office of Agricultural Law Enforcement: Union	Other State Agency	FL	UNION			0
 FL063A20X	Department of Environmental Protection, Law Enforcement: Union County	Other State Agency	FL	UNION			0
-FL0640000	Volusia County Sheriff's Office	County	FL	VOLUSIA	29.057698	-81.161804	0
+FL0640000	Volusia County Sheriff's Office	County	FL	VOLUSIA	29.057698	-81.161804	1
 FL0640100	Daytona Beach Police Department	City	FL	VOLUSIA	29.057698	-81.161804	0
 FL0640200	DeLand Police Department	City	FL	VOLUSIA	29.026295	-81.30586	0
 FL0640300	New Smyrna Beach Police Department	City	FL	VOLUSIA	29.057698	-81.161804	0
@@ -3078,14 +3077,14 @@ FL0640600	Edgewater Police Department	City	FL	VOLUSIA	29.057698	-81.161804	0
 FL0640700	Holly Hill Police Department	City	FL	VOLUSIA	29.244598	-81.040985	0
 FL0640800	Lake Helen Police Department	City	FL	VOLUSIA	29.057698	-81.161804	0
 FL0641000	Orange City Police Department	City	FL	VOLUSIA	28.949806	-81.29785	0
-FL0641100	Pierson Police Department	City	FL	VOLUSIA	29.057698	-81.161804	0
+FL0641100	Pierson Police Department	City	FL	VOLUSIA	29.057698	-81.161804	1
 FL0641200	Port Orange Police Department	City	FL	VOLUSIA	29.057698	-81.161804	0
 FL0641300	South Daytona Police Department	City	FL	VOLUSIA	29.057698	-81.161804	0
 FL0641400	Ponce Inlet Police Department	City	FL	VOLUSIA	29.120134	-80.953476	0
 FL0641700	Volusia County Beach Management	Other	FL	VOLUSIA	29.219183	-81.00436	0
 FL0642400	Department of Corrections, Office of the Inspector General: Volusia County	Other State Agency	FL	VOLUSIA			0
-FL064250X	Deltona Police Department	City	FL	VOLUSIA			0
-FL064260X	DeBary Police Department	City	FL	VOLUSIA			0
+FL064250X	Deltona Police Department	City	FL	VOLUSIA			1
+FL064260X	DeBary Police Department	City	FL	VOLUSIA			1
 FL0645000	Division of Alcoholic Beverages and Tobacco: Volusia County	Other State Agency	FL	VOLUSIA	30.423128	-84.28066	0
 FL0648000	Florida Game Commission: Volusia County	Other State Agency	FL	VOLUSIA	29.199844	-81.037056	0
 FL0649000	Highway Patrol: Volusia County	State Police	FL	VOLUSIA	29.057698	-81.161804	1
@@ -3596,7 +3595,7 @@ GA1190400	Dillard Police Department	City	GA	RABUN	34.883026	-83.404735	1
 GA1190500	Sky Valley Police Department	City	GA	RABUN	34.883026	-83.404735	0
 GA1200000	Randolph County Sheriff's Office	County	GA	RANDOLPH	31.762651	-84.752311	1
 GA1200100	Cuthbert Police Department	City	GA	RANDOLPH	31.762651	-84.752311	1
-GA1200200	Shellman Police Department	City	GA	RANDOLPH	31.762651	-84.752311	0
+GA1200200	Shellman Police Department	City	GA	RANDOLPH	31.762651	-84.752311	1
 GA120059E	Andrew College	University or College	GA	RANDOLPH	31.771894	-84.79704	0
 GA1210000	Augusta-Richmond County Sheriff's Office	County	GA	RICHMOND	33.46506	-81.959816	1
 GA1210300	Hephzibah Police Department	City	GA	RICHMOND	33.361487	-82.074998	1
@@ -3961,6 +3960,7 @@ IA0620200	New Sharon Police Department	City	IA	MAHASKA	41.330797	-92.636366	1
 IA0630000	Marion County Sheriff's Office	County	IA	MARION	41.331455	-93.093849	1
 IA0630100	Knoxville Police Department	City	IA	MARION	41.31703	-93.09643	1
 IA0630200	Pella Police Department	City	IA	MAHASKA, MARION	41.4043	-92.91649	1
+IA0630300	Pleasantville Police Department	City	IA	MARION	41.331455	-93.093849	1
 IA0640000	Marshall County Sheriff's Office	County	IA	MARSHALL	42.041691	-92.981452	1
 IA0640100	Marshalltown Police Department	City	IA	MARSHALL	42.04948	-92.91297	1
 IA0640200	State Center Police Department	City	IA	MARSHALL	42.041691	-92.981452	1
@@ -4877,7 +4877,6 @@ IL0740300	Monticello Police Department	City	IL	PIATT	40.026676	-88.56971	1
 IL0740400	Mansfield Police Department	City	IL	PIATT			1
 IL0750000	Pike County Sheriff's Office	County	IL	PIKE	39.607914	-90.80445	1
 IL0750300	Pittsfield Police Department	City	IL	PIKE	39.608345	-90.80457	1
-IL0750400	Pleasant Hill Police Department	City	IL	PIKE	39.625106	-90.889034	1
 IL0760000	Pope County Sheriff's Office	County	IL	POPE	37.417169	-88.542374	0
 IL0770000	Pulaski County Sheriff's Office	County	IL	PULASKI	37.215615	-89.127755	1
 IL0770300	Mounds Police Department	City	IL	PULASKI			1
@@ -5026,7 +5025,7 @@ IL0922000	Indianola Police Department	City	IL	VERMILION	40.18674	-87.726771	1
 IL0930000	Wabash County Sheriff's Office	County	IL	WABASH	38.40964	-87.760704	1
 IL0930100	Mount Carmel Police Department	City	IL	WABASH	38.409695	-87.76056	1
 IL0940000	Warren County Sheriff's Office	County	IL	WARREN	40.850441	-90.620223	1
-IL0940100	Alexis Police Department	City	IL	MERCER, WARREN	40.850441	-90.620223	0
+IL0940100	Alexis Police Department	City	IL	MERCER, WARREN	40.850441	-90.620223	1
 IL0940300	Monmouth Police Department	City	IL	WARREN	40.907536	-90.64841	1
 IL0950000	Washington County Sheriff's Office	County	IL	WASHINGTON	38.344917	-89.38292	1
 IL0950200	Nashville Police Department	City	IL	WASHINGTON	38.336815	-89.38085	0
@@ -5373,7 +5372,7 @@ IN0640000	Porter County Sheriff's Office	County	IN	PORTER	41.444218	-87.027214	1
 IN0640100	Chesterton Police Department	City	IN	PORTER	41.611656	-87.062904	1
 IN0640200	Portage Police Department	City	IN	PORTER	41.50992	-87.071309	1
 IN0640300	Valparaiso Police Department	City	IN	PORTER	41.464615	-87.06096	1
-IN0640400	Burns Harbor Police Department	City	IN	PORTER	41.609596	-87.126076	0
+IN0640400	Burns Harbor Police Department	City	IN	PORTER	41.609596	-87.126076	1
 IN0640600	Porter Police Department	City	IN	PORTER	41.61601	-87.07242	1
 IN0640700	Ogden Dunes Police Department	City	IN	PORTER			1
 IN0641000	Hebron Police Department	City	IN	PORTER	41.50992	-87.071309	0
@@ -5449,7 +5448,7 @@ IN0840300	Indiana State University	University or College	IN	VIGO	39.46854	-87.41
 IN0840600	Hulman Regional Airport Authority	Other	IN	VIGO			1
 IN0850000	Wabash County Sheriff's Office	County	IN	WABASH	40.843717	-85.795175	1
 IN0850100	North Manchester Police Department	City	IN	WABASH	40.99894	-85.778046	0
-IN0850200	Wabash Police Department	City	IN	WABASH	40.843717	-85.795175	0
+IN0850200	Wabash Police Department	City	IN	WABASH	40.843717	-85.795175	1
 IN0860000	Warren County Sheriff's Office	County	IN	WARREN	40.2884	-87.29324	1
 IN0870000	Warrick County Sheriff's Office	County	IN	WARRICK	38.097764	-87.272023	1
 IN0870100	Boonville Police Department	City	IN	WARRICK	38.04901	-87.274055	1
@@ -5934,6 +5933,7 @@ KY0150200	Lebanon Junction Police Department	City	KY	BULLITT	37.969572	-85.70303
 KY0150300	Mount Washington Police Department	City	KY	BULLITT	37.969572	-85.703036	1
 KY0150500	Hillview Police Department	City	KY	BULLITT	38.079086	-85.676926	1
 KY0150600	Pioneer Village Police Department	City	KY	BULLITT	37.969572	-85.703036	1
+KY0151300	Bullitt County Public Schools	Other	KY	BULLITT			0
 KY0160000	Butler County Sheriff's Office	County	KY	BUTLER	37.207013	-86.682471	1
 KY0160100	Morgantown Police Department	City	KY	BUTLER	37.207013	-86.682471	1
 KY0170000	Caldwell County Sheriff's Office	County	KY	CALDWELL	37.10933	-87.88178	1
@@ -6304,7 +6304,7 @@ KY1140200	Western Kentucky University	University or College	KY	WARREN	36.995634	
 KY1140300	Smiths Grove Police Department	City	KY	WARREN	37.05265	-86.20838	1
 KY1140400	Woodburn Police Department	City	KY	WARREN	36.995634	-86.423579	1
 KY1140500	Warren County Drug Task Force	Other	KY	WARREN	36.992683	-86.44256	1
-KY1141100	Bowling Green Fire Department, Arson Investigation	Other	KY	WARREN			0
+KY1141100	Bowling Green Fire Department, Arson Investigation	Other	KY	WARREN			1
 KY1150000	Washington County Sheriff's Office	County	KY	WASHINGTON	37.754209	-85.175416	1
 KY1150100	Springfield Police Department	City	KY	WASHINGTON	37.754209	-85.175416	1
 KY1160000	Wayne County Sheriff's Office	County	KY	WAYNE	36.949425	-84.81451	1
@@ -6494,7 +6494,7 @@ LA0410000	Red River Parish Sheriff's Office	County	LA	RED RIVER	32.014977	-93.34
 LA0410100	Coushatta Police Department	City	LA	RED RIVER	32.101213	-93.34905	0
 LA0420000	Richland Parish Sheriff's Office	County	LA	RICHLAND	32.413158	-91.748353	1
 LA0420200	Rayville Police Department	City	LA	RICHLAND	32.413158	-91.748353	1
-LA0430000	Sabine Parish Sheriff's Office	County	LA	SABINE	31.560209	-93.559228	0
+LA0430000	Sabine Parish Sheriff's Office	County	LA	SABINE	31.560209	-93.559228	1
 LA0430100	Many Police Department	City	LA	SABINE	31.568363	-93.48213	0
 LA0430500	Florien Police Department	City	LA	SABINE	31.444082	-93.45514	0
 LA0430700	Fisher Police Department	City	LA	SABINE	31.560209	-93.559228	1
@@ -8429,7 +8429,7 @@ MO0200000	Cedar County Sheriff's Office	County	MO	CEDAR	37.733655	-93.850014	1
 MO0200100	El Dorado Springs Police Department	City	MO	CEDAR	37.86459	-94.02213	1
 MO0200200	Stockton Police Department	City	MO	CEDAR	37.733655	-93.850014	1
 MO0210000	Chariton County Sheriff's Office	County	MO	CHARITON	39.43295	-92.9416	1
-MO0210100	Brunswick Police Department	City	MO	CHARITON	39.423397	-93.13065	0
+MO0210100	Brunswick Police Department	City	MO	CHARITON	39.423397	-93.13065	1
 MO0210200	Keytesville Police Department	City	MO	CHARITON	39.43456	-92.93893	0
 MO0210400	Salisbury Police Department	City	MO	CHARITON	39.42384	-92.80188	1
 MO0220000	Christian County Sheriff's Office	County	MO	CHRISTIAN	37.01993	-93.20503	1
@@ -8473,7 +8473,7 @@ MO0270000	Cooper County Sheriff's Office	County	MO	COOPER	38.97756	-92.744385	1
 MO0270100	Boonville Police Department	City	MO	COOPER	38.845386	-92.812323	1
 MO0270300	Otterville Police Department	City	MO	COOPER	38.845386	-92.812323	1
 MO0270400	Prairie Home Police Department	City	MO	COOPER			1
-MO0270500	Pilot Grove Police Department	City	MO	COOPER	38.874542	-92.912155	0
+MO0270500	Pilot Grove Police Department	City	MO	COOPER	38.874542	-92.912155	1
 MO0280000	Crawford County Sheriff's Office	County	MO	CRAWFORD	37.96656	-91.313933	1
 MO0280100	Bourbon Police Department	City	MO	CRAWFORD	37.96656	-91.313933	1
 MO0280200	Cuba Police Department	City	MO	CRAWFORD	38.058746	-91.40197	1
@@ -8696,7 +8696,7 @@ MO0720900	Howardville Police Department	City	MO	NEW MADRID	36.594261	-89.655948	
 MO0721000	Marston Police Department	City	MO	NEW MADRID	36.594261	-89.655948	0
 MO0721100	Matthews Police Department	City	MO	NEW MADRID	36.594261	-89.655948	1
 MO0730000	Newton County Sheriff's Office	County	MO	NEWTON	36.8727	-94.36687	1
-MO0730100	Diamond Police Department	City	MO	NEWTON	36.908014	-94.334742	0
+MO0730100	Diamond Police Department	City	MO	NEWTON	36.908014	-94.334742	1
 MO0730200	Granby Police Department	City	MO	NEWTON	36.908014	-94.334742	1
 MO0730300	Neosho Police Department	City	MO	NEWTON	36.871155	-94.36636	1
 MO0730400	Seneca Police Department	City	MO	NEWTON	36.908014	-94.334742	1
@@ -8799,8 +8799,8 @@ MO0940200	Bonne Terre Police Department	City	MO	ST FRANCOIS	37.923775	-90.55097	
 MO0940300	Desloge Police Department	City	MO	ST FRANCOIS	37.879135	-90.5232	1
 MO0940600	Farmington Police Department	City	MO	ST FRANCOIS	37.78024	-90.41732	1
 MO0940800	Leadwood Police Department	City	MO	ST FRANCOIS	37.843132	-90.49839	1
+MO0941500	Iron Mountain Lake Police Department	City	MO	ST FRANCOIS			1
 MO0941600	Leadington Police Department	City	MO	ST FRANCOIS	37.837685	-90.48658	1
-MO0942100	Iron Mountain Lake Police Department	City	MO	ST FRANCOIS	37.692146	-90.61638	0
 MO0942200	Park Hills Police Department	City	MO	ST FRANCOIS	37.85219	-90.52166	1
 MO0942400	Mineral Area College	University or College	MO	ST FRANCOIS	37.810707	-90.473868	0
 MO0950000	St. Louis County Police Department	County	MO	ST LOUIS	38.650246	-90.33834	1
@@ -9022,6 +9022,7 @@ MS0240200	Gulfport Police Department	City	MS	HARRISON	30.369255	-89.08911	1
 MS0240300	Long Beach Police Department	City	MS	HARRISON	30.416536	-89.083376	1
 MS0240400	Pass Christian Police Department	City	MS	HARRISON	30.416536	-89.083376	1
 MS0240500	Department of Marine Resources	Other State Agency	MS	HARRISON	30.416536	-89.083376	0
+MS0240600	Mississippi Gulf Coast Community College: Harrison County and AMTC	University or College	MS	HARRISON			0
 MS0240800	D'Iberville Police Department	City	MS	HARRISON	30.434103	-88.9	1
 MS0241600	Mississippi Bureau of Investigation: Troop K District 8	Other State Agency	MS	NOT SPECIFIED			1
 MS0241700	Commercial Transportation Enforcement Division: Biloxi	Other State Agency	MS	HARRISON			1
@@ -9060,7 +9061,7 @@ MS0300200	Ocean Springs Police Department	City	MS	JACKSON	30.458491	-88.619991	1
 MS0300300	Pascagoula Police Department	City	MS	JACKSON	30.458491	-88.619991	1
 MS0300600	Gautier Police Department	City	MS	JACKSON	30.393581	-88.663605	1
 MS0300900	Singing River Health System	Other	MS	JACKSON	30.374521	-88.5327	0
-MS0301300	Mississippi Gulf Coast Community College	University or College	MS	JACKSON			1
+MS0301300	Mississippi Gulf Coast Community College: Jackson County	University or College	MS	JACKSON			1
 MS0310000	Jasper County Sheriff's Office	County	MS	JASPER	32.016989	-89.11943	1
 MS0310100	Bay Springs Police Department	City	MS	JASPER	32.016989	-89.11943	1
 MS0310200	Heidelberg Police Department	City	MS	JASPER	32.016989	-89.11943	1
@@ -9116,6 +9117,7 @@ MS0450200	Ridgeland Police Department	City	MS	MADISON	32.63437	-90.03416	1
 MS0450300	Flora Police Department	City	MS	MADISON	32.63437	-90.03416	0
 MS0450400	Madison Police Department	City	MS	MADISON	32.63437	-90.03416	1
 MS0450600	Holmes Community College: Ridgeland	University or College	MS	MADISON			1
+MS0450700	Gluckstadt Police Department	City	MS	MADISON			0
 MS0460000	Marion County Sheriff's Office	County	MS	MARION	31.250826	-89.83343	1
 MS0460100	Columbia Police Department	City	MS	MARION	31.251913	-89.83723	1
 MS0470000	Marshall County Sheriff's Office	County	MS	MARSHALL	34.76619	-89.504231	0
@@ -9770,7 +9772,7 @@ NC0220000	Clay County Sheriff's Office	County	NC	CLAY	35.052997	-83.752264	1
 NC0230000	Cleveland County Sheriff's Office	County	NC	CLEVELAND	35.33463	-81.557114	1
 NC0230100	Kings Mountain Police Department	City	NC	CLEVELAND, GASTON	35.33463	-81.557114	1
 NC0230200	Shelby Police Department	City	NC	CLEVELAND	35.33463	-81.557114	1
-NC0230300	Boiling Springs Police Department	City	NC	CLEVELAND	35.33463	-81.557114	0
+NC0230300	Boiling Springs Police Department	City	NC	CLEVELAND	35.33463	-81.557114	1
 NC0230800	State Park Rangers: Crowders Mountain	Other State Agency	NC	CLEVELAND	35.212307	-81.29299	1
 NC0240000	Columbus County Sheriff's Office	County	NC	COLUMBUS	34.260471	-78.636378	0
 NC0240200	Chadbourn Police Department	City	NC	COLUMBUS	34.327614	-78.82642	1
@@ -9889,7 +9891,7 @@ NC0440200	Waynesville Police Department	City	NC	HAYWOOD	35.48996	-82.988	1
 NC0440500	Maggie Valley Police Department	City	NC	HAYWOOD	35.557097	-82.972807	1
 NC0450000	Henderson County Sheriff's Office	County	NC	HENDERSON	35.314953	-82.459854	1
 NC0450100	Hendersonville Police Department	City	NC	HENDERSON	35.317875	-82.45966	1
-NC0450200	Laurel Park Police Department	City	NC	HENDERSON	35.314053	-82.48461	0
+NC0450200	Laurel Park Police Department	City	NC	HENDERSON	35.314053	-82.48461	1
 NC0450300	Fletcher Police Department	City	NC	HENDERSON	35.428383	-82.49985	1
 NC0450400	Blue Ridge Community College	University or College	NC	HENDERSON			0
 NC0460000	Hertford County Sheriff's Office	County	NC	HERTFORD	36.363517	-76.981616	1
@@ -9967,6 +9969,7 @@ NC0630100	Aberdeen Police Department	City	NC	MOORE	35.14212	-79.42349	1
 NC0630200	Pinehurst Police Department	City	NC	MOORE	35.310163	-79.480664	1
 NC0630300	Robbins Police Department	City	NC	MOORE	35.310163	-79.480664	1
 NC0630400	Southern Pines Police Department	City	NC	MOORE	35.310163	-79.480664	1
+NC063049P	Firsthealth of the Carolinas	Other	NC	MOORE			1
 NC0630500	Carthage Police Department	City	NC	MOORE	35.310163	-79.480664	1
 NC0630600	Pinebluff Police Department	City	NC	MOORE	35.310163	-79.480664	1
 NC0630700	Vass Police Department	City	NC	MOORE	35.310163	-79.480664	1
@@ -10201,6 +10204,7 @@ ND0080000	Burleigh County Sheriff's Office	County	ND	BURLEIGH	46.971843	-100.462
 ND0080100	Bismarck Police Department	City	ND	BURLEIGH	46.80085	-100.778694	1
 ND0080300	Lincoln Police Department	City	ND	BURLEIGH	46.764328	-100.69424	1
 ND0080500	Bismarck State College	University or College	ND	BURLEIGH	46.971843	-100.462001	1
+ND0080800	North Dakota Stockman's Association Law Enforcement	Other State Agency	ND	NOT SPECIFIED			1
 ND0090000	Cass County Sheriff's Office	County	ND	CASS	46.927003	-97.252375	1
 ND0090200	Fargo Police Department	City	ND	CASS	46.927003	-97.252375	1
 ND0090300	West Fargo Police Department	City	ND	CASS	46.872604	-96.88475	1
@@ -10219,9 +10223,7 @@ ND0160100	Carrington Police Department	City	ND	FOSTER	47.44954	-99.12645	1
 ND0170000	Golden Valley County Sheriff's Office	County	ND	GOLDEN VALLEY	46.938924	-103.844612	1
 ND0180000	Grand Forks County Sheriff's Office	County	ND	GRAND FORKS	47.926003	-97.450851	1
 ND0180100	Grand Forks Police Department	City	ND	GRAND FORKS	47.926003	-97.450851	1
-ND0180300	Northwood Police Department	City	ND	GRAND FORKS	47.926003	-97.450851	1
 ND0180400	Emerado Police Department	City	ND	GRAND FORKS	47.926003	-97.450851	1
-ND0180600	Thompson Police Department	City	ND	GRAND FORKS	47.926003	-97.450851	1
 ND0180800	University of North Dakota	University or College	ND	GRAND FORKS	47.926003	-97.450851	1
 ND0190000	Grant County Sheriff's Office	County	ND	GRANT	46.357827	-101.639049	1
 ND0200000	Griggs County Sheriff's Office	County	ND	GRIGGS	47.463463	-98.232444	1
@@ -10231,14 +10233,12 @@ ND0220300	Steele Police Department	City	ND	KIDDER	46.935385	-99.742727	1
 ND0230000	Lamoure County Sheriff's Office	County	ND	LAMOURE	46.464195	-98.526057	1
 ND0230300	Lamoure Police Department	City	ND	LAMOURE	46.464195	-98.526057	1
 ND0240000	Logan County Sheriff's Office	County	ND	LOGAN	46.469278	-99.504585	1
-ND0240300	Napoleon Police Department	City	ND	LOGAN	46.469278	-99.504585	1
 ND0250000	McHenry County Sheriff's Office	County	ND	MCHENRY	48.349827	-100.40519	1
 ND0260000	McIntosh County Sheriff's Office	County	ND	MCINTOSH	46.117034	-99.443041	1
 ND0260200	Wishek Police Department	City	ND	MCINTOSH	46.117034	-99.443041	1
 ND0270000	McKenzie County Sheriff's Office	County	ND	MCKENZIE	47.742475	-103.403215	1
 ND0270100	Watford City Police Department	City	ND	MCKENZIE	47.742475	-103.403215	1
 ND0280000	McLean County Sheriff's Office	County	ND	MCLEAN	47.653055	-101.421794	1
-ND0280100	Garrison Police Department	City	ND	MCLEAN			1
 ND0290000	Mercer County Sheriff's Office	County	ND	MERCER	47.307175	-101.833261	1
 ND0290100	Beulah Police Department	City	ND	MERCER	47.307175	-101.833261	1
 ND0290200	Hazen Police Department	City	ND	MERCER	47.307175	-101.833261	1
@@ -10265,7 +10265,6 @@ ND0390600	North Dakota State College of Science	University or College	ND	RICHLAN
 ND0400000	Rolette County Sheriff's Office	County	ND	ROLETTE	48.768271	-99.840463	1
 ND0400100	Dunseith Police Department	City	ND	ROLETTE	48.768271	-99.840463	1
 ND0400200	Rolla Police Department	City	ND	ROLETTE	48.768271	-99.840463	1
-ND0400400	Rolette Police Department	City	ND	ROLETTE			1
 ND0410000	Sargent County Sheriff's Office	County	ND	SARGENT	46.108206	-97.63003	1
 ND0420000	Sheridan County Sheriff's Office	County	ND	SHERIDAN	47.581359	-100.330986	1
 ND0430000	Sioux County Sheriff's Office	County	ND	SIOUX	46.109282	-101.047524	1
@@ -10395,7 +10394,6 @@ NH0061400	Francestown Police Department	City	NH	HILLSBOROUGH	42.911643	-71.72310
 NH0061600	Goffstown Police Department	City	NH	HILLSBOROUGH	43.009842	-71.54077	1
 NH0061800	Greenfield Police Department	City	NH	HILLSBOROUGH	42.951138	-71.87268	1
 NH0062000	Temple-Greenville Police Department	City	NH	HILLSBOROUGH	42.911643	-71.723101	1
-NH0062200	Hancock Police Department	City	NH	HILLSBOROUGH	42.911643	-71.723101	1
 NH0062400	Hillsborough Police Department	City	NH	HILLSBOROUGH	42.911643	-71.723101	1
 NH0062600	Hollis Police Department	City	NH	HILLSBOROUGH	42.74321	-71.59152	1
 NH0062800	Hudson Police Department	City	NH	HILLSBOROUGH	42.777637	-71.3846	1
@@ -11407,7 +11405,7 @@ NY0143700	Niagara Frontier Transportation Authority	Other	NY	ERIE			0
 NY0145100	Amherst Town Police Department	City	NY	ERIE	43.017994	-78.782845	1
 NY0145400	Brant Town Police Department	City	NY	ERIE	42.752759	-78.778192	0
 NY0145500	Cheektowaga Town Police Department	City	NY	ERIE	42.903458	-78.75433	1
-NY0146000	Orchard Park Town Police Department	City	NY	ERIE	42.7661	-78.74385	0
+NY0146000	Orchard Park Town Police Department	City	NY	ERIE	42.7661	-78.74385	1
 NY0146100	Eden Town Police Department	City	NY	ERIE	42.652393	-78.89419	1
 NY0146300	Evans Town Police Department	City	NY	ERIE	42.63766	-79.027725	1
 NY0146400	Grand Island Police Department	City	NY	ERIE	43.023167	-78.96574	0
@@ -11546,8 +11544,8 @@ NY0324000	New York Mills Village Police Department	City	NY	ONEIDA	43.242727	-75.
 NY0324100	New Hartford Town and Village Police Department	City	NY	ONEIDA	43.05529	-75.27844	1
 NY0325000	Whitestown Town Police Department	City	NY	ONEIDA	43.106163	-75.321625	0
 NY0325100	Kirkland Town Police Department	City	NY	ONEIDA	43.242727	-75.434282	0
-NY0330000	Onondaga County Sheriff's Office	County	NY	ONONDAGA	43.047646	-76.147446	0
-NY0330100	Syracuse Police Department	City	NY	ONONDAGA	43.046753	-76.14747	0
+NY0330000	Onondaga County Sheriff's Office	County	NY	ONONDAGA	43.047646	-76.147446	1
+NY0330100	Syracuse Police Department	City	NY	ONONDAGA	43.046753	-76.14747	1
 NY0330500	Syracuse Regional Airport Authority	Other	NY	ONONDAGA			1
 NY0332400	Jordan Village Police Department	City	NY	ONONDAGA	43.00653	-76.196117	1
 NY0332600	Solvay Village Police Department	City	NY	ONONDAGA	43.061012	-76.21294	1
@@ -11556,10 +11554,10 @@ NY0332900	Manlius Town Police Department	City	NY	ONONDAGA	43.00653	-76.196117	1
 NY0333000	Marcellus Village Police Department	City	NY	ONONDAGA	42.98244	-76.341354	1
 NY0333100	Liverpool Village Police Department	City	NY	ONONDAGA	43.103813	-76.20982	1
 NY0333200	Skaneateles Village Police Department	City	NY	ONONDAGA	42.945023	-76.432106	1
-NY0333500	North Syracuse Village Police Department	City	NY	ONONDAGA	43.13237	-76.12807	0
+NY0333500	North Syracuse Village Police Department	City	NY	ONONDAGA	43.13237	-76.12807	1
 NY0335000	Camillus Town and Village Police Department	City	NY	ONONDAGA	43.035553	-76.3154	1
-NY0335100	Cicero Town Police Department	City	NY	ONONDAGA	43.00653	-76.196117	0
-NY0335300	Dewitt Town Police Department	City	NY	ONONDAGA	43.00653	-76.196117	0
+NY0335100	Cicero Town Police Department	City	NY	ONONDAGA	43.00653	-76.196117	1
+NY0335300	Dewitt Town Police Department	City	NY	ONONDAGA	43.00653	-76.196117	1
 NY0335600	Geddes Town Police Department	City	NY	ONONDAGA	43.060307	-76.21281	1
 NY0339000	State Park: Central Region	Other State Agency	NY	NOT SPECIFIED	42.99434	-76.09826	0
 NY0340000	Ontario County Sheriff's Office	County	NY	ONTARIO	42.889885	-77.27641	0
@@ -11567,7 +11565,7 @@ NY0340200	Geneva Police Department	City	NY	ONTARIO	42.871147	-76.98003	0
 NY0342100	Clifton Springs Village Police Department	City	NY	ONTARIO	42.96147	-77.13843	0
 NY0342500	Phelps Village Police Department	City	NY	ONTARIO	42.95991	-77.06157	0
 NY0342900	Canandaigua Police Department	City	NY	ONTARIO	42.856695	-77.303277	0
-NY0350000	Orange County Sheriff's Office	County	NY	ORANGE	41.405544	-74.35576	0
+NY0350000	Orange County Sheriff's Office	County	NY	ORANGE	41.405544	-74.35576	1
 NY0350100	Middletown Police Department	City	NY	ORANGE	41.44597	-74.42122	1
 NY0350200	Newburgh Police Department	City	NY	ORANGE	41.531647	-74.06472	0
 NY0352000	Washingtonville Village Police Department	City	NY	ORANGE	41.40241	-74.306252	1
@@ -11584,13 +11582,13 @@ NY0353400	Florida Village Police Department	City	NY	ORANGE	41.330868	-74.35646	1
 NY0353500	Port Jervis Police Department	City	NY	ORANGE	41.374706	-74.691216	1
 NY0353600	Tuxedo Park Village Police Department	City	NY	ORANGE	41.40241	-74.306252	0
 NY0353700	Harriman Village Police Department	City	NY	ORANGE	41.40241	-74.306252	0
-NY0355000	Mount Hope Town Police Department	City	NY	ORANGE	41.40241	-74.306252	0
+NY0355000	Mount Hope Town Police Department	City	NY	ORANGE	41.40241	-74.306252	1
 NY0355200	Cornwall Town Police Department	City	NY	ORANGE	41.439156	-74.02982	0
 NY0355800	Highlands Town Police Department	City	NY	ORANGE	41.40241	-74.306252	0
 NY0356300	Newburgh Town Police Department	City	NY	ORANGE	41.531647	-74.06472	0
 NY0356500	Tuxedo Town Police Department	City	NY	ORANGE	41.40241	-74.306252	0
 NY0356700	New Windsor Town Police Department	City	NY	ORANGE	41.48312	-74.0622	0
-NY0356900	Woodbury Town Police Department	City	NY	ORANGE	41.40241	-74.306252	0
+NY0356900	Woodbury Town Police Department	City	NY	ORANGE	41.40241	-74.306252	1
 NY0357000	Warwick Town Police Department	City	NY	ORANGE	41.40241	-74.306252	1
 NY0357100	Deerpark Town Police Department	City	NY	ORANGE	41.40241	-74.306252	1
 NY0357300	Blooming Grove Town Police Department	City	NY	ORANGE	41.40241	-74.306252	1
@@ -11677,7 +11675,7 @@ NY0502600	Painted Post Village Police Department	City	NY	STEUBEN	42.266725	-77.3
 NY0502800	Hammondsport Village Police Department	City	NY	STEUBEN	42.266725	-77.385525	0
 NY0502900	Wayland Village Police Department	City	NY	STEUBEN	42.56781	-77.59157	0
 NY0503400	North Hornell Village Police Department	City	NY	STEUBEN	42.344494	-77.65987	0
-NY0510000	Suffolk County Sheriff's Office	County	NY	SUFFOLK	40.943554	-72.692218	0
+NY0510000	Suffolk County Sheriff's Office	County	NY	SUFFOLK	40.943554	-72.692218	1
 NY0510100	Suffolk County Police Department	County	NY	SUFFOLK	40.943554	-72.692218	1
 NY0512000	Amityville Village Police Department	City	NY	SUFFOLK	40.67743	-73.41865	0
 NY0512400	Sag Harbor Village Police Department	City	NY	SUFFOLK	40.943554	-72.692218	0
@@ -11816,8 +11814,8 @@ NY227UN00	State University of New York Police: Brockport	University or College	N
 NY229UN00	State University of New York Police: Old Westbury	University or College	NY	NASSAU	40.729612	-73.589419	0
 NY230UN00	State University of New York Police: Optometry	University or College	NY	NEW YORK	40.776557	-73.970174	1
 NY232UN00	State University of New York Police: Polytechnic Institute	University or College	NY	ONEIDA	43.242727	-75.434282	1
-NY233UE00	State University of New York Police: Environmental Science	University or College	NY	ONONDAGA	43.033867	-76.1392	0
-NY233UM00	State University of New York Police: Upstate Medical	University or College	NY	ONONDAGA	43.00653	-76.196117	0
+NY233UE00	State University of New York Police: Environmental Science	University or College	NY	ONONDAGA	43.033867	-76.1392	1
+NY233UM00	State University of New York Police: Upstate Medical	University or College	NY	ONONDAGA	43.00653	-76.196117	1
 NY237UN00	State University of New York Police: Oswego	University or College	NY	OSWEGO	43.461443	-76.209258	1
 NY238UN00	State University of New York Police: Oneonta	University or College	NY	OTSEGO	42.629776	-75.028841	0
 NY244UK00	State University of New York Police: Canton	University or College	NY	ST LAWRENCE	44.488112	-75.074311	0
@@ -11900,6 +11898,7 @@ OH0080000	Brown County Sheriff's Office	County	OH	BROWN	38.875282	-83.90146	1
 OH0080100	Aberdeen Police Department	City	OH	BROWN	38.931377	-83.866772	1
 OH0080200	Georgetown Police Department	City	OH	BROWN	38.8646	-83.90439	1
 OH0080300	Ripley Police Department	City	OH	BROWN	38.931377	-83.866772	1
+OH0080500	Hamersville Police Department	City	OH	BROWN			0
 OH0080600	Higginsport Police Department	City	OH	BROWN	38.931377	-83.866772	1
 OH0080700	Mount Orab Police Department	City	OH	BROWN	38.931377	-83.866772	1
 OH0080800	Russellville Police Department	City	OH	BROWN	38.931377	-83.866772	1
@@ -12141,7 +12140,7 @@ OH0290500	Bellbrook Police Department	City	OH	GREENE	39.635983	-84.070145	1
 OH0290700	Cedarville Police Department	City	OH	GREENE	39.687479	-83.894894	1
 OH0290900	Jamestown Police Department	City	OH	GREENE	39.658646	-83.74403	1
 OH0291100	Beavercreek Police Department	City	OH	GREENE	39.729694	-84.068794	1
-OH0291200	Wright State University	University or College	OH	GREENE	39.753736	-84.290591	0
+OH0291200	Wright State University	University or College	OH	GREENE	39.753736	-84.290591	1
 OH0291300	Sugarcreek Township Police Department	City	OH	GREENE	39.650173	-84.10765	1
 OH0291400	Central State University	University or College	OH	GREENE	39.687479	-83.894894	1
 OH029159E	Wilberforce University	University or College	OH	GREENE			1
@@ -12900,7 +12899,7 @@ OK0390800	Red Oak Police Department	City	OK	LATIMER			1
 OK0391100	Eastern Oklahoma State College	University or College	OK	LATIMER			1
 OK0400000	Le Flore County Sheriff's Office	County	OK	LE FLORE	34.899642	-94.703491	1
 OK0400100	Poteau Police Department	City	OK	LE FLORE	35.053352	-94.62298	1
-OK040013C	Le Flore County Detention Center	Other	OK	LE FLORE			0
+OK040013C	Le Flore County Detention Center	Other	OK	LE FLORE			1
 OK040015A	District Attorneys Council: Drug Task Force 16	Other State Agency	OK	NOT SPECIFIED			0
 OK0400200	Talihina Police Department	City	OK	LE FLORE	34.899642	-94.703491	1
 OK0400300	Arkoma Police Department	City	OK	LE FLORE	34.899642	-94.703491	1
@@ -13129,6 +13128,7 @@ OK0710300	Grandfield Police Department	City	OK	TILLMAN	34.233677	-98.6834	1
 OK0710700	Tipton Police Department	City	OK	TILLMAN	34.371085	-98.931701	1
 OK0720000	Tulsa County Sheriff's Office	County	OK	TULSA	36.154087	-95.995735	1
 OK0720100	Broken Arrow Police Department	City	OK	TULSA, WAGONER	36.03047	-95.78848	1
+OK072013J	Tulsa County Court Services	Other	OK	TULSA			1
 OK0720200	Collinsville Police Department	City	OK	ROGERS, TULSA	36.120318	-95.941813	1
 OK0720300	Sand Springs Police Department	City	OK	OSAGE, TULSA	36.120318	-95.941813	1
 OK0720400	Skiatook Police Department	City	OK	OSAGE, TULSA	36.120318	-95.941813	1
@@ -13636,7 +13636,6 @@ PA0062800	Northern Berks Regional Police Department	City	PA	BERKS	40.413957	-75.
 PA0062900	Robeson Township Police Department	City	PA	BERKS	40.284084	-75.87083	0
 PA0063000	Bally Police Department	City	PA	BERKS	40.413957	-75.92686	0
 PA0063100	Bern Township Police Department	City	PA	BERKS	40.391823	-75.99295	0
-PA0063200	Bernville Police Department	City	PA	BERKS	40.413957	-75.92686	0
 PA0063400	Douglass Township Police Department, Berks County	City	PA	BERKS	40.302307	-75.68893	0
 PA0063500	Central Berks Regional Police Department	City	PA	BERKS	40.327957	-75.89742	0
 PA0063600	Lower Heidelberg Township Police Department	City	PA	BERKS	40.413957	-75.92686	0
@@ -13788,7 +13787,7 @@ PA0113100	Hastings Police Department	City	PA	CAMBRIA	40.497668	-78.711398	0
 PA0113200	Jackson Township Police Department, Cambria County	City	PA	CAMBRIA			0
 PA0113500	Loretto Police Department	City	PA	CAMBRIA	40.497668	-78.711398	0
 PA0113700	Sankertown Police Department	City	PA	CAMBRIA	40.497668	-78.711398	0
-PA0114000	Stonycreek Township Police Department	City	PA	CAMBRIA	40.30336	-78.89009	0
+PA0114000	Stonycreek Township Police Department	City	PA	CAMBRIA	40.30336	-78.89009	1
 PA0114200	Summerhill Township Police Department	City	PA	CAMBRIA	40.497668	-78.711398	0
 PA0115100	Cambria County District Attorney's Office	Other	PA	CAMBRIA			0
 PA0115200	Adams Township Police Department, Cambria County	City	PA	CAMBRIA			0
@@ -13966,7 +13965,7 @@ PA0210700	Mechanicsburg Police Department	City	PA	CUMBERLAND	40.21412	-77.0099	0
 PA0210800	New Cumberland Police Department	City	PA	CUMBERLAND	40.233707	-76.872	1
 PA0210900	Shippensburg Police Department	City	PA	CUMBERLAND, FRANKLIN	40.052597	-77.51998	1
 PA0211000	Shiremanstown Police Department	City	PA	CUMBERLAND	40.22452	-76.95161	0
-PA0211300	Middlesex Township Police Department, Cumberland County	City	PA	CUMBERLAND			0
+PA0211300	Middlesex Township Police Department, Cumberland County	City	PA	CUMBERLAND			1
 PA0211400	Mount Holly Springs Police Department	City	PA	CUMBERLAND	40.11565	-77.19164	0
 PA0211500	North Middleton Township Police Department	City	PA	CUMBERLAND	40.237446	-77.180405	0
 PA0211600	Shippensburg University	University or College	PA	CUMBERLAND	40.164782	-77.26344	0
@@ -14792,6 +14791,7 @@ PA0656200	Forest Rangers: Forbes State Forest District 4	Other State Agency	PA	W
 PA0656800	Pennsylvania State University: New Kensington	University or College	PA	WESTMORELAND			0
 PA0657200	Ligonier Valley Regional Police Department	City	PA	WESTMORELAND			0
 PA0657300	Franklin Regional School District	Other	PA	WESTMORELAND			0
+PA0658200	Seton Hill University	University or College	PA	WESTMORELAND			0
 PA065BF0X	Bureau of Forestry: Westmoreland County	Other State Agency	PA	WESTMORELAND			0
 PA065DE0X	Office of Attorney General Region 3: Westmoreland County	Other State Agency	PA	WESTMORELAND			0
 PA065SP00	State Police: Westmoreland County	State Police	PA	WESTMORELAND	40.17718	-79.80703	1
@@ -14808,7 +14808,7 @@ PA0670000	York County Sheriff's Office	County	PA	YORK	39.963314	-76.72817	0
 PA0670100	Hanover Police Department	City	PA	YORK	39.80002	-76.98398	0
 PA0670200	York Police Department	City	PA	YORK	39.960655	-76.72831	0
 PA0670400	Springettsbury Township Police Department	City	PA	YORK	39.99148	-76.671074	0
-PA0670600	Fairview Township Police Department, York County	City	PA	YORK	40.189552	-76.88996	0
+PA0670600	Fairview Township Police Department, York County	City	PA	YORK	40.189552	-76.88996	1
 PA0670700	State Park Rangers: Codorus	Other State Agency	PA	YORK	39.921751	-76.728889	0
 PA0670900	West Manchester Township Police Department	City	PA	YORK	39.952354	-76.78324	0
 PA0671000	West York Police Department	City	PA	YORK	39.95471	-76.765045	0
@@ -14856,7 +14856,6 @@ PAUNI110X	Saint Francis University	University or College	PA	ALLEGHENY			0
 PAUNI360X	Franklin and Marshall College	University or College	PA	LANCASTER			0
 PAUNI400X	Luzerne County Community College	University or College	PA	LUZERNE			0
 PAUNI600X	Bucknell University	University or College	PA	UNION			1
-PAUNI650X	Seton Hill University	University or College	PA	WESTMORELAND			0
 RI0010100	Barrington Police Department	City	RI	BRISTOL	41.70411	-71.285956	1
 RI0010200	Bristol Police Department	City	RI	BRISTOL	41.70411	-71.285956	1
 RI0010300	Warren Police Department	City	RI	BRISTOL	41.729374	-71.28225	1
@@ -16427,6 +16426,7 @@ TX0573300	Rowlett Police Department	City	TX	DALLAS, ROCKWALL	32.766987	-96.77842
 TX0573800	Dallas County Constable: Precinct 3	Other	TX	DALLAS			1
 TX0573900	Dallas County Constable: Precinct 2	Other	TX	DALLAS			1
 TX0574100	Dallas County Constable: Precinct 4	Other	TX	DALLAS			1
+TX0574200	Dallas County Constable: Precinct 1	Other	TX	DALLAS			1
 TX0574700	Glenn Heights Police Department	City	TX	DALLAS, ELLIS	32.564953	-96.84331	1
 TX0575000	Hospital District: Dallas County	Other	TX	DALLAS	32.812763	-96.838455	1
 TX057519E	Baylor Health Care System	University or College	TX	DALLAS			1
@@ -16500,6 +16500,8 @@ TX0640000	Dimmit County Sheriff's Office	County	TX	DIMMIT	28.521915	-99.86047	1
 TX0640200	Independent School District: Carrizo Springs Consolidated	Other	TX	DIMMIT			1
 TX0640300	Dimmit County Constable: Precinct 3	Other	TX	DIMMIT			1
 TX0640500	Carrizo Springs Police Department	City	TX	DIMMIT			1
+TX0640600	Dimmit County Constable: Precinct 1 & 6	Other	TX	DIMMIT			1
+TX0640800	Dimmit County Constable: Precinct 4	Other	TX	DIMMIT			1
 TX0650000	Donley County Sheriff's Office	County	TX	DONLEY	34.955036	-100.815846	1
 TX0660000	Duval County Sheriff's Office	County	TX	DUVAL	27.681123	-98.497393	1
 TX0660100	Benavides Police Department	City	TX	DUVAL	27.681123	-98.497393	0
@@ -16536,6 +16538,7 @@ TX0701100	Ellis County Constable: Precinct 1	Other	TX	ELLIS			1
 TX0701400	Ellis County Constable: Precinct 4	Other	TX	ELLIS			1
 TX0701700	Ellis County Constable: Precinct 2	Other	TX	ELLIS			1
 TX0701900	Independent School District: Ennis	Other	TX	ELLIS			1
+TX0702000	Independent School District: Red Oak	Other	TX	ELLIS			1
 TX0702200	Maypearl Police Department	City	TX	ELLIS			1
 TX0702300	Independent School District: Ferris	Other	TX	ELLIS			1
 TX0702600	Ellis County Constable: Precinct 3	Other	TX	ELLIS			1
@@ -16812,6 +16815,7 @@ TX1020000	Harrison County Sheriff's Office	County	TX	HARRISON	32.547991	-94.3744
 TX1020100	Hallsville Police Department	City	TX	HARRISON	32.547991	-94.374434	1
 TX1020200	Marshall Police Department	City	TX	HARRISON	32.547991	-94.374434	1
 TX1020500	Waskom Police Department	City	TX	HARRISON			1
+TX1020700	Harrison County Constable: Precinct 1	Other	TX	HARRISON			1
 TX1020900	Harrison County Constable: Precinct 3	Other	TX	HARRISON			1
 TX1021000	Harrison County Constable: Precinct 4	Other	TX	HARRISON			1
 TX1021300	Independent School District: Hallsville	Other	TX	HARRISON	32.547991	-94.374434	1
@@ -16828,6 +16832,7 @@ TX1050400	Hays County Constable: Precinct 2	Other	TX	HAYS			1
 TX1050500	Hays County Constable: Precinct 3	Other	TX	HAYS			1
 TX1050600	Hays County Constable: Precinct 5	Other	TX	HAYS			1
 TX1050700	Kyle Police Department	City	TX	HAYS	30.061225	-98.029267	1
+TX1050900	Fire Marshal's Office: Hays County	Other	TX	HAYS			1
 TX1051100	Hays County Constable: Precinct 4	Other	TX	HAYS			1
 TX1051200	Buda Police Department	City	TX	HAYS	30.061225	-98.029267	1
 TX1060000	Hemphill County Sheriff's Office	County	TX	HEMPHILL	35.816237	-100.284807	1
@@ -16896,7 +16901,7 @@ TX1100000	Hockley County Sheriff's Office	County	TX	HOCKLEY	33.57934	-102.37784	
 TX1100100	Levelland Police Department	City	TX	HOCKLEY	33.57934	-102.37784	1
 TX1100400	South Plains College	University or College	TX	HOCKLEY	33.578476	-102.3678	1
 TX1100500	Anton Police Department	City	TX	HOCKLEY	33.605932	-102.343398	1
-TX1100600	Sundown Police Department	City	TX	HOCKLEY	33.605932	-102.343398	0
+TX1100600	Sundown Police Department	City	TX	HOCKLEY	33.605932	-102.343398	1
 TX1101100	Independent School District: Ropes	Other	TX	HOCKLEY			1
 TX1110000	Hood County Sheriff's Office	County	TX	HOOD	32.430149	-97.831677	1
 TX1110100	Granbury Police Department	City	TX	HOOD	32.430149	-97.831677	1
@@ -17159,7 +17164,7 @@ TX1550400	Hewitt Police Department	City	TX	MCLENNAN	31.549493	-97.201472	1
 TX1550500	Lacy-Lakeview Police Department	City	TX	MCLENNAN	31.62393	-97.10311	1
 TX1550600	Lorena Police Department	City	TX	MCLENNAN	31.549493	-97.201472	1
 TX1550700	McGregor Police Department	City	TX	MCLENNAN	31.4415	-97.40726	0
-TX1550800	Mart Police Department	City	TX	LIMESTONE, MCLENNAN	31.549493	-97.201472	0
+TX1550800	Mart Police Department	City	TX	LIMESTONE, MCLENNAN	31.549493	-97.201472	1
 TX1550900	Moody Police Department	City	TX	MCLENNAN			1
 TX1551100	Robinson Police Department	City	TX	MCLENNAN	31.468706	-97.11562	1
 TX1551200	Waco Police Department	City	TX	MCLENNAN	31.549493	-97.201472	1
@@ -17365,7 +17370,6 @@ TX1900000	Rains County Sheriff's Office	County	TX	RAINS	32.87058	-95.79544	1
 TX1900500	East Tawakoni Police Department	City	TX	RAINS			1
 TX1900600	Emory Police Department	City	TX	RAINS			1
 TX1900700	Independent School District: Rains	Other	TX	RAINS			1
-TX1900800	Point Police Department	City	TX	RAINS			1
 TX1910000	Randall County Sheriff's Office	County	TX	RANDALL	35.119816	-101.86604	1
 TX1910100	Canyon Police Department	City	TX	RANDALL	34.98086	-101.92753	1
 TX1910300	West Texas A&M University	University or College	TX	RANDALL	34.962529	-101.895547	1
@@ -17384,7 +17388,6 @@ TX1950400	Reeves County Constable: Precinct 3	Other	TX	REEVES			1
 TX1950700	Independent School District: Pecos Barstow Toyah	Other	TX	REEVES			1
 TX1960000	Refugio County Sheriff's Office	County	TX	REFUGIO	28.312716	-97.161366	1
 TX1960100	Refugio Police Department	City	TX	REFUGIO	28.312716	-97.161366	1
-TX1960200	Woodsboro Police Department	City	TX	REFUGIO			1
 TX1960300	Refugio County Constable: Precinct 1	Other	TX	REFUGIO			1
 TX1960400	Refugio County Constable: Precinct 2 & 3	Other	TX	REFUGIO			1
 TX1970000	Roberts County Sheriff's Office	County	TX	ROBERTS	35.836216	-100.807555	1
@@ -17473,6 +17476,7 @@ TX2121700	Independent School District: Chapel Hill	Other	TX	SMITH			1
 TX2121900	Independent School District: Tyler	Other	TX	SMITH	32.375106	-95.268743	1
 TX2122000	Independent School District: Lindale	Other	TX	SMITH			1
 TX2122300	Independent School District: Bullard	Other	TX	SMITH			1
+TX2122400	Independent School District: Arp	Other	TX	SMITH			1
 TX2130000	Somervell County Sheriff's Office	County	TX	SOMERVELL	32.217942	-97.769211	1
 TX2130200	Somervell County Constable: Precinct 1	Other	TX	SOMERVELL			1
 TX2140000	Starr County Sheriff's Office	County	TX	STARR	26.383215	-98.8192	1
@@ -17575,6 +17579,7 @@ TX2270500	University of Texas: Austin	University or College	TX	TRAVIS	30.239513	
 TX2270600	Travis County Constable: Precinct 5	Other	TX	TRAVIS			1
 TX2270900	Pflugerville Police Department	City	TX	TRAVIS, WILLIAMSON	30.239513	-97.69127	1
 TX2271100	Lakeway Police Department	City	TX	TRAVIS	30.362913	-97.97955	1
+TX2271600	Travis County Constable:  Precinct 2	Other	TX	TRAVIS			1
 TX2271700	Travis County Constable: Precinct 3	Other	TX	TRAVIS			1
 TX2271900	Sunset Valley Police Department	City	TX	TRAVIS	30.239513	-97.69127	1
 TX2272100	Lago Vista Police Department	City	TX	TRAVIS	30.239513	-97.69127	1
@@ -17828,6 +17833,7 @@ UT0181900	Bluffdale Police Department	City	UT	SALT LAKE	40.490448	-111.94834	1
 UT0182100	Alta Police Department	City	UT	SALT LAKE	40.667883	-111.92424	1
 UT0182500	West Valley Police Department	City	UT	SALT LAKE	40.694046	-111.96	1
 UT0182800	Granite School District	Other	UT	SALT LAKE	40.667883	-111.92424	1
+UT0183300	Unified Fire Authority Investigations Bureau	Other	UT	SALT LAKE			0
 UT0183900	Taylorsville City Police Department	City	UT	SALT LAKE	40.667883	-111.92424	1
 UT0184000	Utah Transit Authority	Other	UT	SALT LAKE	40.68761	-111.911194	1
 UT0184200	Cottonwood Heights Police Department	City	UT	SALT LAKE	40.667883	-111.92424	1
@@ -18820,7 +18826,7 @@ WI0250200	Mineral Point Police Department	City	WI	IOWA	43.001021	-90.133691	1
 WI0250300	Highland Police Department	City	WI	IOWA	43.001021	-90.133691	0
 WI0250600	Barneveld Police Department	City	WI	IOWA	43.001021	-90.133691	1
 WI0250800	Avoca Police Department	City	WI	IOWA	43.18261	-90.32593	0
-WI0251200	Linden Police Department	City	WI	IOWA			0
+WI0251200	Linden Police Department	City	WI	IOWA			1
 WI0260000	Iron County Sheriff's Office	County	WI	IRON	46.32655	-90.261298	1
 WI0260100	Hurley Police Department	City	WI	IRON	46.453094	-90.18625	1
 WI0270000	Jackson County Sheriff's Office	County	WI	JACKSON	44.295376	-90.85097	1

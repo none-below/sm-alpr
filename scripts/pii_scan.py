@@ -45,6 +45,11 @@ EXCLUDED_PATH_PREFIXES = (
     # intentionally contain external agency email addresses from dozens of
     # non-allowlisted domains. Not a PII leak; expected content.
     "assets/san-mateo-public-records/W012462-040226/",
+    # Agency productions under W-folders are kept byte-exact so they stay
+    # hash-comparable against what the agency produced. GovQA audit histories
+    # log every notification delivery, so they contain the requester address
+    # by construction. Do not rewrite them; exclude them from the scan.
+    "assets/san-mateo-public-records/W0",
 )
 
 ALLOWED_EMAIL_DOMAINS = {
@@ -63,11 +68,16 @@ ALLOWED_EMAIL_DOMAINS = {
     "mycusthelp.net",
     "ncric.net",
     "ncric.ca.gov",
-    # Requester's own domain — appears in produced records where SMPD
-    # includes requester's outbound emails (e.g. W012666 Flock Camera Concerns thread)
-    "zerobelow.org",
     # South San Francisco PD — appears in W012665 _Re__SMPD_ALPR_Stuff.pdf
     "ssf.net",
+    # San Mateo County Assessor-County Clerk-Recorder-Elections — published
+    # public-records intake address (countyclerk@). Appears in emails/ source 62,
+    # the outbound CPRA request for the Penal Code §933(c) responses on file.
+    "smcacre.gov",
+    # Typo variant of smcacre.gov: the County Clerk signature block's mailto:
+    # hyperlink target reads .org while its visible text reads .gov. Source 63 is
+    # kept as the office sent it rather than corrected, so allow the variant.
+    "smcacre.org",
 }
 
 # Known public phone numbers from published City of San Mateo records.
@@ -98,6 +108,11 @@ ALLOWED_PHONES = {
     "6505227720",  # R. Sianez, Field Operations admin (W012459-040226 ORT email + PO-0001042, 2024)
     "6505227100",  # S. Wong, Buyer (W012459-040226 PO-0001042, 2024)
     "6505333539",  # San Mateo County community chapter (Council packet, 2022-04-04)
+    # Office of the County Clerk (San Mateo County Assessor-County Clerk-Recorder-
+    # Elections) — direct and fax lines published in the office's own email
+    # signature block; appear in emails/ sources 63-64.
+    "6503634779",
+    "6507809952",
 }
 
 # ── Patterns ──
@@ -113,6 +128,9 @@ PHONE_650_RE = re.compile(
     r'|650[\s.\-]\d{3}[\s.\-]\d{4}'    # 650-522-7710 / 650.522.7710
     r')',
 )
+
+
+WEBMAIL_TITLE_RE = re.compile(r'\S+\s+Webmail\s*::', re.I)
 
 
 def extract_text_from_page(page):
@@ -159,7 +177,49 @@ def scan_pdf(pdf_path):
         print(f"  WARNING: could not open {pdf_path}: {e}", file=sys.stderr)
         return []
 
+    for key, value in (doc.metadata or {}).items():
+        if not value:
+            continue
+        if WEBMAIL_TITLE_RE.search(str(value)):
+            results.append({
+                "file": str(pdf_path), "page": 0, "category": "METADATA",
+                "match": f"{key}: webmail client stamp",
+                "context": str(value)[:80],
+            })
+        for category, match, context in scan_text(str(value)):
+            results.append({
+                "file": str(pdf_path), "page": 0, "category": f"META-{category}",
+                "match": match, "context": context,
+            })
+
+    # Link annotations can carry a mailto: URI action that never appears in the
+    # text layer, is not returned by get_links() when the annotation is reachable
+    # only from the structure tree, and survives garbage collection. Walk the raw
+    # objects so that vector cannot hide.
+    seen_obj = set()
+    for xref in range(1, doc.xref_length()):
+        try:
+            obj = doc.xref_object(xref, compressed=False)
+        except Exception:
+            continue
+        if not obj or "/URI" not in obj:
+            continue
+        for category, match, context in scan_text(obj):
+            if match in seen_obj:
+                continue
+            seen_obj.add(match)
+            results.append({
+                "file": str(pdf_path), "page": 0,
+                "category": f"OBJ-{category}", "match": match, "context": context,
+            })
+
     for page_num in range(len(doc)):
+        for link in doc[page_num].get_links():
+            for category, match, context in scan_text(link.get("uri", "") or ""):
+                results.append({
+                    "file": str(pdf_path), "page": page_num + 1,
+                    "category": f"LINK-{category}", "match": match, "context": context,
+                })
         text = extract_text_from_page(doc[page_num])
         if not text:
             continue

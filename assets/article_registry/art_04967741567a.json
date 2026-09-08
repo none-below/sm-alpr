@@ -1,0 +1,150 @@
+{
+  "url": "https://www.wired.com/story/security-roundup-apples-hide-my-email-service-fails-to-hide-your-email/",
+  "source_domain": "wired.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Apple\u2019s Hide My Email Service Fails to Hide Your Email",
+  "byline": "Matt Burgess,Lily Hay Newman",
+  "published_at": "2026-07-04T10:30:00.000Z",
+  "fetched_at": "2026-07-19T09:12:45Z",
+  "discovered_by": "rss:wired.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 165 pts, HIGH/CRITICAL findings",
+  "scanner_score": 165,
+  "content_hash": "21232b52fd6cd9310be312c1144be5ad3e90ebb983b378fc055c0b5bac65e8e9",
+  "paths": {
+    "html": "assets/articles/wired.com/story-security-roundup-apples-hide-my-email-service-fails-to-hide-your-email_04967741.html",
+    "meta": "assets/articles/wired.com/story-security-roundup-apples-hide-my-email-service-fails-to-hide-your-email_04967741.meta.json",
+    "pdf": "assets/articles/wired.com/story-security-roundup-apples-hide-my-email-service-fails-to-hide-your-email_04967741.pdf",
+    "txt": "assets/articles/wired.com/story-security-roundup-apples-hide-my-email-service-fails-to-hide-your-email_04967741.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260719091257/https://www.wired.com/story/security-roundup-apples-hide-my-email-service-fails-to-hide-your-email/",
+  "wayback_timestamp": "20260719091257",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "incident:false-positive",
+    "incident:wrongful-stop",
+    "policy:hotlist",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "5610e604-ad2c-5626-8287-33433f9c275f",
+    "f291bda5-63db-54e8-95f5-26dbfd2e0ee3",
+    "dd69b7d7-31ef-59bb-8b8f-896081cffa1d",
+    "3a9d6bec-c7e9-5cdc-961f-a54fddaa3c37",
+    "41082ba2-98ed-5d8e-b8f3-5780b780dcc3",
+    "7071c666-10c3-5626-9d40-7899bbaad3df",
+    "0f29cc85-29ba-5a5d-afae-e896ce39e4f4",
+    "ccb2d165-85bb-56f5-9e67-3e47f4d999c1",
+    "6a41a9ad-08bb-5164-923b-f46d1439d38b"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "5610e604-ad2c-5626-8287-33433f9c275f",
+      "display_name": "City of Newman CA PD",
+      "state": "CA",
+      "score": 5.9,
+      "matched_forms": [
+        "Newman"
+      ]
+    },
+    {
+      "agency_id": "f291bda5-63db-54e8-95f5-26dbfd2e0ee3",
+      "display_name": "Murphy TX PD",
+      "state": "TX",
+      "score": 5.9,
+      "matched_forms": [
+        "Murphy"
+      ]
+    },
+    {
+      "agency_id": "dd69b7d7-31ef-59bb-8b8f-896081cffa1d",
+      "display_name": "White House TN PD",
+      "state": "TN",
+      "score": 2.683,
+      "matched_forms": [
+        "White House"
+      ]
+    },
+    {
+      "agency_id": "3a9d6bec-c7e9-5cdc-961f-a54fddaa3c37",
+      "display_name": "Dickson TN PD",
+      "state": "TN",
+      "score": 2.617,
+      "matched_forms": [
+        "Dickson"
+      ]
+    },
+    {
+      "agency_id": "41082ba2-98ed-5d8e-b8f3-5780b780dcc3",
+      "display_name": "IN - English PD",
+      "state": "IN",
+      "score": 2.617,
+      "matched_forms": [
+        "English"
+      ]
+    },
+    {
+      "agency_id": "7071c666-10c3-5626-9d40-7899bbaad3df",
+      "display_name": "East Texas Auto Theft Task Force",
+      "state": "TX",
+      "score": 2.583,
+      "matched_forms": [
+        "Tyler"
+      ]
+    },
+    {
+      "agency_id": "0f29cc85-29ba-5a5d-afae-e896ce39e4f4",
+      "display_name": "Tyler TX ISD PD",
+      "state": "TX",
+      "score": 2.583,
+      "matched_forms": [
+        "Tyler"
+      ]
+    },
+    {
+      "agency_id": "ccb2d165-85bb-56f5-9e67-3e47f4d999c1",
+      "display_name": "Tyler TX PD",
+      "state": "TX",
+      "score": 2.583,
+      "matched_forms": [
+        "Tyler"
+      ]
+    },
+    {
+      "agency_id": "6a41a9ad-08bb-5164-923b-f46d1439d38b",
+      "display_name": "University of Texas at Tyler PD",
+      "state": "TX",
+      "score": 2.583,
+      "matched_forms": [
+        "Tyler"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "A WIRED security roundup includes a segment on automatic license plate readers, citing an Institute for Justice review that found at least 24 cases over eight years where ALPR misreads or stale hotlist data led to innocent people being detained, including a family stopped at gunpoint and grandparents pulled over due to an 'O'/'0' misread.",
+  "key_quotes": [
+    {
+      "quote": "A review of court records and media reports, which are likely the tip of the iceberg, by the nonprofit the Institute for Justice this week found at least 24 cases of misidentification over the last eight years.",
+      "paragraph_idx": 20
+    },
+    {
+      "quote": "a camera misreading an \"O\" as a zero, leading to grandparents being detained; and someone being pulled over after their license plate was not removed from a wanted list.",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-19T09:22:42Z",
+  "article_id": "art_04967741567a"
+}

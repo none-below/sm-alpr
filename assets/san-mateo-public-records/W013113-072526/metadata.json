@@ -1,0 +1,35 @@
+{
+  "title": "Flock network audit — Costa Mesa PD / Josett searches (Jan–Jun 2024)",
+  "summary": "Asks for a narrow slice of the Department's Flock \"network audit\" — the log of searches performed against SMPD's ALPR network by outside agencies:\n\n- Item 1: network-audit entries for January 1 – June 30, 2024 limited to searches by, or attributed to the credentials of, the Costa Mesa Police Department — in particular the user recorded as Robert Josett (abbreviated \"R. Jos\" in Flock exports).\n- Item 2: the complete audit record for each responsive entry (agency, user, date/time, look-back window, stated reason, case number, search type, network/device counts), in native CSV/export format.\n\nThe request states that Josett was suspended by Costa Mesa PD in December 2023 and later terminated, so searches under his credentials during the period were not records of any authorized law-enforcement investigation.\n\nDenied in full on 2026-07-29 — four days after filing — following City Attorney legal review, citing Gov. Code § 7923.600 (investigatory records), Gov. Code § 7922.000 (public-interest balancing), and Evidence Code § 1040 (official information privilege).",
+  "tags": [
+    "audit-compliance",
+    "external-sharing"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7923.600",
+      "quote": "records of investigations conducted by, or investigatory files compiled by, any state or local police agency",
+      "tests": "Whether search-log metadata attributed to a suspended officer — searches the request's premise says were not authorized investigations — can be withheld as confidential investigatory records of another agency."
+    },
+    {
+      "policy": "463.10",
+      "quote": "an audit is conducted of ALPR data searches at least monthly for internal ALPR users and quarterly for external CA public agency users",
+      "tests": "Whether the external-user search audit Policy 463.10 requires SMPD itself to conduct is consistent with the position that external search-log entries are other agencies' confidential investigative activity SMPD 'is not in a position to assess.'"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012320-031126",
+      "relation": "context",
+      "note": "W012320 Item 3 asked which external agencies have searched SMPD's ALPR data and how often; still open on rolling extensions. This request seeks one specific agency/user slice of the same network audit."
+    },
+    {
+      "ref": "W012541-041426",
+      "relation": "context",
+      "note": "W012541 established that SMPD produces its Flock search-audit exports (internal searches) month by month. This request asks for the external-search side of the same platform audit."
+    }
+  ],
+  "filed_because": "Redwood City audit records show a Costa Mesa PD user recorded as \"R. Jos\" running statewide Flock searches while Robert Josett was suspended from Costa Mesa PD. This request tests whether SMPD's network audit records the same credentials searching SMPD's network during the suspension period, and whether SMPD will produce external-search audit metadata at all.",
+  "status_override": "closed",
+  "notes": "Denied in full 2026-07-29 by City Attorney legal review (Juliana Santiago transmittal + response letter): Gov. Code § 7923.600, Gov. Code § 7922.000, Evid. Code § 1040. The letter characterizes each network-audit entry as documenting 'an investigative act by another agency' and says SMPD 'is not the originating agency' and cannot assess whether disclosure would compromise other agencies' investigations. No segregability analysis was offered; the request's premise — that searches under suspended credentials are not records of any authorized investigation — was not addressed."
+}

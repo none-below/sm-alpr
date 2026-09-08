@@ -1,0 +1,106 @@
+{
+  "url": "https://www.eff.org/deeplinks/2026/07/how-watch-dogs-video-game-series-mirrored-and-predicted-real-world-digital-rights",
+  "source_domain": "eff.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "How the Watch Dogs Video Game Series Mirrored and Predicted Real-World Digital Rights Issues",
+  "byline": "Dave Maass",
+  "published_at": "2026-07-17T08:01:22-07:00",
+  "fetched_at": "2026-07-19T13:46:45Z",
+  "discovered_by": "rss:eff.org",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 31 pts, HIGH/CRITICAL findings",
+  "scanner_score": 31,
+  "content_hash": "13a56ee0e4eebdf1f301d88921346a2139a4c26a75738264fe002f0c8841061f",
+  "paths": {
+    "html": "assets/articles/eff.org/deeplinks-2026-07-how-watch-dogs-video-game-series-mirrored-and-predicted-real-w_b7b53e15.html",
+    "meta": "assets/articles/eff.org/deeplinks-2026-07-how-watch-dogs-video-game-series-mirrored-and-predicted-real-w_b7b53e15.meta.json",
+    "pdf": "assets/articles/eff.org/deeplinks-2026-07-how-watch-dogs-video-game-series-mirrored-and-predicted-real-w_b7b53e15.pdf",
+    "txt": "assets/articles/eff.org/deeplinks-2026-07-how-watch-dogs-video-game-series-mirrored-and-predicted-real-w_b7b53e15.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:data-breach",
+    "scope:national",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:fusus"
+  ],
+  "agencies": [
+    "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+    "d0b9ceb5-ac4a-505b-b767-83abcc3f5347"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+      "display_name": "New York City Department of Environmental Protection PD",
+      "state": "NY",
+      "score": 6.45,
+      "matched_forms": [
+        "New York",
+        "New York Police",
+        "New York Police Department"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 6.367,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "display_name": "San Diego CA PD",
+      "state": "CA",
+      "score": 3.8,
+      "matched_forms": [
+        "San Diego"
+      ]
+    },
+    {
+      "agency_id": "d0b9ceb5-ac4a-505b-b767-83abcc3f5347",
+      "display_name": "Reno NV PD",
+      "state": "NV",
+      "score": 2.567,
+      "matched_forms": [
+        "Reno"
+      ]
+    },
+    {
+      "agency_id": "6e27497c-1f07-5bee-a1c1-daa271027c85",
+      "display_name": "Louisiana MO PD",
+      "state": "MO",
+      "score": 1.267,
+      "matched_forms": [
+        "Louisiana Police"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "EFF's Dave Maass reflects on how the Watch Dogs video game series anticipated real-world surveillance issues EFF has worked on, including insecure ALPRs (citing Louisiana police cameras exposed via Shodan and the recent 404 Media/Flock Safety exposure), cell-site simulators, Knightscope security robots, and citywide surveillance platforms like Flock OS and Axon's Fusus. The piece promotes EFF's advocacy and a Comic-Con panel commemorating the game's anniversary.",
+  "key_quotes": [
+    {
+      "quote": "Cooper Quintin and I used the service Shodan to identify a slew of automated license plate readers (ALPRs) that Louisiana police had left unprotected on the internet.",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "security researchers Benn Jordan and Jon \"GainSec\" Gaines, and the award-winning journalists at 404 Media, uncovered how at least 60 pan-tilt-zoom cameras from the vendor Flock Safety were left exposed online.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "both Axon and Flock Safety are trying to offer products that integrate with every function of policing that sound like CTOs. In fact, Flock Safety product is literally titled, \"Flock OS.\"",
+      "paragraph_idx": 25
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-19T13:48:46Z",
+  "article_id": "art_b7b53e157cbf"
+}

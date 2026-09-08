@@ -163,12 +163,20 @@ def write_log(portal, rows, meta):
 
 
 def discover_portals():
-    """Return portal slugs whose most recent scrape has any audit-csv history."""
+    """Portal slugs with audit-csv data — from live scrapes or PRA imports.
+
+    Live portals embed the audit CSV in daily YYYY-MM-DD.json scrapes. Agencies
+    whose audit arrived only via PRA (their portal publishes no public audit CSV)
+    carry it in pra-*.json instead; include those too so PRA-only audit agencies
+    build. `portal_jsons` stays strict (daily scrapes only) so other builders
+    aren't fooled by minimal PRA imports; here we additionally check pra-*.json.
+    """
     portals = set()
     for portal_dir in sorted(SCRAPE_DIR.iterdir()):
         if not portal_dir.is_dir():
             continue
-        for path in portal_jsons(portal_dir):
+        candidates = list(portal_jsons(portal_dir)) + sorted(portal_dir.glob("pra-*.json"))
+        for path in candidates:
             try:
                 with open(path) as f:
                     data = json.load(f)

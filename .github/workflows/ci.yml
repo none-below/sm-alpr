@@ -373,14 +373,41 @@ jobs:
           # Don't duplicate — check for an existing open issue
           EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
           if [ -n "$EXISTING" ]; then
+            # The issue body is bot-owned and always holds the current list.
+            # Only touch the issue when the list actually changes. Commenting
+            # the full list on every CI run drove #673 into GitHub's hard cap
+            # ("Commenting is disabled on issues with more than 2500
+            # comments"), which then failed the publish job on every run —
+            # including runs where nothing about coordinates had changed.
+            # refresh-flock-data.yml already learned this the hard way in
+            # #516 and #636; this is the same guard.
             {
-              echo "Updated from CI run:"
+              echo "The following agencies receive data from public agencies but have no lat/lng in the registry:"
               echo
               echo '```'
               cat "$COORD_FILE"
               echo '```'
+              echo
+              echo "Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
             } > /tmp/coord-issue-body.md
-            gh issue comment "$EXISTING" --body-file /tmp/coord-issue-body.md
+            gh issue view "$EXISTING" --json body -q .body | tr -d '\r' > /tmp/coord-issue-old.md
+            if diff -u /tmp/coord-issue-old.md /tmp/coord-issue-body.md > /tmp/coord-issue-diff.txt; then
+              echo "Recipient list unchanged; leaving issue #$EXISTING alone."
+              exit 0
+            fi
+            gh issue edit "$EXISTING" --body-file /tmp/coord-issue-body.md
+            # Best-effort changelog comment. An issue already at the comment
+            # cap can never accept another one, so a failure here must not
+            # fail CI — the body edit above is the durable signal.
+            {
+              echo "Recipient list changed:"
+              echo
+              echo '```diff'
+              grep -E '^[-+][^-+]' /tmp/coord-issue-diff.txt || true
+              echo '```'
+            } > /tmp/coord-issue-comment.md
+            gh issue comment "$EXISTING" --body-file /tmp/coord-issue-comment.md \
+              || echo "::warning::Could not comment on #$EXISTING (comment cap reached?); body was still updated."
           else
             {
               echo "The following agencies receive data from public agencies but have no lat/lng in the registry:"

@@ -1,0 +1,156 @@
+{
+  "url": "https://www.wired.com/story/security-news-this-week-ai-found-a-root-bug-in-linux-that-everyone-missed-for-15-years/",
+  "source_domain": "wired.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "AI Found a Root Bug in Linux That Everyone Missed for 15 Years",
+  "byline": "Dell Cameron,Lily Hay Newman",
+  "published_at": "2026-07-11T10:30:00.000Z",
+  "fetched_at": "2026-07-19T11:21:26Z",
+  "discovered_by": "rss:wired.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 171 pts, HIGH/CRITICAL findings",
+  "scanner_score": 171,
+  "content_hash": "764e9a49e827650d0ed6b7a2e3211d4809c22033a17bf2cc00ecf2052343056d",
+  "paths": {
+    "html": "assets/articles/wired.com/story-security-news-this-week-ai-found-a-root-bug-in-linux-that-everyone-missed_9e0e7a20.html",
+    "meta": "assets/articles/wired.com/story-security-news-this-week-ai-found-a-root-bug-in-linux-that-everyone-missed_9e0e7a20.meta.json",
+    "pdf": "assets/articles/wired.com/story-security-news-this-week-ai-found-a-root-bug-in-linux-that-everyone-missed_9e0e7a20.pdf",
+    "txt": "assets/articles/wired.com/story-security-news-this-week-ai-found-a-root-bug-in-linux-that-everyone-missed_9e0e7a20.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "incident:false-positive",
+    "incident:wrongful-stop",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "5610e604-ad2c-5626-8287-33433f9c275f",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+    "dd69b7d7-31ef-59bb-8b8f-896081cffa1d",
+    "fb7b0958-0a06-5f5f-8fb5-5501acaeac5c",
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "c3e041bd-a814-5b15-a170-927b599583ae",
+    "e567f15f-d2c4-52ec-ad9e-d9f162ec8d5f",
+    "08d1f49a-7a6c-5310-9e6a-62e7fcac4180",
+    "d1e8c8dd-be90-5c96-84dc-209111a53b6c"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "5610e604-ad2c-5626-8287-33433f9c275f",
+      "display_name": "City of Newman CA PD",
+      "state": "CA",
+      "score": 7.0,
+      "matched_forms": [
+        "Newman"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 3.983,
+      "matched_forms": [
+        "Los Angeles",
+        "Los Angeles Police"
+      ]
+    },
+    {
+      "agency_id": "dd69b7d7-31ef-59bb-8b8f-896081cffa1d",
+      "display_name": "White House TN PD",
+      "state": "TN",
+      "score": 3.867,
+      "matched_forms": [
+        "White House"
+      ]
+    },
+    {
+      "agency_id": "fb7b0958-0a06-5f5f-8fb5-5501acaeac5c",
+      "display_name": "Madison IN PD",
+      "state": "IN",
+      "score": 3.733,
+      "matched_forms": [
+        "Madison"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 2.717,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "c3e041bd-a814-5b15-a170-927b599583ae",
+      "display_name": "(Dead/Old) Plymouth IN PD",
+      "state": "IN",
+      "score": 2.633,
+      "matched_forms": [
+        "Plymouth"
+      ]
+    },
+    {
+      "agency_id": "e567f15f-d2c4-52ec-ad9e-d9f162ec8d5f",
+      "display_name": "Plymouth MN PD",
+      "state": "MN",
+      "score": 2.633,
+      "matched_forms": [
+        "Plymouth"
+      ]
+    },
+    {
+      "agency_id": "08d1f49a-7a6c-5310-9e6a-62e7fcac4180",
+      "display_name": "Plymouth PD IN",
+      "state": "IN",
+      "score": 2.633,
+      "matched_forms": [
+        "Plymouth"
+      ]
+    },
+    {
+      "agency_id": "d1e8c8dd-be90-5c96-84dc-209111a53b6c",
+      "display_name": "Taylor TX PD",
+      "state": "TX",
+      "score": 2.6,
+      "matched_forms": [
+        "Taylor"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "e567f15f-d2c4-52ec-ad9e-d9f162ec8d5f",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+  ],
+  "summary": "A WIRED security roundup includes a segment on a Flock license plate reader incident in which Plymouth, Minnesota police surrounded a car reviewer driving a loaned Range Rover after Flock cameras misread a manufacturer plate due to a data-entry error originating with Los Angeles police. Four other Land Rovers with similar plate formats were also being tracked in the area.",
+  "key_quotes": [
+    {
+      "quote": "reporter Joel Feder describes being boxed in by four Plymouth, Minnesota, police cars in a Kohl's parking lot in late June\u2014officers shouting, hands on their guns\u2014because Flock's license plate cameras had flagged the $155,000 Range Rover he was testing, loaned from a New Jersey dealership, as stolen.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "a Jaguar Land Rover fleet plate reading 34 03 DTM had been reported to Los Angeles police as lost, but it was entered into the system as just \"34 DTM\"\u2014dropping the smaller middle digits that New Jersey uses on manufacturer plates. Flock's cameras read the large characters, ignored the nonstandard structure, and started alerting police to any matching car.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "four other Land Rovers sharing the same license plate format were being tracked around Minnesota that same week; he was just the first pulled over.",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-07-19T11:30:01Z",
+  "article_id": "art_9e0e7a208d0d"
+}

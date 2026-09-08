@@ -52,3 +52,12 @@ def test_js_uses_order_independent_token_diff_and_editor():
     assert "diffRevisions" in JS and "rowsOf" in JS and "isTrivial" in JS
     assert "dcCreator" in JS              # Author / XMP dc:creator (who edited)
     assert "transform[5]" not in JS       # no y-coordinate line binning (the false-positive cause)
+
+
+def test_js_attributes_multi_row_edits_and_sums_net_change():
+    # a token removed from several rows in one save is pinned to each affected row
+    # (mirrors attribute_tokens in pdf_audit_revisions.py) instead of "(no unique row)",
+    # and multi-save files get a summed original-vs-produced view
+    assert "attributeTokens" in JS and "renderRowDiffs" in JS
+    assert "no unique row" not in JS
+    assert "net change" in JS

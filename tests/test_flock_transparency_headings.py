@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 zero-below
 """Pin the heading-kind gating fix in flock_transparency.parse_sections.
 
 Body text that starts with a known heading prefix (e.g. "California SVS,
@@ -238,6 +240,30 @@ def test_parse_org_names_description_only_empty_table():
     ) == []
 
 
+def test_parse_org_names_drops_2026_07_policy_trust_label():
+    """The 2026-07 template renders a "Policy & Trust" section label
+    right after the sharing lists with no blank line, so it lands in
+    the org-list body. Long lists grew a fake trailing entry; lists
+    short enough for the comma-layout branch got it space-joined onto
+    the last real name (cal-maritime → "Vallejo CA PD Policy & Trust")."""
+    assert _parse_org_names(
+        "Alameda County CA SO\nAtherton CA PD\nBerkeley CA PD\nPolicy & Trust"
+    ) == ["Alameda County CA SO", "Atherton CA PD", "Berkeley CA PD"]
+    assert _parse_org_names("Vallejo CA PD\nPolicy & Trust") == ["Vallejo CA PD"]
+
+
+def test_parse_org_names_drops_2026_07_not_sharing_empty_state():
+    """2026-07 empty state: "<Agency> is not sharing data with any
+    partner networks." where the org list would be. At 12 words it sits
+    exactly on _looks_like_disclaimer's `> 12` boundary, so without its
+    own filter it minted a fake recipient (san-mateo-ca-pd 2026-07-26,
+    glued with the trailing label by the comma-layout branch)."""
+    assert _parse_org_names(
+        "San Mateo CA PD is not sharing data with any partner networks."
+        "\nPolicy & Trust"
+    ) == []
+
+
 def test_parse_org_names_drops_policy_disclaimer():
     """Some portals (LVMPD 2026-05) render a policy disclaimer in the
     orgs section instead of an agency list. The disclaimer doesn't
@@ -327,6 +353,51 @@ def test_parse_number_handles_n_days_pattern():
     assert _parse_number(
         "The number of days data is retained.\n\n30 days"
     ) == 30
+
+
+def test_sharing_section_presence_fields():
+    """[] in sharing_outbound is ambiguous: "section present, no partners"
+    vs "portal removed the section entirely" (merced-county-ca-so and
+    summerset-sd-pd, July 2026 — the opacity case, where sharing status
+    is unknown). The presence/declared-none fields disambiguate."""
+    bold = {"Organizations granted access"}
+    with_section = "\n".join([
+        "Organizations granted access",
+        "",
+        "Belmont CA PD",
+        "",
+    ])
+    parsed = parse_portal_text(with_section, "test-agency", "2026-07-30",
+                               bold_headings=bold)
+    assert parsed["sharing_outbound"] == ["Belmont CA PD"]
+    assert parsed["sharing_outbound_section_present"] is True
+    assert parsed["sharing_outbound_declared_none"] is False
+
+    declared_none = "\n".join([
+        "Organizations granted access",
+        "",
+        "Test Agency PD is not sharing data with any partner networks.",
+        "Policy & Trust",
+        "",
+    ])
+    parsed = parse_portal_text(declared_none, "test-agency", "2026-07-30",
+                               bold_headings=bold)
+    assert parsed["sharing_outbound"] == []
+    assert parsed["sharing_outbound_section_present"] is True
+    assert parsed["sharing_outbound_declared_none"] is True
+
+    no_section = "\n".join([
+        "Acceptable Use Policy",
+        "",
+        "Some prose here.",
+        "",
+    ])
+    parsed = parse_portal_text(no_section, "test-agency", "2026-07-30",
+                               bold_headings={"Acceptable Use Policy"})
+    assert parsed["sharing_outbound"] == []
+    assert parsed["sharing_outbound_section_present"] is False
+    assert parsed["sharing_inbound_section_present"] is False
+    assert parsed["sharing_outbound_declared_none"] is False
 
 
 def test_portal_content_without_styled_headings_raises():
