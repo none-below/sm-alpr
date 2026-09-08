@@ -50,6 +50,12 @@ EXCLUDED_PATH_PREFIXES = (
     # log every notification delivery, so they contain the requester address
     # by construction. Do not rewrite them; exclude them from the scan.
     "assets/san-mateo-public-records/W0",
+    # Same rule for the non-GovQA agency productions, which have no W-number:
+    # kept byte-exact as the agency sent them. The SMCSO Grand Jury production
+    # is forwarded inter-agency email threads, so it carries Superior Court and
+    # peer-city staff addresses plus the signature-block office and cell numbers
+    # those staff publish themselves. Expected content, not a leak.
+    "assets/san-mateo-public-records/smcso-pra-081826/",
 )
 
 ALLOWED_EMAIL_DOMAINS = {
@@ -113,6 +119,11 @@ ALLOWED_PHONES = {
     # signature block; appear in emails/ sources 63-64.
     "6503634779",
     "6507809952",
+    # San Mateo County Sheriff's Office Criminal Records Bureau — desk and fax
+    # lines published in the Records Manager's own email signature block;
+    # appear in emails/ source 69, the SMCSO response on the Grand Jury PRA.
+    "6503634527",
+    "6503659884",
 }
 
 # ── Patterns ──
