@@ -75,28 +75,52 @@ jobs:
 
       - name: Generate text sidecars for changed assets
         id: sidecars
+        shell: bash
         run: |
           set -euo pipefail
+          # Process-substitution swallows exit codes — pre-flight the ref so a
+          # missing origin/main fails closed instead of an empty mapfile
+          # silently skipping the sidecars.
+          git rev-parse --verify origin/main >/dev/null 2>&1 \
+            || { echo "::error::origin/main not present in checkout"; exit 1; }
           # Transparency portal PDFs are rendered from the HTML we already save
           # as YYYY-MM-DD.txt; OCRing them produces sidecars that break the
           # portal parser's date-keyed layout. Skip that subtree.
-          ASSET_FILES=$(git diff --name-only origin/main...HEAD -- 'assets/' \
-            | grep -iE '\.(pdf|doc)$' \
-            | grep -v '^assets/transparency\.flocksafety\.com/' || true)
-          if [ -n "$ASSET_FILES" ]; then
-            uv run python scripts/ocr_sidecar.py --files $ASSET_FILES
+          #
+          # NUL-delimited collection so paths with whitespace can't break
+          # word-splitting: agency productions keep the filenames the agency
+          # sent, and those routinely contain spaces. Filtering happens in the
+          # shell rather than `grep -z`, whose NUL support is not guaranteed
+          # across runner images.
+          ASSET_FILES=()
+          shopt -s nocasematch
+          while IFS= read -r -d '' f; do
+            case "$f" in
+              assets/transparency.flocksafety.com/*) continue ;;
+              *.pdf|*.doc) ASSET_FILES+=("$f") ;;
+            esac
+          done < <(git diff --name-only -z origin/main...HEAD -- 'assets/')
+          shopt -u nocasematch
+          if [ "${#ASSET_FILES[@]}" -gt 0 ]; then
+            uv run python scripts/ocr_sidecar.py --files "${ASSET_FILES[@]}"
           else
             echo "No OCR-eligible PDF/DOC changes in assets/, skipping text sidecars"
           fi
           # Bundle any new sidecars for the publish job. Use porcelain status
           # so we capture untracked + modified .txt files under assets/.
-          NEW_SIDECARS=$(git status --porcelain -- 'assets/**/*.txt' \
-            | awk 'match($0, /^(\?\?| M| A) /) {print substr($0, RLENGTH+1)}')
-          if [ -z "$NEW_SIDECARS" ]; then
+          # -z keeps paths raw and NUL-delimited; without it git quotes
+          # whitespace paths and the tar below would split them apart.
+          NEW_SIDECARS=()
+          while IFS= read -r -d '' entry; do
+            case "$entry" in
+              '?? '*|' M '*|' A '*) NEW_SIDECARS+=("${entry:3}") ;;
+            esac
+          done < <(git status --porcelain -z -- 'assets/**/*.txt')
+          if [ "${#NEW_SIDECARS[@]}" -eq 0 ]; then
             echo "have_new=false" >> "$GITHUB_OUTPUT"
           else
             echo "have_new=true" >> "$GITHUB_OUTPUT"
-            tar -czf /tmp/new-sidecars.tar.gz $NEW_SIDECARS
+            tar -czf /tmp/new-sidecars.tar.gz "${NEW_SIDECARS[@]}"
           fi
 
       - name: PII scan on changed PDFs
