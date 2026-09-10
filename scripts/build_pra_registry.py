@@ -76,10 +76,13 @@ AGENCY_HINT_RE = re.compile(
 WITHDRAW_RE = re.compile(r"\bwithdraw(?:ing|n|al)?\b", re.IGNORECASE)
 # SMPD's canonical closure phrasing is
 #   "now considers this record request W0XXXXX-XXXXXX closed"
-# Anchoring on "considers ... closed" avoids matching user-quoted "closing"
-# language in request bodies that get echoed back by the agency.
+# but staff also write it in the first person plural —
+#   "we now consider this record request W0XXXXX-XXXXXX closed"
+# — so accept both inflections. Anchoring on "consider(s) this/the ... closed"
+# still avoids matching user-quoted "closing" language in request bodies that
+# get echoed back by the agency ("please consider closing W012462").
 CLOSED_RE = re.compile(
-    r"(?:now\s+)?considers\s+(?:this|the)[\w\s\d\-]{0,80}closed",
+    r"(?:now\s+)?considers?\s+(?:this|the)[\w\s\d\-]{0,80}closed",
     re.IGNORECASE,
 )
 PORTAL_AUTO_ACK_RE = re.compile(
