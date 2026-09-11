@@ -1612,58 +1612,6 @@
     ]
   },
   {
-    "agency_id": "6821fca6-3249-5e6b-9932-99ef55bfa811",
-    "slug": "city-of-calabasas-ca-lasd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "City of Calabasas CA (LASD)"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "0609598",
-      "name": "Calabasas",
-      "state": "CA",
-      "lat": 34.134252,
-      "lng": -118.666455
-    }
-  },
-  {
-    "agency_id": "3bab8ce9-1318-553c-9caf-c031910e24b6",
-    "slug": "city-of-hidden-hills-ca-lasd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "City of Hidden Hills CA (LASD)"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "city",
-    "website": null,
-    "tags": [
-      "needs-review",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "0633518",
-      "name": "Hidden Hills",
-      "state": "CA",
-      "lat": 34.163744,
-      "lng": -118.66121
-    }
-  },
-  {
     "agency_id": "9101f109-689a-5ad2-9a41-b7e859fc5121",
     "slug": "city-of-lemoore-ca",
     "flock_active_slug": "city-of-lemoore-ca",
@@ -1690,31 +1638,6 @@
       "lng": -119.798253
     },
     "flags": []
-  },
-  {
-    "agency_id": "2a32b075-0190-53a5-84a9-b9d387a7cbc4",
-    "slug": "city-of-westlake-village-ca-lasd",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "City of Westlake Village CA (LASD)"
-    ],
-    "display_name": null,
-    "agency_role": "hoa",
-    "agency_type": "community",
-    "website": null,
-    "tags": [
-      "private"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "place",
-      "fips": "0684438",
-      "name": "Westlake Village",
-      "state": "CA",
-      "lat": 34.136675,
-      "lng": -118.817367
-    }
   },
   {
     "agency_id": "f168928f-b50b-5bd7-8c25-6da6521fdb93",
@@ -7879,6 +7802,83 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "6821fca6-3249-5e6b-9932-99ef55bfa811",
+    "slug": "city-of-calabasas-ca-lasd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "City of Calabasas CA (LASD)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0609598",
+      "name": "Calabasas",
+      "state": "CA",
+      "lat": 34.134252,
+      "lng": -118.666455
+    }
+  },
+  {
+    "agency_id": "3bab8ce9-1318-553c-9caf-c031910e24b6",
+    "slug": "city-of-hidden-hills-ca-lasd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "City of Hidden Hills CA (LASD)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "city",
+    "website": null,
+    "tags": [
+      "needs-review",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0633518",
+      "name": "Hidden Hills",
+      "state": "CA",
+      "lat": 34.163744,
+      "lng": -118.66121
+    }
+  },
+  {
+    "agency_id": "2a32b075-0190-53a5-84a9-b9d387a7cbc4",
+    "slug": "city-of-westlake-village-ca-lasd",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "City of Westlake Village CA (LASD)"
+    ],
+    "display_name": null,
+    "agency_role": "hoa",
+    "agency_type": "community",
+    "website": null,
+    "tags": [
+      "private"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "place",
+      "fips": "0684438",
+      "name": "Westlake Village",
+      "state": "CA",
+      "lat": 34.136675,
+      "lng": -118.817367
+    }
   },
   {
     "agency_id": "652ea64c-4255-5e1a-8853-0635b5c71d07",
