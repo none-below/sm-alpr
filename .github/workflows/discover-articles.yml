@@ -87,43 +87,6 @@ jobs:
           # shellcheck disable=SC2086
           uv run python scripts/discover_articles.py $ARGS --rejects-json /tmp/rejects.json
 
-      - name: Triage issue for off-allowlist rejects
-        # Only on full runs (scheduled, or manual without a single --source /
-        # dry-run), so a partial run can't wrongly close the rolling issue.
-        if: ${{ inputs.source == '' && inputs.dry_run != 'true' }}
-        env:
-          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
-        run: |
-          uv run python scripts/discover_reject_issue.py /tmp/rejects.json > /tmp/reject-issue.md || true
-          gh label create article-rejects --color FBCA04 \
-            --description "Discovery surfaced off-allowlist domains to triage" \
-            --force >/dev/null 2>&1 || true
-          # Label attach at create has failed silently before (the June
-          # 2026 run forked a new unlabeled issue every day because this
-          # label-only lookup never matched), so fall back to a title
-          # match and re-apply the label after create.
-          existing=$(gh issue list --label article-rejects --state open \
-                       --json number --jq '.[0].number')
-          if [ -z "$existing" ]; then
-            existing=$(gh issue list --state open \
-                         --search 'in:title "Discovery triage: domains seen but not allow-listed"' \
-                         --json number --jq '.[0].number')
-          fi
-          if [ -s /tmp/reject-issue.md ]; then
-            if [ -z "$existing" ]; then
-              url=$(gh issue create \
-                --title "📥 Discovery triage: domains seen but not allow-listed" \
-                --label article-rejects \
-                --body-file /tmp/reject-issue.md)
-              gh issue edit "$url" --add-label article-rejects || true
-            else
-              gh issue edit "$existing" --body-file /tmp/reject-issue.md
-            fi
-          elif [ -n "$existing" ]; then
-            gh issue close "$existing" \
-              --comment "All surfaced domains triaged — nothing pending. A fresh issue opens if discovery finds new ones."
-          fi
-
       - name: Commit and push
         id: commit
         run: |
@@ -156,4 +119,48 @@ jobs:
               --base main
           else
             gh pr edit "$existing" --body-file /tmp/pr-body.md
+          fi
+
+      - name: Triage issue for off-allowlist rejects
+        # Runs AFTER the queue is pushed. Triage bookkeeping must never
+        # be able to discard a day of discovered URLs: if the issue API
+        # errors, the run still fails loudly, but the finds are safe.
+        # Only on full runs (scheduled, or manual without a single --source /
+        # dry-run), so a partial run can't wrongly close the rolling issue.
+        if: ${{ inputs.source == '' && inputs.dry_run != 'true' }}
+        env:
+          # Issue ops run on the workflow token, not REFRESH_PAT: the PAT
+          # lacks the Issues scope, so every scheduled run from 2026-07-20
+          # to 2026-09-11 died here ('Resource not accessible by personal
+          # access token (updateIssue)') and threw away that day's finds.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          uv run python scripts/discover_reject_issue.py /tmp/rejects.json > /tmp/reject-issue.md || true
+          gh label create article-rejects --color FBCA04 \
+            --description "Discovery surfaced off-allowlist domains to triage" \
+            --force >/dev/null 2>&1 || true
+          # Label attach at create has failed silently before (the June
+          # 2026 run forked a new unlabeled issue every day because this
+          # label-only lookup never matched), so fall back to a title
+          # match and re-apply the label after create.
+          existing=$(gh issue list --label article-rejects --state open \
+                       --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            existing=$(gh issue list --state open \
+                         --search 'in:title "Discovery triage: domains seen but not allow-listed"' \
+                         --json number --jq '.[0].number')
+          fi
+          if [ -s /tmp/reject-issue.md ]; then
+            if [ -z "$existing" ]; then
+              url=$(gh issue create \
+                --title "📥 Discovery triage: domains seen but not allow-listed" \
+                --label article-rejects \
+                --body-file /tmp/reject-issue.md)
+              gh issue edit "$url" --add-label article-rejects || true
+            else
+              gh issue edit "$existing" --body-file /tmp/reject-issue.md
+            fi
+          elif [ -n "$existing" ]; then
+            gh issue close "$existing" \
+              --comment "All surfaced domains triaged — nothing pending. A fresh issue opens if discovery finds new ones."
           fi
