@@ -869,6 +869,24 @@ GAZ_OVERRIDES = {
     "a4f56a5f-9099-5866-9dd0-dc1df44cf4ce": ("county", "Winston", "MS"),  # Winston Count MS CO
     "68af1aa4-7d22-522e-8c81-16a59402cc63": ("place", "Winston-Salem", "NC"),  # Winston Salem State University NC PD
     "8de1aa86-5746-54ab-b18f-f7fd35e8fdb1": ("place", "Rock Hill", "SC"),  # Winthrop University SC PD
+    # issue #715 — recipients missing coordinates (researched + verified
+    # per-entity; see the issue for the triage record)
+    "20a67530-5b50-500b-8865-05973e59c444": ("place", "Decatur", "IL"),  # Decatur Park District IL PD
+    "e0e20243-43ae-5955-9490-ec2caac4ba11": ("place", "Waco", "TX"),  # Heart of Texas Auto Theft Task Force (5-county force; Waco/McLennan Co. base)
+    "b4d91c2a-4935-5ebf-a013-2799d6d06c69": ("place", "Covington", "GA"),  # Housing Authority of the City of Covington GA (Deactivated)
+    "838cc985-0212-5047-a563-d82f4d0fecd6": ("county", "Duval", "FL"),  # Jacksonville FL SO (JSO = consolidated Duval County)
+    "3755b8f4-f764-52d2-8025-e368bf9fad85": ("place", "Lockport", "IL"),  # Lockport Township Park District (Will Co. IL)
+    "8684ae68-a597-5383-9214-0de27b7d66a4": ("place", "Arlington", "VA"),  # Metropolitan Washington Airports Authority (HQ 2733 Crystal Dr, Arlington)
+    "6aaae188-0468-5e16-87c6-577de1350d02": ("place", "Raleigh", "NC"),  # North Carolina Department of Transportation (HQ)
+    "42aee1ae-f368-5f96-a0a5-b6cefb6aaeaf": ("place", "Annandale", "VA"),  # Northern Virginia Cmnty College Campus VA PD (police HQ, Annandale campus)
+    "3ded53b5-2878-57e4-8533-d364aa565ac7": ("place", "Norfolk", "VA"),  # Old Dominion Univ VA PD
+    "d2c11666-952e-5bc7-a5ae-5b7bec5200a3": ("place", "Willis", "TX"),  # Precinct 1 (TX) — Montgomery County Constable Pct 1, Willis (#645 comma-split fragment)
+    "bf39b868-25b1-5be4-bfa9-534aafbf9eb5": ("county", "Riverside", "CA"),  # Riverside Co CA DPSS (countywide county dept)
+    "2a64f798-8643-5fe6-a76c-2d24e6f1415f": ("county", "San Diego", "CA"),  # San Diego County District Attorney
+    "829b7f56-f054-5b11-a6a8-50293b853db6": ("place", "Jacksonville", "FL"),  # University of North FL PD (UNF, Jacksonville)
+    "54f02c39-9f17-581d-8bc8-6058823b3a76": ("place", "Valdosta", "GA"),  # Valdosta State University GA PD
+    "123089d4-9b4b-53e9-8ddc-b4dfcb321909": ("place", "Bismarck", "IL"),  # Vermilion County SO - Bismarck Village (Bismarck village, Vermilion Co. IL)
+    "67402503-d65a-5bf3-bb57-23194bf7748c": ("place", "Macomb", "IL"),  # Western Illinois University IL PD (main campus, Macomb)
 }
 
 
