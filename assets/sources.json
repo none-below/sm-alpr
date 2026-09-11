@@ -1651,6 +1651,30 @@
       "stance": "unknown",
       "last_reviewed": "2026-07-03",
       "notes": "University site; campus PD ALPR policy pages (primary source, like other allow-listed agency sites)."
+    },
+    {
+      "domain": "forbes.com",
+      "tier": 2,
+      "name": "Forbes",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "notes": "Surfaced hit is a /sites/thomasbrewster/ staff security-desk piece on Flock's CEO. forbes.com/sites also hosts the unvetted contributor network, so tier 2 rather than 1 \u2014 check the byline before treating a Forbes item as staff reporting."
+    },
+    {
+      "domain": "oklahoman.com",
+      "tier": 1,
+      "name": "The Oklahoman",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "notes": "Oklahoma City daily (Gannett); allow-listed for original OKC-area ALPR coverage. The surfaced hit was under /press-release/, which is syndicated wire/vendor PR rather than staff reporting \u2014 reject that path at curation (same pattern as other Gannett dailies here)."
+    },
+    {
+      "domain": "seattleweekly.com",
+      "tier": 2,
+      "name": "Seattle Weekly",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "notes": "Sound Publishing alt-weekly (sibling of heraldnet.com); runs sponsored content alongside local-government news shared across Sound Publishing papers, so an item may be a mirror of a sibling paper's original (surfaced hit: Renton council Flock vote). Do not add the sibling domains for the same story \u2014 same multiplication problem as the Embarcadero network."
     }
   ]
 }
