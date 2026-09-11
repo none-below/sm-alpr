@@ -1,7 +1,12 @@
 {
   "title": "MSA §5.3 monitoring — narrow follow-up on Item 6 of W012297",
   "summary": "A narrow follow-up to Item 6 of W012297-030826: 'any policy, procedure, or system documentation describing how SMPD monitors or tracks vendor-initiated disclosures under §5.3.'\n\nMSA §5.3 lets Flock disclose footage on its own good-faith determination. The relevant record for Item 6 is a policy, procedure, or configuration, not an email. This request scopes Item 6 explicitly to non-email records.",
-  "tags": ["msa-5.3", "flock-msa", "vendor-disclosure", "pra-process"],
+  "tags": [
+    "msa-5.3",
+    "flock-msa",
+    "vendor-disclosure",
+    "pra-process"
+  ],
   "policy_promises": [
     {
       "policy": "MSA §5.3",
@@ -17,6 +22,6 @@
     }
   ],
   "filed_because": "Asks for the specific policy/procedure/configuration record described in W012297 Item 6, scoped to non-email records.",
-  "status_override": "awaiting_initial",
-  "notes": "Parser initially marked 'needs_review' because the request body referenced closure language from an earlier exchange. Status set manually.\n\nA short yes/no response confirming the existence (or absence) of any monitoring record resolves the item."
+  "status_override": null,
+  "notes": "Parser initially marked 'needs_review' because the request body referenced closure language from an earlier exchange. Status set manually.\n\nA short yes/no response confirming the existence (or absence) of any monitoring record resolves the item.\n\n2026-09-10: cleared the filing-time status_override — the agency last acted on this request 5/7/2026, so display_status is now derived from the message history rather than pinned to awaiting_initial."
 }

@@ -1,0 +1,47 @@
+{
+  "title": "ALPR reason-entry compliance and enforcement records — the July 22, 2022 \"MANDATORY REASON FOR ALPR QUERIES\" memo",
+  "summary": "Built on the July 22, 2022 interoffice memorandum \"MANDATORY REASON FOR ALPR QUERIES\" produced 2026-06-23 under W012320-031126, which states that \"inadequate entry of the REASON for your ALPR query will result in the suspension of your access to the databases and receipt of a Record of Discussion (ROD),\" requires \"Remedial training\" for reinstated access, and — for queries run on behalf of outside agencies — states that \"If there is no case or incident number, the query will not be completed.\" The same production included June 27, 2022 correspondence in which a Criminal Investigations Bureau sergeant conducting \"an ALPR audit per department policy\" recorded that a reason of \"INVESTIGATION\" \"does not meet the requirement.\"\n\nThe request states, from the audit records produced under W012541-041426 and W012818-053026, that 105,315 queries were logged January 1, 2023 – August 31, 2026 and at least 64,891 (~62%) state \"investigation\" as the entire reason, median networkCount 112.\n\nRecords requested, June 1, 2022 to present:\n\n- Item 1: the issued/signed version of the memo, including any version addressed to dispatchers.\n- Item 2: the \"Two previous memos\" it references and records of the \"in person lineup training\" it describes.\n- Item 3: Records of Discussion issued for inadequate REASON entry, per-year counts, and — if a ROD does not follow every inadequate entry — records describing the standard applied. Names eight specific query IDs from the W012541 audit records (2023-12-20 through 2026-02-25, networkCount 380–909) and asks for the ROD/suspension/remedial-training disposition of each, plus any log, index, or compilation tracking which queries resulted in a ROD, suspension, or training.\n- Item 4: suspension and reinstatement records, including Flock and Vigilant user-account administration records, and per-year suspension counts.\n- Item 5: remedial-training curricula, rosters, and completion records.\n- Item 6: the ALPR audit described in the June 27, 2022 correspondence — query set reviewed, entries identified as deficient, responses received, determinations.\n- Item 7: any review, audit, or monitoring of REASON entry conducted after July 22, 2022, with query sets, findings, and corrective actions.\n- Item 8: ALPR Committee membership and charter, its meeting records, and records of the \"Leadership meeting\" and \"CS meeting\" at which the course of action for inadequate REASON entries was discussed.\n- Item 9: audit records for the Vigilant search platform, which the memo identifies alongside Flock as subject to the audit that prompted it.",
+  "tags": ["audit-compliance", "policy-463.10", "sop-205.5.1", "policy-463"],
+  "policy_promises": [
+    {
+      "policy": "SMPD interoffice memorandum, 2022-07-22 — \"MANDATORY REASON FOR ALPR QUERIES\"",
+      "quote": "inadequate entry of the REASON for your ALPR query will result in the suspension of your access to the databases and receipt of a Record of Discussion (ROD)",
+      "tests": "Whether any ROD, access suspension, or remedial training ever followed an inadequate REASON entry — against ~64,891 produced queries stating \"investigation\" as the entire reason."
+    },
+    {
+      "policy": "SMPD interoffice memorandum, 2022-07-22 — outside-agency queries",
+      "quote": "If there is no case or incident number, the query will not be completed.",
+      "tests": "Whether queries lacking a case or incident number were nonetheless completed, and whether any record shows the stated refusal being applied."
+    },
+    {
+      "policy": "SMPD position recorded in 2022-06-27 correspondence",
+      "quote": "does not meet the requirement",
+      "tests": "The Department itself ruled a bare \"INVESTIGATION\" reason non-compliant in 2022; item 7 asks what review, if any, continued after the memo issued."
+    },
+    {
+      "policy": "Gov. Code § 7922.535(a)",
+      "quote": "agency must notify requester within 10 calendar days whether it will produce records",
+      "tests": "Determination due 2026-09-18."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012320-031126",
+      "relation": "evidence-source",
+      "note": "Produced the July 22, 2022 memorandum and the June 27, 2022 audit correspondence on 2026-06-23; this request seeks the enforcement records those documents promise."
+    },
+    {
+      "ref": "W012541-041426",
+      "relation": "case-list",
+      "note": "Source of the audit records the request quantifies and of the eight query IDs named in item 3."
+    },
+    {
+      "ref": "W012818-053026",
+      "relation": "evidence-source",
+      "note": "Second tranche of search audit records making up the 105,315-query, Jan 2023–Aug 2026 span cited in the request."
+    }
+  ],
+  "filed_because": "The Department set its own written standard for ALPR query reasons in 2022 — a case or incident number, with suspension and a Record of Discussion for inadequate entry — and separately ruled a bare \"INVESTIGATION\" reason non-compliant. Its own produced audit records show ~62% of queries over three and a half years stating exactly that. Either the enforcement records exist, or the answer is that a written suspension-and-discipline standard went unapplied across tens of thousands of queries. Asking for the RODs, suspensions, and training records puts that on the record either way.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-09-08; 10-day statutory determination due 2026-09-18.\n\nItem 3 names eight specific query IDs as examples without limiting scope, so a per-query answer and a compilation-level answer are both requested. Item 9 extends the ask to Vigilant, which the 2022 memo names alongside Flock."
+}
