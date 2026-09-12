@@ -76,13 +76,28 @@ VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
 STALE_DAYS = 14
 
-# Cloudflare bot-challenges the FIRST request from a cold (datacenter) IP with a
-# 403, then waves through once that IP is "warm" — so a 403 is transient, not a
-# block (a warmed retry on the same session almost always clears). This is why a
-# lone-agency dispatch always 403s: its one request is forever the cold first
-# request, with nothing after it to benefit. run_crawl_batch retries in-session.
-FORBIDDEN_RETRIES = 3      # in-session retries on a 403 edge challenge
-FORBIDDEN_BACKOFF = 8      # base seconds before the first retry; doubles, ±30% jitter
+# Two different things behind a 403, and telling them apart is the whole game.
+# Flock's edge answers both with 403 (and 429 interchangeably), so the response
+# alone can't distinguish them — their POSITION in the run can:
+#
+#   1. The cold-IP handshake. The first request from a datacenter IP is
+#      challenged, and a single retry on the same session clears it.
+#   2. The rate limit. Flock allows roughly 3 requests/hour/IP; over budget,
+#      that IP is in cooldown for hours. No retry can clear this one — only a
+#      different IP, which is what the next scheduled run gets for free, since
+#      GitHub hands every job a fresh runner.
+#
+# Retrying (2) is actively harmful: the retries spend the requests the run's
+# remaining slugs needed, so those slugs collect their own 403s instead of the
+# one fair attempt they had budget for. Measured on the 30-min rotation, the
+# retry-everything crawler spent ~10 requests per run to capture exactly 1,
+# every run, for days — three retries on slug #1, then slugs #2 and #3 past the
+# cliff with four wasted requests each.
+#
+# So: allow exactly ONE warm-up retry per session, for the handshake. Any 403
+# after that is the rate limit, and ends the run.
+WARMUP_RETRY_BACKOFF = 8   # seconds before the one cold-IP handshake retry, ±30% jitter
+RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears it"
 
 
 # ═══════════════════════════════════════════════════════════
@@ -1362,14 +1377,15 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         print(f"    WARNING: navigation failed: {e}")
         return ("failed", "navigation_error"), []
 
+    # 403 and 429 are the same signal from Flock's edge — this IP is over its
+    # hourly request budget — and neither is a block on the slug. run_crawl_batch
+    # ends the run on either; the next scheduled run retries from a fresh IP.
     if response and response.status == 429:
-        print(f"    RATE LIMITED (429), will retry later")
+        print(f"    got HTTP 429 (rate limited)")
         return "rate_limited", []
 
     if response and response.status == 403:
-        # Not a real block: Flock's edge bot-challenges a cold IP's first request,
-        # then waves it through once warm. run_crawl_batch retries in-session.
-        print(f"    got HTTP 403 (edge bot-challenge), will retry in-session")
+        print(f"    got HTTP 403 (rate limited; Flock's edge serves 403 and 429 alike)")
         return "forbidden", []
 
     if response and response.status >= 400:
@@ -1471,9 +1487,29 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     return pdf_path, discovered_slugs
 
 
+def new_crawl_session():
+    """Per-browser-session crawl state.
+
+    One warm-up retry per session, not per slug: the cold-IP handshake happens
+    once, when the session's first request meets the edge. Every 403 after that
+    is the rate limit, and no number of retries clears it.
+    """
+    return {"warmup_retries": 1}
+
+
 def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
-                    try_variations=False, explicit=False):
-    """Crawl a list of slugs. Returns (results, discovered_slugs).
+                    try_variations=False, explicit=False, session=None):
+    """Crawl a list of slugs. Returns (results, discovered_slugs, rate_limited).
+
+    rate_limited is True when a 403/429 outlived the session's one warm-up
+    retry. The caller must stop crawling for the rest of the run: the cooldown
+    is per-IP and lasts hours, so every further request is guaranteed to fail
+    and only refreshes the cooldown.
+
+    `session` is the per-browser-session state shared across calls (cmd_crawl
+    makes one call per BFS level against the same page). It holds the single
+    cold-IP warm-up retry, so a later level can't spend a second one on what is
+    by then unambiguously the rate limit.
 
     explicit=True means the caller named these slugs directly (vs auto-picked
     from the oldest-agencies rotation) — in that case, don't skip on prior
@@ -1481,6 +1517,8 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
     """
     results = []
     discovered = []
+    if session is None:
+        session = new_crawl_session()
 
     total = len(slugs)
     for i, slug in enumerate(slugs):
@@ -1498,6 +1536,12 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             for alt in slug_variations(slug)[1:]:
                 print(f"    trying variation: {alt}")
                 status, discovered_slugs = archive_agency(page, alt, data_dir, force, hashes)
+                if status in ("rate_limited", "forbidden"):
+                    # Budget spent mid-probe. A 403 says nothing about whether
+                    # this variation exists, so don't claim it as the working
+                    # slug — fall through to the stop below, still under the
+                    # original slug so the rotation records the right attempt.
+                    break
                 if not (isinstance(status, tuple) and status[0] == "failed"):
                     print(f"    found working slug: {alt}")
                     slug = alt
@@ -1505,39 +1549,35 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                 if delay:
                     time.sleep(delay * random.uniform(0.7, 1.3))
 
-        if status == "rate_limited":
-            for attempt in range(4):
-                backoff = max(delay, 30) * (2 ** (attempt + 1))
-                print(f"    rate limited, backing off {backoff}s (attempt {attempt + 1}/4)...")
-                time.sleep(backoff)
-                status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
-                if status != "rate_limited":
-                    break
-            if status == "rate_limited":
-                print(f"    still rate limited after 4 retries, skipping for now")
-                record_attempt(slug, data_dir)
-                results.append((slug, None))
-                save_json(data_dir / HASH_FILE, hashes)
-                continue
+        if status in ("rate_limited", "forbidden") and session["warmup_retries"]:
+            # First 403 of the session: probably the cold-IP handshake, which
+            # one retry on the same session clears. Spend the session's single
+            # warm-up on it. If it's really the rate limit, this costs one
+            # request and we stop right below.
+            session["warmup_retries"] -= 1
+            backoff = max(delay, WARMUP_RETRY_BACKOFF) * random.uniform(0.7, 1.3)
+            print(f"    first 403/429 of the session — retrying once after "
+                  f"{backoff:.0f}s in case it's the cold-IP handshake")
+            time.sleep(backoff)
+            status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
 
-        if status == "forbidden":
-            # The cold-IP 403 challenge clears once the IP is warm, so retry the
-            # SAME url on the SAME session (a fresh run would just get another
-            # cold IP). Back off between tries so we don't hammer the edge.
-            for attempt in range(FORBIDDEN_RETRIES):
-                backoff = max(delay, FORBIDDEN_BACKOFF) * (2 ** attempt) * random.uniform(0.7, 1.3)
-                print(f"    403 edge challenge, warming + retrying same session in "
-                      f"{backoff:.0f}s (attempt {attempt + 1}/{FORBIDDEN_RETRIES})...")
-                time.sleep(backoff)
-                status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
-                if status != "forbidden":
-                    break
-            if status == "forbidden":
-                print(f"    still 403 after {FORBIDDEN_RETRIES} retries, skipping for now (not quarantined)")
-                record_attempt(slug, data_dir)
-                results.append((slug, None))
-                save_json(data_dir / HASH_FILE, hashes)
-                continue
+        if status in ("rate_limited", "forbidden"):
+            # Warm-up already spent (or just spent and didn't clear), so this
+            # is the rate limit. Don't retry and don't move on to the next
+            # slug: the cooldown is per-IP and hours long, so both would only
+            # collect more 403s while burning the budget the remaining slugs
+            # would have had. Record the attempt for the slug that really was
+            # requested (so the stalest-first rotation advances past it), leave
+            # the rest untouched for the next run's fresh IP, and hand the run
+            # back to the caller. Never quarantined — a rate limit says nothing
+            # about the slug.
+            remaining = total - i - 1
+            print(f"    {RATE_LIMIT_NOTE}")
+            print(f"    ending this run; {remaining} slug(s) left for the next run")
+            record_attempt(slug, data_dir)
+            results.append((slug, None))
+            save_json(data_dir / HASH_FILE, hashes)
+            return results, discovered, True
 
         record_attempt(slug, data_dir)
         results.append((slug, status))
@@ -1548,9 +1588,9 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             #   parse_error: parser tripped on a new format variant; archive_agency
             #     stages and only commits on full success so no artifacts written.
             #     Surfaced as a tracking issue by the workflow.
-            # (403 edge challenges return "forbidden" and are retried in-session
-            #  above — they never reach here. Other HTTP 4xx/5xx are real failures
-            #  and do get quarantined until the next --retry-failed.)
+            # (403/429 rate limits return above and never reach here. Other
+            #  HTTP 4xx/5xx are real failures and do get quarantined until the
+            #  next --retry-failed.)
             if status[1] != "parse_error":
                 failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
@@ -1562,7 +1602,7 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             print(f"    waiting {jitter:.0f}s...")
             time.sleep(jitter)
 
-    return results, discovered
+    return results, discovered, False
 
 
 def cmd_crawl(args):
@@ -1616,6 +1656,8 @@ def cmd_crawl(args):
             user_agent=USER_AGENT,
         )
         page = context.new_page()
+        # One session's worth of warm-up budget, shared by every batch below.
+        session = new_crawl_session()
         # tf-playwright-stealth patches the JS-layer detection signals
         # (navigator.webdriver, plugin enumeration, WebGL vendor strings).
         # Stacks on the TLS-layer fix above. Optional import so the crawler
@@ -1753,26 +1795,33 @@ def cmd_crawl(args):
                     label = f"depth {level}" if args.depth else "all"
                     print(f"[{label}] Archiving {len(new_slugs)} agency portal(s):\n")
 
-                    results, newly_discovered = run_crawl_batch(
+                    results, newly_discovered, rate_limited = run_crawl_batch(
                         page, new_slugs, data_dir, args.force,
                         args.delay, hashes, failed_slugs,
                         try_variations=args.try_variations,
+                        session=session,
                     )
                     all_results.extend(results)
                     visited.update(s for s, _ in results)
                     available -= len(new_slugs)
                     discovered.extend(newly_discovered)
+                    if rate_limited:
+                        # Deeper levels would only collect more 403s on the
+                        # same cooled-down IP. Stop the whole crawl, not just
+                        # this level.
+                        break
 
                 slugs = dedupe(discovered)
         else:
             if args.batch:
                 slugs = slugs[:args.batch]
             print(f"Archiving {len(slugs)} agency portal(s):\n")
-            results, _ = run_crawl_batch(
+            results, _, _ = run_crawl_batch(
                 page, slugs, data_dir, args.force,
                 args.delay, hashes, failed_slugs,
                 try_variations=args.try_variations,
                 explicit=True,
+                session=session,
             )
             all_results.extend(results)
 
