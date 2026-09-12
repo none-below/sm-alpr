@@ -1,0 +1,596 @@
+{
+  "crawled_slug": "menlo-park-ca-pd",
+  "crawled_name": "Menlo Park CA PD",
+  "archived_date": "2026-09-12",
+  "whats_detected": "License Plates, Vehicles",
+  "whats_not_detected": "Facial recognition, People, Gender, Race",
+  "acceptable_use_policy": "Data is used for law enforcement purposes only. Data is owned by Menlo Park CA PD and is never sold to 3rd parties.",
+  "prohibited_uses": "Immigration enforcement, traffic enforcement, harassment or intimidation, usage based solely on a protected class (i.e. race, sex, religion), Personal use.",
+  "access_policy": "All system access requires a valid reason and is stored indefinitely.",
+  "hotlist_policy": "Hotlist hits are required to be human verified prior to action.",
+  "sharing_with_partners": "",
+  "sharing_restrictions": "",
+  "data_retention_days": 30,
+  "camera_count": 35,
+  "hotlists_alerted_on": "California SVS, NCMEC Amber Alert",
+  "vehicles_detected_30d": 881289,
+  "hotlist_hits_30d": 1923,
+  "searches_30d": 89,
+  "sharing_outbound": [
+    "East Palo Alto CA PD",
+    "San Diego County District Attorney",
+    "San Mateo CA PD",
+    "San Mateo County CA SO",
+    "South San Francisco CA PD"
+  ],
+  "sharing_inbound": [],
+  "sharing_outbound_section_present": true,
+  "sharing_inbound_section_present": false,
+  "sharing_outbound_declared_none": false,
+  "overview": "Menlo Park CA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Menlo Park CA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Menlo Park CA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.\n\nCommunity Impact\nData & Usage Summary",
+  "policy_info": "",
+  "alpr_policy": "",
+  "alpr_sop": "",
+  "additional_info": "",
+  "download_csv": "",
+  "search_audit": "Download to view searches performed over the last 30 days.",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": "",
+  "crawled_at": "2026-09-12T01:11:20.598359+00:00",
+  "search_audit_csv": [
+    {
+      "id": "0a25b2e7-cc0c-4ec6-a4a3-e04f04ca2d16",
+      "userId": "***",
+      "searchDate": "2026-08-12T00:47:16.053Z",
+      "networkCount": "367"
+    },
+    {
+      "id": "0a94e8d3-3e8e-4174-8203-b6c08df2c96b",
+      "userId": "***",
+      "searchDate": "2026-08-12T17:31:15.826Z",
+      "networkCount": "367"
+    },
+    {
+      "id": "b3e4b114-f12b-4ce3-8460-f492e4fdd7b3",
+      "userId": "***",
+      "searchDate": "2026-08-12T19:00:28.889Z",
+      "networkCount": "367"
+    },
+    {
+      "id": "1f7c5ca9-d5ec-47a4-be06-1b0925f90781",
+      "userId": "***",
+      "searchDate": "2026-08-12T21:24:46.537Z",
+      "networkCount": "367"
+    },
+    {
+      "id": "60857ffe-ef01-4446-a4be-a7d263fa5b67",
+      "userId": "***",
+      "searchDate": "2026-08-13T12:19:05.226Z",
+      "networkCount": "367"
+    },
+    {
+      "id": "6151098d-76c3-48f6-8ae8-2fb08e753b7c",
+      "userId": "***",
+      "searchDate": "2026-08-14T15:15:14.488Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "e3c87caf-4cd5-42df-adda-f532f4fe33a4",
+      "userId": "***",
+      "searchDate": "2026-08-14T15:18:06.723Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "511e4191-7c74-4d41-8159-bc39b1479b3d",
+      "userId": "***",
+      "searchDate": "2026-08-14T16:35:31.348Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "a611d3bb-0b93-4e79-8d6a-da2aa5f7d1af",
+      "userId": "***",
+      "searchDate": "2026-08-14T17:00:58.640Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "33f59c59-d0e7-4c73-ad35-5dcd23dd8aa4",
+      "userId": "***",
+      "searchDate": "2026-08-14T17:04:48.678Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "2cfdc1e4-5c72-4357-828e-34febf4c93c7",
+      "userId": "***",
+      "searchDate": "2026-08-14T17:06:01.072Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "5098243e-21c4-468e-8cda-0a0f1616904a",
+      "userId": "***",
+      "searchDate": "2026-08-14T17:54:19.782Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "f0265b8d-e3f9-4e14-8207-9d0ad091f8d6",
+      "userId": "***",
+      "searchDate": "2026-08-14T19:30:23.924Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "a999ad70-f0bc-4a74-8435-ccd67ae4a2f9",
+      "userId": "***",
+      "searchDate": "2026-08-14T19:30:31.919Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "e8d3e659-b0ec-4e98-bb47-0382c45f7be5",
+      "userId": "***",
+      "searchDate": "2026-08-15T13:56:17.294Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "b719cbbf-7e96-4b6d-932c-f69249f6d8cf",
+      "userId": "***",
+      "searchDate": "2026-08-15T21:42:48.797Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "703a8037-6151-432c-a8f4-3692d0418b07",
+      "userId": "***",
+      "searchDate": "2026-08-15T21:44:03.281Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "f2f2fb8c-5644-47ad-9d45-966bb0bc7591",
+      "userId": "***",
+      "searchDate": "2026-08-15T21:45:04.091Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "1cf474bf-de6f-4b5d-9fe7-5dc51adadbc8",
+      "userId": "***",
+      "searchDate": "2026-08-16T14:09:40.929Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "fc762e69-35e3-45a2-afd3-2014290e0e35",
+      "userId": "***",
+      "searchDate": "2026-08-16T15:38:12.395Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "d028dfee-3b9d-4b96-9086-866bb0616f46",
+      "userId": "***",
+      "searchDate": "2026-08-16T16:32:41.056Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "ba5be35b-339a-4f97-bad1-ec286e9de0ae",
+      "userId": "***",
+      "searchDate": "2026-08-16T17:34:12.929Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "cc12360d-7c4b-46f8-aa6a-4e2e020a16d1",
+      "userId": "***",
+      "searchDate": "2026-08-16T21:25:22.549Z",
+      "networkCount": "1"
+    },
+    {
+      "id": "81619529-6bfb-4bd4-bf9d-b9faf554f870",
+      "userId": "***",
+      "searchDate": "2026-08-17T16:35:01.104Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "f10270f6-9739-45b6-8d3c-b4cc77ffb1a4",
+      "userId": "***",
+      "searchDate": "2026-08-19T15:41:13.368Z",
+      "networkCount": "3"
+    },
+    {
+      "id": "2d722475-8e89-4598-ad1f-9f1ad359d4e4",
+      "userId": "***",
+      "searchDate": "2026-08-20T12:04:47.511Z",
+      "networkCount": "1"
+    },
+    {
+      "id": "d8dc979e-864b-4054-a530-370335df67a6",
+      "userId": "***",
+      "searchDate": "2026-08-20T19:19:06.805Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "57dad53c-491a-46ad-9f94-2b6b5bbc3078",
+      "userId": "***",
+      "searchDate": "2026-08-21T03:06:11.758Z",
+      "networkCount": "1"
+    },
+    {
+      "id": "89a17531-97ef-4d05-aa55-3f8b67cc7510",
+      "userId": "***",
+      "searchDate": "2026-08-21T17:08:18.672Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "f8a1b97e-c1b2-444a-b608-4fb76e6a1ef7",
+      "userId": "***",
+      "searchDate": "2026-08-21T20:49:25.820Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "acb1845c-1ae4-4222-8dff-abb8ad471f95",
+      "userId": "***",
+      "searchDate": "2026-08-22T15:02:33.488Z",
+      "networkCount": "347"
+    },
+    {
+      "id": "a475aca0-59a2-4183-a8f5-fa5f80e7fe41",
+      "userId": "***",
+      "searchDate": "2026-08-22T17:35:34.855Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "903a9db9-e167-4faa-8025-5ca26e8da133",
+      "userId": "***",
+      "searchDate": "2026-08-22T17:37:31.908Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "1e78dca8-899a-4d9e-852b-a58b76fee478",
+      "userId": "***",
+      "searchDate": "2026-08-22T18:00:02.901Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "1ced9cad-0f88-4bc7-b35b-0312b496ed8a",
+      "userId": "***",
+      "searchDate": "2026-08-23T18:34:23.849Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "36845521-92c9-496d-aee0-77e61de548fb",
+      "userId": "***",
+      "searchDate": "2026-08-24T04:10:02.871Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "c87fe8ad-9767-420c-aec2-604d9ad2eba3",
+      "userId": "***",
+      "searchDate": "2026-08-24T06:45:56.304Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "5665539d-d4f4-48f8-b961-68cb9f1a022c",
+      "userId": "***",
+      "searchDate": "2026-08-24T06:49:15.673Z",
+      "networkCount": "366"
+    },
+    {
+      "id": "d08efa1b-cfa6-4907-ae69-c26267bb4048",
+      "userId": "***",
+      "searchDate": "2026-08-24T16:40:17.678Z",
+      "networkCount": "365"
+    },
+    {
+      "id": "fbdaf939-26d6-40da-b977-2f134aa6c7c9",
+      "userId": "***",
+      "searchDate": "2026-08-25T15:03:27.117Z",
+      "networkCount": "363"
+    },
+    {
+      "id": "2b228aeb-5cbc-4c54-a2d9-0f15d3d6c98b",
+      "userId": "***",
+      "searchDate": "2026-08-26T04:44:35.399Z",
+      "networkCount": "363"
+    },
+    {
+      "id": "ac0ca3c7-ed76-45d1-9f54-67a827d2771f",
+      "userId": "***",
+      "searchDate": "2026-08-26T05:03:11.247Z",
+      "networkCount": "363"
+    },
+    {
+      "id": "8c818cca-e6c1-42bd-a1d6-c580d5a6fcd3",
+      "userId": "***",
+      "searchDate": "2026-08-26T07:28:57.913Z",
+      "networkCount": "363"
+    },
+    {
+      "id": "da28470b-8ff5-444a-b41c-bebdd46b86df",
+      "userId": "***",
+      "searchDate": "2026-08-27T19:00:06.878Z",
+      "networkCount": "362"
+    },
+    {
+      "id": "1bff9d6e-016c-409d-89bf-9e48f6346f13",
+      "userId": "***",
+      "searchDate": "2026-08-27T19:42:34.842Z",
+      "networkCount": "1"
+    },
+    {
+      "id": "947a1410-0bd1-45f7-92f2-574731d94cca",
+      "userId": "***",
+      "searchDate": "2026-08-30T23:53:40.593Z",
+      "networkCount": "362"
+    },
+    {
+      "id": "7aa55834-5877-4248-a2b5-caf870c27a4f",
+      "userId": "***",
+      "searchDate": "2026-08-31T09:20:45.925Z",
+      "networkCount": "1"
+    },
+    {
+      "id": "9d0a60d3-cb89-4136-8ac6-0352ecb351bd",
+      "userId": "***",
+      "searchDate": "2026-08-31T10:43:22.177Z",
+      "networkCount": "362"
+    },
+    {
+      "id": "6576d78c-bdd0-48c4-9484-54fc1508e2f6",
+      "userId": "***",
+      "searchDate": "2026-09-01T15:54:55.384Z",
+      "networkCount": "362"
+    },
+    {
+      "id": "794ce197-c4ef-4a3d-a331-862ea50a0f53",
+      "userId": "***",
+      "searchDate": "2026-09-02T00:09:16.045Z",
+      "networkCount": "361"
+    },
+    {
+      "id": "ddbbcfe2-5e9c-43c6-8d7d-c00cf5e0ba06",
+      "userId": "***",
+      "searchDate": "2026-09-02T14:19:12.669Z",
+      "networkCount": "361"
+    },
+    {
+      "id": "189895d8-7e7e-49e0-9383-e384ab3c9d21",
+      "userId": "***",
+      "searchDate": "2026-09-02T20:43:15.793Z",
+      "networkCount": "361"
+    },
+    {
+      "id": "d628b736-8774-46a5-8c22-0016be74aa65",
+      "userId": "***",
+      "searchDate": "2026-09-03T09:08:32.341Z",
+      "networkCount": "1"
+    },
+    {
+      "id": "92ca34ed-e57c-4c1f-a883-fd150b341350",
+      "userId": "***",
+      "searchDate": "2026-09-03T16:11:45.629Z",
+      "networkCount": "361"
+    },
+    {
+      "id": "963b951e-234a-4ac8-b22a-56fe90c15240",
+      "userId": "***",
+      "searchDate": "2026-09-03T20:32:51.231Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "74d1e162-ac29-4a92-aaae-6ad1e194ca83",
+      "userId": "***",
+      "searchDate": "2026-09-03T20:49:34.465Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "ab3b68bb-4f92-43ea-8806-fc245e0008b8",
+      "userId": "***",
+      "searchDate": "2026-09-04T05:48:36.758Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "595c53aa-596e-47ed-b3bb-6a811561b99f",
+      "userId": "***",
+      "searchDate": "2026-09-04T06:07:04.834Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "dfcde64d-f7b6-4cbe-9568-7217c2be3bc9",
+      "userId": "***",
+      "searchDate": "2026-09-04T07:19:55.129Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "d22c0479-1bc5-4378-b710-36e01da548b1",
+      "userId": "***",
+      "searchDate": "2026-09-04T18:39:31.889Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "b508a033-6a1f-483f-a7aa-b88755fcdb60",
+      "userId": "***",
+      "searchDate": "2026-09-06T11:36:40.659Z",
+      "networkCount": "1"
+    },
+    {
+      "id": "747c4aa3-353b-443e-b9d5-ccc052650d93",
+      "userId": "***",
+      "searchDate": "2026-09-06T11:37:47.553Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "5b3b3e12-9a19-45b0-a78f-e963d7b5f98a",
+      "userId": "***",
+      "searchDate": "2026-09-06T12:03:43.127Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "92306569-2046-4637-bb45-7e443c55115f",
+      "userId": "***",
+      "searchDate": "2026-09-06T23:44:21.065Z",
+      "networkCount": "341"
+    },
+    {
+      "id": "79a21507-b14e-4ae1-93e6-641e05d83d74",
+      "userId": "***",
+      "searchDate": "2026-09-07T21:55:58.607Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "75f59b8c-036b-47db-8675-17cac131e9ef",
+      "userId": "***",
+      "searchDate": "2026-09-07T22:21:28.817Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "45d16d68-48cb-477d-b1a6-33577bcaa3ab",
+      "userId": "***",
+      "searchDate": "2026-09-08T15:31:59.388Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "d7943c1b-31c8-4541-bdc5-ab1129e094cd",
+      "userId": "***",
+      "searchDate": "2026-09-08T15:35:39.967Z",
+      "networkCount": "360"
+    },
+    {
+      "id": "c38a1f98-3248-45a0-914b-9fd64da6c2f2",
+      "userId": "***",
+      "searchDate": "2026-09-08T18:37:42.759Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "0dd9389d-aa09-49a0-85f9-627d8a052dad",
+      "userId": "***",
+      "searchDate": "2026-09-09T00:15:51.422Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "2e444242-958c-4f76-908a-4da5a9c89865",
+      "userId": "***",
+      "searchDate": "2026-09-09T12:25:29.566Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "8cf68724-57a5-4cde-9a47-946f1a1aebd6",
+      "userId": "***",
+      "searchDate": "2026-09-09T14:54:29.310Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "b045dbe3-f9d8-4a58-9cb2-c283c91f006b",
+      "userId": "***",
+      "searchDate": "2026-09-09T15:22:11.930Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "6f9a4bc5-cec5-44d3-b517-989793d3cbca",
+      "userId": "***",
+      "searchDate": "2026-09-09T17:08:33.031Z",
+      "networkCount": "340"
+    },
+    {
+      "id": "4bc760d2-6bcd-47d2-b7fa-ac8628c603fe",
+      "userId": "***",
+      "searchDate": "2026-09-09T18:02:43.264Z",
+      "networkCount": "340"
+    },
+    {
+      "id": "2df9eae8-5890-4cb1-a0e5-bdb4e15d71d9",
+      "userId": "***",
+      "searchDate": "2026-09-09T21:14:08.602Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "7de3af10-f8d6-42bc-8fe6-07b74cf46c11",
+      "userId": "***",
+      "searchDate": "2026-09-10T08:37:57.285Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "90fa8de6-258a-4f08-804a-6728aa82c19c",
+      "userId": "***",
+      "searchDate": "2026-09-10T12:08:15.739Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "a5e553cd-76b8-4bca-a430-125c640b55fa",
+      "userId": "***",
+      "searchDate": "2026-09-10T12:08:44.110Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "589fdeea-bf42-4b6a-882c-d3dba4de3995",
+      "userId": "***",
+      "searchDate": "2026-09-10T12:29:35.312Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "73ca5886-152e-4674-9164-1de3bac967a7",
+      "userId": "***",
+      "searchDate": "2026-09-10T14:56:05.769Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "7d8742c2-a715-4f80-9563-0042d547b3e8",
+      "userId": "***",
+      "searchDate": "2026-09-10T16:18:44.648Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "75c3cf21-806c-40bb-a152-fd9bab8b747f",
+      "userId": "***",
+      "searchDate": "2026-09-10T16:24:21.510Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "29b6a2d5-fb83-4606-8a5b-bbe5e40f8786",
+      "userId": "***",
+      "searchDate": "2026-09-10T16:37:31.454Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "703d3100-bc01-49bc-be32-903663a5750c",
+      "userId": "***",
+      "searchDate": "2026-09-10T17:18:30.544Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "131616ee-5759-4838-94df-894729684665",
+      "userId": "***",
+      "searchDate": "2026-09-10T19:34:04.030Z",
+      "networkCount": "1"
+    },
+    {
+      "id": "1f24c491-0cec-4398-860f-5403f7f9376e",
+      "userId": "***",
+      "searchDate": "2026-09-10T21:18:11.784Z",
+      "networkCount": "359"
+    },
+    {
+      "id": "36fda4fc-4972-407a-b2ec-3074afecdd1b",
+      "userId": "***",
+      "searchDate": "2026-09-10T21:18:51.743Z",
+      "networkCount": "340"
+    },
+    {
+      "id": "9cb9f890-b960-478b-9903-c6132a2c8ca0",
+      "userId": "***",
+      "searchDate": "2026-09-10T22:31:40.746Z",
+      "networkCount": "340"
+    }
+  ],
+  "integrity": {
+    "search_audit_csv": {
+      "row_count": 89,
+      "date_resets": 0,
+      "date_ordering": "ascending",
+      "duplicate_ids": 0,
+      "date_span": {
+        "first": "2026-08-12T00:47:16.053000+00:00",
+        "last": "2026-09-10T22:31:40.746000+00:00",
+        "min": "2026-08-12T00:47:16.053000+00:00",
+        "max": "2026-09-10T22:31:40.746000+00:00"
+      }
+    }
+  }
+}
