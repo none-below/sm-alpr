@@ -952,3 +952,181 @@ def test_issue_2026_07_17_heading_variants_classify():
         "PSPD ALPR Technology/Community Presentation page"
     )
     assert (field, kind) == ("additional_info", "exact")
+
+
+def test_issue698_heading_variants_classify():
+    """Every distinct heading that tripped the parser across the 8/17–9/11
+    refresh batch (issue #698) must now resolve to a field rather than
+    _UNKNOWN. These portals were stuck for weeks — livermore's last clean
+    capture is 2026-07-31, tracy's 2026-08-09 — because a single
+    unrecognized bold heading aborts the whole capture (and the raw .txt is
+    discarded, so there is no backlog to re-parse; the fix is forward-only).
+    """
+    from flock_transparency import _match_heading_kind, _UNKNOWN
+    expected = {
+        # one-off case-study titles → exact aliases
+        "Armed Suspects Located Through ALPR and Regional RTIC Partnership": "success_stories",  # citrus-heights
+        "Yuba County SO -Assist in Bicycle Recovery": "success_stories",   # yuba-county
+        # re-posted with a dated suffix → absorbed by the prefix branch
+        "Armed Suspects Located Through ALPR and Regional RTIC Partnership (Aug. 2026)": "success_stories",
+        # colon-introduced story titles → dynamic
+        "Featured Success Story: Flock Alert Leads Officers to Vehicle Connected to Statewide Jewelry Thefts": "success_stories",  # citrus-heights
+        "Flock Success Story: Alert Leads to Arrest of Wanted Suspect": "success_stories",  # hoke-county
+        # sharing question → outbound recipients
+        "Who does JCPD share information with": "orgs_granted_access",     # johnson-city
+        # numbered non-ALPR agency policy documents
+        "TPD Policy 339- Public Safety Video Observation System": "policy_info",  # tracy
+        "TPD Policy 417- Immigration Violations": "policy_info",           # tracy
+        # camera count with a Flock/non-Flock breakdown in the heading
+        "Total Active Cameras (Qty 75 Flock ALPR and Qty 73 non-Flock ALPR capable Traffic cameras)": "camera_count",  # livermore
+    }
+    for heading, want in expected.items():
+        field, kind = _match_heading_kind(heading)
+        assert field is not _UNKNOWN, f"{heading!r} stayed _UNKNOWN"
+        assert field == want, f"{heading!r}: got {field!r}, want {want!r}"
+
+
+def test_issue698_bold_heading_entity_form_classifies():
+    """extract_bold_headings strips tags but does not unescape entities, so
+    the same heading reaches the unrecognized-bold check as "&amp;" while the
+    rendered .txt line carries "&". Both spellings must resolve, or the
+    capture still aborts even though parse_sections handled the text fine.
+    """
+    entity = ("Featured Success Story:  CHPD Uses Real-Time Technology "
+              "&amp; Community Camera Network to Locate Missing Senior")
+    plain = entity.replace("&amp;", "&")
+    assert _match_heading(entity) == "success_stories"
+    assert _match_heading(plain) == "success_stories"
+
+
+def test_success_story_colon_pattern_requires_the_colon():
+    """The colon is what keeps the story-title pattern off narrative prose.
+    A sentence merely containing "success story" must stay _UNKNOWN.
+    """
+    from flock_transparency import _UNKNOWN
+    assert _match_heading("The success story of this program is clear") is _UNKNOWN
+
+
+def test_sharing_question_prose_not_promoted_to_heading():
+    """Guard on the "Who does X share information with" pattern. It is a
+    dynamic match, so it is trusted as a section boundary WITHOUT bold
+    evidence — and it feeds _parse_org_names. A FAQ line that asks the
+    question and then answers it inline must not be promoted, or the prose
+    answer becomes a list of fake recipient agencies.
+    """
+    from flock_transparency import _UNKNOWN
+    assert _match_heading(
+        "Who does JCPD share information with? We share with regional partners."
+    ) is _UNKNOWN
+    text = "\n".join([
+        "Acceptable Use Policy",
+        "",
+        "Who does JCPD share information with? We share with regional partners.",
+        "",
+        "Only for legitimate law enforcement purposes.",
+        "",
+    ])
+    sections, _unknown = parse_sections(text, bold_headings={"Acceptable Use Policy"})
+    headings = [s[0] for s in sections]
+    assert headings == ["Acceptable Use Policy"], (
+        f"FAQ prose was promoted to a heading: {headings}"
+    )
+
+
+def test_numbered_agency_policy_pattern_is_case_sensitive():
+    """The acronym-plus-number pattern is deliberately case-SENSITIVE: a
+    lowercase prose line ("per tpd policy 417 the department ...") must not
+    be promoted, since a dynamic hit is trusted as a section boundary.
+    """
+    from flock_transparency import _UNKNOWN
+    assert _match_heading("tpd policy 417 governs immigration matters") is _UNKNOWN
+    assert _match_heading("TPD Policy 417- Immigration Violations") == "policy_info"
+
+
+def test_numbered_agency_policy_pattern_defers_on_alpr():
+    """An acronym-titled ALPR policy must NOT be swept into generic
+    policy_info — that would leave alpr_policy empty for the agency. The
+    pattern is tempered against ALPR/LPR so such a heading fails loud and
+    gets routed deliberately instead.
+    """
+    from flock_transparency import _UNKNOWN
+    assert _match_heading("TPD Policy 428- ALPR Use") is _UNKNOWN
+    # the spelled-out form is already claimed by the alpr_policy patterns
+    assert _match_heading(
+        "TPD Policy 428- Automated License Plate Reader Policy"
+    ) == "alpr_policy"
+
+
+def test_total_active_cameras_requires_bold_evidence():
+    """"Total Active Cameras" is an exact-map entry so the parenthetical
+    breakdown resolves via the PREFIX branch — which is gated on bold
+    evidence. A body line starting with the same words must not be promoted.
+    """
+    text = "\n".join([
+        "Number of LPR cameras",
+        "",
+        "148",
+        "",
+        "Total Active Cameras include trailers and fixed poles",
+        "",
+        "more body text",
+        "",
+    ])
+    sections, _unknown = parse_sections(
+        text, bold_headings={"Number of LPR cameras"}
+    )
+    headings = [s[0] for s in sections]
+    assert headings == ["Number of LPR cameras"], (
+        f"Body text was promoted via the prefix branch: {headings}"
+    )
+
+
+def test_definition_suffix_is_structural_noise():
+    """"<Stat> (Definition)" is an explainer companion block, not the stat.
+    It must resolve to None (structural) rather than to the stat's field —
+    and the check has to sit ahead of the prefix loop, since the suffix
+    doesn't stop the line matching the "Number of Searches" prefix.
+    """
+    from flock_transparency import _match_heading_kind
+    field, kind = _match_heading_kind("Number of Searches (Definition)")
+    assert field is None, f"expected structural noise, got {field!r} via {kind}"
+
+
+def test_definition_block_after_stat_does_not_clobber_value():
+    """issue #698 / auburn-wa-pd. The portal renders two blocks that both
+    prefix-match "Number of Searches": the real stat, and a "(Definition)"
+    explainer with no number in it. searches_30d is last-wins, so once the
+    explainer moved AFTER the stat it became the surviving body and
+    _parse_number raised — auburn has failed every run since 2026-07-27.
+
+    Both orderings must yield the real value.
+    """
+    stat = [
+        "Number of Searches",
+        "",
+        "Total searches run by the department in the last 30 days.",
+        "",
+        "502",
+        "",
+    ]
+    definition = [
+        "Number of Searches (Definition)",
+        "",
+        "How it differs from the Organization Audit:",
+        "The Transparency Portal number is often lower than the audit CSV.",
+        "",
+        "- The Transparency Portal de-duplicates repeated activity, e.g., if"
+        " a user runs essentially the same search several times in an hour.",
+        "",
+    ]
+    bold = {"Number of Searches", "Number of Searches (Definition)"}
+    for label, lines in (
+        ("explainer last (the 2026-09 failure)", stat + definition),
+        ("explainer first (the 2026-07 layout)", definition + stat),
+    ):
+        data = parse_portal_text(
+            "\n".join(lines), "auburn-wa-pd", "2026-09-11", bold_headings=bold
+        )
+        assert data["searches_30d"] == 502, (
+            f"{label}: searches_30d came back {data['searches_30d']!r}"
+        )
