@@ -414,6 +414,14 @@ _HEADING_MAP = {
     # outcome label. Exact entry rather than a dynamic pattern: a two-word
     # generic phrase as a regex would promote body lines to headings.
     "Suspect Identified":                    "success_stories",
+    # One-off case-study titles that carry no template shape to anchor a
+    # regex on. Exact entries on purpose: a pattern loose enough to catch
+    # "<Agency> - <case description>" in general would also fire on body
+    # lines and, since it'd match dynamically (ungated), silently split
+    # whatever section it landed in. citrus-heights re-posts its title with
+    # a trailing "(Aug. 2026)" — the prefix branch absorbs that suffix.
+    "Armed Suspects Located Through ALPR and Regional RTIC Partnership": "success_stories",
+    "Yuba County SO -Assist in Bicycle Recovery": "success_stories",
     "Disclaimer":                            "disclaimer",
     "California SVS":                        "california_svs",
     "SB54: California Values Act":           "sb54",
@@ -446,6 +454,12 @@ _HEADING_MAP = {
     "Number of LPRs":                        "camera_count",
     "LPR Cameras":                           "camera_count",
     "Total Cameras":                         "camera_count",
+    # livermore-ca-pd annotates the count with a Flock/non-Flock breakdown
+    # ("Total Active Cameras (Qty 75 Flock ALPR and Qty 73 non-Flock ALPR
+    # capable Traffic cameras)"). Listed as the bare stem so the prefix
+    # branch absorbs the parenthetical — and, being a prefix match, it's
+    # gated on bold-heading evidence and can't promote a body line.
+    "Total Active Cameras":                  "camera_count",
     "Hotlists Alerted On":                   "hotlists_alerted_on",
     "Vehicles detected in the last 30 days": "vehicles_detected_30d",
     "Unique vehicles detected in the last 30 days": "vehicles_detected_30d",
@@ -511,6 +525,16 @@ _DYNAMIC_HEADINGS = [
     # Info. The ALPR-specific patterns above win first; this catches the
     # generic policy-link variant.
     (re.compile(r"^.+(?:Police Department|Sheriff(?:'s)?(?: Office)?|Police Bureau) Policy$", re.IGNORECASE), "policy_info"),
+    # Numbered agency policy documents bolted on beside the ALPR policy, e.g.
+    # tracy-ca-pd's "TPD Policy 339- Public Safety Video Observation System"
+    # and "TPD Policy 417- Immigration Violations". Case-SENSITIVE acronym +
+    # policy number is the anchor: lowercased prose ("the policy 417 ...")
+    # must not match, since a dynamic hit is trusted as a section boundary.
+    # Tempered against ALPR/LPR so an acronym-titled ALPR policy the
+    # spelled-out patterns above miss fails loud and gets routed to
+    # alpr_policy deliberately, rather than being filed as generic
+    # policy_info and leaving alpr_policy empty.
+    (re.compile(r"^[A-Z]{2,6} Polic(?:y|ies) \d+\b(?!.*\b(?:ALPR|LPR)\b)"), "policy_info"),
     # Success-story subheadings — agencies post titled excerpts under
     # "Success Stories" (e.g. "Yuba County SO - Facebook Post - …",
     # "Credit Card Skimming Ring - Success story").
@@ -529,6 +553,24 @@ _DYNAMIC_HEADINGS = [
     # boundaries without bold evidence, so a looser pattern could promote a
     # body sentence and swallow the field that follows.
     (re.compile(r"^How Flock(?: Safety)? Help(?:s|ed) Our Community\b", re.IGNORECASE), "success_stories"),
+    # Colon-introduced story titles: "Featured Success Story: CHPD Uses
+    # Real-Time Technology & Community Camera Network ..." (citrus-heights),
+    # "Flock Success Story: Alert Leads to Arrest of Wanted Suspect"
+    # (hoke-county). The end-anchored pattern above only catches titles that
+    # *end* in "Success Story/Stories", so these need the colon form. The
+    # required colon is what keeps it safe — a bare "\bSuccess Story\b"
+    # match would fire on narrative body prose, and dynamic matches are
+    # trusted as section boundaries without bold evidence.
+    (re.compile(r"^.*\bSuccess Stor(?:y|ies)\s*:", re.IGNORECASE), "success_stories"),
+    # Question-shaped sharing headings, e.g. johnson-city-tn-pd's "Who does
+    # JCPD share information with". Outbound recipients, same field as
+    # "Organizations granted access".
+    # End-anchored and case-sensitive on purpose. This field feeds
+    # _parse_org_names, so a dynamic (ungated) match on a FAQ body line
+    # would hand a prose answer to the org-list parser and mint fake
+    # recipient names. Requiring the question to BE the whole line — no
+    # trailing prose, no sentence period — keeps it to real headings.
+    (re.compile(r"^Who does [A-Z][^.]{1,60} share (?:information|data) with[?:]?$"), "orgs_granted_access"),
     # Stat-heading variants the exact map doesn't list — Flock prefixes the
     # standard labels with agency-specific qualifiers ("Total Searches by
     # Sparks Police Department in the last 30 days", "Individual vehicles
@@ -580,6 +622,24 @@ _DYNAMIC_HEADINGS = [
 
 _MAX_HEADING_LEN = 120
 
+# Explainer blocks rendered beside a stat, titled with the stat's own label
+# plus a "(Definition)" suffix — auburn-wa-pd pairs "Number of Searches
+# (Definition)" (prose: how the portal figure differs from the Organization
+# Audit CSV) with the real "Number of Searches" block that holds the value.
+#
+# Checked BEFORE the prefix loop, which is the whole point: the suffix does
+# not stop the line matching the "Number of Searches" prefix, so the
+# explainer is currently routed to searches_30d — and the numeric fields are
+# last-wins, so whichever of the two blocks the portal renders LAST decides
+# the value. While the explainer came first it was harmless (the real block
+# overwrote it); once it moved after the stat, searches_30d became a body
+# with no number in it and _parse_number raised. auburn has been failing
+# every run since 2026-07-27 on exactly this.
+#
+# Same rationale as the "Live Feed Data retention" noise entry below:
+# a companion block that would clobber a last-wins stat is chrome, not data.
+_DEFINITION_SUFFIX_RE = re.compile(r"\(Definition\)\s*$", re.IGNORECASE)
+
 # Case-insensitive view of _HEADING_MAP, built once. Heading match
 # becomes case-insensitive — Flock has at least three case variants of
 # the same heading across agencies ("Number of LPR cameras", "Number of
@@ -612,6 +672,10 @@ def _match_heading_kind(line):
     lowered = line.lower()
     if lowered in _HEADING_MAP_LOWER:
         return _HEADING_MAP_LOWER[lowered], "exact"
+    # Ahead of the prefix loop — see _DEFINITION_SUFFIX_RE. Reported as
+    # "dynamic" so parse_sections' _MAX_HEADING_LEN guard still applies.
+    if _DEFINITION_SUFFIX_RE.search(line):
+        return None, "dynamic"
     for prefix_lower, field_name in _HEADING_PREFIXES:
         if lowered.startswith(prefix_lower):
             return field_name, "prefix"
@@ -926,15 +990,42 @@ _PORTAL_CONTENT_MARKERS = (
 
 # Verbs we've seen agencies use to introduce their ALPR tech: "uses"
 # (most common), "utilizes" (Oakland), "employs" (Mill Valley),
-# "leverages" (occasional). Object is usually "Flock Safety ..." but
-# some agencies (Napa PD) describe the product generically as
-# "Automatic License Plate Reader technology".
+# "leverages" (occasional). The trailing "s" is optional because agencies
+# write the sentence both ways — amberley-village-oh-pd has "The Amberley
+# Village Police Department utilize Flock Safety technology" (agreeing
+# with a plural reading of "Department"). See _extract_crawled_name for
+# the guard that keeps the widened verb from capturing a non-name subject.
+#
+# Object is usually "Flock Safety ..." but some agencies (Napa PD)
+# describe the product generically as "Automatic License Plate Reader
+# technology". Between "Flock Safety" and "technology" an agency may name
+# the product line — "LPR"/"ALPR" (common), the spelled-out "automated
+# license plate reader" (des-moines-wa-pd), or the spelled-out phrase
+# followed by its parenthetical acronym, "Automated License Plate Reader
+# (ALPR) technology" (north-kingstown-ri-pd).
 _FLOCK_MARKER_RE = re.compile(
-    r" (?:uses|utilizes|employs|leverages) "
-    r"(?:Flock Safety(?:'s)? (?:LPR )?(?:[Tt]echnology|Operating System)"
+    r" (?:use|utilize|employ|leverage)s? "
+    r"(?:Flock Safety(?:['’]s)? "
+    r"(?:(?:A?LPR|[Aa]utomat(?:ed|ic) [Ll]icense [Pp]late [Rr]eaders?"
+    r"(?: \(?[Aa]?LPR\)?)?) )?"
+    r"(?:[Tt]echnology|Operating System)"
     r"|Automatic License Plate Reader(?:s)?"
     r"(?: \(?[Aa]LPR\)?)? technology)"
 )
+
+# A prefix capture that isn't name-shaped. The marker branch takes
+# *everything before* the verb as the agency name, so widening the verb to
+# its uninflected form ("use") makes a plural-subject sentence — "Officers
+# use Flock Safety technology to help advance the <Agency>'s public safety
+# mission" — capture "Officers" instead of the real name. Requires an
+# uppercase letter plus either two words or an all-caps acronym (NCRIC).
+
+
+def _is_name_shaped(candidate):
+    if not candidate or not re.search(r"[A-Z]", candidate):
+        return False
+    return len(candidate.split()) >= 2 or candidate.isupper()
+
 
 # A 2026 boilerplate variant drops the "<Agency> uses Flock Safety ..."
 # subject-prefix shape entirely and embeds the name mid-sentence:
@@ -979,12 +1070,18 @@ def _extract_crawled_name(overview, slug, datestamp):
     """
     m = _FLOCK_MARKER_RE.search(overview)
     if m:
-        return (
+        candidate = (
             overview[: m.start()]
             .strip()
             .strip("\"'“”‘’")
             .strip()
-        ) or None
+        )
+        # Fall through rather than return a non-name-shaped prefix: the
+        # "helps advance" template below can carry the real name later in
+        # the same sentence, and a bare subject ("Officers", "We") is worse
+        # than either that or the fail-loud raise.
+        if _is_name_shaped(candidate):
+            return candidate
     m = _FLOCK_ADVANCE_RE.search(overview)
     if m:
         name = m.group(1).strip().strip("\"'“”‘’").strip()
@@ -1003,13 +1100,17 @@ def _extract_crawled_name(overview, slug, datestamp):
             return name
     if overview.strip() and "Flock Safety" in overview:
         raise ValueError(
-            f"{slug} {datestamp}: overview mentions Flock Safety but the "
-            f"agency-name marker ("
-            f"' (uses|utilizes|employs|leverages) Flock Safety[\\'s] [LPR] "
-            f"[Tt]echnology|Operating System | Automatic License Plate "
-            f"Reader technology') doesn't match — Flock may have rephrased "
-            f"the boilerplate or the agency used a new verb. Update "
-            f"_FLOCK_MARKER_RE in scripts/flock_transparency.py."
+            f"{slug} {datestamp}: overview mentions Flock Safety but no "
+            f"agency-name marker matched. Expected either "
+            f"'<Agency> (use|utilize|employ|leverage)[s] Flock Safety[\\'s] "
+            f"[LPR|automated license plate reader] (technology|Operating "
+            f"System)' or 'Flock Safety technology helps advance [the] "
+            f"<Agency>[\\'s] public safety mission' — Flock may have "
+            f"rephrased the boilerplate, or the agency used a new verb or "
+            f"product phrase. Update _FLOCK_MARKER_RE / _FLOCK_ADVANCE_RE "
+            f"in scripts/flock_transparency.py. (Re-scraping the slug is "
+            f"the only way to see the new wording: a crawl-time parse "
+            f"failure discards the capture.)"
         )
     return None
 

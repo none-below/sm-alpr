@@ -139,18 +139,28 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Both crawl and parse log `PARSE_ERROR: <slug> <date> :: <error>`
-          # whenever the parser trips on a new format variant (the .txt/.html
-          # are still saved, the slug is not permanently quarantined).
-          # Surface those into a single rolling issue so we notice. Runs
-          # after parse so parse-time-only errors get captured too.
+          # whenever the parser trips on a new format variant. Surface those
+          # into a single rolling issue so we notice. Runs after parse so
+          # parse-time-only errors get captured too.
+          #
+          # NOTE: a crawl-time parse failure discards the whole capture.
+          # archive_agency parses in memory BEFORE staging any artifact, so
+          # on ValueError it returns ("failed", "parse_error") having written
+          # no .txt/.html/.json/.pdf. There is nothing on disk to re-parse —
+          # the fix is forward-only (harden the parser; the next crawl
+          # re-captures). Don't tell readers to re-parse a saved file.
           if [ ! -f /tmp/crawl.log ]; then exit 0; fi
           ERRORS=$(grep -E "PARSE_ERROR: " /tmp/crawl.log | sort -u || true)
           if [ -z "$ERRORS" ]; then exit 0; fi
           ERRORS_HASH=$(echo "$ERRORS" | sha256sum | cut -d' ' -f1)
           {
-            echo "Parser tripped on one or more agency portals. Files were"
-            echo "saved; re-parse via \`parse --force --slug <slug>\` after"
-            echo "fixing the parser."
+            echo "Parser tripped on one or more agency portals. The capture"
+            echo "for each failing date was **discarded** — \`archive_agency\`"
+            echo "parses in memory before writing, so no \`.txt\`/\`.html\` was"
+            echo "saved and there is nothing to re-parse. Fix the parser; the"
+            echo "next crawl re-captures. Errors whose fix needs the page body"
+            echo "(overview-marker misses, numeric fields with no pure-number"
+            echo "line) require re-scraping that slug to diagnose."
             echo
             echo '```'
             echo "$ERRORS"
