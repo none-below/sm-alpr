@@ -483,6 +483,15 @@
       "notes": "Hamilton OH daily (Cox Media Ohio, Dayton Daily News group); Flock explainer coverage. Bing discovery."
     },
     {
+      "domain": "kbtx.com",
+      "tier": 2,
+      "name": "KBTX-TV (Bryan/College Station TX)",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "feed_url": "https://www.kbtx.com/arc/outboundfeeds/rss/?outputType=xml",
+      "notes": "Gray Media CBS affiliate; covers Bastrop TX council Flock votes."
+    },
+    {
       "domain": "kcrg.com",
       "tier": 2,
       "name": "kcrg.com",
@@ -675,6 +684,15 @@
       "stance": "unknown",
       "last_reviewed": "2026-05-08",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "losgatan.com",
+      "tier": 2,
+      "name": "The Los Gatan",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "feed_url": "https://losgatan.com/feed/",
+      "notes": "Los Gatos CA independent local weekly; covers LGMSPD awards/ALPR."
     },
     {
       "domain": "madison.com",
@@ -920,6 +938,14 @@
       "last_reviewed": "2026-04-27",
       "feed_url": "https://www.propublica.org/feeds/propublica/main",
       "notes": ""
+    },
+    {
+      "domain": "prospect.org",
+      "tier": 2,
+      "name": "The American Prospect",
+      "stance": "critical",
+      "last_reviewed": "2026-09-11",
+      "notes": "National policy magazine; surveillance/AI-procurement reporting. Feed at /api/rss/all.rss rate-limits (429) on probe, so not registered for discovery polling."
     },
     {
       "domain": "redrocknews.com",
