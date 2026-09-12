@@ -236,6 +236,9 @@ jobs:
       - name: Run PDF revision-checker tests
         run: uv run pytest tests/test_pdf_audit_revisions.py tests/test_audit_check.py -v
 
+      - name: Run PRA download immutability tests
+        run: uv run pytest tests/test_pra_immutability.py -v
+
       - name: Check recipient coordinates
         id: coords
         run: |
