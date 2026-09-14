@@ -1,5 +1,8 @@
 {
  "atherton": {
+  "baseline_case_escalation_rate": 0.0164,
+  "cad_event_escalated_to_case": 0,
+  "cad_event_escalation_rate": 0.0,
   "cad_event_ids": 12,
   "cad_event_match_confidence": {
    "near_simultaneous": 4,
@@ -11,6 +14,7 @@
    "cad_event": 12,
    "hyphen_case": 1
   },
+  "citizenrims_case_count": 1467,
   "citizenrims_incident_count": 20893,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",
@@ -33,6 +37,9 @@
   "unique_case_ids": 13
  },
  "belmont": {
+  "baseline_case_escalation_rate": 0.0342,
+  "cad_event_escalated_to_case": 13,
+  "cad_event_escalation_rate": 0.2549,
   "cad_event_ids": 133,
   "cad_event_match_confidence": {
    "loose": 2,
@@ -47,6 +54,7 @@
    "court_case": 4,
    "hyphen_case": 9
   },
+  "citizenrims_case_count": 2660,
   "citizenrims_incident_count": 9723,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",
@@ -70,6 +78,9 @@
   "unique_case_ids": 149
  },
  "brisbane": {
+  "baseline_case_escalation_rate": 0.0042,
+  "cad_event_escalated_to_case": 0,
+  "cad_event_escalation_rate": null,
   "cad_event_ids": 61,
   "cad_event_match_confidence": {},
   "cad_event_match_rate": 0.0,
@@ -79,6 +90,7 @@
    "cad_event": 61,
    "hyphen_case": 6
   },
+  "citizenrims_case_count": 70,
   "citizenrims_incident_count": 7648,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",
@@ -102,6 +114,9 @@
   "unique_case_ids": 77
  },
  "burlingame": {
+  "baseline_case_escalation_rate": 0.0991,
+  "cad_event_escalated_to_case": 95,
+  "cad_event_escalation_rate": 0.4774,
   "cad_event_ids": 269,
   "cad_event_match_confidence": {
    "loose": 5,
@@ -114,6 +129,7 @@
    "cad_event": 269,
    "hyphen_case": 2
   },
+  "citizenrims_case_count": 6821,
   "citizenrims_incident_count": 33700,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-14",
@@ -137,6 +153,9 @@
   "unique_case_ids": 271
  },
  "hillsborough": {
+  "baseline_case_escalation_rate": 0.0395,
+  "cad_event_escalated_to_case": 9,
+  "cad_event_escalation_rate": 0.1552,
   "cad_event_ids": 162,
   "cad_event_match_confidence": {
    "loose": 1,
@@ -150,6 +169,7 @@
    "cad_event": 162,
    "hyphen_case": 38
   },
+  "citizenrims_case_count": 2003,
   "citizenrims_incident_count": 14896,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-14",
@@ -173,6 +193,9 @@
   "unique_case_ids": 209
  },
  "menlopark": {
+  "baseline_case_escalation_rate": 0.0423,
+  "cad_event_escalated_to_case": 23,
+  "cad_event_escalation_rate": 0.2447,
   "cad_event_ids": 186,
   "cad_event_match_confidence": {
    "loose": 5,
@@ -187,6 +210,7 @@
    "court_case": 43,
    "hyphen_case": 185
   },
+  "citizenrims_case_count": 11053,
   "citizenrims_incident_count": 50668,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",
@@ -210,6 +234,9 @@
   "unique_case_ids": 428
  },
  "pacifica": {
+  "baseline_case_escalation_rate": 0.3668,
+  "cad_event_escalated_to_case": 40,
+  "cad_event_escalation_rate": 0.6897,
   "cad_event_ids": 156,
   "cad_event_match_confidence": {
    "near_simultaneous": 48,
@@ -223,6 +250,7 @@
    "court_case": 2,
    "hyphen_case": 117
   },
+  "citizenrims_case_count": 7091,
   "citizenrims_incident_count": 4259,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",
@@ -246,6 +274,9 @@
   "unique_case_ids": 283
  },
  "redwoodcity": {
+  "baseline_case_escalation_rate": 0.0461,
+  "cad_event_escalated_to_case": 100,
+  "cad_event_escalation_rate": 0.431,
   "cad_event_ids": 741,
   "cad_event_match_confidence": {
    "loose": 5,
@@ -260,6 +291,7 @@
    "court_case": 3,
    "hyphen_case": 77
   },
+  "citizenrims_case_count": 9554,
   "citizenrims_incident_count": 65301,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-14",
@@ -283,6 +315,9 @@
   "unique_case_ids": 833
  },
  "sanbruno": {
+  "baseline_case_escalation_rate": 0.091,
+  "cad_event_escalated_to_case": 226,
+  "cad_event_escalation_rate": 0.3548,
   "cad_event_ids": 1854,
   "cad_event_match_confidence": {
    "loose": 27,
@@ -297,6 +332,7 @@
    "court_case": 111,
    "hyphen_case": 327
   },
+  "citizenrims_case_count": 4777,
   "citizenrims_incident_count": 31725,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-14",
@@ -320,6 +356,9 @@
   "unique_case_ids": 2502
  },
  "sanmateopd": {
+  "baseline_case_escalation_rate": 0.0139,
+  "cad_event_escalated_to_case": 229,
+  "cad_event_escalation_rate": 0.1065,
   "cad_event_ids": 4640,
   "cad_event_match_confidence": {
    "loose": 227,
@@ -334,6 +373,7 @@
    "court_case": 118,
    "hyphen_case": 244
   },
+  "citizenrims_case_count": 1866,
   "citizenrims_incident_count": 85889,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",
@@ -359,6 +399,9 @@
   "unique_case_ids": 5042
  },
  "southsanfranciscopd": {
+  "baseline_case_escalation_rate": 0.2858,
+  "cad_event_escalated_to_case": 14,
+  "cad_event_escalation_rate": 0.56,
   "cad_event_ids": 96,
   "cad_event_match_confidence": {
    "near_simultaneous": 20,
@@ -372,6 +415,7 @@
    "court_case": 1,
    "hyphen_case": 63
   },
+  "citizenrims_case_count": 5952,
   "citizenrims_incident_count": 9577,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",

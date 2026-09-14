@@ -134,6 +134,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 204.0,
     "incident_date": "2025-06-24",
     "incident_number": 202506240030,
@@ -186,6 +187,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Vehicle Towed",
+    "escalated_to_case": null,
     "gap_seconds": -22228.0,
     "incident_date": "2025-07-14",
     "incident_number": 202507140025,
@@ -998,6 +1000,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Parking Citation",
+    "escalated_to_case": null,
     "gap_seconds": -3690.0,
     "incident_date": "2025-04-22",
     "incident_number": 202504220004,
@@ -1181,6 +1184,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 220.0,
     "incident_date": "2025-04-28",
     "incident_number": 202504280098,
@@ -1211,6 +1215,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Warning Issued",
+    "escalated_to_case": null,
     "gap_seconds": 768.0,
     "incident_date": "2025-09-24",
     "incident_number": 202509240099,
@@ -1256,6 +1261,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-383",
+     "crime_classification": "Felony",
+     "crime_type": "Burglary",
+     "offenses": [
+      "Burglary:second degree - From motor vehicle (F)"
+     ]
+    },
     "gap_seconds": 949.0,
     "incident_date": "2025-02-17",
     "incident_number": 202502170015,
@@ -1306,6 +1320,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Referred",
+    "escalated_to_case": null,
     "gap_seconds": -23004.0,
     "incident_date": "2025-05-22",
     "incident_number": 202505220073,
@@ -1394,6 +1409,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 357.0,
     "incident_date": "2025-01-11",
     "incident_number": 202501110055,
@@ -1500,6 +1516,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": 9672.0,
     "incident_date": "2025-07-22",
     "incident_number": 202507220003,
@@ -1623,6 +1640,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Advised",
+    "escalated_to_case": null,
     "gap_seconds": 548.0,
     "incident_date": "2025-05-28",
     "incident_number": 202505280002,
@@ -1653,6 +1671,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": 2521.0,
     "incident_date": "2025-08-22",
     "incident_number": 202508220048,
@@ -1763,6 +1782,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 109.0,
     "incident_date": "2025-07-18",
     "incident_number": 202507180033,
@@ -1820,6 +1840,18 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "A",
+     "case_number": "25-2445",
+     "crime_classification": "Felony",
+     "crime_type": "Larceny including Auto Burglary",
+     "offenses": [
+      "Organized retail theft act as agent for (F)",
+      "Burglary:second degree - Shoplifting (F)",
+      "Possess drivers license/identification to commit forgery - Counterfeiting/forgery (F)",
+      "Grand theft:money/labor/property - All other larceny (F)"
+     ]
+    },
     "gap_seconds": 419.0,
     "incident_date": "2025-10-23",
     "incident_number": 202510230085,
@@ -1927,6 +1959,16 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Arrest",
+    "escalated_to_case": {
+     "case_disposition": "A",
+     "case_number": "25-111",
+     "crime_classification": "Felony",
+     "crime_type": "Fraud",
+     "offenses": [
+      "Forge/alter vehicle registration/etc (F)",
+      "Receive/etc known stolen property (M)"
+     ]
+    },
     "gap_seconds": 2992.0,
     "incident_date": "2025-01-13",
     "incident_number": 202501130114,
@@ -1980,6 +2022,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 1749.0,
     "incident_date": "2025-04-06",
     "incident_number": 202504060084,
@@ -2030,6 +2073,7 @@
     "city": "",
     "confidence": "same_day",
     "disposition": "No Action Taken",
+    "escalated_to_case": null,
     "gap_seconds": -12708.0,
     "incident_date": "2025-05-22",
     "incident_number": 202505220065,
@@ -2062,6 +2106,7 @@
     "city": "Menlo Park",
     "confidence": "loose",
     "disposition": "Advised",
+    "escalated_to_case": null,
     "gap_seconds": 434017.0,
     "incident_date": "2025-06-20",
     "incident_number": 202506200021,
@@ -2093,6 +2138,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1424",
+     "crime_classification": null,
+     "crime_type": "Collisions",
+     "offenses": [
+      "Traffic Accident - Minor Injury"
+     ]
+    },
     "gap_seconds": 264.0,
     "incident_date": "2025-06-24",
     "incident_number": 202506240032,
@@ -2381,6 +2435,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Referred",
+    "escalated_to_case": null,
     "gap_seconds": 19362.0,
     "incident_date": "2025-03-28",
     "incident_number": 202503280031,
@@ -2409,6 +2464,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 190.0,
     "incident_date": "2025-03-30",
     "incident_number": 202503300041,
@@ -2884,6 +2940,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Unfounded",
+    "escalated_to_case": null,
     "gap_seconds": 146.0,
     "incident_date": "2025-04-02",
     "incident_number": 202504020082,
@@ -2958,6 +3015,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Citation Issued",
+    "escalated_to_case": null,
     "gap_seconds": 45643.0,
     "incident_date": "2025-05-20",
     "incident_number": 202505200006,
@@ -2989,6 +3047,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Warning Issued",
+    "escalated_to_case": null,
     "gap_seconds": 3922.0,
     "incident_date": "2025-07-07",
     "incident_number": 202507070022,
@@ -3042,6 +3101,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": -10249.0,
     "incident_date": "2025-09-30",
     "incident_number": 202509300010,
@@ -3544,6 +3604,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Info - Not For Log Entry",
+    "escalated_to_case": null,
     "gap_seconds": 320.0,
     "incident_date": "2025-01-14",
     "incident_number": 202501140104,
@@ -3574,6 +3635,16 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-755",
+     "crime_classification": "Felony",
+     "crime_type": "Larceny including Auto Burglary",
+     "offenses": [
+      "Grand theft from person - All other larceny (F)",
+      "Thft eldr/depn adlt $950+ - All other larceny (F)"
+     ]
+    },
     "gap_seconds": 1194.0,
     "incident_date": "2025-04-05",
     "incident_number": 202504050056,
@@ -3624,6 +3695,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 353.0,
     "incident_date": "2025-05-06",
     "incident_number": 202505060057,
@@ -3673,6 +3745,16 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1188",
+     "crime_classification": null,
+     "crime_type": "Collisions",
+     "offenses": [
+      "Traffic Accident - Minor Injury",
+      "Juvenile Case"
+     ]
+    },
     "gap_seconds": 921.0,
     "incident_date": "2025-05-26",
     "incident_number": 202505260086,
@@ -3704,6 +3786,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1394",
+     "crime_classification": "Felony",
+     "crime_type": "Burglary",
+     "offenses": [
+      "Burglary:first degree (F)"
+     ]
+    },
     "gap_seconds": 720.0,
     "incident_date": "2025-06-20",
     "incident_number": 202506200074,
@@ -3735,6 +3826,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1394",
+     "crime_classification": "Felony",
+     "crime_type": "Burglary",
+     "offenses": [
+      "Burglary:first degree (F)"
+     ]
+    },
     "gap_seconds": 1481.0,
     "incident_date": "2025-06-20",
     "incident_number": 202506200074,
@@ -3763,6 +3863,7 @@
     "city": "Menlo Park",
     "confidence": "loose",
     "disposition": "No Action Taken",
+    "escalated_to_case": null,
     "gap_seconds": 234338.0,
     "incident_date": "2025-06-22",
     "incident_number": 202506220013,
@@ -3791,6 +3892,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": 535.0,
     "incident_date": "2025-07-11",
     "incident_number": 202507110041,
@@ -3823,6 +3925,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 248.0,
     "incident_date": "2025-07-12",
     "incident_number": 202507120035,
@@ -3854,6 +3957,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Resolved",
+    "escalated_to_case": null,
     "gap_seconds": 1467.0,
     "incident_date": "2025-07-22",
     "incident_number": 202507220046,
@@ -3903,6 +4007,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Citation Issued",
+    "escalated_to_case": null,
     "gap_seconds": -15064.0,
     "incident_date": "2025-08-13",
     "incident_number": 202508130057,
@@ -3931,6 +4036,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": 47071.0,
     "incident_date": "2025-09-30",
     "incident_number": 202509300012,
@@ -3981,6 +4087,7 @@
     "city": "Menlo Park",
     "confidence": "loose",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 88427.0,
     "incident_date": "2025-10-06",
     "incident_number": 202510060078,
@@ -4963,6 +5070,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-258",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 86.0,
     "incident_date": "2025-02-02",
     "incident_number": 202502020003,
@@ -4991,6 +5107,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Warning Issued",
+    "escalated_to_case": null,
     "gap_seconds": -12185.0,
     "incident_date": "2025-02-26",
     "incident_number": 202502260106,
@@ -5040,6 +5157,7 @@
     "city": "East Palo Alto",
     "confidence": "near_simultaneous",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 1719.0,
     "incident_date": "2025-03-05",
     "incident_number": 202503050069,
@@ -5068,6 +5186,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "No Action Taken",
+    "escalated_to_case": null,
     "gap_seconds": 185.0,
     "incident_date": "2025-03-12",
     "incident_number": 202503120003,
@@ -5096,6 +5215,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 1861.0,
     "incident_date": "2025-03-17",
     "incident_number": 202503170035,
@@ -5124,6 +5244,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 374.0,
     "incident_date": "2025-04-05",
     "incident_number": 202504050052,
@@ -5152,6 +5273,17 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-928",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Recovered Locally Stolen Vehicle",
+      "Stored Vehicle"
+     ]
+    },
     "gap_seconds": 2044.0,
     "incident_date": "2025-04-28",
     "incident_number": 202504280024,
@@ -5180,6 +5312,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Referred",
+    "escalated_to_case": null,
     "gap_seconds": 12633.0,
     "incident_date": "2025-05-04",
     "incident_number": 202505040056,
@@ -5229,6 +5362,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Info - Log Entry",
+    "escalated_to_case": null,
     "gap_seconds": 368.0,
     "incident_date": "2025-06-04",
     "incident_number": 202506040012,
@@ -5281,6 +5415,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1314",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 162.0,
     "incident_date": "2025-06-11",
     "incident_number": 202506110010,
@@ -5333,6 +5476,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Advised",
+    "escalated_to_case": null,
     "gap_seconds": -11617.0,
     "incident_date": "2025-06-21",
     "incident_number": 202506210031,
@@ -5364,6 +5508,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 254.0,
     "incident_date": "2025-07-09",
     "incident_number": 202507090057,
@@ -5394,6 +5539,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 785.0,
     "incident_date": "2025-07-19",
     "incident_number": 202507190035,
@@ -5422,6 +5568,15 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1657",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle parts/accessories (F)"
+     ]
+    },
     "gap_seconds": 14039.0,
     "incident_date": "2025-07-21",
     "incident_number": 202507210053,
@@ -5450,6 +5605,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 440.0,
     "incident_date": "2025-07-24",
     "incident_number": 202507240083,
@@ -5499,6 +5655,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": 945.0,
     "incident_date": "2025-08-13",
     "incident_number": 202508130021,
@@ -5548,6 +5705,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 2352.0,
     "incident_date": "2025-08-21",
     "incident_number": 202508210018,
@@ -5576,6 +5734,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 693.0,
     "incident_date": "2025-09-22",
     "incident_number": 202509220006,
@@ -5604,6 +5763,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 535.0,
     "incident_date": "2025-09-22",
     "incident_number": 202509220051,
@@ -5632,6 +5792,15 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-2328",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Larceny including Auto Burglary",
+     "offenses": [
+      "Tamper with vehicle - Motor vehicle parts/accessories (M)"
+     ]
+    },
     "gap_seconds": 3573.0,
     "incident_date": "2025-10-08",
     "incident_number": 202510080095,
@@ -5661,6 +5830,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": 139.0,
     "incident_date": "2025-10-12",
     "incident_number": 202510120003,
@@ -5967,6 +6137,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 9346.0,
     "incident_date": "2026-04-12",
     "incident_number": 202604120014,
@@ -7465,6 +7636,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-112",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 979.0,
     "incident_date": "2025-01-13",
     "incident_number": 202501130123,
@@ -7516,6 +7696,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 234.0,
     "incident_date": "2025-01-18",
     "incident_number": 202501180031,
@@ -7586,6 +7767,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 1682.0,
     "incident_date": "2025-01-27",
     "incident_number": 202501270070,
@@ -7656,6 +7838,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 410.0,
     "incident_date": "2025-02-19",
     "incident_number": 202502190004,
@@ -7684,6 +7867,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Citation Issued",
+    "escalated_to_case": null,
     "gap_seconds": -2974.0,
     "incident_date": "2025-02-26",
     "incident_number": 202502260036,
@@ -7733,6 +7917,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Drivers Exchange",
+    "escalated_to_case": null,
     "gap_seconds": 2263.0,
     "incident_date": "2025-03-04",
     "incident_number": 202503040042,
@@ -7763,6 +7948,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 2260.0,
     "incident_date": "2025-03-05",
     "incident_number": 202503050038,
@@ -7791,6 +7977,15 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-558",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Collisions",
+     "offenses": [
+      "Hit and Run/Non Injury"
+     ]
+    },
     "gap_seconds": 2474.0,
     "incident_date": "2025-03-08",
     "incident_number": 202503080038,
@@ -7819,6 +8014,15 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-560",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 1964.0,
     "incident_date": "2025-03-09",
     "incident_number": 202503090003,
@@ -7847,6 +8051,16 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-562",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Stored Vehicle"
+     ]
+    },
     "gap_seconds": 278.0,
     "incident_date": "2025-03-09",
     "incident_number": 202503090007,
@@ -7875,6 +8089,7 @@
     "city": "Menlo Park",
     "confidence": "loose",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": 223037.0,
     "incident_date": "2025-03-12",
     "incident_number": 202503120025,
@@ -7903,6 +8118,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Referred",
+    "escalated_to_case": null,
     "gap_seconds": 2016.0,
     "incident_date": "2025-03-20",
     "incident_number": 202503200023,
@@ -7973,6 +8189,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 4322.0,
     "incident_date": "2025-03-31",
     "incident_number": 202503310091,
@@ -8001,6 +8218,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": -28161.0,
     "incident_date": "2025-04-06",
     "incident_number": 202504060023,
@@ -8029,6 +8247,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Info - Not For Log Entry",
+    "escalated_to_case": null,
     "gap_seconds": 78869.0,
     "incident_date": "2025-04-07",
     "incident_number": 202504070008,
@@ -8057,6 +8276,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "No Action Taken",
+    "escalated_to_case": null,
     "gap_seconds": -2097.0,
     "incident_date": "2025-04-22",
     "incident_number": 202504220006,
@@ -8106,6 +8326,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 66.0,
     "incident_date": "2025-05-09",
     "incident_number": 202505090039,
@@ -8157,6 +8378,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1296",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 601.0,
     "incident_date": "2025-06-08",
     "incident_number": 202506080038,
@@ -8185,6 +8415,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 11325.0,
     "incident_date": "2025-06-11",
     "incident_number": 202506110030,
@@ -8301,6 +8532,7 @@
     "city": "Menlo Park",
     "confidence": "loose",
     "disposition": "Info - Log Entry",
+    "escalated_to_case": null,
     "gap_seconds": 151078.0,
     "incident_date": "2025-07-25",
     "incident_number": 202507250054,
@@ -8329,6 +8561,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 303.0,
     "incident_date": "2025-08-08",
     "incident_number": 202508080067,
@@ -8357,6 +8590,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Referred",
+    "escalated_to_case": null,
     "gap_seconds": 1197.0,
     "incident_date": "2025-08-19",
     "incident_number": 202508190026,
@@ -8385,6 +8619,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1884",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 409.0,
     "incident_date": "2025-08-20",
     "incident_number": 202508200017,
@@ -8413,6 +8656,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1886",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 648.0,
     "incident_date": "2025-08-20",
     "incident_number": 202508200031,
@@ -8441,6 +8693,16 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-2016",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Recovered Locally Stolen Vehicle"
+     ]
+    },
     "gap_seconds": 274.0,
     "incident_date": "2025-09-05",
     "incident_number": 202509050029,
@@ -8469,6 +8731,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Cancelled Incident / Cancelled by RP",
+    "escalated_to_case": null,
     "gap_seconds": -38027.0,
     "incident_date": "2025-09-06",
     "incident_number": 202509060022,
@@ -8497,6 +8760,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 5556.0,
     "incident_date": "2025-09-08",
     "incident_number": 202509080035,
@@ -8525,6 +8789,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-2090",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen or Recovered Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 457.0,
     "incident_date": "2025-09-14",
     "incident_number": 202509140006,
@@ -8553,6 +8826,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 89.0,
     "incident_date": "2025-09-16",
     "incident_number": 202509160079,
@@ -8581,6 +8855,15 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-2130",
+     "crime_classification": "Felony",
+     "crime_type": "Burglary",
+     "offenses": [
+      "Burglary:first degree (F)"
+     ]
+    },
     "gap_seconds": 1170.0,
     "incident_date": "2025-09-17",
     "incident_number": 202509170094,
@@ -8630,6 +8913,7 @@
     "city": "Menlo Park",
     "confidence": "near_simultaneous",
     "disposition": "Assisted",
+    "escalated_to_case": null,
     "gap_seconds": 136.0,
     "incident_date": "2025-09-20",
     "incident_number": 202509200023,
@@ -8658,6 +8942,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "UTL / GOA / QOA",
+    "escalated_to_case": null,
     "gap_seconds": 18177.0,
     "incident_date": "2025-09-28",
     "incident_number": 202509280002,
@@ -8686,6 +8971,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Checks OK",
+    "escalated_to_case": null,
     "gap_seconds": 6544.0,
     "incident_date": "2025-10-05",
     "incident_number": 202510050037,
@@ -8714,6 +9000,7 @@
     "city": "PALO ALTO",
     "confidence": "same_day",
     "disposition": "Citation Issued",
+    "escalated_to_case": null,
     "gap_seconds": 41857.0,
     "incident_date": "2025-10-16",
     "incident_number": 202510160030,
@@ -8742,6 +9029,7 @@
     "city": "Menlo Park",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 1806.0,
     "incident_date": "2025-10-20",
     "incident_number": 202510200004,
@@ -9087,6 +9375,9 @@
   }
  ],
  "stats": {
+  "baseline_case_escalation_rate": 0.0423,
+  "cad_event_escalated_to_case": 23,
+  "cad_event_escalation_rate": 0.2447,
   "cad_event_ids": 186,
   "cad_event_match_confidence": {
    "loose": 5,
@@ -9101,6 +9392,7 @@
    "court_case": 43,
    "hyphen_case": 185
   },
+  "citizenrims_case_count": 11053,
   "citizenrims_incident_count": 50668,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",

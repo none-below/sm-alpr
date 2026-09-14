@@ -98,6 +98,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 389.0,
     "incident_date": "2025-04-30",
     "incident_number": 202504300047,
@@ -243,6 +244,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "UTL/GOA/QOA",
+    "escalated_to_case": null,
     "gap_seconds": 641.0,
     "incident_date": "2025-10-29",
     "incident_number": 202510290066,
@@ -295,6 +297,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 691.0,
     "incident_date": "2025-09-19",
     "incident_number": 202509190062,
@@ -366,6 +369,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 187.0,
     "incident_date": "2025-03-19",
     "incident_number": 202503190042,
@@ -419,6 +423,15 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "C",
+     "case_number": "2503-0161",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 382.0,
     "incident_date": "2025-03-29",
     "incident_number": 202503290026,
@@ -497,6 +510,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Unfounded/No Merit",
+    "escalated_to_case": null,
     "gap_seconds": 448.0,
     "incident_date": "2025-07-23",
     "incident_number": 202507230027,
@@ -530,6 +544,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 102.0,
     "incident_date": "2025-10-11",
     "incident_number": 202510110032,
@@ -581,6 +596,17 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "C",
+     "case_number": "2507-0100",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Conspiracy:commit crime (F)",
+      "Recovered Stolen Vehicle"
+     ]
+    },
     "gap_seconds": 799.0,
     "incident_date": "2025-07-17",
     "incident_number": 202507170045,
@@ -634,6 +660,7 @@
     "city": "Belmont",
     "confidence": "same_day",
     "disposition": "Checks Ok",
+    "escalated_to_case": null,
     "gap_seconds": 8284.0,
     "incident_date": "2025-04-23",
     "incident_number": 202504230004,
@@ -685,6 +712,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Resolved",
+    "escalated_to_case": null,
     "gap_seconds": 909.0,
     "incident_date": "2025-08-25",
     "incident_number": 202508250017,
@@ -755,6 +783,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 985.0,
     "incident_date": "2025-06-14",
     "incident_number": 202506140047,
@@ -809,6 +838,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 90.0,
     "incident_date": "2025-09-22",
     "incident_number": 202509220018,
@@ -880,6 +910,16 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "F",
+     "case_number": "2503-0160",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Larceny Theft",
+     "offenses": [
+      "Petty theft:retail merchandise/etc (M)",
+      "Conspiracy:commit crime (M)"
+     ]
+    },
     "gap_seconds": 215.0,
     "incident_date": "2025-03-29",
     "incident_number": 202503290028,
@@ -959,6 +999,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "UTL/GOA/QOA",
+    "escalated_to_case": null,
     "gap_seconds": 571.0,
     "incident_date": "2025-09-30",
     "incident_number": 202509300041,
@@ -987,6 +1028,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 522.0,
     "incident_date": "2025-11-06",
     "incident_number": 202511060014,
@@ -1015,6 +1057,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "UTL/GOA/QOA",
+    "escalated_to_case": null,
     "gap_seconds": 332.0,
     "incident_date": "2025-05-02",
     "incident_number": 202505020024,
@@ -1043,6 +1086,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Unfounded/No Merit",
+    "escalated_to_case": null,
     "gap_seconds": 509.0,
     "incident_date": "2025-05-17",
     "incident_number": 202505170054,
@@ -1071,6 +1115,15 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "F",
+     "case_number": "2505-0136",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Assault",
+     "offenses": [
+      "Battery:spouse/ex spouse/date/etc - Simple (M)"
+     ]
+    },
     "gap_seconds": 1165.0,
     "incident_date": "2025-05-28",
     "incident_number": 202505280010,
@@ -1166,6 +1219,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "UTL/GOA/QOA",
+    "escalated_to_case": null,
     "gap_seconds": 1497.0,
     "incident_date": "2025-03-31",
     "incident_number": 202503310039,
@@ -1269,6 +1323,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Checks Ok",
+    "escalated_to_case": null,
     "gap_seconds": 482.0,
     "incident_date": "2025-06-25",
     "incident_number": 202506250021,
@@ -1300,6 +1355,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 391.0,
     "incident_date": "2025-07-13",
     "incident_number": 202507130002,
@@ -1333,6 +1389,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 267.0,
     "incident_date": "2025-07-17",
     "incident_number": 202507170039,
@@ -1532,6 +1589,7 @@
     "city": "Belmont",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 1807.0,
     "incident_date": "2025-06-23",
     "incident_number": 202506230043,
@@ -1560,6 +1618,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 245.0,
     "incident_date": "2025-06-28",
     "incident_number": 202506280011,
@@ -1590,6 +1649,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Unfounded/No Merit",
+    "escalated_to_case": null,
     "gap_seconds": 179.0,
     "incident_date": "2025-07-08",
     "incident_number": 202507080034,
@@ -1660,6 +1720,7 @@
     "city": "Belmont",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 44185.0,
     "incident_date": "2025-07-26",
     "incident_number": 202507260050,
@@ -1688,6 +1749,16 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "C",
+     "case_number": "2509-0033",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Recovered Stolen Vehicle"
+     ]
+    },
     "gap_seconds": 184.0,
     "incident_date": "2025-09-09",
     "incident_number": 202509090004,
@@ -1716,6 +1787,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Checks Ok",
+    "escalated_to_case": null,
     "gap_seconds": 253.0,
     "incident_date": "2025-09-12",
     "incident_number": 202509120077,
@@ -1744,6 +1816,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 1599.0,
     "incident_date": "2025-09-15",
     "incident_number": 202509150037,
@@ -1772,6 +1845,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 642.0,
     "incident_date": "2025-10-08",
     "incident_number": 202510080043,
@@ -1958,6 +2032,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 308.0,
     "incident_date": "2025-05-19",
     "incident_number": 202505190014,
@@ -2119,6 +2194,17 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "C",
+     "case_number": "2507-0104",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Conspiracy:commit crime (F)",
+      "Recovered Stolen Vehicle"
+     ]
+    },
     "gap_seconds": 1327.0,
     "incident_date": "2025-07-18",
     "incident_number": 202507180020,
@@ -2196,6 +2282,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Log Note Only",
+    "escalated_to_case": null,
     "gap_seconds": 231.0,
     "incident_date": "2025-08-09",
     "incident_number": 202508090048,
@@ -2245,6 +2332,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "UTL/GOA/QOA",
+    "escalated_to_case": null,
     "gap_seconds": 1127.0,
     "incident_date": "2025-09-03",
     "incident_number": 202509030069,
@@ -2315,6 +2403,17 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "U",
+     "case_number": "2509-0121",
+     "crime_classification": "Felony",
+     "crime_type": "Robbery",
+     "offenses": [
+      "Robbery:first degree (F)",
+      "Cause inj elder/dep adult - Aggravated (F)",
+      "Assault w/deadly weapon:not f/arm - Aggravated (F)"
+     ]
+    },
     "gap_seconds": 940.0,
     "incident_date": "2025-09-23",
     "incident_number": 202509230053,
@@ -2364,6 +2463,7 @@
     "city": "Belmont",
     "confidence": "same_day",
     "disposition": "Referred To Other Agency",
+    "escalated_to_case": null,
     "gap_seconds": 7635.0,
     "incident_date": "2025-10-07",
     "incident_number": 202510070029,
@@ -2455,6 +2555,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 112.0,
     "incident_date": "2025-11-12",
     "incident_number": 202511120014,
@@ -2658,6 +2759,7 @@
     "city": "Belmont",
     "confidence": "loose",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 15451733.0,
     "incident_date": "2025-03-21",
     "incident_number": 202503210039,
@@ -2793,6 +2895,7 @@
     "city": "Belmont",
     "confidence": "loose",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 328242.0,
     "incident_date": "2025-05-15",
     "incident_number": 202505150038,
@@ -2907,6 +3010,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 997.0,
     "incident_date": "2025-06-28",
     "incident_number": 202506280011,
@@ -3000,6 +3104,15 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "F",
+     "case_number": "2508-0075",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Larceny Theft",
+     "offenses": [
+      "Petty theft:retail merchandise/etc (M)"
+     ]
+    },
     "gap_seconds": 930.0,
     "incident_date": "2025-08-15",
     "incident_number": 202508150081,
@@ -3028,6 +3141,15 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "C",
+     "case_number": "2508-0126",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 1107.0,
     "incident_date": "2025-08-25",
     "incident_number": 202508250040,
@@ -3098,6 +3220,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "UTL/GOA/QOA",
+    "escalated_to_case": null,
     "gap_seconds": 600.0,
     "incident_date": "2025-09-10",
     "incident_number": 202509100004,
@@ -3126,6 +3249,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 1060.0,
     "incident_date": "2025-09-23",
     "incident_number": 202509230034,
@@ -3175,6 +3299,16 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "N",
+     "case_number": "2510-0064",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Assault",
+     "offenses": [
+      "Battery on person - Simple (M)",
+      "CPS Cross Report"
+     ]
+    },
     "gap_seconds": 253.0,
     "incident_date": "2025-10-16",
     "incident_number": 202510160028,
@@ -3203,6 +3337,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Resolved",
+    "escalated_to_case": null,
     "gap_seconds": 135.0,
     "incident_date": "2025-10-16",
     "incident_number": 202510160046,
@@ -3357,6 +3492,15 @@
     "city": "Belmont",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "C",
+     "case_number": "2511-0088",
+     "crime_classification": "Felony",
+     "crime_type": "Burglary",
+     "offenses": [
+      "Burglary:first degree (F)"
+     ]
+    },
     "gap_seconds": 2622.0,
     "incident_date": "2025-11-13",
     "incident_number": 202511130071,
@@ -3385,6 +3529,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Checks Ok",
+    "escalated_to_case": null,
     "gap_seconds": 215.0,
     "incident_date": "2025-11-13",
     "incident_number": 202511130032,
@@ -3413,6 +3558,7 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "UTL/GOA/QOA",
+    "escalated_to_case": null,
     "gap_seconds": 946.0,
     "incident_date": "2025-11-15",
     "incident_number": 202511150003,
@@ -3441,6 +3587,16 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "C",
+     "case_number": "2511-0096",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Recovered Stolen Vehicle"
+     ]
+    },
     "gap_seconds": 271.0,
     "incident_date": "2025-11-16",
     "incident_number": 202511160008,
@@ -3532,6 +3688,16 @@
     "city": "Belmont",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "C",
+     "case_number": "2511-0131",
+     "crime_classification": "Felony",
+     "crime_type": "Stolen Vehicle",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Recovered Stolen Vehicle"
+     ]
+    },
     "gap_seconds": 991.0,
     "incident_date": "2025-11-24",
     "incident_number": 202511240002,
@@ -3568,6 +3734,9 @@
   }
  ],
  "stats": {
+  "baseline_case_escalation_rate": 0.0342,
+  "cad_event_escalated_to_case": 13,
+  "cad_event_escalation_rate": 0.2549,
   "cad_event_ids": 133,
   "cad_event_match_confidence": {
    "loose": 2,
@@ -3582,6 +3751,7 @@
    "court_case": 4,
    "hyphen_case": 9
   },
+  "citizenrims_case_count": 2660,
   "citizenrims_incident_count": 9723,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",

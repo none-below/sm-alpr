@@ -214,6 +214,30 @@ def load_citizenrims_index(root, prefix):
     return index, (min_date, max_date)
 
 
+def load_case_index(root, prefix):
+    """incidentNumber -> case record, for the CAD-to-case escalation join.
+    CitizenRIMS cases carry their own incidentNumber back-link (confirmed:
+    86.6% of SMPD's cases link to one, near-always 1:1 -- 3 exceptions out
+    of 1866 in the SMPD corpus). A case with no incidentNumber (0 or absent)
+    was opened without a CAD dispatch call (walk-in report, officer-
+    initiated, etc.) and is not part of this join."""
+    agency_dir = root / CITIZENRIMS_DIR / prefix
+    if not agency_dir.exists():
+        return {}
+    dates = sorted(p.name for p in agency_dir.iterdir() if p.is_dir())
+    if not dates:
+        return {}
+    f = agency_dir / dates[-1] / "cases.json.gz"
+    if not f.exists():
+        return {}
+    index = {}
+    for c in json.loads(gzip.open(f, "rt").read()):
+        num = c.get("incidentNumber")
+        if num:
+            index[num] = c
+    return index
+
+
 def incident_utc(rec):
     """incidentDate+incidentTime assumed Pacific local (confirmed for SMPD
     via hourly-histogram trough analysis; not independently reverified per
@@ -248,7 +272,7 @@ def confidence(search_time_iso, incident_rec):
     return gap_seconds, band
 
 
-def hydrate_id(cid_entry, incident_index):
+def hydrate_id(cid_entry, incident_index, case_index):
     """cid_entry: {"id":..., "kind":..., "cad_date":...} for kind=cad_event.
     Returns a hydration dict or None if not a cad_event / not matchable."""
     if cid_entry["kind"] != "cad_event":
@@ -261,7 +285,7 @@ def hydrate_id(cid_entry, incident_index):
     rec = incident_index.get(incident_number)
     if rec is None:
         return {"matched": False, "incident_number": incident_number}
-    return {
+    hyd = {
         "matched": True,
         "incident_number": incident_number,
         "incident_date": rec.get("incidentDate", "")[:10],
@@ -270,9 +294,22 @@ def hydrate_id(cid_entry, incident_index):
         "status": rec.get("status"),
         "city": rec.get("city"),
     }
+    case = case_index.get(incident_number)
+    if case is not None:
+        offenses = [case.get(f"offenseDescription{i}") for i in range(1, 7)]
+        hyd["escalated_to_case"] = {
+            "case_number": case.get("caseNumber"),
+            "crime_type": case.get("crimeType"),
+            "crime_classification": case.get("crimeClassification"),
+            "offenses": [o for o in offenses if o],
+            "case_disposition": case.get("disposition"),
+        }
+    else:
+        hyd["escalated_to_case"] = None
+    return hyd
 
 
-def aggregate(rows, incident_index):
+def aggregate(rows, incident_index, cr_case_index):
     index = {}
     for row in rows:
         candidates = list(row["case_ids"])
@@ -305,7 +342,7 @@ def aggregate(rows, incident_index):
                 if len(e["sample_reasons"]) < 3:
                     e["sample_reasons"].append(row["reason"])
             if e["hydration"] is None:
-                hyd = hydrate_id(c, incident_index)
+                hyd = hydrate_id(c, incident_index, cr_case_index)
                 if hyd is not None:
                     if hyd.get("matched") and row["search_time"]:
                         gap, band = confidence(row["search_time"],
@@ -328,6 +365,7 @@ def process_agency(prefix, all_rows, root, out_dir):
     rows.sort(key=lambda r: (r["search_time"] or "", r["source"],
                              r.get("row_id", ""), r["reason"]))
     incident_index, coverage = load_citizenrims_index(root, prefix)
+    cr_case_index = load_case_index(root, prefix)
 
     agency_dir = out_dir / prefix
     agency_dir.mkdir(parents=True, exist_ok=True)
@@ -336,30 +374,43 @@ def process_agency(prefix, all_rows, root, out_dir):
             for row in rows:
                 gz.write((json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n").encode())
 
-    case_index = aggregate(rows, incident_index)
-    cad_entries = [e for e in case_index if e["kind"] == "cad_event"]
+    harvested = aggregate(rows, incident_index, cr_case_index)
+    cad_entries = [e for e in harvested if e["kind"] == "cad_event"]
     matched = [e for e in cad_entries if e["hydration"] and e["hydration"]["matched"]]
     by_confidence = Counter(e["hydration"]["confidence"] for e in matched)
+    escalated = [e for e in matched if e["hydration"]["escalated_to_case"]]
+
+    # Baseline: of every incident this agency has published (not just the ones
+    # ALPR officers cited), what fraction ever got a case opened against it?
+    # Compare against escalated/matched below to see whether ALPR-cited CAD
+    # events escalate to a case at a materially different rate than random
+    # CAD traffic -- the test of "ALPR searches track significant incidents."
+    baseline_escalated = sum(1 for num in incident_index if num in cr_case_index)
+    baseline_rate = round(baseline_escalated / len(incident_index), 4) if incident_index else None
 
     stats = {
         "org_name": ORG_NAMES[prefix],
         "citizenrims_incident_coverage": {"min_date": coverage[0], "max_date": coverage[1]},
         "citizenrims_incident_count": len(incident_index),
+        "citizenrims_case_count": len(cr_case_index),
+        "baseline_case_escalation_rate": baseline_rate,
         "rows_total": len(rows),
         "rows_by_source": dict(sorted(Counter(r["source"] for r in rows).items())),
         "reason_class": dict(sorted(Counter(r["reason_class"] for r in rows).items())),
         "rows_with_case_id": sum(1 for r in rows if r["case_ids"]),
-        "unique_case_ids": len(case_index),
-        "case_ids_by_kind": dict(sorted(Counter(e["kind"] for e in case_index).items())),
+        "unique_case_ids": len(harvested),
+        "case_ids_by_kind": dict(sorted(Counter(e["kind"] for e in harvested).items())),
         "cad_event_ids": len(cad_entries),
         "cad_event_matched": len(matched),
         "cad_event_match_rate": round(len(matched) / len(cad_entries), 4) if cad_entries else None,
         "cad_event_match_confidence": dict(sorted(by_confidence.items())),
-        "multi_category_case_ids": sum(1 for e in case_index if e["multi_category"]),
+        "cad_event_escalated_to_case": len(escalated),
+        "cad_event_escalation_rate": round(len(escalated) / len(matched), 4) if matched else None,
+        "multi_category_case_ids": sum(1 for e in harvested if e["multi_category"]),
     }
 
     (agency_dir / "case_ids.json").write_text(
-        json.dumps({"stats": stats, "case_ids": case_index},
+        json.dumps({"stats": stats, "case_ids": harvested},
                    indent=1, ensure_ascii=False, sort_keys=True) + "\n"
     )
     return stats

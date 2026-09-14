@@ -308,6 +308,7 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Canceled",
+    "escalated_to_case": null,
     "gap_seconds": 484.0,
     "incident_date": "2025-01-01",
     "incident_number": 202501010304,
@@ -436,6 +437,7 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Unable to locate",
+    "escalated_to_case": null,
     "gap_seconds": 533.0,
     "incident_date": "2025-01-01",
     "incident_number": 202501010242,
@@ -493,6 +495,16 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Cover Unit",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1202",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Accident ",
+     "offenses": [
+      "Hit and run resulting in death or injury - All other offenses (F)",
+      "Traffic Accident - Injury"
+     ]
+    },
     "gap_seconds": 1350.0,
     "incident_date": "2025-03-27",
     "incident_number": 202503270043,
@@ -679,6 +691,16 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-2386",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Theft",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Recovered Stolen Veh"
+     ]
+    },
     "gap_seconds": 427.0,
     "incident_date": "2025-07-06",
     "incident_number": 202507060078,
@@ -852,6 +874,7 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Log Note Only",
+    "escalated_to_case": null,
     "gap_seconds": 270.0,
     "incident_date": "2025-06-27",
     "incident_number": 202506270028,
@@ -882,6 +905,20 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Cover Unit",
+    "escalated_to_case": {
+     "case_disposition": "A",
+     "case_number": "25-2560",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Narcotics",
+     "offenses": [
+      "Possess unlawful paraphernalia (M)",
+      "Possess controlled substance (M)",
+      "Possess narcotic controlled substance (M)",
+      "Dui any drug (M)",
+      "Obstruct/resist/etc public/peace officer/emergency med tech - Simple (M)",
+      "Bench warrant/failure to appear on misdemeanor charge (M)"
+     ]
+    },
     "gap_seconds": 849.0,
     "incident_date": "2025-07-18",
     "incident_number": 202507180195,
@@ -1059,6 +1096,15 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-125",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Theft",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 65.0,
     "incident_date": "2025-01-10",
     "incident_number": 202501100040,
@@ -1136,6 +1182,15 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-2470",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Theft",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 79.0,
     "incident_date": "2025-07-12",
     "incident_number": 202507120046,
@@ -1400,6 +1455,15 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-8",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Theft",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Stolen property (F)"
+     ]
+    },
     "gap_seconds": 112.0,
     "incident_date": "2025-01-01",
     "incident_number": 202501010150,
@@ -1522,6 +1586,7 @@
     "city": "South San Francisco",
     "confidence": "same_day",
     "disposition": "Cover Unit",
+    "escalated_to_case": null,
     "gap_seconds": 2464.0,
     "incident_date": "2025-01-11",
     "incident_number": 202501110248,
@@ -1598,6 +1663,7 @@
     "city": "South San Francisco",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 19037.0,
     "incident_date": "2025-01-14",
     "incident_number": 202501140233,
@@ -1651,6 +1717,7 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Unable to locate",
+    "escalated_to_case": null,
     "gap_seconds": 254.0,
     "incident_date": "2025-05-18",
     "incident_number": 202505180041,
@@ -1681,6 +1748,7 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Cover Unit",
+    "escalated_to_case": null,
     "gap_seconds": 238.0,
     "incident_date": "2025-05-22",
     "incident_number": 202505220270,
@@ -2051,6 +2119,15 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-25",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Assault",
+     "offenses": [
+      "Battery:spouse/ex spouse/date/etc - Aggravated (M)"
+     ]
+    },
     "gap_seconds": 580.0,
     "incident_date": "2025-01-02",
     "incident_number": 202501020156,
@@ -2081,6 +2158,15 @@
     "city": "South San Francisco",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "A",
+     "case_number": "25-67",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Accident ",
+     "offenses": [
+      "Hit and run resulting in death or injury - All other offenses (F)"
+     ]
+    },
     "gap_seconds": 3206.0,
     "incident_date": "2025-01-05",
     "incident_number": 202501050251,
@@ -2182,6 +2268,16 @@
     "city": "South San Francisco",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-1147",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Theft",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)",
+      "Recovered Stolen Veh"
+     ]
+    },
     "gap_seconds": 4796.0,
     "incident_date": "2025-03-23",
     "incident_number": 202503230118,
@@ -2212,6 +2308,7 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Log Note Only",
+    "escalated_to_case": null,
     "gap_seconds": 229.0,
     "incident_date": "2025-04-15",
     "incident_number": 202504150253,
@@ -2243,6 +2340,20 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "A",
+     "case_number": "25-1533",
+     "crime_classification": "Felony",
+     "crime_type": "Grand Theft",
+     "offenses": [
+      "Grand theft:money/labor/property - All other larceny (F)",
+      "Poss controlled substance while armed w/loaded firearm (F)",
+      "Carry concealed weapon in vehicle (F)",
+      "Felon/addict/possess/etc firearm (F)",
+      "Carry Concealed Stolen Weapon",
+      "Prohibited person own/possess/etc ammunition/etc (F)"
+     ]
+    },
     "gap_seconds": 1081.0,
     "incident_date": "2025-04-23",
     "incident_number": 202504230128,
@@ -2342,6 +2453,20 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Arrest Made",
+    "escalated_to_case": {
+     "case_disposition": "A",
+     "case_number": "25-2356",
+     "crime_classification": "Felony",
+     "crime_type": "Assault",
+     "offenses": [
+      "Assault w/deadly weapon:not f/arm - Aggravated (F)",
+      "Use/under influence of controlled substance (M)",
+      "Possess controlled substance (M)",
+      "Domestic Disturbance",
+      "Court Order Served",
+      "Released from Custody"
+     ]
+    },
     "gap_seconds": 264.0,
     "incident_date": "2025-07-04",
     "incident_number": 202507040208,
@@ -2871,6 +2996,15 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Log Note Only",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-32",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Theft",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 440.0,
     "incident_date": "2025-01-03",
     "incident_number": 202501030160,
@@ -2947,6 +3081,7 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 1069.0,
     "incident_date": "2025-01-05",
     "incident_number": 202501050089,
@@ -3161,6 +3296,15 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-192",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Theft",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
     "gap_seconds": 1671.0,
     "incident_date": "2025-01-14",
     "incident_number": 202501140075,
@@ -3191,6 +3335,15 @@
     "city": "South San Francisco",
     "confidence": "same_day",
     "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "25-208",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Assault",
+     "offenses": [
+      "Battery on person - Simple (M)"
+     ]
+    },
     "gap_seconds": 9050.0,
     "incident_date": "2025-01-14",
     "incident_number": 202501140255,
@@ -3290,6 +3443,7 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Log Note Only",
+    "escalated_to_case": null,
     "gap_seconds": 367.0,
     "incident_date": "2025-04-09",
     "incident_number": 202504090153,
@@ -3619,6 +3773,7 @@
     "city": "South San Francisco",
     "confidence": "near_simultaneous",
     "disposition": "Report Taken",
+    "escalated_to_case": null,
     "gap_seconds": 485.0,
     "incident_date": "2025-07-18",
     "incident_number": 202507180188,
@@ -3681,6 +3836,9 @@
   }
  ],
  "stats": {
+  "baseline_case_escalation_rate": 0.2858,
+  "cad_event_escalated_to_case": 14,
+  "cad_event_escalation_rate": 0.56,
   "cad_event_ids": 96,
   "cad_event_match_confidence": {
    "near_simultaneous": 20,
@@ -3694,6 +3852,7 @@
    "court_case": 1,
    "hyphen_case": 63
   },
+  "citizenrims_case_count": 5952,
   "citizenrims_incident_count": 9577,
   "citizenrims_incident_coverage": {
    "max_date": "2026-09-13",
