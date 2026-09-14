@@ -68,9 +68,40 @@ SKIP_FIELDS = {
     # search_audit is the CSV-download button URL; same churn shape
     # as search_audit_csv above.
     "search_audit",
+    # Portal intro boilerplate; churns on Flock's own template rewording
+    # (observed corpus-wide, same date) rather than agency policy changes.
+    "overview",
+    # Per-CSV audit-log fingerprint (row counts, date span, etc.) — same
+    # high-churn/non-policy shape as search_audit_csv above. diff_scrapes.py
+    # already skips this field for the same reason.
+    "integrity",
+    # Manual-transcription provenance, same bucket as manual/source_pdf/_provenance.
+    "_capture_method",
+    # Curator annotation duplicating info that already surfaces as a diff
+    # event on _inbound_present; not a scraped page value.
+    "_inbound_removed_since",
+    # Diagnostic: which heading label supplied the outbound list (EG
+    # renamed it) — not the sharing_outbound content itself, which is
+    # already tracked as a SET_FIELD.
+    "_outbound_heading",
+    # Identical to archived_date in every observed snapshot; provenance,
+    # not an observed fact.
+    "snapshot_date",
+    # Fetch provenance (e.g. a Wayback Machine URL), analogous to source_pdf.
+    "source_url",
 }
 
-SCALAR_FIELDS = {"data_retention_days", "camera_count"}
+SCALAR_FIELDS = {
+    "data_retention_days",
+    "camera_count",
+    # Portal-opacity discriminators: distinguish "no partners listed" from
+    # "the section was removed entirely" / "declared no sharing" — rare,
+    # meaningful flips, not noise.
+    "sharing_inbound_section_present",
+    "sharing_outbound_section_present",
+    "sharing_outbound_declared_none",
+    "_inbound_present",
+}
 
 SET_FIELDS = {"sharing_outbound", "sharing_inbound"}
 
@@ -92,6 +123,13 @@ TEXT_FIELDS = {
     "policy_info",
     "alpr_policy",
     "additional_info",
+    "restrictions_on_deployment",
+    # SOP document pointer (URL); can legitimately change when an agency
+    # updates/replaces its linked SOP.
+    "alpr_sop",
+    # Elk Grove's self-hosted-page Q&A section; genuine agency-authored
+    # policy-communication prose worth diffing as text.
+    "myth_busters",
 }
 
 
