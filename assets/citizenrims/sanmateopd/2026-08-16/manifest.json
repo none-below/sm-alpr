@@ -1,0 +1,101 @@
+{
+ "fetched_at_utc": "2026-08-16T18:59:55+00:00",
+ "base": "https://api.v1.citizenrims.com",
+ "agency_id": 362,
+ "params": {
+  "start": "2025-01",
+  "end": "2026-08",
+  "sleep": 5.0,
+  "cases_only": false,
+  "out_root": "/Users/bc/src/github.com/none-below/sm-alpr/.claude/worktrees/audit-case-hydration/assets/citizenrims"
+ },
+ "files": {
+  "config.json": {
+   "bytes": 12714
+  },
+  "cases.json.gz": {
+   "rows": 2055,
+   "raw_bytes": 1913850
+  },
+  "incidents/2025-01.json.gz": {
+   "rows": 21,
+   "raw_bytes": 11811
+  },
+  "incidents/2025-02.json.gz": {
+   "rows": 28,
+   "raw_bytes": 15736
+  },
+  "incidents/2025-03.json.gz": {
+   "rows": 4702,
+   "raw_bytes": 2659804
+  },
+  "incidents/2025-04.json.gz": {
+   "rows": 4682,
+   "raw_bytes": 2650159
+  },
+  "incidents/2025-05.json.gz": {
+   "rows": 4915,
+   "raw_bytes": 2775614
+  },
+  "incidents/2025-06.json.gz": {
+   "rows": 4541,
+   "raw_bytes": 2566929
+  },
+  "incidents/2025-07.json.gz": {
+   "rows": 5061,
+   "raw_bytes": 2858869
+  },
+  "incidents/2025-08.json.gz": {
+   "rows": 4834,
+   "raw_bytes": 2730233
+  },
+  "incidents/2025-09.json.gz": {
+   "rows": 4616,
+   "raw_bytes": 2606238
+  },
+  "incidents/2025-10.json.gz": {
+   "rows": 4543,
+   "raw_bytes": 2565973
+  },
+  "incidents/2025-11.json.gz": {
+   "rows": 4127,
+   "raw_bytes": 2322986
+  },
+  "incidents/2025-12.json.gz": {
+   "rows": 4272,
+   "raw_bytes": 2393665
+  },
+  "incidents/2026-01.json.gz": {
+   "rows": 4767,
+   "raw_bytes": 2675524
+  },
+  "incidents/2026-02.json.gz": {
+   "rows": 4143,
+   "raw_bytes": 2322644
+  },
+  "incidents/2026-03.json.gz": {
+   "rows": 5268,
+   "raw_bytes": 2957203
+  },
+  "incidents/2026-04.json.gz": {
+   "rows": 4431,
+   "raw_bytes": 2488934
+  },
+  "incidents/2026-05.json.gz": {
+   "rows": 4499,
+   "raw_bytes": 2526736
+  },
+  "incidents/2026-06.json.gz": {
+   "rows": 4684,
+   "raw_bytes": 2631661
+  },
+  "incidents/2026-07.json.gz": {
+   "rows": 4903,
+   "raw_bytes": 2753277
+  },
+  "incidents/2026-08.json.gz": {
+   "rows": 2476,
+   "raw_bytes": 1390033
+  }
+ }
+}
