@@ -1,0 +1,104 @@
+{
+ "fetched_at_utc": "2026-09-14T08:43:57+00:00",
+ "base": "https://api.v1.citizenrims.com",
+ "prefix": "southsanfranciscopd",
+ "agency_id": 63,
+ "params": {
+  "start": "2025-01",
+  "end": "2026-09",
+  "cases_only": false
+ },
+ "files": {
+  "config.json": {
+   "bytes": 17080
+  },
+  "cases.json.gz": {
+   "rows": 6140,
+   "raw_bytes": 5722175
+  },
+  "incidents/2025-01.json.gz": {
+   "rows": 508,
+   "raw_bytes": 288108
+  },
+  "incidents/2025-02.json.gz": {
+   "rows": 417,
+   "raw_bytes": 236409
+  },
+  "incidents/2025-03.json.gz": {
+   "rows": 434,
+   "raw_bytes": 245852
+  },
+  "incidents/2025-04.json.gz": {
+   "rows": 506,
+   "raw_bytes": 286545
+  },
+  "incidents/2025-05.json.gz": {
+   "rows": 480,
+   "raw_bytes": 271949
+  },
+  "incidents/2025-06.json.gz": {
+   "rows": 411,
+   "raw_bytes": 232765
+  },
+  "incidents/2025-07.json.gz": {
+   "rows": 499,
+   "raw_bytes": 282716
+  },
+  "incidents/2025-08.json.gz": {
+   "rows": 494,
+   "raw_bytes": 279557
+  },
+  "incidents/2025-09.json.gz": {
+   "rows": 463,
+   "raw_bytes": 262073
+  },
+  "incidents/2025-10.json.gz": {
+   "rows": 520,
+   "raw_bytes": 294614
+  },
+  "incidents/2025-11.json.gz": {
+   "rows": 522,
+   "raw_bytes": 295808
+  },
+  "incidents/2025-12.json.gz": {
+   "rows": 440,
+   "raw_bytes": 249354
+  },
+  "incidents/2026-01.json.gz": {
+   "rows": 447,
+   "raw_bytes": 253397
+  },
+  "incidents/2026-02.json.gz": {
+   "rows": 426,
+   "raw_bytes": 241566
+  },
+  "incidents/2026-03.json.gz": {
+   "rows": 499,
+   "raw_bytes": 282878
+  },
+  "incidents/2026-04.json.gz": {
+   "rows": 488,
+   "raw_bytes": 276698
+  },
+  "incidents/2026-05.json.gz": {
+   "rows": 436,
+   "raw_bytes": 247195
+  },
+  "incidents/2026-06.json.gz": {
+   "rows": 441,
+   "raw_bytes": 250186
+  },
+  "incidents/2026-07.json.gz": {
+   "rows": 461,
+   "raw_bytes": 261505
+  },
+  "incidents/2026-08.json.gz": {
+   "rows": 486,
+   "raw_bytes": 275782
+  },
+  "incidents/2026-09.json.gz": {
+   "rows": 199,
+   "raw_bytes": 112959
+  }
+ }
+}
