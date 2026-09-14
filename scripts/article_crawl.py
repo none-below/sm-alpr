@@ -567,18 +567,60 @@ def _fetch_curl_cffi(url: str) -> dict:
     return out
 
 
+def _fetch_requests(url: str) -> dict:
+    """Last-resort re-fetch with plain requests after curl_cffi also fails.
+
+    Deliberately the least sophisticated tier: a bare GET with the
+    project UA, no JS execution, no TLS impersonation. Some sites
+    (rwcpulse.com) wall the headless-Chrome fingerprint AND the
+    curl_cffi Chrome impersonation, but serve an ordinary HTTP client
+    without complaint — the anti-bot rule keys on looking like an
+    automated *browser*, which a plain GET does not.
+
+    No PDF render (no browser); pdf_status comes back as
+    'skipped-requests-fallback' and archival relies on Wayback, same
+    contract as the curl_cffi tier.
+    """
+    out = {
+        "fetch_error": None, "status": None, "body": None, "final_url": None,
+        "pdf_status": "skipped-requests-fallback",
+        "pdf_byte_size": None, "pdf_error": None,
+    }
+    try:
+        r = requests.get(
+            url, headers={"User-Agent": USER_AGENT},
+            timeout=TIMEOUT, allow_redirects=True,
+        )
+        out["status"] = r.status_code
+        out["final_url"] = str(r.url)
+        if r.status_code >= 400:
+            out["fetch_error"] = f"HTTP {r.status_code}"
+            return out
+        out["body"] = r.text
+    except Exception as e:
+        out["fetch_error"] = f"{type(e).__name__}: {str(e)[:300]}"
+    return out
+
+
 def fetch_and_render(url: str, pdf_path: Path | None,
                      *, skip_pdf: bool = False) -> dict:
     """Navigate to `url` with Playwright (real Chrome UA), capture HTML,
     and optionally render the loaded page to `pdf_path` in the same
-    browser session. Falls back to curl_cffi on fingerprint-shaped
-    failures (HTTP 403, ERR_HTTP2_PROTOCOL_ERROR).
+    browser session. On fingerprint-shaped failures (HTTP 403,
+    ERR_HTTP2_PROTOCOL_ERROR) falls back in order: curl_cffi, then
+    plain requests. Each tier is less browser-shaped than the last,
+    which is the point — the walls we hit key on looking like an
+    automated browser.
 
     One browser launch per URL covers both the HTML fetch and the PDF
     render — previously these were separate launches with a `requests`
     fetch in between, but bare `requests` got 403'd by anti-bot guards
     on several news sites we needed (kxan.com, kvue.com, etc.) and the
     `requests`-then-Playwright sequence also navigated to the URL twice.
+    That is why `requests` is not the PRIMARY path. It earns its place
+    as the LAST tier: rwcpulse.com walls both headless-Chrome and the
+    curl_cffi Chrome impersonation, but serves a bare GET fine. Don't
+    re-remove it by pattern-matching on the paragraph above.
 
     Returns dict with:
       fetch_error:   str | None — set on navigation failure or HTTP >= 400
@@ -586,11 +628,12 @@ def fetch_and_render(url: str, pdf_path: Path | None,
       body:          str | None — page.content() HTML, or None on error
       final_url:     str | None — page.url after redirects
       pdf_status:    'rendered' | 'skipped' | 'skipped-curl-fallback' |
-                     'failed' | None
+                     'skipped-requests-fallback' | 'failed' | None
       pdf_byte_size: int | None
       pdf_error:     str | None
-      fetch_path:    'playwright-chrome' | 'curl_cffi' — which engine
-                     produced `body` (or attempted last on failure)
+      fetch_path:    'playwright-chrome' | 'curl_cffi' | 'requests' —
+                     which engine produced `body` (or attempted last
+                     on failure)
     """
     out = {
         "fetch_error": None, "status": None, "body": None, "final_url": None,
@@ -697,15 +740,33 @@ def fetch_and_render(url: str, pdf_path: Path | None,
             out["pdf_error"] = None
             out["fetch_path"] = "curl_cffi"
         else:
-            # Fallback also failed; keep the original Playwright error
-            # for parity with prior behavior, but tag the path so the
-            # meta record shows we tried both.
-            out["fetch_path"] = "curl_cffi"
-            if fb.get("fetch_error"):
-                out["fetch_error"] = (
-                    f"playwright: {primary_err}; "
-                    f"curl_cffi: {fb['fetch_error']}"
-                )
+            # curl_cffi also failed. One more tier down: a plain
+            # requests GET. Sites that wall both browser-shaped
+            # fingerprints sometimes serve an ordinary HTTP client.
+            print(f"  fingerprint-fallback: plain-requests retry "
+                  f"(curl_cffi: {fb.get('fetch_error')})")
+            rb = _fetch_requests(url)
+            if rb.get("body"):
+                out["body"] = rb["body"]
+                out["status"] = rb["status"]
+                out["final_url"] = rb["final_url"]
+                out["fetch_error"] = None
+                out["pdf_status"] = "skipped-requests-fallback"
+                out["pdf_byte_size"] = None
+                out["pdf_error"] = None
+                out["fetch_path"] = "requests"
+            else:
+                # All three failed; keep the original Playwright error
+                # for parity with prior behavior, but tag the path and
+                # chain each engine's error so the meta record shows
+                # everything we tried.
+                out["fetch_path"] = "requests"
+                if fb.get("fetch_error") or rb.get("fetch_error"):
+                    out["fetch_error"] = (
+                        f"playwright: {primary_err}; "
+                        f"curl_cffi: {fb.get('fetch_error')}; "
+                        f"requests: {rb.get('fetch_error')}"
+                    )
 
     return out
 

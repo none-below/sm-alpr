@@ -1,0 +1,1041 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Report: Flock Safety, Maker of SF’s License Plate Reader Cameras, Had Gobsmacking Security Flaw</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="max-image-preview:large">
+    
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@500;600;700;800;900&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&amp;display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=9217e93b25">
+    <link rel="stylesheet" type="text/css" href="/assets/built/ghost6.css?v=9217e93b25">
+    <link rel="stylesheet" type="text/css" href="/assets/css/related-stories.css?v=9217e93b25">
+    <link rel="stylesheet" type="text/css" href="/assets/css/refresh.css?v=9217e93b25">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/css/article-parity.css?v=9217e93b25&amp;parity=20260831h">
+
+    <meta name="description" content="Turns out anyone with an internet connection, and not even a password, could access the feeds of a line of the Flock surveillance cameras that are currently all the rage with the SFPD and Oakland Police Department.">
+    <link rel="icon" href="https://img.sfist.com/2018/12/favicon-1.png" type="image/png">
+    <link rel="canonical" href="https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="SFist - San Francisco News, Restaurants, Events, &amp; Sports">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Report: Flock Safety, Maker of SF’s License Plate Reader Cameras, Had Gobsmacking Security Flaw">
+    <meta property="og:description" content="Turns out anyone with an internet connection, and not even a password, could access the feeds of a line of the Flock surveillance cameras that are currently all the rage with the SFPD and Oakland Police Department.">
+    <meta property="og:url" content="https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/">
+    <meta property="og:image" content="https://img.sfist.com/2026/01/IMG_9982.jpg">
+    <meta property="article:published_time" content="2026-01-06T20:23:29.000Z">
+    <meta property="article:modified_time" content="2026-01-06T20:23:29.000Z">
+    <meta property="article:tag" content="SF News">
+    <meta property="article:tag" content="sfpd">
+    <meta property="article:tag" content="Oakland Police Department">
+    <meta property="article:tag" content="san francisco police department">
+    <meta property="article:tag" content="surveillance cameras">
+    <meta property="article:tag" content="license plate readers">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/sfistdotcom">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Report: Flock Safety, Maker of SF’s License Plate Reader Cameras, Had Gobsmacking Security Flaw">
+    <meta name="twitter:description" content="Turns out anyone with an internet connection, and not even a password, could access the feeds of a line of the Flock surveillance cameras that are currently all the rage with the SFPD and Oakland Police Department.">
+    <meta name="twitter:url" content="https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/">
+    <meta name="twitter:image" content="https://img.sfist.com/2026/01/IMG_9982.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Joe Kukura">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="SF News, sfpd, Oakland Police Department, san francisco police department, surveillance cameras, license plate readers">
+    <meta name="twitter:site" content="@SFist">
+    <meta name="twitter:creator" content="@ExercisingDrunk">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="900">
+    
+    <script src="https://rules.quantcount.com/rules-p-5Puun5Zu3vcW4.js" async=""></script><script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-NRWJTR7"></script><script src="https://secure.quantserve.com/quant.js" async="" type="text/javascript"></script><script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "SFist - San Francisco News, Restaurants, Events, & Sports",
+        "url": "https://sfist.com/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://img.sfist.com/2019/01/SFist_Logo_White.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Joe Kukura",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://img.sfist.com/2019/02/sqheadshot.jpg",
+            "width": 476,
+            "height": 476
+        },
+        "url": "https://sfist.com/author/joe-kukura/",
+        "sameAs": [
+            "https://x.com/ExercisingDrunk"
+        ]
+    },
+    "headline": "Report: Flock Safety, Maker of SF’s License Plate Reader Cameras, Had Gobsmacking Security Flaw",
+    "url": "https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/",
+    "datePublished": "2026-01-06T20:23:29.000Z",
+    "dateModified": "2026-01-06T20:23:29.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://img.sfist.com/2026/01/IMG_9982.jpg",
+        "width": 1200,
+        "height": 900
+    },
+    "keywords": "SF News, sfpd, Oakland Police Department, san francisco police department, surveillance cameras, license plate readers",
+    "description": "Turns out anyone with an internet connection, and not even a password, could access the feeds of a line of the Flock surveillance cameras that are currently all the rage with the SFPD and Oakland Police Department.",
+    "mainEntityOfPage": "https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/"
+}
+    </script>
+
+    <meta name="generator" content="Ghost 6.57">
+    <link rel="alternate" type="application/rss+xml" title="SFist - San Francisco News, Restaurants, Events, &amp; Sports" href="https://sfist.com/rss/">
+    <script defer="" src="https://cdn.jsdelivr.net/ghost/portal@~2.69/umd/portal.min.js" data-i18n="true" data-ghost="https://sfist.com/" data-key="777305f6d66feeccc37a63a729" data-api="https://sfist.com/ghost/api/content/" data-locale="en" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style>
+    <script defer="" src="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/sodo-search.min.js" data-key="777305f6d66feeccc37a63a729" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css" data-sodo-search="https://sfist.com/" data-locale="en" crossorigin="anonymous"></script>
+    
+    <link href="https://sfist.com/webmentions/receive/" rel="webmention">
+    <script defer="" src="/public/cards.min.js?v=9217e93b25"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=9217e93b25">
+    <script defer="" src="/public/comment-counts.min.js?v=9217e93b25" data-ghost-comments-counts-api="https://sfist.com/members/api/comments/counts/"></script>
+    <script defer="" src="/public/member-attribution.min.js?v=9217e93b25"></script><style>:root {--ghost-accent-color: #FF1A75;}</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-131504173-1');
+  gtag('config', 'AW-1025799952');
+
+
+  window.googletag = window.googletag || {cmd: []};
+  googletag.cmd.push(function() {
+     googletag.enableServices();
+  });
+</script>
+<!-- Quantcast Tag -->
+<script type="text/javascript">
+var _qevents = _qevents || [];
+
+(function() {
+var elem = document.createElement('script');
+elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
+elem.async = true;
+elem.type = "text/javascript";
+var scpt = document.getElementsByTagName('script')[0];
+scpt.parentNode.insertBefore(elem, scpt);
+})();
+
+_qevents.push({
+qacct:"p-5Puun5Zu3vcW4"
+});
+</script>
+
+<noscript>
+<div style="display:none;">
+<img src="//pixel.quantserve.com/pixel/p-5Puun5Zu3vcW4.gif" border="0" height="1" width="1" alt="Quantcast"/>
+</div>
+</noscript>
+<!-- End Quantcast tag -->
+<!-- <script type="text/javascript">
+    (function(){
+        var bsa_optimize=document.createElement('script');
+        bsa_optimize.type='text/javascript';
+        bsa_optimize.async=true;
+        bsa_optimize.src='https://cdn4.buysellads.net/pub/sfist.js?'+(new Date()-new Date()%600000);
+        (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa_optimize);
+    })();
+</script> -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NRWJTR7');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Mediavine Wrapper -->
+<script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.pubnation.com/tags/b75787be-f8e5-4806-a168-6dc96968c471.js"></script>
+<meta http-equiv="Content-Security-Policy" content="block-all-mixed-content">
+<!-- END Mediavine Wrapper-->
+
+<script defer="" data-domain="sfist.com" data-api="https://trusty-shovel-1234.paul-f22.workers.dev/trusty-bucket/event" src="https://trusty-shovel-1234.paul-f22.workers.dev/trusty-shovel/script.outbound-links.js"></script>
+
+    <link rel="icon" href="https://img.sfist.com/2018/12/favicon-1.png" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png?v=9217e93b25">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png?v=9217e93b25">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png?v=9217e93b25">
+    <link rel="manifest" href="/assets/favicon/site.webmanifest?v=9217e93b25">
+    <meta name="theme-color" content="#df2f32">
+    <script async="" src="https://news.google.com/swg/js/v1/publisher.js"></script>
+    <script async="" src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+    <script>
+      window.googletag = window.googletag || {cmd: []};
+      googletag.cmd.push(function() {
+        googletag.defineSlot('/21697107047/sfist_vslider', [1, 1], 'sfist_vslider').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.pubads().collapseEmptyDivs();
+        googletag.enableServices();
+      });
+    </script>
+<meta http-equiv="origin-trial" content="AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A9nrunKdU5m96PSN1XsSGr3qOP0lvPFUB2AiAylCDlN5DTl17uDFkpQuHj1AFtgWLxpLaiBZuhrtb2WOu7ofHwEAAACKeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A93bovR+QVXNx2/38qDbmeYYf1wdte9EO37K9eMq3r+541qo0byhYU899BhPB7Cv9QqD7wIbR1B6OAc9kEfYCA4AAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A1S5fojrAunSDrFbD8OfGmFHdRFZymSM/1ss3G+NEttCLfHkXvlcF6LGLH8Mo5PakLO1sCASXU1/gQf6XGuTBgwAAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><script src="https://securepubads.g.doubleclick.net/pagead/managed/js/gpt/m202609040101/pubads_impl.js" async="" fetchpriority="high"></script><link href="https://securepubads.g.doubleclick.net/pagead/managed/dict/m202609080101/gpt" rel="compression-dictionary"><style type="text/css">
+  /** Common styles across all window sizes. */
+  .swg-dialog,
+  .swg-toast,
+  .publisher-toast {
+    box-sizing: border-box;
+  }
+
+  .swg-toast {
+    background-color: rgba(255, 255, 255, 1) !important;
+    max-height: 46px !important;
+  }
+
+  .publisher-toast {
+    background-color: transparent !important;
+    max-width: 360px !important;
+  }
+
+  .swg-toast,
+  .publisher-toast {
+    position: fixed !important;
+    bottom: 0 !important;
+    z-index: 2147483647 !important;
+    border: none !important;
+  }
+
+  /**
+  * Wide desktop screen support, when width is >= 871px and height is >= 641px.
+  */
+  @media (min-width: 871px) and (min-height: 641px) {
+    .swg-dialog.swg-wide-dialog {
+      left: -435px !important;
+    }
+
+    .swg-dialog.swg-wide-dialog,
+    .swg-toast,
+    .publisher-toast {
+      width: 870px !important;
+    }
+  }
+
+  /** Tablet/Medium screen support, when width OR height is <= 640px. */
+  @media (max-width: 640px), (max-height: 640px) {
+    .swg-dialog,
+    .swg-toast {
+      width: 480px !important;
+      left: -240px !important;
+      margin-inline-start: calc(100vw - 100vw / 2) !important;
+      border-top-left-radius: 8px !important;
+      border-top-right-radius: 8px !important;
+      box-shadow:
+        rgba(60, 64, 67, 0.3) 0 1px 1px,
+        rgba(60, 64, 67, 0.15) 0 1px 4px 1px !important;
+    }
+
+    .publisher-toast {
+      width: 480px !important;
+      left: -240px !important;
+      margin-inline-start: calc(100vw - 100vw / 2) !important;
+    }
+
+    [dir='rtl'] .swg-dialog,
+    [dir='rtl'] .swg-toast,
+    [dir='rtl'] .publisher-toast {
+      margin-inline-start: calc(100vw - 100vw / 2 - 240px) !important;
+    }
+  }
+
+  /** Desktop/Large screen support, when width AND height are >= 641px. */
+  @media (min-width: 641px) and (min-height: 641px) {
+    .swg-dialog,
+    .swg-toast,
+    .publisher-toast {
+      width: 630px !important;
+    }
+
+    .swg-dialog {
+      left: -315px !important;
+      margin-inline-start: calc(100vw - 100vw / 2) !important;
+      background-color: transparent !important;
+      border: none !important;
+    }
+
+    [dir='rtl'] .swg-dialog {
+      margin-inline-start: calc(100vw - 100vw / 2 - 315px) !important;
+    }
+
+    .swg-toast {
+      border-radius: 4px !important;
+      bottom: 8px !important;
+      box-shadow:
+        0 3px 1px -2px rgb(0 0 0 / 20%),
+        0 2px 2px 0 rgb(0 0 0 / 14%),
+        0 1px 5px 0 rgb(0 0 0 / 12%) !important;
+      left: 8px !important;
+    }
+
+    .publisher-toast {
+      bottom: 8px !important;
+      right: 30px !important;
+    }
+  }
+
+  /** Phone/Small screen support, when width is <= 480px. */
+  @media (max-width: 480px) {
+    .swg-dialog,
+    .swg-toast,
+    .publisher-toast {
+      width: 100% !important;
+      max-width: 100% !important;
+      left: 0 !important;
+      right: 0 !important;
+      margin-inline-start: 0 !important;
+    }
+  }
+
+  /**
+  * Class applied to content page to disable scrolling.
+  */
+  html.swg-disable-scroll,
+  html.swg-disable-scroll * {
+    overflow: hidden !important;
+  }
+</style></head>
+<body class="post-template tag-news tag-sfpd tag-oakland-police-department tag-san-francisco-police-department tag-surveillance-cameras tag-license-plate-readers tag-hash-import-2026-08-17-00-30 sfist-refresh">
+
+    <div class="site-wrapper">
+
+	<!-- /21697107047/sfist_vslider -->
+        <div id="sfist_vslider">
+          <script>
+            googletag.cmd.push(function() { googletag.display('sfist_vslider'); });
+          </script>
+        </div>
+
+        <div class="refresh-masthead">
+    <div class="refresh-nav-shell">
+        <a class="refresh-brand" href="https://sfist.com" aria-label="SFist home">
+                <img src="https://img.sfist.com/2019/01/SFist_Logo_White.png" alt="SFist" width="206" height="70">
+        </a>
+
+        <nav class="refresh-primary-nav" id="refresh-primary-nav" data-open="false" aria-label="Primary navigation">
+            <span class="refresh-mobile-label">Explore SFist</span>
+            <a href="/news/">News</a>
+            <a href="/politics/">Politics</a>
+            <a href="/business-tech/">Business &amp; Tech</a>
+            <a href="/sports/">Sports</a>
+            <a href="/food/">Food &amp; Drink</a>
+            <a href="/arts-entertainment/">Arts &amp; Entertainment</a>
+            <a href="/contact-us/">Contact</a>
+            <a class="refresh-mobile-subscribe" href="#subscribe" data-subscribe-trigger="">Subscribe</a>
+        </nav>
+
+        <div class="refresh-nav-actions">
+            <button class="refresh-search-toggle" type="button" data-ghost-search="" aria-label="Search SFist">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+            </button>
+            <button class="refresh-theme-toggle" type="button" aria-label="Use dark color theme" aria-pressed="false">
+                <svg class="refresh-theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.3A8.7 8.7 0 0 1 8.7 3.5 8.7 8.7 0 1 0 20.5 15.3Z"></path></svg>
+                <svg class="refresh-theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"></path></svg>
+            </button>
+            <a class="refresh-subscribe" href="#subscribe" data-subscribe-trigger="">Subscribe</a>
+            <button class="refresh-menu-toggle" type="button" aria-controls="refresh-primary-nav" aria-expanded="false" aria-label="Open navigation menu">
+                <span aria-hidden="true"><i></i><i></i><i></i></span>
+            </button>
+        </div>
+    </div>
+<progress id="reading-progress" class="progress" value="0" max="5137">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress></div>
+<button class="refresh-nav-backdrop" type="button" aria-label="Close navigation menu" data-open="false"></button>
+
+        
+<main id="site-main" class="page site-main refresh-article">
+    <article class="refresh-article-shell post-full post tag-news tag-sfpd tag-oakland-police-department tag-san-francisco-police-department tag-surveillance-cameras tag-license-plate-readers tag-hash-import-2026-08-17-00-30 ">
+        <header class="hero refresh-article-header">
+            <div class="hero-copy refresh-article-heading">
+                <div class="story-kicker"><a class="refresh-article-kicker" href="/news/">SF News</a></div>
+                <h1 class="story-title post-full-title">Report: Flock Safety, Maker of SF’s License Plate Reader Cameras, Had Gobsmacking Security Flaw</h1>
+                <div class="story-meta refresh-article-meta" aria-label="Article publication details">
+                    <span>By <strong><a class="story-author" href="/author/joe-kukura/">Joe Kukura</a></strong></span>
+                    <span aria-hidden="true">•</span>
+                    <time datetime="2026-01-06T12:23:29-08:00">January 6, 2026 · 12:23 PM PST</time>
+                    <span aria-hidden="true">•</span>
+                    <span>4 min read</span>
+                </div>
+            </div>
+
+        <div class="hero-media refresh-article-feature" style="--feature-image:url('https://img.sfist.com/2026/01/IMG_9982.jpg')">
+            <div class="refresh-article-feature-backdrop" aria-hidden="true"></div>
+            <figure class="refresh-article-media-stage">
+                <img class="hero-image refresh-article-feature-media" src="https://img.sfist.com/2026/01/IMG_9982.jpg" srcset="https://img.sfist.com/2026/01/IMG_9982.jpg 640w,
+                            https://img.sfist.com/2026/01/IMG_9982.jpg 1200w,
+                            https://img.sfist.com/2026/01/IMG_9982.jpg 2000w" sizes="(max-width: 700px) 100vw, min(100vw - 48px, 1320px)" alt="Report: Flock Safety, Maker of SF’s License Plate Reader Cameras, Had Gobsmacking Security Flaw" width="1200" height="675" fetchpriority="high" decoding="async">
+                
+            </figure>
+        </div>
+        </header>
+
+        <section class="article-shell post-full-content refresh-article-paper" id="article">
+            <div class="ad-placement" id="sfist_regular" role="region" aria-label="Advertisement"></div>
+            <script>
+                googletag.cmd.push(function () { googletag.display('sfist_regular'); });
+            </script>
+
+            <div class="article-layout refresh-article-reading-grid">
+                <aside class="share-rail post-share refresh-article-share" aria-label="Share this story">
+                    <div class="post-share-actions">
+                        <a class="post-share-button post-share-x" href="https://x.com/intent/post?text=Report%3A%20Flock%20Safety%2C%20Maker%20of%20SF%E2%80%99s%20License%20Plate%20Reader%20Cameras%2C%20Had%20Gobsmacking%20Security%20Flaw&amp;url=https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/" data-share-popup="x" target="_blank" rel="noopener noreferrer nofollow" aria-label="Share this story on X">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 15.6 6.4 22H3.3l7.2-8.2L.8 2h6.4l4.4 5.8L16.7 2h2.2Zm-1.1 17.9h1.7L6.2 4H4.4l13.4 15.9Z"></path></svg><span>X</span>
+                        </a>
+                        <a class="post-share-button post-share-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/" data-share-popup="facebook" target="_blank" rel="noopener noreferrer nofollow" aria-label="Share this story on Facebook">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.7 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.7 1.8-1.7h1.9V2.5c-.3 0-1.5-.1-2.8-.1-2.8 0-4.7 1.7-4.7 4.8v2.3H6.8V13h3.1v9h3.8Z"></path></svg><span>Facebook</span>
+                        </a>
+                        <button class="post-share-button post-share-copy" type="button" data-copy-url="https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/" aria-label="Copy a link to this story">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7V5c0-1.7 1.3-3 3-3h8c1.7 0 3 1.3 3 3v8c0 1.7-1.3 3-3 3h-2v3c0 1.7-1.3 3-3 3H5c-1.7 0-3-1.3-3-3v-9c0-1.7 1.3-3 3-3h3Zm3 0h3c1.7 0 3 1.3 3 3v3h2V5h-8v2ZM5 10v9h9v-9H5Z"></path></svg><span>Copy link</span>
+                        </button>
+                    </div>
+                    <p class="post-share-status" role="status" aria-live="polite"></p>
+                </aside>
+
+                <div class="article-body post-content refresh-article-copy"><p>Turns out anyone with an internet connection, and not even a password, could access the feeds of a line of the Flock surveillance cameras that are currently all the rage with the SFPD and Oakland Police Department.</p><p>Below we see pictured what is likely one of those <a href="https://sfist.com/2024/01/12/sf-is-going-to-install-400-license-plate-readers-to-hopefully-deter-car-theft-sideshows-and-such/">Flock Safety automated license plate reader cameras</a>, one of the <a href="https://www.sf.gov/news--san-francisco-begins-installing-automated-license-plate-readers-disrupt-organized-theft-and?ref=sfist.com">400 of these new security cameras in SF</a> that are are taking <a href="https://sfist.com/2025/01/03/sfpd-refuses-to-say-where-theyve-placed-those-400-automated-license-plate-readers-all-over-town/">three million surveillance photos every day</a>. To hear SFPD tell it, these Flock Safety cameras have been an absolute godsend for <a href="https://sfist.com/2024/06/12/sfpd-says-new-license-plate-readers-have-already-nabbed-numerous-carjacking-sexual-assault-suspects/">catching carjacking suspects and other criminals</a>, and they’re supposedly a huge driver of SF's <a href="https://sfist.com/2025/12/29/take-that-fox-news-sf-crime-was-down-25-5-in-2025-third-straight-year-sf-crime-went-down/">recent notable drop in crime rates</a>. </p><p>The Oakland Police Department also loves their Flock Safety license plate reader cameras too, and the Oakland City Council just <a href="https://www.sfchronicle.com/eastbay/article/oakland-approves-flock-license-plate-cameras-21246519.php?ref=sfist.com">approved a $2 million contract renewal</a> with Flock to keep using those cameras, albeit in a meeting that will <a href="https://sfist.com/2025/12/18/oakland-city-councilmember-gets-backlash-for-flipping-off-audience-during-city-council-meeting/">probably be remembered for different reasons</a>.   </p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://img.sfist.com/2026/01/IMG_9985.jpg" class="kg-image" alt="" loading="lazy"><figcaption><em>Image: Joe Kukura, SFist</em></figcaption></figure><p>So there is certainly some utility to these Flock surveillance cameras. And as the Trump’s administration indulges in its <a href="https://www.politico.com/news/2025/12/26/ice-high-tech-surveillance-lower-privacy-guardrails-00705401?ref=sfist.com">spending spree on surveillance of US citizens</a> for ICE and police state purposes, Flock Safety is a company positioned to do <em>very</em> well for themselves right now.</p><p>But the publication 404 Media just discovered an astonishing security flaw in a line of Flock Safety cameras. It turns out that <a href="https://www.404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves/?ref=sfist.com">anyone with an internet connection could hack into their security cameras</a>, cameras whose feeds of public streets, playgrounds, and parking lots were not protected by any passwords. Literally any fool could get complete administrative access to these Flock Safety cameras with no credentials whatsoever. </p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://img.sfist.com/2026/01/flock-wave.gif" class="kg-image" alt="" loading="lazy"><figcaption><em>Image: <a href="https://www.404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves/?ref=sfist.com">404 Media</a></em></figcaption></figure><p><a href="https://www.404media.co/content/images/2025/12/1222.gif?ref=sfist.com">This animated gif</a>, where the pedestrian turns and waves at the camera, tells an incredibly chilling tale. Let’s let 404 Media author Jason Koebler explain.</p><p>“I am standing on the corner of Harris Road and Young Street outside of the Crossroads Business Park in Bakersfield, California, looking up at a Flock surveillance camera bolted high above a traffic signal,” Koebler writes. “On my phone, I am watching myself in real time as the camera records and livestreams me— without any password or login — to the open internet. I wander into the intersection, stare at the camera and wave. On the livestream, I can see myself clearly. Hundreds of miles away, my colleagues are remotely watching me too through the exposed feed.”</p><p>Granted, these are not the same model of automated license plate reader (ALPR) cameras that are being used in San Francisco and Oakland. This variety is called <a href="https://www.flocksafety.com/webinar/introducing-condor-live-and-recorded-video?ref=sfist.com">Condor Live cameras</a>, and they capture not only the images of license plates, but they can even do facial recognition. But with these great powers come great responsibilities, responsibilities that Flock Safety may have tended to quite poorly. </p><p>404 Media’s investigation found that “at least 60 of its AI-enabled Condor cameras around the country [were] exposed to the open internet, where anyone could watch them, download 30 days worth of video archive, and change settings, see log files, and run diagnostics.”</p><p>And of course, these new cameras with the massive security flaws are “<a href="https://www.flocksafety.com/blog/new-ai-video-analytics-features-24-7-security-coverage-no-extra-staff-needed?ref=404media.co">AI-driven</a>.”</p>
+<!--kg-card-begin: html-->
+<div style="position: relative;width: 100%;height: 0;padding-bottom: 56.25%;">
+<div class="fluid-width-video-container"><div class="fluid-width-video-wrapper" style="padding-top: 56.25%;"><iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;" src="https://www.youtube.com/embed/vU1-uiUlHTo" frameborder="0" allowfullscreen=""></iframe></div></div>
+</div>
+
+<!--kg-card-end: html-->
+<p></p><p>404 Media got their scoop from security researcher and YouTube-famous hacker Benn Jordan, who describes the starting degree of access he was able to get to Flock Safety systems, with no credentials whatsoever.</p><p>“Immediately, we were just without any username, without any password, we were just seeing everything from playgrounds to parking lots with people, Christmas shopping and unloading their stuff into cars,” Jordan told 404 Media. “I think it was like the first time that I actually got like immediately scared … I think the one that affected me most was the playground. You could see unattended kids, and that’s something I want people to know about so they can understand how dangerous this is.”</p><p>Again, these are not the same Flock Safety ALPR cameras being used in San Francisco and Oakland. These are cameras designed more to monitor human faces as opposed to vehicles’ license plate numbers. And Flock Safety insists this security flaw has since been eliminated. </p><p>"This was a limited misconfiguration on a very small number of devices, and it has since been remedied," a Flock spokesperson said to 404 Media in late December. The company did not detail how many cameras were among the “very small number of devices” affected by this shocking security flaw. </p><p>And indeed, this was not the exact same model of Flock Safety cameras being used in San Francisco and Oakland. But if even one of their models had a security flaw this profound, that certainly makes it fair to wonder the degree to which Flock Safety cameras on the market that not only <a href="https://www.npr.org/2025/11/07/nx-s1-5587724/some-sanctuary-states-discover-feds-mining-local-license-plate-data?ref=sfist.com">share their data with Trump’s federal law enforcement apparatus</a>, but also with any hacker who manages to infiltrate their cameras.</p><p><strong>Related: </strong><a href="https://sfist.com/2024/06/12/sfpd-says-new-license-plate-readers-have-already-nabbed-numerous-carjacking-sexual-assault-suspects/">SFPD Says New License Plate Readers Have Already Nabbed Numerous Carjacking, Sexual Assault Suspects [SFist]</a></p><p><em>Image: Joe Kukura, SFist</em><br></p></div>
+            </div>
+
+            <div class="story-end refresh-article-afterword">
+                <nav class="post-topics" aria-labelledby="post-topics-title">
+                    <h2 id="post-topics-title" class="post-topics-title">Topics</h2>
+                    <div class="post-topics-list"><a href="/news/">SF News</a><a href="/sfpd/">sfpd</a><a href="/oakland-police-department/">Oakland Police Department</a><a href="/san-francisco-police-department/">san francisco police department</a><a href="/surveillance-cameras/">surveillance cameras</a><a href="/license-plate-readers/">license plate readers</a></div>
+                </nav>
+
+                <aside class="post-preferred-source" aria-labelledby="post-preferred-source-title">
+                    <div class="post-preferred-source-mark" aria-hidden="true">SF</div>
+                    <div class="post-preferred-source-copy">
+                        <p class="post-preferred-source-kicker">Keep SFist in your news mix</p>
+                        <h2 id="post-preferred-source-title">Make SFist a preferred source</h2>
+                        <p>Choose SFist to see more of our local reporting in Google’s Top Stories.</p>
+                    </div>
+                    <div class="post-preferred-source-action">
+                        <div google-add-preferred-source-btn="" data-theme="light" data-initialized="true" aria-live="polite"></div>
+                        <noscript><a href="https://www.google.com/preferences/source?q=sfist.com" target="_blank" rel="noopener">Add SFist as a preferred source</a></noscript>
+                    </div>
+                </aside>
+
+                <footer class="post-full-footer authorz-card">
+                    
+<section class="author-card">
+        <img class="author-profile-image" src="https://img.sfist.com/2019/02/sqheadshot.jpg" alt="Joe Kukura">
+    <section class="author-card-content">
+        <h2 class="author-card-name"><a href="/author/joe-kukura/">Joe Kukura</a></h2>
+            <p>Joe Kukura is an SFist staff asst. editor / reporter who has been published in almost every San Francisco publication, including Hoodline, SF Weekly, Thrillist, and Broke Ass Stuart.</p>
+    </section>
+</section>
+<div class="post-full-footer-right">
+    <a class="author-card-button" href="/author/joe-kukura/">More from Joe Kukura</a>
+</div>
+
+
+                </footer>
+            </div>
+
+            <div class="primus"><div id="bsa-zone_1669640936515-9_123456"></div></div>
+        </section>
+
+        <section class="refresh-related" aria-labelledby="refresh-related-title">
+            <header class="refresh-related-heading">
+                <div><span>Continue reading</span><h2 id="refresh-related-title">Latest from SFist</h2></div>
+                <a class="sfist-related-footer-link" href="/">More stories →</a>
+            </header>
+            <article class="sfist-related-card" hidden="" data-current-url="/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/" data-fallback-url="/assets/related-fallback.json?v=9217e93b25" data-primary-tag="news">
+                <div class="sfist-related-tags" hidden=""><span data-related-tag="news"></span><span data-related-tag="sfpd"></span><span data-related-tag="oakland-police-department"></span><span data-related-tag="san-francisco-police-department"></span><span data-related-tag="surveillance-cameras"></span><span data-related-tag="license-plate-readers"></span></div>
+                <a class="sfist-related-heading-link" href="/" hidden="">Latest Stories</a>
+                <ul class="sfist-related-list"></ul>
+            </article>
+        </section>
+
+        <section class="post-full-comments refresh-comments">
+            <div class="post-comments-heading">
+                <p class="post-comments-kicker">Join the conversation</p>
+                <h2>Comments</h2>
+                <p>Comments load automatically as this section approaches.</p>
+            </div>
+            <button class="post-comments-load" type="button">Load comments now</button>
+            <p class="post-comments-status" role="status" aria-live="polite"></p>
+            <div id="disqus_thread" data-disqus-identifier="695d600650ea7a320cf6a400" aria-live="polite"></div>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </section>
+    </article>
+</main>
+
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a class="site-nav-logo" href="https://sfist.com"><img src="/assets/images/sfist-logo-solid-line-black.png?v=9217e93b25" alt="SFist Logo"></a>
+    </div>
+    <span class="floating-header-divider">—</span>
+    <div class="floating-header-title">Report: Flock Safety, Maker of SF’s License Plate Reader Cameras, Had Gobsmacking Security Flaw</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"></path>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://x.com/intent/post?text=Report%3A%20Flock%20Safety%2C%20Maker%20of%20SF%E2%80%99s%20License%20Plate%20Reader%20Cameras%2C%20Had%20Gobsmacking%20Security%20Flaw&amp;url=https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/" onclick="window.open(this.href, 'share-x', 'width=550,height=235');return false;" title="Share on X" aria-label="Share this story on X">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 15.6 6.4 22H3.3l7.2-8.2L.8 2h6.4l4.4 5.8L16.7 2h2.2Zm-1.1 17.9h1.7L6.2 4H4.4l13.4 15.9Z"></path></svg>
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/" onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"></path></svg>
+        </a>
+    </div>
+    
+</div>
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <div class="site-footer-brand">
+                    <a class="site-footer-wordmark" href="https://sfist.com" aria-label="SFist home">
+                        <img src="https://img.sfist.com/2019/01/SFist_Logo_White.png" alt="SFist" width="760" height="246">
+                    </a>
+                    <p>Independent San Francisco news, culture, food, and city life since 2004.</p>
+                </div>
+                <nav class="site-footer-group" aria-label="Explore SFist">
+                    <h2>Explore</h2>
+                    <a href="https://sfist.com">Latest Posts</a>
+                    <a href="/jobs-in-sf/">SFist Jobs</a>
+                    <a href="/best-of-san-francisco/">Best of San Francisco</a>
+                </nav>
+                <nav class="site-footer-group" aria-label="About SFist">
+                    <h2>About SFist</h2>
+                    <a href="/about/">About</a>
+                    <a href="/staff/">Staff</a>
+                    <a href="/editorial-standards/">Editorial Standards</a>
+                    <a href="/corrections-policy/">Corrections Policy</a>
+                    <a href="/contact-us/">Contact</a>
+                </nav>
+                <nav class="site-footer-group" aria-label="Follow SFist">
+                    <h2>Follow</h2>
+                    <a href="https://www.instagram.com/sfist/" target="_blank" rel="noopener">Instagram</a>
+                    <a href="https://bsky.app/profile/sfist.bsky.social" target="_blank" rel="noopener">Bluesky</a>
+                    <a href="https://www.facebook.com/sfistdotcom" target="_blank" rel="noopener">Facebook</a>
+                    <a href="https://x.com/SFist" target="_blank" rel="noopener">X / Twitter</a>
+                    <a href="/rss/">RSS</a>
+                </nav>
+            </div>
+            <div class="site-footer-legal inner">
+                <span>© 2026 Impress3 Media, Inc.</span>
+                <a href="/privacy-policy/">Privacy Policy</a>
+                <a href="/terms/">Terms</a>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <dialog id="subscribe" class="subscribe-dialog" aria-labelledby="subscribe-modal-title">
+        <section class="subscribe-modal">
+            <button class="subscribe-close" type="button" aria-label="Close subscription form">✕</button>
+            <p class="subscribe-kicker">The city, in your inbox</p>
+            <h2 id="subscribe-modal-title">Start your morning with SFist.</h2>
+            <p class="subscribe-deck">A concise daily briefing of the San Francisco stories worth knowing, delivered free.</p>
+            <form class="subscribe-form" data-members-form="subscribe">
+                <label for="subscribe-modal-email">Email address</label>
+                <div class="subscribe-fields">
+                    <input id="subscribe-modal-email" data-members-email="" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required="">
+                    <button type="submit">Subscribe</button>
+                </div>
+                <p class="subscribe-note">No spam. Unsubscribe whenever you like.</p>
+                <p class="message-success" role="status">Check your inbox to confirm your subscription.</p>
+                <p class="message-error" data-members-error="" role="alert"></p>
+            </form>
+        </section>
+    </dialog>
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.getAttribute('width');
+            var height = image.getAttribute('height');
+            if (!container || !width || !height) {
+                return;
+            }
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+    </script>
+
+
+    <script src="/assets/js/refresh.js?v=9217e93b25"></script>
+
+
+    <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+(function () {
+
+    var progressBar = document.querySelector('#reading-progress');
+    var header = document.querySelector('.floating-header');
+    var masthead = document.querySelector('.refresh-masthead');
+    var title = document.querySelector('.post-full-title');
+
+    if (progressBar && masthead) {
+        masthead.appendChild(progressBar);
+    }
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = document.documentElement.scrollHeight;
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = document.documentElement.scrollHeight;
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+
+    var copyButton = document.querySelector('.post-share-copy');
+    var copyStatus = document.querySelector('.post-share-status');
+    var copyStatusTimer;
+
+    function setCopyStatus(message) {
+        if (!copyStatus) {
+            return;
+        }
+        copyStatus.textContent = message;
+        window.clearTimeout(copyStatusTimer);
+        copyStatusTimer = window.setTimeout(function () {
+            copyStatus.textContent = '';
+        }, 3000);
+    }
+
+    if (copyButton) {
+        copyButton.addEventListener('click', function () {
+            var url = copyButton.getAttribute('data-copy-url');
+            var copyPromise;
+
+            if (navigator.clipboard && window.isSecureContext) {
+                copyPromise = navigator.clipboard.writeText(url);
+            } else {
+                var input = document.createElement('textarea');
+                input.value = url;
+                input.setAttribute('readonly', '');
+                input.style.position = 'fixed';
+                input.style.opacity = '0';
+                document.body.appendChild(input);
+                input.select();
+                try {
+                    document.execCommand('copy');
+                    copyPromise = Promise.resolve();
+                } catch (error) {
+                    copyPromise = Promise.reject(error);
+                }
+                document.body.removeChild(input);
+            }
+
+            copyPromise.then(function () {
+                copyButton.classList.add('is-copied');
+                copyButton.querySelector('span').textContent = 'Copied';
+                setCopyStatus('Link copied to clipboard.');
+                window.setTimeout(function () {
+                    copyButton.classList.remove('is-copied');
+                    copyButton.querySelector('span').textContent = 'Copy link';
+                }, 3000);
+            }).catch(function () {
+                setCopyStatus('Could not copy the link. Please copy it from your browser.');
+            });
+        });
+    }
+
+    document.querySelectorAll('[data-share-popup]').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            window.open(link.href, 'sfist-share-' + link.getAttribute('data-share-popup'), 'width=640,height=520,resizable=yes,scrollbars=yes');
+        });
+    });
+
+    var relatedCard = document.querySelector('.sfist-related-card');
+    var relatedLoaded = false;
+    var relatedCategories = {
+        'news': true,
+        'politics': true,
+        'business-tech': true,
+        'sports': true,
+        'food': true,
+        'arts-entertainment': true
+    };
+
+    function loadRelatedStories() {
+        if (!relatedCard || relatedLoaded) {
+            return;
+        }
+        relatedLoaded = true;
+
+        var primaryTag = relatedCard.getAttribute('data-primary-tag') || '';
+        var tagSlugs = Array.prototype.map.call(
+            relatedCard.querySelectorAll('[data-related-tag]'),
+            function (tag) { return tag.getAttribute('data-related-tag'); }
+        );
+        var cacheName = relatedCategories[primaryTag] ? primaryTag : '';
+        if (!cacheName) {
+            cacheName = Object.keys(relatedCategories).find(function (slug) {
+                return tagSlugs.indexOf(slug) !== -1;
+            }) || 'latest';
+        }
+
+        function fetchRelatedPayload(url) {
+            return fetch(url, {
+                credentials: 'same-origin',
+                headers: {'Accept': 'application/json'}
+            }).then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Related-story cache returned ' + response.status);
+                }
+                return response.json();
+            });
+        }
+
+        fetchRelatedPayload('/sfist-data/related/' + encodeURIComponent(cacheName) + '.json').catch(function () {
+            return fetchRelatedPayload(relatedCard.getAttribute('data-fallback-url'));
+        }).then(function (payload) {
+            var currentUrl = relatedCard.getAttribute('data-current-url');
+            var stories = (payload.posts || []).filter(function (story) {
+                return story.url !== currentUrl;
+            }).slice(0, 3);
+            if (stories.length < 3) {
+                throw new Error('Related-story cache did not contain three fallback stories');
+            }
+
+            var list = relatedCard.querySelector('.sfist-related-list');
+            stories.forEach(function (story) {
+                var item = document.createElement('li');
+                var link = document.createElement('a');
+                link.href = story.url;
+                if (story.feature_image) {
+                    var image = document.createElement('img');
+                    image.src = story.feature_image;
+                    image.alt = '';
+                    image.loading = 'lazy';
+                    image.decoding = 'async';
+                    link.appendChild(image);
+                }
+                var category = document.createElement('span');
+                category.className = 'sfist-related-category';
+                category.textContent = payload.label || 'Latest';
+                var title = document.createElement('strong');
+                title.textContent = story.title;
+                link.appendChild(category);
+                link.appendChild(title);
+                item.appendChild(link);
+                list.appendChild(item);
+            });
+
+            var heading = relatedCard.querySelector('.sfist-related-heading-link');
+            var footer = document.querySelector('.refresh-related .sfist-related-footer-link');
+            heading.href = payload.archive_url || '/';
+            heading.textContent = payload.label || 'Latest Stories';
+            if (footer) {
+                footer.href = payload.archive_url || '/';
+                footer.textContent = cacheName === 'latest' || payload.cache === 'bundled-fallback' ?
+                    'More latest stories →' :
+                    'More ' + (payload.label || 'related') + ' stories →';
+            }
+            relatedCard.hidden = false;
+        }).catch(function () {
+            relatedCard.remove();
+        });
+    }
+
+    if (relatedCard && 'IntersectionObserver' in window) {
+        var relatedObserver = new IntersectionObserver(function (entries, observer) {
+            if (entries.some(function (entry) { return entry.isIntersecting; })) {
+                observer.disconnect();
+                loadRelatedStories();
+            }
+        }, {rootMargin: '900px 0px'});
+        relatedObserver.observe(relatedCard.parentElement);
+    } else {
+        loadRelatedStories();
+    }
+
+    var commentsSection = document.querySelector('.post-full-comments');
+    var commentsButton = document.querySelector('.post-comments-load');
+    var commentsStatus = document.querySelector('.post-comments-status');
+    var commentsThread = document.getElementById('disqus_thread');
+    var disqusLoaded = false;
+    var disqusIdentifier = commentsThread ?
+        commentsThread.getAttribute('data-disqus-identifier') : '';
+    var disqusScript = null;
+    var disqusLoadTimer = null;
+
+    window.disqus_config = function () {
+        this.page.url = 'https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/';
+        this.page.identifier = disqusIdentifier;
+    };
+
+    function getDisqusIdentifier() {
+        if (!disqusIdentifier) {
+            return Promise.reject(new Error('The historical Disqus identifier is missing'));
+        }
+        return Promise.resolve(disqusIdentifier);
+    }
+
+    function clearDisqusTimer() {
+        if (disqusLoadTimer) {
+            window.clearTimeout(disqusLoadTimer);
+            disqusLoadTimer = null;
+        }
+    }
+
+    function showDisqusLoaded() {
+        clearDisqusTimer();
+        commentsSection.classList.remove('is-loading');
+        commentsSection.classList.remove('has-error');
+        commentsSection.classList.add('is-loaded');
+        commentsButton.hidden = true;
+        commentsStatus.textContent = '';
+    }
+
+    function showDisqusError() {
+        clearDisqusTimer();
+        disqusLoaded = false;
+        commentsSection.classList.remove('is-loading');
+        commentsSection.classList.remove('is-loaded');
+        commentsSection.classList.add('has-error');
+        commentsButton.disabled = false;
+        commentsButton.hidden = false;
+        commentsButton.textContent = 'Retry loading comments';
+        commentsStatus.textContent = 'Disqus did not load. Your connection or a content blocker may have stopped it. Use the retry button to try again.';
+        if (disqusScript && disqusScript.parentNode && !window.DISQUS) {
+            disqusScript.parentNode.removeChild(disqusScript);
+            disqusScript = null;
+        }
+    }
+
+    function loadDisqus() {
+        if (disqusLoaded || !commentsSection) {
+            return;
+        }
+        disqusLoaded = true;
+        commentsSection.classList.remove('has-error');
+        commentsSection.classList.add('is-loading');
+        commentsButton.disabled = true;
+        commentsButton.textContent = 'Loading comments…';
+        commentsStatus.textContent = 'Loading comments from Disqus.';
+        clearDisqusTimer();
+        disqusLoadTimer = window.setTimeout(showDisqusError, 12000);
+
+        getDisqusIdentifier().then(function (identifier) {
+            disqusIdentifier = identifier;
+
+            if (window.DISQUS && typeof window.DISQUS.reset === 'function') {
+                window.DISQUS.reset({
+                    reload: true,
+                    config: function () {
+                        this.page.url = 'https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/';
+                        this.page.identifier = disqusIdentifier;
+                    }
+                });
+                showDisqusLoaded();
+                return;
+            }
+
+            if (disqusScript && disqusScript.parentNode) {
+                disqusScript.parentNode.removeChild(disqusScript);
+            }
+            disqusScript = document.createElement('script');
+            disqusScript.src = 'https://sfist.disqus.com/embed.js?attempt=' + Date.now();
+            disqusScript.setAttribute('data-timestamp', Date.now());
+            disqusScript.setAttribute('data-sfist-disqus-embed', 'true');
+            disqusScript.async = true;
+            disqusScript.onload = showDisqusLoaded;
+            disqusScript.onerror = showDisqusError;
+            (document.head || document.body).appendChild(disqusScript);
+        }).catch(showDisqusError);
+    }
+
+    if (commentsButton) {
+        commentsButton.addEventListener('click', loadDisqus);
+    }
+
+    if (commentsSection && 'IntersectionObserver' in window) {
+        var commentsObserver = new IntersectionObserver(function (entries, observer) {
+            if (entries.some(function (entry) { return entry.isIntersecting; })) {
+                observer.disconnect();
+                loadDisqus();
+            }
+        }, {rootMargin: '650px 0px'});
+        commentsObserver.observe(commentsSection);
+    } else if (commentsSection) {
+        loadDisqus();
+    }
+
+    if (commentsSection && 'IntersectionObserver' in window) {
+        var commentsVisibilityObserver = new IntersectionObserver(function (entries) {
+            document.body.classList.toggle('refresh-comments-visible', entries.some(function (entry) {
+                return entry.isIntersecting;
+            }));
+        });
+        commentsVisibilityObserver.observe(commentsSection);
+    }
+
+    if ('MutationObserver' in window) {
+        var disqusThemeResetTimer = null;
+        new MutationObserver(function (mutations) {
+            if (!mutations.some(function (mutation) { return mutation.attributeName === 'data-theme'; }) ||
+                !disqusLoaded || !window.DISQUS || typeof window.DISQUS.reset !== 'function') {
+                return;
+            }
+            window.clearTimeout(disqusThemeResetTimer);
+            disqusThemeResetTimer = window.setTimeout(function () {
+                window.DISQUS.reset({
+                    reload: true,
+                    config: function () {
+                        this.page.url = 'https://sfist.com/2026/01/06/report-flock-safety-maker-of-sfs-license-plate-reader-cameras-had-gobsmacking-security-flaw/';
+                        this.page.identifier = disqusIdentifier;
+                    }
+                });
+            }, 150);
+        }).observe(document.documentElement, {attributes: true, attributeFilter: ['data-theme']});
+    }
+
+
+}());
+</script>
+
+
+    <div id="sfist_adhesion">
+</div>
+<script>
+    $(document).ready(function(){
+        $('#nav-icon3').on('click', function(){
+            $(this).toggleClass('open');
+            $('.subnav').toggleClass('open');
+        });
+    });
+</script>
+
+
+
+<div id="ghost-portal-root" data-testid="portal-root"></div><div id="sodo-search-root"></div><iframe title="Subscribe with Google Service" src="https://news.google.com/swg/ui/v1/serviceiframe?_=1789369509915&amp;publicationId=publication-id-free" style="opacity: 0 !important; position: absolute !important; top: -10px !important; left: -10px !important; height: 1px !important; width: 1px !important;"></iframe></body></html>
