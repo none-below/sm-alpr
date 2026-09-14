@@ -22,6 +22,13 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -133,9 +140,26 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:23Z",
+  "summary": "Flock Safety announced privacy updates including allowing police departments to restrict what other agencies can access and shortening default data retention to seven days. The article surveys divergent Bay Area responses: San Jose, Oakland, and Alameda County continue or expand use with new restrictions, while Mountain View, Los Altos Hills, Santa Clara County, and El Cerrito have ended or curtailed use, often after audits revealed unauthorized federal access.",
+  "key_quotes": [
+    {
+      "quote": "To provide more local control, the company said Thursday that it would allow individual police departments to restrict what other law enforcement agencies can see",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "It also is shortening the default time for data retention to a week, down from 30 days",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "Mountain View terminated its contract after an audit found that federal and other agencies had access the city had not authorized.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "When you put all this together, what you see is Flock treating privacy issues as public relations issues",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:41:37Z",
   "article_id": "art_68c6215c9c4f"
 }

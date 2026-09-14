@@ -22,6 +22,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "legal:legislation",
+    "outcome:terminated",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +132,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:06Z",
+  "primary_subject_agency_ids": [
+    "712df268-a72d-5b0f-b70f-a6b5fc7b1c6e"
+  ],
+  "summary": "The Bastrop, Texas City Council voted to immediately terminate its contract with Flock and to prohibit future ALPR contracts in the city. The vote follows citizen pushback and comes amid broader Texas action, including Gov. Abbott pausing camera funding and Sen. Kolkhorst calling for a ban.",
+  "key_quotes": [
+    {
+      "quote": "Bastrop City Council has voted to immediately terminate its contract with Flock, as well as prevent any future license plate reading technology from coming to the city.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Bastrop is the 5th city or county in the past month to terminate their contracts, according to DeFlock.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "College Station is set for a vote on their contract on September 24th. Bryan has yet to set a date for a vote or discussion.",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:40:56Z",
   "article_id": "art_28f1ebccb03e"
 }

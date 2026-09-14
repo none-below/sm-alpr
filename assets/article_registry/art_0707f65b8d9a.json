@@ -22,6 +22,14 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:national",
     "vendor:flock"
   ],
   "agencies": [
@@ -131,9 +139,30 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:26Z",
+  "summary": "Flock Safety announced platform changes in response to public backlash, including mandatory audit tools, shortened data retention (30 to 7 days), required case-number entry for searches, and customer control over which offense types outside agencies can search. Critics including the ACLU and Institute for Justice called the changes inadequate 'window dressing,' while noting over 50 agencies have canceled or suspended Flock contracts this year. The article also references the Savannah PD firing six employees for misuse.",
+  "key_quotes": [
+    {
+      "quote": "All law enforcement customers will have to implement an audit tool that's intended to flag abnormal search behavior.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Flock, which says its customers own the data that the cameras record, is also shortening the standard data retention window from 30 days to seven.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "This is window dressing that doesn't address the fundamental problem, which is that police officers are the ones deciding who and when to search, and that should be done by judges with real warrants",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "More than 50 agencies or jurisdictions canceled, suspended or rejected a contract or deactivated their cameras since the beginning of the year",
+      "paragraph_idx": 19
+    },
+    {
+      "quote": "six employees \u2014 including four officers \u2014 of the Savannah Police Department in Georgia were fired after they were accused of searching for friends and family using the tool",
+      "paragraph_idx": 23
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:40:49Z",
   "article_id": "art_0707f65b8d9a"
 }

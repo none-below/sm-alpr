@@ -22,6 +22,14 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "legal:court-ruling",
+    "legal:legislation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +137,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:46Z",
+  "primary_subject_agency_ids": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "summary": "San Jose Police Chief Paul Joseph disclosed that an SJPD officer was fired in April 2026 after using the department's Flock ALPR database on a personal device to track a woman accusing his cousin of domestic violence. The chief issued a directive banning officers from accessing law-enforcement databases on personal devices and called for state legislation criminalizing unauthorized access to ALPR data; the disclosure comes amid ACLU/EFF and Institute for Justice lawsuits against San Jose's ALPR program.",
+  "key_quotes": [
+    {
+      "quote": "San Jose police fired an officer who used the department's license-plate tracking system to track a woman who had accused his cousin of domestic violence, Chief Paul Joseph disclosed Friday.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "What we have here is a betrayal of the public's trust. Plain and simple",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "I would support a legislative change that would include unlawful access and disclosure of ALPR data as being a criminal violation",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "in March unanimously approved a clawback policy that reduced SJPD's retention for plate data from one year to 30 days, and prohibited cameras from recording vehicles entering and leaving houses of worship, reproductive health clinics and consulate offices",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:42:12Z",
   "article_id": "art_8249e720778a"
 }

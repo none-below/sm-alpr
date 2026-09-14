@@ -22,6 +22,8 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +132,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:38Z",
+  "primary_subject_agency_ids": [
+    "0fafb2c6-af8b-5e57-abec-c9a469d32327"
+  ],
+  "summary": "The San Bernardino County Sheriff's Department arrested a 41-year-old man on suspicion of felony vandalism after multiple Flock ALPR cameras were damaged across Highland and other patrol areas. Investigators used ALPR technology and video evidence to identify the suspect's vehicle. The article notes the vandalism occurs amid broader backlash against Flock cameras over ICE data sharing and officer misuse.",
+  "key_quotes": [
+    {
+      "quote": "The San Bernardino Sheriff's Department has 271 Flock Safety cameras across 14 patrol jurisdictions and has recorded other instances of vandalism in recent months.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Some social media users have encouraged communities to vandalize or tear down Flock cameras and other automated license plate reader cameras to protest the technology.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Investigators obtained video from several locations that showed a person and a vehicle. They then used automated license plate reader technology to identify the vehicle and the man",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:41:16Z",
   "article_id": "art_2f76768baf7d"
 }

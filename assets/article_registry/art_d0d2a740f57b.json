@@ -22,6 +22,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +134,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:29Z",
+  "primary_subject_agency_ids": [
+    "de913a80-ceee-5eef-a74c-0093e8dcc033"
+  ],
+  "summary": "Brentwood, CA officials are moving to revoke an encroachment permit mistakenly issued to the Shadow Lakes HOA for Flock license plate cameras installed on public streets, and will require their removal. The city is also reviewing whether other private entities received similar permits, while residents have raised privacy concerns about HOA management of ALPR data.",
+  "key_quotes": [
+    {
+      "quote": "the city said it issued an encroachment permit with \"the mistaken understanding\" that the association's application was part of the Brentwood Police Department's camera program, which has 62 Flock license plate readers across the city.",
+      "paragraph_idx": 24
+    },
+    {
+      "quote": "The city has initiated revocation of the permit associated with cameras installed within the public right-of-way in the Shadow Lakes neighborhood",
+      "paragraph_idx": 25
+    },
+    {
+      "quote": "If the city wants cameras on public streets, that's a decision that should be made by the city with public oversight",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:43:09Z",
   "article_id": "art_d0d2a740f57b"
 }

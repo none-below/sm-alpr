@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:axon",
     "vendor:flock",
     "vendor:motorola"
@@ -134,10 +140,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:14Z",
+  "primary_subject_agency_ids": [
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810"
+  ],
+  "summary": "The Los Angeles Police Department did not renew its three-year agreement with Flock Safety for 138 pole-mounted license plate readers, citing concerns over privacy, data ownership, and security. The decision follows a University of Washington report on federal data sharing and comes as the Board of Police Commissioners prepares to review ALPR use, with the OIG recommending a broader reassessment.",
+  "key_quotes": [
+    {
+      "quote": "We wanted to address some of the civil liberty and civil rights concerns and ensure that there is clarity over the terms regarding privacy, data ownership and security,",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Other jurisdictions, including South Pasadena, Mountain View and Santa Cruz in California as well as Hillsborough, North Carolina, and Flagstaff, Arizona, have either ended or suspended their relationships with Flock",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:42:28Z",
   "article_id": "art_84984a48392f"
 }

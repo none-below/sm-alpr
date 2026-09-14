@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:court-ruling",
+    "legal:pra",
+    "policy:audit",
+    "policy:sharing",
     "vendor:flock"
   ],
   "agencies": [
@@ -108,10 +114,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:05Z",
+  "primary_subject_agency_ids": [
+    "33a31834-8b55-5873-8508-38830443168a"
+  ],
+  "summary": "The UC Board of Regents faces a lawsuit filed in Alameda County Superior Court by Daniel Negrete of The Ellis Collective, alleging UC Berkeley failed to disclose public records about UCPD's Flock ALPR system, including audit logs and data-sharing settings. The suit follows revelations that UC campuses shared ALPR data with CBP and other federal agencies, and coincides with a student-led DeFlock campaign seeking to end UC Berkeley's Flock contract.",
+  "key_quotes": [
+    {
+      "quote": "Our review has just begun, but two things are clear: that the use of UC Berkeley's ALPR system has been extensive, and the University did not want anyone to see the records",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "The Ellis Collective previously revealed that the UC system shared data collected by ALPRs at multiple campuses with U.S. Customs and Border Protection and other federal agencies, in apparent violation of state law.",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "the city of Berkeley maintains 52 Flock cameras, with UC Berkeley maintaining another six Flock ALPR cameras at student housing in Albany and Emeryville under a two-year pilot project",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:42:45Z",
   "article_id": "art_98ebbbd6a883"
 }
