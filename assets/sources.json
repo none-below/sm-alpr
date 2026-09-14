@@ -980,6 +980,15 @@
       "notes": "auto-added from termination_ledger import; review tier/stance"
     },
     {
+      "domain": "ringmast4r.substack.com",
+      "tier": 2,
+      "name": "ringmast4r (Substack)",
+      "stance": "critical",
+      "last_reviewed": "2026-09-14",
+      "feed_url": "https://ringmast4r.substack.com/feed",
+      "notes": "Single-author security-research newsletter doing original fusion-center/Flock stack analysis. Scoped to THIS newsletter's host on purpose \u2014 do NOT add apex 'substack.com', which would allowlist every Substack (domain_matches strips subdomains to the apex). Tier 2 not 3: the file has no tier-3 entries and PHASE2_ELIGIBLE_TIERS={1,2}, so tier 3 would silently block enrichment."
+    },
+    {
       "domain": "rwcpulse.com",
       "tier": 2,
       "name": "Redwood City Pulse",
@@ -1054,6 +1063,15 @@
       "last_reviewed": "2026-05-29",
       "feed_url": "https://www.sfgate.com/rss/feed/bay-area-news-429.php",
       "notes": "Hearst Bay Area digital outlet (sister to sfchronicle.com); Bay Area News section feed."
+    },
+    {
+      "domain": "sfist.com",
+      "tier": 2,
+      "name": "SFist",
+      "stance": "critical",
+      "last_reviewed": "2026-09-14",
+      "feed_url": "https://sfist.com/feed/",
+      "notes": "SF local news blog; ongoing Flock/SFPD ALPR coverage."
     },
     {
       "domain": "sfstandard.com",
