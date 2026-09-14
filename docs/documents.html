@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://gc.zgo.at; connect-src 'self' https://gc.zgo.at https://none-below.goatcounter.com;">
+<link rel="stylesheet" href="css/shared.css">
+<title>Document Index — SMPD ALPR Investigation</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, system-ui, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  a { color: #60a5fa; }
+  .header {
+    text-align: center;
+    padding: 32px 20px 12px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .header h1 { font-size: 26px; color: #f8fafc; margin-bottom: 8px; }
+  .header p { color: #94a3b8; font-size: 14px; }
+  .header .intro-blurb {
+    margin-top: 8px;
+    color: #cbd5e1;
+    font-size: 13px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  main { max-width: 1000px; margin: 0 auto; padding: 0 20px 60px; }
+
+  .controls {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .controls .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .controls .row:last-child { margin-bottom: 0; }
+  .controls .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+    min-width: 60px;
+  }
+  .controls input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 12px;
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    color: #e2e8f0;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .controls input[type="text"]:focus {
+    outline: none;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 2px rgba(96,165,250,0.18);
+  }
+  .controls select {
+    padding: 7px 10px;
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    color: #e2e8f0;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 14px;
+    color: #94a3b8;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+  }
+  .chip:hover { border-color: #60a5fa; color: #e2e8f0; }
+  .chip.active { background: #1e3a8a; border-color: #3b82f6; color: #dbeafe; }
+  .chip .count { color: #64748b; font-size: 11px; }
+  .chip.active .count { color: #93c5fd; }
+
+  .status-summary { color: #94a3b8; font-size: 13px; margin-bottom: 14px; }
+
+  .row-item {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+  }
+  .row-item.featured { border-color: #3b82f6; background: #1b2740; }
+  .row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .row-title-group { min-width: 0; flex: 1; }
+  .row-title {
+    font-size: 14.5px;
+    color: #f8fafc;
+    font-weight: 500;
+    word-break: break-word;
+  }
+  .row-title a { color: inherit; text-decoration: none; }
+  .row-title a:hover { text-decoration: underline; }
+  .row-blurb { margin-top: 4px; color: #cbd5e1; font-size: 13px; }
+  .row-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 11.5px;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge.type-pra_attachment { background: #064e3b; color: #d1fae5; }
+  .badge.type-correspondence { background: #1e3a8a; color: #dbeafe; }
+  .badge.type-reference { background: #713f12; color: #fde68a; }
+  .badge.type-report { background: #4c1d95; color: #ede9fe; }
+  .badge.type-portal_snapshot { background: #334155; color: #cbd5e1; }
+  .badge.type-cited { background: #7c2d12; color: #fed7aa; }
+  .badge.source-num {
+    background: transparent;
+    border: 1px solid #475569;
+    color: #93c5fd;
+  }
+  .row-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .row-actions a {
+    display: inline-block;
+    background: #0f172a;
+    border: 1px solid #475569;
+    color: #cbd5e1;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .row-actions a:hover { border-color: #60a5fa; color: #dbeafe; }
+  .empty { text-align: center; color: #94a3b8; padding: 40px 20px; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <a class="back-link" href="index.html">&larr; Investigation home</a>
+  <h1>Document Index</h1>
+  <p id="subtitle">Every document this investigation has produced, received, or cited</p>
+  <p class="intro-blurb">Search by filename, description, or agency — e.g. "SOP 205" or "Policy 463". Documents cited in the <a href="SMPD_ALPR_Findings.pdf">findings doc</a> are marked with their source number and shown first within a search.</p>
+</div>
+<main>
+  <div class="controls">
+    <div class="row">
+      <span class="label">Search</span>
+      <input type="text" id="search" placeholder="Filename, description, agency…" autocomplete="off">
+      <select id="agency-select"></select>
+    </div>
+    <div class="row">
+      <span class="label">Type</span>
+      <div id="type-chips"></div>
+    </div>
+  </div>
+  <div class="status-summary" id="summary"></div>
+  <div id="rows"></div>
+</main>
+<script data-goatcounter="https://none-below.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/documents.js"></script>
+</body>
+</html>
