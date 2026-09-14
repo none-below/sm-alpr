@@ -22,6 +22,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -131,10 +135,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:43Z",
+  "primary_subject_agency_ids": [
+    "9c1c5b61-7dec-5fce-a5ec-a3be9ed47c86"
+  ],
+  "summary": "A letter to the editor criticizes Alameda County Sheriff Yesenia Sanchez for insufficient transparency around Flock ALPR cameras, noting she admitted state law violations when Flock images were shared with federal agencies, and that her department's 'Transparency Portal' merely redirects to a Flock PR page.",
+  "key_quotes": [
+    {
+      "quote": "Alameda County Sheriff Yesenia Sanchez, sworn to uphold the law, has admitted violations of state law occurred when Flock surveillance images were shared with federal agencies.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "her Flock camera \"Transparency Portal,\" when selected, flashes a warning that you are leaving the Sheriff's website",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:41:28Z",
   "article_id": "art_4014163ee090"
 }

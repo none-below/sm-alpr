@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -131,10 +137,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-12T03:34:16Z",
+  "primary_subject_agency_ids": [
+    "cb959829-2ddf-5780-841e-4d78cf1df75e"
+  ],
+  "summary": "El Cerrito's 40 Flock Safety cameras will be removed between July 30 and Aug. 18, 2026, after the City Council voted in May to end its three-year $315,000 contract with the company. Police confirmed cameras have been offline since June 6, with red lights being motion-activated infrared signals rather than active recording. The article notes prior federal-agency access to El Cerrito ALPR data in 2023 and contrasts the decision with actions in Richmond, Oakland, Mountain View and other Bay Area cities.",
+  "key_quotes": [
+    {
+      "quote": "Amid concerns Flock Safety cameras in El Cerrito are still functioning despite officials agreeing to end a contract with the surveillance company, the police department said the cameras are not operating and will soon be coming down.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "Crews will begin removing the 40 Flock Safety cameras installed in the city between July 30 and Aug. 18",
+      "paragraph_idx": 19
+    },
+    {
+      "quote": "Multiple federal agencies had access to El Cerrito's license plate reader data between June 2023, when the cameras were first installed, and August 2023",
+      "paragraph_idx": 23
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T06:40:39Z",
   "article_id": "art_03db23702e4d"
 }
