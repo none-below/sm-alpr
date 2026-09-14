@@ -22,6 +22,8 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -110,10 +112,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:26Z",
+  "primary_subject_agency_ids": [
+    "9b7b7208-5747-5e9c-bdcb-ed7b430686fd"
+  ],
+  "summary": "Monterey County Sheriff's Office arrested Marcus Bee, 40, of Pismo Beach on suspicion of felony vandalism for allegedly damaging at least three Flock Safety ALPR cameras in Lockwood and Bradley. Investigators say surveillance footage shows his pickup truck ramming camera poles, causing thousands in damage. He is held on $30,000 bail.",
+  "key_quotes": [
+    {
+      "quote": "Marcus Bee, 40, is accused of intentionally vandalizing at least three Flock Safety Automated License Plate Recognition (ALPR) cameras throughout the county, according to the Sheriff's Office.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "Investigators allege that Bee traveled to Monterey County and damaged multiple cameras, causing thousands of dollars in damage in Lockwood and Bradley.",
+      "paragraph_idx": 4
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:35:57Z",
   "article_id": "art_9148f7dc066b"
 }

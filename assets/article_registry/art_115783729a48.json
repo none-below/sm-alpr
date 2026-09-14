@@ -22,6 +22,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +132,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:41Z",
+  "primary_subject_agency_ids": [
+    "de913a80-ceee-5eef-a74c-0093e8dcc033"
+  ],
+  "summary": "Brentwood, CA officials canceled a permit that had allowed the Shadow Lakes HOA to install and control four Flock Safety cameras at community entrances, saying the permit was approved by mistake. The reversal followed community backlash over private HOA control of surveillance on public streets.",
+  "key_quotes": [
+    {
+      "quote": "the city has canceled the HOA's permit because the cameras were installed within the public right-of-way, which requires a separate permit",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "Brentwood officials said the permit was approved \"under the mistaken belief\" that the association was applying through the city's existing police department camera program, which has dozens of license plate readers across the city.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "If the city wants cameras on public streets, that's a decision that should be made by the city with public oversight",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:31:24Z",
   "article_id": "art_115783729a48"
 }

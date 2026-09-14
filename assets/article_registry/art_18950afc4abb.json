@@ -21,6 +21,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:explainer",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +132,17 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:47:10Z",
+  "primary_subject_agency_ids": [
+    "f94b9663-269f-51eb-b204-b6d4c8cee4de"
+  ],
+  "summary": "A newsletter blurb notes Redwood City is reviewing its Flock ALPR camera program amid data-sharing concerns, questioning who can search the network and whether recent safeguards are sufficient.",
+  "key_quotes": [
+    {
+      "quote": "For Redwood City, which is one of dozens of police departments in the state using Flock cameras, the camera controversy has raised new questions about who could search the city's camera network, what the department knew from its records and whether safeguards added this year go far enough.",
+      "paragraph_idx": 4
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:31:31Z",
   "article_id": "art_18950afc4abb"
 }

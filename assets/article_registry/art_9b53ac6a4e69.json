@@ -22,6 +22,8 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:analysis",
+    "incident:data-breach",
     "vendor:flock"
   ],
   "agencies": [
@@ -92,9 +94,18 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:56Z",
+  "summary": "SFist recaps a 404 Media report that at least 60 of Flock Safety's AI-enabled Condor Live cameras were exposed to the open internet without passwords, allowing anyone to view feeds, download archives, and change settings. The piece notes that while the affected model differs from the ALPR cameras deployed by SFPD and Oakland PD, it raises broader security concerns about Flock devices.",
+  "key_quotes": [
+    {
+      "quote": "at least 60 of its AI-enabled Condor cameras around the country [were] exposed to the open internet, where anyone could watch them, download 30 days worth of video archive, and change settings, see log files, and run diagnostics.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "This was a limited misconfiguration on a very small number of devices, and it has since been remedied",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:36:24Z",
   "article_id": "art_9b53ac6a4e69"
 }

@@ -20,7 +20,12 @@
   "wayback_timestamp": null,
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
-  "tags": [],
+  "tags": [
+    "genre:investigative",
+    "incident:false-positive",
+    "incident:wrongful-stop",
+    "scope:local"
+  ],
   "agencies": [
     "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed",
     "f94b9663-269f-51eb-b204-b6d4c8cee4de",
@@ -128,10 +133,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:46:48Z",
+  "primary_subject_agency_ids": [
+    "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed"
+  ],
+  "summary": "An Atherton police officer involved in the viral arrest of a Menlo-Atherton High student was also named in a 2022 federal lawsuit alleging unreasonable seizure and excessive force after an ALPR misread a dirt-obscured license plate, matching it to a stolen vehicle. Officers failed to visually verify the plate before conducting a high-risk felony stop at gunpoint. Atherton settled the case for $45,000 in 2023.",
+  "key_quotes": [
+    {
+      "quote": "an automatic license plate reader (ALPR) had misread Burkleo's obscured plates and matched them to the ones of a reported stolen vehicle. The dirt on Burkleo's plates caused the ALPR to read the \"H's\" of the license plate as \"M's.\"",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "Atherton police followed the vehicle for several minutes but failed to visually verify what the ALPR had falsely captured",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "Since at least 2010, it has been well-known that ALPRs misread license-plate numbers or letters and generate false-positive hits",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:33:46Z",
   "article_id": "art_626995c69e3c"
 }

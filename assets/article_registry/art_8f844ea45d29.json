@@ -22,6 +22,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "policy:sharing",
+    "scope:state",
     "vendor:flock"
   ],
   "agencies": [
@@ -135,10 +139,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:38Z",
+  "primary_subject_agency_ids": [
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd"
+  ],
+  "summary": "A security researcher describes a public GitHub repo (erhhung/ncric-alprs) published by a MaiVERIC/AstroMetrics contractor, exposing the Terraform/AWS/Auth0 architecture of NCRIC's Flock-fed ALPR ingest pipeline, along with a Postgres dump of 1,183 Flock camera locations across 47 agencies in Northern California. The post also reports 806 exposures on Flock Safety's own domain infrastructure and enumerates leaked emails, Auth0 admin accounts, S3 buckets, and API client IDs.",
+  "key_quotes": [
+    {
+      "quote": "A contractor published the ALPR stack built for a California fusion center: 1,183 Flock cameras with coordinates, and the API that pulls the plates.",
+      "paragraph_idx": 2
+    },
+    {
+      "quote": "postgresql/flock.sql.gz is a Postgres dump of Flock network and camera tables. Parsed, it is 1,183 unique cameras across 47 agencies / 48 networks.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "The NCRIC integrator published the agency footprint. Flock's own infrastructure published itself.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "558 law enforcement email addresses across 47+ agencies",
+      "paragraph_idx": 22
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:35:34Z",
   "article_id": "art_8f844ea45d29"
 }

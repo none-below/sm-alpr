@@ -21,6 +21,9 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "outcome:rejected",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +133,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:46:41Z",
+  "primary_subject_agency_ids": [
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84"
+  ],
+  "summary": "The Menlo Park City Council on Sept. 26, 2023 declined to adopt Flock automated license plate readers, citing privacy concerns, cost (an initial $284,900 plus $251,000/year for 36 cameras), and questions about efficacy. The article contrasts Menlo Park's decision with neighboring Atherton, Woodside, and Redwood City, which recently approved Flock ALPR contracts.",
+  "key_quotes": [
+    {
+      "quote": "The council decided not to consider installing ALPRs unless new data proves their efficacy in deterring crime.",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "Flock ALPRs only use one-tenth of 1% of data collected, and the rest is deleted",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Redwood City's Council approved a $243,750 contract with Flock Safety on Sept. 11, to install 25 ALPR devices at key points in the city.",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:32:52Z",
   "article_id": "art_483ffe0ddaed"
 }

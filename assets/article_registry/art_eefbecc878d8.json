@@ -21,6 +21,13 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -133,10 +140,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:46:59Z",
+  "primary_subject_agency_ids": [
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84"
+  ],
+  "summary": "Menlo Park Police Department shared its Flock ALPR data with police in Houston, TX and Sauk Village, IL, violating California law prohibiting out-of-state sharing. The chief said the sharing was unintentional and has been corrected, but the department did not disclose the breach to the public or council until asked by The Almanac, and refused a PRA request for search audit records.",
+  "key_quotes": [
+    {
+      "quote": "Although state law and Menlo Park policy forbid sharing ALPR data with out-of-state agencies, access to the city's system was shared with departments in both Illinois and Texas.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "For an unknown period, the Houston Police Department and the Sauk Village Police Department in Illinois conducted tens of thousands of searches of Menlo Park's license plate data.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "State law explicitly prohibits the sharing of ALPR information with out-of-state or federal agencies.",
+      "paragraph_idx": 27
+    },
+    {
+      "quote": "Menlo Park refused to provide the reports claiming that it would cause the city to generate new records",
+      "paragraph_idx": 40
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:40:01Z",
   "article_id": "art_eefbecc878d8"
 }

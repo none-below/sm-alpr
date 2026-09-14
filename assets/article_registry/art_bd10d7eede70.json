@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "legal:court-ruling",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
     "vendor:flock"
   ],
   "agencies": [
@@ -135,10 +141,27 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:59Z",
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "cb959829-2ddf-5780-841e-4d78cf1df75e",
+    "30c59ff7-8ee9-51ca-95a7-3dad69eba35f"
+  ],
+  "summary": "A class-action lawsuit filed by Gibbs Mura alleges federal and out-of-state agencies accessed SFPD's Flock ALPR data more than 1.6 million times over seven months, with Los Altos data shared over a million times. An El Cerrito PD audit separately confirmed multiple federal agencies (FBI, ATF, USPIS, VA police) accessed its Flock database, and the article notes related actions in Mountain View, San Jose, and Richmond.",
+  "key_quotes": [
+    {
+      "quote": "The problem that we allege, is that Flock is sharing this information on California drivers with out-of-state law enforcement and the federal government, which is illegal under California law",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "an audit by the El Cerrito Police Department verified that federal agencies accessed the department's data from Flock's cameras without its knowledge, including the Federal Bureau of Investigation, the Bureau of Alcohol, Tobacco, and Firearms, and the GSA Office of the Inspector General",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "We found these two other incidents of federal sharing that came as a surprise to me",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:37:34Z",
   "article_id": "art_bd10d7eede70"
 }

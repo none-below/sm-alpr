@@ -22,6 +22,15 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "legal:legislation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:state",
     "vendor:flock"
   ],
   "agencies": [
@@ -131,10 +140,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:24Z",
+  "primary_subject_agency_ids": [
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53"
+  ],
+  "summary": "California's SB 1013, which would have imposed privacy protections, sharing restrictions, and AG audits on ALPR use, died in the Assembly without a floor vote, marking the fifth consecutive year California has failed to regulate license-plate readers. The article situates the failure amid growing local pushback, with cities like LA, Redwood City, El Cerrito, and Campbell ending Flock contracts.",
+  "key_quotes": [
+    {
+      "quote": "A bill in the Legislature would have strengthened privacy protections on how license plate data is collected and shared.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Police in Los Angeles and Redwood City and elected officials in California localities like El Cerrito and Campbell have ended contracts with the license plate reader company Flock Safety in recent weeks.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "Since June 2024 the California Attorney General's Office has contacted 18 law enforcement agencies about possible or known violations of Senate Bill 34 and filed a lawsuit against the city of El Cajon near San Diego to stop the practice.",
+      "paragraph_idx": 25
+    },
+    {
+      "quote": "A Los Angeles Police Department audit released in July found that one out of three vehicles identified as stolen by Flock cameras were inaccurately identified.",
+      "paragraph_idx": 28
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:30:59Z",
   "article_id": "art_061e962e6a95"
 }

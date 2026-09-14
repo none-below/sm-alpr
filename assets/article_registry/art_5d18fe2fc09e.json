@@ -22,6 +22,11 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
     "vendor:flock"
   ],
   "agencies": [
@@ -136,10 +141,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:33Z",
+  "primary_subject_agency_ids": [
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84"
+  ],
+  "summary": "Menlo Park Police is nullifying all existing Flock data-sharing agreements after a June audit found that NCRIC conducted about 700 searches out of compliance with its policies between Feb 2025 and June 2026. The article situates the action alongside similar audit findings and contract terminations at Redwood City, SFPD, Stanford, Santa Cruz, Mountain View, and Santa Clara County.",
+  "key_quotes": [
+    {
+      "quote": "Menlo Park Police found that the agency conducted about 700 searches deemed \"out of compliance\" with its policy between February 2025 and June 2026.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "Although Menlo Park's data-sharing relationship with NCRIC was authorized and consistent with Department policy and applicable law when established, the Department immediately revoked NCRIC's access and conducted its own audit",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "it would nullify all existing data-sharing agreements after a June audit",
+      "paragraph_idx": 8
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:33:37Z",
   "article_id": "art_5d18fe2fc09e"
 }

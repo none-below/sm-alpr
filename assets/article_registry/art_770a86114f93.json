@@ -21,7 +21,10 @@
   "wayback_timestamp": null,
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
-  "tags": [],
+  "tags": [
+    "genre:press-release",
+    "scope:local"
+  ],
   "agencies": [
     "1b106ca6-6fdd-51e8-a479-6408673c0e53",
     "31c416f0-bbdb-5e25-85c1-778824309af9",
@@ -95,10 +98,17 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:20Z",
+  "primary_subject_agency_ids": [
+    "31c416f0-bbdb-5e25-85c1-778824309af9"
+  ],
+  "summary": "Danville police arrested a Bay Point man after an ALPR flagged a stolen vehicle he was driving, leading officers to recover the car and additional stolen property. Police Chief Allan Shields credited the ALPR technology with enabling the arrest.",
+  "key_quotes": [
+    {
+      "quote": "This was a situation where having the technological assistance of the ALPR allowed our officers to pinpoint their search for this stolen vehicle, recover that vehicle, and take a criminal into custody",
+      "paragraph_idx": 3
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:34:48Z",
   "article_id": "art_770a86114f93"
 }

@@ -22,6 +22,8 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -138,10 +140,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:48Z",
+  "primary_subject_agency_ids": [
+    "6607f630-2279-5b12-b723-b94b16c81122"
+  ],
+  "summary": "Richmond police arrested a homicide suspect Friday after using Flock automated license plate readers to track the suspect vehicle into Concord, where Concord officers helped detain him. The article notes Richmond's City Council voted in March to extend its Flock contract through the end of the year despite regional pushback.",
+  "key_quotes": [
+    {
+      "quote": "Richmond police said they made an arrest Friday in a deadly shooting after using automated license plate readers to track a suspect vehicle to another Bay Area city.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "Richmond is among a spate of Bay Area cities that have recently reconsidered their relationships with Flock over privacy and data-sharing concerns. However, the Richmond City Council in March reportedly voted to extend its contract with Flock through the end of the year.",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:37:13Z",
   "article_id": "art_b17e4ccea103"
 }

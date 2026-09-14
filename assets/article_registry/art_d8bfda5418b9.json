@@ -21,7 +21,10 @@
   "wayback_timestamp": null,
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
-  "tags": [],
+  "tags": [
+    "genre:investigative",
+    "scope:local"
+  ],
   "agencies": [
     "1b106ca6-6fdd-51e8-a479-6408673c0e53",
     "86e42e3d-4245-5dc8-b64c-89d45592a7bb",
@@ -87,10 +90,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:19Z",
+  "primary_subject_agency_ids": [
+    "8cfa53d1-ebc8-5d81-a3f0-ce26a8299bf3"
+  ],
+  "summary": "An ALPR hit on I-80 flagged a stolen 2004 Saturn Vue early Sunday, prompting Hercules police to pursue the vehicle through western Contra Costa County. The eight-minute chase reached 90 mph before officers terminated it for safety when the driver drove the wrong way on Highway 4; the driver escaped and no one was injured.",
+  "key_quotes": [
+    {
+      "quote": "Controversial automated license plate reader technology picked up a stolen vehicle on Interstate Highway 80 early Sunday morning, prompting a high-speed chase throughout western Contra Costa County that ended with the driver eluding arrest.",
+      "paragraph_idx": 2
+    },
+    {
+      "quote": "Immigration advocates, in particular, have raised concerns about data collected through ALPR systems being shared with federal immigration agents.",
+      "paragraph_idx": 6
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:39:23Z",
   "article_id": "art_d8bfda5418b9"
 }

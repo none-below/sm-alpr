@@ -22,6 +22,16 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "incident:wrongful-stop",
+    "legal:legislation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:state",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +139,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:34:55Z",
+  "primary_subject_agency_ids": [
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53"
+  ],
+  "summary": "California's SB 1013, which would have added privacy protections, retention limits, sharing restrictions, and audit requirements for automated license plate readers, was blocked in the Assembly by Majority Leader Cecilia Aguiar-Curry on the final day of session, marking the fifth consecutive year such legislation has failed. The article situates the defeat amid growing local pushback, including recent contract terminations by police in Los Angeles, Redwood City, El Cerrito, and Campbell, and documented misuse and ICE-sharing violations.",
+  "key_quotes": [
+    {
+      "quote": "California lawmakers have tried and failed five times since 2022 to regulate technology that tracks license plates.",
+      "paragraph_idx": 0
+    },
+    {
+      "quote": "We were concerned that this bill was going to limit the utility of ALPR data to solve crimes, find missing persons, exonerate innocent individuals, and so the fact that it did not pass, we're glad for that,",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Nationwide, more than 200 cities or law enforcement agencies ended license plate reader contracts in August, more than any other month since 2021",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Since June 2024 the California Attorney General's Office has contacted 18 law enforcement agencies about possible or known violations of Senate Bill 34 and filed a lawsuit against the city of El Cajon",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:33:13Z",
   "article_id": "art_4aedff4345de"
 }

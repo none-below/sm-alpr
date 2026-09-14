@@ -22,6 +22,11 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +133,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:56Z",
+  "primary_subject_agency_ids": [
+    "8bbdbc6d-a0cb-51af-bdbe-f3fef9a95cb5"
+  ],
+  "summary": "California Highway Patrol, at Gov. Newsom's direction, is installing 480 Flock Safety ALPR cameras on Oakland streets and East Bay freeways, with a 28-day retention limit and data sharing restricted to California law enforcement. Privacy advocates from EFF and Oakland's Privacy Advisory Commission criticized the deployment as mass surveillance.",
+  "key_quotes": [
+    {
+      "quote": "The California Highway Patrol provided additional details to SFGATE about the 480 surveillance cameras set to be installed on Oakland streets and six East Bay freeways",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "The company allows data retention up to 60 days, but CHP's contract will only allow it to collect, store and share data from the cameras for up to 28 days.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "I just hope people understand \u2014 going from 300 cameras to now almost 500 \u2014 a really significant amount of location data is now going to be in the hands of the state",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:35:48Z",
   "article_id": "art_901a6611e8c7"
 }

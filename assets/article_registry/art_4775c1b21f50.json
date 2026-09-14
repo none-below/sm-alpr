@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +136,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:31:47Z",
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "KQED profiles independent writer Larry Kubin, who toured San Francisco to map its expanding police surveillance infrastructure, including ~400 SFPD Flock ALPR cameras, drones, and the Real Time Investigation Center. The piece recaps SFPD's recent halt of Flock data sharing with NCRIC and WSIN after improper out-of-state and federal access, and situates it against other Bay Area cities that have canceled Flock contracts.",
+  "key_quotes": [
+    {
+      "quote": "Police Chief Derrick Lew said last week that out-of-state and federal law enforcement agencies had \"improperly\" accessed the data, after the Northern California Regional Intelligence Center queried the system hundreds of times. The incident prompted SFPD to stop sharing Flock data with NCRIC and another agency, the Western States Information Network.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Bay Area cities Santa Cruz, Mountain View, El Cerrito and the town of Los Altos Hills have canceled Flock contracts over similar concerns surrounding improper data sharing",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "The 2024 ballot measure gave SFPD the green light to roll out new surveillance technology for a full year without an official policy.",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:32:44Z",
   "article_id": "art_4775c1b21f50"
 }

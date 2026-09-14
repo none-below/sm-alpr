@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +135,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:31:30Z",
+  "primary_subject_agency_ids": [
+    "1b719ab9-5230-5a7a-bcb4-a495a4e716eb"
+  ],
+  "summary": "The Santa Clara County Board of Supervisors voted 3-2 to amend its Surveillance Use Policy, barring the Sheriff's Office from operating or using data from Flock ALPR cameras in Cupertino, Saratoga, and Los Altos Hills \u2014 the three jurisdictions the sheriff contracts to police. The move responds to reports of Flock data flowing to federal immigration agencies and adds new audit requirements and reporting of any unauthorized federal sharing.",
+  "key_quotes": [
+    {
+      "quote": "Effective immediately, the sheriff's office and the staff cannot operate, manage or touch the cameras, the data, transmission, anything from ALPRs that are operated by Flock, vended by Flock",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "I do not believe the County of Santa Clara should be doing business with Flock",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "The county's new policy will also require immediate reporting to the board if any unauthorized ALPR data under county control is shared with the federal government. It will also require audits of the sheriff's office's compliance with the new policy every four months",
+      "paragraph_idx": 27
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:33:28Z",
   "article_id": "art_5484920204ea"
 }

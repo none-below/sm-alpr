@@ -22,6 +22,11 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +133,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:11Z",
+  "primary_subject_agency_ids": [
+    "61659896-6870-5421-9b6c-8edf08f0e86b"
+  ],
+  "summary": "Stanford University ended its Flock Safety contract in late July 2026 and is switching to Genetec Cloudrunner, a single-institution ALPR system, citing privacy concerns about Flock's shared network architecture. The article situates the move within a regional wave of Bay Area agencies rethinking Flock, including Santa Cruz, Mountain View, and Santa Clara County, and notes a San Mateo County grand jury finding on data-sharing with private university police.",
+  "key_quotes": [
+    {
+      "quote": "Stanford University's license plate cameras have been covered up and switched off since late July, when the university quietly ended its contract with Flock Safety and signed with a different vendor.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Flock is built as a shared network, she said, \"even if that's not how we chose to use it,\" while the new system does not have third-party access built into its architecture.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "A San Mateo County Civil Grand Jury report released Aug. 3 found that at least 12 of the county's 18 police agencies were sharing license plate data with private university security forces, naming Stanford and the University of the Pacific.",
+      "paragraph_idx": 24
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:34:11Z",
   "article_id": "art_685d6c8f3be2"
 }

@@ -21,6 +21,8 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -132,10 +134,32 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:46:36Z",
+  "primary_subject_agency_ids": [
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84",
+    "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed",
+    "e29c469f-b2b6-515e-8d3c-93b3075ad896",
+    "6d11ec03-586d-570a-b110-56f9e37261ff"
+  ],
+  "summary": "Amid a spike in early-2024 residential burglaries in Menlo Park, Atherton, Portola Valley and Woodside, residents pressed Menlo Park's council to fund additional Flock ALPRs after the council had previously hesitated over privacy concerns. Atherton, which already has a robust ALPR program, launched a 'bait house' surveillance program, and Portola Valley's town manager said he would study purchasing more cameras.",
+  "key_quotes": [
+    {
+      "quote": "This increase in crime in residential areas has brought a higher demand from the community for the city to install more automatic license plate readers (ALPRs).",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "In September 2023, the council expressed hesitation about Flock ALPRs due to privacy concerns.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "The ALPR cameras have been useful in identifying possible associated vehicles.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "I will be taking a look at the feasibility of purchasing more cameras for the town",
+      "paragraph_idx": 24
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:38:13Z",
   "article_id": "art_c5a394ae414d"
 }

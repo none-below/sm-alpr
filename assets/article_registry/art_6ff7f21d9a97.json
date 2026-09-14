@@ -21,6 +21,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "policy:audit",
+    "policy:retention",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +132,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:46:45Z",
+  "primary_subject_agency_ids": [
+    "e29c469f-b2b6-515e-8d3c-93b3075ad896",
+    "6d11ec03-586d-570a-b110-56f9e37261ff"
+  ],
+  "summary": "The San Mateo County Sheriff's Office presented its first quarterly ALPR report to the Woodside Town Council, crediting Flock Safety license plate readers with helping identify suspects in a Dec. 2023 Woodside Hills burglary and linking them to other break-ins. The town has 17 active ALPRs with three more planned, and the mayor called for more robust auditing and policy-compliance reporting.",
+  "key_quotes": [
+    {
+      "quote": "ALPR data in all of our areas is essential now in crime fighting",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "But this is a powerful data capture by the government and we need to take the auditing of it and compliance with our policy really seriously.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "To create the quarterly report, Sheriff's Office employees make a data audit by doing 10 random searches on browsing inquiries.",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:34:41Z",
   "article_id": "art_6ff7f21d9a97"
 }

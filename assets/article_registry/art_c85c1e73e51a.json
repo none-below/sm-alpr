@@ -22,6 +22,13 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -89,9 +96,26 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:27Z",
+  "summary": "Bay Area activist coalitions launched a week of protests urging cities to shut off Flock ALPR cameras rather than adopt new regulations, amid mounting pushback after audits revealed federal and out-of-state access to local data. The article surveys the varied stances of Palo Alto (pending audit), Oakland (renewed and expanded), Berkeley (extended but rejected expansion), San Jos\u00e9 (being sued), and Gilroy (upcoming protest linking Flock to ICE and an Amazon data center).",
+  "key_quotes": [
+    {
+      "quote": "Over the past eight months, several Bay Area cities, a county and a university have canceled contracts, switched cameras off or tightened their rules.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "The Oakland City Council voted in December to renew and expand its Flock network in a $2.25 million, two-year deal, adding pan-tilt-zoom cameras that can follow pedestrians as well as vehicles.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Berkeley extended its contract by up to a year in May but rejected a $1.4 million expansion after a city attorney memo warned the company might not be able to honor promises about data sharing.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "More than 50 agencies and jurisdictions nationwide have canceled, suspended or rejected Flock contracts since January",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:38:24Z",
   "article_id": "art_c85c1e73e51a"
 }

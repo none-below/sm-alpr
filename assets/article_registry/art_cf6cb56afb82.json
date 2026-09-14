@@ -22,6 +22,11 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,9 +135,18 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:36:05Z",
+  "summary": "Stanford University switched its 19 automated license plate reader cameras from Flock Safety to Genetec following student backlash, including a petition with over 1,000 signatures. Flock service ended in late July 2026 and cameras were covered, with Genetec equipment to be installed by early September. The university said Genetec's system does not store images in the cloud for more than an hour and does not share data with third parties.",
+  "key_quotes": [
+    {
+      "quote": "Stanford University has switched from Flock Safety to Genetec for its automated license plate readers following backlash from students",
+      "paragraph_idx": 0
+    },
+    {
+      "quote": "Genetec's system differs from Flock's since it does not store captured images in the cloud for more than an hour. It would also not share data with third parties.",
+      "paragraph_idx": 3
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:38:55Z",
   "article_id": "art_cf6cb56afb82"
 }

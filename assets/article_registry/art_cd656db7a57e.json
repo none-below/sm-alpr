@@ -22,6 +22,15 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "incident:data-breach",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "incident:wrongful-stop",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -134,10 +143,32 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:23Z",
+  "primary_subject_agency_ids": [
+    "9c1c5b61-7dec-5fce-a5ec-a3be9ed47c86",
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+    "663b82ca-427a-5e74-83ce-823a973242d9",
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb"
+  ],
+  "summary": "KQED's Bay Curious explains how Flock Safety ALPRs have spread across the Bay Area and why they have become controversial, covering Alameda County's contract extension, Oakland's 293 cameras, Palo Alto's discovery of unauthorized nationwide data-sharing, hacking vulnerabilities, misuse for stalking, wrongful stops, racial-bias concerns, and ICE-cooperation fears. It notes several California cities (Santa Cruz, Mountain View, South Pasadena, El Cerrito, Campbell, Oxnard) have turned off Flock cameras while Alameda County voted to extend its contract through 2027.",
+  "key_quotes": [
+    {
+      "quote": "Since that April meeting, the Flock contract was extended in Alameda County again through the end of 2027 to the tune of $2.4 million.",
+      "paragraph_idx": 22
+    },
+    {
+      "quote": "California law prohibits the sharing of ALPR data with out-of-state and federal agencies \u2014 and this has been the case since 2016. The Palo Alto Police Department told Riley that they didn't know the city had been opted into the national lookup feature.",
+      "paragraph_idx": 72
+    },
+    {
+      "quote": "As of March, at least 30 localities have canceled their contracts with Flock, or deactivated the ALPRs.",
+      "paragraph_idx": 60
+    },
+    {
+      "quote": "Santa Cruz was the first city to turn off its cameras. Mountain View, South Pasadena, El Cerrito, Campbell, Oxnard, and other California cities followed.",
+      "paragraph_idx": 85
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:38:47Z",
   "article_id": "art_cd656db7a57e"
 }
