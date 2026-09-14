@@ -990,6 +990,15 @@ _NOT_SHARING_RE = re.compile(
     r" is not sharing data with any partner networks\.$"
 )
 
+# Trailing summary sentence with no terminal period, appended after the
+# enumerated partner list — sits outside _looks_like_disclaimer's period
+# gate entirely (johnson-city-tn-pd 2026-09-12: "JCPD shares access to LPR
+# data with law enforcement agencies within the State of Tennessee", the
+# 151st line in a list of 150 real agencies, no trailing ".").
+_SHARES_ACCESS_SUMMARY_RE = re.compile(
+    r"^\S+ shares access to .+ with law enforcement agencies within the State of \S+$"
+)
+
 
 def _looks_like_disclaimer(line):
     """True if a line in the orgs section is a policy sentence, not an
@@ -1028,6 +1037,7 @@ def _parse_org_names(body):
         and not _EMPTY_ORG_RE.match(L)
         and not _PORTAL_NAV_RE.match(L)
         and not _NOT_SHARING_RE.search(L)
+        and not _SHARES_ACCESS_SUMMARY_RE.match(L)
         and not _looks_like_disclaimer(L)
     ]
     if not lines:
