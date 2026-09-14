@@ -209,7 +209,7 @@ function init(data) {
   REASONS_META = (data.meta && data.meta.reasons) || {};
 
   const map = L.map('map').setView([39.5, -98.35], 4);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {
+  L.tileLayer(MapCommon.cartoTileUrl('light'), {
     attribution: '&copy; OpenStreetMap &copy; CARTO',
     subdomains: 'abcd',
     maxZoom: 19,

@@ -1,0 +1,162 @@
+{
+  "url": "https://www.sfgate.com/news/bayarea/article/richmond-city-council-votes-to-extend-license-22083025.php",
+  "source_domain": "sfgate.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Richmond: City Council Votes To Extend License Plate Readers Contract Until End Of 2026",
+  "byline": null,
+  "published_at": "2026-03-18T00:33:02Z",
+  "fetched_at": "2026-09-14T07:28:26Z",
+  "discovered_by": "manual:user-supplied",
+  "scanner_verdict": "WARNINGS \u2014 4 pts, low/medium only",
+  "scanner_score": 4,
+  "content_hash": "77603b03ff6e8845edde645e14c090e683c9f573ebdc5b32b120ea15d030ce65",
+  "paths": {
+    "html": "assets/articles/sfgate.com/news-bayarea-article-richmond-city-council-votes-to-extend-license-22083025-php_113f4f31.html",
+    "meta": "assets/articles/sfgate.com/news-bayarea-article-richmond-city-council-votes-to-extend-license-22083025-php_113f4f31.meta.json",
+    "pdf": "assets/articles/sfgate.com/news-bayarea-article-richmond-city-council-votes-to-extend-license-22083025-php_113f4f31.pdf",
+    "txt": "assets/articles/sfgate.com/news-bayarea-article-richmond-city-council-votes-to-extend-license-22083025-php_113f4f31.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "save-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "incident:ice-cooperation",
+    "outcome:renewed",
+    "outcome:restricted",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "6607f630-2279-5b12-b723-b94b16c81122",
+    "a29eba9e-f2fa-5e83-ab92-fe06b02179ca",
+    "4c1c1494-4fdf-54ee-b859-0f7f2e07597f",
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+    "faeaae90-2988-5568-bd81-6eff3b9c11e7",
+    "4e76fb63-864b-51af-a1a4-a33298c17445",
+    "96900046-c7b9-590d-9131-b5f4cbb9c107",
+    "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+    "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+    "6be9f842-1658-5490-8be4-14b77cc1e96d"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "6607f630-2279-5b12-b723-b94b16c81122",
+      "display_name": "Richmond CA PD",
+      "state": "CA",
+      "score": 10.033,
+      "matched_forms": [
+        "Richmond",
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "a29eba9e-f2fa-5e83-ab92-fe06b02179ca",
+      "display_name": "Richmond CA PD is not sharing data with any partner networks.",
+      "state": "CA",
+      "score": 10.033,
+      "matched_forms": [
+        "Richmond",
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "4c1c1494-4fdf-54ee-b859-0f7f2e07597f",
+      "display_name": "Richmond IL PD",
+      "state": "IL",
+      "score": 10.033,
+      "matched_forms": [
+        "Richmond",
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+      "display_name": "CA",
+      "state": "CA",
+      "score": 4.6,
+      "matched_forms": [
+        "CA"
+      ]
+    },
+    {
+      "agency_id": "faeaae90-2988-5568-bd81-6eff3b9c11e7",
+      "display_name": "Richmond KY PD",
+      "state": "KY",
+      "score": 2.867,
+      "matched_forms": [
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "4e76fb63-864b-51af-a1a4-a33298c17445",
+      "display_name": "Richmond MO PD",
+      "state": "MO",
+      "score": 2.867,
+      "matched_forms": [
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "96900046-c7b9-590d-9131-b5f4cbb9c107",
+      "display_name": "Richmond TX PD",
+      "state": "TX",
+      "score": 2.867,
+      "matched_forms": [
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "7b9dbf06-a73b-532d-ba54-751ba8d15fe8",
+      "display_name": "Richmond VA PD",
+      "state": "VA",
+      "score": 2.867,
+      "matched_forms": [
+        "Richmond Police Department"
+      ]
+    },
+    {
+      "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+      "display_name": "Santa Clara County CA SO",
+      "state": "CA",
+      "score": 2.8,
+      "matched_forms": [
+        "Santa Clara County"
+      ]
+    },
+    {
+      "agency_id": "6be9f842-1658-5490-8be4-14b77cc1e96d",
+      "display_name": "Santa Clara DA CA",
+      "state": "CA",
+      "score": 2.8,
+      "matched_forms": [
+        "Santa Clara County"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "6607f630-2279-5b12-b723-b94b16c81122"
+  ],
+  "summary": "The Richmond, CA City Council voted 4-3 to extend its Flock Safety ALPR contract through the end of 2026 while staff explore alternative vendors, with instructions to add stronger guardrails against outside data sharing. The cameras have been disabled since October after the police department discovered federal agencies had access via Flock's 'National Lookup' feature.",
+  "key_quotes": [
+    {
+      "quote": "In October, the Richmond Police Department discovered that federal agencies had access to the data collected through a back-end \"National Lookup\" feature enabled by Flock Safety.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "In the end, the council voted 4-3 in favor of extending the contract, with instructions to the city staff to bake in stronger guardrails to prevent any data sharing with outside agencies.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "We cannot be trusting a company that tricked you and was not upfront",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:31:15Z",
+  "article_id": "art_113f4f311699"
+}

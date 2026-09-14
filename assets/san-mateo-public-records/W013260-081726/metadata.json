@@ -1,0 +1,47 @@
+{
+  "title": "Policy 463.10 quarterly external-user audits — Dec 2025 forward",
+  "summary": "Asks for the quarterly audit of external CA public agency users that Policy 463.10 requires alongside the monthly internal audit, covering 2025-12-22 through the date of production:\n\n- Item 1: each memorandum to the Chief of Police documenting a quarterly external-user audit, under whichever quarterly schedule the Department applies.\n- Item 2: any record establishing the quarterly schedule or audit calendar — an audit calendar, scheduling or tasking record, or assignment to the ALPR Committee Captain or designee.\n- Item 3: for each audit, the record identifying which external CA public agencies were reviewed, including any list of network-sharing partners in effect during the audited period.\n- Item 4: records sufficient to identify the \"associated documentation\" filed and retained — file names, export dates, covering date ranges, source platform — without producing the underlying exports.\n- Item 5: records of the Chief's review of each memorandum and its filing and retention, with dates.\n\nThe request notes that W012461-040226 produced four monthly memoranda (December 2025 – March 2026) with the statement \"We have no additional records,\" and that more than two quarterly periods have since closed under any schedule. It asks the Department to identify which memorandum constitutes the quarterly external audit if it contends a monthly memo serves that role, or to state the schedule and first period end date if it contends no quarter has closed.",
+  "tags": [
+    "policy-463",
+    "policy-463.10",
+    "audit-compliance",
+    "external-sharing"
+  ],
+  "policy_promises": [
+    {
+      "policy": "463.10",
+      "quote": "an audit is conducted of ALPR data searches at least monthly for internal ALPR users and quarterly for external CA public agency users",
+      "tests": "Whether any quarterly external-user audit has been conducted since the policy took effect on 2025-12-22, and under what schedule."
+    },
+    {
+      "policy": "463.10",
+      "quote": "The audit shall be documented in the form of an internal department memorandum to the Chief of Police",
+      "tests": "Whether a memorandum exists for each closed quarterly period, distinct from the monthly internal-user memoranda."
+    },
+    {
+      "policy": "463.10",
+      "quote": "After review by the Chief of Police, the memorandum and any associated documentation shall be filed and retained",
+      "tests": "What review, filing, and retention records exist, and what the retained \"associated documentation\" consists of."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012461-040226",
+      "relation": "compliance-followup",
+      "note": "Closed 2026-04-08 with four monthly memoranda (Dec 2025 – Mar 2026) and \"We have no additional records\" — no separate quarterly external-user audit."
+    },
+    {
+      "ref": "W012666-050426",
+      "relation": "evidence-source",
+      "note": "Produced the Policy 463 text effective 2025-12-22 that item 463.10 is quoted from."
+    },
+    {
+      "ref": "W012665-050426",
+      "relation": "temporal-followup",
+      "note": "Asked for the April/May 2026 monthly continuation and any quarterly external-user audit records. Produced an April 2026 memorandum on 2026-05-07 whose body text differs from the April 2026 memorandum produced here on 2026-08-20 (see notes)."
+    }
+  ],
+  "filed_because": "Policy 463.10 imposes two audit cadences, and only the monthly internal one has produced records. Enough time has now passed that at least two quarterly periods have closed under any reading of the schedule, so the request is framed to cover every plausible schedule and to force the Department to either produce the quarterly external audits or state which schedule it applies.",
+  "status_override": "rolling_production",
+  "notes": "Filed 2026-08-17; 10-day statutory determination due 2026-08-27.\n\nPartial response 2026-08-20 (Kelly O'Keefe, Police Technical Services Administrator): \"Please see attachments for the response to item 1.\" Four monthly audit memoranda from Lt. Steve Casazza to Chief Barberini were produced — April 2026 (memo dated 2026-05-06), May 2026 (dated 2026-06-01), June 2026 (dated 2026-07-04), and July 2026 (dated 2026-08-04). Items 2, 3, 4, and 5 were not addressed, and no quarterly schedule was identified.\n\nThe produced memoranda are the monthly memoranda, each describing \"an audit of our internal and external ALPR usage\" for the preceding month. None is captioned or scoped as a quarterly external CA public agency audit, none names the external agencies reviewed, and the response does not state that a monthly memo is being offered as the quarterly audit. The request's alternative-contention questions were left unanswered.\n\nEach of the four memoranda certifies that \"data sharing is limited to agencies within California, with no sharing occurring with federal law enforcement agencies or agencies outside the state\" and that the \"Revoke Out-of-State Sharing\" setting is selected.\n\nThe July 2026 memorandum states that on 2026-07-14 Casazza \"temporarily disabled our network sharing in Flock\" while drafting an ALPR Data Sharing Agreement, that the agreement is now final and is being sent to agencies requesting access, that a signed agreement is required before sharing is re-approved, and that as of 2026-08-04 SMPD shares with three agencies — Belmont PD, Foster City PD, and Palo Alto PD. It also states the ALPR policy was updated to require a written request before any agency is granted access.\n\nThe May 2026 memorandum states the Flock Public Audit went live 2026-05-18 and that Sgt. Trujillo and Casazza began department-wide Flock refresher training on 2026-05-21.\n\nDocument-integrity note: the April 2026 memorandum produced here is not the same file as the April 2026 memorandum produced under W012665-050426. The W012665 copy (exported 2026-05-07 via Word for Microsoft 365) reads \"I conducted an audit of our internal and external ALPR usage for March 2026\"; the copy produced here (exported 2026-08-17 14:46 PDT via Acrobat PDFMaker 26 for Word) reads \"...for April 2026.\" Memo date, caption, and all other text are identical. The change was not disclosed in the production. The four PDFs were all generated 2026-08-17 between 14:46 and 14:47 PDT, roughly nine hours before this request was filed at 23:52. The create/modify timestamps within each PDF are 0-1 seconds apart, consistent with ordinary Word-to-PDF conversion rather than post-export editing."
+}

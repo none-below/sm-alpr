@@ -51,6 +51,11 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+try:
+    from playwright_stealth import stealth_sync
+except ImportError:  # pragma: no cover - optional dependency
+    stealth_sync = None
+
 from lib import (
     BASE_URL, FAILED_FILE, USER_AGENT,
     audit_integrity, dedupe, load_json, save_json,
@@ -59,17 +64,68 @@ from lib import (
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 HASH_FILE = ".content_hashes.json"
+# Every crawl attempt that actually reached the portal, successful or not,
+# stamps its date here. A parse_error writes nothing to the slug dir
+# (archive_agency stages and only commits on full success), so without this log
+# a slug that fails is indistinguishable from one never tried: it keeps its old
+# .txt date, stays at the head of the stalest-first queue, and gets re-picked
+# every run while the other ~250 agencies never get a turn. Recording the
+# attempt separately keeps the capture corpus pure (no fake .txt) while letting
+# the rotation advance.
+#
+# A rate-limit abort is NOT such an attempt — see RATE_LIMIT_BURN_FILE.
+ATTEMPT_FILE = ".attempts.json"
+
+# Consecutive rate-limit aborts per slug.
+#
+# A 403 means the run's per-IP budget was spent before this slug's turn; the
+# portal was never reached, so the slug has no more been "attempted" than the
+# untouched remainder of the batch. Stamping ATTEMPT_FILE for it anyway (which
+# is what we used to do) charges the slug for someone else's request: its
+# ordering key jumps to today, it sorts to the BACK of the stalest-first queue,
+# and it waits a full rotation — ~10 days at the observed 1-3 captures/run —
+# before another chance. Lose that lottery a few times running and the slug
+# drops out for over a month: livermore-ca-pd went 44 days and
+# amberley-village-oh-pd 40, each having been aborted at position (2/2) with
+# nothing fetched, while 8 of their 10 cohort refreshed normally.
+#
+# So a burn no longer stamps. The monopolisation the stamp guarded against is
+# still real, though — a slug that genuinely 403s every time would otherwise
+# sit at queue position #1 forever — so burns are counted instead, and the
+# stamp happens once a slug has burned RATE_LIMIT_BURN_LIMIT times in a row.
+# That bounds the damage both ways: one unlucky burn costs a single run (the
+# slug stays stalest and gets first crack next run, when the IP is freshest and
+# the warm-up retry usually clears), while a persistently unreachable slug
+# still ages out within a few runs. Any fetch that reaches the portal clears
+# the counter.
+RATE_LIMIT_BURN_FILE = ".rate_limit_burns.json"
+RATE_LIMIT_BURN_LIMIT = 3
 VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
 STALE_DAYS = 14
 
-# Cloudflare bot-challenges the FIRST request from a cold (datacenter) IP with a
-# 403, then waves through once that IP is "warm" — so a 403 is transient, not a
-# block (a warmed retry on the same session almost always clears). This is why a
-# lone-agency dispatch always 403s: its one request is forever the cold first
-# request, with nothing after it to benefit. run_crawl_batch retries in-session.
-FORBIDDEN_RETRIES = 3      # in-session retries on a 403 edge challenge
-FORBIDDEN_BACKOFF = 8      # base seconds before the first retry; doubles, ±30% jitter
+# Two different things behind a 403, and telling them apart is the whole game.
+# Flock's edge answers both with 403 (and 429 interchangeably), so the response
+# alone can't distinguish them — their POSITION in the run can:
+#
+#   1. The cold-IP handshake. The first request from a datacenter IP is
+#      challenged, and a single retry on the same session clears it.
+#   2. The rate limit. Flock allows roughly 3 requests/hour/IP; over budget,
+#      that IP is in cooldown for hours. No retry can clear this one — only a
+#      different IP, which is what the next scheduled run gets for free, since
+#      GitHub hands every job a fresh runner.
+#
+# Retrying (2) is actively harmful: the retries spend the requests the run's
+# remaining slugs needed, so those slugs collect their own 403s instead of the
+# one fair attempt they had budget for. Measured on the 30-min rotation, the
+# retry-everything crawler spent ~10 requests per run to capture exactly 1,
+# every run, for days — three retries on slug #1, then slugs #2 and #3 past the
+# cliff with four wasted requests each.
+#
+# So: allow exactly ONE warm-up retry per session, for the handshake. Any 403
+# after that is the rate limit, and ends the run.
+WARMUP_RETRY_BACKOFF = 8   # seconds before the one cold-IP handshake retry, ±30% jitter
+RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears it"
 
 
 # ═══════════════════════════════════════════════════════════
@@ -248,23 +304,99 @@ def split_batch_across_levels(batch, num_levels):
     ]
 
 
-def latest_capture_attempt_date(slug, data_dir):
-    """Return the latest *attempted* capture date — date of the latest .txt
-    even if parsing failed afterwards. Used only for crawl-queue ordering
-    so a slug whose parser is broken doesn't stay pinned to queue position
-    #1 forever. Downstream consumers should keep using latest_capture_date,
-    which only counts successful captures.
-    """
-    slug_dir = data_dir / slug
-    if not slug_dir.is_dir():
-        return None
-    txts = portal_txts(slug_dir)
-    if not txts:
-        return None
+_ATTEMPTS_CACHE = {}
+
+
+def load_attempts(data_dir):
+    """Read the attempt log, cached on the file's mtime."""
+    path = data_dir / ATTEMPT_FILE
     try:
-        return datetime.strptime(txts[-1].stem, "%Y-%m-%d").date()
-    except ValueError:
-        return None
+        mtime = path.stat().st_mtime
+    except OSError:
+        return {}
+    key = str(path)
+    hit = _ATTEMPTS_CACHE.get(key)
+    if hit and hit[0] == mtime:
+        return hit[1]
+    data = load_json(path) or {}
+    _ATTEMPTS_CACHE[key] = (mtime, data)
+    return data
+
+
+def record_attempt(slug, data_dir, when=None):
+    """Stamp today's date against `slug` in the attempt log."""
+    path = data_dir / ATTEMPT_FILE
+    attempts = dict(load_attempts(data_dir))
+    attempts[slug] = (when or date.today()).isoformat()
+    save_json(path, attempts)
+    _ATTEMPTS_CACHE.pop(str(path), None)
+
+
+def record_rate_limit_burn(slug, data_dir):
+    """Count one rate-limit abort against `slug`.
+
+    Returns True when the slug has now burned RATE_LIMIT_BURN_LIMIT times in a
+    row, meaning the caller should stamp an attempt after all so a permanently
+    unreachable slug can't pin queue position #1. The counter resets on the
+    stamp, so an aged-out slug gets a fresh set of chances next time round.
+    """
+    path = data_dir / RATE_LIMIT_BURN_FILE
+    burns = dict(load_json(path) or {})
+    count = int(burns.get(slug, 0)) + 1
+    if count >= RATE_LIMIT_BURN_LIMIT:
+        burns.pop(slug, None)
+        save_json(path, burns)
+        return True
+    burns[slug] = count
+    save_json(path, burns)
+    return False
+
+
+def clear_rate_limit_burns(slug, data_dir):
+    """Forget a slug's burn streak — called whenever a fetch actually reached
+    the portal, since the streak is about consecutive aborts."""
+    path = data_dir / RATE_LIMIT_BURN_FILE
+    burns = dict(load_json(path) or {})
+    if burns.pop(slug, None) is not None:
+        save_json(path, burns)
+
+
+def latest_capture_attempt_date(slug, data_dir):
+    """Return the latest *attempted* capture date: the newer of the latest
+    .txt on disk and the slug's stamp in the attempt log.
+
+    Consulting the log is what makes this work. archive_agency stages the
+    whole artifact set in a temp dir and only commits on full success, so a
+    403 or a parse_error leaves NO .txt behind — the disk date alone can't
+    distinguish "tried and failed today" from "last seen three weeks ago",
+    and a slug whose fetch or parser is broken stays pinned to queue
+    position #1 forever. That is exactly what happened from 2026-08-17.
+
+    Used for crawl-queue ordering, and by the dashboard to flag agencies
+    whose attempts aren't turning into captures. Downstream consumers that
+    want "when did we last actually get this page" must keep using
+    latest_capture_date, which only counts successful captures.
+    """
+    from_txt = None
+    slug_dir = data_dir / slug
+    if slug_dir.is_dir():
+        txts = portal_txts(slug_dir)
+        if txts:
+            try:
+                from_txt = datetime.strptime(txts[-1].stem, "%Y-%m-%d").date()
+            except ValueError:
+                from_txt = None
+
+    from_log = None
+    logged = load_attempts(data_dir).get(slug)
+    if logged:
+        try:
+            from_log = date.fromisoformat(logged)
+        except ValueError:
+            from_log = None
+
+    candidates = [d for d in (from_txt, from_log) if d is not None]
+    return max(candidates) if candidates else None
 
 
 # ═══════════════════════════════════════════════════════════
@@ -336,6 +468,9 @@ _HEADING_MAP = {
     # entries, captured as text with no value parse.
     "PSPD ALPR Technology/Community Presentation page": "additional_info",
     "Flock Safety Contract":                 "additional_info",
+    # alameda-ca-pd bolds the shortened form (rendered "FLOCK Contract";
+    # heading lookup is case-insensitive so one spelling covers both).
+    "Flock Contract":                        "additional_info",
     "Download CSV":                          "download_csv",
     "Public Search Audit":                   "search_audit",
     "Search Audit":                          "search_audit",
@@ -347,6 +482,18 @@ _HEADING_MAP = {
     "Success Stories":                       "success_stories",
     "Safe City Success Stories":             "success_stories",
     "Program Success":                       "success_stories",
+    # hollister-ca-pd titles an individual case write-up with a bare
+    # outcome label. Exact entry rather than a dynamic pattern: a two-word
+    # generic phrase as a regex would promote body lines to headings.
+    "Suspect Identified":                    "success_stories",
+    # One-off case-study titles that carry no template shape to anchor a
+    # regex on. Exact entries on purpose: a pattern loose enough to catch
+    # "<Agency> - <case description>" in general would also fire on body
+    # lines and, since it'd match dynamically (ungated), silently split
+    # whatever section it landed in. citrus-heights re-posts its title with
+    # a trailing "(Aug. 2026)" — the prefix branch absorbs that suffix.
+    "Armed Suspects Located Through ALPR and Regional RTIC Partnership": "success_stories",
+    "Yuba County SO -Assist in Bicycle Recovery": "success_stories",
     "Disclaimer":                            "disclaimer",
     "California SVS":                        "california_svs",
     "SB54: California Values Act":           "sb54",
@@ -379,6 +526,12 @@ _HEADING_MAP = {
     "Number of LPRs":                        "camera_count",
     "LPR Cameras":                           "camera_count",
     "Total Cameras":                         "camera_count",
+    # livermore-ca-pd annotates the count with a Flock/non-Flock breakdown
+    # ("Total Active Cameras (Qty 75 Flock ALPR and Qty 73 non-Flock ALPR
+    # capable Traffic cameras)"). Listed as the bare stem so the prefix
+    # branch absorbs the parenthetical — and, being a prefix match, it's
+    # gated on bold-heading evidence and can't promote a body line.
+    "Total Active Cameras":                  "camera_count",
     "Hotlists Alerted On":                   "hotlists_alerted_on",
     "Vehicles detected in the last 30 days": "vehicles_detected_30d",
     "Unique vehicles detected in the last 30 days": "vehicles_detected_30d",
@@ -444,6 +597,16 @@ _DYNAMIC_HEADINGS = [
     # Info. The ALPR-specific patterns above win first; this catches the
     # generic policy-link variant.
     (re.compile(r"^.+(?:Police Department|Sheriff(?:'s)?(?: Office)?|Police Bureau) Policy$", re.IGNORECASE), "policy_info"),
+    # Numbered agency policy documents bolted on beside the ALPR policy, e.g.
+    # tracy-ca-pd's "TPD Policy 339- Public Safety Video Observation System"
+    # and "TPD Policy 417- Immigration Violations". Case-SENSITIVE acronym +
+    # policy number is the anchor: lowercased prose ("the policy 417 ...")
+    # must not match, since a dynamic hit is trusted as a section boundary.
+    # Tempered against ALPR/LPR so an acronym-titled ALPR policy the
+    # spelled-out patterns above miss fails loud and gets routed to
+    # alpr_policy deliberately, rather than being filed as generic
+    # policy_info and leaving alpr_policy empty.
+    (re.compile(r"^[A-Z]{2,6} Polic(?:y|ies) \d+\b(?!.*\b(?:ALPR|LPR)\b)"), "policy_info"),
     # Success-story subheadings — agencies post titled excerpts under
     # "Success Stories" (e.g. "Yuba County SO - Facebook Post - …",
     # "Credit Card Skimming Ring - Success story").
@@ -456,6 +619,30 @@ _DYNAMIC_HEADINGS = [
     # Alameda County SO posts each case under "Solved Stories with Flock
     # ALPR Technology - <case description>" as a separate bold heading.
     (re.compile(r"^Solved Stor(?:y|ies) with Flock", re.IGNORECASE), "success_stories"),
+    # city-of-lemoore-ca titles each case study "How FLOCK Helped Our
+    # Community - <case type>". Anchored on the full opening phrase, not a
+    # loose "How Flock..." prefix: dynamic matches are trusted as section
+    # boundaries without bold evidence, so a looser pattern could promote a
+    # body sentence and swallow the field that follows.
+    (re.compile(r"^How Flock(?: Safety)? Help(?:s|ed) Our Community\b", re.IGNORECASE), "success_stories"),
+    # Colon-introduced story titles: "Featured Success Story: CHPD Uses
+    # Real-Time Technology & Community Camera Network ..." (citrus-heights),
+    # "Flock Success Story: Alert Leads to Arrest of Wanted Suspect"
+    # (hoke-county). The end-anchored pattern above only catches titles that
+    # *end* in "Success Story/Stories", so these need the colon form. The
+    # required colon is what keeps it safe — a bare "\bSuccess Story\b"
+    # match would fire on narrative body prose, and dynamic matches are
+    # trusted as section boundaries without bold evidence.
+    (re.compile(r"^.*\bSuccess Stor(?:y|ies)\s*:", re.IGNORECASE), "success_stories"),
+    # Question-shaped sharing headings, e.g. johnson-city-tn-pd's "Who does
+    # JCPD share information with". Outbound recipients, same field as
+    # "Organizations granted access".
+    # End-anchored and case-sensitive on purpose. This field feeds
+    # _parse_org_names, so a dynamic (ungated) match on a FAQ body line
+    # would hand a prose answer to the org-list parser and mint fake
+    # recipient names. Requiring the question to BE the whole line — no
+    # trailing prose, no sentence period — keeps it to real headings.
+    (re.compile(r"^Who does [A-Z][^.]{1,60} share (?:information|data) with[?:]?$"), "orgs_granted_access"),
     # Stat-heading variants the exact map doesn't list — Flock prefixes the
     # standard labels with agency-specific qualifiers ("Total Searches by
     # Sparks Police Department in the last 30 days", "Individual vehicles
@@ -507,6 +694,24 @@ _DYNAMIC_HEADINGS = [
 
 _MAX_HEADING_LEN = 120
 
+# Explainer blocks rendered beside a stat, titled with the stat's own label
+# plus a "(Definition)" suffix — auburn-wa-pd pairs "Number of Searches
+# (Definition)" (prose: how the portal figure differs from the Organization
+# Audit CSV) with the real "Number of Searches" block that holds the value.
+#
+# Checked BEFORE the prefix loop, which is the whole point: the suffix does
+# not stop the line matching the "Number of Searches" prefix, so the
+# explainer is currently routed to searches_30d — and the numeric fields are
+# last-wins, so whichever of the two blocks the portal renders LAST decides
+# the value. While the explainer came first it was harmless (the real block
+# overwrote it); once it moved after the stat, searches_30d became a body
+# with no number in it and _parse_number raised. auburn has been failing
+# every run since 2026-07-27 on exactly this.
+#
+# Same rationale as the "Live Feed Data retention" noise entry below:
+# a companion block that would clobber a last-wins stat is chrome, not data.
+_DEFINITION_SUFFIX_RE = re.compile(r"\(Definition\)\s*$", re.IGNORECASE)
+
 # Case-insensitive view of _HEADING_MAP, built once. Heading match
 # becomes case-insensitive — Flock has at least three case variants of
 # the same heading across agencies ("Number of LPR cameras", "Number of
@@ -539,6 +744,10 @@ def _match_heading_kind(line):
     lowered = line.lower()
     if lowered in _HEADING_MAP_LOWER:
         return _HEADING_MAP_LOWER[lowered], "exact"
+    # Ahead of the prefix loop — see _DEFINITION_SUFFIX_RE. Reported as
+    # "dynamic" so parse_sections' _MAX_HEADING_LEN guard still applies.
+    if _DEFINITION_SUFFIX_RE.search(line):
+        return None, "dynamic"
     for prefix_lower, field_name in _HEADING_PREFIXES:
         if lowered.startswith(prefix_lower):
             return field_name, "prefix"
@@ -853,15 +1062,42 @@ _PORTAL_CONTENT_MARKERS = (
 
 # Verbs we've seen agencies use to introduce their ALPR tech: "uses"
 # (most common), "utilizes" (Oakland), "employs" (Mill Valley),
-# "leverages" (occasional). Object is usually "Flock Safety ..." but
-# some agencies (Napa PD) describe the product generically as
-# "Automatic License Plate Reader technology".
+# "leverages" (occasional). The trailing "s" is optional because agencies
+# write the sentence both ways — amberley-village-oh-pd has "The Amberley
+# Village Police Department utilize Flock Safety technology" (agreeing
+# with a plural reading of "Department"). See _extract_crawled_name for
+# the guard that keeps the widened verb from capturing a non-name subject.
+#
+# Object is usually "Flock Safety ..." but some agencies (Napa PD)
+# describe the product generically as "Automatic License Plate Reader
+# technology". Between "Flock Safety" and "technology" an agency may name
+# the product line — "LPR"/"ALPR" (common), the spelled-out "automated
+# license plate reader" (des-moines-wa-pd), or the spelled-out phrase
+# followed by its parenthetical acronym, "Automated License Plate Reader
+# (ALPR) technology" (north-kingstown-ri-pd).
 _FLOCK_MARKER_RE = re.compile(
-    r" (?:uses|utilizes|employs|leverages) "
-    r"(?:Flock Safety(?:'s)? (?:LPR )?(?:[Tt]echnology|Operating System)"
+    r" (?:use|utilize|employ|leverage)s? "
+    r"(?:Flock Safety(?:['’]s)? "
+    r"(?:(?:A?LPR|[Aa]utomat(?:ed|ic) [Ll]icense [Pp]late [Rr]eaders?"
+    r"(?: \(?[Aa]?LPR\)?)?) )?"
+    r"(?:[Tt]echnology|Operating System)"
     r"|Automatic License Plate Reader(?:s)?"
     r"(?: \(?[Aa]LPR\)?)? technology)"
 )
+
+# A prefix capture that isn't name-shaped. The marker branch takes
+# *everything before* the verb as the agency name, so widening the verb to
+# its uninflected form ("use") makes a plural-subject sentence — "Officers
+# use Flock Safety technology to help advance the <Agency>'s public safety
+# mission" — capture "Officers" instead of the real name. Requires an
+# uppercase letter plus either two words or an all-caps acronym (NCRIC).
+
+
+def _is_name_shaped(candidate):
+    if not candidate or not re.search(r"[A-Z]", candidate):
+        return False
+    return len(candidate.split()) >= 2 or candidate.isupper()
+
 
 # A 2026 boilerplate variant drops the "<Agency> uses Flock Safety ..."
 # subject-prefix shape entirely and embeds the name mid-sentence:
@@ -906,12 +1142,18 @@ def _extract_crawled_name(overview, slug, datestamp):
     """
     m = _FLOCK_MARKER_RE.search(overview)
     if m:
-        return (
+        candidate = (
             overview[: m.start()]
             .strip()
             .strip("\"'“”‘’")
             .strip()
-        ) or None
+        )
+        # Fall through rather than return a non-name-shaped prefix: the
+        # "helps advance" template below can carry the real name later in
+        # the same sentence, and a bare subject ("Officers", "We") is worse
+        # than either that or the fail-loud raise.
+        if _is_name_shaped(candidate):
+            return candidate
     m = _FLOCK_ADVANCE_RE.search(overview)
     if m:
         name = m.group(1).strip().strip("\"'“”‘’").strip()
@@ -930,13 +1172,17 @@ def _extract_crawled_name(overview, slug, datestamp):
             return name
     if overview.strip() and "Flock Safety" in overview:
         raise ValueError(
-            f"{slug} {datestamp}: overview mentions Flock Safety but the "
-            f"agency-name marker ("
-            f"' (uses|utilizes|employs|leverages) Flock Safety[\\'s] [LPR] "
-            f"[Tt]echnology|Operating System | Automatic License Plate "
-            f"Reader technology') doesn't match — Flock may have rephrased "
-            f"the boilerplate or the agency used a new verb. Update "
-            f"_FLOCK_MARKER_RE in scripts/flock_transparency.py."
+            f"{slug} {datestamp}: overview mentions Flock Safety but no "
+            f"agency-name marker matched. Expected either "
+            f"'<Agency> (use|utilize|employ|leverage)[s] Flock Safety[\\'s] "
+            f"[LPR|automated license plate reader] (technology|Operating "
+            f"System)' or 'Flock Safety technology helps advance [the] "
+            f"<Agency>[\\'s] public safety mission' — Flock may have "
+            f"rephrased the boilerplate, or the agency used a new verb or "
+            f"product phrase. Update _FLOCK_MARKER_RE / _FLOCK_ADVANCE_RE "
+            f"in scripts/flock_transparency.py. (Re-scraping the slug is "
+            f"the only way to see the new wording: a crawl-time parse "
+            f"failure discards the capture.)"
         )
     return None
 
@@ -1188,14 +1434,15 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         print(f"    WARNING: navigation failed: {e}")
         return ("failed", "navigation_error"), []
 
+    # 403 and 429 are the same signal from Flock's edge — this IP is over its
+    # hourly request budget — and neither is a block on the slug. run_crawl_batch
+    # ends the run on either; the next scheduled run retries from a fresh IP.
     if response and response.status == 429:
-        print(f"    RATE LIMITED (429), will retry later")
+        print(f"    got HTTP 429 (rate limited)")
         return "rate_limited", []
 
     if response and response.status == 403:
-        # Not a real block: Flock's edge bot-challenges a cold IP's first request,
-        # then waves it through once warm. run_crawl_batch retries in-session.
-        print(f"    got HTTP 403 (edge bot-challenge), will retry in-session")
+        print(f"    got HTTP 403 (rate limited; Flock's edge serves 403 and 429 alike)")
         return "forbidden", []
 
     if response and response.status >= 400:
@@ -1297,9 +1544,29 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     return pdf_path, discovered_slugs
 
 
+def new_crawl_session():
+    """Per-browser-session crawl state.
+
+    One warm-up retry per session, not per slug: the cold-IP handshake happens
+    once, when the session's first request meets the edge. Every 403 after that
+    is the rate limit, and no number of retries clears it.
+    """
+    return {"warmup_retries": 1}
+
+
 def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
-                    try_variations=False, explicit=False):
-    """Crawl a list of slugs. Returns (results, discovered_slugs).
+                    try_variations=False, explicit=False, session=None):
+    """Crawl a list of slugs. Returns (results, discovered_slugs, rate_limited).
+
+    rate_limited is True when a 403/429 outlived the session's one warm-up
+    retry. The caller must stop crawling for the rest of the run: the cooldown
+    is per-IP and lasts hours, so every further request is guaranteed to fail
+    and only refreshes the cooldown.
+
+    `session` is the per-browser-session state shared across calls (cmd_crawl
+    makes one call per BFS level against the same page). It holds the single
+    cold-IP warm-up retry, so a later level can't spend a second one on what is
+    by then unambiguously the rate limit.
 
     explicit=True means the caller named these slugs directly (vs auto-picked
     from the oldest-agencies rotation) — in that case, don't skip on prior
@@ -1307,6 +1574,8 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
     """
     results = []
     discovered = []
+    if session is None:
+        session = new_crawl_session()
 
     total = len(slugs)
     for i, slug in enumerate(slugs):
@@ -1324,6 +1593,12 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             for alt in slug_variations(slug)[1:]:
                 print(f"    trying variation: {alt}")
                 status, discovered_slugs = archive_agency(page, alt, data_dir, force, hashes)
+                if status in ("rate_limited", "forbidden"):
+                    # Budget spent mid-probe. A 403 says nothing about whether
+                    # this variation exists, so don't claim it as the working
+                    # slug — fall through to the stop below, still under the
+                    # original slug so the rotation records the right attempt.
+                    break
                 if not (isinstance(status, tuple) and status[0] == "failed"):
                     print(f"    found working slug: {alt}")
                     slug = alt
@@ -1331,38 +1606,52 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                 if delay:
                     time.sleep(delay * random.uniform(0.7, 1.3))
 
-        if status == "rate_limited":
-            for attempt in range(4):
-                backoff = max(delay, 30) * (2 ** (attempt + 1))
-                print(f"    rate limited, backing off {backoff}s (attempt {attempt + 1}/4)...")
-                time.sleep(backoff)
-                status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
-                if status != "rate_limited":
-                    break
-            if status == "rate_limited":
-                print(f"    still rate limited after 4 retries, skipping for now")
-                results.append((slug, None))
-                save_json(data_dir / HASH_FILE, hashes)
-                continue
+        if status in ("rate_limited", "forbidden") and session["warmup_retries"]:
+            # First 403 of the session: probably the cold-IP handshake, which
+            # one retry on the same session clears. Spend the session's single
+            # warm-up on it. If it's really the rate limit, this costs one
+            # request and we stop right below.
+            session["warmup_retries"] -= 1
+            backoff = max(delay, WARMUP_RETRY_BACKOFF) * random.uniform(0.7, 1.3)
+            print(f"    first 403/429 of the session — retrying once after "
+                  f"{backoff:.0f}s in case it's the cold-IP handshake")
+            time.sleep(backoff)
+            status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
 
-        if status == "forbidden":
-            # The cold-IP 403 challenge clears once the IP is warm, so retry the
-            # SAME url on the SAME session (a fresh run would just get another
-            # cold IP). Back off between tries so we don't hammer the edge.
-            for attempt in range(FORBIDDEN_RETRIES):
-                backoff = max(delay, FORBIDDEN_BACKOFF) * (2 ** attempt) * random.uniform(0.7, 1.3)
-                print(f"    403 edge challenge, warming + retrying same session in "
-                      f"{backoff:.0f}s (attempt {attempt + 1}/{FORBIDDEN_RETRIES})...")
-                time.sleep(backoff)
-                status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
-                if status != "forbidden":
-                    break
-            if status == "forbidden":
-                print(f"    still 403 after {FORBIDDEN_RETRIES} retries, skipping for now (not quarantined)")
-                results.append((slug, None))
-                save_json(data_dir / HASH_FILE, hashes)
-                continue
+        if status in ("rate_limited", "forbidden"):
+            # Warm-up already spent (or just spent and didn't clear), so this
+            # is the rate limit. Don't retry and don't move on to the next
+            # slug: the cooldown is per-IP and hours long, so both would only
+            # collect more 403s while burning the budget the remaining slugs
+            # would have had. Leave the rest untouched for the next run's fresh
+            # IP and hand the run back to the caller. Never quarantined — a
+            # rate limit says nothing about the slug.
+            #
+            # Don't stamp an attempt either: the portal was never reached, so
+            # this slug is no more "attempted" than the untouched remainder.
+            # Stamping would send it to the back of the stalest-first queue for
+            # a full rotation over a request that was never made. Leaving it
+            # unstamped keeps it stalest, so it gets first crack next run —
+            # which is when the budget is freshest and the warm-up retry
+            # usually clears. Only a slug that burns RATE_LIMIT_BURN_LIMIT
+            # times running gets stamped, so a permanently unreachable one
+            # still ages out instead of pinning position #1.
+            remaining = total - i - 1
+            print(f"    {RATE_LIMIT_NOTE}")
+            print(f"    ending this run; {remaining} slug(s) left for the next run")
+            if record_rate_limit_burn(slug, data_dir):
+                print(f"    {slug} has burned {RATE_LIMIT_BURN_LIMIT} runs in a "
+                      f"row on the rate limit — recording an attempt so it "
+                      f"yields its queue slot")
+                record_attempt(slug, data_dir)
+            results.append((slug, None))
+            save_json(data_dir / HASH_FILE, hashes)
+            return results, discovered, True
 
+        # Reached the portal (saved, unchanged, parse_error or a real HTTP
+        # failure), so any burn streak is over.
+        clear_rate_limit_burns(slug, data_dir)
+        record_attempt(slug, data_dir)
         results.append((slug, status))
         if discovered_slugs:
             discovered.extend(discovered_slugs)
@@ -1371,9 +1660,9 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             #   parse_error: parser tripped on a new format variant; archive_agency
             #     stages and only commits on full success so no artifacts written.
             #     Surfaced as a tracking issue by the workflow.
-            # (403 edge challenges return "forbidden" and are retried in-session
-            #  above — they never reach here. Other HTTP 4xx/5xx are real failures
-            #  and do get quarantined until the next --retry-failed.)
+            # (403/429 rate limits return above and never reach here. Other
+            #  HTTP 4xx/5xx are real failures and do get quarantined until the
+            #  next --retry-failed.)
             if status[1] != "parse_error":
                 failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
@@ -1385,7 +1674,7 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             print(f"    waiting {jitter:.0f}s...")
             time.sleep(jitter)
 
-    return results, discovered
+    return results, discovered, False
 
 
 def cmd_crawl(args):
@@ -1415,16 +1704,41 @@ def cmd_crawl(args):
         failed_slugs.clear()
 
     with sync_playwright() as p:
+        # channel="chrome" launches the OS-installed real Chrome instead of
+        # Playwright's bundled Chromium. Bundled Chromium's TLS handshake
+        # fingerprint (JA3/JA4) doesn't match the real-Chrome population, so
+        # Flock's edge scores it as a bot and returns HTTP 403 before any HTTP
+        # transaction. article_crawl.py hit the same wall in May 2026 and this
+        # is the fix that cleared it; the Flock crawler never got it, and when
+        # Flock tightened their edge the whole rotation started 403ing.
+        # Falls back to bundled Chromium so a machine without real Chrome
+        # still runs (it will likely 403, but that is better than crashing).
         launch_args = ["--headless=new"]
+        launch_kwargs = {"headless": True, "args": launch_args}
         if args.proxy:
-            browser = p.chromium.launch(headless=True, args=launch_args, proxy={"server": args.proxy})
-        else:
-            browser = p.chromium.launch(headless=True, args=launch_args)
+            launch_kwargs["proxy"] = {"server": args.proxy}
+        try:
+            browser = p.chromium.launch(channel="chrome", **launch_kwargs)
+        except Exception as e:
+            print(f"  real Chrome unavailable ({e.__class__.__name__}); "
+                  f"falling back to bundled Chromium — expect 403s")
+            browser = p.chromium.launch(**launch_kwargs)
         context = browser.new_context(
             viewport=VIEWPORT,
             user_agent=USER_AGENT,
         )
         page = context.new_page()
+        # One session's worth of warm-up budget, shared by every batch below.
+        session = new_crawl_session()
+        # tf-playwright-stealth patches the JS-layer detection signals
+        # (navigator.webdriver, plugin enumeration, WebGL vendor strings).
+        # Stacks on the TLS-layer fix above. Optional import so the crawler
+        # still runs where the package isn't installed.
+        if stealth_sync is not None:
+            try:
+                stealth_sync(page)
+            except Exception as e:
+                print(f"  stealth patch failed ({e.__class__.__name__}), continuing")
 
         if args.all_agencies and not slugs:
             slugs = list(DEFAULT_SLUGS)
@@ -1553,26 +1867,33 @@ def cmd_crawl(args):
                     label = f"depth {level}" if args.depth else "all"
                     print(f"[{label}] Archiving {len(new_slugs)} agency portal(s):\n")
 
-                    results, newly_discovered = run_crawl_batch(
+                    results, newly_discovered, rate_limited = run_crawl_batch(
                         page, new_slugs, data_dir, args.force,
                         args.delay, hashes, failed_slugs,
                         try_variations=args.try_variations,
+                        session=session,
                     )
                     all_results.extend(results)
                     visited.update(s for s, _ in results)
                     available -= len(new_slugs)
                     discovered.extend(newly_discovered)
+                    if rate_limited:
+                        # Deeper levels would only collect more 403s on the
+                        # same cooled-down IP. Stop the whole crawl, not just
+                        # this level.
+                        break
 
                 slugs = dedupe(discovered)
         else:
             if args.batch:
                 slugs = slugs[:args.batch]
             print(f"Archiving {len(slugs)} agency portal(s):\n")
-            results, _ = run_crawl_batch(
+            results, _, _ = run_crawl_batch(
                 page, slugs, data_dir, args.force,
                 args.delay, hashes, failed_slugs,
                 try_variations=args.try_variations,
                 explicit=True,
+                session=session,
             )
             all_results.extend(results)
 
@@ -1585,8 +1906,17 @@ def cmd_crawl(args):
     failed = sum(1 for _, r in all_results if _is_failed(r))
     print(f"\nDone: {captured} captured, {unchanged} unchanged, {failed} failed.")
 
+    # A batch where every single agency failed is not a normal outcome — it
+    # means the crawler is blocked (edge 403s, rate limiting) rather than
+    # merely finding nothing new. This used to print a note and exit 0, so
+    # ~48 green workflow runs a day reported success while capturing nothing
+    # for four days straight and the backlog dashboard silently filled up.
+    # Partial failures stay green; a total wipeout goes red.
     if failed and not captured and not unchanged:
-        print("  (all agencies failed — not treated as error for batch crawls)")
+        print(f"\nERROR: all {failed} agency portal(s) failed — crawler is "
+              f"blocked, not caught up.")
+        return 1
+    return 0
 
 
 
@@ -1949,7 +2279,7 @@ def main():
     args = parser.parse_args()
 
     if args.command == "crawl":
-        cmd_crawl(args)
+        sys.exit(cmd_crawl(args) or 0)
     elif args.command == "parse":
         cmd_parse(args)
     elif args.command == "aggregate":

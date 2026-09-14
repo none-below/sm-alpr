@@ -1,0 +1,129 @@
+{
+  "url": "https://www.kqed.org/news/12080233/san-jose-residents-sue-city-saying-flock-safety-cameras-allow-mass-surveillance",
+  "source_domain": "kqed.org",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "San Jos\u00e9 Residents Sue City, Saying Flock Safety Cameras Allow \u2018Mass Surveillance\u2019 | KQED",
+  "byline": "Katie DeBenedetti",
+  "published_at": "2026-04-16T15:08:20-07:00",
+  "fetched_at": "2026-09-14T07:20:02Z",
+  "discovered_by": "manual:user-supplied",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 143 pts, HIGH/CRITICAL findings",
+  "scanner_score": 143,
+  "content_hash": "b50351a784002a8c89d6f8812d4f06aa796dfcb789a3be2cb0af7ca87c3813c3",
+  "paths": {
+    "html": "assets/articles/kqed.org/news-12080233-san-jose-residents-sue-city-saying-flock-safety-cameras-allow-mass_7716e808.html",
+    "meta": "assets/articles/kqed.org/news-12080233-san-jose-residents-sue-city-saying-flock-safety-cameras-allow-mass_7716e808.meta.json",
+    "pdf": "assets/articles/kqed.org/news-12080233-san-jose-residents-sue-city-saying-flock-safety-cameras-allow-mass_7716e808.pdf",
+    "txt": "assets/articles/kqed.org/news-12080233-san-jose-residents-sue-city-saying-flock-safety-cameras-allow-mass_7716e808.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "save-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "legal:court-ruling",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+    "30c59ff7-8ee9-51ca-95a7-3dad69eba35f",
+    "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+    "03e33852-8173-5c02-acb9-f1acace99988"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 5.817,
+      "matched_forms": [
+        "San Jose",
+        "San Jose Police",
+        "San Jose Police Department"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 3.217,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "8e97dede-dc5e-518a-bd9c-ca1acce1757a",
+      "display_name": "Santa Cruz CA PD (deactivated)",
+      "state": "CA",
+      "score": 3.167,
+      "matched_forms": [
+        "Santa Cruz"
+      ]
+    },
+    {
+      "agency_id": "30c59ff7-8ee9-51ca-95a7-3dad69eba35f",
+      "display_name": "Los Altos CA PD",
+      "state": "CA",
+      "score": 3.15,
+      "matched_forms": [
+        "Los Altos"
+      ]
+    },
+    {
+      "agency_id": "6f2b98a1-957a-5dc9-935c-7b8127a223d6",
+      "display_name": "Oakland CA PD",
+      "state": "CA",
+      "score": 3.117,
+      "matched_forms": [
+        "Oakland"
+      ]
+    },
+    {
+      "agency_id": "03e33852-8173-5c02-acb9-f1acace99988",
+      "display_name": "Port Of Oakland (CA)",
+      "state": "CA",
+      "score": 3.117,
+      "matched_forms": [
+        "Oakland"
+      ]
+    },
+    {
+      "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+      "display_name": "Delete",
+      "state": null,
+      "score": 1.1,
+      "matched_forms": [
+        "Delete"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "summary": "Three San Jos\u00e9 residents, represented by the Institute for Justice, filed a federal class-action lawsuit alleging the city's nearly 500 Flock Safety ALPR cameras constitute unconstitutional mass surveillance under the Fourth Amendment. The suit seeks to require deletion of most captured data within 24 hours, following an earlier state-level suit and recent city council restrictions on camera placement, retention, and data sharing.",
+  "key_quotes": [
+    {
+      "quote": "San Jos\u00e9 is operating nearly 500 license plate reader cameras connected with AI technology around the city to essentially spy on everyday people going about their business",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "No officer ever has to establish probable cause, swear to the facts in a warrant application, or await the approval of a judge",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "In March, San Jos\u00e9's city council put restrictions on where the city can position cameras, including near reproductive health care facilities and places of worship; reduced the default data retention period from one year to 30 days; and added new documentation and authentication requirements for agencies requesting sharing access.",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:34:57Z",
+  "article_id": "art_7716e80858b8"
+}

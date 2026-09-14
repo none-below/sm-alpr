@@ -169,15 +169,58 @@ SAFE_UI_PSEUDO = re.compile(
 # rightly refuses to clear by selector — a class selector can hide page
 # text as easily as chrome. Pinning the exact bytes accepts only this
 # stylesheet: any edit, including an appended hiding rule, changes the
-# hash and flags again. When a template rollout trips the scanner
-# fleet-wide (same finding at identical offsets across many agencies),
-# review one flagged block, then add its hash here — the finding's
-# snippet prints it as [style-sha256=...].
+# hash and flags again. A rollout trips this fleet-wide; to clear one,
+# add its hash here — the finding's snippet prints it as
+# [style-sha256=...].
+#
+# Clear a block on its CONTENT, never on the fact that it shipped to many
+# agencies at once. Flock authors this template, so a hostile vendor's
+# cheapest move is to push a payload to every portal simultaneously —
+# which is indistinguishable from a benign rollout by that heuristic.
+# Fleet-wide uniformity only rules out a third party who compromised a
+# single page. Check instead, in a script that prints metrics rather than
+# scrape text (see CLAUDE.md — do not read these files directly):
+#   1. Zero true `content:` declarations, anchored as
+#      `(?:^|[{;])\s*content\s*:`; a bare `content\s*:` false-positives
+#      on justify-content and custom props. No `content:` means the
+#      stylesheet cannot introduce DOM text at all.
+#   2. No url()/@import/expression()/javascript:, no non-ASCII
+#      (zero-width, bidi, private-use, tag chars), no prose-like runs.
+#   3. difflib against an already-cleared block: a real rollout is a
+#      near-identical superset, adding layout selectors and removing none.
+#   4. Separately, confirm no human-hidden text reaches the sibling .txt
+#      (the bytes a model reads). That check — not this whitelist — is
+#      what defends against hidden-text injection, and it stays live for
+#      every hash listed below.
 KNOWN_BENIGN_STYLE_SHA256 = frozenset({
     # transparency.flocksafety.com [data-tp-root="true"] design-system
     # stylesheet, first seen in 2026-07-26 scrapes (byte-identical
     # across all 142 portals in the 2026-07-26..30 refresh).
     "40f42ee26c70b2e4cea119b0cf48ac069434eca8e09df30c45e480cea4116509",
+    # Same stylesheet after the 2026-09 rollout: adds three portal-chrome
+    # selectors (.tpDataSummaryHeading, .tpDataSummaryRow, .tpPortalRow)
+    # and removes none, so it is a 99.1%-identical superset of the block
+    # above. Trips the rule via 8 display:none rules, all targeting header
+    # chrome and webkit scrollbars.
+    #
+    # Cleared on content, NOT on "it shipped fleet-wide". Flock authors the
+    # template, so pushing a payload to every portal at once is the cheap
+    # path for a hostile vendor, not an exotic one; uniformity rules out a
+    # third party who compromised one page and nothing more. What actually
+    # clears it:
+    #   * Zero true `content:` declarations. CSS with no `content:` cannot
+    #     introduce text into the DOM, whoever wrote it. (Match on
+    #     `(?:^|[{;])\s*content\s*:` — a bare `content\s*:` false-positives
+    #     on justify-content and --tp-color-body-content.)
+    #   * Pure ASCII; no zero-width/bidi/private-use/tag characters; no
+    #     url()/@import/expression()/javascript:; no prose.
+    #   * The sibling .txt files — the bytes a model actually reads — scan
+    #     CLEAN, and the only human-hidden string reaching them is the
+    #     literal "Transparency Portal" (.tpBrandTitle).
+    # Pinning exact bytes keeps this honest: appending a hiding rule later
+    # changes the hash and flags again, and the text-side passes that catch
+    # hidden-text injection are independent of this whitelist.
+    "d4eaa7e50591d8e097e3e142330c81259eac4b5c369a29c3ab1f5caecea14a8d",
 })
 
 HTML_COMMENT = re.compile(r"<!--(.*?)-->", re.DOTALL)

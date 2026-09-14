@@ -1,0 +1,167 @@
+{
+  "url": "https://ringmast4r.substack.com/p/a-fusion-centers-flock-stack-landed",
+  "source_domain": "ringmast4r.substack.com",
+  "tier": 2,
+  "stance": "critical",
+  "title": "A Fusion Center\u2019s Flock Stack Landed on GitHub",
+  "byline": "Patrick Quirk",
+  "published_at": "2026-08-28T21:06:41-07:00",
+  "fetched_at": "2026-09-14T07:06:25Z",
+  "discovered_by": "manual:user-supplied",
+  "scanner_verdict": "WARNINGS \u2014 11 pts, low/medium only",
+  "scanner_score": 11,
+  "content_hash": "d43ad3a6d3a2c58e0d0bae864473aec476758a7c05cc6d40973a6e206548255e",
+  "paths": {
+    "html": "assets/articles/ringmast4r.substack.com/p-a-fusion-centers-flock-stack-landed_8f844ea4.html",
+    "meta": "assets/articles/ringmast4r.substack.com/p-a-fusion-centers-flock-stack-landed_8f844ea4.meta.json",
+    "pdf": "assets/articles/ringmast4r.substack.com/p-a-fusion-centers-flock-stack-landed_8f844ea4.pdf",
+    "txt": "assets/articles/ringmast4r.substack.com/p-a-fusion-centers-flock-stack-landed_8f844ea4.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "save-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "policy:sharing",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+    "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed",
+    "10d8673e-60c9-5345-a1e1-eb25f18d157b",
+    "44c61cec-7907-5006-bfc7-46912465c656",
+    "6d11ec03-586d-570a-b110-56f9e37261ff",
+    "6fc47404-6f79-5f5d-ace0-18db02bc2391",
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+    "c60df435-fd2c-5e19-88b3-5a63ff760218",
+    "f296ea7d-37b7-583c-aef6-5058b2df232d",
+    "c7aa543c-ebc0-5058-9720-c2dd84914ca6"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "b6134b21-a8be-50ab-aff8-7516fbb803bd",
+      "display_name": "NCRIC",
+      "state": "CA",
+      "score": 19.917,
+      "matched_forms": [
+        "NCRIC"
+      ]
+    },
+    {
+      "agency_id": "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed",
+      "display_name": "Atherton CA PD",
+      "state": "CA",
+      "score": 7.367,
+      "matched_forms": [
+        "Atherton",
+        "Atherton CA PD"
+      ]
+    },
+    {
+      "agency_id": "10d8673e-60c9-5345-a1e1-eb25f18d157b",
+      "display_name": "Ontario CA PD",
+      "state": "CA",
+      "score": 6.167,
+      "matched_forms": [
+        "Ontario",
+        "Ontario CA PD"
+      ]
+    },
+    {
+      "agency_id": "44c61cec-7907-5006-bfc7-46912465c656",
+      "display_name": "Ottawa IL PD",
+      "state": "IL",
+      "score": 4.85,
+      "matched_forms": [
+        "Ottawa",
+        "Ottawa PD"
+      ]
+    },
+    {
+      "agency_id": "6d11ec03-586d-570a-b110-56f9e37261ff",
+      "display_name": "San Mateo County CA SO",
+      "state": "CA",
+      "score": 4.083,
+      "matched_forms": [
+        "San Mateo County",
+        "San Mateo County SO"
+      ]
+    },
+    {
+      "agency_id": "6fc47404-6f79-5f5d-ace0-18db02bc2391",
+      "display_name": "Anderson CA PD",
+      "state": "CA",
+      "score": 3.95,
+      "matched_forms": [
+        "Anderson",
+        "Anderson City CA PD"
+      ]
+    },
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 3.817,
+      "matched_forms": [
+        "San Jose",
+        "San Jose PD"
+      ]
+    },
+    {
+      "agency_id": "c60df435-fd2c-5e19-88b3-5a63ff760218",
+      "display_name": "Fairfield CA PD",
+      "state": "CA",
+      "score": 3.8,
+      "matched_forms": [
+        "Fairfield"
+      ]
+    },
+    {
+      "agency_id": "f296ea7d-37b7-583c-aef6-5058b2df232d",
+      "display_name": "Fremont CA PD",
+      "state": "CA",
+      "score": 3.783,
+      "matched_forms": [
+        "Fremont",
+        "Fremont PD"
+      ]
+    },
+    {
+      "agency_id": "c7aa543c-ebc0-5058-9720-c2dd84914ca6",
+      "display_name": "Benicia CA PD",
+      "state": "CA",
+      "score": 3.733,
+      "matched_forms": [
+        "Benicia"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd"
+  ],
+  "summary": "A security researcher describes a public GitHub repo (erhhung/ncric-alprs) published by a MaiVERIC/AstroMetrics contractor, exposing the Terraform/AWS/Auth0 architecture of NCRIC's Flock-fed ALPR ingest pipeline, along with a Postgres dump of 1,183 Flock camera locations across 47 agencies in Northern California. The post also reports 806 exposures on Flock Safety's own domain infrastructure and enumerates leaked emails, Auth0 admin accounts, S3 buckets, and API client IDs.",
+  "key_quotes": [
+    {
+      "quote": "A contractor published the ALPR stack built for a California fusion center: 1,183 Flock cameras with coordinates, and the API that pulls the plates.",
+      "paragraph_idx": 2
+    },
+    {
+      "quote": "postgresql/flock.sql.gz is a Postgres dump of Flock network and camera tables. Parsed, it is 1,183 unique cameras across 47 agencies / 48 networks.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "The NCRIC integrator published the agency footprint. Flock's own infrastructure published itself.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "558 law enforcement email addresses across 47+ agencies",
+      "paragraph_idx": 22
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:35:34Z",
+  "article_id": "art_8f844ea45d29"
+}

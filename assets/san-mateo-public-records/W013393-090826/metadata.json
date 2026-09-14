@@ -1,0 +1,46 @@
+{
+  "title": "Native audit files (12 named CSV/XLSX) behind the W012541 PDF productions",
+  "summary": "A two-item request for the native electronic files underlying the monthly ALPR search-audit records already produced in PDF form under W012541-041426:\n\n- Item 1: twelve files identified by exact filename \u2014 4_1_2023-4_30_2023-San Mateo CA PD-Audit(in).csv; 10_1_2023-10_31_2023-San Mateo CA PD-Audit.xlsx; 1_1_2024-1_31_2024-San Mateo CA PD-Audit.xlsx; 12_1_2024-12_31_2024-San Mateo CA PD-Audit(in).csv; 2_1_2025, 3_1_2025 and 4_1_2025 -San Mateo CA PD-Audit(in).csv; 5_1_2025-5_31_2025-San Mateo CA PD-Audit(in)(in).csv; 10_1_2025 and 11_1_2025 -San Mateo CA PD-Audit(in).csv; 12_1_2025-12_31_2025-San Mateo CA PD-Audit.xlsx; and 2_1_2026-2_28_2026-San Mateo CA PD-Audit (2)(in).csv. Each is sought in the electronic format in which the Department holds it, and regardless of storage location \u2014 local workstations, network drives, OneDrive or SharePoint, removable media, and email attachments.\n- Item 2: for any Item 1 file the Department no longer holds, the records documenting its disposition \u2014 the retention schedule applied, any deletion or destruction log entry, and any preservation or litigation-hold notice that covered it.\n\nThe request opens with two predicates. First, that the Department has produced monthly search-audit records under W012541 on a rolling basis since April 2026, and that on 2026-09-02, in its determination on W013308-082426, it stated it was providing a responsive record \"in PDF format rather than its native XLS format\" \u2014 an on-record concession that a native form exists. Second, that the W012541 releases of April 28, May 11, May 21, June 3, June 17, July 1 and July 15, 2026 did not state that anything had been withheld or redacted, so the named native files contain the same information already released.",
+  "tags": [
+    "policy-463.10",
+    "audit-compliance",
+    "pra-process"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code \u00a77922.570",
+      "quote": "the agency shall make the information available in the electronic format in which it holds the information",
+      "tests": "Whether the Department produces the named CSV/XLSX files themselves, having conceded on 2026-09-02 that it chose PDF over a native XLS it holds."
+    },
+    {
+      "policy": "Gov. Code \u00a77922.535(a) / \u00a77922.540",
+      "quote": "agency must notify requester within 10 calendar days whether it will produce records, and state the exemption in writing if it withholds",
+      "tests": "Whether files named exactly as the Department's own PDF metadata names them draw a file-by-file determination rather than a restatement of the rolling W012541 posture."
+    },
+    {
+      "policy": "Gov. Code \u00a734090",
+      "quote": "city records may be destroyed only with the approval of the legislative body and the written consent of the city attorney",
+      "tests": "Item 2 \u2014 if any named file is gone, whether a retention schedule, destruction log entry, or hold notice documents its disposition."
+    },
+    {
+      "policy": "463.10",
+      "quote": "an audit is conducted of ALPR data searches at least monthly",
+      "tests": "Whether the native files carry fields the printed PDFs drop, and whether their contents match the PDFs the Department released as complete."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012541-041426",
+      "relation": "parent",
+      "note": "The rolling production these PDFs came from. All twelve requested filenames are the Title metadata of PDFs produced under W012541 \u2014 each made with 'Microsoft: Print To PDF' from a CSV or XLSX, so the record itself names the native file. Verified against the produced corpus: exactly twelve distinct native names appear, matching the request list one-for-one."
+    },
+    {
+      "ref": "W013308-082426",
+      "relation": "predicate",
+      "note": "The 2026-09-02 determination stating the record was provided 'in PDF format rather than its native XLS format' \u2014 quoted in the request as the Department's own acknowledgment that a native form exists."
+    }
+  ],
+  "filed_because": "The W012541 audit PDFs were hand-edited in Acrobat after export, and printing to PDF is what makes those edits possible and hard to attribute. The native CSV/XLSX files are the pre-print artifacts: they would show what the export produced before anyone touched it, and they carry the export's full field set rather than what fit on a printed page. Naming the files exactly as the Department's own PDF metadata names them removes the identification escape \u2014 these are not hypothetical native versions, they are twelve specific files the produced records themselves name. The 2026-09-02 W013308 determination supplies the second half: the Department has already said on the record that it held a native XLS and chose PDF instead. Item 2 closes the remaining exit \u2014 if a file is said to be gone, \u00a734090 disposition records have to account for it.",
+  "status_override": null,
+  "notes": "Filed 2026-09-08 12:22 PM; auto-acknowledged the same minute and forwarded to department(s). Statutory determination due 2026-09-18.\n\nDeliberately does not mention the Acrobat edits or the alteration analysis, so the format answer stands on its own."
+}

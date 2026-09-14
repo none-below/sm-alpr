@@ -1,0 +1,41 @@
+{
+  "title": "Flock network audit — Costa Mesa PD / Josett, narrowed refile of W013113",
+  "summary": "Narrowed refile of W013113-072526, submitted the same day that request was denied in full. Item 1 asks for the Department's Flock network-audit entries for January 1 – June 30, 2024 attributable to Costa Mesa PD credentials — in particular the user recorded as \"R. Jos\" — limited to six fields: searching organization, searching user name, date and time, search type, number of networks searched, and number of devices searched.\n\nThe request expressly excludes the stated reason, the offense type or category, any case number, and the search time frame or look-back window — the fields the W013113 denial had identified as the basis for withholding (\"the category of criminal offense under investigation and the time frame of the search\").\n\nDenied in full on 2026-08-04. The response letter reuses the W013113 language verbatim, including the sentence describing each entry as documenting \"the category of criminal offense under investigation and the time frame of the search,\" and adds two grounds not in the W013113 letter: Gov. Code § 7927.705 with Civ. Code § 1798.90.55(b), and the assertion that \"the Flock Platform does not display the names of officers from external agencies on our portal.\"",
+  "tags": [
+    "audit-compliance",
+    "external-sharing",
+    "pra-process"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.525(b)",
+      "quote": "Any reasonably segregable portion of a record shall be available for inspection ... after deletion of the portions that are exempt by law",
+      "tests": "Whether a request that pre-segregates its own scope — excluding by name every field the prior denial relied on — can still be denied in its entirety on that same rationale."
+    },
+    {
+      "policy": "Gov. Code § 7923.600",
+      "quote": "records of investigations conducted by, or investigatory files compiled by, any state or local police agency",
+      "tests": "Whether searching-agency name, user name, timestamp, search type, and network/device counts — with reason, offense type, case number, and look-back window removed — remain investigatory records."
+    },
+    {
+      "policy": "Civ. Code § 1798.90.55(b)",
+      "quote": "prohibits a public agency from selling, sharing, or transferring ALPR information, except to another public agency",
+      "tests": "Whether a statute restricting transfer of ALPR information reaches audit metadata about who searched, given that SMPD publishes its own search audit on the same platform's transparency portal."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013113-072526",
+      "relation": "scope-narrowing",
+      "note": "Parent request, denied in full 2026-07-29. This refile drops every field the denial cited and asks for the remainder."
+    },
+    {
+      "ref": "W012541-041426",
+      "relation": "context",
+      "note": "The rolling monthly production of SMPD's own Flock search-audit exports, cited in the request body and again in the denial letter as the alternative on offer."
+    }
+  ],
+  "filed_because": "Tests whether the § 7923.600 denial in W013113 was field-specific or categorical. The narrowed request removes the reason, offense type, case number, and time frame by name, leaving only who searched and when, so a second denial on the same rationale shows the exemption is being applied to the existence of external search activity rather than to its investigative content.",
+  "status_override": "closed",
+  "notes": "Denied in full 2026-08-04 (Juliana Santiago transmittal + response letter following City Attorney legal review): Gov. Code §§ 7923.600, 7922.000, Evid. Code § 1040, Civ. Code § 1798.90.55, and Gov. Code § 7927.705.\n\nThe letter's stated rationale is unchanged from W013113 despite the narrowing — it still describes each entry as documenting \"the category of criminal offense under investigation and the time frame of the search,\" both of which this request excluded. No segregability analysis was offered for the six fields actually requested.\n\nTwo new assertions appear here that were not in the W013113 letter: the § 7927.705 / Civ. Code § 1798.90.55(b) ground, and the claim that the Flock platform does not display external-agency officer names on SMPD's portal, with a referral to the originating agency."
+}

@@ -483,6 +483,15 @@
       "notes": "Hamilton OH daily (Cox Media Ohio, Dayton Daily News group); Flock explainer coverage. Bing discovery."
     },
     {
+      "domain": "kbtx.com",
+      "tier": 2,
+      "name": "KBTX-TV (Bryan/College Station TX)",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "feed_url": "https://www.kbtx.com/arc/outboundfeeds/rss/?outputType=xml",
+      "notes": "Gray Media CBS affiliate; covers Bastrop TX council Flock votes."
+    },
+    {
       "domain": "kcrg.com",
       "tier": 2,
       "name": "kcrg.com",
@@ -675,6 +684,15 @@
       "stance": "unknown",
       "last_reviewed": "2026-05-08",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "losgatan.com",
+      "tier": 2,
+      "name": "The Los Gatan",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "feed_url": "https://losgatan.com/feed/",
+      "notes": "Los Gatos CA independent local weekly; covers LGMSPD awards/ALPR."
     },
     {
       "domain": "madison.com",
@@ -922,6 +940,14 @@
       "notes": ""
     },
     {
+      "domain": "prospect.org",
+      "tier": 2,
+      "name": "The American Prospect",
+      "stance": "critical",
+      "last_reviewed": "2026-09-11",
+      "notes": "National policy magazine; surveillance/AI-procurement reporting. Feed at /api/rss/all.rss rate-limits (429) on probe, so not registered for discovery polling."
+    },
+    {
       "domain": "redrocknews.com",
       "tier": 2,
       "name": "redrocknews.com",
@@ -952,6 +978,15 @@
       "stance": "unknown",
       "last_reviewed": "2026-05-08",
       "notes": "auto-added from termination_ledger import; review tier/stance"
+    },
+    {
+      "domain": "ringmast4r.substack.com",
+      "tier": 2,
+      "name": "ringmast4r (Substack)",
+      "stance": "critical",
+      "last_reviewed": "2026-09-14",
+      "feed_url": "https://ringmast4r.substack.com/feed",
+      "notes": "Single-author security-research newsletter doing original fusion-center/Flock stack analysis. Scoped to THIS newsletter's host on purpose \u2014 do NOT add apex 'substack.com', which would allowlist every Substack (domain_matches strips subdomains to the apex). Tier 2 not 3: the file has no tier-3 entries and PHASE2_ELIGIBLE_TIERS={1,2}, so tier 3 would silently block enrichment."
     },
     {
       "domain": "rwcpulse.com",
@@ -1028,6 +1063,15 @@
       "last_reviewed": "2026-05-29",
       "feed_url": "https://www.sfgate.com/rss/feed/bay-area-news-429.php",
       "notes": "Hearst Bay Area digital outlet (sister to sfchronicle.com); Bay Area News section feed."
+    },
+    {
+      "domain": "sfist.com",
+      "tier": 2,
+      "name": "SFist",
+      "stance": "critical",
+      "last_reviewed": "2026-09-14",
+      "feed_url": "https://sfist.com/feed/",
+      "notes": "SF local news blog; ongoing Flock/SFPD ALPR coverage."
     },
     {
       "domain": "sfstandard.com",
@@ -1651,6 +1695,30 @@
       "stance": "unknown",
       "last_reviewed": "2026-07-03",
       "notes": "University site; campus PD ALPR policy pages (primary source, like other allow-listed agency sites)."
+    },
+    {
+      "domain": "forbes.com",
+      "tier": 2,
+      "name": "Forbes",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "notes": "Surfaced hit is a /sites/thomasbrewster/ staff security-desk piece on Flock's CEO. forbes.com/sites also hosts the unvetted contributor network, so tier 2 rather than 1 \u2014 check the byline before treating a Forbes item as staff reporting."
+    },
+    {
+      "domain": "oklahoman.com",
+      "tier": 1,
+      "name": "The Oklahoman",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "notes": "Oklahoma City daily (Gannett); allow-listed for original OKC-area ALPR coverage. The surfaced hit was under /press-release/, which is syndicated wire/vendor PR rather than staff reporting \u2014 reject that path at curation (same pattern as other Gannett dailies here)."
+    },
+    {
+      "domain": "seattleweekly.com",
+      "tier": 2,
+      "name": "Seattle Weekly",
+      "stance": "neutral",
+      "last_reviewed": "2026-09-11",
+      "notes": "Sound Publishing alt-weekly (sibling of heraldnet.com); runs sponsored content alongside local-government news shared across Sound Publishing papers, so an item may be a mirror of a sibling paper's original (surfaced hit: Renton council Flock vote). Do not add the sibling domains for the same story \u2014 same multiplication problem as the Embarcadero network."
     }
   ]
 }

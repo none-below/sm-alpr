@@ -1,0 +1,138 @@
+{
+  "url": "https://www.sfgate.com/bayarea/article/sf-s-speed-cameras-now-issuing-real-tickets-20798597.php",
+  "source_domain": "sfgate.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "How to avoid San Francisco's new automatic speeding tickets",
+  "byline": "Madilynne Medina",
+  "published_at": "2025-08-05T11:00:00Z",
+  "fetched_at": "2026-09-14T07:17:49Z",
+  "discovered_by": "manual:user-supplied",
+  "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+  "scanner_score": 1,
+  "content_hash": "5e3485332d59df14de7a7f14a6b5d71ae076c1e9ecb082c99de21cf49d893e47",
+  "paths": {
+    "html": "assets/articles/sfgate.com/bayarea-article-sf-s-speed-cameras-now-issuing-real-tickets-20798597-php_6ab37edf.html",
+    "meta": "assets/articles/sfgate.com/bayarea-article-sf-s-speed-cameras-now-issuing-real-tickets-20798597-php_6ab37edf.meta.json",
+    "pdf": "assets/articles/sfgate.com/bayarea-article-sf-s-speed-cameras-now-issuing-real-tickets-20798597-php_6ab37edf.pdf",
+    "txt": "assets/articles/sfgate.com/bayarea-article-sf-s-speed-cameras-now-issuing-real-tickets-20798597-php_6ab37edf.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "save-failed",
+  "pdf_status": "rendered",
+  "tags": [],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "26d65c25-0c20-5c9f-9d9e-a4393b6591a8",
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+    "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+    "847ce8af-3e88-59ca-90f3-d621db6f31f6",
+    "f161dfe5-f0ce-5e01-96c4-43698a27fc0a",
+    "3ce8db75-5280-5b6f-b105-23acb4c676ec",
+    "0f00be83-72aa-50be-95be-8973e9641cfd"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 20.15,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "26d65c25-0c20-5c9f-9d9e-a4393b6591a8",
+      "display_name": "Fulton IL PD",
+      "state": "IL",
+      "score": 4.8,
+      "matched_forms": [
+        "Fulton"
+      ]
+    },
+    {
+      "agency_id": "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+      "display_name": "CA",
+      "state": "CA",
+      "score": 4.6,
+      "matched_forms": [
+        "CA"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 3.867,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    },
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 3.767,
+      "matched_forms": [
+        "San Jose"
+      ]
+    },
+    {
+      "agency_id": "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+      "display_name": "Milwaukee WI PD",
+      "state": "WI",
+      "score": 2.65,
+      "matched_forms": [
+        "Milwaukee"
+      ]
+    },
+    {
+      "agency_id": "847ce8af-3e88-59ca-90f3-d621db6f31f6",
+      "display_name": "San Mateo CA PD",
+      "state": "CA",
+      "score": 2.65,
+      "matched_forms": [
+        "San Mateo"
+      ]
+    },
+    {
+      "agency_id": "f161dfe5-f0ce-5e01-96c4-43698a27fc0a",
+      "display_name": "San Mateo CA PD is not sharing data with any partner networks. Policy & Trust",
+      "state": "CA",
+      "score": 2.65,
+      "matched_forms": [
+        "San Mateo"
+      ]
+    },
+    {
+      "agency_id": "3ce8db75-5280-5b6f-b105-23acb4c676ec",
+      "display_name": "University of Wisconsin - Milwaukee WI PD",
+      "state": "WI",
+      "score": 2.65,
+      "matched_forms": [
+        "Milwaukee"
+      ]
+    },
+    {
+      "agency_id": "0f00be83-72aa-50be-95be-8973e9641cfd",
+      "display_name": "Glendale CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Glendale"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": null,
+  "key_quotes": [],
+  "curation_status": "off_topic",
+  "curated_at": "2026-09-14T08:34:16Z",
+  "article_id": "art_6ab37edf99a7",
+  "curation_error": "off_topic: Article is about SFMTA automated speed enforcement cameras, not ALPR/police surveillance cameras (only a brief passing mention of SFPD ALPRs)."
+}

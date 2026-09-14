@@ -120,6 +120,31 @@
     return norm(t);
   }
 
+  // Join a page's text items in reading order (top-to-bottom, then left-to-right),
+  // not content-stream order. Acrobat re-serializes an edited page with its text runs
+  // regrouped (e.g. a whole column in one run), so stream order interleaves cells from
+  // different rows — the row splitter then sees one row's UUID followed by every
+  // reason on the page. Mirrors scripts/pdf_audit_revisions.py's get_text(sort=True).
+  function sortedPageText(items) {
+    var its = [];
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      if (typeof it.str !== "string" || it.str.trim() === "") continue;
+      var tr = it.transform;
+      its.push({ str: it.str, x: tr ? tr[4] : 0, y: tr ? tr[5] : -1e9 });
+    }
+    its.sort(function (a, b) { return (b.y - a.y) || (a.x - b.x); });
+    var lines = [], lineY = null;
+    for (var j = 0; j < its.length; j++) {
+      if (lineY === null || Math.abs(its[j].y - lineY) > 2) { lines.push([]); lineY = its[j].y; }
+      lines[lines.length - 1].push(its[j]);
+    }
+    return lines.map(function (line) {
+      line.sort(function (a, b) { return a.x - b.x; });
+      return line.map(function (t) { return t.str; }).join(" ");
+    }).join(" ");
+  }
+
   function rowsOf(text) {
     var ms = [], m;
     UUIDg.lastIndex = 0;
@@ -194,8 +219,7 @@
     for (var p = 1; p <= doc.numPages; p++) {
       var page = await doc.getPage(p);
       var tc = await page.getTextContent();
-      var ptext = "";
-      for (var k = 0; k < tc.items.length; k++) if (typeof tc.items[k].str === "string") ptext += tc.items[k].str + " ";
+      var ptext = sortedPageText(tc.items);
       pre.lastIndex = 0;
       var mm;
       while ((mm = pre.exec(ptext)) !== null) { var pid = mm[0].toLowerCase(); if (!(pid in pageOf)) pageOf[pid] = p; }
