@@ -64,14 +64,42 @@ from lib import (
 
 DEFAULT_DATA_DIR = Path("assets/transparency.flocksafety.com")
 HASH_FILE = ".content_hashes.json"
-# Every crawl attempt, successful or not, stamps its date here. A 403 or a
-# parse_error writes nothing to the slug dir (archive_agency stages and only
-# commits on full success), so without this log a slug that fails is
-# indistinguishable from one never tried: it keeps its old .txt date, stays at
-# the head of the stalest-first queue, and gets re-picked every run while the
-# other ~250 agencies never get a turn. Recording the attempt separately keeps
-# the capture corpus pure (no fake .txt) while letting the rotation advance.
+# Every crawl attempt that actually reached the portal, successful or not,
+# stamps its date here. A parse_error writes nothing to the slug dir
+# (archive_agency stages and only commits on full success), so without this log
+# a slug that fails is indistinguishable from one never tried: it keeps its old
+# .txt date, stays at the head of the stalest-first queue, and gets re-picked
+# every run while the other ~250 agencies never get a turn. Recording the
+# attempt separately keeps the capture corpus pure (no fake .txt) while letting
+# the rotation advance.
+#
+# A rate-limit abort is NOT such an attempt — see RATE_LIMIT_BURN_FILE.
 ATTEMPT_FILE = ".attempts.json"
+
+# Consecutive rate-limit aborts per slug.
+#
+# A 403 means the run's per-IP budget was spent before this slug's turn; the
+# portal was never reached, so the slug has no more been "attempted" than the
+# untouched remainder of the batch. Stamping ATTEMPT_FILE for it anyway (which
+# is what we used to do) charges the slug for someone else's request: its
+# ordering key jumps to today, it sorts to the BACK of the stalest-first queue,
+# and it waits a full rotation — ~10 days at the observed 1-3 captures/run —
+# before another chance. Lose that lottery a few times running and the slug
+# drops out for over a month: livermore-ca-pd went 44 days and
+# amberley-village-oh-pd 40, each having been aborted at position (2/2) with
+# nothing fetched, while 8 of their 10 cohort refreshed normally.
+#
+# So a burn no longer stamps. The monopolisation the stamp guarded against is
+# still real, though — a slug that genuinely 403s every time would otherwise
+# sit at queue position #1 forever — so burns are counted instead, and the
+# stamp happens once a slug has burned RATE_LIMIT_BURN_LIMIT times in a row.
+# That bounds the damage both ways: one unlucky burn costs a single run (the
+# slug stays stalest and gets first crack next run, when the IP is freshest and
+# the warm-up retry usually clears), while a persistently unreachable slug
+# still ages out within a few runs. Any fetch that reaches the portal clears
+# the counter.
+RATE_LIMIT_BURN_FILE = ".rate_limit_burns.json"
+RATE_LIMIT_BURN_LIMIT = 3
 VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
 STALE_DAYS = 14
@@ -302,6 +330,35 @@ def record_attempt(slug, data_dir, when=None):
     attempts[slug] = (when or date.today()).isoformat()
     save_json(path, attempts)
     _ATTEMPTS_CACHE.pop(str(path), None)
+
+
+def record_rate_limit_burn(slug, data_dir):
+    """Count one rate-limit abort against `slug`.
+
+    Returns True when the slug has now burned RATE_LIMIT_BURN_LIMIT times in a
+    row, meaning the caller should stamp an attempt after all so a permanently
+    unreachable slug can't pin queue position #1. The counter resets on the
+    stamp, so an aged-out slug gets a fresh set of chances next time round.
+    """
+    path = data_dir / RATE_LIMIT_BURN_FILE
+    burns = dict(load_json(path) or {})
+    count = int(burns.get(slug, 0)) + 1
+    if count >= RATE_LIMIT_BURN_LIMIT:
+        burns.pop(slug, None)
+        save_json(path, burns)
+        return True
+    burns[slug] = count
+    save_json(path, burns)
+    return False
+
+
+def clear_rate_limit_burns(slug, data_dir):
+    """Forget a slug's burn streak — called whenever a fetch actually reached
+    the portal, since the streak is about consecutive aborts."""
+    path = data_dir / RATE_LIMIT_BURN_FILE
+    burns = dict(load_json(path) or {})
+    if burns.pop(slug, None) is not None:
+        save_json(path, burns)
 
 
 def latest_capture_attempt_date(slug, data_dir):
@@ -1566,19 +1623,34 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             # is the rate limit. Don't retry and don't move on to the next
             # slug: the cooldown is per-IP and hours long, so both would only
             # collect more 403s while burning the budget the remaining slugs
-            # would have had. Record the attempt for the slug that really was
-            # requested (so the stalest-first rotation advances past it), leave
-            # the rest untouched for the next run's fresh IP, and hand the run
-            # back to the caller. Never quarantined — a rate limit says nothing
-            # about the slug.
+            # would have had. Leave the rest untouched for the next run's fresh
+            # IP and hand the run back to the caller. Never quarantined — a
+            # rate limit says nothing about the slug.
+            #
+            # Don't stamp an attempt either: the portal was never reached, so
+            # this slug is no more "attempted" than the untouched remainder.
+            # Stamping would send it to the back of the stalest-first queue for
+            # a full rotation over a request that was never made. Leaving it
+            # unstamped keeps it stalest, so it gets first crack next run —
+            # which is when the budget is freshest and the warm-up retry
+            # usually clears. Only a slug that burns RATE_LIMIT_BURN_LIMIT
+            # times running gets stamped, so a permanently unreachable one
+            # still ages out instead of pinning position #1.
             remaining = total - i - 1
             print(f"    {RATE_LIMIT_NOTE}")
             print(f"    ending this run; {remaining} slug(s) left for the next run")
-            record_attempt(slug, data_dir)
+            if record_rate_limit_burn(slug, data_dir):
+                print(f"    {slug} has burned {RATE_LIMIT_BURN_LIMIT} runs in a "
+                      f"row on the rate limit — recording an attempt so it "
+                      f"yields its queue slot")
+                record_attempt(slug, data_dir)
             results.append((slug, None))
             save_json(data_dir / HASH_FILE, hashes)
             return results, discovered, True
 
+        # Reached the portal (saved, unchanged, parse_error or a real HTTP
+        # failure), so any burn streak is over.
+        clear_rate_limit_burns(slug, data_dir)
         record_attempt(slug, data_dir)
         results.append((slug, status))
         if discovered_slugs:

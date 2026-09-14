@@ -135,11 +135,19 @@ def test_warmup_is_once_per_session_not_once_per_batch(tmp_path, monkeypatch):
     assert rate_limited is True
 
 
-def test_rate_limited_slug_records_an_attempt(tmp_path, monkeypatch):
-    """The slug actually requested must stamp .attempts.json so the
-    stalest-first rotation advances past it — otherwise the same slug is
-    re-picked every run and the other ~250 agencies never get a turn. The
-    untouched remainder must NOT be stamped: they were never requested."""
+def test_rate_limited_slug_does_not_record_an_attempt(tmp_path, monkeypatch):
+    """A rate-limit abort must NOT stamp .attempts.json.
+
+    The portal was never reached, so the aborted slug is no more "attempted"
+    than the untouched remainder of the batch. Stamping it charges the slug for
+    a request that was never made: its ordering key jumps to today, it sorts to
+    the back of the stalest-first queue, and it waits a whole rotation. Lose
+    that a few times running and the slug drops out for a month —
+    livermore-ca-pd went 44 days that way, amberley-village-oh-pd 40.
+
+    It must stay unstamped so it keeps its place at the head of the queue and
+    gets first crack next run, when the IP is fresh.
+    """
     monkeypatch.setattr(ft, "archive_agency", lambda *a, **k: ("forbidden", []))
 
     ft.run_crawl_batch(
@@ -147,9 +155,77 @@ def test_rate_limited_slug_records_an_attempt(tmp_path, monkeypatch):
         force=False, delay=0, hashes={}, failed_slugs={},
     )
 
-    attempts = ft.load_json(tmp_path / ft.ATTEMPT_FILE)
-    assert "one-ca-pd" in attempts, attempts
+    attempts = ft.load_json(tmp_path / ft.ATTEMPT_FILE) or {}
+    assert "one-ca-pd" not in attempts, attempts
     assert "two-ca-pd" not in attempts, attempts
+
+
+def test_repeated_rate_limit_burns_eventually_yield_the_queue_slot(tmp_path, monkeypatch):
+    """The counterweight: a slug that 403s every single run would otherwise sit
+    at queue position #1 forever, since nothing ever advances its ordering key.
+    After RATE_LIMIT_BURN_LIMIT consecutive burns it gets stamped and ages out.
+    """
+    monkeypatch.setattr(ft, "archive_agency", lambda *a, **k: ("forbidden", []))
+    monkeypatch.setattr(ft.time, "sleep", lambda *_a, **_k: None)
+    common = dict(force=False, delay=0, hashes={}, failed_slugs={},
+                  session=ft.new_crawl_session())
+
+    for run in range(1, ft.RATE_LIMIT_BURN_LIMIT):
+        ft.run_crawl_batch(MagicMock(), ["stuck-ca-pd"], tmp_path, **common)
+        attempts = ft.load_json(tmp_path / ft.ATTEMPT_FILE) or {}
+        assert "stuck-ca-pd" not in attempts, (
+            f"stamped after only {run} burn(s); should hold its slot until "
+            f"{ft.RATE_LIMIT_BURN_LIMIT}"
+        )
+
+    ft.run_crawl_batch(MagicMock(), ["stuck-ca-pd"], tmp_path, **common)
+    attempts = ft.load_json(tmp_path / ft.ATTEMPT_FILE) or {}
+    assert "stuck-ca-pd" in attempts, (
+        f"still unstamped after {ft.RATE_LIMIT_BURN_LIMIT} consecutive burns — "
+        f"it would pin queue position #1 indefinitely"
+    )
+
+
+def test_a_reached_portal_clears_the_burn_streak(tmp_path, monkeypatch):
+    """The streak is about CONSECUTIVE aborts. One unlucky burn followed by a
+    normal fetch must not carry over, or a slug that 403s occasionally over
+    months would eventually be treated as permanently unreachable.
+    """
+    # One shared session so the single warm-up retry is spent on the first 403
+    # and later runs take the abort path directly — otherwise each run consumes
+    # two archive_agency calls and really sleeps through the backoff.
+    session = ft.new_crawl_session()
+    outcomes = iter(["forbidden", "forbidden", "unchanged", "forbidden", "forbidden"])
+    monkeypatch.setattr(ft, "archive_agency", lambda *a, **k: (next(outcomes), []))
+    monkeypatch.setattr(ft.time, "sleep", lambda *_a, **_k: None)
+    common = dict(force=False, delay=0, hashes={}, failed_slugs={}, session=session)
+
+    for _ in range(4):
+        ft.run_crawl_batch(MagicMock(), ["flaky-ca-pd"], tmp_path, **common)
+
+    burns = ft.load_json(tmp_path / ft.RATE_LIMIT_BURN_FILE) or {}
+    assert burns.get("flaky-ca-pd") == 2, (
+        f"expected the pre-'unchanged' burn to be forgotten, leaving 2; "
+        f"got {burns!r}"
+    )
+
+
+def test_parse_error_still_records_an_attempt(tmp_path, monkeypatch):
+    """Unchanged behaviour, and the reason the attempt log exists: a
+    parse_error DID reach the portal, so the slug really was serviced and must
+    advance the rotation. Only the rate-limit path is exempt.
+    """
+    monkeypatch.setattr(
+        ft, "archive_agency", lambda *a, **k: (("failed", "parse_error"), [])
+    )
+
+    ft.run_crawl_batch(
+        MagicMock(), ["broken-ca-pd"], tmp_path,
+        force=False, delay=0, hashes={}, failed_slugs={},
+    )
+
+    attempts = ft.load_json(tmp_path / ft.ATTEMPT_FILE) or {}
+    assert "broken-ca-pd" in attempts, attempts
 
 
 def test_variation_probe_does_not_read_a_403_as_a_working_slug(tmp_path, monkeypatch):
