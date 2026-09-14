@@ -287,6 +287,18 @@ def test_parse_org_names_drops_policy_disclaimer():
     ]
 
 
+def test_parse_org_names_drops_shares_access_summary_no_period():
+    """johnson-city-tn-pd 2026-09-12 appends a trailing summary sentence
+    after its 150 real partner agencies with no terminal period, so it
+    slips past _looks_like_disclaimer's period gate and got minted as a
+    151st fake recipient with no coordinates."""
+    assert _parse_org_names(
+        "Alcoa TN PD\nAlgood TN PD\nWoodbury TN PD\n"
+        "JCPD shares access to LPR data with law enforcement agencies "
+        "within the State of Tennessee"
+    ) == ["Alcoa TN PD", "Algood TN PD", "Woodbury TN PD"]
+
+
 def test_extract_bold_headings_matches_2026_layout():
     """The 2026 layout uses font-weight:600 for field headings (was
     700) and h3 + text-transform:uppercase for section dividers."""

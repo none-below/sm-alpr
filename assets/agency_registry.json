@@ -7804,24 +7804,6 @@
     ]
   },
   {
-    "agency_id": "cb0994e8-f52f-5169-b53f-e5bc15f736ff",
-    "slug": "jcpd-shares-access-to-lpr-data-with-law-enforcement-agencies-within-the-state-of-tennessee",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "JCPD shares access to LPR data with law enforcement agencies within the State of Tennessee"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": null
-  },
-  {
     "agency_id": "6ee3af43-16b9-5dfe-8c49-3f740bdec050",
     "slug": "tazewell-tn-pd",
     "flock_active_slug": null,
@@ -7981,7 +7963,7 @@
     "flock_names": [
       "Sturthers OH PD"
     ],
-    "display_name": null,
+    "display_name": "Struthers OH PD",
     "agency_role": "police",
     "agency_type": "city",
     "website": null,
@@ -7990,8 +7972,12 @@
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "OH"
+      "kind": "place",
+      "fips": "3975126",
+      "name": "Struthers",
+      "state": "OH",
+      "lat": 41.051218,
+      "lng": -80.592724
     }
   },
   {
