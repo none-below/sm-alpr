@@ -21,6 +21,13 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "legal:legislation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -134,10 +141,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:47:13Z",
+  "primary_subject_agency_ids": [
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84"
+  ],
+  "summary": "Menlo Park PD revoked all existing ALPR data-sharing agreements on July 9 after a June audit found NCRIC and previously two out-of-state departments had conducted searches violating city policy and California law. The department now requires outside agencies to sign city-specific agreements with periodic audits; only five agencies have re-signed so far, down from 242. The story situates the changes amid broader Peninsula scrutiny of Flock cameras.",
+  "key_quotes": [
+    {
+      "quote": "The department revoked all existing data-sharing agreements on July 9 and is requiring outside agencies seeking renewed access to Menlo Park\u2019s automated license plate reader (ALPR) data to sign new agreements and commit to periodic audits.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "About 0.33%, or roughly 700 searches, did not comply with department policy based on the stated reason for the search.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "California law prohibits local police departments from sharing ALPR data with federal or out-of-state law enforcement agencies.",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "The department previously shared its ALPR data with 242 California agencies.",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:40:17Z",
   "article_id": "art_f4b8b9d5f90e"
 }

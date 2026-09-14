@@ -22,6 +22,14 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "legal:legislation",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:state",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +138,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:07Z",
+  "primary_subject_agency_ids": [
+    "9eb7354b-b6ff-590b-b3bb-f097e0b30033",
+    "eca5a0e5-4ab4-5868-a688-c03da1dff9b1"
+  ],
+  "summary": "CalMatters/KQED reports on SB 1013, Sen. Sabrina Cervantes' renewed bill to restrict California police use of automated license plate readers by limiting data retention to 30 days, restricting sharing with federal and out-of-state agencies, and adding audit and training requirements. Police unions and 39 agencies oppose the bill, citing investigative successes in Tustin and Berkeley, while Gov. Newsom vetoed a similar bill last year. A Kentucky Republican congressman also plans federal legislation to withhold funds from municipalities using Flock cameras.",
+  "key_quotes": [
+    {
+      "quote": "Police and sheriffs' departments would be prohibited from entering into contracts with camera companies that provide default access to plate databases that federal and out-of-state police can search.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "California officers have repeatedly violated an 11-year-old state law that prohibits sharing the data with federal authorities and others outside the state.",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "I'll soon be sponsoring a bill to withhold federal money from municipalities and police departments that deploy Flock (and other style) cameras to surveil law-abiding citizens",
+      "paragraph_idx": 30
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:39:34Z",
   "article_id": "art_da354dfd8985"
 }

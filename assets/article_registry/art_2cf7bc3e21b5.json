@@ -21,6 +21,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock",
     "vendor:vigilant"
   ],
@@ -129,10 +135,28 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:47:08Z",
+  "primary_subject_agency_ids": [
+    "6d11ec03-586d-570a-b110-56f9e37261ff",
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84",
+    "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed",
+    "f94b9663-269f-51eb-b204-b6d4c8cee4de"
+  ],
+  "summary": "The San Mateo County Civil Grand Jury released a report calling for stricter oversight of ALPR use by the county's 18 law enforcement agencies, finding deficient policy documents, inconsistent audit procedures, and improper in-state data sharing (including with private university security). The report requires responses from the sheriff and city councils, and references incidents where Menlo Park and Atherton allowed out-of-state access, and Redwood City facing pressure over its Flock contract.",
+  "key_quotes": [
+    {
+      "quote": "Most operators did not document criteria, process, or controls governing in-state sharing in a manner sufficient to demonstrate compliance with law",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "all but one of the 18 law enforcement agencies shared data with private university security departments without establishing whether that entity qualified as a public agency",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "Police departments from Menlo Park and Atherton are among those that accidentally let out-of-state agencies tap into their Flock license plate reader systems, while Redwood City is under pressure to drop Flock as its vendor",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:32:17Z",
   "article_id": "art_2cf7bc3e21b5"
 }

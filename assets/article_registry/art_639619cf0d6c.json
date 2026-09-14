@@ -22,6 +22,13 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "incident:ice-cooperation",
+    "outcome:reconsidering",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +137,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:35:25Z",
+  "primary_subject_agency_ids": [
+    "f94b9663-269f-51eb-b204-b6d4c8cee4de"
+  ],
+  "summary": "Redwood City residents urged the City Council at a Monday meeting not to renew its Flock Safety ALPR contract, citing privacy risks and concerns about data sharing with federal immigration agencies. Mayor Elmer Mart\u00ednez Saballos said the city is reviewing the program, with a Police Advisory Committee update scheduled for Aug. 12 ahead of the September renewal decision.",
+  "key_quotes": [
+    {
+      "quote": "Automated License Plate Readers have become one of the most pervasive surveillance tools used by federal agencies to surveil and ultimately detain the most vulnerable members of our communities",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "some California agencies \"had their camera networks inadvertently accessible to out-of-state law enforcement agencies for a period of time,\"",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "The city's contract with Flock Safety is slated to renew in September, but would go toward the City Council one way or another for final approval",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:33:56Z",
   "article_id": "art_639619cf0d6c"
 }

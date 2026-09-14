@@ -21,6 +21,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +134,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:47:03Z",
+  "primary_subject_agency_ids": [
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84"
+  ],
+  "summary": "The Menlo Park City Council voted 3-2 to move forward with developing a 2-year pilot program to install up to 35 Flock ALPR cameras, reversing a prior decision to decline the technology. Council members debated privacy, cost, efficacy, and data retention (30 days vs. six months), and asked staff to return with a proposed retention ordinance and camera locations.",
+  "key_quotes": [
+    {
+      "quote": "In a 3-2 vote, the Menlo Park City Council opted to move forward to develop a 2-year pilot program for automatic license plate readers throughout the city, after previously declining to consider the readers during a similar meeting last year due to privacy and efficacy concerns.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Norris said that the data will be stored by Flock for 30 days, and then by the Northern California Regional Intelligence Center for six months.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "I just do not feel comfortable being part of the surveillance state",
+      "paragraph_idx": 20
+    },
+    {
+      "quote": "The Menlo Park Police Department is seeking a sole-source procurement for the Flock ALPR technology.",
+      "paragraph_idx": 22
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:36:42Z",
   "article_id": "art_a722f8b64b39"
 }

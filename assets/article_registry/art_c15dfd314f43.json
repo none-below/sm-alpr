@@ -21,7 +21,11 @@
   "wayback_timestamp": null,
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
-  "tags": [],
+  "tags": [
+    "genre:explainer",
+    "policy:retention",
+    "scope:local"
+  ],
   "agencies": [
     "14b510e3-7bde-5474-8249-6ef49a16cfc5",
     "1b106ca6-6fdd-51e8-a479-6408673c0e53",
@@ -118,10 +122,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:00Z",
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "San Francisco has installed the first 100 of a planned 400 ALPR cameras, funded by a $17M state grant to combat organized retail theft and other crimes, with all cameras expected by July 2024. City officials cite early arrests, while EFF and other privacy advocates warn the network amounts to dragnet surveillance.",
+  "key_quotes": [
+    {
+      "quote": "ALPRs are a form of dragnet surveillance",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "funded by a $17 million state grant intended to help crack down on organized retail theft",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:37:48Z",
   "article_id": "art_c15dfd314f43"
 }

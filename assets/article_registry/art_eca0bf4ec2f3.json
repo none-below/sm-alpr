@@ -22,6 +22,11 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -119,10 +124,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:40Z",
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "SFPD disabled NCRIC and Western States Information Network access to its Flock ALPR network after a routine audit found 299 improper queries over about a year on behalf of out-of-state and federal agencies. Police said no ICE or DHS queries and no immigration or reproductive-rights inquiries were identified, and that no outside agencies had direct access to the system.",
+  "key_quotes": [
+    {
+      "quote": "San Francisco police say they have disabled access to its network of Flock Automated License Plate Reader cameras after it was \"improperly queried\" for out-of-state and federal agencies.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "There were 299 improper inquiries over approximately one year, which account for 0.005% of inquiries over that period",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "Upon discovering the improper searches, Chief Derrick Lew immediately turned off NCRIC's access to SFPD's ALPR system and initiated an internal review",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:39:51Z",
   "article_id": "art_eca0bf4ec2f3"
 }

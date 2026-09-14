@@ -21,6 +21,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "policy:audit",
+    "policy:retention",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +133,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:46:39Z",
+  "primary_subject_agency_ids": [
+    "e29c469f-b2b6-515e-8d3c-93b3075ad896"
+  ],
+  "summary": "The Woodside Town Council voted 5-0 to sign a $61,100 agreement with Flock Safety to install 20 automated license plate readers around town, citing recent burglaries. Residents were split on the decision, and the council adopted a 30-day data retention limit and quarterly reporting requirements after input from privacy advocates.",
+  "key_quotes": [
+    {
+      "quote": "The Town Council voted 5-0, with Sean Scott absent, to sign an agreement with Flock Safety for $61,100 on Tuesday, July 26.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "I reluctantly support (this) with the caveat that we continue to negotiate an agreement with Flock and finalize our privacy policy",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "The privacy invasiveness comes from the accumulation of data. An easy way to mitigate that concern is to have a shorter retention period",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:31:07Z",
   "article_id": "art_0d7471b846dd"
 }

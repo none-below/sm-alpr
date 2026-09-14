@@ -22,6 +22,11 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "policy:sharing",
+    "scope:national",
     "vendor:vigilant"
   ],
   "agencies": [
@@ -132,9 +137,22 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:51Z",
+  "summary": "The ACLU sued ICE in the Northern District of California to compel release of records about the agency's December purchase of access to two ALPR databases, including one run by Vigilant Solutions used by many Bay Area law enforcement agencies. The suit follows ICE's failure to respond to FOIA requests seeking contracts, training materials, and audit logs, amid concern that local ALPR data could be funneled into civil immigration enforcement.",
+  "key_quotes": [
+    {
+      "quote": "In December, ICE purchased access to two databases of automated license-plate reader data, the complaint states. One of those databases is managed by Vigilant Solutions, which has contracts with more than two dozen Bay Area law enforcement agencies.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "There may be departments who didn't realize at the time that this might be shared for civil immigration enforcement, who may have never intended to get in bed with ICE and now may have found themselves unknowingly in this situation",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "ICE is not seeking to build a license plate reader database and will not collect nor contribute any data to a national public or private database.",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:35:15Z",
   "article_id": "art_797987be504a"
 }

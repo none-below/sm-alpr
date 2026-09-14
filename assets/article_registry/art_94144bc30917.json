@@ -21,6 +21,13 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:pra",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -139,10 +146,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:46:54Z",
+  "primary_subject_agency_ids": [
+    "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed"
+  ],
+  "summary": "An investigation by Redwood City Pulse finds that Atherton's Flock ALPR network, with roughly 50 cameras, has been searched millions of times by 295 outside agencies since January 2025, including hundreds of searches citing ICE, HSI, CBP or other federal purposes. Atherton is not enforcing its own policy requiring commander approval of each request and a stated purpose, and a police commander said the policy is 'no longer feasible' given network-scale sharing.",
+  "key_quotes": [
+    {
+      "quote": "From Jan. 1 to July 15, 2025, outside agencies searched Atherton's ALPR database over 2.9 million times.",
+      "paragraph_idx": 22
+    },
+    {
+      "quote": "Given the volume of searches that occur across the network, it is no longer feasible to manually approve each one, and we are in the process of updating our policy accordingly",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "In February, the Bakersfield Police Department searched Atherton's and 758 other law enforcement agencies' Flock ALPR systems 18 times with the reason of 'HSI.'",
+      "paragraph_idx": 26
+    },
+    {
+      "quote": "Between Jan. 1 and July 15, 2025, Atherton's ALPR network was searched 832 times for reasons that included HSI, ICE or CBP.",
+      "paragraph_idx": 31
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:36:08Z",
   "article_id": "art_94144bc30917"
 }

@@ -21,6 +21,8 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +131,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:47:06Z",
+  "primary_subject_agency_ids": [
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84"
+  ],
+  "summary": "The Menlo Park City Council voted 3-1 on Oct. 8, 2024 to authorize an agreement with Flock Safety to install 35 fixed automated license plate readers for at least two years, at first-year cost of $133,000. Residents from Sharon Heights urged expansion citing burglaries, while dissenting council member Betsy Nash and one resident raised privacy and Fourth Amendment concerns.",
+  "key_quotes": [
+    {
+      "quote": "In a 3-1 vote Tuesday night, Oct. 8, the City Council authorized executing an agreement for Flock to provide and operate 35 fixed ALPR cameras in Menlo Park for at least two years.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "We still have not seen data that ALPRs reduce residential burglaries or crime in general",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "Because Flock data records place and time, movement may be deduced, which constitutes a search, which then requires a warrant",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:40:32Z",
   "article_id": "art_f7a071e84045"
 }

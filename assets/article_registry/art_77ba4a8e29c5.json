@@ -22,6 +22,11 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -110,10 +115,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:38Z",
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd"
+  ],
+  "summary": "After an SFPD audit found its Flock ALPR system was improperly queried hundreds of times on behalf of out-of-state and federal agencies via NCRIC and the Western States Information Network, SFPD disabled NCRIC and WSIN access. Flock Safety and SFPD emphasized that no federal agencies directly accessed the system and that the queries did not involve ICE, DHS, immigration, or reproductive-rights investigations.",
+  "key_quotes": [
+    {
+      "quote": "Upon discovering the improper searches, Chief Derrick Lew immediately turned off NCRIC's access to SFPD's ALPR system and initiated an internal review",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "It involved searches conducted by authorized users at a California state agency that were later determined to be inconsistent with California's ALPR data-sharing requirements.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "NCRIC and WSIN's access to SFPD ALPR network currently remains disabled",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:35:07Z",
   "article_id": "art_77ba4a8e29c5"
 }

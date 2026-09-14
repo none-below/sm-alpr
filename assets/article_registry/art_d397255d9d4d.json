@@ -22,6 +22,13 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "outcome:terminated",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +137,29 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:35:41Z",
+  "primary_subject_agency_ids": [
+    "f94b9663-269f-51eb-b204-b6d4c8cee4de"
+  ],
+  "summary": "Redwood City Police Chief Kristina Bell told the Police Advisory Committee the department will let its Flock Safety ALPR contract expire in November and is soliciting proposals from a different vendor. An audit covering April 2023 to May 2026 found out-of-state and federal agencies had access to Redwood City data due to Flock's misclassification of agencies, including Flock itself running demo searches and a federal VA office accessing data; access is now restricted to nine Bay Area counties, and any future contract will require city data ownership, no ICE ties, no AI, and full audit rights.",
+  "key_quotes": [
+    {
+      "quote": "Bell and the Redwood City Police Department have decided to let their contract with Flock expire in November and are drafting a new request for proposals from a different company.",
+      "paragraph_idx": 2
+    },
+    {
+      "quote": "A comprehensive audit from April 2023 to May 2026 found that there were various out-of-state and federal departments that had access to Redwood City's data. That access was all credited to mishandling by the vendor, Flock.",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "Flock itself conducted searches that included Redwood City data for demonstration purposes without the city's permission.",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "Vendors must also disclose any relationships with Immigration and Customs Enforcement or other border patrol agencies. The vendor cannot allow for artificial intelligence or secondary uses of the technology and its data.",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:39:06Z",
   "article_id": "art_d397255d9d4d"
 }

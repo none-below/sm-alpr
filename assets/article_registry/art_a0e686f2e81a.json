@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "incident:ice-cooperation",
+    "outcome:renewed",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -131,10 +137,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:32Z",
+  "primary_subject_agency_ids": [
+    "6607f630-2279-5b12-b723-b94b16c81122"
+  ],
+  "summary": "The Richmond (CA) City Council voted 4-3 to extend its Flock Safety ALPR contract through the end of 2026 while staff explores alternative vendors and adds stronger guardrails against data-sharing with outside agencies. The cameras have been disabled since October, when RPD discovered federal agencies had access to data via Flock's 'National Lookup' feature.",
+  "key_quotes": [
+    {
+      "quote": "the Richmond Police Department discovered that federal agencies had access to the data collected through a back-end \"National Lookup\" feature enabled by Flock Safety.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "the council voted 4-3 in favor of extending the contract, with instructions to the city staff to bake in stronger guardrails to prevent any data sharing with outside agencies.",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "We cannot be trusting a company that tricked you and was not upfront",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:36:32Z",
   "article_id": "art_a0e686f2e81a"
 }

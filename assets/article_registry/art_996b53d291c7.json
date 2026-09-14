@@ -21,6 +21,9 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "outcome:reconsidering",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +133,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:46:50Z",
+  "primary_subject_agency_ids": [
+    "7212d59b-b991-5f9a-b1ac-b4c926d74d84"
+  ],
+  "summary": "After a spate of burglaries in Menlo Park's Sharon Heights neighborhood, residents urged the City Council to reconsider adopting Flock Safety ALPR cameras, which the council had previously held off on in September citing privacy and cost concerns. Council member Doerr and Police Chief Norris said ALPR remains under consideration and will return to the council, noting neighboring Atherton, Woodside, and Portola Valley already use Flock.",
+  "key_quotes": [
+    {
+      "quote": "In September, the Menlo Park council studied tech company Flock Safety's ALPR system with gunshot-detection capability but held off moving in that direction, citing privacy, cost and other issues.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "We are looking to get into Flock ALPR cameras because they are an effective crime-solving tool and crime-prevention tool.",
+      "paragraph_idx": 22
+    },
+    {
+      "quote": "ALPR remains on the table, she added. The council has not taken any formal decision against the system, she said. \"The conversation is ongoing.\"",
+      "paragraph_idx": 20
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:36:17Z",
   "article_id": "art_996b53d291c7"
 }

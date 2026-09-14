@@ -21,7 +21,12 @@
   "wayback_timestamp": null,
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
-  "tags": [],
+  "tags": [
+    "genre:investigative",
+    "legal:court-ruling",
+    "legal:legislation",
+    "scope:state"
+  ],
   "agencies": [
     "1b106ca6-6fdd-51e8-a479-6408673c0e53",
     "14b510e3-7bde-5474-8249-6ef49a16cfc5",
@@ -127,9 +132,26 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:53Z",
+  "summary": "A class-action lawsuit against Fort Worth-based Digital Recognition Network (DRN) alleges the company's commercial ALPR operations violate a 2016 California privacy law, with trial scheduled for May 2024 in San Diego County Superior Court. The class could include roughly 23 million Californians whose plates were scanned at least 15 times since June 2017; DRN denies wrongdoing.",
+  "key_quotes": [
+    {
+      "quote": "The 2021 lawsuit, given class-action status in September, alleges that Digital Recognition Network is breaking a California law meant to regulate the use of automatic license plate readers.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "if you're a California resident whose license plate data was collected by DRN at least 15 times since June 2017, you're a class member.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "his team will try to show the jury that DRN's business is a \"mass surveillance program.\"",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "The company's cameras scan 220 million plates a month",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:33:00Z",
   "article_id": "art_4a83524aaa6c"
 }

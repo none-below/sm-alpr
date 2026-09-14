@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "legal:court-ruling",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -99,10 +105,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:31:33Z",
+  "primary_subject_agency_ids": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "summary": "Three San Jos\u00e9 residents, represented by the Institute for Justice, filed a federal class-action lawsuit alleging the city's nearly 500 Flock Safety ALPR cameras constitute unconstitutional mass surveillance under the Fourth Amendment. The suit seeks to require deletion of most captured data within 24 hours, following an earlier state-level suit and recent city council restrictions on camera placement, retention, and data sharing.",
+  "key_quotes": [
+    {
+      "quote": "San Jos\u00e9 is operating nearly 500 license plate reader cameras connected with AI technology around the city to essentially spy on everyday people going about their business",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "No officer ever has to establish probable cause, swear to the facts in a warrant application, or await the approval of a judge",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "In March, San Jos\u00e9's city council put restrictions on where the city can position cameras, including near reproductive health care facilities and places of worship; reduced the default data retention period from one year to 30 days; and added new documentation and authentication requirements for agencies requesting sharing access.",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:34:57Z",
   "article_id": "art_7716e80858b8"
 }

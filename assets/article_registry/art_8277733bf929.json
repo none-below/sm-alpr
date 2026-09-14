@@ -21,6 +21,8 @@
   "wayback_source": "save-failed",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:explainer",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +131,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:46:43Z",
+  "primary_subject_agency_ids": [
+    "c136ebf4-e85a-59dc-bd1b-ae2ebf5a54ed"
+  ],
+  "summary": "Atherton police held their annual community crime meeting reporting 17 burglaries so far in 2023, down from 45 in 2021, and credited the town's 47 Flock Safety ALPR cameras (26 resident-funded) and a new Paladin Nighthawk drone for helping deter and solve crimes. Police Chief Steve McCulley cited a 2021 Marsh Road robbery arrest made within two hours thanks to ALPR data, and noted 252 ALPR alerts in 2022.",
+  "key_quotes": [
+    {
+      "quote": "There are 47 cameras in town, 26 of which are funded by residents rather than the town budget.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Within two hours, they were IDed and one was placed under arrest",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "In 2022, there were 252 ALPR alerts in town, a mix of stolen vehicle alerts, Amber Alerts and hits on wanted people, according to police.",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:35:23Z",
   "article_id": "art_8277733bf929"
 }

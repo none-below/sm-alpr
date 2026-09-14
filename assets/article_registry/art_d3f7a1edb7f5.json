@@ -22,6 +22,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "policy:audit",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -132,10 +136,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:32:44Z",
+  "primary_subject_agency_ids": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "summary": "A San Jose police officer made unauthorized Flock camera searches to locate a domestic violence victim and shared her location with his cousin, the suspect. Chief Paul Joseph placed the officer on leave and later terminated him; the department changed policy to bar access to Flock and other sensitive systems from personal devices and referred the case to POST.",
+  "key_quotes": [
+    {
+      "quote": "The officer used his personal device to make \"unauthorized\" Flock Safety camera searches related to a \"domestic violence matter involving family members\" while he was off-duty",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "The department said it has changed its policy to restrict Flock data and all other law enforcement sensitive systems from being accessed on officers' personal devices.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "When an officer violates the public's trust this severely, my responsibility is clear: that person cannot remain in a position of police authority, and they cannot wear the San Jose badge",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:39:14Z",
   "article_id": "art_d3f7a1edb7f5"
 }

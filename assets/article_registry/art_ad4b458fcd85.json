@@ -22,6 +22,13 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -80,10 +87,26 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:31:43Z",
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "b6134b21-a8be-50ab-aff8-7516fbb803bd"
+  ],
+  "summary": "An SFPD audit revealed that NCRIC and the West States Information Network improperly accessed San Francisco's Flock license plate reader data hundreds of times, in potential violation of California's 2015 law barring sharing with out-of-state and federal agencies. SFPD has disabled NCRIC and WSIN access to its camera network, and Secure Justice plans to sue.",
+  "key_quotes": [
+    {
+      "quote": "San Francisco's license plate reader data has been improperly accessed hundreds of times by out-of-state and federal agencies since last May, police officials said Wednesday.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "The department has since disabled both NCRIC and WSIN's access to the city's camera network, Lew said.",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "Under a 2015 state law, California public agencies are barred from sharing license plate reader data with federal and out-of-state agencies",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:37:00Z",
   "article_id": "art_ad4b458fcd85"
 }

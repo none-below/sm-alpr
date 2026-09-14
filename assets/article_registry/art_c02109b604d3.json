@@ -22,6 +22,9 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +133,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:10Z",
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "SFGATE surveys the various camera systems operating on San Francisco streets, including new SFMTA speed cameras that automatically issue tickets up to $500 under AB 645, expanded red-light cameras, 400 planned Flock Safety ALPRs authorized under Prop E, and LiveView Technologies surveillance towers deployed by SFPD.",
+  "key_quotes": [
+    {
+      "quote": "San Francisco plans to install 400 AI-powered cameras made by the Atlanta-based company Flock Safety that are intended to help with criminal investigations.",
+      "paragraph_idx": 24
+    },
+    {
+      "quote": "The technology was authorized by Prop E., which was passed by San Francisco voters in March 2024 and allows SFPD to use drones and other surveillance devices, including those with facial recognition.",
+      "paragraph_idx": 29
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:37:41Z",
   "article_id": "art_c02109b604d3"
 }

@@ -22,6 +22,13 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:national",
     "vendor:axon",
     "vendor:flock",
     "vendor:motorola"
@@ -134,9 +141,26 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:49Z",
+  "summary": "Flock Safety CEO Garrett Langley announced sweeping changes to the company's ALPR software, including reducing data retention from 30 to 7 days, requiring searches to be tied to specific criminal cases, and expanding automated audit tools to detect misuse. Critics from the ACLU and EFF called the reforms inadequate, arguing the surveillance business model itself is the problem and that officers can easily circumvent the new controls.",
+  "key_quotes": [
+    {
+      "quote": "The reforms, announced Thursday, include reducing data retention from 30 days to seven days, barring special circumstances, and preventing users from freely searching the license plate database by requiring that searches by police be linked to a specific criminal case.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "This does seem to be a company desperate to save its business model after coming under increased pressure from community outrage and legal advocates",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "A recent analysis found that in the town of Roseville, Flock misread license plates in 71% of the alerts it sent to police.",
+      "paragraph_idx": 25
+    },
+    {
+      "quote": "Immigration and Customs Enforcement agents have reportedly accessed Flock data in multiple California cities like Capitola and Chico over the past two years",
+      "paragraph_idx": 23
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:37:22Z",
   "article_id": "art_b2ad04cf00fb"
 }

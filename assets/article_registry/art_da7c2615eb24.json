@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "incident:ice-cooperation",
+    "incident:wrongful-stop",
+    "policy:hotlist",
+    "policy:retention",
+    "scope:national",
     "vendor:axon",
     "vendor:flock",
     "vendor:motorola",
@@ -132,9 +138,22 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:17Z",
+  "summary": "An explainer on Flock Safety's ALPR and PTZ cameras, describing how the nationwide network works, why activists and some cities are vandalizing or deactivating them, and concerns about tracking, ICE-related searches, and false matches. Names cities that have canceled contracts and cites a wrongful-stop incident in Plymouth, Minnesota.",
+  "key_quotes": [
+    {
+      "quote": "City governments have joined in by deactivating the cameras or canceling contracts with Flock in Fort Collins, Colorado; Eugene, Oregon; Madison, Wisconsin; Knoxville, Tennessee; Syracuse, New York; and Walla Walla, Washington.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "despite Flock not sharing data with agencies like U.S. Immigration and Customs Enforcement, police officers have been performing searches to aid in immigration sweeps",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "The Flock camera saw my entire plate, but it still flagged it as a match",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:39:42Z",
   "article_id": "art_da7c2615eb24"
 }

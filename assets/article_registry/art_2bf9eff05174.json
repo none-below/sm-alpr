@@ -22,6 +22,12 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "incident:ice-cooperation",
+    "legal:legislation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:state",
     "vendor:flock"
   ],
   "agencies": [
@@ -128,10 +134,27 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-14T07:33:14Z",
+  "primary_subject_agency_ids": [
+    "3d859aaa-4f96-54b2-87ff-4014e12e40ca",
+    "676109ed-09a7-5d7c-9a15-8258f703daea",
+    "0e4f0f3f-6524-5fed-8ebf-f3931b74b25b"
+  ],
+  "summary": "More than half a dozen Connecticut towns have contracted with BusPatrol to install AI-powered license plate readers on school buses that activate when stop arms deploy, catching thousands of motorists illegally passing stopped buses. The rollout comes amid growing statewide concern over ALPR surveillance and a 30-day gubernatorial pause on new municipal ALPR installations, though Gov. Lamont's guidance did not specifically address bus-mounted cameras.",
+  "key_quotes": [
+    {
+      "quote": "More than half a dozen towns \u2014 including Vernon, Bridgeport, Danbury, Shelton, Stratford, North Haven and New Haven \u2014 have contracted with a company called BusPatrol",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "Citizens' concerns rose after reporting from CT Insider found that Connecticut ALPR cameras had been searched thousands of times by out-of-state agencies enforcing federal immigration and other states' abortion laws.",
+      "paragraph_idx": 20
+    },
+    {
+      "quote": "Last month, Gov. Lamont called for a 30-day pause on municipalities installing new automated license plate readers while the Connecticut Police Officers Standards and Training Council develops guidance for data retention and data sharing.",
+      "paragraph_idx": 23
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T08:32:04Z",
   "article_id": "art_2bf9eff05174"
 }
