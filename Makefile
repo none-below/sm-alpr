@@ -32,12 +32,15 @@
         pra-build serve serve-public clean
 
 # Gitignored artifacts produced by `make build` and read by the test suite.
-# `make build` regenerates exactly these; `make clean` removes exactly these
-# (plus the stamp), so `make clean test` is a guaranteed-fresh run.
+# `make build` regenerates exactly these; `make clean` removes them along with
+# the stamp and the sets below, so `make clean test` is a guaranteed-fresh run.
+# Every gitignored path under docs/ must appear in one of the four sets below —
+# tests/test_make_clean_covers_artifacts.py enforces that.
 BUILD_FILES := \
 	docs/sharing_map.html \
 	docs/js/map.js \
 	docs/data/map_data.json \
+	docs/data/audit_departures.json \
 	docs/data/scoreboard_data.json \
 	docs/data/report_data.json \
 	docs/data/justifications.json \
@@ -46,6 +49,18 @@ BUILD_FILES := \
 	docs/data/audit_check_manifest.json \
 	assets/transparency.flocksafety.com/.sharing_graph_full.json
 BUILD_DIRS := docs/data/audit docs/data/history
+# Gitignored docs/ artifacts built by the deploy workflow (.github/workflows/
+# deploy.yml) rather than by `make build`: build_contract_map.py and
+# build_articles_data.py. Nothing in the test suite reads them, so they stay out
+# of BUILD_FILES — but `make clean` still clears them, so running a deploy
+# script locally can't leave a stale copy behind.
+DEPLOY_FILES := \
+	docs/data/contract_map_data.json \
+	docs/data/articles_data.json
+# Rebuilt by `make pra-build`, not `make build`.
+PRA_FILES := \
+	docs/data/pra_registry.json \
+	docs/data/pra_productivity.json
 # Touched on a successful `make build`. `make test` depends on it, so the
 # build runs only when the stamp is absent (fresh worktree or after clean) —
 # not on every test run. Edit a generator? Run `make build` to force a rebuild.
@@ -108,8 +123,7 @@ serve-public: ## Serve docs/ on all interfaces (LAN-visible)
 	cd docs && python3 -m http.server 8765
 
 clean: ## Remove generated site/data + PRA artifacts
-	rm -f $(BUILD_FILES) $(BUILD_STAMP) \
-	      docs/data/pra_registry.json docs/data/pra_productivity.json
+	rm -f $(BUILD_FILES) $(DEPLOY_FILES) $(PRA_FILES) $(BUILD_STAMP)
 	rm -rf $(BUILD_DIRS)
 	@echo "Removed generated artifacts. 'make build' rebuilds the site/data;"
 	@echo "'make pra-build' rebuilds the PRA registry."
