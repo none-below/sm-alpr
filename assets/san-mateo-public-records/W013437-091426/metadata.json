@@ -1,0 +1,37 @@
+{
+  "title": "Redaction-basis inquiry — inconsistent treatment of \"Homicide/Death\" in Reason field across productions",
+  "summary": "Asks for the basis of a September 2, 2026 redaction (under W013308-082426) of the words \"Homicide/Death\" from a search-audit Reason field, when the Department left the word \"Investigation\" visible on the same row and cited no exemption for the redaction. Points to three of the Department's own prior, unredacted productions (two under W012541-041426, one under W012818-053026) where closely related Reason-field values — \"Homicide suspect vehicle,\" \"Homicide,\" and \"Homicide/Death Investigation\" — were released in full. Item 1 asks for the redaction's exemption basis; Item 2 asks for the Department's general standard on Reason-field homicide references; Item 3 asks for a correction statement if either the redaction or the prior releases were made in error.",
+  "tags": ["audit-compliance", "pra-process"],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.540",
+      "quote": "a determination withholding any portion of a responsive record be in writing and state the exemption relied upon",
+      "tests": "What exemption, if any, was cited for redacting \"Homicide/Death\" from the September 2, 2026 production, and does a redaction log or review note exist?"
+    },
+    {
+      "policy": "Gov. Code § 7923.600",
+      "quote": "records of investigations conducted by ... any state or local police agency",
+      "tests": "Whether a homicide/death reference in a Reason field is treated as categorically exempt, given that the Department's own prior productions released the same or closely related content unredacted."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013308-082426",
+      "relation": "source-of-redaction",
+      "note": "September 2, 2026 production containing the redacted \"Homicide/Death\" Reason-field entry for search ID 9920424e-bfd0-4f87-8423-6abce941fdc7."
+    },
+    {
+      "ref": "W012541-041426",
+      "relation": "contradicting-prior-release",
+      "note": "December 2025 and February 2024 audit records from this request contain unredacted \"Homicide suspect vehicle\" and \"Homicide\" Reason-field values."
+    },
+    {
+      "ref": "W012818-053026",
+      "relation": "contradicting-prior-release",
+      "note": "May 2026 audit record from this request contains an unredacted \"Homicide/Death Investigation\" Reason-field value."
+    }
+  ],
+  "filed_because": "Tests whether the September 2, 2026 redaction reflects a real exemption determination or an ad hoc, unexplained departure from how the Department has otherwise handled the identical category of Reason-field content in its own prior productions.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-09-14. Statutory 10-day initial determination due 2026-09-24 (Gov. Code § 7922.535(a))."
+}
