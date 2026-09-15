@@ -1,0 +1,472 @@
+--- page 1 ---
+NEWS & COMMENTARY
+Beware of Other License Plate
+Surveillance Companies Besides Flock
+Flock deserves the heat it’s getting, but switching to another
+provider won’t necessarily improve anything
+Jay Stanley, ACLU Speech, Privacy, and Technology Project
+Tracking ALPR Cameras News Series
+August 25, 2026
+Subscribe to the Free Future Newsletter
+Or get immediate notifications of new posts via Substack
+Free Future home
+There’s a nationwide rebellion against license plate readers underway, and the company Flock is the
+focus. That’s natural, because the company has “essentially dominated license plate recognition across
+the United States,” as industry analyst IPVM put it. But Flock is far from the only vendor, and with
+Flock rightly receiving most of the heat, it’s important to realize that its competitors aren’t so great
+either, and that simply replacing Flock surveillance with another company’s surveillance won’t
+necessarily solve any of the privacy and other civil liberties problems posed by this mass surveillance
+technology.
+We have covered Flock in depth, including in this 2022 white paper and in numerous blog posts
+since. A pioneer of centralizing ALPR data through the cloud, the company runs a vast “National
+Lookup” searchable nationwide database of license plate and other photographic data of vehicles —
+an inherently authoritarian infrastructure that has, among other things, already been used to help ICE
+in its human rights-violating deportation drive, and to try to track and investigate a Texas woman who
+had an abortion.
+Aside from being dominant in the domestic police ALPR market, Flock is also alienating many
+communities because of its lack of truthfulness and erratic and immature public statements. Unlike
+its biggest competitors, which are public companies, Flock’s private investors include tech billionaire
+venture capital firms such as Andreessen Horowitz, which also funds other surveillance companies
+like Anduril and Skydio, and explicitly aims to invest in building domestic law enforcement
+surveillance capabilities. These are legitimate reasons to avoid doing business with a company.
+At the same time, communities can’t simply assume that their residents will be better off from a
+privacy and civil liberties perspective by dropping Flock and replacing it with another ALPR provider,
+as some customers have done. They should ask hard questions about whether they really want to
+
+--- page 2 ---
+create that kind of a system, and if they do, ensure it doesn’t function as a mass surveillance system.
+(The ACLU has created a toolkit to help people do just that in their communities.)
+Motorola Solutions (aka Vigilant)
+One of Flock’s most significant competitors is Motorola. This company, which has been expanding its
+police technology offerings through an aggressive acquisition strategy in recent years, offers a
+nationwide law enforcement data sharing system similar to Flock’s called the National Vehicle
+Location Service (NVLS), operated by Motorola unit Vigilant Solutions. In addition to collecting data
+from law enforcement clients’ cameras, it also runs a large separate commercial ALPR unit that makes
+deals for tow trucks and other fleet vehicles to carry cameras and collect data for Motorola as they
+drive around, amassing billions of plate reads (a claimed 500 million monthly, subject to no apparent
+data retention policy). Known as the Digital Recognition Network (DRN), that unit sells its data for
+commercial purposes but also makes it available to its law enforcement customers for an extra charge.
+Motorola tells agencies they can have “access to billions of detections beyond your own,”
+Some communities may want to take into account the fact that this uniquely powerful commercial
+plate-scanning infrastructure is marketed to private companies, including auto financers and insurers,
+and not only for repossession but also for “risk assessment” purposes — even though risk scores have
+been shown to disproportionately harm low-income and other marginalized drivers.
+(Note that following a 2011 corporate breakup of the classic American electronics company Motorola
+Inc., the company Motorola Solutions being discussed here is separate from Motorola Mobility, a
+smartphone company owned by the Chinese company Lenovo.)
+Axon
+Formerly known as Taser, Axon has built its business around that police pain-delivery device, as well
+as body cameras, where it dominates the market, and its cloud data storage service Evidence.com.
+Like Flock and Motorola, the company is seeking to become a broad “operating system of police
+departments,” which has ominous implications we detailed in a recent white paper. Axon has been
+aggressively expanding its law enforcement products, including by pushing premature uses of AI.
+Many Flock customers already have contracts with Axon for body cameras and other products,
+making a switch to Axon all the easier — especially since Axon is pursuing an explicit strategy of
+bundling multiple technologies and services together in long-term contracts. That raises significant
+concerns over platform dependence and lock-in.
+As part of these strategies, Axon is looking to build up its ALPR offerings — and the market for them,
+which (as the ACLU has seen firsthand) has included lobbying against state ALPR regulations and
+local surveillance tech transparency laws. The company began selling ALPR services in 2021 through
+its in-vehicle “Axon Fleet 3” dashcam and in-car camera product, and then in 2025 announced new
+fixed-camera ALPR products, including a “smart streetlight” that attaches to existing poles and power
+sources. Both products feature AI vehicle recognition. Axon doesn’t impose any data-retention limits
+on its customers and lets police departments decide how long they want their data to sit on Axon’s
+servers. It does have a default policy of 30 days, but that’s only a default.
+All three companies offer products that blur the lines between ALPR and live video surveillance. “You
+no longer have to make tradeoffs when it comes to ALPR deployments — license plate recognition or
+livestreaming,” Axon boasts.
+It’s not clear whether Axon has any formal arrangements with ICE or other DHS agencies to access
+plate-read data collected by Axon devices, though the company does have a number of contracts with
+
+--- page 3 ---
+the federal government, including an announced $220 million five-year deal to buy the company’s
+problematic Taser devices. That does not have the same privacy implications as sharing data on
+people’s locations with ICE, though supplying that agency and its often lawless and abusive officers
+with Tasers may violate the company’s responsibilities under internationally recognized human rights
+standards, and generally carries a moral stench.
+Axon is explicitly positioning itself as a “more ethical” alternative to Flock. As the security industry
+analysts at IPVM put it in a headline, “Axon LPR Business Surges As Flock Is Embattled.” Axon has a
+particular rivalry with Flock over becoming a broad provider of police surveillance and data services
+— the “operating system of police departments” (with Motorola also in the running in a less high-
+profile way). I looked at that race and its implications in a June 2026 white paper.
+Other companies
+There are a lot of other ALPR vendors. The DHS Science and Technology division, in a rudimentary
+Consumer Reports-style roundup for police, lists 16 different providers. In February, IPVM
+performed tests of ALPR accuracy and included nine products; another analyst identifies 46 vendors
+in the ALPR space.
+One provider, Rekor, provides ALPR services to the Westchester County, NY police, which is the
+subject of a class action lawsuit by the New York Civil Liberties Union and other groups. Rekor offers
+rich vehicle AI searches as well as video clips of vehicle captures. It’s unclear whether the company has
+a current contract with ICE, but documents obtained by the Associated Press in 2025 revealed that
+CBP had had access to data from Flock, Motorola, and Rekor. Documents obtained by the Guardian
+also show that Rekor’s client, the Westchester County PD, has shared data with ICE; it’s not clear
+whether that Rekor facilitated or continues to facilitate that sharing. Rekor has a nationwide data
+sharing program like Flock and Motorola, though it is much smaller at this time. Unlike Flock and
+Motorola, the company allows for local software installation and data processing by clients.
+The provider Leonardo (selling an ALPR product called ELSAG) also allows for its system to be run
+on local hardware. ELSAG has attracted attention lately due to a very problematic capability that it
+advertises: the tracking not only of license plates but also of devices through their Bluetooth and
+other wireless emissions. It reads unique IDs broadcast not only by phones but also by tablets,
+laptops, and any other wireless-capable objects that might happen to be in a car, as well as wireless
+components of the car itself, such as audio-video systems and the Tire Pressure Monitoring Systems
+that all cars are now required to have, which use Bluetooth. That’s an extremely powerful capability
+that in many cases will supercharge the tracking of individual people including passengers — and we
+should hope this “innovation” doesn’t spread to other vendors.
+
+--- page 4 ---
+Most other ALPR vendors are small, and based on a non-systematic review of a sampling, often don’t
+offer some of the more troubling capabilities that their larger competitors do — though there are
+exceptions (such as the many advertising cutting-edge AI, for example).
+The big network-effects advantage that Flock and Motorola have over their smaller competitors — the
+size of their customer/data sets — gets erased if communities decide to ban nationwide sharing. If
+you’re collecting and storing your data locally and generally keeping things simple, the smallest ALPR
+vendor out there may serve just as well as the bigger names. Companies like Flock, Axon, and
+Motorola are competing by offering to make law enforcement ever-more powerful and all-seeing;
+good civil liberties protections will have the effect of making ALPR devices and services much more
+commodified and interchangeable — something tech companies hate but which serves the public
+better.
+Civil liberties differences
+There are differences among the leading US license plate reader companies on the dimensions
+important to privacy and other civil liberties.
+Nationwide sharing. Nationwide sharing of the kind that Flock provides significantly increases
+the scope and power of ALPR surveillance compared to purely local surveillance carried out by a
+particular police department. Preventing such sharing has been one of our primary
+recommendations for communities. Flock says 75% of its claimed 5,000 police customers
+participate in the company’s National Lookup network, making it an extremely powerful
+surveillance machine. Motorola seems to have fewer police clients than Flock but — in part due
+to its commercial DNR network — boasts of an enormous number of monthly plate reads that
+can be accessed as part of its NVLS sharing service. It’s hard to find data on their relative market
+shares, but these networks give their operators an enormous business advantage over smaller
+competitors among departments that want the nationwide search capability they offer. Axon has
+an ALPR data sharing function built into its search tool, but that appears to require an explicit
+department-by-department agreement to engage in such sharing.
+Retention periods. How long police departments hold on to the potentially sensitive data about
+ordinary people’s lives that license scanners collect is a key civil liberties metric. Where police use
+ALPR we recommend a rule like New Hampshire’s, in which plate reads that don’t result in a
+watch list “hit” must be deleted within three minutes, or failing that, a retention period of no
+more than 48 hours. But the leading vendors all allow their customers to retain their ALPR data
+for as long as they like, with the exception of Flock, which says it imposes a one-year limit, and
+requires “approval from an elected official and/or a governing body” to retain data for more than
+the company’s 7-day default retention period. Otherwise, default retention periods amount to no
+more than suggestions. With a network as large as Flock’s (a claimed 20 billion monthly plate
+scans), a 7-day retention period (which the company announced with great fanfare in an attempt
+to quiet opposition) still gives police departments far too much mass-surveillance power over
+people not suspected of wrongdoing. In the absence of vendor-imposed limits, customers may
+decide on very long retention periods; the NYPD, for example (which uses Motorola), retains its
+ALPR data for five years.
+Federal sharing. Flock says it doesn’t have any contracts with ICE or other federal agencies,
+though it has become clear that those agencies can access the company’s ALPR database through
+proxies in local departments. (In August 2025, Flock was discovered to have been sharing data
+with CBP through an undisclosed pilot project, since ended.) At the end of the day, once data
+about the lives of ordinary people in a community is collected, it’s very hard to control. Motorola,
+however, has a contract with ICE (through Thompson-Reuters) permitting that agency to directly
+
+--- page 5 ---
+search Motorola’s surveillance database, so if your police department is contributing to that, you
+know your data is going to ICE, no intermediaries required.
+Cloud and local storage and control. In addition to all the questions raised by license plate
+surveillance, there are serious questions about private company access to that data, as we
+outlined in a recent white paper. Local storage also offers more local control — if the data your
+local department collects is stored on its own computers and not accessible by the vendor, for
+example, then the vendor’s policy on sharing with ICE is no longer an issue. Local storage of data
+on police department’s own computers used to be common with ALPR systems, but today, with
+the trend toward cloud services, neither Flock nor Motorola allow their clients to store their data
+locally. Both claim to allow their customers “control” over their data, but that is a governance
+claim and not an infrastructure claim, and ultimately whoever holds the data truly controls it
+(unless it’s end-to-end encrypted). Axon does offer a local storage solution, as do some other
+competitors, as discussed below.
+AI imagery search. Since its inception, basic license plate detection has collected license plate
+number data, snapshot stills of plates, and place/time data, but companies are now promising
+police departments new powers by pushing far beyond that. We recommend that communities
+require any ALPR vendors to stick to the basics. All the companies offer analysis of vehicle
+attributes, and some also offer more powerful free-form AI search of stored video or still imagery.
+Flock touts its ability to let officers search not just for license plates, but also for make, model,
+and other vehicle attributes and distinguishing characteristics, and to use free text AI searches to
+unleash modern video analytics not just for vehicle searches but also for people appearing in
+captured imagery. Motorola also collects other data about vehicles (but not people), including
+“accessories, damage, and promotional writing or bumper stickers,” and offers plain-language AI
+search of the imagery in its database. Axon offers structured searches for various vehicle
+attributes but doesn’t have the same level of wide-ranging AI search (except for within case files).
+It’s likely that whatever particular companies offer now, however, many or all will eventually offer
+such capabilities.
+Suspicion generation. Here Flock is definitely the worst, touting the ability to “detect patterns
+of suspicious activity across cities and states,” and generally opening up unprecedented new
+possibilities for fishing expeditions by allowing in-depth AI searches through data on people’s
+movements. Motorola also crosses that key line from investigative aids to suspicion generation;
+touting its ability to “reveal patterns, trends and associations which generate leads.” It doesn’t
+seem that its system aims to facilitate a true cold search for movement and association patterns
+to the extent of Flock. Axon doesn’t appear to offer suspicion generation capabilities at this time.
+But again, the various vendors’ AI offerings may change fast.
+Use of NCIC database. One key civil liberties protection around plate scanning is that the watch
+lists used by law enforcement be subject to checks and balances. Flock’s service runs plate scans
+against the FBI’s criminal database, the NCIC. It is murky exactly how this access works — the
+FBI refused to explain it to the author of an IPVM research report on the subject — but as we
+have explained, it’s problematic for a number of reasons having to do with accuracy, due process,
+and timely updating of listings of which cars are flagged. In addition, one component of the NCIC
+is an “Immigration Violator” hotlist maintained by ICE, which can be a backdoor way of enabling
+local police to cooperate with the Trump Administration’s deportation drive. In addition to Flock,
+Axon can also run their hits against this database. I wasn’t able to confirm whether Motorola also
+allows that functionality. At least some of the smaller companies appear to offer it.
+Another potential check on the power of ALPR systems is use limitations. Flock has in the past
+promised to restrict “impermissible” searches, such as abortion-related searches in states like Illinois
+that ban the sharing of abortion data. More recently, the company announced as part of its “updates”
+meant to mute criticism that it would let local departments decide what types of offenses other Flock
+
+--- page 6 ---
+customers can search their data for. The problem is that there is no effective enforcement mechanism
+behind these measures; they rely on an honor system in which police officers accurately and honestly
+describe the purpose of their search — something that experience has shown to be ineffective.
+What matters most is not maximum capabilities but actual deployment
+contracts
+As we have seen, there are significant differences among providers in how license plate scanning is
+done. But a community can often reach a contract with providers that restricts the capabilities that
+are deployed. For several years we have urged cities to do this. Just because Flock and Motorola do
+nationwide sharing and AI search doesn’t mean that a police department needs to use (or a city
+council needs to allow its police department to use) such capabilities. Defaults are important, but for
+a jurisdiction that is determined to deploy ALPR, the most important differences among companies
+that community members should look at are what those vendors will allow localities to control.
+Community members attuned to privacy and civil liberties should also push city councils — or state
+legislatures — to put limits into law through general ordinances that remain in effect even as
+contracts and vendors come and go over the years. The differences among vendors in how they
+provide ALPR services are governed by corporate strategy rather than law, which means they can be
+changed in an instant by the companies. Communities should not gain too much comfort from what
+companies are and are not doing right now, but instead keep their eye on the longer game by putting
+protections into law.
+When Denver decided to discontinue its contract with Flock earlier this year, it (hastily and unwisely)
+switched to a new vendor (Axon). But what mattered more than the change in vendor was the change
+in how ALPR was operated; the new contract shortened the data retention period (from 30 days to a
+still-too-long 21 days), restricted data sharing, and banned federal access to Denverites’ data. Denver
+probably could have obtained those same terms with any vendor.
+Overall, the default behavior of a company’s ALPR offerings becomes less important, and the control
+it gives customers becomes more important.
+Choosing a short retention period. Motorola and Axon allow a customer to retain data for as
+long as they want, and despite its new suggestion of 7 days, down from 30, Flock only hard-caps
+retention at a year. But customers of all three companies (and, my sense is, their smaller
+competitors’) can still set very short data retention limits as we recommend.
+Disallow nationwide sharing. Flock and Motorola, which both offer nationwide data sharing,
+both allow customers to not participate (but often cajole them into participating, because it is in
+the companies’ financial interest for them to do so). Note, however, that vendors also can allow
+regional, statewide, or department-by-department sharing, so access to your community’s data
+can be fairly broad even without nationwide sharing. Axon doesn’t offer nationwide sharing but
+does have built-in functionality for case-by-case sharing among departments. The more broadly
+data is shared, the more points there are for ICE, CBP, or anyone else to access it through a
+cooperative department or officer.
+Choosing local data storage. On the other hand, when it comes to local data storage, a Flock or
+Motorola customer doesn’t have the option to not use their cloud services so far as we can tell,
+whereas customers of Axon, Rekor, and other vendors do.
+Decline AI analytics. It appears that police department customers can’t opt out of basic vehicle
+attribution recognition capabilities offered by all the biggest companies. The freeform AI searches
+of still and video data that Flock offers appear to be a separate product that a customer could
+
+--- page 7 ---
+simply decline to pay for. It’s less clear whether customers can opt out with Motorola, but the
+company may be willing to agree to disable that functionality to make a sale.
+Decline suspicion-generating AI. As far as we can tell, use of Flock and Motorola’s AI
+algorithmic suspicion-generation is not required, so in theory a municipality could insist through
+an ordinance and in vendor contracts that such a capability not be made available to a client
+police department.
+The bottom line
+Overall, a comparative look at the ALPR marketplace through a civil liberties lens yields several
+takeaways:
+If a jurisdiction decides to allow license scanners to be installed, how that system operates is
+more important than which vendor provides it, though considerations about the overall ethics of
+a company are certainly worth taking into account.
+When looking at vendors, the most important question is whether they provide the option to
+impose restrictions that protect privacy and civil liberties.
+If a community doesn’t impose strong conditions such as data retention limits, switching from
+Flock to another ALPR provider could leave residents’ civil liberties in equally bad or even worse
+shape.
+Communities should address ALPR policies democratically and they should impose them through
+legal limits on license scanning rather than through internal police department policies or vendor
+contracts that will be repeatedly re-negotiated as years pass.
+Again, the most civil liberties protective step that a municipality can take is to spurn license plate
+scanners altogether. But where that’s not possible, community members should not think that simply
+abandoning Flock for another vendor will necessarily make things better.
+Related Issues
+Privacy & Technology
+Automatic License Plate Readers
+Location Tracking
+Related Content
+Press Release
+Sep 2026
+
+--- page 8 ---
+ACLU, ACLU of D.C., and National Press Photographers
+Association Tell Court that Blocking Drone Photography of
+DHS Operations Violates First Amendment
+WASHINGTON – Today, the American Civil Liberties Union (ACLU), the
+ACLU of D.C., and the National Press Photographers Association filed
+an amicus brief in support of a Minnesota photojournalist’s lawsuit
+challenging the Federal Aviation Administration's (FAA) Temporary
+Flight Restrictions (TFR). Earlier this year, as ICE was carrying out
+brutal immigration raids across the country, the FAA dramatically
+expanded restrictions on drone flights, banning such flights over any
+Department of Homeland Security (DHS) facility or “mobile asset,”
+which included any DHS vehicle. As the amicus explains, the TFR
+made it functionally impossible for journalists to use drones to gather
+news in any area where immigration enforcement agents were
+deployed, violating the First Amendment right to record public
+officials performing their duties in public. “The FAA’s restriction
+forced journalists reporting on immigration enforcement activity to
+ground their drones or risk criminal charges. This choice is
+unacceptable, unconstitutional, and runs roughshod over the First
+Amendment right to gather news,” said Scarlet Kim, senior staff
+attorney with ACLU’s Speech, Privacy, and Technology Project. The
+brief explains that the FAA’s restriction was not about public safety or
+national security. Journalists were previously already advised and
+generally adhered to avoiding airspace around sensitive locations,
+such as active military bases, airports, and aircraft carriers. Moreover,
+press drones weren’t interfering with official activity or putting anyone
+at risk by capturing immigration enforcement activity unfolding in
+public. "Under Trump, even the Federal Aviation Administration has
+become a political censor,” said Arthur Spitzer, senior counsel at
+ACLU-D.C. “The agency should be protecting the safety of the flying
+public, not protecting ICE from unfavorable news coverage.” The brief
+further explains that journalists were effectively being censored
+beyond their DHS coverage, since the unpredictability of where any
+DHS vehicle may be traveling made it functionally impossible for
+journalists to use drones for any newsgathering in areas where
+immigration enforcement agents were deployed without putting
+themselves at risk of severe legal and financial penalties. “Drones
+have become essential, safe, and economical tools for documenting
+government activity and other matters of public concern. By creating
+an unpredictable moving exclusion zone around DHS assets, the FAA
+forced visual journalists to choose between abandoning lawful
+newsgathering and risking severe penalties,” said Mickey H.
+Osterreicher, general counsel for the National Press Photographers
+Association. “Safety restrictions must be narrowly tailored and
+consistent with the First Amendment, especially when they limit the
+Free Speech
+Privacy & Technology
+
+--- page 9 ---
+public’s ability to observe government officials performing their
+duties.”
+Court Case: Levine v. FAA
+Affiliate: Washington, D.C.
+New Hampshire
+Sep 2026
+LaValley v. Concord Housing and Redevelopment Authority
+On September 2, 2026, the ACLU, ACLU of New Hampshire and New
+Hampshire Legal Assistance brought a class action lawsuit against the
+Concord Housing and Redevelopment Authority for installing and
+operating surveillance devices in tenants’ apartments. The devices
+collected hundreds of millions of data points recording movement,
+sound levels, and other information from inside tenants’ homes.
+Status: Ongoing
+Press Release
+Sep 2026
+ACLU and New Hampshire Legal Assistance Sue Housing
+Authority Over Electronic Surveillance of Residents
+CONCORD, N.H. — Today, residents of housing developments owned
+and maintained by the Concord Housing and Redevelopment
+Authority (CHRA) in New Hampshire sued to block CHRA from
+harvesting sweeping data about tenants’ activity patterns in their
+homes through surveillance devices purchased from a private
+company, Mînut Inc. In the fall of 2024, CHRA began installing Mînut
+Privacy & Technology
+Privacy & Technology
+
+--- page 10 ---
+Monitor devices inside people’s apartments across the properties it
+manages, providing government employees with real-time, remote
+access to granular data about activity within tenants’ homes. These
+devices are capable of collecting data such as the decibel level of
+detected noise, motion detector readings showing physical movement
+of residents and guests, smoke and humidity levels, and scans for iOS
+signals, which can estimate how many people are nearby. “People
+should feel secure in their homes—not watched, judged, or punished
+by technology they never asked for. These devices change how
+tenants interact with their own apartments, turning everyday living
+into a source of fear,” said Christopher Schott, director of New
+Hampshire Legal Assistance's Fair Housing Project. “No one should
+worry that an assistance animal, a television, or other routine
+household sound could trigger penalties simply for living their life.”
+Taken together, the information provided by Mînut Monitors can
+create a mosaic of detail about peoples’ lives, revealing when they
+wake up, when they come and go from their home, and more. Mînut
+Monitors near tenants’ beds can even potentially track sound and
+motion data that could reflect intimate acts. Much of the data is
+logged on a minute-by-minute basis. For example, each Mînut Monitor
+logs sound-level readings approximately every single minute, up to
+1,440 times a day. For one tenant, the Mînut Monitor logged more than
+140,000 motion events within a seven-month period for just a single
+unit - an average of more than 700 motion events per day. All told,
+CHRA has amassed hundreds of millions of data points from within
+tenants’ apartments. The data is stored indefinitely and available to
+CHRA employees on demand. The class action lawsuit was filed by
+New Hampshire Legal Assistance, the American Civil Liberties Union
+of New Hampshire, and the American Civil Liberties Union. As the
+complaint explains, this invasion of privacy in individuals’ homes by a
+government agency is unacceptable and violates two provisions of the
+New Hampshire Constitution, Article 19 and Article 2-b. Article 19
+prohibits unreasonable searches by the government. Article 2-b,
+which was added to the New Hampshire Constitution by referendum
+in 2018, provides that “an individual’s right to live free from
+governmental intrusion in private or personal information is natural,
+essential, and inherent.” “We’re suing because everyone deserves
+privacy in their own home. The government shouldn't get to know if
+you are getting up in the middle of the night to use the bathroom or
+when your morning alarm goes off just because you live in public
+housing,” said Maria Savarese, staff attorney at the ACLU of New
+Hampshire. “Our state constitution is clear: we have the right to live
+free from government surveillance and intrusion in our homes."
+Furthermore, CHRA’s implementation of Mînut Monitors over the past
+two years has been marked by severe lack of transparency and a
+dismissal of tenants’ objections. Throughout the installation process,
+significant information was left out of notices to tenants, painting the
+technology as much less invasive and far-reaching than the Mînut
+Monitors’ actual capabilities. For example, CHRA did not disclose the
+occupancy and motion sensor capabilities of the devices, only
+disclosing the use of sensors for smoke, noise, temperature, and
+humidity detection. When residents asked outright whether the
+monitors placed in their homes included motion sensors, CHRA failed
+to directly answer the question. CHRA also omitted from their tenant
+communications that Mînut’s terms of service includes a warning
+about potential inaccuracies in the AI and machine learning models
+used to analyze and detect the presence of cigarette smoke. This is
+especially alarming considering that CHRA's stated purpose of
+installing Mînut Monitors is to substantiate lease violations that can
+lead to eviction. When one resident asked to see the data produced
+from tracking her day-to-day activity, CHRA denied her request. In
+multiple instances, CHRA disregarded residents’ concerns about the
+surveillance they were subjected to. Tenants are not able to opt out of
+this invasive surveillance, and if they attempt to remove the devices
+
+--- page 11 ---
+from their units, they are subject to significant fines and have been
+threatened with eviction. CHRA failed to create any policy for secure
+data retention and destruction, despite a request to do so by its own
+Board of Directors, leaving Mînut free to handle residents’ data
+however it wants. Mînut’s data retention policy also gives the company
+complete authority to retain user information for any duration and
+purpose. CHRA did not share this policy with tenants at any point. The
+lawsuit also explains that far from improving tenants’ housing
+experience, CHRA's insistence on surveillance exposes them to
+serious safety risks. For example, access to the data could severely
+endanger victims of domestic violence or stalking whose abusive
+former romantic partners or stalkers could learn details about their
+patterns of life. “A government-installed sound meter and motion
+sensor hovering near your bed should be the stuff of dystopian
+science fiction, but it is reality in Concord. Public housing residents
+shouldn’t have to choose between becoming homeless and being
+subjected to constant electronic monitoring inside the privacy of their
+own homes,” said Nathan Freed Wessler, deputy director of ACLU’s
+Speech, Privacy, and Technology Project. “This case happens to rely
+on the robust protections of the New Hampshire Constitution, but
+landlords across the country are now on notice: subjecting your
+residents to this chillingly invasive surveillance will land you in court.”
+Court Case: LaValley v. Concord Housing and Redevelopment Authority
+Affiliate: New Hampshire
+News & Commentary
+Sep 2026
+Another Problem With AI-Assisted Police Reports:
+Companies Can Have Incentives to Distort Their Content
+Police Companies Could Train Their AI to Hide Use of Their Products
+or Make Them Look Good
+By: Jay Stanley
+© 2026 American Civil Liberties Union
+Privacy & Technology
+Criminal Law Reform
+
+--- page 12 ---

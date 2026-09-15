@@ -1,0 +1,134 @@
+{
+  "url": "https://www.aclu.org/news/privacy-technology/tracking-alpr-cameras/other-alpr-vendors",
+  "source_domain": "aclu.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Beware of Other License Plate Surveillance Companies Besides Flock | ACLU",
+  "byline": "Jay Stanley",
+  "published_at": "2026-08-25T17:31:05+00:00",
+  "fetched_at": "2026-09-14T22:31:54Z",
+  "discovered_by": "rss:aclu.org",
+  "scanner_verdict": "WARNINGS \u2014 13 pts, low/medium only",
+  "scanner_score": 13,
+  "content_hash": "3b4d52c19aaef43d0aaada4e9fa54ec3dbe307b2dfb849536e6810fa4e858a35",
+  "paths": {
+    "html": "assets/articles/aclu.org/news-privacy-technology-tracking-alpr-cameras-other-alpr-vendors_f3e94e73.html",
+    "meta": "assets/articles/aclu.org/news-privacy-technology-tracking-alpr-cameras-other-alpr-vendors_f3e94e73.meta.json",
+    "pdf": "assets/articles/aclu.org/news-privacy-technology-tracking-alpr-cameras-other-alpr-vendors_f3e94e73.pdf",
+    "txt": "assets/articles/aclu.org/news-privacy-technology-tracking-alpr-cameras-other-alpr-vendors_f3e94e73.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260914223224/https://www.aclu.org/news/privacy-technology/tracking-alpr-cameras/other-alpr-vendors",
+  "wayback_timestamp": "20260914223224",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "policy:hotlist",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:national",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:motorola",
+    "vendor:vigilant"
+  ],
+  "agencies": [
+    "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+    "e13f7b50-5ebb-5775-9f34-08dfaedfc6f8",
+    "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+    "90120363-c2b2-5550-8513-2bba14ab260d",
+    "2437d11a-5c2a-53d5-9066-598778e76925",
+    "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+    "5c64cac2-080c-5792-b2b1-dc627f1529c5"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "7cabcca1-9a07-54d1-9983-fb34e7384b0e",
+      "display_name": "Justice IL PD",
+      "state": "IL",
+      "score": 7.083,
+      "matched_forms": [
+        "Justice"
+      ]
+    },
+    {
+      "agency_id": "e13f7b50-5ebb-5775-9f34-08dfaedfc6f8",
+      "display_name": "Westchester IL PD",
+      "state": "IL",
+      "score": 3.867,
+      "matched_forms": [
+        "Westchester"
+      ]
+    },
+    {
+      "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+      "display_name": "Washington IL PD",
+      "state": "IL",
+      "score": 3.833,
+      "matched_forms": [
+        "Washington"
+      ]
+    },
+    {
+      "agency_id": "90120363-c2b2-5550-8513-2bba14ab260d",
+      "display_name": "Liberty Village NY PD",
+      "state": "NY",
+      "score": 3.733,
+      "matched_forms": [
+        "Liberty"
+      ]
+    },
+    {
+      "agency_id": "2437d11a-5c2a-53d5-9066-598778e76925",
+      "display_name": "TX - Liberty PD",
+      "state": "TX",
+      "score": 3.733,
+      "matched_forms": [
+        "Liberty"
+      ]
+    },
+    {
+      "agency_id": "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+      "display_name": "New York City Department of Environmental Protection PD",
+      "state": "NY",
+      "score": 2.633,
+      "matched_forms": [
+        "New York"
+      ]
+    },
+    {
+      "agency_id": "5c64cac2-080c-5792-b2b1-dc627f1529c5",
+      "display_name": "Arthur IL PD",
+      "state": "IL",
+      "score": 2.6,
+      "matched_forms": [
+        "Arthur"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "ACLU's Jay Stanley surveys ALPR vendors beyond Flock \u2014 including Motorola/Vigilant, Axon, Rekor, and Leonardo/ELSAG \u2014 arguing that switching vendors won't fix civil-liberties problems absent legal limits on retention, sharing, AI analytics, and federal access. The piece compares vendors on nationwide sharing, retention, federal/ICE access, cloud vs. local storage, AI search, suspicion generation, and NCIC use.",
+  "key_quotes": [
+    {
+      "quote": "simply replacing Flock surveillance with another company's surveillance won't necessarily solve any of the privacy and other civil liberties problems posed by this mass surveillance technology.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Motorola, however, has a contract with ICE (through Thompson-Reuters) permitting that agency to directly search Motorola's surveillance database",
+      "paragraph_idx": 24
+    },
+    {
+      "quote": "When Denver decided to discontinue its contract with Flock earlier this year, it (hastily and unwisely) switched to a new vendor (Axon).",
+      "paragraph_idx": 30
+    },
+    {
+      "quote": "One provider, Rekor, provides ALPR services to the Westchester County, NY police, which is the subject of a class action lawsuit",
+      "paragraph_idx": 16
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T22:37:09Z",
+  "article_id": "art_f3e94e7320a3"
+}
