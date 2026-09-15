@@ -1,0 +1,112 @@
+{
+  "crawled_slug": "belvedere-ca-pd",
+  "crawled_name": "Belvedere CA PD",
+  "archived_date": "2026-09-15",
+  "whats_detected": "License Plates, Vehicles",
+  "whats_not_detected": "Facial recognition, People, Gender, Race, Live Video",
+  "acceptable_use_policy": "Data is used for law enforcement purposes only. Data is owned by Belvedere CA PD and is never sold to 3rd parties.",
+  "prohibited_uses": "Immigration enforcement, traffic enforcement, harassment or intimidation, usage based solely on a protected class (i.e. race, sex, religion), Personal use.",
+  "access_policy": "All system access requires a valid reason and is stored indefinitely.",
+  "hotlist_policy": "Hotlist hits are required to be human verified prior to action.",
+  "sharing_with_partners": "",
+  "sharing_restrictions": "",
+  "data_retention_days": 30,
+  "camera_count": 6,
+  "hotlists_alerted_on": "California SVS, NCMEC Amber Alert",
+  "vehicles_detected_30d": 25558,
+  "hotlist_hits_30d": 75,
+  "searches_30d": 8,
+  "sharing_outbound": [
+    "Central Marin CA PD",
+    "Marin County CA SO",
+    "Mill Valley CA PD",
+    "Novato CA PD",
+    "San Rafael CA PD",
+    "Sausalito CA PD",
+    "Tiburon CA PD"
+  ],
+  "sharing_inbound": [],
+  "sharing_outbound_section_present": true,
+  "sharing_inbound_section_present": false,
+  "sharing_outbound_declared_none": false,
+  "overview": "Belvedere CA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Belvedere CA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Belvedere CA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.\n\nCommunity Impact\nData & Usage Summary",
+  "policy_info": "",
+  "alpr_policy": "",
+  "alpr_sop": "",
+  "additional_info": "",
+  "download_csv": "",
+  "search_audit": "Download to view searches performed over the last 30 days.",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": "",
+  "crawled_at": "2026-09-15T23:11:34.270205+00:00",
+  "search_audit_csv": [
+    {
+      "id": "bc264445-c621-4230-949c-c7292489f60b",
+      "searchDate": "2026-08-16T20:11:30.285Z",
+      "networkCount": "306",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "fe04c338-cd1b-4fdf-aa1d-9a3d26313407",
+      "searchDate": "2026-08-24T20:12:21.381Z",
+      "networkCount": "305",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "ae25973c-e127-440c-8147-910ba305d78f",
+      "searchDate": "2026-09-01T21:10:22.961Z",
+      "networkCount": "1",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "a4cc7fc8-266c-472e-9017-a70a9088cbc6",
+      "searchDate": "2026-09-02T00:24:52.620Z",
+      "networkCount": "302",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "35346b16-bd87-4bd4-894e-7fccafb74653",
+      "searchDate": "2026-09-02T18:55:02.718Z",
+      "networkCount": "302",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "5151e3cb-3fee-4057-9cb4-422be6b7b81f",
+      "searchDate": "2026-09-05T19:23:14.929Z",
+      "networkCount": "301",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "ce43d777-c073-42c1-9891-f38e3138a4af",
+      "searchDate": "2026-09-05T20:00:40.341Z",
+      "networkCount": "301",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "8bb95d68-a3bd-4433-a2fe-08a9663051b4",
+      "searchDate": "2026-09-13T22:00:45.256Z",
+      "networkCount": "299",
+      "offenseType": "Driving Under the Influence (DUI/DWI/OWI/OVI)"
+    }
+  ],
+  "integrity": {
+    "search_audit_csv": {
+      "row_count": 8,
+      "date_resets": 0,
+      "date_ordering": "ascending",
+      "duplicate_ids": 0,
+      "date_span": {
+        "first": "2026-08-16T20:11:30.285000+00:00",
+        "last": "2026-09-13T22:00:45.256000+00:00",
+        "min": "2026-08-16T20:11:30.285000+00:00",
+        "max": "2026-09-13T22:00:45.256000+00:00"
+      }
+    }
+  }
+}
