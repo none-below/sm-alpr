@@ -1,0 +1,85 @@
+{
+  "url": "https://sfist.com/2026/09/16/deflock-sf-maps-local-cameras-spreads-awareness-about-flock-surveillance/",
+  "source_domain": "sfist.com",
+  "tier": 2,
+  "stance": "critical",
+  "title": "\u2018DeFlock SF\u2019 Maps Local Cameras, Spreads Awareness About Flock Surveillance",
+  "byline": "Leanne Maxwell",
+  "published_at": "2026-09-16T18:10:00.000Z",
+  "fetched_at": "2026-09-17T18:14:43Z",
+  "discovered_by": "rss:sfist.com",
+  "scanner_verdict": "WARNINGS \u2014 10 pts, low/medium only",
+  "scanner_score": 10,
+  "content_hash": "c8a24453338033b2111fbe6b37258857b8b762625365e33f209541acecd9036c",
+  "paths": {
+    "html": "assets/articles/sfist.com/2026-09-16-deflock-sf-maps-local-cameras-spreads-awareness-about-flock-surveilla_ef83ab9f.html",
+    "meta": "assets/articles/sfist.com/2026-09-16-deflock-sf-maps-local-cameras-spreads-awareness-about-flock-surveilla_ef83ab9f.meta.json",
+    "pdf": "assets/articles/sfist.com/2026-09-16-deflock-sf-maps-local-cameras-spreads-awareness-about-flock-surveilla_ef83ab9f.pdf",
+    "txt": "assets/articles/sfist.com/2026-09-16-deflock-sf-maps-local-cameras-spreads-awareness-about-flock-surveilla_ef83ab9f.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 3.083,
+      "matched_forms": [
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 2.933,
+      "matched_forms": [
+        "San Jose Police",
+        "San Jose Police Department"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "summary": "A local group has launched DeFlock SF, a website mapping Flock and other ALPR cameras around San Francisco and tracking related news, in response to concerns about SFPD's 400 Flock cameras and prior federal access to the data. The article also notes San Jose PD recently fired an officer accused of misusing Flock data in a domestic violence situation.",
+  "key_quotes": [
+    {
+      "quote": "DeFlock SF says SFPD has spent nearly $4 million on the system, with annual renewal costs of about $1.2 million.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "the San Jose Police Department recently fired an officer accused of sharing Flock data with a family member involved in a domestic violence situation, which allegedly allowed the suspect to locate the victim.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Earlier this year, it was revealed that federal agencies had accessed San Francisco's license plate-reading data.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "officers are only permitted to search the system using a case number or computer-aided dispatch number.",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-17T18:18:24Z",
+  "article_id": "art_ef83ab9f10f4"
+}
