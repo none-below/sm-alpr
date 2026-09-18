@@ -1,0 +1,57 @@
+{
+  "title": "NCRIC Astrometrics platform access/usage data and vendor wind-down records",
+  "summary": "Requests, distinct from the SOP 205.5.1 end-user audits the Department has twice said don't exist (W012461-040226, W012666-050426): (1) any access, usage, or audit data concerning the NCRIC Astrometrics platform the Department obtained from NCRIC or its vendor for any purpose, including logs of end-user sign-on, search terms/case numbers, or the justification tied to a search; (2) any request or correspondence by which the Department asked NCRIC or its vendor for that data; (3) records concerning the disposition of SMPD ALPR data on termination, wind-down, or cessation of the vendor operating NCRIC Astrometrics, including certificates of destruction or migration/transition records; and (4) any notice the Department received from NCRIC or the vendor about the vendor's wind-down/status change, data migration or deletion, or public disclosure of the platform's infrastructure code — including a record showing no such notice was received, if one exists.",
+  "tags": ["ncric", "sop-205.5.1"],
+  "policy_promises": [
+    {
+      "policy": "SOP 205, \"NCRIC Astrometrics Platform\"",
+      "quote": "Our Department can obtain such data for the purposes of an audit directly from the NCRIC.",
+      "tests": "Whether the Department will actually obtain and produce the underlying NCRIC-held access/usage data it says it is entitled to, having twice claimed no responsive audit records exist."
+    },
+    {
+      "policy": "SOP 205 (AWS/Verio third-party-hosting clauses)",
+      "quote": "is also maintained by Amazon Web Services and available for review and audit by SMPD",
+      "tests": "Whether the Department applies the same third-party-hosting-is-available-to-us principle it states for Flock/AWS and Vigilant/Verio to the NCRIC Astrometrics hosting provider."
+    },
+    {
+      "policy": "NCRIC MOU (Aug. 2014) §6",
+      "quote": "Member Agencies remain the official custodian of all information contributed to the NCRIC-DSP",
+      "tests": "Whether NCRIC-held records of SMPD's contributed ALPR data are treated as SMPD's own writings under Gov. Code §7920.530 regardless of which server they reside on."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012461-040226",
+      "relation": "predicate",
+      "note": "First \"no responsive records\" claim for NCRIC-platform end-user audits under SOP 205.5.1 — this PRA reframes around the underlying access data instead."
+    },
+    {
+      "ref": "W012666-050426",
+      "relation": "predicate",
+      "note": "Second \"no responsive records\" claim for the same NCRIC-platform end-user audits."
+    },
+    {
+      "ref": "W012672-050426",
+      "relation": "source",
+      "note": "Source of the Feb. 2021 Flock training-materials quote on 30-day Flock retention vs. 365-day NCRIC Astrometrics retention."
+    },
+    {
+      "ref": "W012376-032026",
+      "relation": "source",
+      "note": "Source of the Aug. 2014 NCRIC MOU quoted at §6 (custodianship / PRA referral to the owning Member Agency)."
+    },
+    {
+      "ref": "W012198-022326",
+      "relation": "source",
+      "note": "Source of the Feb. 10, 2021 SOP 205 revision containing the NCRIC Astrometrics audit provision."
+    },
+    {
+      "ref": "W012159-021226",
+      "relation": "source",
+      "note": "Source of the Nov. 10, 2025 SOP 205 revision containing the identical NCRIC Astrometrics audit provision."
+    }
+  ],
+  "filed_because": "The Department has twice told the requester no responsive records exist for SOP 205.5.1 end-user audits of the NCRIC Astrometrics platform (W012461-040226, W012666-050426). This PRA works around that gap by seeking the underlying NCRIC/vendor-held access and usage data directly — rather than the audits SMPD says it never ran — and by asking what became of SMPD's ALPR data and whether SMPD was notified given indications that the vendor operating Astrometrics has wound down or changed status.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-09-14. Statutory 10-calendar-day determination due 2026-09-24 (Gov. Code § 7922.535(a)). Awaiting initial agency response."
+}

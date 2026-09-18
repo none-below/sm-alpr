@@ -1,0 +1,168 @@
+{
+  "url": "https://www.wired.com/story/flock-ai-search-user-interface/",
+  "source_domain": "wired.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "This Is Flock\u2019s AI Search Tool for Cops",
+  "byline": "Dell Cameron,Dhruv Mehrotra",
+  "published_at": "2026-09-03T10:00:00.000Z",
+  "fetched_at": "2026-09-14T18:34:43Z",
+  "discovered_by": "rss:wired.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 197 pts, HIGH/CRITICAL findings",
+  "scanner_score": 197,
+  "content_hash": "f4c0d4aa621478e249d141e07c6653f4a78b3bc5347e25312a78da24054d7e46",
+  "paths": {
+    "html": "assets/articles/wired.com/story-flock-ai-search-user-interface_29b9565f.html",
+    "meta": "assets/articles/wired.com/story-flock-ai-search-user-interface_29b9565f.meta.json",
+    "pdf": "assets/articles/wired.com/story-flock-ai-search-user-interface_29b9565f.pdf",
+    "txt": "assets/articles/wired.com/story-flock-ai-search-user-interface_29b9565f.txt"
+  },
+  "wayback_url": "https://www.wired.com/story/flock-ai-search-user-interface/",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "9c588c50-9686-5e4d-b2c3-a49cf54b140e",
+    "04cea6da-d564-5393-9c2b-e6954ab126d7",
+    "12a14c52-9ef3-5a3d-b609-53218eefd508",
+    "2a10f7dd-7f0c-5e00-86d8-0ef7915e96c0",
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+    "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+    "29060c81-ed62-5e02-b2b0-d7aad0341aaf",
+    "c5c7ab05-03c2-5e01-9f17-971aae2134a6",
+    "5610e604-ad2c-5626-8287-33433f9c275f"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "9c588c50-9686-5e4d-b2c3-a49cf54b140e",
+      "display_name": "App State University NC PD",
+      "state": "NC",
+      "score": 6.917,
+      "matched_forms": [
+        "Boone"
+      ]
+    },
+    {
+      "agency_id": "04cea6da-d564-5393-9c2b-e6954ab126d7",
+      "display_name": "Appalachian Regional Healthcare System NC PD",
+      "state": "NC",
+      "score": 6.917,
+      "matched_forms": [
+        "Boone"
+      ]
+    },
+    {
+      "agency_id": "12a14c52-9ef3-5a3d-b609-53218eefd508",
+      "display_name": "Boone NC PD",
+      "state": "NC",
+      "score": 6.917,
+      "matched_forms": [
+        "Boone"
+      ]
+    },
+    {
+      "agency_id": "2a10f7dd-7f0c-5e00-86d8-0ef7915e96c0",
+      "display_name": "City of California MO PD",
+      "state": "MO",
+      "score": 2.75,
+      "matched_forms": [
+        "California Police",
+        "California Police Department"
+      ]
+    },
+    {
+      "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "display_name": "Flock Safety",
+      "state": "GA",
+      "score": 2.7,
+      "matched_forms": [
+        "Flock Safety"
+      ]
+    },
+    {
+      "agency_id": "87ced6b8-24d2-5127-8bdb-2333a325cbfd",
+      "display_name": "Washington IL PD",
+      "state": "IL",
+      "score": 2.667,
+      "matched_forms": [
+        "Washington"
+      ]
+    },
+    {
+      "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "display_name": "San Diego CA PD",
+      "state": "CA",
+      "score": 2.65,
+      "matched_forms": [
+        "San Diego"
+      ]
+    },
+    {
+      "agency_id": "29060c81-ed62-5e02-b2b0-d7aad0341aaf",
+      "display_name": "San Diego CA PD is not sharing data with any partner networks. Policy & Trust",
+      "state": "CA",
+      "score": 2.65,
+      "matched_forms": [
+        "San Diego"
+      ]
+    },
+    {
+      "agency_id": "c5c7ab05-03c2-5e01-9f17-971aae2134a6",
+      "display_name": "Stanley NC PD",
+      "state": "NC",
+      "score": 2.617,
+      "matched_forms": [
+        "Stanley"
+      ]
+    },
+    {
+      "agency_id": "5610e604-ad2c-5626-8287-33433f9c275f",
+      "display_name": "City of Newman CA PD",
+      "state": "CA",
+      "score": 2.6,
+      "matched_forms": [
+        "Newman"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb"
+  ],
+  "summary": "WIRED reverse-engineered Flock Safety's browser code to reveal how its AI-powered search tools work, including a FreeForm natural-language person search, a Smart Sort ranking system, and an AI watch list that continuously scans cameras for people matching written descriptions. The investigation found Flock's content-moderation system blocks some categories (race, religion, nationality) but only warns on political/cultural expression, and that guardrails like case-code requirements and Audit Assistance are off by default. Experts say the safeguards log misuse but don't prevent it, while officer stalking cases using Flock continue to mount.",
+  "key_quotes": [
+    {
+      "quote": "Flock's guardrails may discourage some abusive uses of its tools, and will record them, but will not stop them.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "At least 50 officers in the US have recently been charged with or accused of misusing license plate readers, according to The Washington Post. Forty-six of those cases involve Flock.",
+      "paragraph_idx": 29
+    },
+    {
+      "quote": "In a search last year, an officer in California typed \"American flag.\" The search drew a block when aimed at a person, then ran across 11,000 cameras when aimed at vehicles instead.",
+      "paragraph_idx": 41
+    },
+    {
+      "quote": "The filtering, he says, is \"a speck on the back of a giant surveillance machine\" whose database can be probed by AI for \"your-imagination-is-the-limit fishing expeditions.\"",
+      "paragraph_idx": 45
+    },
+    {
+      "quote": "A South Carolina sheriff's office turned Audit Assistance on earlier this month, and an internal-affairs officer identified more than 2,700 allegedly unauthorized searches the next day.",
+      "paragraph_idx": 49
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-14T18:43:06Z",
+  "article_id": "art_29b9565fe222"
+}

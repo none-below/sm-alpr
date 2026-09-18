@@ -47,6 +47,7 @@ BUILD_FILES := \
 	docs/data/agency_changelog.json \
 	docs/data/dashboard.json \
 	docs/data/audit_check_manifest.json \
+	docs/data/document_index.json \
 	assets/transparency.flocksafety.com/.sharing_graph_full.json
 BUILD_DIRS := docs/data/audit docs/data/history
 # Gitignored docs/ artifacts built by the deploy workflow (.github/workflows/
@@ -81,6 +82,7 @@ build: ## Force-rebuild all site/data artifacts + findings PDF
 	uv run python scripts/build_justifications.py
 	uv run python scripts/build_dashboard.py
 	uv run python scripts/build_audit_check_manifest.py
+	uv run python scripts/build_document_index.py
 	uv run python scripts/md_to_pdf.py
 	@mkdir -p $(dir $(BUILD_STAMP))
 	@touch $(BUILD_STAMP)
