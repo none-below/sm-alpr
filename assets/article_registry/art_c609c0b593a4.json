@@ -1,0 +1,121 @@
+{
+  "url": "https://arstechnica.com/security/2026/09/hackers-reveal-how-flock-cameras-really-track-cars-and-people/",
+  "source_domain": "arstechnica.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Hackers reveal how Flock cameras really track cars and people",
+  "byline": "WIRED",
+  "published_at": "2026-09-17T09:43:46+00:00",
+  "fetched_at": "2026-09-18T11:14:58Z",
+  "discovered_by": "rss:arstechnica.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 143 pts, HIGH/CRITICAL findings",
+  "scanner_score": 143,
+  "content_hash": "eb8eb135dbb083210f72c24f758eaf58d79d19e5a4d0d8a1b85d5f5f174ee387",
+  "paths": {
+    "html": "assets/articles/arstechnica.com/security-2026-09-hackers-reveal-how-flock-cameras-really-track-cars-and-people_c609c0b5.html",
+    "meta": "assets/articles/arstechnica.com/security-2026-09-hackers-reveal-how-flock-cameras-really-track-cars-and-people_c609c0b5.meta.json",
+    "pdf": "assets/articles/arstechnica.com/security-2026-09-hackers-reveal-how-flock-cameras-really-track-cars-and-people_c609c0b5.pdf",
+    "txt": "assets/articles/arstechnica.com/security-2026-09-hackers-reveal-how-flock-cameras-really-track-cars-and-people_c609c0b5.txt"
+  },
+  "wayback_url": "https://arstechnica.com/security/2026/09/hackers-reveal-how-flock-cameras-really-track-cars-and-people/",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "incident:ice-cooperation",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "59b1f730-2412-5790-92fd-a707e3ac23cd",
+    "4f545e10-4f02-51d7-9f85-b670f74f352c",
+    "70924aff-db95-54c6-8fab-33bfeaa1688c",
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+    "820b4449-71e5-5450-8119-32dd01e2a39e",
+    "586a27d4-2181-5b4a-b1bc-23bceb84d9b5"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "59b1f730-2412-5790-92fd-a707e3ac23cd",
+      "display_name": "Pleasant Hill CA PD",
+      "state": "CA",
+      "score": 3.933,
+      "matched_forms": [
+        "Pleasant Hill"
+      ]
+    },
+    {
+      "agency_id": "4f545e10-4f02-51d7-9f85-b670f74f352c",
+      "display_name": "Orange CA PD",
+      "state": "CA",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    },
+    {
+      "agency_id": "70924aff-db95-54c6-8fab-33bfeaa1688c",
+      "display_name": "TX - City of Orange",
+      "state": "TX",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    },
+    {
+      "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "display_name": "Flock Safety",
+      "state": "GA",
+      "score": 2.7,
+      "matched_forms": [
+        "Flock Safety"
+      ]
+    },
+    {
+      "agency_id": "820b4449-71e5-5450-8119-32dd01e2a39e",
+      "display_name": "Alpharetta GA PD",
+      "state": "GA",
+      "score": 2.667,
+      "matched_forms": [
+        "Alpharetta"
+      ]
+    },
+    {
+      "agency_id": "586a27d4-2181-5b4a-b1bc-23bceb84d9b5",
+      "display_name": "Pawtucket RI PD",
+      "state": "RI",
+      "score": 2.65,
+      "matched_forms": [
+        "Pawtucket"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb"
+  ],
+  "summary": "Hackers physically removed a Flock ALPR camera, extracted its storage and encryption key, and shared the contents with 404 Media and WIRED, revealing that the device captured ~1.6 million images over 21 days, ran ~20 Flock apps, and explicitly detects people in addition to vehicles and plates. The investigation also notes Alpharetta, GA cameras were accessible to 2,000+ agencies and revisits prior reporting on ICE and abortion-related lookups via Flock's national network.",
+  "key_quotes": [
+    {
+      "quote": "the joint analysis of the recovered data shows that software running on the device explicitly detects people as well as vehicles, license plates, and bicycles",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "In Alpharetta, Georgia, for example, WIRED found that records from the city's Flock cameras were accessible to more than 2,000 agencies, including police departments, colleges, airports, and, inexplicably, the Office of Inspector General for the federal General Services Administration.",
+      "paragraph_idx": 24
+    },
+    {
+      "quote": "Flock insists its cameras do not perform face recognition. WIRED and 404 Media found no evidence of any face-recognition capabilities in the camera's software beyond ones included by default in the Android operating system.",
+      "paragraph_idx": 34
+    },
+    {
+      "quote": "I think that type of vigilantism will only crystallize the police and the state at large in their belief that this tool is necessary",
+      "paragraph_idx": 38
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-18T11:15:45Z",
+  "article_id": "art_c609c0b593a4"
+}
