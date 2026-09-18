@@ -84,6 +84,11 @@ ALLOWED_EMAIL_DOMAINS = {
     # hyperlink target reads .org while its visible text reads .gov. Source 63 is
     # kept as the office sent it rather than corrected, so allow the variant.
     "smcacre.org",
+    # Board of State and Community Corrections — state agency administering the
+    # Organized Retail Theft Prevention Grant Program. Its PRA Coordinator
+    # address is published on the BSCC contact page; appears in outbound
+    # correspondence under assets/public-records/bscc/.
+    "bscc.ca.gov",
 }
 
 # Known public phone numbers from published City of San Mateo records.
