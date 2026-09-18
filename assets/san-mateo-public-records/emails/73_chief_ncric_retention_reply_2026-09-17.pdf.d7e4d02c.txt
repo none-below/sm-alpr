@@ -1,0 +1,123 @@
+--- page 1 ---
+RE: San Mateo ALPR data retained at NCRIC — publicly posted vendor code
+From
+Ed Barberini <ebarberini@cityofsanmateo.org>
+To
+Brian C <
+>
+Cc
+Bahareh Abdollahi <babdollahi@cityofsanmateo.org>
+Date
+2026-09-17 23:48
+Hi Brian,
+Thank you for bringing this matter to our attention. We raised these concerns with NCRIC and received the following response from NCRIC
+Assistant Deputy Director Brian Rodriguez regarding the issue:
+In brief summary: an engineer from a now-closed company that NCRIC previously worked with in 2022 and 2023, posted his work publicly on the
+code repository site Github, which unfortunately contained sensitive content including an audit log with six months of officer queries, and
+ALPR device names potentially revealing their locations; details which typically would be redacted or exempt from public release. Efforts
+are underway with Github to have this taken down, and direct outreach has been attempted with the individual. Further review is still
+occurring, but fortunately I’ve yet to uncover any evidence that raw public ALPR reads have been retained or were compromised. Note that,
+since 2024, NCRIC is not involved in any data collection or replication efforts, for ALPR or any other records, from any other agencies,
+including San Mateo PD.
+•       Whether historical SMPD ALPR data remains stored within any NCRIC system or database and, if so, the applicable retention period
+and current disposition of that data.
+                NCRIC is not in possession of any repositories of ALPR data from any agency, including San Mateo Police Department
+•       Whether SMPD ALPR data was replicated or stored outside of the originating Flock system and whether searches of that data are
+separately audited.
+                Prior to 2024, NCRIC strove to unify ALPR data across vendor and agency jurisdictions, and to provide law enforcement with
+access to the unified dataset. This included replication and/or federation of data from the original vendor location, such as Flock. All
+searches of the data were logged for audit purposes.
+•       Whether NCRIC is aware of source code, configuration information, audit logs, ALPR data, or other operational information having
+been publicly disclosed or made accessible by a current or former NCRIC vendor.
+                Yes, NCRIC is aware of the public posting of content, including audit logs, screenshots, ALPR locations, by an employee of
+a vendor the NCRIC previously worked with in 2022 and 2023.
+•       Whether any publicly accessible information includes SMPD data, user information, search activity, case information, license plate
+information, or underlying ALPR records.
+                An audit log file spanning June – November 2023 contains six entries of queries by San Mateo Police Department, including
+the officer’s email address, plate searched, and associated case number.
+•       The identity and current status of the vendor involved and whether that vendor, or any successor or third party, currently
+possesses copies of SMPD-contributed data.
+                NCRIC did not renew its contract with Maiveric when it concluded in December 2023. There was no transition to a successor
+or other third party. It is the understanding of the NCRIC that Maiveric is no longer in business.
+•       What steps NCRIC has taken, or is taking, to assess and address any potential exposure and to ensure that agency data held by NCRIC
+or its vendors is appropriately secured or deleted.
+                NCRIC continues to review the data contained in the repository on Github and continues to pursue takedown measures of the
+content. Other previous initiatives that used local databases residing in the NCRIC datacenter have been confirmed to be properly erased or
+destroyed.
+•       The process available to a member agency under the NCRIC MOU to request withdrawal and deletion of previously contributed data,
+including replicated copies, and whether such a request is necessary when an agency has already discontinued sharing.
+                Since the conclusion of the contract with Maiveric in December 2023, NCRIC is not in possession of any ALPR records from
+other agencies. Similarly, other law enforcement data sharing initiatives such as Coplink are no longer active and/or no longer leveraging
+NCRIC for data services, and all records have been purged.
+•       If NCRIC has conducted an internal review or has prepared any notification, assessment, technical explanation, or other
+documentation addressing these issues, please provide that information as well.
+                NCRIC is preparing additional notification and outreach to similarly impacted partner agencies.
+At the time the queries referenced in your inquiry were conducted, San Mateo Police Department personnel had authorized access to the ALPR
+database through NCRIC for legitimate law enforcement purposes and in support of ongoing investigations.
+The information you brought to our attention appears to originate from NCRIC system audit logs that were made publicly available by a
+former NCRIC employee. These logs appear to document user search activity within the NCRIC system, similar to audit information that may be
+made publicly available through law enforcement transparency portals.
+At this time, we are not aware of any San Mateo Police Department ALPR camera-read data being inappropriately shared or made available on
+the public site in question. Rather, the information appears to reflect audit records of user activity within the NCRIC system and does not
+appear to include or represent ALPR camera-read data belonging to the San Mateo Police Department.
+It is also important to note that, effective May 19, 2026, the San Mateo Police Department terminated its data-sharing relationship with
+NCRIC and discontinued access to the NCRIC ALPR system.
+Because this matter involves NCRIC systems, its former vendor, and NCRIC’s ongoing review and response to the public disclosure, we
+respectfully ask that any additional inquiries regarding this matter be directed to NCRIC, as they are best positioned to provide the most
+current and complete information regarding their systems, records, and response efforts.
+Ed
+Ed Barberini
+Chief of Police
+City of San Mateo Police Department
+200 Franklin Pkwy, San Mateo, CA 94403
+650-522-7600 | ebarberini@cityofsanmateo.org
+
+--- page 2 ---
+-----Original Message-----
+From: Brian C <
+>
+Sent: Friday, September 11, 2026 10:54 PM
+To: Ed Barberini <ebarberini@cityofsanmateo.org>
+Subject: San Mateo ALPR data retained at NCRIC — publicly posted vendor code
+Chief Barberini,
+I just wanted to write to you to flag something new affecting the city, that you may not have been made aware of.
+Until recently, SMPD has shared ALPR data with NCRIC. SMPD's own SOP 205 says the department "partner[s] with the NCRIC to store the ALPR
+data we collect with PIPs and Flock." Since February, a vendor contracted by NCRIC has made public the software infrastructure code (it was
+posted by an engineer of the company, not leaked). It's still up today, and multiple other people have made their own copies of it since
+late August, rendering it effectively permanently public.
+The code that was published documents an automated process that fetches each participating agency's previous day's plate data, and stored
+it into a separate NCRIC database, with no expiration or purge setting enabled in the published configuration. The system contains 341
+datasets, including a separate ALPR dataset for each contributing agency. None of them has an expiration or purge value set. Because that
+copy sits outside Flock, searches against it would not appear in the department's Flock audit logs.
+TLDR: Every license plate read that san mateo recorded from at least
+mid-2023 until the department stopped sharing with NCRIC appears to remain in NCRIC's system (despite the department's 30-day flock
+retention settings), and is not set to expire or purge.
+The vendor that operated the platform seems to no longer be in business, and that vendor also appears to retain copies of agency data, as
+well. It has additionally made public audit logs and other operational records from NCRIC's system, including San Mateo Police Department's
+search records (without any redactions).
+Section 6 of the department's MOU with NCRIC provides that member agencies "remain the official custodian of all information contributed to
+the NCRIC-DSP." I would be very interested to know how the department has acted to protect its citizens' data at both another remote agency
+(NCRIC), and a now defunct private business. I had previously filed a PRA (W012376) asking for any records of the department restricting
+NCRIC's re-sharing of San Mateo ALPR data -- and the "no responsive records" to that request indicates that the department didn't even take
+the basic measure to protect its residents as the NCRIC MOU outlines.
+The MOU's Data Sharing section says data a member agency later declares should not be shared "shall be withdrawn by all Hosts from all
+NCRIC-DSP Systems within 48 hours, including deletion of any replications of the data" -- a step the department has produced no record of
+taking.
+Separately, the published files include an export of NCRIC's search audit log. As an example of what's readable right now: on September 11,
+2023, account 
+ ran three queries under case 
+, searching for plate numbers 
+, 
+ and
+.
+As the official custodian of this data, what specific actions is the department taking to protect our residents' privacy? In particular, I
+would like to know whether it intends to make the declaration to NCRIC described above, what the department has done to assess the exposure
+of the data already published, and what became of the copies held by a now-defunct software vendor.
+I would appreciate a response ahead of the October council discussion of the department's Flock program -- ideally within the next week, so
+that I can take the department's position into account.
+-brian
+* PRIVILEGE AND CONFIDENTIALITY NOTICE: This message, together with any attachments, is intended only for the use of the individual or
+entity to which it is addressed. It may contain information that is confidential and prohibited from disclosure. If you are not the
+intended recipient, you are hereby notified that any dissemination or copying of this message or any attachment is strictly prohibited. If
+you have received this message in error, please notify the original sender immediately by telephone or by return e-mail and delete this
+message along with any attachments from your computer. Thank you.
