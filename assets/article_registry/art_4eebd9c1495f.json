@@ -1,0 +1,120 @@
+{
+  "url": "https://www.404media.co/cops-search-thousands-of-flock-cameras-for-reasons-of-lmao-idk-hehe-and-asdfg/",
+  "source_domain": "404media.co",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Cops Search Thousands of Flock Cameras for Reasons of \u2018LMAO,\u2019 \u2018IDK,\u2019 \u2018Hehe,\u2019 and \u2018asdfg\u2019",
+  "byline": "Jason Koebler",
+  "published_at": "2026-09-14T15:51:53.000Z",
+  "fetched_at": "2026-09-15T13:33:49Z",
+  "discovered_by": "rss:404media.co",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 42 pts, HIGH/CRITICAL findings",
+  "scanner_score": 42,
+  "content_hash": "f4b0709e9d27f1a38d817eb911bdaf4bad88b80768ae878f2d30d1a60eedc54e",
+  "paths": {
+    "html": "assets/articles/404media.co/cops-search-thousands-of-flock-cameras-for-reasons-of-lmao-idk-hehe-and-asdfg_4eebd9c1.html",
+    "meta": "assets/articles/404media.co/cops-search-thousands-of-flock-cameras-for-reasons-of-lmao-idk-hehe-and-asdfg_4eebd9c1.meta.json",
+    "pdf": "assets/articles/404media.co/cops-search-thousands-of-flock-cameras-for-reasons-of-lmao-idk-hehe-and-asdfg_4eebd9c1.pdf",
+    "txt": "assets/articles/404media.co/cops-search-thousands-of-flock-cameras-for-reasons-of-lmao-idk-hehe-and-asdfg_4eebd9c1.txt"
+  },
+  "wayback_url": "https://www.404media.co/cops-search-thousands-of-flock-cameras-for-reasons-of-lmao-idk-hehe-and-asdfg/",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:national",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:motorola"
+  ],
+  "agencies": [
+    "b2602fed-a7a7-5d56-bda7-5d561d159a88",
+    "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+    "84d92c0e-9f73-5d54-9f1a-167345415e37",
+    "a4c78e53-085f-5656-a3ad-baacf104d3ac",
+    "a84d1a3f-68f3-529c-9d11-8e1da89bd6ee",
+    "f3f7cc91-2a6b-5b53-be43-aa3a72989f9e"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "b2602fed-a7a7-5d56-bda7-5d561d159a88",
+      "display_name": "Fishers IN PD",
+      "state": "IN",
+      "score": 5.267,
+      "matched_forms": [
+        "Fishers",
+        "Fishers Police",
+        "Fishers Police Department"
+      ]
+    },
+    {
+      "agency_id": "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+      "display_name": "New York City Department of Environmental Protection PD",
+      "state": "NY",
+      "score": 3.767,
+      "matched_forms": [
+        "New York"
+      ]
+    },
+    {
+      "agency_id": "84d92c0e-9f73-5d54-9f1a-167345415e37",
+      "display_name": "Lake County IN SO",
+      "state": "IN",
+      "score": 2.683,
+      "matched_forms": [
+        "Lake County"
+      ]
+    },
+    {
+      "agency_id": "a4c78e53-085f-5656-a3ad-baacf104d3ac",
+      "display_name": "Alvin ISD TX PD",
+      "state": "TX",
+      "score": 2.583,
+      "matched_forms": [
+        "Alvin"
+      ]
+    },
+    {
+      "agency_id": "a84d1a3f-68f3-529c-9d11-8e1da89bd6ee",
+      "display_name": "Alvin TX PD",
+      "state": "TX",
+      "score": 2.583,
+      "matched_forms": [
+        "Alvin"
+      ]
+    },
+    {
+      "agency_id": "f3f7cc91-2a6b-5b53-be43-aa3a72989f9e",
+      "display_name": "TX - Alvin College Campus PD",
+      "state": "TX",
+      "score": 2.583,
+      "matched_forms": [
+        "Alvin"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "An EFF analysis of Flock ALPR audit logs shared with 404 Media found police across dozens of jurisdictions entered gibberish, jokes, or profanity (e.g., 'LMAO,' 'idk,' 'asdfg') as justifications when searching Flock's nationwide camera network. The findings highlight lax oversight, and Flock has since replaced the free-text reason field with a drop-down, which EFF called a transparency loss.",
+  "key_quotes": [
+    {
+      "quote": "Police are routinely searching the Flock database without providing any legitimate justification, making a mockery of our civil liberties by logging reasons like 'LOL,' 'LMAO,' 'sexy,' and 'idk' to access sensitive ALPR location data",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Late last year, Flock changed its system; rather than having to type in a reason, Flock now has a drop-down list of prepopulated reasons, which the EFF called 'a loss for transparency.'",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "The fact that these searches were not only missed by the agency supervising the officer, but by the often thousands of other agencies whose systems were searched, demonstrates how agencies cannot be trusted to oversee themselves",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-15T13:40:35Z",
+  "article_id": "art_4eebd9c1495f"
+}
