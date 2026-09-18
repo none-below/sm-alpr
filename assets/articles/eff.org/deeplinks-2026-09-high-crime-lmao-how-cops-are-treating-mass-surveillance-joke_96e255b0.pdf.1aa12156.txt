@@ -1,0 +1,305 @@
+--- page 1 ---
+The High Crime of “LMAO”: How
+Cops Are Treating Mass
+Surveillance As a Joke
+SEPTEMBER 14, 2026
+eff.org
+Here's a riddle: Why did a Goshen Police Department officer search 6,474
+automated license plate reader (ALPR) networks, representing data from 82,413
+cameras, on May 7, 2025? 
+If your answer is "I don't know," it turns out you're 100% correct. The officer
+left the letters "idk" in the search field where cops are supposed to document
+the reason for the search.
+
+--- page 2 ---
+When law enforcement and tech salespeople pitch ALPRs to city councils, they
+stick to a familiar script. They trumpet the technology, which is often provided
+by private companies like Flock Safety, Motorola Solutions, or Axon, as an
+essential tool for solving high-stakes crimes, such as car jacking, kidnapping,
+or murder.
+But when you strip away the carefully curated talking points, the data continues
+to reveal a different (and frankly, ridiculous) story. An EFF analysis of ALPR
+search logs from Flock Safety systems shows that officers across the country
+are spying on drivers for completely nonsensical "reasons." Police are routinely
+searching the Flock database without providing any legitimate justification,
+making a mockery of our civil liberties by logging reasons like "LOL" (short for
+“laugh out loud”), "LMAO" (short for "laughing my ass off"), "sexy," and
+"idk" (short for “I don’t know”) to access sensitive ALPR location data.
+And in some cases, officers are just mashing keyboard buttons rather than
+articulating the nature of their searches.
+Flock Safety claims it has improved its system by requiring officers to select
+from a dropdown list of crimes before running a search–but that only makes it
+easier for officers to hide improper searches behind the veneer of uniformity.
+The system does not require proof that the dropdown reason actually matches
+the true purpose of the search. 
+With no warrant requirements, limited guardrails, and deficient audit
+processes, ALPR databases have fostered a culture of unrestricted access to
+everyone’s location information. This culture of abuse has allowed police to
+treat a mass surveillance network like their own personal search engine,
+permitting the tracking of the movements of everyday citizens for low-level
+complaints, personal whims, and sometimes, seemingly, for the lols.
+A Documented Culture of Abuse
+ALPR misuse isn’t a new phenomenon; it has dominated headlines for more
+than a year. We already know that officers regularly abuse these systems to
+stalk past and potential romantic partners. We’ve seen ALPRs used to surveil
+protests, which can chill First Amendment-protected dissent, and seen officers
+try to use an ALPR system to track down a woman seeking an abortion.
+
+--- page 3 ---
+Typically, we learn about these uses from documents called "network audits,"
+which are long spreadsheets that document all the searches that run through an
+agency's system. It is not unusual for even a small agency to have a record of
+millions of searches from thousands of external agencies across the United
+States.
+We’ve also uncovered horrific systemic profiling, with more than 80 law
+enforcement agencies using terms like "roma" and "g*psy" to target ethnic
+Romani people—often without any mention of a suspected crime. And when
+police aren’t using ALPRs for stalking or profiling, they routinely use them for
+extreme low-level investigations: verifying whether a student lives in a specific
+school zone, running employment background checks, following up on loud
+music complaints, or targeting a motorcyclist simply for holding a cell phone.
+But somehow, it gets worse.
+The Absurdity of Documented Search Reasons
+EFF’s analysis of Flock Safety’s ALPR search data obtained through public
+records requests has uncovered a disturbing trend. In the absence of judicial
+oversight, officers are inputting ridiculously unserious terms to justify their
+searches. Here is just a snapshot of what police consider a "reason" to track
+someone’s vehicle:
+Surveillance as a Joke
+
+--- page 4 ---
+Audit logs sample
+Barberton Police Department (Ohio) employees ran numerous searches
+between March 2024 and May 2026, listing “LOL” or “lol” as the reason.
+Harris County Sheriff's Office (Texas) employees ran several searches
+between April and May 2026 listing “LOL” or “lol” as the case number.
+Lake County Sheriff's Department (Ind.) employees ran searches in July
+2025 for “LMAO.”
+Richmond Police Department (Calif.) employees ran over multiple searches
+in November 2024 for “Hehe.”
+Riverside County Sheriff's Department (Calif.) employees ran searches in
+2024 for “Haha.”
+"Don’t Know, Don’t Care" Approach
+Kankakee County, Sheriff's Office (Ill.) employees ran searches (2023–
+2025) for “idk” or “idk lol.”
+Goshen Police Department (Ind.) ran searches (May–June 2025) for “idk.”
+Fishers Police Department (Ind.) ran searches in May 2025 for “blah.”
+A Pasco Police Department (Wash.) employee searched for at least four
+different license plates, leaving "robbery i don't remember the case
+number leave me alone" in the reason field.
+The San Diego Sheriff's Department (Calif.) ran searches in May 2025 with
+"idk" in the reason field. 
+More than 30 agencies ran more than 6,300 searches with "TBD" (short for
+"To Be Determined") as the "reason." These included the Arizona
+Department of Public Safety, the Manteca Police Department (Calif.), and
+the Baton Rouge Police Department (La.). The Priceville Police Department
+(Ala.) alone ran 1,954 searches with reasons "TBD."
+
+--- page 5 ---
+Insults and Inappropriate Searches
+Belton Police Department (Mo.) ran searches (Aug–Sept 2024) for
+“d*ckhead.”  (asterisk/redaction our own)
+A Manteca Police Department (Ill.) employee ran searches in June 2024 for
+“sh*thead”  (asterisk/redaction our own)
+A Norton Police Department (Mass.) employee ran searches in December
+2024 for “Sexy.”
+Corona Police Department (Calif.) employees ran searches (2023–2025) for
+“weird” or “WEIRD KID.”
+Thornton Police Department (Colo.) employees ran several searches in
+October 2025 for “driving around being weird.”
+A Columbus Police Department (Ohio) officer ran searches in 2023 for
+“idiot.”
+A Michigan City Police Department Officer (Ind.) ran searches in June 2025
+listing “f*ck this new search engine.” (asterisk/redaction our own)
+Button Mashing 
+Button mashing audit logs sample
+One of the more alarming discoveries we found in the network audit data is a
+large number of "reasons" that appear to be nothing more than an officer
+mashing buttons. These typically involve a nonsensical long string of
+characters from the same line or area of the keyboard.
+For example:
+
+--- page 6 ---
+An Eatonton Police Department (Ga.) employee ran searches with reasons
+such as HJKNUILH, uiokjk.kuj, GJLHBNMN, hjhbnmg, and iuohjk.
+An Atlanta Police Department (Ga.) employee ran searches with asdfga as
+the reason. 
+Bay County Sheriff's Office (Fla.) employees ran searches with reasons such
+as  ;'lkjh, /lkjh and lkjhg.
+A Brown County Sheriff's Office (Wis.) employee ran searches with reasons
+such as gyghkkghghjkghjk, ggyjgyujdsrdghdfhjkghjghk,
+HJHJKLHLKHJK, hjjkjkhjkljk and JHLJKHHJKL.
+A Lake County Sheriff's Office (Ohio) employee ran searches with reasons
+such as asdfg and ghjkl, and a second officer ran a series of searches that
+started off with "investigation" but then devolved into button mashing,
+including: 
+Investigatafy, Investigatafyd, Investigatafydl, Investigatafydlh,
+investigatafydlhj, investigatafydlhji, investigatafyfdlhji,
+investigatafyfdlhjigkfgty, investigatafyfdlhjigkfgtyy,
+investigatafyfdlhjij, investigatafyfdlhjik, investigatafyfdlhjikf,
+investigatafyfdlhjikfg, investigatafyfdlhjikfgty,
+investigatafyfdlhjikfgy and investigatafyfdlhjiy.
+A Moore Police Department (Okla.) ran searches with reasons such as
+jhjhjkhj, jhjkhjh, jhjkhjkh, jkhhkjhjk, Jkhjkhj, Jkhjkhjk, Jkhjkhjkh,
+jkhjkhkjh, jkjkhjkh, kjjkhjk, loiuiou, ukjhjkh and ulkuiou.
+A Westlake Police Department (Ohio) employee ran searches with reasons
+such as fghjkl, ghjkl, and lkjhg.
+A Kentucky State Police employee ran searches with reasons such as
+mhghjk, mhgnhjkj, nbvcxcvbn, nmbvcbnm, and sdfghj. 
+It's hard to imagine a situation where these characters add up to a legitimate
+police code. However, it's easy to imagine an officer cutting corners with a text
+field they know no one is checking, especially if they are accessing the Flock
+Safety app from their phones while driving. 
+How Police Departments Are Responding
+When confronted with these flagrantly unserious searches, police departments
+offered a mix of bureaucratic deflections and excuses. 
+In response to EFF’s request for comment, Thornton Police Department (Colo.)
+claimed the system didn't require officers to select from a defined list at the
+time, but it does today. They also audited the “driving around being weird”
+searches, claiming they were all actually for "legitimate public safety
+purposes."
+
+--- page 7 ---
+Other police departments we reached out to for comment shared the following: 
+Richmond Police Department (Calif.) stated that the officers involved with
+the "Hehe" and "idk" searches were "counseled."
+Corona Police Department (Calif.) noted that the employees searching for
+"WEIRD KID" are no longer employed by the city for unrelated reasons.
+Columbus Police Department (Ohio) pointed to their union contract, stating
+their Inspector General only has jurisdiction to investigate incidents within
+the last 90 days, giving the officer who searched for "idiot" in 2023 a free
+pass.
+Belton Police Department (Mo.) promised a "thorough investigation" of the
+"d*ckhead" searches through existing union and personnel policies.
+Manteno Police Department (Ill.) said it will "review the searches and the
+circumstances surrounding them thoroughly" and "take whatever action is
+determined to be appropriate based on the facts and circumstances.”
+Manteca Police Department (Calif.) said: "Since the beginning of 2026, our
+personnel have been directed that the reason field for ALPR searches must
+identify the law enforcement purpose for the search and that 'TBD' is not
+an acceptable entry." The spokesperson added: "The presence of 'TBD' in
+the reason field in prior searches should not, by itself, be interpreted to
+mean that the associated search was conducted without a legitimate law
+enforcement purpose or that reasonable suspicion was required." EFF has
+asked the agency to clarify whether it verified the hundreds of "TBD"
+searches were legitimate, and we will update this post with a response if we
+receive one. 
+Fishers Police Department (Ind.) said that the detective that searched for
+“blah” has done so “when he has issues with the technology” and that the
+term “is used when he is actively using the technology to solve a criminal
+case, and the technology is not moving fast enough for him.” The
+department shared that “he has been told to use “test” in the future.”
+The Cobb County Police Department (Ga.) acknowledged that "TBD" stood
+for "To Be Determined" and is no longer an acceptable search reason: "We
+have instituted a new policy that took place after the dates listed in your
+audit that now require, in addition to a criminal offense and a reason, a
+case number for any search conducted on FLOCK." 
+The San Diego County Sheriff's Department says that it checked the cases
+where "idk" was used and determined "there was an active investigation
+associated with the searches." The department said that this was due to the
+reason field being optional at the time (which was true on a software level)
+but California law has required officers to document a purpose for accessing
+ALPR data since 2015. The sheriff's spokesperson says the reason field is
+now mandatory, and involves a dropdown menu. 
+Other agencies did not respond to EFF’s requests for comment. We will update
+with responses as they are received.
+
+--- page 8 ---
+The Cop Out of the Drop-Down Menu “Feature
+Update”
+Under the guise of streamlining audit logs, in late 2025, Flock safety announced
+that they will be replacing the required, free-text search “reasons” with a pre-
+populated dropdown menu of generic offense categories. Since this update,
+officers are no longer required to type out why they are digging through a
+driver's movement history, and instead can select a pre-packaged option like
+"Traffic infraction" or “Other” in half a second. 
+Replacing the requirement to articulate the reason for the search with one-click
+searches is a loss for transparency, but also may explain why audit logs
+including the searches we highlight in this piece significantly decreased since
+early 2026. 
+The Punchline is Our Privacy
+Entries like these defeat transparency, undermine accountability, and entirely
+fail to satisfy what many jurisdictions require by law or policy: an actual reason
+for the search. And this keeps happening because police use ALPRs as a
+convenient shortcut around constitutional privacy safeguards. 
+In other contexts, such as searches of cell phone location information, police
+have to go to a judge, demonstrate probable cause, and get a search warrant.
+
+--- page 9 ---
+But because laws and courts have not caught up with the pace of ALPR
+technology, police do not do the same before searching ALPR databases.
+Instead, they are given free rein to track a person’s movements without a sliver
+of judicial oversight.
+As we mention in our piece about the use of ALPR surveillance for low-level
+investigations, if a police chief stood in front of a city council and asked for
+permission to install hundreds of cameras just so his officers could investigate
+the high crime of "haha," they would be laughed out of the room. The same
+could be said if an officer asked a judge to sign a warrant to track someone
+down for "LOL."
+The fact that these searches were not only missed by the agency supervising the
+officer, but by the often thousands of other agencies whose systems were
+searched, demonstrates how agencies cannot be trusted to oversee themselves. 
+Mass surveillance is incompatible with a free society, and especially so when
+the people with access to this data are treating it like a joke. This ALPR mass
+surveillance—the indiscriminate, continuous collection and retention of
+location data on every driver, regardless of suspicion—should not exist. But
+because it does, EFF continues to urge courts and state legislatures to
+immediately step in and impose strict, enforceable restrictions to rein in this
+abuse. At an absolute minimum, this means mandating rigid data deletion
+deadlines and an ironclad warrant requirement. 
+If police want the power to track a person's movements, they must be required
+to convince a judge with evidence and probable cause. They should not be able
+to bypass the Constitution with a search for "haha."
+RELATED UPDATES
+
+--- page 10 ---
+DEEPLINKS BLOG BY KAREN GULLO, ADAM SCHWARTZ |
+SEPTEMBER 9, 2026
+Cops Play Hide and Seek About Using
+Spy Tech to Avoid Scrutiny and Bad
+PR
+DEEPLINKS BLOG BY RINDALA ALAJAJI, ADAM SCHWARTZ |
+SEPTEMBER 2, 2026
+Texas and Florida Step Back from
+ALPRs
+DEEPLINKS BLOG BY SARAH HAMID, ADAM SCHWARTZ,
+HAYLEY TSUKAYAMA | AUGUST 26, 2026
+EFF's Policy Position on ALPR
+Surveillance: Eliminate It and Reduce
+Its Harms
+
+--- page 11 ---
+DEEPLINKS BLOG BY MATTHEW GUARIGLIA | AUGUST 13,
+2026
+Too Little, Too Late: Flock Admits
+Their Technology Needs Reforms
+DEEPLINKS BLOG BY DAVE MAASS | JUNE 25, 2026
+Are Your Local Police Using Flock
+Safety ALPRs to Scan for
+Immigrants?
+DEEPLINKS BLOG BY DAVE MAASS | JUNE 2, 2026
+We're Fighting Mass Surveillance
+Tech—and Winning
+More License Plate Reader Mission
+Creep: School Residency Verification,
+
+--- page 12 ---
+DEEPLINKS BLOG BY DAVE MAASS, RINDALA ALAJAJI | MAY
+26, 2026
+Background Checks, and Noise
+Complaints
+PRESS RELEASE | FEBRUARY 10, 2026
+Coalition Urges California to Revoke
+Permits for Federal License Plate
+Reader Surveillance
+DEEPLINKS BLOG BY MELISSA SRAGO | FEBRUARY 9, 2026
+EFFecting Change: Get the Flock Out
+of Our City
+ICE Is Going on a Surveillance
+Shopping Spree
+
+--- page 13 ---
+DEEPLINKS BLOG BY COOPER QUINTIN | JANUARY 7, 2026
+ELECTRONIC FRONTIER FOUNDATION
+        eff.org
+        Creative Commons Attribution License

@@ -1,0 +1,118 @@
+{
+  "url": "https://arstechnica.com/tech-policy/2026/09/boston-dumps-flock-says-it-shared-data-nationwide-in-violation-of-contract/",
+  "source_domain": "arstechnica.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Boston dumps Flock, says it shared data nationwide in violation of contract",
+  "byline": "Jon Brodkin",
+  "published_at": "2026-09-15T18:14:11+00:00",
+  "fetched_at": "2026-09-16T11:30:29Z",
+  "discovered_by": "rss:arstechnica.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 137 pts, HIGH/CRITICAL findings",
+  "scanner_score": 137,
+  "content_hash": "6f8b7897ba00199480a0e7f5df2200597a0a21d703d7677c5549ebe01135e39f",
+  "paths": {
+    "html": "assets/articles/arstechnica.com/tech-policy-2026-09-boston-dumps-flock-says-it-shared-data-nationwide-in-violati_99438d09.html",
+    "meta": "assets/articles/arstechnica.com/tech-policy-2026-09-boston-dumps-flock-says-it-shared-data-nationwide-in-violati_99438d09.meta.json",
+    "pdf": "assets/articles/arstechnica.com/tech-policy-2026-09-boston-dumps-flock-says-it-shared-data-nationwide-in-violati_99438d09.pdf",
+    "txt": "assets/articles/arstechnica.com/tech-policy-2026-09-boston-dumps-flock-says-it-shared-data-nationwide-in-violati_99438d09.txt"
+  },
+  "wayback_url": "https://web.archive.org/web/20260916113039/https://arstechnica.com/tech-policy/2026/09/boston-dumps-flock-says-it-shared-data-nationwide-in-violation-of-contract/",
+  "wayback_timestamp": "20260916113039",
+  "wayback_source": "saved",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:motorola"
+  ],
+  "agencies": [
+    "59b1f730-2412-5790-92fd-a707e3ac23cd",
+    "c8c956b2-eee0-528b-bef5-fccf51eeb1c0",
+    "4f545e10-4f02-51d7-9f85-b670f74f352c",
+    "75f3ad6a-fa90-5858-8b9c-190057a9887f",
+    "ed99f814-b84b-51f3-9c70-e8db9f2b4c18",
+    "70924aff-db95-54c6-8fab-33bfeaa1688c"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "59b1f730-2412-5790-92fd-a707e3ac23cd",
+      "display_name": "Pleasant Hill CA PD",
+      "state": "CA",
+      "score": 3.933,
+      "matched_forms": [
+        "Pleasant Hill"
+      ]
+    },
+    {
+      "agency_id": "c8c956b2-eee0-528b-bef5-fccf51eeb1c0",
+      "display_name": "Pleasant Hill IA PD",
+      "state": "IA",
+      "score": 3.933,
+      "matched_forms": [
+        "Pleasant Hill"
+      ]
+    },
+    {
+      "agency_id": "4f545e10-4f02-51d7-9f85-b670f74f352c",
+      "display_name": "Orange CA PD",
+      "state": "CA",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    },
+    {
+      "agency_id": "75f3ad6a-fa90-5858-8b9c-190057a9887f",
+      "display_name": "Orange CT PD",
+      "state": "CT",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    },
+    {
+      "agency_id": "ed99f814-b84b-51f3-9c70-e8db9f2b4c18",
+      "display_name": "Orange VA PD",
+      "state": "VA",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    },
+    {
+      "agency_id": "70924aff-db95-54c6-8fab-33bfeaa1688c",
+      "display_name": "TX - City of Orange",
+      "state": "TX",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "Boston abandoned its Flock Safety ALPR pilot after the city's annual surveillance report revealed a Flock 'vendor error' enabled nationwide data sharing during the pilot in violation of contract terms restricting access to BPD personnel. Mayor Michelle Wu confirmed the city dropped Flock but is continuing ALPR trials with Motorola and Axon.",
+  "key_quotes": [
+    {
+      "quote": "We have actually abandoned Flock",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "other law enforcement agencies were able to access license plate and vehicle information collected from BPD ALPR cameras using a nationwide lookup feature that was enabled by the vendor in error",
+      "paragraph_idx": 18
+    },
+    {
+      "quote": "When the toggles or the access controls either are not able to be restricted in the ways that conform with that policy, or are set but then can be unset or reset in ways that violate that policy, we would not use that platform.",
+      "paragraph_idx": 25
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-16T11:35:14Z",
+  "article_id": "art_99438d0906ef"
+}

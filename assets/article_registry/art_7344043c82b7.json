@@ -1,0 +1,91 @@
+{
+  "url": "https://www.404media.co/hackers-stole-flocks-camera-software-revealing-how-the-company-tracks-cars-and-people-2/",
+  "source_domain": "404media.co",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Hackers Stole Flock\u2019s Camera Software, Revealing How the Company Tracks Cars and People",
+  "byline": "Joseph Cox",
+  "published_at": "2026-09-16T10:30:35.000Z",
+  "fetched_at": "2026-09-17T13:38:30Z",
+  "discovered_by": "rss:404media.co",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 42 pts, HIGH/CRITICAL findings",
+  "scanner_score": 42,
+  "content_hash": "e29740d1575c0ab1b0c4b5f4cb18fa03dedc59810bd6f990a85da024b22f921d",
+  "paths": {
+    "html": "assets/articles/404media.co/hackers-stole-flocks-camera-software-revealing-how-the-company-tracks-cars-and-p_7344043c.html",
+    "meta": "assets/articles/404media.co/hackers-stole-flocks-camera-software-revealing-how-the-company-tracks-cars-and-p_7344043c.meta.json",
+    "pdf": "assets/articles/404media.co/hackers-stole-flocks-camera-software-revealing-how-the-company-tracks-cars-and-p_7344043c.pdf",
+    "txt": "assets/articles/404media.co/hackers-stole-flocks-camera-software-revealing-how-the-company-tracks-cars-and-p_7344043c.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "incident:ice-cooperation",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+    "820b4449-71e5-5450-8119-32dd01e2a39e",
+    "586a27d4-2181-5b4a-b1bc-23bceb84d9b5"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "display_name": "Flock Safety",
+      "state": "GA",
+      "score": 2.7,
+      "matched_forms": [
+        "Flock Safety"
+      ]
+    },
+    {
+      "agency_id": "820b4449-71e5-5450-8119-32dd01e2a39e",
+      "display_name": "Alpharetta GA PD",
+      "state": "GA",
+      "score": 2.667,
+      "matched_forms": [
+        "Alpharetta"
+      ]
+    },
+    {
+      "agency_id": "586a27d4-2181-5b4a-b1bc-23bceb84d9b5",
+      "display_name": "Pawtucket RI PD",
+      "state": "RI",
+      "score": 2.65,
+      "matched_forms": [
+        "Pawtucket"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb"
+  ],
+  "summary": "Hackers physically removed a Flock ALPR camera and extracted its software and stored data, sharing it with 404 Media and WIRED. The joint analysis revealed the camera detects people as well as vehicles, generates massive image volumes, and sometimes misidentifies bumper stickers or patches as license plates. The article also notes that records from Alpharetta, GA's Flock cameras were accessible to more than 2,000 agencies nationwide.",
+  "key_quotes": [
+    {
+      "quote": "the joint analysis of the recovered data shows that software running on the device explicitly detects people as well as vehicles, license plates, and bicycles",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "In Alpharetta, Georgia, for example, WIRED found that records from the city's Flock cameras were accessible to more than 2,000 agencies, including police departments, colleges, airports, and even inexplicably the Office of Inspector General for the federal General Services Administration.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "local cops were performing lookups in the national network on behalf of Immigration and Customs Enforcement (ICE), including in areas that banned working with immigration authorities or transferring license plate data out of state",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "I think that type of vigilantism will only crystallize the police and the state at large in their belief that this tool is necessary",
+      "paragraph_idx": 27
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-17T13:42:52Z",
+  "article_id": "art_7344043c82b7"
+}

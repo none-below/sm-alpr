@@ -1,0 +1,133 @@
+{
+  "url": "https://www.nbcbayarea.com/news/local/san-francisco-flock-license-plate-cameras-mapping/4143454/",
+  "source_domain": "nbcbayarea.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "San Francisco group maps Flock license plate cameras amid growing privacy concerns",
+  "byline": "Sergio Quintana",
+  "published_at": "2026-09-15T18:20:01-07:00",
+  "fetched_at": "2026-09-16T16:58:34Z",
+  "discovered_by": "rss:nbcbayarea.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 165 pts, HIGH/CRITICAL findings",
+  "scanner_score": 165,
+  "content_hash": "0811ad1bea23768cf9673d18c77f047c932311ecd7f78539f061208afd8b2d33",
+  "paths": {
+    "html": "assets/articles/nbcbayarea.com/news-local-san-francisco-flock-license-plate-cameras-mapping-4143454_efad6212.html",
+    "meta": "assets/articles/nbcbayarea.com/news-local-san-francisco-flock-license-plate-cameras-mapping-4143454_efad6212.meta.json",
+    "pdf": "assets/articles/nbcbayarea.com/news-local-san-francisco-flock-license-plate-cameras-mapping-4143454_efad6212.pdf",
+    "txt": "assets/articles/nbcbayarea.com/news-local-san-francisco-flock-license-plate-cameras-mapping-4143454_efad6212.txt"
+  },
+  "wayback_url": "https://www.nbcbayarea.com/news/local/san-francisco-flock-license-plate-cameras-mapping/4143454/",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+    "0649c75b-a49d-5ec7-a240-18692dea2047",
+    "e1922365-80e2-5ec7-8580-95245cdad7f8",
+    "6607f630-2279-5b12-b723-b94b16c81122",
+    "a29eba9e-f2fa-5e83-ab92-fe06b02179ca",
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 22.7,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 15.633,
+      "matched_forms": [
+        "San Jose",
+        "San Jose Police",
+        "San Jose Police Department"
+      ]
+    },
+    {
+      "agency_id": "0649c75b-a49d-5ec7-a240-18692dea2047",
+      "display_name": "Marin County CA DA",
+      "state": "CA",
+      "score": 3.9,
+      "matched_forms": [
+        "Marin County"
+      ]
+    },
+    {
+      "agency_id": "e1922365-80e2-5ec7-8580-95245cdad7f8",
+      "display_name": "Marin County CA SO",
+      "state": "CA",
+      "score": 3.9,
+      "matched_forms": [
+        "Marin County"
+      ]
+    },
+    {
+      "agency_id": "6607f630-2279-5b12-b723-b94b16c81122",
+      "display_name": "Richmond CA PD",
+      "state": "CA",
+      "score": 3.767,
+      "matched_forms": [
+        "Richmond"
+      ]
+    },
+    {
+      "agency_id": "a29eba9e-f2fa-5e83-ab92-fe06b02179ca",
+      "display_name": "Richmond CA PD is not sharing data with any partner networks.",
+      "state": "CA",
+      "score": 3.767,
+      "matched_forms": [
+        "Richmond"
+      ]
+    },
+    {
+      "agency_id": "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+      "display_name": "CA",
+      "state": "CA",
+      "score": 3.567,
+      "matched_forms": [
+        "CA"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "summary": "An activist group called De-Flock-SF is mapping and labeling the 400 Flock ALPR cameras deployed by SFPD across San Francisco, amid concerns about federal access to the data and misuse by local officers. The article notes SFPD acknowledged federal agencies accessed its ALPR data (now walled off) and cites a recent San Jose PD firing of an officer who shared Flock data with a domestic violence suspect.",
+  "key_quotes": [
+    {
+      "quote": "Earlier this summer, the SFPD acknowledged that federal agencies had accessed San Francisco's license plate reading data.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "The officer accessed license plate reader data and provided that to a suspect in a domestic violence situation, which enabled that suspect to locate the victim",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "Right now, what's really important is to educate people about the cameras",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-16T17:00:41Z",
+  "article_id": "art_efad62127896"
+}
