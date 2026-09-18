@@ -1,0 +1,40 @@
+--- page 1 ---
+San Mateo ALPR data retained at NCRIC — publicly posted vendor code
+From
+Brian C <
+>
+To
+Ed Barberini <ebarberini@cityofsanmateo.org>
+Date
+2026-09-11 22:54
+Chief Barberini,
+I just wanted to write to you to flag something new affecting the city, that you may not have been made aware of. 
+Until recently, SMPD has shared ALPR data with NCRIC. SMPD's own SOP 205 says the department "partner[s] with the NCRIC to store the ALPR
+data we collect with PIPs and Flock." Since February, a vendor contracted by NCRIC has made public the software infrastructure code (it was
+posted by an engineer of the company, not leaked). It's still up today, and multiple other people have made their own copies of it since
+late August, rendering it effectively permanently public.
+The code that was published documents an automated process that fetches each participating agency's previous day's plate data, and stored
+it into a separate NCRIC database, with no expiration or purge setting enabled in the published configuration. The system contains 341
+datasets, including a separate ALPR dataset for each contributing agency. None of them has an expiration or purge value set. Because that
+copy sits outside Flock, searches against it would not appear in the department's Flock audit logs.
+TLDR: Every license plate read that san mateo recorded from at least mid-2023 until the department stopped sharing with NCRIC appears to
+remain in NCRIC's system (despite the department's 30-day flock retention settings), and is not set to expire or purge.
+The vendor that operated the platform seems to no longer be in business, and that vendor also appears to retain copies of agency data, as
+well. It has additionally made public audit logs and other operational records from NCRIC's system, including San Mateo Police Department's
+search records (without any redactions).
+Section 6 of the department's MOU with NCRIC provides that member agencies "remain the official custodian of all information contributed to
+the NCRIC-DSP." I would be very interested to know how the department has acted to protect its citizens' data at both another remote agency
+(NCRIC), and a now defunct private business. I had previously filed a PRA (W012376) asking for any records of the department restricting
+NCRIC's re-sharing of San Mateo ALPR data -- and the "no responsive records" to that request indicates that the department didn't even take
+the basic measure to protect its residents as the NCRIC MOU outlines. The MOU's Data Sharing section says data a member agency later
+declares should not be shared "shall be withdrawn by all Hosts from all NCRIC-DSP Systems within 48 hours, including deletion of any
+replications of the data" -- a step the department has produced no record of taking.
+Separately, the published files include an export of NCRIC's search audit log. As an example of what's readable right now: on September 11,
+2023, account atrujillo@cityofsanmateo.org ran three queries under case 230629003, searching for plate numbers 9GQP383, ALOHAJO and
+7SZK222.
+As the official custodian of this data, what specific actions is the department taking to protect our residents' privacy? In particular, I
+would like to know whether it intends to make the declaration to NCRIC described above, what the department has done to assess the exposure
+of the data already published, and what became of the copies held by a now-defunct software vendor.
+I would appreciate a response ahead of the October council discussion of the department's Flock program -- ideally within the next week, so
+that I can take the department's position into account.
+-brian
