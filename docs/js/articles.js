@@ -271,7 +271,7 @@ function renderActiveBar(matchedCount, totalCount) {
 function renderArticleCard(article) {
   var metaParts = [];
   if (article.source_domain) metaParts.push(escapeHtml(article.source_domain));
-  if (article.published_at) metaParts.push(formatDate(article.published_at));
+  if (article.published_at) metaParts.push(formatArticleDate(article));
   if (article.byline) metaParts.push('by ' + escapeHtml(article.byline));
   var meta = metaParts.join(' <span class="dot">·</span> ');
 
@@ -473,7 +473,7 @@ function renderMap(matched) {
               + escapeHtml(art.title) + '</a>'
             : escapeHtml(art.title))
         + (art.published_at
-            ? ' <span class="pop-meta">' + formatDate(art.published_at) + '</span>'
+            ? ' <span class="pop-meta">' + formatArticleDate(art) + '</span>'
             : '')
         + '</li>';
     }
@@ -512,7 +512,7 @@ function renderMap(matched) {
               + escapeHtml(art.title) + '</a>'
             : escapeHtml(art.title))
         + (art.published_at
-            ? ' <span class="pop-meta">' + formatDate(art.published_at) + '</span>'
+            ? ' <span class="pop-meta">' + formatArticleDate(art) + '</span>'
             : '')
         + '</li>';
     }
@@ -531,12 +531,60 @@ function renderMap(matched) {
   }
 }
 
+// Ordering contract for every list this page renders: newest first,
+// within relevance tier. articleTier() is the tier (lower = more
+// relevant); today every match is tier 0, because the agency filter
+// already restricts to primary subjects and the tag filters are
+// boolean. It exists so a future softer-match tier slots in as a tier
+// number rather than as a second sort pass that would re-scramble the
+// dates.
+//
+// Don't rely on articles_data.json's own order here: it's correct, but
+// only because build_articles_data.py sorts it, and filtering shouldn't
+// silently depend on that. Sorting explicitly keeps the guarantee
+// visible where the list is built.
+function articleTier(article) {
+  return 0;
+}
+
+// published_ts is epoch seconds, normalized at build time across the mix
+// of ISO, US-slash and "Sep 22nd 2021" published_at strings. Parsing
+// published_at here is only a fallback for a stale articles_data.json
+// built before that field existed -- Date.parse handles the ISO and
+// US-slash shapes but not the ordinal ones, so it's best-effort, and
+// whatever it can't read sorts with the undated. Undated articles go
+// last, newest-crawled first among themselves.
+function articleTimestamp(article) {
+  if (typeof article.published_ts === 'number') return article.published_ts;
+  if (article.published_at) {
+    var t = Date.parse(article.published_at);
+    if (!isNaN(t)) return t / 1000;
+  }
+  return null;
+}
+
+function compareArticles(a, b) {
+  var ta = articleTier(a), tb = articleTier(b);
+  if (ta !== tb) return ta - tb;
+
+  var da = articleTimestamp(a), db = articleTimestamp(b);
+  if ((da === null) !== (db === null)) return da === null ? 1 : -1;
+  if (da !== null && da !== db) return db - da;
+
+  var fa = Date.parse(a.fetched_at || '') || 0;
+  var fb = Date.parse(b.fetched_at || '') || 0;
+  if (fa !== fb) return fb - fa;
+
+  return (a.article_id || '') < (b.article_id || '') ? 1 : -1;
+}
+
 function getMatched() {
   var articles = STATE.data.articles;
   var matched = [];
   for (var i = 0; i < articles.length; i++) {
     if (articleMatches(articles[i])) matched.push(articles[i]);
   }
+  matched.sort(compareArticles);
   return matched;
 }
 
