@@ -22,6 +22,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,10 +133,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-19T20:17:35Z",
+  "primary_subject_agency_ids": [
+    "a38b5c8f-b263-557d-9d44-7770959a65cd"
+  ],
+  "summary": "KTEN reports on Flock license plate reader cameras in the Texoma region, focusing on Atoka County Sheriff Kody Simpson's defense of the technology and plans to shorten data retention from 30 to 7 days. The piece notes Ardmore commissioners voted 4-1 to renew their Flock contract and Marietta is weighing continued use of temporarily installed cameras.",
+  "key_quotes": [
+    {
+      "quote": "They're used for the purposes of warrant recovery, stolen vehicles, stolen property, missing persons, kidnapping, human trafficking, drug enforcement",
+      "paragraph_idx": 0
+    },
+    {
+      "quote": "The sheriff adds that Atoka County requires a crime to be tied to a search of the database, and there are plans to reduce how long its Flock data is retained from 30 days to seven.",
+      "paragraph_idx": 0
+    },
+    {
+      "quote": "In Ardmore, commissioners voted 4-1 this week to renew the city's Flock contract despite pushback from some residents over privacy concerns.",
+      "paragraph_idx": 0
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-19T20:38:06Z",
   "article_id": "art_b2cf1d6b58c0"
 }

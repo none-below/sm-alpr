@@ -22,6 +22,10 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:rejected",
+    "policy:retention",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +134,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-19T20:17:52Z",
+  "primary_subject_agency_ids": [
+    "b6598a7e-ee25-53b0-9a98-771fc9835c47"
+  ],
+  "summary": "At an August 2026 Marietta, Oklahoma City Council meeting to decide on adopting Flock Safety license plate readers after a trial, Police Chief Brett Harris halted the partnership mid-meeting after a Flock representative disclosed that camera data is retained indefinitely rather than for the 30 days the department had agreed to. The council then unanimously voted the measure down.",
+  "key_quotes": [
+    {
+      "quote": "Folks, we're not moving forward any further. Marietta Police Department, Marietta city limits won't have Flock cameras",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "They're retaining data indefinitely, and that's exactly what our spectators complained about\u2014that the data doesn't disappear like they say it does",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "This system is not for Marietta, Oklahoma",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-19T20:38:14Z",
   "article_id": "art_cd0c700437f7"
 }
