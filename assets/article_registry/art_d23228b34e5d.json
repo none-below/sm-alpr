@@ -22,6 +22,9 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,10 +133,21 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-19T20:17:41Z",
+  "primary_subject_agency_ids": [
+    "9b051243-edb3-5745-80c2-6b905745fe07"
+  ],
+  "summary": "Thackerville, Oklahoma police announced they will stop using Flock Safety automated license plate reader cameras. Police Chief Johnathan Buckaloo said the decision followed a review of the department's needs, resources, and costs, and does not signal reduced commitment to public safety.",
+  "key_quotes": [
+    {
+      "quote": "Thackerville is joining the list of cities that will no longer use Flock Safety cameras.",
+      "paragraph_idx": 0
+    },
+    {
+      "quote": "Technology can be a valuable tool in law enforcement, but it will never replace proactive policing, good communication, strong relationships with our citizens and officers who are willing to be present and involved",
+      "paragraph_idx": 0
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-19T20:38:22Z",
   "article_id": "art_d23228b34e5d"
 }

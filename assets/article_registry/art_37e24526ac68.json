@@ -21,7 +21,12 @@
   "wayback_timestamp": null,
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
-  "tags": [],
+  "tags": [
+    "genre:explainer",
+    "legal:legislation",
+    "policy:purpose-limitation",
+    "scope:state"
+  ],
   "agencies": [
     "926a7e76-714b-50a2-977e-522e4ec651ec",
     "1a99f326-3964-5186-8090-c177b759fd7b",
@@ -128,10 +133,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-19T20:18:15Z",
+  "primary_subject_agency_ids": [
+    "ac4215be-e695-5821-ad7b-fc610a9c7b88"
+  ],
+  "summary": "Oklahoma State Rep. Tom Gann (R-District 8) completed a legislative study questioning whether ALPR use by Oklahoma law enforcement is authorized under state statute, citing Title 47. Ardmore Police, which began using ALPRs this summer, defended the technology's investigative uses and privacy safeguards. Gann hopes to modify state law to add safeguards.",
+  "key_quotes": [
+    {
+      "quote": "If anybody was willing to even take a cursory look of Title 47 O.S. \u00a7 7-606.1 (OSCN 2024) , they would have easily been able to discern that any data collection on license plate readers outside of the Compulsory Insurance Law was unlawful,",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "They have to put a case number in, or they have to put a justification \u2014 which is the same for the database system the state operates under currently that houses license plate information.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "We have to put safeguards around the data, protect people's privacy \u2014 if that's at all possible \u2014 and let law enforcement do their job to catch the bad guys and not jeopardize a conviction,",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-19T20:37:11Z",
   "article_id": "art_37e24526ac68"
 }
