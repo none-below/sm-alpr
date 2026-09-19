@@ -215,7 +215,7 @@
 
     const agencyKey = entry.slug || entry.agency_id;
     const rows = articles.map(function(a) {
-      const date = a.published_at ? escapeHtml(formatDate(a.published_at)) : "<span class=\"muted\">—</span>";
+      const date = a.published_at ? escapeHtml(formatArticleDate(a)) : "<span class=\"muted\">—</span>";
       const aUrl = safeUrl(a.url);
       const titleCell = aUrl
         ? `<a href="${escapeHtml(aUrl)}" target="_blank" rel="noopener">${escapeHtml(a.title || aUrl)}</a>`

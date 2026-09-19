@@ -14,7 +14,9 @@ Usage:
 """
 
 import json
+import re
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -28,6 +30,77 @@ OUT_PATH = ROOT / "docs" / "data" / "articles_data.json"
 
 def tag_namespace(tag: str) -> str:
     return tag.split(":", 1)[0] if ":" in tag else "other"
+
+
+# published_at arrives in whatever shape the source page exposed: ISO
+# datetimes with or without an offset, bare ISO dates, US
+# "M/D/YYYY h:mm:ss AM/PM" strings, and human-readable "Sep 22nd 2021"
+# from the Genetec/Vigilant vendor-newsroom scrapes. A plain string sort
+# on that mix is nonsense -- it compares leading characters, so "Sep 22nd
+# 2021" and "8/25/2025" both sorted above every 2026 ISO date and took
+# over the top of the "newest first" list. Normalize to a UTC timestamp
+# and sort on that instead.
+_TEXT_FORMATS = (
+    "%m/%d/%Y %I:%M:%S %p",
+    "%m/%d/%Y %H:%M:%S",
+    "%m/%d/%Y %I:%M %p",
+    "%m/%d/%Y",
+    "%b %d %Y",
+    "%B %d %Y",
+)
+
+# "22nd" -> "22": strptime has no ordinal-suffix directive.
+_ORDINAL_RE = re.compile(r"\b(\d{1,2})(st|nd|rd|th)\b", re.IGNORECASE)
+
+
+def parse_timestamp(value) -> float | None:
+    """Best-effort parse of a published_at/fetched_at string to epoch seconds.
+
+    Returns None when the value is missing or in a shape we don't
+    recognize; callers sort those entries last rather than guessing.
+    """
+    if not value or not isinstance(value, str):
+        return None
+    raw = value.strip()
+    if not raw:
+        return None
+    try:
+        dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        dt = None
+        stripped = _ORDINAL_RE.sub(r"\1", raw)
+        for fmt in _TEXT_FORMATS:
+            try:
+                dt = datetime.strptime(stripped, fmt)
+                break
+            except ValueError:
+                continue
+        if dt is None:
+            return None
+    # Naive values carry no zone; treat as UTC so they stay comparable
+    # with the offset-aware ones rather than raising on comparison.
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.timestamp()
+
+
+def sort_key(entry: dict) -> tuple:
+    """Newest first, undated last.
+
+    Tuple order: has-a-date flag, published timestamp, fetched-at
+    timestamp, article_id. Everything is compared descending (callers
+    pass reverse=True), so the flag puts dated articles above undated
+    ones, and undated ones fall back to when we crawled them -- the
+    closest proxy we have -- instead of landing in article_id order.
+    """
+    published = entry.get("published_ts")
+    fetched = parse_timestamp(entry.get("fetched_at"))
+    return (
+        published is not None,
+        published if published is not None else 0.0,
+        fetched if fetched is not None else 0.0,
+        entry.get("article_id") or "",
+    )
 
 
 def main() -> int:
@@ -95,6 +168,7 @@ def main() -> int:
             "source_domain": entry.get("source_domain"),
             "byline": entry.get("byline"),
             "published_at": entry.get("published_at"),
+            "published_ts": parse_timestamp(entry.get("published_at")),
             "fetched_at": entry.get("fetched_at"),
             "summary": entry.get("summary"),
             "key_quotes": entry.get("key_quotes") or [],
@@ -110,11 +184,10 @@ def main() -> int:
             },
         })
 
-    # Sort newest first by published_at; entries without a date sink to bottom.
-    articles.sort(
-        key=lambda a: (a["published_at"] or "", a["article_id"] or ""),
-        reverse=True,
-    )
+    # Newest first on the normalized timestamp; undated entries sink to
+    # the bottom. See sort_key/parse_timestamp above for why the raw
+    # published_at string can't be sorted directly.
+    articles.sort(key=sort_key, reverse=True)
 
     tags_out: dict[str, dict] = {}
     for tag, count in tag_counts.items():
@@ -168,6 +241,8 @@ def main() -> int:
                 "url": a["url"],
                 "source_domain": a.get("source_domain"),
                 "published_at": a.get("published_at"),
+                "published_ts": a.get("published_ts"),
+                "fetched_at": a.get("fetched_at"),
                 "is_primary": aid in primary_ids,
             })
         # Primary subjects are usually in the agencies list, but defend
@@ -189,6 +264,8 @@ def main() -> int:
                 "url": a["url"],
                 "source_domain": a.get("source_domain"),
                 "published_at": a.get("published_at"),
+                "published_ts": a.get("published_ts"),
+                "fetched_at": a.get("fetched_at"),
                 "is_primary": True,
             })
 
@@ -197,10 +274,7 @@ def main() -> int:
         slug = reg_entry.get("active_slug") or reg_entry.get("slug")
         if slug:
             entry["slug"] = slug
-        entry["articles"].sort(
-            key=lambda x: (x["published_at"] or "", x["article_id"]),
-            reverse=True,
-        )
+        entry["articles"].sort(key=sort_key, reverse=True)
         # primary_count is "articles this piece is substantively *about*"
         # — used by sharing_map's "Articles (N)" link so the badge
         # matches what articles.html actually filters to. The wider
