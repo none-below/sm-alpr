@@ -2389,28 +2389,6 @@
     ]
   },
   {
-    "agency_id": "6acf1ce3-b56f-5031-a5d4-698ca67420b3",
-    "slug": "federal-realty-ca",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Federal Realty (CA)"
-    ],
-    "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
-    "website": null,
-    "tags": [
-      "federal",
-      "public"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "CA"
-    }
-  },
-  {
     "agency_id": "66a47e2e-147b-55eb-ba49-6b49239dc935",
     "slug": "folsom-ca-pd",
     "flock_active_slug": "folsom-ca-pd",
@@ -3280,29 +3258,6 @@
     "ori": [
       "OH0220200"
     ]
-  },
-  {
-    "agency_id": "ed75bda4-85f6-5bf5-959a-10614aad6f7d",
-    "slug": "inactive-bay-street-emeryville-ca",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "[INACTIVE] Bay Street Emeryville (CA)"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [
-      "inactive"
-    ],
-    "geo": {
-      "kind": "state-only",
-      "state": "CA"
-    }
   },
   {
     "agency_id": "f956bd27-1e18-5852-b090-834ad2d61378",
@@ -5905,27 +5860,6 @@
     ]
   },
   {
-    "agency_id": "cbcbf698-51d1-5308-b70e-e51472c2775a",
-    "slug": "russell-st-berkely-ca",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Russell St. Berkely (CA)"
-    ],
-    "display_name": null,
-    "agency_role": "other",
-    "agency_type": "other",
-    "website": null,
-    "tags": [
-      "needs-review"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "CA"
-    }
-  },
-  {
     "agency_id": "bc23d548-e468-55ce-845b-ddee21abe171",
     "slug": "san-bernardino-ca-pd",
     "flock_active_slug": "san-bernardino-ca-pd",
@@ -7357,27 +7291,6 @@
     ]
   },
   {
-    "agency_id": "ab3f2de9-0a86-5889-a26d-90bc9cd85444",
-    "slug": "watergate-community-association-ca",
-    "flock_active_slug": null,
-    "flock_slugs": [],
-    "flock_names": [
-      "Watergate Community Association (CA)"
-    ],
-    "display_name": null,
-    "agency_role": "hoa",
-    "agency_type": "community",
-    "website": null,
-    "tags": [
-      "private"
-    ],
-    "flags": [],
-    "geo": {
-      "kind": "state-only",
-      "state": "CA"
-    }
-  },
-  {
     "agency_id": "33b64315-34e3-56d8-b0ba-fc370daf3169",
     "slug": "watsonville-ca-pd",
     "flock_active_slug": "watsonville-ca-pd",
@@ -7889,6 +7802,93 @@
     "ori": [
       "CA0580000"
     ]
+  },
+  {
+    "agency_id": "6acf1ce3-b56f-5031-a5d4-698ca67420b3",
+    "slug": "federal-realty-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Federal Realty (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "police",
+    "agency_type": "federal",
+    "website": null,
+    "tags": [
+      "federal",
+      "public"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
+  },
+  {
+    "agency_id": "ed75bda4-85f6-5bf5-959a-10614aad6f7d",
+    "slug": "inactive-bay-street-emeryville-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "[INACTIVE] Bay Street Emeryville (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [
+      "inactive"
+    ],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
+  },
+  {
+    "agency_id": "cbcbf698-51d1-5308-b70e-e51472c2775a",
+    "slug": "russell-st-berkely-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Russell St. Berkely (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "other",
+    "agency_type": "other",
+    "website": null,
+    "tags": [
+      "needs-review"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
+  },
+  {
+    "agency_id": "ab3f2de9-0a86-5889-a26d-90bc9cd85444",
+    "slug": "watergate-community-association-ca",
+    "flock_active_slug": null,
+    "flock_slugs": [],
+    "flock_names": [
+      "Watergate Community Association (CA)"
+    ],
+    "display_name": null,
+    "agency_role": "hoa",
+    "agency_type": "community",
+    "website": null,
+    "tags": [
+      "private"
+    ],
+    "flags": [],
+    "geo": {
+      "kind": "state-only",
+      "state": "CA"
+    }
   },
   {
     "agency_id": "46f72861-a9a5-52bb-bbb7-17767cf5df81",
