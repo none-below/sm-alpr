@@ -1,0 +1,133 @@
+{
+  "url": "https://www.404media.co/flock-city-pd-the-fake-flock-owned-police-department-that-searched-real-cameras-for-real-people/",
+  "source_domain": "404media.co",
+  "tier": 2,
+  "stance": "critical",
+  "title": "\u2018Flock City PD:\u2019 The Fake Flock-Owned \u2018Police Department\u2019 That Searched Real Cameras for Real People",
+  "byline": "Jason Koebler",
+  "published_at": "2026-09-17T18:07:20.000Z",
+  "fetched_at": "2026-09-18T15:02:42Z",
+  "discovered_by": "rss:404media.co",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 42 pts, HIGH/CRITICAL findings",
+  "scanner_score": 42,
+  "content_hash": "bb5dbc68ce83986424fa6b1cf111397f74acd778fb55f4ef4c5a7606c2547eef",
+  "paths": {
+    "html": "assets/articles/404media.co/flock-city-pd-the-fake-flock-owned-police-department-that-searched-real-cameras_e2a6fd9d.html",
+    "meta": "assets/articles/404media.co/flock-city-pd-the-fake-flock-owned-police-department-that-searched-real-cameras_e2a6fd9d.meta.json",
+    "pdf": "assets/articles/404media.co/flock-city-pd-the-fake-flock-owned-police-department-that-searched-real-cameras_e2a6fd9d.pdf",
+    "txt": "assets/articles/404media.co/flock-city-pd-the-fake-flock-owned-police-department-that-searched-real-cameras_e2a6fd9d.txt"
+  },
+  "wayback_url": "https://www.404media.co/flock-city-pd-the-fake-flock-owned-police-department-that-searched-real-cameras-for-real-people/",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "c03ecf42-93c9-5546-9a18-a929ea29ba77",
+    "40b8a7c5-e004-5f38-8a2c-6f9e89d56c33",
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+    "ce444ddf-f90a-5ae4-b7f9-f7d112cae4e8",
+    "a6def01d-3170-5976-89ea-f7a1324ab3f6",
+    "4ce6f8f9-b3f8-5a43-8625-9bc4f9b6d660",
+    "21fb5336-7bb7-5cc1-a4da-706673c971ed"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "c03ecf42-93c9-5546-9a18-a929ea29ba77",
+      "display_name": "demo",
+      "state": null,
+      "score": 21.333,
+      "matched_forms": [
+        "Demo",
+        "demo"
+      ]
+    },
+    {
+      "agency_id": "40b8a7c5-e004-5f38-8a2c-6f9e89d56c33",
+      "display_name": "Dunwoody GA PD",
+      "state": "GA",
+      "score": 10.567,
+      "matched_forms": [
+        "Dunwoody"
+      ]
+    },
+    {
+      "agency_id": "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+      "display_name": "Flock Safety",
+      "state": "GA",
+      "score": 2.7,
+      "matched_forms": [
+        "Flock Safety"
+      ]
+    },
+    {
+      "agency_id": "ce444ddf-f90a-5ae4-b7f9-f7d112cae4e8",
+      "display_name": "Scottsdale AZ PD",
+      "state": "AZ",
+      "score": 2.667,
+      "matched_forms": [
+        "Scottsdale"
+      ]
+    },
+    {
+      "agency_id": "a6def01d-3170-5976-89ea-f7a1324ab3f6",
+      "display_name": "Palestine TX PD",
+      "state": "TX",
+      "score": 2.65,
+      "matched_forms": [
+        "Palestine"
+      ]
+    },
+    {
+      "agency_id": "4ce6f8f9-b3f8-5a43-8625-9bc4f9b6d660",
+      "display_name": "Bryan TX PD",
+      "state": "TX",
+      "score": 2.583,
+      "matched_forms": [
+        "Bryan"
+      ]
+    },
+    {
+      "agency_id": "21fb5336-7bb7-5cc1-a4da-706673c971ed",
+      "display_name": "Page AZ PD",
+      "state": "AZ",
+      "score": 2.567,
+      "matched_forms": [
+        "Page"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "978d5b81-63f1-5f5d-bf83-4f108c15abcb",
+    "40b8a7c5-e004-5f38-8a2c-6f9e89d56c33",
+    "4ce6f8f9-b3f8-5a43-8625-9bc4f9b6d660"
+  ],
+  "summary": "404 Media reports that Flock Safety used a demo account called 'Flock City PD' to run FreeForm AI searches on live ALPR cameras in Dunwoody, GA, Bryan, TX, and other jurisdictions, including sensitive queries like 'Star of David,' 'coexist bumper sticker,' and 'vehicle with trump bumper sticker.' Audit logs show many searches were allowed or only produced bypassable warnings, though Flock says the searches were tests of its moderation safeguards and that the demo account no longer accesses real cameras.",
+  "key_quotes": [
+    {
+      "quote": "Flock created a fake police department called \"Flock City PD\" that it used to search a series of live automated license plate readers in several U.S. cities during demonstrations of its surveillance system's capabilities, public records show.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Flock accounts called \"Flock City PD - Law Enforcement Demo,\" \"Flock Intelligence,\" and \"Flock Safety - Commercial Sales Demo\" ran searches in Dunwoody and Bryan, Texas, as well as a handful of other unknown jurisdictions",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "The audit logs show, however, that many of the sensitive searches were not blocked.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "they did not sign up to be guinea pigs for a surveillance company",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-18T15:08:11Z",
+  "article_id": "art_e2a6fd9df0a4"
+}

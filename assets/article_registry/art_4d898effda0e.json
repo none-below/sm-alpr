@@ -1,0 +1,76 @@
+{
+  "url": "https://www.govtech.com/biz/flock-safety-faces-new-alpr-restrictions-in-missouri",
+  "source_domain": "govtech.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Flock Safety Faces New ALPR Restrictions in Missouri",
+  "byline": "https://www.govtech.com/authors/news-staff.html",
+  "published_at": "2026-09-18T20:31:04.384",
+  "fetched_at": "2026-09-19T10:54:24Z",
+  "discovered_by": "bing:flock",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 62 pts, HIGH/CRITICAL findings",
+  "scanner_score": 62,
+  "content_hash": "5d34ea1145f455be1619bbc3e501f6349ab4c7fd7d9e1ba58a404e2ad5947b9a",
+  "paths": {
+    "html": "assets/articles/govtech.com/biz-flock-safety-faces-new-alpr-restrictions-in-missouri_4d898eff.html",
+    "meta": "assets/articles/govtech.com/biz-flock-safety-faces-new-alpr-restrictions-in-missouri_4d898eff.meta.json",
+    "pdf": "assets/articles/govtech.com/biz-flock-safety-faces-new-alpr-restrictions-in-missouri_4d898eff.pdf",
+    "txt": "assets/articles/govtech.com/biz-flock-safety-faces-new-alpr-restrictions-in-missouri_4d898eff.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:analysis",
+    "legal:legislation",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:state",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "926a7e76-714b-50a2-977e-522e4ec651ec"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "926a7e76-714b-50a2-977e-522e4ec651ec",
+      "display_name": "Republic MO PD",
+      "state": "MO",
+      "score": 2.633,
+      "matched_forms": [
+        "Republic"
+      ]
+    },
+    {
+      "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+      "display_name": "Delete",
+      "state": null,
+      "score": 1.1,
+      "matched_forms": [
+        "Delete"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "Missouri Gov. Mike Kehoe issued an executive order imposing new restrictions on ALPR use by state and local agencies receiving state funding, including a 30-day data deletion requirement, agency data ownership, prohibitions on non-law-enforcement use and AI facial recognition integration, and auditing requirements. Flock Safety said it supports strong guardrails.",
+  "key_quotes": [
+    {
+      "quote": "such users must permanently delete license plate and vehicle images within 30 days unless part of an \u201cactive and ongoing criminal investigation,\u201d or ongoing emergencies and missing person alerts.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "data captured by automated license plate reader systems is owned by the agency that uses the technology \u2014 not, for instance, vendors and contractors.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Agencies cannot integrate automatic AI-powered facial recognition into these tools",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-19T10:59:15Z",
+  "article_id": "art_4d898effda0e"
+}
