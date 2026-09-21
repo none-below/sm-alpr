@@ -141,7 +141,18 @@ RELATED_SLUGS = DEFAULT_SLUGS + [
     "menlo-park-ca-pd", "east-palo-alto-ca-pd", "burlingame-ca-pd",
     "san-bruno-ca-pd", "pacifica-ca-pd", "colma-ca-pd", "brisbane-ca-pd",
     "sunnyvale-ca-pd",
+    # SMCSO contract cities — the sheriff runs the PD, but each has its own
+    # portal. Slug keeps the parenthetical from the display name ("City of
+    # Half Moon Bay (SMCSO)"), sometimes with the stray trailing dash the
+    # closing paren leaves behind.
+    "city-of-half-moon-bay-smcso-", "town-of-woodside-ca-smcso",
 ]
+
+
+# Sheriff's departments that contract out policing to cities; those cities get
+# their own portals named "<City> (<ABBREV>)", and the abbreviation survives
+# into the slug. Extend as new ones turn up in sharing lists.
+CONTRACT_AGENCY_TOKENS = ["smcso", "acso", "lasd"]
 
 
 def slug_variations(slug):
@@ -209,10 +220,20 @@ def slug_variations(slug):
             if bare.endswith("-ca"):
                 variations.append(bare + "-pd")
 
-    # Try -smcso suffix for woodside-style slugs: town-of-woodside-ca -> town-of-woodside-ca-smcso
-    if "woodside" in slug:
-        variations.append(slug + "-smcso")
-        variations.append("town-of-woodside-ca-smcso")
+    # Contract-city portals: the display name names the agency that actually
+    # polices the city in parentheses ("Town of Woodside CA (SMCSO)"), and the
+    # slug keeps that token. Try appending each known one to a bare place slug.
+    if not any(slug.endswith("-" + t) for t in CONTRACT_AGENCY_TOKENS):
+        for token in CONTRACT_AGENCY_TOKENS:
+            variations.append(f"{slug}-{token}")
+
+    # Flock's slugifier sometimes leaves the closing paren behind as a stray
+    # trailing dash: "City of Half Moon Bay (SMCSO)" -> city-of-half-moon-bay-smcso-.
+    # Only seen on these parenthesized contract-city names, so keep it scoped
+    # to them rather than doubling every slug's variant list.
+    for v in list(variations):
+        if any(v.endswith("-" + t) for t in CONTRACT_AGENCY_TOKENS):
+            variations.append(v + "-")
 
     return dedupe(variations)
 

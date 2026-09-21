@@ -18,6 +18,7 @@ from slug_probe import (
     eyesonflock_hint,
     generate_candidates,
     normalize_name,
+    paren_tokens,
     probe,
     select_targets,
 )
@@ -464,3 +465,65 @@ def test_probe_200_without_marker_is_miss():
     assert probe(
         _FakePage(200, body="Page not found"), "anytown-ca-pd"
     ) == ("miss", "http_200_no_marker")
+
+
+def test_paren_tokens_keeps_agency_drops_state():
+    # The parenthetical names a *different* agency — that survives into the
+    # slug. A bare state code in parens is already covered by the state hint.
+    assert paren_tokens("Town of Woodside CA (SMCSO)") == ["smcso"]
+    assert paren_tokens("City of Commerce CA (LASD)") == ["lasd"]
+    assert paren_tokens("El Cajon PD ( CA)") == []
+
+
+def test_candidates_include_contract_agency_suffix():
+    # town-of-woodside-ca-smcso is the real portal; town-of-woodside-ca is not.
+    entry = {
+        "agency_id": "x",
+        "flock_names": ["Town of Woodside CA (SMCSO)"],
+        "display_name": None,
+        "geo": {"state": "CA"},
+        "agency_role": None,
+        "slug": "town-of-woodside-ca-smcso",
+    }
+    candidates = generate_candidates(entry)
+    assert "town-of-woodside-ca-smcso" in candidates, (
+        f"missing contract-agency suffix; got sample: {candidates[:10]}"
+    )
+
+
+def test_candidates_include_trailing_dash_contract_slug():
+    # "City of Half Moon Bay (SMCSO)" -> city-of-half-moon-bay-smcso-. Flock's
+    # slugifier leaves the closing paren behind as a stray trailing dash.
+    entry = {
+        "agency_id": "x",
+        "flock_names": ["City of Half Moon Bay (SMCSO)"],
+        "display_name": None,
+        "geo": {"state": "CA"},
+        "agency_role": None,
+        "slug": "city-of-half-moon-bay",
+    }
+    candidates = generate_candidates(entry)
+    assert "city-of-half-moon-bay-smcso-" in candidates, (
+        f"missing trailing-dash contract slug; got sample: {candidates[:10]}"
+    )
+
+
+def test_candidates_use_every_known_name_not_just_the_latest():
+    # The slug is minted at account creation and frozen; the display name
+    # drifts afterward. Hamilton Township's slug came from its original name,
+    # so deriving only from the newest one would miss it.
+    entry = {
+        "agency_id": "x",
+        "flock_names": [
+            "Hamilton Township OH PD",
+            "Hamilton Township OH PD (Warren County)",
+        ],
+        "display_name": None,
+        "geo": {"state": "OH"},
+        "agency_role": "police",
+        "slug": None,
+    }
+    candidates = generate_candidates(entry)
+    assert "hamilton-township-oh-pd" in candidates, (
+        f"older name dropped; got sample: {candidates[:10]}"
+    )
