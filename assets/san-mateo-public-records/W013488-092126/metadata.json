@@ -1,0 +1,27 @@
+{
+  "title": "Determination that Flock's transparency-portal possession/publication of SMPD ALPR data is \"data hosting\" under §1798.90.55(b)",
+  "summary": "Asks for any record reflecting a determination that Flock Safety's possession and publication of the Department's ALPR search-audit information on the transparency portal constitutes \"data hosting\" under Civil Code § 1798.90.55(b), rather than a sale, sharing, or transfer of that information to Flock Safety. Filed the same day as, and directly quoting, W013438's Item 1 answer: \"The Flock Safety transparency portal is maintained by Flock Safety. The Department does not maintain a separate screenshot, printout, or export of the 'Prohibited Uses' section outside of the information available on the portal.\"",
+  "tags": ["website-posting", "flock-msa", "audit-compliance"],
+  "policy_promises": [
+    {
+      "policy": "Civil Code § 1798.90.55(b)",
+      "quote": "the provision of data hosting or towing services shall not be considered the sale, sharing, or transferring of ALPR information",
+      "tests": "Whether the Department has any documented determination that Flock's possession and public display of SMPD's ALPR search-audit data on the transparency portal is lawful under the hosting carve-out — the only apparent lawful basis if the portal is, as the Department stated, \"maintained by Flock Safety\" and not the Department itself."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013438-091426",
+      "relation": "source-of-quoted-statement",
+      "note": "9/21/2026 Item 1 response — \"The Flock Safety transparency portal is maintained by Flock Safety\" — is the statement this request tests against § 1798.90.55(b)."
+    },
+    {
+      "ref": "W012570-041926",
+      "relation": "context",
+      "note": "Produced Flock platform event-log data, cited elsewhere (W013278) as evidence records held by Flock as SMPD's contractor are City records."
+    }
+  ],
+  "filed_because": "SMPD's W013438 answer characterized the transparency portal as Flock's, not the Department's. Civil Code § 1798.90.55(b) permits ALPR information to reach a vendor only via a sale/sharing/transfer to another public agency, or via a \"data hosting\" carve-out that isn't considered a sale, sharing, or transfer at all. If the portal genuinely isn't the Department's, the lawful basis for Flock's possession and public display of SMPD's ALPR search-audit data there needs to be something other than hosting on the Department's behalf — this asks whether any such determination has ever been made.",
+  "status_override": "awaiting_initial",
+  "notes": "Filed 2026-09-21. Statutory 10-day initial determination due 2026-10-01 (Gov. Code § 7922.535(a))."
+}
