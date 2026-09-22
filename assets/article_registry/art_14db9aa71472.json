@@ -1,0 +1,88 @@
+{
+  "url": "https://timesofsandiego.com/crime/2026/09/20/san-diego-police-license-plate-reader-flock-disclosure/",
+  "source_domain": "timesofsandiego.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "SDPD now discloses why officers search Flock license plate readers. Nearly 4,000 times, the reason was \u2018other.\u2019",
+  "byline": "Dorian Hargrove \u2022 Times of San Diego, Tessa Balc \u2022 Times of San Diego",
+  "published_at": "2026-09-20T18:00:00+00:00",
+  "fetched_at": "2026-09-21T13:59:38Z",
+  "discovered_by": "rss:timesofsandiego.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 130 pts, HIGH/CRITICAL findings",
+  "scanner_score": 130,
+  "content_hash": "245127bcaef34535579b238e148108b351952e01423746c6cbf02baaab19dabf",
+  "paths": {
+    "html": "assets/articles/timesofsandiego.com/crime-2026-09-20-san-diego-police-license-plate-reader-flock-disclosure_14db9aa7.html",
+    "meta": "assets/articles/timesofsandiego.com/crime-2026-09-20-san-diego-police-license-plate-reader-flock-disclosure_14db9aa7.meta.json",
+    "txt": "assets/articles/timesofsandiego.com/crime-2026-09-20-san-diego-police-license-plate-reader-flock-disclosure_14db9aa7.txt"
+  },
+  "wayback_url": "https://timesofsandiego.com/crime/2026/09/20/san-diego-police-license-plate-reader-flock-disclosure/",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "skipped-requests-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "incident:wrongful-stop",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+    "29060c81-ed62-5e02-b2b0-d7aad0341aaf"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "display_name": "San Diego CA PD",
+      "state": "CA",
+      "score": 4.417,
+      "matched_forms": [
+        "San Diego Police",
+        "San Diego Police Department"
+      ]
+    },
+    {
+      "agency_id": "29060c81-ed62-5e02-b2b0-d7aad0341aaf",
+      "display_name": "San Diego CA PD is not sharing data with any partner networks. Policy & Trust",
+      "state": "CA",
+      "score": 4.417,
+      "matched_forms": [
+        "San Diego Police",
+        "San Diego Police Department"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad"
+  ],
+  "summary": "The San Diego Police Department began disclosing officers' stated reasons for Flock ALPR searches as part of audit improvements under the city's TRUST Ordinance. Of 114,692 searches since January, the top reasons were stolen vehicles, warrants, and weapons offenses, but 'other' was the 11th most-used category with 3,962 uses, and details behind 'other' aren't public.",
+  "key_quotes": [
+    {
+      "quote": "The reason field is one of the audit improvements we worked with Flock to implement, including required case numbers for searches,",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "From January through August, officers disclosed \"other\" as their reason 3,962 times.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "Nicholes said that if a query like \"immigration\" or \"reproductive care\" is entered, the system automatically shuts down.",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-21T14:01:50Z",
+  "article_id": "art_14db9aa71472"
+}
