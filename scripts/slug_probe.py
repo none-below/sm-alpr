@@ -91,6 +91,30 @@ def normalize_name(name):
     return s
 
 
+# Parenthesized qualifiers that name a *different* agency ("Town of Woodside
+# CA (SMCSO)" — the sheriff polices the town). normalize_name() drops the
+# parenthetical, but Flock's slug keeps it, so extract_hints() reports it
+# separately and generate_candidates() tries it as a trailing token.
+_PAREN_RE = re.compile(r"\(([^)]*)\)")
+_PAREN_IS_STATE = re.compile(r"^[a-z]{2}$")
+
+
+def paren_tokens(name):
+    """Agency abbreviations in parentheses, slug-normalized.
+
+    "Town of Woodside CA (SMCSO)" -> ["smcso"]. Bare state codes like
+    "El Cajon PD ( CA)" are already handled as state hints, so they're
+    skipped here.
+    """
+    out = []
+    for group in _PAREN_RE.findall(name.lower()):
+        tok = _MULTI_DASH_RE.sub("-", _WHITESPACE_RE.sub(
+            "-", _PUNCT_RE.sub(" ", group).strip())).strip("-")
+        if tok and not _PAREN_IS_STATE.match(tok):
+            out.append(tok)
+    return out
+
+
 _STRIP_HEAD = ["city-of-", "town-of-", "village-of-", "the-"]
 _STRIP_TAIL_ROLES = {
     "pd", "po", "ps", "police", "police-department", "department",
@@ -108,6 +132,8 @@ def extract_hints(name, state=None, agency_role=None):
       role:      "police"|"sheriff"|... or None
       prefixes:  list of place prefixes observed ("town-of-", "city-of-") that
                  should be tried in addition to no-prefix
+      paren:     parenthesized agency abbreviations ("smcso") that Flock keeps
+                 in the slug even though normalize_name() drops them
     """
     n = normalize_name(name)
     tokens = n.split("-")
@@ -160,6 +186,7 @@ def extract_hints(name, state=None, agency_role=None):
         "state": (state or state_from_name or "").lower() or None,
         "role": agency_role or role_from_name,
         "prefixes": prefixes or [""],
+        "paren": paren_tokens(name),
     }
 
 
@@ -186,17 +213,36 @@ def generate_candidates(entry):
 
     Uses display name + state + agency_role as structured hints, combined
     combinatorially with known Flock URL conventions.
+
+    A portal's slug is minted from whatever the agency called itself when the
+    account was created, and never changes after — but the display name does
+    drift ("Hamilton Township OH PD" -> "Hamilton Township OH PD (Warren
+    County)"). So try *every* name we've seen, oldest first: the earliest one
+    is the likeliest to have minted the slug.
     """
-    # Prefer display_name, then latest flock_name
-    name = entry.get("display_name") or (entry.get("flock_names") or [None])[-1] or entry.get("slug", "")
     state = (entry.get("geo") or {}).get("state") or entry.get("state")
     role = entry.get("agency_role")
 
+    names = dedupe([n for n in (entry.get("flock_names") or []) if n]
+                   + [entry.get("display_name")] + [entry.get("slug")])
+    names = [n for n in names if n]
+    if not names:
+        return []
+
+    out = []
+    for name in names:
+        out.extend(_candidates_for_name(name, state, role))
+    return dedupe(out)
+
+
+def _candidates_for_name(name, state, role):
+    """Candidate slugs derived from one spelling of an agency's name."""
     hints = extract_hints(name, state=state, agency_role=role)
     base = hints["base"]
     state_l = hints["state"]
     role_canon = hints["role"]
     observed_prefixes = hints["prefixes"]
+    paren = hints["paren"]
 
     if not base:
         return []
@@ -242,6 +288,19 @@ def generate_candidates(entry):
 
             # {prefix}{base}  — bare, no role or state (rare but happens)
             candidates.append(pfx_base)
+
+    # Contract-city portals keep the parenthesized agency abbreviation as a
+    # trailing token: "Town of Woodside CA (SMCSO)" -> town-of-woodside-ca-smcso.
+    # Flock's slugifier sometimes also leaves the closing paren behind as a
+    # stray trailing dash: "City of Half Moon Bay (SMCSO)" ->
+    # city-of-half-moon-bay-smcso-. Try both.
+    #
+    # Ordered ahead of the plain forms: a parenthetical in the name is strong
+    # evidence the real slug carries it (town-of-woodside-ca-smcso is a hit
+    # while town-of-woodside-ca is not).
+    for token in paren:
+        suffixed = [f"{c}-{token}" for c in candidates]
+        candidates = suffixed + [c + "-" for c in suffixed] + candidates
 
     # Leading-dash variants (e.g. -el-cajon-pd-ca). Flock stores some agencies
     # this way; probably a portal-import artifact.
