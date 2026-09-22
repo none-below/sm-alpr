@@ -413,7 +413,7 @@ W_REQUEST_ID_RE = re.compile(r"\bW\d{6}-\d{6}\b")
 SESSION_TOKEN_RE = re.compile(r"/\(S\([^)]+\)\)/")
 SSESSIONID_RE = re.compile(r"[?&]sSessionID=[^&]*")
 DOWNLOAD_TIMEOUT_MS = 60_000  # portal pre-signs S3 URLs; can take several seconds
-NAV_TIMEOUT_MS = 20_000
+NAV_TIMEOUT_MS = 120_000
 
 # Per-request attachment labels that are known to be unretrievable from the
 # portal — e.g., uploads where the original filename couldn't be parsed and
