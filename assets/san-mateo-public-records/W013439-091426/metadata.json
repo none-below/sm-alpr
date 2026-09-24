@@ -1,21 +1,34 @@
 {
-  "title": "CAD/case-report crosscheck against 10 ALPR search IDs, 3 incidents",
-  "summary": "For each of three CAD/incident numbers (202504040004 on 4/4/2025; 202512050234 on 12/5/2025; 202503280193 on 3/28/2025), asks for (1) the CAD event chronology/unit history/dispatch log and (2) the incident/case report including any assigned RMS case number and disposition. Separately, Item 3 asks for any record or log entry maintained through the Department's Flock ALPR system corresponding to ten named search IDs, invoking the Department's own case-number-entry requirement for ALPR searches as context.",
-  "tags": ["audit-compliance"],
+  "title": "CAD/case-report crosscheck against 13 ALPR search IDs, 3 incidents",
+  "summary": "For each of three CAD/incident numbers (202504040004 on 4/4/2025; 202512050234 on 12/5/2025; 202503280193 on 3/28/2025), asks for (1) the CAD event chronology/unit history/dispatch log and (2) the incident/case report including any assigned RMS case number and disposition. Separately, Item 3 asks for any record or log entry maintained through the Department's Flock ALPR system corresponding to thirteen named search IDs, invoking the Department's own case-number-entry requirement for ALPR searches as context. SMPD produced the three CAD incident reports (Item 1), answered \"No responsive records\" for any incident/case report (Item 2), and deferred Item 3 to the W012541-041426 rolling production.",
+  "tags": [
+    "audit-compliance"
+  ],
   "policy_promises": [
     {
       "policy": "Gov. Code § 7923.600",
       "quote": "records of investigations conducted by ... any state or local police agency",
-      "tests": "Whether a blanket exemption claim survives where Items 1 and 2 (CAD chronology, case report) would themselves establish that a given incident did not result in an investigation."
+      "tests": "Whether a blanket exemption claim survives where Items 1 and 2 (CAD chronology, case report) would themselves establish that a given incident did not result in an investigation. Answered in part: SMPD withheld portions of the 202503280193 CAD under § 7923.600 while answering \"No responsive records\" for any incident or case report on it, and the CAD shows disposition CM with no case number."
     },
     {
       "policy": "Gov. Code § 7922.525(b)",
       "quote": "Any reasonably segregable portion of a record shall be available for inspection ... after deletion of the portions that are exempt by law",
       "tests": "Whether the CAD chronology (an operational dispatch record) is segregable from any narrative report content withheld under § 7923.600 for the same call."
+    },
+    {
+      "policy": "SMPD Procedure 1102 / SOP 205 (2026)",
+      "quote": "Every ALPR data search shall be documented with a reason for the search, usually by agency case number, incident number, or warrant number.",
+      "tests": "Whether the incidents cited for ALPR searches correspond to documented investigations. For all three incidents SMPD produced a CAD record with a blank Case Number field and answered \"No responsive records\" for any incident or case report."
     }
   ],
-  "prior_pra_refs": [],
+  "prior_pra_refs": [
+    {
+      "ref": "W012541-041426",
+      "relation": "context",
+      "note": "SMPD's response defers Item 3 (records for the thirteen search IDs) to the W012541 rolling production, adding that the Organizational Audit cannot be queried by individual search ID."
+    }
+  ],
   "filed_because": "Cross-checks whether ALPR searches tied to specific CAD/incident numbers correspond to real, documented calls and case dispositions, testing the Department's case-number-entry requirement against the underlying CAD/RMS record for each cited incident.",
-  "status_override": "awaiting_initial",
-  "notes": "Filed 2026-09-14. Statutory 10-day initial determination due 2026-09-24 (Gov. Code § 7922.535(a))."
+  "status_override": null,
+  "notes": "Closed 2026-09-24, the statutory due date. The response letter states a legal review was completed under Gov. Code § 7922.525 and that any redactions or exemptions were authorized by its signatory, the Police Technical Services Administrator.\n\nItem 1: CAD incident reports produced for all three incidents, with license plates redacted (Cal. Const. art. I § 1; Gov. Code § 7922.000). Portions of the 202503280193 CAD withheld under Gov. Code § 7923.600 as law-enforcement investigative records.\n\nItem 2: \"No responsive records\" — SMPD located no incident report, case report, or RMS case record for any of the three incidents.\n\nItem 3: deferred to the W012541-041426 rolling production (\"To the extent records associated with these search IDs exist\"); the letter states the Organizational Audit \"does not provide the ability to query or search for individual search IDs.\"\n\nWhat the CADs show: every one has disposition \"Completed\" / CM and a blank Case Number field. 202504040004 (4/4/2025) and 202512050234 (12/5/2025) are REPO (repossessed vehicle report) calls phoned in by repossession companies — priority 3, no unit dispatched, closed about 3 and 10 minutes after creation. 202503280193 (3/28/2025) is a CIVIL (civil problem/advice) call over a landlord lockout, one unit on scene about 23 minutes. The § 7923.600 withholding on that CAD therefore sits on a call the City's own records type as CIVIL and close with disposition CM, with no case number and no report."
 }
