@@ -432,9 +432,10 @@ SKIP_ATTACHMENTS: dict[str, frozenset[str]] = {
 # lets a corrected re-upload under the same name through, and the hash records
 # exactly which file the agency released.
 WITHHELD_ATTACHMENTS: dict[str, dict[str, str]] = {
-    # Incident_2503280193_Redacted.pdf: the Persons block leaves a third
-    # party's name, DOB, and DL number unredacted. A requester-redacted copy
-    # is committed alongside as Incident_2503280193_Redacted.requester-redacted.pdf.
+    # Incident_2503280193_Redacted.pdf as first released: the Persons block
+    # left a third party's name, DOB, and DL number unredacted. The City
+    # called it "released in error" and replaced it on the portal under the
+    # same filename; that corrected copy is the one committed.
     "W013439-091426": {
         "85dc079f50155f40d9b0d6adc5d5135883fa4b703b61e1624ff20006720a1c43":
             "third-party PII",
