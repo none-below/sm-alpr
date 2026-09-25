@@ -307,7 +307,7 @@ class NextRequest:
                 "departments": detail.get("department_names"),
                 "text_excerpt": strip_html(detail.get("request_text"))[:300],
                 "documents": [{
-                    "id": d["id"], "title": d.get("title"),
+                    "id": d["id"], "title": d.get("title"), "link": bool(d.get("link")),
                     "ext": (d.get("file_extension") or "").lower(), "size": None,
                     "uploaded": (d.get("document_scan") or {}).get("upload_date"),
                     "folder": d.get("folder_name") or None,
@@ -545,7 +545,15 @@ def cmd_search(args) -> None:
                 print(f"[{i}/{len(portals)}] {msg}", flush=True)
 
 
+def is_link(doc: dict) -> bool:
+    """A NextRequest "document" that is only a pointer to an outside URL (its
+    title is the URL); /download tries to follow it, so there's no file to get."""
+    return bool(doc.get("link")) or bool(re.match(r"https?://", doc.get("title") or ""))
+
+
 def wanted(doc: dict, everything: bool, max_mb: float | None) -> bool:
+    if is_link(doc):
+        return False
     ext = doc.get("ext") or ""
     if ext in MEDIA_EXT:
         return False

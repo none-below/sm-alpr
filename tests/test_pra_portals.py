@@ -154,3 +154,12 @@ def test_underscore_file_names_match():
     assert harv.is_alpr("Flock_Safety_INV-90909_2026-04-01.pdf")
     assert harv.wanted({"title": "event_log_for_last_30_days_Redacted.pdf", "ext": "pdf"}, False, None)
     assert harv.wanted({"title": "1_1_2025-1_31_2025-Fullerton_CA_PD-Network-Audit.pdf", "ext": "pdf"}, False, None)
+
+
+def test_link_documents_are_not_downloaded():
+    # NextRequest link entries point at outside URLs (Oakland's retired open-data
+    # site); /download follows them and the connection resets.
+    url_title = {"title": "https://data.oaklandnet.com/Public-Safety/x/abcd", "ext": "", "link": False}
+    assert harv.is_link(url_title) and not harv.wanted(url_title, True, None)
+    assert not harv.wanted({"title": "Network Audit.xlsx", "ext": "xlsx", "link": True}, True, None)
+    assert harv.wanted({"title": "Network Audit.xlsx", "ext": "xlsx", "link": False}, False, None)
