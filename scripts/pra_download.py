@@ -92,6 +92,7 @@ _STATUS_STYLE = {
     "updated":   ("~", ("cyan", "bold")),
     "unchanged": ("=", ("dim",)),
     "skipped":   ("-", ("dim",)),
+    "withheld":  ("!", ("yellow", "bold")),
     "failed":    ("x", ("red", "bold")),
 }
 
@@ -423,6 +424,31 @@ NAV_TIMEOUT_MS = 120_000
 SKIP_ATTACHMENTS: dict[str, frozenset[str]] = {
     "W012462-040226": frozenset({"download"}),
 }
+
+# Produced attachments that must not land in the repo as released, keyed by
+# request id, then by SHA-256 of the file's bytes, mapped to a short reason.
+# The portal gives no hash up front, so these are still downloaded, then
+# deleted and reported as withheld. Matching on content rather than filename
+# lets a corrected re-upload under the same name through, and the hash records
+# exactly which file the agency released.
+WITHHELD_ATTACHMENTS: dict[str, dict[str, str]] = {
+    # Incident_2503280193_Redacted.pdf as first released: the Persons block
+    # left a third party's name, DOB, and DL number unredacted. The City
+    # called it "released in error" and replaced it on the portal under the
+    # same filename; that corrected copy is the one committed.
+    "W013439-091426": {
+        "85dc079f50155f40d9b0d6adc5d5135883fa4b703b61e1624ff20006720a1c43":
+            "third-party PII",
+    },
+}
+
+
+def withheld_reason(request_id: str, path: Path) -> str | None:
+    """Why the downloaded file at `path` is withheld from the repo, or None."""
+    withheld = WITHHELD_ATTACHMENTS.get(request_id)
+    if not withheld:
+        return None
+    return withheld.get(hashlib.sha256(path.read_bytes()).hexdigest())
 
 
 def load_config() -> dict:
@@ -1350,7 +1376,7 @@ def process_request(page: Page, home_url: str, request_id: str,
             return
         print(f"   {len(anchors)} attachment anchor(s)")
         counts = {"new": 0, "updated": 0, "unchanged": 0,
-                  "skipped": 0, "failed": 0}
+                  "skipped": 0, "withheld": 0, "failed": 0}
         # Track by (label, onclick, href) to survive DOM re-render between
         # clicks while still distinguishing two anchors that share a label
         # (e.g. two attachments uploaded with the same filename).
@@ -1395,6 +1421,12 @@ def process_request(page: Page, home_url: str, request_id: str,
                 file_status("failed", target_label)
                 continue
             saved, state = result
+            reason = withheld_reason(request_id, saved)
+            if reason is not None:
+                saved.unlink()
+                counts["withheld"] += 1
+                file_status("withheld", f"{saved.name} ({reason})")
+                continue
             counts[state] += 1
             file_status(state, saved.name)
 
@@ -1409,6 +1441,7 @@ def _print_summary(counts: dict[str, int]) -> None:
         ("updated",   "updated",   "cyan"),
         ("unchanged", "unchanged", "dim"),
         ("skipped",   "skipped",   "dim"),
+        ("withheld",  "withheld",  "yellow"),
         ("failed",    "failed",    "red"),
     ]
     for key, label, color in order:
