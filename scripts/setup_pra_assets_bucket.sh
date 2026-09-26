@@ -24,11 +24,15 @@
 #
 # MINT_KEYS=1 creates one access key per principal (skipped if it already has
 # one) and writes it straight into local profiles <prefix>-writer and
-# <prefix>-reader in ~/.aws/credentials -- the secret is never printed.
+# <prefix>-reader in ~/.aws/credentials. The secret is never printed or put
+# on a command line, and a key that can't be saved is deleted from IAM.
+#
+# PRA_S3_REGION / PRA_S3_PREFIX override the bucket's region and name prefix.
 set -euo pipefail
 
-REGION="${REGION:-us-west-2}"
-PREFIX="${PREFIX:-sm-alpr-pra}"        # <= 37 chars; the -<acct>-<region>-an suffix takes the rest
+# Same env overrides and defaults as scripts/pra_s3_upload.py (a test keeps them in sync).
+REGION="${PRA_S3_REGION:-us-west-2}"
+PREFIX="${PRA_S3_PREFIX:-sm-alpr-pra}"   # <= 37 chars; the -<acct>-<region>-an suffix takes the rest
 LOCK_MODE="${LOCK_MODE:-GOVERNANCE}"   # GOVERNANCE: admin can bypass. COMPLIANCE: nobody can, incl. root
 LOCK_YEARS="${LOCK_YEARS:-10}"
 WRITER="${PREFIX}-writer"
@@ -169,17 +173,30 @@ ensure_user "$READER" "$(reader_policy)"
 echo "principals configured"
 
 mint_key() {  # <user>: new key -> local profile of the same name
-  local n
-  n=$(aws iam list-access-keys --user-name "$1" --query 'length(AccessKeyMetadata)' --output text)
-  if [[ "$n" != "0" ]]; then
-    echo "$1 already has an access key; not minting another"
+  local keys local_id
+  keys=$(aws iam list-access-keys --user-name "$1" --query 'AccessKeyMetadata[].AccessKeyId' --output text)
+  if [[ -n "$keys" ]]; then
+    local_id=$(aws configure get aws_access_key_id --profile "$1" 2>/dev/null || true)
+    if [[ -n "$local_id" && " $keys " == *" $local_id "* ]]; then
+      echo "$1: local profile already holds its key"
+    else
+      echo "$1 has key(s) $keys in IAM that aren't in the local profile." >&2
+      echo "  If none are in use elsewhere: aws iam delete-access-key --user-name $1 --access-key-id <id>, then re-run." >&2
+    fi
     return
   fi
   local id secret
   read -r id secret < <(aws iam create-access-key --user-name "$1" \
     --query 'AccessKey.[AccessKeyId,SecretAccessKey]' --output text)
-  aws configure set aws_access_key_id "$id" --profile "$1"
-  aws configure set aws_secret_access_key "$secret" --profile "$1"
+  # printf is a builtin and the CSV goes in on stdin, so the secret never
+  # appears in any process's argv (visible to other users via ps).
+  if ! printf 'User name,Access key ID,Secret access key\n%s,%s,%s\n' "$1" "$id" "$secret" \
+      | aws configure import --csv file:///dev/stdin >/dev/null; then
+    # Don't strand a key nobody holds; the next run would refuse to mint.
+    aws iam delete-access-key --user-name "$1" --access-key-id "$id"
+    echo "saving the key for $1 failed; deleted it from IAM" >&2
+    return 1
+  fi
   aws configure set region "$REGION" --profile "$1"
   echo "minted key for $1 -> profile $1"
 }
