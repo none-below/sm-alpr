@@ -202,8 +202,10 @@ apply_setting "object ownership" "$cur" "$ownership" \
   aws s3api put-bucket-ownership-controls --bucket "$BUCKET" --region "$REGION" \
   --ownership-controls "$ownership"
 
-# SSE-S3, not KMS: anonymous/public reads can't decrypt SSE-KMS objects.
-encryption='{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"},"BucketKeyEnabled":false}]}'
+# SSE-S3, not KMS: anonymous/public reads can't decrypt SSE-KMS objects. SSE-C
+# (customer-held keys) is blocked, as AWS now does by default for new buckets:
+# an object only its uploader's key can decrypt has no place in a shared archive.
+encryption='{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"},"BucketKeyEnabled":false,"BlockedEncryptionTypes":{"EncryptionType":["SSE-C"]}}]}'
 cur=$(s3get ServerSideEncryptionConfigurationNotFoundError get-bucket-encryption ServerSideEncryptionConfiguration)
 apply_setting "encryption" "$cur" "$encryption" \
   aws s3api put-bucket-encryption --bucket "$BUCKET" --region "$REGION" \
