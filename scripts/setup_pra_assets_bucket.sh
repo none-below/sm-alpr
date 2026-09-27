@@ -120,28 +120,42 @@ fi
 
 echo "account ${ACCOUNT_ID}, bucket ${BUCKET}"
 
-json_covers() {  # <desired> <current>: exit 0 if every field of desired has the same value in current
+ERR=$(mktemp)
+trap 'rm -f "$ERR"' EXIT
+
+json_same() {  # <a> <b>: exit 0 if the two JSON documents are equal, key order aside
   python3 - "$1" "$2" <<'EOF'
 import json, sys
-
-def covers(d, c):
-    if isinstance(d, dict):
-        return isinstance(c, dict) and all(k in c and covers(v, c[k]) for k, v in d.items())
-    if isinstance(d, list):
-        return isinstance(c, list) and len(d) == len(c) and all(map(covers, d, c))
-    return d == c
-
-sys.exit(0 if covers(json.loads(sys.argv[1]), json.loads(sys.argv[2])) else 1)
+sys.exit(0 if json.loads(sys.argv[1]) == json.loads(sys.argv[2]) else 1)
 EOF
 }
 
+# Print a setting's current JSON, or nothing when AWS answers with the given
+# "not configured" error code. Any other failure (expired credentials,
+# throttling, access denied) stops the script: mistaking it for "unset" would
+# overwrite a deliberate setting with the default.
+read_setting() {  # <not-configured error code> <command...>
+  local code=$1 out
+  shift
+  if out=$("$@" 2>"$ERR"); then
+    printf '%s' "$out"
+  elif ! grep -qF "($code)" "$ERR"; then
+    echo "couldn't read current setting ($*):" >&2
+    cat "$ERR" >&2
+    return 1
+  fi
+}
+
+# Apply a setting only when it's unset. One that differs from this script's
+# default in any way is reported and left alone unless REAPPLY=1; "ok" means
+# exactly equal, so an added condition or statement never passes as ok.
 apply_setting() {  # <name> <current json, empty if unset> <desired json> <command...>
   local name=$1 current=$2 desired=$3
   shift 3
-  if [[ -z "$current" || "$current" == "null" || "$current" == "None" ]]; then
+  if [[ -z "$current" || "$current" == "null" ]]; then
     "$@" >/dev/null
     echo "  $name: set"
-  elif json_covers "$desired" "$current"; then
+  elif json_same "$desired" "$current"; then
     echo "  $name: ok"
   elif [[ "${REAPPLY:-0}" == "1" ]]; then
     "$@" >/dev/null
@@ -153,14 +167,14 @@ apply_setting() {  # <name> <current json, empty if unset> <desired json> <comma
   fi
 }
 
-s3get() {  # <get-command> <query>: the bucket setting as JSON, empty if unset
-  aws s3api "$1" --bucket "$BUCKET" --region "$REGION" --query "$2" --output json 2>/dev/null || true
+s3get() {  # <not-configured code> <get-command> <query>
+  read_setting "$1" aws s3api "$2" --bucket "$BUCKET" --region "$REGION" --query "$3" --output json
 }
 
 # --- bucket ---------------------------------------------------------------
-if aws s3api head-bucket --bucket "$BUCKET" --region "$REGION" >/dev/null 2>&1; then
+if aws s3api head-bucket --bucket "$BUCKET" --region "$REGION" >/dev/null 2>"$ERR"; then
   echo "bucket exists"
-else
+elif grep -qF "(404)" "$ERR"; then
   location=()
   [[ "$REGION" != "us-east-1" ]] && location=(--create-bucket-configuration "LocationConstraint=${REGION}")
   # Object Lock at creation also turns on versioning (required by Object Lock).
@@ -169,53 +183,67 @@ else
     --object-lock-enabled-for-bucket \
     ${location[@]+"${location[@]}"} >/dev/null
   echo "created bucket"
+else
+  cat "$ERR" >&2
+  exit 1
 fi
 
+# Each read is its own assignment so that, under set -e, a failed read stops
+# the script before anything is written.
 pab='{"BlockPublicAcls":true,"IgnorePublicAcls":true,"BlockPublicPolicy":true,"RestrictPublicBuckets":true}'
-apply_setting "public access block" "$(s3get get-public-access-block PublicAccessBlockConfiguration)" "$pab" \
+cur=$(s3get NoSuchPublicAccessBlockConfiguration get-public-access-block PublicAccessBlockConfiguration)
+apply_setting "public access block" "$cur" "$pab" \
   aws s3api put-public-access-block --bucket "$BUCKET" --region "$REGION" \
   --public-access-block-configuration "$pab"
 
 ownership='{"Rules":[{"ObjectOwnership":"BucketOwnerEnforced"}]}'
-apply_setting "object ownership" "$(s3get get-bucket-ownership-controls OwnershipControls)" "$ownership" \
+cur=$(s3get OwnershipControlsNotFoundError get-bucket-ownership-controls OwnershipControls)
+apply_setting "object ownership" "$cur" "$ownership" \
   aws s3api put-bucket-ownership-controls --bucket "$BUCKET" --region "$REGION" \
   --ownership-controls "$ownership"
 
 # SSE-S3, not KMS: anonymous/public reads can't decrypt SSE-KMS objects.
 encryption='{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"},"BucketKeyEnabled":false}]}'
-apply_setting "encryption" "$(s3get get-bucket-encryption ServerSideEncryptionConfiguration)" "$encryption" \
+cur=$(s3get ServerSideEncryptionConfigurationNotFoundError get-bucket-encryption ServerSideEncryptionConfiguration)
+apply_setting "encryption" "$cur" "$encryption" \
   aws s3api put-bucket-encryption --bucket "$BUCKET" --region "$REGION" \
   --server-side-encryption-configuration "$encryption"
 
 retention="{\"DefaultRetention\":{\"Mode\":\"${LOCK_MODE}\",\"Years\":${LOCK_YEARS}}}"
-apply_setting "object lock default retention" \
-  "$(s3get get-object-lock-configuration ObjectLockConfiguration.Rule)" "$retention" \
+cur=$(s3get ObjectLockConfigurationNotFoundError get-object-lock-configuration ObjectLockConfiguration.Rule)
+apply_setting "object lock default retention" "$cur" "$retention" \
   aws s3api put-object-lock-configuration --bucket "$BUCKET" --region "$REGION" \
   --object-lock-configuration "{\"ObjectLockEnabled\":\"Enabled\",\"Rule\":${retention}}"
 
 # The writer can't list, so it can't find or clean up its own failed multipart
 # uploads; expire them instead of paying for orphaned parts.
 lifecycle='[{"ID":"abort-incomplete-mpu","Status":"Enabled","Filter":{"Prefix":""},"AbortIncompleteMultipartUpload":{"DaysAfterInitiation":7}}]'
-apply_setting "lifecycle rules" "$(s3get get-bucket-lifecycle-configuration Rules)" "$lifecycle" \
+cur=$(s3get NoSuchLifecycleConfiguration get-bucket-lifecycle-configuration Rules)
+apply_setting "lifecycle rules" "$cur" "$lifecycle" \
   aws s3api put-bucket-lifecycle-configuration --bucket "$BUCKET" --region "$REGION" \
   --lifecycle-configuration "{\"Rules\":${lifecycle}}"
 
-apply_setting "bucket policy" \
-  "$(aws s3api get-bucket-policy --bucket "$BUCKET" --region "$REGION" --query Policy --output text 2>/dev/null || true)" \
-  "$(bucket_policy)" \
+cur=$(read_setting NoSuchBucketPolicy \
+  aws s3api get-bucket-policy --bucket "$BUCKET" --region "$REGION" --query Policy --output text)
+apply_setting "bucket policy" "$cur" "$(bucket_policy)" \
   aws s3api put-bucket-policy --bucket "$BUCKET" --region "$REGION" --policy "$(bucket_policy)"
 echo "bucket configured"
 
 # --- principals -------------------------------------------------------------
 ensure_user() {  # <user> <policy-json>
-  if ! aws iam get-user --user-name "$1" >/dev/null 2>&1; then
+  local cur
+  if aws iam get-user --user-name "$1" >/dev/null 2>"$ERR"; then
+    :
+  elif grep -qF "(NoSuchEntity)" "$ERR"; then
     aws iam create-user --user-name "$1" >/dev/null
     echo "created user $1"
+  else
+    cat "$ERR" >&2
+    return 1
   fi
-  apply_setting "$1 policy" \
-    "$(aws iam get-user-policy --user-name "$1" --policy-name "${PREFIX}-access" \
-         --query PolicyDocument --output json 2>/dev/null || true)" \
-    "$2" \
+  cur=$(read_setting NoSuchEntity aws iam get-user-policy --user-name "$1" \
+    --policy-name "${PREFIX}-access" --query PolicyDocument --output json)
+  apply_setting "$1 policy" "$cur" "$2" \
     aws iam put-user-policy --user-name "$1" --policy-name "${PREFIX}-access" --policy-document "$2"
 }
 

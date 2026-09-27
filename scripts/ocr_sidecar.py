@@ -162,16 +162,26 @@ def sidecar_name(name, md5_hex):
 
 
 def sidecar_base_name(name):
-    """For a name shaped like a sidecar (<base>.<8 hex>.txt), return <base>; else None.
-
-    Shape alone doesn't prove it's a sidecar: pra_download renames same-named
-    attachments to <stem>.<8 hex>.<ext>, so a released notes.txt can become
-    notes.1a2b3c4d.txt. Confirm with sidecar_name(base, <MD5 of the base file>).
-    """
+    """For a name shaped like a sidecar, <base>.<8 hex>.txt where <base> has an
+    extension this script OCRs, return <base>; else None. Dated names like
+    log.20260918.txt don't qualify."""
     parts = name.rsplit(".", 2)
-    if len(parts) == 3 and parts[2] == "txt" and re.fullmatch(r"[0-9a-f]{8}", parts[1]):
+    if (len(parts) == 3 and parts[2] == "txt" and re.fullmatch(r"[0-9a-f]{8}", parts[1])
+            and Path(parts[0]).suffix.lower() in SUPPORTED_EXTENSIONS):
         return parts[0]
     return None
+
+
+def is_sidecar(name, own_md5):
+    """True for a sidecar this script wrote, whether current, stale (its base
+    file changed) or orphaned (its base file is gone).
+
+    pra_download renames same-named attachments to <stem>.<8 hex>.<ext> with
+    the file's *own* MD5, so a released scan.pdf.txt can become
+    scan.pdf.1a2b3c4d.txt. A sidecar carries its base file's MD5 instead, so
+    the two are told apart by the file's own content.
+    """
+    return sidecar_base_name(name) is not None and name.rsplit(".", 2)[1] != own_md5[:8]
 
 
 def sidecar_path_for(file_path):

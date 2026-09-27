@@ -24,7 +24,7 @@ SCRIPT_DIR = Path(__file__).parent.parent / "scripts"
 sys.path.insert(0, str(SCRIPT_DIR))
 
 import pra_s3_upload as u  # noqa: E402
-from ocr_sidecar import sidecar_path_for  # noqa: E402
+from ocr_sidecar import is_sidecar, sidecar_path_for  # noqa: E402
 
 SHA = "ab" * 32
 
@@ -115,7 +115,8 @@ def test_changed_content_gets_a_new_key():
     assert u.object_key("c", rel, "0" * 64) != u.object_key("c", rel, "1" * 64)
 
 
-@pytest.mark.parametrize("env", [{}, {"PRA_S3_REGION": "eu-north-1", "PRA_S3_PREFIX": "other-pfx"}])
+@pytest.mark.parametrize("env", [{}, {"PRA_S3_REGION": "eu-north-1", "PRA_S3_PREFIX": "other-pfx"},
+                                 {"PRA_S3_REGION": "", "PRA_S3_PREFIX": ""}])
 def test_bucket_name_matches_setup_script(env, monkeypatch):
     """Both scripts derive the bucket name; run the shell's own derivation."""
     shell_env = {k: v for k, v in os.environ.items() if not k.startswith("PRA_S3_")}
@@ -133,7 +134,7 @@ def test_collections_are_well_formed():
     for name, cfg in u.COLLECTIONS.items():
         assert re.fullmatch(r"[a-z0-9][a-z0-9-]*", name)
         assert cfg["base"] in ("checkout", "primary")
-        assert set(cfg) <= {"base", "root", "exclude", "skip_ocr_sidecars"}
+        assert set(cfg) <= {"base", "root", "exclude", "keep", "skip_ocr_sidecars"}
         if cfg["base"] == "checkout":  # tracked folders must exist in every checkout
             assert u.collection_root(name).is_dir(), name
 
@@ -194,30 +195,80 @@ def test_excluded_folders_are_not_walked(tmp_path):
     assert [rel for rel, _, _ in files] == ["keep.pdf"] and held == []
 
 
+def test_safari_download_folder_holds_the_tree(tmp_path):
+    _write(tmp_path, "done.pdf")
+    _write(tmp_path, "report.pdf.download/report.pdf", b"partial")
+    files, held, _ = u.collect(tmp_path)
+    assert [rel for rel, _, _ in files] == ["done.pdf"]
+    assert held == [("report.pdf.download", "unfinished download folder")]
+
+
+def test_keep_lets_a_real_file_with_a_download_like_name_through(tmp_path):
+    _write(tmp_path, "export.part")
+    files, held, _ = u.collect(tmp_path, keep=["export.part"])
+    assert [rel for rel, _, _ in files] == ["export.part"] and held == []
+
+
+def test_tracked_mode_ignores_untracked_and_mtimes(tmp_path):
+    _write(tmp_path, "W1/a.pdf", age=0)  # fresh checkout: every mtime is "now"
+    _write(tmp_path, "W1/export.part", age=0)  # tracked, so finished whatever its name
+    _write(tmp_path, "W1/untracked.png")
+    tracked = {"W1/a.pdf", "W1/export.part", "W1/sparse_only.pdf"}
+    files, held, _ = u.collect(tmp_path, min_age=600, tracked=tracked)
+    assert [rel for rel, _, _ in files] == ["W1/a.pdf", "W1/export.part"]
+    assert held == [("W1/sparse_only.pdf", "tracked but not on disk (sparse checkout?)")]
+
+
 # --- OCR sidecars ------------------------------------------------------------------
 
-def test_only_true_ocr_sidecars_are_skipped(tmp_path):
+def test_sidecar_rule_tells_sidecars_from_collision_renames():
+    own = hashlib.md5(b"released text").hexdigest()
+    assert is_sidecar("Audit.doc.1d511874.txt", "f" * 32)  # current or stale: base's MD5
+    assert is_sidecar("Gone.pdf.1d511874.txt", "f" * 32)  # orphaned: base removed
+    assert not is_sidecar(f"scan.pdf.{own[:8]}.txt", own)  # pra_download rename: its own MD5
+    assert not is_sidecar("notes.1a2b3c4d.txt", "f" * 32)  # base has no OCR'd extension
+    assert not is_sidecar("log.20260918.txt", "f" * 32)
+    assert not is_sidecar("Audit.doc", "f" * 32)
+
+
+def test_stale_and_orphaned_sidecars_are_skipped_real_files_kept(tmp_path):
     root = tmp_path / "tree"
     base = _write(root, "W1/Audit.doc", b"audit bytes")
-    sidecar = sidecar_path_for(base)
-    _write(root, f"W1/{sidecar.name}", b"ocr text")
-    # pra_download's collision rename, a dated name, and a stale sidecar all look alike.
+    _write(root, f"W1/{sidecar_path_for(base).name}", b"ocr text")
+    _write(root, "W1/Audit.doc.00000000.txt", b"stale ocr")
+    _write(root, "W1/Withheld.pdf.1234abcd.txt", b"ocr of a withdrawn release")
+    renamed = hashlib.md5(b"released scan text").hexdigest()[:8]
+    _write(root, f"W1/scan.pdf.{renamed}.txt", b"released scan text")
     _write(root, "W1/notes.1a2b3c4d.txt", b"released notes")
     _write(root, "W1/log.20260918.txt", b"released log")
-    _write(root, "W1/Audit.doc.00000000.txt", b"stale ocr")
     s3 = FakeS3()
     assert _sync(s3, root, tmp_path / "ledger.jsonl", skip_ocr_sidecars=True) == 0
     assert s3.stored_names() == sorted([
-        "Audit.doc", "notes.1a2b3c4d.txt", "log.20260918.txt", "Audit.doc.00000000.txt"])
+        "Audit.doc", f"scan.pdf.{renamed}.txt", "notes.1a2b3c4d.txt", "log.20260918.txt"])
 
 
-def test_sidecar_of_a_held_back_file_waits(tmp_path):
+def test_sidecar_of_a_held_back_file_is_not_uploaded(tmp_path):
     root = tmp_path / "tree"
     base = _write(root, "W1/Audit.doc", b"audit bytes", age=5)  # still settling
     _write(root, f"W1/{sidecar_path_for(base).name}", b"ocr text")
     s3 = FakeS3()
     assert _sync(s3, root, tmp_path / "ledger.jsonl", skip_ocr_sidecars=True) == 3
     assert s3.objects == {}
+
+
+def test_shrink_guard_counts_the_tree_without_sidecars(tmp_path):
+    root, ledger = tmp_path / "tree", tmp_path / "ledger.jsonl"
+    for i in range(10):
+        base = _write(root, f"W{i}/doc.pdf", f"doc {i}".encode())
+        _write(root, f"W{i}/{sidecar_path_for(base).name}", b"ocr")
+    s3 = FakeS3()
+    assert _sync(s3, root, ledger, skip_ocr_sidecars=True) == 0
+    for i in range(6):  # lose 60% of the documents, sidecars and all
+        for p in (root / f"W{i}").iterdir():
+            p.unlink()
+    calls = len(s3.calls)
+    assert _sync(s3, root, ledger, skip_ocr_sidecars=True) == 2  # 8 files on disk, 4 in the tree
+    assert len(s3.calls) == calls
 
 
 # --- upload paths -----------------------------------------------------------------
@@ -252,10 +303,11 @@ def test_multipart_refuses_bytes_that_dont_match_the_key(tmp_path, monkeypatch):
 def test_interrupt_aborts_multipart_between_parts(tmp_path, monkeypatch):
     monkeypatch.setattr(u, "PART_SIZE", 4)
     s3, p = FakeS3(), _write(tmp_path, "big.zip", b"0123456789")
+    sha = _sha(p)
     u.STOP.set()
     try:
         with pytest.raises(u.Stopped):
-            u.upload(s3, "b", "k", p, 10, _sha(p))
+            u.upload(s3, "b", "k", p, 10, sha)
     finally:
         u.STOP.clear()
     assert "k" not in s3.objects
@@ -420,3 +472,90 @@ def test_dry_run_predicts_the_real_status_and_writes_nothing(tmp_path):
     _write(root, "downloading.pdf", age=5)
     assert _sync(s3, root, ledger, dry_run=True) == 3
     assert s3.calls == [] and not ledger.exists()
+
+
+def test_hash_cache_skips_unchanged_files_but_not_rewrites_that_keep_mtime(tmp_path, monkeypatch):
+    root, ledger = tmp_path / "tree", tmp_path / "ledger.jsonl"
+    p = _write(root, "a.pdf", b"version 1")
+    s3 = FakeS3()
+    assert _sync(s3, root, ledger) == 0
+    reads = []
+    real = u.file_digests
+    monkeypatch.setattr(u, "file_digests", lambda path, md5=False: reads.append(path) or real(path, md5))
+    assert _sync(s3, root, ledger) == 0
+    assert reads == []  # identity unchanged: cached
+    mtime = p.stat().st_mtime_ns
+    p.write_bytes(b"version 2")  # same size, and put the old mtime back (rsync -t, cp -p)
+    os.utime(p, ns=(mtime, mtime))
+    assert _sync(s3, root, ledger) == 0
+    assert reads == [p] and len(s3.manifests()) == 2
+
+
+def test_interrupt_stops_hashing_mid_file(tmp_path):
+    p = _write(tmp_path, "big.bin", b"x" * (3 << 20))
+    u.STOP.set()
+    try:
+        with pytest.raises(u.Stopped):
+            u.file_digests(p)
+    finally:
+        u.STOP.clear()
+
+
+def test_line_separator_in_a_filename_keeps_its_ledger_row_whole(tmp_path):
+    root, ledger = tmp_path / "tree", tmp_path / "ledger.jsonl"
+    _write(root, "odd\u2028name.pdf", b"odd")
+    s3 = FakeS3()
+    assert _sync(s3, root, ledger) == 0
+    calls = len(s3.calls)
+    assert _sync(s3, root, ledger) == 0
+    assert len(s3.calls) == calls  # recognised as stored, not re-sent
+
+
+# --- checkout collections ----------------------------------------------------------
+
+def _git(repo, *args):
+    subprocess.run(["git", "-C", str(repo), *args], check=True, capture_output=True,
+                   env={**os.environ, "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t",
+                        "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t"})
+
+
+@pytest.fixture
+def repo(tmp_path):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    _git(repo, "init", "-q", "-b", "main")
+    _write(repo, "assets/prs/W1/a.pdf", b"a")
+    _write(repo, "assets/prs/W1/b.pdf", b"b")
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-q", "-m", "init")
+    _git(repo, "update-ref", "refs/remotes/origin/main", "HEAD")
+    return repo
+
+
+def test_tracked_files_are_the_committed_ones(repo):
+    _write(repo, "assets/prs/W1/untracked_screenshot.png")
+    assert u.tracked_files(repo, "assets/prs", fetch=False) == {"W1/a.pdf", "W1/b.pdf"}
+
+
+def test_dirty_checkout_is_refused(repo):
+    _write(repo, "assets/prs/W1/a.pdf", b"edited")
+    with pytest.raises(u.Refused, match="uncommitted"):
+        u.tracked_files(repo, "assets/prs", fetch=False)
+
+
+def test_stale_checkout_is_refused(repo):
+    _write(repo, "assets/prs/W2/new.pdf", b"new")
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-q", "-m", "newer on main")
+    _git(repo, "update-ref", "refs/remotes/origin/main", "HEAD")
+    _git(repo, "checkout", "-q", "HEAD~1")
+    with pytest.raises(u.Refused, match="differs from origin/main"):
+        u.tracked_files(repo, "assets/prs", fetch=False)
+
+
+def test_fresh_checkout_uploads_without_waiting(repo, tmp_path):
+    root = repo / "assets/prs"
+    tracked = u.tracked_files(repo, "assets/prs", fetch=False)
+    s3 = FakeS3()
+    assert _sync(s3, root, tmp_path / "ledger.jsonl", tracked=tracked, min_age=600) == 0
+    assert s3.stored_names() == ["a.pdf", "b.pdf"]
