@@ -1,9 +1,9 @@
 """Small importable helpers for engineers querying the audit DB from Python. Read-only; nothing is written.
 
-    import sys; sys.path.insert(0, "<audit_db>")
+    import sys; sys.path.insert(0, "<repo>/scripts/audit_db")
     import audit_client as ac
 
-    con = ac.connect("<audit_db>")                 # derived + truth read-only, 4 threads / 4 GB, spill capped
+    con = ac.connect()                             # derived + truth read-only, 4 threads / 4 GB, spill capped
     pairs = [("mr:196397:PRA25-746.csv#csv", 1), ("mr:196397:PRA25-746.csv#csv", 3)]
     ac.sightings_for(con, pairs).fetchall()        # parsed rows, same columns as the `sightings` view
     ac.citations_for(con, pairs).df()              # where each row is in the original + citation (`sighting_sources`)
@@ -31,6 +31,7 @@ from pathlib import Path
 import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
+from paths import audit_dir as default_audit_dir  # noqa: E402
 from sql_templates import (flock_rows_sql, sightings_flock_sql, sightings_smpd_sql, sources_flock_sql,  # noqa: E402
                            sources_smpd_sql)
 
@@ -39,16 +40,17 @@ def _s(v):
     return "'" + str(v).replace("'", "''") + "'"
 
 
-def connect(audit_dir, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB"):
+def connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB"):
     """Read-only connection to <audit_dir>/derived.duckdb with truth attached (READ_ONLY).
 
+    audit_dir defaults to paths.audit_dir(): the primary checkout's .claude/audit_db/, or AUDIT_DB_DIR.
     Spills go to temp_dir (default <system tmp>/alpr_duck_tmp) and are capped at max_temp, so a runaway query fails
     instead of filling the disk. On a shared machine use threads=1, memory='1GB' (the docs' timings were taken so).
 
-    >>> con = connect("/path/to/audit_db", threads=1, memory="1GB")
+    >>> con = connect(threads=1, memory="1GB")
     >>> con.sql("SELECT key, value FROM truth.build_info").fetchall()
     """
-    A = Path(audit_dir)
+    A = Path(audit_dir or default_audit_dir())
     con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
     con.execute(f"ATTACH IF NOT EXISTS {_s(A / 'truth.duckdb')} AS truth (READ_ONLY)")
     temp = temp_dir or os.path.join(tempfile.gettempdir(), "alpr_duck_tmp")
@@ -174,6 +176,6 @@ if __name__ == "__main__":
     # python audit_client.py <event_id> [audit_dir]: states + citations of one search (no released text)
     if len(sys.argv) < 2:
         sys.exit(__doc__)
-    c = connect(sys.argv[2] if len(sys.argv) > 2 else Path(__file__).parent, threads=1, memory="1GB")
+    c = connect(sys.argv[2] if len(sys.argv) > 2 else None, threads=1, memory="1GB")
     for r in drill(c, sys.argv[1]):
         print(r["producer"], r["basis"], r["reason_state"], r["case_state"], r["citation"], sep=" | ")

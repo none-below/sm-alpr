@@ -1,7 +1,8 @@
 """Layers 2 + 3 — DERIVED: views/macros computed on read over truth (attached READ_ONLY), plus a `cache`
 schema holding only what is too slow to compute on read. Deleting derived.duckdb loses nothing.
 
-  python build_derived.py truth.duckdb derived.duckdb [--views-only]
+  cd <audit dir> && uv run --project <repo>/scripts/audit_db python <repo>/scripts/audit_db/build_derived.py \
+      truth.duckdb derived.duckdb [--views-only]
 Every cache table is registered in cache.builds with the truth fingerprint, this script's layer-3 sha256 and the DuckDB
 version, so a stale cache is detectable (check_cache.py) rather than silently trusted.
 The parse/citation SQL shared with row lookups lives in sql_templates.py (importable without running a build).

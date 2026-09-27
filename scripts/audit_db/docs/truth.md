@@ -441,7 +441,7 @@ WHERE release_id = 'mr:196397:PRA25-746.csv#csv' ORDER BY row_no""").show()
 
 ### Adding an entry
 
-1. Edit the JSON file in the build directory. Give the citation, and for a layout or disposition, the check that
+1. Edit the JSON file in `<code>` (in a worktree, through a PR). Give the citation, and for a layout or disposition, the check that
    supports it (for example, the other log's value for the same search UUID). Use `%` in `release_pattern` so that
    every production of the same file matches.
 2. Rebuild truth with `build_truth.py` (below). Staging is not needed unless the evidence or `muckrock_ingest.py`
@@ -490,18 +490,18 @@ Inputs:
   common directory, so a worktree build still reads the primary checkout's copy. It holds the downloaded originals,
   `catalog.json` + `catalog2.json` (one entry per downloaded file, with a per-file/member/sheet profile),
   `catalog_requests.json` (request pages), and `MANIFEST_v2.txt` with its `.tsr`/`.ots` stamps.
-- **Authored facts**: `producers.json`, `dispositions.json`, `layouts.json` in the build directory.
-- **Tools**: `uv`. The truth build needs the `pymupdf` package (it exits with the command to use if it is missing).
-  Staging needs `python-calamine`, `openpyxl` and `pyxlsb`.
+- **Authored facts**: `producers.json`, `dispositions.json`, `layouts.json` in `<code>`, beside the build scripts.
+- **Tools**: `uv`, with the pinned environment in `<code>` (`pyproject.toml` + `uv.lock`: Python, DuckDB, `pymupdf`
+  for the truth build, `python-calamine`, `openpyxl` and `pyxlsb` for staging). The versions are exact because each
+  one changes what a build produces.
 
-Two steps. Run them from a fresh worktree off a freshly fetched `origin/main`, niced. `A` is the build directory, and
-`T` is a scratch directory with about 25 GB free (the build README's figure):
+Two steps. Run them from a fresh worktree off a freshly fetched `origin/main`, niced. `C` is `<code>` in that
+worktree, `A` is `<audit_db>`, and `T` is a scratch directory with about 25 GB free (the build README's figure):
 
 ```sh
-BG="nice -n 19 taskpolicy -b"
-$BG uv run --with duckdb --with python-calamine --with openpyxl --with pyxlsb \
-    python $A/muckrock_ingest.py stage <evidence dir> $T                 # README estimate: ~6 min
-$BG uv run --with duckdb --with pymupdf python $A/build_truth.py $A/truth_new.duckdb $T \
+BG="nice -n 19 taskpolicy -b"; PY="uv run --project $C python"
+$BG $PY $C/muckrock_ingest.py stage <evidence dir> $T                   # README estimate: ~6 min
+$BG $PY $C/build_truth.py $A/truth_new.duckdb $T \
   && mv $A/truth_new.duckdb $A/truth.duckdb                             # README estimate: ~10 min (SMPD PDFs: 2-3 min)
 ```
 

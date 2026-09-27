@@ -25,7 +25,7 @@ attached read-only, 4 threads / 4 GB). Row numbers, hashes and links are as of t
 ## Quick recipe
 
 ```python
-import sys; sys.path.insert(0, A)            # A = "<audit_db>", as in the standard session
+import sys; sys.path.insert(0, "<code>")     # scripts/audit_db, as in the standard session
 import audit_client as ac
 
 # 1. (release_id, row_no) -> ready-to-paste citation. About 0.01 s: the release_id filter prunes the scan.
@@ -328,7 +328,7 @@ UUID, when the release has one), `Search Time` (to the second, UTC), `Org Name` 
 event-log rows `Event Id` and `Timestamp`; for SMPD the search id and the count/time line.
 
 Helpers that read a MuckRock original with a different reader from the loader (openpyxl or Python's `csv`; the loader
-uses calamine), and a committed NDJSON line. Run with `uv run --with duckdb --with openpyxl python`:
+uses calamine), and a committed NDJSON line. Run with `uv run --project <code> python`:
 
 ```python
 import csv, gzip, io, json, zipfile
@@ -716,9 +716,8 @@ Archive was offline during capture). Repo inputs are covered by git history inst
 ### 4. `verify_provenance.py`: rows against originals
 
 ```sh
-cd <audit_db>
-nice -n 19 taskpolicy -b uv run --with duckdb --with openpyxl --with python-calamine python verify_provenance.py
-nice -n 19 taskpolicy -b uv run --with duckdb --with openpyxl --with python-calamine python verify_provenance.py \
+nice -n 19 taskpolicy -b uv run --project <code> python <code>/verify_provenance.py      # databases: --audit-dir, default <audit_db>
+nice -n 19 taskpolicy -b uv run --project <code> python <code>/verify_provenance.py \
   --only 'smpd:%' --smpd 400                  # SMPD only; needs poppler's pdftotext on PATH
 ```
 

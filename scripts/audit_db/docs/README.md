@@ -30,7 +30,9 @@ Check [linking.md](linking.md) before any cross-agency claim, and [pii.md](pii.m
 
 ## Standard session
 
-Every example in these docs assumes the setup below. `<audit_db>` is the directory that holds the two database files.
+Every example in these docs assumes the setup below. `<audit_db>` is the directory that holds the two database files:
+the primary checkout's `.claude/audit_db/`, outside git. `<code>` is `scripts/audit_db/` in any checkout of the repo:
+the build code, `audit_client.py` and `init.sql`, run in its pinned environment (`uv run --project <code> python …`).
 
 ```python
 import duckdb
@@ -43,12 +45,12 @@ con.execute("SET temp_directory='<scratch dir>'; SET max_temp_directory_size='8G
 print(con.sql("SELECT * FROM truth.build_info"))
 ```
 
-From Python, `audit_client.py` in `<audit_db>` wraps this. It provides `connect()`, fast parsing of any set of rows
+From Python, `audit_client.py` in `<code>` wraps this. It provides `connect()`, fast parsing of any set of rows
 by `(release_id, row_no)` (`sightings_for`, `citations_for`), and one search across every log (`event`, `drill`); see
 [cookbook.md](cookbook.md).
 
-In the DuckDB CLI, run `duckdb -readonly -init <audit_db>/init.sql <audit_db>/derived.duckdb`. `init.sql` attaches
-truth and sets limits. On a shared machine, prefix long jobs with `nice -n 19 taskpolicy -b` (macOS).
+In the DuckDB CLI, from `<audit_db>`, run `duckdb -readonly -init <code>/init.sql derived.duckdb`. `init.sql` attaches
+truth (by a path relative to the working directory) and sets limits. On a shared machine, prefix long jobs with `nice -n 19 taskpolicy -b` (macOS).
 
 **What is fast:** anything filtered by `release_id`, by producer, or by one event.
 **What is slow:** any view scanned in full. `sightings` parses about 140M rows on read.
@@ -77,7 +79,7 @@ truth and sets limits. On a shared machine, prefix long jobs with `nice -n 19 ta
 
 ## Rebuilding and checking
 
-The build code sits beside the databases. The rebuild commands are in `<audit_db>/README.md`. After a rebuild:
+The build code is in git, in `<code>`; the rebuild commands are in [its README](../README.md). After a rebuild:
 
 - `check_cache.py` exits 1 if the linking cache was built from different truth data, older linking code or another
   DuckDB version.

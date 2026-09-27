@@ -6,7 +6,7 @@ documents (cover-letter withholding claims, rows released under the wrong labels
 from dispositions.json / layouts.json / producers.json and cite their source.
 Open read-only after building; derived.duckdb ATTACHes it READ_ONLY.
 
-  uv run --with duckdb --with pymupdf python build_truth.py OUT.duckdb TMPDIR [--repo CHECKOUT]
+  uv run --project scripts/audit_db python scripts/audit_db/build_truth.py OUT.duckdb TMPDIR [--repo CHECKOUT]
 --repo defaults to the git checkout containing the current directory, so run it from a fresh worktree.
 Local evidence (.claude/ exists only in the primary checkout) is found via git's common dir.
 The repo commit the inputs came from is recorded in truth.build_info.
@@ -284,7 +284,8 @@ def main():
     try:
         import pymupdf
     except ImportError:
-        raise SystemExit("pymupdf is needed for the SMPD PDFs: uv run --with duckdb --with pymupdf python build_truth.py ...") from None
+        raise SystemExit("pymupdf is needed for the SMPD PDFs: run in the pinned env, "
+                         "uv run --project scripts/audit_db python scripts/audit_db/build_truth.py ...") from None
     WT = Path(git(args.repo, "rev-parse", "--show-toplevel"))
     PRIMARY = Path(git(WT, "rev-parse", "--path-format=absolute", "--git-common-dir")).parent
     EV = PRIMARY / ".claude/local_evidence/muckrock-ca-audit-logs"

@@ -13,11 +13,11 @@ loaded logs are listed in [coverage.md](coverage.md).
 ## Before you start
 
 - Use the standard session from [README.md](README.md). SQL blocks run as written via `con.sql("""…""")` or in the
-  DuckDB CLI. Python blocks also need `audit_client`, which sits beside the databases:
+  DuckDB CLI. Python blocks also need `audit_client`, which is in `<code>`:
 
   ```python
-  import sys; sys.path.insert(0, A)   # A = "<audit_db>", as in the standard session
-  import audit_client as ac           # ac.connect(A) opens the same session and caps the spill directory
+  import sys; sys.path.insert(0, "<code>")   # scripts/audit_db, as in the standard session
+  import audit_client as ac                  # ac.connect() opens the same session and caps the spill directory
   ```
 
 - Outputs are as of the truth build in `truth.build_info` (`built_at_utc` 2026-09-26T20:38:17Z, repo inputs
@@ -25,7 +25,7 @@ loaded logs are listed in [coverage.md](coverage.md).
   ids other than `u:` ids, and can change tiers and counts ([Pitfalls](#10-pitfalls)).
 - Timings are from the standard session (4 threads, 4 GB) under `nice -n 19 taskpolicy -b`, with other sessions
   querying the same files (load average 5–7). The first query in a fresh process is slower. On a shared machine use
-  `ac.connect(A, threads=1, memory="1GB")` and expect several times longer.
+  `ac.connect(threads=1, memory="1GB")` and expect several times longer.
 - The linking cache is valid only for the truth, linking code and DuckDB version it was built from. Run
   `check_cache.py` first (under a second; see [derived.md](derived.md), "Staleness").
 

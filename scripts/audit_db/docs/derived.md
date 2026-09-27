@@ -52,7 +52,7 @@ Only `sightings_public` is meant for export. Everything marked **yes** stays on 
 Never select the output of `plate_key_hex()` (its one column is the plate-token key) or of `plate_key_pads()` (the
 key XORed with two constants, which is the same as the key).
 
-Python files beside the databases that belong to this layer: `sql_templates.py` (the parse and citation SQL,
+Python files in `<code>` that belong to this layer: `sql_templates.py` (the parse and citation SQL,
 [below](#branch-views-and-sql_templatespy)), `audit_client.py` ([row and event lookups](#audit_clientpy)),
 `cache_fingerprint.py` and `check_cache.py` ([Staleness](#staleness)).
 
@@ -71,12 +71,12 @@ column-layout correction, is a view that reads `truth` differently. It is never 
 
 ```sh
 # full build: layer-2 views and macros, then recompute the cache
-rm -f derived.duckdb && nice -n 19 taskpolicy -b uv run --with duckdb python build_derived.py truth.duckdb derived.duckdb
+rm -f derived.duckdb && nice -n 19 taskpolicy -b uv run --project <code> python <code>/build_derived.py truth.duckdb derived.duckdb
 # views and macros only: keeps the cache tables and cache.builds as they are
-nice -n 19 taskpolicy -b uv run --with duckdb python build_derived.py truth.duckdb derived.duckdb --views-only
+nice -n 19 taskpolicy -b uv run --project <code> python <code>/build_derived.py truth.duckdb derived.duckdb --views-only
 ```
 
-Run both from the `audit_db` directory. The build reads `AUDIT_DB_THREADS` and `AUDIT_DB_MEMORY` (defaults 4 and
+Run both from `<audit_db>`. The build reads `AUDIT_DB_THREADS` and `AUDIT_DB_MEMORY` (defaults 4 and
 6GB); the 2026-09-26 full build ran its steps in 258 s at 8 threads and 14GB (`ingest.log`). It executes
 `public_macros.sql`, which holds the civilian-PII macros and `sightings_public`.
 
@@ -157,7 +157,7 @@ module runs nothing. The SQL it returns reads derived's views and macros
 connection to `derived.duckdb` with `truth` attached.
 
 ```python
-import sys; sys.path.insert(0, "<audit_db>")
+import sys; sys.path.insert(0, "<code>")
 from sql_templates import flock_rows_sql, sightings_flock_sql
 raw = "(SELECT * FROM truth.flock_audit_rows WHERE release_id = 'mr:196397:PRA25-746.csv#csv' AND row_no IN (1, 3))"
 con.sql(sightings_flock_sql(f"({flock_rows_sql(raw)})")).select("row_no, t, nets, reason_state").fetchall()
@@ -1010,9 +1010,9 @@ thread, 1 GB). Event ids other than `u:` (`k5:`, `k3:`, `x:`) are build-specific
 instead ([linking.md](linking.md)).
 
 ```python
-import sys; sys.path.insert(0, "<audit_db>")
+import sys; sys.path.insert(0, "<code>")
 import audit_client as ac
-con = ac.connect("<audit_db>")
+con = ac.connect()
 for r in ac.drill(con, "u:aa84e168-9c45-48f6-b11a-0b670f8724f9")[:3]:
     print(r["producer"], r["basis"], r["src_row"], r["reason_state"])
 ```
@@ -1130,11 +1130,11 @@ latest row per table.
   DuckDB does not promise to keep across versions. A cache built under another version is stale.
 
 Run the check before relying on `events`, `event`, `read_field` or `event_sightings`. It reads `build_derived.py` from
-its own directory, and the databases from `--audit-dir` (default: its own directory). It runs at 1 thread and 1 GB and
+its own directory, and the databases from `--audit-dir` (default: `<audit_db>`). It runs at 1 thread and 1 GB and
 reads only catalogs and the small truth tables (`truth.smpd_pdf_rows` is the largest).
 
 ```sh
-nice -n 19 taskpolicy -b uv run --with duckdb python <audit_db>/check_cache.py [--audit-dir DIR]
+nice -n 19 taskpolicy -b uv run --project <code> python <code>/check_cache.py [--audit-dir DIR]
 ```
 ```text
 cache.sighting_keys: built 2026-09-26 20:42 UTC — current

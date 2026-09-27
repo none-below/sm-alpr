@@ -12,7 +12,7 @@ row no reason and another row several, or swallows the next row (the repo parser
 on the page still matches the printed row, so every block is checked against the lines printed in its id's row band;
 where text order and the printed row disagree, the printed row wins and parse_note names the page line of each cell.
 
-  uv run --with pymupdf python smpd_pdf_loader.py PDF...   # per-PDF summary, for checking a PDF by hand
+  uv run --project scripts/audit_db python scripts/audit_db/smpd_pdf_loader.py PDF...   # per-PDF summary, by hand
 """
 import re
 import sys

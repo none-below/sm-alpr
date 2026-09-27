@@ -1,6 +1,6 @@
 """Check that the database's row locations point at the right place in the original released files.
 
-  nice -n 19 taskpolicy -b uv run --with duckdb --with openpyxl --with python-calamine python verify_provenance.py [options]
+  nice -n 19 taskpolicy -b uv run --project scripts/audit_db python scripts/audit_db/verify_provenance.py [options]
   (the SMPD check also needs poppler's pdftotext on PATH)
 
 MuckRock releases (evidence dir): for sampled rows, opens the ORIGINAL file (zip member / sheet) with a reader
@@ -41,9 +41,10 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 from muckrock_ingest import canonical  # noqa: E402  (truth stores row keys under canonical() names)
+from paths import audit_dir  # noqa: E402
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--audit-dir", default=str(Path(__file__).parent))
+ap.add_argument("--audit-dir", default=str(audit_dir()))
 ap.add_argument("--truth", help="truth database (default <audit-dir>/truth.duckdb)")
 ap.add_argument("--per-release", type=int, default=2, help="rows sampled within each release's first 3,000")
 ap.add_argument("--per-layout", type=int, default=3, help="rows sampled inside each layout-corrected range")

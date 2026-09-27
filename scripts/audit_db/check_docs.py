@@ -1,6 +1,6 @@
 """Fail when the live schema has something docs/ does not mention, or when a docs link is dead.
 
-  uv run --with duckdb python check_docs.py [--audit-dir DIR] [--owners]
+  uv run --project scripts/audit_db python scripts/audit_db/check_docs.py [--audit-dir DIR] [--owners]
 
 Checks, against the built truth.duckdb + derived.duckdb (read-only; catalog functions and small tables only, no scan
 of the linking cache or of any row table, so it takes seconds):
@@ -22,12 +22,14 @@ from pathlib import Path
 
 import duckdb
 
+from paths import CODE, audit_dir
+
 ap = argparse.ArgumentParser()
-ap.add_argument("--audit-dir", default=str(Path(__file__).parent))
+ap.add_argument("--audit-dir", default=str(audit_dir()))
 ap.add_argument("--owners", action="store_true", help="fail (not just warn) when a name is missing from its owning doc")
 args = ap.parse_args()
 A = Path(args.audit_dir)
-D = A / "docs"
+D = CODE / "docs"
 con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
 con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
 con.execute("SET threads=1; SET memory_limit='1GB'")   # catalog + small tables only
@@ -113,8 +115,8 @@ def links(text):
 
 dead = []
 pages = [(p.name, docs[p.name], D) for p in sorted(D.glob("*.md"))]
-if (A / "README.md").exists():
-    pages.append(("../README.md", (A / "README.md").read_text(), A))
+if (CODE / "README.md").exists():
+    pages.append(("../README.md", (CODE / "README.md").read_text(), CODE))
 anchor_cache = {}
 for name, text, base in pages:
     for n, target in links(text):

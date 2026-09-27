@@ -12,9 +12,9 @@ generated into [stats.md](stats.md) and [coverage.md](coverage.md); this documen
 
 ```python
 import sys
-sys.path.insert(0, "<audit_db>")        # the directory holding the two databases and audit_client.py
+sys.path.insert(0, "<code>")            # scripts/audit_db in a checkout of the repo (see README.md)
 import audit_client as ac
-con = ac.connect("<audit_db>")          # derived.duckdb read-only, truth attached READ_ONLY, 4 threads / 4 GB, spill capped
+con = ac.connect()                      # <audit_db>/derived.duckdb read-only, truth attached READ_ONLY, 4 threads / 4 GB, spill capped
 ```
 
 - This is the [README.md](README.md) session plus `audit_client`. SQL blocks run as written with `con.sql("""…""")`

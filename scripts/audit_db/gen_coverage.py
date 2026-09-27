@@ -1,16 +1,19 @@
 """Regenerate docs/coverage.md from the built databases: what each producer's released logs cover.
 
-  uv run --with duckdb python gen_coverage.py [--audit-dir DIR]
+  uv run --project scripts/audit_db python scripts/audit_db/gen_coverage.py [--audit-dir DIR]
 
-Generated, never hand-edited: re-run after every rebuild so the page matches the data.
+Generated, never hand-edited: re-run after every rebuild so the page matches the data. Reads the databases in the audit
+dir; writes the page into this directory's docs/, so a rebuild's changes show up as a git diff.
 """
 import argparse
 from pathlib import Path
 
 import duckdb
 
+from paths import CODE, audit_dir
+
 ap = argparse.ArgumentParser()
-ap.add_argument("--audit-dir", default=str(Path(__file__).parent))
+ap.add_argument("--audit-dir", default=str(audit_dir()))
 A = Path(ap.parse_args().audit_dir)
 con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
 con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
@@ -65,6 +68,5 @@ why = {p: w for p, w in q("""
 for p, nnull, n in q("""SELECT producer, count(*) FILTER (WHERE t IS NULL), count(*) FROM sightings GROUP BY 1
                         HAVING count(*) FILTER (WHERE t IS NULL) > 0 ORDER BY 2 DESC"""):
     out.append(f"| {p} | {nnull:,} | {n:,} | {why.get(p, '')} |")
-(A / "docs").mkdir(exist_ok=True)
-(A / "docs" / "coverage.md").write_text("\n".join(out) + "\n")
-print(f"wrote {A / 'docs' / 'coverage.md'} ({len(rows)} producer/log rows)")
+(CODE / "docs" / "coverage.md").write_text("\n".join(out) + "\n")
+print(f"wrote {CODE / 'docs' / 'coverage.md'} ({len(rows)} producer/log rows)")

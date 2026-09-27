@@ -1,7 +1,7 @@
 """Is the derived cache (event linking) current? Compares cache.builds with the truth, code and DuckDB version it would be
 built from now.
 
-  uv run --with duckdb python check_cache.py [--audit-dir DIR]
+  uv run --project scripts/audit_db python scripts/audit_db/check_cache.py [--audit-dir DIR]
 
 Exit 0: every cache table was built from the current truth.duckdb, the current linking code and this DuckDB version.
 Exit 1: stale — rebuild derived (python build_derived.py truth.duckdb derived.duckdb) before relying on events /
@@ -15,9 +15,10 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 import cache_fingerprint  # noqa: E402
+from paths import audit_dir  # noqa: E402
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--audit-dir", default=str(Path(__file__).parent))
+ap.add_argument("--audit-dir", default=str(audit_dir()))
 A = Path(ap.parse_args().audit_dir)
 con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
 con.execute("SET threads=1; SET memory_limit='1GB'")   # reads catalogs and the small truth tables only
