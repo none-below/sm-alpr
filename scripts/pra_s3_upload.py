@@ -1,4 +1,11 @@
-"""Upload a local tree of PRA assets to the write-once S3 bucket.
+"""Upload a collection of PRA assets to the write-once S3 bucket.
+
+  AWS_PROFILE=sm-alpr-pra-writer uv run --with boto3 python scripts/pra_s3_upload.py \\
+      pra-portals-ca [--dry-run]
+
+Each collection's folder and selection rules are pinned in COLLECTIONS below,
+so a run can't upload the wrong folder under a collection's name, and the tree
+means the same thing on every run.
 
 The bucket (scripts/setup_pra_assets_bucket.sh) rejects any write that could
 overwrite a key, and Object Lock keeps every stored version. Keys are
@@ -22,22 +29,23 @@ download it and hash it.
 
 Manifests: a run that stores the whole tree writes
 _manifests/<collection>/<UTC timestamp>-<tree hash>.jsonl (rel_path, key,
-sha256, bytes, mtime per file); the newest one is the current tree. Nothing is
-written when a file is held back (modified in the last --min-age seconds, or
-changed or vanished mid-run), when an upload failed, or when the tree is
+sha256, bytes, mtime per file); the newest one is the current tree. The tree
+is every regular file under the root except exclusions, OS metadata and (where
+configured) OCR sidecars. No manifest is written while anything else is
+present that can't be stored: a file modified in the last --min-age seconds,
+an unfinished download (.part, .crdownload, ...) or open-document lock file, a
+symlink, an unreadable folder, or a file that changed, appeared or vanished
+during the run. None is written after an upload error, or when the tree is
 unchanged since the last manifest. An empty tree, or one under half the size
-of the last manifest (a wrong root?), is refused before anything uploads.
+of the last manifest, is refused before anything uploads.
 
 The writer key can only PutObject (no list, no read), so what's stored is
 tracked in a local ledger in the primary checkout's .claude/. A lost ledger
 costs re-uploads that come back 412, nothing worse.
 
-  AWS_PROFILE=sm-alpr-pra-writer uv run --with boto3 python scripts/pra_s3_upload.py \\
-      pra-portals-ca /path/to/.claude/local_evidence/pra-portals-ca \\
-      --exclude 'discovery/*' [--dry-run]
-
-Exit status: 0 tree stored (or unchanged), 1 upload errors, 2 refused input,
-3 incomplete (files held back), 130 interrupted (Ctrl-C or SIGTERM).
+Exit status (--dry-run predicts the same): 0 tree stored (or unchanged),
+1 errors, 2 refused, 3 incomplete (something held back), 130 interrupted
+(Ctrl-C or SIGTERM).
 """
 import argparse
 import base64
@@ -47,8 +55,8 @@ import hashlib
 import json
 import mimetypes
 import os
-import re
 import signal
+import stat
 import subprocess
 import sys
 import threading
@@ -61,12 +69,31 @@ from typing import NamedTuple
 # Same env overrides and defaults as setup_pra_assets_bucket.sh (a test keeps them in sync).
 DEFAULT_REGION = "us-west-2"
 DEFAULT_PREFIX = "sm-alpr-pra"
+
+# Where each collection lives and what belongs in it. "base" is "checkout"
+# (the checkout this script is in) or "primary" (the primary checkout, which
+# holds the gitignored .claude/). Change a collection here, in review, rather
+# than on the command line.
+COLLECTIONS = {
+    "public-records": {
+        "base": "checkout", "root": "assets/public-records", "skip_ocr_sidecars": True,
+    },
+    "san-mateo-public-records": {
+        "base": "checkout", "root": "assets/san-mateo-public-records", "skip_ocr_sidecars": True,
+    },
+    "pra-portals-ca": {
+        "base": "primary", "root": ".claude/local_evidence/pra-portals-ca",
+        "exclude": ["discovery/*", "_forensics/*"],  # probe caches; analysis output
+    },
+}
+
 PART_SIZE = 64 * 1024 * 1024  # single PUT up to this size, multipart above
 SHRINK_LIMIT = 0.5  # refuse a tree with fewer files than this share of the last manifest's
-# Never records: OS metadata, Office lock files, unfinished browser/tool downloads.
-JUNK_NAMES = {".DS_Store", "Thumbs.db", "desktop.ini"}
-JUNK_PREFIXES = ("._", "~$")
-JUNK_SUFFIXES = (".part", ".partial", ".crdownload", ".download", ".tmp")
+FUTURE_SLACK = 60  # an mtime further ahead than this is restored metadata, not a live write
+OS_METADATA = {".DS_Store", "Thumbs.db", "desktop.ini"}  # plus AppleDouble ._* files
+# Unfinished work: a download still running (or stalled), or an open Office document.
+UNFINISHED_PREFIXES = ("~$",)
+UNFINISHED_SUFFIXES = (".part", ".partial", ".crdownload", ".download", ".tmp")
 
 STOP = threading.Event()  # set on interrupt; checked between files and between parts
 
@@ -83,8 +110,9 @@ class Entry(NamedTuple):
     rel: str
     path: Path
     size: int
-    mtime: float
+    mtime_ns: int
     sha256: str
+    md5: str | None
     key: str
 
 
@@ -96,69 +124,131 @@ def bucket_name(account_id):
     return f"{os.environ.get('PRA_S3_PREFIX', DEFAULT_PREFIX)}-{account_id}-{region()}-an"
 
 
+def checkout_root():
+    return Path(__file__).resolve().parent.parent
+
+
+def primary_root():
+    common = subprocess.run(
+        ["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
+        cwd=Path(__file__).parent, capture_output=True, text=True, check=True,
+    ).stdout.strip()
+    return Path(common).parent
+
+
+def collection_root(name):
+    cfg = COLLECTIONS[name]
+    return (primary_root() if cfg["base"] == "primary" else checkout_root()) / cfg["root"]
+
+
+def default_ledger():
+    return primary_root() / ".claude" / "s3_upload_ledger.jsonl"
+
+
 def object_key(collection, rel_path, sha256):
     parent, _, name = rel_path.rpartition("/")
     return "/".join(p for p in (collection, parent, sha256, name) if p)
 
 
-def is_junk(name):
-    return (name in JUNK_NAMES or name.startswith(JUNK_PREFIXES)
-            or name.lower().endswith(JUNK_SUFFIXES))
+def classify(name):
+    """'metadata' (never stored, not part of the tree), 'unfinished' (holds the
+    tree back), or None for an ordinary file."""
+    if name in OS_METADATA or name.startswith("._"):
+        return "metadata"
+    if name.startswith(UNFINISHED_PREFIXES) or name.lower().endswith(UNFINISHED_SUFFIXES):
+        return "unfinished"
+    return None
 
 
-def is_ocr_sidecar(path):
-    """True only for the sidecar ocr_sidecar.py would write for a sibling that exists.
+def collect(root, excludes=(), min_age=0, now=None):
+    """Walk root. Returns (files, held, ignored):
 
-    The name shape alone isn't enough: pra_download renames same-named
-    attachments to <stem>.<8 hex>.<ext>, so a released notes.txt can become
-    notes.1a2b3c4d.txt, and dated names like log.20260918.txt look the same.
-    """
-    parts = path.name.rsplit(".", 2)
-    if len(parts) != 3 or parts[2] != "txt":
-        return False
-    base = path.with_name(parts[0])
-    if not base.is_file():
-        return False
-    from ocr_sidecar import sidecar_path_for  # heavy imports; only when a candidate exists
-
-    return sidecar_path_for(base) == path
-
-
-def collect(root, excludes=(), skip_ocr_sidecars=False, min_age=0, now=None):
-    """Walk root. Returns (files, held, junk):
-
-    files  [(rel, path, stat)] ready to store
-    held   [(rel, reason)] present but not storable yet, so the tree is incomplete
-    junk   [rel] never stored (OS metadata, lock files, unfinished downloads)
+    files    [(rel, path, stat)] regular files to hash and store
+    held     [(rel, reason)] present but not storable (recent or unfinished
+             files, symlinks, unreadable folders); any of them means the tree
+             isn't complete, so no manifest
+    ignored  [rel] OS metadata
     """
     now = time.time() if now is None else now
-    files, held, junk = [], [], []
-    for path in sorted(root.rglob("*")):
-        if path.is_symlink() or not path.is_file():
-            continue
-        rel = path.relative_to(root).as_posix()
-        if any(fnmatch.fnmatchcase(rel, g) for g in excludes):
-            continue
-        if is_junk(path.name):
-            junk.append(rel)
-            continue
-        try:
-            if skip_ocr_sidecars and is_ocr_sidecar(path):
+    files, held, ignored, errors = [], [], [], []
+
+    def excluded(rel):
+        return any(fnmatch.fnmatchcase(rel, g) for g in excludes)
+
+    for dirpath, dirnames, filenames in root.walk(on_error=errors.append):
+        dirnames[:] = [d for d in dirnames
+                       if not excluded((dirpath / d).relative_to(root).as_posix() + "/")]
+        for name in filenames:  # Path.walk lists symlinks (to files or dirs) here
+            path = dirpath / name
+            rel = path.relative_to(root).as_posix()
+            if excluded(rel):
                 continue
-            st = path.stat()
-        except FileNotFoundError:
-            held.append((rel, "vanished while listing"))
-            continue
-        if now - st.st_mtime < min_age:
-            held.append((rel, f"modified in the last {min_age}s"))
-            continue
-        files.append((rel, path, st))
-    return files, held, junk
+            kind = classify(name)
+            if kind == "metadata":
+                ignored.append(rel)
+                continue
+            if kind == "unfinished":
+                held.append((rel, "unfinished download or open document"))
+                continue
+            try:
+                st = path.lstat()
+            except FileNotFoundError:
+                held.append((rel, "vanished while listing"))
+                continue
+            if stat.S_ISLNK(st.st_mode):
+                held.append((rel, "symlink, not followed: exclude it or copy the file in"))
+            elif not stat.S_ISREG(st.st_mode):
+                held.append((rel, "not a regular file"))
+            elif -FUTURE_SLACK <= now - st.st_mtime < min_age:
+                held.append((rel, f"modified in the last {min_age}s"))
+            else:
+                files.append((rel, path, st))
+    for err in errors:
+        rel = Path(err.filename).relative_to(root).as_posix() if err.filename else "."
+        held.append((rel, f"unreadable folder: {err.strerror}"))
+    files.sort()
+    return files, held, ignored
 
 
-def sha256_file(path):
+def file_digests(path, md5=False):
+    """SHA-256 (and MD5 if asked) hex digests from a single read of the file."""
+    sha, m = hashlib.sha256(), hashlib.md5() if md5 else None
     with path.open("rb") as f:
-        return hashlib.file_digest(f, "sha256").hexdigest()
+        while chunk := f.read(1 << 20):
+            sha.update(chunk)
+            if m:
+                m.update(chunk)
+    return sha.hexdigest(), m.hexdigest() if m else None
+
+
+def unchanged(path, size, mtime_ns):
+    try:
+        st = path.stat()
+    except FileNotFoundError:
+        return False
+    return (st.st_size, st.st_mtime_ns) == (size, mtime_ns)
+
+
+def split_ocr_sidecars(entries, held):
+    """Separate the .txt sidecars ocr_sidecar.py wrote for files in this tree,
+    using the MD5 computed while hashing. Returns (entries, sidecar rels, held)
+    where a candidate whose base file is held back is held too."""
+    from ocr_sidecar import sidecar_base_name, sidecar_name  # heavy imports; only when needed
+
+    by_rel = {e.rel: e for e in entries}
+    held_rels = {rel for rel, _ in held}
+    keep, sidecars, waiting = [], set(), []
+    for e in entries:
+        parent, _, name = e.rel.rpartition("/")
+        base = sidecar_base_name(name)
+        base_rel = f"{parent}/{base}" if parent and base else base
+        if base and base_rel in by_rel and sidecar_name(base, by_rel[base_rel].md5) == name:
+            sidecars.add(e.rel)
+        elif base and base_rel in held_rels:
+            waiting.append((e.rel, "may be the OCR sidecar of a held-back file"))
+        else:
+            keep.append(e)
+    return keep, sidecars, waiting
 
 
 def tree_hash(pairs):
@@ -169,28 +259,39 @@ def tree_hash(pairs):
     return h.hexdigest()
 
 
+def changes_since(root, excludes, min_age, entries, skip):
+    """What differs between the tree now and the entries hashed at the start."""
+    files, held, _ = collect(root, excludes, min_age)
+    now = {rel: (st.st_size, st.st_mtime_ns) for rel, _, st in files}
+    then = {e.rel: (e.size, e.mtime_ns) for e in entries}
+    found = {rel: reason for rel, reason in held if rel not in skip}
+    for rel in then.keys() - now.keys():
+        found.setdefault(rel, "vanished during the run")
+    for rel in now.keys() - then.keys() - skip:
+        found.setdefault(rel, "appeared during the run")
+    for rel in then.keys() & now.keys():
+        if then[rel] != now[rel]:
+            found.setdefault(rel, "changed during the run")
+    return sorted(found.items())
+
+
 def b64(hex_digest):
     return base64.b64encode(bytes.fromhex(hex_digest)).decode()
 
 
-def default_ledger():
-    common = subprocess.run(
-        ["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
-        cwd=Path(__file__).parent, capture_output=True, text=True, check=True,
-    ).stdout.strip()
-    return Path(common).parent / ".claude" / "s3_upload_ledger.jsonl"
-
-
 class Ledger:
-    """Append-only JSONL of keys known to be stored, and of manifests written."""
+    """Append-only JSONL of keys known to be stored, and of manifests written.
+    Reading it never writes; a torn last line is fixed on the next append."""
 
     def __init__(self, path, bucket, log=print):
         self.path, self.bucket = path, bucket
         self.stored, self.manifests = set(), {}
         self._lock = threading.Lock()
+        self._torn = False
         if not path.exists():
             return
         raw = path.read_bytes()
+        self._torn = bool(raw) and not raw.endswith(b"\n")
         for n, line in enumerate(raw.decode(errors="replace").splitlines(), 1):
             if not line.strip():
                 continue
@@ -201,10 +302,6 @@ class Ledger:
                 continue
             if r.get("bucket") == bucket:
                 self._note(r)
-        if raw and not raw.endswith(b"\n"):
-            # A torn last line would otherwise swallow the next row appended to it.
-            with path.open("ab") as f:
-                f.write(b"\n")
 
     def _note(self, r):
         if r.get("kind") == "manifest":
@@ -217,6 +314,9 @@ class Ledger:
         with self._lock:
             self.path.parent.mkdir(parents=True, exist_ok=True)
             with self.path.open("a") as f:
+                if self._torn:  # don't glue this row onto a torn one
+                    f.write("\n")
+                    self._torn = False
                 f.write(json.dumps(row, ensure_ascii=False) + "\n")
             self._note(row)
 
@@ -292,15 +392,14 @@ def run_pool(fn, items, workers, on_done):
     pool.shutdown()
 
 
-def _hash(item, collection):
+def _hash(item, collection, want_md5):
     rel, path, st = item
     if STOP.is_set():
         raise Stopped(rel)
-    sha = sha256_file(path)
-    after = path.stat()
-    if (after.st_size, after.st_mtime_ns) != (st.st_size, st.st_mtime_ns):
+    sha, md5 = file_digests(path, md5=want_md5)
+    if not unchanged(path, st.st_size, st.st_mtime_ns):
         raise Changed("changed while hashing")
-    return Entry(rel, path, st.st_size, st.st_mtime, sha, object_key(collection, rel, sha))
+    return Entry(rel, path, st.st_size, st.st_mtime_ns, sha, md5, object_key(collection, rel, sha))
 
 
 def human(n):
@@ -316,15 +415,15 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), skip_ocr_sidecars
     """Store root under <collection>/ and, once the whole tree is stored, write its
     manifest. Returns the exit status described in the module docstring."""
     STOP.clear()
-    files, held, junk = collect(root, excludes, skip_ocr_sidecars, min_age)
+    files, held, ignored = collect(root, excludes, min_age)
     found = len(files) + len(held)
     if not found:
-        log(f"{collection}: nothing to store under {root}; refusing to write an empty manifest")
+        log(f"{collection}: nothing under {root}; refusing to write an empty manifest")
         return 2
     last = ledger.manifests.get(collection)
     if last and not allow_shrink and found < SHRINK_LIMIT * last["files"]:
         log(f"{collection}: {found} files, down from {last['files']} in {last['key']}. "
-            "Wrong root? Pass --allow-shrink if the tree really shrank.")
+            "Pass --allow-shrink if the tree really shrank.")
         return 2
 
     entries, failed = [], 0
@@ -341,22 +440,34 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), skip_ocr_sidecars
             failed += 1
             log(f"  ERROR {item[0]}: {e}")
 
-    run_pool(lambda item: _hash(item, collection), files, workers, hashed)
+    run_pool(lambda item: _hash(item, collection, skip_ocr_sidecars), files, workers, hashed)
     entries.sort()
+    sidecars = set()
+    if skip_ocr_sidecars:
+        entries, sidecars, waiting = split_ocr_sidecars(entries, held)
+        held += waiting
     todo = [e for e in entries if e.key not in ledger.stored]
     todo_bytes = sum(e.size for e in todo)
     log(f"{collection}: {len(entries)} files, {human(sum(e.size for e in entries))}; "
         f"{len(entries) - len(todo)} already stored, {len(todo)} to upload ({human(todo_bytes)})")
-    if junk:
-        log(f"  never stored (OS metadata, lock files, unfinished downloads): {len(junk)}, e.g. {junk[0]}")
+    if sidecars:
+        log(f"  OCR sidecars skipped: {len(sidecars)}")
+    if ignored:
+        log(f"  OS metadata ignored: {len(ignored)}")
     for rel, reason in held:
         log(f"  held back ({reason}): {rel}")
+    logged = len(held)
+    tree = tree_hash((e.rel, e.sha256) for e in entries)
     if dry_run:
         for e in todo[:5]:
             log(f"  would store {e.key}")
+        if failed or held:
+            log("  no manifest would be written")
+            return 1 if failed else 3
+        log(f"  manifest: {'unchanged' if last and last['tree'] == tree else 'would be written'}")
         return 0
 
-    counts = {"uploaded": 0, "present": 0, "error": 0}
+    counts = {"uploaded": 0, "present": 0, "held": 0, "error": 0}
     done_bytes, started, last_report = 0, time.time(), 0.0
 
     def put(e):
@@ -369,8 +480,12 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), skip_ocr_sidecars
         try:
             counts[fut.result()] += 1
         except Exception as exc:
-            counts["error"] += 1
-            log(f"  ERROR {e.rel}: {exc}")
+            if isinstance(exc, (Changed, FileNotFoundError)) or not unchanged(e.path, e.size, e.mtime_ns):
+                counts["held"] += 1
+                held.append((e.rel, "changed or vanished during upload"))
+            else:
+                counts["error"] += 1
+                log(f"  ERROR {e.rel}: {exc}")
         done_bytes += e.size
         now = time.time()
         if now - last_report > 30 or sum(counts.values()) == len(todo):
@@ -382,13 +497,16 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), skip_ocr_sidecars
     run_pool(put, todo, workers, uploaded)
 
     failed += counts["error"]
+    if not failed and not held:
+        held += changes_since(root, excludes, min_age, entries, sidecars)
     if failed:
         log(f"{failed} file(s) failed; no manifest written. Re-run to retry.")
         return 1
     if held:
-        log(f"{len(held)} file(s) held back; no manifest written. Re-run once they settle.")
+        for rel, reason in held[logged:]:
+            log(f"  held back ({reason}): {rel}")
+        log(f"{len(held)} item(s) held back; no manifest written. Re-run once the tree settles.")
         return 3
-    tree = tree_hash((e.rel, e.sha256) for e in entries)
     if last and last["tree"] == tree:
         log(f"manifest: tree unchanged since {last['key']}; not writing another")
         return 0
@@ -396,7 +514,7 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), skip_ocr_sidecars
     mkey = f"_manifests/{collection}/{run_at}-{tree[:12]}.jsonl"
     body = "".join(json.dumps({
         "collection": collection, "rel_path": e.rel, "key": e.key, "sha256": e.sha256,
-        "bytes": e.size, "mtime": datetime.fromtimestamp(e.mtime, timezone.utc).isoformat(),
+        "bytes": e.size, "mtime": datetime.fromtimestamp(e.mtime_ns / 1e9, timezone.utc).isoformat(),
     }, ensure_ascii=False) + "\n" for e in entries).encode()
     status = put_once(s3, bucket, mkey, body, "application/x-ndjson", hashlib.sha256(body).hexdigest())
     ledger.record(kind="manifest", collection=collection, key=mkey, tree=tree,
@@ -407,12 +525,7 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), skip_ocr_sidecars
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("collection", help="top-level key prefix, e.g. pra-portals-ca")
-    ap.add_argument("root", type=Path, help="local directory to upload")
-    ap.add_argument("--exclude", action="append", default=[], metavar="GLOB",
-                    help="skip rel paths matching GLOB (repeatable; * crosses /)")
-    ap.add_argument("--skip-ocr-sidecars", action="store_true",
-                    help="skip .txt sidecars ocr_sidecar.py wrote next to existing files")
+    ap.add_argument("collection", choices=sorted(COLLECTIONS))
     ap.add_argument("--min-age", type=int, default=600, metavar="SECONDS",
                     help="hold back files modified more recently than this (may still be downloading)")
     ap.add_argument("--allow-shrink", action="store_true",
@@ -422,11 +535,10 @@ def main():
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
-    if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", args.collection):
-        ap.error("collection must be lowercase letters, digits and dashes")
-    root = args.root.resolve()
+    cfg = COLLECTIONS[args.collection]
+    root = collection_root(args.collection)
     if not root.is_dir():
-        ap.error(f"{args.root} is not a directory")
+        ap.error(f"{root} is not a directory")
 
     import boto3
     from botocore.config import Config
@@ -438,8 +550,8 @@ def main():
 
     signal.signal(signal.SIGTERM, signal.default_int_handler)  # stop on kill like on Ctrl-C
     try:
-        status = sync(s3, bucket, args.collection, root, ledger, excludes=args.exclude,
-                      skip_ocr_sidecars=args.skip_ocr_sidecars, min_age=args.min_age,
+        status = sync(s3, bucket, args.collection, root, ledger, excludes=cfg.get("exclude", ()),
+                      skip_ocr_sidecars=cfg.get("skip_ocr_sidecars", False), min_age=args.min_age,
                       workers=args.workers, allow_shrink=args.allow_shrink, dry_run=args.dry_run)
     except KeyboardInterrupt:
         print("interrupted: queued uploads cancelled, in-flight multipart uploads aborted. "

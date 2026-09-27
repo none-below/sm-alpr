@@ -156,11 +156,28 @@ def file_hash(file_path):
     return h.hexdigest()[:8]
 
 
+def sidecar_name(name, md5_hex):
+    """Sidecar filename for a file called `name` whose MD5 hex digest is `md5_hex`."""
+    return f"{name}.{md5_hex[:8]}.txt"
+
+
+def sidecar_base_name(name):
+    """For a name shaped like a sidecar (<base>.<8 hex>.txt), return <base>; else None.
+
+    Shape alone doesn't prove it's a sidecar: pra_download renames same-named
+    attachments to <stem>.<8 hex>.<ext>, so a released notes.txt can become
+    notes.1a2b3c4d.txt. Confirm with sidecar_name(base, <MD5 of the base file>).
+    """
+    parts = name.rsplit(".", 2)
+    if len(parts) == 3 and parts[2] == "txt" and re.fullmatch(r"[0-9a-f]{8}", parts[1]):
+        return parts[0]
+    return None
+
+
 def sidecar_path_for(file_path):
     """Return the hash-stamped sidecar path for a file."""
     file_path = Path(file_path)
-    digest = file_hash(file_path)
-    return file_path.parent / f"{file_path.name}.{digest}.txt"
+    return file_path.parent / sidecar_name(file_path.name, file_hash(file_path))
 
 
 def generate_sidecar(file_path, force=False, removed_stale=None):

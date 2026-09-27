@@ -16,7 +16,10 @@
 #   <prefix>-writer  PutObject only -- cannot read, list, delete, or set retention
 #   <prefix>-reader  Get/List only  -- enough for DuckDB s3:// globbing
 #
-# Re-runnable: every step either no-ops or re-applies the same config.
+# Re-runnable without undoing deliberate changes: each bucket setting and IAM
+# policy is applied only when it's missing. One that differs from this
+# script's default (public access opened later, a stricter lock, extra
+# lifecycle rules) is reported and left alone unless REAPPLY=1.
 # Run with an admin profile:
 #
 #   AWS_PROFILE=sm-alpr-admin scripts/setup_pra_assets_bucket.sh
@@ -117,6 +120,43 @@ fi
 
 echo "account ${ACCOUNT_ID}, bucket ${BUCKET}"
 
+json_covers() {  # <desired> <current>: exit 0 if every field of desired has the same value in current
+  python3 - "$1" "$2" <<'EOF'
+import json, sys
+
+def covers(d, c):
+    if isinstance(d, dict):
+        return isinstance(c, dict) and all(k in c and covers(v, c[k]) for k, v in d.items())
+    if isinstance(d, list):
+        return isinstance(c, list) and len(d) == len(c) and all(map(covers, d, c))
+    return d == c
+
+sys.exit(0 if covers(json.loads(sys.argv[1]), json.loads(sys.argv[2])) else 1)
+EOF
+}
+
+apply_setting() {  # <name> <current json, empty if unset> <desired json> <command...>
+  local name=$1 current=$2 desired=$3
+  shift 3
+  if [[ -z "$current" || "$current" == "null" || "$current" == "None" ]]; then
+    "$@" >/dev/null
+    echo "  $name: set"
+  elif json_covers "$desired" "$current"; then
+    echo "  $name: ok"
+  elif [[ "${REAPPLY:-0}" == "1" ]]; then
+    "$@" >/dev/null
+    echo "  $name: differed; re-applied (REAPPLY=1)"
+  else
+    echo "  $name: differs from this script's default; left as is (REAPPLY=1 overwrites)" >&2
+    echo "    current: $current" >&2
+    echo "    default: $desired" >&2
+  fi
+}
+
+s3get() {  # <get-command> <query>: the bucket setting as JSON, empty if unset
+  aws s3api "$1" --bucket "$BUCKET" --region "$REGION" --query "$2" --output json 2>/dev/null || true
+}
+
 # --- bucket ---------------------------------------------------------------
 if aws s3api head-bucket --bucket "$BUCKET" --region "$REGION" >/dev/null 2>&1; then
   echo "bucket exists"
@@ -131,32 +171,40 @@ else
   echo "created bucket"
 fi
 
-aws s3api put-public-access-block --bucket "$BUCKET" --region "$REGION" \
-  --public-access-block-configuration \
-  BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
+pab='{"BlockPublicAcls":true,"IgnorePublicAcls":true,"BlockPublicPolicy":true,"RestrictPublicBuckets":true}'
+apply_setting "public access block" "$(s3get get-public-access-block PublicAccessBlockConfiguration)" "$pab" \
+  aws s3api put-public-access-block --bucket "$BUCKET" --region "$REGION" \
+  --public-access-block-configuration "$pab"
 
-aws s3api put-bucket-ownership-controls --bucket "$BUCKET" --region "$REGION" \
-  --ownership-controls 'Rules=[{ObjectOwnership=BucketOwnerEnforced}]'
+ownership='{"Rules":[{"ObjectOwnership":"BucketOwnerEnforced"}]}'
+apply_setting "object ownership" "$(s3get get-bucket-ownership-controls OwnershipControls)" "$ownership" \
+  aws s3api put-bucket-ownership-controls --bucket "$BUCKET" --region "$REGION" \
+  --ownership-controls "$ownership"
 
 # SSE-S3, not KMS: anonymous/public reads can't decrypt SSE-KMS objects.
-aws s3api put-bucket-encryption --bucket "$BUCKET" --region "$REGION" \
-  --server-side-encryption-configuration \
-  '{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"},"BucketKeyEnabled":false}]}'
+encryption='{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"},"BucketKeyEnabled":false}]}'
+apply_setting "encryption" "$(s3get get-bucket-encryption ServerSideEncryptionConfiguration)" "$encryption" \
+  aws s3api put-bucket-encryption --bucket "$BUCKET" --region "$REGION" \
+  --server-side-encryption-configuration "$encryption"
 
-aws s3api put-object-lock-configuration --bucket "$BUCKET" --region "$REGION" \
-  --object-lock-configuration \
-  "{\"ObjectLockEnabled\":\"Enabled\",\"Rule\":{\"DefaultRetention\":{\"Mode\":\"${LOCK_MODE}\",\"Years\":${LOCK_YEARS}}}}"
+retention="{\"DefaultRetention\":{\"Mode\":\"${LOCK_MODE}\",\"Years\":${LOCK_YEARS}}}"
+apply_setting "object lock default retention" \
+  "$(s3get get-object-lock-configuration ObjectLockConfiguration.Rule)" "$retention" \
+  aws s3api put-object-lock-configuration --bucket "$BUCKET" --region "$REGION" \
+  --object-lock-configuration "{\"ObjectLockEnabled\":\"Enabled\",\"Rule\":${retention}}"
 
 # The writer can't list, so it can't find or clean up its own failed multipart
 # uploads; expire them instead of paying for orphaned parts.
-aws s3api put-bucket-lifecycle-configuration --bucket "$BUCKET" --region "$REGION" \
-  --lifecycle-configuration \
-  '{"Rules":[{"ID":"abort-incomplete-mpu","Status":"Enabled","Filter":{"Prefix":""},"AbortIncompleteMultipartUpload":{"DaysAfterInitiation":7}}]}' \
-  >/dev/null
+lifecycle='[{"ID":"abort-incomplete-mpu","Status":"Enabled","Filter":{"Prefix":""},"AbortIncompleteMultipartUpload":{"DaysAfterInitiation":7}}]'
+apply_setting "lifecycle rules" "$(s3get get-bucket-lifecycle-configuration Rules)" "$lifecycle" \
+  aws s3api put-bucket-lifecycle-configuration --bucket "$BUCKET" --region "$REGION" \
+  --lifecycle-configuration "{\"Rules\":${lifecycle}}"
 
-aws s3api put-bucket-policy --bucket "$BUCKET" --region "$REGION" \
-  --policy "$(bucket_policy)"
-echo "bucket configured (${LOCK_MODE}, ${LOCK_YEARS}y default retention)"
+apply_setting "bucket policy" \
+  "$(aws s3api get-bucket-policy --bucket "$BUCKET" --region "$REGION" --query Policy --output text 2>/dev/null || true)" \
+  "$(bucket_policy)" \
+  aws s3api put-bucket-policy --bucket "$BUCKET" --region "$REGION" --policy "$(bucket_policy)"
+echo "bucket configured"
 
 # --- principals -------------------------------------------------------------
 ensure_user() {  # <user> <policy-json>
@@ -164,8 +212,11 @@ ensure_user() {  # <user> <policy-json>
     aws iam create-user --user-name "$1" >/dev/null
     echo "created user $1"
   fi
-  aws iam put-user-policy --user-name "$1" --policy-name "${PREFIX}-access" \
-    --policy-document "$2"
+  apply_setting "$1 policy" \
+    "$(aws iam get-user-policy --user-name "$1" --policy-name "${PREFIX}-access" \
+         --query PolicyDocument --output json 2>/dev/null || true)" \
+    "$2" \
+    aws iam put-user-policy --user-name "$1" --policy-name "${PREFIX}-access" --policy-document "$2"
 }
 
 ensure_user "$WRITER" "$(writer_policy)"
@@ -177,7 +228,8 @@ mint_key() {  # <user>: new key -> local profile of the same name
   keys=$(aws iam list-access-keys --user-name "$1" --query 'AccessKeyMetadata[].AccessKeyId' --output text)
   if [[ -n "$keys" ]]; then
     local_id=$(aws configure get aws_access_key_id --profile "$1" 2>/dev/null || true)
-    if [[ -n "$local_id" && " $keys " == *" $local_id "* ]]; then
+    # --output text separates IDs with tabs; match whole lines, not substrings.
+    if [[ -n "$local_id" ]] && tr '\t' '\n' <<<"$keys" | grep -qxF "$local_id"; then
       echo "$1: local profile already holds its key"
     else
       echo "$1 has key(s) $keys in IAM that aren't in the local profile." >&2
