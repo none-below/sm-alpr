@@ -1,0 +1,76 @@
+[
+  {
+    "release_pattern": "mr:214823:%REDACTED_5_1_2026-5_31_2026-Santa Rosa CA PD-Network-Audit.xlsx%",
+    "src_row_from": 92527,
+    "src_row_to": null,
+    "mapping": {
+      "Total Networks Searched": "Time Frame",
+      "License Plate": "License Plate",
+      "Time Frame": "Reason",
+      "Case #": "Case #",
+      "Filters": "Filters",
+      "Reason": "Search Time",
+      "Search Time": "Search Type",
+      "Text Prompt": "Text Prompt",
+      "Search Type": "Moderation",
+      "Moderation": null
+    },
+    "source": "Santa Rosa PD, MuckRock 214823 (PRA 26-996), both productions (2026-08-20 and 2026-09-01 zips). The May 2026 network-audit sheet is two exports stacked with no second header row: from spreadsheet row 92527 (the 92,526th data row) the 13 cells are ID, Name, Org Name, Org Name (repeated), Total Networks Searched, License Plate, Time Frame, Case #, Filters, Reason, Search Time, Text Prompt, Search Type (no Moderation). mapping = canonical field -> the header label whose cell holds it in those rows. Verified 2026-09-25 against other agencies' logs by Flock search UUID: the cell under 'Search Type' equals the other log's Search Time for 1,873,091/1,873,091 joined sightings (454,666 UUIDs); the cell under 'Moderation' equals the other log's Search Type for 92%. License Plate / Case # / Filters keep their part-1 order (same *** / blank pattern); not independently verifiable because both sides are masked."
+  },
+  {
+    "release_pattern": "mr:196397:PRA25-746.csv%",
+    "src_row_from": 2,
+    "src_row_to": null,
+    "mapping": {
+      "Case #": null,
+      "Filters": "Case #",
+      "Search Time": "Filters",
+      "Search Type": "Search Time",
+      "Text Prompt": "Search Type",
+      "Moderation": "Text Prompt"
+    },
+    "source": "Cathedral City PD, MuckRock 196397 (PRA25-746.csv, 3 data rows). The header row names 13 columns but the data rows carry no Case # cell: from Filters onward every value sits one column to the left (the cell under 'Case #' is Filters, under 'Filters' is Search Time, under 'Search Time' is Search Type). Verified 2026-09-25 against the same searches in other agencies' network audits (same org + second): the cell under 'Case #' equals their Filters value in 4 of 11 and 5 of 12 sightings (the rest have Filters masked or blank) and never equals a Case # (blank in all 35). mapping = canonical field -> the header label whose cell holds it."
+  },
+  {
+    "release_pattern": "mr:205259:%/4_1_2024-4_30_2024-San Bruno CA PD-Audit.csv%",
+    "src_row_from": 2,
+    "src_row_to": null,
+    "mapping": {
+      "Filters": "Search Time",
+      "Search Time": "Search Type",
+      "Search Type": "Text Prompt",
+      "Text Prompt": "Moderation",
+      "Moderation": null
+    },
+    "source": "San Bruno PD, MuckRock 205259 (Organization.zip, own-search audit for April 2024, 1,840 data rows). The header names the usual 13 columns, but from Filters on every data row sits one cell to the right: the cell under 'Search Time' holds Filters (blank 1,530, *** 310), the cell under 'Search Type' the search time, the cell under 'Text Prompt' the search type (search / lookup), and no cell holds Moderation. The cells under 'Case #' and 'Filters' are blank in every row, so which of the two is the inserted cell cannot be told; Case # is read from 'Case #' (blank either way). mapping = canonical field -> the header label whose cell holds it (null: no cell). Verified 2026-09-25 against other logs by Flock search UUID (1,843 joined sightings of 1,762 of the 1,840 IDs): the cell under 'Search Type' equals the other log's Search Time in 1,762 of 1,762 (San Bruno's own network audit) and 81 of 81 (Ukiah Fire CA FD network audit, an independent producer); the cell under 'Text Prompt' equals their Search Type in 1,762 of 1,762 and 73 of 81 (the other 8 are 'lookup' against Ukiah Fire's 'lookup - Mobile'); the cell under 'Search Time' has the same blank / *** state as their Filters in 1,843 of 1,843; Time Frame and Total Networks Searched equal theirs in 1,843 of 1,843, so the columns before Case # are in place."
+  },
+  {
+    "release_pattern": "mr:214823:%REDACTED_2_1_2026-2_28_2026-Santa Rosa CA PD-Network-Audit.xlsx%",
+    "src_rows": [
+      5222,
+      34069,
+      40652,
+      61468,
+      91857,
+      193137,
+      207253,
+      211640,
+      252569,
+      288141,
+      291703,
+      297978,
+      307268,
+      310376,
+      364190,
+      398148,
+      401359,
+      421091,
+      445621
+    ],
+    "mapping": {
+      "Moderation": "Search Time",
+      "Search Time": null
+    },
+    "source": "Santa Rosa PD, MuckRock 214823 (PRA 26-996), both productions (2026-08-20 and 2026-09-01 zips; identical at these rows), February 2026 network-audit sheet. In these 19 freeform rows the cell under 'Search Time' holds the Moderation verdict (allow 16, block 3) and no cell holds the search time; every other cell is in place. The sheet's other 2 freeform rows (331108, 453917) have their time under 'Search Time' as usual. mapping = canonical field -> the header label whose cell holds it (null: no cell). Verified 2026-09-25 against other logs by Flock search UUID (all 19 IDs joined; 26 sightings per production): every log that exports Moderation for these searches (San Francisco CA PD network and own-search audits, Redwood City, San Bruno and San Jose network audits, Santa Rosa's own-search audit: 10 sightings of 4 IDs) has Moderation equal to the cell under 'Search Time' (all 'allow'); Search Type and Time Frame equal the other logs' in 26 of 26; the other logs' Search Time appears in no cell of these rows (0 of 26). The 3 'block' rows joined only to Rohnert Park's network audit, which exports no Moderation. Not a layout issue and left as released: rows 391827 and 391828 (lookups) carry an extra 'allow' in the unlabeled 15th column (extra column14) that no other log shows (their Moderation is empty)."
+  }
+]
