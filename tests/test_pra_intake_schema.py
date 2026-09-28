@@ -595,8 +595,10 @@ def test_strip_signing_params():
     assert s.strip_signing_params("https://h.example.gov/app/%28S%28abc%29%29/Doc.aspx") == "https://h.example.gov/app/Doc.aspx"
     assert s.strip_signing_params("https://h.example.gov\\user:pw@evil.example.gov/x").startswith("https://")
     assert s.strip_path_session("/app;jsessionid=AB12/x") == "/app/x" and s.strip_path_session("/(S(abc))") == "/"
+    assert s.strip_signing_params("https://p.example.gov/ALPR Policy " + E_ACUTE + ".pdf?q=a b") == \
+        "https://p.example.gov/ALPR%20Policy%20%C3%A9.pdf?q=a%20b"  # as a client would send it
     for bad in ("https://p.example.gov/dl/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0In0.x", "ftp://p.example.gov/a",
-                "https://p.example.gov:99999/a", "https://p.example.gov/a b"):
+                "https://p.example.gov:99999/a", "https://p.example.gov/a;token=1/b"):
         with pytest.raises(s.SchemaError):
             s.strip_signing_params(bad)
 
@@ -1173,6 +1175,308 @@ def test_manifest_sidecar_must_describe_the_same_request():
     rejects(lambda x: s.validate_manifest_sidecar(x, m), make_sidecar(), "manifest_mismatch", "sidecar.content_kind")
 
 
+# --- Rules each pinned by a test that kills a mutant (final review, 2026-09-28) ---------------
+
+
+def _stored_record(path, value, base=None):
+    return reseal(with_(base or make_record(), "sidecar." + path, value))
+
+
+def test_parse_sidecar_applies_write_policy():  # P3
+    raw = s.canonical_json(with_(make_sidecar(), "source.url", "https://p.example.gov/a?sig=1"))
+    rejects(lambda b: s.parse_sidecar(b, key=s.staging_sidecar_key(U)), raw, "signed_url", "sidecar.source.url")
+
+
+@pytest.mark.parametrize("path,value,reason,field", [
+    ("response.headers.location", "https://b.example.gov/a?x=1", "signed_url", "record.sidecar.response.headers"),  # H2
+    ("response.headers.via", "https://h.example.gov/?sig=1", "signed_url", "record.sidecar.response.headers"),  # H2
+    ("fetch.run_id", "run?token=x", "signed_url", "record.sidecar.fetch.run_id"),  # P1
+])
+def test_stored_reads_skip_every_write_rule(path, value, reason, field):
+    raw = s.canonical_json(_stored_record(path, value))
+    assert s.parse_record(raw)
+    rejects(lambda b: s.parse_record(b, stored=False), raw, reason, field)
+
+
+def test_stored_reads_skip_the_cost_gate():  # P2
+    big = make_record(make_big_sidecar(s.COST_GATE + 1, approval=APPROVAL))
+    raw = s.canonical_json(_stored_record("fetch.approval", None, big))
+    assert s.parse_record(raw)
+    rejects(lambda b: s.parse_record(b, stored=False), raw, "too_large", "record.sidecar.data.size")
+
+
+def test_stored_reads_still_cap_header_count():  # H4
+    raw = s.canonical_json(_stored_record("response.headers", {f"x-h{i}": "1" for i in range(65)}))
+    rejects(s.parse_record, raw, "invalid_metadata", "record.sidecar.response.headers")
+
+
+def test_md5_multipart_claim_needs_a_recorded_multipart():  # X7
+    sc = with_(with_(make_big_sidecar(), "response.headers.etag", '"' + "e" * 32 + '-299"'), "checks.etag", "md5-multipart")
+    rejects(s.validate_sidecar, sc, "invalid_metadata", "sidecar.checks.etag")
+
+
+def test_single_put_boundary():  # X1
+    def put(size):
+        sc = with_(make_big_sidecar(size), "data.upload", {"method": "put", "part_size": None, "part_sha256": None})
+        return with_(sc, "data.staging_etag", '"' + sc["data"]["md5"] + '"')
+    assert s.validate_sidecar(put(s.SINGLE_PUT_MAX))
+    rejects(s.validate_sidecar, put(s.SINGLE_PUT_MAX + 1), "invalid_metadata", "sidecar.data.upload.method")
+
+
+def test_empty_file_has_no_parts():  # X2, X3
+    empty, md5 = make_sidecar(b""), hashlib.md5(b"").hexdigest()
+    mp = with_(with_(empty, "data.upload", {"method": "multipart", "part_size": 5 * s.MiB,
+                                            "part_sha256": [hashlib.sha256(b"").hexdigest()]}),
+               "data.staging_etag", '"' + s.md5_multipart_etag([md5]) + '"')
+    rejects(s.validate_sidecar, mp, "invalid_metadata", "sidecar.data.upload.method")
+    rejects(s.validate_sidecar, with_(empty, "data.md5_multipart", {"part_size": 5 * s.MiB, "etag": s.md5_multipart_etag([md5])}),
+            "invalid_metadata", "sidecar.data.md5_multipart")
+
+
+def test_generated_manifest_rules():  # X4, X5, X6
+    sc = make_manifest_sidecar()
+    for path, value in (("source.title", "x"), ("source.released_on", "2026-09-27")):
+        rejects(s.validate_sidecar, with_(sc, path, value), "invalid_metadata", "sidecar.source")
+    rejects(s.validate_sidecar, with_(sc, "checks.expect_types", ["pdf", "text"]), "invalid_metadata", "sidecar.checks.sniffed_type")
+    sized = lambda n: with_(with_(sc, "data.size", n), "data.md5_multipart", None)
+    assert s.validate_sidecar(sized(s.MAX_MANIFEST_BYTES))
+    rejects(s.validate_sidecar, sized(s.MAX_MANIFEST_BYTES + 1), "invalid_metadata", "sidecar.data.size")
+
+
+def test_content_range_must_be_the_whole_file():  # L3, E27
+    for value in ("bytes 0-37/100", "bytes 1-37/38"):
+        rejects(s.validate_sidecar, with_(make_sidecar(), "response.headers.content-range", value), "invalid_metadata",
+                "sidecar.response.headers")
+
+
+def test_content_length_edge_forms():  # L1, L2, L4, L5
+    ok = make_sidecar()
+    und = with_(with_(ok, "checks.length", "undeclared"), "checks.declared_length", None)
+    assert s.validate_sidecar(with_(ok, "response.headers.content-length", "37, 38"))  # conflicting: unusable, ignored
+    assert s.validate_sidecar(with_(und, "response.headers.content-length", chr(0x663) + chr(0x668)))  # not ASCII digits
+    for ce in ("", "IDENTITY", " identity "):  # still identity: the Content-Length applies
+        hdrs = {**ok["response"]["headers"], "content-encoding": ce, "content-length": "1"}
+        rejects(s.validate_sidecar, with_(ok, "response.headers", hdrs), "invalid_metadata", "sidecar.checks.length")
+
+
+def test_redirect_statuses_are_exactly_the_five():  # E28
+    for status in (304, 305, 399):
+        rejects(s.validate_sidecar, with_(make_sidecar(), "response.redirects.0.status", status), "invalid_metadata",
+                "sidecar.response.redirects")
+
+
+def test_integer_and_list_upper_bounds():  # I1, I2, Z2, Z3, Z7
+    for path, value in (("fetch.attempt", 1001), ("fetch.retries", 100_001), ("listing.size", s.MAX_OBSERVED_SIZE + 1),
+                        ("data.upload.part_size", s.MAX_PART_SIZE + 1), ("checks.expect_types", ["text"] * 28)):
+        rejects(s.validate_sidecar, with_(make_sidecar(), path, value), "invalid_metadata", f"sidecar.{path}")
+    sc = make_sidecar()
+    assert s.validate_sidecar(with_(sc, "response.redirects", sc["response"]["redirects"] * s.MAX_REDIRECTS))
+    rejects(s.validate_sidecar, with_(sc, "response.redirects", sc["response"]["redirects"] * (s.MAX_REDIRECTS + 1)),
+            "invalid_metadata", "sidecar.response.redirects")
+    rejects(s.validate_manifest, {**make_manifest(), "files_listed": s.MAX_MANIFEST_FILES + 1}, "invalid_metadata",
+            "manifest.files_listed")  # N8
+
+
+def test_strict_fields_beyond_the_sidecar():  # D7, Z11, Z9, I3
+    rejects(lambda i: make_record(ingest=i), {**INGEST, "principal": "AROA" + ZWSP}, "invalid_metadata", "record.ingest.principal")
+    rejects(lambda i: make_record(ingest=i), {**INGEST, "principal": "x?token=1"}, "signed_url", "record.ingest.principal")
+    rejects(s.validate_sidecar, with_(make_sidecar(origin="local-copy"), "fetch.legacy_path", "a" + ZWSP + ".csv"),
+            "invalid_metadata", "sidecar.fetch.legacy_path")
+    rejects(s.validate_sidecar, with_(make_sidecar(), "source.request_id", "a/b"), "invalid_metadata", "sidecar.source.request_id")
+    rejects(s.validate_sidecar, make_big_sidecar(s.COST_GATE + 1, approval=APPROVAL[:-5] + "xjson"), "invalid_metadata",
+            "sidecar.fetch.approval")
+
+
+# Every _INVISIBLE range, both ends, written out so dropping a range from the module fails here.
+INVISIBLE_ENDPOINTS = (0xAD, 0x34F, 0x61C, 0x115F, 0x1160, 0x17B4, 0x17B5, 0x180B, 0x180F, 0x200B, 0x200F, 0x2028,
+                       0x202E, 0x2060, 0x2064, 0x2066, 0x206F, 0x3164, 0xFDD0, 0xFDEF, 0xFE00, 0xFE0F, 0xFEFF, 0xFFA0,
+                       0xFFF0, 0xFFFB, 0xFFFE, 0xFFFF, 0x1BCA0, 0x1BCA3, 0x1D173, 0x1D17A, 0x1FFFE, 0x1FFFF, 0xE0000,
+                       0xE0FFF, 0xEFFFE, 0xEFFFF, 0xFFFFE, 0xFFFFF, 0x10FFFE, 0x10FFFF, 0x00, 0x1F, 0x7F, 0x9F)
+
+
+@pytest.mark.parametrize("cp", INVISIBLE_ENDPOINTS)
+def test_every_invisible_range_is_refused(cp):  # I4-I8
+    rejects(s.validate_sidecar, with_(make_sidecar(), "source.doc_id", "9" + chr(cp)), "invalid_metadata", "sidecar.source.doc_id")
+    assert s.display_safe(chr(cp)) == f"<U+{cp:04X}>"
+
+
+@pytest.mark.parametrize("token", ["ghp_" + "a" * 36, "github_pat_" + "a" * 22, "xoxb-" + "1" * 12, "AIza" + "a" * 35,
+                                   "ASIA" + "A" * 16])
+def test_every_token_shape_is_refused(token):  # R5, R6, R7, R11
+    rejects(s.validate_sidecar, with_(make_sidecar(), "fetch.run_id", token), "signed_url", "sidecar.fetch.run_id")
+
+
+def test_percent_decoding_depth():  # R1, R2
+    assert s.validate_sidecar(with_(make_sidecar(), "source.url", "https://p.example.gov/a?q=%252520"))  # 3 rounds, benign
+    rejects(s.validate_sidecar, with_(make_sidecar(), "source.url", "https://p.example.gov/go?u=%2525253Fsig%2525253D1"),
+            "signed_url", "sidecar.source.url")  # 4 rounds: refused rather than guessed
+
+
+def test_backslashes_are_refused():  # R4, E21
+    rejects(s.validate_sidecar, with_(make_sidecar(), "response.headers.location", "/\\user:pw@evil.example.gov/x"),
+            "signed_url", "sidecar.response.headers")
+    rejects(s.validate_sidecar, with_(make_sidecar(), "source.url", "https://p.example.gov/a\\b.pdf"), "signed_url",
+            "sidecar.source.url")
+
+
+def test_url_bounds_and_hosts():  # V1, V2, V4, V5, E20
+    base = "https://p.example.gov/"
+    assert s.validate_sidecar(with_(make_sidecar(), "source.url", base + "a" * (2048 - len(base))))
+    assert s.validate_sidecar(with_(make_sidecar(), "source.url", "https://123.example.gov/a.csv"))
+    for url in (base + "a" * (2049 - len(base)), base + "a\x7f", "https://a.0x/x", "https://a.b/x", "https://h.example.0x1/a"):
+        rejects(s.validate_sidecar, with_(make_sidecar(), "source.url", url), "invalid_metadata", "sidecar.source.url")
+
+
+def test_url_header_fragment_is_refused():  # H1
+    rejects(s.validate_sidecar, with_(make_sidecar(), "response.headers.location", "https://b.example.gov/a#f"), "signed_url",
+            "sidecar.response.headers")
+
+
+def test_header_value_rules():  # H5, H6, H12, J1
+    ok = make_sidecar()
+    assert s.validate_sidecar(with_(ok, "response.headers.server", "x" * s.MAX_HEADER_BYTES))  # exactly at the cap
+    rejects(s.validate_sidecar, with_(ok, "response.headers.server", "a\x7fb"), "invalid_metadata", "sidecar.response.headers")
+    rejects(s.validate_sidecar, with_(ok, "response.headers.server", chr(0x85) * 2000), "invalid_metadata",
+            "sidecar.response.headers")  # 2000 characters, 12000 bytes escaped
+    nine = {n: "x" * 8000 for n in ("server", "via", "x-cache", "x-powered-by", "vary", "age", "accept-ranges",
+                                    "cache-control", "content-language")}
+    rejects(s.validate_sidecar, with_(ok, "response.headers", {**ok["response"]["headers"], **nine}), "invalid_metadata",
+            "sidecar.response.headers")
+
+
+def test_sanitize_headers_total_budget_drops_largest_first():  # H8, H9
+    big = ("server", "via", "x-cache", "x-powered-by", "vary", "x-amz-cf-id", "x-amz-cf-pop", "x-amz-id-2", "x-ms-version")
+    got = s.sanitize_headers([("Age", "5")] + [(n, "x" * 8000) for n in big])
+    assert got["age"] == "5"
+    assert sum(s._json_len(v) for v in got.values()) <= s.MAX_HEADERS_BYTES
+    s._check_headers(got, "h")
+    out = s.sanitize_headers([(n, "x" * 8000) for n in sorted(s.ALLOWED_HEADERS)])
+    s._check_headers(out, "h")
+
+
+def test_sanitize_headers_trims():  # H7, E36
+    assert s.sanitize_headers([("Server", " x \t")]) == {"server": "x"}
+    assert s.sanitize_headers([("Content-Type ", "text/csv")]) == {"content-type": "text/csv"}
+
+
+def test_strip_signing_params_edges():  # U2, U3, U4, U5
+    assert s.strip_signing_params("https://p.example.gov/a?x=1&&y=2&sig=1") == "https://p.example.gov/a?x=1&y=2"
+    assert s.strip_signing_params("https://b.example.gov/a?%58-Amz-Signature=1&id=2") == "https://b.example.gov/a?id=2"
+    assert (s.strip_signing_params("https://h.example.gov\\user:pw@evil.example.gov/x")
+            == "https://h.example.gov/user:pw@evil.example.gov/x")  # a backslash is a slash, as browsers read it
+    assert s.strip_signing_params("https://b" + chr(0xFC) + "cher.example/a") == "https://xn--bcher-kva.example/a"
+
+
+@pytest.mark.parametrize("head,expected", [
+    (b"a\x0bb", "unknown"), (b"a,b\r\n\x1a", "text"), (b'<?xml version="1.0"?><HTML>', "html"), (b"\x0c<html>", "html"),
+    (b"\xff\xfe" + "a\x00b".encode("utf-16-le"), "unknown"), (b'<?xml\nversion="1.0"?><root/>', "xml"),
+])
+def test_sniff_edges(head, expected):  # S1, S2, S3, S5, S8, E40
+    assert s.sniff_type(head) == expected
+
+
+def test_manifest_order_and_request_match():  # N1, N2, N3, E16
+    m = s.build_manifest(MANIFEST_SOURCE, [s.manifest_entry("a", status="failed", reason="x", size=10),
+                                           s.manifest_entry("a", status="failed", reason="x", size=9)])
+    assert [e["size"] for e in m["files"]] == [9, 10]
+    m = s.build_manifest(MANIFEST_SOURCE, [s.manifest_entry("a", status="needs_approval", reason="too_large"),
+                                           s.manifest_entry("a", status="failed", reason="z")])
+    assert [e["status"] for e in m["files"]] == ["failed", "needs_approval"]  # status before reason
+    sc, mm = make_manifest_sidecar(), make_manifest()
+    for k, v in (("request_url", "https://www.muckrock.com/foi/other-1/"), ("platform", "other")):
+        rejects(lambda x: s.validate_manifest_sidecar(x, mm), with_(sc, f"source.{k}", v), "manifest_mismatch", f"sidecar.source.{k}")
+    with pytest.raises(s.SchemaError):
+        s.build_manifest(MANIFEST_SOURCE, [s.manifest_entry(1, status="failed", reason="x"),
+                                           s.manifest_entry("a", status="failed", reason="x")])
+
+
+def test_small_boundaries():  # J2, B2, B3, C4
+    assert s.parse_strict_json(b'{"a":1}\n', max_bytes=8) == {"a": 1}
+    with pytest.raises(s.SchemaError):
+        s.parse_bucket_name(f"sm-alpr-staging-{ACCOUNT}-us-west-222-an")
+    name = s.bucket_name("evidence", "dev", ACCOUNT, "ap-southeast-verylongreg-1")
+    assert len(name) == 63 and s.parse_bucket_name(name)[1] == "evidence"
+    assert s.content_md5_digest(b64(hashlib.md5(b"x").digest()) + "!") is None
+
+# --- Round-3 fixes ------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("name", ["auth_token", "authToken", "sessionToken", "security-token", "Authorization", "jwt",
+                                  "password", "pwd", "secret", "guest_access_token", "CFID", "CFTOKEN", "oauth_signature",
+                                  "private_token", "api_token", "X-Oss-Signature"])
+def test_more_secret_param_spellings(name):
+    assert s.is_secret_param(name)
+    rejects(s.validate_sidecar, with_(make_sidecar(), "source.url", f"https://p.example.gov/a?{name}=x"),
+            "signed_url", "sidecar.source.url")
+    assert not s.is_secret_param("pageToken")  # names are matched exactly, so pagination tokens stay ordinary
+
+
+def test_secret_names_without_a_value_are_refused_like_strip_reads_them():
+    url = "https://p.example.gov/a?download&token"
+    rejects(s.validate_sidecar, with_(make_sidecar(), "source.url", url), "signed_url", "sidecar.source.url")
+    assert s.strip_signing_params(url) == "https://p.example.gov/a?download"
+    assert s.validate_sidecar(with_(make_sidecar(), "fetch.run_id", "token"))  # an identifier, not a parameter
+
+
+@pytest.mark.parametrize("value", [
+    "https://p.example.gov/dl/eyJhbGciOiJkaXIifQ..iv.ct.tag",  # compact JWE, alg dir
+    "https://p.example.gov/dl/eyJhbGciOiJIUzI1NiJ9.e30.sig",  # empty claims
+    "https://p.example.gov/a?k=AKIAIOSFODNN7EXAMPLE",  # an AWS key id as a parameter value
+])
+def test_token_shapes_in_urls(value):
+    rejects(s.validate_sidecar, with_(make_sidecar(), "source.url", value), "signed_url", "sidecar.source.url")
+
+
+@pytest.mark.parametrize("filename", ["SurveyJune_2024.final.pdf", "CityAttorneyJones_2024-05-01.signed.pdf",
+                                      "ASIAPACIFICREGION2024.pdf", "AKIAIOSFODNN7EXAMPLE.pdf"])
+def test_agency_names_that_resemble_tokens_are_kept(filename):
+    url = "https://cdn.muckrock.com/foia_files/2026/09/28/" + filename
+    assert s.strip_signing_params(url) == url
+    sc = make_sidecar(origin="local-copy")
+    for path, value in (("source.url", url), ("source.doc_id", filename), ("fetch.legacy_path", "d/" + filename)):
+        sc = with_(sc, path, value)
+    assert s.validate_sidecar(sc)
+    disposition = s.sanitize_headers([("Content-Disposition", f'attachment; filename="{filename}"')])
+    assert disposition["content-disposition"] != s.OMITTED_CREDENTIAL
+    rejects(s.validate_sidecar, with_(make_sidecar(), "fetch.run_id", "AKIAIOSFODNN7EXAMPLE"), "signed_url",
+            "sidecar.fetch.run_id")  # a field the fetcher writes: refused anywhere
+
+
+def test_redirect_url_is_always_storable():
+    base = "https://portal.example.gov/docs/list"
+    utf8 = "/files/Espa" + chr(0xF1) + "a.pdf"
+    for location in ("/files/My File.pdf", utf8, utf8.encode("utf-8").decode("latin-1"), utf8.encode("utf-8"),
+                     "http://10.1.2.3/x.pdf", "http://intranet/x.pdf", "https://cdn.example.gov/f.pdf?sig=1",
+                     "//cdn.example.gov/f.pdf"):
+        hop = s.redirect_url(base, location)
+        assert hop and s._check_url(hop, "u", allow_query=False, observed=True), location
+    assert s.redirect_url(base, utf8) == s.redirect_url(base, utf8.encode("utf-8")) == \
+        "https://portal.example.gov/files/Espa%C3%B1a.pdf"
+    for bad in (None, "http://h.example.gov:99999/a", "http://[::1", bytes([0xFF])):
+        assert isinstance(s.redirect_url(base, bad), str)  # never raises
+
+
+def test_observed_urls_allow_ip_and_single_label_hosts_source_urls_do_not():
+    sc = make_sidecar()
+    for url in ("http://10.1.2.3/files/a.csv", "http://intranet/a.csv", "https://[2001:db8::1]:8443/a.csv"):
+        assert s.validate_sidecar(with_(sc, "response.final_url", url))
+        assert s.validate_sidecar(with_(sc, "response.redirects", [{"status": 302, "url": url}]))
+        rejects(s.validate_sidecar, with_(sc, "source.url", url), "invalid_metadata", "sidecar.source.url")
+
+
+def test_huge_numbers_in_headers_are_not_a_crash():
+    ok = make_sidecar()
+    assert s.validate_sidecar(with_(ok, "response.headers.content-length", "9" * 5000))  # unusable, so ignored
+    rejects(s.validate_sidecar, with_(ok, "response.headers.content-range", f"bytes 0-{'9' * 5000}/{'9' * 5000}"),
+            "invalid_metadata", "sidecar.response.headers")
+
+
+def test_strict_fields_refuse_outer_whitespace_and_doc_ids_take_integers():
+    for path in ("source.doc_id", "fetch.run_id", "source.request_id"):
+        rejects(s.validate_sidecar, with_(make_sidecar(), path, " 12"), "invalid_metadata", f"sidecar.{path}")
+    assert s.manifest_entry("a", status="failed", reason="x", doc_id=7)["doc_id"] == "7"
+
+
 # --- The source stays ASCII --------------------------------------------------------------
 
 
@@ -1190,11 +1494,14 @@ def vocabulary():
     return {
         "SCHEMA_VERSION": s.SCHEMA_VERSION, "READABLE_SCHEMAS": sorted(s.READABLE_SCHEMAS),
         "DERIVER_VERSION": s.DERIVER_VERSION,
+        "patterns": {n: getattr(s, n).pattern for n in (
+            "_TS_RE", "_DATE_RE", "_HOST_RE", "_NUMERIC_LABEL_RE", "_REQUEST_ID_RE", "_SLUG_RE", "_REASON_RE",
+            "_ETAG_VALUE_RE", "_B64_SHA256_RE", "_APPROVAL_RE", "_ETAG_MULTIPART_RE", "_HEADER_NAME_RE")},
         "limits": {n: getattr(s, n) for n in (
             "PART_SIZE", "MUCKROCK_ETAG_PART_SIZE", "SINGLE_PUT_MAX", "COST_GATE", "MIN_PART_SIZE", "MAX_PART_SIZE",
             "MAX_PARTS", "MAX_OBJECT_SIZE", "MAX_OBSERVED_SIZE", "MAX_SIDECAR_BYTES", "MAX_RECORD_BYTES",
             "MAX_MANIFEST_BYTES", "MAX_MANIFEST_FILES", "MAX_JSON_DEPTH", "SNIFF_BYTES", "MAX_HEADERS",
-            "MAX_HEADER_BYTES", "MAX_HEADERS_BYTES", "MAX_REDIRECTS")},
+            "MAX_HEADER_BYTES", "MAX_HEADERS_BYTES", "MAX_REDIRECTS", "MAX_URL_BYTES")},
         "FIELD_LIMITS": s.FIELD_LIMITS,
         "REJECT_REASONS": sorted(s.REJECT_REASONS), "SECRET_PARAMS": sorted(s.SECRET_PARAMS),
         "SECRET_PARAM_PREFIXES": list(s.SECRET_PARAM_PREFIXES), "COMPANION_PARAMS": sorted(s.COMPANION_PARAMS),
@@ -1235,7 +1542,20 @@ def documents():
         "record_composite.json": s.record_bytes(make_record(make_big_sidecar())),
         "record_compliance.json": s.record_bytes(make_record(lock_mode="COMPLIANCE")),
         "manifest.json": s.manifest_bytes(manifest),
+        "sidecar_edges.json": s.sidecar_bytes(edges_sidecar()),
+        "manifest_edges.json": s.manifest_bytes(s.build_manifest(
+            {**MANIFEST_SOURCE, "request_id": "W012541-091826.a_b:c"},
+            [s.manifest_entry("x", status="failed", reason="r" + "_" * 62 + "z", doc_id=12345)])),
     }
+
+
+def edges_sidecar():
+    """Values at the edges of each read-applied pattern."""
+    sc = with_(make_sidecar(), "source.request_id", "W012541-091826.a_b:c")
+    sc = with_(sc, "fetch.connector", "muckrock_v2.1")
+    sc = with_(sc, "fetch.completed_at", "2026-09-28T18:00:01.123457Z")
+    sc = with_(sc, "response.final_url", "https://10.1.2.3:8443/files/a.csv")
+    return with_(sc, "response.redirects", [{"status": 307, "url": "http://intranet/dl/a.csv"}])
 
 
 def _parser(name):

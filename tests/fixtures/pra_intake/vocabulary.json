@@ -196,17 +196,31 @@
   "SECRET_PARAMS": [
     "accesstoken",
     "apikey",
+    "apitoken",
     "authkey",
+    "authorization",
+    "authtoken",
+    "cfid",
+    "cftoken",
     "clientsecret",
+    "guestaccesstoken",
     "hdnea",
     "hdnts",
     "idtoken",
     "jsessionid",
+    "jwt",
+    "passwd",
+    "password",
     "phpsessid",
+    "privatetoken",
+    "pwd",
     "refreshtoken",
     "resourcekey",
     "rlkey",
+    "secret",
+    "securitytoken",
     "sessionid",
+    "sessiontoken",
     "sig",
     "signature",
     "ssessionid",
@@ -215,7 +229,9 @@
   ],
   "SECRET_PARAM_PREFIXES": [
     "xamz",
-    "xgoog"
+    "xgoog",
+    "xoss",
+    "oauth"
   ],
   "SNIFF_TYPES": [
     "empty",
@@ -293,10 +309,25 @@
     "MAX_RECORD_BYTES": 8388608,
     "MAX_REDIRECTS": 30,
     "MAX_SIDECAR_BYTES": 4194304,
+    "MAX_URL_BYTES": 2048,
     "MIN_PART_SIZE": 5242880,
     "MUCKROCK_ETAG_PART_SIZE": 5242880,
     "PART_SIZE": 16777216,
     "SINGLE_PUT_MAX": 5000000000,
     "SNIFF_BYTES": 1024
+  },
+  "patterns": {
+    "_APPROVAL_RE": "approvals/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\\.json",
+    "_B64_SHA256_RE": "[A-Za-z0-9+/]{43}=(?:-[1-9][0-9]{0,4})?",
+    "_DATE_RE": "[0-9]{4}-[0-9]{2}-[0-9]{2}",
+    "_ETAG_MULTIPART_RE": "[0-9a-f]{32}-[1-9][0-9]{0,4}",
+    "_ETAG_VALUE_RE": "\"[0-9a-f]{32}(?:-[1-9][0-9]{0,4})?\"",
+    "_HEADER_NAME_RE": "[a-z0-9!#$%&'*+.^_`|~-]{1,128}",
+    "_HOST_RE": "(?=.{4,253}\\Z)[a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9_])?(?:\\.[a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9_])?)+",
+    "_NUMERIC_LABEL_RE": "[0-9]+|0x[0-9a-f]*",
+    "_REASON_RE": "[a-z][a-z0-9_]{0,63}",
+    "_REQUEST_ID_RE": "[A-Za-z0-9][A-Za-z0-9._:-]{0,127}",
+    "_SLUG_RE": "[a-z0-9][a-z0-9_.-]{0,63}",
+    "_TS_RE": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{0,5}[1-9])?Z"
   }
 }

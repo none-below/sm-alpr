@@ -55,7 +55,8 @@ import math
 import re
 import uuid as _uuid
 from datetime import datetime, timezone
-from urllib.parse import unquote, unquote_plus, urljoin, urlsplit, urlunsplit
+import ipaddress
+from urllib.parse import quote, unquote, unquote_plus, urljoin, urlsplit, urlunsplit
 
 SCHEMA_VERSION = 1  # what writers stamp on new sidecars, records and manifests
 READABLE_SCHEMAS = frozenset({1})  # every version ever written; never remove one
@@ -604,10 +605,12 @@ SECRET_PARAMS = frozenset({
     "signature", "sig",  # S3 SigV2, CloudFront, Azure SAS
     "tempauth", "authkey", "rlkey", "resourcekey",  # SharePoint/OneDrive, Dropbox, Google Drive
     "token", "hdnts", "hdnea",  # generic and Akamai tokens
-    "accesstoken", "idtoken", "refreshtoken", "clientsecret", "apikey",
-    "sessionid", "ssessionid", "jsessionid", "phpsessid",
+    "accesstoken", "idtoken", "refreshtoken", "authtoken", "apitoken", "privatetoken", "sessiontoken",
+    "securitytoken", "guestaccesstoken", "clientsecret", "apikey", "authorization", "jwt", "secret",
+    "password", "passwd", "pwd",
+    "sessionid", "ssessionid", "jsessionid", "phpsessid", "cfid", "cftoken",
 })
-SECRET_PARAM_PREFIXES = ("xamz", "xgoog")  # every X-Amz-* / X-Goog-* query parameter
+SECRET_PARAM_PREFIXES = ("xamz", "xgoog", "xoss", "oauth")  # X-Amz-*, X-Goog-*, X-Oss-*, OAuth 1.0a
 # Parameters that only complete a signed URL (expiry, permissions, key id). A
 # stable URL may use the same short names for other things, so they are
 # refused and stripped only next to a secret parameter.
@@ -630,11 +633,15 @@ def is_companion_param(name):
 
 _PARAM_NAME_RE = re.compile(r"[?&;]([^=&;?#/\s]{1,64})=")
 _TOKEN_SHAPES_RE = re.compile(
-    r"eyJ[A-Za-z0-9_-]{5,}\.[A-Za-z0-9_-]{5,}\."  # a JWT
-    r"|\b(?:AKIA|ASIA)[0-9A-Z]{16}\b"  # an AWS access key id
+    r"(?<![A-Za-z0-9])eyJ[A-Za-z0-9_-]{5,}\.[A-Za-z0-9_-]*\."  # a JWT, or a compact JWE (empty key segment)
     r"|\bgh[pousr]_[A-Za-z0-9]{30,}|\bgithub_pat_[A-Za-z0-9_]{20,}"  # GitHub tokens
     r"|\bxox[abprs]-[A-Za-z0-9-]{10,}"  # Slack tokens
     r"|\bAIza[0-9A-Za-z_-]{35}")  # a Google API key
+# An AWS access key id. Anywhere in a field the fetcher writes; in text that
+# can hold an agency's filename (URLs, headers, doc ids, paths) only as a
+# parameter value, since an upper-case name could look like one.
+_AWS_KEY_ID_RE = re.compile(r"(?<![0-9A-Z])(?:AKIA|ASIA)[0-9A-Z]{16}(?![0-9A-Z])")
+_AWS_KEY_ID_VALUE_RE = re.compile(r"(?<==)(?:AKIA|ASIA)[0-9A-Z]{16}(?![0-9A-Z])")
 _SESSION_RE = re.compile(
     r"/\([a-z]\("  # ASP.NET cookieless segment /(S(..)) /(F(..)) /(X(..)S(..)) ...
     r"|;jsessionid="
@@ -642,14 +649,21 @@ _SESSION_RE = re.compile(
     re.IGNORECASE)
 
 
-def _credential_in(text):
+def _query_names(text):
+    """Parameter names as strip_signing_params reads them: every segment after
+    a '?', '&' or ';', up to its '=' if any."""
+    return [unquote_plus(seg.split("=", 1)[0]) for seg in re.split(r"[?&;]", text)[1:] if seg]
+
+
+def _credential_in(text, *, fetcher=False):
     """True if text, or text percent-decoded up to three times, carries a
-    credential: a secret parameter, a companion next to one, a session in the
-    path, user info, or a well-known token shape."""
+    credential: a secret parameter, a session in the path, user info, or a
+    well-known token shape. fetcher=True also refuses a bare AWS key id."""
+    key_ids = _AWS_KEY_ID_RE if fetcher else _AWS_KEY_ID_VALUE_RE
     for _ in range(4):
-        if _SESSION_RE.search(text) or _TOKEN_SHAPES_RE.search(text):
+        if _SESSION_RE.search(text) or _TOKEN_SHAPES_RE.search(text) or key_ids.search(text):
             return True
-        if any(is_secret_param(n) for n in _PARAM_NAME_RE.findall(text)):
+        if any(is_secret_param(n) for n in _PARAM_NAME_RE.findall(text) + _query_names(text)):
             return True
         decoded = unquote(text)
         if decoded == text:
@@ -691,12 +705,15 @@ def _check_presented(v, f, *, max_bytes):
     return v
 
 
-def _check_strict(v, f, *, max_bytes, pattern=None, what=None):
-    """An identifier or a field the fetcher writes: visible single-line text
-    that carries no credential."""
+def _check_strict(v, f, *, max_bytes, pattern=None, what=None, fetcher=True):
+    """An identifier or a field the fetcher writes: visible single-line text,
+    no outer whitespace, that carries no credential. fetcher=False for text
+    that can hold an agency's filename (doc ids, old paths)."""
     _check_type(v, f, str, "a string")
     if not v:
         _fail(f, "empty")
+    if v != v.strip():
+        _fail(f, "leading or trailing whitespace")
     try:
         size = len(v.encode("utf-8"))
     except UnicodeEncodeError:
@@ -708,13 +725,13 @@ def _check_strict(v, f, *, max_bytes, pattern=None, what=None):
     if _policy():
         if _STRICT_BAD_RE.search(v):
             _fail(f, "control or invisible character")
-        if _credential_in(v):
+        if _credential_in(v, fetcher=fetcher):
             _fail(f, "carries a credential", "signed_url")
     return v
 
 
-def _strict(max_bytes, pattern=None, what=None):
-    return lambda v, f: _check_strict(v, f, max_bytes=max_bytes, pattern=pattern, what=what)
+def _strict(max_bytes, pattern=None, what=None, fetcher=True):
+    return lambda v, f: _check_strict(v, f, max_bytes=max_bytes, pattern=pattern, what=what, fetcher=fetcher)
 
 
 def _presented(max_bytes):
@@ -810,17 +827,31 @@ def doc_id_text(value):
 # --- URLs and response headers ------------------------------------------------------
 
 _DEFAULT_PORTS = {"http": 80, "https": 443}
+MAX_URL_BYTES = 2048
 _COOKIELESS_SEGMENT_RE = re.compile(
     r"/(?:\(|%28)(?:[A-Za-z](?:\(|%28)(?:(?!%29)[^()/])*(?:\)|%29))+(?:\)|%29)(?=/|$)", re.IGNORECASE)
 _JSESSION_RE = re.compile(r";jsessionid=[^/?#;]*", re.IGNORECASE)
 
 
-def _check_url(v, f, *, allow_query=True):
-    """A stable http(s) URL: ASCII, lower-case scheme and host (a DNS name),
-    no default port, a path, no user info or fragment, and (write policy)
-    no credential anywhere, also percent-encoded or nested in a parameter."""
+def _observed_host(v, f):
+    """A host a redirect or download actually went to: a DNS name, or also an
+    IP address or a single-label name, since the server chose it."""
+    if type(v) is str and re.fullmatch(r"[a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9_])?", v):
+        return v
+    try:
+        ipaddress.ip_address(v)
+        return v
+    except ValueError:
+        return _host(v, f)
+
+
+def _check_url(v, f, *, allow_query=True, observed=False):
+    """A stable http(s) URL: ASCII, lower-case scheme and host (a DNS name;
+    for an observed URL also an IP address or single label), no default port,
+    a path, no user info or fragment, and (write policy) no credential
+    anywhere, also percent-encoded or nested in a parameter."""
     _check_type(v, f, str, "a string")
-    if not v or len(v) > 2048 or not v.isascii() or any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in v):
+    if not v or len(v) > MAX_URL_BYTES or not v.isascii() or any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in v):
         _fail(f, "not a bounded ASCII URL")
     if not v.startswith(("http://", "https://")):
         _fail(f, "not a lower-case http(s) URL")
@@ -833,10 +864,11 @@ def _check_url(v, f, *, allow_query=True):
         _fail(f, "carries a credential", "signed_url")
     if "@" in parts.netloc or "\\" in v:
         _fail(f, "user info or a backslash in the URL", "signed_url")
-    _host(parts.hostname, f)
+    (_observed_host if observed else _host)(parts.hostname, f)
     if port is not None and (port == 0 or port == _DEFAULT_PORTS[parts.scheme]):
         _fail(f, "a default or zero port")
-    if parts.netloc != parts.hostname + (f":{port}" if port is not None else ""):
+    host = f"[{parts.hostname}]" if ":" in parts.hostname else parts.hostname
+    if parts.netloc != host + (f":{port}" if port is not None else ""):
         _fail(f, "host name not lower-case, or an odd port form")
     if not parts.path:
         _fail(f, "no path (use '/')")
@@ -849,8 +881,15 @@ def _check_url(v, f, *, allow_query=True):
     return v
 
 
-def _url(allow_query=True):
-    return lambda v, f: _check_url(v, f, allow_query=allow_query)
+def _url(allow_query=True, observed=False):
+    return lambda v, f: _check_url(v, f, allow_query=allow_query, observed=observed)
+
+
+def _requote(text):
+    """Percent-encode, as UTF-8, what a stored URL can't hold (whitespace,
+    controls, non-ASCII), as HTTP clients do before sending. Every visible
+    ASCII character, '%' included, is kept byte for byte."""
+    return "".join(c if "!" <= c <= "~" else quote(c, safe="") for c in text)
 
 
 def strip_path_session(path):
@@ -874,9 +913,11 @@ def _netloc(parts):
 def strip_signing_params(url):
     """The stable form of a source URL: lower-case scheme and host, no user
     info, default port or fragment, no session in the path, and no secret
-    query parameter (nor a signed URL's companions). Parameters kept are kept
-    byte for byte with their separators; a query with nothing to drop is left
-    as it was. Returns a URL the validator accepts, or raises SchemaError."""
+    query parameter (nor a signed URL's companions). Visible ASCII is kept byte
+    for byte (separators too; a query with nothing to drop is left as it
+    was); whitespace, controls and non-ASCII become UTF-8 %XX, as HTTP clients
+    send them. Pass the URL the client prepared, not a raw href. Returns a URL
+    the validator accepts, or raises SchemaError."""
     try:
         parts = urlsplit(url.replace("\\", "/"))
         netloc = _netloc(parts)
@@ -896,7 +937,8 @@ def strip_signing_params(url):
             if k:
                 out.append((tokens[2 * i - 1] if out else "") + seg)
         query = "".join(out)
-    stable = urlunsplit((parts.scheme.lower(), netloc, strip_path_session(parts.path or "/"), query, ""))
+    stable = urlunsplit((parts.scheme.lower(), netloc, _requote(strip_path_session(parts.path or "/")),
+                         _requote(query), ""))
     return _check_url(stable, "url")
 
 
@@ -916,9 +958,14 @@ def url_without_query(url):
 
 
 def redirect_url(base, location):
-    """A redirect hop as stored: the Location resolved against the URL that
-    answered it, in url_without_query form."""
-    return url_without_query(urljoin(base, location))
+    """A redirect hop as stored: the Location (text or wire bytes, decoded as
+    sanitize_headers does) resolved against the URL that answered it, in
+    url_without_query form, percent-encoded as a client would send it. For
+    final_url, pass the last hop. Never raises; "" if it can't be read."""
+    try:
+        return _requote(url_without_query(urljoin(base, _header_text(location))))
+    except (ValueError, TypeError):
+        return ""
 
 
 # Response headers kept in the sidecar. Anything else (cookies, tokens, any
@@ -1045,12 +1092,12 @@ def _content_length(headers):
     if len(values) != 1:
         return None
     (v,) = values
-    return int(v) if v.isascii() and v.isdigit() else None
+    return int(v) if v.isascii() and v.isdigit() and len(v) <= 19 else None
 
 
 def _full_range(headers, size):
     """True if a Content-Range covers the whole file: bytes 0-(size-1)/size."""
-    m = re.fullmatch(r"bytes 0-([0-9]+)/([0-9]+)", headers.get("content-range", "").strip())
+    m = re.fullmatch(r"bytes 0-([0-9]{1,19})/([0-9]{1,19})", headers.get("content-range", "").strip())
     return bool(m) and int(m.group(1)) == size - 1 and int(m.group(2)) == size
 
 
@@ -1088,7 +1135,7 @@ _SOURCE_SPEC = {
     "agency": _nullable(_presented(FIELD_LIMITS["agency"])),
     "request_id": _strict(FIELD_LIMITS["request_id"], _REQUEST_ID_RE, "a request id"),
     "request_url": _nullable(_url()),
-    "doc_id": _nullable(_strict(FIELD_LIMITS["doc_id"])),  # the platform's id; integers via doc_id_text
+    "doc_id": _nullable(_strict(FIELD_LIMITS["doc_id"], fetcher=False)),  # the platform's id; integers via doc_id_text
     "filename": _presented(FIELD_LIMITS["filename"]),  # as presented, before any local renaming
     "title": _nullable(_presented(FIELD_LIMITS["title"])),
     "url": _nullable(_url()),  # the stable URL (strip_signing_params); never a signed redirect
@@ -1127,17 +1174,17 @@ _FETCH_SPEC = {
     "retries": _int(0, 100_000),
     "ci_run": _nullable(_strict(FIELD_LIMITS["ci_run"])),
     "approval": _nullable(_regex(_APPROVAL_RE, "approvals/<uuid4>.json")),  # for a file over COST_GATE
-    "legacy_path": _nullable(_strict(FIELD_LIMITS["legacy_path"])),  # old local or repo path (backfills)
+    "legacy_path": _nullable(_strict(FIELD_LIMITS["legacy_path"], fetcher=False)),  # old local or repo path (backfills)
     "original_fetched_at": _nullable(_timestamp),
     "git_commit": _nullable(_hex(40)),
     "stamp_ref": _nullable(_hex(64)),  # sha256 of a stamped manifest that already lists this file
 }
-_REDIRECT_SPEC = {"status": _int(300, 399), "url": _url(allow_query=False)}  # redirect_url form
+_REDIRECT_SPEC = {"status": _int(300, 399), "url": _url(allow_query=False, observed=True)}  # redirect_url form
 _RESPONSE_SPEC = {  # the final response that delivered the bytes
     "status": _int(100, 599),
     "headers": _check_headers,  # sanitize_headers form
     "redirects": _list_of(_obj(_REDIRECT_SPEC), MAX_REDIRECTS),
-    "final_url": _nullable(_url(allow_query=False)),  # where the bytes came from, url_without_query form
+    "final_url": _nullable(_url(allow_query=False, observed=True)),  # where the bytes came from (redirect_url form)
 }
 _LISTING_SPEC = {  # the listing entry as the source showed it, to compare with what came
     "size": _nullable(_int(0, MAX_OBSERVED_SIZE)),
@@ -1561,7 +1608,7 @@ NEEDS_APPROVAL_REASON = "too_large"
 _MANIFEST_SOURCE_SPEC = {k: _SOURCE_SPEC[k] for k in ("kind", "platform", "host", "agency", "request_id", "request_url")}
 _MANIFEST_ENTRY_SPEC = {
     "filename": _presented(FIELD_LIMITS["filename"]),
-    "doc_id": _nullable(_strict(FIELD_LIMITS["doc_id"])),
+    "doc_id": _nullable(_strict(FIELD_LIMITS["doc_id"], fetcher=False)),
     "url": _nullable(_url()),
     "sha256": _nullable(_hex(64)),
     "size": _nullable(_int(0, MAX_OBSERVED_SIZE)),
@@ -1587,6 +1634,7 @@ def manifest_entry(filename, *, status, sha256=None, size=None, doc_id=None, url
     """One file of a fetch manifest. A held file names its sha256 (for one this
     run recognized as unchanged: the last one seen); a failed or
     needs_approval file has no sha256 and says why (needs_approval: too_large)."""
+    doc_id = None if doc_id is None else doc_id_text(doc_id)
     return {"filename": filename, "doc_id": doc_id, "url": url, "sha256": sha256,
             "size": size, "status": status, "reason": reason}
 

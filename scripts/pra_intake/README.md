@@ -23,7 +23,8 @@ and the infrastructure come in later PRs.
    - **Up to 5 GB:** one GET streamed into one PutObject carrying the
      sidecar's claimed SHA-256 as `ChecksumSHA256`. S3 verifies every byte, so
      the claim is never trusted and a wrong one is rejected (`sha_mismatch`).
-     The Lambda hashes MD5 in the same pass, and a wrong MD5 claim is rejected
+     The Lambda hashes MD5 in the same pass (and, when `md5_multipart` is
+     set, the MD5 of parts at its part size), and a wrong claim is rejected
      (`data_mismatch`). The blob is a single-part object with S3's
      full-object SHA-256 whatever the staging layout was.
    - **Over 5 GB** (S3's single-request limit): the Lambda hashes the object
@@ -40,7 +41,9 @@ and the infrastructure come in later PRs.
    the library computed itself.
 
 Identical bytes from any source (MuckRock, a portal, a local copy) are stored
-once. The second copy gets a 412, is verified, and adds only a record.
+once. While the blob's current version exists, the second copy gets a 412,
+is verified, and adds only a record. (If an admin's delete marker is current,
+the write succeeds as a new version; read-back verifies it either way.)
 Records don't say which sighting was first; the earliest record for a blob
 version is.
 
@@ -94,7 +97,8 @@ that validates always serializes.
   `needs_approval` with reason `too_large`). It is stored as a blob like any
   file (`origin: generated`). The Lambda checks the manifest's sidecar
   describes the same request (`validate_manifest_sidecar`) and that every
-  sha256 it names is held. The body has no clock or run id, and `held`
+  sha256 it names is held (`missing_blob`); a backfill's `stamp_ref` is
+  checked the same way. The body has no clock or run id, and `held`
   doesn't say whether this run downloaded the file or recognized it as
   unchanged, so an unchanged listing is stored once. The run lives in the
   manifest's record: `fetch.run_id` joins it to the file records the same
@@ -136,9 +140,25 @@ and generated uploads), and `work_id` one queue item.
     token shapes (JWTs, AWS key ids) are refused.
   - Response headers outside `ALLOWED_HEADERS` are refused
     (`forbidden_header`).
-  - Connectors canonicalize with `strip_signing_params` (it returns a storable
-    URL, keeping the rest byte for byte, or raises), `redirect_url` and
-    `sanitize_headers` (its output always validates).
+  - AWS key ids are refused anywhere in a field the fetcher writes, but only
+    as a parameter value in text that can hold an agency's filename (URLs,
+    headers, doc ids, old paths), where an upper-case name could look like
+    one.
+  - Connectors canonicalize with `strip_signing_params` (pass the URL the
+    HTTP client prepared, not a raw href; it returns a storable URL or
+    raises, keeping visible ASCII byte for byte and percent-encoding the
+    rest as clients do), `redirect_url` (never raises; its output always
+    validates) and `sanitize_headers` (its output always validates). Hand
+    `sanitize_headers` the wire bytes, or the Latin-1 view `http.client` and
+    requests give; a client that decodes UTF-8 itself (httpx) should pass
+    its raw header bytes.
+  - A capability carried in the URL path (Dropbox `/s/`, OneDrive `1drv.ms`,
+    SharePoint `/:x:/` share links) can't be told from an ordinary path. The
+    path is how the agency published the document, so it is stored as
+    found; prefer a non-capability URL for `source.url` when one exists.
+  - Redirect hops and `final_url` record where the bytes actually came from,
+    so they may name an IP address or a single-label host; `source.url` and
+    `request_url` need a DNS name.
 - **No values in errors.** A `SchemaError` carries a reason code (one of
   `REJECT_REASONS`, also used as the reject tag) and a field path, never a
   value or a header name.
