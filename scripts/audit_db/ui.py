@@ -6,13 +6,14 @@ import time
 
 import duckdb
 
-from paths import CODE, audit_dir
+from paths import CODE, audit_dir, use_spill_dir
 
 A = audit_dir()
 con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
 truth = str(A / "truth.duckdb").replace("'", "''")
 con.execute(f"ATTACH '{truth}' AS truth (READ_ONLY)")   # init.sql's relative ATTACH then leaves it alone
 con.execute((CODE / "init.sql").read_text())
+use_spill_dir(con)   # init.sql's spill path is relative to the CLI's working directory: use the absolute one
 con.execute("INSTALL ui; LOAD ui; CALL start_ui_server()")
 print("DuckDB UI: http://localhost:4213  (try: SELECT * FROM sightings_public LIMIT 20)")
 try:

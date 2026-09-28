@@ -9,17 +9,13 @@ per-producer coverage is working material, not part of the published schema and 
 import argparse
 from pathlib import Path
 
-import duckdb
-
-from paths import audit_dir, duck_temp
+import audit_client as ac
+from paths import audit_dir
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
 A = Path(ap.parse_args().audit_dir or audit_dir())
-con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
-con.execute(f"SET temp_directory='{duck_temp()}'")   # own spill dir: DuckDB's default <db>.tmp is shared by every reader
-con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
-con.execute("SET threads=4; SET memory_limit='4GB'")
+con = ac.connect(A, threads=4, memory="4GB")   # derived read-only + truth attached, own spill dir
 q = lambda s, p=None: con.execute(s, p or []).fetchall()
 built = dict(q("SELECT key, value FROM truth.build_info"))
 

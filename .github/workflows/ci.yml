@@ -242,6 +242,9 @@ jobs:
       - name: Run Makefile artifact-hygiene tests
         run: uv run pytest tests/test_make_clean_covers_artifacts.py -v
 
+      - name: Run audit DB tests
+        run: uv run --locked --project scripts/audit_db --group dev pytest scripts/audit_db/tests -v
+
       - name: Check recipient coordinates
         id: coords
         run: |

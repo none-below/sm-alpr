@@ -33,7 +33,7 @@ import duckdb
 sys.path.insert(0, str(Path(__file__).parent))
 import smpd_pdf_loader as smpd  # noqa: E402
 from muckrock_ingest import add_muckrock, canonical, sql_ident, sql_str  # noqa: E402
-from paths import duck_temp  # noqa: E402
+from paths import use_spill_dir  # noqa: E402
 
 HERE = Path(__file__).parent
 FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
@@ -308,7 +308,8 @@ def main():
 
     con = duckdb.connect(str(args.out))
     # modest defaults so the laptop stays usable; raise with AUDIT_DB_THREADS / AUDIT_DB_MEMORY for a faster build
-    con.execute(f"SET temp_directory='{duck_temp(TMP / 'duck_tmp')}'; SET threads={os.environ.get('AUDIT_DB_THREADS', '4')}; "
+    use_spill_dir(con, TMP / "duck_spill")   # own dir under the build's scratch
+    con.execute(f"SET threads={os.environ.get('AUDIT_DB_THREADS', '4')}; "
                 f"SET memory_limit='{os.environ.get('AUDIT_DB_MEMORY', '6GB')}'")   # insertion order kept: row_no = file order
     con.execute(RELEASES_DDL)
     con.execute(f"CREATE OR REPLACE TABLE flock_audit_rows (release_id VARCHAR, row_no BIGINT, src_row BIGINT, "

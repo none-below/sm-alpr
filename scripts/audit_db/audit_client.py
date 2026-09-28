@@ -29,7 +29,7 @@ from pathlib import Path
 import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
-from paths import audit_dir as default_audit_dir, duck_temp  # noqa: E402
+from paths import audit_dir as default_audit_dir, use_spill_dir  # noqa: E402
 from sql_templates import (flock_rows_sql, sightings_flock_sql, sightings_smpd_sql, sources_flock_sql,  # noqa: E402
                            sources_smpd_sql)
 
@@ -42,8 +42,10 @@ def connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8G
     """Read-only connection to <audit_dir>/derived.duckdb with truth attached (READ_ONLY).
 
     audit_dir defaults to paths.audit_dir(): the primary checkout's .claude/audit_db/, or AUDIT_DB_DIR.
-    Spills go to this connection's own subdirectory of temp_dir (default <system tmp>/alpr_duck_tmp; see
-    paths.duck_temp) and are capped at max_temp, so a runaway query fails instead of filling the disk. On a shared machine use threads=1, memory='1GB'.
+    Spills go to this process's own directory under temp_dir (default <audit dir>/spill; paths.use_spill_dir) and are
+    capped at max_temp, so a runaway query fails instead of filling the disk; temp_dir="" disables spilling.
+    Settings belong to the DuckDB instance, and every connection to one database file in one Python process shares it:
+    a second connect() changes threads and memory for both, and keeps the instance's spill directory. On a shared machine use threads=1, memory='1GB'.
 
     >>> con = connect(threads=1, memory="1GB")
     >>> con.sql("SELECT key, value FROM truth.build_info").fetchall()
@@ -51,8 +53,8 @@ def connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8G
     A = Path(audit_dir or default_audit_dir())
     con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
     con.execute(f"ATTACH IF NOT EXISTS {_s(A / 'truth.duckdb')} AS truth (READ_ONLY)")
-    temp = duck_temp(temp_dir)
-    con.execute(f"SET threads={int(threads)}; SET memory_limit={_s(memory)}; SET temp_directory={_s(temp)}; "
+    use_spill_dir(con, temp_dir)
+    con.execute(f"SET threads={int(threads)}; SET memory_limit={_s(memory)}; "
                 f"SET max_temp_directory_size={_s(max_temp)}")
     return con
 
