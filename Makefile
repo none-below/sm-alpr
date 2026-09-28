@@ -27,9 +27,12 @@
 # Hygiene:
 #   make clean           Remove generated site/data artifacts (forces the next
 #                        `make build` / `make test` to rebuild from scratch).
+#   make prune-uv-cache  Drop unused entries from the shared ~/.cache/uv, which
+#                        grows with every worktree's `uv sync`. Run it when disk
+#                        gets tight; it's safe while other worktrees are in use.
 
 .PHONY: help build test pra-update pra-scrape pra-scrape-one pra-ocr pra-init \
-        pra-build serve serve-public clean
+        pra-build serve serve-public clean prune-uv-cache
 
 # Gitignored artifacts produced by `make build` and read by the test suite.
 # `make build` regenerates exactly these; `make clean` removes them along with
@@ -129,3 +132,9 @@ clean: ## Remove generated site/data + PRA artifacts
 	rm -rf $(BUILD_DIRS)
 	@echo "Removed generated artifacts. 'make build' rebuilds the site/data;"
 	@echo "'make pra-build' rebuilds the PRA registry."
+
+# Other sessions' `uv run` hold the cache lock for as long as they run (a full
+# pytest takes minutes), and uv's default 5-minute lock wait gives up on them.
+# Wait up to an hour instead of forcing: --force can break an in-flight install.
+prune-uv-cache: ## Drop unused entries from the shared uv cache (waits for other uv runs)
+	UV_LOCK_TIMEOUT=3600 uv cache prune
