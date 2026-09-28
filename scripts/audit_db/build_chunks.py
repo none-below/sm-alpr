@@ -104,8 +104,10 @@ def verifier(A, spill):
         diffs = [f for f, v in zip(RELEASE_FIELDS, t["rel"]) if man.get(f) != v]
         n, digest = t.get("tables", {}).get(man["table"], (0, "0"))
         mine = man.get("row_digest_legacy") or man["row_digest"]   # truth's loader dropped cells beyond the header
-        if (n, digest) != (man["n_rows"], mine):
-            diffs.append(f"rows (truth {n} rows, chunk {man['n_rows']})")
+        if n != man["n_rows"]:
+            diffs.append(f"row count (truth {n}, chunk {man['n_rows']})")
+        elif digest != mine:
+            diffs.append(f"row digest (same {n} rows; some row's values differ)")
         return {"match": not diffs, "diffs": diffs, **({"digest": "row_digest_legacy"} if man.get("row_digest_legacy") else {})}
     truth_ev = dict(con.execute("SELECT key, value FROM build_info").fetchall()).get("evidence_dir")
     return check, prefetch, close, truth_ev

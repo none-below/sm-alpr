@@ -325,7 +325,8 @@ def test_build_chunks_goes_on_past_a_missing_container_and_an_empty_selection_fa
     assert r.returncode == 2 and "no units selected" in r.stderr
 
 
-def test_a_worker_that_dies_takes_only_its_own_unit_down(tmp_path):
+@pytest.mark.parametrize("workers", [1, 2])
+def test_a_worker_that_dies_takes_only_its_own_unit_down(tmp_path, workers):
     ev = evidence(tmp_path / "ev", ["a.csv", "die.csv", "b.csv"])
     for n in ("a.csv", "die.csv", "b.csv"):
         (ev / n).write_bytes(csv_bytes(HDR, rows(3)))
@@ -342,8 +343,44 @@ def test_a_worker_that_dies_takes_only_its_own_unit_down(tmp_path):
             "sys.argv = ['build_chunks.py'] + sys.argv[2:]\n"
             "build_chunks.main()")
     r = subprocess.run([sys.executable, "-c", code, str(Path(extract.__file__).parent), str(out), "--evidence", str(ev),
-                        "--audit-dir", str(tmp_path / "audit"), "--workers", "2"], capture_output=True, text=True, timeout=300)
+                        "--audit-dir", str(tmp_path / "audit"), "--workers", str(workers)], capture_output=True, text=True,
+                       timeout=300)
     assert r.returncode == 1, r.stdout + r.stderr
     mans = {m["unit"]["local_path"]: m for m in (json.loads(p.read_text()) for p in out.glob("*/*/chunk.json"))}
     assert {k: m["status"] for k, m in mans.items()} == {"a.csv": "ok", "die.csv": "failed", "b.csv": "ok"}
     assert "worker process died" in mans["die.csv"]["error"]
+
+
+def mini_truth(audit, ev):
+    """A truth.duckdb holding ev's units loaded the old way (stage_all + add_muckrock), with build_truth's tables."""
+    import build_truth
+    audit.mkdir()
+    con = paths.duck_connect(audit / "truth.duckdb", spill_root=audit / "spill")
+    con.execute(build_truth.RELEASES_DDL)
+    con.execute("CREATE TABLE flock_audit_rows (release_id VARCHAR, row_no BIGINT, src_row BIGINT, "
+                f"{', '.join(f'{mi.sql_ident(c)} VARCHAR' for c in mi.FLOCK_COLS)}, extra JSON)")
+    mi.stage_all(ev, audit / "tmp", workers=1)
+    mi.add_muckrock(con, ev, audit / "tmp", log=lambda m: None)
+    con.execute("CREATE TABLE build_info (key VARCHAR, value VARCHAR)")
+    con.execute("INSERT INTO build_info VALUES ('evidence_dir', ?)", [str(ev)])
+    con.close()
+
+
+def test_verify_passes_overflow_cells_and_names_a_digest_only_difference(tmp_path):
+    ev = evidence(tmp_path / "ev", ["w.csv", "x.csv"])
+    data = rows(3)
+    data[1] = data[1] + ["beyond the header"]               # truth's loader dropped this cell
+    (ev / "w.csv").write_bytes(csv_bytes(HDR, data))
+    (ev / "x.csv").write_bytes(csv_bytes(HDR, rows(2)))
+    audit = tmp_path / "audit"
+    mini_truth(audit, ev)
+    con = duckdb.connect(str(audit / "truth.duckdb"))       # one cell of x.csv differs; its row count does not
+    assert con.execute("UPDATE flock_audit_rows SET \"Reason\" = 'changed' "
+                       "WHERE release_id = 'mr:900001:x.csv#csv' AND row_no = 1").fetchone() == (1,)
+    con.close()
+    r = subprocess.run(BUILD + [str(tmp_path / "chunks"), "--audit-dir", str(audit), "--verify", "--workers", "1"],
+                       capture_output=True, text=True, timeout=300)
+    assert r.returncode == 1, r.stdout + r.stderr
+    report = {v["release_id"]: v for v in map(json.loads, next((tmp_path / "chunks").glob("verify-*.jsonl")).open())}
+    assert report["mr:900001:w.csv#csv"]["match"] and report["mr:900001:w.csv#csv"]["digest"] == "row_digest_legacy"
+    assert report["mr:900001:x.csv#csv"]["diffs"] == ["row digest (same 2 rows; some row's values differ)"]
