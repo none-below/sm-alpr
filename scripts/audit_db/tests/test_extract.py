@@ -455,3 +455,39 @@ def test_one_run_at_a_time_per_out_dir(tmp_path):
     finally:
         os.close(fd)
     assert r.returncode == 2 and "another build_chunks run" in r.stderr and not list(out.glob("*/*/chunk.json"))
+
+
+def test_evidence_edited_in_place_is_reported_and_its_chunk_kept(tmp_path):
+    ev = evidence(tmp_path / "ev", ["a.csv", "b.csv"])
+    for n in ("a.csv", "b.csv"):
+        (ev / n).write_bytes(csv_bytes(HDR, rows(3)))
+    out = tmp_path / "chunks"
+
+    def run(*extra):
+        return subprocess.run(BUILD + [str(out), "--evidence", str(ev), "--audit-dir", str(tmp_path / "audit"),
+                                       "--workers", "1", *extra], capture_output=True, text=True, timeout=300)
+    assert run().returncode == 0
+    d = extract.chunk_dir(out, unit("a.csv"))
+    before = (d / "chunk.json").read_text()
+    (ev / "a.csv").write_bytes(csv_bytes(HDR, rows(3, start=10)))   # the same path, new bytes
+    for extra in ((), ("--force",)):
+        r = run(*extra)
+        assert r.returncode == 1 and "evidence changed in place: a.csv" in r.stdout, r.stdout + r.stderr
+        assert (d / "chunk.json").read_text() == before and (d / "rows.parquet").exists()   # the old version stays
+    assert json.loads((extract.chunk_dir(out, unit("b.csv")) / "chunk.json").read_text())["status"] == "ok"
+
+
+def test_the_stamped_manifest_binds_each_path(tmp_path):
+    ev = evidence(tmp_path / "ev", ["a.csv", "b.csv", "c.csv"])
+    for n in ("a.csv", "b.csv", "c.csv"):
+        (ev / n).write_bytes(csv_bytes(HDR, rows(2)))
+    (ev / "MANIFEST_v2.txt").write_text("# sha256  local_path  source_url\n"
+                                        f"{'0' * 64}  a.csv  https://example.invalid/a.csv\n"
+                                        f"{mi.sha256_file(ev / 'b.csv')}  b.csv  https://example.invalid/b.csv\n")
+    out = tmp_path / "chunks"
+    r = subprocess.run(BUILD + [str(out), "--evidence", str(ev), "--audit-dir", str(tmp_path / "audit")],
+                       capture_output=True, text=True, timeout=300)
+    assert r.returncode == 1 and "evidence changed in place: a.csv" in r.stdout and "MANIFEST_v2.txt binds" in r.stdout
+    assert "1 containers are not in MANIFEST_v2.txt" in r.stdout      # c.csv: extracted, noted as not stamped yet
+    status = {m["unit"]["local_path"]: m["status"] for m in (json.loads(p.read_text()) for p in out.glob("*/*/chunk.json"))}
+    assert status == {"b.csv": "ok", "c.csv": "ok"}                    # nothing extracted for a.csv

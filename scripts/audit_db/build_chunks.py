@@ -10,6 +10,9 @@ that extracted cleanly, with its rows.parquet intact (the sha256 chunk.json reco
 run: a missing container, a reader that panics or a worker process that dies (the OOM killer) gives that unit a failed
 chunk, and a chunk that cannot be written (a full disk) is reported failed. A failure never replaces a chunk that
 extracted cleanly: that one stays, and the next run tries again. One run at a time per OUT (a second exits 2).
+Evidence is append-only: each container path is bound to one sha256 (MANIFEST_v2.txt's, or else the one its chunk was
+extracted from). A path whose bytes changed is reported as failed and not extracted, even with --force, and its chunk
+is kept: a re-released or edited file must come in under a new path, where it is one more release beside the old.
   --only PATTERN   release_id LIKE pattern ('%' any run, '_' any one character), e.g. 'mr:205259:%'
   --sample N       a random N of the selected units (--seed, default 1); --limit N: the first N
   --workers N      extraction processes (default 2; each can hold one spreadsheet in memory)
@@ -71,6 +74,29 @@ def reusable(u, out, force, container_sha, code):
         return man if extract.sha256_file(d / "rows.parquet") == man.get("parquet_sha256") else None
     except OSError:   # no rows (--discard removed them)
         return None
+
+
+def manifest_of(EV):
+    """MANIFEST_v2.txt's stamped sha256 per container path; {} when the evidence dir has none."""
+    mf, out = Path(EV) / "MANIFEST_v2.txt", {}
+    if mf.exists():
+        for line in mf.read_text().splitlines():   # "<sha256>  <local_path>  <source_url>"
+            parts = line.split("  ")
+            if len(parts) >= 2 and len(parts[0]) == 64:
+                out[parts[1].strip()] = parts[0]
+    return out
+
+
+def bound_sha(u, out, manifest):
+    """(sha256, what binds it) for the container's path: the stamped manifest's, else the one its existing chunk was
+    extracted from; (None, None) for a path seen for the first time."""
+    if u["local_path"] in manifest:
+        return manifest[u["local_path"]], "MANIFEST_v2.txt"
+    try:
+        was = json.loads((extract.chunk_dir(out, u) / "chunk.json").read_text()).get("container_sha256")
+    except (OSError, ValueError):
+        was = None
+    return (was, "its existing chunk") if was else (None, None)
 
 
 def verifier(A, spill):
@@ -178,7 +204,19 @@ def main():
     with ThreadPoolExecutor(4) as tp:   # hashlib releases the GIL: hash side by side, each container once
         paths_ = sorted({u["local_path"] for u in sel})
         csha = dict(zip(paths_, tp.map(container_sha, paths_)))
-        reuse = list(tp.map(lambda u: reusable(u, out, args.force, csha[u["local_path"]], code), sel))
+        # Evidence is append-only: a path is bound to one sha256 for good (the stamped manifest's, or the one its chunk
+        # was made from). A path whose bytes changed is reported and left alone, even with --force: its chunk may be
+        # the only record of the old version. A new version belongs under a new path, where it is one more release.
+        manifest = manifest_of(EV)
+        moved = [(u, *bound_sha(u, out, manifest)) for u in sel]
+        moved = {id(u): (was, where) for u, was, where in moved
+                 if was and csha[u["local_path"]] and csha[u["local_path"]] != was}
+        reuse = list(tp.map(lambda u: None if id(u) in moved else reusable(u, out, args.force, csha[u["local_path"]], code),
+                            sel))
+    unstamped = [p for p in paths_ if manifest and p not in manifest]
+    if unstamped:
+        print(f"note: {len(unstamped)} containers are not in MANIFEST_v2.txt (not stamped yet), e.g. {unstamped[0]}",
+              flush=True)
     report = out / f"verify-{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}.jsonl" if args.verify else None
     counts, done, report_ok = {"extracted": 0, "reused": 0, "failed": 0, "match": 0, "mismatch": 0}, 0, [True]
 
@@ -262,9 +300,16 @@ def main():
                 top_up()
         return [], []
 
+    for u in sel:
+        if id(u) in moved:
+            was, where = moved[id(u)]
+            finish({"release_id": extract.release_id(u), "unit": u, "status": "failed",
+                    "error": f"evidence changed in place: {u['local_path']} now has sha256 {csha[u['local_path']][:16]}…, "
+                             f"but {where} binds that path to {was[:16]}…. Nothing was extracted and its chunk is kept; "
+                             "a new version of a file belongs under a new path"}, False)
     for man in filter(None, reuse):
         finish(man, True)
-    todo, suspects = [u for u, m in zip(sel, reuse) if not m], []
+    todo, suspects = [u for u, m in zip(sel, reuse) if not m and id(u) not in moved], []
     while todo:                    # a dead worker takes down only its pool: the rest goes on in a fresh one
         dead, todo = run_pool(todo, args.workers)
         suspects += dead
