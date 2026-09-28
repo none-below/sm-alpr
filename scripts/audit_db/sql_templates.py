@@ -16,8 +16,7 @@ Select the rows before parsing, so the truth scan prunes, e.g. for two known row
   con.sql(sightings_flock_sql(f"({flock_rows_sql(raw)})"))
 """
 
-FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
-              "Reason", "Case #", "Filters", "Search Time", "Search Type", "Text Prompt", "Moderation"]
+from muckrock_ingest import FLOCK_COLS  # noqa: E402  (one list, shared with the loaders)
 FLAGS = ["Org Name", "Reason", "Case #", "Name", "License Plate"]   # fields whose header / withheld flags cell_state reads
 
 

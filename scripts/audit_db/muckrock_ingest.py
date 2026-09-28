@@ -84,9 +84,25 @@ def extra_json(cols):
 
 
 def resolve_member(z, member):
-    if member in z.namelist():
+    """The catalog can hold a member name cut short before its extension: take the one member that starts with it."""
+    names = z.namelist()
+    if member in names:
         return member
-    return next(n for n in z.namelist() if n.startswith(member))
+    hits = [n for n in names if n.startswith(member)]
+    if len(hits) != 1:
+        raise ValueError(f"catalog member {member!r} matches {len(hits)} zip members")
+    return hits[0]
+
+
+def release_id(u):
+    """A MuckRock unit's release id: mr:<request>:<container file>[!<member as cataloged>][#<sheet as cataloged>]."""
+    return (f"mr:{u['request_id']}:{Path(u['local_path']).name}" + (f"!{u['member']}" if u["member"] else "")
+            + (f"#{u['sheet']}" if u["sheet"] else ""))
+
+
+def unit_id(u):
+    """A short stable id for a unit (container path + member + sheet), for file and directory names."""
+    return hashlib.sha1((u["local_path"] + str(u["member"]) + str(u["sheet"])).encode()).hexdigest()[:16]
 
 
 def member_bytes(path, member):
@@ -168,7 +184,7 @@ def to_csv(u, EV, TMP):
         ext = ext if ext in (".xlsx", ".xlsm", ".xlsb") else ".xlsx"
     elif raw[:8] == b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1":
         ext = ".xls"
-    dest = TMP / "muckrock_units" / f"{hashlib.sha1((u['local_path'] + str(u['member']) + str(u['sheet'])).encode()).hexdigest()[:16]}.csv.gz"
+    dest = TMP / "muckrock_units" / f"{unit_id(u)}.csv.gz"
     dest.parent.mkdir(parents=True, exist_ok=True)
     sheet_full, rows = None, None
     if ext in (".csv", ".tsv", ".txt") or ext == "":
@@ -254,7 +270,7 @@ def add_muckrock(con, EV, TMP, FLOCK_COLS, sha256_file, resolve=lambda org: None
             continue
         path, raw_header = Path(res["path"]), res["header"]
         header = canonical(raw_header)
-        rid = f"mr:{u['request_id']}:{Path(u['local_path']).name}" + (f"!{u['member']}" if u["member"] else "") + (f"#{u['sheet']}" if u["sheet"] else "")
+        rid = release_id(u)
         staged.append((u, path, raw_header, header, res, rid))
         if u["kind"] == "search_audit_own" and "Org Name" in header:
             oi = header.index("Org Name") + 1  # staged CSV starts with __src_row
