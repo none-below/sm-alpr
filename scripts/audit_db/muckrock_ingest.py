@@ -32,6 +32,9 @@ from paths import sql_str  # noqa: F401  (also re-exported: other modules import
 
 ALIASES = {"reason_1": "Reason", "test prompt": "Text Prompt", "license plates": "License Plate",
            "search date": "Search Time", "case number": "Case #"}
+# the Flock audit-export superset (flock_audit_rows) and the event-log columns (flock_event_rows)
+FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
+              "Reason", "Case #", "Filters", "Search Time", "Search Type", "Text Prompt", "Moderation"]
 EVENT_COLS = ["Timestamp", "User", "Event Type", "Entity Type", "Entity Details", "Event Id"]
 
 

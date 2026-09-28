@@ -18,6 +18,12 @@ CODE = Path(__file__).parent   # this directory: scripts, SQL, authored JSON fac
 def audit_dir():
     if os.environ.get("AUDIT_DB_DIR"):
         return Path(os.environ["AUDIT_DB_DIR"])
+    return primary_checkout() / ".claude" / "audit_db"
+
+
+def primary_checkout():
+    """The repo's primary checkout (git's common dir), where the local-only .claude/ material lives; the same from any
+    worktree."""
     try:
         r = subprocess.run(["git", "-C", str(CODE), "rev-parse", "--path-format=absolute", "--git-common-dir"],
                            capture_output=True, text=True)
@@ -25,9 +31,17 @@ def audit_dir():
     except FileNotFoundError:
         err = "git is not installed"
     if err is not None:
-        raise SystemExit(f"cannot locate the audit dir through git ({err or 'git failed'}): set AUDIT_DB_DIR, "
-                         "or pass --audit-dir to the tools that take it")
-    return Path(r.stdout.strip()).parent / ".claude" / "audit_db"
+        raise SystemExit(f"cannot locate the primary checkout through git ({err or 'git failed'}): set AUDIT_DB_DIR, "
+                         "or pass --audit-dir (and --evidence) to the tools that take them")
+    return Path(r.stdout.strip()).parent
+
+
+def evidence_dir():
+    """The MuckRock evidence corpus: the primary checkout's .claude/local_evidence/muckrock-ca-audit-logs (the originals,
+    catalog.json / catalog2.json / catalog_requests.json, MANIFEST_v2.txt). Local only, never in git.
+    (Always the git-derived location: AUDIT_DB_DIR moves the databases, not the evidence; build_chunks --verify uses
+    the evidence_dir truth was built from.)"""
+    return primary_checkout() / ".claude" / "local_evidence" / "muckrock-ca-audit-logs"
 
 
 def sql_str(v):

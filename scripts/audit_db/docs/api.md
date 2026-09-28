@@ -104,7 +104,9 @@ the repo commit, which identifies the build code as well as the committed inputs
 | `build_derived.py` | Builds `derived.duckdb`: the views and macros, `public_macros.sql`, and the event-linking cache. Run from the audit dir. | `truth.duckdb derived.duckdb [--views-only]` (refresh views and macros, keep the cache) |
 | `sql_templates.py` | Module: the parse and citation SQL shared by the full views, the row-lookup macros and `audit_client.py`. | — |
 | `cache_fingerprint.py` | Module: what the cache was built from (truth fingerprint, linking-code hash, DuckDB version). | — |
-| `paths.py` | Module: where the audit dir is, and each DuckDB process's spill directory: `duck_connect(database, read_only=False, spill_root=None, **settings)` opens DuckDB with one, `use_spill_dir(con, root=None)` sets one on a connection, `duck_temp(root=None)` names one, `sweep_spill(root)` removes those of dead processes. `owner(root)` and `sweep_owned(lock_root, owned)` are the lock-based liveness behind them, for other per-process files. `sql_str(v)` quotes a SQL string literal. | — |
+| `paths.py` | Module: where the audit dir and the evidence directory are, and each DuckDB process's spill directory: `duck_connect(database, read_only=False, spill_root=None, **settings)` opens DuckDB with one, `use_spill_dir(con, root=None)` sets one on a connection, `duck_temp(root=None)` names one, `sweep_spill(root)` removes those of dead processes. `owner(root)` and `sweep_owned(lock_root, owned)` are the lock-based liveness behind them, for other per-process files. `sql_str(v)` quotes a SQL string literal. | — |
+| `extract.py` | Module: extracts one released file, zip member or sheet into a chunk (`rows.parquet` + `chunk.json`), streamed, with no staging. A chunk depends only on the container's bytes, the catalog entry and this code; a unit that cannot be read gets a chunk with status `failed` and the error. | — |
+| `build_chunks.py` | Extracts chunks for the MuckRock corpus into `<audit_db>/chunks/<request_id>/<unit_id>/`, reusing a chunk whose inputs are unchanged. With `--verify`, compares every chunk with `truth.duckdb` (release columns and a digest over every row) and writes `verify-<UTC>.jsonl`. | `[OUT] [--only PATTERN] [--sample N [--seed S]] [--limit N] [--workers N] [--force] [--verify [--discard]]` |
 | `plate_key.py` | The plate-token key: `--check` validates the key file (status only, never the key); `--install` writes `PLATE_TOKEN_KEY` to the key file (CI). Needed only for `sightings_public` and `plate_token()`. | `--check` or `--install` |
 
 Authored facts, loaded into truth with their citations:
@@ -134,6 +136,22 @@ bgpy "$C/gen_coverage.py" && bgpy "$C/gen_stats.py"      # local pages in <audit
 py "$C/check_docs.py"                                    # seconds
 bgpy "$C/verify_provenance.py"                           # needs poppler's pdftotext
 ```
+
+### Chunks
+
+A chunk's `chunk.json` records the release's own columns (header, member, sheet, hashes, row count, row locator
+basis), a digest over its rows, the input hashes (container, catalog entry), the code (`code_sha256`, commit, whether
+the code had uncommitted edits) and the library versions, and for own-search logs the organization counts that
+assembly uses to infer the producer. Authored facts are not in chunks: they are applied at assembly.
+
+```sh
+bgpy "$C/build_chunks.py" --only 'mr:205259:%' --verify     # one request, checked against truth
+bgpy "$C/build_chunks.py" --sample 20 --verify --discard     # a quick check that keeps no rows
+bgpy "$C/build_chunks.py" --verify                           # the whole corpus
+```
+
+Fixture tests (synthetic inputs, each also loaded the old staging way and compared) run in CI:
+`uv run --locked --project scripts/audit_db --group dev pytest scripts/audit_db/tests`.
 
 ## Checking
 

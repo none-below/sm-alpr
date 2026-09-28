@@ -32,12 +32,10 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 import smpd_pdf_loader as smpd  # noqa: E402
-from muckrock_ingest import add_muckrock, canonical, sql_ident, sql_str  # noqa: E402
+from muckrock_ingest import FLOCK_COLS, add_muckrock, canonical, sql_ident, sql_str  # noqa: E402
 from paths import duck_connect  # noqa: E402
 
 HERE = Path(__file__).parent
-FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
-              "Reason", "Case #", "Filters", "Search Time", "Search Type", "Text Prompt", "Moderation"]
 # repo inputs, and this build code, whose uncommitted edits would make the recorded commit a lie
 REPO_INPUTS = ["assets/redwood-city-pras", "assets/los-altos-pras", "assets/san-mateo-public-records/W012541-*",
                "assets/san-mateo-public-records/W012818-*", "assets/agency_registry.json", "scripts/audit_db"]
