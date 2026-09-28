@@ -184,6 +184,21 @@ def is_sidecar(name, own_md5):
     return sidecar_base_name(name) is not None and name.rsplit(".", 2)[1] != own_md5[:8]
 
 
+def remove_stale_sidecars(file_path, keep):
+    """Delete this file's old sidecars (other than `keep`) and return them.
+
+    Only files is_sidecar agrees are sidecars go: a released attachment that
+    pra_download renamed to <name>.<its own MD5>.txt matches the same glob
+    and must stay.
+    """
+    removed = []
+    for old in Path(file_path).parent.glob(f"{Path(file_path).name}.*.txt"):
+        if old != keep and is_sidecar(old.name, file_hash(old)):
+            old.unlink()
+            removed.append(old)
+    return removed
+
+
 def sidecar_path_for(file_path):
     """Return the hash-stamped sidecar path for a file."""
     file_path = Path(file_path)
@@ -208,12 +223,9 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
     if not force and sidecar.exists():
         return None
 
-    # Clean up any stale sidecars for this file (different hash)
-    for old in file_path.parent.glob(f"{file_path.name}.*.txt"):
-        if old != sidecar:
-            old.unlink()
-            if removed_stale is not None:
-                removed_stale.append(old)
+    for old in remove_stale_sidecars(file_path, keep=sidecar):
+        if removed_stale is not None:
+            removed_stale.append(old)
 
     suffix = file_path.suffix.lower()
     if suffix in (".doc", ".docx"):

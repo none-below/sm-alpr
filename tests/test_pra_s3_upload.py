@@ -13,8 +13,10 @@ import hashlib
 import json
 import os
 import re
+import signal
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -409,10 +411,10 @@ def test_file_vanishing_before_hashing_holds_back(tmp_path, monkeypatch):
     _write(root, "gone.pdf", b"g")
     real = u.file_digests
 
-    def flaky(path, md5=False):
+    def flaky(path, md5=False, blob_size=None):
         if path.name == "gone.pdf":
             raise FileNotFoundError(path)
-        return real(path, md5)
+        return real(path, md5, blob_size)
 
     monkeypatch.setattr(u, "file_digests", flaky)
     s3 = FakeS3()
@@ -500,7 +502,8 @@ def test_hash_cache_skips_unchanged_files_but_not_rewrites_that_keep_mtime(tmp_p
     assert _sync(s3, root, ledger) == 0
     reads = []
     real = u.file_digests
-    monkeypatch.setattr(u, "file_digests", lambda path, md5=False: reads.append(path) or real(path, md5))
+    monkeypatch.setattr(u, "file_digests",
+                        lambda path, md5=False, blob_size=None: reads.append(path) or real(path, md5, blob_size))
     assert _sync(s3, root, ledger) == 0
     assert reads == []  # identity unchanged: cached
     mtime = p.stat().st_mtime_ns
@@ -510,14 +513,29 @@ def test_hash_cache_skips_unchanged_files_but_not_rewrites_that_keep_mtime(tmp_p
     assert reads == [p] and len(s3.manifests()) == 2
 
 
-def test_interrupt_stops_hashing_mid_file(tmp_path):
-    p = _write(tmp_path, "big.bin", b"x" * (3 << 20))
-    u.STOP.set()
+def test_interrupt_stops_hashing_mid_file(tmp_path, monkeypatch):
+    p = _write(tmp_path, "big.bin", b"x" * (3 << 20))  # three 1 MiB chunks
+    real, chunks = hashlib.sha256, []
+
+    class Sha:  # Ctrl-C arrives while the first chunk is being hashed
+        def __init__(self):
+            self.h = real()
+
+        def update(self, b):
+            chunks.append(len(b))
+            self.h.update(b)
+            u.STOP.set()
+
+        def hexdigest(self):
+            return self.h.hexdigest()
+
+    monkeypatch.setattr(u.hashlib, "sha256", Sha)
     try:
         with pytest.raises(u.Stopped):
             u.file_digests(p)
     finally:
         u.STOP.clear()
+    assert chunks == [1 << 20]  # stopped after one of three chunks
 
 
 def test_line_separator_in_a_filename_keeps_its_ledger_row_whole(tmp_path):
@@ -554,7 +572,7 @@ def repo(tmp_path):
 def test_tracked_files_are_the_committed_ones(repo):
     _write(repo, "assets/prs/W1/untracked_screenshot.png")
     files, commit = u.tracked_files(repo, "assets/prs", fetch=False)
-    assert files == {"W1/a.pdf", "W1/b.pdf"}
+    assert set(files) == {"W1/a.pdf", "W1/b.pdf"}
     assert commit == subprocess.run(["git", "-C", str(repo), "rev-parse", "origin/main"],
                                     capture_output=True, text=True).stdout.strip()
 
@@ -745,8 +763,19 @@ if cmd in st["errors"]:
 if svc == "s3api":
     if cmd == "head-bucket":
         done("{}") if st["bucket"] else fail("404")
-    if cmd == "create-bucket":
+    if cmd == "create-bucket":  # what a new bucket really comes with (seen live, 2026-09)
         st["bucket"] = True
+        st["settings"].update({
+            "get-public-access-block": {"BlockPublicAcls": True, "IgnorePublicAcls": True,
+                                        "BlockPublicPolicy": True, "RestrictPublicBuckets": True},
+            "get-bucket-ownership-controls": {"Rules": [{"ObjectOwnership": "BucketOwnerEnforced"}]},
+            "get-bucket-encryption": {"Rules": [{
+                "ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"},
+                "BucketKeyEnabled": False,
+                "BlockedEncryptionTypes": {"EncryptionType": ["SSE-C"]}}]},
+        })
+        if "--object-lock-enabled-for-bucket" in argv:
+            st["settings"]["get-object-lock-configuration"] = None  # enabled, no default rule
         done("{}")
     if cmd in NOT_FOUND:
         if cmd not in st["settings"]:
@@ -770,7 +799,14 @@ if svc == "iam":
         done(json.dumps(u["policy"])) if u and u["policy"] else fail("NoSuchEntity")
     if cmd == "put-user-policy":
         u["policy"] = json.loads(opt("--policy-document"))
+        u["policy_name"] = opt("--policy-name")
         done()
+    if cmd == "list-attached-user-policies":
+        done("\t".join(u.get("managed", [])) + "\n")
+    if cmd == "list-user-policies":
+        done("\t".join(([u["policy_name"]] if u.get("policy") else []) + u.get("inline", [])) + "\n")
+    if cmd == "list-groups-for-user":
+        done("\t".join(u.get("groups", [])) + "\n")
     if cmd == "list-access-keys":
         done("\t".join(u["keys"]) + "\n")
     if cmd == "create-access-key":
@@ -781,6 +817,8 @@ if svc == "iam":
         u["keys"].remove(opt("--access-key-id"))
         done()
 if svc == "configure":
+    if cmd == "get" and argv[2] == "cli_history":
+        done(st["cli_history"] + "\n") if st.get("cli_history") else done(code=1)
     if cmd == "get":
         key = st["profiles"].get(opt("--profile"))
         done(key + "\n") if key else done(code=1)
@@ -822,6 +860,11 @@ def _writes(state):
 def test_setup_first_run_sets_everything_then_rerun_is_all_ok(tmp_path):
     r, st = _setup(tmp_path)
     assert r.returncode == 0, r.stderr
+    # A new bucket already has AWS's defaults for these three; they match the script's.
+    for name in ("public access block", "object ownership", "encryption"):
+        assert f"{name}: ok" in r.stdout
+    for name in ("object lock default retention", "lifecycle rules", "bucket policy"):
+        assert f"{name}: set" in r.stdout
     assert st["bucket"] and len(st["settings"]) == 6
     assert all(u_["policy"] for u_ in st["users"].values())
     r, st = _setup(tmp_path)
@@ -900,3 +943,223 @@ def test_mint_key_deletes_a_key_it_could_not_save(tmp_path):
     r, st = _setup(tmp_path, st, MINT_KEYS="1")
     assert r.returncode != 0 and "deleted it from IAM" in r.stderr
     assert all(u_["keys"] == [] for u_ in st["users"].values())
+
+
+def _policies(tmp_path):
+    r, _ = _setup(tmp_path, None, "--print-policies")
+    text, docs, i = r.stdout.split("\n", 1)[1], [], 0
+    dec = json.JSONDecoder()
+    while text[i:].strip():
+        doc, n = dec.raw_decode(text[i:].lstrip())
+        docs.append(doc)
+        i += len(text[i:]) - len(text[i:].lstrip()) + n
+    return docs
+
+
+def test_setup_policies_say_what_they_should(tmp_path):
+    bucket_policy, writer, reader = _policies(tmp_path)
+    arn = "arn:aws:s3:::sm-alpr-pra-111122223333-us-west-2-an"
+    assert bucket_policy["Statement"] == [
+        {"Sid": "DenyInsecureTransport", "Effect": "Deny", "Principal": "*", "Action": "s3:*",
+         "Resource": [arn, f"{arn}/*"], "Condition": {"Bool": {"aws:SecureTransport": "false"}}},
+        {"Sid": "DenyWritesWithoutIfNoneMatch", "Effect": "Deny", "Principal": "*",
+         "Action": "s3:PutObject", "Resource": f"{arn}/*",
+         "Condition": {"Null": {"s3:if-none-match": "true"},
+                       "Bool": {"s3:ObjectCreationOperation": "true"}}},
+    ]
+    assert writer["Statement"] == [{"Sid": "WriteOnly", "Effect": "Allow",
+                                    "Action": ["s3:PutObject", "s3:AbortMultipartUpload"],
+                                    "Resource": f"{arn}/*"}]
+    assert reader["Statement"] == [
+        {"Sid": "ListBucket", "Effect": "Allow", "Action": ["s3:ListBucket", "s3:GetBucketLocation"],
+         "Resource": arn},
+        {"Sid": "ReadObjects", "Effect": "Allow", "Action": ["s3:GetObject", "s3:GetObjectAttributes"],
+         "Resource": f"{arn}/*"},
+    ]
+
+
+def test_setup_reports_permissions_granted_elsewhere(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    st["users"]["sm-alpr-pra-writer"]["managed"] = ["arn:aws:iam::aws:policy/AmazonS3FullAccess"]
+    st["users"]["sm-alpr-pra-reader"]["groups"] = ["admins"]
+    r, st = _setup(tmp_path, st, "--check")
+    assert r.returncode == 3
+    assert "AmazonS3FullAccess" in r.stderr and "groups: admins" in r.stderr
+    assert _writes(st) == []
+
+
+def test_setup_refuses_to_mint_while_cli_history_records_responses(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    st["cli_history"] = "enabled"
+    r, st = _setup(tmp_path, st, MINT_KEYS="1")
+    assert r.returncode == 1 and "cli_history" in r.stderr
+    assert not any(c[1] == "create-access-key" for c in st["calls"])
+
+
+def test_setup_rejects_a_bucket_name_over_63_characters(tmp_path):
+    r, st = _setup(tmp_path, None, PRA_S3_PREFIX="x" * 40)
+    assert r.returncode == 2 and "63" in r.stderr and st["calls"] == []
+
+
+# --- ocr_sidecar cleanup ------------------------------------------------------------
+
+def test_sidecar_cleanup_spares_a_released_file_with_a_sidecar_like_name(tmp_path):
+    from ocr_sidecar import remove_stale_sidecars
+    base = _write(tmp_path, "Audit.pdf", b"current audit")
+    current = _write(tmp_path, sidecar_path_for(base).name, b"ocr")
+    stale = _write(tmp_path, "Audit.pdf.00000000.txt", b"old ocr")
+    released = hashlib.md5(b"released text").hexdigest()[:8]
+    real = _write(tmp_path, f"Audit.pdf.{released}.txt", b"released text")
+    assert remove_stale_sidecars(base, keep=current) == [stale]
+    assert current.exists() and real.exists() and not stale.exists()
+
+
+# --- more uploader edges ------------------------------------------------------------
+
+def test_xml_types_are_attachments_too():
+    for name in ("feed.xml", "style.xsl", "drawing.svg", "page.xhtml"):
+        assert u.headers_for(name).get("ContentDisposition") == "attachment", name
+    assert "ContentDisposition" not in u.headers_for("audit.csv")
+
+
+def test_a_tree_of_only_sidecars_is_refused(tmp_path):
+    root = tmp_path / "tree"
+    _write(root, "W1/Gone.pdf.1234abcd.txt", b"ocr of a removed file")
+    s3 = FakeS3()
+    assert _sync(s3, root, tmp_path / "ledger.jsonl", skip_ocr_sidecars=True) == 2
+    assert s3.objects == {}
+
+
+def test_hashing_errors_are_errors_not_a_shrink(tmp_path, monkeypatch):
+    root, ledger = tmp_path / "tree", tmp_path / "ledger.jsonl"
+    for i in range(10):
+        _write(root, f"W{i}/a.pdf", str(i).encode())
+    s3 = FakeS3()
+    assert _sync(s3, root, ledger) == 0
+    real = u.file_digests
+
+    def flaky(path, md5=False, blob_size=None):
+        if path.parent.name != "W9":
+            raise RuntimeError("disk error")
+        return real(path, md5, blob_size)
+
+    monkeypatch.setattr(u, "file_digests", flaky)
+    assert _sync(s3, root, ledger, rehash=True) == 1
+
+
+@pytest.mark.skipif(os.geteuid() == 0, reason="root can read anything")
+def test_stat_error_during_upload_holds_the_file(tmp_path, monkeypatch):
+    root = tmp_path / "tree"
+    _write(root, "locked/a.pdf", b"a")
+
+    def lock_then_fail(s3, bucket, key, path, size, sha256):
+        path.parent.chmod(0)  # the file can no longer be stat'ed
+        raise OSError("connection reset")
+
+    monkeypatch.setattr(u, "upload", lock_then_fail)
+    try:
+        assert _sync(FakeS3(), root, tmp_path / "ledger.jsonl") == 3
+    finally:
+        (root / "locked").chmod(0o755)
+
+
+def test_interrupt_cancels_queued_work_and_waits_for_running():
+    started, release = [], threading.Event()
+
+    def fn(i):
+        started.append(i)
+        if i:
+            while not u.STOP.is_set():  # a long upload that notices the stop
+                time.sleep(0.01)
+        return i
+
+    def on_done(item, fut):
+        raise KeyboardInterrupt  # Ctrl-C as the first result comes in
+
+    before = signal.getsignal(signal.SIGINT)
+    try:
+        with pytest.raises(KeyboardInterrupt):
+            u.run_pool(fn, range(20), 2, on_done, log=lambda _: None)
+        assert u.STOP.is_set() and len(started) < 20  # queued work never started
+        assert signal.getsignal(signal.SIGINT) is before
+    finally:
+        u.STOP.clear()
+
+
+def test_git_blob_id_matches_git(tmp_path):
+    p = _write(tmp_path, "a.bin", b"hello\n")
+    oid = subprocess.run(["git", "hash-object", str(p)], capture_output=True, text=True).stdout.strip()
+    assert u.file_digests(p, blob_size=p.stat().st_size)[2] == oid
+
+
+# --- main(), end to end against a real origin ------------------------------------------
+
+@pytest.fixture
+def cloned(tmp_path, monkeypatch):
+    origin = tmp_path / "origin.git"
+    _git(tmp_path, "init", "-q", "--bare", "-b", "main", str(origin))
+    work = tmp_path / "work"
+    _git(tmp_path, "clone", "-q", str(origin), str(work))
+    _write(work, ".gitignore", b"_pending/\n")
+    _write(work, "assets/prs/W1/a.pdf", b"a")
+    base = _write(work, "assets/prs/W1/b.pdf", b"b")
+    _write(work, f"assets/prs/W1/{sidecar_path_for(base).name}", b"ocr")
+    _git(work, "add", ".")
+    _git(work, "commit", "-q", "-m", "init")
+    _git(work, "push", "-q", "origin", "main")
+    _write(work, "assets/prs/_pending/draft_letter.md", b"not for upload")  # gitignored
+    _write(work, "assets/prs/W1/screenshot.png", b"untracked")
+    monkeypatch.setattr(u, "COLLECTIONS", {"prs": {"base": "checkout", "root": "assets/prs",
+                                                    "skip_ocr_sidecars": True}})
+    monkeypatch.setattr(u, "checkout_root", lambda: work)
+    monkeypatch.setattr(u, "primary_root", lambda: tmp_path)
+    return origin, work
+
+
+def _main(tmp_path, s3, *args):
+    with pytest.raises(SystemExit) as exit_:
+        u.main(["prs", "--bucket", "b", "--ledger", str(tmp_path / "ledger.jsonl"), *args], s3=s3)
+    return exit_.value.code
+
+
+def test_main_uploads_exactly_the_committed_files(cloned, tmp_path):
+    origin, work = cloned
+    s3 = FakeS3()
+    assert _main(tmp_path, s3) == 0
+    assert s3.stored_names() == ["a.pdf", "b.pdf"]  # no drafts, no screenshot, no sidecar
+    (manifest,) = s3.manifests()
+    rows = [json.loads(r) for r in s3.objects[manifest].decode().splitlines()]
+    head = subprocess.run(["git", "-C", str(origin), "rev-parse", "main"], capture_output=True, text=True).stdout.strip()
+    assert {r["git_commit"] for r in rows} == {head} and {r["mtime"] for r in rows} == {None}
+
+
+def test_main_fetches_and_refuses_a_checkout_behind_origin(cloned, tmp_path):
+    origin, work = cloned
+    other = tmp_path / "other"
+    _git(tmp_path, "clone", "-q", str(origin), str(other))
+    _write(other, "assets/prs/W2/new.pdf", b"new")
+    _git(other, "add", ".")
+    _git(other, "commit", "-q", "-m", "newer")
+    _git(other, "push", "-q", "origin", "main")
+    s3 = FakeS3()
+    assert _main(tmp_path, s3) == 2  # only the fetch can know origin moved
+    assert s3.objects == {}
+
+
+def test_main_refuses_staged_changes(cloned, tmp_path):
+    _, work = cloned
+    _write(work, "assets/prs/W1/a.pdf", b"edited")
+    _git(work, "add", "assets/prs/W1/a.pdf")
+    s3 = FakeS3()
+    assert _main(tmp_path, s3) == 2 and s3.objects == {}
+
+
+def test_main_checks_bytes_against_the_commit(cloned, tmp_path):
+    _, work = cloned
+    _git(work, "update-index", "--assume-unchanged", "assets/prs/W1/a.pdf")
+    _write(work, "assets/prs/W1/a.pdf", b"edited behind git's back")  # git status stays clean
+    s3 = FakeS3()
+    assert _main(tmp_path, s3) == 3
+    assert s3.manifests() == [] and "a.pdf" not in s3.stored_names()

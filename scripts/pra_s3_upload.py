@@ -4,9 +4,11 @@
       pra-portals-ca [--dry-run]
 
 Collections are pinned in COLLECTIONS below. A "checkout" collection is the
-git-tracked files under a folder of this repo: the run fetches origin/main and
-refuses unless that folder here is clean and identical to origin/main's, so a
-stale or dirty checkout can't upload and untracked files never do. A "primary"
+files under a folder of this repo at origin/main: the run fetches, resolves
+origin/main to one commit, refuses unless that folder here is clean and
+identical to the commit's, and checks each file's bytes against the commit's
+blob id while hashing. So a stale or dirty checkout can't upload, untracked
+files never do, and the git_commit a manifest records is exact. A "primary"
 collection is a local-only folder under the primary checkout's .claude/, taken
 as it is on disk.
 
@@ -37,8 +39,9 @@ download it and hash it.
 
 Manifests: a run that stores the whole tree writes
 _manifests/<collection>/<UTC timestamp>-<tree hash>.jsonl (rel_path, key,
-sha256, bytes, mtime per file, plus git_commit: the origin/main commit whose
-folder matched, for checkout collections). The tree is every file in the collection
+sha256, bytes, and mtime per file; for checkout collections, mtime is null (a
+checkout's mtimes are just checkout time) and git_commit names the commit
+whose bytes were verified). The tree is every file in the collection
 except exclusions, OS metadata and (where configured) OCR sidecars. Nothing is
 written while something can't be stored yet (exit 3):
   - a file that changed, appeared or vanished during the run;
@@ -52,18 +55,21 @@ Nothing is written after an upload error (exit 1) or for an unchanged tree
 (exit 0). An empty tree, or a complete one with under half the files of the
 last manifest, is refused before anything uploads (exit 2).
 
-Browser-executable types (HTML, SVG, JavaScript) are stored with
+Browser-executable types (HTML, XML incl. SVG and RSS, JavaScript) are stored with
 Content-Disposition: attachment, so if the bucket is ever served publicly
 they download instead of running on its origin.
 
 The writer key can only PutObject (no list, no read), so what's stored is
 tracked in a local ledger in the primary checkout's .claude/. Losing it costs
-re-uploads that come back 412, one redundant manifest, and the shrink guard
-until the next manifest is written (both need the last manifest's record).
-The ledger also caches
-hashes by file identity (device, inode, size, mtime, ctime); tools that keep
-mtime across a rewrite (rsync -t, cp -p, unzip) can't keep ctime, so changed
-bytes are always re-hashed.
+re-sending every file before S3 answers 412 (multipart files in full, since
+the 412 only comes at completion), one redundant manifest, and the shrink
+guard until the next manifest is written.
+
+For primary collections the ledger also caches hashes by file identity
+(device, inode, size, mtime, ctime). That relies on a kernel-maintained ctime,
+which APFS and ext4 have: tools that keep mtime across a rewrite (rsync -t,
+cp -p, unzip) can't keep ctime, so changed bytes are re-hashed. FAT and exFAT
+volumes don't keep a real ctime; for a collection on one, pass --rehash.
 
 Exit status (--dry-run predicts the same): 0 tree stored (or unchanged),
 1 errors, 2 refused, 3 incomplete (something held back), 130 interrupted
@@ -116,7 +122,8 @@ COLLECTIONS = {
 
 PART_SIZE = 64 * 1024 * 1024  # single PUT up to this size, multipart above
 # Types a browser would execute; stored as attachments (see docstring).
-ACTIVE_TYPES = {"text/html", "application/xhtml+xml", "image/svg+xml",
+# Types a browser can run script in; plus any */*+xml (SVG, XHTML, RSS, ...).
+ACTIVE_TYPES = {"text/html", "text/xml", "application/xml",
                 "text/javascript", "application/javascript", "application/x-javascript"}
 SHRINK_LIMIT = 0.5  # refuse a tree with fewer files than this share of the last manifest's
 FUTURE_SLACK = 60  # an mtime further ahead than this is restored metadata, not a live write
@@ -187,9 +194,11 @@ def default_ledger():
 
 
 def tracked_files(repo, root_rel, fetch=True):
-    """(files, commit): the git-tracked files under root_rel, as paths relative
-    to it, and the origin/main commit, after checking that this checkout holds
-    exactly origin/main's version of that folder."""
+    """(files, commit): {path relative to root_rel: git blob id} for the files
+    under root_rel at origin/main, and that commit, after checking this
+    checkout holds exactly that version of the folder. origin/main is resolved
+    once, so a fetch by another session mid-run can't change which commit is
+    checked and recorded."""
     def git(*args):
         r = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
         if r.returncode:
@@ -198,15 +207,24 @@ def tracked_files(repo, root_rel, fetch=True):
 
     if fetch:
         git("fetch", "--quiet", "origin", "main")
+    commit = git("rev-parse", "--verify", "origin/main^{commit}").strip()
     dirty = git("status", "--porcelain", "--untracked-files=no", "--", root_rel)
     if dirty:
         raise Refused(f"uncommitted changes under {root_rel}:\n{dirty.rstrip()}")
-    if git("rev-parse", f"HEAD:{root_rel}") != git("rev-parse", f"origin/main:{root_rel}"):
+    if git("rev-parse", f"HEAD:{root_rel}") != git("rev-parse", f"{commit}:{root_rel}"):
         raise Refused(f"{root_rel} here differs from origin/main (stale or unmerged); "
                       "run from a fresh worktree off origin/main")
     prefix = root_rel.rstrip("/") + "/"
-    files = {p[len(prefix):] for p in git("ls-files", "-z", "--", root_rel).split("\0") if p}
-    return files, git("rev-parse", "origin/main").strip()
+    files = {}
+    for line in git("ls-tree", "-r", "-z", commit, "--", root_rel).split("\0"):
+        if not line:
+            continue
+        meta, path = line.split("\t", 1)
+        _mode, kind, oid = meta.split()
+        if kind != "blob":
+            raise Refused(f"{path} is a {kind}, not a file")
+        files[path[len(prefix):]] = oid
+    return files, commit
 
 
 def object_key(collection, rel_path, sha256):
@@ -318,9 +336,13 @@ def collect(root, excludes=(), min_age=0, now=None, tracked=None, keep=()):
     return files, held, ignored
 
 
-def file_digests(path, md5=False):
-    """SHA-256 (and MD5 if asked) hex digests from a single read of the file."""
+def file_digests(path, md5=False, blob_size=None):
+    """(sha256, md5, git blob id) hex digests from a single read of the file;
+    md5 only if asked, the blob id only given the size git will hash."""
     sha, m = hashlib.sha256(), hashlib.md5() if md5 else None
+    blob = None
+    if blob_size is not None:
+        blob = hashlib.sha1(b"blob %d\0" % blob_size)
     with path.open("rb") as f:
         while chunk := f.read(1 << 20):
             if STOP.is_set():
@@ -328,13 +350,15 @@ def file_digests(path, md5=False):
             sha.update(chunk)
             if m:
                 m.update(chunk)
-    return sha.hexdigest(), m.hexdigest() if m else None
+            if blob:
+                blob.update(chunk)
+    return sha.hexdigest(), m.hexdigest() if m else None, blob.hexdigest() if blob else None
 
 
 def unchanged(path, ident):
     try:
         return identity(path.stat()) == ident
-    except FileNotFoundError:
+    except OSError:  # gone, or no longer readable: either way not the file we hashed
         return False
 
 
@@ -454,7 +478,7 @@ def _once(write):
 def headers_for(name):
     ctype = mimetypes.guess_type(name)[0] or "application/octet-stream"
     headers = {"ContentType": ctype}
-    if ctype in ACTIVE_TYPES:
+    if ctype in ACTIVE_TYPES or ctype.endswith("+xml"):
         headers["ContentDisposition"] = "attachment"
     return headers
 
@@ -503,9 +527,11 @@ def run_pool(fn, items, workers, on_done, log=print):
     """Call on_done(item, future) as each fn(item) finishes. On interrupt, cancel
     queued work, let in-flight work stop at its next STOP check, and re-raise.
 
-    While stopping, further SIGINT/SIGTERM are ignored: `uv run` forwards the
-    terminal's Ctrl-C, so the child gets it twice, and the second must not cut
-    the wait short. kill -9 still forces."""
+    While stopping, a repeat SIGINT/SIGTERM within a second is ignored: `uv run`
+    forwards the terminal's Ctrl-C, so the child gets it twice. A later one
+    quits at once (in-flight multipart uploads are then left for the bucket's
+    7-day lifecycle rule), since a PUT stuck in botocore's retries on a dead
+    network can take many minutes."""
     pool, futures = ThreadPoolExecutor(workers), {}
     try:
         for item in items:
@@ -514,12 +540,22 @@ def run_pool(fn, items, workers, on_done, log=print):
             on_done(futures[fut], fut)
     except BaseException:
         STOP.set()
-        busy = sum(f.running() for f in futures)
-        if busy:
-            log(f"stopping: waiting for {busy} in-flight task(s) to finish or abort (kill -9 forces)")
-        main = threading.current_thread() is threading.main_thread()
-        saved = [(sig, signal.signal(sig, signal.SIG_IGN)) for sig in (signal.SIGINT, signal.SIGTERM)] if main else []
+        saved = []
+        if threading.current_thread() is threading.main_thread():
+            first = time.monotonic()
+
+            def again(signum, frame):
+                if time.monotonic() - first > 1:
+                    os._exit(130)
+
+            saved = [(sig, signal.signal(sig, again)) for sig in (signal.SIGINT, signal.SIGTERM)]
         try:
+            busy = sum(f.running() for f in futures)
+            if busy:
+                # stdout may be a pipe whose reader (tee) got the same Ctrl-C;
+                # a failed message must not skip the wait below.
+                with contextlib.suppress(OSError):
+                    log(f"stopping: waiting for {busy} in-flight task(s); Ctrl-C again quits now")
             pool.shutdown(wait=True, cancel_futures=True)
         finally:
             for sig, handler in saved:
@@ -528,17 +564,25 @@ def run_pool(fn, items, workers, on_done, log=print):
     pool.shutdown()
 
 
-def _hash(item, collection, want_md5, ledger):
-    """Returns (entry, freshly hashed?)."""
+def _hash(item, collection, want_md5, ledger, expect_blob=None, rehash=False):
+    """Returns (entry, freshly hashed and worth caching?). With expect_blob (a
+    tracked file), the bytes must match that git blob, and nothing is cached."""
     rel, path, st = item
     if STOP.is_set():
         raise Stopped(rel)
     ident = identity(st)
-    hit = ledger.cached(path, ident, want_md5)
-    sha, md5 = hit or file_digests(path, md5=want_md5)
-    if not hit and not unchanged(path, ident):
-        raise Changed("changed while hashing")
-    return Entry(rel, path, ident, sha, md5, object_key(collection, rel, sha)), not hit
+    hit = None if expect_blob or rehash else ledger.cached(path, ident, want_md5)
+    if hit:
+        sha, md5 = hit
+    else:
+        sha, md5, blob = file_digests(path, md5=want_md5,
+                                      blob_size=st.st_size if expect_blob else None)
+        if not unchanged(path, ident):
+            raise Changed("changed while hashing")
+        if expect_blob and blob != expect_blob:
+            raise Changed("bytes differ from the verified commit (assume-unchanged or edited?)")
+    entry = Entry(rel, path, ident, sha, md5, object_key(collection, rel, sha))
+    return entry, not hit and not expect_blob
 
 
 def human(n):
@@ -550,8 +594,8 @@ def human(n):
 
 
 def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=None, commit=None,
-         skip_ocr_sidecars=False, min_age=600, workers=8, allow_shrink=False, dry_run=False,
-         log=print):
+         skip_ocr_sidecars=False, min_age=600, workers=8, allow_shrink=False, rehash=False,
+         dry_run=False, log=print):
     """Store root under <collection>/ and, once the whole tree is stored, write its
     manifest. Returns the exit status described in the module docstring."""
     STOP.clear()
@@ -581,17 +625,24 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
                 ledger.record(kind="hash", path=str(entry.path), ident=entry.ident,
                               sha256=entry.sha256, md5=entry.md5)
 
-    run_pool(lambda item: _hash(item, collection, skip_ocr_sidecars, ledger), files, workers, hashed, log)
+    def hash_one(item):
+        expect = tracked[item[0]] if tracked is not None else None
+        return _hash(item, collection, skip_ocr_sidecars, ledger, expect, rehash)
+
+    run_pool(hash_one, files, workers, hashed, log)
     entries.sort()
     sidecars = set()
     if skip_ocr_sidecars:
         entries, sidecars = split_ocr_sidecars(entries)
+    if not entries and not held and not failed:
+        log(f"{collection}: nothing but OCR sidecars under {root}; refusing to write an empty manifest")
+        return 2
 
     # Compare the tree the way its manifest would count it (sidecars out), before
     # anything uploads. Only a complete tree can be judged; with anything held
-    # back, no manifest will be written anyway, and the run exits 3.
+    # back or failed, no manifest will be written anyway, and the run exits 3 or 1.
     last = ledger.manifests.get(collection)
-    if last and not held and not allow_shrink and len(entries) < SHRINK_LIMIT * last["files"]:
+    if last and not held and not failed and not allow_shrink and len(entries) < SHRINK_LIMIT * last["files"]:
         log(f"{collection}: {len(entries)} files, down from {last['files']} in {last['key']}. "
             "Pass --allow-shrink if the tree really shrank.")
         return 2
@@ -666,7 +717,8 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
     mkey = f"_manifests/{collection}/{run_at}-{tree[:12]}.jsonl"
     body = "".join(_jsonl({
         "collection": collection, "rel_path": e.rel, "key": e.key, "sha256": e.sha256,
-        "bytes": e.size, "mtime": datetime.fromtimestamp(e.ident[3] / 1e9, timezone.utc).isoformat(),
+        "bytes": e.size,
+        "mtime": None if tracked is not None else datetime.fromtimestamp(e.ident[3] / 1e9, timezone.utc).isoformat(),
         **({"git_commit": commit} if commit else {}),
     }) for e in entries).encode()
     status = put_once(s3, bucket, mkey, body, {"ContentType": "application/x-ndjson"},
@@ -677,7 +729,8 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
     return 0
 
 
-def main():
+def main(argv=None, s3=None):
+    """Command line. `s3` lets tests pass a stand-in client (then --bucket is required)."""
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("collection", choices=sorted(COLLECTIONS))
     ap.add_argument("--min-age", type=int, default=600, metavar="SECONDS",
@@ -687,8 +740,10 @@ def main():
     ap.add_argument("--bucket", help="default: $PRA_S3_PREFIX-<account>-$PRA_S3_REGION-an")
     ap.add_argument("--ledger", type=Path, help="default: <primary checkout>/.claude/s3_upload_ledger.jsonl")
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--rehash", action="store_true",
+                    help="ignore the hash cache (needed on FAT/exFAT, where ctime isn't kept)")
     ap.add_argument("--dry-run", action="store_true")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     log = functools.partial(print, flush=True)  # progress must show up in logs of background runs
     cfg = COLLECTIONS[args.collection]
     root = collection_root(args.collection)
@@ -702,6 +757,32 @@ def main():
     elif not root.is_dir():
         ap.error(f"{root} is not a directory")
 
+    if s3 is None:
+        s3, bucket = _aws_client(args)
+    elif not args.bucket:
+        ap.error("--bucket is required with a stand-in client")
+    else:
+        bucket = args.bucket
+    ledger = Ledger(args.ledger or default_ledger(), bucket, log=log)
+
+    previous = signal.signal(signal.SIGTERM, signal.default_int_handler)  # stop on kill like on Ctrl-C
+    try:
+        status = sync(s3, bucket, args.collection, root, ledger, excludes=cfg.get("exclude", ()),
+                      keep=cfg.get("keep", ()), tracked=tracked, commit=commit,
+                      skip_ocr_sidecars=cfg.get("skip_ocr_sidecars", False), min_age=args.min_age,
+                      workers=args.workers, allow_shrink=args.allow_shrink, rehash=args.rehash,
+                      dry_run=args.dry_run, log=log)
+    except KeyboardInterrupt:
+        with contextlib.suppress(OSError):
+            print("interrupted: queued uploads cancelled, in-flight ones finished or aborted. "
+                  "Re-run to resume.", file=sys.stderr, flush=True)
+        status = 130
+    finally:
+        signal.signal(signal.SIGTERM, previous)
+    sys.exit(status)
+
+
+def _aws_client(args):
     import boto3
     from botocore.config import Config
 
@@ -712,19 +793,7 @@ def main():
         retries={"mode": "adaptive", "max_attempts": 10}, max_pool_connections=args.workers * 2,
         s3={"payload_signing_enabled": False}))
     bucket = args.bucket or bucket_name(boto3.client("sts").get_caller_identity()["Account"])
-    ledger = Ledger(args.ledger or default_ledger(), bucket, log=log)
-
-    signal.signal(signal.SIGTERM, signal.default_int_handler)  # stop on kill like on Ctrl-C
-    try:
-        status = sync(s3, bucket, args.collection, root, ledger, excludes=cfg.get("exclude", ()),
-                      keep=cfg.get("keep", ()), tracked=tracked, commit=commit,
-                      skip_ocr_sidecars=cfg.get("skip_ocr_sidecars", False), min_age=args.min_age,
-                      workers=args.workers, allow_shrink=args.allow_shrink, dry_run=args.dry_run, log=log)
-    except KeyboardInterrupt:
-        print("interrupted: queued uploads cancelled, in-flight multipart uploads aborted. "
-              "Re-run to resume.", file=sys.stderr, flush=True)
-        status = 130
-    sys.exit(status)
+    return s3, bucket
 
 
 if __name__ == "__main__":

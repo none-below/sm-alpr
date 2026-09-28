@@ -28,9 +28,10 @@
 #   scripts/setup_pra_assets_bucket.sh --print-policies   # no AWS calls
 #
 # --check reads everything and writes nothing. Exit status: 0 everything
-# matches (or was set), 1 an AWS call failed, 2 bad arguments, 3 something
+# matches (or was set), 2 bad arguments or name, 3 something
 # differs from the defaults and was left as is (with --check: anything that
 # a run would set, create or leave different).
+# Any other non-zero status (1, or aws-cli's 252-255) means an AWS call failed.
 #
 # MINT_KEYS=1 creates one access key per principal (skipped if it already has
 # one) and writes it straight into local profiles <prefix>-writer and
@@ -64,6 +65,10 @@ else
   ACCOUNT_ID="${ACCOUNT_ID:-$(aws sts get-caller-identity --query Account --output text)}"
 fi
 BUCKET="${PREFIX}-${ACCOUNT_ID}-${REGION}-an"
+if [[ "$MODE" != print ]] && (( ${#BUCKET} > 63 )); then
+  echo "bucket name ${BUCKET} is ${#BUCKET} characters; S3 allows 63 (shorten PRA_S3_PREFIX)" >&2
+  exit 2
+fi
 ARN="arn:aws:s3:::${BUCKET}"
 
 bucket_policy() {
@@ -283,6 +288,30 @@ ensure_user() {  # <user> <policy-json>
     --policy-name "${PREFIX}-access" --query PolicyDocument --output json)
   apply_setting "$1 policy" "$cur" "$2" \
     aws iam put-user-policy --user-name "$1" --policy-name "${PREFIX}-access" --policy-document "$2"
+  if aws iam get-user --user-name "$1" >/dev/null 2>&1; then
+    check_no_other_grants "$1"
+  fi
+}
+
+# The inline policy above is meant to be the user's only permission. Anything
+# else (a managed policy, another inline policy, a group) could widen it, so
+# report it as a difference; this script never removes grants it didn't make.
+check_no_other_grants() {  # <user>
+  local managed inline groups
+  managed=$(aws iam list-attached-user-policies --user-name "$1" \
+    --query 'AttachedPolicies[].PolicyArn' --output text)
+  inline=$(aws iam list-user-policies --user-name "$1" --query 'PolicyNames' --output text \
+    | tr '\t' '\n' | grep -vxF -e "${PREFIX}-access" -e "" || true)
+  groups=$(aws iam list-groups-for-user --user-name "$1" --query 'Groups[].GroupName' --output text)
+  if [[ -n "$managed$inline$groups" ]]; then
+    DIFFERS=$((DIFFERS + 1))
+    echo "  $1: has permissions beyond its ${PREFIX}-access policy; left as is" >&2
+    if [[ -n "$managed" ]]; then echo "    managed policies: $managed" >&2; fi
+    if [[ -n "$inline" ]]; then echo "    other inline policies: $(tr '\n' ' ' <<<"$inline")" >&2; fi
+    if [[ -n "$groups" ]]; then echo "    groups: $groups" >&2; fi
+  else
+    echo "  $1: no other permissions"
+  fi
 }
 
 ensure_user "$WRITER" "$(writer_policy)"
@@ -321,6 +350,11 @@ mint_key() {  # <user>: new key -> local profile of the same name
 
 if [[ "${MINT_KEYS:-0}" == "1" && "$MODE" == check ]]; then
   echo "MINT_KEYS ignored with --check"
+elif [[ "${MINT_KEYS:-0}" == "1" && "$(aws configure get cli_history 2>/dev/null || true)" == "enabled" ]]; then
+  # The CLI would record create-access-key's response, secret included, in ~/.aws/cli/history.
+  echo "cli_history is enabled and would record the new secrets; disable it" \
+    "(aws configure set cli_history disabled) and re-run" >&2
+  exit 1
 elif [[ "${MINT_KEYS:-0}" == "1" ]]; then
   mint_key "$WRITER"
   mint_key "$READER"
