@@ -19,8 +19,8 @@ the rows first (constant IN-lists), then parse and cite them with the SAME SQL t
 (sql_templates.py), so the result is exactly what `sightings` / `sighting_sources` return for those rows.
 
 Local only: `sightings_for` returns released text (`*_surface`, reason, case_no, filters, text_prompt), which can hold
-civilian plates. Export `sightings_public` columns, states, citations (docs/pii.md).
-Event ids other than `u:` (k5:, k3:, x:) are build-specific; persist (release_id, row_no) instead (docs/linking.md).
+civilian plates. Export `sightings_public` columns, states, citations (docs/schema.md).
+Event ids other than `u:` (k5:, k3:, x:) are build-specific; persist (release_id, row_no) instead (docs/schema.md).
 """
 import os
 import sys
@@ -45,7 +45,7 @@ def connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8G
 
     audit_dir defaults to paths.audit_dir(): the primary checkout's .claude/audit_db/, or AUDIT_DB_DIR.
     Spills go to temp_dir (default <system tmp>/alpr_duck_tmp) and are capped at max_temp, so a runaway query fails
-    instead of filling the disk. On a shared machine use threads=1, memory='1GB' (the docs' timings were taken so).
+    instead of filling the disk. On a shared machine use threads=1, memory='1GB'.
 
     >>> con = connect(threads=1, memory="1GB")
     >>> con.sql("SELECT key, value FROM truth.build_info").fetchall()
@@ -104,7 +104,7 @@ def sightings_for(con, pairs):
     """Parsed sightings for [(release_id, row_no), ...]: a DuckDB relation with the `sightings` columns, ordered by
     (release_id, row_no). Rows not in truth are simply absent. Local only (released text).
 
-    >>> rel = sightings_for(con, [("mr:196397:PRA25-746.csv#csv", 1)])
+    >>> rel = sightings_for(con, [("<release_id>", 1)])
     >>> rel.fetchall()      # or rel.df(), rel.show(), rel.filter("reason_state = 'value'")
     """
     return con.sql(sightings_sql(pairs))

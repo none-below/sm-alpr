@@ -1,20 +1,21 @@
-"""Fail when the live schema has something docs/ does not mention, or when a docs link is dead.
+"""Fail when the live schema has something docs/schema.md does not name, when docs/api.md misses a tool, or when a docs
+link is dead.
 
-  uv run --locked --project scripts/audit_db python scripts/audit_db/check_docs.py [--audit-dir DIR] [--owners]
+  uv run --locked --project scripts/audit_db python scripts/audit_db/check_docs.py [--audit-dir DIR]
 
 Checks, against the built truth.duckdb + derived.duckdb (read-only; catalog functions and small tables only, no scan
 of the linking cache or of any row table, so it takes seconds):
   every table, view and macro name; every column of every table and view; every value of the enumerations
   researchers filter on: cell states and divergence labels (from the macro definitions), link tiers (from the tier
   CASE in build_derived.py's layer-3 code), producer_basis and audit (truth.releases, one row per release);
+  every public function of audit_client.py and every script in this directory, named in docs/api.md;
   every relative link in docs/*.md and this directory's README.md: the file exists and a #anchor names a heading
   (GitHub slug rules) or an <a id/name> in it.
-A name counts as documented when it appears in docs/*.md in backticks (`name`) or as a table cell (| name |).
-Owning doc: truth objects (truth tables and their columns) should be named in truth.md, derived objects (views,
-macros, cache tables and their columns) in derived.md. Gaps are listed as warnings; --owners makes them failures.
+A name counts as documented when it appears in backticks (`name`) or as a table cell (| name |).
 Exit 1 and list what is missing; exit 0 when complete. Run after changing a build script, before sharing docs.
 """
 import argparse
+import ast
 import collections
 import re
 import sys
@@ -26,7 +27,6 @@ from paths import CODE, audit_dir
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
-ap.add_argument("--owners", action="store_true", help="fail (not just warn) when a name is missing from its owning doc")
 args = ap.parse_args()
 A = Path(args.audit_dir or audit_dir())
 D = CODE / "docs"
@@ -44,30 +44,27 @@ def documented_in(text):
 
 
 docs = {p.name: p.read_text() for p in sorted(D.glob("*.md"))}
-documented = documented_in("\n".join(docs.values()))
-owner_docs = {k: documented_in(docs.get(k, "")) for k in ("truth.md", "derived.md")}
+documented = documented_in(docs.get("schema.md", ""))   # schema names: in schema.md itself
+api_documented = documented_in(docs.get("api.md", ""))
 
-need, owner = {}, {}  # item -> kind; item -> owning doc
+need = {}  # item -> kind
 for db, schema, name, kind in con.execute("""
     SELECT database_name, schema_name, table_name, 'table' FROM duckdb_tables() WHERE database_name IN ('truth', 'derived')
     UNION ALL SELECT database_name, schema_name, view_name, 'view' FROM duckdb_views()
       WHERE NOT internal AND database_name IN ('truth', 'derived')""").fetchall():
-    doc = "truth.md" if db == "truth" else "derived.md"
     need[name] = f"{kind} {db}.{schema}.{name}"
-    owner.setdefault(name, set()).add(doc)
     for (col,) in con.execute("SELECT column_name FROM duckdb_columns() WHERE database_name = ? AND schema_name = ? AND table_name = ?",
                               [db, schema, name]).fetchall():
         need.setdefault(col, f"column of {db}.{schema}.{name}")
-        owner.setdefault(col, set()).add(doc)
 for (fn,) in con.execute("""SELECT DISTINCT function_name FROM duckdb_functions()
                             WHERE NOT internal AND function_type IN ('macro', 'table_macro')""").fetchall():
     need[fn] = "macro"
-    owner.setdefault(fn, set()).add("derived.md")
 
 macro_src = {n: s for n, s in con.execute(
     "SELECT function_name, any_value(macro_definition) FROM duckdb_functions() WHERE NOT internal GROUP BY 1").fetchall()}
 for fn in ("cell_state", "divergence"):
-    for v in re.findall(r"THEN '([a-z_]+)'", macro_src.get(fn) or ""):
+    # DuckDB stores the bodies as THEN ('x') / ELSE ('x'); the ELSE branch is a value too
+    for v in re.findall(r"(?:THEN|ELSE)\s*\(?'([a-z_]+)'", macro_src.get(fn) or ""):
         need.setdefault(v, f"value returned by {fn}()")
 # link tiers: the literals the layer-3 tier CASE assigns (no scan of the ~140M-row cache)
 src = (Path(__file__).parent / "build_derived.py").read_text()
@@ -125,8 +122,7 @@ for name, text, base in pages:
         path, _, frag = target.partition("#")
         f = (base / path).resolve() if path else (base / name).resolve()
         if not f.exists():
-            dead.append(f"{name}:{n}: {target} (no such file"
-                        + ("; generated: run gen_stats.py / gen_coverage.py)" if f.name in ("stats.md", "coverage.md") else ")"))
+            dead.append(f"{name}:{n}: {target} (no such file)")
             continue
         if frag and f.suffix == ".md":
             if f not in anchor_cache:
@@ -134,23 +130,27 @@ for name, text, base in pages:
             if frag not in anchor_cache[f]:
                 dead.append(f"{name}:{n}: {target} (no heading with that anchor in {f.name})")
 
+# the API guide: every public audit_client function and every script here
+api_need = {n.name: "audit_client function" for n in ast.parse((CODE / "audit_client.py").read_text()).body
+            if isinstance(n, ast.FunctionDef) and not n.name.startswith("_")}
+api_need.update({p.name: "script" for p in sorted(CODE.glob("*.py"))})
+api_missing = sorted((k, v) for k, v in api_need.items() if k not in api_documented)
+
 missing = sorted((k, v) for k, v in need.items() if k not in documented)
-not_in_owner = sorted((k, d) for k, ds in owner.items() for d in sorted(ds) if k in documented and k not in owner_docs[d])
-fail = bool(missing or dead or (args.owners and not_in_owner))
+fail = bool(missing or api_missing or dead)
 if missing:
-    print(f"{len(missing)} undocumented of {len(need)}:")
+    print(f"{len(missing)} of {len(need)} schema names not in schema.md:")
     for k, v in missing:
+        print(f"  {k!r:40s} {v}")
+if api_missing:
+    print(f"{len(api_missing)} not in api.md:")
+    for k, v in api_missing:
         print(f"  {k!r:40s} {v}")
 if dead:
     print(f"{len(dead)} dead links:")
     for d in dead:
         print(f"  {d}")
-if not_in_owner:
-    print(f"{len(not_in_owner)} names documented elsewhere but not in their owning doc"
-          + (":" if args.owners else " (warning; --owners makes this fail):"))
-    for k, d in not_in_owner:
-        print(f"  {k!r:40s} not named in {d}")
 if not fail:
-    print(f"docs complete: all {len(need)} schema names and enumeration values are documented; "
-          f"{sum(1 for _, t, _ in pages for _ in links(t))} links checked")
+    print(f"docs complete: all {len(need)} schema names and enumeration values are in schema.md, all {len(api_need)} "
+          f"functions and scripts in api.md; {sum(1 for _, t, _ in pages for _ in links(t))} links checked")
 sys.exit(1 if fail else 0)
