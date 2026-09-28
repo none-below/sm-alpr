@@ -10,7 +10,7 @@ and the infrastructure come in later PRs.
 
 1. The library streams the file to staging as `in/<uuid>.bin`: by default one
    PUT up to 16 MiB and multipart above, though the contract accepts any
-   S3-legal layout. Every part carries its SHA-256, and nothing touches local
+   S3-legal layout with one part size. Every part carries its SHA-256, and nothing touches local
    disk. Before completing, it checks the byte count against the declared
    length and aborts on a mismatch, so a truncated download never becomes an
    object.
@@ -30,10 +30,13 @@ and the infrastructure come in later PRs.
    - **Over 5 GB** (S3's single-request limit): the Lambda hashes the object
      itself, then copies it server-side on the staging object's own part
      boundaries, so the blob's composite checksum equals the staging object's.
+     Hashing runs at roughly 60 MB/s in a 15-minute Lambda, so PR 2 sets where
+     a one-off job takes over, well below the cost gate.
    - **Over 50 GB** (`COST_GATE`): only with `fetch.approval` naming an
-     admin-written `approvals/<uuid>.json` in the ops bucket, which the Lambda
-     checks exists. Such a file can outrun a 15-minute Lambda, so it runs as a
-     one-off job.
+     admin-written `approvals/<uuid>.json` in the ops bucket. The approval
+     names one source (kind, platform, host, request, doc id, URL), a size
+     ceiling and an expiry; the Lambda reads it and `check_approval` refuses
+     any other file (`too_large`).
 4. It reads the blob back (checksum, size, Object Lock), then writes the
    intake record `_intake/<uuid>.json` (write-once, one per sighting). Last, it
    tags both staging objects `ingested=true`; lifecycle removes tagged objects.
@@ -66,9 +69,10 @@ record names one environment's evidence and staging buckets.
 
 All three serialize with `canonical_json` (sorted keys, ASCII, compact, one
 trailing newline). Parsers insist on exactly those bytes, so a document's hash
-can always be recomputed from what it says. Every field has a byte cap, and
-the document limits sit above the worst case the caps allow, so a document
-that validates always serializes.
+can always be recomputed from what it says. Every field has a byte cap. For
+sidecars and records the document limits sit above the worst case the caps
+allow, so one that validates always serializes; a manifest is capped at
+`MAX_MANIFEST_BYTES`, and validation says so before anything is written.
 
 - **Sidecar**: the writer's claim. It holds:
   - **data:** size, sha256, md5, the source's multipart-ETag form (at the part
@@ -115,25 +119,32 @@ and generated uploads), and `work_id` one queue item.
 - **Invariants always; write policy only when writing.** Shape, formats,
   limits, and the fields agreeing with each other and with the hashes hold
   for every document. Write policy (no credentials, the header allow-list,
-  the cost gate) applies when a document is written. Reading a stored one
-  (`parse_record`, `parse_manifest(..., stored=True)`) skips it, so tightening
-  the policy can never make stored evidence unreadable.
+  visible single-line strict fields, the cost gate and its approvals)
+  applies when a document is written. Reading a stored one skips it, so
+  tightening the policy can never make stored evidence unreadable.
+  `parse_record` and `parse_manifest` take a required `stored=` so every
+  caller says which it is.
 - **Permanent means versioned.** Each schema version has its own validator,
-  and `READABLE_SCHEMAS` keeps every version ever written; record readers
-  accept every deriver up to `DERIVER_VERSION`. Never change what an existing
-  version accepts: add a version, and deploy the Lambda before the library.
-  `tests/fixtures/pra_intake/v1/` holds frozen schema-1 documents that must
-  parse forever and are never regenerated; `vocabulary.json` pins the
-  constants and limits. The checksum formulas are pinned to values S3
-  returned in live probes.
+  and `READABLE_SCHEMAS` keeps every version ever written. Records dispatch on
+  (schema, deriver), and a newer deriver reads as `schema_version`. Never
+  change what an existing version accepts: add a version, and deploy the
+  Lambda before the library (staging uploads already written keep their own
+  version). `tests/fixtures/pra_intake/v1/` holds frozen schema-1 documents
+  that must parse forever and are never regenerated. `vocabulary.json` pins
+  the invariants (changing them needs a new version); `policy.json` pins the
+  write policy (tightening it is fine: update it deliberately). The checksum
+  formulas are pinned to values S3 returned in live probes.
 - **Presented text is kept exactly.** Filenames, titles and agency names may
   hold any character. `canonical_json` escapes non-ASCII; use `display_safe`
   before showing such text to a person or a model. Identifiers and the
   fetcher's own fields are strict: visible and single-line.
 - **No credentials stored** (write policy):
-  - Secret query parameters (`sig`, `Signature`, any `X-Amz-*`/`X-Goog-*`,
-    tokens, session ids; compared ignoring case, `-` and `_`) are refused,
-    also percent-encoded or nested. A signed URL's companions (`st`, `se`,
+  - Secret query parameters are refused, also percent-encoded or nested:
+    `sig`, `Signature`, any `X-Amz-*`/`X-Goog-*`/`X-Oss-*`/`oauth*`, and any
+    name ending in `token`, `secret`, `password`, `sessionid` or `apikey`,
+    plus `sid`, `ticket`, `CFID`, `CFTOKEN` and a few others. Names are
+    compared ignoring case, `-` and `_`. Pagination cursors (`pageToken`,
+    `nextToken`, `resumptionToken`…) are not credentials. A signed URL's companions (`st`, `se`,
     `sr`, `Expires`, `Policy`, key ids…) go with its secret; alone they are
     ordinary parameters.
   - ASP.NET cookieless and Java path sessions, user info, and well-known
@@ -147,7 +158,7 @@ and generated uploads), and `work_id` one queue item.
   - Connectors canonicalize with `strip_signing_params` (pass the URL the
     HTTP client prepared, not a raw href; it returns a storable URL or
     raises, keeping visible ASCII byte for byte and percent-encoding the
-    rest as clients do), `redirect_url` (never raises; its output always
+    rest as clients do; a non-ASCII host must already be in A-label form), `redirect_url` (never raises; its output always
     validates) and `sanitize_headers` (its output always validates). Hand
     `sanitize_headers` the wire bytes, or the Latin-1 view `http.client` and
     requests give; a client that decodes UTF-8 itself (httpx) should pass

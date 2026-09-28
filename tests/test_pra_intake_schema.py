@@ -991,8 +991,10 @@ def test_records_up_to_single_put_max_are_full_object(make):
     r = make_record(make())
     assert r["evidence"]["checksum_type"] == "FULL_OBJECT"
     raw = s.record_bytes(r)
-    assert s.parse_record(raw) == r and s.parse_record(raw, key=s.record_key(r["uuid"])) == r
-    rejects(lambda b: s.parse_record(b, key=s.record_key(U2)), raw, "invalid_metadata", "record.uuid")
+    for stored in (True, False):
+        assert s.parse_record(raw, stored=stored) == r
+        assert s.parse_record(raw, stored=stored, key=s.record_key(r["uuid"])) == r
+    rejects(lambda b: s.parse_record(b, stored=True, key=s.record_key(U2)), raw, "invalid_metadata", "record.uuid")
 
 
 def test_record_over_single_put_max_is_bound_to_the_staging_parts():
@@ -1091,15 +1093,15 @@ def test_stored_documents_are_read_without_write_policy():
             ("source.url", "https://cdn.muckrock.com/a.csv?token=x", "signed_url", "record.sidecar.source.url")):
         r = reseal(with_(make_record(), f"sidecar.{path}", value))
         raw = s.canonical_json(r)
-        assert s.parse_record(raw) == r  # stored: invariants only
+        assert s.parse_record(raw, stored=True) == r  # stored: invariants only
         rejects(lambda b: s.parse_record(b, stored=False), raw, reason, field)
     tampered = with_(r, "sidecar.source.title", "changed")  # invariants still bind
-    rejects(s.parse_record, s.canonical_json(tampered), "invalid_metadata", "record.staging.sidecar_sha256")
+    rejects(lambda b: s.parse_record(b, stored=True), s.canonical_json(tampered), "invalid_metadata", "record.staging.sidecar_sha256")
     m = make_manifest()
     m["files"][0]["url"] = "https://cdn.muckrock.com/a?token=x"
     raw = s.canonical_json(m)
     assert s.parse_manifest(raw, stored=True) == m
-    rejects(s.parse_manifest, raw, "signed_url", "manifest.files[0].url")
+    rejects(lambda b: s.parse_manifest(b, stored=False), raw, "signed_url", "manifest.files[0].url")
 
 
 # --- The fetch manifest ------------------------------------------------------------------
@@ -1111,7 +1113,7 @@ def test_manifest_bytes_ignore_input_order_and_repeats():
     b = s.manifest_bytes(s.build_manifest(MANIFEST_SOURCE, list(reversed(files)) + [files[0]], files_listed=4))
     assert a == b
     assert [e["filename"] for e in json.loads(a)["files"]] == ["a.txt", "b.txt", "big.zip", "c.pdf"]
-    assert s.parse_manifest(a) == json.loads(a)
+    assert s.parse_manifest(a, stored=False) == s.parse_manifest(a, stored=True) == json.loads(a)
     assert b"fetched_at" not in a and b"run" not in a  # the request, not the run: unchanged listings dedupe
     assert s.manifest_shas(json.loads(a)) == ["aa" * 32, "bb" * 32]
 
@@ -1161,9 +1163,9 @@ def test_manifest_rules(mutate, field):
 def test_parse_manifest_reports_bad_manifest():
     m = make_manifest()
     m["files"].reverse()
-    rejects(s.parse_manifest, s.canonical_json(m), "bad_manifest", "manifest.files")
-    rejects(s.parse_manifest, b"not json", "bad_manifest", "manifest")
-    rejects(s.parse_manifest, s.canonical_json({**make_manifest(), "schema": 2}), "schema_version", "manifest.schema")
+    rejects(lambda b: s.parse_manifest(b, stored=False), s.canonical_json(m), "bad_manifest", "manifest.files")
+    rejects(lambda b: s.parse_manifest(b, stored=True), b"not json", "bad_manifest", "manifest")
+    rejects(lambda b: s.parse_manifest(b, stored=True), s.canonical_json({**make_manifest(), "schema": 2}), "schema_version", "manifest.schema")
 
 
 def test_manifest_sidecar_must_describe_the_same_request():
@@ -1194,20 +1196,20 @@ def test_parse_sidecar_applies_write_policy():  # P3
 ])
 def test_stored_reads_skip_every_write_rule(path, value, reason, field):
     raw = s.canonical_json(_stored_record(path, value))
-    assert s.parse_record(raw)
+    assert s.parse_record(raw, stored=True)
     rejects(lambda b: s.parse_record(b, stored=False), raw, reason, field)
 
 
 def test_stored_reads_skip_the_cost_gate():  # P2
     big = make_record(make_big_sidecar(s.COST_GATE + 1, approval=APPROVAL))
     raw = s.canonical_json(_stored_record("fetch.approval", None, big))
-    assert s.parse_record(raw)
+    assert s.parse_record(raw, stored=True)
     rejects(lambda b: s.parse_record(b, stored=False), raw, "too_large", "record.sidecar.data.size")
 
 
 def test_stored_reads_still_cap_header_count():  # H4
     raw = s.canonical_json(_stored_record("response.headers", {f"x-h{i}": "1" for i in range(65)}))
-    rejects(s.parse_record, raw, "invalid_metadata", "record.sidecar.response.headers")
+    rejects(lambda b: s.parse_record(b, stored=True), raw, "invalid_metadata", "record.sidecar.response.headers")
 
 
 def test_md5_multipart_claim_needs_a_recorded_multipart():  # X7
@@ -1364,7 +1366,9 @@ def test_strip_signing_params_edges():  # U2, U3, U4, U5
     assert s.strip_signing_params("https://b.example.gov/a?%58-Amz-Signature=1&id=2") == "https://b.example.gov/a?id=2"
     assert (s.strip_signing_params("https://h.example.gov\\user:pw@evil.example.gov/x")
             == "https://h.example.gov/user:pw@evil.example.gov/x")  # a backslash is a slash, as browsers read it
-    assert s.strip_signing_params("https://b" + chr(0xFC) + "cher.example/a") == "https://xn--bcher-kva.example/a"
+    with pytest.raises(s.SchemaError):  # IDNA 2003 would map it, differently from browsers: refuse instead
+        s.strip_signing_params("https://b" + chr(0xFC) + "cher.example/a")
+    assert s.strip_signing_params("https://xn--bcher-kva.example/a") == "https://xn--bcher-kva.example/a"
 
 
 @pytest.mark.parametrize("head,expected", [
@@ -1477,6 +1481,101 @@ def test_strict_fields_refuse_outer_whitespace_and_doc_ids_take_integers():
     assert s.manifest_entry("a", status="failed", reason="x", doc_id=7)["doc_id"] == "7"
 
 
+# --- Cross-review fixes (2026-09-28) ------------------------------------------------------
+
+
+@pytest.mark.parametrize("name", ["download_token", "csrf_token", "x_api_key", "user_password", "aspnet_sessionid",
+                                  "sid", "ticket", "CFID", "CFTOKEN", "app_secret"])
+def test_credential_names_by_suffix(name):
+    assert s.is_secret_param(name)
+    url = f"https://records.city.example.gov/dl.cfm?id=7&{name}=123456"
+    rejects(s.validate_sidecar, with_(make_sidecar(), "source.url", url), "signed_url", "sidecar.source.url")
+    assert s.strip_signing_params(url) == "https://records.city.example.gov/dl.cfm?id=7"
+
+
+@pytest.mark.parametrize("name", ["pageToken", "nextPageToken", "next_token", "continuationToken", "resumptionToken"])
+def test_pagination_cursors_are_not_credentials(name):
+    assert not s.is_secret_param(name)
+    assert s.validate_sidecar(with_(make_sidecar(), "source.url", f"https://p.example.gov/list?{name}=abc"))
+
+
+def test_staging_metadata_check_survives_a_schema_upgrade(monkeypatch):
+    sc = make_sidecar()
+    meta = s.staging_metadata(sc["source"], U, FETCH)  # written by a v1 library
+    monkeypatch.setattr(s, "SCHEMA_VERSION", 2)  # the Lambda upgraded first, as the README says
+    assert s.check_staging_metadata(sc, meta) is sc
+    assert s.staging_metadata(sc["source"], U, FETCH)["schema"] == "2"
+
+
+def make_approval(sc, **over):
+    src = sc["source"]
+    body = {"schema": 1, "kind": s.APPROVAL_KIND, "source": {k: src[k] for k in ("kind", "platform", "host",
+                                                                                 "request_id", "doc_id", "url")},
+            "max_size": sc["data"]["size"], "expires_at": "2026-10-28T00:00:00Z", "approved_by": "admin", "note": None}
+    return {**body, **over}
+
+
+def test_an_approval_covers_one_source_one_size_until_it_expires():
+    big = make_big_sidecar(s.COST_GATE + 1, approval=APPROVAL)
+    approval = s.parse_approval(s.canonical_json(make_approval(big)))
+    now = datetime(2026, 9, 28, tzinfo=timezone.utc)
+    assert s.check_approval(approval, big, now) is big
+    other = with_(big, "source.doc_id", "999")
+    rejects(lambda sc: s.check_approval(approval, sc, now), other, "too_large", "approval.source.doc_id")
+    bigger = with_(big, "data.size", big["data"]["size"] + 1)
+    rejects(lambda sc: s.check_approval(approval, sc, now), bigger, "too_large", "approval.max_size")
+    rejects(lambda sc: s.check_approval(approval, sc, datetime(2026, 10, 28, tzinfo=timezone.utc)), big,
+            "too_large", "approval.expires_at")
+    for path, value in (("max_size", s.COST_GATE), ("kind", "x"), ("approved_by", "a" + ZWSP), ("extra", 1)):
+        with pytest.raises(s.SchemaError):
+            s.validate_approval(with_(make_approval(big), path, value))
+
+
+def test_parsers_need_an_explicit_stored_flag():
+    for fn, raw in ((s.parse_record, s.record_bytes(make_record())), (s.parse_manifest, s.manifest_bytes(make_manifest()))):
+        with pytest.raises(TypeError):
+            fn(raw)
+
+
+def test_raising_the_cost_gate_keeps_stored_approved_records_readable(monkeypatch):
+    raw = s.record_bytes(make_record(make_big_sidecar(s.COST_GATE + 1, approval=APPROVAL)))
+    monkeypatch.setattr(s, "COST_GATE", 100 * s.COST_GATE)
+    assert s.parse_record(raw, stored=True)
+    rejects(lambda b: s.parse_record(b, stored=False), raw, "invalid_metadata", "record.sidecar.fetch.approval")
+
+
+def test_a_newer_deriver_reads_as_a_version_problem(monkeypatch):
+    r = make_record()
+    newer = with_(with_(r, "ingest.deriver", 2), "evidence.new_field", 1)
+    rejects(lambda o: s.validate_record(o, stored=True), newer, "schema_version", "record.ingest.deriver")
+    monkeypatch.setattr(s, "DERIVER_VERSION", 2)  # bumped without adding a (1, 2) validator
+    with pytest.raises(s.SchemaError):
+        make_record(ingest={**INGEST, "deriver": 2})
+    assert s.validate_record(r, stored=True)  # deriver-1 records still read
+
+
+def test_observed_hosts_may_be_fully_qualified():
+    assert s.validate_sidecar(with_(make_sidecar(), "response.final_url", "https://portal.example.gov./files/a.csv"))
+    assert s.strip_signing_params("https://portal.example.gov./a") == "https://portal.example.gov/a"
+
+
+def test_record_level_problems_are_bad_record():
+    rejects(lambda b: s.parse_record(b, stored=True), b"not json", "bad_record", "record")
+    rejects(lambda o: s.validate_record(o, stored=True), [], "bad_record", "record")
+
+
+def test_backslashes_in_the_query_are_kept():
+    assert s.strip_signing_params("https://p.example.gov/a?path=C:\\x") == "https://p.example.gov/a?path=C:%5Cx"
+    assert s.strip_signing_params("https://p.example.gov\\docs\\a.pdf") == "https://p.example.gov/docs/a.pdf"
+
+
+def test_an_empty_file_may_say_bytes_star_0():
+    empty = with_(make_sidecar(b""), "response.headers.etag", f'"{hashlib.md5(b"").hexdigest()}"')
+    assert s.validate_sidecar(with_(empty, "response.headers.content-range", "bytes */0"))
+    rejects(s.validate_sidecar, with_(make_sidecar(), "response.headers.content-range", "bytes */0"),
+            "invalid_metadata", "sidecar.response.headers")
+
+
 # --- The source stays ASCII --------------------------------------------------------------
 
 
@@ -1498,14 +1597,12 @@ def vocabulary():
             "_TS_RE", "_DATE_RE", "_HOST_RE", "_NUMERIC_LABEL_RE", "_REQUEST_ID_RE", "_SLUG_RE", "_REASON_RE",
             "_ETAG_VALUE_RE", "_B64_SHA256_RE", "_APPROVAL_RE", "_ETAG_MULTIPART_RE", "_HEADER_NAME_RE")},
         "limits": {n: getattr(s, n) for n in (
-            "PART_SIZE", "MUCKROCK_ETAG_PART_SIZE", "SINGLE_PUT_MAX", "COST_GATE", "MIN_PART_SIZE", "MAX_PART_SIZE",
+            "PART_SIZE", "MUCKROCK_ETAG_PART_SIZE", "SINGLE_PUT_MAX", "MIN_PART_SIZE", "MAX_PART_SIZE",
             "MAX_PARTS", "MAX_OBJECT_SIZE", "MAX_OBSERVED_SIZE", "MAX_SIDECAR_BYTES", "MAX_RECORD_BYTES",
             "MAX_MANIFEST_BYTES", "MAX_MANIFEST_FILES", "MAX_JSON_DEPTH", "SNIFF_BYTES", "MAX_HEADERS",
             "MAX_HEADER_BYTES", "MAX_HEADERS_BYTES", "MAX_REDIRECTS", "MAX_URL_BYTES")},
         "FIELD_LIMITS": s.FIELD_LIMITS,
-        "REJECT_REASONS": sorted(s.REJECT_REASONS), "SECRET_PARAMS": sorted(s.SECRET_PARAMS),
-        "SECRET_PARAM_PREFIXES": list(s.SECRET_PARAM_PREFIXES), "COMPANION_PARAMS": sorted(s.COMPANION_PARAMS),
-        "ALLOWED_HEADERS": sorted(s.ALLOWED_HEADERS), "URL_HEADERS": sorted(s.URL_HEADERS),
+        "REJECT_REASONS": sorted(s.REJECT_REASONS), "URL_HEADERS": sorted(s.URL_HEADERS),
         "SNIFF_TYPES": list(s.SNIFF_TYPES), "SOURCE_KINDS": list(s.SOURCE_KINDS), "PLATFORMS": list(s.PLATFORMS),
         "ORIGINS": list(s.ORIGINS), "CONTENT_KINDS": list(s.CONTENT_KINDS), "UPLOAD_METHODS": list(s.UPLOAD_METHODS),
         "ETAG_CHECKS": list(s.ETAG_CHECKS), "CONTENT_MD5_CHECKS": list(s.CONTENT_MD5_CHECKS),
@@ -1562,14 +1659,34 @@ def _parser(name):
     if name.startswith("manifest"):
         return lambda raw: s.parse_manifest(raw, stored=True)
     if name.startswith("record"):
-        return s.parse_record
+        return lambda raw: s.parse_record(raw, stored=True)
     return lambda raw: s.validate_sidecar(s.parse_strict_json(raw, max_bytes=s.MAX_SIDECAR_BYTES), stored=True)
 
 
+def policy():
+    """Write policy: what writers may store. Stored documents are read without
+    it, so it may be tightened in place."""
+    return {
+        "COST_GATE": s.COST_GATE, "SECRET_PARAMS": sorted(s.SECRET_PARAMS),
+        "SECRET_PARAM_PREFIXES": list(s.SECRET_PARAM_PREFIXES), "SECRET_PARAM_SUFFIXES": list(s.SECRET_PARAM_SUFFIXES),
+        "NOT_SECRET_PARAMS": sorted(s.NOT_SECRET_PARAMS), "COMPANION_PARAMS": sorted(s.COMPANION_PARAMS),
+        "ALLOWED_HEADERS": sorted(s.ALLOWED_HEADERS), "INVISIBLE": [list(r) for r in s._INVISIBLE],
+        "TOKEN_SHAPES": [s._TOKEN_SHAPES_RE.pattern, s._AWS_KEY_ID_RE.pattern, s._AWS_KEY_ID_VALUE_RE.pattern],
+    }
+
+
 def test_vocabulary_is_pinned():
-    """If this fails, the permanent vocabulary changed. That needs a new schema
-    version (with the old one still readable), not a regenerated fixture."""
+    """If this fails, an invariant a v1 reader applies changed. That needs a
+    new schema version (with the old one still readable), not a regenerated
+    fixture."""
     assert json.loads((FIXTURES / "vocabulary.json").read_text()) == vocabulary()
+
+
+def test_policy_is_pinned():
+    """If this fails, write policy changed. Tightening it is fine (stored
+    documents are read without it): check it's deliberate, then update
+    policy.json. Loosening it needs a reason."""
+    assert json.loads((FIXTURES / "policy.json").read_text()) == policy()
 
 
 V1_DOCUMENTS = sorted(p.name for p in V1.glob("*.json"))
@@ -1596,8 +1713,9 @@ def test_writers_reproduce_v1_documents(name):
 
 if __name__ == "__main__":  # write only what's missing: python tests/test_pra_intake_schema.py
     V1.mkdir(parents=True, exist_ok=True)
-    if not (FIXTURES / "vocabulary.json").exists():
-        (FIXTURES / "vocabulary.json").write_text(json.dumps(vocabulary(), indent=2, sort_keys=True) + "\n")
+    for name, make in (("vocabulary.json", vocabulary), ("policy.json", policy)):
+        if not (FIXTURES / name).exists():
+            (FIXTURES / name).write_text(json.dumps(make(), indent=2, sort_keys=True) + "\n")
     for name, raw in documents().items():
         if not (V1 / name).exists():
             (V1 / name).write_bytes(raw)

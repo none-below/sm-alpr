@@ -94,11 +94,12 @@ class SchemaError(ValueError):
 REJECT_REASONS = frozenset({
     "bad_sidecar",  # not strict canonical UTF-8 JSON, too large, or not an object
     "bad_manifest",  # a fetch manifest body that isn't a valid manifest
+    "bad_record",  # an intake record that isn't strict canonical JSON, too large, or not an object
     "schema_version",  # a schema or deriver version this code can't read
     "invalid_metadata",  # a field failed validation
     "signed_url",  # a URL, header or fetcher field carries a credential
     "forbidden_header",  # a response header outside ALLOWED_HEADERS
-    "too_large",  # over COST_GATE without an approval
+    "too_large",  # over COST_GATE without an approval that covers it
     "no_data",  # the sidecar's data object is missing
     "data_mismatch",  # the data object isn't the one the sidecar describes (size, ETag, parts, MD5)
     "sha_mismatch",  # S3 rejected the claimed SHA-256 (BadDigest), or the Lambda's own hash differs
@@ -157,7 +158,8 @@ _STRICT_BAD_RE = re.compile(_char_class((0x00, 0x1F), (0x7F, 0x9F), *_INVISIBLE)
 
 def display_safe(text):
     """Text with every control and invisible character shown as <U+XXXX>, for
-    showing presented text to a person or a model."""
+    showing presented text to a person or a model. For display only: the
+    output can't tell such a character from the literal text '<U+XXXX>'."""
     return _STRICT_BAD_RE.sub(lambda m: f"<U+{ord(m.group()):04X}>", text)
 
 
@@ -320,20 +322,27 @@ def staging_metadata(sidecar_source, u, fetch_id):
     _require_uuid4(u)
     _require_uuid4(fetch_id, "fetch_id")
     src = _check_source(copy.deepcopy(sidecar_source), "source")
+    return _metadata_fields(SCHEMA_VERSION, src, u, fetch_id)
+
+
+def _metadata_fields(schema, source, u, fetch_id):
     return {
-        "schema": str(SCHEMA_VERSION),
+        "schema": str(schema),
         "uuid": u,
         "fetch-id": fetch_id,
-        "source-kind": src["kind"],
-        "platform": src["platform"],
-        "host": src["host"],
-        "request-id": src["request_id"],
+        "source-kind": source["kind"],
+        "platform": source["platform"],
+        "host": source["host"],
+        "request-id": source["request_id"],
     }
 
 
 def check_staging_metadata(sidecar, metadata):
-    """The data object's x-amz-meta (from HeadObject) belongs to this sidecar."""
-    if metadata != staging_metadata(sidecar["source"], sidecar["uuid"], sidecar["fetch"]["fetch_id"]):
+    """The data object's x-amz-meta (from HeadObject) belongs to this
+    (already validated) sidecar, whatever schema version wrote it, so an
+    upgrade never rejects uploads already in staging."""
+    expected = _metadata_fields(sidecar["schema"], sidecar["source"], sidecar["uuid"], sidecar["fetch"]["fetch_id"])
+    if metadata != expected:
         _fail("staging.metadata", "doesn't match the sidecar", "data_mismatch")
     return sidecar
 
@@ -608,9 +617,17 @@ SECRET_PARAMS = frozenset({
     "accesstoken", "idtoken", "refreshtoken", "authtoken", "apitoken", "privatetoken", "sessiontoken",
     "securitytoken", "guestaccesstoken", "clientsecret", "apikey", "authorization", "jwt", "secret",
     "password", "passwd", "pwd",
-    "sessionid", "ssessionid", "jsessionid", "phpsessid", "cfid", "cftoken",
+    "sessionid", "ssessionid", "jsessionid", "phpsessid", "cfid", "cftoken", "sid", "ticket",
 })
 SECRET_PARAM_PREFIXES = ("xamz", "xgoog", "xoss", "oauth")  # X-Amz-*, X-Goog-*, X-Oss-*, OAuth 1.0a
+# Any name ending in one of these is a credential too (download_token,
+# csrf_token, client_secret, user_password, aspnet_sessionid, x_api_key)...
+SECRET_PARAM_SUFFIXES = ("token", "secret", "password", "passwd", "sessionid", "apikey")
+# ...except pagination cursors, which name a page, not a person.
+NOT_SECRET_PARAMS = frozenset({
+    "pagetoken", "nextpagetoken", "nexttoken", "continuationtoken", "synctoken", "cursortoken",
+    "pagingtoken", "resumptiontoken",
+})
 # Parameters that only complete a signed URL (expiry, permissions, key id). A
 # stable URL may use the same short names for other things, so they are
 # refused and stripped only next to a secret parameter.
@@ -624,7 +641,9 @@ COMPANION_PARAMS = frozenset({
 
 def is_secret_param(name):
     k = _param_key(name)
-    return k in SECRET_PARAMS or k.startswith(SECRET_PARAM_PREFIXES)
+    if k in NOT_SECRET_PARAMS:
+        return False
+    return k in SECRET_PARAMS or k.startswith(SECRET_PARAM_PREFIXES) or k.endswith(SECRET_PARAM_SUFFIXES)
 
 
 def is_companion_param(name):
@@ -836,13 +855,15 @@ _JSESSION_RE = re.compile(r";jsessionid=[^/?#;]*", re.IGNORECASE)
 def _observed_host(v, f):
     """A host a redirect or download actually went to: a DNS name, or also an
     IP address or a single-label name, since the server chose it."""
-    if type(v) is str and re.fullmatch(r"[a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9_])?", v):
+    if type(v) is str and re.fullmatch(r"[a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9_])?\.?", v):
         return v
     try:
         ipaddress.ip_address(v)
         return v
     except ValueError:
-        return _host(v, f)
+        pass
+    _host(v[:-1] if type(v) is str and v.endswith(".") else v, f)  # a fully qualified name may end in '.'
+    return v
 
 
 def _check_url(v, f, *, allow_query=True, observed=False):
@@ -898,12 +919,22 @@ def strip_path_session(path):
     return _JSESSION_RE.sub("", _COOKIELESS_SEGMENT_RE.sub("", path)) or "/"
 
 
-def _netloc(parts):
+def _slashes(url):
+    """Backslashes read as slashes before the query, as browsers do; the query
+    and fragment keep theirs."""
+    cut = min((i for i in (url.find("?"), url.find("#")) if i >= 0), default=len(url))
+    return url[:cut].replace("\\", "/") + url[cut:]
+
+
+def _netloc(parts, *, idna=True):
     host = parts.hostname or ""
-    try:
-        host = host.encode("idna").decode("ascii")
-    except UnicodeError:
-        pass
+    if not host.isascii():
+        if not idna:
+            raise ValueError("a non-ASCII host; pass the URL the HTTP client prepared")
+        try:
+            host = host.encode("idna").decode("ascii")  # IDNA 2003: best effort, for display forms only
+        except UnicodeError:
+            pass
     if ":" in host:
         host = f"[{host}]"
     port = parts.port
@@ -915,14 +946,15 @@ def strip_signing_params(url):
     info, default port or fragment, no session in the path, and no secret
     query parameter (nor a signed URL's companions). Visible ASCII is kept byte
     for byte (separators too; a query with nothing to drop is left as it
-    was); whitespace, controls and non-ASCII become UTF-8 %XX, as HTTP clients
-    send them. Pass the URL the client prepared, not a raw href. Returns a URL
+    was), except that a backslash in the query becomes %5C (before the query
+    it reads as '/', as browsers read it); whitespace, controls and non-ASCII
+    become UTF-8 %XX, as HTTP clients send them. Pass the URL the client prepared, not a raw href. Returns a URL
     the validator accepts, or raises SchemaError."""
     try:
-        parts = urlsplit(url.replace("\\", "/"))
-        netloc = _netloc(parts)
+        parts = urlsplit(_slashes(url))
+        netloc = _netloc(parts, idna=False).rstrip(".") if parts.hostname else ""
     except ValueError:
-        _fail("url", "not a URL")
+        _fail("url", "not a URL, or a host the client didn't encode")
     tokens = re.split(r"([&;])", parts.query)  # segment, separator, segment, ...
     segments = tokens[0::2]
     names = [unquote_plus(s.split("=", 1)[0]) for s in segments]
@@ -938,7 +970,7 @@ def strip_signing_params(url):
                 out.append((tokens[2 * i - 1] if out else "") + seg)
         query = "".join(out)
     stable = urlunsplit((parts.scheme.lower(), netloc, _requote(strip_path_session(parts.path or "/")),
-                         _requote(query), ""))
+                         _requote(query).replace("\\", "%5C"), ""))
     return _check_url(stable, "url")
 
 
@@ -948,7 +980,7 @@ def url_without_query(url):
     default port and sessions removed: the form URL headers are stored in.
     Anything unparseable becomes "" (never an error)."""
     try:
-        parts = urlsplit(str(url).replace("\\", "/"))
+        parts = urlsplit(_slashes(str(url)))
         netloc = _netloc(parts)
     except ValueError:
         return ""
@@ -1096,7 +1128,10 @@ def _content_length(headers):
 
 
 def _full_range(headers, size):
-    """True if a Content-Range covers the whole file: bytes 0-(size-1)/size."""
+    """True if a Content-Range covers the whole file: bytes 0-(size-1)/size,
+    or bytes */0 for an empty one."""
+    if size == 0 and headers.get("content-range", "").strip() == "bytes */0":
+        return True
     m = re.fullmatch(r"bytes 0-([0-9]{1,19})/([0-9]{1,19})", headers.get("content-range", "").strip())
     return bool(m) and int(m.group(1)) == size - 1 and int(m.group(2)) == size
 
@@ -1240,10 +1275,11 @@ def _validate_sidecar_v1(obj):
     data, src, fetch, checks, resp = obj["data"], obj["source"], obj["fetch"], obj["checks"], obj["response"]
     size, up, origin = data["size"], data["upload"], fetch["origin"]
 
-    if fetch["approval"] is not None and size <= COST_GATE:
-        _fail("sidecar.fetch.approval", "only for a file over the cost gate")
-    if _policy() and size > COST_GATE and fetch["approval"] is None:
-        _fail("sidecar.data.size", "over the cost gate without an approval", "too_large")
+    if _policy():  # the gate may move; stored documents keep what was true when written
+        if fetch["approval"] is not None and size <= COST_GATE:
+            _fail("sidecar.fetch.approval", "only for a file over the cost gate")
+        if size > COST_GATE and fetch["approval"] is None:
+            _fail("sidecar.data.size", "over the cost gate without an approval", "too_large")
 
     etag_body = data["staging_etag"][1:-1]
     if up["method"] == "put":
@@ -1393,6 +1429,51 @@ def sidecar_bytes(obj):
     return canonical_json(validate_sidecar(obj))
 
 
+# --- Cost-gate approvals ------------------------------------------------------------
+
+# An admin writes approvals/<uuid>.json in the ops bucket to let one source's
+# file over COST_GATE through. It names the source exactly, caps the size and
+# expires, so one approval can't cover a different file. A sidecar names it in
+# fetch.approval; the Lambda reads it and calls check_approval.
+APPROVAL_KIND = "cost_gate_approval"
+_APPROVAL_SOURCE_FIELDS = ("kind", "platform", "host", "request_id", "doc_id", "url")
+_APPROVAL_SPEC = {
+    "schema": _int(1, 1),
+    "kind": _enum((APPROVAL_KIND,)),
+    "source": _obj({k: _SOURCE_SPEC[k] for k in _APPROVAL_SOURCE_FIELDS}),
+    "max_size": _int(COST_GATE + 1, MAX_OBJECT_SIZE),
+    "expires_at": _timestamp,
+    "approved_by": _strict(FIELD_LIMITS["principal"]),
+    "note": _nullable(_presented(4096)),
+}
+MAX_APPROVAL_BYTES = 64 * 1024
+
+
+def validate_approval(obj):
+    _require_schema(obj, "approval", "invalid_metadata")
+    return _check_obj(obj, "approval", _APPROVAL_SPEC)
+
+
+def parse_approval(data):
+    obj = parse_strict_json(data, max_bytes=MAX_APPROVAL_BYTES, field="approval", reason="invalid_metadata")
+    return validate_approval(obj)
+
+
+def check_approval(approval, sidecar, now):
+    """The approval covers this sidecar's file: same source, within the size
+    cap, not expired at `now` (an aware datetime). Refusals are too_large."""
+    validate_approval(approval)
+    src = sidecar["source"]
+    for k in _APPROVAL_SOURCE_FIELDS:
+        if approval["source"][k] != src[k]:
+            _fail(f"approval.source.{k}", "not this file's source", "too_large")
+    if sidecar["data"]["size"] > approval["max_size"]:
+        _fail("approval.max_size", "the file is larger than approved", "too_large")
+    if now >= parse_timestamp(approval["expires_at"]):
+        _fail("approval.expires_at", "expired", "too_large")
+    return sidecar
+
+
 # --- The intake record ------------------------------------------------------------
 
 CHECKSUM_TYPES = ("FULL_OBJECT", "COMPOSITE")
@@ -1432,7 +1513,7 @@ def _deriver(v, f):
 
 
 _INGEST_SPEC = {
-    "deriver": _deriver,  # readers accept every deriver so far
+    "deriver": _int(1, 1),  # this validator is deriver 1's; validate_record dispatches
     "code_sha256": _nullable(_hex(64)),  # the deployed Lambda zip
     "principal": _nullable(_strict(FIELD_LIMITS["principal"])),  # who uploaded, from the S3 event
 }
@@ -1508,11 +1589,19 @@ def _validate_record_v1(obj):
     if parse_timestamp(ev["retain_until"]) <= parse_timestamp(st["data_last_modified"]):
         _fail("record.evidence.retain_until", "not after the upload")
     if len(canonical_json(obj)) > MAX_RECORD_BYTES:
-        _fail("record", "too large", "bad_sidecar")
+        _fail("record", "too large", "bad_record")
     return obj
 
 
-_RECORD_VALIDATORS = {1: _validate_record_v1}
+_RECORD_VALIDATORS = {(1, 1): _validate_record_v1}  # (schema, deriver) -> validator; keep them all
+
+
+def _record_validator(obj):
+    ingest = obj.get("ingest")
+    d = ingest.get("deriver") if type(ingest) is dict else None
+    if type(d) is int and d > DERIVER_VERSION:  # checked first, so a newer layout reads as a version problem
+        _deriver(d, "record.ingest.deriver")
+    return _RECORD_VALIDATORS.get((obj["schema"], d), _RECORD_VALIDATORS[(obj["schema"], 1)])
 
 
 def validate_record(obj, *, stored=False):
@@ -1527,9 +1616,9 @@ def validate_record(obj, *, stored=False):
     one sighting can differ in `ingest` (code version, trigger path) and in
     the lock read back (evidence.retain_until, evidence.lock_mode); a 412
     compares record_core only. stored=True reads a stored one (no write policy)."""
-    _require_schema(obj, "record", "bad_sidecar")
+    _require_schema(obj, "record", "bad_record")
     with _reading(stored):
-        return _RECORD_VALIDATORS[obj["schema"]](obj)
+        return _record_validator(obj)(obj)
 
 
 def build_record(sidecar, *, staging, evidence, ingest):
@@ -1581,10 +1670,10 @@ def record_bytes(record):
     return canonical_json(validate_record(record))
 
 
-def parse_record(data, *, key=None, stored=True):
-    """Bytes of a stored record to a validated record: invariants only by
-    default, since a record is read long after it was written."""
-    obj = parse_strict_json(data, max_bytes=MAX_RECORD_BYTES, field="record")
+def parse_record(data, *, stored, key=None):
+    """Bytes of a record to a validated record. stored=True (a record read back
+    from evidence) checks invariants only; stored=False applies write policy."""
+    obj = parse_strict_json(data, max_bytes=MAX_RECORD_BYTES, field="record", reason="bad_record")
     validate_record(obj, stored=stored)
     return check_record_key(obj, key) if key is not None else obj
 
@@ -1705,9 +1794,10 @@ def manifest_bytes(manifest):
     return canonical_json(validate_manifest(manifest))
 
 
-def parse_manifest(data, *, stored=False):
+def parse_manifest(data, *, stored):
     """Bytes of a manifest blob to a validated manifest. The Lambda reads a
-    staged one under write policy; readers of stored ones pass stored=True."""
+    staged one with stored=False (write policy); readers of stored ones pass
+    stored=True (invariants only)."""
     obj = parse_strict_json(data, max_bytes=MAX_MANIFEST_BYTES, field="manifest", reason="bad_manifest")
     try:
         return validate_manifest(obj, stored=stored)
