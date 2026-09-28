@@ -40,16 +40,18 @@ def connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8G
     """Read-only connection to <audit_dir>/derived.duckdb with truth attached (READ_ONLY).
 
     audit_dir defaults to paths.audit_dir(): the primary checkout's .claude/audit_db/, or AUDIT_DB_DIR.
-    Spills go to this process's own directory under temp_dir (default <audit_dir>/spill; paths.use_spill_dir) and are
-    capped at max_temp, so a runaway query fails instead of filling the disk; temp_dir="" disables spilling.
-    Settings belong to the DuckDB instance, and every connection to one database file in one Python process shares it:
-    a second connect() changes threads and memory for both, and keeps the instance's spill directory. On a shared machine use threads=1, memory='1GB'.
+    Spills go to this process's own directory under <audit_dir>/spill, or under <temp_dir>/alpr_audit_spill when temp_dir
+    is given (a directory of its own: spill roots are swept), and are capped at max_temp (None: no cap), so a runaway
+    query fails instead of filling the disk; temp_dir="" disables spilling. Settings belong to the DuckDB instance,
+    and every connection to one database file in one Python process shares it: a second connect() changes threads and
+    memory for both, and keeps the instance's spill directory.
 
     >>> con = connect(threads=1, memory="1GB")
     >>> con.sql("SELECT key, value FROM truth.build_info").fetchall()
     """
     A = Path(audit_dir or default_audit_dir())
-    con = duck_connect(A / "derived.duckdb", read_only=True, spill_parent=A / "spill" if temp_dir is None else temp_dir,
+    root = A / "spill" if temp_dir is None else "" if temp_dir == "" else Path(temp_dir).expanduser() / "alpr_audit_spill"
+    con = duck_connect(A / "derived.duckdb", read_only=True, spill_root=root,
                        threads=int(threads), memory_limit=memory, max_temp_directory_size=max_temp)
     con.execute(f"ATTACH IF NOT EXISTS {_s(A / 'truth.duckdb')} AS truth (READ_ONLY)")
     return con

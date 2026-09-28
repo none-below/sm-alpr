@@ -19,7 +19,7 @@ from paths import audit_dir  # noqa: E402
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
 A = Path(ap.parse_args().audit_dir or audit_dir())
-con = ac.connect(A, threads=1, memory="1GB")   # derived read-only + truth attached, own spill dir
+con = ac.connect(A, threads=1, memory="1GB", max_temp=None)   # derived read-only + truth attached, own spill dir
 cols = {c for (c,) in con.execute("""SELECT column_name FROM duckdb_columns()
                                      WHERE database_name = current_database() AND schema_name = 'cache' AND table_name = 'builds'""").fetchall()}
 if not cols:

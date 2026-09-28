@@ -29,7 +29,7 @@ ap.add_argument("--audit-dir", help="directory holding the databases (default: p
 args = ap.parse_args()
 A = Path(args.audit_dir or audit_dir())
 D = CODE / "docs"
-con = ac.connect(A, threads=1, memory="1GB")   # derived read-only + truth attached, own spill dir
+con = ac.connect(A, threads=1, memory="1GB", max_temp=None)   # derived read-only + truth attached, own spill dir
 
 
 def documented_in(text):

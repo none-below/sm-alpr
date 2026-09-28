@@ -308,7 +308,7 @@ def main():
 
     # modest defaults so the laptop stays usable; raise with AUDIT_DB_THREADS / AUDIT_DB_MEMORY for a faster build.
     # Insertion order is kept (the default), so row_no = file order.
-    con = duck_connect(args.out, spill_parent=TMP / "duck_spill",   # own spill dir under the build's scratch
+    con = duck_connect(args.out, spill_root=TMP / "duck_spill",   # own spill dir under the build's scratch
                        threads=int(os.environ.get('AUDIT_DB_THREADS', '4')), memory_limit=os.environ.get('AUDIT_DB_MEMORY', '6GB'))
     con.execute(RELEASES_DDL)
     con.execute(f"CREATE OR REPLACE TABLE flock_audit_rows (release_id VARCHAR, row_no BIGINT, src_row BIGINT, "

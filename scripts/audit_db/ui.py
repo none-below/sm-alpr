@@ -4,16 +4,14 @@ Queries run locally; the UI's page assets are fetched from ui.duckdb.org. Ctrl-C
 """
 import time
 
-import duckdb
-
-from paths import CODE, audit_dir, use_spill_dir
+from paths import CODE, audit_dir, duck_connect, use_spill_dir
 
 A = audit_dir()
-con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
+con = duck_connect(A / "derived.duckdb", read_only=True, spill_root=A / "spill")
 truth = str(A / "truth.duckdb").replace("'", "''")
 con.execute(f"ATTACH '{truth}' AS truth (READ_ONLY)")   # init.sql's relative ATTACH then leaves it alone
 con.execute((CODE / "init.sql").read_text())
-use_spill_dir(con, A / "spill")   # init.sql's spill path is relative to the CLI's working directory: use the absolute one
+use_spill_dir(con, A / "spill")   # init.sql's spill path is for the CLI, relative to its working directory: switch back
 con.execute("INSTALL ui; LOAD ui; CALL start_ui_server()")
 print("DuckDB UI: http://localhost:4213  (try: SELECT * FROM sightings_public LIMIT 20)")
 try:

@@ -55,7 +55,7 @@ ap.add_argument("--only", help="release_id LIKE pattern: check only these releas
 ap.add_argument("--seed", type=int, default=1)
 args = ap.parse_args()
 A = Path(args.audit_dir or audit_dir())
-con = duck_connect(args.truth or A / "truth.duckdb", read_only=True, spill_parent=A / "spill",   # own spill dir
+con = duck_connect(args.truth or A / "truth.duckdb", read_only=True, spill_root=A / "spill",   # own spill dir
                    threads=2, memory_limit="2GB")   # lookups by literal release_id/row_no only
 info = dict(con.execute("SELECT key, value FROM build_info").fetchall())
 EV, WT = Path(info["evidence_dir"]), Path(info["repo_checkout"])
