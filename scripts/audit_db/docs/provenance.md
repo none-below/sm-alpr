@@ -448,11 +448,11 @@ of the workbook …`); `sha256` is the conversion's hash, not the workbook's.
 
 ```python
 rid = "la:26-366:Los_Altos_PD_Network_Audit_2025__JANUARY"
-src_row, header, db = db_row(rid, 5)
+src_row, header, db = db_row(rid, 5, ["Total Networks Searched", "Search Time"])
 line = ndjson_line(rid, 5)                   # NDJSON line = row_no; workbook row = src_row
 print(src_row, db, {c: line.get(c) for c in db})
-# 6 {'Org Name': 'Arizona Department of Public Safety', 'Total Networks Searched': '5817', 'Search Time': '01/10/2025, 03:11:44 PM UTC'}
-#   {'Org Name': 'Arizona Department of Public Safety', 'Total Networks Searched': 5817, 'Search Time': '01/10/2025, 03:11:44 PM UTC'}
+# 6 {'Total Networks Searched': '5817', 'Search Time': '01/10/2025, 03:11:44 PM UTC'}
+#   {'Total Networks Searched': 5817, 'Search Time': '01/10/2025, 03:11:44 PM UTC'}
 ```
 
 - **Get it.** The workbook `Los Altos PD Network Audit 2025.xlsx` is public on the city's NextRequest portal, no
@@ -461,7 +461,7 @@ print(src_row, db, {c: line.get(c) for c in db})
   `https://raw.githubusercontent.com/none-below/sm-alpr/e138455bb5582041266ea613ccfb74d8fcf737c4/assets/los-altos-pras/json/pra-26-366/Los_Altos_PD_Network_Audit_2025__JANUARY.ndjson.gz`.
 - **Open it.** Workbook sheet `JANUARY`, row 6. In the conversion:
   `gzip -dc Los_Altos_PD_Network_Audit_2025__JANUARY.ndjson.gz | sed -n 5p`.
-- **Confirm.** `Org Name`, `Total Networks Searched`, `Search Time` as above. Checked 2026-09-25 against the workbook
+- **Confirm.** `Total Networks Searched`, `Search Time` as above. Checked 2026-09-25 against the workbook
   itself (openpyxl): identical.
 
 Redwood City PD, PRA 26-217: `rwc:PRA_26_217_2024_Q3` `row_no` 10 is `PRA 26-217 2024 Q3 (1).xlsx` row 11: San
@@ -477,8 +477,8 @@ identical, on its only sheet `Redwood City CA PD_Network_Audi`. Differences from
   carry pivot-table tabs; ignore those.
 - `rwc:PRA_26_217_4th_Release_Dec2023` was exported without a header row: `src_row` = NDJSON line, and its column
   labels were assigned by the converter in Flock's standard order, not released by the agency (`header_raw` NULL).
-- Two workbooks contain rows hidden by a saved filter (`PRA 26-217 1st Release`, `PRA 26-217 2025 1`). Hidden rows
-  keep their row numbers and are in the NDJSON; clear the filter in Excel to see them.
+- Rows hidden in Excel (for example by a saved filter) keep their row numbers and are in the NDJSON; clear the filter
+  in Excel to see them.
 
 `src_row_basis`: `workbook row = NDJSON line + 1 (header on row 1); the committed conversion
 (scripts/xlsx_to_audit_ndjson.py) drops all-empty rows, so exact unless the workbook has blank rows mid-sheet; it
@@ -518,24 +518,23 @@ for rid, n, page, line in con.execute("SELECT release_id, row_no, src_page, src_
 - `released_on` is NULL: W012541 is a rolling production and the per-PDF release dates are not recorded here. Take the
   date from the message history when a filing needs it.
 
-**Acrobat-edited pages (`parse_note`).** SMPD edited Reason cells in Acrobat before producing some PDFs. The re-save
-moves the edited page's text out of reading order (reason lines collect after the page's last row), so a reader that
-follows text order gives a Reason to the wrong row or swallows the next row. The loader assigns each line to the
-printed row whose vertical band holds it. Where text order and the printed row disagree, the printed row wins and
-`parse_note` names the page line of each cell. 69 rows in this build, in seven PDFs, for example:
+**Pages read by position (`parse_note`).** On some pages the PDF's text layer lists lines out of reading order
+(reason lines collect after the page's last row), so a reader that follows text order gives a Reason to the wrong row
+or swallows the next row. The loader assigns each line to the printed row whose vertical band holds it. Where text
+order and the printed row disagree, the printed row wins and `parse_note` names the page line of each cell. The form
+is:
 
 ```
-smpd:W012541-041426:1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_1_.pdf  row_no 1686  page 47:
-text order differs from the printed row: cells read by position on page 47 (userID line 122, count/time line 123, reason line 127)
+smpd:<request folder>:<pdf file name>  row_no N  page P:
+text order differs from the printed row: cells read by position on page P (userID line A, count/time line B, reason line C)
 ```
 
 The citation is unchanged: page and search id. Quote the Reason from the printed row in the PDF. Other `parse_note`
 forms (`read in text order only …`, `printed row holds N line(s) …`, `block continues on page N …`) flag blocks the
 loader could not read by position; none occur in this build.
 
-- **Do not cite the repo's merged JSON** (`pra-W012541-041426.json`). It was built from 28 of the 32 PDFs with rows,
-  and on Acrobat-edited pages it holds 35 wrong reasons (33 are the next row's UUID, 2 a neighbour's reason) and is
-  missing 33 rows. The PDF loader reads the printed row.
+- **Do not cite the repo's merged JSON** (`pra-W012541-041426.json`). It re-sorts and reformats the rows, so a row no
+  longer points to a page; cite the PDF page and search id from this table.
 - **Repeats.** 179 rows repeat a search id already printed in the same PDF; no id is printed in two PDFs in this
   build. Each printing is its own sighting of one event: count distinct `flock_id` or `event_id`, not rows.
 - **June 2024.** The two June 2024 PDFs (`…6_1_2024-6_30_2024-San_Mateo_CA_PD-Audit_-_PART_1.pdf`, `PART_2`) are
@@ -784,9 +783,8 @@ others exist.
   organizational sheets for the same months except May, are identical in 25-312 and 26-366 (e.g.
   `la:25-312:Los_Altos_CA_PD_NETWORK_AUDIT_2025__JANUARY` and `la:26-366:Los_Altos_PD_Network_Audit_2025__JANUARY`);
   August 2025 and the May organizational sheet differ between the two. Cite one and add "also produced in …".
-- **Same period, different content.** These do not group. Port Hueneme's December 2025 network audit was produced on
-  2026-07-17 and again on 2026-09-21: 386,058 rows each, different `content_sha256`. Compare the two before quoting a
-  cell, and cite the one whose value you quote. Find candidates by `producer`, `audit` and
+- **Same period, different content.** These do not group. A producer can re-produce a period with the same row count
+  but a different `content_sha256`. Compare the two before quoting a cell, and cite the one whose value you quote. Find candidates by `producer`, `audit` and
   search-time range, or through `ac.drill()` (two rows from one producer in one event).
 - **Different formats** never group together (hashes are computed per format): a MuckRock workbook and a repo
   NDJSON of the same rows are not linked by `release_content_groups`.

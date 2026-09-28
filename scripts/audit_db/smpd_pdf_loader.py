@@ -6,11 +6,11 @@ A block is the id line plus the lines up to the next id, normally
 Lines are stored verbatim (reason lines keep their trailing spaces). No id block is ever dropped: parse_note says when a
 block is not that shape and how its cells were read.
 
-Why position matters: SMPD edited Reason cells in Acrobat before producing some PDFs, and the re-save moves the edited
-page's cells out of text order (reason lines pile up after the last row of the page). A text-order reader then gives a
-row no reason and another row several, or swallows the next row (the repo parser's dropped rows). Each line's position
-on the page still matches the printed row, so every block is checked against the lines printed in its id's row band;
-where text order and the printed row disagree, the printed row wins and parse_note names the page line of each cell.
+Why position matters: on some pages the text layer lists cells out of printed order (reason lines pile up after the
+last row of the page). A text-order reader then gives a row no reason and another row several, or swallows the next
+row. Each line's position on the page still matches the printed row, so every block is checked against the lines
+printed in its id's row band; where text order and the printed row disagree, the printed row wins and parse_note
+names the page line of each cell.
 
   uv run --locked --project scripts/audit_db python scripts/audit_db/smpd_pdf_loader.py PDF...   # per-PDF summary, by hand
 """

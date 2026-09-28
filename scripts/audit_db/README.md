@@ -16,7 +16,7 @@ read, and cache only what is too slow — firewalled from ground truth.**
 | `pyproject.toml`, `uv.lock` | The pinned environment (Python, DuckDB, the spreadsheet and PDF readers): every version here changes what a build produces. Run every script with `uv run --locked --project scripts/audit_db python scripts/audit_db/<script>.py` (`--locked` fails instead of silently re-resolving if `pyproject.toml` and `uv.lock` disagree) |
 | `paths.py` | Where the audit dir is |
 | `build_truth.py` | Builds truth from the repo checkout (Redwood City / Los Altos NDJSON, SMPD audit PDFs) and the MuckRock evidence directory |
-| `smpd_pdf_loader.py` | SMPD audit-PDF reader for `build_truth.py` (pymupdf text layer, one row per search-id block, positional check on Acrobat-edited pages); run on its own with `PDF...` arguments it prints a per-PDF summary |
+| `smpd_pdf_loader.py` | SMPD audit-PDF reader for `build_truth.py` (pymupdf text layer, one row per search-id block, positional check on pages whose text order differs from the printed order); run on its own with `PDF...` arguments it prints a per-PDF summary |
 | `muckrock_ingest.py` | MuckRock loader for `build_truth.py`; its `stage` step converts every released file to CSV first (cached in `<T>/muckrock_units/staged.json`) |
 | `build_derived.py` | Builds derived (`--views-only` refreshes the views without recomputing the cache) |
 | `sql_templates.py` | The parse and citation SQL shared by the full views, the row-lookup macros and `audit_client.py` (importing it runs nothing) |
@@ -44,6 +44,7 @@ laptop stays usable. For a faster build when nothing else is running, set `AUDIT
 `gen_stats.py` spills to `AUDIT_DB_TEMP` (default `<system tmp>/alpr_duck_tmp`), capped at `AUDIT_DB_MAX_TEMP` (12GiB).
 
 ```sh
+setopt interactivecomments 2>/dev/null || true   # zsh: lets the trailing # comments paste into an interactive shell
 R=<fresh worktree>; C=$R/scripts/audit_db; A=<primary checkout>/.claude/audit_db; T=<scratch dir with ~25 GB free>
 py()   { uv run --locked --project "$C" python "$@"; }                         # quick steps
 bgpy() { nice -n 19 taskpolicy -b uv run --locked --project "$C" python "$@"; }  # heavy steps, at background QoS

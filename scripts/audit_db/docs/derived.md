@@ -110,14 +110,9 @@ to evaluate it.
 
 ```sql
 -- prunes
-SELECT row_no, src_row, org, t, nets, reason_state FROM sightings WHERE release_id = 'mr:196397:PRA25-746.csv#csv';
+SELECT row_no, src_row, org, t, nets, reason_state FROM sightings WHERE release_id = '<release_id>';
 -- does not prune: sighting_id is computed on read, so every row is parsed first
--- SELECT row_no, src_row, org, t, nets, reason_state FROM sightings WHERE sighting_id = 4748357201167110158;
-```
-```text
-(1, 2, 'Miami-Dade FL SO', 2025-01-23 15:26:37, 5889, 'value')
-(2, 4, 'Palos Heights IL PD', 2025-01-28 13:29:20, 5927, 'value')
-(3, 7, 'Marshall County AL SO', 2025-01-31 14:26:06, 6076, 'value')
+-- SELECT row_no, src_row, org, t, nets, reason_state FROM sightings WHERE sighting_id = <sighting_id>;
 ```
 
 If you only have a `sighting_id`, look it up in `sighting_sources`, which hashes the key columns but parses no cells,
@@ -159,12 +154,11 @@ connection to `derived.duckdb` with `truth` attached.
 ```python
 import sys; sys.path.insert(0, "<code>")
 from sql_templates import flock_rows_sql, sightings_flock_sql
-raw = "(SELECT * FROM truth.flock_audit_rows WHERE release_id = 'mr:196397:PRA25-746.csv#csv' AND row_no IN (1, 3))"
+raw = "(SELECT * FROM truth.flock_audit_rows WHERE release_id = '<release_id>' AND row_no IN (1, 3))"
 con.sql(sightings_flock_sql(f"({flock_rows_sql(raw)})")).select("row_no, t, nets, reason_state").fetchall()
 ```
-```text
-[(1, 2025-01-23 15:26:37, 5889, 'value'), (3, 2025-01-31 14:26:06, 6076, 'value')]
-```
+
+It returns rows 1 and 3 of that release with exactly the values `sightings` gives for them.
 
 ## Views: releases
 
@@ -183,7 +177,8 @@ values were withheld.
 | `in_header` | BOOLEAN | The field is in the release's header | `list_contains(truth.releases.header, field)` |
 | `withheld` | BOOLEAN | An authored disposition says the field was withheld | a `truth.release_dispositions` row with `disposition = 'withheld_blanked'` whose `release_pattern` matches (`release_id LIKE release_pattern`). Other dispositions, such as `redacted`, do not set it |
 
-As of this build, 28 release × field rows have `withheld` true, all for `Reason` in Redwood City releases.
+As of this build, 28 release × field rows have `withheld` true, all for `Reason`; the dispositions behind them, each
+with its source, are in `truth.release_dispositions` ([truth.md](truth.md)).
 `in_header` ignores layout corrections; `flock_rows` applies them.
 
 ### `release_meta`
@@ -242,10 +237,11 @@ One row per release: everything needed to name, fetch and verify the original. M
 
 ```sql
 SELECT request_label, released_on, document, coalesce(source_url, repo_url) AS open_url
-FROM release_sources WHERE release_id = 'mr:196397:PRA25-746.csv#csv';
+FROM release_sources
+WHERE release_id = 'mr:214820:ALPR_PRA_Response.07-28-2026T01-47-15_PDT.zip!ALPR PRA Response/Network Audit 6_6_2026-7_6_2026.csv#csv';
 ```
 ```text
-('MuckRock request 196397', 2025-11-06, 'PRA25-746.csv', 'https://cdn.muckrock.com/foia_files/2025/11/06/PRA25-746.csv')
+('MuckRock request 214820', 2026-07-28, 'ALPR_PRA_Response.07-28-2026T01-47-15_PDT.zip > Network Audit 6_6_2026-7_6_2026.csv', 'https://cdn.muckrock.com/foia_files/2026/07/28/ALPR_PRA_Response.07-28-2026T01-47-15_PDT.zip')
 ```
 
 ### `release_content_groups`
@@ -376,11 +372,10 @@ key. There is no empty-result or raw-plate fallback.
 query, not per row.
 
 ```sql
-SELECT count(*) FROM sightings_public WHERE public_release_id = 'mr:196397:PRA25-746.csv#csv';
+SELECT count(*) FROM sightings_public WHERE public_release_id = '<public_release_id>';
 ```
-```text
-(3,)
-```
+
+It returns the release's row count, the same as `sightings` gives for that release.
 
 ## Views: from a row to the original
 
@@ -589,7 +584,7 @@ SELECT agency_mask('REDACTED'), agency_mask(' [redacted] '), agency_mask('###'),
 ```
 
 **`exemption_cite(raw)`** is true when the whole trimmed cell is one or more exemption citations typed in place of
-the value, as in Port Hueneme's `7923.600 GC` cells (counts per field in [stats.md](stats.md), "Redaction marker
+the value, as in cells holding `7923.600 GC` (counts per field in [stats.md](stats.md), "Redaction marker
 strings"). A citation is a CPRA `79xx.xxx` or Civil Code `1798.90.x` section, with or without a code label, or a
 pre-2023 CPRA `62xx` section with a code label. Labels: `GC`, `CGC`, `G.C.`, and `Gov`, `Gov.`, `Govt`,
 `Government`, `Civ`, `Civ.` or `Civil` + `Code`, optionally after `Cal.` or `California`, before or after the number
@@ -645,13 +640,11 @@ SELECT clean_value('  459 PC ', 'value'), clean_value('***', 'redacted_flock');
 matches the release (`rid LIKE release_pattern`) and the field.
 
 ```sql
-SELECT is_withheld('rwc:PRA_26_217_2024_Q1', 'Reason'), is_withheld('rwc:PRA_26_217_2024_Q1', 'License Plate');
-```
-```text
-(true, false)
+SELECT is_withheld('<release_id>', 'Reason'), is_withheld('<release_id>', 'License Plate');
 ```
 
-The second is false because Redwood City's plate disposition is `redacted`, not `withheld_blanked`.
+Each is true only when a `withheld_blanked` disposition covers that release and field; a field under another
+disposition, such as `redacted`, gives false.
 
 ### Citation and provenance
 
@@ -774,23 +767,20 @@ Sightings in `x:` (ambiguous) events and sightings not in the cache at all are n
 comparison is in [linking.md](linking.md).
 
 ```sql
-SELECT sighting_id, event_id, state, support, divergence FROM read_field('reason', who := 'Cathedral City CA PD');
+SELECT sighting_id, event_id, state, support, divergence FROM read_field('reason', who := '<producer>');
 ```
-```text
-(4748357201167110158, 'u:aa84e168-9c45-48f6-b11a-0b670f8724f9', 'value', 5, 'same')
-(2019124353321464460, 'u:d46e138d-517a-4f9f-9ae8-632989c6c998', 'value', 5, 'same')
-(8090089599605089816, 'u:b76f83ba-3649-4820-855e-57ec6d62ea9a', 'value', 6, 'same')
-```
+
+One row per sighting in that producer's linked searches: its Reason state, how many other producers back the
+consensus value (`support`), and the `divergence` label.
 
 **`event(eid)`** is a table macro returning one row with the columns of `events` for one event id, or no row for an
 unknown id. It finds the event's cache rows by `event_key = hash(eid)` (an integer column), then `event_id = eid`.
 
 ```sql
-SELECT n_sightings, n_logs, weakest_link, len(logs) FROM event('u:aa84e168-9c45-48f6-b11a-0b670f8724f9');
+SELECT n_sightings, n_logs, weakest_link, len(logs) FROM event('<event_id>');
 ```
-```text
-(13, 12, '2_k5', 12)
-```
+
+One row: the search's sighting and producer counts, its weakest link tier, and the length of `logs`.
 
 **`event_sightings(eid)`** is a table macro: every log's record of one search, with its states and a citation. It
 finds the event's cache rows as `event` does, selects their truth rows from `truth.flock_audit_rows` and
@@ -819,16 +809,12 @@ Rows are ordered by `producer`, `release_id`, `row_no`.
 
 ```sql
 SELECT producer, basis, src_row, org, t, nets, reason_state, case_state, plate_state
-FROM event_sightings('u:aa84e168-9c45-48f6-b11a-0b670f8724f9') LIMIT 4;
-```
-```text
-('Alameda County CA SO', '2_k5', 2, 'Miami-Dade FL SO', 2025-01-23 15:26:37, 5889, 'not_exported', 'empty', 'not_exported')
-('Cathedral City CA PD', '2_k5', 2, 'Miami-Dade FL SO', 2025-01-23 15:26:37, 5889, 'value', 'not_exported', 'value')
-('Contra Costa County CA SO', '2_k5', 147558, 'Miami-Dade FL SO', 2025-01-23 15:26:37, 5889, 'redacted_agency', 'empty', 'redacted_agency')
-('Danville CA PD', '2_k5', 25510, 'Miami-Dade FL SO', 2025-01-23 15:26:37, 5889, 'redacted_agency', 'empty', 'redacted_agency')
+FROM event_sightings('<event_id>') LIMIT 4;
 ```
 
-The full result has 13 rows from 12 producers (Los Altos produced this month twice).
+One row per sighting: every log that recorded the search shows the same `org`, `t` and `nets`, with its own states
+and citation. A producer that released the same month twice contributes one row per release, so a result can have
+more rows than producers.
 
 ### Civilian PII
 
@@ -1013,14 +999,11 @@ instead ([linking.md](linking.md)).
 import sys; sys.path.insert(0, "<code>")
 import audit_client as ac
 con = ac.connect()
-for r in ac.drill(con, "u:aa84e168-9c45-48f6-b11a-0b670f8724f9")[:3]:
+for r in ac.drill(con, "<event_id>")[:3]:
     print(r["producer"], r["basis"], r["src_row"], r["reason_state"])
 ```
-```text
-Alameda County CA SO 2_k5 2 not_exported
-Cathedral City CA PD 2_k5 2 value
-Contra Costa County CA SO 2_k5 147558 redacted_agency
-```
+
+It prints the producer, link tier, source row and Reason state of the event's first three sightings.
 
 ## Layer 3: the cache schema
 
@@ -1073,13 +1056,8 @@ To join the cache to parsed rows quickly, filter both sides by `release_id`:
 
 ```sql
 SELECT s.row_no, s.org, s.t, se.event_id, se.basis
-FROM sightings s JOIN (SELECT * FROM cache.sighting_event WHERE release_id = 'mr:196397:PRA25-746.csv#csv') se USING (sighting_id)
-WHERE s.release_id = 'mr:196397:PRA25-746.csv#csv' ORDER BY s.row_no;
-```
-```text
-(1, 'Miami-Dade FL SO', 2025-01-23 15:26:37, 'u:aa84e168-9c45-48f6-b11a-0b670f8724f9', '2_k5')
-(2, 'Palos Heights IL PD', 2025-01-28 13:29:20, 'u:d46e138d-517a-4f9f-9ae8-632989c6c998', '2_k5')
-(3, 'Marshall County AL SO', 2025-01-31 14:26:06, 'u:b76f83ba-3649-4820-855e-57ec6d62ea9a', '2_k5')
+FROM sightings s JOIN (SELECT * FROM cache.sighting_event WHERE release_id = '<release_id>') se USING (sighting_id)
+WHERE s.release_id = '<release_id>' ORDER BY s.row_no;
 ```
 
 This join is also a quick check that `sighting_id` in the views and in the cache agree: it should return every
@@ -1170,7 +1148,7 @@ covers both runs.
 | `cache.sighting_event WHERE release_id = …` | 0.02 s | |
 | `event(eid)` (13 sightings) | 0.02–0.07 s | integer `event_key` scan |
 | `event_sightings(eid)` (13 sightings) | 0.95–1.31 s | finds the event by `event_key`, parses only its rows |
-| `read_field('reason', who := 'Cathedral City CA PD')` (3 sightings, 3 events) | 1.13–1.44 s | parses only the rows of that producer's events |
+| `read_field('reason', who := '<producer>')`, a producer with 3 sightings in 3 events | 1.13–1.44 s | parses only the rows of that producer's events |
 | `sql_templates.py`, 2 rows (example above) | 0.02 s | literal `release_id` and `row_no` filters |
 | `audit_client.sightings_for`, 2 rows (Flock + SMPD) | 0.02 s | one pruned scan per release |
 | `audit_client.event(con, eid)` | 0.02–0.04 s | integer `event_key` scan |

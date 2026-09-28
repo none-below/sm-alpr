@@ -30,7 +30,7 @@ CREATE OR REPLACE MACRO plate_public(surface, state, pi, po) AS CASE
   WHEN state = 'value' THEN plate_hmac(surface, pi, po)
   WHEN surface IS NULL OR trim(surface) IN ('', '***') OR agency_mask(surface) OR exemption_cite(surface) THEN surface END;
 
--- Tier A (always): CA standard plate 9AAA999 -- used as "Case #" by 92 different orgs, i.e. a plate, not any agency's case scheme.
+-- Tier A (always): CA standard plate 9AAA999 -- a plate shape, not any agency's case-number scheme, so it is tokenized in every field (including "Case #").
 -- Tier B (context only): commercial/trailer/other plate shapes, only right after a plate word or as the entire field.
 -- Never auto-tokenized: AAA9999, AA99999, AAA999, A9999999 (case-number formats; A9999999 is also the CA DL format).
 CREATE OR REPLACE MACRO plate_candidates(txt) AS list_distinct(list_concat(

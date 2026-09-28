@@ -57,15 +57,14 @@ and its own citation, and the event is only a label on it.
 
 **San Mateo PD's log has one release per PDF** (`smpd:<request folder>:<pdf name>`), with one row per search-id block
 as printed. A search printed twice, in two PDFs or twice in one PDF, is two sightings of one event. Count distinct
-`event_key` for searches and `n_logs` for agencies, never rows or `n_sightings`. In this build every repeat is inside
-one PDF:
+`event_key` for searches and `n_logs` for agencies, never rows or `n_sightings`. To see how many searches repeat, and
+whether a repeat spans PDFs:
 
 ```sql
 SELECT n_sightings, n_releases, count(*) AS searches FROM (
   SELECT event_key, count(*) AS n_sightings, count(DISTINCT release_id) AS n_releases
   FROM cache.sighting_event WHERE producer = 'San Mateo CA PD' GROUP BY 1)
 WHERE n_sightings > 1 GROUP BY ALL ORDER BY ALL;
--- 2 1 141 | 3 1 16 | 4 1 2                                                             (0.2 s)
 ```
 
 `event_id` has four forms:
@@ -77,10 +76,8 @@ WHERE n_sightings > 1 GROUP BY ALL ORDER BY ALL;
 | `k3:<k3>` | `6_k3_group` | No, for the same reasons |
 | `x:<sighting_id>` | `x_ambiguous` | No. The value is a DuckDB `hash()` of the row key |
 
-San Mateo PD's printed search id is the Flock search UUID. Take the 200 searches in the first 200 rows of its April 2026
-PDF (`smpd:W012818-053026:4_1_2026-4_30_2026-San_Mateo_CA_PD-Audit__1_.pdf`). For 157 of them, the same value appears
-in the `ID` column of the network audits of Riverside County, Rohnert Park, San Francisco, Santa Rosa, Ukiah and Ukiah
-Fire, all as `1_uuid` sightings in the same events.
+San Mateo PD's printed search id is the Flock search UUID: the same values appear in the `ID` column of other
+producers' network audits, as `1_uuid` sightings in the same events.
 
 ## 2. Which rows are linked, and the keys
 
@@ -280,11 +277,11 @@ FROM cache.sighting_keys WHERE k5 = (SELECT k5 FROM k) GROUP BY 1 ORDER BY 1 NUL
 -- 65451a8a-8c3d-4c30-a8b2-bf0b88307b83 11 9 | 9e7c7f3d-3f20-42c6-a660-b7f5023367da 11 9 | NULL 2 1      (0.6 s)
 ```
 
-**Tier `3b`.** Los Altos's February 2025 network audit has five rows (147747–147751) that are identical in every parsed
-column, and it has them in each of its two productions. They record a San Mateo PD search at 2025-02-12 19:37:16 UTC
-over 1 network. They carry a Time Frame but no UUID, and no UUID row has their `k5`. San Mateo PD's February 2025 PDF
-(UUIDs, no Time Frame) has exactly one search with their `k3`, at row 4542. So all ten link to
-`u:5d6ee1d3-1824-4620-a424-a7c363699d82` as `3b_k3_to_tf_less_uuid` (§5 shows the event).
+**Tier `3b`.** Suppose a network audit with a Time Frame but no `ID` column holds one search as five rows identical in
+every parsed column, and the agency produced that month twice. The ten rows carry a Time Frame but no UUID, and no UUID
+row has their `k5`. The searcher's own log has no Time Frame column but prints UUIDs (San Mateo PD's PDFs are such a
+log), and exactly one of its searches has their `k3`. Then all ten link to that search's `u:<Flock search UUID>` as
+`3b_k3_to_tf_less_uuid` (§5 reads such an event).
 
 ## 5. `events` and `event()`: one row per linked search
 
@@ -311,14 +308,14 @@ SELECT n_sightings, n_logs, weakest_link FROM events WHERE event_key = hash('u:c
 ```
 
 ```python
-e = ac.event(con, "u:5d6ee1d3-1824-4620-a424-a7c363699d82")   # None if the id is not in the cache
+e = ac.event(con, "u:<Flock search UUID>")   # None if the id is not in the cache
 print(e["n_sightings"], e["n_logs"], e["weakest_link"], e["logs"], len({s[0] for s in e["sightings"]}))
-# 11 2 3b_k3_to_tf_less_uuid ['Los Altos CA PD', 'San Mateo CA PD'] 3      (0.2–0.4 s; sightings: (release_id, row_no, producer, audit, basis))
+# <n_sightings> <n_logs> <weakest_link> [<producer>, …] <n_releases>      (0.2–0.4 s; sightings: (release_id, row_no, producer, audit, basis))
 ```
 
-That event is one San Mateo PD search. It has 11 sightings because Los Altos exported it as five identical rows and
-produced that month twice. Its `n_logs` is 2. To say "how many agencies' records show this search", report `n_logs`
-(or name the logs), never `n_sightings`.
+For a search like the §4 `3b` case (five identical rows in each of two productions, plus the own-log row),
+`n_sightings` is 11 and `n_logs` is 2. To say "how many agencies' records show this search", report `n_logs` (or name
+the logs), never `n_sightings`.
 
 **Counting searches.** Count `DISTINCT event_key` (or `event_id`) over `cache.sighting_event` rows filtered by
 `producer`, `audit` or `release_id`, and say which tiers the count includes:
@@ -385,7 +382,7 @@ precision from stats.md, and cite one row per log for any individual search you 
 
 Each search is one Flock record, with one Reason and one Case #, and every log's row for it is an export of that
 record (the same search UUID recurs across logs). The logs should therefore agree, except where a production masked,
-blanked, truncated or replaced the text. A difference is a finding about a production, not about the search.
+blanked or otherwise changed the text. A difference is a finding about a production, not about the search.
 `read_field` puts that comparison on every sighting.
 
 `read_field(fld, who := NULL)` is a table macro. `fld` is `'reason'` or `'case'`, in any letter case. Any other value
@@ -424,13 +421,13 @@ shared session).
 | `blank_here_present_elsewhere` | state `empty` or `not_exported` | The cell is blank here, or the column absent; the value was released elsewhere | That the agency removed it: `not_exported` means the release's `header` lacks the column. For Redwood City, `header` lists only NDJSON keys with a non-empty cell, so the column may have existed and been blank throughout ([semantics.md](semantics.md) §12) |
 | `placeholder_here` | state `placeholder` | A junk entry here (`n/a`, `test`, …); a value elsewhere | |
 | `same` | own clean value = `revealed` (exact, case-sensitive) | At least one **other** producer released the identical text | That the text is genuine ([semantics.md](semantics.md) §10) |
-| `differs_from_other_logs` | otherwise | This production's text differs from what `support` producers released | That the text was altered. The comparison is exact, so letter case, inner spacing, a trailing `" -"` and truncation all count as different. Look at both surfaces first |
+| `differs_from_other_logs` | otherwise | This production's text differs from what `support` producers released | That the text was altered. The comparison is exact, so letter case, spacing, punctuation and length all count as different. Look at both surfaces first |
 
 Properties that follow from the rules:
 
 - **Re-releases never corroborate.** The votes are distinct producers, so a producer's second production of the same
   value cannot make `same`. In the "otherwise" branch, though, `support` counts every producer, including this one. A
-  label other than `same` can therefore rest on the same agency's other production (Port Hueneme example below).
+  label other than `same` can therefore rest on the same agency's other production (second example below).
 - **Ties after leaving one out favour agreement.** If the own value has 2 producers and another value has 1, the result
   is `same` with `support` 1.
 - **Deterministic.** The label and `support` do not depend on how ties are broken, and the tie-break on the value makes
@@ -439,12 +436,12 @@ Properties that follow from the rules:
   example below and cookbook.md Recipe 7).
 
 **Cost.** `read_field(fld, who := …)` scales with the number of sightings in that producer's events. For Cathedral City
-(3 sightings, 38 in their events) it took 6–11 s. For Cotati (177,870 sightings, 946,068 in their events) it took
+(3 sightings, 38 in their events) it took 6–11 s. For a producer with 177,870 sightings (946,068 in their events) it took
 22–28 s. For one release, or a slice of a large producer's rows, use `lk_compare` below. `audit_client` has no
 equivalent. It applies the same rules to the sightings chosen by any pruning filter on `cache.sighting_event`, and it
 parses only their events' rows, through `ac.sightings_sql` (the shared templates). The consensus SQL is the
 `read_field` macro's (`build_derived.py`, `CACHE_READS`), with its input swapped for temp tables. If the macro
-changes, change this too. For Cathedral City and for Cotati's own-search log, it returned the same `state`, `support`,
+changes, change this too. For Cathedral City and for a small own-search log, it returned the same `state`, `support`,
 `divergence` and `revealed` as `read_field(…, who := …)`. Its temp tables are prefixed `lk_` so that they do not
 collide with cookbook.md's, which are all prefixed `cb_`.
 
@@ -508,76 +505,64 @@ def lk_backers(con):
             for x in con.execute("SELECT * FROM lk_back ORDER BY ALL").fetchall()]
 ```
 
-**Example: masked here, released elsewhere, with both citations.** Cotati's own-search log masks Reason with `***` on
-every row. Which other logs released it?
+**Example: masked here, released elsewhere, with both citations.** An own-search log masks Reason on every row. Which
+other logs released it?
 
 ```python
-COTATI_OWN = "mr:214820:ALPR_PRA_Response.07-28-2026T01-47-15_PDT.zip!ALPR PRA Response/Organization Audit Log 6_6_2026-7_6_2026.csv#csv"
-lk_compare(con, "reason", "release_id = ?", [COTATI_OWN])
+OWN = "<release_id of the masked log>"
+lk_compare(con, "reason", "release_id = ?", [OWN])
 print(con.sql("""SELECT state, divergence, count(*) AS sightings, min(support), max(support)
                  FROM lk_cmp GROUP BY ALL ORDER BY sightings DESC""").fetchall())
 b = lk_backers(con)
 print(con.sql("""SELECT backer, count(DISTINCT (release_id, row_no)) AS rows_here, count(*) AS backer_rows
                  FROM lk_back GROUP BY 1 ORDER BY 1""").fetchall())
 print(b[0]["citation"], "|", b[0]["backer_citation"])   # one masked row and one row that released it
-# [('redacted_flock', 'masked_here_released_elsewhere', 12, 2, 2), ('redacted_flock', 'no_other_record', 7, None, None)]
-# [('San Francisco CA PD', 12, 12), ('Santa Rosa CA PD', 12, 24)]                          (6.5–7 s in all)
 ```
 
-For 12 of Cotati's 19 searches, San Francisco's network audit and Santa Rosa's (in both of its productions of that
-month) released the Reason that Cotati's own log masks. In the same events, Redwood City's Reason is `withheld` and
-Rohnert Park's export has no Reason column. The other 7 searches appear only in Cotati's own logs, masked in both.
+A masked row whose search another producer released reads `masked_here_released_elsewhere`, with `support` counting
+those producers, and `lk_back` pairs it with each backing row and both citations. A search that no other loaded log
+released reads `no_other_record`. Other logs' `withheld` or `not_exported` cells in the same events never vote, and
+`backer_rows` exceeds `rows_here` when a backer produced the same month more than once.
 
-**Example: the "other log" is the same agency.** Port Hueneme's 2026-07-17 production replaced every Reason with the
-exemption citation `7923.600 GC`. That cell is `redacted_agency` ([semantics.md](semantics.md) §10). The first 10
-rows of September 2025:
+**Example: the "other log" is the same agency.** In the "otherwise" branch `support` counts every producer, including
+this one. So when a producer released one period twice, once with an exemption citation in place of each Reason
+(`redacted_agency`, [semantics.md](semantics.md) §10) and once with the text, the masked copy reads
+`masked_here_released_elsewhere` and the producer's own other production is one of its backers. Check the backers'
+production dates:
 
 ```python
-PH_JULY = ("mr:207641:PRR_26-54_-_Flock_Audit_-_National_Lookups_Response_7.16.26-20260717T090710Z-1-001.zip!"
-           "PRR 26-54 - Flock Audit - National Lookups Response 7.16.26/9-1-2026 to 10-1-2026-Port Hueneme CA PD-"
-           "Network-Audit - Red#9_1_2025-10_1_2025-Port Hueneme")
-lk_compare(con, "reason", "release_id = ? AND row_no <= 10", [PH_JULY])
-print(con.sql("""SELECT state, trim(surface) = '7923.600 GC' AS exemption_citation, divergence, count(*), min(support), max(support)
-                 FROM lk_cmp GROUP BY ALL""").fetchall())
+lk_compare(con, "reason", "release_id = ? AND row_no <= 10", ["<release_id of the masked copy>"])
 lk_backers(con)
 print(con.sql("""SELECT b.backer, list(DISTINCT r.released_on ORDER BY r.released_on) AS productions,
                         count(DISTINCT (b.release_id, b.row_no)) AS rows_here
                  FROM lk_back b JOIN truth.releases r ON r.release_id = b.backer_release
                  GROUP BY 1 ORDER BY 3 DESC, 1""").fetchall())
-# [('redacted_agency', True, 'masked_here_released_elsewhere', 10, 6, 7)]                  (6.2–6.3 s)
-# Port Hueneme [2026-09-21] 10 | San Bruno [2026-04-28] 10 | Sonoma County [2026-07-29, 2026-08-05, 2026-08-31] 10 |
-# Ukiah [2026-06-23] 10 | Ukiah Fire [2026-06-24] 10 | Santa Rosa [2026-09-01] 9 | Los Altos [2026-07-09] 2
 ```
 
-All 10 are `masked_here_released_elsewhere` with `support` 6 or 7, and one of those producers is Port Hueneme itself:
-its 2026-09-21 production of the same month released the free-text Reason. The claim this supports is "Port Hueneme's
-July production shows an exemption citation where its September production and five to six other agencies' logs
-show the searcher's reason". It does not support "other agencies contradict Port Hueneme".
+If the producer is among its own backers, the claim this supports is "the producer's one production shows an exemption
+citation where its other production (and any other backers) show text". It does not support "other agencies
+contradict the producer".
 
-**Example: `differs_from_other_logs` is an exact comparison.** The first 100 rows of San Mateo PD's March 2026 PDF:
+**Example: `differs_from_other_logs` is an exact comparison.** Before reading the label as a different reason, sort the
+differing rows by how they differ:
 
 ```python
-SMPD_MAR26 = "smpd:W012541-041426:3_1_2026-3_31_2026-San_Mateo_CA_PD-Audit__1_.pdf"
-lk_compare(con, "reason", "release_id = ? AND row_no <= 100", [SMPD_MAR26])
+lk_compare(con, "reason", "release_id = ? AND row_no <= 100", ["<release_id>"])
 print(con.sql("SELECT divergence, count(*), min(support), max(support) FROM lk_cmp GROUP BY ALL ORDER BY 2 DESC").fetchall())
-print(con.sql(r"""SELECT CASE WHEN value = revealed || ' -' THEN 'here = revealed + " -"'
-                              WHEN starts_with(revealed, value) THEN 'here is a prefix of revealed'
+print(con.sql(r"""SELECT CASE WHEN lower(regexp_replace(value, '\s+', ' ', 'g')) = lower(regexp_replace(revealed, '\s+', ' ', 'g'))
+                                   THEN 'case or spacing only'
+                              WHEN starts_with(revealed, value) OR starts_with(value, revealed) THEN 'one is a prefix of the other'
                               ELSE 'other' END AS how,
                          count(*), min(length(revealed) - length(value)), max(length(revealed) - length(value))
                   FROM lk_cmp WHERE divergence = 'differs_from_other_logs' GROUP BY 1 ORDER BY 2""").fetchall())
 lk_backers(con)
 print(con.sql("""SELECT backer, count(DISTINCT (release_id, row_no)) FROM lk_back
                  WHERE divergence = 'differs_from_other_logs' GROUP BY 1 ORDER BY 2, 1""").fetchall())
-# [('same', 51, 4, 4), ('no_other_record', 25, None, None), ('differs_from_other_logs', 24, 1, 5)]   (5.4–6.8 s)
-# [('here = revealed + " -"', 3, -2, -2), ('here is a prefix of revealed', 21, 43, 43)]
-# [('San Bruno CA PD', 3), ('Los Altos CA PD', 21), ('Port Hueneme CA PD', 21), ('Sonoma County CA SO', 21),
-#  ('Ukiah CA PD', 21), ('Ukiah Fire CA FD', 21)]
 ```
 
-None of the 24 is a linking error, and none is a different reason. In 3 rows, San Mateo PD's text is San Bruno's text
-with `" -"` added. In 21 rows it is the first part of the text that five other logs released, 43 characters shorter;
-the rest of that text is not in the PDF's text layer on the cited page. The label only says the strings differ. The
-data does not say why two exports of one search differ, so quote both originals, with both citations.
+The label only says the strings differ: a difference in case, spacing or punctuation, or one text cut short, gets the
+same label as a different reason. Check for a linking error (§6) before anything else. The data does not say why two
+exports of one search differ, so quote both originals, with both citations.
 
 **Consensus of masked values.** Only `value` cells vote. A `***` in ten logs is not a consensus, the residue of a
 `partial` cell (`REDACTED / 459 SUS`) is ignored, and exemption citations such as `7923.600 GC` are `redacted_agency`.
@@ -606,40 +591,32 @@ then selects that event's truth rows and parses and cites them with the same SQL
 | `reason_surface`, `case_surface` | VARCHAR | Released text. Local only; can hold plates and civilian details |
 | `citation` | VARCHAR | Same text as `sighting_sources.citation` |
 
-The Port Hueneme search in row 1 of the July production:
+For any one search (a `u:` id from `cache.sighting_event`):
 
 ```sql
-SELECT producer, basis, src_row, reason_state, trim(reason_surface) = '7923.600 GC' AS exemption_citation, citation
-FROM event_sightings('u:801cd2c0-4c42-41c0-9111-8d9e030fdf21');
--- 17 rows, 12 producers (11–11.5 s). Condensed:
--- Port Hueneme CA PD  1_uuid 2      redacted_agency true   … produced 2026-07-17. PRR_26-54_-_Flock_Audit_-_National_Lookups_Response_7.16.26-20260717T090710Z-1-001.zip > 9-1-2026 to 10-1-2026-Port Hueneme CA PD-Network-Audit - Redatced Batch 3.xlsx, sheet "9_1_2025-10_1_2025-Port Hueneme", row 2. …
--- Port Hueneme CA PD  1_uuid 2      value           false  … produced 2026-09-21. PRR_26-54_-_Response_9.18.26-20260921T072017Z-1-001.zip > 9-1-2025 to 10-1-2025-Port Hueneme CA PD-Network-Audit.xlsx, sheet "9_1_2025-10_1_2025-Port Hueneme", row 2. …
--- San Bruno CA PD 1_uuid 281143 value | Santa Rosa CA PD 1_uuid 102215 value | Ukiah CA PD 1_uuid 23659 value | Ukiah Fire CA FD 1_uuid 26656 value
--- Sonoma County CA SO 3_k3 101138 value (three productions) | Los Altos CA PD 2_k5 80370 value
--- San Francisco CA PD 1_uuid 128176 redacted_agency | San Jose CA PD 2_k5 52994, 184045 redacted_agency (two productions)
--- Redwood City CA PD 1_uuid 261050 withheld
--- Mountain View Police Department 1_uuid 105124 not_exported (two requests) | Ventura County CA SO 2_k5 47999 not_exported
+SELECT producer, basis, src_row, reason_state, citation
+FROM event_sightings('u:<Flock search UUID>');
+-- one row per sighting: its log, link tier, the row a reader sees (NULL for San Mateo PD), Reason state, citation
 ```
 
 **Faster, for scripts: `ac.drill(con, eid)`.** It finds the event by `event_key`, then parses and cites its rows through
-literal (`release_id`, `row_no`) lookups. For this event it returned the same 17 rows, tiers, states and citations as
-the macro in 1.1–2.2 s, against about 11 s. The macro's cost depends on how many releases the event spans: 0.2–0.4 s
-for a 2-sighting event in two El Cerrito releases. `drill` returns one dict per sighting, ordered by producer, release
-and row. The keys are `producer`, `audit`, `basis`, `release_id`, `row_no`, `public_release_id`, `src_row`, `org`,
-`t`, `nets`, `reason_state`, `case_state`, `name_state`, `plate_state`, `citation`, `open_url` and `sha256`.
-`surfaces=True` adds `reason_surface` and `case_surface`, which are local only. From a shell,
+literal (`release_id`, `row_no`) lookups. It returns the same rows, tiers, states and citations as the macro, and is
+faster when the event spans many releases, because the macro's cost grows with the number of releases (§9). `drill`
+returns one dict per sighting, ordered by producer, release and row. The keys are `producer`, `audit`, `basis`,
+`release_id`, `row_no`, `public_release_id`, `src_row`, `org`, `t`, `nets`, `reason_state`, `case_state`,
+`name_state`, `plate_state`, `citation`, `open_url` and `sha256`. `surfaces=True` adds `reason_surface` and
+`case_surface`, which are local only. From a shell,
 `uv run --locked --project <code> python <code>/audit_client.py <event_id> [audit_dir]` prints states and citations without surfaces.
 
 ```python
-rows = ac.drill(con, "u:801cd2c0-4c42-41c0-9111-8d9e030fdf21")
-print(len(rows), len({r["producer"] for r in rows}))                         # 17 12
+rows = ac.drill(con, "u:<Flock search UUID>")
+print(len(rows), len({r["producer"] for r in rows}))                         # sightings, producers
 for r in rows:
-    if r["producer"] == "Port Hueneme CA PD":
-        print(r["basis"], r["src_row"], r["reason_state"], r["public_release_id"])
+    print(r["producer"], r["basis"], r["src_row"], r["reason_state"], r["public_release_id"])
 ```
 
 To write it up, take the two rows you contrast. Quote each surface from the original that you open with the
-`citation`, not from the database, and give both citations. State the tier of each row: both are `1_uuid` here, so the
+`citation`, not from the database, and give both citations. State the tier of each row: if both are `1_uuid`, the
 same Flock search ID is in both files. If a surface holds a plate or a civilian detail, describe it instead of quoting
 it ([pii.md](pii.md)). For many rows at once, `lk_backers` (§7) gives both citations for each pair.
 
@@ -673,9 +650,9 @@ Two rules make these fast:
 
 ## 10. Pitfalls
 
-- **Re-releases and repeats inflate `n_sightings`, not `n_logs`.** One San Mateo PD search has 11 sightings in 2 logs
-  (§5). San Mateo PD's PDFs repeat some searches inside one PDF, and a search printed in two PDFs would be two sightings
-  (§1). **Do:** report `n_logs`, or name the logs, and count searches as distinct `event_key`. **Don't:** call
+- **Re-releases and repeats inflate `n_sightings`, not `n_logs`.** A search exported as repeated rows in two
+  productions can have 11 sightings in 2 logs (§5). A search printed twice in San Mateo PD's PDFs, in one PDF or two,
+  is two sightings (§1). **Do:** report `n_logs`, or name the logs, and count searches as distinct `event_key`. **Don't:** call
   `n_sightings` or rows "agencies", "records" or "searches".
 - **`n_logs` counts producers.** A search in a producer's own-search log and in its network audit counts once. **Do:**
   group by (`producer`, `audit`) if the type of log matters.
@@ -700,7 +677,7 @@ Two rules make these fast:
   string. `support` can include the sighting's own producer, ties after leaving one out go to `same`, and masks that
   read as `value` can win. **Do:** read `support`, see who backs `revealed` (`lk_backers`), and open both originals
   before writing "differs". **Don't:** write "altered" from `differs_from_other_logs` alone.
-- **The comparison is exact.** A trailing `" -"`, letter case, spacing or truncation gives `differs_from_other_logs`
+- **The comparison is exact.** Letter case, spacing, punctuation or length gives `differs_from_other_logs`
   (§7). **Do:** normalize on purpose, and say how.
 - **Stale cache.** A cache built from other truth, other linking code or another DuckDB version gives wrong events
   without any error. **Do:** run `check_cache.py`. After editing `layouts.json` or `producers.json`, rebuild derived in

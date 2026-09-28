@@ -4,13 +4,13 @@
     import audit_client as ac
 
     con = ac.connect()                             # derived + truth read-only, 4 threads / 4 GB, spill capped
-    pairs = [("mr:196397:PRA25-746.csv#csv", 1), ("mr:196397:PRA25-746.csv#csv", 3)]
+    pairs = [("<release_id>", 1), ("<release_id>", 3)]
     ac.sightings_for(con, pairs).fetchall()        # parsed rows, same columns as the `sightings` view
     ac.citations_for(con, pairs).df()              # where each row is in the original + citation (`sighting_sources`)
-    ac.event(con, "u:801cd2c0-4c42-41c0-9111-8d9e030fdf21")
-    # {'event_id': 'u:801c…', 'event_key': …, 'n_sightings': 17, 'n_logs': 12, 'weakest_link': '3_k3', 'logs': [...],
-    #  'sightings': [('mr:…', 2, 'Port Hueneme CA PD', 'network', '1_uuid'), ...]}
-    for r in ac.drill(con, "u:801cd2c0-4c42-41c0-9111-8d9e030fdf21"):
+    ac.event(con, "u:<Flock search UUID>")
+    # {'event_id': 'u:…', 'event_key': …, 'n_sightings': …, 'n_logs': …, 'weakest_link': '<tier>', 'logs': [...],
+    #  'sightings': [(release_id, row_no, producer, audit, basis), ...]}
+    for r in ac.drill(con, "u:<Flock search UUID>"):
         print(r["producer"], r["basis"], r["reason_state"], r["citation"])
 
 Why these exist: a row lookup must reach truth through literal release_id / row_no filters so DuckDB skips every other
@@ -132,8 +132,7 @@ def _event_rows(con, eid):
 def event(con, eid):
     """One search (event) by its event_id, as the `events` view would show it, plus its sightings; None if unknown.
 
-    >>> event(con, "u:801cd2c0-4c42-41c0-9111-8d9e030fdf21")["n_logs"]
-    12
+    >>> event(con, "u:<Flock search UUID>")["n_logs"]   # how many producers' logs recorded that search
     """
     h, rows = _event_rows(con, eid)
     if not rows:
@@ -148,7 +147,7 @@ def drill(con, eid, surfaces=False):
     Same rows as the event_sightings(eid) macro, found by event_key and parsed by (release_id, row_no) lookups.
     surfaces=True adds reason_surface / case_surface (released text: local only).
 
-    >>> for r in drill(con, "u:801cd2c0-4c42-41c0-9111-8d9e030fdf21"):
+    >>> for r in drill(con, "u:<Flock search UUID>"):
     ...     print(r["producer"], r["basis"], r["src_row"], r["reason_state"], r["citation"])
     """
     _, rows = _event_rows(con, eid)

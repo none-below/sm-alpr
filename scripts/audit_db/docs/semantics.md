@@ -302,16 +302,12 @@ example `San Mateo CA PD`). `producer_agency_id` is that registry entry's UUID. 
 | `fixed (SMPD PRA)` | San Mateo PD's PDFs |
 
 **The Denver sample in Pasadena's production.** MuckRock 188086 (Pasadena PD) includes
-`SAMPLES/Denver_ALPR_Network_Searches_1.xlsx`: exactly 1,000,000 rows, 3,458 searching orgs nationwide, no
-`Pasadena CA PD` row (the 956 Pasadena rows are `Pasadena TX PD`). A per-file entry in `producers.json` attributes it to
-`Denver Police Department`, so coverage.md lists it under Denver. The evidence is circumstantial (`producer_source`):
-the file name, Colorado orgs over-represented, `Denver CO PD` the 4th-largest searcher; its search times also run from
-06:02 UTC on 2024-06-01 to 05:59 UTC on 2024-10-01, midnight to midnight in Mountain daylight time, where California
-productions start at 07:00 UTC (§6.2). It is a processed extract, not a native export: 6 columns, no `ID` (so it links
-only on `org` + `t` + `nets`: tiers `3_k3`, `5_k3_to_group`, `6_k3_group` or `x_ambiguous`), no Time Frame, and Reason
-empty in 999,435 rows.
+`SAMPLES/Denver_ALPR_Network_Searches_1.xlsx`: 1,000,000 rows, none by `Pasadena CA PD`. A per-file entry in
+`producers.json` attributes it to `Denver Police Department` on its file name (`producer_source`), so coverage.md
+lists it under Denver. It is a processed extract, not a native export: 6 columns, no `ID` (so it links only on `org` +
+`t` + `nets`: tiers `3_k3`, `5_k3_to_group`, `6_k3_group` or `x_ambiguous`), and no Time Frame.
 
-**Do:** describe it as "a file in Pasadena PD's production, attributed to Denver PD's network from its contents".
+**Do:** describe it as "a file in Pasadena PD's production, attributed to Denver PD's network by its file name".
 **Don't:** count it as Pasadena's log, or as a verified Denver PD export.
 
 **`org`** is the organization that ran the search. `org_basis` says where it came from:
@@ -365,8 +361,6 @@ Evidence that `t` is UTC:
   (438,530 rows) ends in `UTC`, as does every SMPD time line.
 - The same search has the same second in every format. The LAPD search in §1 has `t` = 2025-05-01 09:11:16 in San
   Jose's split sheet (no zone label) and in San Bruno's, Ukiah's, Los Altos's and Port Hueneme's `… UTC` text.
-- All 2,604 `San Mateo CA PD` rows in San Bruno's March 2026 network audit match an SMPD PDF row by UUID, with the same
-  second and the same network count (query below).
 - Productions begin at Pacific midnight expressed in UTC: SMPD's April 2026 PDF starts 2026-04-01 07:00:11 UTC, and
   Port Hueneme's April 2025 network audit 2025-04-01 07:00:05 UTC (§6.2).
 
@@ -375,19 +369,6 @@ Evidence that `t` is UTC:
 SELECT min(t) AS first_utc, timezone('America/Los_Angeles', timezone('UTC', min(t))) AS first_pacific
 FROM sightings WHERE release_id = 'smpd:W012818-053026:4_1_2026-4_30_2026-San_Mateo_CA_PD-Audit__1_.pdf';
 -- 2026-04-01 07:00:11 | 2026-04-01 00:00:11
-```
-
-```sql
--- SMPD's PDFs vs San Bruno's network audit, March 2026 Pacific
-WITH sm AS (SELECT flock_id, t, nets FROM sightings_smpd
-            WHERE t >= TIMESTAMP '2026-03-01 08:00' AND t < TIMESTAMP '2026-04-01 07:00'),
-     sb AS (SELECT flock_id, t, nets FROM sightings
-            WHERE release_id = 'mr:205259:OneDrive_2026-04-28.zip!Network Audit/3_1_2026-3_31_2026-San Bruno CA PD-Network-Audit.csv#csv'
-              AND org = 'San Mateo CA PD')
-SELECT (SELECT count(*) FROM sb) AS in_san_bruno, count(*) AS matched_by_uuid,
-       count(*) FILTER (WHERE sb.t = sm.t AND sb.nets = sm.nets) AS same_second_and_nets
-FROM sb JOIN sm USING (flock_id);
--- 2,604 | 2,604 | 2,604
 ```
 
 **Do:** convert to Pacific before stating a local date or hour, and bucket by Pacific date when matching an agency's
@@ -411,8 +392,7 @@ FROM apr SEMI JOIN may USING (flock_id);
 The April file runs to the end of May 1 Pacific, so 18,744 searches are in both files. Santa Rosa's own-search
 files, by contrast, do not overlap (§3). File names can also be wrong: the 2026-07-17 Port Hueneme member named
 `9-1-2026 to 10-1-2026-…` holds September 2025 rows (its sheet is `9_1_2025-10_1_2025-…`), and Ukiah Fire's
-`5_13_2022-6_13_2022-…` file starts on 2022-06-03. A non-California file follows its own zone's days (the Denver
-sample, §5).
+`5_13_2022-6_13_2022-…` file starts on 2022-06-03. A non-California file follows its own zone's days.
 
 **Do:** derive periods from `t` (in the producer's local time), and de-duplicate across adjacent files by event.
 **Don't:** trust a file name's dates, or sum adjacent monthly files.
@@ -440,8 +420,7 @@ GROUP BY 1 ORDER BY n DESC;
 ```
 
 **Do:** describe `tf_start`–`tf_end` as "the period the user asked to search". **Don't:** use it as the search
-time, as evidence of what was retrieved, or as proof that data past a retention limit was accessed without checking
-`t` and the quirks above.
+time or as evidence of what was retrieved, without checking `t` and the quirks above.
 
 ## 7. Total Networks Searched and Total Devices Searched
 
@@ -450,7 +429,7 @@ time, as evidence of what was retrieved, or as proof that data past a retention 
   of them. It says nothing about how many of the producer's cameras were read, how many plates came back, or whether
   anything matched. Typical values are in the hundreds: medians in El Cerrito's network audit are 631 (`lookup`) and
   623 (`search`), maximum 3,494; in San Francisco's January 2026 network audit 632 (`lookup`) against 5 (`visual`,
-  `freeform`). SMPD's `networkCount` equals San Bruno's `Total Networks Searched` on all 2,604 matched rows (§6.1).
+  `freeform`). SMPD's printed `networkCount` is Flock's `Total Networks Searched` for the same search.
 - **`nets` = 0 does not mean zero.** Every row of Ukiah Fire's network audits with `t` from June to November 2022 has
   `nets` = 0 (all by other organizations), although each of those searches covered at least Ukiah Fire's network.
   The zeros thin out from December 2022 and are rare after April 2023.
@@ -471,10 +450,8 @@ Flock's mobile app; the export does not define it. Non-label values also occur, 
 Redwood City's repeated header row (§5); `sightings_public` exports `search_type` only when it looks like a label. The
 full list with counts is in stats.md ("Search types"); counts there are rows, not searches.
 
-"National lookups": Port Hueneme's 2026-07-17 production is titled "Flock Audit - National Lookups Response", yet its
-network sheets have the same row counts as the full 2026-09-21 production and contain every search type (September
-2025: `lookup` 318,939, `search` 46,580, `convoy` 1,447, `freeform` 5, `multiGeo` 1). The title does not describe a
-filter. `lookup` rows reach hundreds of networks (§7).
+A production's title or cover letter does not establish that its rows were filtered: check the search types and row
+counts in the release before describing it as a subset. `lookup` rows reach hundreds of networks (§7).
 
 **Do:** report search types as Flock's labels, quoted, and fold ` - Mobile` only on purpose. **Don't:** infer what a
 search type did from its name alone, or compare search-type mixes across producers whose exports lack the column.
@@ -484,16 +461,16 @@ search type did from its name alone, or compare search-type mixes across produce
 - **`text_prompt`**: the natural-language prompt of a `freeform` search. In San Francisco's January 2026 network
   audit, all 316 `freeform` and `freeform - Mobile` rows have one and no other row does. It is typed by an officer and
   can hold civilian details; `sightings_public` tokenizes plates and scrubs other identifiers in it ([pii.md](pii.md)).
-- **`Moderation`** (`flock_rows."Moderation"`; not in `sightings`): Flock's verdict on a freeform prompt. San
-  Francisco, January 2026: `allow` 312, `block` 3, `warn` 1; El Cerrito: `allow` on all 86 `freeform` rows.
+- **`Moderation`** (`flock_rows."Moderation"`; not in `sightings`): Flock's verdict on a freeform prompt. Values seen
+  include `allow`, `block` and `warn`.
 - **`filters`**: the vehicle attributes the searcher filtered on (state, colour, body type, make and similar) and any
   plate search terms. In El Cerrito's network audit 109,905 rows hold `***`, 342 hold text and the rest are blank. The
   text has no fixed grammar:
   - comma-separated in some exports (El Cerrito: shapes like `Aaaaaaaa, aaaaa`);
-  - run together with no separator in others (California Highway Patrol's own-search logs: `suvgmcblack`);
+  - run together with no separator in others (for example `suvgmcblack`);
   - a plate glued onto the preceding attribute, because Flock concatenates vehicle attributes onto the plate:
-    `california` or `Chevrolet` + a `9AAA999` plate (shape `aaaaaaaaaa9aaa999`), seen in San Jose's and CHP's
-    own-search logs. `sightings_public` tokenizes a `9AAA999` glued onto any letters (`filter_plate_part`);
+    `california` or `Chevrolet` + a `9AAA999` plate (shape `aaaaaaaaaa9aaa999`), seen in some own-search logs.
+    `sightings_public` tokenizes a `9AAA999` glued onto any letters (`filter_plate_part`);
   - `*` inside a longer value is a wildcard in a partial plate (`*AAA999`, `9***999`, `****999` in El Cerrito's
     network audit), not a mask. The public view does not tokenize these fragments: `AAA999` is not a tokenized shape.
 - None of the three gets a cell state (§10). A mask is stored raw: Santa Rosa's own-search log has `###` in both
@@ -529,13 +506,13 @@ Markers seen, each checked in the named release (corpus counts by field: stats.m
 
 | Marker (released) | State | Where checked |
 |---|---|---|
-| `***` | `redacted_flock` | El Cerrito network audit (Case #, plate); Port Hueneme network audits (Name, plate); Cotati own-search log (all four fields); San Bruno own-search June 2024 (Reason, plate); SMPD `userID` (107,691 of 110,705 rows) |
+| `***` | `redacted_flock` | El Cerrito network audit (Case #, plate); Port Hueneme network audits (Name, plate); one own-search log (all four fields); San Bruno own-search June 2024 (Reason, plate); SMPD `userID` lines |
 | `REDACTED` | `redacted_agency` | San Jose network audits (Reason, plate, Name); Marin own-search logs (Reason, plate); NCRIC network audit (Name); Los Altos (Name, plate) |
 | `[REDACTED]` | `redacted_agency` | Contra Costa network audit (Reason, plate) |
 | `###` | `redacted_agency` | Santa Rosa own-search log (Case #, Name, plate) |
 | `* * *` | `redacted_agency` | San Bruno own-search January 2024 and January 2025 (Reason, Case #, plate); its other months use `***` |
-| `7923.600 GC` | `redacted_agency` | Port Hueneme: every Reason in the 13 network audits of the 2026-07-17 production; License Plate cells in its own-search logs; 3 Case # cells |
-| `REDACTED` + text: `REDACTED, …`, `REDACTED …`, `REDACTED / …`, `REDACTED; …`, `REDACTED/…` and more | `partial` | Marin County Reason; San Jose Name (31 rows in the May–June 2025 sheet) |
+| `7923.600 GC` | `redacted_agency` | One producer's releases (Reason, License Plate, Case #) |
+| `REDACTED` + text: `REDACTED, …`, `REDACTED …`, `REDACTED / …`, `REDACTED; …`, `REDACTED/…` and more | `partial` | Marin County Reason; Name cells in one producer's network audits |
 | Initial + fragment, shapes `A. Aaa`, `. Aaa`, `A. Aa`, `A. A'A`, and lower-case initials (`a. Aaa`, 169 rows in `rwc:PRA_26_217_2025_1`) | `partial` | Redwood City Name |
 
 Census for one release:
@@ -550,36 +527,24 @@ GROUP BY ALL ORDER BY 1, n DESC;
 -- case empty 185,935 | case value 45 | name value 185,980 | plate redacted_agency [REDACTED] 185,980 | reason redacted_agency [REDACTED] 185,980
 ```
 
-An exemption citation typed in place of the value is the agency withholding it. Port Hueneme produced September 2025
-twice; the first production cites the exemption in every Reason cell, the second releases the reasons:
+An exemption citation typed in place of the value is the agency withholding it. When the same period is produced
+twice, the productions can differ (one citing the exemption, the other releasing the text), so compare states per
+release, never per producer (§14):
 
 ```sql
-SELECT r.released_on, s.reason_state, s.reason_surface = '7923.600 GC' AS exemption_citation, count(*) AS n
+SELECT r.released_on, s.reason_state, count(*) AS n
 FROM sightings s JOIN truth.releases r USING (release_id)
-WHERE r.producer = 'Port Hueneme CA PD' AND r.audit = 'network' AND r.sheet LIKE '9_1_2025-10_1_2025%'
+WHERE r.producer = '<producer>' AND r.audit = 'network' AND r.sheet LIKE '<period>%'
 GROUP BY ALL ORDER BY 1, n DESC;
--- 2026-07-17 redacted_agency true 366,972 | 2026-09-21 value false 362,224 | empty NULL 4,144 | placeholder false 604
 ```
 
-**`value` does not mean genuine.** Every Reason cell in both Riverside County releases of MuckRock 210264 (own-search
-log, 55,000 rows; network audit, 554,620 rows including other organizations' searches) is `Investigation`, state
-`value`. The same Riverside searches carry other reasons in other producers' logs (linked by event):
+**`value` does not mean genuine.** A Reason column can hold the same text in every row, or text that differs from what
+other producers' logs released for the same searches (linked by event, [linking.md](linking.md) §7). Either way the
+state is `value`. Look at the column's distinct values, and at the same searches in other logs (`read_field`), before
+treating it as what searchers typed.
 
-```sql
--- Riverside's own searches as recorded in Ukiah PD's network audits
-WITH rv AS (SELECT DISTINCT event_key FROM cache.sighting_event
-            WHERE producer = 'Riverside County CA SO' AND audit = 'own'),
-uk AS (SELECT c.release_id, c.row_no FROM cache.sighting_event c SEMI JOIN rv USING (event_key)
-       WHERE c.producer = 'Ukiah CA PD' AND c.audit = 'network')
-SELECT count(*) AS sightings, count(*) FILTER (WHERE s.reason_state = 'value') AS reason_value,
-       count(*) FILTER (WHERE s.reason = 'Investigation') AS investigation, count(DISTINCT s.reason) AS distinct_reasons
-FROM sightings s SEMI JOIN uk USING (release_id, row_no)
-WHERE s.release_id IN (SELECT release_id FROM truth.releases WHERE producer = 'Ukiah CA PD' AND audit = 'network');
--- 37,979 | 37,979 | 0 | 2,983
-```
-
-`value` can also be civilian data in the wrong field: 662 Case # values in CHP's October 2025 own-search release have
-the California plate shape `9AAA999`.
+`value` can also be civilian data in the wrong field: a Case # cell can hold a plate (shape `9AAA999`,
+[pii.md](pii.md)).
 
 **Do:** filter on the state (`reason_state = 'value'`), read `reason` / `case_no`, and look at the distinct values
 (and at the same searches in other logs) before counting "searches with a reason". **Don't:** count non-blank surfaces
@@ -591,22 +556,20 @@ holds one value in every row as what searchers entered.
 `redacted_flock` names the marker (`***`), not the actor. Compare the producer's own rows (`org = producer`) with
 other organizations' rows in the same network audit:
 
-| Release | Producer's own rows | Other organizations' rows |
-|---|---|---|
-| El Cerrito network audit (2026-01-15) | 743 rows: plate and Case # `value` or blank | 437,787 rows: plate and Case # `***` or blank, never `value` |
-| Port Hueneme September 2025 network audit (both productions) | 72 rows in each production: Name `value`, plate `value` or blank | Name `***` on every row; plate `***` or blank |
-| Ukiah February 2025 network audit | 470 rows: Name `***` | Name `***` |
-| Cotati own-search log | all 19 rows `***` in Reason, Case #, Name, plate | — |
+| Pattern in one release | What it suggests |
+|---|---|
+| Producer's own rows show values or blanks; other organizations' rows show `***` or blanks | Consistent with Flock's export masking other agencies' details |
+| Producer's own rows show `***` too | Only the agency or an export setting can explain it |
+| An own-search log with `***` in a field on every row | The same: every row is the producer's own |
 
-So `***` appears both where only other organizations' fields are masked (consistent with Flock's export masking
-other agencies' details) and on the producer's own rows, which only the agency or an export setting can explain.
-Reason is usually left readable in network audits (El Cerrito: `value` in 438,179 of 438,530 rows).
+So `***` appears both where only other organizations' fields are masked and on the producer's own rows. Reason is
+usually left readable in network audits (El Cerrito: `value` in 438,179 of 438,530 rows).
 
 ```sql
--- El Cerrito: producer's own searches vs everyone else's
+-- one network audit: the producer's own searches vs everyone else's
 SELECT org = producer AS producers_own_search, plate_state, case_state, count(*) AS n
 FROM sightings
-WHERE release_id = 'mr:199390:12_16_2025-1_15_2026-El_Cerrito_CA_PD-Network-Audit.csv#csv'
+WHERE release_id = '<network audit release_id>'
 GROUP BY ALL ORDER BY 1, n DESC;
 ```
 
@@ -635,13 +598,13 @@ SELECT field, in_header, withheld, count(*) AS releases
 FROM release_fields
 WHERE producer = 'Redwood City CA PD' AND field IN ('Reason', 'License Plate')
 GROUP BY ALL ORDER BY 1, 2;
--- License Plate false false 15 | License Plate true false 13 | Reason false true 23 | Reason true true 5
 ```
 
-A disposition does not erase what survived: in `rwc:PRA_26_217_2025_1`, which has a Reason column, 192,111 Reason
-cells are `value`, 1,244 blank cells are `withheld` and 237 are `placeholder`. Redwood City's second disposition,
-License Plate `redacted`, is not a `withheld_blanked` disposition, so its plate columns that are absent or blank
-throughout read `not_exported`, and blank plate cells `empty`, although the cover letter says plates were removed.
+A disposition changes only blank cells: a blank cell it covers reads `withheld`, and a non-blank cell in the same column
+keeps its own state (`value`, `placeholder` or a masked state). A disposition that is not `withheld_blanked` (Redwood
+City's License Plate `redacted`, for example) does not feed `cell_state`, so the columns it covers read `not_exported`
+when absent and `empty` when blank. The disposition records what the agency says; the cell states record what the
+release holds.
 
 **Do:** cite the disposition's `source` when you say an agency withheld a field; say "blank as released" for
 `empty`; check the workbook's header row before saying Redwood City did not export a column. **Don't:** describe
@@ -686,23 +649,20 @@ and sometimes with different masking or row counts.
   Fire's two `7_13_2023-8_12_2023` CSVs (one named `(1)`) hold the same 11,385 rows in a different order and do not
   group. The same data as CSV and as XLSX never groups. Los Altos's January–July 2025 network audits group across PRAs
   25-312 and 26-366, and so do its own-search logs for the same months except May.
-- **Same period, different content.** San Jose's May–June 2025 network sheet, produced twice:
+- **Same period, different content.** Two productions of one period can have the same row count and differ in which
+  cells are masked. Compare states per release:
 
 ```sql
 SELECT r.released_on, count(*) AS n,
        count(*) FILTER (WHERE s.name_state = 'value') AS searcher_name_shown,
        count(*) FILTER (WHERE s.name_state = 'redacted_agency') AS searcher_name_redacted
 FROM sightings s JOIN truth.releases r USING (release_id)
-WHERE s.release_id IN ('mr:187612:Attachment_3-_Network_Audit_June_2024-June_2025_Redacted.xlsx#May 2025- Jun 2025',
-                       'mr:202333:Attachment_-_Network_Audit_March_2025-Aug_2025.xlsx#May 2025- Jun 2025')
+WHERE s.release_id IN ('<release A>', '<release B>')
 GROUP BY 1 ORDER BY 1;
--- 2025-09-15 700,601 695,748 4,822 | 2026-02-27 700,601 30,174 670,427
 ```
 
-- Port Hueneme's 2026-07-17 and 2026-09-21 productions have equal row counts sheet for sheet, yet none of those
-  pairs groups, because the July copy replaces every Reason with an exemption citation (§10). Its only group is the
-  July and August redacted copies of February 2026. March 2026 differs by a row between August and September (456,850
-  against 456,851).
+- A copy that replaces a field with an exemption citation (§10) does not group with a copy that releases the field,
+  even when the row counts match sheet for sheet.
 - Los Altos's August 2025 network audit is partial in 25-312 (35,070 rows) and full in 26-366 (362,205).
 
 Which copy to cite: [provenance.md](provenance.md), "Re-releases: which copy to cite".
@@ -723,8 +683,8 @@ WHERE release_id = 'mr:214821:Records_Request_Download_PS-359-2026_2026-07-09--2
 ```
 
 There, 3,023 UUIDs repeat (up to 5 copies), and the release has exactly 201,153 distinct full rows, so every repeat
-is an exact copy. Santa Rosa's February 2025 own-search release has 5,227 rows for 5,146 UUIDs; three SMPD PDFs print
-some searches more than once (§18). Where a release has no `ID` column, a repeat cannot be told from two searches that look
+is an exact copy. Santa Rosa's February 2025 own-search release has 5,227 rows for 5,146 UUIDs; SMPD's PDFs can print
+a search more than once (§18). Where a release has no `ID` column, a repeat cannot be told from two searches that look
 the same in the exported columns: Redwood City's `rwc:PRA_26_217_2025_7` has 465,690 rows but 393,891 distinct full
 rows, and at least one repeated pair (rows 331960 and 442682) links to a single UUID in other logs. Linking puts
 identical UUID-less rows in one event (§3).
@@ -740,7 +700,7 @@ A few rows have `t` NULL; [coverage.md](coverage.md) lists them by producer. Wha
   release in 25-312), so `org`, `t` and `nets` are NULL. They are not searches, have no `cache.sighting_event` row,
   and never count as events.
 - Santa Rosa's February 2026 network audit: 19 `freeform` rows in each production whose `Search Time` cell holds the
-  Moderation verdict (`allow` 16, `block` 3) and no cell holds the time (§13). coverage.md reports these as "blank
+  Moderation verdict (`allow` or `block`) and no cell holds the time (§13). coverage.md reports these as "blank
   cell" because it reads the corrected field; the released cell is not blank.
 - Redwood City's repeated header row (§5).
 
@@ -754,11 +714,10 @@ evidence that a search did not happen.
 
 - **Only producers we hold.** A network audit shows only searches that touched that producer's cameras. A search of
   an agency whose logs we don't hold is invisible unless it also touched one we do.
-- **Not yet produced or loaded is not omitted.** SMPD's log has rows for every Pacific month from January 2023 to May
-  2026 except July–September 2023, June–September 2024 and June–September 2025. June 2024 *was* produced, as two
-  image-only PDFs: releases with `n_rows` 0 whose `header_basis` says so (OCR not loaded). The other months have no
-  PDF in the committed productions (W012541, W012818). June 2023 and May 2025 were produced and are loaded (the repo's
-  merged JSON lacks them, §18). None of this says whether searches happened.
+- **Not yet produced or loaded is not omitted.** A month with no rows may not have been produced yet, may be in a
+  production not yet loaded, or may have been produced in a form that is not loaded: an image-only PDF is a release
+  with `n_rows` 0 whose `header_basis` says so (OCR not loaded). None of this says whether searches happened. List
+  SMPD's months, and its releases with no rows, from the data:
 
 ```sql
 SELECT strftime(timezone('America/Los_Angeles', timezone('UTC', t)), '%Y-%m') AS pacific_month,
@@ -769,8 +728,7 @@ SELECT release_id, header_basis FROM truth.releases WHERE release_id LIKE 'smpd:
 
 - **Partial files.** Los Altos's August 2025 file in PRA 25-312 is partial (§14). Some file names do not match their
   contents (§6.2).
-- **Round row counts** can signal an export cap, though none is verified: the Denver sample (1,000,000 rows),
-  Riverside County's own-search log (55,000), `rwc:PRA_26_217_4th_Release_Dec2023` (20,000).
+- **Round row counts** (a release whose `n_rows` is a round number) can signal an export cap; none is verified.
 
 **Do:** write "at least N searches in the logs released to date" and name the logs and periods. **Don't:** write "no
 searches", "never" or "only N" from an absence here, or call a period "missing" or "omitted" when it has not been
@@ -784,7 +742,7 @@ printed columns `ID`, `userID`, `networkCount`, `Search Time`, `Reason` (`releas
 original, and this database reads it directly (`smpd_pdf_loader.py`, pymupdf text layer).
 
 - **One release per PDF**: `smpd:<request folder>:<pdf name>`. January 2025 and January 2026 are each split across
-  two PDFs (Part 1, Part 2); no search id appears in two PDFs. The two June 2024 PDFs are image-only (§17).
+  two PDFs (Part 1, Part 2); no search id appears in two PDFs. A PDF with no text layer loads no rows (§17).
 - **One row per search-id block as printed** (`truth.smpd_pdf_rows`): `id`, `user_line`, `count_time_line` (network
   count and time on one line), `reason_line` (NULL when the Reason cell is blank), all verbatim; `src_page` and
   `src_line` (1-based) locate the id on the page. No block is dropped. Cite by page:
@@ -792,20 +750,17 @@ original, and this database reads it directly (`smpd_pdf_loader.py`, pymupdf tex
 - **Parsed fields** (`sightings_smpd`): `org` = producer; `t` and `nets` from `count_time_line`; `name_surface` =
   `user_line`; `reason_surface` = `reason_line`. Case # and License Plate are `not_exported`; Time Frame, devices,
   Search Type, Text Prompt and Filters are NULL. Every row links by UUID (`1_uuid`).
-- **A search printed twice is two sightings.** Three PDFs repeat some blocks (up to 4 copies), identical and on
-  adjacent rows. Count distinct `flock_id` or `event_id`:
+- **A search printed twice is two sightings.** Some PDFs repeat a block, identical and on adjacent rows. Count
+  distinct `flock_id` or `event_id`:
 
 ```sql
 SELECT release_id, count(*) AS n_rows, count(DISTINCT flock_id) AS searches
 FROM sightings_smpd GROUP BY 1 HAVING count(*) <> count(DISTINCT flock_id) ORDER BY 1;
--- …12_1_2024-12_31_2024-San_Mateo_CA_PD-Audit.pdf 4,026 4,025 | …1_1_2023-1_31_2023-San_Mateo_CA_PD-Audit2.pdf 2,829 2,751
--- …2_1_2025-2_28_2025-San_Mateo_CA_PD-Audit.pdf 6,235 6,135
 ```
 
-- **`parse_note` rows.** Some pages had Reason cells edited in Acrobat before production (see the
-  `smpd_pdf_loader.py` docstring), and the re-save moved those pages' text out of printed order. Where text order and the printed row disagree, the loader reads each cell by its
-  position in the id's printed row, and `parse_note` names the page line it took each cell from (69 rows on 7 pages
-  of 7 PDFs in this build). Check these against the page before quoting them:
+- **`parse_note` rows.** On some pages the text layer is not in printed order. Where text order and the printed row
+  disagree, the loader reads each cell by its position in the id's printed row, and `parse_note` names the page line
+  it took each cell from. Check these against the page before quoting them:
 
 ```sql
 SELECT regexp_extract(release_id, '[^:]+$') AS pdf, src_page, count(*) AS rows_read_by_position
@@ -813,10 +768,8 @@ FROM truth.smpd_pdf_rows WHERE parse_note IS NOT NULL GROUP BY ALL ORDER BY 1;
 ```
 
 - **Not the repo's merged JSON.** `assets/transparency.flocksafety.com/san-mateo-ca-pd/pra-W012541-041426.json`,
-  the repo's earlier parse of the same request, was built from 28 of W012541's 32 PDFs (not June 2023, May 2025 or
-  the image-only June 2024 pair). On the Acrobat-edited pages it holds 35 reasons that differ from the printed row
-  (33 are the next row's search id, 2 another row's reason on the same page), and it lacks 33 printed rows. Counts
-  from this database and from that JSON differ for these reasons.
+  the repo's earlier parse of the same request, was built by a different reader from a different set of PDFs, so
+  counts from this database and from that JSON differ.
 
 **Do:** count SMPD searches as `count(DISTINCT flock_id)`, cite the PDF page, and check `parse_note` rows on the page.
 **Don't:** count SMPD rows as searches, or reconcile against the merged JSON without saying which source a number

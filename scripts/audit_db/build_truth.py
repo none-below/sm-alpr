@@ -279,7 +279,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("out")
     ap.add_argument("tmp")
-    ap.add_argument("--repo", default=".", help="repo checkout (any worktree) to read committed inputs from; default: current")
+    ap.add_argument("--repo", default=".", help="repo checkout to read committed inputs from; it must be the checkout this "
+                    "build code is in (checked); default: current directory")
     args = ap.parse_args()
     try:
         import pymupdf
@@ -287,10 +288,11 @@ def main():
         raise SystemExit("pymupdf is needed for the SMPD PDFs: run in the pinned env, "
                          "uv run --locked --project scripts/audit_db python scripts/audit_db/build_truth.py ...") from None
     WT = Path(git(args.repo, "rev-parse", "--show-toplevel"))
-    # repo_commit identifies the build code only if the code runs from the checkout it reads inputs from
-    if Path(git(HERE, "rev-parse", "--show-toplevel")).resolve() != WT.resolve():
-        raise SystemExit(f"build code ({HERE.resolve()}) and --repo ({WT}) are different checkouts, so the recorded commit "
-                         "would not identify the code: run the build_truth.py of the checkout you build from")
+    # repo_commit identifies the build code only if the code that runs is that checkout's own scripts/audit_db (not a copy
+    # elsewhere, such as the pre-git copies in .claude/audit_db/, which git status never sees)
+    if HERE.resolve() != (WT / "scripts" / "audit_db").resolve():
+        raise SystemExit(f"build code ({HERE.resolve()}) is not {WT / 'scripts' / 'audit_db'}, so the recorded commit would not "
+                         "identify the code: run the build_truth.py of the checkout you build from")
     PRIMARY = Path(git(WT, "rev-parse", "--path-format=absolute", "--git-common-dir")).parent
     EV = PRIMARY / ".claude/local_evidence/muckrock-ca-audit-logs"
     TMP = Path(args.tmp)

@@ -92,33 +92,32 @@ print(sql_tok == ref_token(DUMMY, "0XXX000"))             # True: same HMAC, and
 - **Same normalized string → same token, everywhere.** The HMAC input is the plate text only. No producer, release or
   date goes in, so a token found in one agency's log joins to the same token in any other agency's log, month or
   re-release.
-- **Spelling variants merge.** `0xx-x 000` and `0XXX000` share a token. In Ventura CA PD's October 2023 own-search
-  log, 136 plate cells hold 64 distinct raw strings (36 cells contain lower case) but 60 distinct plates after
-  `plate_norm`, and give exactly 60 tokens.
+- **Spelling variants merge.** `0xx-x 000` and `0XXX000` share a token. A release's plate column can therefore hold
+  more distinct raw strings than distinct tokens: it gives exactly one token per distinct plate after `plate_norm`,
+  whatever the case and punctuation of the raw strings.
 - **A token is a string, not a vehicle.** A typo, a misread character or a partial plate gets a different token. The
   issuing state is not part of the input, so the same characters on plates from two states share one token.
-- **A token hides length and shape.** A partial search (Port Hueneme's own-search `value` plate cells include shapes
-  `9AA` and `999`) looks exactly like a full plate.
+- **A token hides length and shape.** A partial search (a plate cell holding only a shape such as `9AA` or `999`)
+  looks exactly like a full plate.
 - **`value` does not mean genuine.** Every `value` cell in the plate column is tokenized, whatever it holds. Known
-  masks and exemption citations are recognized (`agency_mask`, `exemption_cite`) and pass through as released: Port
-  Hueneme's 2,056 own-search cells holding `7923.600 GC` are `redacted_agency` and stay that text. Before
-  `exemption_cite` existed they were one token that looked like a plate searched 2,056 times. A marker the rules do
-  not know would still become a frequent token, so check the most frequent tokens' `plate_surface` locally before
-  ranking tokens. See [semantics.md](semantics.md) §10.
-- **A plate can be in free text only.** In the Ventura release above, both Reason cells that got a token belong to
-  rows whose plate column is `empty`. In each, the whole Reason is a `9AAA999`-shaped string. Following a plate means
-  reading the plate column **and** the bracketed tokens in the text columns.
+  masks and exemption citations are recognized (`agency_mask`, `exemption_cite`) and pass through as released: a
+  plate cell holding `7923.600 GC` is `redacted_agency` and stays that text. Before `exemption_cite` existed, such
+  cells all became one token that looked like one plate searched very often. A marker the rules do not know would
+  still become a frequent token, so check the most frequent tokens' `plate_surface` locally before ranking tokens.
+  See [semantics.md](semantics.md) §10.
+- **A plate can be in free text only.** A row whose plate column is `empty` can still carry a plate in its Reason, for
+  example a Reason that is only a `9AAA999`-shaped string. Following a plate means reading the plate column **and**
+  the bracketed tokens in the text columns.
 
 ### Working with tokens (no key needed)
 
 In `plate` the token is bare (`p1_…`). In `reason`, `case_no`, `filters`, `text_prompt` and `searcher_name` it is
 bracketed (`[p1_…]`). One pattern extracts both: `p1_[0-9a-f]{16}`.
 
-Every token a release mentions, by column (Ventura CA PD, October 2023 own-search log; tokens themselves are not
-printed):
+Every token a release mentions, by column (tokens themselves are not printed):
 
 ```python
-PRID = "mr:208492:Organizational_Audit_July_2023-April_2026.xlsx#October 2023"
+PRID = "<public_release_id>"
 TOKENS = r"""
 WITH p AS (SELECT * FROM sightings_public WHERE public_release_id = $prid),
 t AS (
@@ -130,22 +129,22 @@ t AS (
 SELECT field, count(*) AS mentions, count(DISTINCT token) AS distinct_tokens, count(DISTINCT row_no) AS rows_
 FROM t GROUP BY field ORDER BY field"""
 print(con.execute(TOKENS, {"prid": PRID}).fetchall())
-# [('plate', 136, 60, 136), ('reason', 2, 2, 2)]      0.24 s
+# [(field, mentions, distinct_tokens, rows_), …]: one tuple per column that holds at least one token
 ```
 
-Following plates across releases: how many of Ventura CA PD's own-search plate tokens recur in more than one of its
-34 monthly worksheets (the sheet name comes from `release_sources`, joined on `public_release_id`):
+Following plates across releases: how many of one producer's own-search plate tokens recur in more than one of its
+monthly worksheets (the sheet name comes from `release_sources`, joined on `public_release_id`):
 
 ```python
 print(con.execute(r"""
 WITH m AS (
   SELECT r.sheet, p.plate AS token
   FROM sightings_public p JOIN release_sources r USING (public_release_id)
-  WHERE p.producer = 'Ventura CA PD' AND p.audit = 'own' AND p.plate_state = 'value')
+  WHERE p.producer = $producer AND p.audit = 'own' AND p.plate_state = 'value')
 SELECT count(DISTINCT token) AS tokens, count(*) FILTER (WHERE n_sheets > 1) AS tokens_in_2plus_months,
        max(n_sheets) AS max_months
-FROM (SELECT token, count(DISTINCT sheet) AS n_sheets FROM m GROUP BY token)""").fetchall())
-# [(8788, 932, 12)]      0.5–0.8 s
+FROM (SELECT token, count(DISTINCT sheet) AS n_sheets FROM m GROUP BY token)""", {"producer": "<producer>"}).fetchall())
+# [(tokens, tokens_in_2plus_months, max_months)]
 ```
 
 Before you publish a pattern like this, cite the rows behind it: join on (`public_release_id`, `row_no`) to
@@ -153,17 +152,18 @@ Before you publish a pattern like this, cite the rows behind it: join on (`publi
 events, not sightings, when you mean searches ([linking.md](linking.md)).
 
 **Cost.** `sightings_public` is a view. It computes every token on read, so a filter such as `WHERE plate = 'p1_…'`
-cannot be pushed into `truth`: it computes the token for every row it scans. Filter by `public_release_id` (it prunes:
-0.2–0.5 s for one release above) or by `producer` first. For corpus-wide token searches, use the materialized export
-(planned), or materialize the subset you need once.
+cannot be pushed into `truth`: it computes the token for every row it scans. Filter by `public_release_id` (it
+prunes to one release) or by `producer` first. For corpus-wide token searches, use the materialized export (planned),
+or materialize the subset you need once.
 
 ### Who needs the key
 
 - **Nobody who reads tokens.** Joining, counting and following tokens in the export, or in `sightings_public` on
   this machine, works on the strings.
 - **Only whoever turns a raw plate into a token**: building `sightings_public` output or the export, or looking up a
-  plate someone has in hand (a reporter with a plate from a source cannot find it in the public data without asking
-  the key holder to run `plate_token`).
+  plate someone has in hand. A reporter with a plate from a source cannot search the export for it without asking the
+  key holder to run `plate_token`. Where a row's cited original shows the plate, it can still be read there (last
+  point below).
 - **The key is the whole cryptographic protection.** The plate space is small (the standard California shape `9AAA999`
   has 10 × 26³ × 10³ = 175,760,000 strings), so anyone holding the key can reverse every token by enumeration. Without
   the key, enumeration is useless because HMAC outputs cannot be computed.
@@ -188,8 +188,8 @@ How this was checked, with throw-away keys only: `SET home_directory = '<scratch
 directory for the session, so the real key is never touched. Missing, empty, 63-digit, 66-digit and non-hex key files
 each made both `plate_token('0xxx-000')` and `SELECT count(*) FROM sightings_public WHERE public_release_id = …` raise
 the error. A dummy key ending in `\n`, and the same key upper-cased with CRLF and inner spaces, each gave exactly the
-Python `hmac` token, and the Ventura count (949). With `HOME` set the same way, `plate_key.py --check` and `token_py`
-agreed. Use the same trick to test the failure path of anything you build.
+Python `hmac` token, and a test release's full row count from `sightings_public`. With `HOME` set the same way,
+`plate_key.py --check` and `token_py` agreed. Use the same trick to test the failure path of anything you build.
 
 Rules:
 
@@ -210,9 +210,10 @@ WHERE k.pi IS NOT NULL
 One row per released search row: the same rows as `sightings` (`sightings_flock` ∪ `sightings_smpd`), named by
 `public_release_id` instead of `release_id`, with the one row of key pads joined on. `k.pi IS NOT NULL` is always
 true with a valid key. It is there so that every read, even `count(*)`, reads the key, so a missing or malformed key
-fails the query instead of emptying the view. Pass-through columns are identical to `sightings`. On the Ventura
-release above, 0 of 949 rows differ in any pass-through column or `*_state`, `search_type` and `searcher_name` equal
-the released values on every row, and the 2 rows whose `reason` differs from `reason_surface` each carry a token.
+fails the query instead of emptying the view. Pass-through columns are identical to `sightings`. To confirm this on a
+release, join it to `sightings` on `sighting_id`: no row should differ in any pass-through column or `*_state`,
+`search_type` and `searcher_name` should differ only where the label rule or a plate token applies, and a row whose
+`reason` differs from `reason_surface` should carry a token or a scrub marker.
 
 | Column | Type | Meaning | Notes |
 |---|---|---|---|
@@ -230,7 +231,7 @@ the released values on every row, and the 2 rows whose `reason` differs from `re
 | `tf_start` | TIMESTAMP | Searched period, start (UTC) | |
 | `tf_end` | TIMESTAMP | Searched period, end (UTC) | |
 | `flock_id` | VARCHAR | Flock search UUID | |
-| `search_type` | VARCHAR | Flock search-type label | `sightings.search_type` only when it fully matches `[A-Za-z][A-Za-z0-9 -]{0,40}` (a letter, then at most 40 letters, digits, spaces or hyphens) and contains no `9AAA999` plate shape, otherwise NULL. No punctuation, so a time or a shifted cell cannot pass; digits are allowed so a genuine label such as `apiV1` (San Bruno, Redwood City, Ukiah Fire) is kept |
+| `search_type` | VARCHAR | Flock search-type label | `sightings.search_type` only when it fully matches `[A-Za-z][A-Za-z0-9 -]{0,40}` (a letter, then at most 40 letters, digits, spaces or hyphens) and contains no `9AAA999` plate shape, otherwise NULL. No punctuation, so a time or a shifted cell cannot pass; digits are allowed so a genuine label such as `apiV1` is kept |
 | `layout_corrected` | BOOLEAN | Row read through a `release_layouts` correction | |
 | `reason` | VARCHAR | Reason **as released** (surface), scrubbed, then plate-tokenized | `tokenize_in(scrub_civilian(reason_surface), plate_candidates(scrub_civilian(reason_surface)), true, pi, po)`. Masks (`***`, `REDACTED`) and placeholders stay, untrimmed. **Not** `sightings.reason` (the clean value): filter `reason_state = 'value'` and `trim` it yourself |
 | `reason_state` | VARCHAR | Cell state of Reason | As in `sightings` ([semantics.md](semantics.md) §10) |
@@ -250,9 +251,9 @@ from the event log.
 ## Release names and zip folders
 
 For a file inside a MuckRock zip, `release_id` is `mr:<request>:<zip file>!<member path>#<sheet>`, and the member path
-includes the folders inside the agency's zip. Folder names can identify people. In 95 releases of Sonoma County CA SO
-(MuckRock 214824, 61 and 34 releases under two folder shapes), the folder name includes the MuckRock requester's name.
-MuckRock publishes requester names itself; this dataset does not republish them.
+includes the folders inside the agency's zip. Folder names can identify people: in some zipped releases, a folder name
+includes the MuckRock requester's name. MuckRock publishes requester names itself; this dataset does not republish
+them.
 
 The public forms, all in `release_sources` and built from the member's file name only:
 
@@ -264,9 +265,9 @@ The public forms, all in `release_sources` and built from the member's file name
 - **`link`**, **`locator`** and **`citation`** are built from `document`. `open_url` for a zip is the zip's download
   URL.
 
-Checked on all 112 Sonoma releases that sit in a zip folder: the folder text occurs in none of their
+Checked on every release whose folder names include a requester's name: the folder text occurs in none of their
 `release_sources` values of `public_release_id`, `document`, `link`, `source_url`, `container_path`, `sheet`,
-`member_file` or `source_file`, nor in any `citation`, `document`, `link` or `open_url` of one such release's 1,440
+`member_file` or `source_file`, nor in any `citation`, `document`, `link` or `open_url` of one such release's
 `sighting_sources` rows. It occurs in every `release_id`, `member` and `document_verbatim`.
 
 Where the verbatim member path still lives (all local only):
@@ -278,7 +279,7 @@ Where the verbatim member path still lives (all local only):
 | `sighting_sources`, `sighting_sources_flock`, `sighting_sources_smpd` | `release_id`, `document_verbatim` |
 | `truth.flock_audit_rows`, `truth.flock_event_rows`, `flock_rows`, `sightings`, `sightings_flock`, `sightings_smpd`, `event_log` | `release_id` |
 | `cache.sighting_keys`, `cache.sighting_event` | `release_id` |
-| `release_content_groups` | `releases`: a list of verbatim `release_id`s (68 of the 95 Sonoma releases appear) |
+| `release_content_groups` | `releases`: a list of verbatim `release_id`s, including re-released zip members |
 
 `sighting_id`, and `x:<sighting_id>` event ids, are hashes of the verbatim `release_id`, not the text. To carry
 `event_id` into an export, join `cache.sighting_event` to `release_sources` on `release_id` and export only
@@ -307,8 +308,8 @@ Tier B, whole field: the trimmed cell is exactly one tier B shape, any case:
 
 **Never tokenized in free text: `AAA9999`, `AA99999`, `AAA999`, `A9999999`.** These are case-number formats, and
 `A9999999` is also the California driver's licence format (handled by `[dl]` when anchored). The comment in
-`public_macros.sql` gives the reason tier A is safe everywhere: `9AAA999` was found as "Case #" in 92 different orgs'
-searches, so it is a plate rather than any one agency's case scheme. That count was not re-measured for this build.
+`public_macros.sql` gives the reason tier A is safe everywhere: `9AAA999` is the California standard plate shape, not
+one agency's case-number scheme.
 
 What the rules do, on synthetic strings (`0` and `X` stand for any digit and letter; reproduce with
 `con.sql("SELECT plate_candidates('…')")`):
@@ -343,10 +344,10 @@ Otherwise: no candidate. A shape is never cut out of a longer run.
 ```
 
 Rule 2 is there because Flock concatenates vehicle attributes onto the plate in Filters. On 2026-09-26 the pre-export
-check found 3,654 Filters cells in San Jose CA PD, Los Altos CA PD and California Highway Patrol releases that still
-held a raw `9AAA999` plate glued onto such a tag. Rule 2 was added the same day, and the check now reports 0
-([stats.md](stats.md)). Tier B shapes glued onto a tag that is not all lower case, and the letter-first `AA99A99`
-glued onto any tag, are not tokenized: the boundary between tag and plate is ambiguous there.
+check found 3,654 Filters cells that still held a raw `9AAA999` plate glued onto such a tag. Rule 2 was added the
+same day, and the check now reports 0 ([stats.md](stats.md)). Tier B shapes glued onto a tag that is not all lower
+case, and the letter-first `AA99A99` glued onto any tag, are not tokenized: the boundary between tag and plate is
+ambiguous there.
 
 `filter_plate_candidates(txt)` lists the distinct parts that would be tokenized, for inspection. On synthetic strings
 (reproduce with `con.sql("SELECT filter_plate_candidates('…')")`):
@@ -441,9 +442,9 @@ What can still be in `sightings_public`, and why:
   never-tokenized shapes (`AAA9999` is also a common out-of-state plate shape); plates written with a space or dash
   (`0XXX 000`); a plate glued to other letters or digits (`CA0XXX000`, `0XXX000CA`). They cannot be told apart from
   case numbers by shape alone. The check below counts them for review.
-- **Plate crumbs in Filters**: a never-tokenized shape standing alone (in California Highway Patrol's October 2025
-  release, 18 Filters cells are exactly an `AA99999` or `AAA9999` shape, probably plate searches); a tier B
-  shape glued onto a tag that is not all lower case; any shape inside a longer run; a plate split by a separator.
+- **Plate crumbs in Filters**: a never-tokenized shape standing alone (a Filters cell that is exactly an `AA99999` or
+  `AAA9999` shape is probably a plate search, and is left as released); a tier B shape glued onto a tag that is not
+  all lower case; any shape inside a longer run; a plate split by a separator.
 - **Addresses and other civilian identifiers without an anchor**: lower-case addresses, and addresses with a one-digit
   number, no listed suffix, more than three street words, or a case keyword before the number; names without a nearby
   `DOB`, and mixed-case names; dates of birth without a keyword or written year-first; phone numbers without a
@@ -453,7 +454,7 @@ What can still be in `sightings_public`, and why:
 - **Tokens are pseudonyms, not anonymity.** They are linkable by design. A token plus a search time, the searching
   agency and a reason (a case number in a court record, an incident in the news) can identify the vehicle.
 - **Folder names in verbatim release names.** The public forms carry none, but any export that takes `release_id`,
-  `member`, `document_verbatim` or `release_content_groups` puts the Sonoma requester's name back
+  `member`, `document_verbatim` or `release_content_groups` puts a requester's name back
   ([Release names and zip folders](#release-names-and-zip-folders)).
 - **Citations lead to originals.** `open_url` and `link` point to the released files (MuckRock downloads, repo
   copies), which hold raw plates where the agency released them, and the MuckRock zips hold their folder names. That
@@ -487,7 +488,7 @@ address shapes in the text columns. Its plate checks and its `ca_word` and `ca_g
 corpus-wide check in `gen_stats.py` uses (below); the other columns are for review.
 
 ```python
-PRID = "mr:197819:October_2025_Flock_Data.xlsx#10_1_2025-10_31_2025-California"   # CHP, October 2025
+PRID = "<public_release_id>"
 RID = con.execute("SELECT release_id FROM release_sources WHERE public_release_id = $p",   # local only: may hold
                   {"p": PRID}).fetchone()[0]                                             # zip folder names
 PLATE_CHECK = r"""
@@ -527,18 +528,10 @@ FROM g GROUP BY field ORDER BY field"""
 print(con.execute(PLATE_CHECK, {"rid": RID, "prid": PRID}).fetchall())
 for r in con.execute(TEXT_CHECK, {"prid": PRID}).fetchall():
     print(r)
-# [(41623, 41623, 34553, 0, 0)]
-# ('case_no', 40892, 694, 0, 0, 0, 16, 3, 543, 0, 0)
-# ('filters', 17125, 472, 0, 0, 0, 0, 0, 18, 0, 0)
-# ('reason', 41613, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-# ('search_type', 41623, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-# ('searcher_name', 41623, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-# ('text_prompt', 430, 1, 0, 0, 0, 0, 1, 0, 0, 0)                  1.6–1.8 s for both queries
 ```
 
-A field with no non-NULL cells has no row. On the Ventura release above the plate check gives
-`[(949, 949, 136, 0, 0)]`, and every text count except `with_token` (2 in `reason`) is 0 (0.6 s). To check a whole
-producer, filter on `producer = '…'` instead, in the `rows_sightings` subquery too.
+A field with no non-NULL cells has no row. `with_token` counts cells that carry at least one token; it is not a
+failure. To check a whole producer, filter on `producer = '…'` instead, in the `rows_sightings` subquery too.
 
 | Column | Must be | Meaning if not |
 |---|---|---|
@@ -548,7 +541,7 @@ producer, filter on `producer = '…'` instead, in the `rows_sightings` subquery
 | `stray_p1` | 0 | Token-like text outside the `[p1_<16 hex>]` form |
 | `ca_word` | 0 in every field | A `9AAA999` word left in text. 0 by construction: it is tokenized in every free-text field and in Filters, and `search_type` rejects digits |
 | `ca_glued` | 0 in `filters` and `search_type`; review elsewhere | In Filters, a `9AAA999` standing alone or after letters that the Filters rules missed. In the other fields it counts crumbs such as `CA0XXX000` |
-| `ca_in_run`, `tier_b_shape`, `never_shapes` | review | Crumbs left on purpose. Above: 16, 3 and 543 in CHP's Case # cells, and 18 never-tokenized shapes in its Filters. Look at the flagged rows locally in `sightings`, by shape, before publishing |
+| `ca_in_run`, `tier_b_shape`, `never_shapes` | review | Crumbs left on purpose: shapes the rules do not tokenize because they are also case-number formats or lack context ([Residual risk](#residual-risk)). Look at the flagged rows locally in `sightings`, by shape, before publishing |
 | `addr_like` | review | Text that still looks like a house number and street: lower-case addresses, an address after a case keyword, and prose false positives (`Report 2024 on the way`) |
 | `with_scrub_marker` | review | Cells the scrub changed |
 
@@ -577,14 +570,14 @@ A public row is only useful if a reader can find it in the original. Join the pu
 (`public_release_id`, `row_no`) and filter both sides by release so each branch prunes:
 
 ```python
-PRID = "mr:208492:Organizational_Audit_July_2023-April_2026.xlsx#October 2023"
+PRID = "<public_release_id>"
 con.execute("""COPY (
   SELECT p.* EXCLUDE (sighting_id), ss.citation, ss.open_url, ss.sha256 AS source_sha256,
          ss.member_sha256 AS source_member_sha256
   FROM sightings_public p JOIN sighting_sources ss USING (public_release_id, row_no)
-  WHERE p.public_release_id = $prid AND ss.public_release_id = $prid) TO 'ventura_2023-10_public.parquet' (FORMAT parquet)""",
+  WHERE p.public_release_id = $prid AND ss.public_release_id = $prid) TO 'release_public.parquet' (FORMAT parquet)""",
   {"prid": PRID})
-# 949 rows, 136 plate tokens, 949 distinct citations      0.3–0.5 s
+# one row per released row of the release, each with its own citation
 ```
 
 Reading the Parquet file needs no key and no database. In anything you publish, cite a row by its `citation` (file,

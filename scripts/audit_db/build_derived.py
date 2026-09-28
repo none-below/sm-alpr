@@ -59,7 +59,7 @@ CREATE OR REPLACE MACRO iso_ts_utc(s) AS CASE
 -- agency masks seen in the corpus: REDACTED / [REDACTED], '###' (Santa Rosa), '* * *', block glyphs
 CREATE OR REPLACE MACRO agency_mask(raw) AS
   upper(trim(raw)) IN ('REDACTED', '[REDACTED]') OR regexp_full_match(trim(raw), '#{2,}|\*( \*)+|[█■]+');
--- an exemption citation typed in place of the value: the agency withheld it ('7923.600 GC' in 2,056 of Port Hueneme's
+-- an exemption citation typed in place of the value: the agency withheld it ('7923.600 GC' in one producer's
 -- License Plate cells; 'GC 7923.600', 'Gov. Code § 7923.600(a)', '§ 7922.000', 'Civ. Code 1798.90.55', 'GC 6254(f)').
 -- Whole cell only, one or more citations; CPRA 79xx.xxx / Civ. 1798.90.x need no label (a value never has that shape),
 -- pre-2023 CPRA 62xx sections need a code label.

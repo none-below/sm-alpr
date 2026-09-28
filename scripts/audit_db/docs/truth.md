@@ -212,7 +212,7 @@ has, and every other column is `NULL` for all of its rows. To tell "empty cell" 
 | `Total Networks Searched` | VARCHAR | Number of organizations' camera networks the search queried | Integer text. Two RWC releases hold floats such as `123.0` (the converter wrote JSON floats). |
 | `Total Devices Searched` | VARCHAR | Number of cameras (devices) queried | Older exports only (header of 240 releases as of build). |
 | `Time Frame` | VARCHAR | The period searched | Start and end timestamps in Flock text form, separated by a line feed. Lodi's release (`mr:173098:…`) separates them with ` to ` instead. |
-| `License Plate` | VARCHAR | Plate (full or partial) searched for, if any | **Civilian data.** Some releases have it unmasked, others masked (`***`, `###`, `[REDACTED]`, `* * *`). Port Hueneme's own-search releases type an exemption citation, `7923.600 GC`, into this cell. |
+| `License Plate` | VARCHAR | Plate (full or partial) searched for, if any | **Civilian data.** Some releases have it unmasked, others masked (`***`, `###`, `[REDACTED]`, `* * *`). One producer's own-search releases type an exemption citation, `7923.600 GC`, into this cell. |
 | `Reason` | VARCHAR | Free-text reason the searcher entered | Can hold case numbers, offense codes, names or plates. Redwood City withheld it (see `release_dispositions`). |
 | `Case #` | VARCHAR | Case or incident number the searcher entered | Optional in Flock; often blank. |
 | `Filters` | VARCHAR | Search filters applied (vehicle attributes, lists, plate terms) | Free text; can contain plate fragments, sometimes glued onto a vehicle attribute ([pii.md](pii.md)). |
@@ -249,7 +249,7 @@ GROUP BY 1 ORDER BY 3 DESC""").show()
 | `column_5` | 2 | 1,317 | Los Altos 26-366 own-search, October and November 2025: an unlabeled fifth column (where `License Plate` sits in other months). Every cell is `REDACTED`. |
 | `column_1` | 1 | 747 | Los Altos 26-366 own-search, November 2025: an unlabeled first column (where `Name` sits in other months). Every cell is `REDACTED`. |
 | `column09`, `column10` | 6 | 6 | Mountain View and Pasadena: one row per release overflows into two unlabeled trailing columns |
-| `column13`, `column14` | 2 | 4 | Santa Rosa February 2026 network audit: unlabeled trailing columns. Rows 391827 and 391828 carry an extra `allow` here that no other log shows (left as released; see the `layouts.json` citation). |
+| `column13`, `column14` | 2 | 4 | Santa Rosa February 2026 network audit: unlabeled trailing columns. Rows 391827 and 391828 hold `allow` here (left as released; see the `layouts.json` citation). |
 
 ### What "verbatim" means for each source
 
@@ -296,17 +296,17 @@ No block is ever dropped.
 | `release_id` | VARCHAR | `smpd:<request folder>:<pdf file name>` | Joins `releases`, where `container_path` is the PDF |
 | `row_no` | BIGINT | 1-based order of the id lines in the text layer | Dense 1…`n_rows`. It follows (`src_page`, `src_line`). PDF order is not time order. |
 | `src_page` | INTEGER | 1-based PDF page the id line is printed on | Never `NULL` |
-| `src_line` | INTEGER | 1-based position of the id line among that page's non-empty text-layer lines | A line index into `page.get_text()`, not a visual line count. On Acrobat-edited pages the text order differs from the printed order. To find the row in the PDF, search `src_page` for `id`. |
+| `src_line` | INTEGER | 1-based position of the id line among that page's non-empty text-layer lines | A line index into `page.get_text()`, not a visual line count. On some pages the text order differs from the printed order (see `parse_note`). To find the row in the PDF, search `src_page` for `id`. |
 | `id` | VARCHAR | Flock search UUID, as printed (the `ID` column) | Lower-case `8-4-4-4-12`, with no surrounding whitespace as of build. It is the same UUID as `ID` in other agencies' logs. It is not unique: as of build, 179 blocks repeat an id within the same PDF (3 PDFs), each identical to the first in every line, and no id appears in two PDFs. |
-| `user_line` | VARCHAR | The `userID` cell as printed | `***` (Flock's own redaction) in 107,691 of 110,705 rows as of build, otherwise a name (police employees; [pii.md](pii.md)). Never `NULL` as of build. |
+| `user_line` | VARCHAR | The `userID` cell as printed | `***` (Flock's own redaction) or a name (police employees; [pii.md](pii.md)). Never `NULL` as of build. |
 | `count_time_line` | VARCHAR | `networkCount` and `Search Time`, printed as one text line | `<networks> MM/DD/YYYY, HH:MM:SS AM UTC`, e.g. `3 04/27/2026, 02:42:09 AM UTC`. Every row has this shape as of build. The time is UTC. Derived splits the line into `nets` and `t` (`SMPD_COUNT_TIME_RE` in `sql_templates.py`). |
 | `reason_line` | VARCHAR | The `Reason` cell as printed | `NULL` when the cell is blank, because then no line is printed. Several lines are joined with `\n` only in a text-order fallback block (none as of build). Free text: can hold case numbers, names or plates. |
-| `parse_note` | VARCHAR | `NULL` when the block's text order matched its printed row; otherwise how its cells were read | Forms below. 69 rows in 7 PDFs as of build, all read by position. |
+| `parse_note` | VARCHAR | `NULL` when the block's text order matched its printed row; otherwise how its cells were read | Forms below. |
 
-As of build, blank `Reason` cells occur only in the May 2025 PDF, in 4,304 of its 5,856 rows. `pdftotext -layout`
-agrees: nothing is printed after the timestamp on those rows. The PDFs are split by Pacific-time month and
-`Search Time` is UTC, so each month's last evening falls in the next UTC month (the May 2025 PDF has 23 rows dated
-`06/01/2025`). January 2025 and January 2026 are split into parts, and a continuation part prints no header.
+A blank `Reason` cell prints no line (`pdftotext -layout` agrees: nothing is printed after the timestamp), so its
+`reason_line` is `NULL`. The PDFs are split by Pacific-time month and `Search Time` is UTC, so each month's last
+evening falls in the next UTC month (the May 2025 PDF has 23 rows dated `06/01/2025`). January 2025 and January 2026
+are split into parts, and a continuation part prints no header.
 
 A search printed in two PDFs would be two rows, and so two sightings of one event. Count searches as distinct `id`
 (or `event_id` in derived), not rows. Derived reads this table in `sightings_smpd` and `sighting_sources_smpd`
@@ -320,14 +320,14 @@ is an id line plus the lines that follow it up to the next id: normally `userID`
 line's vertical centre. The printed row is the vertical band of the id line's box. That gives two readings of every
 block, and they agree on untouched pages.
 
-They disagree where SMPD edited `Reason` cells in Acrobat before producing the PDF. The re-save moves the edited
-page's cells out of text order: reason lines pile up after the page's last row. A text-order reader then gives one row
-no reason and another several, or swallows the next row. The printed position is still right, so the positional
-reading wins whenever it has the expected shape. The `parse_note` forms are:
+They disagree on pages whose text layer lists cells out of printed order: `Reason` lines pile up after the page's
+last row. A text-order reader then gives one row no reason and another several, or swallows the next row. The printed
+position is still right, so the positional reading wins whenever it has the expected shape. The `parse_note` forms
+are:
 
 | Form | Meaning | Rows (as of build) |
 |---|---|---:|
-| `text order differs from the printed row: cells read by position on page P (userID line A, count/time line B, reason line C)`, optionally ending `; Reason cell blank` | Read by position. A, B and C are `src_line`-style indices on page P. | 69 |
+| `text order differs from the printed row: cells read by position on page P (userID line A, count/time line B, reason line C)`, optionally ending `; Reason cell blank` | Read by position. A, B and C are `src_line`-style indices on page P. | varies by build |
 | `read in text order only (position not used: page P its text and layout disagree)` or `(… it has text outside every printed row)`, optionally followed by `; unexpected block: K line(s) between this id and the next` | No trustworthy positions on the page, so the cells were read in text order | 0 |
 | `printed row holds K line(s) besides the id; read in text order`, optionally followed by `(K line(s) between this id and the next)` | The printed row is not the expected shape, so the cells were read in text order | 0 |
 | any of the above plus `; block continues on page Q in text order` | The block runs across a page break | 0 |
@@ -378,9 +378,8 @@ This file is not a table. It feeds the `releases` columns `producer`, `producer_
 
 As of build: 25 requests, one file entry, 25 producers and 139 releases. The file entry is MuckRock 188086's
 `SAMPLES/Denver_ALPR_Network_Searches_1.xlsx`. It has 1,000,000 rows, none by `Pasadena CA PD`, and is attributed to
-`Denver Police Department` (network). The attribution is circumstantial: the file name, plus Colorado orgs'
-over-representation among the searchers. The file has no `ID` column, so it cannot be checked by UUID. Its
-`producer_source` gives the evidence.
+`Denver Police Department` (network). The attribution rests on the file name. The file has no `ID` column, so it
+cannot be checked by UUID. Its `producer_source` gives the evidence.
 
 ### `release_dispositions` (from `dispositions.json`)
 
@@ -421,22 +420,22 @@ As of build (4 entries, 22 table rows):
 | `mr:214823:%REDACTED_5_1_2026-5_31_2026-Santa Rosa CA PD-Network-Audit.xlsx%` | from `src_row` 92527, both productions (455,584 rows each) | Two exports stacked without a second header row: from `Total Networks Searched` on, values sit under other labels (the time under `Search Type`, the search type under `Moderation`) |
 | `mr:196397:PRA25-746.csv%` | from `src_row` 2 (Cathedral City, 3 rows) | No `Case #` cell, so every value from `Filters` on sits one label to the left |
 | `mr:205259:%/4_1_2024-4_30_2024-San Bruno CA PD-Audit.csv%` | from `src_row` 2 (San Bruno own-search, April 2024, 1,840 rows) | From `Filters` on, every value sits one label to the right: the time is under `Search Type`, the search type under `Text Prompt`, and no cell holds `Moderation` |
-| `mr:214823:%REDACTED_2_1_2026-2_28_2026-Santa Rosa CA PD-Network-Audit.xlsx%` | 19 single rows (`src_rows`), both productions | Freeform rows with the `Moderation` verdict (`allow` 16, `block` 3) under `Search Time`. No cell holds the time, so `Search Time` maps to `NULL` and these rows have no `t` by design |
+| `mr:214823:%REDACTED_2_1_2026-2_28_2026-Santa Rosa CA PD-Network-Audit.xlsx%` | 19 single rows (`src_rows`), both productions | Freeform rows with the `Moderation` verdict under `Search Time`. No cell holds the time, so `Search Time` maps to `NULL` and these rows have no `t` by design |
 
 The released cells under the shifted labels (Cathedral City):
 
 ```python
 con.sql("""
-SELECT row_no, src_row, "Org Name", "Filters", "Search Time", "Search Type"
+SELECT row_no, src_row, "Filters", "Search Time", "Search Type"
 FROM truth.flock_audit_rows
 WHERE release_id = 'mr:196397:PRA25-746.csv#csv' ORDER BY row_no""").show()
 ```
 
 ```
-│ row_no │ src_row │       Org Name        │           Filters           │ Search Time │ Search Type │
-│      1 │       2 │ Miami-Dade FL SO      │ 01/23/2025, 03:26:37 PM UTC │ lookup      │ NULL        │
-│      2 │       4 │ Palos Heights IL PD   │ 01/28/2025, 01:29:20 PM UTC │ lookup      │ NULL        │
-│      3 │       7 │ Marshall County AL SO │ 01/31/2025, 02:26:06 PM UTC │ lookup      │ NULL        │
+│ row_no │ src_row │           Filters           │ Search Time │ Search Type │
+│      1 │       2 │ 01/23/2025, 03:26:37 PM UTC │ lookup      │ NULL        │
+│      2 │       4 │ 01/28/2025, 01:29:20 PM UTC │ lookup      │ NULL        │
+│      3 │       7 │ 01/31/2025, 02:26:06 PM UTC │ lookup      │ NULL        │
 ```
 
 ### Adding an entry
@@ -463,7 +462,7 @@ WHERE release_id = 'mr:196397:PRA25-746.csv#csv' ORDER BY row_no""").show()
 |---|---|
 | `built_at_utc` | When truth was built (`YYYY-MM-DDTHH:MM:SSZ`). Quote counts "as of" this. |
 | `repo_checkout` | Absolute path of the checkout the repo inputs were read from (a local path) |
-| `repo_commit` | That checkout's `HEAD`. Repo permalinks use this commit. It also identifies the build code: `build_truth.py` refuses to run from a different checkout than `--repo`. |
+| `repo_commit` | That checkout's `HEAD`. Repo permalinks use this commit. It also identifies the build code: `build_truth.py` refuses to run from a different checkout than `--repo`. The 2026-09-26 baseline build (repo commit `e138455bb`) predates the code's move into git: the code it ran is commit `92befd9a0`, byte-identical to the local copy. |
 | `repo_inputs_dirty` | `True` if `git status` showed uncommitted changes under `assets/redwood-city-pras`, `assets/los-altos-pras`, the SMPD PDF folders (`assets/san-mateo-public-records/W012541-*`, `W012818-*`), `assets/agency_registry.json` or the build code (`scripts/audit_db`). Builds from before the code moved into git (up to 2026-09-26) did not check the code. |
 | `commits_behind_local_origin_main` | Commits between `HEAD` and the checkout's *local* `origin/main` ref, which is only as fresh as the last `git fetch`. `None` if it could not be computed. |
 | `evidence_dir` | Absolute path of the MuckRock evidence directory |
@@ -499,7 +498,8 @@ Two steps. Run them from a fresh worktree off a freshly fetched `origin/main`, n
 worktree, `A` is `<audit_db>`, and `T` is a scratch directory with about 25 GB free (the build README's figure):
 
 ```sh
-bgpy() { nice -n 19 taskpolicy -b uv run --locked --project "$C" python "$@"; }   # a function, so bash and zsh both run it
+setopt interactivecomments 2>/dev/null || true   # zsh: lets the trailing # comments paste into an interactive shell
+bgpy() { nice -n 19 taskpolicy -b uv run --locked --project "$C" python "$@"; }   # a function, so bash and zsh both run it (interactive zsh: after the setopt above)
 bgpy "$C/muckrock_ingest.py" stage <evidence dir> "$T"                  # README estimate: ~6 min
 bgpy "$C/build_truth.py" "$A/truth_new.duckdb" "$T" \
   && mv "$A/truth_new.duckdb" "$A/truth.duckdb"                         # README estimate: ~10 min (SMPD PDFs: 2-3 min)
@@ -613,13 +613,12 @@ For a ready-made citation, use `sighting_sources` ([provenance.md](provenance.md
 Verified 2026-09-26 against the build above. These are facts about truth's contents, not errors in how it was loaded.
 
 - **SMPD, June 2024: image-only PDFs, not loaded.** `6_1_2024-6_30_2024-San_Mateo_CA_PD-Audit_-_PART_1.pdf` and
-  `…PART_2.pdf` (24 pages each, `Microsoft: Print To PDF`) have no text layer. Their releases have `n_rows` 0,
+  `…PART_2.pdf` have no text layer. Their releases have `n_rows` 0,
   `header` `NULL`, and `header_basis` `image-only PDF: no text layer; OCR rows not loaded yet`. They have not been
   OCRed, so their row count is unknown and any SMPD total from truth undercounts June 2024.
-- **Redwood City, `rwc:PRA_26_217_2025_7`: 71,799 repeated rows, unexplained.** The release has 465,690 rows but
-  393,891 distinct full rows. It has no `ID` column, so a repeat cannot be told from two searches that look the same
-  in the exported columns. At least one repeated pair links to a single UUID in other logs
-  ([semantics.md](semantics.md) §15).
+- **Redwood City, `rwc:PRA_26_217_2025_7`: 71,799 repeated rows.** The release has 465,690 rows but 393,891
+  distinct full rows. It has no `ID` column, so a repeat cannot be told from two searches that look the same in the
+  exported columns ([semantics.md](semantics.md) §15).
 - **Los Altos 26-366, own-search October and November 2025: unlabeled columns.** The cells are in `extra` as
   `column_5` (both months) and `column_1` (November), and every one is `REDACTED`. They sit where `License Plate` and
   `Name` sit in other months. No `layouts.json` entry assigns them, so derived reads `License Plate` (and `Name` in
@@ -627,7 +626,7 @@ Verified 2026-09-26 against the build above. These are facts about truth's conte
 - **Not loaded from MuckRock.** Audit and event logs released as PDF (74 profiled units from 14 requests, as of
   build); units the profiler classed as audits or event logs whose headers lack the required columns (23); and other
   kinds (sharing lists, hotlists, user lists).
-- **Agency markers stored as values.** For example, Port Hueneme's `License Plate` = `7923.600 GC`. How derived
+- **Agency markers stored as values.** For example, one producer's `License Plate` = `7923.600 GC`. How derived
   classifies markers is in [semantics.md](semantics.md).
 
 ## Public-safe versus local-only
