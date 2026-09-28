@@ -63,7 +63,7 @@ def legacy(u, ev, tmp):
     names = "[" + ", ".join(mi.sql_str(c) for c in ["__src_row"] + header) + "]"
     sel = ", ".join(mi.sql_ident(c) if c in header else f"NULL AS {mi.sql_ident(c)}" for c in cols)
     ext = mi.extra_json([h for h in header if h not in cols])
-    con = paths.duck_connect(spill_parent=tmp / "spill")
+    con = paths.duck_connect(spill_root=tmp / "spill")
     con.execute(f"CREATE TABLE t AS SELECT row_number() OVER () AS row_no, TRY_CAST(\"__src_row\" AS BIGINT) AS src_row, "
                 f"{sel}, {ext} AS extra FROM read_csv({mi.sql_str(res['path'])}, all_varchar=true, header=true, "
                 f"names={names}, null_padding=true, parallel=false)")
@@ -169,7 +169,45 @@ def test_non_empty_cells_beyond_the_header_are_kept_in_extra(tmp_path):
     extra = duckdb.sql(f"SELECT row_no, extra FROM read_parquet('{pq}') WHERE extra IS NOT NULL").fetchall()
     assert [(r, json.loads(e)) for r, e in extra] == [(2, {"overflow": ["", "a surprise"]})]
     (n, d), _ = legacy(unit("l.csv"), tmp_path, tmp_path / "stage")   # the old loader dropped that cell silently
-    assert n == man["n_rows"] and d != man["row_digest"]
+    assert n == man["n_rows"] and d != man["row_digest"] and d == man["row_digest_legacy"]
+    assert man["overflow_key"] == "overflow"
+
+
+def test_overflow_key_never_overwrites_a_released_column(tmp_path):
+    data = [r + ["kept"] for r in rows(3)]
+    data[0] = data[0] + ["beyond"]
+    (tmp_path / "r.csv").write_bytes(csv_bytes(HDR + ["overflow"], data))
+    man = extract.extract_unit(unit("r.csv"), tmp_path, tmp_path / "chunks", tmp_path / "spill")
+    assert man["status"] == "ok" and man["overflow_key"] == "overflow_" and man["overflow_rows"] == 1
+    pq = extract.chunk_dir(tmp_path / "chunks", unit("r.csv")) / "rows.parquet"
+    got = [json.loads(e) for (e,) in duckdb.sql(f"SELECT extra FROM read_parquet('{pq}') ORDER BY row_no").fetchall()]
+    assert got == [{"overflow": "kept", "overflow_": ["beyond"]}, {"overflow": "kept"}, {"overflow": "kept"}]
+    (n, d), _ = legacy(unit("r.csv"), tmp_path, tmp_path / "stage")
+    assert (n, d) == (man["n_rows"], man["row_digest_legacy"])
+
+
+def test_labels_that_differ_only_in_case_stay_separate_columns(tmp_path):
+    assert mi.canonical(["Reason", "reason", "REASON"]) == ["Reason", "reason_2", "REASON_3"]
+    assert mi.canonical(["A", "A_2", "A"]) == ["A", "A_2", "A_3"]           # a suffix never lands on a released label
+    assert mi.canonical(["a", "", "column01"]) == ["a", "column01", "column01_2"]
+    (tmp_path / "s.csv").write_bytes(csv_bytes(HDR + ["reason", "__ROW_NO"], [r + [f"low {i}", "x"] for i, r in enumerate(rows(2))]))
+    man = check_same_as_legacy(unit("s.csv"), tmp_path, tmp_path)
+    assert man["header"][-2:] == ["reason_2", "__ROW_NO"]
+    pq = extract.chunk_dir(tmp_path / "chunks", unit("s.csv")) / "rows.parquet"
+    got = duckdb.sql(f"SELECT row_no, \"Reason\", extra FROM read_parquet('{pq}') ORDER BY row_no").fetchall()
+    assert [(r, reason, json.loads(e)) for r, reason, e in got] == [
+        (1, "reason 0, with comma", {"reason_2": "low 0", "__ROW_NO": "x"}),
+        (2, "reason 1, with comma", {"reason_2": "low 1", "__ROW_NO": "x"})]
+
+
+def test_authored_audit_labels_never_cross_the_event_line():
+    net, ev = unit("t.csv"), unit("u.csv", kind="event_log")
+    assert mi.audit_of(net, {"audit": "own"}, {}) == "own"
+    assert mi.audit_of(ev, {"audit": "network"}, {}) == "event"     # a request-level label leaves event logs alone
+    assert mi.audit_of(net, {"audit": "own"}, {"audit": "network"}) == "network"
+    for u, ov, fov in ((ev, {}, {"audit": "network"}), (net, {}, {"audit": "event"}), (net, {"audit": "event"}, {})):
+        with pytest.raises(ValueError, match="event"):
+            mi.audit_of(u, ov, fov)
 
 
 def test_headers_that_collide_with_internal_column_names(tmp_path):
@@ -239,3 +277,73 @@ def test_deterministic_and_replaced_atomically(tmp_path):
     assert siblings == [extract.unit_id(u)], siblings                 # no .tmp- or .old- directories left behind
     man = json.loads((extract.chunk_dir(tmp_path / "chunks", u) / "chunk.json").read_text())
     assert man["unit_sha256"] == extract.unit_sha256(u) and man["versions"]["duckdb"]
+
+
+class FakePanic(BaseException):
+    """What pyo3 raises for a Rust panic in a reader: a BaseException, not an Exception."""
+
+
+def test_a_reader_panic_is_a_failed_chunk_and_an_interrupt_is_not(tmp_path, monkeypatch):
+    (tmp_path / "v.csv").write_bytes(csv_bytes(HDR, rows(2)))
+    u = unit("v.csv")
+    monkeypatch.setattr(extract, "_extract", lambda *a: (_ for _ in ()).throw(FakePanic("index out of bounds")))
+    man = extract.extract_unit(u, tmp_path, tmp_path / "chunks", tmp_path / "spill")
+    assert man["status"] == "failed" and man["error"] == "FakePanic: index out of bounds" and man["container_sha256"]
+    monkeypatch.setattr(extract, "_extract", lambda *a: (_ for _ in ()).throw(KeyboardInterrupt()))
+    with pytest.raises(KeyboardInterrupt):
+        extract.extract_unit(u, tmp_path, tmp_path / "chunks", tmp_path / "spill")
+    assert [p.name for p in extract.chunk_dir(tmp_path / "chunks", u).parent.iterdir()] == [extract.unit_id(u)]
+    assert json.loads((extract.chunk_dir(tmp_path / "chunks", u) / "chunk.json").read_text())["status"] == "failed"
+
+
+def evidence(ev, names):
+    """A minimal evidence dir: a catalog naming one CSV network audit per name (the files themselves are the caller's)."""
+    ev.mkdir(exist_ok=True)
+    cat = [{"http": 200, "local_path": n, "request_id": 900001, "url": f"https://example.invalid/{n}", "file_name": n,
+            "profile": [{"kind": "network_audit", "member": None, "sheet": "csv", "headers": HDR}]} for n in names]
+    (ev / "catalog.json").write_text(json.dumps(cat))
+    (ev / "catalog2.json").write_text("[]")
+    (ev / "catalog_requests.json").write_text(json.dumps([{"request_id": 900001, "agency": "Test Agency",
+                                                           "url": "https://example.invalid/req"}]))
+    return ev
+
+
+BUILD = [sys.executable, str(Path(build_chunks.__file__))]
+
+
+def test_build_chunks_goes_on_past_a_missing_container_and_an_empty_selection_fails(tmp_path):
+    ev = evidence(tmp_path / "ev", ["ok.csv", "gone.csv"])
+    (ev / "ok.csv").write_bytes(csv_bytes(HDR, rows(3)))
+    out, audit = tmp_path / "chunks", tmp_path / "audit"
+    r = subprocess.run(BUILD + [str(out), "--evidence", str(ev), "--audit-dir", str(audit), "--workers", "1"],
+                       capture_output=True, text=True, timeout=300)
+    assert r.returncode == 1, r.stdout + r.stderr
+    status = {m["unit"]["local_path"]: m["status"] for m in (json.loads(p.read_text()) for p in out.glob("*/*/chunk.json"))}
+    assert status == {"ok.csv": "ok", "gone.csv": "failed"}
+    r = subprocess.run(BUILD + [str(out), "--evidence", str(ev), "--audit-dir", str(audit), "--only", "mr:1:%"],
+                       capture_output=True, text=True, timeout=300)
+    assert r.returncode == 2 and "no units selected" in r.stderr
+
+
+def test_a_worker_that_dies_takes_only_its_own_unit_down(tmp_path):
+    ev = evidence(tmp_path / "ev", ["a.csv", "die.csv", "b.csv"])
+    for n in ("a.csv", "die.csv", "b.csv"):
+        (ev / n).write_bytes(csv_bytes(HDR, rows(3)))
+    out = tmp_path / "chunks"
+    # fork start method, so the workers inherit the patched extract_unit: it kills its process on die.csv
+    code = ("import multiprocessing as mp, os, sys; mp.set_start_method('fork'); sys.path.insert(0, sys.argv[1])\n"
+            "import build_chunks, extract\n"
+            "real = extract.extract_unit\n"
+            "def boom(u, *a, **k):\n"
+            "    if u['local_path'] == 'die.csv':\n"
+            "        os._exit(9)\n"
+            "    return real(u, *a, **k)\n"
+            "extract.extract_unit = boom\n"
+            "sys.argv = ['build_chunks.py'] + sys.argv[2:]\n"
+            "build_chunks.main()")
+    r = subprocess.run([sys.executable, "-c", code, str(Path(extract.__file__).parent), str(out), "--evidence", str(ev),
+                        "--audit-dir", str(tmp_path / "audit"), "--workers", "2"], capture_output=True, text=True, timeout=300)
+    assert r.returncode == 1, r.stdout + r.stderr
+    mans = {m["unit"]["local_path"]: m for m in (json.loads(p.read_text()) for p in out.glob("*/*/chunk.json"))}
+    assert {k: m["status"] for k, m in mans.items()} == {"a.csv": "ok", "die.csv": "failed", "b.csv": "ok"}
+    assert "worker process died" in mans["die.csv"]["error"]

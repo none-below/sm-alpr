@@ -105,8 +105,8 @@ the repo commit, which identifies the build code as well as the committed inputs
 | `sql_templates.py` | Module: the parse and citation SQL shared by the full views, the row-lookup macros and `audit_client.py`. | — |
 | `cache_fingerprint.py` | Module: what the cache was built from (truth fingerprint, linking-code hash, DuckDB version). | — |
 | `paths.py` | Module: where the audit dir and the evidence directory are, and each DuckDB process's spill directory: `duck_connect(database, read_only=False, spill_root=None, **settings)` opens DuckDB with one, `use_spill_dir(con, root=None)` sets one on a connection, `duck_temp(root=None)` names one, `sweep_spill(root)` removes those of dead processes. `owner(root)` and `sweep_owned(lock_root, owned)` are the lock-based liveness behind them, for other per-process files. `sql_str(v)` quotes a SQL string literal. | — |
-| `extract.py` | Module: extracts one released file, zip member or sheet into a chunk (`rows.parquet` + `chunk.json`), streamed, with no staging. A chunk depends only on the container's bytes, the catalog entry and this code; a unit that cannot be read gets a chunk with status `failed` and the error. | — |
-| `build_chunks.py` | Extracts chunks for the MuckRock corpus into `<audit_db>/chunks/<request_id>/<unit_id>/`, reusing a chunk that extracted cleanly from unchanged inputs (a failed chunk is always retried). With `--verify`, compares every chunk with `truth.duckdb` (release columns and a digest over every row), reading the evidence truth was built from, and writes `verify-<UTC>.jsonl`; `--discard` then deletes the rows of chunks that matched. Exit 1 if any selected chunk failed or did not match. | `[OUT] [--only PATTERN] [--sample N [--seed S]] [--limit N] [--workers N] [--force] [--verify [--discard]] [--audit-dir DIR] [--evidence DIR]` |
+| `extract.py` | Module: extracts one released file, zip member or sheet into a chunk (`rows.parquet` + `chunk.json`), streamed, with no staging. A chunk depends only on the container's bytes, the catalog entry and this code; a unit that cannot be read (a missing container, a reader that panics) gets a chunk with status `failed` and the error, as does a unit whose worker process died (`failed_chunk`). Cells beyond the header's width that are not empty go to `extra` as a JSON list under `overflow_key` (`overflow`, or a free variant when the header has that label). | — |
+| `build_chunks.py` | Extracts chunks for the MuckRock corpus into `<audit_db>/chunks/<request_id>/<unit_id>/`, reusing a chunk that extracted cleanly from unchanged inputs and still has its rows (a failed chunk is always retried). A missing container or a worker that dies fails that unit only; the run goes on. With `--verify`, compares every chunk with `truth.duckdb` (release columns and a digest over every row; a chunk with overflow cells, which truth's loader dropped, by its `row_digest_legacy`), reading the evidence truth was built from, and writes `verify-<UTC>.jsonl`; `--discard` then deletes the rows of chunks that matched, so the next run extracts them again. Exit 1 if any selected chunk failed or did not match, 2 if nothing is selected. | `[OUT] [--only PATTERN] [--sample N [--seed S]] [--limit N] [--workers N] [--force] [--verify [--discard]] [--audit-dir DIR] [--evidence DIR]` |
 | `plate_key.py` | The plate-token key: `--check` validates the key file (status only, never the key); `--install` writes `PLATE_TOKEN_KEY` to the key file (CI). Needed only for `sightings_public` and `plate_token()`. | `--check` or `--install` |
 
 Authored facts, loaded into truth with their citations:
@@ -140,7 +140,7 @@ bgpy "$C/verify_provenance.py"                           # needs poppler's pdfto
 ### Chunks
 
 A chunk's `chunk.json` records the release's own columns (header, member, sheet, hashes, row count, row locator
-basis), a digest over its rows, the input hashes (container, catalog entry), the code (`code_sha256`, commit, whether
+basis), a digest over its rows (plus `row_digest_legacy`, the digest without overflow cells, when it has any), the input hashes (container, catalog entry), the code (`code_sha256`, commit, whether
 the code had uncommitted edits) and the library versions, and for own-search logs the organization counts that
 assembly uses to infer the producer. Authored facts are not in chunks: they are applied at assembly.
 
@@ -150,8 +150,8 @@ bgpy "$C/build_chunks.py" --sample 20 --verify --discard     # a quick check tha
 bgpy "$C/build_chunks.py" --verify                           # the whole corpus
 ```
 
-Fixture tests (synthetic inputs, each also loaded the old staging way and compared) run in CI:
-`uv run --locked --project scripts/audit_db --group dev pytest scripts/audit_db/tests`.
+Fixture tests (synthetic inputs, each also loaded the old staging way and compared) run in CI and in `make test`;
+`make test-audit-db` runs them alone.
 
 ## Checking
 

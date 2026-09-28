@@ -39,8 +39,8 @@ from pathlib import Path
 import pyarrow as pa
 
 sys.path.insert(0, str(Path(__file__).parent))
-from muckrock_ingest import (EVENT_COLS, FLOCK_COLS, HEADER_BASIS, _is_header, canonical, extra_json,  # noqa: E402
-                             release_id, resolve_member, sql_ident, sql_str, unit_id)
+from muckrock_ingest import (EVENT_COLS, FLOCK_COLS, HEADER_BASIS, _is_header, canonical, extra_json, release_id,  # noqa: E402
+                             render, resolve_member, sha256_file, sniff, sql_ident, sql_str, unit_id)
 from paths import duck_connect, pid_alive  # noqa: E402
 
 CHUNK_SCHEMA = 1          # bump when chunk.json or rows.parquet change shape
@@ -66,14 +66,6 @@ def unit_sha256(u):
     return hashlib.sha256(json.dumps(u, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
-def sha256_file(p):
-    h = hashlib.sha256()
-    with open(p, "rb") as fh:
-        for b in iter(lambda: fh.read(1 << 20), b""):
-            h.update(b)
-    return h.hexdigest()
-
-
 @lru_cache(maxsize=None)
 def versions():
     return {"python": platform.python_version(), **{p: metadata.version(p) for p in ("duckdb", "python-calamine", "pyarrow")}}
@@ -90,10 +82,6 @@ def code_identity():
             "dirty": bool(git("status", "--porcelain", "--", ".")) if git("rev-parse", "HEAD") else None}
 
 
-def render(r):
-    return ["" if v is None else (str(int(v)) if isinstance(v, float) and v.is_integer() else str(v)) for v in r]
-
-
 class _Tee(io.RawIOBase):
     """Hashes the bytes as the parser pulls them, so the hash covers exactly what was parsed."""
 
@@ -108,9 +96,17 @@ class _Tee(io.RawIOBase):
         self.h.update(memoryview(b)[:n])
         return n
 
+    def close(self):
+        self.f.close()
+        super().close()
 
-def _write(rows, rid, cols, out, *, kind, sheet_hash, temp_parent):
-    """Header detection, rendering and the Parquet write. Returns the chunk's row-level facts."""
+
+def _write(rows, rid, cols, out, *, kind, sheet_hash, spill_root):
+    """Header detection, rendering and the Parquet write. Returns the chunk's row-level facts.
+
+    Cells beyond the header's width: trailing empty ones carry nothing and are dropped; a row with any other goes to
+    extra under overflow_key ('overflow', or the first free name if the header already has one), as a JSON list. The
+    old loader dropped them, so for such a chunk row_digest_legacy is the digest with them left out, comparable to it."""
     header = None
     for _, r in rows:
         vals = render(r)
@@ -120,7 +116,7 @@ def _write(rows, rid, cols, out, *, kind, sheet_hash, temp_parent):
     if header is None:
         raise NoHeader("no header row found")
     canon, n = canonical(header), len(header)
-    rn, sr, ov = (_free_name(b, canon) for b in ("__row_no", "__src_row", "__overflow"))   # never a released label
+    rn, sr, ov, okey = (_free_name(b, canon) for b in ("__row_no", "__src_row", "__overflow", "overflow"))   # never a released label
     org_i = canon.index("Org Name") if kind == "search_audit_own" and "Org Name" in canon else None
     orgs, content, overflow = {}, hashlib.sha256(), [0]
     schema = pa.schema([(rn, pa.int64()), (sr, pa.string()), (ov, pa.string())] + [(c, pa.string()) for c in canon])
@@ -135,7 +131,7 @@ def _write(rows, rid, cols, out, *, kind, sheet_hash, temp_parent):
             if sheet_hash:
                 content.update(("\x1f".join(vals) + "\n").encode())
             extra_cells = None
-            if len(vals) > n:   # cells beyond the header: trailing empty ones carry nothing; any others go to extra.overflow
+            if len(vals) > n:
                 cut = vals[n:]
                 while cut and cut[-1] == "":
                     cut.pop()
@@ -151,68 +147,78 @@ def _write(rows, rid, cols, out, *, kind, sheet_hash, temp_parent):
         if buf:
             yield pa.RecordBatch.from_arrays([pa.array(c, t.type) for c, t in zip(zip(*buf), schema)], schema=schema)
 
-    con = duck_connect(spill_parent=temp_parent, threads=2, memory_limit="1GB", max_temp_directory_size="4GiB",
+    con = duck_connect(spill_root=spill_root, threads=2, memory_limit="1GB", max_temp_directory_size="4GiB",
                        preserve_insertion_order=True, enable_progress_bar=False)
-    con.register("src", pa.RecordBatchReader.from_batches(schema, batches()))
-    sel = ", ".join(sql_ident(c) if c in canon else f"CAST(NULL AS VARCHAR) AS {sql_ident(c)}" for c in cols)
-    ext = f"CAST({extra_json([c for c in canon if c not in cols])} AS JSON)"
-    extra = (f"CASE WHEN {sql_ident(ov)} IS NULL THEN {ext} ELSE json_merge_patch(coalesce({ext}, '{{}}'::JSON), "
-             f"json_object('overflow', {sql_ident(ov)}::JSON)) END")
-    con.execute(f"COPY (SELECT {sql_str(rid)} AS release_id, {sql_ident(rn)} AS row_no, TRY_CAST({sql_ident(sr)} AS BIGINT) "
-                f"AS src_row, {sel}, {extra} AS extra FROM src) TO {sql_str(str(out))} (FORMAT parquet, COMPRESSION zstd)")
-    n_rows, digest = con.execute(f"SELECT count(*), bit_xor(hash(row_no, src_row, {', '.join(sql_ident(c) for c in cols)}, "
-                                 f"extra::VARCHAR)) FROM read_parquet({sql_str(str(out))})").fetchone()
-    con.close()
+    try:
+        con.register("src", pa.RecordBatchReader.from_batches(schema, batches()))
+        sel = ", ".join(sql_ident(c) if c in canon else f"CAST(NULL AS VARCHAR) AS {sql_ident(c)}" for c in cols)
+        ext = f"CAST({extra_json([c for c in canon if c not in cols])} AS JSON)"
+        extra = (f"CASE WHEN {sql_ident(ov)} IS NULL THEN {ext} ELSE json_merge_patch(coalesce({ext}, '{{}}'::JSON), "
+                 f"json_object({sql_str(okey)}, {sql_ident(ov)}::JSON)) END")
+        con.execute(f"COPY (SELECT {sql_str(rid)} AS release_id, {sql_ident(rn)} AS row_no, TRY_CAST({sql_ident(sr)} AS "
+                    f"BIGINT) AS src_row, {sel}, {extra} AS extra FROM src) TO {sql_str(str(out))} (FORMAT parquet, "
+                    f"COMPRESSION zstd)")
+        fields = ", ".join(sql_ident(c) for c in cols)
+        legacy = (f"CASE WHEN list_contains(json_keys(extra), {sql_str(okey)}) THEN nullif(json_merge_patch(extra, "
+                  f"json_object({sql_str(okey)}, NULL)), '{{}}'::JSON) ELSE extra END")
+        n_rows, digest, legacy_digest = con.execute(
+            f"SELECT count(*), bit_xor(hash(row_no, src_row, {fields}, extra::VARCHAR)), "
+            + (f"bit_xor(hash(row_no, src_row, {fields}, ({legacy})::VARCHAR))" if overflow[0] else "NULL")
+            + f" FROM read_parquet({sql_str(str(out))})").fetchone()
+    finally:
+        con.close()
     return {"header_raw": header, "header": canon, "header_basis": HEADER_BASIS, "n_rows": n_rows,
             "row_digest": str(digest or 0), "content_sha256": content.hexdigest() if sheet_hash else None,
-            "own_org_counts": list(orgs.items()) if org_i is not None else None, "overflow_rows": overflow[0]}
+            "own_org_counts": list(orgs.items()) if org_i is not None else None, "overflow_rows": overflow[0],
+            "overflow_key": okey if overflow[0] else None,
+            "row_digest_legacy": str(legacy_digest or 0) if overflow[0] else None}
 
 
 def _free_name(base, taken):
-    while base in taken:
+    """base, or base with '_' appended until no taken name equals it ignoring case (DuckDB names are case-insensitive)."""
+    low = {t.lower() for t in taken}
+    while base.lower() in low:
         base += "_"
     return base
 
 
-def _extract(u, EV, rid, cols, out, temp_parent):
+def _extract(u, EV, rid, cols, out, spill_root):
     path = EV / u["local_path"]
     zf = zipfile.ZipFile(path) if u["member"] else None
     try:
         member = resolve_member(zf, u["member"]) if zf else None
         opener = (lambda: zf.open(member)) if zf else (lambda: open(path, "rb"))
         with opener() as f:
-            head = f.read(8)
-        ext = Path(member or u["name"]).suffix.lower()
-        if head[:4] == b"PK\x03\x04":   # content decides over the name: catalog names can be cut short
-            ext = ext if ext in (".xlsx", ".xlsm", ".xlsb") else ".xlsx"
-        elif head[:8] == b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1":
-            ext = ".xls"
+            ext = sniff(f.read(8), Path(member or u["name"]).suffix.lower())
         base = {"member": member, "source_file": Path(member or u["local_path"]).name}
         if ext in CSV_EXT:
             for enc in ("utf-8", "cp1252"):
                 tee, decode_error = _Tee(opener()), []
-                text = io.TextIOWrapper(io.BufferedReader(tee, 1 << 20), newline="",
-                                        encoding="utf-8-sig" if enc == "utf-8" else "cp1252",
-                                        errors="strict" if enc == "utf-8" else "replace")
-
-                def records(text=text, decode_error=decode_error):
-                    try:
-                        yield from enumerate(csv.reader(text, delimiter="\t" if ext == ".tsv" else ","), start=1)
-                    except UnicodeDecodeError:
-                        decode_error.append(True)
-                        raise
                 try:
-                    res = _write(records(), rid, cols, out, kind=u["kind"], sheet_hash=False, temp_parent=temp_parent)
-                except Exception:
-                    out.unlink(missing_ok=True)
-                    if decode_error and enc == "utf-8":
-                        continue          # not UTF-8 after all: read the whole unit again as cp1252
-                    raise
-                while tee.read(1 << 20):   # hash to the end, whatever the parser left unread
-                    pass
-                digest = tee.h.hexdigest()
-                return {**base, **res, "content_sha256": digest, "member_sha256": digest if member else None,
-                        "sheet": None, "src_row_basis": CSV_BASIS.format(enc), "reader": f"csv, {enc}"}
+                    text = io.TextIOWrapper(io.BufferedReader(tee, 1 << 20), newline="",
+                                            encoding="utf-8-sig" if enc == "utf-8" else "cp1252",
+                                            errors="strict" if enc == "utf-8" else "replace")
+
+                    def records(text=text, decode_error=decode_error):
+                        try:
+                            yield from enumerate(csv.reader(text, delimiter="\t" if ext == ".tsv" else ","), start=1)
+                        except UnicodeDecodeError:
+                            decode_error.append(True)
+                            raise
+                    try:
+                        res = _write(records(), rid, cols, out, kind=u["kind"], sheet_hash=False, spill_root=spill_root)
+                    except Exception:
+                        out.unlink(missing_ok=True)
+                        if decode_error and enc == "utf-8":
+                            continue          # not UTF-8 after all: read the whole unit again as cp1252
+                        raise
+                    while tee.read(1 << 20):   # hash to the end, whatever the parser left unread
+                        pass
+                    digest = tee.h.hexdigest()
+                    return {**base, **res, "content_sha256": digest, "member_sha256": digest if member else None,
+                            "sheet": None, "src_row_basis": CSV_BASIS.format(enc), "reader": f"csv, {enc}"}
+                finally:
+                    tee.close()
         if ext in SHEET_EXT:
             from python_calamine import CalamineWorkbook
             with opener() as f:
@@ -229,7 +235,7 @@ def _extract(u, EV, rid, cols, out, temp_parent):
             # iter_rows() starts at the sheet's row 1 (its columns at the used range's first), so the count is the
             # row number Excel shows; to_python() starts at the used range instead, which the old loader offset by start
             res = _write(enumerate(sh.iter_rows(), start=1), rid, cols, out, kind=u["kind"],
-                         sheet_hash=True, temp_parent=temp_parent)
+                         sheet_hash=True, spill_root=spill_root)
             return {**base, **res, "member_sha256": hashlib.sha256(data).hexdigest() if member else None,
                     "sheet": sheet, "src_row_basis": SHEET_BASIS, "reader": f"python-calamine {metadata.version('python-calamine')}"}
         raise ValueError(f"unsupported file type {ext!r}")
@@ -242,13 +248,20 @@ TMP_DIR = re.compile(r"\.(tmp|old)-[0-9a-f]{16}-(\d+)-[0-9a-f]{8}")   # .tmp-<un
 
 
 def _swap_into_place(tmp, final):
+    """Rename tmp to final. An existing final is moved aside first, then removed, or put back if the rename fails; a
+    leftover .old- directory is removed by sweep_tmp."""
     old = None
     if final.exists():
         old = final.with_name(f".old-{final.name}-{os.getpid()}-{uuid.uuid4().hex[:8]}")
         os.replace(final, old)
-    os.replace(tmp, final)
+    try:
+        os.replace(tmp, final)
+    except BaseException:
+        if old:
+            os.replace(old, final)
+        raise
     if old:
-        shutil.rmtree(old)
+        shutil.rmtree(old, ignore_errors=True)
 
 
 def sweep_tmp(out_root):
@@ -263,32 +276,51 @@ def chunk_dir(out_root, u):
     return Path(out_root) / str(u["request_id"]) / unit_id(u)
 
 
-def extract_unit(u, evidence_dir, out_root, temp_parent=None, container_sha256=None, code=None):
-    """Extract one unit into <out_root>/<request_id>/<unit_id>/, atomically. A bad input never raises: a unit that
-    cannot be read (a missing container included) gets a chunk.json with status 'failed' and the error, and no
-    rows.parquet. container_sha256 and code: the caller's, when it already has them (a zip can hold dozens of units)."""
-    EV, rid = Path(evidence_dir), release_id(u)
-    table, cols = table_of(u)
+def _manifest(u, container_sha256, code):
+    return {"chunk_schema": CHUNK_SCHEMA, "release_id": release_id(u), "unit_id": unit_id(u), "table": table_of(u)[0],
+            "unit": u, "unit_sha256": unit_sha256(u), "container_sha256": container_sha256, "code": code or code_identity(),
+            "versions": versions(), "extracted_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+
+
+def _publish(u, out_root, fill):
+    """Build a chunk in a temporary directory beside its place (fill(tmp) returns its manifest), then swap it in."""
     final = chunk_dir(out_root, u)
     final.parent.mkdir(parents=True, exist_ok=True)
     tmp = final.with_name(f".tmp-{final.name}-{os.getpid()}-{uuid.uuid4().hex[:8]}")
     tmp.mkdir()
     try:
-        man = {"chunk_schema": CHUNK_SCHEMA, "release_id": rid, "unit_id": unit_id(u), "table": table, "unit": u,
-               "unit_sha256": unit_sha256(u), "container_sha256": container_sha256, "code": code or code_identity(),
-               "versions": versions(), "extracted_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
-        t0 = time.time()
-        try:
-            man["container_sha256"] = container_sha256 or sha256_file(EV / u["local_path"])
-            man.update(status="ok", **_extract(u, EV, rid, cols, tmp / "rows.parquet", temp_parent))
-            man["parquet_sha256"] = sha256_file(tmp / "rows.parquet")
-        except Exception as ex:  # noqa: BLE001  any unreadable input becomes a failed chunk, recorded
-            (tmp / "rows.parquet").unlink(missing_ok=True)
-            man.update(status="failed", error=f"{type(ex).__name__}: {ex}"[:1000])
-        man["seconds"] = round(time.time() - t0, 1)
+        man = fill(tmp)
         (tmp / "chunk.json").write_text(json.dumps(man, indent=1, ensure_ascii=False))
         _swap_into_place(tmp, final)
     except BaseException:
         shutil.rmtree(tmp, ignore_errors=True)
         raise
     return man
+
+
+def extract_unit(u, evidence_dir, out_root, spill_root=None, container_sha256=None, code=None):
+    """Extract one unit into <out_root>/<request_id>/<unit_id>/, atomically. A bad input never raises: a unit that
+    cannot be read (a missing container, or a reader that panics, included) gets a chunk.json with status 'failed' and
+    the error, and no rows.parquet. container_sha256 and code: the caller's, when it already has them (a zip can hold
+    dozens of units). spill_root: see paths.duck_connect."""
+    EV = Path(evidence_dir)
+
+    def fill(tmp):
+        man, t0, csha = _manifest(u, container_sha256, code), time.time(), container_sha256
+        try:
+            csha = csha or sha256_file(EV / u["local_path"])
+            res = _extract(u, EV, man["release_id"], table_of(u)[1], tmp / "rows.parquet", spill_root)
+            man.update(container_sha256=csha, status="ok", **res, parquet_sha256=sha256_file(tmp / "rows.parquet"))
+        except BaseException as ex:  # noqa: BLE001  pyo3 raises a Rust panic in a reader as a BaseException
+            if isinstance(ex, (KeyboardInterrupt, SystemExit, GeneratorExit)):
+                raise
+            (tmp / "rows.parquet").unlink(missing_ok=True)
+            man.update(container_sha256=csha, status="failed", error=f"{type(ex).__name__}: {ex}"[:1000])
+        man["seconds"] = round(time.time() - t0, 1)
+        return man
+    return _publish(u, out_root, fill)
+
+
+def failed_chunk(u, out_root, error, container_sha256=None, code=None):
+    """Record a unit whose extraction never returned (its worker process died) as a failed chunk."""
+    return _publish(u, out_root, lambda tmp: {**_manifest(u, container_sha256, code), "status": "failed", "error": error[:1000]})

@@ -53,22 +53,28 @@ def norm_header(h):
 
 
 def canonical(raw_header):
-    """Load-time column names for a released header: aliases mapped, blanks named, duplicates suffixed (read_csv needs unique)."""
-    out, seen = [], collections.Counter()
+    """Load-time column names for a released header: aliases mapped, blanks named, and a label already taken suffixed _2,
+    _3 (the first free one), comparing without case: DuckDB column names are case-insensitive, so 'Reason' and 'reason'
+    would be one column."""
+    out, taken = [], set()
     # 'Search Date' is the full timestamp only when no separate 'Search Time' column exists (San Jose splits the two)
     split_dt = "search time" in {(h or "").strip().lower() for h in raw_header}
     for i, h in enumerate(raw_header):
         c = (h or "").strip() if split_dt and (h or "").strip().lower() == "search date" else norm_header(h)
-        c = c or f"column{i:02d}"
-        seen[c] += 1
-        out.append(c if seen[c] == 1 else f"{c}_{seen[c]}")
+        c = name = c or f"column{i:02d}"
+        k = 1
+        while name.lower() in taken:
+            k += 1
+            name = f"{c}_{k}"
+        taken.add(name.lower())
+        out.append(name)
     return out
 
 
 HEADER_BASIS = ("header_raw = the released header row (the first row with >= 3 alphabetic cells); header = canonical(header_raw): "
                 "labels trimmed, aliases mapped (reason_1, test prompt, license plates, search date, case number), San Jose's "
                 "'Search Date' kept as is where a separate 'Search Time' exists, blank labels named columnNN (0-based position), "
-                "repeated labels suffixed _2, _3")
+                "a label already taken (ignoring case) suffixed _2, _3 (the first free one)")
 
 
 def sql_ident(s):
@@ -81,6 +87,46 @@ def extra_json(cols):
         return "NULL"
     obj = "to_json({" + ", ".join(f"{sql_str(c)}: {sql_ident(c)}" for c in cols) + "})"
     return f"CASE WHEN coalesce({', '.join(sql_ident(c) for c in cols)}) IS NULL THEN NULL ELSE {obj} END"
+
+
+OLE2 = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
+
+
+def sniff(head, ext):
+    """A unit's file type from its first bytes, over its name's extension (catalog member names can be cut short)."""
+    if head[:4] == b"PK\x03\x04":
+        return ext if ext in (".xlsx", ".xlsm", ".xlsb") else ".xlsx"
+    return ".xls" if head[:8] == OLE2 else ext
+
+
+def render(r):
+    """A row's cells as text, the way they are loaded: None -> '', a whole float without its '.0', else str()."""
+    return ["" if v is None else (str(int(v)) if isinstance(v, float) and v.is_integer() else str(v)) for v in r]
+
+
+def sha256_file(p):
+    h = hashlib.sha256()
+    with open(p, "rb") as fh:
+        for b in iter(lambda: fh.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+AUDIT_OF_KIND = {"network_audit": "network", "search_audit_own": "own", "event_log": "event"}
+
+
+def audit_of(u, ov, fov):
+    """A release's audit label: producers.json's (a file entry over the request's), else its catalog kind's. An authored
+    label relabels an audit as network or own-search; it never crosses the event-log line, because the catalog kind
+    decides which table the rows are in (extract.table_of). A request-level label leaves the request's event logs alone;
+    a file-level one that would cross the line is an error."""
+    default = AUDIT_OF_KIND[u["kind"]]
+    if fov.get("audit") and (fov["audit"] == "event") != (default == "event"):
+        raise ValueError(f"producers.json {u['request_id']} files entry for {u['name']!r}: audit {fov['audit']!r} on a "
+                         f"{u['kind']} file would move its rows between the audit and event tables")
+    if ov.get("audit") == "event" and default != "event":
+        raise ValueError(f"producers.json {u['request_id']}: audit 'event' would move audit rows into the event table")
+    return fov.get("audit") or (ov.get("audit") if default != "event" else None) or default
 
 
 def resolve_member(z, member):
@@ -178,12 +224,7 @@ def to_csv(u, EV, TMP):
     if u["member"]:
         with zipfile.ZipFile(EV / u["local_path"]) as z:
             member_full = resolve_member(z, u["member"])
-    ext = Path(member_full or u["name"]).suffix.lower()
-    # content decides over the name: catalog member names can be truncated before the extension
-    if raw[:4] == b"PK\x03\x04":
-        ext = ext if ext in (".xlsx", ".xlsm", ".xlsb") else ".xlsx"
-    elif raw[:8] == b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1":
-        ext = ".xls"
+    ext = sniff(raw[:8], Path(member_full or u["name"]).suffix.lower())
     dest = TMP / "muckrock_units" / f"{unit_id(u)}.csv.gz"
     dest.parent.mkdir(parents=True, exist_ok=True)
     sheet_full, rows = None, None
@@ -226,7 +267,7 @@ def to_csv(u, EV, TMP):
     with gzip.open(dest, "wt", newline="", encoding="utf-8", compresslevel=3) as fh:
         w = csv.writer(fh)
         for src_row, r in rows:
-            vals = ["" if v is None else (str(int(v)) if isinstance(v, float) and v.is_integer() else str(v)) for v in r]
+            vals = render(r)
             if header is None:
                 if _is_header(vals):
                     header = vals
@@ -249,7 +290,7 @@ def _stage(args):
         return f"{type(ex).__name__}: {str(ex)[:80]}"
 
 
-def add_muckrock(con, EV, TMP, FLOCK_COLS, sha256_file, resolve=lambda org: None, log=lambda m: print(m, flush=True)):
+def add_muckrock(con, EV, TMP, resolve=lambda org: None, log=lambda m: print(m, flush=True)):
     """resolve(org) -> registry agency_id or None (build_truth passes the repo registry's resolver)."""
     EV, TMP = Path(EV), Path(TMP)
     us = units(EV)
@@ -297,7 +338,10 @@ def add_muckrock(con, EV, TMP, FLOCK_COLS, sha256_file, resolve=lambda org: None
         if not org:
             org, basis = u["agency"], "MuckRock agency name"
         agency_id = resolve(org)
-        audit = fov.get("audit") or ov.get("audit") or {"network_audit": "network", "search_audit_own": "own", "event_log": "event"}[u["kind"]]
+        try:
+            audit = audit_of(u, ov, fov)
+        except ValueError as ex:
+            raise SystemExit(str(ex)) from None
         names = "[" + ", ".join(sql_str(c) for c in ["__src_row"] + header) + "]"
         src = f"read_csv({sql_str(str(path))}, all_varchar=true, header=true, names={names}, null_padding=true, parallel=false)"
         cols = EVENT_COLS if audit == "event" else FLOCK_COLS

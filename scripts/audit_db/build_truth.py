@@ -32,7 +32,7 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 import smpd_pdf_loader as smpd  # noqa: E402
-from muckrock_ingest import FLOCK_COLS, add_muckrock, canonical, sql_ident, sql_str  # noqa: E402
+from muckrock_ingest import FLOCK_COLS, add_muckrock, canonical, sha256_file as sha256, sql_ident, sql_str  # noqa: E402
 from paths import duck_connect  # noqa: E402
 
 HERE = Path(__file__).parent
@@ -53,14 +53,6 @@ RELEASES_DDL = """CREATE OR REPLACE TABLE releases (release_id VARCHAR PRIMARY K
 
 def git(repo, *args):
     return subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, check=True).stdout.strip()
-
-
-def sha256(p):
-    h = hashlib.sha256()
-    with open(p, "rb") as fh:
-        for b in iter(lambda: fh.read(1 << 20), b""):
-            h.update(b)
-    return h.hexdigest()
 
 
 def ndjson_sha256(p):
@@ -313,7 +305,7 @@ def main():
                 f"{', '.join(f'{sql_ident(c)} VARCHAR' for c in FLOCK_COLS)}, extra JSON)")
     load_repo_ndjson(con, WT, name_to_id.get)
     # MuckRock CA corpus (all other tabular audit logs + event logs); see muckrock_ingest.py
-    add_muckrock(con, EV, TMP, FLOCK_COLS, sha256, resolve=name_to_id.get)
+    add_muckrock(con, EV, TMP, resolve=name_to_id.get)
     load_smpd(con, WT, name_to_id.get)
     load_authored(con)
 
