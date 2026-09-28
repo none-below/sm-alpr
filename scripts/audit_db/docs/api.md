@@ -21,10 +21,32 @@ uv run --locked --project scripts/audit_db python scripts/audit_db/<script>.py  
 |---|---|---|
 | `AUDIT_DB_DIR` | every tool | Audit dir to use instead of the one found through git (`paths.py`) |
 | `AUDIT_DB_THREADS`, `AUDIT_DB_MEMORY` | builds, `gen_stats.py` | DuckDB threads and memory limit (defaults 4 and 6GB) |
-| `AUDIT_DB_TEMP`, `AUDIT_DB_MAX_TEMP` | `gen_stats.py` | Spill directory (default `<system tmp>/alpr_duck_tmp`) and its cap (default 12GiB) |
+| `AUDIT_DB_TEMP`, `AUDIT_DB_MAX_TEMP` | `gen_stats.py` | A base directory for spills: the process spills under `<AUDIT_DB_TEMP>/alpr_audit_spill/` instead of `<audit_db>/spill/` (empty disables spilling); and the spill cap (default 12GiB) |
 | `PLATE_TOKEN_KEY` | `plate_key.py --install` | Plate-token key to install as the key file (CI) |
 
 Heavy jobs are meant to run niced at background QoS: prefix them with `nice -n 19 taskpolicy -b` (macOS).
+
+DuckDB names its temp files by block size only, so two processes sharing one spill directory corrupt each other's
+queries. Every process therefore spills into its own directory, `<owner>-<random>` under a spill root, which DuckDB
+removes on close. The process holds an exclusive lock on `<root>/<owner>.lock` for as long as it lives, and the kernel
+drops it however the process ends; a process starting up removes the directories (and locks) of owners whose lock is
+free. No pid or host name is involved, so a changed host name or a reused pid changes nothing. A spill root belongs to
+these tools (it is swept) and is made private (`0700`): never point one at a shared directory.
+
+- readers (`audit_client.connect`, the check and generate scripts, `verify_provenance.py`, `ui.py`): root
+  `<audit_db>/spill/` (the `--audit-dir` of the tool, if given);
+- `build_truth.py`: root `<scratch dir>/duck_spill/`;
+- `build_derived.py`: DuckDB's default, `derived.duckdb.tmp`, which only it uses (no other process can open the file
+  while it writes);
+- DuckDB CLI sessions (`init.sql`): no spilling (see below).
+
+A root that cannot be written or locked (a read-only audit dir, a file system without `flock`) falls back to
+`~/.cache/alpr_audit_spill/`, never the shared `/tmp`: spill files hold released text and plates.
+
+Open DuckDB through `paths.duck_connect(database, read_only=..., spill_root=..., **settings)` (or
+`audit_client.connect`), which sets the spill directory and then each setting (strings quoted, `None` skipped). On a
+connection opened some other way, call `paths.use_spill_dir(con)`. DuckDB creates only the last level of a spill
+directory, so it cannot survive its root being deleted mid-query.
 
 ## Querying from Python: `audit_client.py`
 
@@ -45,7 +67,7 @@ for r in ac.drill(con, "u:<Flock search UUID>"):
 
 | Function | Returns |
 |---|---|
-| `connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB")` | A read-only connection to `derived.duckdb` with `truth` attached read-only. Spills go to `temp_dir` (default `<system tmp>/alpr_duck_tmp`) and are capped at `max_temp`, so a runaway query fails instead of filling the disk. `audit_dir` defaults to the audit dir. |
+| `connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB")` | A read-only connection to `derived.duckdb` with `truth` attached read-only. Spills go to the process's own directory under `<audit_db>/spill/`, or under `<temp_dir>/alpr_audit_spill/` when `temp_dir` is given (`""` disables spilling), and are capped at `max_temp` (`None`: no cap), so a runaway query fails instead of filling the disk. Settings belong to the DuckDB instance, which every connection to one file in one process shares: a second `connect()` changes threads and memory for both and keeps the spill directory. `audit_dir` defaults to the audit dir. |
 | `sightings_for(con, pairs)` | A DuckDB relation with the `sightings` columns for a list of `(release_id, row_no)` pairs, ordered by `(release_id, row_no)`. Pairs not in truth are absent. Holds released text: local only. |
 | `citations_for(con, pairs)` | A relation with the `sighting_sources` columns for the same pairs: where each row is in the original, with a ready-to-paste citation. No cell values. |
 | `sightings_sql(pairs)`, `citations_sql(pairs)` | The SQL those two functions run, for use inside your own query. |
@@ -62,7 +84,10 @@ From a shell, `audit_client.py <event_id> [audit_dir]` prints the states and cit
 
 - **DuckDB CLI** (version 1.5.5, as pinned), from the audit dir:
   `duckdb -bail -readonly -init <code>/init.sql derived.duckdb`. `init.sql` attaches `truth` read-only, fails the session
-  unless that `truth.duckdb` sits beside the opened `derived.duckdb`, and sets limits (4 threads, 4 GB, spill capped).
+  unless that `truth.duckdb` sits beside the opened `derived.duckdb`, and sets limits (4 threads, 4 GB). It turns
+  spilling off: a CLI session has no lock to prove it alive, so a killed session's spill directory could never be told
+  from a live one's, and a relative one breaks after `.cd`. A query that needs more than 4 GB fails; run it from Python
+  (`audit_client.connect`) or `ui.py`, which spill into their own directories.
 - **DuckDB UI:** `ui.py` opens the same session in the browser notebook at `http://localhost:4213` (page assets come
   from ui.duckdb.org; queries run locally).
 
@@ -79,7 +104,7 @@ the repo commit, which identifies the build code as well as the committed inputs
 | `build_derived.py` | Builds `derived.duckdb`: the views and macros, `public_macros.sql`, and the event-linking cache. Run from the audit dir. | `truth.duckdb derived.duckdb [--views-only]` (refresh views and macros, keep the cache) |
 | `sql_templates.py` | Module: the parse and citation SQL shared by the full views, the row-lookup macros and `audit_client.py`. | — |
 | `cache_fingerprint.py` | Module: what the cache was built from (truth fingerprint, linking-code hash, DuckDB version). | — |
-| `paths.py` | Module: where the audit dir is. | — |
+| `paths.py` | Module: where the audit dir is, and each DuckDB process's spill directory: `duck_connect(database, read_only=False, spill_root=None, **settings)` opens DuckDB with one, `use_spill_dir(con, root=None)` sets one on a connection, `duck_temp(root=None)` names one, `sweep_spill(root)` removes those of dead processes. `owner(root)` and `sweep_owned(lock_root, owned)` are the lock-based liveness behind them, for other per-process files. `sql_str(v)` quotes a SQL string literal. | — |
 | `plate_key.py` | The plate-token key: `--check` validates the key file (status only, never the key); `--install` writes `PLATE_TOKEN_KEY` to the key file (CI). Needed only for `sightings_public` and `plate_token()`. | `--check` or `--install` |
 
 Authored facts, loaded into truth with their citations:

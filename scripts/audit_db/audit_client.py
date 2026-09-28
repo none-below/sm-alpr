@@ -22,40 +22,38 @@ Local only: `sightings_for` returns released text (`*_surface`, reason, case_no,
 civilian plates. Export `sightings_public` columns, states, citations (docs/schema.md).
 Event ids other than `u:` (k5:, k3:, x:) are build-specific; persist (release_id, row_no) instead (docs/schema.md).
 """
-import os
 import sys
-import tempfile
 from collections import defaultdict
 from pathlib import Path
 
-import duckdb
-
 sys.path.insert(0, str(Path(__file__).parent))
-from paths import audit_dir as default_audit_dir  # noqa: E402
+from paths import audit_dir as default_audit_dir, duck_connect, sql_str as _s  # noqa: E402
 from sql_templates import (flock_rows_sql, sightings_flock_sql, sightings_smpd_sql, sources_flock_sql,  # noqa: E402
                            sources_smpd_sql)
-
-
-def _s(v):
-    return "'" + str(v).replace("'", "''") + "'"
 
 
 def connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB"):
     """Read-only connection to <audit_dir>/derived.duckdb with truth attached (READ_ONLY).
 
     audit_dir defaults to paths.audit_dir(): the primary checkout's .claude/audit_db/, or AUDIT_DB_DIR.
-    Spills go to temp_dir (default <system tmp>/alpr_duck_tmp) and are capped at max_temp, so a runaway query fails
-    instead of filling the disk. On a shared machine use threads=1, memory='1GB'.
+    Spills go to this process's own directory under <audit_dir>/spill, or under <temp_dir>/alpr_audit_spill when temp_dir
+    is given (a directory of its own: spill roots are swept), and are capped at max_temp (None: no cap), so a runaway
+    query fails instead of filling the disk; temp_dir="" disables spilling. Settings belong to the DuckDB instance,
+    and every connection to one database file in one Python process shares it: a second connect() changes threads and
+    memory for both, and keeps the instance's spill directory.
 
     >>> con = connect(threads=1, memory="1GB")
     >>> con.sql("SELECT key, value FROM truth.build_info").fetchall()
     """
     A = Path(audit_dir or default_audit_dir())
-    con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
-    con.execute(f"ATTACH IF NOT EXISTS {_s(A / 'truth.duckdb')} AS truth (READ_ONLY)")
-    temp = temp_dir or os.path.join(tempfile.gettempdir(), "alpr_duck_tmp")
-    con.execute(f"SET threads={int(threads)}; SET memory_limit={_s(memory)}; SET temp_directory={_s(temp)}; "
-                f"SET max_temp_directory_size={_s(max_temp)}")
+    root = A / "spill" if temp_dir is None else "" if temp_dir == "" else Path(temp_dir).expanduser() / "alpr_audit_spill"
+    con = duck_connect(A / "derived.duckdb", read_only=True, spill_root=root,
+                       threads=int(threads), memory_limit=memory, max_temp_directory_size=max_temp)
+    try:
+        con.execute(f"ATTACH IF NOT EXISTS {_s(A / 'truth.duckdb')} AS truth (READ_ONLY)")
+    except BaseException:
+        con.close()
+        raise
     return con
 
 

@@ -28,6 +28,8 @@ import re
 import zipfile
 from pathlib import Path
 
+from paths import sql_str  # noqa: F401  (also re-exported: other modules import it from here)
+
 ALIASES = {"reason_1": "Reason", "test prompt": "Text Prompt", "license plates": "License Plate",
            "search date": "Search Time", "case number": "Case #"}
 EVENT_COLS = ["Timestamp", "User", "Event Type", "Entity Type", "Entity Details", "Event Id"]
@@ -64,10 +66,6 @@ HEADER_BASIS = ("header_raw = the released header row (the first row with >= 3 a
                 "labels trimmed, aliases mapped (reason_1, test prompt, license plates, search date, case number), San Jose's "
                 "'Search Date' kept as is where a separate 'Search Time' exists, blank labels named columnNN (0-based position), "
                 "repeated labels suffixed _2, _3")
-
-
-def sql_str(s):
-    return "'" + s.replace("'", "''") + "'"
 
 
 def sql_ident(s):

@@ -3,12 +3,15 @@
 #   make help            Show this list.
 #
 # Testing:
-#   make test            Build site/data artifacts if missing, then run pytest.
+#   make test            Build site/data artifacts if missing, then run pytest
+#                        (the repo suite, then the audit DB's own suite).
 #                        Bare `pytest` fails in a fresh worktree because the
 #                        site/data artifacts it reads are gitignored; this
 #                        builds them first.
 #   make build           Force a full rebuild of all site/data artifacts and
 #                        the findings PDF (run after editing a generator).
+#   make test-audit-db   The audit DB suite alone (scripts/audit_db/tests, in
+#                        its own pinned environment; needs no artifacts).
 #
 # Daily PRA workflow:
 #   make pra-update      Pull new portal activity, OCR sidecars, seed stubs,
@@ -31,7 +34,7 @@
 #                        grows with every worktree's `uv sync`. Run it when disk
 #                        gets tight; it's safe while other worktrees are in use.
 
-.PHONY: help build test pra-update pra-scrape pra-scrape-one pra-ocr pra-init \
+.PHONY: help build test test-audit-db pra-update pra-scrape pra-scrape-one pra-ocr pra-init \
         pra-build serve serve-public clean prune-uv-cache
 
 # Gitignored artifacts produced by `make build` and read by the test suite.
@@ -97,6 +100,12 @@ $(BUILD_STAMP):
 
 test: $(BUILD_STAMP) ## Build artifacts if missing, then run the full test suite
 	uv run pytest
+	@if uv sync --locked --project scripts/audit_db --group dev --quiet; then $(MAKE) test-audit-db; else \
+	  echo "WARNING: audit DB tests skipped: could not set up scripts/audit_db's pinned environment (offline?);" \
+	       "run make test-audit-db once it can be" >&2; fi
+
+test-audit-db: ## Run the audit DB tests in their own pinned environment (scripts/audit_db)
+	uv run --locked --project scripts/audit_db --group dev pytest scripts/audit_db/tests
 
 pra-update: pra-scrape pra-ocr pra-init pra-build ## Full local PRA refresh
 	@echo ""

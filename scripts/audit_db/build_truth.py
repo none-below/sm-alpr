@@ -33,6 +33,7 @@ import duckdb
 sys.path.insert(0, str(Path(__file__).parent))
 import smpd_pdf_loader as smpd  # noqa: E402
 from muckrock_ingest import add_muckrock, canonical, sql_ident, sql_str  # noqa: E402
+from paths import duck_connect  # noqa: E402
 
 HERE = Path(__file__).parent
 FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
@@ -305,10 +306,10 @@ def main():
         for n in (e.get("flock_names") or []) + (e.get("aliases") or []):
             name_to_id.setdefault(n, e["agency_id"])
 
-    con = duckdb.connect(str(args.out))
-    # modest defaults so the laptop stays usable; raise with AUDIT_DB_THREADS / AUDIT_DB_MEMORY for a faster build
-    con.execute(f"SET temp_directory='{TMP}/duck_tmp'; SET threads={os.environ.get('AUDIT_DB_THREADS', '4')}; "
-                f"SET memory_limit='{os.environ.get('AUDIT_DB_MEMORY', '6GB')}'")   # insertion order kept: row_no = file order
+    # modest defaults so the laptop stays usable; raise with AUDIT_DB_THREADS / AUDIT_DB_MEMORY for a faster build.
+    # Insertion order is kept (the default), so row_no = file order.
+    con = duck_connect(args.out, spill_root=TMP / "duck_spill",   # own spill dir under the build's scratch
+                       threads=int(os.environ.get('AUDIT_DB_THREADS', '4')), memory_limit=os.environ.get('AUDIT_DB_MEMORY', '6GB'))
     con.execute(RELEASES_DDL)
     con.execute(f"CREATE OR REPLACE TABLE flock_audit_rows (release_id VARCHAR, row_no BIGINT, src_row BIGINT, "
                 f"{', '.join(f'{sql_ident(c)} VARCHAR' for c in FLOCK_COLS)}, extra JSON)")
