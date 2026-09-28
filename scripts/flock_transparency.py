@@ -102,6 +102,53 @@ RATE_LIMIT_BURN_FILE = ".rate_limit_burns.json"
 RATE_LIMIT_BURN_LIMIT = 3
 VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
+
+# Flock renders the sharing lists inside fixed-height "slider" boxes that
+# scroll. In print those clip to the first few visible rows, so the archive
+# PDF used to hold only a fraction of the list even though every row is in
+# the DOM (the parser reads the full list from the saved HTML).
+#
+# The first fix was a blunt `*{max-height:none;overflow:visible}`. That let
+# the rows paint, but the slider kept its fixed `height`, so the list spilled
+# *out* of its box and rendered on top of the cards below it instead of
+# pushing them down — unreadable text-over-text on any long agency list.
+#
+# So: measure before mutating. Find the elements that are actually clipping
+# their own content, then give those (and every ancestor that pins a height)
+# `height:auto` so the box grows and the rest of the page reflows below it.
+# On a page with no oversized slider this is a no-op. Repeat a few passes —
+# unclamping an outer box can reveal a nested one.
+EXPAND_SLIDERS_JS = r"""
+() => {
+  const unclampBox = el => {
+    el.style.setProperty('max-height', 'none', 'important');
+    el.style.setProperty('height', 'auto', 'important');
+  };
+  let expanded = 0;
+  for (let pass = 0; pass < 4; pass++) {
+    const clipped = [];
+    for (const el of document.querySelectorAll('body *')) {
+      const cs = getComputedStyle(el);
+      if (cs.overflowX === 'visible' && cs.overflowY === 'visible') continue;
+      if (el.scrollHeight > el.clientHeight + 1 ||
+          el.scrollWidth > el.clientWidth + 1) clipped.push(el);
+    }
+    if (!clipped.length) break;
+    for (const el of clipped) {
+      unclampBox(el);
+      el.style.setProperty('overflow', 'visible', 'important');
+      // A grown child still gets cut off if an ancestor pins a height, so
+      // walk up too. Ancestors keep their own overflow rule — growing them
+      // is enough, and leaving it alone avoids disturbing unrelated layout.
+      for (let n = el.parentElement; n && n !== document.body; n = n.parentElement) {
+        unclampBox(n);
+      }
+    }
+    expanded += clipped.length;
+  }
+  return expanded;
+}
+"""
 STALE_DAYS = 14
 
 # Two different things behind a 403, and telling them apart is the whole game.
@@ -1520,23 +1567,27 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         print(f"    extracted {csv_name}: {len(csv_rows)} rows")
     attach_csv_integrity(portal_data)
 
-    # Flock renders the sharing lists inside fixed-height "slider" boxes that
-    # scroll; in print those clip to the first few visible rows. The rows are
-    # already all in the DOM (the parser reads the full list from the saved
-    # HTML), so overriding max-height/overflow flows the complete list into the
-    # PDF instead of truncating it.
-    page.add_style_tag(content=(
-        "*{max-height:none !important;overflow:visible !important;}"
-    ))
+    # Expand the sharing-list sliders so the PDF holds the whole list without
+    # it overlapping what follows (see EXPAND_SLIDERS_JS). Measure under print
+    # media so what we unclamp is what printToPDF will actually lay out; the
+    # page object outlives this call, so reset the emulation afterwards or the
+    # next slug's inner_text() would be read under the site's print styles.
+    try:
+        page.emulate_media(media="print")
+        expanded = page.evaluate(EXPAND_SLIDERS_JS)
+        if expanded:
+            print(f"    expanded {expanded} clipped container(s) for print")
 
-    cdp = page.context.new_cdp_session(page)
-    result = cdp.send("Page.printToPDF", {
-        "printBackground": True, "preferCSSPageSize": False,
-        "paperWidth": 11, "paperHeight": 17,
-        "marginTop": 0.4, "marginBottom": 0.4,
-        "marginLeft": 0.4, "marginRight": 0.4,
-    })
-    cdp.detach()
+        cdp = page.context.new_cdp_session(page)
+        result = cdp.send("Page.printToPDF", {
+            "printBackground": True, "preferCSSPageSize": False,
+            "paperWidth": 11, "paperHeight": 17,
+            "marginTop": 0.4, "marginBottom": 0.4,
+            "marginLeft": 0.4, "marginRight": 0.4,
+        })
+        cdp.detach()
+    finally:
+        page.emulate_media(media="null")
     pdf_data = base64.b64decode(result["data"])
 
     # Stage the four-artifact set in a fresh temp dir, then mv into
