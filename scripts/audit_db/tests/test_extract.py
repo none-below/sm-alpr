@@ -190,6 +190,7 @@ def test_labels_that_differ_only_in_case_stay_separate_columns(tmp_path):
     assert mi.canonical(["Reason", "reason", "REASON"]) == ["Reason", "reason_2", "REASON_3"]
     assert mi.canonical(["A", "A_2", "A"]) == ["A", "A_2", "A_3"]           # a suffix never lands on a released label
     assert mi.canonical(["a", "", "column01"]) == ["a", "column01", "column01_2"]
+    assert mi.canonical(["reason", "Reason"]) == ["reason_2", "Reason"]   # the Flock column's exact label keeps its name
     (tmp_path / "s.csv").write_bytes(csv_bytes(HDR + ["reason", "__ROW_NO"], [r + [f"low {i}", "x"] for i, r in enumerate(rows(2))]))
     man = check_same_as_legacy(unit("s.csv"), tmp_path, tmp_path)
     assert man["header"][-2:] == ["reason_2", "__ROW_NO"]
@@ -205,7 +206,8 @@ def test_authored_audit_labels_never_cross_the_event_line():
     assert mi.audit_of(net, {"audit": "own"}, {}) == "own"
     assert mi.audit_of(ev, {"audit": "network"}, {}) == "event"     # a request-level label leaves event logs alone
     assert mi.audit_of(net, {"audit": "own"}, {"audit": "network"}) == "network"
-    for u, ov, fov in ((ev, {}, {"audit": "network"}), (net, {}, {"audit": "event"}), (net, {"audit": "event"}, {})):
+    for u, ov, fov in ((ev, {}, {"audit": "network"}), (net, {}, {"audit": "event"}), (net, {"audit": "event"}, {}),
+                       (ev, {"audit": "event"}, {})):                 # a request label is network or own, whatever the file
         with pytest.raises(ValueError, match="event"):
             mi.audit_of(u, ov, fov)
 
@@ -239,10 +241,12 @@ def test_missing_container_is_a_failed_chunk_and_leaves_no_temp_dir(tmp_path):
 
 
 def test_sweep_tmp_removes_dirs_of_dead_workers_only(tmp_path):
-    p = subprocess.Popen([sys.executable, "-c", "pass"])
-    p.wait()
+    code = "import sys; sys.path.insert(0, sys.argv[1]); import paths; print(paths.owner(sys.argv[2]))"
+    dead_owner = subprocess.run([sys.executable, "-c", code, str(Path(paths.__file__).parent), str(tmp_path)],
+                                capture_output=True, text=True, check=True).stdout.strip()   # took a lock, then exited
     req = tmp_path / "900001"
-    dead, live = req / f".tmp-{'a' * 16}-{p.pid}-0123abcd", req / f".old-{'b' * 16}-{os.getpid()}-89abcdef"
+    dead = req / f".tmp-{'a' * 16}-{dead_owner}-0123abcd"
+    live = req / f".old-{'b' * 16}-{paths.owner(tmp_path)}-89abcdef"
     for d in (dead, live):
         d.mkdir(parents=True)
     assert extract.sweep_tmp(tmp_path) == [dead] and live.exists()
@@ -327,28 +331,10 @@ def test_build_chunks_goes_on_past_a_missing_container_and_an_empty_selection_fa
 
 @pytest.mark.parametrize("workers", [1, 2])
 def test_a_worker_that_dies_takes_only_its_own_unit_down(tmp_path, workers):
-    ev = evidence(tmp_path / "ev", ["a.csv", "die.csv", "b.csv"])
-    for n in ("a.csv", "die.csv", "b.csv"):
-        (ev / n).write_bytes(csv_bytes(HDR, rows(3)))
-    out = tmp_path / "chunks"
-    # fork start method, so the workers inherit the patched extract_unit: it kills its process on die.csv
-    code = ("import multiprocessing as mp, os, sys; mp.set_start_method('fork'); sys.path.insert(0, sys.argv[1])\n"
-            "import build_chunks, extract\n"
-            "real = extract.extract_unit\n"
-            "def boom(u, *a, **k):\n"
-            "    if u['local_path'] == 'die.csv':\n"
-            "        os._exit(9)\n"
-            "    return real(u, *a, **k)\n"
-            "extract.extract_unit = boom\n"
-            "sys.argv = ['build_chunks.py'] + sys.argv[2:]\n"
-            "build_chunks.main()")
-    r = subprocess.run([sys.executable, "-c", code, str(Path(extract.__file__).parent), str(out), "--evidence", str(ev),
-                        "--audit-dir", str(tmp_path / "audit"), "--workers", str(workers)], capture_output=True, text=True,
-                       timeout=300)
+    r, mans = forked_run(tmp_path, "os._exit(9)", ["a.csv", "b.csv", "bad.csv", "c.csv", "d.csv", "e.csv"], workers)
     assert r.returncode == 1, r.stdout + r.stderr
-    mans = {m["unit"]["local_path"]: m for m in (json.loads(p.read_text()) for p in out.glob("*/*/chunk.json"))}
-    assert {k: m["status"] for k, m in mans.items()} == {"a.csv": "ok", "die.csv": "failed", "b.csv": "ok"}
-    assert "worker process died" in mans["die.csv"]["error"]
+    assert {k: m["status"] for k, m in mans.items()} == {**{f"{c}.csv": "ok" for c in "abcde"}, "bad.csv": "failed"}
+    assert "worker process died" in mans["bad.csv"]["error"]
 
 
 def mini_truth(audit, ev):
@@ -367,7 +353,8 @@ def mini_truth(audit, ev):
 
 
 def test_verify_passes_overflow_cells_and_names_a_digest_only_difference(tmp_path):
-    ev = evidence(tmp_path / "ev", ["w.csv", "x.csv"])
+    ev = evidence(tmp_path / "ev", ["w.csv", "x.csv", "v.csv"])
+    (ev / "v.csv").write_bytes(b"no,header\n")               # a failed chunk (and not in truth either)
     data = rows(3)
     data[1] = data[1] + ["beyond the header"]               # truth's loader dropped this cell
     (ev / "w.csv").write_bytes(csv_bytes(HDR, data))
@@ -384,3 +371,87 @@ def test_verify_passes_overflow_cells_and_names_a_digest_only_difference(tmp_pat
     report = {v["release_id"]: v for v in map(json.loads, next((tmp_path / "chunks").glob("verify-*.jsonl")).open())}
     assert report["mr:900001:w.csv#csv"]["match"] and report["mr:900001:w.csv#csv"]["digest"] == "row_digest_legacy"
     assert report["mr:900001:x.csv#csv"]["diffs"] == ["row digest (same 2 rows; some row's values differ)"]
+    assert "extracted 3, failed 1, match 1, mismatch 1;" in r.stdout      # a failed unit counts once, as failed
+
+
+def test_a_case_variant_before_the_flock_label_does_not_take_its_column(tmp_path):
+    hdr = HDR[:5] + ["reason"] + HDR[5:]                  # 'reason' (a note column, say) ahead of the real 'Reason'
+    data = [r[:5] + [f"note {i}"] + r[5:] for i, r in enumerate(rows(2))]
+    (tmp_path / "t.csv").write_bytes(csv_bytes(hdr, data))
+    man = check_same_as_legacy(unit("t.csv"), tmp_path, tmp_path)
+    pq = extract.chunk_dir(tmp_path / "chunks", unit("t.csv")) / "rows.parquet"
+    got = duckdb.sql(f"SELECT \"Reason\", extra FROM read_parquet('{pq}') ORDER BY row_no").fetchall()
+    assert [(r, json.loads(e)) for r, e in got] == [("reason 0, with comma", {"reason_2": "note 0"}),
+                                                    ("reason 1, with comma", {"reason_2": "note 1"})]
+    assert man["header"][5] == "reason_2"
+
+
+def test_a_truncated_rows_parquet_is_not_reused(tmp_path):
+    (tmp_path / "y.csv").write_bytes(csv_bytes(HDR, rows(50)))
+    u, code = unit("y.csv"), extract.code_identity()
+    man = extract.extract_unit(u, tmp_path, tmp_path / "chunks", tmp_path / "spill", code=code)
+    assert build_chunks.reusable(u, tmp_path / "chunks", False, man["container_sha256"], code)
+    pq = extract.chunk_dir(tmp_path / "chunks", u) / "rows.parquet"
+    pq.write_bytes(pq.read_bytes()[:-100])
+    assert build_chunks.reusable(u, tmp_path / "chunks", False, man["container_sha256"], code) is None
+
+
+def test_a_failure_never_replaces_a_good_chunk(tmp_path):
+    (tmp_path / "z.csv").write_bytes(csv_bytes(HDR, rows(3)))
+    u = unit("z.csv")
+    good = extract.extract_unit(u, tmp_path, tmp_path / "chunks", tmp_path / "spill")
+    (tmp_path / "z.csv").unlink()                       # a partial sync, say
+    man = extract.extract_unit(u, tmp_path, tmp_path / "chunks", tmp_path / "spill")
+    assert man["status"] == "failed" and man["kept"]["extracted_at"] == good["extracted_at"]
+    d = extract.chunk_dir(tmp_path / "chunks", u)
+    assert json.loads((d / "chunk.json").read_text()) == good and (d / "rows.parquet").exists()
+    assert [p.name for p in d.parent.iterdir()] == [d.name]   # no temp dir left
+
+
+FORKED = ("import multiprocessing as mp, os, sys; mp.set_start_method('fork'); sys.path.insert(0, sys.argv[1])\n"
+          "import build_chunks, extract\n"
+          "real = extract.extract_unit\n"
+          "def patched(u, *a, **k):\n"
+          "    if u['local_path'] == 'bad.csv':\n"
+          "        {action}\n"
+          "    return real(u, *a, **k)\n"
+          "extract.extract_unit = patched\n"
+          "sys.argv = ['build_chunks.py'] + sys.argv[2:]\n"
+          "build_chunks.main()")
+
+
+def forked_run(tmp_path, action, names, workers=2):
+    """build_chunks over names (CSV audits), in fork mode so the workers inherit an extract_unit that does `action` on
+    bad.csv. Returns (completed process, {local_path: chunk.json})."""
+    ev = evidence(tmp_path / "ev", names)
+    for n in names:
+        (ev / n).write_bytes(csv_bytes(HDR, rows(3)))
+    out = tmp_path / "chunks"
+    r = subprocess.run([sys.executable, "-c", FORKED.format(action=action), str(Path(extract.__file__).parent), str(out),
+                        "--evidence", str(ev), "--audit-dir", str(tmp_path / "audit"), "--workers", str(workers)],
+                       capture_output=True, text=True, timeout=300)
+    return r, {m["unit"]["local_path"]: m for m in (json.loads(p.read_text()) for p in out.glob("*/*/chunk.json"))}
+
+
+def test_a_chunk_that_cannot_be_written_fails_only_its_unit(tmp_path):
+    r, mans = forked_run(tmp_path, "raise OSError(28, 'No space left on device')", ["a.csv", "bad.csv", "b.csv", "c.csv"])
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert {k: m["status"] for k, m in mans.items()} == {"a.csv": "ok", "b.csv": "ok", "c.csv": "ok"}
+    assert "chunk not written: OSError: [Errno 28] No space left on device" in r.stdout
+    assert "extracted 4, failed 1" in r.stdout                  # the summary still comes
+
+
+def test_one_run_at_a_time_per_out_dir(tmp_path):
+    import fcntl
+    ev = evidence(tmp_path / "ev", ["a.csv"])
+    (ev / "a.csv").write_bytes(csv_bytes(HDR, rows(1)))
+    out = tmp_path / "chunks"
+    out.mkdir()
+    fd = os.open(out / ".build_chunks.lock", os.O_RDWR | os.O_CREAT)
+    fcntl.flock(fd, fcntl.LOCK_EX)
+    try:
+        r = subprocess.run(BUILD + [str(out), "--evidence", str(ev), "--audit-dir", str(tmp_path / "audit")],
+                           capture_output=True, text=True, timeout=300)
+    finally:
+        os.close(fd)
+    assert r.returncode == 2 and "another build_chunks run" in r.stderr and not list(out.glob("*/*/chunk.json"))

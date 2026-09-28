@@ -39,16 +39,15 @@ from pathlib import Path
 import pyarrow as pa
 
 sys.path.insert(0, str(Path(__file__).parent))
-from muckrock_ingest import (EVENT_COLS, FLOCK_COLS, HEADER_BASIS, _is_header, canonical, extra_json, release_id,  # noqa: E402
-                             render, resolve_member, sha256_file, sniff, sql_ident, sql_str, unit_id)
-from paths import duck_connect, pid_alive  # noqa: E402
+from muckrock_ingest import (CSV_BASIS, EVENT_COLS, FLOCK_COLS, HEADER_BASIS, SHEET_BASIS, _is_header, canonical,  # noqa: E402
+                             extra_json, release_id, render, resolve_member, sha256_file, sniff, sql_ident, sql_str,
+                             unit_id)
+from paths import duck_connect, owner, sweep_owned  # noqa: E402
 
 CHUNK_SCHEMA = 1          # bump when chunk.json or rows.parquet change shape
 BATCH = 100_000           # rows per Arrow batch handed to DuckDB
 OWN_ORG_ROWS = 2001       # data rows counted for the own-search producer inference (as the loader always did)
 CSV_EXT, SHEET_EXT = {".csv", ".tsv", ".txt", ""}, {".xlsx", ".xlsm", ".xls", ".xlsb"}
-CSV_BASIS = "CSV record number, header = row 1 (the row shown when the file is opened in a spreadsheet); decoded {}"
-SHEET_BASIS = "spreadsheet row number in the named sheet (1-based, as shown by Excel)"
 CODE_FILES = ("extract.py", "muckrock_ingest.py")   # the code that decides a chunk's content
 
 
@@ -244,15 +243,15 @@ def _extract(u, EV, rid, cols, out, spill_root):
             zf.close()
 
 
-TMP_DIR = re.compile(r"\.(tmp|old)-[0-9a-f]{16}-(\d+)-[0-9a-f]{8}")   # .tmp-<unit_id>-<pid>-<random>
+TMP_DIR = re.compile(r"\.(tmp|old)-[0-9a-f]{16}-([0-9a-f]{12})-[0-9a-f]{8}")   # .tmp-<unit_id>-<owner>-<random>
 
 
-def _swap_into_place(tmp, final):
+def _swap_into_place(tmp, final, me):
     """Rename tmp to final. An existing final is moved aside first, then removed, or put back if the rename fails; a
     leftover .old- directory is removed by sweep_tmp."""
     old = None
     if final.exists():
-        old = final.with_name(f".old-{final.name}-{os.getpid()}-{uuid.uuid4().hex[:8]}")
+        old = final.with_name(f".old-{final.name}-{me}-{uuid.uuid4().hex[:8]}")
         os.replace(final, old)
     try:
         os.replace(tmp, final)
@@ -265,11 +264,11 @@ def _swap_into_place(tmp, final):
 
 
 def sweep_tmp(out_root):
-    """Remove .tmp-/.old- directories that workers killed mid-write left behind (their pid is gone)."""
-    gone = [d for d in Path(out_root).glob("*/.*") if (m := TMP_DIR.fullmatch(d.name)) and not pid_alive(int(m.group(2)))]
-    for d in gone:
-        shutil.rmtree(d, ignore_errors=True)
-    return gone
+    """Remove .tmp-/.old- directories that workers killed mid-write left behind: their owner's lock in out_root is free
+    (paths.sweep_owned; no pid or host name involved)."""
+    owned = [(m.group(2), d) for d in Path(out_root).glob("*/.*")
+             if (m := TMP_DIR.fullmatch(d.name)) and d.is_dir() and not d.is_symlink()]
+    return sweep_owned(out_root, owned)
 
 
 def chunk_dir(out_root, u):
@@ -282,16 +281,32 @@ def _manifest(u, container_sha256, code):
             "versions": versions(), "extracted_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
 
 
+def _ok_chunk(final):
+    """The manifest of the chunk at final if it extracted cleanly, else None."""
+    try:
+        man = json.loads((final / "chunk.json").read_text())
+    except (OSError, ValueError):
+        return None
+    return man if man.get("status") == "ok" else None
+
+
 def _publish(u, out_root, fill):
-    """Build a chunk in a temporary directory beside its place (fill(tmp) returns its manifest), then swap it in."""
+    """Build a chunk in a temporary directory beside its place (fill(tmp) returns its manifest), then swap it in. A
+    failure never replaces a chunk that extracted cleanly (a container unreadable for a moment would otherwise cost its
+    rows): that chunk stays, its chunk.json still true of its rows, and the failure is returned with "kept" naming it.
+    Its inputs no longer match, so the next run tries the unit again."""
     final = chunk_dir(out_root, u)
     final.parent.mkdir(parents=True, exist_ok=True)
-    tmp = final.with_name(f".tmp-{final.name}-{os.getpid()}-{uuid.uuid4().hex[:8]}")
+    me = owner(out_root)   # a sweep removes this process's temp dirs only once it is gone
+    tmp = final.with_name(f".tmp-{final.name}-{me}-{uuid.uuid4().hex[:8]}")
     tmp.mkdir()
     try:
         man = fill(tmp)
+        if man["status"] != "ok" and (prev := _ok_chunk(final)):
+            shutil.rmtree(tmp, ignore_errors=True)
+            return {**man, "kept": {"extracted_at": prev.get("extracted_at"), "code": prev.get("code")}}
         (tmp / "chunk.json").write_text(json.dumps(man, indent=1, ensure_ascii=False))
-        _swap_into_place(tmp, final)
+        _swap_into_place(tmp, final, me)
     except BaseException:
         shutil.rmtree(tmp, ignore_errors=True)
         raise

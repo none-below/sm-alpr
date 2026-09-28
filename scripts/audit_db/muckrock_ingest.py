@@ -36,6 +36,10 @@ ALIASES = {"reason_1": "Reason", "test prompt": "Text Prompt", "license plates":
 FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
               "Reason", "Case #", "Filters", "Search Time", "Search Type", "Text Prompt", "Moderation"]
 EVENT_COLS = ["Timestamp", "User", "Event Type", "Entity Type", "Entity Details", "Event Id"]
+KNOWN_COLS = set(FLOCK_COLS) | set(EVENT_COLS)
+# how src_row locates a row in the original (releases.src_row_basis)
+CSV_BASIS = "CSV record number, header = row 1 (the row shown when the file is opened in a spreadsheet); decoded {}"
+SHEET_BASIS = "spreadsheet row number in the named sheet (1-based, as shown by Excel)"
 
 
 def org_from_name(name):
@@ -55,26 +59,32 @@ def norm_header(h):
 def canonical(raw_header):
     """Load-time column names for a released header: aliases mapped, blanks named, and a label already taken suffixed _2,
     _3 (the first free one), comparing without case: DuckDB column names are case-insensitive, so 'Reason' and 'reason'
-    would be one column."""
-    out, taken = [], set()
+    would be one column. A Flock column's exact label (FLOCK_COLS, EVENT_COLS) is taken first, wherever it stands, so a
+    case variant before it ('reason' ahead of 'Reason') is the one suffixed and the Flock column keeps its values."""
     # 'Search Date' is the full timestamp only when no separate 'Search Time' column exists (San Jose splits the two)
     split_dt = "search time" in {(h or "").strip().lower() for h in raw_header}
-    for i, h in enumerate(raw_header):
-        c = (h or "").strip() if split_dt and (h or "").strip().lower() == "search date" else norm_header(h)
-        c = name = c or f"column{i:02d}"
-        k = 1
-        while name.lower() in taken:
-            k += 1
-            name = f"{c}_{k}"
-        taken.add(name.lower())
-        out.append(name)
+    base = [((h or "").strip() if split_dt and (h or "").strip().lower() == "search date" else norm_header(h))
+            or f"column{i:02d}" for i, h in enumerate(raw_header)]
+    out, taken = [None] * len(base), set()
+    for i, c in enumerate(base):
+        if c in KNOWN_COLS and c.lower() not in taken:
+            out[i] = c
+            taken.add(c.lower())
+    for i, c in enumerate(base):
+        if out[i] is None:
+            name, k = c, 1
+            while name.lower() in taken:
+                k += 1
+                name = f"{c}_{k}"
+            taken.add(name.lower())
+            out[i] = name
     return out
 
 
 HEADER_BASIS = ("header_raw = the released header row (the first row with >= 3 alphabetic cells); header = canonical(header_raw): "
                 "labels trimmed, aliases mapped (reason_1, test prompt, license plates, search date, case number), San Jose's "
                 "'Search Date' kept as is where a separate 'Search Time' exists, blank labels named columnNN (0-based position), "
-                "a label already taken (ignoring case) suffixed _2, _3 (the first free one)")
+                "a label already taken (ignoring case) suffixed _2, _3 (the first free one), a Flock column's exact label taken first")
 
 
 def sql_ident(s):
@@ -117,15 +127,16 @@ AUDIT_OF_KIND = {"network_audit": "network", "search_audit_own": "own", "event_l
 
 def audit_of(u, ov, fov):
     """A release's audit label: producers.json's (a file entry over the request's), else its catalog kind's. An authored
-    label relabels an audit as network or own-search; it never crosses the event-log line, because the catalog kind
-    decides which table the rows are in (extract.table_of). A request-level label leaves the request's event logs alone;
-    a file-level one that would cross the line is an error."""
+    label only says whether an audit is network or own-search; whether a file is an event log is the catalog kind's
+    call (it decides the table: extract.table_of). So a request-level label is 'network' or 'own' and applies to the
+    request's audits, never its event logs; a file-level label may not move a file across the event-log line. Anything
+    else is an error."""
     default = AUDIT_OF_KIND[u["kind"]]
+    if ov.get("audit") not in (None, "network", "own"):
+        raise ValueError(f"producers.json {u['request_id']}: request-level audit {ov['audit']!r}: only 'network' or 'own'")
     if fov.get("audit") and (fov["audit"] == "event") != (default == "event"):
         raise ValueError(f"producers.json {u['request_id']} files entry for {u['name']!r}: audit {fov['audit']!r} on a "
                          f"{u['kind']} file would move its rows between the audit and event tables")
-    if ov.get("audit") == "event" and default != "event":
-        raise ValueError(f"producers.json {u['request_id']}: audit 'event' would move audit rows into the event table")
     return fov.get("audit") or (ov.get("audit") if default != "event" else None) or default
 
 
@@ -234,7 +245,7 @@ def to_csv(u, EV, TMP):
         except UnicodeDecodeError:
             text, enc = raw.decode("cp1252", errors="replace"), "cp1252"
         rows = enumerate(csv.reader(io.StringIO(text, newline=""), delimiter="\t" if ext == ".tsv" else ","), start=1)
-        basis = f"CSV record number, header = row 1 (the row shown when the file is opened in a spreadsheet); decoded {enc}"
+        basis = CSV_BASIS.format(enc)
         content_sha = hashlib.sha256(raw).hexdigest()
     elif ext in (".xlsx", ".xlsm", ".xls", ".xlsb"):
         try:  # calamine (Rust): ~100x faster than openpyxl on 500k-row sheets
@@ -257,7 +268,7 @@ def to_csv(u, EV, TMP):
                 wbb = open_workbook(io.BytesIO(raw))
                 sheet_full = next(x for x in wbb.sheets if x[:40] == u["sheet"]) if u["sheet"] else wbb.sheets[0]
                 rows = ((r[0].r + 1, [c.v for c in r]) for r in wbb.get_sheet(sheet_full).rows() if r)
-        basis = "spreadsheet row number in the named sheet (1-based, as shown by Excel)"
+        basis = SHEET_BASIS
         content_sha = None
     if rows is None:
         return None
