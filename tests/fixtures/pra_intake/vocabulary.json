@@ -1,4 +1,8 @@
 {
+  "ACCESS": [
+    "anonymous",
+    "requester"
+  ],
   "ALLOWED_HEADERS": [
     "accept-ranges",
     "age",
@@ -43,6 +47,36 @@
     "x-ms-version-id",
     "x-powered-by"
   ],
+  "CHECKSUM_TYPES": [
+    "FULL_OBJECT",
+    "COMPOSITE"
+  ],
+  "COMPANION_PARAMS": [
+    "awsaccesskeyid",
+    "expires",
+    "googleaccessid",
+    "keypairid",
+    "ossaccesskeyid",
+    "policy",
+    "sdd",
+    "se",
+    "ses",
+    "si",
+    "sip",
+    "ske",
+    "skoid",
+    "sks",
+    "skt",
+    "sktid",
+    "skv",
+    "sp",
+    "spr",
+    "sr",
+    "srt",
+    "ss",
+    "st",
+    "sv"
+  ],
   "CONTENT_KINDS": [
     "file",
     "fetch_manifest"
@@ -52,8 +86,11 @@
     "mismatch",
     "absent"
   ],
-  "COST_GATE": 50000000000,
   "DERIVER_VERSION": 1,
+  "EOF_CHECKS": [
+    "clean",
+    "unknown"
+  ],
   "ETAG_CHECKS": [
     "md5",
     "md5-multipart",
@@ -63,9 +100,38 @@
   ],
   "EVIDENCE_CONTENT_DISPOSITION": "attachment",
   "EVIDENCE_CONTENT_TYPE": "application/octet-stream",
+  "FIELD_LIMITS": {
+    "agency": 1024,
+    "ci_run": 256,
+    "connector": 64,
+    "connector_version": 64,
+    "doc_id": 256,
+    "filename": 4096,
+    "legacy_path": 4096,
+    "library_version": 64,
+    "listing_date": 256,
+    "principal": 256,
+    "request_id": 128,
+    "run_id": 128,
+    "title": 65536,
+    "version_id": 1024,
+    "work_id": 256
+  },
   "INGESTED_TAG": [
     "ingested",
     "true"
+  ],
+  "LENGTH_CHECKS": [
+    "ok",
+    "undeclared"
+  ],
+  "LIVE_STATUSES": [
+    200,
+    203
+  ],
+  "LOCK_MODES": [
+    "GOVERNANCE",
+    "COMPLIANCE"
   ],
   "MANIFEST_FILENAME": "fetch_manifest.json",
   "MANIFEST_STATUSES": [
@@ -73,15 +139,13 @@
     "failed",
     "needs_approval"
   ],
-  "MAX_OBJECT_SIZE": 53687091200000,
-  "MUCKROCK_ETAG_PART_SIZE": 5242880,
+  "NEEDS_APPROVAL_REASON": "too_large",
   "ORIGINS": [
     "live",
     "local-copy",
     "git",
     "generated"
   ],
-  "PART_SIZE": 16777216,
   "PLATFORMS": [
     "muckrock",
     "nextrequest",
@@ -94,6 +158,22 @@
   ],
   "READABLE_SCHEMAS": [
     1
+  ],
+  "RECORD_CORE_FIELDS": [
+    "uuid",
+    "sha256",
+    "size",
+    "evidence_key",
+    "evidence_version_id",
+    "staging_data_etag",
+    "staging_sidecar_sha256"
+  ],
+  "REDIRECT_STATUSES": [
+    301,
+    302,
+    303,
+    307,
+    308
   ],
   "REJECT_REASONS": [
     "bad_manifest",
@@ -113,46 +193,30 @@
     "uuid_reused"
   ],
   "SCHEMA_VERSION": 1,
-  "SIGNING_PARAMS": [
-    "__token__",
-    "access_token",
-    "api_key",
+  "SECRET_PARAMS": [
+    "accesstoken",
     "apikey",
-    "awsaccesskeyid",
-    "client_secret",
-    "expires",
-    "googleaccessid",
+    "authkey",
+    "clientsecret",
     "hdnea",
     "hdnts",
-    "id_token",
+    "idtoken",
     "jsessionid",
-    "key-pair-id",
     "phpsessid",
-    "policy",
-    "refresh_token",
-    "se",
-    "ses",
+    "refreshtoken",
+    "resourcekey",
+    "rlkey",
     "sessionid",
     "sig",
     "signature",
-    "ske",
-    "skoid",
-    "sks",
-    "skt",
-    "sktid",
-    "skv",
-    "sp",
-    "spr",
-    "sr",
-    "srt",
-    "ss",
     "ssessionid",
-    "st",
-    "sv",
     "tempauth",
     "token"
   ],
-  "SINGLE_PUT_MAX": 5000000000,
+  "SECRET_PARAM_PREFIXES": [
+    "xamz",
+    "xgoog"
+  ],
   "SNIFF_TYPES": [
     "empty",
     "pdf",
@@ -187,6 +251,15 @@
     "portal",
     "own"
   ],
+  "STAGING_SSE": "AES256",
+  "UPLOAD_METHODS": [
+    "put",
+    "multipart"
+  ],
+  "URL_HEADERS": [
+    "content-location",
+    "location"
+  ],
   "bucket_names": {
     "dev/derived": "sm-alpr-dev-derived-123456789012-us-west-2-an",
     "dev/evidence": "sm-alpr-dev-evidence-123456789012-us-west-2-an",
@@ -198,10 +271,32 @@
     "prod/staging": "sm-alpr-staging-123456789012-us-west-2-an"
   },
   "keys": {
+    "approval": "approvals/0b6b1c4e-3f7a-4c1d-9e2f-5a6b7c8d9e0f.json",
     "blob": "sha256/abababababababababababababababababababababababababababababababab",
     "errata": "_errata/0b6b1c4e-3f7a-4c1d-9e2f-5a6b7c8d9e0f/0001.json",
     "record": "_intake/0b6b1c4e-3f7a-4c1d-9e2f-5a6b7c8d9e0f.json",
     "staging_data": "in/0b6b1c4e-3f7a-4c1d-9e2f-5a6b7c8d9e0f.bin",
     "staging_sidecar": "in/0b6b1c4e-3f7a-4c1d-9e2f-5a6b7c8d9e0f.json"
+  },
+  "limits": {
+    "COST_GATE": 50000000000,
+    "MAX_HEADERS": 64,
+    "MAX_HEADERS_BYTES": 65536,
+    "MAX_HEADER_BYTES": 8192,
+    "MAX_JSON_DEPTH": 16,
+    "MAX_MANIFEST_BYTES": 67108864,
+    "MAX_MANIFEST_FILES": 100000,
+    "MAX_OBJECT_SIZE": 53687091200000,
+    "MAX_OBSERVED_SIZE": 9007199254740991,
+    "MAX_PARTS": 10000,
+    "MAX_PART_SIZE": 5368709120,
+    "MAX_RECORD_BYTES": 8388608,
+    "MAX_REDIRECTS": 30,
+    "MAX_SIDECAR_BYTES": 4194304,
+    "MIN_PART_SIZE": 5242880,
+    "MUCKROCK_ETAG_PART_SIZE": 5242880,
+    "PART_SIZE": 16777216,
+    "SINGLE_PUT_MAX": 5000000000,
+    "SNIFF_BYTES": 1024
   }
 }
