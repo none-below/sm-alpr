@@ -240,6 +240,7 @@ jobs:
         run: uv run pytest tests/test_pra_immutability.py -v
 
       - name: Run PRA S3 uploader and bucket-setup tests
+        timeout-minutes: 5
         run: uv run pytest tests/test_pra_s3_upload.py -v
 
       - name: Run Makefile artifact-hygiene tests

@@ -22,7 +22,8 @@ repo_root="$(git rev-parse --show-toplevel)"
 worktree_path="$repo_root/.claude/worktrees/$name"
 
 git -C "$repo_root" fetch origin main
-git -C "$repo_root" worktree add --no-checkout "$worktree_path" -b "$name" origin/main
+# The full ref name: a local branch or tag called "origin/main" would otherwise win.
+git -C "$repo_root" worktree add --no-checkout "$worktree_path" -b "$name" refs/remotes/origin/main
 
 git -C "$worktree_path" sparse-checkout init --no-cone
 git -C "$worktree_path" sparse-checkout set --stdin <<'PATTERNS'

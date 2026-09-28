@@ -166,7 +166,8 @@ def test_metadata_is_ignored_but_unfinished_work_holds_the_tree(tmp_path):
         _write(tmp_path, rel)
     files, held, ignored = u.collect(tmp_path, excludes=["discovery/*"])
     assert [rel for rel, _, _ in files] == ["W1/letter.pdf"]
-    assert sorted(ignored) == ["W1/.DS_Store", "W1/._letter.pdf", "W1/Thumbs.db"]
+    assert sorted(ignored) == [("W1/.DS_Store", "OS metadata"), ("W1/._letter.pdf", "OS metadata"),
+                               ("W1/Thumbs.db", "OS metadata")]
     assert sorted(rel for rel, _ in held) == [
         "W1/audit.xlsx.crdownload", "W1/big.zip.part", "W1/x.tmp", "W1/~$draft.docx"]
 
@@ -202,6 +203,7 @@ def test_unreadable_folder_holds_the_tree(tmp_path):
     assert held and held[0][0] == "locked" and "unreadable" in held[0][1]
 
 
+@pytest.mark.skipif(os.geteuid() == 0, reason="root can read anything")
 def test_excluded_folders_are_not_walked(tmp_path):
     _write(tmp_path, "keep.pdf")
     _write(tmp_path, "discovery/locked/x.json")
@@ -231,7 +233,7 @@ def test_tracked_mode_ignores_untracked_and_mtimes(tmp_path):
     _write(tmp_path, "W1/a.pdf", age=0)  # fresh checkout: every mtime is "now"
     _write(tmp_path, "W1/export.part", age=0)  # tracked, so finished whatever its name
     _write(tmp_path, "W1/untracked.png")
-    tracked = {"W1/a.pdf", "W1/export.part", "W1/sparse_only.pdf"}
+    tracked = {rel: ("100644", "0" * 40) for rel in ("W1/a.pdf", "W1/export.part", "W1/sparse_only.pdf")}
     files, held, _ = u.collect(tmp_path, min_age=600, tracked=tracked)
     assert [rel for rel, _, _ in files] == ["W1/a.pdf", "W1/export.part"]
     assert held == [("W1/sparse_only.pdf", "tracked but not on disk (sparse checkout?)")]
@@ -800,6 +802,10 @@ if svc == "iam":
     user = opt("--user-name")
     u = st["users"].get(user)
     if cmd == "get-user":
+        seen = st.setdefault("get_user_calls", {})
+        seen[user] = seen.get(user, 0) + 1
+        if st.get("fail_second_get_user") and seen[user] > 1:
+            fail("Throttling")
         done("{}") if u else fail("NoSuchEntity")
     if cmd == "create-user":
         st["users"][user] = {"policy": None, "keys": []}
@@ -1087,7 +1093,8 @@ def test_interrupt_cancels_queued_work_and_waits_for_running():
     def fn(i):
         started.append(i)
         if i:
-            while not u.STOP.is_set():  # a long upload that notices the stop
+            deadline = time.monotonic() + 5  # a regression fails the test, never hangs CI
+            while not u.STOP.is_set() and time.monotonic() < deadline:  # a long upload
                 time.sleep(0.01)
         return i
 
@@ -1285,3 +1292,191 @@ def test_uploader_does_not_load_the_ocr_libraries():
             "print(sorted(m for m in ('fitz', 'pytesseract', 'PIL') if m in sys.modules))" % str(SCRIPT_DIR))
     out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True).stdout
     assert out.strip() == "[]"
+
+
+
+# --- round seven ---------------------------------------------------------------------
+
+def test_a_local_branch_named_origin_main_cannot_stand_in_for_the_remote(cloned, tmp_path):
+    origin, work = cloned
+    _git(work, "branch", "origin/main")  # an old commit under the short name
+    other = tmp_path / "other"
+    _git(tmp_path, "clone", "-q", str(origin), str(other))
+    _write(other, "assets/prs/W2/new.pdf", b"new")
+    _git(other, "add", ".")
+    _git(other, "commit", "-q", "-m", "newer")
+    _git(other, "push", "-q", "origin", "main")
+    s3 = FakeS3()
+    assert _main(tmp_path, s3) == 2 and s3.objects == {}  # stale, whatever "origin/main" resolves to
+
+
+def test_git_decides_what_is_a_symlink(cloned, tmp_path):
+    origin, work = cloned
+    (work / "assets/prs/W1/link.pdf").symlink_to("a.pdf")
+    _git(work, "add", "assets/prs/W1/link.pdf")
+    _git(work, "commit", "-q", "-m", "a link")
+    _git(work, "push", "-q", "origin", "main")
+    tracked, _ = u.tracked_files(work, "assets/prs", fetch=False)
+    files, held, ignored = u.collect(work / "assets/prs", tracked=tracked)
+    assert ("W1/link.pdf", "committed symlink") in ignored and held == []
+    # a record git has as a file, replaced by a symlink behind skip-worktree, is held back
+    _git(work, "update-index", "--skip-worktree", "assets/prs/W1/a.pdf")
+    (work / "assets/prs/W1/a.pdf").unlink()
+    (work / "assets/prs/W1/a.pdf").symlink_to("b.pdf")
+    files, held, ignored = u.collect(work / "assets/prs", tracked=tracked)
+    assert [rel for rel, _ in held] == ["W1/a.pdf"]
+
+
+def test_committed_symlinks_are_logged_by_name(cloned, tmp_path, capsys):
+    origin, work = cloned
+    (work / "assets/prs/W1/link.pdf").symlink_to("a.pdf")
+    _git(work, "add", "assets/prs/W1/link.pdf")
+    _git(work, "commit", "-q", "-m", "a link")
+    _git(work, "push", "-q", "origin", "main")
+    assert _main(tmp_path, FakeS3(), "--dry-run") == 0
+    assert "skipped (committed symlink): W1/link.pdf" in capsys.readouterr().out
+
+
+def test_hash_cache_that_cannot_be_saved_only_warns(tmp_path):
+    root = tmp_path / "tree"
+    _write(root, "a.pdf")
+    blocker = _write(tmp_path, "not_a_dir")  # the cache's folder is a file: every save fails
+    logs = []
+    ledger = u.Ledger(tmp_path / "ledger.jsonl", "b")
+    status = u.sync(FakeS3(), "b", "coll", root, ledger, cache=u.HashCache(blocker / "cache.json"),
+                    workers=1, log=logs.append)
+    assert status == 0 and any("hash cache not saved" in line for line in logs)
+
+
+def test_interrupted_hashing_keeps_the_hashes_it_made(tmp_path, monkeypatch):
+    root, cache_path = tmp_path / "tree", tmp_path / "cache.json"
+    kept = _write(root, "a.pdf", b"a")
+    cache_path.write_text(json.dumps({str(root / "unvisited.pdf"): {"ident": [0], "sha256": SHA, "md5": None}}))
+    real = u.run_pool
+
+    def hash_then_interrupt(fn, items, workers, on_done, log=print):
+        real(fn, items, workers, on_done, log)
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(u, "run_pool", hash_then_interrupt)
+    with pytest.raises(KeyboardInterrupt):
+        _sync(FakeS3(), root, tmp_path / "ledger.jsonl", cache_path)
+    rows = json.loads(cache_path.read_text())
+    assert str(kept) in rows  # the work done survives
+    assert str(root / "unvisited.pdf") in rows  # and an incomplete pass prunes nothing
+
+
+def test_main_installs_the_handler_and_restores_it_on_a_normal_exit(cloned, tmp_path, monkeypatch):
+    seen = {}
+    real_sync = u.sync
+
+    def spy(*args, **kw):
+        seen["during"] = signal.getsignal(signal.SIGINT)
+        return real_sync(*args, **kw)
+
+    monkeypatch.setattr(u, "sync", spy)
+    before = signal.getsignal(signal.SIGINT)
+    assert _main(tmp_path, FakeS3()) == 0
+    assert seen["during"] is not before and callable(seen["during"])
+    assert signal.getsignal(signal.SIGINT) is before
+
+
+def test_exit_status_survives_a_dead_stdout_reader():
+    code = ("import sys; sys.path.insert(0, %r); import pra_s3_upload as u; "
+            "sys.stdout.write('buffered, not yet flushed'); sys.stdin.readline(); u._exit(3)" % str(SCRIPT_DIR))
+    p = subprocess.Popen([sys.executable, "-c", code], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    p.stdout.close()  # tee died with the Ctrl-C
+    p.stdin.write(b"go\n")
+    p.stdin.close()
+    assert p.wait(timeout=20) == 3  # not Python's 120
+
+
+def test_ocr_sidecar_generation_spares_a_released_lookalike(tmp_path):
+    import fitz
+    from ocr_sidecar import generate_sidecar
+    pdf = tmp_path / "Audit.pdf"
+    doc = fitz.open()
+    doc.new_page().insert_text((72, 72), "native text, no OCR needed")
+    doc.save(pdf)
+    stale = _write(tmp_path, "Audit.pdf.00000000.txt", b"old ocr")
+    released = hashlib.md5(b"released text").hexdigest()[:8]
+    real = _write(tmp_path, f"Audit.pdf.{released}.txt", b"released text")
+    other_pdf = _write(tmp_path, "Audit.pdf.pdf", b"another document")
+    others_sidecar = _write(tmp_path, sidecar_path_for(other_pdf).name, b"its ocr")
+    removed = []
+    assert generate_sidecar(pdf, removed_stale=removed) == sidecar_path_for(pdf)
+    assert removed == [stale] and real.exists() and others_sidecar.exists()
+
+
+def test_newest_manifest_decides_after_a_to_b_to_a(tmp_path):
+    root, ledger = tmp_path / "tree", tmp_path / "ledger.jsonl"
+    p = _write(root, "doc.pdf", b"A")
+    s3 = FakeS3()
+    assert _sync(s3, root, ledger) == 0
+    _write(root, "doc.pdf", b"B")
+    assert _sync(s3, root, ledger) == 0
+    _write(root, "doc.pdf", b"A")  # back to the first tree
+    assert _sync(s3, root, ledger) == 0
+    assert len(s3.manifests()) == 3  # the newest manifest must describe the current tree
+    assert u.Ledger(ledger, "b").manifests["coll"]["key"] == max(s3.manifests())
+
+
+def test_manifest_key_format():
+    keys = []
+    class S3(FakeS3):
+        def put_object(self, **kw):
+            keys.append(kw["Key"])
+            return super().put_object(**kw)
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d) / "tree"
+        _write(root, "a.pdf")
+        assert _sync(S3(), root, Path(d) / "ledger.jsonl") == 0
+    assert re.fullmatch(r"_manifests/coll/\d{8}T\d{6}\.\d{6}Z-[0-9a-f]{12}\.jsonl", keys[-1])
+
+
+@pytest.mark.parametrize("remaining, status", [(5, 0), (4, 2)])
+def test_shrink_limit_boundary(tmp_path, remaining, status):
+    root, ledger = tmp_path / "tree", tmp_path / "ledger.jsonl"
+    for i in range(10):
+        _write(root, f"W{i}/a.pdf", str(i).encode())
+    s3 = FakeS3()
+    assert _sync(s3, root, ledger) == 0
+    for i in range(10 - remaining):
+        (root / f"W{i}/a.pdf").unlink()
+    assert _sync(s3, root, ledger) == status  # half the files is allowed; under half is refused
+
+
+def test_setup_check_with_a_partial_setup_writes_nothing(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    for name in ("get-bucket-policy", "get-bucket-lifecycle-configuration"):
+        del st["settings"][name]
+    st["users"]["sm-alpr-pra-reader"]["policy"] = None
+    r, st = _setup(tmp_path, st, "--check")
+    assert r.returncode == 3 and r.stdout.count("a run would set it") == 3 and _writes(st) == []
+
+
+def test_setup_check_without_a_bucket_still_checks_the_users(tmp_path):
+    r, st = _setup(tmp_path, None, "--check")
+    assert r.returncode == 3 and "bucket doesn't exist" in r.stdout
+    assert r.stdout.count("doesn't exist; a run would create it") == 3  # bucket and both users
+    assert _writes(st) == []
+
+
+def test_setup_retention_and_lifecycle_defaults(tmp_path):
+    _, st = _setup(tmp_path)
+    assert st["settings"]["get-object-lock-configuration"] == {"DefaultRetention": {"Mode": "GOVERNANCE", "Years": 10}}
+    assert st["settings"]["get-bucket-lifecycle-configuration"] == [
+        {"ID": "abort-incomplete-mpu", "Status": "Enabled", "Filter": {"Prefix": ""},
+         "AbortIncompleteMultipartUpload": {"DaysAfterInitiation": 7}}]
+
+
+def test_setup_a_failed_second_user_lookup_cannot_skip_the_grants_check(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    st["users"]["sm-alpr-pra-writer"]["managed"] = ["arn:aws:iam::aws:policy/AmazonS3FullAccess"]
+    st["fail_second_get_user"] = True
+    st.pop("get_user_calls", None)  # count this run's lookups only
+    r, st = _setup(tmp_path, st, "--check")
+    assert r.returncode == 3 and "AmazonS3FullAccess" in r.stderr

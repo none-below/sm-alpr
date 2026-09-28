@@ -46,8 +46,9 @@ except exclusions, OS metadata and (where configured) OCR sidecars. Nothing is
 written while something can't be stored yet (exit 3):
   - a file that changed, appeared or vanished during the run;
   - primary collections: a symlink, or something that isn't a regular file;
-  - checkout collections: a tracked file missing on disk (sparse checkout).
-    A committed symlink is just a link, not a record: it's skipped and logged;
+  - checkout collections: a tracked file missing on disk (sparse checkout),
+    or a symlink on disk where git has a regular file. A symlink git itself
+    records is just a link, not a record: it's skipped and logged by name;
   - primary collections: a file modified in the last --min-age seconds, an
     unfinished download (.part, .crdownload, a Safari .download folder, ...)
     or open-document lock (~$...) not listed in the collection's "keep", or
@@ -58,7 +59,10 @@ last manifest, is refused before anything uploads (exit 2).
 
 Browser-executable types (HTML, XML incl. SVG and RSS, JavaScript) are stored with
 Content-Disposition: attachment, so if the bucket is ever served publicly
-they download instead of running on its origin.
+they download instead of running on its origin. Objects stored before that
+rule (one .html in pra-portals-ca, 2026-09-25) keep their inline disposition,
+since stored objects can't change; serve them through a CDN that sets the
+header, or not at all.
 
 The writer key can only PutObject (no list, no read), so what's stored is
 tracked in a local ledger in the primary checkout's .claude/. Losing it costs
@@ -199,20 +203,33 @@ def default_ledger():
 
 
 def tracked_files(repo, root_rel, fetch=True):
-    """(files, commit): {path relative to root_rel: git blob id} for the files
+    """(files, commit): {path relative to root_rel: (git mode, blob id)} for the files
     under root_rel at origin/main, and that commit, after checking this
     checkout holds exactly that version of the folder. origin/main is resolved
     once, so a fetch by another session mid-run can't change which commit is
     checked and recorded."""
     def git(*args):
-        r = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
-        if r.returncode:
-            raise Refused(f"git {' '.join(args)}: {r.stderr.strip()}")
-        return r.stdout
+        p = subprocess.Popen(["git", "-C", str(repo), *args], text=True,
+                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            out, err = p.communicate()
+        except BaseException:
+            # subprocess.run would SIGKILL git here, stranding its lock files.
+            p.terminate()
+            try:
+                p.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                p.kill()
+            raise
+        if p.returncode:
+            raise Refused(f"git {' '.join(args)}: {err.strip()}")
+        return out
 
     if fetch:  # an explicit refspec: the remote's fetch config may not cover main
         git("fetch", "--quiet", "origin", "+refs/heads/main:refs/remotes/origin/main")
-    commit = git("rev-parse", "--verify", "origin/main^{commit}").strip()
+    # The full name: a local branch or tag called "origin/main" would win over
+    # the remote-tracking ref if it were looked up by its short name.
+    commit = git("rev-parse", "--verify", "refs/remotes/origin/main^{commit}").strip()
     dirty = git("status", "--porcelain", "--untracked-files=no", "--", root_rel)
     if dirty:
         raise Refused(f"uncommitted changes under {root_rel}:\n{dirty.rstrip()}")
@@ -225,10 +242,10 @@ def tracked_files(repo, root_rel, fetch=True):
         if not line:
             continue
         meta, path = line.split("\t", 1)
-        _mode, kind, oid = meta.split()
+        mode, kind, oid = meta.split()
         if kind != "blob":
             raise Refused(f"{path} is a {kind}, not a file")
-        files[path[len(prefix):]] = oid
+        files[path[len(prefix):]] = (mode, oid)
     return files, commit
 
 
@@ -281,9 +298,9 @@ def collect(root, excludes=(), min_age=0, now=None, tracked=None, keep=()):
     files    [(rel, path, stat)] regular files to hash and store
     held     [(rel, reason)] present but not storable; any of them means the
              tree isn't complete, so no manifest
-    ignored  [rel] OS metadata, and committed symlinks in tracked mode
+    ignored  [(rel, why)] OS metadata; in tracked mode, symlinks git records
 
-    With `tracked` (a set of rel paths from git), only those files count and
+    With `tracked` ({rel: (git mode, blob id)}), only those files count and
     git vouches that they're finished, so their names and mtimes don't matter.
     Otherwise the folder is walked as it is on disk.
     """
@@ -292,8 +309,11 @@ def collect(root, excludes=(), min_age=0, now=None, tracked=None, keep=()):
         for rel in sorted(tracked):
             if _matches(rel, excludes):
                 continue
+            if tracked[rel][0] == "120000":  # git records a symlink: a link, not a record
+                ignored.append((rel, "committed symlink"))
+                continue
             if classify(rel.rpartition("/")[2]) == "metadata":
-                ignored.append(rel)
+                ignored.append((rel, "OS metadata"))
                 continue
             try:
                 st = (root / rel).lstat()
@@ -304,7 +324,8 @@ def collect(root, excludes=(), min_age=0, now=None, tracked=None, keep=()):
                 held.append((rel, f"unreadable: {e.strerror}"))
                 continue
             if stat.S_ISLNK(st.st_mode):
-                ignored.append(rel)  # git stores a symlink as its target path; nothing to archive
+                held.append((rel, "a symlink on disk where git has a file "
+                                  "(assume-unchanged or skip-worktree?)"))
             elif stat.S_ISREG(st.st_mode):
                 files.append((rel, root / rel, st))
             else:
@@ -331,7 +352,7 @@ def collect(root, excludes=(), min_age=0, now=None, tracked=None, keep=()):
                 continue
             kind = classify(name)
             if kind == "metadata":
-                ignored.append(rel)
+                ignored.append((rel, "OS metadata"))
                 continue
             if kind == "unfinished" and not _matches(rel, keep):
                 held.append((rel, "unfinished download or open document (list it in keep if it's real)"))
@@ -442,10 +463,12 @@ class HashCache:
     def put(self, path, ident, sha256, md5):
         self.rows[str(path)] = {"ident": list(ident), "sha256": sha256, "md5": md5}
 
-    def save(self, root, seen):
-        """Drop entries under root that this run didn't see, then write."""
-        prefix = str(root).rstrip("/") + "/"
-        self.rows = {p: r for p, r in self.rows.items() if not p.startswith(prefix) or p in seen}
+    def save(self, root, seen=None):
+        """Write, first dropping entries under root that this run didn't see
+        (only when `seen` is the whole tree, not an interrupted pass)."""
+        if seen is not None:
+            prefix = str(root).rstrip("/") + "/"
+            self.rows = {p: r for p, r in self.rows.items() if not p.startswith(prefix) or p in seen}
         tmp = self.path.with_name(self.path.name + f".{os.getpid()}.tmp")
         tmp.parent.mkdir(parents=True, exist_ok=True)
         tmp.write_text(json.dumps(self.rows))
@@ -644,12 +667,20 @@ def sync(s3, bucket, collection, root, ledger, *, cache=None, excludes=(), keep=
                 cache.put(entry.path, entry.ident, entry.sha256, entry.md5)
 
     def hash_one(item):
-        expect = tracked[item[0]] if tracked is not None else None
+        expect = tracked[item[0]][1] if tracked is not None else None
         return _hash(item, collection, skip_ocr_sidecars, cache, expect, rehash)
 
-    run_pool(hash_one, files, workers, hashed, log)
-    if cache is not None and not dry_run:
-        cache.save(root, {str(e.path) for e in entries})
+    complete = False
+    try:
+        run_pool(hash_one, files, workers, hashed, log)
+        complete = True
+    finally:
+        if cache is not None and not dry_run:
+            try:
+                cache.save(root, {str(e.path) for e in entries} if complete else None)
+            except OSError as e:  # a cache: never worth failing the run over
+                with contextlib.suppress(OSError):
+                    log(f"  hash cache not saved ({e.strerror}); the next run re-hashes")
     entries.sort()
     sidecars = set()
     if skip_ocr_sidecars:
@@ -673,8 +704,11 @@ def sync(s3, bucket, collection, root, ledger, *, cache=None, excludes=(), keep=
         f"{len(entries) - len(todo)} already stored, {len(todo)} to upload ({human(todo_bytes)})")
     if sidecars:
         log(f"  OCR sidecars skipped: {len(sidecars)}")
-    if ignored:
-        log(f"  ignored (OS metadata, committed symlinks): {len(ignored)}")
+    if metadata := [rel for rel, why in ignored if why == "OS metadata"]:
+        log(f"  OS metadata ignored: {len(metadata)}")
+    for rel, why in ignored:
+        if why != "OS metadata":
+            log(f"  skipped ({why}): {rel}")
     for rel, reason in held:
         log(f"  held back ({reason}): {rel}")
     logged = len(held)
@@ -733,7 +767,8 @@ def sync(s3, bucket, collection, root, ledger, *, cache=None, excludes=(), keep=
     if last and last["tree"] == tree:
         log(f"manifest: tree unchanged since {last['key']}; not writing another")
         return 0
-    run_at = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    # Microseconds: "largest name is newest" must hold even for runs in the same second.
+    run_at = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
     mkey = f"_manifests/{collection}/{run_at}-{tree[:12]}.jsonl"
     body = "".join(_jsonl({
         "collection": collection, "rel_path": e.rel, "key": e.key, "sha256": e.sha256,
@@ -763,6 +798,9 @@ def _interrupt_handler():
             first.append(now)
             raise KeyboardInterrupt
         if now - first[0] > 1:
+            # uv run forwards this same Ctrl-C to us; exiting before it does
+            # makes uv lose track of the child and report 2 instead of 130.
+            time.sleep(0.25)
             os._exit(130)
 
     return handler
@@ -775,7 +813,7 @@ def main(argv=None, s3=None):
     ap.add_argument("--min-age", type=int, default=600, metavar="SECONDS",
                     help="primary collections: hold back files modified more recently than this")
     ap.add_argument("--allow-shrink", action="store_true",
-                    help="accept a tree under half the size of the last manifest")
+                    help="accept a tree with under half the files of the last manifest")
     ap.add_argument("--bucket", help="default: $PRA_S3_PREFIX-<account>-$PRA_S3_REGION-an")
     ap.add_argument("--ledger", type=Path, help="default: <primary checkout>/.claude/s3_upload_ledger.jsonl")
     ap.add_argument("--workers", type=int, default=8)
@@ -792,10 +830,20 @@ def main(argv=None, s3=None):
         with contextlib.suppress(OSError):
             print("interrupted: queued uploads cancelled, in-flight ones finished or aborted. "
                   "Re-run to resume.", file=sys.stderr, flush=True)
-        status = 130
-    finally:
-        for sig, h in previous.items():
-            signal.signal(sig, h)
+        _exit(130)  # our handler stays: a forwarded duplicate must not kill us with 143
+    for sig, h in previous.items():
+        signal.signal(sig, h)
+    _exit(status)
+
+
+def _exit(status):
+    """sys.exit, except that stdout's reader having gone (tee killed by the
+    same Ctrl-C) can't turn the status into Python's 120."""
+    try:
+        sys.stdout.flush()
+    except OSError:
+        with contextlib.suppress(OSError):
+            os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
     sys.exit(status)
 
 

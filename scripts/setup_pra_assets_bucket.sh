@@ -226,8 +226,9 @@ s3get() {  # <not-configured code> <get-command> <query>
 if aws s3api head-bucket --bucket "$BUCKET" --region "$REGION" >/dev/null 2>"$ERR"; then
   echo "bucket exists"
 elif grep -qF "(404)" "$ERR" && [[ "$MODE" == check ]]; then
-  echo "bucket doesn't exist; a run would create it"
-  exit 3
+  BUCKET_MISSING=1
+  PENDING=$((PENDING + 1))
+  echo "bucket doesn't exist; a run would create it (its settings can't be checked)"
 elif grep -qF "(404)" "$ERR"; then
   location=()
   [[ "$REGION" != "us-east-1" ]] && location=(--create-bucket-configuration "LocationConstraint=${REGION}")
@@ -242,55 +243,58 @@ else
   exit 1
 fi
 
-# Each read is its own assignment so that, under set -e, a failed read stops
-# the script before anything is written.
-pab='{"BlockPublicAcls":true,"IgnorePublicAcls":true,"BlockPublicPolicy":true,"RestrictPublicBuckets":true}'
-cur=$(s3get NoSuchPublicAccessBlockConfiguration get-public-access-block PublicAccessBlockConfiguration)
-apply_setting "public access block" "$cur" "$pab" \
-  aws s3api put-public-access-block --bucket "$BUCKET" --region "$REGION" \
-  --public-access-block-configuration "$pab"
+if [[ -z "${BUCKET_MISSING:-}" ]]; then
+  # Each read is its own assignment so that, under set -e, a failed read stops
+  # the script before anything is written.
+  pab='{"BlockPublicAcls":true,"IgnorePublicAcls":true,"BlockPublicPolicy":true,"RestrictPublicBuckets":true}'
+  cur=$(s3get NoSuchPublicAccessBlockConfiguration get-public-access-block PublicAccessBlockConfiguration)
+  apply_setting "public access block" "$cur" "$pab" \
+    aws s3api put-public-access-block --bucket "$BUCKET" --region "$REGION" \
+    --public-access-block-configuration "$pab"
 
-ownership='{"Rules":[{"ObjectOwnership":"BucketOwnerEnforced"}]}'
-cur=$(s3get OwnershipControlsNotFoundError get-bucket-ownership-controls OwnershipControls)
-apply_setting "object ownership" "$cur" "$ownership" \
-  aws s3api put-bucket-ownership-controls --bucket "$BUCKET" --region "$REGION" \
-  --ownership-controls "$ownership"
+  ownership='{"Rules":[{"ObjectOwnership":"BucketOwnerEnforced"}]}'
+  cur=$(s3get OwnershipControlsNotFoundError get-bucket-ownership-controls OwnershipControls)
+  apply_setting "object ownership" "$cur" "$ownership" \
+    aws s3api put-bucket-ownership-controls --bucket "$BUCKET" --region "$REGION" \
+    --ownership-controls "$ownership"
 
-# SSE-S3, not KMS: anonymous/public reads can't decrypt SSE-KMS objects. SSE-C
-# (customer-held keys) is blocked, as AWS now does by default for new buckets:
-# an object only its uploader's key can decrypt has no place in a shared archive.
-encryption='{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"},"BucketKeyEnabled":false,"BlockedEncryptionTypes":{"EncryptionType":["SSE-C"]}}]}'
-cur=$(s3get ServerSideEncryptionConfigurationNotFoundError get-bucket-encryption ServerSideEncryptionConfiguration)
-apply_setting "encryption" "$cur" "$encryption" \
-  aws s3api put-bucket-encryption --bucket "$BUCKET" --region "$REGION" \
-  --server-side-encryption-configuration "$encryption"
+  # SSE-S3, not KMS: anonymous/public reads can't decrypt SSE-KMS objects. SSE-C
+  # (customer-held keys) is blocked, as AWS now does by default for new buckets:
+  # an object only its uploader's key can decrypt has no place in a shared archive.
+  encryption='{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"},"BucketKeyEnabled":false,"BlockedEncryptionTypes":{"EncryptionType":["SSE-C"]}}]}'
+  cur=$(s3get ServerSideEncryptionConfigurationNotFoundError get-bucket-encryption ServerSideEncryptionConfiguration)
+  apply_setting "encryption" "$cur" "$encryption" \
+    aws s3api put-bucket-encryption --bucket "$BUCKET" --region "$REGION" \
+    --server-side-encryption-configuration "$encryption"
 
-retention="{\"DefaultRetention\":{\"Mode\":\"${LOCK_MODE}\",\"Years\":${LOCK_YEARS}}}"
-cur=$(s3get ObjectLockConfigurationNotFoundError get-object-lock-configuration ObjectLockConfiguration.Rule)
-apply_setting "object lock default retention" "$cur" "$retention" \
-  aws s3api put-object-lock-configuration --bucket "$BUCKET" --region "$REGION" \
-  --object-lock-configuration "{\"ObjectLockEnabled\":\"Enabled\",\"Rule\":${retention}}"
+  retention="{\"DefaultRetention\":{\"Mode\":\"${LOCK_MODE}\",\"Years\":${LOCK_YEARS}}}"
+  cur=$(s3get ObjectLockConfigurationNotFoundError get-object-lock-configuration ObjectLockConfiguration.Rule)
+  apply_setting "object lock default retention" "$cur" "$retention" \
+    aws s3api put-object-lock-configuration --bucket "$BUCKET" --region "$REGION" \
+    --object-lock-configuration "{\"ObjectLockEnabled\":\"Enabled\",\"Rule\":${retention}}"
 
-# The writer can't list, so it can't find or clean up its own failed multipart
-# uploads; expire them instead of paying for orphaned parts.
-lifecycle='[{"ID":"abort-incomplete-mpu","Status":"Enabled","Filter":{"Prefix":""},"AbortIncompleteMultipartUpload":{"DaysAfterInitiation":7}}]'
-cur=$(s3get NoSuchLifecycleConfiguration get-bucket-lifecycle-configuration Rules)
-apply_setting "lifecycle rules" "$cur" "$lifecycle" \
-  aws s3api put-bucket-lifecycle-configuration --bucket "$BUCKET" --region "$REGION" \
-  --lifecycle-configuration "{\"Rules\":${lifecycle}}"
+  # The writer can't list, so it can't find or clean up its own failed multipart
+  # uploads; expire them instead of paying for orphaned parts.
+  lifecycle='[{"ID":"abort-incomplete-mpu","Status":"Enabled","Filter":{"Prefix":""},"AbortIncompleteMultipartUpload":{"DaysAfterInitiation":7}}]'
+  cur=$(s3get NoSuchLifecycleConfiguration get-bucket-lifecycle-configuration Rules)
+  apply_setting "lifecycle rules" "$cur" "$lifecycle" \
+    aws s3api put-bucket-lifecycle-configuration --bucket "$BUCKET" --region "$REGION" \
+    --lifecycle-configuration "{\"Rules\":${lifecycle}}"
 
-cur=$(read_setting NoSuchBucketPolicy \
-  aws s3api get-bucket-policy --bucket "$BUCKET" --region "$REGION" --query Policy --output text)
-apply_setting "bucket policy" "$cur" "$(bucket_policy)" \
-  aws s3api put-bucket-policy --bucket "$BUCKET" --region "$REGION" --policy "$(bucket_policy)"
+  cur=$(read_setting NoSuchBucketPolicy \
+    aws s3api get-bucket-policy --bucket "$BUCKET" --region "$REGION" --query Policy --output text)
+  apply_setting "bucket policy" "$cur" "$(bucket_policy)" \
+    aws s3api put-bucket-policy --bucket "$BUCKET" --region "$REGION" --policy "$(bucket_policy)"
+fi
 echo "bucket $([[ "$MODE" == check ]] && echo checked || echo configured)"
 
 # --- principals -------------------------------------------------------------
 ensure_user() {  # <user> <policy-json>
-  local cur
+  local cur exists=1
   if aws iam get-user --user-name "$1" >/dev/null 2>"$ERR"; then
     :
   elif grep -qF "(NoSuchEntity)" "$ERR" && [[ "$MODE" == check ]]; then
+    exists=0
     PENDING=$((PENDING + 1))
     echo "  $1: doesn't exist; a run would create it"
   elif grep -qF "(NoSuchEntity)" "$ERR"; then
@@ -304,7 +308,7 @@ ensure_user() {  # <user> <policy-json>
     --policy-name "${PREFIX}-access" --query PolicyDocument --output json)
   apply_setting "$1 policy" "$cur" "$2" \
     aws iam put-user-policy --user-name "$1" --policy-name "${PREFIX}-access" --policy-document "$2"
-  if aws iam get-user --user-name "$1" >/dev/null 2>&1; then
+  if (( exists )); then  # decided by the get-user above; a second call's error can't skip this
     check_no_other_grants "$1"
   fi
 }
