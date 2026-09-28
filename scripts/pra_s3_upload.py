@@ -37,7 +37,8 @@ download it and hash it.
 
 Manifests: a run that stores the whole tree writes
 _manifests/<collection>/<UTC timestamp>-<tree hash>.jsonl (rel_path, key,
-sha256, bytes, mtime per file). The tree is every file in the collection
+sha256, bytes, mtime per file, plus git_commit: the origin/main commit whose
+folder matched, for checkout collections). The tree is every file in the collection
 except exclusions, OS metadata and (where configured) OCR sidecars. Nothing is
 written while something can't be stored yet (exit 3):
   - a file that changed, appeared or vanished during the run;
@@ -48,12 +49,18 @@ written while something can't be stored yet (exit 3):
     or open-document lock (~$...) not listed in the collection's "keep", or
     an unreadable folder.
 Nothing is written after an upload error (exit 1) or for an unchanged tree
-(exit 0). An empty tree, or one under half the files of the last manifest, is
-refused before anything uploads (exit 2).
+(exit 0). An empty tree, or a complete one with under half the files of the
+last manifest, is refused before anything uploads (exit 2).
+
+Browser-executable types (HTML, SVG, JavaScript) are stored with
+Content-Disposition: attachment, so if the bucket is ever served publicly
+they download instead of running on its origin.
 
 The writer key can only PutObject (no list, no read), so what's stored is
-tracked in a local ledger in the primary checkout's .claude/. A lost ledger
-costs re-uploads that come back 412, nothing worse. The ledger also caches
+tracked in a local ledger in the primary checkout's .claude/. Losing it costs
+re-uploads that come back 412, one redundant manifest, and the shrink guard
+until the next manifest is written (both need the last manifest's record).
+The ledger also caches
 hashes by file identity (device, inode, size, mtime, ctime); tools that keep
 mtime across a rewrite (rsync -t, cp -p, unzip) can't keep ctime, so changed
 bytes are always re-hashed.
@@ -108,6 +115,9 @@ COLLECTIONS = {
 }
 
 PART_SIZE = 64 * 1024 * 1024  # single PUT up to this size, multipart above
+# Types a browser would execute; stored as attachments (see docstring).
+ACTIVE_TYPES = {"text/html", "application/xhtml+xml", "image/svg+xml",
+                "text/javascript", "application/javascript", "application/x-javascript"}
 SHRINK_LIMIT = 0.5  # refuse a tree with fewer files than this share of the last manifest's
 FUTURE_SLACK = 60  # an mtime further ahead than this is restored metadata, not a live write
 OS_METADATA = {".DS_Store", "Thumbs.db", "desktop.ini"}  # plus AppleDouble ._* files
@@ -177,8 +187,9 @@ def default_ledger():
 
 
 def tracked_files(repo, root_rel, fetch=True):
-    """The git-tracked files under root_rel, as paths relative to it, after
-    checking that this checkout holds exactly origin/main's version of it."""
+    """(files, commit): the git-tracked files under root_rel, as paths relative
+    to it, and the origin/main commit, after checking that this checkout holds
+    exactly origin/main's version of that folder."""
     def git(*args):
         r = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
         if r.returncode:
@@ -194,7 +205,8 @@ def tracked_files(repo, root_rel, fetch=True):
         raise Refused(f"{root_rel} here differs from origin/main (stale or unmerged); "
                       "run from a fresh worktree off origin/main")
     prefix = root_rel.rstrip("/") + "/"
-    return {p[len(prefix):] for p in git("ls-files", "-z", "--", root_rel).split("\0") if p}
+    files = {p[len(prefix):] for p in git("ls-files", "-z", "--", root_rel).split("\0") if p}
+    return files, git("rev-parse", "origin/main").strip()
 
 
 def object_key(collection, rel_path, sha256):
@@ -228,6 +240,9 @@ def _regular(rel, path, held):
         st = path.lstat()
     except FileNotFoundError:
         return None
+    except OSError as e:  # e.g. a folder that can be listed but not entered
+        held.append((rel, f"unreadable: {e.strerror}"))
+        return False
     if stat.S_ISLNK(st.st_mode):
         held.append((rel, "symlink, not followed: exclude it or copy the file in"))
     elif not stat.S_ISREG(st.st_mode):
@@ -292,7 +307,7 @@ def collect(root, excludes=(), min_age=0, now=None, tracked=None, keep=()):
             st = _regular(rel, path, held)
             if st is None:
                 held.append((rel, "vanished while listing"))
-            elif st and -FUTURE_SLACK <= now - st.st_mtime < min_age:
+            elif st and min_age is not None and -FUTURE_SLACK <= now - st.st_mtime < min_age:
                 held.append((rel, f"modified in the last {min_age}s"))
             elif st:
                 files.append((rel, path, st))
@@ -345,9 +360,11 @@ def tree_hash(pairs):
     return h.hexdigest()
 
 
-def changes_since(root, excludes, min_age, entries, skip, tracked=None, keep=()):
-    """What differs between the tree now and the entries hashed at the start."""
-    files, held, _ = collect(root, excludes, min_age, tracked=tracked, keep=keep)
+def changes_since(root, excludes, entries, skip, tracked=None, keep=()):
+    """What differs between the tree now and the entries hashed at the start.
+    Identity alone decides; the clock doesn't, so a future-dated file that
+    drifts into the --min-age window isn't held back."""
+    files, held, _ = collect(root, excludes, min_age=None, tracked=tracked, keep=keep)
     now = {rel: identity(st) for rel, _, st in files}
     then = {e.rel: e.ident for e in entries}
     found = {rel: reason for rel, reason in held if rel not in skip}
@@ -427,28 +444,38 @@ def _once(write):
     try:
         write()
     except Exception as e:
-        if getattr(e, "response", {}).get("Error", {}).get("Code") == "PreconditionFailed":
+        error = (getattr(e, "response", None) or {}).get("Error") or {}
+        if error.get("Code") == "PreconditionFailed":
             return "present"
         raise
     return "uploaded"
 
 
-def put_once(s3, bucket, key, body, ctype, sha256):
-    return _once(lambda: s3.put_object(Bucket=bucket, Key=key, Body=body, ContentType=ctype,
-                                       ChecksumSHA256=b64(sha256), IfNoneMatch="*"))
+def headers_for(name):
+    ctype = mimetypes.guess_type(name)[0] or "application/octet-stream"
+    headers = {"ContentType": ctype}
+    if ctype in ACTIVE_TYPES:
+        headers["ContentDisposition"] = "attachment"
+    return headers
+
+
+def put_once(s3, bucket, key, body, headers, sha256):
+    return _once(lambda: s3.put_object(Bucket=bucket, Key=key, Body=body, **headers,
+                                       ChecksumAlgorithm="SHA256", ChecksumSHA256=b64(sha256),
+                                       IfNoneMatch="*"))
 
 
 def upload(s3, bucket, key, path, size, sha256):
-    ctype = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
+    headers = headers_for(path.name)
     if size <= PART_SIZE:
         with path.open("rb") as f:
-            return put_once(s3, bucket, key, f, ctype, sha256)
-    return _once(lambda: _multipart(s3, bucket, key, path, ctype, sha256))
+            return put_once(s3, bucket, key, f, headers, sha256)
+    return _once(lambda: _multipart(s3, bucket, key, path, headers, sha256))
 
 
-def _multipart(s3, bucket, key, path, ctype, sha256):
+def _multipart(s3, bucket, key, path, headers, sha256):
     upload_id = s3.create_multipart_upload(
-        Bucket=bucket, Key=key, ContentType=ctype, ChecksumAlgorithm="SHA256",
+        Bucket=bucket, Key=key, **headers, ChecksumAlgorithm="SHA256",
     )["UploadId"]
     try:
         parts, whole = [], hashlib.sha256()
@@ -472,17 +499,31 @@ def _multipart(s3, bucket, key, path, ctype, sha256):
         raise
 
 
-def run_pool(fn, items, workers, on_done):
+def run_pool(fn, items, workers, on_done, log=print):
     """Call on_done(item, future) as each fn(item) finishes. On interrupt, cancel
-    queued work, let in-flight work stop at its next STOP check, and re-raise."""
-    pool = ThreadPoolExecutor(workers)
+    queued work, let in-flight work stop at its next STOP check, and re-raise.
+
+    While stopping, further SIGINT/SIGTERM are ignored: `uv run` forwards the
+    terminal's Ctrl-C, so the child gets it twice, and the second must not cut
+    the wait short. kill -9 still forces."""
+    pool, futures = ThreadPoolExecutor(workers), {}
     try:
-        futures = {pool.submit(fn, item): item for item in items}
+        for item in items:
+            futures[pool.submit(fn, item)] = item
         for fut in as_completed(futures):
             on_done(futures[fut], fut)
     except BaseException:
         STOP.set()
-        pool.shutdown(wait=True, cancel_futures=True)
+        busy = sum(f.running() for f in futures)
+        if busy:
+            log(f"stopping: waiting for {busy} in-flight task(s) to finish or abort (kill -9 forces)")
+        main = threading.current_thread() is threading.main_thread()
+        saved = [(sig, signal.signal(sig, signal.SIG_IGN)) for sig in (signal.SIGINT, signal.SIGTERM)] if main else []
+        try:
+            pool.shutdown(wait=True, cancel_futures=True)
+        finally:
+            for sig, handler in saved:
+                signal.signal(sig, handler)
         raise
     pool.shutdown()
 
@@ -508,7 +549,7 @@ def human(n):
     return f"{n:.1f}TB"
 
 
-def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=None,
+def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=None, commit=None,
          skip_ocr_sidecars=False, min_age=600, workers=8, allow_shrink=False, dry_run=False,
          log=print):
     """Store root under <collection>/ and, once the whole tree is stored, write its
@@ -527,6 +568,8 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
             entry, fresh = fut.result()
         except FileNotFoundError:
             held.append((item[0], "vanished before hashing"))
+        except PermissionError as e:
+            held.append((item[0], f"unreadable: {e.strerror}"))
         except Changed as e:
             held.append((item[0], str(e)))
         except Exception as e:
@@ -538,17 +581,18 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
                 ledger.record(kind="hash", path=str(entry.path), ident=entry.ident,
                               sha256=entry.sha256, md5=entry.md5)
 
-    run_pool(lambda item: _hash(item, collection, skip_ocr_sidecars, ledger), files, workers, hashed)
+    run_pool(lambda item: _hash(item, collection, skip_ocr_sidecars, ledger), files, workers, hashed, log)
     entries.sort()
     sidecars = set()
     if skip_ocr_sidecars:
         entries, sidecars = split_ocr_sidecars(entries)
 
-    # Count the tree as the manifest will, sidecars out, before anything uploads.
+    # Compare the tree the way its manifest would count it (sidecars out), before
+    # anything uploads. Only a complete tree can be judged; with anything held
+    # back, no manifest will be written anyway, and the run exits 3.
     last = ledger.manifests.get(collection)
-    found = len(entries) + len(held)
-    if last and not allow_shrink and found < SHRINK_LIMIT * last["files"]:
-        log(f"{collection}: {found} files, down from {last['files']} in {last['key']}. "
+    if last and not held and not allow_shrink and len(entries) < SHRINK_LIMIT * last["files"]:
+        log(f"{collection}: {len(entries)} files, down from {last['files']} in {last['key']}. "
             "Pass --allow-shrink if the tree really shrank.")
         return 2
 
@@ -577,6 +621,8 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
     done_bytes, started, last_report = 0, time.time(), 0.0
 
     def put(e):
+        if STOP.is_set():
+            raise Stopped(e.rel)
         status = upload(s3, bucket, e.key, e.path, e.size, e.sha256)
         ledger.record(key=e.key, sha256=e.sha256, bytes=e.size, path=str(e.path), status=status)
         return status
@@ -600,17 +646,17 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
             log(f"  {sum(counts.values())}/{len(todo)} files, {human(done_bytes)}/{human(todo_bytes)} "
                 f"({human(rate)}/s) {counts}")
 
-    run_pool(put, todo, workers, uploaded)
+    run_pool(put, todo, workers, uploaded, log)
 
     failed += counts["error"]
     if not failed and not held:
-        held += changes_since(root, excludes, min_age, entries, sidecars, tracked=tracked, keep=keep)
+        held += changes_since(root, excludes, entries, sidecars, tracked=tracked, keep=keep)
+    for rel, reason in held[logged:]:
+        log(f"  held back ({reason}): {rel}")
     if failed:
         log(f"{failed} file(s) failed; no manifest written. Re-run to retry.")
         return 1
     if held:
-        for rel, reason in held[logged:]:
-            log(f"  held back ({reason}): {rel}")
         log(f"{len(held)} item(s) held back; no manifest written. Re-run once the tree settles.")
         return 3
     if last and last["tree"] == tree:
@@ -621,8 +667,10 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
     body = "".join(_jsonl({
         "collection": collection, "rel_path": e.rel, "key": e.key, "sha256": e.sha256,
         "bytes": e.size, "mtime": datetime.fromtimestamp(e.ident[3] / 1e9, timezone.utc).isoformat(),
+        **({"git_commit": commit} if commit else {}),
     }) for e in entries).encode()
-    status = put_once(s3, bucket, mkey, body, "application/x-ndjson", hashlib.sha256(body).hexdigest())
+    status = put_once(s3, bucket, mkey, body, {"ContentType": "application/x-ndjson"},
+                      hashlib.sha256(body).hexdigest())
     ledger.record(kind="manifest", collection=collection, key=mkey, tree=tree,
                   files=len(entries), status=status)
     log(f"manifest: {mkey} ({len(entries)} files)")
@@ -644,10 +692,10 @@ def main():
     log = functools.partial(print, flush=True)  # progress must show up in logs of background runs
     cfg = COLLECTIONS[args.collection]
     root = collection_root(args.collection)
-    tracked = None
+    tracked = commit = None
     if cfg["base"] == "checkout":
         try:
-            tracked = tracked_files(checkout_root(), cfg["root"])
+            tracked, commit = tracked_files(checkout_root(), cfg["root"])
         except Refused as e:
             log(f"{args.collection}: refused: {e}")
             sys.exit(2)
@@ -657,15 +705,19 @@ def main():
     import boto3
     from botocore.config import Config
 
+    # payload_signing_enabled=False: over HTTPS the body's integrity is already
+    # covered by ChecksumSHA256, which S3 verifies; signing it too hashes every
+    # byte a second time.
     s3 = boto3.client("s3", region_name=region(), config=Config(
-        retries={"mode": "adaptive", "max_attempts": 10}, max_pool_connections=args.workers * 2))
+        retries={"mode": "adaptive", "max_attempts": 10}, max_pool_connections=args.workers * 2,
+        s3={"payload_signing_enabled": False}))
     bucket = args.bucket or bucket_name(boto3.client("sts").get_caller_identity()["Account"])
     ledger = Ledger(args.ledger or default_ledger(), bucket, log=log)
 
     signal.signal(signal.SIGTERM, signal.default_int_handler)  # stop on kill like on Ctrl-C
     try:
         status = sync(s3, bucket, args.collection, root, ledger, excludes=cfg.get("exclude", ()),
-                      keep=cfg.get("keep", ()), tracked=tracked,
+                      keep=cfg.get("keep", ()), tracked=tracked, commit=commit,
                       skip_ocr_sidecars=cfg.get("skip_ocr_sidecars", False), min_age=args.min_age,
                       workers=args.workers, allow_shrink=args.allow_shrink, dry_run=args.dry_run, log=log)
     except KeyboardInterrupt:

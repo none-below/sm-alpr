@@ -29,6 +29,10 @@ from ocr_sidecar import is_sidecar, sidecar_path_for  # noqa: E402
 SHA = "ab" * 32
 
 
+def _b64sha(data):
+    return base64.b64encode(hashlib.sha256(data).digest()).decode()
+
+
 class PreconditionFailed(Exception):
     response = {"Error": {"Code": "PreconditionFailed"}}
 
@@ -38,7 +42,7 @@ class FakeS3:
     rule built in: every write must carry If-None-Match: *."""
 
     def __init__(self):
-        self.objects, self.mpus, self.calls = {}, {}, []
+        self.objects, self.mpus, self.calls, self.headers = {}, {}, [], {}
 
     def _create(self, key, data, if_none_match):
         assert if_none_match == "*", "write without If-None-Match"
@@ -46,25 +50,33 @@ class FakeS3:
             raise PreconditionFailed()
         self.objects[key] = data
 
-    def put_object(self, *, Bucket, Key, Body, ContentType, ChecksumSHA256, IfNoneMatch=None):
+    def put_object(self, *, Bucket, Key, Body, ContentType, ChecksumAlgorithm, ChecksumSHA256,
+                   IfNoneMatch=None, ContentDisposition=None):
         data = Body if isinstance(Body, bytes) else Body.read()
-        assert ChecksumSHA256 == base64.b64encode(hashlib.sha256(data).digest()).decode()
+        assert ChecksumAlgorithm == "SHA256"
+        assert ChecksumSHA256 == _b64sha(data)
         self.calls.append(("put", Key))
         self._create(Key, data, IfNoneMatch)
+        self.headers[Key] = {"ContentType": ContentType, "ContentDisposition": ContentDisposition}
 
-    def create_multipart_upload(self, *, Bucket, Key, ContentType, ChecksumAlgorithm):
+    def create_multipart_upload(self, *, Bucket, Key, ContentType, ChecksumAlgorithm, ContentDisposition=None):
+        assert ChecksumAlgorithm == "SHA256"
         upload_id = f"mpu{len(self.calls)}"
         self.mpus[upload_id] = {}
         self.calls.append(("create", Key))
         return {"UploadId": upload_id}
 
     def upload_part(self, *, Bucket, Key, UploadId, PartNumber, Body, ChecksumSHA256):
+        assert ChecksumSHA256 == _b64sha(Body), "part checksum doesn't match its bytes"
         self.mpus[UploadId][PartNumber] = Body
+        self.calls.append(("part", Key))
         return {"ETag": f"etag{PartNumber}", "ChecksumSHA256": ChecksumSHA256}
 
     def complete_multipart_upload(self, *, Bucket, Key, UploadId, MultipartUpload, IfNoneMatch=None):
         self.calls.append(("complete", Key))
         parts = self.mpus[UploadId]
+        for p in MultipartUpload["Parts"]:
+            assert p["ChecksumSHA256"] == _b64sha(parts[p["PartNumber"]]), "part checksum missing or wrong"
         self._create(Key, b"".join(parts[p["PartNumber"]] for p in MultipartUpload["Parts"]), IfNoneMatch)
         del self.mpus[UploadId]
 
@@ -304,14 +316,21 @@ def test_interrupt_aborts_multipart_between_parts(tmp_path, monkeypatch):
     monkeypatch.setattr(u, "PART_SIZE", 4)
     s3, p = FakeS3(), _write(tmp_path, "big.zip", b"0123456789")
     sha = _sha(p)
-    u.STOP.set()
+    first_part = s3.upload_part
+
+    def part_then_interrupt(**kw):
+        result = first_part(**kw)
+        u.STOP.set()  # Ctrl-C arrives while part 1 is in flight
+        return result
+
+    s3.upload_part = part_then_interrupt
     try:
         with pytest.raises(u.Stopped):
             u.upload(s3, "b", "k", p, 10, sha)
     finally:
         u.STOP.clear()
-    assert "k" not in s3.objects
-    assert s3.calls[-1] == ("abort", "k")
+    assert [c for c in s3.calls if c[0] == "part"] == [("part", "k")]  # one part went, then it stopped
+    assert "k" not in s3.objects and s3.calls[-1] == ("abort", "k")
 
 
 # --- ledger ---------------------------------------------------------------------
@@ -534,7 +553,10 @@ def repo(tmp_path):
 
 def test_tracked_files_are_the_committed_ones(repo):
     _write(repo, "assets/prs/W1/untracked_screenshot.png")
-    assert u.tracked_files(repo, "assets/prs", fetch=False) == {"W1/a.pdf", "W1/b.pdf"}
+    files, commit = u.tracked_files(repo, "assets/prs", fetch=False)
+    assert files == {"W1/a.pdf", "W1/b.pdf"}
+    assert commit == subprocess.run(["git", "-C", str(repo), "rev-parse", "origin/main"],
+                                    capture_output=True, text=True).stdout.strip()
 
 
 def test_dirty_checkout_is_refused(repo):
@@ -553,9 +575,328 @@ def test_stale_checkout_is_refused(repo):
         u.tracked_files(repo, "assets/prs", fetch=False)
 
 
-def test_fresh_checkout_uploads_without_waiting(repo, tmp_path):
+def test_fresh_checkout_uploads_without_waiting_and_records_the_commit(repo, tmp_path):
     root = repo / "assets/prs"
-    tracked = u.tracked_files(repo, "assets/prs", fetch=False)
+    tracked, commit = u.tracked_files(repo, "assets/prs", fetch=False)
     s3 = FakeS3()
-    assert _sync(s3, root, tmp_path / "ledger.jsonl", tracked=tracked, min_age=600) == 0
+    assert _sync(s3, root, tmp_path / "ledger.jsonl", tracked=tracked, commit=commit, min_age=600) == 0
     assert s3.stored_names() == ["a.pdf", "b.pdf"]
+    (manifest,) = s3.manifests()
+    assert {json.loads(r)["git_commit"] for r in s3.objects[manifest].decode().splitlines()} == {commit}
+
+
+def test_only_precondition_failed_means_present():
+    class Denied(Exception):
+        response = {"Error": {"Code": "AccessDenied"}}
+
+    class Timeout(Exception):  # botocore's ReadTimeoutError carries response=None
+        response = None
+
+    for exc in (Denied(), Timeout(), OSError("reset")):
+        def write(exc=exc):
+            raise exc
+        with pytest.raises(type(exc)):
+            u._once(write)
+    assert u._once(lambda: None) == "uploaded"
+
+
+def test_manifest_rows_are_exact(tmp_path):
+    root, ledger = tmp_path / "tree", tmp_path / "ledger.jsonl"
+    p = _write(root, "W1/a.pdf", b"alpha")
+    s3 = FakeS3()
+    assert _sync(s3, root, ledger) == 0
+    (manifest,) = s3.manifests()
+    assert manifest.startswith("_manifests/coll/") and manifest.endswith(".jsonl")
+    (row,) = [json.loads(r) for r in s3.objects[manifest].decode().splitlines()]
+    sha = hashlib.sha256(b"alpha").hexdigest()
+    mtime = p.stat().st_mtime_ns / 1e9
+    assert row == {"collection": "coll", "rel_path": "W1/a.pdf", "key": f"coll/W1/{sha}/a.pdf",
+                   "sha256": sha, "bytes": 5,
+                   "mtime": u.datetime.fromtimestamp(mtime, u.timezone.utc).isoformat()}
+    assert manifest.rsplit("-", 1)[1] == u.tree_hash([("W1/a.pdf", sha)])[:12] + ".jsonl"
+
+
+def test_browser_executable_types_are_stored_as_attachments(tmp_path):
+    root = tmp_path / "tree"
+    _write(root, "portal.html", b"<script>alert(1)</script>")
+    _write(root, "letter.pdf", b"%PDF")
+    s3 = FakeS3()
+    assert _sync(s3, root, tmp_path / "ledger.jsonl") == 0
+    by_name = {k.rsplit("/", 1)[1]: h for k, h in s3.headers.items()}
+    assert by_name["portal.html"] == {"ContentType": "text/html", "ContentDisposition": "attachment"}
+    assert by_name["letter.pdf"] == {"ContentType": "application/pdf", "ContentDisposition": None}
+
+
+# --- re-walk after upload --------------------------------------------------------
+
+def _entries(root, rels):
+    files, _, _ = u.collect(root, min_age=None)
+    return [u._hash(item, "c", False, u.Ledger(root / "none.jsonl", "b"))[0]
+            for item in files if item[0] in rels]
+
+
+def test_rewalk_reports_vanished_changed_appeared_and_unfinished(tmp_path):
+    root = tmp_path / "tree"
+    for rel in ("keep.pdf", "gone.pdf", "edited.pdf"):
+        _write(root, rel, rel.encode())
+    entries = _entries(root, {"keep.pdf", "gone.pdf", "edited.pdf"})
+    (root / "gone.pdf").unlink()
+    (root / "edited.pdf").write_bytes(b"edited")
+    _write(root, "late.pdf")
+    _write(root, "next.zip.part")
+    assert dict(u.changes_since(root, (), entries, set())) == {
+        "gone.pdf": "vanished during the run",
+        "edited.pdf": "changed during the run",
+        "late.pdf": "appeared during the run",
+        "next.zip.part": "unfinished download or open document (list it in keep if it's real)",
+    }
+
+
+def test_rewalk_ignores_the_clock(tmp_path):
+    root = tmp_path / "tree"
+    _write(root, "future.pdf", age=-30)  # a future mtime drifting into the --min-age window
+    entries = _entries(root, {"future.pdf"})
+    assert u.changes_since(root, (), entries, set()) == []
+
+
+# --- unreadable things -------------------------------------------------------------
+
+@pytest.mark.skipif(os.geteuid() == 0, reason="root can read anything")
+def test_listable_but_unenterable_folder_is_held_not_a_crash(tmp_path):
+    _write(tmp_path, "ok.pdf")
+    _write(tmp_path, "noexec/x.pdf")
+    (tmp_path / "noexec").chmod(0o444)  # names readable, entries can't be stat'ed
+    try:
+        files, held, _ = u.collect(tmp_path)
+    finally:
+        (tmp_path / "noexec").chmod(0o755)
+    assert [rel for rel, _, _ in files] == ["ok.pdf"]
+    assert held and all("unreadable" in reason for _, reason in held)
+
+
+@pytest.mark.skipif(os.geteuid() == 0, reason="root can read anything")
+def test_unreadable_file_is_held_back_not_an_error(tmp_path):
+    root = tmp_path / "tree"
+    _write(root, "ok.pdf")
+    locked = _write(root, "locked.pdf")
+    locked.chmod(0)
+    try:
+        assert _sync(FakeS3(), root, tmp_path / "ledger.jsonl") == 3
+    finally:
+        locked.chmod(0o644)
+
+
+def test_shrink_guard_waits_for_a_complete_tree(tmp_path):
+    root, ledger = tmp_path / "tree", tmp_path / "ledger.jsonl"
+    for i in range(10):
+        _write(root, f"W{i}/a.pdf", str(i).encode())
+    s3 = FakeS3()
+    assert _sync(s3, root, ledger) == 0
+    for i in range(6):
+        (root / f"W{i}/a.pdf").unlink()
+    _write(root, "W9/b.zip.crdownload")  # something unfinished: not a complete tree yet
+    assert _sync(s3, root, ledger) == 3  # held back, not refused as a shrink
+
+
+# --- setup script, run against a stand-in aws command --------------------------------
+
+AWS_STUB = r"""
+import csv, json, os, sys
+path = os.environ["AWS_STUB_STATE"]
+st = json.load(open(path))
+argv = sys.argv[1:]
+st["calls"].append(argv)
+
+
+def done(out="", code=0, err=""):
+    json.dump(st, open(path, "w"))
+    sys.stdout.write(out)
+    sys.stderr.write(err)
+    sys.exit(code)
+
+
+def fail(code):
+    done(code=254, err=f"An error occurred ({code}) when calling the operation: stub\n")
+
+
+def opt(name):
+    return argv[argv.index(name) + 1]
+
+
+NOT_FOUND = {
+    "get-public-access-block": "NoSuchPublicAccessBlockConfiguration",
+    "get-bucket-ownership-controls": "OwnershipControlsNotFoundError",
+    "get-bucket-encryption": "ServerSideEncryptionConfigurationNotFoundError",
+    "get-object-lock-configuration": "ObjectLockConfigurationNotFoundError",
+    "get-bucket-lifecycle-configuration": "NoSuchLifecycleConfiguration",
+    "get-bucket-policy": "NoSuchBucketPolicy",
+}
+PUTS = {
+    "put-public-access-block": ("get-public-access-block", "--public-access-block-configuration", None),
+    "put-bucket-ownership-controls": ("get-bucket-ownership-controls", "--ownership-controls", None),
+    "put-bucket-encryption": ("get-bucket-encryption", "--server-side-encryption-configuration", None),
+    "put-object-lock-configuration": ("get-object-lock-configuration", "--object-lock-configuration", "Rule"),
+    "put-bucket-lifecycle-configuration": ("get-bucket-lifecycle-configuration", "--lifecycle-configuration", "Rules"),
+    "put-bucket-policy": ("get-bucket-policy", "--policy", None),
+}
+svc, cmd = argv[0], argv[1]
+if cmd in st["errors"]:
+    fail(st["errors"][cmd])
+if svc == "s3api":
+    if cmd == "head-bucket":
+        done("{}") if st["bucket"] else fail("404")
+    if cmd == "create-bucket":
+        st["bucket"] = True
+        done("{}")
+    if cmd in NOT_FOUND:
+        if cmd not in st["settings"]:
+            fail(NOT_FOUND[cmd])
+        value = st["settings"][cmd]
+        done(value if cmd == "get-bucket-policy" else json.dumps(value, indent=4))
+    if cmd in PUTS:
+        get, arg, sub = PUTS[cmd]
+        value = opt(arg) if cmd == "put-bucket-policy" else json.loads(opt(arg))
+        st["settings"][get] = value[sub] if sub else value
+        done()
+if svc == "iam":
+    user = opt("--user-name")
+    u = st["users"].get(user)
+    if cmd == "get-user":
+        done("{}") if u else fail("NoSuchEntity")
+    if cmd == "create-user":
+        st["users"][user] = {"policy": None, "keys": []}
+        done("{}")
+    if cmd == "get-user-policy":
+        done(json.dumps(u["policy"])) if u and u["policy"] else fail("NoSuchEntity")
+    if cmd == "put-user-policy":
+        u["policy"] = json.loads(opt("--policy-document"))
+        done()
+    if cmd == "list-access-keys":
+        done("\t".join(u["keys"]) + "\n")
+    if cmd == "create-access-key":
+        key_id = f"AKIASTUB{len(st['calls'])}"
+        u["keys"].append(key_id)
+        done(f"{key_id}\tSECRET-{key_id}\n")
+    if cmd == "delete-access-key":
+        u["keys"].remove(opt("--access-key-id"))
+        done()
+if svc == "configure":
+    if cmd == "get":
+        key = st["profiles"].get(opt("--profile"))
+        done(key + "\n") if key else done(code=1)
+    if cmd == "import":
+        if st.get("import_fails"):
+            done(code=1, err="stub: import failed\n")
+        for row in csv.DictReader(sys.stdin):
+            st["profiles"][row["User name"]] = row["Access key ID"]
+        done()
+    if cmd == "set":
+        done()
+done(code=99, err=f"stub: unhandled {argv}\n")
+"""
+
+
+def _setup(tmp_path, state=None, *args, **env):
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir(exist_ok=True)
+    aws = bin_dir / "aws"
+    aws.write_text(f"#!{sys.executable}\n{AWS_STUB}")
+    aws.chmod(0o755)
+    state_path = tmp_path / "aws_state.json"
+    if state is None:  # carry on from the last run's state, or start empty
+        state = json.loads(state_path.read_text()) if state_path.exists() else {
+            "bucket": False, "settings": {}, "users": {}, "profiles": {}, "errors": {}}
+    state_path.write_text(json.dumps({**state, "calls": []}))  # each run gets its own call log
+    run_env = {k: v for k, v in os.environ.items() if not k.startswith(("AWS_", "PRA_S3_", "REAPPLY", "MINT_KEYS"))}
+    run_env |= {"PATH": f"{bin_dir}:{Path(sys.executable).parent}:/usr/bin:/bin",
+                "AWS_STUB_STATE": str(state_path), "ACCOUNT_ID": "111122223333", **env}
+    r = subprocess.run(["bash", str(SCRIPT_DIR / "setup_pra_assets_bucket.sh"), *args],
+                       env=run_env, capture_output=True, text=True)
+    return r, json.loads(state_path.read_text())
+
+
+def _writes(state):
+    return [c for c in state["calls"] if c[1].startswith(("put-", "create-", "delete-")) or c[0] == "configure" and c[1] == "import"]
+
+
+def test_setup_first_run_sets_everything_then_rerun_is_all_ok(tmp_path):
+    r, st = _setup(tmp_path)
+    assert r.returncode == 0, r.stderr
+    assert st["bucket"] and len(st["settings"]) == 6
+    assert all(u_["policy"] for u_ in st["users"].values())
+    r, st = _setup(tmp_path)
+    assert r.returncode == 0 and r.stdout.count(": ok") == 8
+    assert _writes(st) == []
+
+
+def test_setup_leaves_a_weakened_policy_and_says_so(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    policy = json.loads(st["settings"]["get-bucket-policy"])
+    policy["Statement"][1]["Condition"]["StringNotEquals"] = {"aws:username": "someone"}
+    weakened = json.dumps(policy)
+    st["settings"]["get-bucket-policy"] = weakened
+    r, st = _setup(tmp_path, st)
+    assert r.returncode == 3 and "bucket policy: differs" in r.stderr
+    assert st["settings"]["get-bucket-policy"] == weakened and _writes(st) == []
+    r, st = _setup(tmp_path, None, REAPPLY="1")
+    assert r.returncode == 0 and "Condition" in st["settings"]["get-bucket-policy"]
+    assert "someone" not in st["settings"]["get-bucket-policy"]
+
+
+def test_setup_stops_on_a_failed_read_before_writing(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    opened = {"BlockPublicAcls": False, "IgnorePublicAcls": False,
+              "BlockPublicPolicy": False, "RestrictPublicBuckets": False}
+    st["settings"]["get-public-access-block"] = opened
+    st["errors"] = {"get-public-access-block": "SlowDown"}
+    r, st = _setup(tmp_path, st)
+    assert r.returncode == 1 and "SlowDown" in r.stderr
+    assert st["settings"]["get-public-access-block"] == opened and _writes(st) == []
+
+
+def test_setup_check_writes_nothing(tmp_path):
+    r, st = _setup(tmp_path, None, "--check")
+    assert r.returncode == 3 and "would create" in r.stdout and _writes(st) == []
+    _setup(tmp_path)
+    r, st = _setup(tmp_path, None, "--check")
+    assert r.returncode == 0 and _writes(st) == []
+
+
+@pytest.mark.parametrize("arg", ["--dry-run", "--help-me", "extra"])
+def test_setup_rejects_unknown_arguments_without_calling_aws(tmp_path, arg):
+    r, st = _setup(tmp_path, None, arg)
+    assert r.returncode == 2 and st["calls"] == []
+
+
+def test_setup_print_policies_calls_no_aws(tmp_path):
+    r, st = _setup(tmp_path, None, "--print-policies", ACCOUNT_ID="")
+    assert r.returncode == 0 and st["calls"] == []
+
+
+def test_mint_key_recognises_a_held_key_among_several(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    for user in st["users"]:
+        st["users"][user]["keys"] = [f"AKIAOLD{user}", f"AKIANEW{user}"]
+        st["profiles"][user] = f"AKIANEW{user}"  # the second of two tab-separated IDs
+    r, st = _setup(tmp_path, st, MINT_KEYS="1")
+    assert r.returncode == 0 and r.stdout.count("local profile already holds its key") == 2
+    assert _writes(st) == []
+
+
+def test_mint_key_keeps_the_secret_off_every_command_line(tmp_path):
+    r, st = _setup(tmp_path, None, MINT_KEYS="1")
+    assert r.returncode == 0
+    assert set(st["profiles"]) == {"sm-alpr-pra-writer", "sm-alpr-pra-reader"}
+    assert not any("SECRET" in arg for call in st["calls"] for arg in call)
+
+
+def test_mint_key_deletes_a_key_it_could_not_save(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    st["import_fails"] = True
+    r, st = _setup(tmp_path, st, MINT_KEYS="1")
+    assert r.returncode != 0 and "deleted it from IAM" in r.stderr
+    assert all(u_["keys"] == [] for u_ in st["users"].values())

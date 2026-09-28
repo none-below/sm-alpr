@@ -23,7 +23,14 @@
 # Run with an admin profile:
 #
 #   AWS_PROFILE=sm-alpr-admin scripts/setup_pra_assets_bucket.sh
+#   AWS_PROFILE=sm-alpr-admin scripts/setup_pra_assets_bucket.sh --check
 #   AWS_PROFILE=sm-alpr-admin MINT_KEYS=1 scripts/setup_pra_assets_bucket.sh
+#   scripts/setup_pra_assets_bucket.sh --print-policies   # no AWS calls
+#
+# --check reads everything and writes nothing. Exit status: 0 everything
+# matches (or was set), 1 an AWS call failed, 2 bad arguments, 3 something
+# differs from the defaults and was left as is (with --check: anything that
+# a run would set, create or leave different).
 #
 # MINT_KEYS=1 creates one access key per principal (skipped if it already has
 # one) and writes it straight into local profiles <prefix>-writer and
@@ -33,6 +40,16 @@
 # PRA_S3_REGION / PRA_S3_PREFIX override the bucket's region and name prefix.
 set -euo pipefail
 
+MODE=apply
+case "${1:-}" in
+  "") ;;
+  --check) MODE=check ;;
+  --print-policies) MODE=print ;;
+  -h | --help) sed -n '2,/^set -euo pipefail/{/^set -euo/d;s/^# \{0,1\}//;p;}' "$0"; exit 0 ;;
+  *) echo "unknown argument: $1 (see --help)" >&2; exit 2 ;;
+esac
+if (( $# > 1 )); then echo "one argument at most (see --help)" >&2; exit 2; fi
+
 # Same env overrides and defaults as scripts/pra_s3_upload.py (a test keeps them in sync).
 REGION="${PRA_S3_REGION:-us-west-2}"
 PREFIX="${PRA_S3_PREFIX:-sm-alpr-pra}"   # <= 37 chars; the -<acct>-<region>-an suffix takes the rest
@@ -41,7 +58,11 @@ LOCK_YEARS="${LOCK_YEARS:-10}"
 WRITER="${PREFIX}-writer"
 READER="${PREFIX}-reader"
 
-ACCOUNT_ID="${ACCOUNT_ID:-$(aws sts get-caller-identity --query Account --output text)}"
+if [[ "$MODE" == print ]]; then
+  ACCOUNT_ID="${ACCOUNT_ID:-<account-id>}"  # printing needs no AWS calls
+else
+  ACCOUNT_ID="${ACCOUNT_ID:-$(aws sts get-caller-identity --query Account --output text)}"
+fi
 BUCKET="${PREFIX}-${ACCOUNT_ID}-${REGION}-an"
 ARN="arn:aws:s3:::${BUCKET}"
 
@@ -112,8 +133,8 @@ reader_policy() {
 EOF
 }
 
-# Print the policies without touching AWS (ACCOUNT_ID must be set).
-if [[ "${1:-}" == "--print-policies" ]]; then
+# Print the policies without touching AWS.
+if [[ "$MODE" == print ]]; then
   echo "# bucket: ${BUCKET}"; bucket_policy; writer_policy; reader_policy
   exit 0
 fi
@@ -149,18 +170,27 @@ read_setting() {  # <not-configured error code> <command...>
 # Apply a setting only when it's unset. One that differs from this script's
 # default in any way is reported and left alone unless REAPPLY=1; "ok" means
 # exactly equal, so an added condition or statement never passes as ok.
+DIFFERS=0   # settings left different from the defaults
+PENDING=0   # --check: changes a run would make
+
 apply_setting() {  # <name> <current json, empty if unset> <desired json> <command...>
   local name=$1 current=$2 desired=$3
   shift 3
   if [[ -z "$current" || "$current" == "null" ]]; then
-    "$@" >/dev/null
-    echo "  $name: set"
+    if [[ "$MODE" == check ]]; then
+      PENDING=$((PENDING + 1))
+      echo "  $name: unset; a run would set it"
+    else
+      "$@" >/dev/null
+      echo "  $name: set"
+    fi
   elif json_same "$desired" "$current"; then
     echo "  $name: ok"
-  elif [[ "${REAPPLY:-0}" == "1" ]]; then
+  elif [[ "${REAPPLY:-0}" == "1" && "$MODE" != check ]]; then
     "$@" >/dev/null
     echo "  $name: differed; re-applied (REAPPLY=1)"
   else
+    DIFFERS=$((DIFFERS + 1))
     echo "  $name: differs from this script's default; left as is (REAPPLY=1 overwrites)" >&2
     echo "    current: $current" >&2
     echo "    default: $desired" >&2
@@ -174,6 +204,9 @@ s3get() {  # <not-configured code> <get-command> <query>
 # --- bucket ---------------------------------------------------------------
 if aws s3api head-bucket --bucket "$BUCKET" --region "$REGION" >/dev/null 2>"$ERR"; then
   echo "bucket exists"
+elif grep -qF "(404)" "$ERR" && [[ "$MODE" == check ]]; then
+  echo "bucket doesn't exist; a run would create it"
+  exit 3
 elif grep -qF "(404)" "$ERR"; then
   location=()
   [[ "$REGION" != "us-east-1" ]] && location=(--create-bucket-configuration "LocationConstraint=${REGION}")
@@ -229,13 +262,16 @@ cur=$(read_setting NoSuchBucketPolicy \
   aws s3api get-bucket-policy --bucket "$BUCKET" --region "$REGION" --query Policy --output text)
 apply_setting "bucket policy" "$cur" "$(bucket_policy)" \
   aws s3api put-bucket-policy --bucket "$BUCKET" --region "$REGION" --policy "$(bucket_policy)"
-echo "bucket configured"
+echo "bucket $([[ "$MODE" == check ]] && echo checked || echo configured)"
 
 # --- principals -------------------------------------------------------------
 ensure_user() {  # <user> <policy-json>
   local cur
   if aws iam get-user --user-name "$1" >/dev/null 2>"$ERR"; then
     :
+  elif grep -qF "(NoSuchEntity)" "$ERR" && [[ "$MODE" == check ]]; then
+    PENDING=$((PENDING + 1))
+    echo "  $1: doesn't exist; a run would create it"
   elif grep -qF "(NoSuchEntity)" "$ERR"; then
     aws iam create-user --user-name "$1" >/dev/null
     echo "created user $1"
@@ -251,7 +287,7 @@ ensure_user() {  # <user> <policy-json>
 
 ensure_user "$WRITER" "$(writer_policy)"
 ensure_user "$READER" "$(reader_policy)"
-echo "principals configured"
+echo "principals $([[ "$MODE" == check ]] && echo checked || echo configured)"
 
 mint_key() {  # <user>: new key -> local profile of the same name
   local keys local_id
@@ -283,9 +319,15 @@ mint_key() {  # <user>: new key -> local profile of the same name
   echo "minted key for $1 -> profile $1"
 }
 
-if [[ "${MINT_KEYS:-0}" == "1" ]]; then
+if [[ "${MINT_KEYS:-0}" == "1" && "$MODE" == check ]]; then
+  echo "MINT_KEYS ignored with --check"
+elif [[ "${MINT_KEYS:-0}" == "1" ]]; then
   mint_key "$WRITER"
   mint_key "$READER"
 fi
 
+if (( DIFFERS || PENDING )); then
+  echo "s3://${BUCKET}: ${DIFFERS} setting(s) differ from the defaults, ${PENDING} change(s) pending (see above)" >&2
+  exit 3
+fi
 echo "done: s3://${BUCKET}"
