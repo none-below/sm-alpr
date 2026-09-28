@@ -1053,7 +1053,11 @@ def _parse_org_names(body):
     ]
     if not lines:
         return []
-    if len(lines) >= 3 and sum(1 for L in lines if "," not in L) >= len(lines) * 0.8:
+    # One-per-line from two lines up: a two-partner list ("El Segundo CA PD"
+    # / "Hermosa Beach PD CA", culver-city-ca-pd 2026-09-26) otherwise falls
+    # to the comma path, which space-joins the lines into one fake agency.
+    # At 2 lines the 80% rule requires both to be comma-free.
+    if len(lines) >= 2 and sum(1 for L in lines if "," not in L) >= len(lines) * 0.8:
         raw = lines
     else:
         raw = [n.strip() for n in " ".join(lines).split(", ") if n.strip()]

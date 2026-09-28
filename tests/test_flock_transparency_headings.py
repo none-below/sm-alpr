@@ -207,6 +207,25 @@ def test_parse_org_names_handles_one_per_line_layout():
     ]
 
 
+def test_parse_org_names_two_line_list_not_concatenated():
+    """A two-partner one-per-line list must yield two names. The layout
+    heuristic used to require ≥3 lines, so two lines fell to the comma
+    path and were space-joined into one fake agency
+    (culver-city-ca-pd 2026-09-26: "El Segundo CA PD Hermosa Beach PD CA",
+    which then minted a phantom registry entry)."""
+    assert _parse_org_names("El Segundo CA PD\nHermosa Beach PD CA") == [
+        "El Segundo CA PD", "Hermosa Beach PD CA",
+    ]
+    # Trailing 2026-07 "Policy & Trust" label still dropped.
+    assert _parse_org_names(
+        "El Segundo CA PD\nHermosa Beach PD CA\nPolicy & Trust"
+    ) == ["El Segundo CA PD", "Hermosa Beach PD CA"]
+    # Grid-split company suffix still re-attaches at two lines.
+    assert _parse_org_names("CA - Topgolf USA El Segundo\nLLC") == [
+        "CA - Topgolf USA El Segundo, LLC",
+    ]
+
+
 def test_agency_prefixed_policy_heading_maps_to_policy_info():
     """Flock now bolds agency-prefixed policy headings like
     "Marin County Sheriff's Office Policy" as standalone <h*>. They
