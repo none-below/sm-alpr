@@ -98,7 +98,7 @@ the repo commit, which identifies the build code as well as the committed inputs
 | `build_derived.py` | Builds `derived.duckdb`: the views and macros, `public_macros.sql`, and the event-linking cache. Run from the audit dir. | `truth.duckdb derived.duckdb [--views-only]` (refresh views and macros, keep the cache) |
 | `sql_templates.py` | Module: the parse and citation SQL shared by the full views, the row-lookup macros and `audit_client.py`. | — |
 | `cache_fingerprint.py` | Module: what the cache was built from (truth fingerprint, linking-code hash, DuckDB version). | — |
-| `paths.py` | Module: where the audit dir is, and each DuckDB process's spill directory: `use_spill_dir(con, parent=None)` sets one on a connection, `duck_temp()` names one, `sweep_spill()` removes those of processes that died. | — |
+| `paths.py` | Module: where the audit dir is, and each DuckDB process's spill directory: `duck_connect(database, read_only=False, spill_root=None, **settings)` opens DuckDB with one, `use_spill_dir(con, root=None)` sets one on a connection, `duck_temp(root=None)` names one, `sweep_spill(root)` removes those this host's dead processes left. | — |
 | `plate_key.py` | The plate-token key: `--check` validates the key file (status only, never the key); `--install` writes `PLATE_TOKEN_KEY` to the key file (CI). Needed only for `sightings_public` and `plate_token()`. | `--check` or `--install` |
 
 Authored facts, loaded into truth with their citations:
