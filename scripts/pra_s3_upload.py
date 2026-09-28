@@ -45,8 +45,9 @@ whose bytes were verified). The tree is every file in the collection
 except exclusions, OS metadata and (where configured) OCR sidecars. Nothing is
 written while something can't be stored yet (exit 3):
   - a file that changed, appeared or vanished during the run;
-  - a symlink, or something that isn't a regular file;
-  - checkout collections: a tracked file missing on disk (sparse checkout);
+  - primary collections: a symlink, or something that isn't a regular file;
+  - checkout collections: a tracked file missing on disk (sparse checkout).
+    A committed symlink is just a link, not a record: it's skipped and logged;
   - primary collections: a file modified in the last --min-age seconds, an
     unfinished download (.part, .crdownload, a Safari .download folder, ...)
     or open-document lock (~$...) not listed in the collection's "keep", or
@@ -65,8 +66,9 @@ re-sending every file before S3 answers 412 (multipart files in full, since
 the 412 only comes at completion), one redundant manifest, and the shrink
 guard until the next manifest is written.
 
-For primary collections the ledger also caches hashes by file identity
-(device, inode, size, mtime, ctime). That relies on a kernel-maintained ctime,
+For primary collections, hashes are cached by file identity (device, inode,
+size, mtime, ctime) in .claude/s3_hash_cache.json, a cache rewritten after each
+run and safe to delete. That relies on a kernel-maintained ctime,
 which APFS and ext4 have: tools that keep mtime across a rewrite (rsync -t,
 cp -p, unzip) can't keep ctime, so changed bytes are re-hashed. FAT and exFAT
 volumes don't keep a real ctime; for a collection on one, pass --rehash.
@@ -95,6 +97,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import NamedTuple
 
+from sidecar_names import is_sidecar
+
 # Same env overrides and defaults as setup_pra_assets_bucket.sh (a test keeps them in sync).
 DEFAULT_REGION = "us-west-2"
 DEFAULT_PREFIX = "sm-alpr-pra"
@@ -120,7 +124,8 @@ COLLECTIONS = {
     },
 }
 
-PART_SIZE = 64 * 1024 * 1024  # single PUT up to this size, multipart above
+MULTIPART_THRESHOLD = 64 * 1024 * 1024  # single PUT up to this size, multipart above
+PART_SIZE = 16 * 1024 * 1024  # held in memory per worker while it uploads
 # Types a browser would execute; stored as attachments (see docstring).
 # Types a browser can run script in; plus any */*+xml (SVG, XHTML, RSS, ...).
 ACTIVE_TYPES = {"text/html", "text/xml", "application/xml",
@@ -205,8 +210,8 @@ def tracked_files(repo, root_rel, fetch=True):
             raise Refused(f"git {' '.join(args)}: {r.stderr.strip()}")
         return r.stdout
 
-    if fetch:
-        git("fetch", "--quiet", "origin", "main")
+    if fetch:  # an explicit refspec: the remote's fetch config may not cover main
+        git("fetch", "--quiet", "origin", "+refs/heads/main:refs/remotes/origin/main")
     commit = git("rev-parse", "--verify", "origin/main^{commit}").strip()
     dirty = git("status", "--porcelain", "--untracked-files=no", "--", root_rel)
     if dirty:
@@ -276,7 +281,7 @@ def collect(root, excludes=(), min_age=0, now=None, tracked=None, keep=()):
     files    [(rel, path, stat)] regular files to hash and store
     held     [(rel, reason)] present but not storable; any of them means the
              tree isn't complete, so no manifest
-    ignored  [rel] OS metadata
+    ignored  [rel] OS metadata, and committed symlinks in tracked mode
 
     With `tracked` (a set of rel paths from git), only those files count and
     git vouches that they're finished, so their names and mtimes don't matter.
@@ -290,11 +295,20 @@ def collect(root, excludes=(), min_age=0, now=None, tracked=None, keep=()):
             if classify(rel.rpartition("/")[2]) == "metadata":
                 ignored.append(rel)
                 continue
-            st = _regular(rel, root / rel, held)
-            if st is None:
+            try:
+                st = (root / rel).lstat()
+            except FileNotFoundError:
                 held.append((rel, "tracked but not on disk (sparse checkout?)"))
-            elif st:
+                continue
+            except OSError as e:
+                held.append((rel, f"unreadable: {e.strerror}"))
+                continue
+            if stat.S_ISLNK(st.st_mode):
+                ignored.append(rel)  # git stores a symlink as its target path; nothing to archive
+            elif stat.S_ISREG(st.st_mode):
                 files.append((rel, root / rel, st))
+            else:
+                held.append((rel, "not a regular file"))
         return files, held, ignored
 
     now = time.time() if now is None else now
@@ -365,8 +379,6 @@ def unchanged(path, ident):
 def split_ocr_sidecars(entries):
     """Separate the OCR sidecars (current, stale or orphaned) using the MD5
     computed while hashing. Returns (entries, sidecar rel paths)."""
-    from ocr_sidecar import is_sidecar  # heavy imports; only when needed
-
     keep, sidecars = [], set()
     for e in entries:
         if is_sidecar(e.rel.rpartition("/")[2], e.md5):
@@ -411,14 +423,46 @@ def _jsonl(row):
     return json.dumps(row, ensure_ascii=True) + "\n"
 
 
+class HashCache:
+    """{path: identity and digests} for primary-collection files. A cache:
+    rewritten whole after each run (atomically), and safe to lose; concurrent
+    runs can only cost each other re-hashing."""
+
+    def __init__(self, path):
+        self.path, self.rows = path, {}
+        with contextlib.suppress(OSError, ValueError):
+            self.rows = json.loads(path.read_text())
+
+    def get(self, path, ident, want_md5):
+        r = self.rows.get(str(path))
+        if r and tuple(r["ident"]) == ident and (r.get("md5") or not want_md5):
+            return r["sha256"], r.get("md5")
+        return None
+
+    def put(self, path, ident, sha256, md5):
+        self.rows[str(path)] = {"ident": list(ident), "sha256": sha256, "md5": md5}
+
+    def save(self, root, seen):
+        """Drop entries under root that this run didn't see, then write."""
+        prefix = str(root).rstrip("/") + "/"
+        self.rows = {p: r for p, r in self.rows.items() if not p.startswith(prefix) or p in seen}
+        tmp = self.path.with_name(self.path.name + f".{os.getpid()}.tmp")
+        tmp.parent.mkdir(parents=True, exist_ok=True)
+        tmp.write_text(json.dumps(self.rows))
+        os.replace(tmp, self.path)
+
+
+def default_hash_cache():
+    return primary_root() / ".claude" / "s3_hash_cache.json"
+
+
 class Ledger:
-    """Append-only JSONL: keys known to be stored, manifests written, and a
-    hash cache by file identity. Reading never writes; a torn last line is
-    fixed on the next append."""
+    """Append-only JSONL of keys known to be stored and manifests written.
+    Reading never writes; a torn last line is fixed on the next append."""
 
     def __init__(self, path, bucket, log=print):
         self.path, self.bucket = path, bucket
-        self.stored, self.manifests, self.hashes = set(), {}, {}
+        self.stored, self.manifests = set(), {}
         self._lock = threading.Lock()
         self._torn = False
         if not path.exists():
@@ -436,20 +480,12 @@ class Ledger:
             self._note(r)
 
     def _note(self, r):
-        if r.get("kind") == "hash":
-            self.hashes[r["path"]] = r
-        elif r.get("bucket") != self.bucket:
+        if r.get("bucket") != self.bucket or r.get("kind") == "hash":  # hash rows: older versions
             return
         elif r.get("kind") == "manifest":
             self.manifests[r["collection"]] = r
         elif r.get("key"):
             self.stored.add(r["key"])
-
-    def cached(self, path, ident, want_md5):
-        r = self.hashes.get(str(path))
-        if r and tuple(r["ident"]) == ident and (r.get("md5") or not want_md5):
-            return r["sha256"], r.get("md5")
-        return None
 
     def record(self, **row):
         row = {"bucket": self.bucket, **row, "at": datetime.now(timezone.utc).isoformat()}
@@ -491,7 +527,7 @@ def put_once(s3, bucket, key, body, headers, sha256):
 
 def upload(s3, bucket, key, path, size, sha256):
     headers = headers_for(path.name)
-    if size <= PART_SIZE:
+    if size <= MULTIPART_THRESHOLD:
         with path.open("rb") as f:
             return put_once(s3, bucket, key, f, headers, sha256)
     return _once(lambda: _multipart(s3, bucket, key, path, headers, sha256))
@@ -527,11 +563,7 @@ def run_pool(fn, items, workers, on_done, log=print):
     """Call on_done(item, future) as each fn(item) finishes. On interrupt, cancel
     queued work, let in-flight work stop at its next STOP check, and re-raise.
 
-    While stopping, a repeat SIGINT/SIGTERM within a second is ignored: `uv run`
-    forwards the terminal's Ctrl-C, so the child gets it twice. A later one
-    quits at once (in-flight multipart uploads are then left for the bucket's
-    7-day lifecycle rule), since a PUT stuck in botocore's retries on a dead
-    network can take many minutes."""
+    What a second Ctrl-C does while this waits is main()'s signal handler's call."""
     pool, futures = ThreadPoolExecutor(workers), {}
     try:
         for item in items:
@@ -540,38 +572,25 @@ def run_pool(fn, items, workers, on_done, log=print):
             on_done(futures[fut], fut)
     except BaseException:
         STOP.set()
-        saved = []
-        if threading.current_thread() is threading.main_thread():
-            first = time.monotonic()
-
-            def again(signum, frame):
-                if time.monotonic() - first > 1:
-                    os._exit(130)
-
-            saved = [(sig, signal.signal(sig, again)) for sig in (signal.SIGINT, signal.SIGTERM)]
-        try:
-            busy = sum(f.running() for f in futures)
-            if busy:
-                # stdout may be a pipe whose reader (tee) got the same Ctrl-C;
-                # a failed message must not skip the wait below.
-                with contextlib.suppress(OSError):
-                    log(f"stopping: waiting for {busy} in-flight task(s); Ctrl-C again quits now")
-            pool.shutdown(wait=True, cancel_futures=True)
-        finally:
-            for sig, handler in saved:
-                signal.signal(sig, handler)
+        busy = sum(f.running() for f in futures)
+        if busy:
+            # stdout may be a pipe whose reader (tee) got the same Ctrl-C;
+            # a failed message must not skip the wait below.
+            with contextlib.suppress(OSError):
+                log(f"stopping: waiting for {busy} in-flight task(s); Ctrl-C again quits now")
+        pool.shutdown(wait=True, cancel_futures=True)
         raise
     pool.shutdown()
 
 
-def _hash(item, collection, want_md5, ledger, expect_blob=None, rehash=False):
+def _hash(item, collection, want_md5, cache, expect_blob=None, rehash=False):
     """Returns (entry, freshly hashed and worth caching?). With expect_blob (a
     tracked file), the bytes must match that git blob, and nothing is cached."""
     rel, path, st = item
     if STOP.is_set():
         raise Stopped(rel)
     ident = identity(st)
-    hit = None if expect_blob or rehash else ledger.cached(path, ident, want_md5)
+    hit = None if expect_blob or rehash or cache is None else cache.get(path, ident, want_md5)
     if hit:
         sha, md5 = hit
     else:
@@ -593,9 +612,9 @@ def human(n):
     return f"{n:.1f}TB"
 
 
-def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=None, commit=None,
-         skip_ocr_sidecars=False, min_age=600, workers=8, allow_shrink=False, rehash=False,
-         dry_run=False, log=print):
+def sync(s3, bucket, collection, root, ledger, *, cache=None, excludes=(), keep=(), tracked=None,
+         commit=None, skip_ocr_sidecars=False, min_age=600, workers=8, allow_shrink=False,
+         rehash=False, dry_run=False, log=print):
     """Store root under <collection>/ and, once the whole tree is stored, write its
     manifest. Returns the exit status described in the module docstring."""
     STOP.clear()
@@ -621,15 +640,16 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
             log(f"  ERROR {item[0]}: {e}")
         else:
             entries.append(entry)
-            if fresh and not dry_run:
-                ledger.record(kind="hash", path=str(entry.path), ident=entry.ident,
-                              sha256=entry.sha256, md5=entry.md5)
+            if fresh and cache is not None:
+                cache.put(entry.path, entry.ident, entry.sha256, entry.md5)
 
     def hash_one(item):
         expect = tracked[item[0]] if tracked is not None else None
-        return _hash(item, collection, skip_ocr_sidecars, ledger, expect, rehash)
+        return _hash(item, collection, skip_ocr_sidecars, cache, expect, rehash)
 
     run_pool(hash_one, files, workers, hashed, log)
+    if cache is not None and not dry_run:
+        cache.save(root, {str(e.path) for e in entries})
     entries.sort()
     sidecars = set()
     if skip_ocr_sidecars:
@@ -654,7 +674,7 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
     if sidecars:
         log(f"  OCR sidecars skipped: {len(sidecars)}")
     if ignored:
-        log(f"  OS metadata ignored: {len(ignored)}")
+        log(f"  ignored (OS metadata, committed symlinks): {len(ignored)}")
     for rel, reason in held:
         log(f"  held back ({reason}): {rel}")
     logged = len(held)
@@ -729,6 +749,25 @@ def sync(s3, bucket, collection, root, ledger, *, excludes=(), keep=(), tracked=
     return 0
 
 
+def _interrupt_handler():
+    """SIGINT/SIGTERM handler for a whole run: the first raises KeyboardInterrupt
+    (a graceful stop); a repeat within a second is ignored, since `uv run`
+    forwards the terminal's Ctrl-C and the child gets it twice; a later one
+    quits at once, e.g. while a PUT sits in botocore's retries on a dead
+    network (open multipart uploads then expire under the 7-day lifecycle rule)."""
+    first = []
+
+    def handler(signum, frame):
+        now = time.monotonic()
+        if not first:
+            first.append(now)
+            raise KeyboardInterrupt
+        if now - first[0] > 1:
+            os._exit(130)
+
+    return handler
+
+
 def main(argv=None, s3=None):
     """Command line. `s3` lets tests pass a stand-in client (then --bucket is required)."""
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -745,6 +784,23 @@ def main(argv=None, s3=None):
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args(argv)
     log = functools.partial(print, flush=True)  # progress must show up in logs of background runs
+    handler = _interrupt_handler()
+    previous = {sig: signal.signal(sig, handler) for sig in (signal.SIGINT, signal.SIGTERM)}
+    try:
+        status = _run(args, s3, log)
+    except KeyboardInterrupt:
+        with contextlib.suppress(OSError):
+            print("interrupted: queued uploads cancelled, in-flight ones finished or aborted. "
+                  "Re-run to resume.", file=sys.stderr, flush=True)
+        status = 130
+    finally:
+        for sig, h in previous.items():
+            signal.signal(sig, h)
+    sys.exit(status)
+
+
+def _run(args, s3, log):
+    error = functools.partial(print, file=sys.stderr, flush=True)
     cfg = COLLECTIONS[args.collection]
     root = collection_root(args.collection)
     tracked = commit = None
@@ -753,33 +809,25 @@ def main(argv=None, s3=None):
             tracked, commit = tracked_files(checkout_root(), cfg["root"])
         except Refused as e:
             log(f"{args.collection}: refused: {e}")
-            sys.exit(2)
+            return 2
     elif not root.is_dir():
-        ap.error(f"{root} is not a directory")
+        error(f"{root} is not a directory")
+        return 2
 
     if s3 is None:
         s3, bucket = _aws_client(args)
     elif not args.bucket:
-        ap.error("--bucket is required with a stand-in client")
+        error("--bucket is required with a stand-in client")
+        return 2
     else:
         bucket = args.bucket
     ledger = Ledger(args.ledger or default_ledger(), bucket, log=log)
-
-    previous = signal.signal(signal.SIGTERM, signal.default_int_handler)  # stop on kill like on Ctrl-C
-    try:
-        status = sync(s3, bucket, args.collection, root, ledger, excludes=cfg.get("exclude", ()),
-                      keep=cfg.get("keep", ()), tracked=tracked, commit=commit,
-                      skip_ocr_sidecars=cfg.get("skip_ocr_sidecars", False), min_age=args.min_age,
-                      workers=args.workers, allow_shrink=args.allow_shrink, rehash=args.rehash,
-                      dry_run=args.dry_run, log=log)
-    except KeyboardInterrupt:
-        with contextlib.suppress(OSError):
-            print("interrupted: queued uploads cancelled, in-flight ones finished or aborted. "
-                  "Re-run to resume.", file=sys.stderr, flush=True)
-        status = 130
-    finally:
-        signal.signal(signal.SIGTERM, previous)
-    sys.exit(status)
+    cache = HashCache(default_hash_cache()) if tracked is None else None
+    return sync(s3, bucket, args.collection, root, ledger, cache=cache, excludes=cfg.get("exclude", ()),
+                keep=cfg.get("keep", ()), tracked=tracked, commit=commit,
+                skip_ocr_sidecars=cfg.get("skip_ocr_sidecars", False), min_age=args.min_age,
+                workers=args.workers, allow_shrink=args.allow_shrink, rehash=args.rehash,
+                dry_run=args.dry_run, log=log)
 
 
 def _aws_client(args):

@@ -3,6 +3,9 @@
 #
 # Bucket: general purpose, account-regional namespace (the name can never be
 # re-registered by another account, even after deletion), private, SSE-S3.
+# Uploads asking for any other encryption (SSE-KMS, DSSE-KMS; SSE-C is blocked
+# at the bucket) are denied: anonymous readers couldn't decrypt them if the
+# bucket is ever opened.
 # Write-once is enforced two ways:
 #   - Object Lock default retention: no stored version can be deleted or
 #     altered until retention expires.
@@ -60,9 +63,11 @@ WRITER="${PREFIX}-writer"
 READER="${PREFIX}-reader"
 
 if [[ "$MODE" == print ]]; then
-  ACCOUNT_ID="${ACCOUNT_ID:-<account-id>}"  # printing needs no AWS calls
+  ACCOUNT_ID="${PRA_S3_ACCOUNT_ID:-<account-id>}"  # printing needs no AWS calls
 else
-  ACCOUNT_ID="${ACCOUNT_ID:-$(aws sts get-caller-identity --query Account --output text)}"
+  # Always the signed-in account's: a stray ACCOUNT_ID in the environment must
+  # not point this at a different bucket name from the uploader's.
+  ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 fi
 BUCKET="${PREFIX}-${ACCOUNT_ID}-${REGION}-an"
 if [[ "$MODE" != print ]] && (( ${#BUCKET} > 63 )); then
@@ -83,6 +88,17 @@ bucket_policy() {
       "Action": "s3:*",
       "Resource": ["${ARN}", "${ARN}/*"],
       "Condition": {"Bool": {"aws:SecureTransport": "false"}}
+    },
+    {
+      "Sid": "DenyEncryptionOtherThanSSES3",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:PutObject",
+      "Resource": "${ARN}/*",
+      "Condition": {
+        "Null": {"s3:x-amz-server-side-encryption": "false"},
+        "StringNotEquals": {"s3:x-amz-server-side-encryption": "AES256"}
+      }
     },
     {
       "Sid": "DenyWritesWithoutIfNoneMatch",
@@ -300,8 +316,10 @@ check_no_other_grants() {  # <user>
   local managed inline groups
   managed=$(aws iam list-attached-user-policies --user-name "$1" \
     --query 'AttachedPolicies[].PolicyArn' --output text)
-  inline=$(aws iam list-user-policies --user-name "$1" --query 'PolicyNames' --output text \
-    | tr '\t' '\n' | grep -vxF -e "${PREFIX}-access" -e "" || true)
+  # Read first, filter after: a failed read must stop the script (set -e), not
+  # vanish into the filter's "|| true" and look like "no other policies".
+  inline=$(aws iam list-user-policies --user-name "$1" --query 'PolicyNames' --output text)
+  inline=$(tr '\t' '\n' <<<"$inline" | grep -vxF -e "${PREFIX}-access" -e "" || true)
   groups=$(aws iam list-groups-for-user --user-name "$1" --query 'Groups[].GroupName' --output text)
   if [[ -n "$managed$inline$groups" ]]; then
     DIFFERS=$((DIFFERS + 1))
@@ -327,6 +345,7 @@ mint_key() {  # <user>: new key -> local profile of the same name
     if [[ -n "$local_id" ]] && tr '\t' '\n' <<<"$keys" | grep -qxF "$local_id"; then
       echo "$1: local profile already holds its key"
     else
+      DIFFERS=$((DIFFERS + 1))  # asked for a key and none was provided: not a success
       echo "$1 has key(s) $keys in IAM that aren't in the local profile." >&2
       echo "  If none are in use elsewhere: aws iam delete-access-key --user-name $1 --access-key-id <id>, then re-run." >&2
     fi

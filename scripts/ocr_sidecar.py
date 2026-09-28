@@ -32,6 +32,13 @@ import pytesseract
 from PIL import Image
 import io
 
+# Naming rules live in sidecar_names (no OCR imports) so the uploader and build
+# scripts can share them; re-exported here for existing callers.
+from sidecar_names import (  # noqa: E402, F401
+    SUPPORTED_EXTENSIONS, file_hash, is_sidecar, remove_stale_sidecars,
+    sidecar_base_name, sidecar_name, sidecar_path_for,
+)
+
 
 # Minimum fraction of 3+ char alpha tokens that must be in the system wordlist
 # for an image-OCR sidecar to be considered worth keeping. Garbled
@@ -147,64 +154,6 @@ def extract_annotations(doc):
     return out
 
 
-def file_hash(file_path):
-    """Return first 8 hex chars of the file's MD5."""
-    h = hashlib.md5()
-    with open(file_path, "rb") as f:
-        for chunk in iter(lambda: f.read(8192), b""):
-            h.update(chunk)
-    return h.hexdigest()[:8]
-
-
-def sidecar_name(name, md5_hex):
-    """Sidecar filename for a file called `name` whose MD5 hex digest is `md5_hex`."""
-    return f"{name}.{md5_hex[:8]}.txt"
-
-
-def sidecar_base_name(name):
-    """For a name shaped like a sidecar, <base>.<8 hex>.txt where <base> has an
-    extension this script OCRs, return <base>; else None. Dated names like
-    log.20260918.txt don't qualify."""
-    parts = name.rsplit(".", 2)
-    if (len(parts) == 3 and parts[2] == "txt" and re.fullmatch(r"[0-9a-f]{8}", parts[1])
-            and Path(parts[0]).suffix.lower() in SUPPORTED_EXTENSIONS):
-        return parts[0]
-    return None
-
-
-def is_sidecar(name, own_md5):
-    """True for a sidecar this script wrote, whether current, stale (its base
-    file changed) or orphaned (its base file is gone).
-
-    pra_download renames same-named attachments to <stem>.<8 hex>.<ext> with
-    the file's *own* MD5, so a released scan.pdf.txt can become
-    scan.pdf.1a2b3c4d.txt. A sidecar carries its base file's MD5 instead, so
-    the two are told apart by the file's own content.
-    """
-    return sidecar_base_name(name) is not None and name.rsplit(".", 2)[1] != own_md5[:8]
-
-
-def remove_stale_sidecars(file_path, keep):
-    """Delete this file's old sidecars (other than `keep`) and return them.
-
-    Only files is_sidecar agrees are sidecars go: a released attachment that
-    pra_download renamed to <name>.<its own MD5>.txt matches the same glob
-    and must stay.
-    """
-    removed = []
-    for old in Path(file_path).parent.glob(f"{Path(file_path).name}.*.txt"):
-        if old != keep and is_sidecar(old.name, file_hash(old)):
-            old.unlink()
-            removed.append(old)
-    return removed
-
-
-def sidecar_path_for(file_path):
-    """Return the hash-stamped sidecar path for a file."""
-    file_path = Path(file_path)
-    return file_path.parent / sidecar_name(file_path.name, file_hash(file_path))
-
-
 def generate_sidecar(file_path, force=False, removed_stale=None):
     """Generate a .txt sidecar for a PDF or .doc file.
 
@@ -289,7 +238,6 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
     return sidecar
 
 
-SUPPORTED_EXTENSIONS = {".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg"}
 
 
 def get_staged_assets():

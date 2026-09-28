@@ -102,9 +102,11 @@ def _write(root, rel, data=b"x", age=3600):
     return p
 
 
-def _sync(s3, root, ledger_path, **kw):
+def _sync(s3, root, ledger_path, cache_path=None, **kw):
     logs = []
     ledger = u.Ledger(ledger_path, "b", log=logs.append)
+    if cache_path is not None:
+        kw["cache"] = u.HashCache(cache_path)
     kw.setdefault("min_age", 600)
     return u.sync(s3, "b", "coll", root, ledger, workers=2, log=logs.append, **kw)
 
@@ -134,7 +136,7 @@ def test_changed_content_gets_a_new_key():
 def test_bucket_name_matches_setup_script(env, monkeypatch):
     """Both scripts derive the bucket name; run the shell's own derivation."""
     shell_env = {k: v for k, v in os.environ.items() if not k.startswith("PRA_S3_")}
-    shell_env |= env | {"ACCOUNT_ID": "111122223333"}
+    shell_env |= env | {"PRA_S3_ACCOUNT_ID": "111122223333"}
     out = subprocess.run(["bash", str(SCRIPT_DIR / "setup_pra_assets_bucket.sh"), "--print-policies"],
                          env=shell_env, capture_output=True, text=True, check=True).stdout
     for k in ("PRA_S3_REGION", "PRA_S3_PREFIX"):
@@ -149,8 +151,10 @@ def test_collections_are_well_formed():
         assert re.fullmatch(r"[a-z0-9][a-z0-9-]*", name)
         assert cfg["base"] in ("checkout", "primary")
         assert set(cfg) <= {"base", "root", "exclude", "keep", "skip_ocr_sidecars"}
-        if cfg["base"] == "checkout":  # tracked folders must exist in every checkout
-            assert u.collection_root(name).is_dir(), name
+        if cfg["base"] == "checkout":  # must be a tracked folder (it may be sparse on disk)
+            tree = subprocess.run(["git", "-C", str(SCRIPT_DIR.parent), "ls-tree", "-d", "HEAD", cfg["root"]],
+                                  capture_output=True, text=True).stdout
+            assert tree.strip(), name
 
 
 # --- file selection -------------------------------------------------------------
@@ -296,6 +300,7 @@ def test_existing_key_reads_as_present(tmp_path):
 
 def test_multipart_upload_and_retry(tmp_path, monkeypatch):
     monkeypatch.setattr(u, "PART_SIZE", 4)
+    monkeypatch.setattr(u, "MULTIPART_THRESHOLD", 4)
     s3, p = FakeS3(), _write(tmp_path, "big.zip", b"0123456789")
     assert u.upload(s3, "b", "k", p, 10, _sha(p)) == "uploaded"
     assert s3.objects["k"] == b"0123456789"
@@ -306,6 +311,7 @@ def test_multipart_upload_and_retry(tmp_path, monkeypatch):
 
 def test_multipart_refuses_bytes_that_dont_match_the_key(tmp_path, monkeypatch):
     monkeypatch.setattr(u, "PART_SIZE", 4)
+    monkeypatch.setattr(u, "MULTIPART_THRESHOLD", 4)
     s3, p = FakeS3(), _write(tmp_path, "big.zip", b"0123456789")
     with pytest.raises(u.Changed):
         u.upload(s3, "b", "k", p, 10, "0" * 64)
@@ -316,6 +322,7 @@ def test_multipart_refuses_bytes_that_dont_match_the_key(tmp_path, monkeypatch):
 
 def test_interrupt_aborts_multipart_between_parts(tmp_path, monkeypatch):
     monkeypatch.setattr(u, "PART_SIZE", 4)
+    monkeypatch.setattr(u, "MULTIPART_THRESHOLD", 4)
     s3, p = FakeS3(), _write(tmp_path, "big.zip", b"0123456789")
     sha = _sha(p)
     first_part = s3.upload_part
@@ -496,20 +503,20 @@ def test_dry_run_predicts_the_real_status_and_writes_nothing(tmp_path):
 
 
 def test_hash_cache_skips_unchanged_files_but_not_rewrites_that_keep_mtime(tmp_path, monkeypatch):
-    root, ledger = tmp_path / "tree", tmp_path / "ledger.jsonl"
+    root, ledger, cache = tmp_path / "tree", tmp_path / "ledger.jsonl", tmp_path / "cache.json"
     p = _write(root, "a.pdf", b"version 1")
     s3 = FakeS3()
-    assert _sync(s3, root, ledger) == 0
+    assert _sync(s3, root, ledger, cache) == 0
     reads = []
     real = u.file_digests
     monkeypatch.setattr(u, "file_digests",
                         lambda path, md5=False, blob_size=None: reads.append(path) or real(path, md5, blob_size))
-    assert _sync(s3, root, ledger) == 0
+    assert _sync(s3, root, ledger, cache) == 0
     assert reads == []  # identity unchanged: cached
     mtime = p.stat().st_mtime_ns
     p.write_bytes(b"version 2")  # same size, and put the old mtime back (rsync -t, cp -p)
     os.utime(p, ns=(mtime, mtime))
-    assert _sync(s3, root, ledger) == 0
+    assert _sync(s3, root, ledger, cache) == 0
     assert reads == [p] and len(s3.manifests()) == 2
 
 
@@ -649,7 +656,7 @@ def test_browser_executable_types_are_stored_as_attachments(tmp_path):
 
 def _entries(root, rels):
     files, _, _ = u.collect(root, min_age=None)
-    return [u._hash(item, "c", False, u.Ledger(root / "none.jsonl", "b"))[0]
+    return [u._hash(item, "c", False, None)[0]
             for item in files if item[0] in rels]
 
 
@@ -760,6 +767,8 @@ PUTS = {
 svc, cmd = argv[0], argv[1]
 if cmd in st["errors"]:
     fail(st["errors"][cmd])
+if svc == "sts" and cmd == "get-caller-identity":
+    done("111122223333\n")
 if svc == "s3api":
     if cmd == "head-bucket":
         done("{}") if st["bucket"] else fail("404")
@@ -845,9 +854,10 @@ def _setup(tmp_path, state=None, *args, **env):
         state = json.loads(state_path.read_text()) if state_path.exists() else {
             "bucket": False, "settings": {}, "users": {}, "profiles": {}, "errors": {}}
     state_path.write_text(json.dumps({**state, "calls": []}))  # each run gets its own call log
-    run_env = {k: v for k, v in os.environ.items() if not k.startswith(("AWS_", "PRA_S3_", "REAPPLY", "MINT_KEYS"))}
+    run_env = {k: v for k, v in os.environ.items()
+               if not k.startswith(("AWS_", "PRA_S3_", "REAPPLY", "MINT_KEYS", "ACCOUNT_ID"))}
     run_env |= {"PATH": f"{bin_dir}:{Path(sys.executable).parent}:/usr/bin:/bin",
-                "AWS_STUB_STATE": str(state_path), "ACCOUNT_ID": "111122223333", **env}
+                "AWS_STUB_STATE": str(state_path), **env}
     r = subprocess.run(["bash", str(SCRIPT_DIR / "setup_pra_assets_bucket.sh"), *args],
                        env=run_env, capture_output=True, text=True)
     return r, json.loads(state_path.read_text())
@@ -914,8 +924,9 @@ def test_setup_rejects_unknown_arguments_without_calling_aws(tmp_path, arg):
 
 
 def test_setup_print_policies_calls_no_aws(tmp_path):
-    r, st = _setup(tmp_path, None, "--print-policies", ACCOUNT_ID="")
+    r, st = _setup(tmp_path, None, "--print-policies")
     assert r.returncode == 0 and st["calls"] == []
+    assert r.stdout.startswith("# bucket: sm-alpr-pra-<account-id>-us-west-2-an")
 
 
 def test_mint_key_recognises_a_held_key_among_several(tmp_path):
@@ -946,7 +957,7 @@ def test_mint_key_deletes_a_key_it_could_not_save(tmp_path):
 
 
 def _policies(tmp_path):
-    r, _ = _setup(tmp_path, None, "--print-policies")
+    r, _ = _setup(tmp_path, None, "--print-policies", PRA_S3_ACCOUNT_ID="111122223333")
     text, docs, i = r.stdout.split("\n", 1)[1], [], 0
     dec = json.JSONDecoder()
     while text[i:].strip():
@@ -962,6 +973,10 @@ def test_setup_policies_say_what_they_should(tmp_path):
     assert bucket_policy["Statement"] == [
         {"Sid": "DenyInsecureTransport", "Effect": "Deny", "Principal": "*", "Action": "s3:*",
          "Resource": [arn, f"{arn}/*"], "Condition": {"Bool": {"aws:SecureTransport": "false"}}},
+        {"Sid": "DenyEncryptionOtherThanSSES3", "Effect": "Deny", "Principal": "*",
+         "Action": "s3:PutObject", "Resource": f"{arn}/*",
+         "Condition": {"Null": {"s3:x-amz-server-side-encryption": "false"},
+                       "StringNotEquals": {"s3:x-amz-server-side-encryption": "AES256"}}},
         {"Sid": "DenyWritesWithoutIfNoneMatch", "Effect": "Deny", "Principal": "*",
          "Action": "s3:PutObject", "Resource": f"{arn}/*",
          "Condition": {"Null": {"s3:if-none-match": "true"},
@@ -1000,7 +1015,8 @@ def test_setup_refuses_to_mint_while_cli_history_records_responses(tmp_path):
 
 def test_setup_rejects_a_bucket_name_over_63_characters(tmp_path):
     r, st = _setup(tmp_path, None, PRA_S3_PREFIX="x" * 40)
-    assert r.returncode == 2 and "63" in r.stderr and st["calls"] == []
+    assert r.returncode == 2 and "63" in r.stderr
+    assert [c[:2] for c in st["calls"]] == [["sts", "get-caller-identity"]]  # nothing else ran
 
 
 # --- ocr_sidecar cleanup ------------------------------------------------------------
@@ -1163,3 +1179,109 @@ def test_main_checks_bytes_against_the_commit(cloned, tmp_path):
     s3 = FakeS3()
     assert _main(tmp_path, s3) == 3
     assert s3.manifests() == [] and "a.pdf" not in s3.stored_names()
+
+
+# --- round five: reproductions ------------------------------------------------------
+
+def test_setup_a_failed_grants_listing_is_not_read_as_none(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    st["users"]["sm-alpr-pra-writer"]["inline"] = ["allow-delete"]
+    st["errors"] = {"list-user-policies": "Throttling"}
+    r, st = _setup(tmp_path, st, "--check")
+    assert r.returncode not in (0, 3) and "Throttling" in r.stderr
+
+
+def test_sidecar_cleanup_leaves_other_files_sidecars_alone(tmp_path):
+    from ocr_sidecar import remove_stale_sidecars
+    base = _write(tmp_path, "foo.pdf", b"foo")
+    other = _write(tmp_path, "foo.pdf.pdf", b"a different document")
+    others_sidecar = _write(tmp_path, sidecar_path_for(other).name, b"its ocr")
+    star = _write(tmp_path, "a*.pdf", b"starred")
+    unrelated = _write(tmp_path, "abc.pdf", b"abc")
+    unrelated_sidecar = _write(tmp_path, sidecar_path_for(unrelated).name, b"abc ocr")
+    assert remove_stale_sidecars(base, keep=sidecar_path_for(base)) == []
+    assert remove_stale_sidecars(star, keep=sidecar_path_for(star)) == []
+    assert others_sidecar.exists() and unrelated_sidecar.exists()
+
+
+def test_setup_mint_keys_fails_when_it_could_not_provide_a_key(tmp_path):
+    _setup(tmp_path)
+    st = json.loads((tmp_path / "aws_state.json").read_text())
+    for user in st["users"]:
+        st["users"][user]["keys"] = [f"AKIAELSEWHERE{user}"]  # in IAM, not in the local profile
+    r, st = _setup(tmp_path, st, MINT_KEYS="1")
+    assert r.returncode != 0 and "aren't in the local profile" in r.stderr
+
+
+def test_fetch_updates_origin_main_even_without_a_refspec_for_it(cloned, tmp_path):
+    origin, work = cloned
+    _git(work, "config", "remote.origin.fetch", "+refs/heads/other:refs/remotes/origin/other")
+    other = tmp_path / "other"
+    _git(tmp_path, "clone", "-q", str(origin), str(other))
+    _write(other, "assets/prs/W2/new.pdf", b"new")
+    _git(other, "add", ".")
+    _git(other, "commit", "-q", "-m", "newer")
+    _git(other, "push", "-q", "origin", "main")
+    s3 = FakeS3()
+    assert _main(tmp_path, s3) == 2 and s3.objects == {}
+
+
+def test_bucket_policy_refuses_kms_encrypted_uploads(tmp_path):
+    bucket_policy, _, _ = _policies(tmp_path)
+    arn = "arn:aws:s3:::sm-alpr-pra-111122223333-us-west-2-an"
+    assert {"Sid": "DenyEncryptionOtherThanSSES3", "Effect": "Deny", "Principal": "*",
+            "Action": "s3:PutObject", "Resource": f"{arn}/*",
+            "Condition": {"Null": {"s3:x-amz-server-side-encryption": "false"},
+                          "StringNotEquals": {"s3:x-amz-server-side-encryption": "AES256"}}} in bucket_policy["Statement"]
+
+
+def test_setup_ignores_a_stray_account_id_variable(tmp_path):
+    r, _ = _setup(tmp_path, None, "--check", ACCOUNT_ID="999999999999")
+    assert "sm-alpr-pra-111122223333-us-west-2-an" in r.stdout and "999999999999" not in r.stdout
+
+
+def test_committed_symlink_is_skipped_not_held(cloned, tmp_path):
+    origin, work = cloned
+    (work / "assets/prs/W1/link.pdf").symlink_to("a.pdf")
+    _git(work, "add", "assets/prs/W1/link.pdf")
+    _git(work, "commit", "-q", "-m", "a link")
+    _git(work, "push", "-q", "origin", "main")
+    s3 = FakeS3()
+    assert _main(tmp_path, s3) == 0
+    assert s3.stored_names() == ["a.pdf", "b.pdf"]
+
+
+def test_hash_cache_forgets_files_that_are_gone_and_survives_corruption(tmp_path):
+    root, cache_path = tmp_path / "tree", tmp_path / "cache.json"
+    a, b = _write(root, "a.pdf", b"a"), _write(root, "b.pdf", b"b")
+    assert _sync(FakeS3(), root, tmp_path / "l1.jsonl", cache_path) == 0
+    assert set(json.loads(cache_path.read_text())) == {str(a), str(b)}
+    b.unlink()
+    assert _sync(FakeS3(), root, tmp_path / "l2.jsonl", cache_path) == 0
+    assert set(json.loads(cache_path.read_text())) == {str(a)}
+    cache_path.write_text("{not json")
+    assert _sync(FakeS3(), root, tmp_path / "l3.jsonl", cache_path) == 0  # a cache, safe to lose
+
+
+def test_interrupt_handler_ignores_a_duplicate_and_quits_on_a_later_one(monkeypatch):
+    clock = [100.0]
+    monkeypatch.setattr(u.time, "monotonic", lambda: clock[0])
+    exits = []
+    monkeypatch.setattr(u.os, "_exit", exits.append)
+    handler = u._interrupt_handler()
+    with pytest.raises(KeyboardInterrupt):
+        handler(signal.SIGINT, None)  # first: graceful stop
+    clock[0] += 0.2
+    handler(signal.SIGINT, None)  # uv run's duplicate: ignored
+    assert exits == []
+    clock[0] += 5
+    handler(signal.SIGINT, None)  # a deliberate second Ctrl-C: quit now
+    assert exits == [130]
+
+
+def test_uploader_does_not_load_the_ocr_libraries():
+    code = ("import sys; sys.path.insert(0, %r); import pra_s3_upload; "
+            "print(sorted(m for m in ('fitz', 'pytesseract', 'PIL') if m in sys.modules))" % str(SCRIPT_DIR))
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True).stdout
+    assert out.strip() == "[]"
