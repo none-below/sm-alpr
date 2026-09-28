@@ -100,7 +100,9 @@ $(BUILD_STAMP):
 
 test: $(BUILD_STAMP) ## Build artifacts if missing, then run the full test suite
 	uv run pytest
-	@$(MAKE) test-audit-db
+	@if uv sync --locked --project scripts/audit_db --group dev --quiet; then $(MAKE) test-audit-db; else \
+	  echo "WARNING: audit DB tests skipped: could not set up scripts/audit_db's pinned environment (offline?);" \
+	       "run make test-audit-db once it can be" >&2; fi
 
 test-audit-db: ## Run the audit DB tests in their own pinned environment (scripts/audit_db)
 	uv run --locked --project scripts/audit_db --group dev pytest scripts/audit_db/tests

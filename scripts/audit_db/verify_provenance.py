@@ -37,11 +37,10 @@ import sys
 import zipfile
 from pathlib import Path
 
-import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 from muckrock_ingest import canonical  # noqa: E402  (truth stores row keys under canonical() names)
-from paths import audit_dir, duck_connect  # noqa: E402
+from paths import audit_dir, duck_connect, sql_str as q  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
@@ -82,10 +81,6 @@ def sha(p):
         for b in iter(lambda: fh.read(1 << 20), b""):
             h.update(b)
     return h.hexdigest()
-
-
-def q(s):
-    return "'" + s.replace("'", "''") + "'"
 
 
 def cmp(reader, where, col, orig, stored):

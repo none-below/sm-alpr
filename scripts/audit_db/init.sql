@@ -15,6 +15,8 @@ SET VARIABLE init_truth_check = (SELECT error('init.sql: attached ' || t.path ||
     AND regexp_replace(t.path, '[^/]*$', '') <> regexp_replace(d.path, '[^/]*$', ''));
 SET threads = 4;
 SET memory_limit = '4GB';   -- modest, so the machine stays usable; raise for big scans
-SET temp_directory = 'spill-cli-' || uuid()::VARCHAR;   -- this session's own spill dir, one level in the audit dir (never swept: see paths.py)
-SET max_temp_directory_size = '8GiB';   -- a runaway query errors instead of filling the disk
+-- No spilling: a query that needs more than memory_limit fails. A CLI session has no pid to name a spill directory by
+-- or lock to prove it alive (paths.py), so a killed session's directory could never be told from a live one's, and a
+-- relative path breaks after .cd. Run big queries from Python (audit_client.connect) or ui.py, which spill safely.
+SET temp_directory = '';
 SET preserve_insertion_order = false;

@@ -27,13 +27,9 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from paths import audit_dir as default_audit_dir, duck_connect  # noqa: E402
+from paths import audit_dir as default_audit_dir, duck_connect, sql_str as _s  # noqa: E402
 from sql_templates import (flock_rows_sql, sightings_flock_sql, sightings_smpd_sql, sources_flock_sql,  # noqa: E402
                            sources_smpd_sql)
-
-
-def _s(v):
-    return "'" + str(v).replace("'", "''") + "'"
 
 
 def connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB"):
@@ -53,7 +49,11 @@ def connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8G
     root = A / "spill" if temp_dir is None else "" if temp_dir == "" else Path(temp_dir).expanduser() / "alpr_audit_spill"
     con = duck_connect(A / "derived.duckdb", read_only=True, spill_root=root,
                        threads=int(threads), memory_limit=memory, max_temp_directory_size=max_temp)
-    con.execute(f"ATTACH IF NOT EXISTS {_s(A / 'truth.duckdb')} AS truth (READ_ONLY)")
+    try:
+        con.execute(f"ATTACH IF NOT EXISTS {_s(A / 'truth.duckdb')} AS truth (READ_ONLY)")
+    except BaseException:
+        con.close()
+        raise
     return con
 
 

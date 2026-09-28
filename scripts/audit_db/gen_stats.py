@@ -24,7 +24,7 @@ from pathlib import Path
 import duckdb
 
 import audit_client as ac
-from paths import audit_dir
+from paths import audit_dir, sql_str
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
@@ -38,7 +38,7 @@ built = dict(q("SELECT key, value FROM truth.build_info"))
 parts, failed, T0 = {}, [], time.time()   # section title -> markdown lines (written in ORDER, whatever the run order)
 out = []
 MASKED = ("redacted_flock", "redacted_agency")
-lit = lambda xs: ", ".join("'" + x.replace("'", "''") + "'" for x in xs)
+lit = lambda xs: ", ".join(sql_str(x) for x in xs)
 fmt_default = lambda v: f"{v:,}" if isinstance(v, int) else ("–" if v is None else str(v))
 pct = lambda v: f"{v:.3%}" if v is not None else "–"
 
