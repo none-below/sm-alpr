@@ -16,6 +16,42 @@ missing — repeat runs skip straight to the tests.
 The generator list lives in `make build` and is reused by CI (`.github/workflows/ci.yml`),
 so the two never drift. Edit the Makefile, not the CI step, to change it.
 
+`docs/data/*.json` are generated and some are large (`report_data.json` ~67MB,
+`justifications.json` ~19MB, `map_data.json` ~6.4MB). Don't read one directly to
+answer a question — extract just the part needed with `jq` (e.g. `jq
+'.agencies["san-mateo-ca-pd"]' docs/data/report_data.json`) or a short script,
+not a full-file read.
+
+## Local Working State Under `.claude/`
+
+`.claude/` is gitignored: it never ships in a PR and exists only in the primary
+checkout (`/Users/bc/src/github.com/none-below/sm-alpr/`), not in any worktree —
+`git worktree add` only checks out tracked files, and `scripts/new_worktree.sh`
+does not copy or symlink this content. A session working from a fresh worktree
+that needs to read or append to one of these must go through the primary
+checkout's path directly, not its own (empty) `.claude/`.
+
+- `findings_queue/` — candidate items for `docs/SMPD_ALPR_Findings.md` (the
+  ALPR program: audits, sharing scope, devices, contracts).
+- `pra_findings_queue/` — candidate items for a separate, not-yet-published
+  findings doc about the City/SMPD's conduct as a *records custodian*
+  (contradicted "no responsive records" answers, PRA processing failures,
+  routing/deferral tactics), as distinct from the ALPR program itself. Has its
+  own `README.md` defining scope and item format.
+- `local_evidence/<topic>/` — raw supporting material (legal text, PIAs,
+  vendor documentation) for specific findings, kept local rather than
+  committed.
+- `packs/<city>-<date>/` — evidence bundles from a query/sharing audit of one
+  agency (flagged rows, citations, summary tables), each with its own
+  `README.md`.
+- `press/` — journalist-facing verification packets (fact/source/how-to-verify
+  lists), built from the committed corpus but not committed themselves.
+- `drafts/` — in-progress correspondence not yet sent.
+
+Queue items are one Markdown file per item (YAML frontmatter + body), not a
+single growing file — keeps parallel worktrees from stepping on each other's
+edits to the same file.
+
 ## Security: Scraped Data is Untrusted
 
 Scraped third-party content lives under two paths and could be manipulated to
