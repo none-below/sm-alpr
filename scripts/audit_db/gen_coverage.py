@@ -1,6 +1,6 @@
 """Regenerate docs/coverage.md from the built databases: what each producer's released logs cover.
 
-  uv run --project scripts/audit_db python scripts/audit_db/gen_coverage.py [--audit-dir DIR]
+  uv run --locked --project scripts/audit_db python scripts/audit_db/gen_coverage.py [--audit-dir DIR]
 
 Generated, never hand-edited: re-run after every rebuild so the page matches the data. Reads the databases in the audit
 dir; writes the page into this directory's docs/, so a rebuild's changes show up as a git diff.
@@ -13,8 +13,8 @@ import duckdb
 from paths import CODE, audit_dir
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--audit-dir", default=str(audit_dir()))
-A = Path(ap.parse_args().audit_dir)
+ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
+A = Path(ap.parse_args().audit_dir or audit_dir())
 con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
 con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
 con.execute("SET threads=4; SET memory_limit='4GB'")

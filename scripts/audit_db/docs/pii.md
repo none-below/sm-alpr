@@ -164,9 +164,13 @@ cannot be pushed into `truth`: it computes the token for every row it scans. Fil
 - **Only whoever turns a raw plate into a token**: building `sightings_public` output or the export, or looking up a
   plate someone has in hand (a reporter with a plate from a source cannot find it in the public data without asking
   the key holder to run `plate_token`).
-- **The key is the whole protection.** The plate space is small (the standard California shape `9AAA999` has
-  10 × 26³ × 10³ = 175,760,000 strings), so anyone holding the key can reverse every token by enumeration. Without
+- **The key is the whole cryptographic protection.** The plate space is small (the standard California shape `9AAA999`
+  has 10 × 26³ × 10³ = 175,760,000 strings), so anyone holding the key can reverse every token by enumeration. Without
   the key, enumeration is useless because HMAC outputs cannot be computed.
+- **A token is not anonymous against its own citation.** Every public row cites the agency's released file, which is
+  public, and some of those files carry the plate in the clear. Anyone can follow a token's citation to the original
+  row and read the plate there. Tokenizing keeps plates out of this export and makes them unsearchable across it; it
+  does not hide a plate that the agency already published.
 
 ### Key handling
 
@@ -175,8 +179,8 @@ cannot be pushed into `truth`: it computes the token for every row it scans. Fil
 | `~/.config/sm-alpr/plate_token_key` | The key file, the only key source SQL reads. `plate_key.py --check` on 2026-09-26: 64 hex digits, file `0600`, directory `0700` (status only; the key was never read or printed) |
 | SQL: `plate_key_hex()` | Reads the file on every use. Removes every space, tab, CR and LF, lower-cases, and raises `plate token key missing, empty or not 64 hex digits: ~/.config/sm-alpr/plate_token_key (create with: openssl rand -hex 32; CI: plate_key.py --install)` unless exactly 64 hex digits remain. A missing file (DuckDB's `read_text` returns zero rows for it), an empty file, 63 or 66 digits, or a non-hex character all raise it. The message never contains key text. `plate_key_pads()`, `plate_token()` and `sightings_public` all read the key through it |
 | Python: `plate_key.py` | `normalize_key` applies the same normalization and exits on the same failures. `load_key` reads env `PLATE_TOKEN_KEY` and the file. If both are set they must be equal after normalization (SQL reads only the file), otherwise it exits. Every file read sets the file to `0600` and its directory to `0700` if they differ, with a note on stderr. `token_py(p)` returns the token. `set_plate_key` is legacy (session variables), and no view uses it |
-| `python plate_key.py --check` | Validates the file and prints status only. Exit 0 with `key file OK: 64 hex chars, file 0600, directory 0700` (plus what it tightened, if anything); exit 1 with `no key file at …` or the normalization error |
-| CI: `python plate_key.py --install` | `install_from_env`: normalizes env `PLATE_TOKEN_KEY` (exits if invalid), creates the directory as `0700`, and writes the normalized key, with no newline, as a `0600` file, also when the file already existed |
+| `<code>/plate_key.py --check` (pinned env) | Validates the file and prints status only. Exit 0 with `key file OK: 64 hex chars, file 0600, directory 0700` (plus what it tightened, if anything); exit 1 with `no key file at …` or the normalization error |
+| CI: `<code>/plate_key.py --install` (pinned env) | `install_from_env`: normalizes env `PLATE_TOKEN_KEY` (exits if invalid), creates the directory as `0700`, and writes the normalized key, with no newline, as a `0600` file, also when the file already existed |
 | GitHub secret `PLATE_TOKEN_KEY` | Exists on `none-below/sm-alpr` (name confirmed with `gh secret list` on 2026-09-26; value never read). No workflow at the build's repo inputs (`e138455bb`) references it yet |
 | `.duckdb` files | Never hold the key. Views and macros store only the path |
 

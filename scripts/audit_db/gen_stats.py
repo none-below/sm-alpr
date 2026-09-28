@@ -1,6 +1,6 @@
 """Regenerate docs/stats.md: corpus-wide numbers the docs refer to, computed once per build (never hand-edited).
 
-  nice -n 19 taskpolicy -b uv run --project scripts/audit_db python scripts/audit_db/gen_stats.py [--audit-dir DIR]
+  nice -n 19 taskpolicy -b uv run --locked --project scripts/audit_db python scripts/audit_db/gen_stats.py [--audit-dir DIR]
 
 Heavy (full scans of sightings, sightings_public, flock_rows and the linking cache): run it after a rebuild, not while
 you work. Limits: AUDIT_DB_THREADS (4), AUDIT_DB_MEMORY (6GB); spills go to AUDIT_DB_TEMP (default <system tmp>/
@@ -26,8 +26,8 @@ import duckdb
 from paths import CODE, audit_dir
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--audit-dir", default=str(audit_dir()))
-A = Path(ap.parse_args().audit_dir)
+ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
+A = Path(ap.parse_args().audit_dir or audit_dir())
 con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
 con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
 env = os.environ.get

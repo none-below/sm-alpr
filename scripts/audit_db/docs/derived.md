@@ -71,9 +71,9 @@ column-layout correction, is a view that reads `truth` differently. It is never 
 
 ```sh
 # full build: layer-2 views and macros, then recompute the cache
-rm -f derived.duckdb && nice -n 19 taskpolicy -b uv run --project <code> python <code>/build_derived.py truth.duckdb derived.duckdb
+rm -f derived.duckdb && nice -n 19 taskpolicy -b uv run --locked --project <code> python <code>/build_derived.py truth.duckdb derived.duckdb
 # views and macros only: keeps the cache tables and cache.builds as they are
-nice -n 19 taskpolicy -b uv run --project <code> python <code>/build_derived.py truth.duckdb derived.duckdb --views-only
+nice -n 19 taskpolicy -b uv run --locked --project <code> python <code>/build_derived.py truth.duckdb derived.duckdb --views-only
 ```
 
 Run both from `<audit_db>`. The build reads `AUDIT_DB_THREADS` and `AUDIT_DB_MEMORY` (defaults 4 and
@@ -1005,7 +1005,7 @@ Importable, read-only Python helpers for row and event lookups. They select trut
 | `event(con, eid)` | A dict with the `events` columns plus `sightings`, a sorted list of `(release_id, row_no, producer, audit, basis)`; None for an unknown id. Scans the integer `event_key` and compares `event_id` in Python |
 | `drill(con, eid, surfaces=False)` | One dict per sighting of the event, ordered by producer, release, row: `producer`, `audit`, `basis`, `release_id`, `row_no`, `public_release_id`, `src_row`, `org`, `t`, `nets`, the four `*_state`s, `citation`, `open_url`, `sha256`. `surfaces=True` adds `reason_surface` and `case_surface` (local only). Same rows as `event_sightings(eid)` |
 
-From the shell, `python audit_client.py <event_id> [audit_dir]` prints the states and citations of one search (1
+From the shell, `uv run --locked --project <code> python <code>/audit_client.py <event_id> [audit_dir]` prints the states and citations of one search (1
 thread, 1 GB). Event ids other than `u:` (`k5:`, `k3:`, `x:`) are build-specific: persist `(release_id, row_no)`
 instead ([linking.md](linking.md)).
 
@@ -1134,7 +1134,7 @@ its own directory, and the databases from `--audit-dir` (default: `<audit_db>`).
 reads only catalogs and the small truth tables (`truth.smpd_pdf_rows` is the largest).
 
 ```sh
-nice -n 19 taskpolicy -b uv run --project <code> python <code>/check_cache.py [--audit-dir DIR]
+nice -n 19 taskpolicy -b uv run --locked --project <code> python <code>/check_cache.py [--audit-dir DIR]
 ```
 ```text
 cache.sighting_keys: built 2026-09-26 20:42 UTC — current

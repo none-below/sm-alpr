@@ -173,7 +173,7 @@ def drill(con, eid, surfaces=False):
 
 
 if __name__ == "__main__":
-    # python audit_client.py <event_id> [audit_dir]: states + citations of one search (no released text)
+    # uv run --locked --project scripts/audit_db python scripts/audit_db/audit_client.py <event_id> [audit_dir]: states + citations of one search (no released text)
     if len(sys.argv) < 2:
         sys.exit(__doc__)
     c = connect(sys.argv[2] if len(sys.argv) > 2 else None, threads=1, memory="1GB")

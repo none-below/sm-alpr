@@ -4,15 +4,15 @@ Key source, in order: env PLATE_TOKEN_KEY (CI: GitHub secret), else ~/.config/sm
 The key must be 32 random bytes as 64 hex chars (openssl rand -hex 32) -- never a passphrase.
 
 plate_token(p) in derived.duckdb computes the same HMAC in SQL, reading the key file itself (any client, any
-connection). In CI, run `python plate_key.py --install` to write the PLATE_TOKEN_KEY secret to the key file.
+connection). In CI, run `uv run --locked --project scripts/audit_db python scripts/audit_db/plate_key.py --install` to write the PLATE_TOKEN_KEY secret to the key file.
 Same token in SQL, Python and CI:  token_py(p) == SELECT plate_token(p).
 
 Key text is normalized the way the SQL reads it (every tab, CR, LF and space removed, so a trailing newline from
 `openssl rand -hex 32 > file` is harmless), then must be exactly 64 hex chars; anything else is an error, never a
 silently different key. The key file is kept 0600 and its directory 0700 (enforced on every load and install).
 
-  python plate_key.py --check     validate the key file (format, permissions); prints status only, never the key
-  python plate_key.py --install   CI: write env PLATE_TOKEN_KEY to the key file
+  uv run --locked --project scripts/audit_db python scripts/audit_db/plate_key.py --check     validate the key file (format, permissions); prints status only, never the key
+  uv run --locked --project scripts/audit_db python scripts/audit_db/plate_key.py --install   CI: write env PLATE_TOKEN_KEY to the key file
 """
 import hashlib
 import hmac

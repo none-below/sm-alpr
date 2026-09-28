@@ -32,7 +32,7 @@ Check [linking.md](linking.md) before any cross-agency claim, and [pii.md](pii.m
 
 Every example in these docs assumes the setup below. `<audit_db>` is the directory that holds the two database files:
 the primary checkout's `.claude/audit_db/`, outside git. `<code>` is `scripts/audit_db/` in any checkout of the repo:
-the build code, `audit_client.py` and `init.sql`, run in its pinned environment (`uv run --project <code> python …`).
+the build code, `audit_client.py` and `init.sql`, run in its pinned environment (`uv run --locked --project <code> python …`).
 
 ```python
 import duckdb
@@ -94,10 +94,10 @@ The build code is in git, in `<code>`; the rebuild commands are in [its README](
 
 ## Status
 
-This is a local research database and has not been published yet.
+The build code is in the repository (`scripts/audit_db/`); the databases are local and have not been published.
 - **Civilian data:** the underlying records are public, but `truth` holds civilian licence plates exactly as some
   agencies released them. Only `sightings_public`, with plates tokenized, is meant for export (see [pii.md](pii.md)).
-- **Plan:** move the build code into the repository with a make target, and have CI publish a public-safe Parquet
-  export.
+- **Plan:** rebuild truth from per-release Parquet chunks, each citing the commit that made it; a make target; and a
+  public-safe Parquet export built by CI.
 - **Also planned:** an evidence-pack tool that bundles a query's results with the original files behind them, for a
   reporter to spot-check.

@@ -244,7 +244,7 @@ def add_muckrock(con, EV, TMP, FLOCK_COLS, sha256_file, resolve=lambda org: None
     staged = []
     manifest = TMP / "muckrock_units" / "staged.json"
     if not manifest.exists():
-        raise SystemExit(f"run the staging step first: python muckrock_ingest.py stage {EV} {TMP}")
+        raise SystemExit(f"run the staging step first: uv run --locked --project scripts/audit_db python scripts/audit_db/muckrock_ingest.py stage {EV} {TMP}")
     staged_map = {(r["u"]["local_path"], r["u"]["member"], r["u"]["sheet"]): r["res"] for r in json.load(open(manifest))}
     results = [staged_map.get((u["local_path"], u["member"], u["sheet"]), "not staged") for u in us]
     for i, (u, res) in enumerate(zip(us, results), 1):

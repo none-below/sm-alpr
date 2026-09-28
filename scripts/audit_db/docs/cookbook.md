@@ -758,7 +758,7 @@ Ukiah Fire CA FD     1_uuid   71343  value            b80842804268
 
 `event` 0.4 s, `drill` 1.0 s. Each dict also has `org`, `t`, `nets`, the four `*_state` columns, `public_release_id`,
 `citation` and `open_url`; `drill(…, surfaces=True)` adds the released Reason and Case # (local only). From the shell:
-`python audit_client.py u:6023db79-9334-4b07-8b35-7f6e18366971`. In SQL, the same rows:
+`uv run --locked --project <code> python <code>/audit_client.py u:6023db79-9334-4b07-8b35-7f6e18366971`. In SQL, the same rows:
 
 ```sql
 CREATE OR REPLACE TEMP TABLE cb_one AS

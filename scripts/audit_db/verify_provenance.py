@@ -1,6 +1,6 @@
 """Check that the database's row locations point at the right place in the original released files.
 
-  nice -n 19 taskpolicy -b uv run --project scripts/audit_db python scripts/audit_db/verify_provenance.py [options]
+  nice -n 19 taskpolicy -b uv run --locked --project scripts/audit_db python scripts/audit_db/verify_provenance.py [options]
   (the SMPD check also needs poppler's pdftotext on PATH)
 
 MuckRock releases (evidence dir): for sampled rows, opens the ORIGINAL file (zip member / sheet) with a reader
@@ -44,7 +44,7 @@ from muckrock_ingest import canonical  # noqa: E402  (truth stores row keys unde
 from paths import audit_dir  # noqa: E402
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--audit-dir", default=str(audit_dir()))
+ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
 ap.add_argument("--truth", help="truth database (default <audit-dir>/truth.duckdb)")
 ap.add_argument("--per-release", type=int, default=2, help="rows sampled within each release's first 3,000")
 ap.add_argument("--per-layout", type=int, default=3, help="rows sampled inside each layout-corrected range")
@@ -54,7 +54,7 @@ ap.add_argument("--smpd", type=int, default=40, help="SMPD rows whose stored lin
 ap.add_argument("--only", help="release_id LIKE pattern: check only these releases")
 ap.add_argument("--seed", type=int, default=1)
 args = ap.parse_args()
-A = Path(args.audit_dir)
+A = Path(args.audit_dir or audit_dir())
 con = duckdb.connect(args.truth or str(A / "truth.duckdb"), read_only=True)
 con.execute("SET threads=2; SET memory_limit='2GB'")   # lookups by literal release_id/row_no only
 info = dict(con.execute("SELECT key, value FROM build_info").fetchall())

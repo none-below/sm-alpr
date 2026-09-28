@@ -1,6 +1,6 @@
 """Fail when the live schema has something docs/ does not mention, or when a docs link is dead.
 
-  uv run --project scripts/audit_db python scripts/audit_db/check_docs.py [--audit-dir DIR] [--owners]
+  uv run --locked --project scripts/audit_db python scripts/audit_db/check_docs.py [--audit-dir DIR] [--owners]
 
 Checks, against the built truth.duckdb + derived.duckdb (read-only; catalog functions and small tables only, no scan
 of the linking cache or of any row table, so it takes seconds):
@@ -25,10 +25,10 @@ import duckdb
 from paths import CODE, audit_dir
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--audit-dir", default=str(audit_dir()))
+ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
 ap.add_argument("--owners", action="store_true", help="fail (not just warn) when a name is missing from its owning doc")
 args = ap.parse_args()
-A = Path(args.audit_dir)
+A = Path(args.audit_dir or audit_dir())
 D = CODE / "docs"
 con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
 con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")

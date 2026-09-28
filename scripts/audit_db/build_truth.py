@@ -6,7 +6,7 @@ documents (cover-letter withholding claims, rows released under the wrong labels
 from dispositions.json / layouts.json / producers.json and cite their source.
 Open read-only after building; derived.duckdb ATTACHes it READ_ONLY.
 
-  uv run --project scripts/audit_db python scripts/audit_db/build_truth.py OUT.duckdb TMPDIR [--repo CHECKOUT]
+  uv run --locked --project scripts/audit_db python scripts/audit_db/build_truth.py OUT.duckdb TMPDIR [--repo CHECKOUT]
 --repo defaults to the git checkout containing the current directory, so run it from a fresh worktree.
 Local evidence (.claude/ exists only in the primary checkout) is found via git's common dir.
 The repo commit the inputs came from is recorded in truth.build_info.
@@ -37,9 +37,9 @@ from muckrock_ingest import add_muckrock, canonical, sql_ident, sql_str  # noqa:
 HERE = Path(__file__).parent
 FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
               "Reason", "Case #", "Filters", "Search Time", "Search Type", "Text Prompt", "Moderation"]
-# repo inputs whose uncommitted edits would make the recorded commit a lie
+# repo inputs, and this build code, whose uncommitted edits would make the recorded commit a lie
 REPO_INPUTS = ["assets/redwood-city-pras", "assets/los-altos-pras", "assets/san-mateo-public-records/W012541-*",
-               "assets/san-mateo-public-records/W012818-*", "assets/agency_registry.json"]
+               "assets/san-mateo-public-records/W012818-*", "assets/agency_registry.json", "scripts/audit_db"]
 # One row per released file (or sheet). Provenance: where the original is (container_root + container_path, member,
 # sheet, source_file), how to get it (source_url = download link, request_url = the request's page), how to verify it
 # (container_sha256; member_sha256 for a zip member; content_sha256 groups identical content across re-releases), and
@@ -285,8 +285,12 @@ def main():
         import pymupdf
     except ImportError:
         raise SystemExit("pymupdf is needed for the SMPD PDFs: run in the pinned env, "
-                         "uv run --project scripts/audit_db python scripts/audit_db/build_truth.py ...") from None
+                         "uv run --locked --project scripts/audit_db python scripts/audit_db/build_truth.py ...") from None
     WT = Path(git(args.repo, "rev-parse", "--show-toplevel"))
+    # repo_commit identifies the build code only if the code runs from the checkout it reads inputs from
+    if Path(git(HERE, "rev-parse", "--show-toplevel")).resolve() != WT.resolve():
+        raise SystemExit(f"build code ({HERE.resolve()}) and --repo ({WT}) are different checkouts, so the recorded commit "
+                         "would not identify the code: run the build_truth.py of the checkout you build from")
     PRIMARY = Path(git(WT, "rev-parse", "--path-format=absolute", "--git-common-dir")).parent
     EV = PRIMARY / ".claude/local_evidence/muckrock-ca-audit-logs"
     TMP = Path(args.tmp)

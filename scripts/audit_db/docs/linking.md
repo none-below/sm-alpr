@@ -628,7 +628,7 @@ for a 2-sighting event in two El Cerrito releases. `drill` returns one dict per 
 and row. The keys are `producer`, `audit`, `basis`, `release_id`, `row_no`, `public_release_id`, `src_row`, `org`,
 `t`, `nets`, `reason_state`, `case_state`, `name_state`, `plate_state`, `citation`, `open_url` and `sha256`.
 `surfaces=True` adds `reason_surface` and `case_surface`, which are local only. From a shell,
-`python audit_client.py <event_id> [audit_dir]` prints states and citations without surfaces.
+`uv run --locked --project <code> python <code>/audit_client.py <event_id> [audit_dir]` prints states and citations without surfaces.
 
 ```python
 rows = ac.drill(con, "u:801cd2c0-4c42-41c0-9111-8d9e030fdf21")

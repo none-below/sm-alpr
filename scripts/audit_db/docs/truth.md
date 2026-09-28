@@ -463,8 +463,8 @@ WHERE release_id = 'mr:196397:PRA25-746.csv#csv' ORDER BY row_no""").show()
 |---|---|
 | `built_at_utc` | When truth was built (`YYYY-MM-DDTHH:MM:SSZ`). Quote counts "as of" this. |
 | `repo_checkout` | Absolute path of the checkout the repo inputs were read from (a local path) |
-| `repo_commit` | That checkout's `HEAD`. Repo permalinks use this commit. |
-| `repo_inputs_dirty` | `True` if `git status` showed uncommitted changes under `assets/redwood-city-pras`, `assets/los-altos-pras`, the SMPD PDF folders (`assets/san-mateo-public-records/W012541-*`, `W012818-*`) or `assets/agency_registry.json` |
+| `repo_commit` | That checkout's `HEAD`. Repo permalinks use this commit. It also identifies the build code: `build_truth.py` refuses to run from a different checkout than `--repo`. |
+| `repo_inputs_dirty` | `True` if `git status` showed uncommitted changes under `assets/redwood-city-pras`, `assets/los-altos-pras`, the SMPD PDF folders (`assets/san-mateo-public-records/W012541-*`, `W012818-*`), `assets/agency_registry.json` or the build code (`scripts/audit_db`). Builds from before the code moved into git (up to 2026-09-26) did not check the code. |
 | `commits_behind_local_origin_main` | Commits between `HEAD` and the checkout's *local* `origin/main` ref, which is only as fresh as the last `git fetch`. `None` if it could not be computed. |
 | `evidence_dir` | Absolute path of the MuckRock evidence directory |
 | `repo_web_url` | GitHub base URL derived from the `origin` remote, for `<repo_web_url>/blob/<repo_commit>/<container_path>` |
@@ -499,10 +499,10 @@ Two steps. Run them from a fresh worktree off a freshly fetched `origin/main`, n
 worktree, `A` is `<audit_db>`, and `T` is a scratch directory with about 25 GB free (the build README's figure):
 
 ```sh
-BG="nice -n 19 taskpolicy -b"; PY="uv run --project $C python"
-$BG $PY $C/muckrock_ingest.py stage <evidence dir> $T                   # README estimate: ~6 min
-$BG $PY $C/build_truth.py $A/truth_new.duckdb $T \
-  && mv $A/truth_new.duckdb $A/truth.duckdb                             # README estimate: ~10 min (SMPD PDFs: 2-3 min)
+bgpy() { nice -n 19 taskpolicy -b uv run --locked --project "$C" python "$@"; }   # a function, so bash and zsh both run it
+bgpy "$C/muckrock_ingest.py" stage <evidence dir> "$T"                  # README estimate: ~6 min
+bgpy "$C/build_truth.py" "$A/truth_new.duckdb" "$T" \
+  && mv "$A/truth_new.duckdb" "$A/truth.duckdb"                         # README estimate: ~10 min (SMPD PDFs: 2-3 min)
 ```
 
 1. **Staging** (`muckrock_ingest.py stage`, two worker processes). It lists units (file, zip member, sheet) from the
