@@ -21,6 +21,11 @@
   "wayback_source": "existing",
   "pdf_status": "skipped-requests-fallback",
   "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "legal:legislation",
+    "policy:sharing",
+    "scope:state",
     "vendor:flock"
   ],
   "agencies": [
@@ -129,9 +134,26 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-19T23:50:08Z",
+  "summary": "Texas Gov. Greg Abbott ordered all state agencies to pause funding for Flock cameras amid mounting scrutiny of the AI-powered license plate readers, coinciding with a Texas Tribune investigation showing the Motor Vehicle Crime Prevention Authority had directed at least $30 million in grants to build a statewide Flock network of over 3,200 cameras. The move follows reports of officer misuse \u2014 including a Lufkin officer facing 100 counts \u2014 and a wave of Texas cities and counties canceling contracts.",
+  "key_quotes": [
+    {
+      "quote": "To the extent any funding comes from Texas agencies, those agencies are clarifying that those funds cannot be used for Flock cameras",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "The Motor Vehicle Crime Prevention Authority, led by a board mostly appointed by Abbott, has helped state and local agencies install at least 3,200 Flock cameras since 2023.",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "Abbott pointed to a Lufkin police officer who is facing 100 counts of misusing public information for allegedly using the area's Flock cameras to surveil 11 people for more than a year.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "whether it be through criminal crackdowns, whether it be through cancellation of contracts, whatever the case may be, Flock cameras are being reduced dramatically",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-26T07:34:43Z",
   "article_id": "art_81ec814636f8"
 }

@@ -22,6 +22,10 @@
   "wayback_source": "existing",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "policy:audit",
+    "scope:national",
     "vendor:flock"
   ],
   "agencies": [
@@ -130,9 +134,22 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-19T23:50:03Z",
+  "summary": "The Institute for Justice compiled a nationwide database of dozens of cases in which police officers allegedly misused ALPR systems, primarily Flock, to stalk romantic partners, exes, or strangers of romantic interest. Most incidents surfaced through victim complaints rather than internal audits, and nearly all involved officers resigning, being fired, or facing criminal charges.",
+  "key_quotes": [
+    {
+      "quote": "An ongoing review of media reports and public records by the Institute for Justice has identified dozens of cases nationwide of officers allegedly abusing ALPR data this way, with the bulk of those incidents happening since 2024.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "The fundamental problem with these systems is that they place private information about people's movements over time in the hands of every officer",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "only a few of the dozens of analyzed cases were initially discovered through internal investigations",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-26T07:34:50Z",
   "article_id": "art_8b0a04b479b5"
 }
