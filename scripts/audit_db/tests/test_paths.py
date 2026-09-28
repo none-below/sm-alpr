@@ -76,3 +76,30 @@ def test_concurrent_processes_under_one_parent_are_correct(tmp_path):
     outs = [p.communicate(timeout=300) for p in procs]
     assert all(o.strip() == str((3000000, sum(range(3000000)))) for o, _ in outs), outs
     assert [p.name for p in tmp_path.iterdir()] == []   # every directory removed on close
+
+
+def test_sweep_survives_files_vanishing_mid_scan(tmp_path):
+    stale = tmp_path / f"cli-{uuid.uuid4()}"
+    stale.mkdir()
+    (stale / "gone.tmp").symlink_to(tmp_path / "does-not-exist")   # stat() of a dangling link raises, like a file deleted mid-scan
+    old = time.time() - paths.CLI_STALE - 60
+    os.utime(stale, (old, old))
+    assert paths.sweep_spill(tmp_path) == [stale] and not stale.exists()
+
+
+def test_duck_connect_sets_spill_dir_and_escaped_settings(tmp_path):
+    con = paths.duck_connect(spill_parent=tmp_path / "sp", threads=1, memory_limit="61MB", enable_progress_bar=False)
+    got = dict(con.execute("SELECT name, value FROM duckdb_settings() WHERE name IN ('threads', 'memory_limit', "
+                           "'temp_directory', 'enable_progress_bar')").fetchall())
+    assert got["threads"] == "1" and got["enable_progress_bar"] == "false" and got["memory_limit"].startswith("58")
+    assert Path(got["temp_directory"]).parent == tmp_path / "sp"
+    with pytest.raises(duckdb.Error):
+        paths.duck_connect(memory_limit="1GB'; DROP TABLE x; --")   # quoted as one value, which DuckDB then rejects
+
+
+def test_audit_client_spills_under_its_own_audit_dir(tmp_path):
+    import audit_client as ac
+    for name in ("derived.duckdb", "truth.duckdb"):
+        duckdb.connect(str(tmp_path / name)).close()
+    con = ac.connect(tmp_path, threads=1, memory="1GB")
+    assert Path(con.execute("SELECT current_setting('temp_directory')").fetchone()[0]).parent == tmp_path / "spill"

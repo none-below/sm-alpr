@@ -41,7 +41,7 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 from muckrock_ingest import canonical  # noqa: E402  (truth stores row keys under canonical() names)
-from paths import audit_dir, use_spill_dir  # noqa: E402
+from paths import audit_dir, duck_connect  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
@@ -55,9 +55,8 @@ ap.add_argument("--only", help="release_id LIKE pattern: check only these releas
 ap.add_argument("--seed", type=int, default=1)
 args = ap.parse_args()
 A = Path(args.audit_dir or audit_dir())
-con = duckdb.connect(args.truth or str(A / "truth.duckdb"), read_only=True)
-use_spill_dir(con)   # own spill dir: DuckDB's default <db>.tmp is shared by every reader of the file
-con.execute("SET threads=2; SET memory_limit='2GB'")   # lookups by literal release_id/row_no only
+con = duck_connect(args.truth or A / "truth.duckdb", read_only=True, spill_parent=A / "spill",   # own spill dir
+                   threads=2, memory_limit="2GB")   # lookups by literal release_id/row_no only
 info = dict(con.execute("SELECT key, value FROM build_info").fetchall())
 EV, WT = Path(info["evidence_dir"]), Path(info["repo_checkout"])
 TABLES = {t for (t,) in con.execute("SELECT table_name FROM duckdb_tables()").fetchall()}

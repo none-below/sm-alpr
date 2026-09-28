@@ -4,8 +4,8 @@ hand-edited).
   nice -n 19 taskpolicy -b uv run --locked --project scripts/audit_db python scripts/audit_db/gen_stats.py [--audit-dir DIR]
 
 Heavy (full scans of sightings, sightings_public, flock_rows and the linking cache): run it after a rebuild, not while
-you work. Limits: AUDIT_DB_THREADS (4), AUDIT_DB_MEMORY (6GB); spills go to this process's own subdirectory of AUDIT_DB_TEMP
-(default <system tmp>/alpr_duck_tmp) and are capped at AUDIT_DB_MAX_TEMP (12GiB), so a section that would need more fails and is reported as
+you work. Limits: AUDIT_DB_THREADS (4), AUDIT_DB_MEMORY (6GB); spills go to this process's own directory under AUDIT_DB_TEMP
+(default <audit dir>/spill; empty disables spilling) and are capped at AUDIT_DB_MAX_TEMP (12GiB), so a section that would need more fails and is reported as
 not computed instead of filling the disk. Exit 1 if any section failed or the pre-export check could not be reported.
 The plate-token key is needed for the pre-export check (sightings_public errors without it); it is never printed.
 Sections:

@@ -26,10 +26,19 @@ uv run --locked --project scripts/audit_db python scripts/audit_db/<script>.py  
 
 Heavy jobs are meant to run niced at background QoS: prefix them with `nice -n 19 taskpolicy -b` (macOS).
 
-Every tool and every `init.sql` session spills into its own directory under `<audit_db>/spill/`, which DuckDB removes
-on close; a tool starting up also removes directories left by processes that died. DuckDB names its temp files by block
-size only, so two processes sharing one spill directory corrupt each other's queries. Open the databases through
-`audit_client.connect`, or call `paths.use_spill_dir(con)` on any connection you open yourself.
+DuckDB names its temp files by block size only, so two processes sharing one spill directory corrupt each other's
+queries. Every process therefore spills into its own directory, which DuckDB removes on close, and a process starting
+up removes directories left by processes that died:
+
+- readers (`audit_client.connect`, the check and generate scripts, `verify_provenance.py`), the extractor and
+  `init.sql` sessions: under `<audit_db>/spill/` (the `--audit-dir` of the tool, if given);
+- `build_truth.py`: under `<scratch dir>/duck_spill/`;
+- `build_derived.py`: DuckDB's default, `derived.duckdb.tmp`, which only it uses (no other process can open the file
+  while it writes). It also creates `<audit_db>/spill/` for `init.sql`.
+
+Open DuckDB through `paths.duck_connect` (or `audit_client.connect`); on a connection opened some other way, call
+`paths.use_spill_dir(con)`. A spill directory cannot survive its parent being deleted mid-query: DuckDB creates only
+the last level.
 
 ## Querying from Python: `audit_client.py`
 

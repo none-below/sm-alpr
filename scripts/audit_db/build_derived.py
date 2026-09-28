@@ -25,7 +25,8 @@ LIMITS = (f"SET threads={os.environ.get('AUDIT_DB_THREADS', '4')}; SET memory_li
           "SET preserve_insertion_order=false")
 con = duckdb.connect(DERIVED)
 # modest defaults so the laptop stays usable; raise with AUDIT_DB_THREADS / AUDIT_DB_MEMORY for a faster build
-con.execute(LIMITS)
+con.execute(LIMITS)   # spills: DuckDB's default <derived>.tmp, which is this build's alone (the file's only writer)
+(Path(DERIVED).resolve().parent / "spill").mkdir(exist_ok=True)   # init.sql sessions spill into spill/cli-<uuid> here
 con.execute(f"ATTACH IF NOT EXISTS '{TRUTH}' AS truth (READ_ONLY)")
 t0 = time.time()
 def step(m):

@@ -55,16 +55,28 @@ def sweep_spill(parent):
     <pid>-<random> whose pid is gone, and cli-<uuid> with no file touched for CLI_STALE seconds. Returns what it removed."""
     gone = []
     for d in Path(parent).iterdir() if Path(parent).is_dir() else []:
-        m = PID_DIR.fullmatch(d.name)
-        if m and d.is_dir() and not _alive(int(m.group(1))):
-            gone.append(d)
-        elif CLI_DIR.fullmatch(d.name) and d.is_dir():
-            newest = max([f.stat().st_mtime for f in d.rglob("*")] + [d.stat().st_mtime])
-            if time.time() - newest > CLI_STALE:
+        try:   # a live session can create or delete files (or its whole directory) while this runs
+            m = PID_DIR.fullmatch(d.name)
+            if m and d.is_dir() and not _alive(int(m.group(1))):
                 gone.append(d)
+            elif CLI_DIR.fullmatch(d.name) and d.is_dir():
+                if time.time() - _newest_mtime(d) > CLI_STALE:
+                    gone.append(d)
+        except OSError:
+            continue
     for d in gone:
         shutil.rmtree(d, ignore_errors=True)
     return gone
+
+
+def _newest_mtime(d):
+    newest = d.stat().st_mtime
+    for f in d.rglob("*"):
+        try:
+            newest = max(newest, f.stat().st_mtime)
+        except OSError:   # vanished, or a dangling link
+            pass
+    return newest
 
 
 def duck_temp(parent=None):
@@ -75,6 +87,20 @@ def duck_temp(parent=None):
     parent.mkdir(parents=True, exist_ok=True)
     sweep_spill(parent)
     return parent / f"{os.getpid()}-{uuid.uuid4().hex[:8]}"
+
+
+def duck_connect(database=":memory:", *, read_only=False, spill_parent=None, **settings):
+    """Open DuckDB with this process's own spill directory (use_spill_dir) and the given settings, e.g.
+    duck_connect(path, read_only=True, spill_parent=A / "spill", threads=2, memory_limit="2GB"). Every tool opens
+    DuckDB through this (or audit_client.connect, which calls it), so none falls back to a shared spill directory.
+    String settings are quoted and escaped; numbers and booleans are passed as they are."""
+    import duckdb
+    con = duckdb.connect(str(database), read_only=read_only)
+    use_spill_dir(con, spill_parent)
+    for k, v in settings.items():
+        val = str(v).lower() if isinstance(v, bool) else v if isinstance(v, (int, float)) else "'" + str(v).replace("'", "''") + "'"
+        con.execute(f"SET {k} = {val}")
+    return con
 
 
 def use_spill_dir(con, parent=None):
