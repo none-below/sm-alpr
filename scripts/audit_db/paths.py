@@ -79,7 +79,10 @@ def sweep_spill(root):
 
 def spill_root(root=None):
     """The spill root to use, created if missing and made absolute: root (`~` expanded), default <audit dir>/spill. When
-    it cannot be created (a read-only audit dir), <per-user tmp>/alpr_audit_spill instead, with a note on stderr."""
+    it cannot be created (a read-only audit dir), <per-user tmp>/alpr_audit_spill instead, with a note on stderr. The
+    working directory is refused: Path("") is ".", so a caller meaning "" (no spilling) would otherwise sweep it."""
+    if root is not None and str(root) in ("", "."):
+        raise ValueError('spill root "." (or Path("")): pass "" to disable spilling, or a directory of its own')
     r = Path(root).expanduser().resolve() if root else audit_dir().resolve() / SPILL
     try:
         r.mkdir(parents=True, exist_ok=True)
@@ -102,7 +105,8 @@ def duck_temp(root=None):
 def duck_connect(database=":memory:", *, read_only=False, spill_root=None, **settings):
     """Open DuckDB with this process's own spill directory (use_spill_dir) and the given settings, e.g.
     duck_connect(path, read_only=True, spill_root=A / "spill", threads=2, memory_limit="2GB"). Every tool opens DuckDB
-    through this (or audit_client.connect, which calls it), so none falls back to a shared spill directory. spill_root
+    through this (or audit_client.connect, which calls it), so none falls back to a shared spill directory, except
+    build_derived.py: it is derived.duckdb's only writer, so DuckDB's default derived.duckdb.tmp is its own. spill_root
     must be a directory these tools own (it is swept); "" disables spilling. String settings are quoted and escaped,
     numbers and booleans passed as they are, None skipped. On any error the connection is closed (no lock left)."""
     import duckdb

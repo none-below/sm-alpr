@@ -38,6 +38,9 @@ def test_names_are_unique_absolute_and_the_root_is_created(tmp_path, monkeypatch
     assert not any(n.exists() for n in names)          # DuckDB creates the directory itself, on the first spill
     monkeypatch.chdir(tmp_path)
     assert paths.duck_temp("rel").parent == tmp_path.resolve() / "rel"   # made absolute: DuckDB would resolve it per cwd
+    for cwd in (".", Path("")):                                         # Path("") is "."; never sweep the working dir
+        with pytest.raises(ValueError):
+            paths.duck_temp(cwd)
 
 
 def test_tilde_is_expanded(tmp_path, monkeypatch):
