@@ -1,0 +1,20 @@
+# Pinned environment for the audit DB build. Every version here changes what a build produces (cell text, parsed SMPD rows,
+# DuckDB hash() link keys), so it is exact, and uv.lock pins the rest. Run any script with:
+#   uv run --locked --project scripts/audit_db python scripts/audit_db/<script>.py
+# --locked fails instead of silently re-resolving when this file and uv.lock disagree.
+[project]
+name = "sm-alpr-audit-db"
+version = "0.1.0"
+requires-python = "==3.14.2"
+dependencies = [
+    "duckdb==1.5.5",
+    "openpyxl==3.1.5",
+    "pyarrow==25.0.1",         # the per-release Parquet chunk writer (next step); not used by the current build
+    "pymupdf==1.27.2.2",
+    "python-calamine==0.8.2",
+    "pyxlsb==1.0.10",
+    "pandas",                  # query convenience only (DuckDB .df() in the docs' examples); never part of a build
+]
+
+[tool.uv]
+package = false

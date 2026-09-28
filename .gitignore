@@ -63,3 +63,11 @@ assets/redwood-city-pras/*
 assets/los-altos-pras/*
 !assets/los-altos-pras/json/
 !assets/los-altos-pras/SharedNetworks_2026_July_6.csv
+
+# Audit DB build outputs, wherever a relative OUT path lands them (the databases hold raw plates; scripts/audit_db/README.md)
+*.duckdb
+*.duckdb.wal
+*.duckdb.tmp/
+*.link_tmp.duckdb
+muckrock_units/
+*.parquet

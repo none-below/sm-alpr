@@ -1,0 +1,31 @@
+{
+  "_doc": "Authored attribution for MuckRock releases: request_id -> the Flock org (registry flock_names spelling) that answered the request, i.e. whose audit export this is. Wins over filename / own-search inference. 'audit' overrides the file-shape classification where the request itself says what was asked for. Source for each: the MuckRock request (agency + title) in catalog_requests.json. A request can also carry 'files': {<zip member path, member or file name, or container file name>: {org, audit, source}} for a file that is not the answering agency's own log; a file entry wins over the request entry field by field, and its 'source' states the evidence. 'source' is loaded into truth.releases.producer_source.",
+  "173098": {"org": "Lodi CA PD", "source": "MuckRock 173098, Lodi Police Department, 'Flock audit logs'"},
+  "181220": {"org": "Nevada County CA SO", "source": "MuckRock 181220, Nevada County Sheriff's Office"},
+  "181227": {"org": "Marin County CA SO", "source": "MuckRock 181227, Marin County Sheriff"},
+  "181228": {"org": "Merced County CA SO", "source": "MuckRock 181228, Merced County Sheriff's Department"},
+  "187612": {"org": "San Jose CA PD", "source": "MuckRock 187612, San Jose Police Department"},
+  "188086": {"org": "Pasadena CA PD", "source": "MuckRock 188086, Pasadena Police Department (jurisdiction Pasadena, CA)",
+    "files": {
+      "SAMPLES/Denver_ALPR_Network_Searches_1.xlsx": {"org": "Denver Police Department", "audit": "network", "source": "MuckRock 188086 (Pasadena PD) production OneDrive_1_10-10-2025.zip, folder SAMPLES: a file named 'Denver_ALPR_Network_Searches_1.xlsx', not a Pasadena log. Checked 2026-09-25 on this release only: 0 of its 1,000,000 rows have Org Name 'Pasadena CA PD', and its rows are searches by many orgs (a network audit). Attributed on the file name to the registry's Denver entry (flock_names 'Denver Police Department'; the export spells the org 'Denver CO PD'). Not verifiable by Flock search UUID: the file has no ID column. Not a native Flock export: 6 columns (Org Name, Total Networks Searched, Total Devices Searched, Search Time, Search Type, Reason), Search Time formatted M/D/YYYY."}
+    }},
+  "191542": {"org": "Riverside County CA SO", "source": "MuckRock 191542, Riverside County Sheriff"},
+  "192645": {"org": "Atherton CA PD", "source": "MuckRock 192645, Atherton Police Department"},
+  "192816": {"org": "San Joaquin County CA SO", "source": "MuckRock 192816, San Joaquin County Sheriff's Office"},
+  "193052": {"org": "Oakland CA PD", "source": "MuckRock 193052, Oakland Police Department"},
+  "196330": {"org": "West Sacramento CA PD", "audit": "network", "source": "MuckRock 196330, 'Three Flock Safety Network Audit Records (West Sacramento Police Department)': rows are network-audit rows (searches by other organizations), not West Sacramento's own searches"},
+  "196338": {"org": "Truckee CA PD", "source": "MuckRock 196338, Truckee Police Department"},
+  "196333": {"org": "Vacaville CA PD", "source": "MuckRock 196333, Vacaville Police Department"},
+  "196355": {"org": "Richmond CA PD", "audit": "network", "source": "MuckRock 196355, 'Three Flock Safety Network Audit Records (Richmond Police Department)'"},
+  "196367": {"org": "Monrovia CA PD", "audit": "network", "source": "MuckRock 196367, 'Three Flock Safety Network Audit Records (Monrovia Police Department)'; files named ...-Monrovia_CA_PD-Network-Audit.csv"},
+  "196379": {"org": "Greenfield CA PD", "source": "MuckRock 196379, Greenfield Police Department"},
+  "196389": {"org": "Danville CA PD", "source": "MuckRock 196389, Danville Police Department CA"},
+  "196392": {"org": "Contra Costa County CA SO", "source": "MuckRock 196392, Contra Costa County Sheriff"},
+  "196397": {"org": "Cathedral City CA PD", "source": "MuckRock 196397, Cathedral City Police Department"},
+  "196409": {"org": "Alameda County CA SO", "source": "MuckRock 196409, Alameda County Sheriff's Office"},
+  "197131": {"org": "Mountain View Police Department", "source": "MuckRock 197131, Mountain View Police Department (registry flock_names spelling)"},
+  "197815": {"org": "Mountain View Police Department", "source": "MuckRock 197815, Mountain View Police Department (registry flock_names spelling)"},
+  "199970": {"org": "NCRIC", "source": "MuckRock 199970, Northern California Regional Intelligence Center"},
+  "209837": {"org": "Amador County CA Sheriff's Office", "source": "MuckRock 209837, Amador County Sheriff's Office (registry flock_names spelling)"},
+  "209838": {"org": "Arcadia CA PD", "source": "MuckRock 209838, Arcadia Police Department"}
+}

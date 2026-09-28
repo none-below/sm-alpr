@@ -1,0 +1,8 @@
+# Build outputs and local-only notes never belong in git here: the databases hold raw plates and verbatim released
+# text, and handoff notes can carry unpublished leads. The databases live in the primary checkout's .claude/audit_db/.
+*.duckdb
+*.duckdb.wal
+*.wal
+*.link_tmp.duckdb
+ingest.log
+HANDOFF*.md
