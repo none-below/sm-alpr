@@ -23,7 +23,7 @@ from pathlib import Path
 
 import duckdb
 
-from paths import CODE, audit_dir
+from paths import CODE, audit_dir, duck_temp
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
@@ -31,6 +31,7 @@ args = ap.parse_args()
 A = Path(args.audit_dir or audit_dir())
 D = CODE / "docs"
 con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
+con.execute(f"SET temp_directory='{duck_temp()}'")   # own spill dir: DuckDB's default <db>.tmp is shared by every reader
 con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
 con.execute("SET threads=1; SET memory_limit='1GB'")   # catalog + small tables only
 

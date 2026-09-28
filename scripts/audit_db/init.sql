@@ -15,6 +15,6 @@ SET VARIABLE init_truth_check = (SELECT error('init.sql: attached ' || t.path ||
     AND regexp_replace(t.path, '[^/]*$', '') <> regexp_replace(d.path, '[^/]*$', ''));
 SET threads = 4;
 SET memory_limit = '4GB';   -- modest, so the machine stays usable; raise for big scans
-SET temp_directory = '/tmp/alpr_duck_tmp';
+SET temp_directory = '/tmp/alpr_duck_tmp_' || uuid()::VARCHAR;   -- this session's own spill dir (paths.duck_temp)
 SET max_temp_directory_size = '8GiB';   -- a runaway query errors instead of filling the disk
 SET preserve_insertion_order = false;

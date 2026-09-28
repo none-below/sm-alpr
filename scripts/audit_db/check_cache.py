@@ -15,12 +15,13 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 import cache_fingerprint  # noqa: E402
-from paths import audit_dir  # noqa: E402
+from paths import audit_dir, duck_temp  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
 A = Path(ap.parse_args().audit_dir or audit_dir())
 con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
+con.execute(f"SET temp_directory='{duck_temp()}'")   # own spill dir: DuckDB's default <db>.tmp is shared by every reader
 con.execute("SET threads=1; SET memory_limit='1GB'")   # reads catalogs and the small truth tables only
 con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
 cols = {c for (c,) in con.execute("""SELECT column_name FROM duckdb_columns()

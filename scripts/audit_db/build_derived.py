@@ -17,11 +17,13 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 import cache_fingerprint  # noqa: E402
+from paths import duck_temp  # noqa: E402
 from sql_templates import (flock_rows_sql, sightings_flock_sql, sightings_smpd_sql, sources_flock_sql,  # noqa: E402
                            sources_smpd_sql)
 
 TRUTH, DERIVED = sys.argv[1], sys.argv[2]
 LIMITS = (f"SET threads={os.environ.get('AUDIT_DB_THREADS', '4')}; SET memory_limit='{os.environ.get('AUDIT_DB_MEMORY', '6GB')}'; "
+          f"SET temp_directory='{duck_temp(Path(DERIVED).resolve().parent / 'duck_tmp')}'; "   # this process's own spill dir
           "SET preserve_insertion_order=false")
 con = duckdb.connect(DERIVED)
 # modest defaults so the laptop stays usable; raise with AUDIT_DB_THREADS / AUDIT_DB_MEMORY for a faster build

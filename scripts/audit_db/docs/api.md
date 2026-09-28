@@ -21,10 +21,14 @@ uv run --locked --project scripts/audit_db python scripts/audit_db/<script>.py  
 |---|---|---|
 | `AUDIT_DB_DIR` | every tool | Audit dir to use instead of the one found through git (`paths.py`) |
 | `AUDIT_DB_THREADS`, `AUDIT_DB_MEMORY` | builds, `gen_stats.py` | DuckDB threads and memory limit (defaults 4 and 6GB) |
-| `AUDIT_DB_TEMP`, `AUDIT_DB_MAX_TEMP` | `gen_stats.py` | Spill directory (default `<system tmp>/alpr_duck_tmp`) and its cap (default 12GiB) |
+| `AUDIT_DB_TEMP`, `AUDIT_DB_MAX_TEMP` | `gen_stats.py` | Parent of the process's spill directory (default `<system tmp>/alpr_duck_tmp`) and the spill cap (default 12GiB) |
 | `PLATE_TOKEN_KEY` | `plate_key.py --install` | Plate-token key to install as the key file (CI) |
 
 Heavy jobs are meant to run niced at background QoS: prefix them with `nice -n 19 taskpolicy -b` (macOS).
+
+Every tool and every `init.sql` session spills into its own directory (`paths.duck_temp`), which DuckDB removes on
+close. DuckDB names its temp files by block size only, so two processes sharing one spill directory corrupt each
+other's queries. If you open the databases with `duckdb.connect` yourself, set `temp_directory` the same way.
 
 ## Querying from Python: `audit_client.py`
 
@@ -45,7 +49,7 @@ for r in ac.drill(con, "u:<Flock search UUID>"):
 
 | Function | Returns |
 |---|---|
-| `connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB")` | A read-only connection to `derived.duckdb` with `truth` attached read-only. Spills go to `temp_dir` (default `<system tmp>/alpr_duck_tmp`) and are capped at `max_temp`, so a runaway query fails instead of filling the disk. `audit_dir` defaults to the audit dir. |
+| `connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB")` | A read-only connection to `derived.duckdb` with `truth` attached read-only. Spills go to the connection's own subdirectory of `temp_dir` (default `<system tmp>/alpr_duck_tmp`) and are capped at `max_temp`, so a runaway query fails instead of filling the disk. `audit_dir` defaults to the audit dir. |
 | `sightings_for(con, pairs)` | A DuckDB relation with the `sightings` columns for a list of `(release_id, row_no)` pairs, ordered by `(release_id, row_no)`. Pairs not in truth are absent. Holds released text: local only. |
 | `citations_for(con, pairs)` | A relation with the `sighting_sources` columns for the same pairs: where each row is in the original, with a ready-to-paste citation. No cell values. |
 | `sightings_sql(pairs)`, `citations_sql(pairs)` | The SQL those two functions run, for use inside your own query. |

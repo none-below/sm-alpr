@@ -4,8 +4,8 @@ hand-edited).
   nice -n 19 taskpolicy -b uv run --locked --project scripts/audit_db python scripts/audit_db/gen_stats.py [--audit-dir DIR]
 
 Heavy (full scans of sightings, sightings_public, flock_rows and the linking cache): run it after a rebuild, not while
-you work. Limits: AUDIT_DB_THREADS (4), AUDIT_DB_MEMORY (6GB); spills go to AUDIT_DB_TEMP (default <system tmp>/
-alpr_duck_tmp) and are capped at AUDIT_DB_MAX_TEMP (12GiB), so a section that would need more fails and is reported as
+you work. Limits: AUDIT_DB_THREADS (4), AUDIT_DB_MEMORY (6GB); spills go to this process's own subdirectory of AUDIT_DB_TEMP
+(default <system tmp>/alpr_duck_tmp) and are capped at AUDIT_DB_MAX_TEMP (12GiB), so a section that would need more fails and is reported as
 not computed instead of filling the disk. Exit 1 if any section failed or the pre-export check could not be reported.
 The plate-token key is needed for the pre-export check (sightings_public errors without it); it is never printed.
 Sections:
@@ -18,13 +18,12 @@ import collections
 import os
 import re
 import sys
-import tempfile
 import time
 from pathlib import Path
 
 import duckdb
 
-from paths import audit_dir
+from paths import audit_dir, duck_temp
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
@@ -33,7 +32,7 @@ con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
 con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
 env = os.environ.get
 con.execute(f"SET threads={env('AUDIT_DB_THREADS', '4')}; SET memory_limit='{env('AUDIT_DB_MEMORY', '6GB')}'; "
-            f"SET temp_directory='{env('AUDIT_DB_TEMP', os.path.join(tempfile.gettempdir(), 'alpr_duck_tmp'))}'; "
+            f"SET temp_directory='{duck_temp(env('AUDIT_DB_TEMP'))}'; "
             f"SET max_temp_directory_size='{env('AUDIT_DB_MAX_TEMP', '12GiB')}'; SET preserve_insertion_order=false")
 q = lambda s, p=None: con.execute(s, p or []).fetchall()
 built = dict(q("SELECT key, value FROM truth.build_info"))

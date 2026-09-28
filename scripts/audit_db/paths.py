@@ -5,6 +5,8 @@ the CLIs that have --audit-dir let it override both, with no git needed.
 """
 import os
 import subprocess
+import tempfile
+import uuid
 from pathlib import Path
 
 CODE = Path(__file__).parent   # this directory: scripts, SQL, authored JSON facts, docs/
@@ -23,3 +25,15 @@ def audit_dir():
         raise SystemExit(f"cannot locate the audit dir through git ({err or 'git failed'}): set AUDIT_DB_DIR, "
                          "or pass --audit-dir to the tools that take it")
     return Path(r.stdout.strip()).parent / ".claude" / "audit_db"
+
+
+def duck_temp(parent=None):
+    """A spill directory for one DuckDB process: <parent>/<pid>-<random>, parent default <system tmp>/alpr_duck_tmp.
+
+    DuckDB 1.5 names its temp files by block size only (duckdb_temp_storage_S96K-0.tmp), so two processes that spill
+    into one directory read each other's files: the queries fail, or return wrong results. Every connection that can
+    spill gets its own directory. DuckDB creates it (one level only, hence the parent is created here) on the first
+    spill and removes it on close."""
+    parent = Path(parent) if parent else Path(tempfile.gettempdir()) / "alpr_duck_tmp"
+    parent.mkdir(parents=True, exist_ok=True)
+    return parent / f"{os.getpid()}-{uuid.uuid4().hex[:8]}"
