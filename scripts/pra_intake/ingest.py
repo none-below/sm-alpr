@@ -621,6 +621,15 @@ class Ingest:
         mode, until = head.get("ObjectLockMode"), head.get("ObjectLockRetainUntilDate")
         until, now = _aware(until) if until else None, self.now()
         held = head.get("ObjectLockEventHold") == "ON"  # an admin's event hold: it can't lapse, and isn't renewed
+        if not fresh and not held and mode is None:  # no lock shown: ask before renewing, a hold may be hidden
+            try:
+                shown = self.s3.get_object_retention(Bucket=self.evidence, Key=key,
+                                                     VersionId=head["VersionId"]).get("Retention") or {}
+            except Exception as e:  # without s3:GetObjectRetention this is AccessDenied: Transient, nothing renewed
+                if _code(e) != "NoSuchObjectLockConfiguration":
+                    raise
+                shown = {}  # never locked: the renewal locks it
+            held = shown.get("EventHold") == "ON"
         if not fresh and not held and (until is None or until < now + self._retention()[1] / 2):
             default_mode, period = self._retention(fresh=True)  # the rule as it is now, not as this container found it
             if until is None or until < now + period / 2:

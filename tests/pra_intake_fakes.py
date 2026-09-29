@@ -95,8 +95,14 @@ class FakeStream:
     def __init__(self, data, *, max_read=None, truncate_at=None, on_read=None, drop_at=None):
         self._data, self._pos, self._max, self._on_read, self._drop = data, 0, max_read, on_read, drop_at
         self._end = len(data) if truncate_at is None else min(truncate_at, len(data))
+        self._closed = False
+
+    def close(self):
+        self._closed = True
 
     def read(self, n=-1):
+        if self._closed:
+            raise ValueError("I/O operation on closed file")  # urllib3's response after close()
         if self._drop is not None and self._pos >= self._drop:
             raise ConnectionError("the connection dropped")  # urllib3's ProtocolError, as botocore sees it
         left = self._end - self._pos
@@ -472,6 +478,22 @@ class FakeS3:
             raise FakeClientError("ObjectLockConfigurationNotFoundError", 404, "GetObjectLockConfiguration")
         return {"ObjectLockConfiguration": {"ObjectLockEnabled": "Enabled", "Rule": {
             "DefaultRetention": {"Mode": b.lock_mode, "Days": b.lock_days}}}}
+
+    def get_object_retention(self, *, Bucket, Key, VersionId=None):
+        self._enter("get_object_retention", dict(Bucket=Bucket, Key=Key, VersionId=VersionId))
+        b = self._bucket(Bucket, "GetObjectRetention")
+        self._need("s3:GetObjectRetention", Bucket, "GetObjectRetention", Key)
+        versions = b.objects.get(Key) or []
+        found = [v for v in versions if v["version_id"] == VersionId] if VersionId else versions[-1:]
+        if not found or found[-1]["delete_marker"]:
+            raise FakeClientError("NoSuchKey" if not found else "MethodNotAllowed", 404 if not found else 405,
+                                  "GetObjectRetention")
+        v = found[-1]
+        if not v["lock_mode"] and not v.get("event_hold"):
+            raise FakeClientError("NoSuchObjectLockConfiguration", 404, "GetObjectRetention")
+        retention = {k: val for k, val in (("Mode", v["lock_mode"]), ("RetainUntilDate", v["lock_until"]),
+                                           ("EventHold", v.get("event_hold"))) if val}
+        return {"Retention": retention}
 
     def put_object_retention(self, *, Bucket, Key, Retention, VersionId=None, BypassGovernanceRetention=False):
         self._enter("put_object_retention", dict(Bucket=Bucket, Key=Key, VersionId=VersionId, Retention=Retention))

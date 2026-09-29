@@ -103,8 +103,9 @@ contradict it, a data object that isn't the one it describes, a blob it
 depends on that isn't held. Everything else is retried: throttling, 5xx, a
 dropped stream, a stored record that doesn't parse, and an Object Lock S3
 doesn't show (a missing `s3:GetObjectRetention`; a bucket without Object
-Lock fails at cold start; on an existing blob the Lambda first asks for the
-default lock, which S3 refuses if it would shorten or weaken one), and a
+Lock fails at cold start; on an existing blob whose HeadObject shows no lock the Lambda first asks
+GetObjectRetention, which fails the same way, then requests the default
+lock, which S3 refuses if it would shorten or weaken one), and a
 checksum S3 doesn't show on a blob this run just wrote or on one encrypted
 with SSE-KMS (a key the role can't use). Those are the deployment's
 problems, and the DLQ and its alarm are where they surface; `lock_missing`
@@ -153,8 +154,9 @@ of thousands of staged files; lifecycle removes ingested ones after a day).
 It logs one `sweep_file` line (uuid, state, reject reason) for each file that
 needs a person (rejected, deferred, stuck, orphaned data without a sidecar),
 then the counts, including stray keys, how many it didn't read (`unread`:
-no time left, or the chunk an error ended), whether it read the whole
-listing (`listed`), and the error that ended it early (`error`).
+files it had no time to reach, the ones whose read failed, and every file
+after the chunk an error ended), whether it read the whole listing
+(`listed`), and the error that ended it early (`error`).
 Logs hold uuids, SQS message ids, reason codes, field paths, problem
 descriptions (fixed text), sizes and code locations (file:line:function of
 this package), never presented text, URLs, keys that aren't ours, or
@@ -202,10 +204,11 @@ record.
      lock in its own mode, so a COMPLIANCE-locked blob's duplicates then
      wait in the DLQ until it lapses: keep a blob with a legal hold, not
      COMPLIANCE.
-  3. `s3:PutObjectRetention` and `s3:PutObject` when the request turns an
-     event hold on (the event-hold condition key equals `ON`; take its exact
-     name from the IAM service authorization reference for S3). Leave
-     turning a hold off undenied, so an admin can release one.
+  3. `s3:PutObjectRetention` and `s3:PutObject` when the request sets an
+     event hold at all, on or off (the event-hold condition key is present:
+     `Null` false; take its exact name from the IAM service authorization
+     reference for S3). The Lambda never sends one, and admins, exempt, can
+     still place or release a hold.
   4. `s3:PutObject` when `Null s3:object-lock-mode` is false (the Lambda never
      sends lock headers; don't use `StringNotEquals`, which also matches an
      absent key and would deny every write).

@@ -2123,7 +2123,8 @@ def test_a_renewal_that_loses_to_a_longer_one_is_accepted():  # L3
     u2, _ = stage(fake, CSV)
     out, logs = run(fake, u2)
     assert out.status == "already_stored"
-    assert "lock_renewed" not in [json.loads(line)["event"] for line in logs]
+    events = [json.loads(line)["event"] for line in logs]
+    assert "lock_renewed" not in events and events.count("lock_renewed_elsewhere") == 1
 
 
 def test_a_renewal_the_role_cant_make_is_retried():  # L3, T9
@@ -2301,9 +2302,10 @@ def hide_checksum(fake, key, sse=None):
                                         **({"ServerSideEncryption": sse} if sse else {})})
 
 
-def test_a_checksum_sse_kms_hides_is_retried_every_time(fake):  # P2
+@pytest.mark.parametrize("sse", ["aws:kms", "aws:kms:dsse"])
+def test_a_checksum_sse_kms_hides_is_retried_every_time(fake, sse):  # P2
     u, sc = stage(fake, CSV)
-    hide_checksum(fake, s.blob_key(sc["data"]["sha256"]), sse="aws:kms")
+    hide_checksum(fake, s.blob_key(sc["data"]["sha256"]), sse=sse)
     ing, _ = ingest(fake)
     for _ in range(3):  # the first run's own write, then the SQS retries that find it already stored
         with pytest.raises(ig.Transient):
@@ -2342,6 +2344,7 @@ def test_a_dropped_staging_stream_is_reopened_within_the_call(fake, at):  # R1, 
     fake.drop(STG, s.staging_data_key(u), at)
     assert run(fake, u)[0].status == "stored"
     assert len([c for c in fake.ops("get_object", STG) if c[2] == s.staging_data_key(u)]) == 2
+    assert fake.bytes_read[(STG, s.staging_data_key(u))] == at + len(BIG)  # dropped exactly at `at`, then read whole
     assert fake.current(EVD, s.blob_key(sc["data"]["sha256"]))["data"] == BIG
 
 
@@ -2404,18 +2407,40 @@ def test_a_renewal_uses_the_blobs_mode_only_while_its_lock_is_live(blob_mode, de
     assert record_of(fake, u2)["evidence"]["lock_mode"] == expected
 
 
-def test_a_warm_container_sees_a_lengthened_rule_after_its_ttl():  # R4
+@pytest.mark.parametrize("minutes,reread", [(10, False), (20, True)])
+def test_a_warm_container_rereads_the_rule_only_after_its_ttl(minutes, reread):  # R4
     fake = new_fake(lock_days=2)
     ing, _ = ingest(fake)
     ing.check_buckets()
     u1, sc = stage(fake, CSV)
     ing.process(s.staging_sidecar_key(u1))
-    key = s.blob_key(sc["data"]["sha256"])
-    fake.buckets[EVD].lock_days = 3650
-    fake.tick(int(1.5 * 86400))  # past the TTL; half a day left: fine under 2 days, short under 3650
+    fake.buckets[EVD].lock_days = 3650  # lengthened: the blob's ~2 days left is now under half the period
+    fake.tick(minutes * 60)
     u2, _ = stage(fake, CSV)
+    fake.calls.clear()
     assert ing.process(s.staging_sidecar_key(u2)).status == "already_stored"
-    assert fake.current(EVD, key)["lock_until"] > fake.now + timedelta(days=3000)
+    assert bool(fake.ops("put_object_retention")) is reread  # within the TTL the cached 2-day rule applies
+    assert bool(fake.ops("get_object_lock_configuration")) is reread
+    u3, _ = stage(fake, CSV)
+    fake.calls.clear()
+    assert ing.process(s.staging_sidecar_key(u3)).status == "already_stored"
+    assert not fake.ops("get_object_lock_configuration")  # a re-read restarts the TTL
+
+
+def test_a_renewal_within_the_ttl_uses_the_rule_as_it_is_now():  # M1 under R4's TTL
+    fake = new_fake(lock_days=3650)
+    ing, _ = ingest(fake)
+    ing.check_buckets()  # the rule, cached for RETENTION_TTL
+    fake.buckets[EVD].lock_days = 1  # an admin shortens it; the cache still says 3650 days
+    u1, sc = stage(fake, CSV)
+    assert ing.process(s.staging_sidecar_key(u1)).status == "stored"  # S3 locks it for 1 day
+    key = s.blob_key(sc["data"]["sha256"])
+    fake.tick(60)  # well inside the TTL: only the fresh re-read can see the shorter rule
+    u2, _ = stage(fake, CSV)
+    fake.calls.clear()
+    assert ing.process(s.staging_sidecar_key(u2)).status == "already_stored"
+    assert not fake.ops("put_object_retention")  # a day left is a full period by the rule as it is now
+    assert fake.current(EVD, key)["lock_until"] < fake.now + timedelta(days=2)
 
 
 def test_a_blob_under_an_event_hold_is_never_renewed(fake):  # R5
@@ -2493,3 +2518,157 @@ def test_an_approval_with_a_duplicate_key_is_refused(fake, gate):  # RT5
     assert_rejected(fake, u, out, "too_large")
     line = json.loads(logs[-1])
     assert (line["field"], line["problem"]) == ("approval", "duplicate key")
+
+
+def test_a_reopen_closes_the_stream_it_replaces():  # R1 (verification of f8dda5496)
+    sc = make_sidecar(BIG, "x", part_size=5 * MiB)
+    closed = []
+
+    class Closing(Chunks):
+        def close(self):
+            closed.append(self)
+            raise OSError("close failed")  # best effort: never the reopen's problem
+    streams = []
+    body = ig._CheckedBody(lambda: streams.append(Closing(BIG)) or streams[-1], sc)
+    body.read(1000)
+    assert body.seek(0) == 0
+    assert closed == [streams[0]]
+    assert b"".join(iter(lambda: body.read(3 * MiB), b"")) == BIG
+
+
+def test_a_failed_reopen_raises_and_leaves_the_body_as_it_was():  # P3
+    sc = make_sidecar(BIG, "x", part_size=5 * MiB)
+    opened = []
+
+    def open_stream():
+        opened.append(1)
+        if len(opened) == 2:
+            raise ConnectionError("the reopen's connection failed")
+        return Chunks(BIG)
+    body = ig._CheckedBody(open_stream, sc)
+    assert len(body.read(1000)) == 1000
+    with pytest.raises(ConnectionError):
+        body.seek(0)
+    assert isinstance(body.reopen_error, ConnectionError)
+    assert body.tell() == 1000  # a failed GET leaves the body as it was
+
+
+def test_a_released_event_hold_doesnt_stop_a_renewal():  # R5
+    fake = new_fake(lock_days=1)
+    key = lapsing(fake)
+    fake.current(EVD, key)["event_hold"] = "OFF"  # HeadObject says OFF once a hold is released
+    u2, _ = stage(fake, CSV)
+    fake.calls.clear()
+    assert run(fake, u2)[0].status == "already_stored"
+    assert fake.ops("put_object_retention")
+
+
+def test_a_lock_the_role_cant_see_is_never_renewed_blind(fake):  # hidden event hold
+    u1, sc = stage(fake, CSV)
+    run(fake, u1)
+    u2, _ = stage(fake, CSV)
+    fake.calls.clear()
+    ing, logs = ingest(fake, role=LAMBDA - {("s3:GetObjectRetention", EVD, s.BLOB_PREFIX)})
+    with pytest.raises(ig.Transient):
+        ing.process(s.staging_sidecar_key(u2))
+    assert not fake.ops("put_object_retention")  # a hold it can't see can't be released by a renewal
+    assert json.loads(logs[-1])["code"] == "AccessDenied"
+    assert_untouched(fake, u2)
+
+
+def test_a_never_locked_blob_is_locked_when_next_sighted(fake):
+    u1, sc = stage(fake, CSV)
+    run(fake, u1)
+    key = s.blob_key(sc["data"]["sha256"])
+    v = fake.current(EVD, key)
+    v["lock_mode"], v["lock_until"] = None, None  # written before the bucket had a rule
+    u2, _ = stage(fake, CSV)
+    assert ingest(fake)[0].process(s.staging_sidecar_key(u2)).status == "already_stored"
+    assert fake.ops("get_object_retention") and fake.current(EVD, key)["lock_until"] > fake.now + timedelta(days=3000)
+
+
+def test_a_sweep_chunk_with_two_failures_raises_the_first(fake):  # R2
+    lost = [stage(fake, f"lost {i}\n".encode())[0] for i in range(4)]
+    fake.tick(7200)
+    first, later = s.staging_sidecar_key(lost[3]), s.staging_sidecar_key(lost[1])  # newest first
+    fake.fail("get_object_tagging", code="InternalError", status=500, when=lambda kw: kw["Key"] == first)
+    fake.fail("get_object_tagging", code="AccessDenied", status=403, when=lambda kw: kw["Key"] == later)
+    sent, logs = [], []
+    with pytest.raises(FakeClientError) as e:
+        ig.sweep(fake.as_role(SWEEPER), staging_bucket=STG, send=sent.append, now=fake.now, log=logs.append,
+                 workers=4)
+    assert e.value.response["Error"]["Code"] == "InternalError"
+    assert json.loads(logs[-1])["unread"] == 2 and len(sent) == 2
+
+
+def test_the_fakes_once_only_fault_fires_once_across_threads(fake):  # RT4
+    import threading
+    u, _ = stage(fake, CSV)
+    key = s.staging_sidecar_key(u)
+    barrier = threading.Barrier(4, timeout=5)
+    fake.fail("get_object_tagging", code="InternalError", status=500,
+              when=lambda kw: barrier.wait() is not None)  # four threads pass the predicate together
+    got = []
+
+    def call():
+        try:
+            fake.get_object_tagging(Bucket=STG, Key=key)
+            got.append("ok")
+        except Exception as e:
+            got.append(type(e).__name__)
+    threads = [threading.Thread(target=call) for _ in range(4)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    assert sorted(got) == ["FakeClientError", "ok", "ok", "ok"]
+
+
+def test_an_early_error_reply_still_reads_the_whole_body(fake):  # RT2
+    fake.sdk_attempts = 3
+    u, sc = stage(fake, BIG, part_size=5 * MiB)
+    fake.fail("put_object", code="SlowDown", status=503, when=lambda kw: kw["Key"].startswith(s.BLOB_PREFIX))
+    assert run(fake, u)[0].status == "stored"
+    assert fake.bytes_read[(STG, s.staging_data_key(u))] == 2 * len(BIG)  # drained, then reopened
+
+
+def test_a_lying_body_is_rejected_even_when_s3_answers_early(fake):  # RT2
+    u, _ = stage(fake, BIG, part_size=5 * MiB, edit=lie_mp)  # only the body check can see this lie
+    fake.fail("put_object", code="SlowDown", status=503, when=lambda kw: kw["Key"].startswith(s.BLOB_PREFIX))
+    out, logs = run(fake, u)
+    assert_rejected(fake, u, out, "data_mismatch")
+    assert last_field(logs) == "sidecar.data.md5_multipart"
+
+
+def test_the_fakes_lock_config_locks_new_versions(fake):  # RN6
+    fake.buckets[EVD].lock_config = {"ObjectLockEnabled": "Enabled", "Rule": {"DefaultRetention": {
+        "Mode": "COMPLIANCE", "Years": 1}}}
+    u, sc = stage(fake, CSV)
+    assert run(fake, u)[0].status == "stored"
+    v = fake.current(EVD, s.blob_key(sc["data"]["sha256"]))
+    assert v["lock_mode"] == "COMPLIANCE"
+    assert fake.now + timedelta(days=364) < v["lock_until"] < fake.now + timedelta(days=366)
+
+
+def test_the_fakes_retention_acts_on_the_current_version(fake):  # RN6
+    key = s.blob_key("0" * 64)
+    fake.put_object(Bucket=EVD, Key=key, Body=CSV, ChecksumSHA256=b64_sha256(CSV), IfNoneMatch="*")
+    fake.delete_object(Bucket=EVD, Key=key)  # a delete marker is now the current version
+    marker = fake.buckets[EVD].objects[key][-1]["version_id"]
+    retention = {"Mode": "GOVERNANCE", "RetainUntilDate": fake.now + timedelta(days=4000)}
+    for kw in ({}, {"VersionId": marker}):
+        with pytest.raises(FakeClientError) as e:
+            fake.put_object_retention(Bucket=EVD, Key=key, Retention=retention, **kw)
+        assert (e.value.response["Error"]["Code"], e.value.response["ResponseMetadata"]["HTTPStatusCode"]) == (
+            "MethodNotAllowed", 405)
+    assert fake.buckets[EVD].objects[key][0]["lock_until"] < fake.now + timedelta(days=3651)
+
+
+def test_the_fakes_sdk_doesnt_retry_a_501(fake):  # RT2
+    fake.sdk_attempts = 3
+    u, _ = stage(fake, CSV)
+    fake.fail("put_object_body", code="NotImplemented", status=501,
+              when=lambda kw: kw["Key"].startswith(s.BLOB_PREFIX))
+    with pytest.raises(ig.Transient):
+        ingest(fake)[0].process(s.staging_sidecar_key(u))
+    assert len(blob_writes(fake)) == 1
