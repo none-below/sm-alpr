@@ -14,6 +14,8 @@ botocore showed it in the 2026-09-28 live probes and documentation:
     b64(sha256(part digests))-N COMPOSITE for multipart; UploadPartCopy
     reports the SHA-256 of the copied range;
   - ETags: MD5 for a single PUT (SSE-S3), md5(part MD5s)-N for multipart;
+    a multipart object's LastModified is when its upload was created, and
+    HeadObject with PartNumber reports that part's size and PartsCount;
   - If-Match on GET and CopySourceIfMatch on UploadPartCopy; ranged GETs;
   - event notifications for created objects, with S3's key URL-encoding;
   - a streamed PUT body is read like botocore/urllib3 do: it must have
@@ -215,14 +217,15 @@ class FakeS3:
             raise FakeClientError("PreconditionFailed", 412, op)
 
     def _store(self, b, key, data, *, etag, checksum_type, checksum, metadata, content_type,
-               content_disposition, op):
+               content_disposition, op, part_sizes=None, created=None):
         if b.lock_days and checksum is None and op == "PutObject":
             raise FakeClientError("InvalidRequest", 400, op)  # Object Lock needs Content-MD5 or a checksum
         self.tick()
         version = {
             "data": data, "etag": etag, "checksum_type": checksum_type, "checksum": checksum,
             "metadata": dict(metadata or {}), "tags": {}, "content_type": content_type or "binary/octet-stream",
-            "content_disposition": content_disposition, "last_modified": self.now, "delete_marker": False,
+            "content_disposition": content_disposition, "last_modified": created or self.now,
+            "part_sizes": part_sizes, "delete_marker": False,
             "version_id": f"v{next(self._ids)}" if b.versioned else "null",
             "lock_mode": b.lock_mode if b.lock_days else None,
             "lock_until": self.now + timedelta(days=b.lock_days) if b.lock_days else None,
@@ -326,14 +329,21 @@ class FakeS3:
             out.update(ChecksumSHA256=v["checksum"], ChecksumType=v["checksum_type"])
         return out
 
-    def head_object(self, *, Bucket, Key, ChecksumMode=None, VersionId=None, IfMatch=None):
-        self._enter("head_object", dict(Bucket=Bucket, Key=Key, VersionId=VersionId))
+    def head_object(self, *, Bucket, Key, ChecksumMode=None, VersionId=None, IfMatch=None, PartNumber=None):
+        self._enter("head_object", dict(Bucket=Bucket, Key=Key, VersionId=VersionId, PartNumber=PartNumber))
         b = self._bucket(Bucket, "HeadObject", head=True)
         self._need("s3:GetObject", Bucket, "HeadObject", head=True)
         v = self._version(b, Key, VersionId, "HeadObject", head=True)
         if IfMatch is not None and IfMatch != v["etag"]:
             raise FakeClientError("412", 412, "HeadObject")
         out = self._describe(b, v, ChecksumMode)
+        if PartNumber is not None:
+            sizes = v["part_sizes"] or [len(v["data"])]
+            if not 1 <= PartNumber <= len(sizes):
+                raise FakeClientError("416", 416, "HeadObject")
+            out["ContentLength"] = sizes[PartNumber - 1]
+            if v["part_sizes"]:
+                out["PartsCount"] = len(sizes)
         edit = self._head_edits.get((Bucket, Key))
         return edit(out) if edit else out
 
@@ -418,7 +428,8 @@ class FakeS3:
             raise FakeClientError("AccessDenied", 403, "CreateMultipartUpload")
         upload_id = f"upload-{next(self._ids)}"
         b.uploads[upload_id] = {"key": Key, "algorithm": ChecksumAlgorithm, "parts": {}, "metadata": Metadata,
-                                "content_type": ContentType, "content_disposition": ContentDisposition}
+                                "content_type": ContentType, "content_disposition": ContentDisposition,
+                                "created": self.tick()}
         return {"UploadId": upload_id, "Bucket": Bucket, "Key": Key}
 
     def _upload(self, b, key, upload_id, op):
@@ -500,7 +511,8 @@ class FakeS3:
         v = self._store(b, Key, b"".join(p["data"] for p in parts), etag=etag,
                         checksum_type="COMPOSITE" if checksum else None, checksum=checksum,
                         metadata=upload["metadata"], content_type=upload["content_type"],
-                        content_disposition=upload["content_disposition"], op="CompleteMultipartUpload")
+                        content_disposition=upload["content_disposition"], op="CompleteMultipartUpload",
+                        part_sizes=[len(p["data"]) for p in parts], created=upload["created"])
         out = {"ETag": etag, "Bucket": Bucket, "Key": Key}
         if b.versioned:
             out["VersionId"] = v["version_id"]

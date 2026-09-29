@@ -317,7 +317,7 @@ class Ingest:
     # --- the steps ------------------------------------------------------------------
 
     def _process(self, u, principal, allow_large):
-        sidecar_raw = self._read(self.staging, s.staging_sidecar_key(u), s.MAX_SIDECAR_BYTES)
+        sidecar_raw, committed = self._read_doc(self.staging, s.staging_sidecar_key(u), s.MAX_SIDECAR_BYTES)
         record_raw = self._read(self.evidence, s.record_key(u), s.MAX_RECORD_BYTES)
         if record_raw is not None:
             return self._recorded(u, record_raw, sidecar_raw)
@@ -327,7 +327,7 @@ class Ingest:
         sidecar = _checked(s.parse_sidecar, sidecar_raw, key=s.staging_sidecar_key(u))
         data = sidecar["data"]
         head = self._bind(u, sidecar)
-        self._check_gate(sidecar)
+        self._check_gate(sidecar, _aware(committed) if committed else self.now())
         self._check_references(u, sidecar, head)
         if data["size"] > self.max_lambda_size and not allow_large:
             self._tag(u, DEFERRED_TAGS)
@@ -395,9 +395,11 @@ class Ingest:
         _checked(s.check_staging_metadata, sidecar, head.get("Metadata") or {})
         return head
 
-    def _check_gate(self, sidecar):
-        """A file over COST_GATE needs an approval that covers it. An
-        approval covers its one source until it expires."""
+    def _check_gate(self, sidecar, committed):
+        """A file over COST_GATE needs an approval that covers it: its one
+        source, uploads committed (the sidecar written, by S3's clock) before
+        it expires. So a file deferred to the job, or retried, isn't refused
+        because it was processed after the approval ran out."""
         if sidecar["data"]["size"] <= s.COST_GATE:
             return
         name = sidecar["fetch"]["approval"]
@@ -405,7 +407,7 @@ class Ingest:
         if raw is None:
             raise Rejected("too_large", "sidecar.fetch.approval", "no such approval")
         try:
-            s.check_approval(s.parse_approval(raw), sidecar, self.now())
+            s.check_approval(s.parse_approval(raw), sidecar, committed)
         except s.SchemaError as e:
             raise Rejected("too_large", e.field, e.problem) from None
 
@@ -469,13 +471,16 @@ class Ingest:
             upload_id = self.s3.create_multipart_upload(
                 Bucket=self.evidence, Key=key, ChecksumAlgorithm="SHA256",
                 ContentType=s.EVIDENCE_CONTENT_TYPE, ContentDisposition=s.EVIDENCE_CONTENT_DISPOSITION)["UploadId"]
+            pool = ThreadPoolExecutor(self.workers)
             try:
-                with ThreadPoolExecutor(self.workers) as pool:
-                    done = list(pool.map(lambda n: self._copy_part(u, head, data, key, upload_id, n),
-                                         range(1, len(parts) + 1)))
+                done = list(pool.map(lambda n: self._copy_part(u, head, data, key, upload_id, n),
+                                     range(1, len(parts) + 1)))
             except BaseException:
+                pool.shutdown(cancel_futures=True)  # the first failure ends it: no more parts start
                 self._abort(key, upload_id)
                 raise
+            finally:
+                pool.shutdown()
             try:
                 complete = self.s3.complete_multipart_upload(
                     Bucket=self.evidence, Key=key, UploadId=upload_id, MultipartUpload={"Parts": done},
@@ -521,6 +526,9 @@ class Ingest:
             raise Transient("the blob isn't readable")
         if (head.get("ChecksumType"), head.get("ChecksumSHA256"), head.get("ContentLength")) != (
                 checksum_type, checksum, size):
+            if checksum_type == "COMPOSITE" and self._layout(key, head) != (len(parts), min(part_size, size)):
+                raise Rejected("layout_conflict", "evidence.part_size",
+                               "the blob at the key was stored on other part boundaries (its bytes aren't compared)")
             raise Rejected("evidence_conflict", "evidence.checksum_sha256", "the stored blob isn't these bytes")
         mode, until = head.get("ObjectLockMode"), head.get("ObjectLockRetainUntilDate")
         if mode not in s.LOCK_MODES or until is None or _aware(until) <= self.now():
@@ -529,6 +537,17 @@ class Ingest:
                 "checksum_type": checksum_type, "checksum_sha256": checksum,
                 "part_size": part_size, "part_sha256": list(parts) if parts else None,
                 "lock_mode": mode, "retain_until": s.format_timestamp(_aware(until))}
+
+    def _layout(self, key, head):
+        """(parts, first part's size) of the blob version `head` describes.
+        The same bytes cut the same way have the same composite checksum."""
+        if head.get("ChecksumType") != "COMPOSITE":
+            return None
+        kw = {"Bucket": self.evidence, "Key": key, "PartNumber": 1}
+        if head.get("VersionId"):
+            kw["VersionId"] = head["VersionId"]
+        first = self.s3.head_object(**kw)
+        return first.get("PartsCount"), first.get("ContentLength")
 
     def _put_record(self, u, record):
         """Write the record once. False if one is already there."""
@@ -565,17 +584,21 @@ class Ingest:
     def _read(self, bucket, key, limit):
         """Up to limit + 1 bytes of a small document (so an oversized one
         fails its parser), or None if there's no such object."""
+        return self._read_doc(bucket, key, limit)[0]
+
+    def _read_doc(self, bucket, key, limit):
+        """_read, and when S3 says the object was written."""
         try:
             got = self.s3.get_object(Bucket=bucket, Key=key)
         except Exception as e:
             if _is_missing(e):
-                return None
+                return None, None
             raise
         want = min(got["ContentLength"], limit + 1)
         raw = _read_up_to(got["Body"], want)
         if len(raw) < want:
             raise Transient("a document's stream ended early")
-        return raw
+        return raw, got.get("LastModified")
 
     def _tag(self, u, tags):
         """Tag the data object, then the sidecar (which the sweep reads)."""
@@ -686,7 +709,9 @@ def handler(event, context=None, *, ingest=None, sqs=None, retry_after=60):
                 raise Transient("no time left in this invocation")
             for key, principal in staging_keys(message, ingest.staging):
                 ingest.process(key, principal=principal)
-        except Transient:
+        except Exception as e:  # only this message is retried; the rest of the batch goes on
+            if not isinstance(e, Transient):
+                ingest.log("message_error", error=type(e).__name__)
             failures.append({"itemIdentifier": message.get("messageId")})
             queue_url = os.environ.get("QUEUE_URL")
             if queue_url and message.get("receiptHandle"):
@@ -736,7 +761,10 @@ def sweep(s3, *, staging_bucket, send, now, min_age=timedelta(hours=1), remainin
             if remaining_ms is not None and remaining_ms() < SWEEP_RESERVE_MS:
                 counts["unread"] = len(waiting) - i
                 break
-            _sweep_one(s3, staging_bucket, obj["Key"], send, redrive, counts)
+            state = _sweep_one(s3, staging_bucket, obj["Key"], send, redrive, counts)
+            if state:  # one line per file that needs a person, for whoever triages or runs the job
+                log(json.dumps({"event": "sweep_file", "uuid": s.parse_staging_key(obj["Key"])[0], **state},
+                               sort_keys=True))
     finally:
         log(json.dumps({"event": "sweep", **counts}, sort_keys=True))
     return counts
@@ -751,18 +779,22 @@ def _sweep_one(s3, bucket, key, send, redrive, counts):
         raise
     tags = {t["Key"]: t["Value"] for t in tagset}
     if tags.get(s.INGESTED_TAG[0]) == s.INGESTED_TAG[1]:
-        return
-    if tags.get("intake") in ("rejected", "deferred"):
-        counts[tags["intake"]] += 1
-        return
+        return None
+    if tags.get("intake") == "rejected":
+        counts["rejected"] += 1
+        reason = tags.get("reason")
+        return {"state": "rejected", "reason": reason if reason in s.REJECT_REASONS else None}
+    if tags.get("intake") == "deferred":
+        counts["deferred"] += 1
+        return {"state": "deferred"}
     if key.endswith(s.DATA_SUFFIX):
         counts["orphans"] += 1
-        return
+        return {"state": "orphan"}
     tries = tags.get(REDRIVES_TAG, "0")
     tries = int(tries) if tries.isascii() and tries.isdigit() else MAX_REDRIVES  # garbled: a person looks
     if tries >= MAX_REDRIVES:
         counts["stuck"] += 1
-        return
+        return {"state": "stuck"}
     if redrive:
         try:
             s3.put_object_tagging(Bucket=bucket, Key=key,

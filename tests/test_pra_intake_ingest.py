@@ -1278,12 +1278,36 @@ def test_references_are_checked_before_deferral(fake):
     assert_rejected(fake, u, run(fake, u, max_lambda_size=MiB)[0], "missing_blob")
 
 
-def test_the_job_checks_the_approval_again(fake, gate):
+def test_an_approval_covers_an_upload_committed_before_it_expired(fake, gate):
+    """The cross-review's repro: approved, uploaded, deferred; the approval
+    runs out an hour later and the job runs two hours later."""
     sc = over_gate()
-    put_approval(fake, sc, expires_at="2026-09-28T18:30:00Z")
+    put_approval(fake, sc, expires_at="2026-09-28T19:00:00Z")
     u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
     assert run(fake, u, max_lambda_size=MiB)[0].status == "deferred"
-    fake.tick(3600)
+    fake.tick(2 * 3600)
+    assert run(fake, u, allow_large=True)[0].status == "stored"
+
+
+def test_an_upload_committed_after_its_approval_expired_is_too_large(fake, gate):
+    sc = over_gate()
+    put_approval(fake, sc, expires_at="2026-09-28T18:30:00Z")
+    fake.tick(3600)  # the writer uploads after the approval ran out
+    u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
+    out, logs = run(fake, u, allow_large=True)
+    assert_rejected(fake, u, out, "too_large")
+    assert last_field(logs) == "approval.expires_at"
+
+
+def test_the_commit_time_is_the_sidecars_not_the_data_objects(fake, gate):
+    """A multipart data object's LastModified is when its upload began; the
+    sidecar, written last, is when the upload was committed."""
+    sc = over_gate()
+    put_approval(fake, sc, expires_at="2026-09-28T18:00:30Z")
+    fake.before("complete_multipart_upload", lambda kw: fake.tick(60), when=lambda kw: kw["Bucket"] == STG)
+    u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
+    assert fake.current(STG, s.staging_data_key(u))["last_modified"] < fake.current(
+        STG, s.staging_sidecar_key(u))["last_modified"]
     assert_rejected(fake, u, run(fake, u, allow_large=True)[0], "too_large")
 
 
@@ -1336,11 +1360,31 @@ def test_a_large_duplicate_is_verified_and_not_copied(fake, large):
     assert ("get_object", STG, s.staging_data_key(u2)) in fake.calls
 
 
-def test_a_large_duplicate_on_other_parts_is_a_conflict(fake, large):
+def test_a_large_duplicate_on_other_parts_is_a_layout_conflict(fake, large):
+    """v1 records one layout per blob, so this sighting can't be recorded;
+    it isn't a sign the stored bytes differ."""
     u1, _ = stage(fake, BIG, part_size=5 * MiB)
     run(fake, u1)
     u2, _ = stage(fake, BIG, part_size=6 * MiB)
-    assert_rejected(fake, u2, run(fake, u2)[0], "evidence_conflict")
+    out, logs = run(fake, u2)
+    assert_rejected(fake, u2, out, "layout_conflict")
+    assert last_field(logs) == "evidence.part_size"
+
+
+def test_other_bytes_on_the_same_parts_are_an_evidence_conflict(fake, large):
+    u, sc = stage(fake, BIG, part_size=5 * MiB)
+    other = blob(len(BIG), 8)
+    key = s.blob_key(sc["data"]["sha256"])
+    mpu = fake.create_multipart_upload(Bucket=EVD, Key=key, ChecksumAlgorithm="SHA256")
+    parts = []
+    for n, i in enumerate(range(0, len(other), 5 * MiB), 1):
+        got = fake.upload_part(Bucket=EVD, Key=key, UploadId=mpu["UploadId"], PartNumber=n,
+                               Body=other[i:i + 5 * MiB])
+        parts.append({"PartNumber": n, "ETag": got["ETag"], "ChecksumSHA256": got["ChecksumSHA256"]})
+    fake.complete_multipart_upload(Bucket=EVD, Key=key, UploadId=mpu["UploadId"],
+                                   MultipartUpload={"Parts": parts}, IfNoneMatch="*")
+    ing, logs = ingest(fake)  # not run(): the planted blob would fail check_evidence
+    assert_rejected(fake, u, ing.process(s.staging_sidecar_key(u)), "evidence_conflict")
 
 
 @pytest.mark.parametrize("edit,reason", [(lie_sha, "sha_mismatch"), (lie_md5, "data_mismatch"),
@@ -1358,6 +1402,17 @@ def test_a_failed_part_copy_aborts_the_upload_and_is_retried(fake, large):
         run(fake, u, workers=1)
     assert not fake.buckets[EVD].uploads and not fake.keys(EVD)
     assert run(fake, u)[0].status == "stored"
+
+
+def test_a_failed_part_copy_starts_no_more_parts(fake, large):
+    import time
+    u, _ = stage(fake, BIG, part_size=5 * MiB)
+    fake.fail("upload_part_copy", when=lambda kw: kw["PartNumber"] == 1)
+    fake.before("upload_part_copy", lambda kw: time.sleep(0.3), when=lambda kw: kw["PartNumber"] == 2)
+    with pytest.raises(ig.Transient):
+        run(fake, u, workers=1)
+    assert [c for c in fake.ops("upload_part_copy")] and len(fake.ops("upload_part_copy")) <= 2
+    assert not fake.buckets[EVD].uploads
 
 
 def test_a_failed_complete_aborts_the_upload_and_is_retried(fake, large):
@@ -1480,6 +1535,33 @@ def test_the_handler_reports_only_the_failed_message_and_hastens_its_retry(fake,
     assert record_of(fake, u1) is None and record_of(fake, u2) is not None
 
 
+def test_a_malformed_message_doesnt_sink_its_batch(fake):
+    """The cross-review's repro: a bad record before a good one."""
+    u, _ = stage(fake, CSV)
+    ing, _ = ingest(fake)
+    good = sqs_message(fake.event(STG, s.staging_sidecar_key(u)), "good")
+    bad = sqs_message({"Records": [{"s3": "x"}]}, "bad")
+    assert ig.handler({"Records": [bad, good]}, ingest=ing) == {"batchItemFailures": []}
+    assert record_of(fake, u) is not None
+
+
+def test_a_message_the_code_cant_handle_fails_alone(fake, monkeypatch):
+    u1, _ = stage(fake, CSV)
+    u2, _ = stage(fake, b"second\n")
+    ing, logs = ingest(fake)
+    real = ig.staging_keys
+
+    def buggy(message, bucket):
+        if message["messageId"] == "m-0":
+            raise KeyError("a bug")
+        return real(message, bucket)
+    monkeypatch.setattr(ig, "staging_keys", buggy)
+    messages = [sqs_message(fake.event(STG, s.staging_sidecar_key(u)), f"m-{i}") for i, u in enumerate((u1, u2))]
+    assert ig.handler({"Records": messages}, ingest=ing) == {"batchItemFailures": [{"itemIdentifier": "m-0"}]}
+    assert json.loads(logs[0]) == {"event": "message_error", "error": "KeyError"}
+    assert record_of(fake, u1) is None and record_of(fake, u2) is not None
+
+
 def test_a_failing_visibility_change_still_reports_the_failure(fake, monkeypatch):
     monkeypatch.setenv("QUEUE_URL", QUEUE)
     u, _ = stage(fake, CSV)
@@ -1510,11 +1592,13 @@ def test_the_handler_takes_no_message_it_hasnt_time_for(fake):
 # --- The sweep ------------------------------------------------------------------------------
 
 
-def sweep(fake, now=None, **kw):
+def sweep(fake, now=None, lines=None, **kw):
     sent, logs = [], []
     counts = ig.sweep(fake.as_role(SWEEPER), staging_bucket=STG, send=sent.append, now=now or fake.now,
                       log=logs.append, **kw)
-    assert json.loads(logs[0]) == {"event": "sweep", **counts}
+    assert json.loads(logs[-1]) == {"event": "sweep", **counts}
+    if lines is not None:
+        lines.extend(json.loads(line) for line in logs[:-1])
     return counts, sent
 
 
@@ -1549,7 +1633,16 @@ def test_the_sweep_redrives_lost_files_and_counts_the_rest(fake):
     young, _ = stage(fake, b"young\n")
     young_orphan = next_uuid()
     fake.put_object(Bucket=STG, Key=s.staging_data_key(young_orphan), Body=b"o", IfNoneMatch="*")
-    counts, sent = sweep(fake, now=edge_time + timedelta(hours=1))  # `edge` is exactly min_age old
+    lines = []
+    counts, sent = sweep(fake, now=edge_time + timedelta(hours=1), lines=lines)  # `edge` is exactly min_age old
+    by = lambda d: json.dumps(d, sort_keys=True)  # noqa: E731
+    assert sorted(lines, key=by) == sorted([
+        {"event": "sweep_file", "uuid": rejected, "state": "rejected", "reason": "bad_sidecar"},
+        {"event": "sweep_file", "uuid": no_data, "state": "rejected", "reason": "no_data"},
+        {"event": "sweep_file", "uuid": deferred, "state": "deferred"},
+        {"event": "sweep_file", "uuid": stuck, "state": "stuck"},
+        {"event": "sweep_file", "uuid": orphan, "state": "orphan"},
+    ], key=by)
     assert sent == [{"staging_key": s.staging_sidecar_key(lost)}]
     assert counts == {"redriven": 1, "rejected": 2, "deferred": 1, "stuck": 1, "orphans": 1, "stray": 1,
                       "unread": 0}
@@ -1591,7 +1684,7 @@ def test_a_failed_send_gives_the_redrive_back_and_still_logs(fake):
         ig.sweep(fake.as_role(SWEEPER), staging_bucket=STG, send=send, now=fake.now, log=logs.append)
     assert seen == [{ig.REDRIVES_TAG: "1"}]
     assert fake.tags(STG, s.staging_sidecar_key(u)) == {}
-    assert json.loads(logs[0])["event"] == "sweep"
+    assert json.loads(logs[-1])["event"] == "sweep"
 
 
 def test_the_sweep_skips_a_file_removed_before_its_redrive(fake):

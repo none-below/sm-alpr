@@ -39,7 +39,9 @@ Lambda. The library and the infrastructure come in later PRs.
      names one source (kind, platform, host, request, doc id, URL), a size
      ceiling and an expiry; the Lambda reads it and `check_approval` refuses
      a file from any other source (`too_large`). It covers every upload from
-     its source until it expires, so keep expiries short.
+     its source committed before it expires (the sidecar's write time, by
+     S3's clock), however late the Lambda or the one-off job gets to it; keep
+     expiries short.
 4. It reads the blob back (checksum, size, Object Lock), then writes the
    intake record `_intake/<uuid>.json` (write-once, one per sighting). Last, it
    tags both staging objects `ingested=true`; lifecycle removes tagged objects.
@@ -51,7 +53,11 @@ once. While the blob's current version exists, the second copy gets a 412,
 is verified, and adds only a record. (If an admin's delete marker is current,
 the write succeeds as a new version; read-back verifies it either way.)
 Records don't say which sighting was first; the earliest record for a blob
-version is.
+version is. One exception: a blob over 5 GB records the part boundaries it
+was copied on, and v1 records one layout per blob, so the same bytes staged
+on other boundaries are rejected `layout_conflict` (the bytes themselves
+aren't compared). The library makes the part size a function of the file
+size alone, so this only happens if that function changes.
 
 ## The Lambda
 
@@ -88,10 +94,20 @@ for it. (Checked live 2026-09-28 with botocore's CRT and pure-Python
 signers.) A duplicate's bytes are read and checked the same way.
 
 `ingest.sweep` (scheduled) re-drives each untagged sidecar older than an hour,
-newest first, at most `MAX_REDRIVES` times (counted in a `redrives` tag), and
-logs counts of rejected, deferred, stuck, orphaned (data without a sidecar)
-and stray keys, and how many it had no time to read. Logs hold uuids, reason
-codes, field paths and sizes, never presented text, URLs or metadata values.
+newest first, at most `MAX_REDRIVES` times (counted in a `redrives` tag). It
+logs one `sweep_file` line (uuid, state, reject reason) for each file that
+needs a person (rejected, deferred, stuck, orphaned data without a sidecar),
+then the counts, including stray keys and how many it had no time to read.
+Logs hold uuids, reason codes, field paths and sizes, never presented text,
+URLs, keys that aren't ours, or metadata values.
+
+**Order of writes.** Whatever a file refers to must be recorded before the
+file is staged: the Lambda rejects a fetch manifest naming a sha256 evidence
+doesn't hold, or a backfill whose `stamp_ref` isn't held (`missing_blob`),
+and never retries it. So a manifest lists a file `held` only once the
+library has seen that file's intake record. A file the Lambda deferred has
+no record yet: the manifest lists it `failed` with reason `deferred`, and a
+later run lists it `held` once the job has stored it.
 
 ### Deployment (PR 4 pins these)
 
@@ -176,7 +192,9 @@ allow, so one that validates always serializes; a manifest is capped at
   blob's version, checksum and lock, and the staging object's ETag, encryption,
   checksum, and the hash of the sidecar's bytes. It has no clock and no request
   id. Two writes for one sighting can differ only in `ingest` (code version,
-  trigger path) and in the lock read back; a 412 compares `record_core`.
+  trigger path) and in the lock read back. After a 412 the stored record
+  stands if it describes the same staging objects (sidecar hash, data
+  ETag); a different `record_core` (another blob version) is logged.
 - **Fetch manifest**: what one run found for one request. Each file gets its
   name, doc id, URL, sha256, size and status (`held`, `failed`, or
   `needs_approval` with reason `too_large`). It is stored as a blob like any

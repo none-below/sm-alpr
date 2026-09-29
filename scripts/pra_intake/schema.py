@@ -107,6 +107,7 @@ REJECT_REASONS = frozenset({
     "missing_blob",  # a fetch manifest names a sha256 evidence doesn't hold
     "manifest_mismatch",  # a manifest's sidecar and body describe different requests
     "evidence_conflict",  # the blob already at the key fails read-back
+    "layout_conflict",  # a file over SINGLE_PUT_MAX already stored on other part boundaries (v1 records one layout)
     "lock_missing",  # the stored blob doesn't carry the expected Object Lock (the Lambda retries it instead)
 })
 
@@ -1648,8 +1649,9 @@ def validate_record(obj, *, stored=False):
     are the sidecar's; and the buckets are one environment's staging and
     evidence buckets. A record holds no clock or request id. Two writes for
     one sighting can differ in `ingest` (code version, trigger path) and in
-    the lock read back (evidence.retain_until, evidence.lock_mode); a 412
-    compares record_core only. stored=True reads a stored one (no write policy)."""
+    the lock read back (evidence.retain_until, evidence.lock_mode); after a
+    412 the Lambda compares record_core. stored=True reads a stored one (no
+    write policy)."""
     _require_schema(obj, "record", "bad_record")
     with _reading(stored):
         return _record_validator(obj)(obj)
@@ -1679,9 +1681,11 @@ RECORD_CORE_FIELDS = ("uuid", "sha256", "size", "evidence_key", "evidence_versio
 
 
 def record_core(record):
-    """The fields that must agree when two writers race for one record key and
-    the second gets a 412: what was stored, and from which staging bytes. It
-    reads the raw fields, so it works on records of any schema version."""
+    """What two writers racing for one record key should agree on: what was
+    stored, and from which staging bytes. The loser of the race keeps the
+    stored record when its staging bytes match, and logs a different core
+    (another blob version). It reads the raw fields, so it works on records
+    of any schema version."""
     return {
         "uuid": record["uuid"],
         "sha256": record["sha256"],

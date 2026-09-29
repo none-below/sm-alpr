@@ -1718,7 +1718,12 @@ def test_vocabulary_is_pinned():
     """If this fails, an invariant a v1 reader applies changed. That needs a
     new schema version (with the old one still readable), not a regenerated
     fixture."""
-    assert json.loads((FIXTURES / "vocabulary.json").read_text()) == vocabulary()
+    pinned, current = json.loads((FIXTURES / "vocabulary.json").read_text()), vocabulary()
+    # Reject reasons name staging tags and log lines, never anything stored in
+    # evidence: a new one may be added, but none removed or repurposed (a tag
+    # already in staging would lose its meaning).
+    assert set(pinned.pop("REJECT_REASONS")) <= set(current.pop("REJECT_REASONS"))
+    assert pinned == current
 
 
 def test_policy_is_pinned():
