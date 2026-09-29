@@ -40,7 +40,8 @@ import json
 import os
 import re
 import sys
-from concurrent.futures import ThreadPoolExecutor
+import traceback
+from concurrent.futures import FIRST_EXCEPTION, ThreadPoolExecutor, wait
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from urllib.parse import unquote_plus
@@ -290,7 +291,8 @@ class Ingest:
             raise
         except Exception as e:  # S3, the network, or a bug: retried, then the DLQ
             extra = {"reason": e.reason, "field": e.field} if isinstance(e, s.SchemaError) else {}
-            self.log("transient", uuid=u, error=type(e).__name__, code=_code(e), status=_http_status(e), **extra)
+            self.log("transient", uuid=u, error=type(e).__name__, code=_code(e), status=_http_status(e),
+                     where=_where(e), **extra)
             raise Transient(type(e).__name__) from e
 
     def _reject(self, u, e):
@@ -473,14 +475,16 @@ class Ingest:
                 ContentType=s.EVIDENCE_CONTENT_TYPE, ContentDisposition=s.EVIDENCE_CONTENT_DISPOSITION)["UploadId"]
             pool = ThreadPoolExecutor(self.workers)
             try:
-                done = list(pool.map(lambda n: self._copy_part(u, head, data, key, upload_id, n),
-                                     range(1, len(parts) + 1)))
+                copies = [pool.submit(self._copy_part, u, head, data, key, upload_id, n)
+                          for n in range(1, len(parts) + 1)]
+                wait(copies, return_when=FIRST_EXCEPTION)  # whichever part fails first, not the next in order
+            finally:
+                pool.shutdown(cancel_futures=True)  # no more parts start, and those in flight land before an abort
+            try:
+                done = [c.result() for c in copies]
             except BaseException:
-                pool.shutdown(cancel_futures=True)  # the first failure ends it: no more parts start
                 self._abort(key, upload_id)
                 raise
-            finally:
-                pool.shutdown()
             try:
                 complete = self.s3.complete_multipart_upload(
                     Bucket=self.evidence, Key=key, UploadId=upload_id, MultipartUpload={"Parts": done},
@@ -526,7 +530,10 @@ class Ingest:
             raise Transient("the blob isn't readable")
         if (head.get("ChecksumType"), head.get("ChecksumSHA256"), head.get("ContentLength")) != (
                 checksum_type, checksum, size):
-            if checksum_type == "COMPOSITE" and self._layout(key, head) != (len(parts), min(part_size, size)):
+            if not head.get("ChecksumSHA256"):
+                raise Rejected("evidence_conflict", "evidence.checksum_type", "the stored blob has no SHA-256 to verify")
+            if (checksum_type == head.get("ChecksumType") == "COMPOSITE" and head.get("ContentLength") == size
+                    and self._layout(key, head) != (len(parts), min(part_size, size))):
                 raise Rejected("layout_conflict", "evidence.part_size",
                                "the blob at the key was stored on other part boundaries (its bytes aren't compared)")
             raise Rejected("evidence_conflict", "evidence.checksum_sha256", "the stored blob isn't these bytes")
@@ -539,10 +546,8 @@ class Ingest:
                 "lock_mode": mode, "retain_until": s.format_timestamp(_aware(until))}
 
     def _layout(self, key, head):
-        """(parts, first part's size) of the blob version `head` describes.
-        The same bytes cut the same way have the same composite checksum."""
-        if head.get("ChecksumType") != "COMPOSITE":
-            return None
+        """(parts, first part's size) of the composite blob version `head`
+        describes. The same bytes cut the same way have the same composite."""
         kw = {"Bucket": self.evidence, "Key": key, "PartNumber": 1}
         if head.get("VersionId"):
             kw["VersionId"] = head["VersionId"]
@@ -615,6 +620,14 @@ class Ingest:
             self.s3.abort_multipart_upload(Bucket=self.evidence, Key=key, UploadId=upload_id)
         except Exception:
             pass  # the bucket's lifecycle aborts incomplete uploads anyway
+
+
+def _where(exc):
+    """Where in this package an exception came from, innermost last: file,
+    line and function only, never a value (logs carry no presented text)."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    return [f"{os.path.basename(f.filename)}:{f.lineno}:{f.name}" for f in traceback.extract_tb(exc.__traceback__)
+            if os.path.dirname(os.path.abspath(f.filename)) == here][-6:]
 
 
 def _read_up_to(stream, n):
@@ -711,7 +724,8 @@ def handler(event, context=None, *, ingest=None, sqs=None, retry_after=60):
                 ingest.process(key, principal=principal)
         except Exception as e:  # only this message is retried; the rest of the batch goes on
             if not isinstance(e, Transient):
-                ingest.log("message_error", error=type(e).__name__)
+                ingest.log("message_error", message_id=message.get("messageId"), error=type(e).__name__,
+                           where=_where(e))
             failures.append({"itemIdentifier": message.get("messageId")})
             queue_url = os.environ.get("QUEUE_URL")
             if queue_url and message.get("receiptHandle"):

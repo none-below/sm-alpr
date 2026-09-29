@@ -1720,9 +1720,11 @@ def test_vocabulary_is_pinned():
     fixture."""
     pinned, current = json.loads((FIXTURES / "vocabulary.json").read_text()), vocabulary()
     # Reject reasons name staging tags and log lines, never anything stored in
-    # evidence: a new one may be added, but none removed or repurposed (a tag
-    # already in staging would lose its meaning).
-    assert set(pinned.pop("REJECT_REASONS")) <= set(current.pop("REJECT_REASONS"))
+    # evidence: a new one may be added (pin it here too), but none removed or
+    # repurposed (a tag already in staging would lose its meaning).
+    old, new = set(pinned.pop("REJECT_REASONS")), set(current.pop("REJECT_REASONS"))
+    assert old <= new, f"reject reasons removed: {sorted(old - new)}"
+    assert new <= old, f"new reject reasons: add {sorted(new - old)} to vocabulary.json"
     assert pinned == current
 
 

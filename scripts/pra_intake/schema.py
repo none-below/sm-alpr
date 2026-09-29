@@ -1467,7 +1467,8 @@ def sidecar_bytes(obj):
 # An admin writes approvals/<uuid>.json in the ops bucket to let one source's
 # file over COST_GATE through. It names the source exactly, caps the size and
 # expires. It covers every upload from that source (retries, re-releases)
-# until it expires, and no file from any other source; keep expiries short.
+# committed before it expires, and no file from any other source; keep
+# expiries short, and keep the object until the files it covers are recorded.
 # A sidecar names it in fetch.approval; the Lambda reads it and calls
 # check_approval.
 APPROVAL_KIND = "cost_gate_approval"

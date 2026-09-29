@@ -165,8 +165,9 @@ def stage(fake, data, *, part_size=None, u=None, edit=None, sidecar=None, metada
 def ingest(fake, *, role=LAMBDA, **kw):
     logs = []
     kw.setdefault("log", logs.append)
+    kw.setdefault("now", lambda: fake.now)
     return ig.Ingest(fake.as_role(role), staging_bucket=STG, evidence_bucket=EVD, ops_bucket=OPS,
-                     code_sha256=CODE, now=lambda: fake.now, **kw), logs
+                     code_sha256=CODE, **kw), logs
 
 
 def run(fake, u, **kw):
@@ -323,7 +324,7 @@ DUPLICATES = [  # (data, part_size, mp): every staging layout a duplicate can ar
     (CSV, None, False), (CSV, None, True), (BIG, 5 * MiB, False), (BIG, 5 * MiB, True)]
 
 
-@pytest.mark.parametrize("data,part_size,mp", DUPLICATES)
+@pytest.mark.parametrize("data,part_size,mp", DUPLICATES, ids=["put", "put-mp", "multipart", "multipart-mp"])
 def test_a_duplicates_bytes_are_read_and_its_claims_checked(fake, data, part_size, mp):
     u1, _ = stage(fake, data, part_size=part_size, mp=mp)
     run(fake, u1)
@@ -540,6 +541,15 @@ def test_a_failure_at_any_step_is_retried_to_the_same_end(fake, op, when):
     assert staging_tags(fake, u) == (s.ingested_tags(sc["data"]["sha256"]),) * 2
 
 
+def test_a_missing_bucket_is_never_read_as_a_missing_key(fake):
+    u, _ = stage(fake, CSV)
+    fake.fail("get_object", code="NoSuchBucket", status=404, when=lambda kw: kw["Key"] == s.record_key(u))
+    with pytest.raises(ig.Transient):
+        ingest(fake)[0].process(s.staging_sidecar_key(u))
+    assert_untouched(fake, u)
+    assert not blob_writes(fake)
+
+
 def test_a_403_is_never_read_as_a_missing_key(fake):
     u, _ = stage(fake, CSV)
     ing, _ = ingest(fake, role=LAMBDA - {("s3:ListBucket", EVD)})
@@ -561,6 +571,7 @@ def test_a_schema_error_while_recording_is_retried_and_says_why(fake, monkeypatc
     line = json.loads(logs[-1])
     assert (line["event"], line["reason"], line["field"]) == ("transient", "invalid_metadata",
                                                               "record.ingest.principal")
+    assert line["where"][-1].startswith("ingest.py:") and line["where"][-1].endswith(":_process")
     assert_untouched(fake, u)
 
 
@@ -1306,9 +1317,29 @@ def test_the_commit_time_is_the_sidecars_not_the_data_objects(fake, gate):
     put_approval(fake, sc, expires_at="2026-09-28T18:00:30Z")
     fake.before("complete_multipart_upload", lambda kw: fake.tick(60), when=lambda kw: kw["Bucket"] == STG)
     u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
-    assert fake.current(STG, s.staging_data_key(u))["last_modified"] < fake.current(
+    expires = s.parse_timestamp("2026-09-28T18:00:30Z")
+    assert fake.current(STG, s.staging_data_key(u))["last_modified"] < expires <= fake.current(
         STG, s.staging_sidecar_key(u))["last_modified"]
     assert_rejected(fake, u, run(fake, u, allow_large=True)[0], "too_large")
+
+
+@pytest.mark.parametrize("margin,status", [(timedelta(seconds=1), "stored"), (timedelta(0), "rejected")])
+def test_an_approval_covers_uploads_committed_until_it_expires(fake, gate, margin, status):
+    sc = over_gate()
+    u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
+    committed = fake.current(STG, s.staging_sidecar_key(u))["last_modified"]
+    put_approval(fake, sc, expires_at=s.format_timestamp(committed + margin))
+    fake.tick(7200)
+    assert run(fake, u, allow_large=True)[0].status == status
+
+
+def test_the_approval_is_judged_by_s3s_clock_not_the_lambdas(fake, gate):
+    sc = over_gate()
+    u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
+    committed = fake.current(STG, s.staging_sidecar_key(u))["last_modified"]
+    put_approval(fake, sc, expires_at=s.format_timestamp(committed - timedelta(seconds=1)))
+    ing, _ = ingest(fake, now=lambda: committed - timedelta(hours=1))  # a Lambda clock running behind
+    assert_rejected(fake, u, ing.process(s.staging_sidecar_key(u)), "too_large")
 
 
 def test_a_file_too_big_for_the_lambda_is_deferred_then_done_by_the_job(fake):
@@ -1371,20 +1402,69 @@ def test_a_large_duplicate_on_other_parts_is_a_layout_conflict(fake, large):
     assert last_field(logs) == "evidence.part_size"
 
 
-def test_other_bytes_on_the_same_parts_are_an_evidence_conflict(fake, large):
-    u, sc = stage(fake, BIG, part_size=5 * MiB)
-    other = blob(len(BIG), 8)
-    key = s.blob_key(sc["data"]["sha256"])
-    mpu = fake.create_multipart_upload(Bucket=EVD, Key=key, ChecksumAlgorithm="SHA256")
+def plant_parts(fake, key, data, part_size, algorithm="SHA256"):
+    """An admin writes `data` at an evidence key, multipart."""
+    mpu = fake.create_multipart_upload(Bucket=EVD, Key=key, **({"ChecksumAlgorithm": algorithm} if algorithm else {}))
     parts = []
-    for n, i in enumerate(range(0, len(other), 5 * MiB), 1):
+    for n, i in enumerate(range(0, len(data), part_size), 1):
         got = fake.upload_part(Bucket=EVD, Key=key, UploadId=mpu["UploadId"], PartNumber=n,
-                               Body=other[i:i + 5 * MiB])
-        parts.append({"PartNumber": n, "ETag": got["ETag"], "ChecksumSHA256": got["ChecksumSHA256"]})
+                               Body=data[i:i + part_size])
+        parts.append({"PartNumber": n, "ETag": got["ETag"], **(
+            {"ChecksumSHA256": got["ChecksumSHA256"]} if algorithm else {})})
     fake.complete_multipart_upload(Bucket=EVD, Key=key, UploadId=mpu["UploadId"],
                                    MultipartUpload={"Parts": parts}, IfNoneMatch="*")
-    ing, logs = ingest(fake)  # not run(): the planted blob would fail check_evidence
-    assert_rejected(fake, u, ing.process(s.staging_sidecar_key(u)), "evidence_conflict")
+
+
+def conflict(fake, u):
+    ing, logs = ingest(fake)  # not run(): a planted blob would fail check_evidence
+    out = ing.process(s.staging_sidecar_key(u))
+    return out.reason, last_field(logs)
+
+
+@pytest.mark.parametrize("plant,expected", [
+    (lambda f, k: plant_parts(f, k, blob(len(BIG), 8), 5 * MiB), ("evidence_conflict", "evidence.checksum_sha256")),
+    (lambda f, k: plant_parts(f, k, blob(8 * MiB, 8), 5 * MiB), ("evidence_conflict", "evidence.checksum_sha256")),
+    (lambda f, k: f.put_object(Bucket=EVD, Key=k, Body=b"x" * 100, ChecksumSHA256=b64_sha256(b"x" * 100),
+                               IfNoneMatch="*"), ("evidence_conflict", "evidence.checksum_sha256")),
+    (lambda f, k: plant_parts(f, k, BIG, 5 * MiB, algorithm=None), ("evidence_conflict", "evidence.checksum_type")),
+], ids=["other-bytes-same-parts", "other-size", "single-put", "no-sha256"])
+def test_a_blob_that_isnt_these_bytes_is_an_evidence_conflict(fake, large, plant, expected):
+    """layout_conflict only for a same-size SHA-256 composite on other
+    boundaries; anything that provably differs is evidence_conflict."""
+    u, sc = stage(fake, BIG, part_size=5 * MiB)
+    plant(fake, s.blob_key(sc["data"]["sha256"]))
+    assert conflict(fake, u) == expected
+
+
+def test_a_different_first_part_size_alone_is_a_layout_conflict(fake, large):
+    real = 5 * MiB + MiB // 2
+    u1, sc = stage(fake, BIG, part_size=real)  # two parts
+    run(fake, u1)
+    u2, _ = stage(fake, BIG, part_size=6 * MiB)  # two parts too, cut elsewhere
+    assert conflict(fake, u2) == ("layout_conflict", "evidence.part_size")
+
+
+def test_a_single_part_upload_compares_its_one_parts_real_size(fake, large):
+    """Part size 12 MiB for an 11 MiB file: one part of 11 MiB. Other bytes
+    in one 11 MiB part at the key are an evidence conflict, not a layout one."""
+    u, sc = stage(fake, BIG, part_size=12 * MiB)
+    plant_parts(fake, s.blob_key(sc["data"]["sha256"]), blob(len(BIG), 8), 12 * MiB)
+    assert conflict(fake, u) == ("evidence_conflict", "evidence.checksum_sha256")
+
+
+@pytest.mark.parametrize("stored_parts,expected", [(6 * MiB, "layout_conflict"), (5 * MiB, "evidence_conflict")])
+def test_the_layout_is_read_from_the_blob_version_read_back(fake, large, stored_parts, expected):
+    """A new version lands between the read-back HEAD and the layout HEAD:
+    the layout must be the version whose checksum was compared."""
+    u, sc = stage(fake, BIG, part_size=5 * MiB)
+    key = s.blob_key(sc["data"]["sha256"])
+    plant_parts(fake, key, BIG if stored_parts == 6 * MiB else blob(len(BIG), 8), stored_parts)
+
+    def replace(kw):
+        fake.delete_object(Bucket=EVD, Key=key)
+        plant_parts(fake, key, BIG, 5 * MiB if stored_parts == 6 * MiB else 6 * MiB)
+    fake.before("head_object", replace, when=lambda kw: kw.get("PartNumber") == 1)
+    assert conflict(fake, u)[0] == expected
 
 
 @pytest.mark.parametrize("edit,reason", [(lie_sha, "sha_mismatch"), (lie_md5, "data_mismatch"),
@@ -1404,14 +1484,36 @@ def test_a_failed_part_copy_aborts_the_upload_and_is_retried(fake, large):
     assert run(fake, u)[0].status == "stored"
 
 
-def test_a_failed_part_copy_starts_no_more_parts(fake, large):
+def test_a_failed_part_stops_the_copy_without_waiting_for_earlier_parts(fake, large):
+    """Part 2 fails while part 1 is still copying: the parts queued behind
+    them never start (Executor.map would have waited for part 1, then run
+    them all)."""
+    import time
+    data = blob(40 * MiB, 30)
+    u, _ = stage(fake, data, part_size=5 * MiB)
+    fake.before("upload_part_copy", lambda kw: time.sleep(0.5), when=lambda kw: kw["PartNumber"] == 1)
+    fake.fail("upload_part_copy", when=lambda kw: kw["PartNumber"] == 2)
+    with pytest.raises(ig.Transient):
+        run(fake, u, workers=2)
+    assert len(fake.ops("upload_part_copy")) <= 3  # parts 1 and 2, and at most one a free worker took first
+    assert not fake.buckets[EVD].uploads and not fake.keys(EVD)
+
+
+def test_the_upload_is_aborted_only_after_parts_in_flight_land(fake, large):
+    import threading
     import time
     u, _ = stage(fake, BIG, part_size=5 * MiB)
-    fake.fail("upload_part_copy", when=lambda kw: kw["PartNumber"] == 1)
-    fake.before("upload_part_copy", lambda kw: time.sleep(0.3), when=lambda kw: kw["PartNumber"] == 2)
+    started, seen = threading.Event(), []
+    fake.fail("upload_part_copy", when=lambda kw: kw["PartNumber"] == 1 and started.wait(5))
+
+    def slow(kw):
+        started.set()
+        time.sleep(0.3)
+        seen.append(bool(fake.buckets[EVD].uploads))  # the upload is still open as this part lands
+    fake.before("upload_part_copy", slow, when=lambda kw: kw["PartNumber"] == 2)
     with pytest.raises(ig.Transient):
-        run(fake, u, workers=1)
-    assert [c for c in fake.ops("upload_part_copy")] and len(fake.ops("upload_part_copy")) <= 2
+        run(fake, u, workers=2)
+    assert seen == [True]
     assert not fake.buckets[EVD].uploads
 
 
@@ -1526,10 +1628,11 @@ def test_the_handler_reports_only_the_failed_message_and_hastens_its_retry(fake,
     u1, _ = stage(fake, CSV)
     u2, _ = stage(fake, b"second\n")
     fake.fail("put_object", when=lambda kw: kw["Key"] == s.record_key(u1))
-    ing, _ = ingest(fake)
+    ing, logs = ingest(fake)
     sqs = FakeSQS()
     messages = [sqs_message(fake.event(STG, s.staging_sidecar_key(u)), f"m-{i}") for i, u in enumerate((u1, u2))]
     assert ig.handler({"Records": messages}, ingest=ing, sqs=sqs) == {"batchItemFailures": [{"itemIdentifier": "m-0"}]}
+    assert "message_error" not in [json.loads(line)["event"] for line in logs]  # a transient failure isn't a bug
     assert sqs.calls == [("change_message_visibility", {"QueueUrl": QUEUE, "ReceiptHandle": "rh-m-0",
                                                         "VisibilityTimeout": 60})]
     assert record_of(fake, u1) is None and record_of(fake, u2) is not None
@@ -1546,9 +1649,11 @@ def test_a_malformed_message_doesnt_sink_its_batch(fake):
 
 
 def test_a_message_the_code_cant_handle_fails_alone(fake, monkeypatch):
+    monkeypatch.setenv("QUEUE_URL", QUEUE)
     u1, _ = stage(fake, CSV)
     u2, _ = stage(fake, b"second\n")
     ing, logs = ingest(fake)
+    sqs = FakeSQS()
     real = ig.staging_keys
 
     def buggy(message, bucket):
@@ -1557,8 +1662,12 @@ def test_a_message_the_code_cant_handle_fails_alone(fake, monkeypatch):
         return real(message, bucket)
     monkeypatch.setattr(ig, "staging_keys", buggy)
     messages = [sqs_message(fake.event(STG, s.staging_sidecar_key(u)), f"m-{i}") for i, u in enumerate((u1, u2))]
-    assert ig.handler({"Records": messages}, ingest=ing) == {"batchItemFailures": [{"itemIdentifier": "m-0"}]}
-    assert json.loads(logs[0]) == {"event": "message_error", "error": "KeyError"}
+    assert ig.handler({"Records": messages}, ingest=ing, sqs=sqs) == {"batchItemFailures": [{"itemIdentifier": "m-0"}]}
+    line = json.loads(logs[0])
+    assert (line["event"], line["message_id"], line["error"]) == ("message_error", "m-0", "KeyError")
+    assert line["where"] == [line["where"][0]] and line["where"][0].endswith(":handler")
+    assert sqs.calls == [("change_message_visibility", {"QueueUrl": QUEUE, "ReceiptHandle": "rh-m-0",
+                                                        "VisibilityTimeout": 60})]
     assert record_of(fake, u1) is None and record_of(fake, u2) is not None
 
 
@@ -1701,8 +1810,22 @@ def test_the_sweep_skips_a_file_removed_after_the_listing(fake):
     fake.tick(7200)
     fake.before("get_object_tagging", lambda kw: fake.delete_object(Bucket=STG, Key=kw["Key"]),
                 when=lambda kw: kw["Key"] == s.staging_sidecar_key(u))
-    counts, sent = sweep(fake)
+    lines = []
+    counts, sent = sweep(fake, lines=lines)
     assert sent == [{"staging_key": s.staging_sidecar_key(lost)}]
+    assert lines == []
+
+
+def test_the_sweep_logs_only_known_reject_codes(fake):
+    u, _ = stage(fake, CSV)
+    for key in (s.staging_data_key(u), s.staging_sidecar_key(u)):
+        fake.put_object_tagging(Bucket=STG, Key=key, Tagging={"TagSet": [
+            {"Key": "intake", "Value": "rejected"}, {"Key": "reason", "Value": SENTINELS[0]}]})
+    fake.tick(7200)
+    lines = []
+    counts, _ = sweep(fake, lines=lines)
+    assert counts["rejected"] == 1
+    assert lines == [{"event": "sweep_file", "uuid": u, "state": "rejected", "reason": None}]
 
 
 def test_the_sweep_goes_newest_first_and_stops_in_time(fake):

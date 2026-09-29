@@ -41,12 +41,21 @@ Lambda. The library and the infrastructure come in later PRs.
      a file from any other source (`too_large`). It covers every upload from
      its source committed before it expires (the sidecar's write time, by
      S3's clock), however late the Lambda or the one-off job gets to it; keep
-     expiries short.
+     expiries short. Every file over `COST_GATE` is also over
+     `LAMBDA_MAX_SIZE`, so it waits for the job, which reads the approval
+     again: keep the approval object until every file it covers has a
+     record. Expiry limits when an upload may be committed, not how long the
+     object is kept.
 4. It reads the blob back (checksum, size, Object Lock), then writes the
    intake record `_intake/<uuid>.json` (write-once, one per sighting). Last, it
    tags both staging objects `ingested=true`; lifecycle removes tagged objects.
-5. The library returns once the record exists and its sha256 equals the hash
-   the library computed itself.
+5. The library waits for one of three outcomes. It succeeds when
+   `_intake/<uuid>.json` exists and its sha256 equals the hash the library
+   computed itself. It stops early when the staging objects are tagged
+   `intake=deferred` or `intake=rejected` (with `reason`); those tags are the
+   Lambda's final word, since a run that sets them looks for a record once
+   more. With no outcome by its own timeout, it stops without one. It reads
+   the outcome from the tags, never infers it from the file's size.
 
 Identical bytes from any source (MuckRock, a portal, a local copy) are stored
 once. While the blob's current version exists, the second copy gets a 412,
@@ -57,7 +66,9 @@ version is. One exception: a blob over 5 GB records the part boundaries it
 was copied on, and v1 records one layout per blob, so the same bytes staged
 on other boundaries are rejected `layout_conflict` (the bytes themselves
 aren't compared). The library makes the part size a function of the file
-size alone, so this only happens if that function changes.
+size alone (PR 3 puts it in `schema.py` and pins it), so this only happens
+if that function changes. A stored blob of another size, or without a
+SHA-256 composite, is `evidence_conflict`.
 
 ## The Lambda
 
@@ -98,16 +109,22 @@ newest first, at most `MAX_REDRIVES` times (counted in a `redrives` tag). It
 logs one `sweep_file` line (uuid, state, reject reason) for each file that
 needs a person (rejected, deferred, stuck, orphaned data without a sidecar),
 then the counts, including stray keys and how many it had no time to read.
-Logs hold uuids, reason codes, field paths and sizes, never presented text,
-URLs, keys that aren't ours, or metadata values.
+Logs hold uuids, SQS message ids, reason codes, field paths, sizes and code
+locations (file:line:function of this package), never presented text, URLs,
+keys that aren't ours, or metadata values. An unexpected error fails only its
+own message and is logged as `message_error` (or `transient` with `where`)
+rather than failing the invocation, so alarm on those lines as well as on the
+DLQ.
 
 **Order of writes.** Whatever a file refers to must be recorded before the
 file is staged: the Lambda rejects a fetch manifest naming a sha256 evidence
 doesn't hold, or a backfill whose `stamp_ref` isn't held (`missing_blob`),
 and never retries it. So a manifest lists a file `held` only once the
 library has seen that file's intake record. A file the Lambda deferred has
-no record yet: the manifest lists it `failed` with reason `deferred`, and a
-later run lists it `held` once the job has stored it.
+no record yet, so the manifest lists it `failed` with reason `deferred`; a
+rejected file is listed `failed` with its reject code as the reason, and one
+with no outcome by the library's timeout `failed` with reason `pending`. A
+later run lists any of them `held` once a record exists.
 
 ### Deployment (PR 4 pins these)
 
@@ -124,6 +141,10 @@ later run lists it `held` once the job has stored it.
   SQS: `ReceiveMessage`, `DeleteMessage`, `GetQueueAttributes` (the event
   source) and `ChangeMessageVisibility` for the ingest role; `SendMessage`
   for the sweep's.
+- The writer (library) role: `s3:PutObject` on `in/*` with If-None-Match,
+  and `s3:GetObjectTagging` on `in/*` to read the Lambda's outcome.
+- The ops bucket: no lifecycle rule may touch `approvals/` (an approval must
+  outlive the job for every file it covers).
 - The staging bucket policy: only the ingest role sets tags; the sweep role
   may set only the `redrives` key (`ForAllValues:StringEquals
   s3:RequestObjectTagKeys ["redrives"]` with `Null s3:RequestObjectTagKeys
