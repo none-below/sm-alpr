@@ -91,7 +91,8 @@ class Rejected(Exception):
 
 
 class Transient(Exception):
-    """Retry later. Nothing was tagged."""
+    """Retry later. Nothing new was tagged, except a rejected or deferred tag
+    written just before the failure; the retry settles the tags either way."""
 
 
 class _ClaimMismatch(Exception):

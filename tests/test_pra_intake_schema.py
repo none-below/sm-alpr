@@ -1736,20 +1736,39 @@ def test_policy_is_pinned():
 
 
 def sniff_samples():
-    """First bytes covering every branch of sniff_type, as hex -> type."""
-    heads = [b"", b" \n", b"hello, world\n", b"tab\tform\x0cfeed\x1a\x1b end", b"bin\x00ary", b"\x0b",
-             b"%PDF-1.7\n", b"x" * 100 + b"%PDF-1.4", b"a" * 1019 + b"%PDF-", b"a" * 1020 + b"%PDF-",
-             b"PK\x03\x04rest", b"PK\x05\x06", b"PK\x07\x08", bytes.fromhex("d0cf11e0a1b11ae1") + b"x",
-             b"\x1f\x8b\x08", bytes.fromhex("377abcaf271c"), b"Rar!\x1a\x07\x00", bytes.fromhex("fd377a585a00"),
-             b"BZh91AY", b"SQLite format 3\x00", b"\x89PNG\r\n\x1a\n", b"\xff\xd8\xff\xe0", b"GIF87a", b"GIF89a",
-             b"II*\x00", b"MM\x00*", b"RIFF\x00\x00\x00\x00WAVE", b"RIFF\x00\x00\x00\x00WEBP", b"ID3\x04",
-             b"\xff\xfb\x90", b"\xff\xf3", b"\xff\xf2", bytes.fromhex("3026b2758e66cf11"), bytes.fromhex("1a45dfa3"),
-             b"OggS\x00", b"fLaC", b"{\\rtf1", b"\x00\x00\x00\x18ftypmp42", b"\x00\x00\x00\x20ftypheic",
-             b"BM\x36\x00\x0c\x00\x00\x00\x00\x00", b"BMnot a bitmap", b"<!DOCTYPE html><p>",
-             b"  \r\n<HTML>", b"<head>", b"<body>", b"\xef\xbb\xbf<html>", b"<?xml version='1.0'?><a/>",
-             b"<?xml version='1.0'?><html>", "caf\u00e9 \u4e2d".encode("utf-8"),
-             b"\xff\xfe" + "text".encode("utf-16-le"), b"\xfe\xff" + "<html>".encode("utf-16-be"),
-             b"\xff\xfe" + "a\x01b".encode("utf-16-le"), b"\xff\xfe\x00"]
+    """First bytes covering every branch and boundary of sniff_type, as hex -> type:
+    every byte value alone, after text and before text; every magic, cut one
+    byte short and shifted by one; the text, UTF-16, PDF, ISO-BMFF and BMP
+    boundaries; and a seeded mix."""
+    import random
+    heads = [b"", b" \n\t\r\x0c"]
+    for b in range(256):
+        heads += [bytes([b]), b"text " + bytes([b]), bytes([b]) + b" text"]
+    magics = [m for m, _ in s._MAGIC] + [b"BM", b"\xef\xbb\xbf", b"\xff\xfe", b"\xfe\xff"]
+    for m in magics:
+        heads += [m, m + b"rest\x00", m[:-1], b" " + m, m.upper(), m.lower()]
+    for off in (0, 1, 500, 1018, 1019, 1020, 1023, 1024):
+        heads += [b"a" * off + b"%PDF-1.7", b"\x00" * off + b"%PDF-1.7"]
+    for tag in (b"<!doctype html>", b"<html>", b"<head>", b"<body>", b"<?xml version='1.0'?>", b"<div>", b"<svg>"):
+        for pre in (b"", b" \r\n\t\x0c", b"\xef\xbb\xbf", b"\xef\xbb\xbf  "):
+            heads += [pre + tag + b"x", pre + tag.upper() + b"x", pre + tag + b"<html>"]
+    for text in ("text", "<html>", "<?xml?><html>", "<?xml?><a/>", "a\x01b", "a\x1bb", "a\x1ab", "caf\u00e9"):
+        for bom, codec in ((b"\xff\xfe", "utf-16-le"), (b"\xfe\xff", "utf-16-be")):
+            heads += [bom + text.encode(codec), bom + text.encode(codec) + b"\x00"]
+    heads += [b"<!doctype svg>", b"<!DOCTYPE xml>x", b" <!doctype  html>", b"<!doctypehtml>"]
+    for bom, codec in ((b"\xff\xfe", "utf-16-le"), (b"\xfe\xff", "utf-16-be")):  # a lone surrogate before the text
+        lone = "\ud800".encode(codec, "surrogatepass")
+        heads += [bom + lone + "<html>".encode(codec), bom + lone + "text".encode(codec)]
+    for at in (3, 4, 5):
+        heads.append(b"\x00" * at + b"ftypisom" + b"\x00" * 8)
+    for reserved in (b"\x00\x00\x00\x00", b"\x00\x00\x00\x01", b"\x01\x00\x00\x00"):
+        heads += [b"BM\x36\x00\x0c\x00" + reserved, b"BM\x36\x00\x0c" + reserved]
+    heads += [b"x" * 2000, b"x" * 1023 + b"\x00", b"x" * 1024 + b"\x00", "\u4e2d\u6587".encode("utf-8") * 200]
+    rng = random.Random(20260929)
+    alphabets = [bytes(range(32, 127)), bytes(range(256)), b"\t\n\r abc<>?!/", "\u00e9\u4e2d\U0001f600 a".encode()]
+    for _ in range(300):
+        alphabet = rng.choice(alphabets)
+        heads.append(bytes(rng.choice(alphabet) for _ in range(rng.choice((1, 8, 64, 700, 1100)))))
     return {h.hex(): s.sniff_type(h) for h in heads}
 
 

@@ -52,10 +52,12 @@ Lambda. The library and the infrastructure come in later PRs.
 5. The library waits for one of three outcomes. It succeeds when
    `_intake/<uuid>.json` exists and its sha256 equals the hash the library
    computed itself. It stops early when the staging objects are tagged
-   `intake=deferred` or `intake=rejected` (with `reason`); those tags are the
-   Lambda's final word, since a run that sets them looks for a record once
-   more. With no outcome by its own timeout, it stops without one. It reads
-   the outcome from the tags, never infers it from the file's size.
+   `intake=deferred` or `intake=rejected` (with `reason`): the outcome so
+   far. A record written later (the one-off job, or a retry after a
+   transient error) supersedes those tags, so a record is always the answer
+   and a later run lists the file `held` once one exists. With no outcome by
+   its own timeout, it stops without one. It reads the outcome from the tags
+   and records, never infers it from the file's size.
 
 Identical bytes from any source (MuckRock, a portal, a local copy) are stored
 once. While the blob's current version exists, the second copy gets a 412,
@@ -82,7 +84,7 @@ file ends one of four ways:
 | `stored`, `already_stored`, `recorded` | `ingested=true`, `sha256=<hex>` | lifecycle removes both objects |
 | `rejected` | `intake=rejected`, `reason=<code>` | kept for a person; the reason is one of `REJECT_REASONS` |
 | `deferred` | `intake=deferred` | the one-off job above |
-| transient error | none | SQS retries after 60 s, then the DLQ |
+| transient error | none new, or a `rejected`/`deferred` tag written just before it | SQS retries after 60 s, then the DLQ; the retry settles the tags |
 
 A rejection is a fact about the upload: a bad sidecar, bytes that
 contradict it, a data object that isn't the one it describes, a blob it
@@ -133,7 +135,11 @@ library has seen that file's intake record. A file the Lambda deferred has
 no record yet, so the manifest lists it `failed` with reason `deferred`; a
 rejected file is listed `failed` with its reject code as the reason, and one
 with no outcome by the library's timeout `failed` with reason `pending`. A
-later run lists any of them `held` once a record exists.
+later run lists any of them `held` once a record exists. An admin's delete
+marker over a blob hides it from the Lambda too: a manifest naming it is
+rejected `missing_blob` until the bytes are uploaded again (a new version),
+so a connector re-fetches such a file rather than list it from an old
+record.
 
 ### Deployment (PR 4 pins these)
 
@@ -158,7 +164,9 @@ later run lists any of them `held` once a record exists.
   the file is recorded, 1 when rejected or deferred, 2 on a retryable error
   (nothing tagged: fix the cause and run it again).
 - The writer (library) role: `s3:PutObject` on `in/*` with If-None-Match,
-  and `s3:GetObjectTagging` on `in/*` to read the Lambda's outcome.
+  `s3:GetObjectTagging` on `in/*` to read the Lambda's outcome, and
+  `s3:GetObject` on evidence `_intake/*` to read its records (without
+  `s3:ListBucket` there, a record not written yet reads as 403: not yet).
 - The ops bucket: no lifecycle rule may touch `approvals/` (an approval must
   outlive the job for every file it covers).
 - The staging bucket policy: only the ingest role sets tags; the sweep role
@@ -187,7 +195,11 @@ later run lists any of them `held` once a record exists.
   `STAGING_BUCKET` and `QUEUE_URL` on the sweep.
 - `CODE_SHA256`: the zip's SHA-256 in lower-case hex, not Lambda's base64
   `CodeSha256`. `Ingest` refuses anything else, and bucket names that aren't
-  one environment's staging, evidence and ops buckets.
+  one environment's staging, evidence and ops buckets. The event source
+  invokes an alias pointing at a published version, never `$LATEST`, and
+  `CODE_SHA256` is set before that version is published (a version's
+  environment can't change), so a write-once record names the zip that
+  wrote it.
 - Memory 2048 MB. `LAMBDA_MAX_SIZE` assumes the hashing rate measured at that
   setting, and a 64 MiB manifest needs about 750 MiB.
 - boto3/botocore vendored in the zip, pinned exactly, botocore 1.36 or later
