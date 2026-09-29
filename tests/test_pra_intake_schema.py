@@ -1576,6 +1576,45 @@ def test_an_empty_file_may_say_bytes_star_0():
             "invalid_metadata", "sidecar.response.headers")
 
 
+# --- Cross-review 3 (of 5e865a0af) --------------------------------------------------------
+
+
+@pytest.mark.parametrize("location,expected", [
+    ("https://files.example.com/dl/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0In0.sig/a.pdf", "https://files.example.com/"),
+    ("/" + "a" * 3000, "https://portal.example.gov/"),  # too long: the host alone
+    ("https://cdn.example.com./a.pdf", "https://cdn.example.com./a.pdf"),
+    ("ftp://f.example.gov/a", ""), ("http://h.example.gov:99999/a", ""), ("mailto:x@example.gov", ""),
+])
+def test_redirect_hops_always_validate_or_keep_only_the_host(location, expected):
+    hop = s.redirect_url("https://portal.example.gov/docs/list", location)
+    assert hop == expected
+    if hop:
+        assert s._check_url(hop, "u", allow_query=False, observed=True)
+        assert s.validate_sidecar(with_(make_sidecar(), "response.final_url", hop))
+
+
+def test_strip_signing_params_raises_only_schema_errors():
+    for bad in ("https://p.example.gov/a" + chr(0xDCFF), "https://p.example.gov/a?q=" + chr(0xD800)):
+        with pytest.raises(s.SchemaError):
+            s.strip_signing_params(bad)
+
+
+def test_secret_names_without_equals_count_only_in_urls():
+    lc = make_sidecar(origin="local-copy")
+    for path, value in (("fetch.legacy_path", "d/FAQ;secret"), ("source.doc_id", "Q&A&Password"), ("source.doc_id", "FAQ;secret")):
+        assert s.validate_sidecar(with_(lc, path, value))
+    assert s.sanitize_headers([("Content-Disposition", "attachment;secret")]) == {"content-disposition": "attachment;secret"}
+    rejects(s.validate_sidecar, with_(make_sidecar(), "response.headers.location", "https://b.example.gov/a;secret"),
+            "signed_url", "sidecar.response.headers")  # a URL header still counts them
+    rejects(s.validate_sidecar, with_(lc, "source.doc_id", "FAQ;secret=1"), "signed_url", "sidecar.source.doc_id")
+
+
+@pytest.mark.parametrize("name", ["access_key", "secret_key", "sessid", "sas_token", "authenticity_token", "api_secret",
+                                  "client_token", "aspsessionid"])
+def test_more_credential_suffixes(name):
+    assert s.is_secret_param(name)
+
+
 # --- The source stays ASCII --------------------------------------------------------------
 
 

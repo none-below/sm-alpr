@@ -50,12 +50,12 @@ import contextlib
 import contextvars
 import copy
 import hashlib
+import ipaddress
 import json
 import math
 import re
 import uuid as _uuid
 from datetime import datetime, timezone
-import ipaddress
 from urllib.parse import quote, unquote, unquote_plus, urljoin, urlsplit, urlunsplit
 
 SCHEMA_VERSION = 1  # what writers stamp on new sidecars, records and manifests
@@ -621,8 +621,10 @@ SECRET_PARAMS = frozenset({
 })
 SECRET_PARAM_PREFIXES = ("xamz", "xgoog", "xoss", "oauth")  # X-Amz-*, X-Goog-*, X-Oss-*, OAuth 1.0a
 # Any name ending in one of these is a credential too (download_token,
-# csrf_token, client_secret, user_password, aspnet_sessionid, x_api_key)...
-SECRET_PARAM_SUFFIXES = ("token", "secret", "password", "passwd", "sessionid", "apikey")
+# csrf_token, client_secret, user_password, aspnet_sessionid, x_api_key,
+# access_key, secret_key)...
+SECRET_PARAM_SUFFIXES = ("token", "secret", "password", "passwd", "sessionid", "sessid", "apikey", "accesskey",
+                         "secretkey")
 # ...except pagination cursors, which name a page, not a person.
 NOT_SECRET_PARAMS = frozenset({
     "pagetoken", "nextpagetoken", "nexttoken", "continuationtoken", "synctoken", "cursortoken",
@@ -674,15 +676,18 @@ def _query_names(text):
     return [unquote_plus(seg.split("=", 1)[0]) for seg in re.split(r"[?&;]", text)[1:] if seg]
 
 
-def _credential_in(text, *, fetcher=False):
+def _credential_in(text, *, fetcher=False, url=False):
     """True if text, or text percent-decoded up to three times, carries a
     credential: a secret parameter, a session in the path, user info, or a
-    well-known token shape. fetcher=True also refuses a bare AWS key id."""
+    well-known token shape. fetcher=True also refuses a bare AWS key id;
+    url=True also counts a secret name with no '=' (as strip_signing_params
+    reads a query), which in other text would refuse ordinary words."""
     key_ids = _AWS_KEY_ID_RE if fetcher else _AWS_KEY_ID_VALUE_RE
     for _ in range(4):
         if _SESSION_RE.search(text) or _TOKEN_SHAPES_RE.search(text) or key_ids.search(text):
             return True
-        if any(is_secret_param(n) for n in _PARAM_NAME_RE.findall(text) + _query_names(text)):
+        names = _PARAM_NAME_RE.findall(text) + (_query_names(text) if url else [])
+        if any(is_secret_param(n) for n in names):
             return True
         decoded = unquote(text)
         if decoded == text:
@@ -855,7 +860,7 @@ _JSESSION_RE = re.compile(r";jsessionid=[^/?#;]*", re.IGNORECASE)
 def _observed_host(v, f):
     """A host a redirect or download actually went to: a DNS name, or also an
     IP address or a single-label name, since the server chose it."""
-    if type(v) is str and re.fullmatch(r"[a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9_])?\.?", v):
+    if type(v) is str and re.fullmatch(_HOST_LABEL + r"\.?", v):
         return v
     try:
         ipaddress.ip_address(v)
@@ -881,7 +886,7 @@ def _check_url(v, f, *, allow_query=True, observed=False):
         port = parts.port
     except ValueError:
         _fail(f, "not a URL")
-    if _policy() and _credential_in(v):
+    if _policy() and _credential_in(v, url=True):
         _fail(f, "carries a credential", "signed_url")
     if "@" in parts.netloc or "\\" in v:
         _fail(f, "user info or a backslash in the URL", "signed_url")
@@ -969,8 +974,11 @@ def strip_signing_params(url):
             if k:
                 out.append((tokens[2 * i - 1] if out else "") + seg)
         query = "".join(out)
-    stable = urlunsplit((parts.scheme.lower(), netloc, _requote(strip_path_session(parts.path or "/")),
-                         _requote(query).replace("\\", "%5C"), ""))
+    try:
+        stable = urlunsplit((parts.scheme.lower(), netloc, _requote(strip_path_session(parts.path or "/")),
+                             _requote(query).replace("\\", "%5C"), ""))
+    except (ValueError, UnicodeError):  # e.g. a lone surrogate left by surrogateescape decoding
+        _fail("url", "not encodable as a URL")
     return _check_url(stable, "url")
 
 
@@ -993,11 +1001,24 @@ def redirect_url(base, location):
     """A redirect hop as stored: the Location (text or wire bytes, decoded as
     sanitize_headers does) resolved against the URL that answered it, in
     url_without_query form, percent-encoded as a client would send it. For
-    final_url, pass the last hop. Never raises; "" if it can't be read."""
+    final_url, pass the last hop. The result always validates as a hop: when
+    the path can't be stored (it carries a credential, such as a token in a
+    download link, or is too long) only scheme://host/ is kept. Never
+    raises; "" only for a Location no HTTP client could follow (not http(s),
+    no host, a bad port)."""
     try:
-        return _requote(url_without_query(urljoin(base, _header_text(location))))
-    except (ValueError, TypeError):
-        return ""
+        hop = _requote(url_without_query(urljoin(base, _header_text(location))))
+        parts = urlsplit(hop)
+        if parts.scheme not in ("http", "https") or not parts.hostname:
+            return ""
+        for candidate in (hop, urlunsplit((parts.scheme, parts.netloc, "/", "", ""))):
+            try:
+                return _check_url(candidate, "hop", allow_query=False, observed=True)
+            except SchemaError:
+                continue
+    except (ValueError, TypeError, UnicodeError):
+        pass
+    return ""
 
 
 # Response headers kept in the sidecar. Anything else (cookies, tokens, any
@@ -1036,7 +1057,7 @@ def _check_header_value(name, value, f):
     if _HEADER_BAD_RE.search(value):
         _fail(f, "control character")
     if _policy():
-        if _credential_in(value):
+        if _credential_in(value, url=name in URL_HEADERS):
             _fail(f, "carries a credential", "signed_url")
         if name in URL_HEADERS and ("?" in value or "#" in value):
             _fail(f, "query or fragment in a URL header", "signed_url")
@@ -1105,7 +1126,7 @@ def sanitize_headers(pairs):
         value = ", ".join(parts)
         if _json_len(value) > MAX_HEADER_BYTES:
             value = OMITTED_LONG
-        elif _credential_in(value):
+        elif _credential_in(value, url=name in URL_HEADERS):
             value = OMITTED_CREDENTIAL
         out[name] = value
     for name in sorted(out, key=lambda n: (-_json_len(out[n]), n)):

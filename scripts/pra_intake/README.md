@@ -141,8 +141,10 @@ and generated uploads), and `work_id` one queue item.
 - **No credentials stored** (write policy):
   - Secret query parameters are refused, also percent-encoded or nested:
     `sig`, `Signature`, any `X-Amz-*`/`X-Goog-*`/`X-Oss-*`/`oauth*`, and any
-    name ending in `token`, `secret`, `password`, `sessionid` or `apikey`,
-    plus `sid`, `ticket`, `CFID`, `CFTOKEN` and a few others. Names are
+    name ending in `token`, `secret`, `password`, `sessionid`, `sessid`,
+    `apikey`, `accesskey` or `secretkey`, plus `sid`, `ticket`, `CFID`,
+    `CFTOKEN` and a few others. In a URL a secret name counts even without
+    `=`; in other text only as `name=`. Names are
     compared ignoring case, `-` and `_`. Pagination cursors (`pageToken`,
     `nextToken`, `resumptionToken`…) are not credentials. A signed URL's companions (`st`, `se`,
     `sr`, `Expires`, `Policy`, key ids…) go with its secret; alone they are
@@ -158,8 +160,10 @@ and generated uploads), and `work_id` one queue item.
   - Connectors canonicalize with `strip_signing_params` (pass the URL the
     HTTP client prepared, not a raw href; it returns a storable URL or
     raises, keeping visible ASCII byte for byte and percent-encoding the
-    rest as clients do; a non-ASCII host must already be in A-label form), `redirect_url` (never raises; its output always
-    validates) and `sanitize_headers` (its output always validates). Hand
+    rest as clients do; a non-ASCII host must already be in A-label form), `redirect_url` (never raises; a hop always
+    validates, keeping only scheme and host when its path carries a
+    credential or is too long, and is "" only for a Location no HTTP client
+    could follow) and `sanitize_headers` (its output always validates). Hand
     `sanitize_headers` the wire bytes, or the Latin-1 view `http.client` and
     requests give; a client that decodes UTF-8 itself (httpx) should pass
     its raw header bytes.

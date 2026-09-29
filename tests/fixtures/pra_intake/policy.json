@@ -226,7 +226,10 @@
     "password",
     "passwd",
     "sessionid",
-    "apikey"
+    "sessid",
+    "apikey",
+    "accesskey",
+    "secretkey"
   ],
   "TOKEN_SHAPES": [
     "(?<![A-Za-z0-9])eyJ[A-Za-z0-9_-]{5,}\\.[A-Za-z0-9_-]*\\.|\\bgh[pousr]_[A-Za-z0-9]{30,}|\\bgithub_pat_[A-Za-z0-9_]{20,}|\\bxox[abprs]-[A-Za-z0-9-]{10,}|\\bAIza[0-9A-Za-z_-]{35}",
