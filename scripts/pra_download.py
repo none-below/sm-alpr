@@ -440,6 +440,16 @@ WITHHELD_ATTACHMENTS: dict[str, dict[str, str]] = {
         "85dc079f50155f40d9b0d6adc5d5135883fa4b703b61e1624ff20006720a1c43":
             "third-party PII",
     },
+    # The two June 2024 audit PDFs as released 9/23/2026, withheld pending the
+    # City's reissue. Requester-made derivatives are in the request folder's
+    # requester-redacted/ subfolder; a reissue under the same filenames has
+    # different bytes and so is downloaded normally.
+    "W012541-041426": {
+        "12b57682edbc9f996b54ec8d0a4d07fbee07c05c2de101c742c2ac32d6d777ab":
+            "withheld pending reissue",
+        "d48e5a0a69a0bbe75b09b9e39c8d224e32a7b028f1d4495fd12cd8adea98d2a9":
+            "withheld pending reissue",
+    },
 }
 
 
