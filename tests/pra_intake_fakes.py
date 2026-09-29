@@ -31,11 +31,15 @@ botocore showed it in the 2026-09-28 live probes and documentation:
 
 Faults and races are injected with fail() and before(); a hook runs as
 itself (it acts through the admin FakeS3 it closes over), never by
-switching a shared role. sdk_attempts > 1 makes put_object retry a
-retryable error the way botocore's standard mode does, rewinding a
-streamed body with seek(0) first (a body that can't rewind ends it with
-FakeUnseekableStream). fail("put_object_body", ...) injects an error after
-the body has been sent.
+switching a shared role, and their counters are taken under a lock (the
+Lambda and the sweep call from worker threads). sdk_attempts > 1 makes
+put_object retry the way botocore's standard mode does: a 500/502/503/504,
+SlowDown or RequestTimeout, or any exception raised while reading a streamed
+body (botocore wraps those as HTTPClientError), rewinding the body with
+seek(0) first (a body that can't rewind ends it with FakeUnseekableStream).
+A fault injected on put_object drains a streamed body first, as urllib3 2
+does after an early reply; fail("put_object_body", ...) injects one after
+the body has been sent; drop() makes a GET's body fail partway.
 """
 import base64
 import copy
@@ -43,6 +47,7 @@ import hashlib
 import io
 import itertools
 import json
+import threading
 from datetime import datetime, timedelta, timezone
 from urllib.parse import quote_plus
 
@@ -53,6 +58,14 @@ HTTP_BLOCK = 16384  # how much urllib3 asks a file-like body for at a time
 
 class FakeUnseekableStream(Exception):
     """botocore's UnseekableStreamError: a retry couldn't rewind the body."""
+
+
+class _BodyReadError(Exception):
+    """An exception from a streamed body's read(), as botocore wraps it."""
+
+    def __init__(self, error):
+        super().__init__(str(error))
+        self.error = error
 
 
 class FakeClientError(Exception):
@@ -79,15 +92,19 @@ class FakeStream:
     """A GetObject body. max_read caps each read (short reads happen);
     truncate_at ends the stream early, like a dropped connection."""
 
-    def __init__(self, data, *, max_read=None, truncate_at=None, on_read=None):
-        self._data, self._pos, self._max, self._on_read = data, 0, max_read, on_read
+    def __init__(self, data, *, max_read=None, truncate_at=None, on_read=None, drop_at=None):
+        self._data, self._pos, self._max, self._on_read, self._drop = data, 0, max_read, on_read, drop_at
         self._end = len(data) if truncate_at is None else min(truncate_at, len(data))
 
     def read(self, n=-1):
+        if self._drop is not None and self._pos >= self._drop:
+            raise ConnectionError("the connection dropped")  # urllib3's ProtocolError, as botocore sees it
         left = self._end - self._pos
         n = left if n is None or n < 0 else min(n, left)
         if self._max:
             n = min(n, self._max)
+        if self._drop is not None:
+            n = min(n, self._drop - self._pos)
         chunk = self._data[self._pos:self._pos + n]
         self._pos += len(chunk)
         if self._on_read:
@@ -112,6 +129,7 @@ class FakeS3:
         self.role = None  # None: an admin, allowed everything; else a set of (action, bucket)
         self.max_read, self.bytes_read, self.sdk_attempts = None, {}, 1
         self._faults, self._hooks, self._subscribers, self._head_edits, self._truncate = [], [], [], {}, {}
+        self._drops, self._lock = {}, threading.Lock()  # shared with every as_role() view
         self._ids = itertools.count(1)
 
     @property
@@ -157,6 +175,21 @@ class FakeS3:
         """GetObject bodies of bucket/key end after `at` bytes (None: whole)."""
         self._truncate[(bucket, key)] = at
 
+    def drop(self, bucket, key, at, *, times=1):
+        """The next `times` GetObject bodies of bucket/key raise after `at` bytes."""
+        self._drops[(bucket, key)] = [at, times]
+
+    def _take(self, entry, kw):
+        """Whether a hook or fault fires now: its predicate (which may wait)
+        outside the lock, its counter under it."""
+        if entry["left"] <= 0 or not entry["when"](kw):
+            return False
+        with self._lock:
+            if entry["left"] <= 0:
+                return False
+            entry["left"] -= 1
+            return True
+
     def tick(self, seconds=1):
         self.now += timedelta(seconds=seconds)
         return self.now
@@ -185,12 +218,10 @@ class FakeS3:
     def _enter(self, op, kw):
         self.calls.append((op, kw.get("Bucket"), kw.get("Key")))
         for h in self._hooks:
-            if h["op"] == op and h["left"] and h["when"](kw):
-                h["left"] -= 1
+            if h["op"] == op and self._take(h, kw):
                 h["fn"](kw)  # through the FakeS3 it closes over; this view's role is untouched
         for f in self._faults:
-            if f["op"] == op and f["left"] and f["when"](kw):
-                f["left"] -= 1
+            if f["op"] == op and self._take(f, kw):
                 raise FakeClientError(f["code"], f["status"], op)
 
     def _allowed(self, action, bucket, key=None):
@@ -239,9 +270,13 @@ class FakeS3:
             "content_disposition": content_disposition, "last_modified": created or self.now,
             "part_sizes": part_sizes, "delete_marker": False,
             "version_id": f"v{next(self._ids)}" if b.versioned else "null",
-            "lock_mode": b.lock_mode if b.lock_days else None,
-            "lock_until": self.now + timedelta(days=b.lock_days) if b.lock_days else None,
+            "lock_mode": None, "lock_until": None,
         }
+        rule = ((b.lock_config or {}).get("Rule") or {}).get("DefaultRetention") if b.lock_config is not None else (
+            {"Mode": b.lock_mode, "Days": b.lock_days} if b.lock_days else None)
+        if rule and (rule.get("Days") or rule.get("Years")):
+            version["lock_mode"] = rule["Mode"]
+            version["lock_until"] = self.now + timedelta(days=rule.get("Days") or 365 * rule["Years"])
         if b.versioned:
             b.objects.setdefault(key, []).append(version)
         else:
@@ -269,30 +304,40 @@ class FakeS3:
         return {}
 
     def put_object(self, **kw):
+        body = kw.get("Body")
+        streamed = body is not None and not isinstance(body, (bytes, bytearray))
         for attempt in range(1, self.sdk_attempts + 1):
             try:
                 return self._put_object(**kw)
             except FakeClientError as e:
                 status, code = e.response["ResponseMetadata"]["HTTPStatusCode"], e.response["Error"]["Code"]
-                if attempt == self.sdk_attempts or not (status >= 500 or code in ("SlowDown", "RequestTimeout")):
+                if attempt == self.sdk_attempts or not (status in (500, 502, 503, 504)
+                                                        or code in ("SlowDown", "RequestTimeout")):
                     raise
-                body = kw.get("Body")
-                if body is not None and not isinstance(body, (bytes, bytearray)):
-                    try:
-                        body.seek(0)  # botocore's reset_stream before a retry
-                    except Exception as err:
-                        raise FakeUnseekableStream(str(err)) from err
+            except _BodyReadError as e:  # botocore wraps these as HTTPClientError and retries them
+                if attempt == self.sdk_attempts:
+                    raise e.error from None
+            if streamed:
+                try:
+                    body.seek(0)  # botocore's reset_stream before a retry
+                except Exception as err:
+                    raise FakeUnseekableStream(str(err)) from err
 
     def _put_object(self, *, Bucket, Key, Body=b"", ContentLength=None, ChecksumSHA256=None, IfNoneMatch=None,
                     ContentType=None, ContentDisposition=None, Metadata=None, ServerSideEncryption=None,
                     Tagging=None, **extra):
         kw = dict(Bucket=Bucket, Key=Key, IfNoneMatch=IfNoneMatch, Metadata=Metadata)
-        self._enter("put_object", kw)
         assert not extra, f"unmodeled PutObject parameters: {sorted(extra)}"
         streamed = not isinstance(Body, (bytes, bytearray))
         if streamed:  # botocore's CRT signer wraps a body without seek() as bytes, which fails (live, 2026-09-28)
             assert hasattr(Body, "seek") and hasattr(Body, "tell"), "a streamed body needs seek() and tell()"
-            assert Body.tell() == 0 and Body.seek(0) == 0
+            assert Body.tell() == 0
+        try:
+            self._enter("put_object", kw)
+        except FakeClientError:
+            if streamed:  # urllib3 2 sends the whole body even after an early reply
+                self._drain(Body)
+            raise
         try:
             b = self._bucket(Bucket, "PutObject")
             self._need("s3:PutObject", Bucket, "PutObject", Key)
@@ -311,15 +356,17 @@ class FakeS3:
             self._check_create(b, Key, IfNoneMatch, "PutObject")
         except FakeClientError:
             if streamed:  # urllib3 2 sends the whole body even after an early reply
-                for _ in iter(lambda: Body.read(HTTP_BLOCK), b""):
-                    pass
+                self._drain(Body)
             raise
         if not streamed:
             data = bytes(Body)
         else:  # S3 reads the declared length; an exception before that fails the upload
             chunks, got = [], 0
             while ContentLength is None or got < ContentLength:
-                chunk = Body.read(HTTP_BLOCK)
+                try:
+                    chunk = Body.read(HTTP_BLOCK)
+                except Exception as e:
+                    raise _BodyReadError(e) from e
                 if not chunk:
                     break
                 chunks.append(chunk)
@@ -328,8 +375,7 @@ class FakeS3:
         if ContentLength is not None and len(data) != ContentLength:
             raise FakeClientError("IncompleteBody", 400, "PutObject")
         for f in self._faults:  # an error after the body was sent (a 5xx, a reset)
-            if f["op"] == "put_object_body" and f["left"] and f["when"](kw):
-                f["left"] -= 1
+            if f["op"] == "put_object_body" and self._take(f, kw):
                 raise FakeClientError(f["code"], f["status"], "PutObject")
         if ChecksumSHA256 is not None and ChecksumSHA256 != b64_sha256(data):
             raise FakeClientError("BadDigest", 400, "PutObject")
@@ -339,13 +385,24 @@ class FakeS3:
                         metadata=Metadata, content_type=ContentType, content_disposition=ContentDisposition,
                         op="PutObject")
         if streamed and ContentLength is not None:
-            Body.read(HTTP_BLOCK)  # the client's EOF read: too late to stop a stored object
+            try:
+                Body.read(HTTP_BLOCK)  # the client's EOF read: too late to stop a stored object
+            except Exception:
+                pass
         out = {"ETag": v["etag"]}
         if b.versioned:
             out["VersionId"] = v["version_id"]
         if ChecksumSHA256:
             out.update(ChecksumSHA256=ChecksumSHA256, ChecksumType="FULL_OBJECT")
         return out
+
+    @staticmethod
+    def _drain(body):
+        try:
+            for _ in iter(lambda: body.read(HTTP_BLOCK), b""):
+                pass
+        except Exception:
+            pass
 
     def _describe(self, b, key, v, checksum_mode):
         out = {"ContentLength": len(v["data"]), "ETag": v["etag"], "LastModified": v["last_modified"],
@@ -356,6 +413,8 @@ class FakeS3:
             out["VersionId"] = v["version_id"]
         if v["lock_mode"] and self._allowed("s3:GetObjectRetention", b.name, key):
             out.update(ObjectLockMode=v["lock_mode"], ObjectLockRetainUntilDate=v["lock_until"])
+            if v.get("event_hold"):
+                out["ObjectLockEventHold"] = v["event_hold"]
         if checksum_mode == "ENABLED" and v["checksum"]:
             out.update(ChecksumSHA256=v["checksum"], ChecksumType=v["checksum_type"])
         return out
@@ -392,8 +451,14 @@ class FakeS3:
 
         def count(n):
             self.bytes_read[(Bucket, Key)] = self.bytes_read.get((Bucket, Key), 0) + n
+        drop_at = None
+        with self._lock:
+            drop = self._drops.get((Bucket, Key))
+            if drop and drop[1] > 0:
+                drop[1] -= 1
+                drop_at = drop[0]
         out = self._describe(b, Key, v, ChecksumMode)
-        out.update(ContentLength=len(data), Body=FakeStream(data, max_read=self.max_read, on_read=count,
+        out.update(ContentLength=len(data), Body=FakeStream(data, max_read=self.max_read, on_read=count, drop_at=drop_at,
                                                             truncate_at=self._truncate.get((Bucket, Key))))
         return out
 
@@ -414,11 +479,13 @@ class FakeS3:
         self._need("s3:PutObjectRetention", Bucket, "PutObjectRetention", Key)  # AWS needs no GetObjectVersion here
         if not b.lock_days and b.lock_config is None:
             raise FakeClientError("InvalidRequest", 400, "PutObjectRetention")  # a bucket without Object Lock
-        found = [v for v in b.objects.get(Key) or [] if not v["delete_marker"]
-                 and (VersionId is None or v["version_id"] == VersionId)]
+        versions = b.objects.get(Key) or []
+        found = [v for v in versions if v["version_id"] == VersionId] if VersionId else versions[-1:]
         if not found:
             raise FakeClientError("NoSuchVersion" if VersionId else "NoSuchKey", 404, "PutObjectRetention")
         v = found[-1]
+        if v["delete_marker"]:  # the current version is a delete marker, or the id names one
+            raise FakeClientError("MethodNotAllowed", 405, "PutObjectRetention")
         mode, until = Retention["Mode"], Retention["RetainUntilDate"]
         if v["lock_mode"] and v["lock_until"] and v["lock_until"] > self.now:  # an active lock
             shorter = until < v["lock_until"]

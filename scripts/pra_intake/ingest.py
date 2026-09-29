@@ -62,6 +62,7 @@ EX_TEMPFAIL = 75  # the job's exit code for a retryable failure (sysexits.h)
 _FROM_ENV = object()
 MAX_REDRIVES = 3  # sweep re-drives of one file before it's counted as stuck
 SWEEP_RESERVE_MS = 30_000
+RETENTION_TTL = timedelta(minutes=15)  # how long a warm container trusts the bucket's rule
 
 # What the ingest role needs: {bucket role: {key prefix: actions}}, None for
 # the bucket itself. PR 4 builds the policy from this, and the tests run the
@@ -200,12 +201,22 @@ class _CheckedBody:
     `open_stream()` opens the GET, pinned to the bound ETag."""
 
     def __init__(self, open_stream, sidecar):
-        self._open, self._sidecar, self.problem = open_stream, sidecar, None
+        self._open, self._sidecar, self.problem, self.reopen_error = open_stream, sidecar, None, None
+        self._stream = None
         self._restart()
 
     def _restart(self):
+        """A new staging GET, then the state swapped in all at once (a GET
+        that fails leaves the body as it was), then the old stream closed."""
+        stream = self._open()
+        old, self._stream, self._touched = self._stream, stream, False
         self.hashes, self._left = _Hashes(self._sidecar["data"]), self._sidecar["data"]["size"]
-        self._stream = self._open()
+        close = getattr(old, "close", None)
+        if close is not None:
+            try:
+                close()
+            except Exception:
+                pass
 
     def readable(self):
         return True
@@ -214,17 +225,24 @@ class _CheckedBody:
         return self._sidecar["data"]["size"] - self._left
 
     def seek(self, offset, whence=io.SEEK_SET):
-        """To where it is (urllib3 asks), or back to the start: botocore
-        rewinds the body before each of its own retries, and the staging GET
-        is opened again (If-Match: the same bytes) and the hashes start over.
-        After a claim failed, or to anywhere else, it raises, and botocore
-        gives up (UnseekableStreamError, Transient here)."""
+        """Back to the start: botocore's only seek, `reset_stream`'s seek(0)
+        before each of its own retries (urllib3 only asks tell()). The
+        staging GET is opened again (If-Match: the same bytes) and the hashes
+        start over, also when the stream failed before its first byte. A
+        seek to where it is, untouched, does nothing. After a claim failed
+        it raises, and _store_whole rejects the upload (body.problem); if
+        the new GET fails, its error is kept for the log (reopen_error),
+        since botocore reports only UnseekableStreamError."""
         target = {io.SEEK_SET: offset, io.SEEK_CUR: self.tell() + offset,
                   io.SEEK_END: self._sidecar["data"]["size"] + offset}[whence]
-        if target == self.tell():
+        if target == self.tell() and not (target == 0 and self._touched):
             return target
         if target == 0 and self.problem is None:
-            self._restart()
+            try:
+                self._restart()
+            except Exception as e:
+                self.reopen_error = e
+                raise
             return 0
         raise io.UnsupportedOperation("the body can only be rewound to its start")
 
@@ -235,6 +253,7 @@ class _CheckedBody:
         if self._left == 0:
             self._check()
             return b""
+        self._touched = True
         chunk = self._stream.read(min(n if n and n > 0 else READ_CHUNK, self._left))
         if not chunk:  # HeadObject gave the size and If-Match pins the object: the connection dropped
             raise Transient("the staging stream ended early")
@@ -298,16 +317,22 @@ class Ingest:
         self._retention()
 
     def _retention(self, *, fresh=False):
-        """The evidence bucket's default retention, (mode, period): read once
-        per container, and again when fresh (before any renewal)."""
-        if self._default_retention is None or fresh:
+        """The evidence bucket's default retention, (mode, period): read at
+        cold start, again after RETENTION_TTL, and again before any renewal
+        (fresh). Fixed retention only: a rule with a default event hold
+        (variable retention) fails closed, since renewing a held blob with
+        fixed retention may release its hold."""
+        stale = self._default_retention is None or self.now() - self._default_retention[2] > RETENTION_TTL
+        if stale or fresh:
             config = self.s3.get_object_lock_configuration(Bucket=self.evidence).get("ObjectLockConfiguration") or {}
             rule = (config.get("Rule") or {}).get("DefaultRetention") or {}
             days = rule.get("Days") or 365 * (rule.get("Years") or 0)
             if rule.get("Mode") not in s.LOCK_MODES or not days:
                 raise RuntimeError("the evidence bucket has no default retention rule")
-            self._default_retention = (rule["Mode"], timedelta(days=days))
-        return self._default_retention
+            if rule.get("DefaultEventHold"):
+                raise RuntimeError("the evidence bucket's rule sets an event hold; fixed retention only")
+            self._default_retention = (rule["Mode"], timedelta(days=days), self.now())
+        return self._default_retention[:2]
 
     def log(self, event, **fields):
         self._log(json.dumps({"event": event, **fields}, sort_keys=True))
@@ -497,6 +522,8 @@ class Ingest:
             except Exception as e:
                 if body.problem:
                     raise Rejected(*body.problem, "the bytes contradict the sidecar") from None
+                if body.reopen_error is not None:  # botocore said only UnseekableStreamError
+                    raise body.reopen_error from e
                 if _code(e) == "BadDigest":
                     raise Rejected("sha_mismatch", "sidecar.data.sha256", "S3 refused the claimed SHA-256") from None
                 if not _is_precondition(e):
@@ -582,7 +609,8 @@ class Ingest:
         if (head.get("ChecksumType"), head.get("ChecksumSHA256"), head.get("ContentLength")) != (
                 checksum_type, checksum, size):
             if not head.get("ChecksumSHA256"):
-                if fresh:  # S3 checked the SHA-256 as it stored it; it just doesn't show it
+                if fresh or head.get("ServerSideEncryption") not in (None, "AES256"):
+                    # this run's own write (S3 checked the SHA-256 as it stored it), or SSE-KMS hiding it
                     raise Transient("checksum_missing: the blob's SHA-256 isn't visible")
                 raise Rejected("evidence_conflict", "evidence.checksum_type", "the stored blob has no SHA-256 to verify")
             if (checksum_type == head.get("ChecksumType") == "COMPOSITE" and head.get("ContentLength") == size
@@ -592,14 +620,16 @@ class Ingest:
             raise Rejected("evidence_conflict", "evidence.checksum_sha256", "the stored blob isn't these bytes")
         mode, until = head.get("ObjectLockMode"), head.get("ObjectLockRetainUntilDate")
         until, now = _aware(until) if until else None, self.now()
-        if not fresh and (until is None or until < now + self._retention()[1] / 2):
+        held = head.get("ObjectLockEventHold") == "ON"  # an admin's event hold: it can't lapse, and isn't renewed
+        if not fresh and not held and (until is None or until < now + self._retention()[1] / 2):
             default_mode, period = self._retention(fresh=True)  # the rule as it is now, not as this container found it
             if until is None or until < now + period / 2:
                 denied = None
                 try:
+                    live = mode in s.LOCK_MODES and until is not None and until > now  # a lapsed lock takes today's mode
                     self.s3.put_object_retention(
                         Bucket=self.evidence, Key=key, VersionId=head["VersionId"], Retention={
-                            "Mode": mode if mode in s.LOCK_MODES else default_mode,
+                            "Mode": mode if live else default_mode,
                             "RetainUntilDate": (now + period).replace(microsecond=0)})
                 except Exception as e:  # another sighting renewed it further first, making this a shortening?
                     if _code(e) != "AccessDenied":
@@ -612,10 +642,11 @@ class Ingest:
                 until = _aware(until) if until else None
                 if denied is not None and (until is None or until < now + period / 2):
                     raise denied
-                if denied is None:
-                    self.log("lock_renewed", uuid=u)
+                self.log("lock_renewed" if denied is None else "lock_renewed_elsewhere", uuid=u)
         if mode not in s.LOCK_MODES or until is None or until <= now:
-            raise Transient("lock_missing: the blob's Object Lock isn't visible or has lapsed")
+            # under an admin's event hold the blob is safe, but a v1 record needs a date still to come
+            raise Transient("lock_held: an event hold with a lapsed date" if held
+                            else "lock_missing: the blob's Object Lock isn't visible or has lapsed")
         return {"bucket": self.evidence, "key": key, "version_id": head.get("VersionId") or "null",
                 "checksum_type": checksum_type, "checksum_sha256": checksum,
                 "part_size": part_size, "part_sha256": list(parts) if parts else None,
@@ -839,13 +870,15 @@ def sweep(s3, *, staging_bucket, send, now, min_age=timedelta(hours=1), remainin
     wait (about 20 per second per worker: tens of thousands of staged files a
     run, and lifecycle removes ingested ones after a day). It stops
     SWEEP_RESERVE_MS before remaining_ms() runs out, and logs its counts
-    however it ends: `listed` says whether the whole listing was read, and
-    `error` names what ended it early. `send(dict)` queues one re-drive;
-    redrive=False only counts."""
+    however it ends: `listed` says whether the whole listing was read,
+    `error` names what ended it early, and `unread` counts the files it never
+    reached or failed on. `send(dict)` queues one re-drive and is called
+    from `workers` threads at once, so it must be thread-safe (boto3 clients
+    are); redrive=False only counts."""
     counts = {"redriven": 0, "rejected": 0, "deferred": 0, "stuck": 0, "orphans": 0, "stray": 0, "unread": 0,
               "listed": False}
     out_of_time = lambda: remaining_ms is not None and remaining_ms() < SWEEP_RESERVE_MS  # noqa: E731
-    waiting, start = [], 0
+    waiting, start, failed = [], 0, 0
     try:
         found, token = {}, None
         while True:
@@ -870,25 +903,31 @@ def sweep(s3, *, staging_bucket, send, now, min_age=timedelta(hours=1), remainin
             if _aware(obj["LastModified"]) < cutoff:
                 waiting.append(obj)
         waiting.sort(key=lambda o: (_aware(o["LastModified"]), o["Key"]), reverse=True)
-        with ThreadPoolExecutor(max(1, workers)) as pool:
-            for start in range(0, len(waiting), max(1, workers)):
-                if out_of_time():
-                    break
-                chunk = waiting[start:start + max(1, workers)]
-                results = list(pool.map(lambda o: _sweep_one(s3, staging_bucket, o["Key"], send, redrive), chunk))
-                for obj, (count, state) in zip(chunk, results):
+        size = max(1, workers)
+        with ThreadPoolExecutor(size) as pool:
+            while start < len(waiting) and not out_of_time():
+                chunk = waiting[start:start + size]
+                futures = [pool.submit(_sweep_one, s3, staging_bucket, o["Key"], send, redrive) for o in chunk]
+                wait(futures)
+                first = None
+                for obj, future in zip(chunk, futures):  # tally every file the chunk finished, then raise
+                    if future.exception() is not None:
+                        first, failed = first or future.exception(), failed + 1
+                        continue
+                    count, state = future.result()
                     if count:
                         counts[count] += 1
                     if state:  # one line per file that needs a person, for whoever triages or runs the job
                         log(json.dumps({"event": "sweep_file", "uuid": s.parse_staging_key(obj["Key"])[0],
                                         **state}, sort_keys=True))
-            else:
-                start = len(waiting)
+                start += len(chunk)
+                if first is not None:
+                    raise first
     except Exception as e:
         counts["error"] = type(e).__name__
         raise
     finally:
-        counts["unread"] = len(waiting) - start
+        counts["unread"] = len(waiting) - start + failed  # never reached, or failed
         log(json.dumps({"event": "sweep", **counts}, sort_keys=True))
     return counts
 
@@ -961,7 +1000,9 @@ def main(argv=None):
             ingest = Ingest.from_env(code_sha256=args.code_sha256)
             outcome = ingest.process(args.sidecar_key, allow_large=args.allow_large)
         except Exception as e:  # retryable: fix the cause (the role, a grant, the env) and run it again
-            print(json.dumps({"status": "transient", "error": type(e).__name__}, sort_keys=True))
+            extra = {"variable": e.args[0]} if isinstance(e, KeyError) and e.args else {}
+            print(json.dumps({"status": "transient", "error": type(e).__name__, "code": _code(e),
+                              "status_code": _http_status(e), "where": _where(e), **extra}, sort_keys=True))
             return EX_TEMPFAIL
         print(json.dumps(outcome.__dict__, sort_keys=True))
         return 0 if outcome.status in ("stored", "already_stored", "recorded") else 1  # rejected, deferred, vanished

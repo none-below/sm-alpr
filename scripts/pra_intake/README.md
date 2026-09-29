@@ -38,9 +38,10 @@ Lambda. The library and the infrastructure come in later PRs.
      `python -m pra_intake.ingest process in/<uuid>.json --allow-large` runs
      the same steps where there's no time limit.
    - **Over 50 GB** (`COST_GATE`): only with `fetch.approval` naming an
-     admin-written `approvals/<uuid>.json` in the ops bucket: strict JSON (no
-     duplicate keys, no floats) with every key of `_APPROVAL_SPEC` present
-     (`note` may be null) and `expires_at` in the canonical form
+     admin-written `approvals/<uuid>.json` in the ops bucket: strict JSON in
+     UTF-8 without a BOM (no duplicate keys, no floats) with every key of
+     `_APPROVAL_SPEC` present and no others (`note` may be null; an unknown
+     key is refused as `too_large`) and `expires_at` in the canonical form
      (`2026-10-28T00:00:00Z`). The approval names one source (kind, platform,
      host, request, doc id, URL), a size ceiling and an expiry; the Lambda
      reads it and `check_approval` refuses a file from any other source
@@ -101,39 +102,49 @@ A rejection is a fact about the upload: a bad sidecar, bytes that
 contradict it, a data object that isn't the one it describes, a blob it
 depends on that isn't held. Everything else is retried: throttling, 5xx, a
 dropped stream, a stored record that doesn't parse, and an Object Lock S3
-doesn't show (a missing `s3:GetObjectRetention`, a bucket without Object
-Lock; the Lambda first asks for the default lock, which S3 refuses if it
-would shorten or weaken one), and a checksum S3 doesn't show on a blob this
-run just wrote (SSE-KMS with a key the role can't use). Those are the
-deployment's problems, and the DLQ and its alarm are where they surface;
-`lock_missing` stays in the vocabulary but the Lambda doesn't tag it.
+doesn't show (a missing `s3:GetObjectRetention`; a bucket without Object
+Lock fails at cold start; on an existing blob the Lambda first asks for the
+default lock, which S3 refuses if it would shorten or weaken one), and a
+checksum S3 doesn't show on a blob this run just wrote or on one encrypted
+with SSE-KMS (a key the role can't use). Those are the deployment's
+problems, and the DLQ and its alarm are where they surface; `lock_missing`
+stays in the vocabulary but the Lambda doesn't tag it.
 
 A sighting of an existing blob with less than half the bucket's default
-retention left renews its lock to a full period from now (`lock_renewed`), by
-the rule as it is at that moment (re-read before each renewal; a version this
-run just wrote is never renewed, since S3 locked it under the current rule).
-So a blob stays locked for at least half a period after its latest sighting,
-and deduplication keeps working after a lock would have lapsed (dev's one-day
-lock, or prod's in ten years). The code only ever asks for `now + period`;
-without `s3:BypassGovernanceRetention` S3 lets the role lengthen a lock, never
+retention left renews its lock to a full period from now (`lock_renewed`), in
+the blob's own mode while its lock is live (S3 won't change a live
+COMPLIANCE lock) and in the rule's mode once it has lapsed. The rule is
+re-read before each renewal and at most `RETENTION_TTL` (15 minutes) after a
+container last read it, so a shortened rule applies at once and a lengthened
+one within 15 minutes. A version this run just wrote is never renewed (S3
+locked it under the current rule), and neither is a blob under an admin's
+event hold (it can't lapse; if its fixed date has passed, a v1 record can't
+be written, and the file is retried as `lock_held`). So a blob stays locked
+for at least half a period after its latest sighting, and deduplication
+keeps working after a lock would have lapsed (dev's one-day lock, or prod's
+in ten years). The code only ever asks for `now + period`; without
+`s3:BypassGovernanceRetention` S3 lets the role lengthen a lock, never
 shorten or weaken one, and the evidence bucket policy caps how far (see
-Deployment). A renewal that loses a race to a longer one is accepted.
-Records state the lock as read back when they were written; a later renewal
-only lengthens it.
+Deployment). A renewal that loses a race to a longer one is accepted
+(`lock_renewed_elsewhere`). Records state the lock as read back when they
+were written; a later renewal only lengthens it.
 
 Every step can be re-run: writes carry If-None-Match, and a run that finds
 its record re-tags and stops. A run that tags a file rejected or deferred
 then looks for a record once more, so a racing run that recorded it wins.
-The Lambda reads every staged byte once (a fetch manifest twice: once to
-parse it) and checks every claim about the bytes: the SHA-256 (S3 checks it on the evidence write up to 5 GB), the MD5,
+The Lambda reads every staged byte once per attempt (a fetch manifest twice:
+once to parse it; botocore's own retries, up to 3, and a 412 race read it
+again, so near `LAMBDA_MAX_SIZE` the worst case is several reads) and
+checks every claim about the bytes: the SHA-256 (S3 checks it on the evidence write up to 5 GB), the MD5,
 the source's multipart ETag, the staging part layout, and the sniffed type.
 Up to 5 GB that read is the evidence upload itself, and a wrong claim fails
 it from inside its body before the last bytes are sent, so nothing is stored
 for it. (Checked live 2026-09-28 with botocore's CRT and pure-Python
 signers.) botocore's own retries rewind that body: the staging GET is opened
-again, pinned to the same ETag, and the hashes start over, so a throttled or
-reset upload is retried in the call and, if it still fails, logged with S3's
-code and status. A duplicate's bytes are read and checked the same way.
+again, pinned to the same ETag, and the hashes start over (also when the
+stream failed before its first byte), so a throttled or reset upload is
+retried in the call and, if it still fails (or the staging GET can't be
+reopened), logged with the failing call's S3 code and status. A duplicate's bytes are read and checked the same way.
 
 `ingest.sweep` (scheduled) re-drives each untagged sidecar older than an hour,
 newest first, at most `MAX_REDRIVES` times (counted in a `redrives` tag). It
@@ -141,12 +152,13 @@ reads tags `WORKERS` at a time (about 20 a second each, so a run covers tens
 of thousands of staged files; lifecycle removes ingested ones after a day).
 It logs one `sweep_file` line (uuid, state, reject reason) for each file that
 needs a person (rejected, deferred, stuck, orphaned data without a sidecar),
-then the counts, including stray keys, how many it had no time to read,
-whether it read the whole listing (`listed`), and the error that ended it
-early (`error`).
-Logs hold uuids, SQS message ids, reason codes, field paths, sizes and code
-locations (file:line:function of this package), never presented text, URLs,
-keys that aren't ours, or metadata values. An unexpected error fails only its
+then the counts, including stray keys, how many it didn't read (`unread`:
+no time left, or the chunk an error ended), whether it read the whole
+listing (`listed`), and the error that ended it early (`error`).
+Logs hold uuids, SQS message ids, reason codes, field paths, problem
+descriptions (fixed text), sizes and code locations (file:line:function of
+this package), never presented text, URLs, keys that aren't ours, or
+metadata values. An unexpected error fails only its
 own message and is logged as `message_error` (or `transient` with `where`)
 rather than failing the invocation, so alarm on those lines as well as on the
 DLQ.
@@ -168,21 +180,37 @@ record.
 ### Deployment (PR 4 pins these)
 
 - The evidence bucket: Object Lock enabled (with versioning) and a default
-  retention rule (mode and days). New blobs get it from the rule; the
-  Lambda reads the rule at cold start (a bucket without one fails every
-  invocation) and again before each renewal. Adding the rule later doesn't
-  lock blobs already written until they are next sighted. Encryption SSE-S3
-  only: deny `s3:PutObject` when `s3:x-amz-server-side-encryption` is present
-  and not `AES256`.
+  retention rule (mode and days or years), fixed retention only: no
+  `DefaultEventHold` (the Lambda refuses such a rule at cold start). New
+  blobs get it from the rule; the Lambda reads the rule at cold start (a
+  bucket without one fails every invocation), within `RETENTION_TTL` after,
+  and before each renewal. Adding the rule later doesn't lock blobs already
+  written until they are next sighted. Default encryption SSE-S3 (AES256) in
+  the bucket's encryption configuration, and deny `s3:PutObject` when
+  `s3:x-amz-server-side-encryption` is present and not `AES256`.
 - The evidence bucket policy caps what the ingest role's retention grant
-  could do, for every principal but admins, on `sha256/*`: deny
-  `s3:PutObjectRetention` when `NumericGreaterThan
-  s3:object-lock-remaining-retention-days` exceeds the default days plus
-  one, and when `StringEquals s3:object-lock-mode` is `COMPLIANCE` (with a
-  GOVERNANCE default); and deny `s3:PutObject` when `Null
-  s3:object-lock-mode` is false (the Lambda never sends lock headers; don't
-  use `StringNotEquals`, which also matches an absent key and would deny
-  every write). No role here gets `s3:PutObjectLegalHold`.
+  could do. Conditions within one statement are ANDed, so these are
+  separate Deny statements, each for every principal but admins, on
+  `sha256/*`:
+  1. `s3:PutObjectRetention` when `NumericGreaterThan
+     s3:object-lock-remaining-retention-days` exceeds D + 1, where D is the
+     rule's Days (or 365 x Years). Raise D here before, or in the same
+     change as, lengthening the rule, or renewals are denied and those
+     files wait in the DLQ.
+  2. `s3:PutObjectRetention` when `StringEquals s3:object-lock-mode` is
+     `COMPLIANCE`, with a GOVERNANCE default only. The Lambda renews a live
+     lock in its own mode, so a COMPLIANCE-locked blob's duplicates then
+     wait in the DLQ until it lapses: keep a blob with a legal hold, not
+     COMPLIANCE.
+  3. `s3:PutObjectRetention` and `s3:PutObject` when the request turns an
+     event hold on (the event-hold condition key equals `ON`; take its exact
+     name from the IAM service authorization reference for S3). Leave
+     turning a hold off undenied, so an admin can release one.
+  4. `s3:PutObject` when `Null s3:object-lock-mode` is false (the Lambda never
+     sends lock headers; don't use `StringNotEquals`, which also matches an
+     absent key and would deny every write).
+
+  No role here gets `s3:PutObjectLegalHold`.
 - IAM: `ingest.PERMISSIONS` for the ingest role and `ingest.SWEEP_PERMISSIONS`
   for the sweep, per bucket role and key prefix (`None` is the bucket
   itself: `ListBucket` with no `s3:prefix` condition, since HeadBucket sends
@@ -212,14 +240,19 @@ record.
 - The ops bucket: no lifecycle rule may touch `approvals/` (an approval must
   outlive the job for every file it covers).
 - The staging bucket policy, as Denies (within one account an Allow in a
-  bucket policy restricts no one): deny `s3:PutObjectTagging` on `in/*` to
-  every principal but the ingest role, the sweep role and admins; and for
-  the sweep role two more Denies (their conditions are ANDed, so one can't
-  hold both): `ForAnyValue:StringNotEquals s3:RequestObjectTagKeys
-  ["redrives"]`, and `Null s3:RequestObjectTagKeys` true. Writers may set no
-  tags (the sweep never writes an empty tag set).
-- Staging lifecycle: expire objects tagged `ingested=true` after 1 day, and
-  abort incomplete multipart uploads under `in/` after 1 day.
+  bucket policy restricts no one), each naming both `s3:PutObjectTagging`
+  and `s3:PutObjectVersionTagging` (a tagging request with a versionId, even
+  `null`, is authorised as the latter): deny them on `in/*` to every
+  principal but the ingest role, the sweep role and admins; and for the
+  sweep role two more Denies (their conditions are ANDed, so one can't hold
+  both): `ForAnyValue:StringNotEquals s3:RequestObjectTagKeys ["redrives"]`,
+  and `Null s3:RequestObjectTagKeys` true. Writers may set no tags (the
+  sweep never writes an empty tag set).
+- Staging lifecycle: expire objects tagged `ingested=true` after 1 day; and,
+  as its own rule (S3 won't combine it with a tag filter), abort incomplete
+  multipart uploads under `in/` after 7 days. A staging upload must finish
+  within that window (about 9.6 TB at 16 MB/s): don't approve a `max_size`
+  the uploader can't upload in time.
 - If-None-Match, on the staging and evidence buckets: deny `s3:PutObject`
   when `Null s3:if-none-match` is true **and** `Bool
   s3:ObjectCreationOperation` is true (checked live 2026-09-28). The second
@@ -228,17 +261,24 @@ record.
   upload, including every copy over 5 GB.
 - S3 notifications on the staging bucket for `ObjectCreated:*`, prefix `in/`,
   suffix `.json`, to the queue. The queue policy allows S3 to send for that
-  bucket (`aws:SourceArn`, `aws:SourceAccount`) and denies `sqs:SendMessage`
-  to every other principal but the sweep role. A record's `ingest.principal`
-  is what the message's S3 event reported; the sweep role could forge one
-  (it sends only `{"staging_key": ...}`, which carries none), so the
-  principal is as trustworthy as that role.
+  bucket (`aws:SourceArn`, `aws:SourceAccount`), and has one Deny on
+  `sqs:SendMessage` with two conditions, ANDed: `Bool aws:PrincipalIsAWSService`
+  false, and `ArnNotEquals aws:PrincipalArn` [the sweep role, admin roles]
+  (a lone `ArnNotEquals` would also deny S3, whose service principal has no
+  `aws:PrincipalArn`; admins must be exempt to redrive the DLQ). A record's
+  `ingest.principal` is what the message's S3 event reported; the sweep role
+  and admins could forge one (the sweep sends only `{"staging_key": ...}`,
+  which carries none), so the principal is as trustworthy as they are.
   The event source: `BatchSize` 1, `ReportBatchItemFailures`; function
   timeout 900 s; queue visibility timeout at least six times that (5400 s)
   and `maxReceiveCount` at least 5, as AWS advises for Lambda consumers, then
   a DLQ with an alarm. Handled failures come back after 60 s regardless.
 - The sweep function: an hourly schedule, timeout 900 s (it stops
-  `SWEEP_RESERVE_MS` before the end and logs what it didn't read), 512 MB.
+  `SWEEP_RESERVE_MS` before the end and logs what it didn't read), 512 MB,
+  and an async invoke config with `MaximumRetryAttempts` 0 (the next hourly
+  run is the retry; Lambda's own retries would re-drive the same files within
+  minutes and use up their `redrives`). Alarm on its Errors metric, or on
+  the `error` key in its count line.
 - Environment: `STAGING_BUCKET`, `EVIDENCE_BUCKET`, `OPS_BUCKET`,
   `CODE_SHA256` and `QUEUE_URL` on the ingest function (without `QUEUE_URL`
   a failed message waits the full visibility timeout, not 60 s);
@@ -281,8 +321,9 @@ record names one environment's evidence and staging buckets.
 ## Documents
 
 All three serialize with `canonical_json` (sorted keys, ASCII, compact, one
-trailing newline); approvals, written by hand, need only be strict JSON. Parsers insist on exactly those bytes, so a document's hash
-can always be recomputed from what it says. Every field has a byte cap. For
+trailing newline). Parsers insist on exactly those bytes, so a document's
+hash can always be recomputed from what it says. (Approvals, written by hand,
+need only be strict JSON: no approval's hash is recorded.) Every field has a byte cap. For
 sidecars and records the document limits sit above the worst case the caps
 allow, so one that validates always serializes; a manifest is capped at
 `MAX_MANIFEST_BYTES`, and validation says so before anything is written.

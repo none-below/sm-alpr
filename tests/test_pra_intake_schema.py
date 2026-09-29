@@ -1770,6 +1770,12 @@ def sniff_samples():
         alphabet = rng.choice(alphabets)
         heads.append(bytes(rng.choice(alphabet) for _ in range(rng.choice((1, 8, 64, 700, 1100)))))
     heads += [tag + b" x" for tag in s.HTML_STARTS] + [b"  " + tag.upper() for tag in s.HTML_STARTS]
+    near = [b"<!--", b"<script", b"<?php", b"<iframe", b"<table", b"<title", b"<style", b"<p>", b"<a ", b"<!doctype",
+            b"\xff\xfa", b"\xff\xe3", b"\xff\xf1", b"\xff\xf9", b"MM\x00+", b"II+\x00", b"\x1f\x9d", b"\x1f\xa0",
+            b"%!PS", b"\x00\x00\x01\xba", b"\x00\x00\x01\xb3", b"FWS", b"CWS", b"wOFF", b"\x7fELF", b"MZ",
+            b"\xca\xfe\xba\xbe"]  # near misses: a rule written inline, not in the tables, changes one of these
+    near += [m[:-1] + bytes([m[-1] ^ 0x01]) for m, _ in s._MAGIC]
+    heads += [n + b"x\x00" for n in near] + [n + b" text" for n in near]
     return {"samples": {h.hex(): s.sniff_type(h) for h in heads}, "tables": sniff_tables()}
 
 

@@ -13,6 +13,7 @@ version holds exactly the bytes it names, under the lock it names.
 import copy
 import hashlib
 import json
+import signal
 import sys
 import types
 from datetime import timedelta
@@ -113,7 +114,7 @@ def make_sidecar(data, u, *, part_size=None, origin="live", mp=True, filename="a
 def staging_tag_policy(role, tags):
     """The pinned staging policy: the ingest role (and admins) set any tags;
     the sweep only its re-drive count, never an empty set."""
-    return role is None or LAMBDA <= role or (bool(tags) and set(tags) == {ig.REDRIVES_TAG})
+    return role is None or LAMBDA <= role or (SWEEPER <= role and bool(tags) and set(tags) == {ig.REDRIVES_TAG})
 
 
 def new_fake(*, lock_mode="GOVERNANCE", lock_days=3650):
@@ -2092,8 +2093,12 @@ def test_ctrl_c_during_the_copy_aborts_the_upload(fake, large):  # L2
         os.kill(os.getpid(), signal.SIGINT)
         time.sleep(0.2)
     fake.before("upload_part_copy", interrupt, when=lambda kw: kw["PartNumber"] == 1)
-    with pytest.raises(KeyboardInterrupt):
-        ingest(fake, workers=2)[0].process(s.staging_sidecar_key(u))
+    prior = signal.signal(signal.SIGINT, signal.default_int_handler)  # even if the runner ignores SIGINT
+    try:
+        with pytest.raises(KeyboardInterrupt):
+            ingest(fake, workers=2)[0].process(s.staging_sidecar_key(u))
+    finally:
+        signal.signal(signal.SIGINT, prior)
     assert not fake.buckets[EVD].uploads
     assert len(fake.ops("abort_multipart_upload")) == 1
 
@@ -2155,8 +2160,18 @@ def test_the_job_exits_tempfail_when_it_cant_start(fake, aws, monkeypatch, capsy
         monkeypatch.setattr(ig, "_client", lambda name: fake.as_role(role) if name == "s3" else aws)
     u, _ = stage(fake, CSV)
     assert ig.main(["process", s.staging_sidecar_key(u)]) == ig.EX_TEMPFAIL
-    assert json.loads(capsys.readouterr().out.splitlines()[-1])["status"] == "transient"
+    line = json.loads(capsys.readouterr().out.splitlines()[-1])
+    assert line["status"] == "transient" and line["where"] and line["where"][-1].endswith(":_retention")
+    if break_it == "grant":
+        assert (line["code"], line["status_code"]) == ("AccessDenied", 403)
     assert_untouched(fake, u)
+
+
+def test_the_job_names_a_missing_variable(fake, aws, monkeypatch, capsys):  # R6
+    monkeypatch.delenv("OPS_BUCKET")
+    assert ig.main(["process", s.staging_sidecar_key(next_uuid())]) == ig.EX_TEMPFAIL
+    line = json.loads(capsys.readouterr().out.splitlines()[-1])
+    assert (line["error"], line["variable"]) == ("KeyError", "OPS_BUCKET")
 
 
 def test_a_checksum_hidden_on_this_runs_own_write_is_retried(fake):  # L6
@@ -2276,3 +2291,205 @@ def test_the_fake_wants_every_part_checksummed_on_a_sha256_upload(fake):  # T8
     with pytest.raises(FakeClientError):
         fake.complete_multipart_upload(Bucket=EVD, Key=key, UploadId=mpu["UploadId"], IfNoneMatch="*",
                                        MultipartUpload={"Parts": [{"PartNumber": 1, "ETag": got["ETag"]}]})
+
+
+# --- The re-check of 22a9320c2 (.claude/reviews/pr-841-recheck.md) -------------------------------
+
+
+def hide_checksum(fake, key, sse=None):
+    fake.edit_head(EVD, key, lambda h: {**{k: v for k, v in h.items() if not k.startswith("Checksum")},
+                                        **({"ServerSideEncryption": sse} if sse else {})})
+
+
+def test_a_checksum_sse_kms_hides_is_retried_every_time(fake):  # P2
+    u, sc = stage(fake, CSV)
+    hide_checksum(fake, s.blob_key(sc["data"]["sha256"]), sse="aws:kms")
+    ing, _ = ingest(fake)
+    for _ in range(3):  # the first run's own write, then the SQS retries that find it already stored
+        with pytest.raises(ig.Transient):
+            ing.process(s.staging_sidecar_key(u))
+        assert_untouched(fake, u)
+
+
+def test_a_sse_s3_blob_without_a_checksum_is_still_a_conflict_on_the_retry(fake):  # P2
+    u, sc = stage(fake, CSV)
+    hide_checksum(fake, s.blob_key(sc["data"]["sha256"]))
+    ing, _ = ingest(fake)
+    with pytest.raises(ig.Transient):
+        ing.process(s.staging_sidecar_key(u))
+    assert ing.process(s.staging_sidecar_key(u)).reason == "evidence_conflict"
+
+
+def test_a_failed_reopen_is_logged_with_its_own_code(fake):  # P3
+    fake.sdk_attempts = 3
+    u, _ = stage(fake, BIG, part_size=5 * MiB)
+    key = s.staging_data_key(u)
+    fake.drop(STG, key, 100)
+    gets = iter(range(100))
+    fake.fail("get_object", code="SlowDown", status=503, when=lambda kw: kw["Key"] == key and next(gets) == 1)
+    ing, logs = ingest(fake)
+    with pytest.raises(ig.Transient):
+        ing.process(s.staging_sidecar_key(u))
+    line = json.loads(logs[-1])
+    assert (line["code"], line["status"]) == ("SlowDown", 503)
+    assert_untouched(fake, u)
+
+
+@pytest.mark.parametrize("at", [0, 100, 6 * MiB], ids=["byte-0", "early", "mid-body"])
+def test_a_dropped_staging_stream_is_reopened_within_the_call(fake, at):  # R1, RT2
+    fake.sdk_attempts = 3
+    u, sc = stage(fake, BIG, part_size=5 * MiB)
+    fake.drop(STG, s.staging_data_key(u), at)
+    assert run(fake, u)[0].status == "stored"
+    assert len([c for c in fake.ops("get_object", STG) if c[2] == s.staging_data_key(u)]) == 2
+    assert fake.current(EVD, s.blob_key(sc["data"]["sha256"]))["data"] == BIG
+
+
+def test_a_body_whose_first_read_failed_starts_over():  # R1
+    sc = make_sidecar(BIG, "x", part_size=5 * MiB)
+
+    class Dead:
+        def read(self, n):
+            raise ConnectionError("reset")
+    opened = []
+    body = ig._CheckedBody(lambda: (opened.append(1), Dead() if len(opened) == 1 else Chunks(BIG))[1], sc)
+    with pytest.raises(ConnectionError):
+        body.read(1000)
+    assert body.tell() == 0 and body.seek(0) == 0 and len(opened) == 2  # untouched position, but a new stream
+    assert b"".join(iter(lambda: body.read(3 * MiB), b"")) == BIG
+
+
+def test_a_failure_in_a_sweep_chunk_still_counts_the_rest(fake):  # R2
+    lost = [stage(fake, f"lost {i}\n".encode())[0] for i in range(8)]
+    fake.tick(7200)
+    bad = s.staging_sidecar_key(lost[5])
+    fake.fail("get_object_tagging", code="InternalError", status=500, when=lambda kw: kw["Key"] == bad)
+    sent, logs = [], []
+    with pytest.raises(FakeClientError):
+        ig.sweep(fake.as_role(SWEEPER), staging_bucket=STG, send=sent.append, now=fake.now, log=logs.append,
+                 workers=4)
+    line = json.loads(logs[-1])
+    assert line["redriven"] == len(sent)
+    assert line["unread"] == 8 - len(sent)  # the failed file, and any chunk never reached
+    assert bad not in [m["staging_key"] for m in sent]
+
+
+def test_the_sweep_really_reads_tags_concurrently(fake):  # RT3
+    import threading
+    lost = [stage(fake, f"lost {i}\n".encode())[0] for i in range(8)]
+    fake.tick(7200)
+    barrier = threading.Barrier(4, timeout=5)  # four tag reads must be in flight at once
+    for u in lost:
+        k = s.staging_sidecar_key(u)
+        fake.before("get_object_tagging", lambda kw: barrier.wait(), when=lambda kw, k=k: kw["Key"] == k)
+    counts, sent = sweep(fake, workers=4)
+    assert counts["redriven"] == 8
+
+
+@pytest.mark.parametrize("blob_mode,default_mode,lapsed,expected", [
+    ("COMPLIANCE", "GOVERNANCE", True, "GOVERNANCE"),  # a lapsed lock takes today's mode
+    ("GOVERNANCE", "COMPLIANCE", True, "COMPLIANCE"),
+    ("COMPLIANCE", "GOVERNANCE", False, "COMPLIANCE"),  # a live COMPLIANCE lock can't change mode
+])
+def test_a_renewal_uses_the_blobs_mode_only_while_its_lock_is_live(blob_mode, default_mode, lapsed, expected):  # R3
+    fake = new_fake(lock_mode=default_mode, lock_days=1)
+    u1, sc = stage(fake, CSV)
+    run(fake, u1)
+    key = s.blob_key(sc["data"]["sha256"])
+    v = fake.current(EVD, key)
+    v["lock_mode"] = blob_mode
+    fake.tick(2 * 86400 if lapsed else 20 * 3600)
+    u2, _ = stage(fake, CSV)
+    assert run(fake, u2)[0].status == "already_stored"
+    assert record_of(fake, u2)["evidence"]["lock_mode"] == expected
+
+
+def test_a_warm_container_sees_a_lengthened_rule_after_its_ttl():  # R4
+    fake = new_fake(lock_days=2)
+    ing, _ = ingest(fake)
+    ing.check_buckets()
+    u1, sc = stage(fake, CSV)
+    ing.process(s.staging_sidecar_key(u1))
+    key = s.blob_key(sc["data"]["sha256"])
+    fake.buckets[EVD].lock_days = 3650
+    fake.tick(int(1.5 * 86400))  # past the TTL; half a day left: fine under 2 days, short under 3650
+    u2, _ = stage(fake, CSV)
+    assert ing.process(s.staging_sidecar_key(u2)).status == "already_stored"
+    assert fake.current(EVD, key)["lock_until"] > fake.now + timedelta(days=3000)
+
+
+def test_a_blob_under_an_event_hold_is_never_renewed(fake):  # R5
+    u1, sc = stage(fake, CSV)
+    run(fake, u1)
+    v = fake.current(EVD, s.blob_key(sc["data"]["sha256"]))
+    v["event_hold"], v["lock_until"] = "ON", fake.now + timedelta(hours=3)  # well under half the period left
+    u2, _ = stage(fake, CSV)
+    fake.calls.clear()
+    assert ingest(fake)[0].process(s.staging_sidecar_key(u2)).status == "already_stored"  # not run(): the test shortened it
+    assert not fake.ops("put_object_retention")
+    fake.tick(4 * 3600)  # its fixed date passes: safe under the hold, but v1 can't record it
+    u3, _ = stage(fake, CSV)
+    ing, logs = ingest(fake)
+    with pytest.raises(ig.Transient):
+        ing.process(s.staging_sidecar_key(u3))
+    assert "lock_held" in json.loads(logs[-1])["error"] and not fake.ops("put_object_retention")
+
+
+def test_a_rule_with_a_default_event_hold_fails_closed(fake):  # R5
+    fake.buckets[EVD].lock_config = {"ObjectLockEnabled": "Enabled", "Rule": {"DefaultRetention": {
+        "Mode": "GOVERNANCE", "Days": 365, "DefaultEventHold": {"Days": 90}}}}
+    with pytest.raises(RuntimeError):
+        ingest(fake)[0].check_buckets()
+
+
+def test_a_renewal_that_fails_otherwise_is_retried_not_logged_renewed():  # RT1 (a)
+    fake = new_fake(lock_days=1)
+    lapsing(fake)
+    fake.fail("put_object_retention", code="ServiceUnavailable", status=503)
+    u2, _ = stage(fake, CSV)
+    ing, logs = ingest(fake)
+    with pytest.raises(ig.Transient):
+        ing.process(s.staging_sidecar_key(u2))
+    assert "lock_renewed" not in [json.loads(line)["event"] for line in logs]
+    assert_untouched(fake, u2)
+
+
+def test_the_large_path_neither_renews_its_own_write_nor_rejects_a_hidden_checksum(fake, large):  # RT1 (b)
+    u, sc = stage(fake, BIG, part_size=5 * MiB)
+    key = s.blob_key(sc["data"]["sha256"])
+    fake.edit_head(EVD, key, lambda h: {**{k: v for k, v in h.items() if not k.startswith("Checksum")},
+                                        "ObjectLockRetainUntilDate": fake.now + timedelta(hours=1)})
+    with pytest.raises(ig.Transient):
+        ingest(fake)[0].process(s.staging_sidecar_key(u))
+    assert not fake.ops("put_object_retention")
+    assert_untouched(fake, u)
+
+
+def test_the_renewed_lock_is_read_back_from_the_version_renewed():  # RT1 (c)
+    fake = new_fake(lock_days=1)
+    key = lapsing(fake)
+    old = fake.current(EVD, key)["version_id"]
+
+    def restore(kw):  # a delete marker and the same bytes again, between the renewal and its read-back
+        fake.delete_object(Bucket=EVD, Key=key)
+        fake.put_object(Bucket=EVD, Key=key, Body=CSV, ChecksumSHA256=b64_sha256(CSV), IfNoneMatch="*",
+                        ContentType=s.EVIDENCE_CONTENT_TYPE, ContentDisposition=s.EVIDENCE_CONTENT_DISPOSITION)
+    fake.before("put_object_retention", restore)
+    u2, _ = stage(fake, CSV)
+    assert ingest(fake)[0].process(s.staging_sidecar_key(u2)).status == "already_stored"
+    assert record_of(fake, u2)["evidence"]["version_id"] == old
+
+
+def test_an_approval_with_a_duplicate_key_is_refused(fake, gate):  # RT5
+    sc = over_gate()
+    src = sc["source"]
+    source = json.dumps({k: src[k] for k in ("kind", "platform", "host", "request_id", "doc_id", "url")})
+    raw = ('{"schema": 1, "kind": "cost_gate_approval", "max_size": 60000000000, "note": null, '
+           f'"source": {source}, "approved_by": "admin", '
+           '"expires_at": "2026-09-01T00:00:00Z", "expires_at": "2099-01-01T00:00:00Z"}').encode()
+    fake.put_object(Bucket=OPS, Key=APPROVAL, Body=raw)
+    u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
+    out, logs = run(fake, u)
+    assert_rejected(fake, u, out, "too_large")
+    line = json.loads(logs[-1])
+    assert (line["field"], line["problem"]) == ("approval", "duplicate key")
