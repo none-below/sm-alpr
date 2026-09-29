@@ -322,7 +322,9 @@ def main():
         if not pdfs:
             sys.exit(0)
     elif args.files:
-        pdfs = [Path(f) for f in args.files]
+        # CI passes every path the change touches, including PDFs it deletes;
+        # a deleted file has nothing left to scan.
+        pdfs = [p for p in map(Path, args.files) if p.exists()]
     else:
         scan_dir = Path(args.dir)
         if not scan_dir.exists():
