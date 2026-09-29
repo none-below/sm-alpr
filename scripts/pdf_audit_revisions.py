@@ -40,6 +40,8 @@ from pathlib import Path
 
 import fitz  # pymupdf
 
+import pdf_vector_redaction as vecredact
+
 EOF_RE = re.compile(rb"%%EOF")
 UUID_RE = re.compile(
     r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
@@ -283,6 +285,39 @@ def analyze(path: Path) -> None:
                 "file was rendered are not recoverable, and the absence of recovered edits "
                 "is no indication of whether or not the content was altered."
             )
+
+    try:
+        vfindings = vecredact.scan_bytes(data, label=path.name)
+    except Exception as e:
+        vfindings = []
+        print(f"  (vector-redaction check failed to run: {e})")
+    if vfindings:
+        print("  --- VECTOR REDACTION CHECK ---")
+        print(
+            "  Text rendered as filled vector paths (outlined, not real characters) found "
+            "hidden under an opaque box. A text-layer check finds nothing here, but the "
+            "content is still present as ordinary graphics and is recoverable:"
+        )
+        for row in vfindings:
+            print(
+                f"      p{row['page']} rect={row['rect']} ({row['n_shapes']} shapes, "
+                f"confidence={row['confidence']})"
+            )
+        # Detection above is PyMuPDF-only (fast, no browser). Recovery needs the
+        # browser-verified renderer — see browser_recover_pdf's docstring for why
+        # PyMuPDF itself can't be used to redraw the hidden glyphs correctly.
+        try:
+            import tempfile
+
+            with tempfile.NamedTemporaryFile(suffix=".pdf") as tf:
+                tf.write(data)
+                tf.flush()
+                recs_ = vecredact.browser_recover_pdf(Path(tf.name))
+            for row in recs_:
+                if row.get("recovered_text"):
+                    print(f"      p{row['page']} recovered: {row['recovered_text']!r}")
+        except Exception as e:
+            print(f"      (recovery unavailable: {e}; run pdf_vector_redaction.py --recover on the file directly)")
 
     if len(recs) < 2:
         return
