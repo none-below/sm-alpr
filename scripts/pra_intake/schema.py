@@ -565,10 +565,13 @@ _MAGIC = (
 _BINARY_BYTES = frozenset(set(range(0, 9)) | {11} | set(range(14, 26)) | set(range(28, 32)))
 
 
+HTML_STARTS = (b"<!doctype html", b"<html", b"<head", b"<body")  # lower-cased starts that make text HTML
+
+
 def _sniff_text(head):
     start = head[3:] if head.startswith(b"\xef\xbb\xbf") else head
     start = start.lstrip(b" \t\r\n\x0c").lower()
-    if start.startswith((b"<!doctype html", b"<html", b"<head", b"<body")):
+    if start.startswith(HTML_STARTS):
         return "html"
     if start.startswith(b"<?xml"):
         return "html" if b"<html" in head.lower() else "xml"
@@ -1491,7 +1494,10 @@ def validate_approval(obj):
 
 
 def parse_approval(data):
-    obj = parse_strict_json(data, max_bytes=MAX_APPROVAL_BYTES, field="approval", reason="invalid_metadata")
+    """An admin writes approvals by hand, and no approval's hash is recorded,
+    so any strict JSON will do (canonical bytes buy nothing here)."""
+    obj = parse_strict_json(data, max_bytes=MAX_APPROVAL_BYTES, field="approval", reason="invalid_metadata",
+                            canonical=False)
     return validate_approval(obj)
 
 

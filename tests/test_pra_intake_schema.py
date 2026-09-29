@@ -1719,9 +1719,9 @@ def test_vocabulary_is_pinned():
     new schema version (with the old one still readable), not a regenerated
     fixture."""
     pinned, current = json.loads((FIXTURES / "vocabulary.json").read_text()), vocabulary()
-    # Reject reasons name staging tags and log lines, never anything stored in
-    # evidence: a new one may be added (pin it here too), but none removed or
-    # repurposed (a tag already in staging would lose its meaning).
+    # Reject reasons name staging tags and log lines, and a stored fetch
+    # manifest may carry one as a failed file's reason: a new one may be
+    # added (pin it here too), but none removed or repurposed.
     old, new = set(pinned.pop("REJECT_REASONS")), set(current.pop("REJECT_REASONS"))
     assert old <= new, f"reject reasons removed: {sorted(old - new)}"
     assert new <= old, f"new reject reasons: add {sorted(new - old)} to vocabulary.json"
@@ -1769,7 +1769,15 @@ def sniff_samples():
     for _ in range(300):
         alphabet = rng.choice(alphabets)
         heads.append(bytes(rng.choice(alphabet) for _ in range(rng.choice((1, 8, 64, 700, 1100)))))
-    return {h.hex(): s.sniff_type(h) for h in heads}
+    heads += [tag + b" x" for tag in s.HTML_STARTS] + [b"  " + tag.upper() for tag in s.HTML_STARTS]
+    return {"samples": {h.hex(): s.sniff_type(h) for h in heads}, "tables": sniff_tables()}
+
+
+def sniff_tables():
+    """What sniff_type decides by, frozen too: a new magic or HTML start
+    passes every sample above yet changes answers."""
+    return {"magic": [[m.hex(), name] for m, name in s._MAGIC], "html_starts": [x.decode() for x in s.HTML_STARTS],
+            "binary_bytes": sorted(s._BINARY_BYTES), "sniff_bytes": s.SNIFF_BYTES}
 
 
 def test_sniffing_is_pinned():
@@ -1778,8 +1786,10 @@ def test_sniffing_is_pinned():
     library would be refused: that needs a new schema version, not a new
     fixture."""
     pinned = json.loads((FIXTURES / "sniff_v1.json").read_text())
-    assert {h: s.sniff_type(bytes.fromhex(h)) for h in pinned} == pinned
-    assert set(pinned.values()) == set(s.SNIFF_TYPES)
+    assert pinned["tables"] == sniff_tables()
+    samples = pinned["samples"]
+    assert {h: s.sniff_type(bytes.fromhex(h)) for h in samples} == samples
+    assert set(samples.values()) == set(s.SNIFF_TYPES)
 
 
 def test_a_fetch_manifest_sniffs_as_text_whatever_its_filenames_say():

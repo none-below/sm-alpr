@@ -29,10 +29,15 @@ botocore showed it in the 2026-09-28 live probes and documentation:
     an exception before the declared length is sent fails the upload, but
     once S3 has every byte the object is stored whatever the client does.
 
-Faults and races are injected with fail() and before().
+Faults and races are injected with fail() and before(); a hook runs as
+itself (it acts through the admin FakeS3 it closes over), never by
+switching a shared role. sdk_attempts > 1 makes put_object retry a
+retryable error the way botocore's standard mode does, rewinding a
+streamed body with seek(0) first (a body that can't rewind ends it with
+FakeUnseekableStream). fail("put_object_body", ...) injects an error after
+the body has been sent.
 """
 import base64
-import contextlib
 import copy
 import hashlib
 import io
@@ -44,6 +49,10 @@ from urllib.parse import quote_plus
 MiB = 1024 * 1024
 MIN_PART = 5 * MiB
 HTTP_BLOCK = 16384  # how much urllib3 asks a file-like body for at a time
+
+
+class FakeUnseekableStream(Exception):
+    """botocore's UnseekableStreamError: a retry couldn't rewind the body."""
 
 
 class FakeClientError(Exception):
@@ -91,6 +100,7 @@ class Bucket:
         self.name, self.versioned, self.lock_days, self.lock_mode = name, versioned or bool(lock_days), lock_days, lock_mode
         self.require_if_none_match, self.sse = require_if_none_match, sse
         self.tag_policy = None  # (role, tags) -> allowed?
+        self.lock_config = None  # a GetObjectLockConfiguration answer to give instead of the default rule
         self.objects = {}  # key -> [version dicts], oldest first
         self.uploads = {}  # upload id -> {"key", "algorithm", "parts": {n: part}, ...}
 
@@ -100,7 +110,7 @@ class FakeS3:
         self._clock, self.page_size = [now], page_size
         self.buckets, self.calls, self.principal = {}, [], "AWS:AROAEXAMPLE:gha-123-1"
         self.role = None  # None: an admin, allowed everything; else a set of (action, bucket)
-        self.max_read, self.bytes_read = None, {}
+        self.max_read, self.bytes_read, self.sdk_attempts = None, {}, 1
         self._faults, self._hooks, self._subscribers, self._head_edits, self._truncate = [], [], [], {}, {}
         self._ids = itertools.count(1)
 
@@ -126,15 +136,6 @@ class FakeS3:
         self.buckets[name] = Bucket(name, versioned=versioned, lock_days=lock_days, lock_mode=lock_mode,
                                     require_if_none_match=require_if_none_match, sse=sse)
         return self.buckets[name]
-
-    @contextlib.contextmanager
-    def acting_as(self, role):
-        """Calls inside run with `role`'s grants (None: an admin)."""
-        previous, self.role = self.role, role
-        try:
-            yield self
-        finally:
-            self.role = previous
 
     def fail(self, op, *, code="SlowDown", status=503, times=1, when=lambda kw: True):
         """The next `times` calls of `op` for which when(kwargs) holds raise."""
@@ -186,8 +187,7 @@ class FakeS3:
         for h in self._hooks:
             if h["op"] == op and h["left"] and h["when"](kw):
                 h["left"] -= 1
-                with self.acting_as(None):
-                    h["fn"](kw)
+                h["fn"](kw)  # through the FakeS3 it closes over; this view's role is untouched
         for f in self._faults:
             if f["op"] == op and f["left"] and f["when"](kw):
                 f["left"] -= 1
@@ -268,9 +268,24 @@ class FakeS3:
         self._need("s3:ListBucket", Bucket, "HeadBucket", head=True)
         return {}
 
-    def put_object(self, *, Bucket, Key, Body=b"", ContentLength=None, ChecksumSHA256=None, IfNoneMatch=None,
-                   ContentType=None, ContentDisposition=None, Metadata=None, ServerSideEncryption=None,
-                   Tagging=None, **extra):
+    def put_object(self, **kw):
+        for attempt in range(1, self.sdk_attempts + 1):
+            try:
+                return self._put_object(**kw)
+            except FakeClientError as e:
+                status, code = e.response["ResponseMetadata"]["HTTPStatusCode"], e.response["Error"]["Code"]
+                if attempt == self.sdk_attempts or not (status >= 500 or code in ("SlowDown", "RequestTimeout")):
+                    raise
+                body = kw.get("Body")
+                if body is not None and not isinstance(body, (bytes, bytearray)):
+                    try:
+                        body.seek(0)  # botocore's reset_stream before a retry
+                    except Exception as err:
+                        raise FakeUnseekableStream(str(err)) from err
+
+    def _put_object(self, *, Bucket, Key, Body=b"", ContentLength=None, ChecksumSHA256=None, IfNoneMatch=None,
+                    ContentType=None, ContentDisposition=None, Metadata=None, ServerSideEncryption=None,
+                    Tagging=None, **extra):
         kw = dict(Bucket=Bucket, Key=Key, IfNoneMatch=IfNoneMatch, Metadata=Metadata)
         self._enter("put_object", kw)
         assert not extra, f"unmodeled PutObject parameters: {sorted(extra)}"
@@ -312,6 +327,10 @@ class FakeS3:
             data = b"".join(chunks)
         if ContentLength is not None and len(data) != ContentLength:
             raise FakeClientError("IncompleteBody", 400, "PutObject")
+        for f in self._faults:  # an error after the body was sent (a 5xx, a reset)
+            if f["op"] == "put_object_body" and f["left"] and f["when"](kw):
+                f["left"] -= 1
+                raise FakeClientError(f["code"], f["status"], "PutObject")
         if ChecksumSHA256 is not None and ChecksumSHA256 != b64_sha256(data):
             raise FakeClientError("BadDigest", 400, "PutObject")
         self._check_create(b, Key, IfNoneMatch, "PutObject")  # a writer that raced in during the body
@@ -382,6 +401,8 @@ class FakeS3:
         self._enter("get_object_lock_configuration", dict(Bucket=Bucket))
         b = self._bucket(Bucket, "GetObjectLockConfiguration")
         self._need("s3:GetBucketObjectLockConfiguration", Bucket, "GetObjectLockConfiguration")
+        if b.lock_config is not None:
+            return {"ObjectLockConfiguration": copy.deepcopy(b.lock_config)}
         if not b.lock_days:
             raise FakeClientError("ObjectLockConfigurationNotFoundError", 404, "GetObjectLockConfiguration")
         return {"ObjectLockConfiguration": {"ObjectLockEnabled": "Enabled", "Rule": {
@@ -390,10 +411,14 @@ class FakeS3:
     def put_object_retention(self, *, Bucket, Key, Retention, VersionId=None, BypassGovernanceRetention=False):
         self._enter("put_object_retention", dict(Bucket=Bucket, Key=Key, VersionId=VersionId, Retention=Retention))
         b = self._bucket(Bucket, "PutObjectRetention")
-        self._need("s3:PutObjectRetention", Bucket, "PutObjectRetention", Key)
-        if not b.lock_days and not b.versioned:
-            raise FakeClientError("InvalidRequest", 400, "PutObjectRetention")
-        v = self._version(b, Key, VersionId, "PutObjectRetention")
+        self._need("s3:PutObjectRetention", Bucket, "PutObjectRetention", Key)  # AWS needs no GetObjectVersion here
+        if not b.lock_days and b.lock_config is None:
+            raise FakeClientError("InvalidRequest", 400, "PutObjectRetention")  # a bucket without Object Lock
+        found = [v for v in b.objects.get(Key) or [] if not v["delete_marker"]
+                 and (VersionId is None or v["version_id"] == VersionId)]
+        if not found:
+            raise FakeClientError("NoSuchVersion" if VersionId else "NoSuchKey", 404, "PutObjectRetention")
+        v = found[-1]
         mode, until = Retention["Mode"], Retention["RetainUntilDate"]
         if v["lock_mode"] and v["lock_until"] and v["lock_until"] > self.now:  # an active lock
             shorter = until < v["lock_until"]
@@ -479,9 +504,11 @@ class FakeS3:
             raise FakeClientError("NoSuchUpload", 404, op)
         return upload
 
-    def _add_part(self, upload, n, data):
+    def _add_part(self, upload, n, data, *, checksum=True):
+        """A part; its SHA-256 only when the request sent one (UploadPart) or
+        S3 computed it (UploadPartCopy), on an upload created with SHA256."""
         part = {"data": data, "etag": f'"{hashlib.md5(data).hexdigest()}"',
-                "checksum": b64_sha256(data) if upload["algorithm"] == "SHA256" else None}
+                "checksum": b64_sha256(data) if upload["algorithm"] == "SHA256" and checksum else None}
         upload["parts"][n] = part
         return part
 
@@ -490,12 +517,14 @@ class FakeS3:
         b = self._bucket(Bucket, "UploadPart")
         self._need("s3:PutObject", Bucket, "UploadPart", Key)
         upload = self._upload(b, Key, UploadId, "UploadPart")
+        if not isinstance(Body, (bytes, bytearray)):  # as put_object: botocore's CRT signer needs these
+            assert hasattr(Body, "seek") and hasattr(Body, "tell"), "a streamed body needs seek() and tell()"
         data = bytes(Body) if isinstance(Body, (bytes, bytearray)) else Body.read()
         if ContentLength is not None and len(data) != ContentLength:
             raise FakeClientError("IncompleteBody", 400, "UploadPart")
         if ChecksumSHA256 is not None and ChecksumSHA256 != b64_sha256(data):
             raise FakeClientError("BadDigest", 400, "UploadPart")
-        part = self._add_part(upload, PartNumber, data)
+        part = self._add_part(upload, PartNumber, data, checksum=ChecksumSHA256 is not None)
         return {"ETag": part["etag"], **({"ChecksumSHA256": part["checksum"]} if part["checksum"] else {})}
 
     def upload_part_copy(self, *, Bucket, Key, UploadId, PartNumber, CopySource, CopySourceRange=None,
@@ -537,7 +566,7 @@ class FakeS3:
             part = upload["parts"].get(p["PartNumber"])
             if part is None or part["etag"] != p["ETag"]:
                 raise FakeClientError("InvalidPart", 400, "CompleteMultipartUpload")
-            if part["checksum"] and p.get("ChecksumSHA256") != part["checksum"]:
+            if upload["algorithm"] == "SHA256" and (not part["checksum"] or p.get("ChecksumSHA256") != part["checksum"]):
                 raise FakeClientError("InvalidPart", 400, "CompleteMultipartUpload")
             if i < len(listed) - 1 and len(part["data"]) < MIN_PART:
                 raise FakeClientError("EntityTooSmall", 400, "CompleteMultipartUpload")

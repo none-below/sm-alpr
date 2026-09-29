@@ -26,7 +26,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from pra_intake import ingest as ig  # noqa: E402
 from pra_intake import schema as s  # noqa: E402
-from pra_intake_fakes import FakeS3, b64_sha256, grants, sqs_message  # noqa: E402
+from pra_intake_fakes import FakeClientError, FakeS3, b64_sha256, grants, sqs_message  # noqa: E402
 
 ACCOUNT, REGION = "123456789012", "us-west-2"  # AWS's documented example account
 STG = s.bucket_name("staging", "dev", ACCOUNT, REGION)
@@ -477,8 +477,9 @@ def test_the_job_ingests_a_deferred_file_and_reports_by_exit_code(fake, aws, cap
     assert ig.main(["process", s.staging_sidecar_key(u2)]) == 1
     u3, _ = stage(fake, b"y\n")
     fake.fail("put_object", code="InternalError", status=500, when=lambda kw: kw["Key"].startswith(s.BLOB_PREFIX))
-    assert ig.main(["process", s.staging_sidecar_key(u3)]) == 2
+    assert ig.main(["process", s.staging_sidecar_key(u3)]) == ig.EX_TEMPFAIL
     assert json.loads(capsys.readouterr().out.splitlines()[-1])["status"] == "transient"
+    assert ig.main(["process", s.staging_sidecar_key(next_uuid())]) == 1  # vanished
 
 
 def test_the_counting_sweep_changes_nothing(fake, aws, capsys):
@@ -707,10 +708,29 @@ def test_a_failure_while_rejecting_is_retried(fake):
 def test_s3_errors_on_the_blob_write_are_retried(fake, code, status):
     u, _ = stage(fake, CSV)
     fake.fail("put_object", code=code, status=status, when=lambda kw: kw["Key"].startswith(s.BLOB_PREFIX))
+    ing, logs = ingest(fake)
+    fake.calls.clear()
     with pytest.raises(ig.Transient):
-        run(fake, u)
+        ing.process(s.staging_sidecar_key(u))
+    line = json.loads(logs[-1])
+    assert (line["event"], line["code"], line["status"]) == ("transient", code, status)
+    assert line["where"][-1].endswith(":_store_whole")
+    assert len([c for c in fake.ops("get_object", STG) if c[2] == s.staging_data_key(u)]) == 1
     assert_untouched(fake, u)
     assert run(fake, u)[0].status == "stored"
+
+
+@pytest.mark.parametrize("code,status", [("ConditionalRequestConflict", 409), ("InternalError", 500)])
+def test_s3_errors_on_the_record_write_are_retried(fake, code, status):
+    u, _ = stage(fake, CSV)
+    fake.fail("put_object", code=code, status=status, when=lambda kw: kw["Key"] == s.record_key(u))
+    ing, logs = ingest(fake)
+    with pytest.raises(ig.Transient):
+        ing.process(s.staging_sidecar_key(u))
+    line = json.loads(logs[-1])
+    assert (line["code"], line["status"]) == (code, status) and line["where"][-1].endswith(":_put_record")
+    assert_untouched(fake, u)
+    assert run(fake, u)[0].status == "already_stored"
 
 
 def test_a_blob_the_read_back_cant_find_is_retried(fake):
@@ -916,28 +936,35 @@ class Chunks:
 
 def test_the_upload_body_can_be_asked_where_it_is_but_never_rewound():
     sc = make_sidecar(BIG, "x", part_size=5 * MiB)
-    body = ig._CheckedBody(Chunks(BIG), sc)
+    opened = []
+    body = ig._CheckedBody(lambda: opened.append(1) or Chunks(BIG), sc)
     assert (body.tell(), body.seek(0), body.seek(0, 1), body.seek(-len(BIG), 2)) == (0, 0, 0, 0)
+    assert len(opened) == 1  # staying put opens nothing
+    assert body.read(0) == b"" and body.tell() == 0
     assert len(body.read(1000)) == 1000 and body.tell() == 1000 and body.seek(1000) == 1000
-    for args in ((0,), (-1, 1), (0, 2)):
+    for args in ((1,), (-1, 1), (0, 2), (999,)):
         with pytest.raises(OSError):
             body.seek(*args)
-    rest = b"".join(iter(lambda: body.read(3 * MiB), b""))
-    assert rest == BIG[1000:] and body.tell() == len(BIG) and body.problem is None
+    assert body.seek(0) == 0 and body.tell() == 0 and len(opened) == 2  # botocore's retry: from the start again
+    first, rest = body.read(), body.read(None)  # READ_CHUNK at most, however asked
+    assert (len(first), first + rest) == (ig.READ_CHUNK, BIG)
+    assert body.read() == b"" and body.tell() == len(BIG) and body.problem is None
 
 
 def test_the_upload_body_checks_claims_before_its_last_bytes():
     sc = make_sidecar(BIG, "x", part_size=5 * MiB)
     lied = copy.deepcopy(sc)
     lie_md5(lied)
-    body = ig._CheckedBody(Chunks(BIG), lied)
+    body = ig._CheckedBody(lambda: Chunks(BIG), lied)
     got = 0
     with pytest.raises(ig._ClaimMismatch):
         while chunk := body.read(MiB):
             got += len(chunk)
     assert got == len(BIG) - MiB  # the last MiB was never handed over
     assert body.problem == ("data_mismatch", "sidecar.data.md5")
-    short = ig._CheckedBody(Chunks(BIG[:-1]), sc)
+    with pytest.raises(OSError):
+        body.seek(0)  # a body whose claims failed is never sent again
+    short = ig._CheckedBody(lambda: Chunks(BIG[:-1]), sc)
     with pytest.raises(ig.Transient):
         while short.read(MiB):
             pass
@@ -1089,6 +1116,7 @@ def test_a_sidecar_without_its_data_is_rejected(fake):
     ("staging.data.size", lambda h: {**h, "ContentLength": h["ContentLength"] + 1}),
     ("staging.data.sse", lambda h: {**h, "ServerSideEncryption": "aws:kms"}),
     ("staging.data.checksum", lambda h: {**h, "ChecksumType": "FULL_OBJECT"}),
+    ("staging.data.checksum", lambda h: {**h, "ChecksumSHA256": s.composite_sha256(["0" * 64] * 3)}),
     ("staging.data.checksum", lambda h: {k: v for k, v in h.items() if not k.startswith("Checksum")}),
     ("staging.metadata", lambda h: {**h, "Metadata": {**h["Metadata"], "request-id": "999"}}),
     ("staging.metadata", lambda h: {**h, "Metadata": {}}),
@@ -1230,12 +1258,15 @@ def test_a_manifest_of_held_files_is_stored(fake):
     assert record_of(fake, u)["sidecar"]["content_kind"] == "fetch_manifest"
 
 
-def test_a_manifest_naming_a_file_not_held_is_rejected(fake):
-    entries = [held(fake, CSV, "a.csv"), s.manifest_entry("b.txt", status="held", sha256="bb" * 32, size=2)]
-    u, _ = stage_manifest(fake, entries)
+@pytest.mark.parametrize("missing", [["00" * 32], ["ff" * 32], ["00" * 32, "ff" * 32]], ids=["first", "last", "both"])
+def test_a_manifest_naming_a_file_not_held_is_rejected(fake, missing):
+    entries = [held(fake, CSV, "a.csv")] + [
+        s.manifest_entry(f"m{i}.txt", status="held", sha256=sha, size=2) for i, sha in enumerate(missing)]
+    u, _ = stage_manifest(fake, sorted(entries, key=s.manifest_sort_key))
     out, logs = run(fake, u)
     assert_rejected(fake, u, out, "missing_blob")
-    assert last_field(logs) == "manifest.files"
+    line = json.loads(logs[-1])
+    assert (line["field"], line["problem"]) == ("manifest.files", f"{len(missing)} listed files aren't held")
 
 
 def test_a_manifest_with_a_wrong_size_is_rejected(fake):
@@ -1354,7 +1385,7 @@ def test_a_file_over_the_gate_without_a_covering_approval_is_too_large(fake, gat
     u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
     out, logs = run(fake, u)
     assert_rejected(fake, u, out, "too_large")
-    assert last_field(logs) == field
+    assert last_field(logs) == field and json.loads(logs[-1])["problem"]
 
 
 def test_the_gate_and_the_binding_come_before_deferral(fake, gate):
@@ -1489,8 +1520,9 @@ def plant_parts(fake, key, data, part_size, algorithm="SHA256"):
     mpu = fake.create_multipart_upload(Bucket=EVD, Key=key, **({"ChecksumAlgorithm": algorithm} if algorithm else {}))
     parts = []
     for n, i in enumerate(range(0, len(data), part_size), 1):
-        got = fake.upload_part(Bucket=EVD, Key=key, UploadId=mpu["UploadId"], PartNumber=n,
-                               Body=data[i:i + part_size])
+        chunk = data[i:i + part_size]
+        got = fake.upload_part(Bucket=EVD, Key=key, UploadId=mpu["UploadId"], PartNumber=n, Body=chunk,
+                               **({"ChecksumSHA256": b64_sha256(chunk)} if algorithm else {}))
         parts.append({"PartNumber": n, "ETag": got["ETag"], **(
             {"ChecksumSHA256": got["ChecksumSHA256"]} if algorithm else {})})
     fake.complete_multipart_upload(Bucket=EVD, Key=key, UploadId=mpu["UploadId"],
@@ -1884,7 +1916,36 @@ def test_a_failed_listing_still_logs_the_counts(fake):
     logs = []
     with pytest.raises(Exception):
         ig.sweep(fake.as_role(SWEEPER), staging_bucket=STG, send=lambda m: None, now=fake.now, log=logs.append)
-    assert json.loads(logs[-1])["event"] == "sweep"
+    line = json.loads(logs[-1])
+    assert (line["event"], line["listed"], line["error"]) == ("sweep", False, "FakeClientError")
+
+
+def test_a_sweep_that_fails_midway_says_what_it_didnt_read(fake):
+    for i in range(3):
+        stage(fake, f"{i}\n".encode())
+    fake.tick(7200)
+    fake.fail("get_object_tagging", code="InternalError", status=500)
+    logs = []
+    with pytest.raises(Exception):
+        ig.sweep(fake.as_role(SWEEPER), staging_bucket=STG, send=lambda m: None, now=fake.now, log=logs.append,
+                 workers=1)
+    line = json.loads(logs[-1])
+    assert (line["listed"], line["error"], line["unread"]) == (True, "FakeClientError", 3)
+
+
+def test_the_sweep_reads_tags_concurrently_and_keeps_to_its_budget(fake):
+    lost = [stage(fake, f"lost {i}\n".encode())[0] for i in range(10)]
+    fake.tick(7200)
+    counts, sent = sweep(fake, workers=4)
+    assert counts["redriven"] == 10
+    assert sorted(m["staging_key"] for m in sent) == sorted(s.staging_sidecar_key(u) for u in lost)
+    fresh = new_fake()
+    for i in range(10):
+        stage(fresh, f"lost {i}\n".encode())
+    fresh.tick(7200)
+    budget = iter([ig.SWEEP_RESERVE_MS] * 2 + [ig.SWEEP_RESERVE_MS - 1])  # the listing, one chunk, then out
+    counts, sent = sweep(fresh, remaining_ms=lambda: next(budget), workers=4)
+    assert (counts["redriven"], counts["unread"], len(sent)) == (4, 6, 4)
 
 
 def test_the_sweep_stops_listing_when_out_of_time(fake):
@@ -1936,7 +1997,7 @@ def test_the_sweep_goes_newest_first_and_stops_in_time(fake):
     new, _ = stage(fake, b"new\n")
     fake.tick(7200)
     budget = iter([ig.SWEEP_RESERVE_MS] * 2 + [ig.SWEEP_RESERVE_MS - 1])  # the listing, the newest file, then out
-    counts, sent = sweep(fake, remaining_ms=lambda: next(budget))
+    counts, sent = sweep(fake, remaining_ms=lambda: next(budget), workers=1)
     assert sent == [{"staging_key": s.staging_sidecar_key(new)}]
     assert (counts["redriven"], counts["unread"]) == (1, 1)
 
@@ -1971,3 +2032,247 @@ def test_logs_never_carry_presented_text_or_source_identifiers(fake):
     for line in lines:
         json.loads(line)
         assert not any(x in line for x in SENTINELS), line
+
+
+# --- The review of b05fe2513 (.claude/reviews/pr-841-review.md) -------------------------------
+
+
+def test_a_warm_container_locks_new_blobs_by_the_rule_as_it_is_now():  # M1
+    fake = new_fake(lock_days=3650)
+    ing, logs = ingest(fake)
+    ing.check_buckets()  # a cold start reads the rule, as from_env does
+    u1, _ = stage(fake, CSV)
+    assert ing.process(s.staging_sidecar_key(u1)).status == "stored"
+    fake.buckets[EVD].lock_days = 1  # an admin shortens the rule while the container is warm
+    u2, sc2 = stage(fake, b"new content\n")
+    fake.calls.clear()
+    assert ing.process(s.staging_sidecar_key(u2)).status == "stored"
+    assert not fake.ops("put_object_retention")  # S3 locked it by the current rule; nothing to renew
+    key = s.blob_key(sc2["data"]["sha256"])
+    assert fake.current(EVD, key)["lock_until"] < fake.now + timedelta(days=2)
+    fake.tick(20 * 3600)
+    u3, _ = stage(fake, b"new content\n")
+    assert ing.process(s.staging_sidecar_key(u3)).status == "already_stored"
+    until = fake.current(EVD, key)["lock_until"]
+    assert fake.now + timedelta(hours=23) < until < fake.now + timedelta(days=2)  # renewed by the new rule
+
+
+def test_a_version_this_run_wrote_is_never_renewed(fake):  # M1
+    """S3 locked it under the rule as it was at the write, whatever its lock
+    looks like now."""
+    u, sc = stage(fake, CSV)
+    fake.edit_head(EVD, s.blob_key(sc["data"]["sha256"]),
+                   lambda h: {**h, "ObjectLockRetainUntilDate": fake.now + timedelta(hours=1)})
+    assert run(fake, u)[0].status == "stored"
+    assert not fake.ops("put_object_retention")
+
+
+def test_a_sidecar_written_by_multipart_is_rejected(fake):  # L1
+    u, sc = stage(fake, CSV)
+    key = s.staging_sidecar_key(u)
+    fake.delete_object(Bucket=STG, Key=key)
+    body = s.canonical_json(sc)
+    mpu = fake.create_multipart_upload(Bucket=STG, Key=key, ChecksumAlgorithm="SHA256")
+    got = fake.upload_part(Bucket=STG, Key=key, UploadId=mpu["UploadId"], PartNumber=1, Body=body,
+                           ChecksumSHA256=b64_sha256(body))
+    fake.complete_multipart_upload(Bucket=STG, Key=key, UploadId=mpu["UploadId"], IfNoneMatch="*", MultipartUpload={
+        "Parts": [{"PartNumber": 1, "ETag": got["ETag"], "ChecksumSHA256": got["ChecksumSHA256"]}]})
+    out, logs = run(fake, u)
+    assert_rejected(fake, u, out, "bad_sidecar")
+    assert last_field(logs) == "staging.sidecar"
+
+
+def test_ctrl_c_during_the_copy_aborts_the_upload(fake, large):  # L2
+    import os
+    import signal
+    import time
+    u, _ = stage(fake, BIG, part_size=5 * MiB)
+
+    def interrupt(kw):
+        os.kill(os.getpid(), signal.SIGINT)
+        time.sleep(0.2)
+    fake.before("upload_part_copy", interrupt, when=lambda kw: kw["PartNumber"] == 1)
+    with pytest.raises(KeyboardInterrupt):
+        ingest(fake, workers=2)[0].process(s.staging_sidecar_key(u))
+    assert not fake.buckets[EVD].uploads
+    assert len(fake.ops("abort_multipart_upload")) == 1
+
+
+def lapsing(fake):
+    """A blob stored under a one-day lock, 20 hours on: a sighting renews it."""
+    u, sc = stage(fake, CSV)
+    run(fake, u)
+    fake.tick(20 * 3600)
+    return s.blob_key(sc["data"]["sha256"])
+
+
+def test_a_renewal_that_loses_to_a_longer_one_is_accepted():  # L3
+    fake = new_fake(lock_days=1)
+    key = lapsing(fake)
+
+    def longer(kw):  # a racing sighting renews first, a few seconds further
+        v = fake.current(EVD, key)
+        fake.put_object_retention(Bucket=EVD, Key=key, VersionId=v["version_id"], Retention={
+            "Mode": "GOVERNANCE", "RetainUntilDate": fake.now + timedelta(days=1, seconds=5)})
+    fake.before("put_object_retention", longer)
+    u2, _ = stage(fake, CSV)
+    out, logs = run(fake, u2)
+    assert out.status == "already_stored"
+    assert "lock_renewed" not in [json.loads(line)["event"] for line in logs]
+
+
+def test_a_renewal_the_role_cant_make_is_retried():  # L3, T9
+    fake = new_fake(lock_days=1)
+    lapsing(fake)
+    fake.fail("put_object_retention", code="AccessDenied", status=403)
+    u2, _ = stage(fake, CSV)
+    with pytest.raises(ig.Transient):
+        ingest(fake)[0].process(s.staging_sidecar_key(u2))
+    assert_untouched(fake, u2)
+
+
+@pytest.mark.parametrize("config,expected", [
+    ({"ObjectLockEnabled": "Enabled", "Rule": {"DefaultRetention": {"Mode": "GOVERNANCE", "Years": 2}}},
+     ("GOVERNANCE", timedelta(days=730))),
+    ({"ObjectLockEnabled": "Enabled"}, None),
+], ids=["years", "no-rule"])
+def test_the_default_rule_in_either_unit_or_none(fake, config, expected):  # T9
+    fake.buckets[EVD].lock_config = config
+    ing, _ = ingest(fake)
+    if expected is None:
+        with pytest.raises(RuntimeError):
+            ing.check_buckets()
+    else:
+        assert ing._retention() == expected
+
+
+@pytest.mark.parametrize("break_it", ["grant", "rule"])
+def test_the_job_exits_tempfail_when_it_cant_start(fake, aws, monkeypatch, capsys, break_it):  # L4
+    if break_it == "rule":
+        fake.buckets[EVD].lock_days = None
+    else:
+        role = (LAMBDA | SWEEPER) - {("s3:GetBucketObjectLockConfiguration", EVD, None)}
+        monkeypatch.setattr(ig, "_client", lambda name: fake.as_role(role) if name == "s3" else aws)
+    u, _ = stage(fake, CSV)
+    assert ig.main(["process", s.staging_sidecar_key(u)]) == ig.EX_TEMPFAIL
+    assert json.loads(capsys.readouterr().out.splitlines()[-1])["status"] == "transient"
+    assert_untouched(fake, u)
+
+
+def test_a_checksum_hidden_on_this_runs_own_write_is_retried(fake):  # L6
+    u, sc = stage(fake, CSV)
+    fake.edit_head(EVD, s.blob_key(sc["data"]["sha256"]),
+                   lambda h: {k: v for k, v in h.items() if not k.startswith("Checksum")})
+    ing, logs = ingest(fake)
+    with pytest.raises(ig.Transient):
+        ing.process(s.staging_sidecar_key(u))
+    assert "checksum_missing" in json.loads(logs[-1])["error"]
+    assert_untouched(fake, u)
+
+
+def test_botocores_retry_resends_the_whole_body(fake):  # L7
+    fake.sdk_attempts = 3
+    u, sc = stage(fake, BIG, part_size=5 * MiB)
+    fake.fail("put_object_body", code="InternalError", status=500, when=lambda kw: kw["Key"].startswith(s.BLOB_PREFIX))
+    assert run(fake, u)[0].status == "stored"
+    assert fake.bytes_read[(STG, s.staging_data_key(u))] == 2 * len(BIG)  # the staging GET, opened again
+    assert fake.current(EVD, s.blob_key(sc["data"]["sha256"]))["data"] == BIG
+
+
+def test_an_error_botocore_gave_up_on_is_logged_with_its_code(fake):  # L7
+    fake.sdk_attempts = 3
+    u, _ = stage(fake, CSV)
+    fake.fail("put_object_body", code="SlowDown", status=503, times=3,
+              when=lambda kw: kw["Key"].startswith(s.BLOB_PREFIX))
+    ing, logs = ingest(fake)
+    with pytest.raises(ig.Transient):
+        ing.process(s.staging_sidecar_key(u))
+    line = json.loads(logs[-1])
+    assert (line["code"], line["status"]) == ("SlowDown", 503)
+    assert_untouched(fake, u)
+
+
+def test_the_job_records_a_code_hash_only_when_given_one(fake, aws):  # L9
+    u, _ = stage(fake, CSV)
+    assert ig.main(["process", s.staging_sidecar_key(u)]) == 0  # CODE_SHA256 is in the env, as a shell might have it
+    assert record_of(fake, u)["ingest"]["code_sha256"] is None
+    u2, _ = stage(fake, b"2\n")
+    assert ig.main(["process", s.staging_sidecar_key(u2), "--code-sha256", "d" * 64]) == 0
+    assert record_of(fake, u2)["ingest"]["code_sha256"] == "d" * 64
+
+
+def test_a_hand_written_approval_is_accepted(fake, gate):  # L13
+    sc = over_gate()
+    src = sc["source"]
+    body = {"schema": 1, "kind": s.APPROVAL_KIND, "max_size": 60_000_000_000, "note": None,
+            "source": {k: src[k] for k in ("kind", "platform", "host", "request_id", "doc_id", "url")},
+            "expires_at": "2026-10-28T00:00:00Z", "approved_by": "admin"}
+    fake.put_object(Bucket=OPS, Key=APPROVAL, Body=json.dumps(body, indent=2).encode())
+    u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
+    assert run(fake, u)[0].status == "stored"
+
+
+@pytest.mark.parametrize("outcome", ["rejected", "deferred"])
+def test_a_racing_record_for_another_sidecar_over_the_same_bytes_leaves_it_uuid_reused(fake, outcome):  # T1
+    if outcome == "rejected":
+        u, _ = stage(fake, CSV, edit=lambda sc: sc["source"].update(url="https://x.example.org/a?X-Amz-Signature=1"))
+        raw = record_elsewhere(u, CSV, filename="other.csv")
+        ing, _ = ingest(fake)
+    else:
+        u, _ = stage(fake, BIG, part_size=5 * MiB)
+        raw = record_elsewhere(u, BIG, part_size=5 * MiB, filename="other.csv")
+        ing, _ = ingest(fake, max_lambda_size=MiB)
+    fake.before("put_object_tagging", lambda kw: plant(fake, s.record_key(u), raw),
+                when=lambda kw: kw["Key"] == s.staging_data_key(u))
+    out = ing.process(s.staging_sidecar_key(u))
+    assert (out.status, out.reason) == ("rejected", "uuid_reused")
+    assert staging_tags(fake, u) == (s.rejected_tags("uuid_reused"),) * 2
+
+
+@pytest.mark.parametrize("path", ["whole", "parts"])
+def test_a_read_back_checks_the_version_it_wrote(fake, monkeypatch, path):  # T2
+    if path == "parts":
+        monkeypatch.setattr(s, "SINGLE_PUT_MAX", 10 * MiB)
+    u, sc = stage(fake, BIG, part_size=5 * MiB)
+    key = s.blob_key(sc["data"]["sha256"])
+
+    def replace(kw):  # between the write and its read-back: the same bytes, re-stored on other boundaries
+        fake.delete_object(Bucket=EVD, Key=key)
+        plant_parts(fake, key, BIG, 6 * MiB)
+    heads = iter(range(100))  # the blob's second HEAD is the read-back, whatever version it asks for
+    fake.before("head_object", replace, when=lambda kw: kw["Key"] == key and not kw.get("PartNumber")
+                and next(heads) == 1)
+    out = ingest(fake)[0].process(s.staging_sidecar_key(u))
+    assert out.status == "stored"
+    assert record_of(fake, u)["evidence"]["version_id"] == fake.versions(EVD, key)[0]["version_id"]
+
+
+def test_a_hook_never_lends_its_rights_to_another_thread(fake):  # T7
+    import threading
+    u, _ = stage(fake, CSV)
+    view = fake.as_role(LAMBDA - {("s3:PutObjectTagging", STG, s.STAGING_PREFIX)})
+    inside, done = threading.Barrier(2, timeout=5), threading.Event()
+
+    def hook(kw):
+        inside.wait()
+        done.wait(5)  # stay inside while the other thread calls
+    fake.before("head_object", hook)
+    thread = threading.Thread(target=lambda: view.head_object(Bucket=STG, Key=s.staging_data_key(u)))
+    thread.start()
+    inside.wait()
+    try:
+        with pytest.raises(FakeClientError) as e:
+            view.put_object_tagging(Bucket=STG, Key=s.staging_data_key(u), Tagging={"TagSet": []})
+    finally:
+        done.set()
+        thread.join()
+    assert ig._code(e.value) == "AccessDenied"
+
+
+def test_the_fake_wants_every_part_checksummed_on_a_sha256_upload(fake):  # T8
+    key = s.blob_key("a" * 64)
+    mpu = fake.create_multipart_upload(Bucket=EVD, Key=key, ChecksumAlgorithm="SHA256")
+    got = fake.upload_part(Bucket=EVD, Key=key, UploadId=mpu["UploadId"], PartNumber=1, Body=b"x" * 10)
+    with pytest.raises(FakeClientError):
+        fake.complete_multipart_upload(Bucket=EVD, Key=key, UploadId=mpu["UploadId"], IfNoneMatch="*",
+                                       MultipartUpload={"Parts": [{"PartNumber": 1, "ETag": got["ETag"]}]})
