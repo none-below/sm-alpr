@@ -89,9 +89,18 @@ contradict it, a data object that isn't the one it describes, a blob it
 depends on that isn't held. Everything else is retried: throttling, 5xx, a
 dropped stream, a stored record that doesn't parse, and an Object Lock S3
 doesn't show (a missing `s3:GetObjectRetention`, a bucket without Object
-Lock, a lapsed retention). Those are the deployment's problems, and the DLQ
-and its alarm are where they surface; `lock_missing` stays in the vocabulary
-but the Lambda doesn't tag it.
+Lock). Those are the deployment's problems, and the DLQ and its alarm are
+where they surface; `lock_missing` stays in the vocabulary but the Lambda
+doesn't tag it.
+
+A sighting of a blob with less than half the bucket's default retention left
+renews its lock to a full period from now (`lock_renewed`), so a blob stays
+locked for at least half a period after its latest sighting, and
+deduplication keeps working after a lock would have lapsed (dev's one-day
+lock, or prod's in ten years). The role has `s3:PutObjectRetention` and not
+`s3:BypassGovernanceRetention`, so S3 lets it lengthen a lock, never shorten
+or weaken one. Records state the lock as read back when they were written; a
+later renewal only lengthens it.
 
 Every step can be re-run: writes carry If-None-Match, and a run that finds
 its record re-tags and stops. A run that tags a file rejected or deferred
@@ -129,18 +138,25 @@ later run lists any of them `held` once a record exists.
 ### Deployment (PR 4 pins these)
 
 - The evidence bucket: Object Lock enabled (with versioning) and a default
-  retention rule (mode and days). The Lambda sends no retention of its own
-  and can't set one; without the rule every file ends in the DLQ, and adding
-  it later doesn't lock blobs already written.
+  retention rule (mode and days). New blobs get it from the rule; the
+  Lambda reads the rule at cold start (a bucket without one fails every
+  invocation) and uses its period to renew locks. Adding the rule later
+  doesn't lock blobs already written.
 - IAM: `ingest.PERMISSIONS` for the ingest role and `ingest.SWEEP_PERMISSIONS`
-  for the sweep, per bucket role. The tests run the Lambda with exactly these
-  grants. Without `s3:ListBucket` a missing key reads as 403, not 404; without
-  `s3:GetObjectRetention` HeadObject hides the lock. On ops, `s3:GetObject`
-  is scoped to `approvals/*` and `s3:ListBucket` is on the bucket with no
-  `s3:prefix` condition (`check_buckets` sends HeadBucket, which has none).
-  SQS: `ReceiveMessage`, `DeleteMessage`, `GetQueueAttributes` (the event
-  source) and `ChangeMessageVisibility` for the ingest role; `SendMessage`
-  for the sweep's.
+  for the sweep, per bucket role and key prefix (`None` is the bucket
+  itself: `ListBucket` with no `s3:prefix` condition, since HeadBucket sends
+  none). The tests run the Lambda with exactly these grants, and it writes
+  nothing outside `sha256/` and `_intake/`. Without `s3:ListBucket` a missing
+  key reads as 403, not 404; without `s3:GetObjectRetention` HeadObject
+  hides the lock. No role here gets `s3:BypassGovernanceRetention` or any
+  delete. SQS: `ReceiveMessage`, `DeleteMessage`, `GetQueueAttributes` (the
+  event source) and `ChangeMessageVisibility` for the ingest role;
+  `SendMessage` for the sweep's.
+- The one-off job (`process --allow-large`) runs as the ingest role
+  (assumed), since the records and tags it writes are the Lambda's; under
+  any other principal it can store and record but not tag. It exits 0 when
+  the file is recorded, 1 when rejected or deferred, 2 on a retryable error
+  (nothing tagged: fix the cause and run it again).
 - The writer (library) role: `s3:PutObject` on `in/*` with If-None-Match,
   and `s3:GetObjectTagging` on `in/*` to read the Lambda's outcome.
 - The ops bucket: no lifecycle rule may touch `approvals/` (an approval must
@@ -148,12 +164,23 @@ later run lists any of them `held` once a record exists.
 - The staging bucket policy: only the ingest role sets tags; the sweep role
   may set only the `redrives` key (`ForAllValues:StringEquals
   s3:RequestObjectTagKeys ["redrives"]` with `Null s3:RequestObjectTagKeys
-  false`). Writers may set none.
+  false`; the sweep never writes an empty tag set). Writers may set none.
+- If-None-Match, on the staging and evidence buckets: deny `s3:PutObject`
+  when `Null s3:if-none-match` is true **and** `Bool
+  s3:ObjectCreationOperation` is true (checked live 2026-09-28). The second
+  condition matters: UploadPart and UploadPartCopy are also `s3:PutObject`
+  and carry no If-None-Match, so a policy without it blocks every multipart
+  upload, including every copy over 5 GB.
 - S3 notifications on the staging bucket for `ObjectCreated:*`, prefix `in/`,
-  suffix `.json`, to the queue (whose policy lets S3 send from that bucket).
+  suffix `.json`, to the queue. The queue policy lets only S3 send, for that
+  bucket (`aws:SourceArn`, `aws:SourceAccount`), and the sweep role; a record's
+  `ingest.principal` is what the S3 event reported, so no one else may send.
   The event source: `BatchSize` 1, `ReportBatchItemFailures`; function
-  timeout 900 s; queue visibility timeout at least 900 s; `maxReceiveCount`
-  at least 3, then a DLQ with an alarm.
+  timeout 900 s; queue visibility timeout at least six times that (5400 s)
+  and `maxReceiveCount` at least 5, as AWS advises for Lambda consumers, then
+  a DLQ with an alarm. Handled failures come back after 60 s regardless.
+- The sweep function: an hourly schedule, timeout 900 s (it stops
+  `SWEEP_RESERVE_MS` before the end and logs what it didn't read), 512 MB.
 - Environment: `STAGING_BUCKET`, `EVIDENCE_BUCKET`, `OPS_BUCKET`,
   `CODE_SHA256` and `QUEUE_URL` on the ingest function (without `QUEUE_URL`
   a failed message waits the full visibility timeout, not 60 s);
@@ -167,6 +194,12 @@ later run lists any of them `held` once a record exists.
   (the `Config` checksum options; older versions fail every invocation).
 - A lifecycle rule on the evidence bucket aborting incomplete multipart
   uploads after a day (a timeout mid-copy can't abort its own).
+
+Known limit: a principal that can write to staging can stage a file over
+5 GB on its own part boundaries first, so honest copies of the same bytes
+are rejected `layout_conflict` until an admin replaces the blob. Only the
+library's role writes to staging, and once PR 3 pins the part-size function
+the Lambda can refuse other layouts.
 
 ## Buckets
 

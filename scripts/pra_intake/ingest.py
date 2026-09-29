@@ -61,19 +61,25 @@ REDRIVES_TAG = "redrives"
 MAX_REDRIVES = 3  # sweep re-drives of one file before it's counted as stuck
 SWEEP_RESERVE_MS = 30_000
 
-# What the ingest role needs, by bucket role. PR 4 builds the policy from
-# this, and the tests run the Lambda with exactly these grants. Without
-# ListBucket a missing key reads as 403, not 404; without GetObjectRetention
-# HeadObject hides the Object Lock headers.
+# What the ingest role needs: {bucket role: {key prefix: actions}}, None for
+# the bucket itself. PR 4 builds the policy from this, and the tests run the
+# Lambda with exactly these grants. Without ListBucket a missing key reads as
+# 403, not 404, and HeadBucket fails; ListBucket carries no s3:prefix
+# condition (HeadBucket sends none). Without GetObjectRetention HeadObject
+# hides the Object Lock headers. PutObjectRetention without
+# s3:BypassGovernanceRetention can only lengthen a lock.
 PERMISSIONS = {
-    "staging": ("s3:GetObject", "s3:ListBucket", "s3:PutObjectTagging"),
-    "evidence": ("s3:GetObject", "s3:GetObjectVersion", "s3:GetObjectRetention", "s3:ListBucket",
-                 "s3:PutObject", "s3:AbortMultipartUpload"),
-    # GetObject on approvals/* only; ListBucket on the bucket with no s3:prefix
-    # condition (HeadBucket sends none, and a missing approval must read as 404)
-    "ops": ("s3:GetObject", "s3:ListBucket"),
+    "staging": {None: ("s3:ListBucket",), s.STAGING_PREFIX: ("s3:GetObject", "s3:PutObjectTagging")},
+    "evidence": {
+        None: ("s3:ListBucket", "s3:GetBucketObjectLockConfiguration"),
+        s.BLOB_PREFIX: ("s3:GetObject", "s3:GetObjectVersion", "s3:GetObjectRetention", "s3:PutObject",
+                        "s3:PutObjectRetention", "s3:AbortMultipartUpload"),
+        s.RECORD_PREFIX: ("s3:GetObject", "s3:PutObject"),
+    },
+    "ops": {None: ("s3:ListBucket",), s.APPROVAL_PREFIX: ("s3:GetObject",)},
 }
-SWEEP_PERMISSIONS = {"staging": ("s3:ListBucket", "s3:GetObjectTagging", "s3:PutObjectTagging")}
+SWEEP_PERMISSIONS = {"staging": {None: ("s3:ListBucket",), s.STAGING_PREFIX: ("s3:GetObjectTagging",
+                                                                             "s3:PutObjectTagging")}}
 
 
 class Rejected(Exception):
@@ -251,6 +257,7 @@ class Ingest:
             raise ValueError("code_sha256 must be the Lambda zip's SHA-256 in lower-case hex")
         self.s3, self.staging, self.evidence, self.ops = s3, staging_bucket, evidence_bucket, ops_bucket
         self.code_sha256, self.now, self.workers = code_sha256, now, workers
+        self._default_retention = None
         self.max_lambda_size = LAMBDA_MAX_SIZE if max_lambda_size is None else max_lambda_size
         self._log = log
 
@@ -264,9 +271,22 @@ class Ingest:
 
     def check_buckets(self):
         """Each bucket exists and the role can list it, so a missing key
-        reads as a missing key (404) and never as a missing bucket."""
+        reads as a missing key (404) and never as a missing bucket; and the
+        evidence bucket has a default retention rule."""
         for bucket in (self.staging, self.evidence, self.ops):
             self.s3.head_bucket(Bucket=bucket)
+        self._retention()
+
+    def _retention(self):
+        """The evidence bucket's default retention, (mode, period), read once."""
+        if self._default_retention is None:
+            config = self.s3.get_object_lock_configuration(Bucket=self.evidence).get("ObjectLockConfiguration") or {}
+            rule = (config.get("Rule") or {}).get("DefaultRetention") or {}
+            days = rule.get("Days") or 365 * (rule.get("Years") or 0)
+            if rule.get("Mode") not in s.LOCK_MODES or not days:
+                raise RuntimeError("the evidence bucket has no default retention rule")
+            self._default_retention = (rule["Mode"], timedelta(days=days))
+        return self._default_retention
 
     def log(self, event, **fields):
         self._log(json.dumps({"event": event, **fields}, sort_keys=True))
@@ -459,7 +479,7 @@ class Ingest:
                     raise
         if status == "already_stored":
             self._verify(u, head, sidecar)  # nothing was uploaded, so nothing checked the claims yet
-        return self._read_back(key, version, data["size"], "FULL_OBJECT", s.sha256_b64(sha), None, None), status
+        return self._read_back(u, key, version, data["size"], "FULL_OBJECT", s.sha256_b64(sha), None, None), status
 
     def _store_parts(self, u, head, sidecar):
         """Over SINGLE_PUT_MAX: check every claim, then copy server side
@@ -494,7 +514,7 @@ class Ingest:
                 self._abort(key, upload_id)
                 if not _is_precondition(e):  # a 412 here means another writer stored the blob first
                     raise
-        return self._read_back(key, version, data["size"], "COMPOSITE", composite, part_size, parts), status
+        return self._read_back(u, key, version, data["size"], "COMPOSITE", composite, part_size, parts), status
 
     def _copy_part(self, u, head, data, key, upload_id, n):
         up = data["upload"]
@@ -520,11 +540,15 @@ class Ingest:
         if problem:
             raise Rejected(*problem, "the bytes contradict the sidecar")
 
-    def _read_back(self, key, version, size, checksum_type, checksum, part_size, parts):
-        """The blob at `key` is these bytes, under Object Lock. A lock S3
-        doesn't show (no s3:GetObjectRetention, a bucket without Object Lock,
-        a lapsed retention) is the deployment's problem, not the upload's:
-        Transient, so the DLQ and its alarm catch it."""
+    def _read_back(self, u, key, version, size, checksum_type, checksum, part_size, parts):
+        """The blob at `key` is these bytes, under Object Lock. A sighting of a
+        blob with less than half the bucket's default retention left (it
+        lapsed, or the bucket's rule is short, as dev's one day is) renews the
+        lock to a full period from now; S3 lets this role lengthen a lock,
+        never shorten it. A lock S3 still doesn't show (no
+        s3:GetObjectRetention, a bucket without Object Lock) is the
+        deployment's problem, not the upload's: Transient, so the DLQ and its
+        alarm catch it."""
         head = self._head(self.evidence, key, checksum=True, version=version)
         if head is None:
             raise Transient("the blob isn't readable")
@@ -538,12 +562,24 @@ class Ingest:
                                "the blob at the key was stored on other part boundaries (its bytes aren't compared)")
             raise Rejected("evidence_conflict", "evidence.checksum_sha256", "the stored blob isn't these bytes")
         mode, until = head.get("ObjectLockMode"), head.get("ObjectLockRetainUntilDate")
-        if mode not in s.LOCK_MODES or until is None or _aware(until) <= self.now():
+        until, now = _aware(until) if until else None, self.now()
+        default_mode, period = self._retention()
+        if until is None or until < now + period / 2:
+            renewed = (now + period).replace(microsecond=0)
+            self.s3.put_object_retention(Bucket=self.evidence, Key=key, VersionId=head["VersionId"], Retention={
+                "Mode": mode if mode in s.LOCK_MODES else default_mode, "RetainUntilDate": renewed})
+            self.log("lock_renewed", uuid=u)
+            head = self._head(self.evidence, key, version=head["VersionId"])
+            if head is None:
+                raise Transient("the blob isn't readable")
+            mode, until = head.get("ObjectLockMode"), head.get("ObjectLockRetainUntilDate")
+            until = _aware(until) if until else None
+        if mode not in s.LOCK_MODES or until is None or until <= now:
             raise Transient("lock_missing: the blob's Object Lock isn't visible or has lapsed")
         return {"bucket": self.evidence, "key": key, "version_id": head.get("VersionId") or "null",
                 "checksum_type": checksum_type, "checksum_sha256": checksum,
                 "part_size": part_size, "part_sha256": list(parts) if parts else None,
-                "lock_mode": mode, "retain_until": s.format_timestamp(_aware(until))}
+                "lock_mode": mode, "retain_until": s.format_timestamp(until)}
 
     def _layout(self, key, head):
         """(parts, first part's size) of the composite blob version `head`
@@ -712,11 +748,17 @@ def handler(event, context=None, *, ingest=None, sqs=None, retry_after=60):
     reported back and made visible again after retry_after seconds rather
     than after the queue's full visibility timeout."""
     global _DEFAULT
+    messages = event.get("Records") or []
     if ingest is None:
-        _DEFAULT = _DEFAULT or Ingest.from_env()
+        try:
+            _DEFAULT = _DEFAULT or Ingest.from_env()
+        except Exception:  # the invocation fails (and counts as an error); its messages come back in retry_after
+            for message in messages:
+                sqs = _retry_soon(message, sqs, retry_after)
+            raise
         ingest = _DEFAULT
     failures = []
-    for message in event.get("Records") or []:
+    for message in messages:
         try:
             if context is not None and context.get_remaining_time_in_millis() < MIN_REMAINING_MS:
                 raise Transient("no time left in this invocation")
@@ -727,15 +769,22 @@ def handler(event, context=None, *, ingest=None, sqs=None, retry_after=60):
                 ingest.log("message_error", message_id=message.get("messageId"), error=type(e).__name__,
                            where=_where(e))
             failures.append({"itemIdentifier": message.get("messageId")})
-            queue_url = os.environ.get("QUEUE_URL")
-            if queue_url and message.get("receiptHandle"):
-                try:
-                    sqs = sqs or _client("sqs")
-                    sqs.change_message_visibility(QueueUrl=queue_url, ReceiptHandle=message["receiptHandle"],
-                                                  VisibilityTimeout=retry_after)
-                except Exception:
-                    pass  # the queue's own timeout applies
+            sqs = _retry_soon(message, sqs, retry_after)
     return {"batchItemFailures": failures}
+
+
+def _retry_soon(message, sqs, retry_after):
+    """Make a failed message visible again after retry_after seconds rather
+    than the queue's full visibility timeout. Best effort."""
+    queue_url = os.environ.get("QUEUE_URL")
+    if queue_url and message.get("receiptHandle"):
+        try:
+            sqs = sqs or _client("sqs")
+            sqs.change_message_visibility(QueueUrl=queue_url, ReceiptHandle=message["receiptHandle"],
+                                          VisibilityTimeout=retry_after)
+        except Exception:
+            pass  # the queue's own timeout applies
+    return sqs
 
 
 def sweep(s3, *, staging_bucket, send, now, min_age=timedelta(hours=1), remaining_ms=None, redrive=True,
@@ -749,30 +798,35 @@ def sweep(s3, *, staging_bucket, send, now, min_age=timedelta(hours=1), remainin
     on the next run however many old files wait; it stops SWEEP_RESERVE_MS
     before remaining_ms() runs out, and logs its counts however it ends.
     `send(dict)` queues one re-drive; redrive=False only counts."""
-    found, stray, token = {}, 0, None
-    while True:
-        page = s3.list_objects_v2(Bucket=staging_bucket, Prefix=s.STAGING_PREFIX,
-                                  **({"ContinuationToken": token} if token else {}))
-        for obj in page.get("Contents") or []:
-            try:
-                u, kind = s.parse_staging_key(obj["Key"])
-            except s.SchemaError:
-                stray += 1
-                continue
-            found.setdefault(u, {})[kind] = obj
-        if not page.get("IsTruncated"):
-            break
-        token = page["NextContinuationToken"]
-    counts = {"redriven": 0, "rejected": 0, "deferred": 0, "stuck": 0, "orphans": 0, "stray": stray, "unread": 0}
-    cutoff, waiting = now - min_age, []
-    for objs in found.values():
-        obj = objs.get("sidecar") or objs["data"]  # a data object alone is an orphan, unless ingested
-        if _aware(obj["LastModified"]) < cutoff:
-            waiting.append(obj)
-    waiting.sort(key=lambda o: (_aware(o["LastModified"]), o["Key"]), reverse=True)
+    counts = {"redriven": 0, "rejected": 0, "deferred": 0, "stuck": 0, "orphans": 0, "stray": 0, "unread": 0,
+              "listed": True}
+    out_of_time = lambda: remaining_ms is not None and remaining_ms() < SWEEP_RESERVE_MS  # noqa: E731
     try:
+        found, token = {}, None
+        while True:
+            if out_of_time():
+                counts["listed"] = False
+                return counts
+            page = s3.list_objects_v2(Bucket=staging_bucket, Prefix=s.STAGING_PREFIX,
+                                      **({"ContinuationToken": token} if token else {}))
+            for obj in page.get("Contents") or []:
+                try:
+                    u, kind = s.parse_staging_key(obj["Key"])
+                except s.SchemaError:
+                    counts["stray"] += 1
+                    continue
+                found.setdefault(u, {})[kind] = obj
+            if not page.get("IsTruncated"):
+                break
+            token = page["NextContinuationToken"]
+        cutoff, waiting = now - min_age, []
+        for objs in found.values():
+            obj = objs.get("sidecar") or objs["data"]  # a data object alone is an orphan, unless ingested
+            if _aware(obj["LastModified"]) < cutoff:
+                waiting.append(obj)
+        waiting.sort(key=lambda o: (_aware(o["LastModified"]), o["Key"]), reverse=True)
         for i, obj in enumerate(waiting):
-            if remaining_ms is not None and remaining_ms() < SWEEP_RESERVE_MS:
+            if out_of_time():
                 counts["unread"] = len(waiting) - i
                 break
             state = _sweep_one(s3, staging_bucket, obj["Key"], send, redrive, counts)
@@ -820,8 +874,9 @@ def _sweep_one(s3, bucket, key, send, redrive, counts):
         try:
             send({"staging_key": key})
         except Exception:
-            try:  # the re-drive didn't happen, so it doesn't count
-                s3.put_object_tagging(Bucket=bucket, Key=key, Tagging={"TagSet": tagset})
+            try:  # the re-drive didn't happen, so it doesn't count (the sweep may write only its own tag)
+                s3.put_object_tagging(Bucket=bucket, Key=key,
+                                      Tagging={"TagSet": [{"Key": REDRIVES_TAG, "Value": str(tries)}]})
             except Exception:
                 pass
             raise
@@ -847,7 +902,11 @@ def main(argv=None):
     sub.add_parser("sweep", help="count what the sweep would re-drive, changing nothing")
     args = p.parse_args(argv)
     if args.command == "process":
-        outcome = Ingest.from_env().process(args.sidecar_key, allow_large=args.allow_large)
+        try:
+            outcome = Ingest.from_env().process(args.sidecar_key, allow_large=args.allow_large)
+        except Transient as e:  # nothing tagged: fix the cause (the role, a grant) and run it again
+            print(json.dumps({"status": "transient", "error": str(e)}, sort_keys=True))
+            return 2
         print(json.dumps(outcome.__dict__, sort_keys=True))
         return 0 if outcome.status in ("stored", "already_stored", "recorded") else 1
     sweep(_client("s3"), staging_bucket=os.environ["STAGING_BUCKET"], now=datetime.now(timezone.utc),

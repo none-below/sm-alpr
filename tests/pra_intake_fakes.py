@@ -5,10 +5,15 @@ botocore showed it in the 2026-09-28 live probes and documentation:
   - versioning, Object Lock default retention, delete markers;
   - the bucket policies: writes must carry If-None-Match (412 when the key's
     current version exists), and no writer may set tags on upload;
-  - IAM, for a client from as_role(): each call needs its action; without
-    s3:ListBucket a missing key is a 403, not a 404; without
+  - IAM, for a client from as_role(): each call needs its action on its
+    resource (bucket-level actions on the bucket, object actions on a key
+    prefix); without s3:ListBucket a missing key is a 403, not a 404; without
     s3:GetObjectRetention HeadObject leaves out the Object Lock headers; a
-    versioned read needs s3:GetObjectVersion;
+    versioned read needs s3:GetObjectVersion; a bucket's tag_policy decides
+    which tag sets a role may write;
+  - Object Lock retention: the bucket's default rule, and PutObjectRetention
+    that lengthens freely but shortens (or weakens COMPLIANCE) only never, or
+    for GOVERNANCE with s3:BypassGovernanceRetention;
   - checksums: a PUT's ChecksumSHA256 is verified (BadDigest), HeadObject
     with ChecksumMode reports FULL_OBJECT for a single PUT and
     b64(sha256(part digests))-N COMPOSITE for multipart; UploadPartCopy
@@ -54,8 +59,11 @@ def b64_sha256(data):
 
 
 def grants(role_permissions, buckets):
-    """{(action, bucket)} from a {bucket role: actions} map and {role: bucket name}."""
-    return frozenset((a, buckets[role]) for role, actions in role_permissions.items() for a in actions)
+    """{(action, bucket, key prefix or None)} from ingest.PERMISSIONS' shape,
+    {bucket role: {key prefix or None (the bucket itself): actions}}, and
+    {bucket role: bucket name}."""
+    return frozenset((a, buckets[role], prefix) for role, scopes in role_permissions.items()
+                     for prefix, actions in scopes.items() for a in actions)
 
 
 class FakeStream:
@@ -82,6 +90,7 @@ class Bucket:
     def __init__(self, name, *, versioned, lock_days, lock_mode, require_if_none_match, sse):
         self.name, self.versioned, self.lock_days, self.lock_mode = name, versioned or bool(lock_days), lock_days, lock_mode
         self.require_if_none_match, self.sse = require_if_none_match, sse
+        self.tag_policy = None  # (role, tags) -> allowed?
         self.objects = {}  # key -> [version dicts], oldest first
         self.uploads = {}  # upload id -> {"key", "algorithm", "parts": {n: part}, ...}
 
@@ -184,11 +193,14 @@ class FakeS3:
                 f["left"] -= 1
                 raise FakeClientError(f["code"], f["status"], op)
 
-    def _allowed(self, action, bucket):
-        return self.role is None or (action, bucket) in self.role
+    def _allowed(self, action, bucket, key=None):
+        if self.role is None:
+            return True
+        return any(a == action and b == bucket and (p is None if key is None else p is not None and key.startswith(p))
+                   for a, b, p in self.role)
 
-    def _need(self, action, bucket, op, *, head=False):
-        if not self._allowed(action, bucket):
+    def _need(self, action, bucket, op, key=None, *, head=False):
+        if not self._allowed(action, bucket, key):
             raise FakeClientError("403" if head else "AccessDenied", 403, op)
 
     def _bucket(self, name, op, *, head=False):
@@ -199,7 +211,7 @@ class FakeS3:
     def _version(self, b, key, version_id, op, *, head=False):
         versions = b.objects.get(key) or []
         if version_id is not None:
-            self._need("s3:GetObjectVersion", b.name, op, head=head)
+            self._need("s3:GetObjectVersion", b.name, op, key, head=head)
             found = [v for v in versions if v["version_id"] == version_id and not v["delete_marker"]]
             if not found:
                 raise FakeClientError("404" if head else "NoSuchVersion", 404, op)
@@ -268,7 +280,7 @@ class FakeS3:
             assert Body.tell() == 0 and Body.seek(0) == 0
         try:
             b = self._bucket(Bucket, "PutObject")
-            self._need("s3:PutObject", Bucket, "PutObject")
+            self._need("s3:PutObject", Bucket, "PutObject", Key)
             if Tagging is not None:
                 raise FakeClientError("AccessDenied", 403, "PutObject")  # policy: no tags on upload
             if ServerSideEncryption not in (None, b.sse):
@@ -316,14 +328,14 @@ class FakeS3:
             out.update(ChecksumSHA256=ChecksumSHA256, ChecksumType="FULL_OBJECT")
         return out
 
-    def _describe(self, b, v, checksum_mode):
+    def _describe(self, b, key, v, checksum_mode):
         out = {"ContentLength": len(v["data"]), "ETag": v["etag"], "LastModified": v["last_modified"],
                "Metadata": dict(v["metadata"]), "ServerSideEncryption": b.sse, "ContentType": v["content_type"]}
         if v["content_disposition"]:
             out["ContentDisposition"] = v["content_disposition"]
         if b.versioned:
             out["VersionId"] = v["version_id"]
-        if v["lock_mode"] and self._allowed("s3:GetObjectRetention", b.name):
+        if v["lock_mode"] and self._allowed("s3:GetObjectRetention", b.name, key):
             out.update(ObjectLockMode=v["lock_mode"], ObjectLockRetainUntilDate=v["lock_until"])
         if checksum_mode == "ENABLED" and v["checksum"]:
             out.update(ChecksumSHA256=v["checksum"], ChecksumType=v["checksum_type"])
@@ -332,11 +344,11 @@ class FakeS3:
     def head_object(self, *, Bucket, Key, ChecksumMode=None, VersionId=None, IfMatch=None, PartNumber=None):
         self._enter("head_object", dict(Bucket=Bucket, Key=Key, VersionId=VersionId, PartNumber=PartNumber))
         b = self._bucket(Bucket, "HeadObject", head=True)
-        self._need("s3:GetObject", Bucket, "HeadObject", head=True)
+        self._need("s3:GetObject", Bucket, "HeadObject", Key, head=True)
         v = self._version(b, Key, VersionId, "HeadObject", head=True)
         if IfMatch is not None and IfMatch != v["etag"]:
             raise FakeClientError("412", 412, "HeadObject")
-        out = self._describe(b, v, ChecksumMode)
+        out = self._describe(b, Key, v, ChecksumMode)
         if PartNumber is not None:
             sizes = v["part_sizes"] or [len(v["data"])]
             if not 1 <= PartNumber <= len(sizes):
@@ -350,7 +362,7 @@ class FakeS3:
     def get_object(self, *, Bucket, Key, IfMatch=None, VersionId=None, ChecksumMode=None, Range=None):
         self._enter("get_object", dict(Bucket=Bucket, Key=Key, IfMatch=IfMatch))
         b = self._bucket(Bucket, "GetObject")
-        self._need("s3:GetObject", Bucket, "GetObject")
+        self._need("s3:GetObject", Bucket, "GetObject", Key)
         v = self._version(b, Key, VersionId, "GetObject")
         if IfMatch is not None and IfMatch != v["etag"]:
             raise FakeClientError("PreconditionFailed", 412, "GetObject")
@@ -361,25 +373,54 @@ class FakeS3:
 
         def count(n):
             self.bytes_read[(Bucket, Key)] = self.bytes_read.get((Bucket, Key), 0) + n
-        out = self._describe(b, v, ChecksumMode)
+        out = self._describe(b, Key, v, ChecksumMode)
         out.update(ContentLength=len(data), Body=FakeStream(data, max_read=self.max_read, on_read=count,
                                                             truncate_at=self._truncate.get((Bucket, Key))))
         return out
 
+    def get_object_lock_configuration(self, *, Bucket):
+        self._enter("get_object_lock_configuration", dict(Bucket=Bucket))
+        b = self._bucket(Bucket, "GetObjectLockConfiguration")
+        self._need("s3:GetBucketObjectLockConfiguration", Bucket, "GetObjectLockConfiguration")
+        if not b.lock_days:
+            raise FakeClientError("ObjectLockConfigurationNotFoundError", 404, "GetObjectLockConfiguration")
+        return {"ObjectLockConfiguration": {"ObjectLockEnabled": "Enabled", "Rule": {
+            "DefaultRetention": {"Mode": b.lock_mode, "Days": b.lock_days}}}}
+
+    def put_object_retention(self, *, Bucket, Key, Retention, VersionId=None, BypassGovernanceRetention=False):
+        self._enter("put_object_retention", dict(Bucket=Bucket, Key=Key, VersionId=VersionId, Retention=Retention))
+        b = self._bucket(Bucket, "PutObjectRetention")
+        self._need("s3:PutObjectRetention", Bucket, "PutObjectRetention", Key)
+        if not b.lock_days and not b.versioned:
+            raise FakeClientError("InvalidRequest", 400, "PutObjectRetention")
+        v = self._version(b, Key, VersionId, "PutObjectRetention")
+        mode, until = Retention["Mode"], Retention["RetainUntilDate"]
+        if v["lock_mode"] and v["lock_until"] and v["lock_until"] > self.now:  # an active lock
+            shorter = until < v["lock_until"]
+            if v["lock_mode"] == "COMPLIANCE" and (shorter or mode != "COMPLIANCE"):
+                raise FakeClientError("AccessDenied", 403, "PutObjectRetention")
+            bypass = BypassGovernanceRetention and self._allowed("s3:BypassGovernanceRetention", Bucket, Key)
+            if v["lock_mode"] == "GOVERNANCE" and shorter and not bypass:
+                raise FakeClientError("AccessDenied", 403, "PutObjectRetention")
+        v["lock_mode"], v["lock_until"] = mode, until
+        return {}
+
     def put_object_tagging(self, *, Bucket, Key, Tagging):
         self._enter("put_object_tagging", dict(Bucket=Bucket, Key=Key, Tagging=Tagging))
         b = self._bucket(Bucket, "PutObjectTagging")
-        self._need("s3:PutObjectTagging", Bucket, "PutObjectTagging")
+        self._need("s3:PutObjectTagging", Bucket, "PutObjectTagging", Key)
         v = self._version(b, Key, None, "PutObjectTagging")
         tags = {t["Key"]: t["Value"] for t in Tagging["TagSet"]}
         assert len(tags) == len(Tagging["TagSet"]) <= 10, "S3 allows 10 unique tags"
+        if b.tag_policy is not None and not b.tag_policy(self.role, tags):
+            raise FakeClientError("AccessDenied", 403, "PutObjectTagging")
         v["tags"] = tags
         return {}
 
     def get_object_tagging(self, *, Bucket, Key):
         self._enter("get_object_tagging", dict(Bucket=Bucket, Key=Key))
         b = self._bucket(Bucket, "GetObjectTagging")
-        self._need("s3:GetObjectTagging", Bucket, "GetObjectTagging")
+        self._need("s3:GetObjectTagging", Bucket, "GetObjectTagging", Key)
         v = self._version(b, Key, None, "GetObjectTagging")
         return {"TagSet": [{"Key": k, "Value": t} for k, t in sorted(v["tags"].items())]}
 
@@ -387,7 +428,7 @@ class FakeS3:
         """Admin only (no role the intake code runs as may delete)."""
         self._enter("delete_object", dict(Bucket=Bucket, Key=Key))
         b = self._bucket(Bucket, "DeleteObject")
-        self._need("s3:DeleteObject", Bucket, "DeleteObject")
+        self._need("s3:DeleteObject", Bucket, "DeleteObject", Key)
         if VersionId is None and b.versioned:
             self.tick()
             b.objects.setdefault(Key, []).append({"delete_marker": True, "version_id": f"v{next(self._ids)}"})
@@ -423,7 +464,7 @@ class FakeS3:
         self._enter("create_multipart_upload", dict(Bucket=Bucket, Key=Key))
         assert not extra, f"unmodeled CreateMultipartUpload parameters: {sorted(extra)}"
         b = self._bucket(Bucket, "CreateMultipartUpload")
-        self._need("s3:PutObject", Bucket, "CreateMultipartUpload")
+        self._need("s3:PutObject", Bucket, "CreateMultipartUpload", Key)
         if ServerSideEncryption not in (None, b.sse):
             raise FakeClientError("AccessDenied", 403, "CreateMultipartUpload")
         upload_id = f"upload-{next(self._ids)}"
@@ -447,7 +488,7 @@ class FakeS3:
     def upload_part(self, *, Bucket, Key, UploadId, PartNumber, Body, ContentLength=None, ChecksumSHA256=None):
         self._enter("upload_part", dict(Bucket=Bucket, Key=Key, PartNumber=PartNumber))
         b = self._bucket(Bucket, "UploadPart")
-        self._need("s3:PutObject", Bucket, "UploadPart")
+        self._need("s3:PutObject", Bucket, "UploadPart", Key)
         upload = self._upload(b, Key, UploadId, "UploadPart")
         data = bytes(Body) if isinstance(Body, (bytes, bytearray)) else Body.read()
         if ContentLength is not None and len(data) != ContentLength:
@@ -461,10 +502,10 @@ class FakeS3:
                          CopySourceIfMatch=None):
         self._enter("upload_part_copy", dict(Bucket=Bucket, Key=Key, PartNumber=PartNumber))
         b = self._bucket(Bucket, "UploadPartCopy")
-        self._need("s3:PutObject", Bucket, "UploadPartCopy")
+        self._need("s3:PutObject", Bucket, "UploadPartCopy", Key)
         upload = self._upload(b, Key, UploadId, "UploadPartCopy")
         src_bucket = self._bucket(CopySource["Bucket"], "UploadPartCopy")
-        self._need("s3:GetObject", CopySource["Bucket"], "UploadPartCopy")
+        self._need("s3:GetObject", CopySource["Bucket"], "UploadPartCopy", CopySource["Key"])
         src = self._version(src_bucket, CopySource["Key"], CopySource.get("VersionId"), "UploadPartCopy")
         if CopySourceIfMatch is not None and CopySourceIfMatch != src["etag"]:
             raise FakeClientError("PreconditionFailed", 412, "UploadPartCopy")
@@ -484,7 +525,7 @@ class FakeS3:
         self._enter("complete_multipart_upload", dict(Bucket=Bucket, Key=Key, IfNoneMatch=IfNoneMatch))
         assert not extra, f"unmodeled CompleteMultipartUpload parameters: {sorted(extra)}"
         b = self._bucket(Bucket, "CompleteMultipartUpload")
-        self._need("s3:PutObject", Bucket, "CompleteMultipartUpload")
+        self._need("s3:PutObject", Bucket, "CompleteMultipartUpload", Key)
         upload = self._upload(b, Key, UploadId, "CompleteMultipartUpload")
         self._check_create(b, Key, IfNoneMatch, "CompleteMultipartUpload")
         listed = MultipartUpload["Parts"]
@@ -523,7 +564,7 @@ class FakeS3:
     def abort_multipart_upload(self, *, Bucket, Key, UploadId):
         self._enter("abort_multipart_upload", dict(Bucket=Bucket, Key=Key))
         b = self._bucket(Bucket, "AbortMultipartUpload")
-        self._need("s3:AbortMultipartUpload", Bucket, "AbortMultipartUpload")
+        self._need("s3:AbortMultipartUpload", Bucket, "AbortMultipartUpload", Key)
         b.uploads.pop(UploadId, None)
         return {}
 

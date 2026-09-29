@@ -110,10 +110,16 @@ def make_sidecar(data, u, *, part_size=None, origin="live", mp=True, filename="a
     }
 
 
-def new_fake(*, lock_mode="GOVERNANCE"):
+def staging_tag_policy(role, tags):
+    """The pinned staging policy: the ingest role (and admins) set any tags;
+    the sweep only its re-drive count, never an empty set."""
+    return role is None or LAMBDA <= role or (bool(tags) and set(tags) == {ig.REDRIVES_TAG})
+
+
+def new_fake(*, lock_mode="GOVERNANCE", lock_days=3650):
     f = FakeS3()
-    f.create_bucket(STG, require_if_none_match=True)
-    f.create_bucket(EVD, lock_days=3650, lock_mode=lock_mode, require_if_none_match=True)
+    f.create_bucket(STG, require_if_none_match=True).tag_policy = staging_tag_policy
+    f.create_bucket(EVD, lock_days=lock_days, lock_mode=lock_mode, require_if_none_match=True)
     f.create_bucket(OPS)
     return f
 
@@ -180,15 +186,16 @@ def run(fake, u, **kw):
 
 def check_evidence(fake):
     """Every record parses as stored, from its own key, and its blob version
-    holds exactly the bytes it names under the lock it names."""
+    holds exactly the bytes it names, under a lock at least as long and as
+    strict as the one it names (a later sighting may have renewed it)."""
     for key in fake.keys(EVD, s.RECORD_PREFIX):
         record = s.parse_record(fake.current(EVD, key)["data"], stored=True, key=key)
         ev = record["evidence"]
         [version] = [v for v in fake.versions(EVD, ev["key"]) if v["version_id"] == ev["version_id"]]
         assert hashlib.sha256(version["data"]).hexdigest() == record["sha256"]
         assert version["checksum"] == ev["checksum_sha256"] and version["checksum_type"] == ev["checksum_type"]
-        assert (version["lock_mode"], s.format_timestamp(version["lock_until"])) == (ev["lock_mode"],
-                                                                                    ev["retain_until"])
+        assert version["lock_until"] >= s.parse_timestamp(ev["retain_until"])
+        assert version["lock_mode"] == ev["lock_mode"] or version["lock_mode"] == "COMPLIANCE"
     for key in fake.keys(EVD, s.BLOB_PREFIX):
         v = fake.current(EVD, key)
         assert v["content_type"] == s.EVIDENCE_CONTENT_TYPE
@@ -432,6 +439,23 @@ def test_no_code_hash_is_recorded_as_none(fake, aws, monkeypatch):
     assert record_of(fake, u)["ingest"]["code_sha256"] is None
 
 
+def test_from_env_refuses_an_evidence_bucket_without_default_retention(fake, aws):
+    fake.buckets[EVD].lock_days = None
+    with pytest.raises(Exception):
+        ig.Ingest.from_env()
+
+
+def test_a_cold_start_failure_retries_its_messages_soon(fake, aws):
+    u, _ = stage(fake, CSV)
+    fake.buckets.pop(OPS)
+    event = {"Records": [sqs_message(fake.event(STG, s.staging_sidecar_key(u)), "m-a"),
+                         sqs_message({"staging_key": s.staging_sidecar_key(u)}, "m-b")]}
+    with pytest.raises(Exception):
+        ig.handler(event)
+    assert [c[1]["ReceiptHandle"] for c in aws.calls] == ["rh-m-a", "rh-m-b"]
+    assert all(c[1]["VisibilityTimeout"] == 60 for c in aws.calls)
+
+
 def test_from_env_checks_every_bucket_exists(fake, aws):
     ing = ig.Ingest.from_env()
     assert (ing.staging, ing.evidence, ing.ops, ing.code_sha256) == (STG, EVD, OPS, CODE)
@@ -451,6 +475,10 @@ def test_the_job_ingests_a_deferred_file_and_reports_by_exit_code(fake, aws, cap
     assert ig.main(["process", s.staging_sidecar_key(u)]) == 0  # recorded: nothing left to do
     u2, _ = stage(fake, b"x\n", raw_sidecar=b"{}")
     assert ig.main(["process", s.staging_sidecar_key(u2)]) == 1
+    u3, _ = stage(fake, b"y\n")
+    fake.fail("put_object", code="InternalError", status=500, when=lambda kw: kw["Key"].startswith(s.BLOB_PREFIX))
+    assert ig.main(["process", s.staging_sidecar_key(u3)]) == 2
+    assert json.loads(capsys.readouterr().out.splitlines()[-1])["status"] == "transient"
 
 
 def test_the_counting_sweep_changes_nothing(fake, aws, capsys):
@@ -477,7 +505,7 @@ def test_the_scheduled_sweep_keeps_to_its_time_budget(fake, aws):
     stage(fake, CSV)
     fake.tick(7200)
     counts = ig.sweep_handler({}, types.SimpleNamespace(get_remaining_time_in_millis=lambda: ig.SWEEP_RESERVE_MS - 1))
-    assert (counts["redriven"], counts["unread"]) == (0, 1) and not aws.calls
+    assert (counts["redriven"], counts["listed"]) == (0, False) and not aws.calls  # stopped before listing
 
 
 def test_the_handler_builds_its_ingest_once_per_container(fake, aws):
@@ -487,6 +515,13 @@ def test_the_handler_builds_its_ingest_once_per_container(fake, aws):
     assert ig.handler(event) == {"batchItemFailures": []}
     assert len(fake.ops("head_bucket")) == 3
     assert record_of(fake, u) is not None
+
+
+def test_the_ingest_role_writes_only_blobs_and_records():
+    writes = {(b, p) for a, b, p in LAMBDA if a == "s3:PutObject"}
+    assert writes == {(EVD, s.BLOB_PREFIX), (EVD, s.RECORD_PREFIX)}
+    assert not any(a.startswith("s3:Delete") or a == "s3:BypassGovernanceRetention" for a, _, _ in LAMBDA | SWEEPER)
+    assert {(b, p) for a, b, p in LAMBDA | SWEEPER if a == "s3:PutObjectTagging"} == {(STG, s.STAGING_PREFIX)}
 
 
 def test_the_boto3_client_is_configured_for_streamed_uploads(monkeypatch):
@@ -552,7 +587,7 @@ def test_a_missing_bucket_is_never_read_as_a_missing_key(fake):
 
 def test_a_403_is_never_read_as_a_missing_key(fake):
     u, _ = stage(fake, CSV)
-    ing, _ = ingest(fake, role=LAMBDA - {("s3:ListBucket", EVD)})
+    ing, _ = ingest(fake, role=LAMBDA - {("s3:ListBucket", EVD, None)})
     with pytest.raises(ig.Transient):
         ing.process(s.staging_sidecar_key(u))
     assert_untouched(fake, u)
@@ -786,7 +821,7 @@ def test_a_staging_object_replaced_mid_ingest_is_never_copied(fake):
 
 def test_a_role_that_cant_see_the_lock_retries_instead_of_rejecting(fake):
     u, _ = stage(fake, CSV)
-    ing, logs = ingest(fake, role=LAMBDA - {("s3:GetObjectRetention", EVD)})
+    ing, logs = ingest(fake, role=LAMBDA - {("s3:GetObjectRetention", EVD, s.BLOB_PREFIX)})
     with pytest.raises(ig.Transient):
         ing.process(s.staging_sidecar_key(u))
     assert "lock_missing" in json.loads(logs[-1])["error"]
@@ -796,7 +831,7 @@ def test_a_role_that_cant_see_the_lock_retries_instead_of_rejecting(fake):
 
 def test_a_role_that_cant_read_versions_retries(fake):
     u, _ = stage(fake, CSV)
-    ing, _ = ingest(fake, role=LAMBDA - {("s3:GetObjectVersion", EVD)})
+    ing, _ = ingest(fake, role=LAMBDA - {("s3:GetObjectVersion", EVD, s.BLOB_PREFIX)})
     with pytest.raises(ig.Transient):
         ing.process(s.staging_sidecar_key(u))
     assert_untouched(fake, u)
@@ -810,14 +845,61 @@ def test_a_bucket_without_object_lock_retries(fake):
     assert_untouched(fake, u)
 
 
-@pytest.mark.parametrize("offset", [timedelta(seconds=-1), timedelta(0)])
-def test_a_lapsed_lock_retries(fake, offset):
+def test_a_resighting_renews_a_lapsed_lock():
+    """Dev's one-day lock: the unchanged manifest, re-uploaded on day 2, must
+    still get a record (the cross-review's high finding)."""
+    fake = new_fake(lock_days=1)
+    u1, sc = stage(fake, CSV)
+    run(fake, u1)
+    key = s.blob_key(sc["data"]["sha256"])
+    fake.tick(2 * 86400)
+    assert fake.current(EVD, key)["lock_until"] < fake.now
+    u2, _ = stage(fake, CSV)
+    out, logs = run(fake, u2)
+    assert out.status == "already_stored"
+    blob_version = fake.current(EVD, key)
+    assert blob_version["lock_mode"] == "GOVERNANCE" and blob_version["lock_until"] > fake.now + timedelta(hours=23)
+    assert record_of(fake, u2)["evidence"]["retain_until"] == s.format_timestamp(blob_version["lock_until"])
+    assert "lock_renewed" in [json.loads(line)["event"] for line in logs]
+
+
+@pytest.mark.parametrize("elapsed,renewed", [(timedelta(hours=11), False), (timedelta(hours=13), True)])
+def test_a_lock_is_renewed_once_under_half_its_period_is_left(elapsed, renewed):
+    fake = new_fake(lock_days=1)
+    u1, sc = stage(fake, CSV)
+    run(fake, u1)
+    fake.tick(int(elapsed.total_seconds()))
+    u2, _ = stage(fake, CSV)
+    fake.calls.clear()
+    assert run(fake, u2)[0].status == "already_stored"
+    assert bool(fake.ops("put_object_retention")) is renewed
+
+
+def test_a_fresh_blob_is_never_renewed(fake):
+    u, _ = stage(fake, CSV)
+    run(fake, u)
+    assert not fake.ops("put_object_retention")
+
+
+def test_a_renewal_keeps_a_compliance_lock():
+    fake = new_fake(lock_mode="COMPLIANCE", lock_days=1)
+    u1, sc = stage(fake, CSV)
+    run(fake, u1)
+    fake.tick(2 * 86400)
+    u2, _ = stage(fake, CSV)
+    assert run(fake, u2)[0].status == "already_stored"
+    assert record_of(fake, u2)["evidence"]["lock_mode"] == "COMPLIANCE"
+
+
+def test_the_role_cannot_shorten_a_lock(fake):
     u, sc = stage(fake, CSV)
-    fake.edit_head(EVD, s.blob_key(sc["data"]["sha256"]),
-                   lambda h: {**h, "ObjectLockRetainUntilDate": fake.now + offset})
-    with pytest.raises(ig.Transient):
-        run(fake, u)
-    assert_untouched(fake, u)
+    run(fake, u)
+    key = s.blob_key(sc["data"]["sha256"])
+    v = fake.current(EVD, key)
+    with pytest.raises(Exception) as e:
+        fake.as_role(LAMBDA).put_object_retention(Bucket=EVD, Key=key, VersionId=v["version_id"], Retention={
+            "Mode": "GOVERNANCE", "RetainUntilDate": fake.now + timedelta(days=1)}, BypassGovernanceRetention=True)
+    assert ig._code(e.value) == "AccessDenied"
 
 
 # --- The body and the hashes -----------------------------------------------------------------
@@ -1754,7 +1836,7 @@ def test_the_sweep_redrives_lost_files_and_counts_the_rest(fake):
     ], key=by)
     assert sent == [{"staging_key": s.staging_sidecar_key(lost)}]
     assert counts == {"redriven": 1, "rejected": 2, "deferred": 1, "stuck": 1, "orphans": 1, "stray": 1,
-                      "unread": 0}
+                      "unread": 0, "listed": True}
     assert fake.tags(STG, s.staging_sidecar_key(lost)) == {ig.REDRIVES_TAG: "1"}
     ing, _ = ingest(fake)
     assert ig.handler({"Records": [sqs_message(sent[0])]}, ingest=ing) == {"batchItemFailures": []}
@@ -1792,8 +1874,28 @@ def test_a_failed_send_gives_the_redrive_back_and_still_logs(fake):
     with pytest.raises(RuntimeError):
         ig.sweep(fake.as_role(SWEEPER), staging_bucket=STG, send=send, now=fake.now, log=logs.append)
     assert seen == [{ig.REDRIVES_TAG: "1"}]
-    assert fake.tags(STG, s.staging_sidecar_key(u)) == {}
+    assert fake.tags(STG, s.staging_sidecar_key(u)) == {ig.REDRIVES_TAG: "0"}  # the sweep may write only its own tag
     assert json.loads(logs[-1])["event"] == "sweep"
+
+
+def test_a_failed_listing_still_logs_the_counts(fake):
+    stage(fake, CSV)
+    fake.fail("list_objects_v2", code="InternalError", status=500)
+    logs = []
+    with pytest.raises(Exception):
+        ig.sweep(fake.as_role(SWEEPER), staging_bucket=STG, send=lambda m: None, now=fake.now, log=logs.append)
+    assert json.loads(logs[-1])["event"] == "sweep"
+
+
+def test_the_sweep_stops_listing_when_out_of_time(fake):
+    fake.page_size = 1
+    stage(fake, CSV)
+    stage(fake, b"2\n")
+    fake.tick(7200)
+    budget = iter([ig.SWEEP_RESERVE_MS, ig.SWEEP_RESERVE_MS - 1])
+    counts, sent = sweep(fake, remaining_ms=lambda: next(budget))
+    assert counts["listed"] is False and sent == []
+    assert len(fake.ops("list_objects_v2")) == 1
 
 
 def test_the_sweep_skips_a_file_removed_before_its_redrive(fake):
@@ -1833,7 +1935,7 @@ def test_the_sweep_goes_newest_first_and_stops_in_time(fake):
     fake.tick(600)
     new, _ = stage(fake, b"new\n")
     fake.tick(7200)
-    budget = iter([ig.SWEEP_RESERVE_MS, ig.SWEEP_RESERVE_MS - 1])
+    budget = iter([ig.SWEEP_RESERVE_MS] * 2 + [ig.SWEEP_RESERVE_MS - 1])  # the listing, the newest file, then out
     counts, sent = sweep(fake, remaining_ms=lambda: next(budget))
     assert sent == [{"staging_key": s.staging_sidecar_key(new)}]
     assert (counts["redriven"], counts["unread"]) == (1, 1)
