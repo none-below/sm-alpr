@@ -3,8 +3,8 @@
 Downloaders ("connectors", one per PRA platform) hand each file to an upload
 library. The library streams it into a **staging** bucket. A Lambda then copies
 it, write-once, into a content-addressed **evidence** bucket and records how it
-got there. `schema.py` is the contract all three share. The library, the Lambda
-and the infrastructure come in later PRs.
+got there. `schema.py` is the contract all three share; `ingest.py` is the
+Lambda. The library and the infrastructure come in later PRs.
 
 ## Flow
 
@@ -30,13 +30,16 @@ and the infrastructure come in later PRs.
    - **Over 5 GB** (S3's single-request limit): the Lambda hashes the object
      itself, then copies it server-side on the staging object's own part
      boundaries, so the blob's composite checksum equals the staging object's.
-     Hashing runs at roughly 60 MB/s in a 15-minute Lambda, so PR 2 sets where
-     a one-off job takes over, well below the cost gate.
+     Hashing runs at roughly 60 MB/s in a 15-minute Lambda, so above
+     `LAMBDA_MAX_SIZE` (20 GB) the Lambda tags the file `intake=deferred` and
+     `python -m pra_intake.ingest process in/<uuid>.json --allow-large` runs
+     the same steps where there's no time limit.
    - **Over 50 GB** (`COST_GATE`): only with `fetch.approval` naming an
      admin-written `approvals/<uuid>.json` in the ops bucket. The approval
      names one source (kind, platform, host, request, doc id, URL), a size
      ceiling and an expiry; the Lambda reads it and `check_approval` refuses
-     any other file (`too_large`).
+     a file from any other source (`too_large`). It covers every upload from
+     its source until it expires, so keep expiries short.
 4. It reads the blob back (checksum, size, Object Lock), then writes the
    intake record `_intake/<uuid>.json` (write-once, one per sighting). Last, it
    tags both staging objects `ingested=true`; lifecycle removes tagged objects.
@@ -49,6 +52,84 @@ is verified, and adds only a record. (If an admin's delete marker is current,
 the write succeeds as a new version; read-back verifies it either way.)
 Records don't say which sighting was first; the earliest record for a blob
 version is.
+
+## The Lambda
+
+`ingest.handler` takes SQS messages carrying S3 `ObjectCreated` events for
+`in/*.json`, or a sweep's re-drive `{"staging_key": ...}`; anything else
+(tagging events, the `s3:TestEvent`, other buckets) is ignored. Each staged
+file ends one of four ways:
+
+| Outcome | Staging tags | Next |
+|---|---|---|
+| `stored`, `already_stored`, `recorded` | `ingested=true`, `sha256=<hex>` | lifecycle removes both objects |
+| `rejected` | `intake=rejected`, `reason=<code>` | kept for a person; the reason is one of `REJECT_REASONS` |
+| `deferred` | `intake=deferred` | the one-off job above |
+| transient error | none | SQS retries after 60 s, then the DLQ |
+
+A rejection is a fact about the upload: a bad sidecar, bytes that
+contradict it, a data object that isn't the one it describes, a blob it
+depends on that isn't held. Everything else is retried: throttling, 5xx, a
+dropped stream, a stored record that doesn't parse, and an Object Lock S3
+doesn't show (a missing `s3:GetObjectRetention`, a bucket without Object
+Lock, a lapsed retention). Those are the deployment's problems, and the DLQ
+and its alarm are where they surface; `lock_missing` stays in the vocabulary
+but the Lambda doesn't tag it.
+
+Every step can be re-run: writes carry If-None-Match, and a run that finds
+its record re-tags and stops. A run that tags a file rejected or deferred
+then looks for a record once more, so a racing run that recorded it wins.
+The Lambda reads every staged byte once and checks every claim about the
+bytes: the SHA-256 (S3 checks it on the evidence write up to 5 GB), the MD5,
+the source's multipart ETag, the staging part layout, and the sniffed type.
+Up to 5 GB that read is the evidence upload itself, and a wrong claim fails
+it from inside its body before the last bytes are sent, so nothing is stored
+for it. (Checked live 2026-09-28 with botocore's CRT and pure-Python
+signers.) A duplicate's bytes are read and checked the same way.
+
+`ingest.sweep` (scheduled) re-drives each untagged sidecar older than an hour,
+newest first, at most `MAX_REDRIVES` times (counted in a `redrives` tag), and
+logs counts of rejected, deferred, stuck, orphaned (data without a sidecar)
+and stray keys, and how many it had no time to read. Logs hold uuids, reason
+codes, field paths and sizes, never presented text, URLs or metadata values.
+
+### Deployment (PR 4 pins these)
+
+- The evidence bucket: Object Lock enabled (with versioning) and a default
+  retention rule (mode and days). The Lambda sends no retention of its own
+  and can't set one; without the rule every file ends in the DLQ, and adding
+  it later doesn't lock blobs already written.
+- IAM: `ingest.PERMISSIONS` for the ingest role and `ingest.SWEEP_PERMISSIONS`
+  for the sweep, per bucket role. The tests run the Lambda with exactly these
+  grants. Without `s3:ListBucket` a missing key reads as 403, not 404; without
+  `s3:GetObjectRetention` HeadObject hides the lock. On ops, `s3:GetObject`
+  is scoped to `approvals/*` and `s3:ListBucket` is on the bucket with no
+  `s3:prefix` condition (`check_buckets` sends HeadBucket, which has none).
+  SQS: `ReceiveMessage`, `DeleteMessage`, `GetQueueAttributes` (the event
+  source) and `ChangeMessageVisibility` for the ingest role; `SendMessage`
+  for the sweep's.
+- The staging bucket policy: only the ingest role sets tags; the sweep role
+  may set only the `redrives` key (`ForAllValues:StringEquals
+  s3:RequestObjectTagKeys ["redrives"]` with `Null s3:RequestObjectTagKeys
+  false`). Writers may set none.
+- S3 notifications on the staging bucket for `ObjectCreated:*`, prefix `in/`,
+  suffix `.json`, to the queue (whose policy lets S3 send from that bucket).
+  The event source: `BatchSize` 1, `ReportBatchItemFailures`; function
+  timeout 900 s; queue visibility timeout at least 900 s; `maxReceiveCount`
+  at least 3, then a DLQ with an alarm.
+- Environment: `STAGING_BUCKET`, `EVIDENCE_BUCKET`, `OPS_BUCKET`,
+  `CODE_SHA256` and `QUEUE_URL` on the ingest function (without `QUEUE_URL`
+  a failed message waits the full visibility timeout, not 60 s);
+  `STAGING_BUCKET` and `QUEUE_URL` on the sweep.
+- `CODE_SHA256`: the zip's SHA-256 in lower-case hex, not Lambda's base64
+  `CodeSha256`. `Ingest` refuses anything else, and bucket names that aren't
+  one environment's staging, evidence and ops buckets.
+- Memory 2048 MB. `LAMBDA_MAX_SIZE` assumes the hashing rate measured at that
+  setting, and a 64 MiB manifest needs about 750 MiB.
+- boto3/botocore vendored in the zip, pinned exactly, botocore 1.36 or later
+  (the `Config` checksum options; older versions fail every invocation).
+- A lifecycle rule on the evidence bucket aborting incomplete multipart
+  uploads after a day (a timeout mid-copy can't abort its own).
 
 ## Buckets
 
@@ -134,6 +215,10 @@ and generated uploads), and `work_id` one queue item.
   the invariants (changing them needs a new version); `policy.json` pins the
   write policy (tightening it is fine: update it deliberately). The checksum
   formulas are pinned to values S3 returned in live probes.
+- **The sniff is part of the schema.** `checks.sniffed_type` is
+  `expected_sniff(content_kind, first min(size, SNIFF_BYTES) bytes)`, and the
+  Lambda recomputes it. `tests/fixtures/pra_intake/sniff_v1.json` pins what
+  `sniff_type` returns: changing that needs a new schema version.
 - **Presented text is kept exactly.** Filenames, titles and agency names may
   hold any character. `canonical_json` escapes non-ASCII; use `display_safe`
   before showing such text to a person or a model. Identifiers and the

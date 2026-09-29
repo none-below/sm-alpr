@@ -1728,6 +1728,42 @@ def test_policy_is_pinned():
     assert json.loads((FIXTURES / "policy.json").read_text()) == policy()
 
 
+def sniff_samples():
+    """First bytes covering every branch of sniff_type, as hex -> type."""
+    heads = [b"", b" \n", b"hello, world\n", b"tab\tform\x0cfeed\x1a\x1b end", b"bin\x00ary", b"\x0b",
+             b"%PDF-1.7\n", b"x" * 100 + b"%PDF-1.4", b"a" * 1019 + b"%PDF-", b"a" * 1020 + b"%PDF-",
+             b"PK\x03\x04rest", b"PK\x05\x06", b"PK\x07\x08", bytes.fromhex("d0cf11e0a1b11ae1") + b"x",
+             b"\x1f\x8b\x08", bytes.fromhex("377abcaf271c"), b"Rar!\x1a\x07\x00", bytes.fromhex("fd377a585a00"),
+             b"BZh91AY", b"SQLite format 3\x00", b"\x89PNG\r\n\x1a\n", b"\xff\xd8\xff\xe0", b"GIF87a", b"GIF89a",
+             b"II*\x00", b"MM\x00*", b"RIFF\x00\x00\x00\x00WAVE", b"RIFF\x00\x00\x00\x00WEBP", b"ID3\x04",
+             b"\xff\xfb\x90", b"\xff\xf3", b"\xff\xf2", bytes.fromhex("3026b2758e66cf11"), bytes.fromhex("1a45dfa3"),
+             b"OggS\x00", b"fLaC", b"{\\rtf1", b"\x00\x00\x00\x18ftypmp42", b"\x00\x00\x00\x20ftypheic",
+             b"BM\x36\x00\x0c\x00\x00\x00\x00\x00", b"BMnot a bitmap", b"<!DOCTYPE html><p>",
+             b"  \r\n<HTML>", b"<head>", b"<body>", b"\xef\xbb\xbf<html>", b"<?xml version='1.0'?><a/>",
+             b"<?xml version='1.0'?><html>", "caf\u00e9 \u4e2d".encode("utf-8"),
+             b"\xff\xfe" + "text".encode("utf-16-le"), b"\xfe\xff" + "<html>".encode("utf-16-be"),
+             b"\xff\xfe" + "a\x01b".encode("utf-16-le"), b"\xff\xfe\x00"]
+    return {h.hex(): s.sniff_type(h) for h in heads}
+
+
+def test_sniffing_is_pinned():
+    """The Lambda recomputes checks.sniffed_type, so what sniff_type returns is
+    part of schema 1. If this fails, honest uploads written by the old
+    library would be refused: that needs a new schema version, not a new
+    fixture."""
+    pinned = json.loads((FIXTURES / "sniff_v1.json").read_text())
+    assert {h: s.sniff_type(bytes.fromhex(h)) for h in pinned} == pinned
+    assert set(pinned.values()) == set(s.SNIFF_TYPES)
+
+
+def test_a_fetch_manifest_sniffs_as_text_whatever_its_filenames_say():
+    body = s.manifest_bytes(s.build_manifest(MANIFEST_SOURCE, [
+        s.manifest_entry("Invoice %PDF-export.pdf", status="failed", reason="source_404")]))
+    assert s.sniff_type(body[:s.SNIFF_BYTES]) == "pdf"
+    assert s.expected_sniff("fetch_manifest", body[:s.SNIFF_BYTES]) == "text"
+    assert s.expected_sniff("file", body[:s.SNIFF_BYTES]) == "pdf"
+
+
 V1_DOCUMENTS = sorted(p.name for p in V1.glob("*.json"))
 
 
@@ -1752,7 +1788,7 @@ def test_writers_reproduce_v1_documents(name):
 
 if __name__ == "__main__":  # write only what's missing: python tests/test_pra_intake_schema.py
     V1.mkdir(parents=True, exist_ok=True)
-    for name, make in (("vocabulary.json", vocabulary), ("policy.json", policy)):
+    for name, make in (("vocabulary.json", vocabulary), ("policy.json", policy), ("sniff_v1.json", sniff_samples)):
         if not (FIXTURES / name).exists():
             (FIXTURES / name).write_text(json.dumps(make(), indent=2, sort_keys=True) + "\n")
     for name, raw in documents().items():
