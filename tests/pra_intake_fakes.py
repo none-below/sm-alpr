@@ -418,7 +418,10 @@ class FakeS3:
         if b.versioned:
             out["VersionId"] = v["version_id"]
         if v["lock_mode"] and self._allowed("s3:GetObjectRetention", b.name, key):
-            out.update(ObjectLockMode=v["lock_mode"], ObjectLockRetainUntilDate=v["lock_until"])
+            until = v["lock_until"]
+            if v.get("event_hold") == "ON":  # S3 reports a computed date, never earlier than a set one
+                until = max(until, self.now + timedelta(days=v.get("event_hold_days", 1)))
+            out.update(ObjectLockMode=v["lock_mode"], ObjectLockRetainUntilDate=until)
             if v.get("event_hold"):
                 out["ObjectLockEventHold"] = v["event_hold"]
         if checksum_mode == "ENABLED" and v["checksum"]:

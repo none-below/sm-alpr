@@ -399,13 +399,13 @@ class Ingest:
         head = self._bind(u, sidecar)
         committed = sidecar_meta.get("LastModified")
         self._check_gate(sidecar, _aware(committed) if committed else self.now())
-        self._check_references(u, sidecar, head)
+        manifest_raw = self._check_references(u, sidecar, head)
         if data["size"] > self.max_lambda_size and not allow_large:
             self._tag(u, DEFERRED_TAGS)
             self.log("deferred", uuid=u, size=data["size"])
             return self._if_recorded(u) or Outcome("deferred", u, data["sha256"])
         if data["size"] <= s.SINGLE_PUT_MAX:
-            evidence, status = self._store_whole(u, head, sidecar)
+            evidence, status = self._store_whole(u, head, sidecar, manifest_raw)
         else:
             evidence, status = self._store_parts(u, head, sidecar)
         staging = {
@@ -479,16 +479,18 @@ class Ingest:
             raise Rejected("too_large", "sidecar.fetch.approval", "no such approval")
         try:
             s.check_approval(s.parse_approval(raw), sidecar, committed)
-        except s.SchemaError as e:
-            raise Rejected("too_large", e.field, e.problem) from None
+        except s.SchemaError as e:  # a credential in an approval keeps its own reason, so its alarms fire
+            raise Rejected("signed_url" if e.reason == "signed_url" else "too_large", e.field, e.problem) from None
 
     def _check_references(self, u, sidecar, head):
-        """Evidence already holds what the file refers to."""
+        """Evidence already holds what the file refers to. Returns a fetch
+        manifest's bytes (read once, whole: at most MAX_MANIFEST_BYTES), None
+        for any other file."""
         data, stamp = sidecar["data"], sidecar["fetch"]["stamp_ref"]
         if stamp is not None and self._head(self.evidence, s.blob_key(stamp)) is None:
             raise Rejected("missing_blob", "sidecar.fetch.stamp_ref", "the stamped manifest isn't held")
         if sidecar["content_kind"] != "fetch_manifest":
-            return
+            return None
         raw = _read_up_to(self._get(s.staging_data_key(u), head), data["size"])
         if len(raw) < data["size"]:
             raise Transient("the staging stream ended early")
@@ -498,21 +500,29 @@ class Ingest:
         _checked(s.validate_manifest_sidecar, sidecar, manifest)
         sizes = {e["sha256"]: e["size"] for e in manifest["files"] if e["sha256"] is not None}
         shas = s.manifest_shas(manifest)
-        with ThreadPoolExecutor(self.workers) as pool:
+        with ThreadPoolExecutor(max(1, min(self.workers, len(shas)))) as pool:
             heads = list(pool.map(lambda sha: self._head(self.evidence, s.blob_key(sha)), shas))
         missing = sum(h is None for h in heads)
         if missing:
             raise Rejected("missing_blob", "manifest.files", f"{missing} listed files aren't held")
         if any(sizes[sha] is not None and h.get("ContentLength") != sizes[sha] for sha, h in zip(shas, heads)):
             raise Rejected("bad_manifest", "manifest.files.size", "a listed size isn't the held blob's")
+        return raw
 
-    def _store_whole(self, u, head, sidecar):
-        """One GET streamed into one PutObject that S3 verifies."""
+    def _store_whole(self, u, head, sidecar, raw=None):
+        """One GET streamed into one PutObject that S3 verifies; or, for a
+        fetch manifest already read whole (`raw`), its claims checked in
+        memory and the bytes sent. An empty file's body may never be read
+        (Content-Length 0), which loses nothing: the validator leaves it no
+        claim that could be false (its MD5 is the ETag S3 gave the single
+        PUT, it has no parts, and it must sniff as empty)."""
         data = sidecar["data"]
         key, sha = s.blob_key(data["sha256"]), data["sha256"]
         status, version = "already_stored", None
+        if raw is not None:
+            self._check_bytes(raw, sidecar)
         if self._head(self.evidence, key) is None:
-            body = _CheckedBody(lambda: self._get(s.staging_data_key(u), head), sidecar)
+            body = raw if raw is not None else _CheckedBody(lambda: self._get(s.staging_data_key(u), head), sidecar)
             try:
                 put = self.s3.put_object(
                     Bucket=self.evidence, Key=key, Body=body, ContentLength=data["size"],
@@ -520,15 +530,15 @@ class Ingest:
                     ContentType=s.EVIDENCE_CONTENT_TYPE, ContentDisposition=s.EVIDENCE_CONTENT_DISPOSITION)
                 status, version = "stored", put.get("VersionId")
             except Exception as e:
-                if body.problem:
+                if getattr(body, "problem", None):
                     raise Rejected(*body.problem, "the bytes contradict the sidecar") from None
-                if body.reopen_error is not None:  # botocore said only UnseekableStreamError
+                if getattr(body, "reopen_error", None) is not None:  # botocore said only UnseekableStreamError
                     raise body.reopen_error from e
                 if _code(e) == "BadDigest":
                     raise Rejected("sha_mismatch", "sidecar.data.sha256", "S3 refused the claimed SHA-256") from None
                 if not _is_precondition(e):
                     raise
-        if status == "already_stored":
+        if status == "already_stored" and raw is None:
             self._verify(u, head, sidecar)  # no upload, or a 412 before S3 checked the SHA-256: check every claim
         return self._read_back(u, key, version, data["size"], "FULL_OBJECT", s.sha256_b64(sha), None, None,
                                fresh=status == "stored"), status
@@ -545,7 +555,7 @@ class Ingest:
             upload_id = self.s3.create_multipart_upload(
                 Bucket=self.evidence, Key=key, ChecksumAlgorithm="SHA256",
                 ContentType=s.EVIDENCE_CONTENT_TYPE, ContentDisposition=s.EVIDENCE_CONTENT_DISPOSITION)["UploadId"]
-            pool = ThreadPoolExecutor(self.workers)
+            pool = ThreadPoolExecutor(max(1, min(self.workers, len(parts))))
             try:
                 try:
                     copies = [pool.submit(self._copy_part, u, head, data, key, upload_id, n)
@@ -555,7 +565,7 @@ class Ingest:
                     pool.shutdown(cancel_futures=True)  # no more parts start; those in flight land before an abort
                 done = [c.result() for c in copies]
             except BaseException:  # a failed part, or anything else (Ctrl-C in the job)
-                self._abort(key, upload_id)
+                self._abort(u, key, upload_id)
                 raise
             try:
                 complete = self.s3.complete_multipart_upload(
@@ -563,7 +573,7 @@ class Ingest:
                     IfNoneMatch="*")
                 status, version = "stored", complete.get("VersionId")
             except Exception as e:
-                self._abort(key, upload_id)
+                self._abort(u, key, upload_id)
                 if not _is_precondition(e):  # a 412 here means another writer stored the blob first
                     raise
         return self._read_back(u, key, version, data["size"], "COMPOSITE", composite, part_size, parts,
@@ -589,6 +599,15 @@ class Ingest:
             hashes.update(chunk)
         if hashes.size < sidecar["data"]["size"]:
             raise Transient("the staging stream ended early")
+        self._check_hashes(hashes, sidecar)
+
+    def _check_bytes(self, raw, sidecar):
+        hashes = _Hashes(sidecar["data"], sha256=True)
+        hashes.update(raw)
+        self._check_hashes(hashes, sidecar)
+
+    @staticmethod
+    def _check_hashes(hashes, sidecar):
         problem = hashes.contradiction(sidecar)
         if problem:
             raise Rejected(*problem, "the bytes contradict the sidecar")
@@ -618,10 +637,31 @@ class Ingest:
                 raise Rejected("layout_conflict", "evidence.part_size",
                                "the blob at the key was stored on other part boundaries (its bytes aren't compared)")
             raise Rejected("evidence_conflict", "evidence.checksum_sha256", "the stored blob isn't these bytes")
-        mode, until = head.get("ObjectLockMode"), head.get("ObjectLockRetainUntilDate")
-        until, now = _aware(until) if until else None, self.now()
-        held = head.get("ObjectLockEventHold") == "ON"  # an admin's event hold: it can't lapse, and isn't renewed
-        if not fresh and not held and mode is None:  # no lock shown: ask before renewing, a hold may be hidden
+        now = self.now()
+        if not fresh:
+            head = self._renewed(u, key, head, now)
+        mode, until, held = _lock_of(head)
+        if mode not in s.LOCK_MODES or until is None or until <= now:
+            # defensive for a held blob: S3 reports a computed date still to come while a hold is on
+            raise Transient("lock_held: an event hold with a lapsed date" if held
+                            else "lock_missing: the blob's Object Lock isn't visible or has lapsed")
+        return {"bucket": self.evidence, "key": key, "version_id": head.get("VersionId") or "null",
+                "checksum_type": checksum_type, "checksum_sha256": checksum,
+                "part_size": part_size, "part_sha256": list(parts) if parts else None,
+                "lock_mode": mode, "retain_until": s.format_timestamp(until)}
+
+    def _renewed(self, u, key, head, now):
+        """`head` again after renewing the blob's lock, if this sighting should:
+        not under an event hold (it can't lapse; if HeadObject shows no lock,
+        GetObjectRetention is asked, since a hold may be hidden), and only with
+        less than half the default period left by the rule as it is now. The
+        request is the blob's own mode while its lock is live (S3 won't change
+        a live COMPLIANCE lock), the rule's once it has lapsed. A renewal
+        denied because another sighting renewed further is accepted."""
+        mode, until, held = _lock_of(head)
+        if held:
+            return head
+        if mode is None:
             try:
                 shown = self.s3.get_object_retention(Bucket=self.evidence, Key=key,
                                                      VersionId=head["VersionId"]).get("Retention") or {}
@@ -629,37 +669,30 @@ class Ingest:
                 if _code(e) != "NoSuchObjectLockConfiguration":
                     raise
                 shown = {}  # never locked: the renewal locks it
-            held = shown.get("EventHold") == "ON"
-        if not fresh and not held and (until is None or until < now + self._retention()[1] / 2):
-            default_mode, period = self._retention(fresh=True)  # the rule as it is now, not as this container found it
-            if until is None or until < now + period / 2:
-                denied = None
-                try:
-                    live = mode in s.LOCK_MODES and until is not None and until > now  # a lapsed lock takes today's mode
-                    self.s3.put_object_retention(
-                        Bucket=self.evidence, Key=key, VersionId=head["VersionId"], Retention={
-                            "Mode": mode if live else default_mode,
-                            "RetainUntilDate": (now + period).replace(microsecond=0)})
-                except Exception as e:  # another sighting renewed it further first, making this a shortening?
-                    if _code(e) != "AccessDenied":
-                        raise
-                    denied = e
-                head = self._head(self.evidence, key, version=head["VersionId"])
-                if head is None:
-                    raise Transient("the blob isn't readable")
-                mode, until = head.get("ObjectLockMode"), head.get("ObjectLockRetainUntilDate")
-                until = _aware(until) if until else None
-                if denied is not None and (until is None or until < now + period / 2):
-                    raise denied
-                self.log("lock_renewed" if denied is None else "lock_renewed_elsewhere", uuid=u)
-        if mode not in s.LOCK_MODES or until is None or until <= now:
-            # under an admin's event hold the blob is safe, but a v1 record needs a date still to come
-            raise Transient("lock_held: an event hold with a lapsed date" if held
-                            else "lock_missing: the blob's Object Lock isn't visible or has lapsed")
-        return {"bucket": self.evidence, "key": key, "version_id": head.get("VersionId") or "null",
-                "checksum_type": checksum_type, "checksum_sha256": checksum,
-                "part_size": part_size, "part_sha256": list(parts) if parts else None,
-                "lock_mode": mode, "retain_until": s.format_timestamp(until)}
+            if shown.get("EventHold") == "ON":
+                return head
+        if until is not None and until >= now + self._retention()[1] / 2:
+            return head
+        default_mode, period = self._retention(fresh=True)  # the rule as it is now, not as this container found it
+        if until is not None and until >= now + period / 2:
+            return head
+        denied = None
+        try:
+            live = mode in s.LOCK_MODES and until is not None and until > now
+            self.s3.put_object_retention(Bucket=self.evidence, Key=key, VersionId=head["VersionId"], Retention={
+                "Mode": mode if live else default_mode, "RetainUntilDate": (now + period).replace(microsecond=0)})
+        except Exception as e:  # another sighting renewed it further first, making this a shortening?
+            if _code(e) != "AccessDenied":
+                raise
+            denied = e
+        head = self._head(self.evidence, key, version=head["VersionId"])
+        if head is None:
+            raise Transient("the blob isn't readable")
+        _, until, _ = _lock_of(head)
+        if denied is not None and (until is None or until < now + period / 2):
+            raise denied
+        self.log("lock_renewed" if denied is None else "lock_renewed_elsewhere", uuid=u)
+        return head
 
     def _layout(self, key, head):
         """(parts, first part's size) of the composite blob version `head`
@@ -723,19 +756,21 @@ class Ingest:
 
     def _tag(self, u, tags):
         """Tag the data object, then the sidecar (which the sweep reads)."""
-        tagset = {"TagSet": [{"Key": k, "Value": v} for k, v in sorted(tags.items())]}
         for key in (s.staging_data_key(u), s.staging_sidecar_key(u)):
             try:
-                self.s3.put_object_tagging(Bucket=self.staging, Key=key, Tagging=tagset)
+                self.s3.put_object_tagging(Bucket=self.staging, Key=key, Tagging=_tagset(tags))
             except Exception as e:
                 if not _is_missing(e):
                     raise
 
-    def _abort(self, key, upload_id):
+    def _abort(self, u, key, upload_id):
+        """Best effort (the bucket's lifecycle aborts incomplete uploads
+        anyway), but a failure is logged: a persistent one is a grant or an
+        outage someone should see."""
         try:
             self.s3.abort_multipart_upload(Bucket=self.evidence, Key=key, UploadId=upload_id)
-        except Exception:
-            pass  # the bucket's lifecycle aborts incomplete uploads anyway
+        except Exception as e:
+            self.log("abort_failed", uuid=u, error=type(e).__name__, code=_code(e), status=_http_status(e))
 
 
 def _where(exc):
@@ -744,6 +779,16 @@ def _where(exc):
     here = os.path.dirname(os.path.abspath(__file__))
     return [f"{os.path.basename(f.filename)}:{f.lineno}:{f.name}" for f in traceback.extract_tb(exc.__traceback__)
             if os.path.dirname(os.path.abspath(f.filename)) == here][-6:]
+
+
+def _lock_of(head):
+    """(mode, retain-until as an aware datetime or None, under an event hold)."""
+    until = head.get("ObjectLockRetainUntilDate")
+    return head.get("ObjectLockMode"), _aware(until) if until else None, head.get("ObjectLockEventHold") == "ON"
+
+
+def _tagset(tags):
+    return {"TagSet": [{"Key": k, "Value": v} for k, v in sorted(tags.items())]}
 
 
 def _read_up_to(stream, n):
@@ -849,21 +894,24 @@ def handler(event, context=None, *, ingest=None, sqs=None, retry_after=60):
                 ingest.log("message_error", message_id=message.get("messageId"), error=type(e).__name__,
                            where=_where(e))
             failures.append({"itemIdentifier": message.get("messageId")})
-            sqs = _retry_soon(message, sqs, retry_after)
+            sqs = _retry_soon(message, sqs, retry_after, ingest.log)
     return {"batchItemFailures": failures}
 
 
-def _retry_soon(message, sqs, retry_after):
+def _retry_soon(message, sqs, retry_after, log=None):
     """Make a failed message visible again after retry_after seconds rather
-    than the queue's full visibility timeout. Best effort."""
+    than the queue's full visibility timeout. Best effort (the queue's own
+    timeout applies), but a failure is logged when a log is given."""
     queue_url = os.environ.get("QUEUE_URL")
     if queue_url and message.get("receiptHandle"):
         try:
             sqs = sqs or _client("sqs")
             sqs.change_message_visibility(QueueUrl=queue_url, ReceiptHandle=message["receiptHandle"],
                                           VisibilityTimeout=retry_after)
-        except Exception:
-            pass  # the queue's own timeout applies
+        except Exception as e:
+            if log is not None:
+                log("visibility_failed", message_id=message.get("messageId"), error=type(e).__name__,
+                    code=_code(e), status=_http_status(e))
     return sqs
 
 
@@ -966,8 +1014,7 @@ def _sweep_one(s3, bucket, key, send, redrive):
         return "stuck", {"state": "stuck"}
     if redrive:
         try:
-            s3.put_object_tagging(Bucket=bucket, Key=key,
-                                  Tagging={"TagSet": [{"Key": REDRIVES_TAG, "Value": str(tries + 1)}]})
+            s3.put_object_tagging(Bucket=bucket, Key=key, Tagging=_tagset({REDRIVES_TAG: str(tries + 1)}))
         except Exception as e:
             if _is_missing(e):
                 return None, None
@@ -975,9 +1022,10 @@ def _sweep_one(s3, bucket, key, send, redrive):
         try:
             send({"staging_key": key})
         except Exception:
-            try:  # the re-drive didn't happen, so it doesn't count (the sweep may write only its own tag)
-                s3.put_object_tagging(Bucket=bucket, Key=key,
-                                      Tagging={"TagSet": [{"Key": REDRIVES_TAG, "Value": str(tries)}]})
+            try:  # the re-drive didn't happen, so it doesn't count, unless an outcome was tagged meanwhile
+                now_tags = {t["Key"] for t in s3.get_object_tagging(Bucket=bucket, Key=key).get("TagSet") or []}
+                if now_tags <= {REDRIVES_TAG}:  # the sweep may write only its own tag
+                    s3.put_object_tagging(Bucket=bucket, Key=key, Tagging=_tagset({REDRIVES_TAG: str(tries)}))
             except Exception:
                 pass
             raise

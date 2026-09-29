@@ -1651,6 +1651,7 @@ def test_a_source_changed_during_the_copy_isnt_taken_as_stored(fake, large):
     with pytest.raises(ig.Transient):
         run(fake, u, workers=1)
     assert not fake.keys(EVD) and not fake.buckets[EVD].uploads
+    assert_rejected(fake, u, run(fake, u)[0], "data_mismatch")  # the retry sees the new ETag: terminal, not a loop
 
 
 def test_a_412_from_a_part_copy_is_not_taken_as_stored(fake, large):
@@ -2446,17 +2447,28 @@ def test_a_renewal_within_the_ttl_uses_the_rule_as_it_is_now():  # M1 under R4's
 def test_a_blob_under_an_event_hold_is_never_renewed(fake):  # R5
     u1, sc = stage(fake, CSV)
     run(fake, u1)
-    v = fake.current(EVD, s.blob_key(sc["data"]["sha256"]))
-    v["event_hold"], v["lock_until"] = "ON", fake.now + timedelta(hours=3)  # well under half the period left
+    key = s.blob_key(sc["data"]["sha256"])
+    v = fake.current(EVD, key)
+    v["event_hold"], v["event_hold_days"], v["lock_until"] = "ON", 30, fake.now + timedelta(hours=3)
+    fake.tick(4 * 3600)  # its fixed date passes; S3 reports the computed date (now + 30 days) while held
     u2, _ = stage(fake, CSV)
     fake.calls.clear()
-    assert ingest(fake)[0].process(s.staging_sidecar_key(u2)).status == "already_stored"  # not run(): the test shortened it
+    assert ingest(fake)[0].process(s.staging_sidecar_key(u2)).status == "already_stored"  # not run(): shortened
     assert not fake.ops("put_object_retention")
-    fake.tick(4 * 3600)  # its fixed date passes: safe under the hold, but v1 can't record it
-    u3, _ = stage(fake, CSV)
+    recorded = s.parse_timestamp(record_of(fake, u2)["evidence"]["retain_until"])
+    assert fake.now + timedelta(days=30) - timedelta(seconds=10) < recorded <= fake.now + timedelta(days=30)
+
+
+def test_a_held_blob_showing_a_lapsed_date_is_retried(fake):  # defensive: S3 doesn't report this state
+    u1, sc = stage(fake, CSV)
+    run(fake, u1)
+    key = s.blob_key(sc["data"]["sha256"])
+    fake.current(EVD, key)["event_hold"] = "ON"
+    fake.edit_head(EVD, key, lambda h: {**h, "ObjectLockRetainUntilDate": fake.now - timedelta(seconds=1)})
+    u2, _ = stage(fake, CSV)
     ing, logs = ingest(fake)
     with pytest.raises(ig.Transient):
-        ing.process(s.staging_sidecar_key(u3))
+        ing.process(s.staging_sidecar_key(u2))
     assert "lock_held" in json.loads(logs[-1])["error"] and not fake.ops("put_object_retention")
 
 
@@ -2672,3 +2684,72 @@ def test_the_fakes_sdk_doesnt_retry_a_501(fake):  # RT2
     with pytest.raises(ig.Transient):
         ingest(fake)[0].process(s.staging_sidecar_key(u))
     assert len(blob_writes(fake)) == 1
+
+
+
+# --- The 10-angle review of fea979a5f and re-check 2 -------------------------------------------
+
+
+def test_a_credential_in_an_approval_keeps_its_own_reason(fake, gate):
+    sc = over_gate()
+    put_approval(fake, sc, approved_by="admin AKIAIOSFODNN7EXAMPLE")
+    u, _ = stage(fake, BIG, part_size=5 * MiB, sidecar=sc)
+    out, logs = run(fake, u)
+    assert_rejected(fake, u, out, "signed_url")
+    assert last_field(logs) == "approval.approved_by"
+
+
+def test_a_failed_send_doesnt_undo_an_outcome_tagged_meanwhile(fake):
+    u, _ = stage(fake, CSV)
+    fake.tick(7200)
+    key = s.staging_sidecar_key(u)
+
+    def send(msg):  # an ingest settles the file, then the queue send fails
+        fake.put_object_tagging(Bucket=STG, Key=key, Tagging={"TagSet": [{"Key": "ingested", "Value": "true"}]})
+        raise RuntimeError("sqs down")
+    with pytest.raises(RuntimeError):
+        ig.sweep(fake.as_role(SWEEPER), staging_bucket=STG, send=send, now=fake.now, log=lambda line: None)
+    assert fake.tags(STG, key) == {"ingested": "true"}
+
+
+def test_a_failed_abort_is_logged(fake, large):
+    u, _ = stage(fake, BIG, part_size=5 * MiB)
+    fake.fail("upload_part_copy", when=lambda kw: kw["PartNumber"] == 2)
+    fake.fail("abort_multipart_upload", code="AccessDenied", status=403)
+    ing, logs = ingest(fake, workers=1)
+    with pytest.raises(ig.Transient):
+        ing.process(s.staging_sidecar_key(u))
+    line = next(json.loads(x) for x in logs if json.loads(x)["event"] == "abort_failed")
+    assert (line["uuid"], line["code"], line["status"]) == (u, "AccessDenied", 403)
+
+
+def test_a_failed_visibility_change_is_logged(fake, monkeypatch):
+    monkeypatch.setenv("QUEUE_URL", QUEUE)
+    u, _ = stage(fake, CSV)
+    fake.fail("put_object", when=lambda kw: kw["Key"] == s.record_key(u))
+    ing, logs = ingest(fake)
+    event = {"Records": [sqs_message(fake.event(STG, s.staging_sidecar_key(u)))]}
+    ig.handler(event, ingest=ing, sqs=FakeSQS(fail=True))
+    line = json.loads(logs[-1])
+    assert (line["event"], line["message_id"], line["error"]) == ("visibility_failed", "m-1", "RuntimeError")
+
+
+@pytest.mark.parametrize("edit,reason", [
+    (lambda sc: sc["data"].update(md5="0" * 32, staging_etag='"' + "0" * 32 + '"'), "data_mismatch"),
+    (lambda sc: sc["checks"].update(sniffed_type="text"), "invalid_metadata"),
+    (lambda sc: sc["data"].update(md5_multipart={"part_size": 5 * MiB, "etag": "0" * 32 + "-1"}), "invalid_metadata"),
+])
+def test_an_empty_file_has_no_claim_that_could_be_false(fake, edit, reason):
+    """Its body may never be read (Content-Length 0), so every lie it could
+    tell has to be refused before any write, by the validator or the binding."""
+    u, _ = stage(fake, b"", edit=lambda sc: (edit(sc), sc["response"]["headers"].update(etag=sc["data"]["staging_etag"])))
+    assert_rejected(fake, u, run(fake, u)[0], reason)
+    assert not blob_writes(fake)
+
+
+def test_a_manifest_is_read_from_staging_once(fake):
+    u, sc = stage_manifest(fake, [held(fake, CSV, "a.csv")])
+    fake.calls.clear()
+    assert run(fake, u)[0].status == "stored"
+    assert len([c for c in fake.ops("get_object", STG) if c[2] == s.staging_data_key(u)]) == 1
+    assert fake.current(EVD, s.blob_key(sc["data"]["sha256"]))["data"] == fake.current(STG, s.staging_data_key(u))["data"]

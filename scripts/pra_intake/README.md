@@ -119,8 +119,9 @@ re-read before each renewal and at most `RETENTION_TTL` (15 minutes) after a
 container last read it, so a shortened rule applies at once and a lengthened
 one within 15 minutes. A version this run just wrote is never renewed (S3
 locked it under the current rule), and neither is a blob under an admin's
-event hold (it can't lapse; if its fixed date has passed, a v1 record can't
-be written, and the file is retried as `lock_held`). So a blob stays locked
+event hold: it can't lapse, and while the hold is on S3 reports a computed
+date still to come, which the record states. (A held blob showing a date
+already past, which S3 doesn't produce, would be retried as `lock_held`.) So a blob stays locked
 for at least half a period after its latest sighting, and deduplication
 keeps working after a lock would have lapsed (dev's one-day lock, or prod's
 in ten years). The code only ever asks for `now + period`; without
@@ -133,10 +134,10 @@ were written; a later renewal only lengthens it.
 Every step can be re-run: writes carry If-None-Match, and a run that finds
 its record re-tags and stops. A run that tags a file rejected or deferred
 then looks for a record once more, so a racing run that recorded it wins.
-The Lambda reads every staged byte once per attempt (a fetch manifest twice:
-once to parse it; botocore's own retries, up to 3, and a 412 race read it
-again, so near `LAMBDA_MAX_SIZE` the worst case is several reads) and
-checks every claim about the bytes: the SHA-256 (S3 checks it on the evidence write up to 5 GB), the MD5,
+The Lambda reads every staged byte once per attempt (a fetch manifest is read
+whole once, checked in memory and sent from memory; botocore's own retries,
+up to 3, and a 412 race read a file again, so near `LAMBDA_MAX_SIZE` the
+worst case is several reads) and checks every claim about the bytes: the SHA-256 (S3 checks it on the evidence write up to 5 GB), the MD5,
 the source's multipart ETag, the staging part layout, and the sniffed type.
 Up to 5 GB that read is the evidence upload itself, and a wrong claim fails
 it from inside its body before the last bytes are sent, so nothing is stored
@@ -157,10 +158,16 @@ then the counts, including stray keys, how many it didn't read (`unread`:
 files it had no time to reach, the ones whose read failed, and every file
 after the chunk an error ended), whether it read the whole listing
 (`listed`), and the error that ended it early (`error`).
+The sweep's `redrives` write replaces the sidecar's tag set (S3 has no
+conditional tagging), so an outcome tag the Lambda writes between the
+sweep's read and its write is lost; the same run re-drives the file, and
+processing it tags the outcome again. After a failed send the sweep gives
+the re-drive back only if no outcome was tagged meanwhile.
 Logs hold uuids, SQS message ids, reason codes, field paths, problem
 descriptions (fixed text), sizes and code locations (file:line:function of
 this package), never presented text, URLs, keys that aren't ours, or
-metadata values. An unexpected error fails only its
+metadata values. Best-effort calls that fail are logged too: an abort
+(`abort_failed`) or a visibility change (`visibility_failed`). An unexpected error fails only its
 own message and is logged as `message_error` (or `transient` with `where`)
 rather than failing the invocation, so alarm on those lines as well as on the
 DLQ.
@@ -204,11 +211,12 @@ record.
      lock in its own mode, so a COMPLIANCE-locked blob's duplicates then
      wait in the DLQ until it lapses: keep a blob with a legal hold, not
      COMPLIANCE.
-  3. `s3:PutObjectRetention` and `s3:PutObject` when the request sets an
-     event hold at all, on or off (the event-hold condition key is present:
-     `Null` false; take its exact name from the IAM service authorization
-     reference for S3). The Lambda never sends one, and admins, exempt, can
-     still place or release a hold.
+  3. `s3:PutObjectRetention` and `s3:PutObject` when `Null
+     s3:object-lock-event-hold` is false: the request sets an event hold at
+     all, on or off. The Lambda never sends one (S3 evaluates the key against
+     the request, not a default rule's hold), and admins, exempt, can still
+     place or release a hold. PR 4 re-runs the live probe's renewal case with
+     this policy applied, to confirm a plain renewal carries no such key.
   4. `s3:PutObject` when `Null s3:object-lock-mode` is false (the Lambda never
      sends lock headers; don't use `StringNotEquals`, which also matches an
      absent key and would deny every write).
@@ -351,7 +359,10 @@ allow, so one that validates always serializes; a manifest is capped at
 - **Intake record**: the sidecar verbatim plus what the Lambda verified: the
   blob's version, checksum and lock, and the staging object's ETag, encryption,
   checksum, and the hash of the sidecar's bytes. It has no clock and no request
-  id. Two writes for one sighting can differ only in `ingest` (code version,
+  id. `staging.data_last_modified` is S3's LastModified for the data object,
+  which for a multipart upload is when the upload began, not when it
+  completed; the commit time is the sidecar's LastModified, which schema 1
+  doesn't record. Two writes for one sighting can differ only in `ingest` (code version,
   trigger path) and in the lock read back. After a 412 the stored record
   stands if it describes the same staging objects (sidecar hash, data
   ETag); a different `record_core` (another blob version) is logged.
