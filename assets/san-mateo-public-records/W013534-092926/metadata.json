@@ -1,0 +1,35 @@
+{
+  "title": "Single search e3ff26d0… (2024-04-09 07:44:34 PM UTC) — audit record, case records, and request/results-sharing records",
+  "summary": "Asks for records about one Flock search run under the Department's account: search ID e3ff26d0-8f26-43d6-8e73-7c70b723b665, conducted 04/09/2024 at 07:44:34 PM UTC, 428 networks searched.\n\n- Item 1: the Flock Audit PDF report record for the search, with every field, including the reason text as entered by the user.\n- Item 2: the organization-audit spreadsheet/CSV export record for the search, in native .csv or .xlsx format (Gov. Code § 7922.570), with every field, including the reason text, Case #, Time Frame, and Filters.\n- Item 3: any CAD incident, RMS entry, incident report, or case report the Department associates with the search, or that bears a case, incident, or file number entered for it.\n- Item 4: any record of a request for the search from any person or agency, or of its approval: email, text, chat or messaging-app message, dispatch or assist record, supervisor approval, or task-force record.\n- Item 5: any record of the search's results (plate reads, images, locations, reports) being provided to anyone outside the Department, including messages and any Flock share, export, or download with its event-log entries. This covers messages of the user recorded for the search on City accounts and devices and on personal accounts or devices used for City business (City of San Jose v. Superior Court (2017) 2 Cal.5th 608).\n\nFor items 4 and 5, the request asks that email and messaging accounts be searched using the search ID and each case, incident, or file number entered for the search in its audit record, for 2024-04-01 through the request date. Withheld portions are to be marked in place, field by field, with the exemption relied on (Gov. Code §§ 7922.525(b), 7922.540). If the Department says a responsive record is held by another agency, the request asks it to say so for that record. The request states it is separate from any other pending request, including any rolling production of monthly audit logs.",
+  "tags": [
+    "audit-compliance",
+    "pra-process"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.570",
+      "quote": "The agency shall make the information available in any electronic format in which it holds the information.",
+      "tests": "Whether the organization-audit record for this search is produced as native .csv/.xlsx rather than a PDF rendering."
+    },
+    {
+      "policy": "Gov. Code § 7922.525(b)",
+      "quote": "Any reasonably segregable portion of a record shall be available for inspection ... after deletion of the portions that are exempt by law",
+      "tests": "Whether withholding from this one record is marked in place, field by field, with the exemption for each field."
+    },
+    {
+      "policy": "City of San Jose v. Superior Court (2017) 2 Cal.5th 608",
+      "quote": "when a city employee uses a personal account to communicate about the conduct of public business, the writings may be subject to disclosure under the California Public Records Act",
+      "tests": "Whether the item 4 and 5 searches cover personal accounts and devices used for City business."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013308-082426",
+      "relation": "context",
+      "note": "An earlier request for a single search-audit record. This one names both audit export products and adds case, request, and results-sharing records for the search."
+    }
+  ],
+  "filed_because": "Asks for the complete record of one search: both audit export renderings of it, any case or incident record tied to it, and any record of who asked for it, who approved it, and where its results went. It is filed as its own request so it gets its own determination.",
+  "status_override": null,
+  "notes": "Filed 2026-09-29 (portal receipt 9/29/2026 4:37 AM); auto-acknowledged and forwarded to department(s). 10-day statutory determination due 2026-10-09."
+}

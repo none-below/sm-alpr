@@ -1,0 +1,29 @@
+{
+  "title": "CAD incident records for 10 specified June 2024 CAD numbers",
+  "summary": "Asks the San Mateo Police Department for the CAD incident record for each of ten specified CAD incidents from June 2024: 202406080025, 202406100006, 202406120022, 202406160190, 202406170170, 202406180016, 202406180026, 202406180224, 202406250013, and 202406260135.\n\nFor each incident, it asks for the call type, the date and time received, the location (block level is sufficient), the disposition, and any assigned case number.\n\nThe request excludes the name, date of birth, driver's license number, address, phone number, and license plate of any member of the public, including persons listed in a CAD record, and says those may be withheld without further review. It states that none of the numbers came from any City production.",
+  "tags": [
+    "audit-compliance"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Gov. Code § 7922.525(b)",
+      "quote": "Any reasonably segregable portion of a record shall be available for inspection ... after deletion of the portions that are exempt by law",
+      "tests": "Whether the call type, time received, block-level location, disposition, and any case number are released for each listed incident, with the excluded personal identifiers removed."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013429-091426",
+      "relation": "context",
+      "note": "An earlier request for CAD incident records by specified CAD number (20 numbers, March 2025 through March 2026)."
+    },
+    {
+      "ref": "W013439-091426",
+      "relation": "context",
+      "note": "An earlier CAD and case-report request for specified incident numbers."
+    }
+  ],
+  "filed_because": "Asks for the basic CAD dispatch record (call type, time, block-level location, disposition, case number) for ten specified June 2024 incidents, excluding personal identifiers of members of the public up front.",
+  "status_override": null,
+  "notes": "Filed 2026-09-30 (portal receipt 9/30/2026 4:22 PM); auto-acknowledged and forwarded to department(s). Addressed to the San Mateo Police Department. 10-day statutory determination due 2026-10-10."
+}
