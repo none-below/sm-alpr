@@ -96,52 +96,77 @@ intake = Intake.from_env(connector="muckrock", connector_version=commit)
 with intake.request(kind="muckrock", platform="muckrock", host="www.muckrock.com",
                     request_id="12345", request_url=url, files_listed=len(files)) as req:
     for f in files:
-        if f.unchanged_since_last_run:
-            req.unchanged(f.name, record=f.last_uuid, doc_id=f.id, url=f.url)
+        if f.id in state and state[f.id].change_key == f.change_key:
+            req.unchanged(f.name, record=state[f.id].uuid, doc_id=f.id)
             continue
+        started = datetime.now(timezone.utc)
         with session.get(f.url, stream=True, timeout=(10, 300)) as resp:  # requests has no default timeout
-            req.upload(f.name, resp.iter_content(1 << 20), doc_id=f.id, url=f.url,
+            req.upload(f.name, resp.iter_content(1 << 20), doc_id=f.id, url=f.url, started_at=started,
                        response=Response.from_requests(resp), expect_types=["pdf"])
+for name, result in req.results:
+    ...  # keep result.uuid (whenever there is one) and an attempt count per file
 done = req.manifest.terminal and all(r.terminal for _, r in req.results)
 ```
 
-`url` is the stable URL (`strip_signing_params` of the URL the client
-sent). The body is what a browser would save (content-decoded), as bytes, a
-binary file object or an iterable of bytes chunks (anything else, such as a
-str or ints, is refused rather than turned into other bytes); `Response.from_requests` and
-`Response.from_playwright` record what the client saw, or build a
-`Response` from the status, the header pairs as received, the final URL and
-each redirect as (status, the URL that answered, its Location). A
-Playwright `Download` has neither status nor headers: fetch through
-`context.request.get` instead (its `APIResponse` works with
-`from_playwright`), or capture the page `Response` that delivered it. A file
-the client saved to disk goes through `upload_file(path, ..., origin="live",
-response=...)`, checked against the response's Content-Length.
+**What to pass.** `url` is the URL requested, before any redirect; the
+library stores it through `strip_signing_params` (no signature or session
+parameters), and refuses one whose redirect chain began elsewhere (passing
+the final, signed URL would lose where the fetch began). The body is what
+a browser would save (content-decoded: `resp.iter_content`, not `resp.raw`,
+whose gzip bytes are refused as `still_encoded`), as bytes, a binary file
+object, or an iterable of bytes chunks; anything else (a str, ints, endless
+empty chunks such as `iter(partial(f.read, n), '')` gives) raises
+`TypeError` rather than become other bytes or spin. `Response.from_requests` and
+`Response.from_playwright` (a page `Response`, or the `APIResponse` of
+`context.request.get`, which exposes no redirect hops) record what the
+client saw; or build a `Response` from the status, the header pairs as
+received, the final URL, and each redirect as (status, the URL that
+answered, its Location). A Playwright `Download` has neither status nor
+headers: fetch through `context.request.get`, or capture the page
+`Response` that delivered it. A download the client saved to disk goes
+through `upload_file(path, name, response=...)` (origin `live`), checked
+against the response's Content-Length. A live fetch's declared length is
+always its response's Content-Length (`declared_length=` is for backfills).
+Fetch manifests are written only by a `Request`: `stage()` refuses one.
 
-Before reading a byte the library checks the file's source, fetch,
-response and listing under write policy (`validate_context`), so a
-credential in a URL or a live fetch without its URL raises `SchemaError`
-and nothing moves. A live response other than 200 or 203 fails as
-`http_<status>` unread (the rest is still checked), a declared size S3
-couldn't hold as `over_s3_limit`, a Content-Range that isn't the whole file
-as `partial_response`, and a size over `COST_GATE` without an approval
-returns `needs_approval`. It hashes as it streams, in memory and never on
-disk: about 32 MiB for a file that goes in one PUT, and about 96 MiB for a
-multipart one (`MAX_IN_FLIGHT`, 64 MiB of parts uploading, plus the part
-being read). Parts are larger only for an approved file over about 167 GB,
-and memory grows with them. The type check, the length check and the whole sidecar's validation
-all come before the data becomes an object (a multipart upload is aborted
-instead), so a refused file leaves nothing in staging. The data object is
-written, then the sidecar; only a failure between the two (S3, or the
+Times are timezone-aware datetimes. For a stream the library times the
+fetch itself: `started_at` (pass it from before the request; else it's when
+`stage()` was called), then the first byte and the end as it reads. For
+bytes, a `BytesIO` or a regular file (already fetched) it didn't see the
+fetch: `first_byte_at` is null, and
+`started_at` and `completed_at` are what the connector passes (else null,
+and when the library got the bytes). A time up to a minute ahead of the
+library's clock is taken as the clock stepping back.
+
+Values: `kind` is one of `muckrock`, `portal`, `own` (`SOURCE_KINDS`);
+`platform` one of `PLATFORMS` (`muckrock`, `nextrequest`, `govqa`,
+`justfoia`, `logikcull`, `email`, `fileshare`, `other`); `access`
+`anonymous` or `requester`; `released_on` a date like `2026-09-28`;
+`expect_types` from `SNIFF_TYPES` (a CSV is `text`); reason codes for
+`failed()` are lower-case letters, digits and `_`.
+
+**What the library checks.** Before reading a byte: the source, fetch,
+response and listing under write policy (`validate_context`); a response
+other than 200 or 203 fails as `http_<status>`, a declared size S3 couldn't
+hold as `over_s3_limit`, a Content-Range that isn't the whole file as
+`partial_response`, and a size over `COST_GATE` without an approval is
+`needs_approval`. While reading, it hashes in memory, never on disk: about
+32 MiB for a file that goes in one PUT and about 96 MiB for a multipart one
+(`MAX_IN_FLIGHT`, 64 MiB of parts uploading, plus the part being read;
+more only for an approved file over about 167 GB). The type, the length and
+the whole sidecar are checked before the data becomes an object (a
+multipart upload is aborted instead), so a refused file leaves nothing in
+staging. The data object is written, then the sidecar; a PUT that landed
+but lost its answer (a dropped connection, a 5xx) counts as written once
+the object is seen there. Only a failure between the two (S3, or the
 process killed) leaves data without a sidecar, which the sweep reports.
 
-`Intake.upload()` returns a `Result`. `Intake.stage()` and `Request.upload()`
-return a `Staged` at the commit, whose `result()` waits; `wait(handles)`
-checks files 16 at a time, so waiting for many costs about as long as the
-slowest. Each file's timeout runs from when the wait starts, not from its
-commit, so a file staged early in a long run still gets its full time; a
-`pending` result isn't final, and waiting again (or the end of the block)
-looks again. A request waits for all its files when its block
+**Waiting.** `Intake.upload()` returns a `Result`; `Intake.stage()` and
+`Request.upload()` return a `Staged` at the commit, whose `result()` waits.
+`wait(handles)` checks files 16 at a time, so waiting for many costs about
+as long as the slowest. Each file's timeout runs from when the wait starts,
+and a `pending` result is looked at again by the next wait (the end of a
+request's block included). A request waits for all its files when its block
 ends, then stores the fetch manifest and waits for that too
 (`req.manifest`); afterwards it takes no more files. A block that raises
 stores no manifest. A request isn't thread-safe.
@@ -152,43 +177,56 @@ stores no manifest. A request isn't thread-safe.
 | `rejected` | the Lambda refused the upload; `reason` is the reject code | acks; the file waits in staging for a person |
 | `deferred` | over `LAMBDA_MAX_SIZE`: the one-off job records it | acks |
 | `needs_approval` | over `COST_GATE` with no approval (`reason` `too_large`) | acks and reports it |
-| `pending` | no outcome by its timeout (120 s plus 1 s per 30 MB, at most 20 minutes); it's committed and will be ingested | retries later |
-| `failed` | nothing staged: `http_<status>`, `truncated`, `overlong`, `partial_response`, `unexpected_type`, `undeclared_length`, `over_s3_limit`, or `read_error` (in a request, the body raised); `no_record` from `unchanged()`; or the connector's own reason from `failed()` | fetches again, up to a cap |
+| `pending` | no outcome by its timeout (120 s plus 1 s per 30 MB, at most 20 minutes); it's committed and will be ingested | keeps the uuid; next run, `unchanged()` |
+| `failed` | nothing held; `reason` says why (below) | fetches again, up to a cap, then `failed(..., final=True)` |
 
-`terminal` is true for the first four. Some failures come from the source
-and repeat on every fetch (a portal answering 404 or an HTML login page, a
-wrong Content-Length), so count attempts (`attempt=`) and give up at a cap
-rather than retry forever. The manifest lists a `held` file with its
-sha256, anything else `failed` with the reason above (`deferred`,
-`pending`, a reject code) or `needs_approval`. `unchanged(record=uuid)`
-lists a file `held` only if that upload's record exists. It raises
-`ValueError` for a record of another request, a manifest's, or another
-file's: another doc id's when both name one, else another filename's (or
-url's, when both name one).
+`terminal` is true for the first four and for a file given up on with
+`failed(..., final=True)`. Failure reasons: `http_<status>`, `truncated`,
+`overlong`, `partial_response`, `still_encoded`, `unexpected_type`,
+`undeclared_length`, `over_s3_limit`; `read_error` (the body raised: in a
+request, only that file fails); a schema reason code such as
+`invalid_metadata` (in a request, a bad value in one file's source, such as
+an agency's timestamp as `released_on`, fails only that file and logs
+`invalid_file` with the field); `no_record` or `record_mismatch` from
+`unchanged()`; or the connector's own from `failed()`. Some come from the
+source and repeat on every fetch (a 404, an HTML login page), hence the
+cap: count attempts (`attempt=`).
 
-Exceptions: `SchemaError`, `ValueError` or `TypeError` before any byte
-moves is a connector bug. A body that raises (a dropped connection) aborts
-the file: `Intake.stage` raises `BodyError` (the body's exception is its
-cause), and a request records the file `failed`, `read_error`, and carries
-on. An S3 error (after botocore's retries) aborts the file and propagates:
-retry the work item. While
-waiting, a throttle, a 5xx or a dropped connection is logged
-(`poll_failed`) and looked at again; any other S3 error ends the wait,
-AccessDenied on the file's own tags included (a missing grant would
-otherwise leave every file `pending`). `IntakeError` means S3 or the Lambda
-answered for bytes other than the ones sent, or tagged a file ingested
-whose record the library can't read: always worth a look.
+**Between runs.** Keep each file's uuid whenever its result has one, and
+call `unchanged(name, record=uuid, ...)` for a file the listing shows
+unchanged. It lists the file `held` if the record exists and is this
+file's (the same doc id when both name one, else the same url when both
+name one, else the same filename; a renamed file with the same url is the
+same file), filling in the doc id and url from the record; `failed`,
+`record_mismatch` if it's another file's (fetch it again). With no record
+yet it reports the outcome so far (`deferred`, `rejected`, `pending`) or
+`failed`, `no_record`, for an upload staging doesn't know. A record of
+another request or a manifest's raises `ValueError`: a uuid from the wrong
+state. A file tried more than once in a run is listed once, as it ended; a
+listing count that doesn't match the entries is logged
+(`listing_mismatch`).
 
-Fetch times: for a stream the library times the fetch itself (`started_at`,
-if not given, is when `stage()` was called; then the first byte and the
-end as it reads). For bytes, or a file the client saved, it didn't see the
-fetch: `first_byte_at` is null, `started_at` is what the connector passes
-(or null), and `completed_at` is what it passes (when the download
-finished) or when the library got the bytes.
+**Exceptions.** `SchemaError`, `ValueError` or `TypeError` is a connector
+bug; before any byte moves except a `TypeError` from a body that turns out
+not to be bytes (its multipart upload is aborted). A body whose read fails
+as a connection does is `BodyError` from `Intake.stage` (a request records
+`read_error`); any other exception from the body propagates as itself. An
+S3 error (after botocore's retries) aborts the file and propagates: retry
+the work item. While waiting, a throttle, a 5xx or a dropped connection is
+logged (`poll_failed`) and looked at again; any other S3 error ends the
+wait (other files' outcomes that round are kept), AccessDenied on the
+file's own tags included (a missing grant would otherwise leave every file
+`pending`). `IntakeError` means S3 or the Lambda answered for bytes other
+than the ones sent, or tagged a file ingested whose record the library
+can't read: don't ack; alert.
 
 Backfills use `upload_file(path, source, legacy_path=...,
 original_fetched_at=...)` (origin `local-copy`, or `git` with
 `git_commit`), and `stamp_ref` names a stamped manifest already held.
+
+Known limit: a 200 with a Content-Encoding and a Content-Range covering the
+whole *encoded* file fails as `partial_response` (schema 1 compares the
+range to the decoded size). Fetch such a file without `Accept-Encoding`.
 
 ## The Lambda
 
