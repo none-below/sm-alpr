@@ -107,7 +107,8 @@ REJECT_REASONS = frozenset({
     "missing_blob",  # a fetch manifest names a sha256 evidence doesn't hold
     "manifest_mismatch",  # a manifest's sidecar and body describe different requests
     "evidence_conflict",  # the blob already at the key fails read-back
-    "lock_missing",  # the stored blob doesn't carry the expected Object Lock
+    "layout_conflict",  # a file over SINGLE_PUT_MAX already stored on other part boundaries (v1 records one layout)
+    "lock_missing",  # the stored blob doesn't carry the expected Object Lock (the Lambda retries it instead)
 })
 
 
@@ -300,8 +301,9 @@ EVIDENCE_CONTENT_TYPE = "application/octet-stream"
 EVIDENCE_CONTENT_DISPOSITION = "attachment"
 STAGING_SSE = "AES256"  # staging is SSE-S3, where a single PUT's ETag is its MD5
 
-# Staging tags. Only the ingest Lambda may set them (bucket policy). The
-# lifecycle rule matches INGESTED_TAG exactly: S3 tag filters need key and value.
+# Staging tags drive lifecycle, so only the ingest role may set them (bucket
+# policy); the sweep role may set only its re-drive count (ingest.REDRIVES_TAG).
+# The lifecycle rule matches INGESTED_TAG exactly: S3 tag filters need key and value.
 INGESTED_TAG = ("ingested", "true")
 
 
@@ -563,10 +565,13 @@ _MAGIC = (
 _BINARY_BYTES = frozenset(set(range(0, 9)) | {11} | set(range(14, 26)) | set(range(28, 32)))
 
 
+HTML_STARTS = (b"<!doctype html", b"<html", b"<head", b"<body")  # lower-cased starts that make text HTML
+
+
 def _sniff_text(head):
     start = head[3:] if head.startswith(b"\xef\xbb\xbf") else head
     start = start.lstrip(b" \t\r\n\x0c").lower()
-    if start.startswith((b"<!doctype html", b"<html", b"<head", b"<body")):
+    if start.startswith(HTML_STARTS):
         return "html"
     if start.startswith(b"<?xml"):
         return "html" if b"<html" in head.lower() else "xml"
@@ -598,6 +603,16 @@ def sniff_type(head):
     if not any(b in _BINARY_BYTES for b in head):
         return "text"
     return "unknown"
+
+
+def expected_sniff(content_kind, head):
+    """The checks.sniffed_type bytes starting with `head` (their first
+    min(size, SNIFF_BYTES)) call for; the Lambda recomputes it. A fetch
+    manifest is canonical JSON, "text" by definition, though a filename in it
+    may hold "%PDF-". What sniff_type returns is part of schema 1 (pinned in
+    tests/fixtures/pra_intake/sniff_v1.json): changing it needs a new schema
+    version, or honest uploads still in staging would be refused."""
+    return "text" if content_kind == "fetch_manifest" else sniff_type(head)
 
 
 # --- Credentials -------------------------------------------------------------------
@@ -1454,8 +1469,11 @@ def sidecar_bytes(obj):
 
 # An admin writes approvals/<uuid>.json in the ops bucket to let one source's
 # file over COST_GATE through. It names the source exactly, caps the size and
-# expires, so one approval can't cover a different file. A sidecar names it in
-# fetch.approval; the Lambda reads it and calls check_approval.
+# expires. It covers every upload from that source (retries, re-releases)
+# committed before it expires, and no file from any other source; keep
+# expiries short, and keep the object until the files it covers are recorded.
+# A sidecar names it in fetch.approval; the Lambda reads it and calls
+# check_approval.
 APPROVAL_KIND = "cost_gate_approval"
 _APPROVAL_SOURCE_FIELDS = ("kind", "platform", "host", "request_id", "doc_id", "url")
 _APPROVAL_SPEC = {
@@ -1476,7 +1494,10 @@ def validate_approval(obj):
 
 
 def parse_approval(data):
-    obj = parse_strict_json(data, max_bytes=MAX_APPROVAL_BYTES, field="approval", reason="invalid_metadata")
+    """An admin writes approvals by hand, and no approval's hash is recorded,
+    so any strict JSON will do (canonical bytes buy nothing here)."""
+    obj = parse_strict_json(data, max_bytes=MAX_APPROVAL_BYTES, field="approval", reason="invalid_metadata",
+                            canonical=False)
     return validate_approval(obj)
 
 
@@ -1635,8 +1656,9 @@ def validate_record(obj, *, stored=False):
     are the sidecar's; and the buckets are one environment's staging and
     evidence buckets. A record holds no clock or request id. Two writes for
     one sighting can differ in `ingest` (code version, trigger path) and in
-    the lock read back (evidence.retain_until, evidence.lock_mode); a 412
-    compares record_core only. stored=True reads a stored one (no write policy)."""
+    the lock read back (evidence.retain_until, evidence.lock_mode); after a
+    412 the Lambda compares record_core. stored=True reads a stored one (no
+    write policy)."""
     _require_schema(obj, "record", "bad_record")
     with _reading(stored):
         return _record_validator(obj)(obj)
@@ -1666,9 +1688,11 @@ RECORD_CORE_FIELDS = ("uuid", "sha256", "size", "evidence_key", "evidence_versio
 
 
 def record_core(record):
-    """The fields that must agree when two writers race for one record key and
-    the second gets a 412: what was stored, and from which staging bytes. It
-    reads the raw fields, so it works on records of any schema version."""
+    """What two writers racing for one record key should agree on: what was
+    stored, and from which staging bytes. The loser of the race keeps the
+    stored record when its staging bytes match, and logs a different core
+    (another blob version). It reads the raw fields, so it works on records
+    of any schema version."""
     return {
         "uuid": record["uuid"],
         "sha256": record["sha256"],

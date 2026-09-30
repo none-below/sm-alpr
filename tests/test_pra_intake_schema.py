@@ -1718,7 +1718,14 @@ def test_vocabulary_is_pinned():
     """If this fails, an invariant a v1 reader applies changed. That needs a
     new schema version (with the old one still readable), not a regenerated
     fixture."""
-    assert json.loads((FIXTURES / "vocabulary.json").read_text()) == vocabulary()
+    pinned, current = json.loads((FIXTURES / "vocabulary.json").read_text()), vocabulary()
+    # Reject reasons name staging tags and log lines, and a stored fetch
+    # manifest may carry one as a failed file's reason: a new one may be
+    # added (pin it here too), but none removed or repurposed.
+    old, new = set(pinned.pop("REJECT_REASONS")), set(current.pop("REJECT_REASONS"))
+    assert old <= new, f"reject reasons removed: {sorted(old - new)}"
+    assert new <= old, f"new reject reasons: add {sorted(new - old)} to vocabulary.json"
+    assert pinned == current
 
 
 def test_policy_is_pinned():
@@ -1726,6 +1733,77 @@ def test_policy_is_pinned():
     documents are read without it): check it's deliberate, then update
     policy.json. Loosening it needs a reason."""
     assert json.loads((FIXTURES / "policy.json").read_text()) == policy()
+
+
+def sniff_samples():
+    """First bytes covering every branch and boundary of sniff_type, as hex -> type:
+    every byte value alone, after text and before text; every magic, cut one
+    byte short and shifted by one; the text, UTF-16, PDF, ISO-BMFF and BMP
+    boundaries; and a seeded mix."""
+    import random
+    heads = [b"", b" \n\t\r\x0c"]
+    for b in range(256):
+        heads += [bytes([b]), b"text " + bytes([b]), bytes([b]) + b" text"]
+    magics = [m for m, _ in s._MAGIC] + [b"BM", b"\xef\xbb\xbf", b"\xff\xfe", b"\xfe\xff"]
+    for m in magics:
+        heads += [m, m + b"rest\x00", m[:-1], b" " + m, m.upper(), m.lower()]
+    for off in (0, 1, 500, 1018, 1019, 1020, 1023, 1024):
+        heads += [b"a" * off + b"%PDF-1.7", b"\x00" * off + b"%PDF-1.7"]
+    for tag in (b"<!doctype html>", b"<html>", b"<head>", b"<body>", b"<?xml version='1.0'?>", b"<div>", b"<svg>"):
+        for pre in (b"", b" \r\n\t\x0c", b"\xef\xbb\xbf", b"\xef\xbb\xbf  "):
+            heads += [pre + tag + b"x", pre + tag.upper() + b"x", pre + tag + b"<html>"]
+    for text in ("text", "<html>", "<?xml?><html>", "<?xml?><a/>", "a\x01b", "a\x1bb", "a\x1ab", "caf\u00e9"):
+        for bom, codec in ((b"\xff\xfe", "utf-16-le"), (b"\xfe\xff", "utf-16-be")):
+            heads += [bom + text.encode(codec), bom + text.encode(codec) + b"\x00"]
+    heads += [b"<!doctype svg>", b"<!DOCTYPE xml>x", b" <!doctype  html>", b"<!doctypehtml>"]
+    for bom, codec in ((b"\xff\xfe", "utf-16-le"), (b"\xfe\xff", "utf-16-be")):  # a lone surrogate before the text
+        lone = "\ud800".encode(codec, "surrogatepass")
+        heads += [bom + lone + "<html>".encode(codec), bom + lone + "text".encode(codec)]
+    for at in (3, 4, 5):
+        heads.append(b"\x00" * at + b"ftypisom" + b"\x00" * 8)
+    for reserved in (b"\x00\x00\x00\x00", b"\x00\x00\x00\x01", b"\x01\x00\x00\x00"):
+        heads += [b"BM\x36\x00\x0c\x00" + reserved, b"BM\x36\x00\x0c" + reserved]
+    heads += [b"x" * 2000, b"x" * 1023 + b"\x00", b"x" * 1024 + b"\x00", "\u4e2d\u6587".encode("utf-8") * 200]
+    rng = random.Random(20260929)
+    alphabets = [bytes(range(32, 127)), bytes(range(256)), b"\t\n\r abc<>?!/", "\u00e9\u4e2d\U0001f600 a".encode()]
+    for _ in range(300):
+        alphabet = rng.choice(alphabets)
+        heads.append(bytes(rng.choice(alphabet) for _ in range(rng.choice((1, 8, 64, 700, 1100)))))
+    heads += [tag + b" x" for tag in s.HTML_STARTS] + [b"  " + tag.upper() for tag in s.HTML_STARTS]
+    near = [b"<!--", b"<script", b"<?php", b"<iframe", b"<table", b"<title", b"<style", b"<p>", b"<a ", b"<!doctype",
+            b"\xff\xfa", b"\xff\xe3", b"\xff\xf1", b"\xff\xf9", b"MM\x00+", b"II+\x00", b"\x1f\x9d", b"\x1f\xa0",
+            b"%!PS", b"\x00\x00\x01\xba", b"\x00\x00\x01\xb3", b"FWS", b"CWS", b"wOFF", b"\x7fELF", b"MZ",
+            b"\xca\xfe\xba\xbe"]  # near misses: a rule written inline, not in the tables, changes one of these
+    near += [m[:-1] + bytes([m[-1] ^ 0x01]) for m, _ in s._MAGIC]
+    heads += [n + b"x\x00" for n in near] + [n + b" text" for n in near]
+    return {"samples": {h.hex(): s.sniff_type(h) for h in heads}, "tables": sniff_tables()}
+
+
+def sniff_tables():
+    """What sniff_type decides by, frozen too: a new magic or HTML start
+    passes every sample above yet changes answers."""
+    return {"magic": [[m.hex(), name] for m, name in s._MAGIC], "html_starts": [x.decode() for x in s.HTML_STARTS],
+            "binary_bytes": sorted(s._BINARY_BYTES), "sniff_bytes": s.SNIFF_BYTES}
+
+
+def test_sniffing_is_pinned():
+    """The Lambda recomputes checks.sniffed_type, so what sniff_type returns is
+    part of schema 1. If this fails, honest uploads written by the old
+    library would be refused: that needs a new schema version, not a new
+    fixture."""
+    pinned = json.loads((FIXTURES / "sniff_v1.json").read_text())
+    assert pinned["tables"] == sniff_tables()
+    samples = pinned["samples"]
+    assert {h: s.sniff_type(bytes.fromhex(h)) for h in samples} == samples
+    assert set(samples.values()) == set(s.SNIFF_TYPES)
+
+
+def test_a_fetch_manifest_sniffs_as_text_whatever_its_filenames_say():
+    body = s.manifest_bytes(s.build_manifest(MANIFEST_SOURCE, [
+        s.manifest_entry("Invoice %PDF-export.pdf", status="failed", reason="source_404")]))
+    assert s.sniff_type(body[:s.SNIFF_BYTES]) == "pdf"
+    assert s.expected_sniff("fetch_manifest", body[:s.SNIFF_BYTES]) == "text"
+    assert s.expected_sniff("file", body[:s.SNIFF_BYTES]) == "pdf"
 
 
 V1_DOCUMENTS = sorted(p.name for p in V1.glob("*.json"))
@@ -1752,7 +1830,7 @@ def test_writers_reproduce_v1_documents(name):
 
 if __name__ == "__main__":  # write only what's missing: python tests/test_pra_intake_schema.py
     V1.mkdir(parents=True, exist_ok=True)
-    for name, make in (("vocabulary.json", vocabulary), ("policy.json", policy)):
+    for name, make in (("vocabulary.json", vocabulary), ("policy.json", policy), ("sniff_v1.json", sniff_samples)):
         if not (FIXTURES / name).exists():
             (FIXTURES / name).write_text(json.dumps(make(), indent=2, sort_keys=True) + "\n")
     for name, raw in documents().items():
