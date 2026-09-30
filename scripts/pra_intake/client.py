@@ -8,8 +8,8 @@ For each file it:
   2. streams the bytes into the staging bucket as in/<uuid>.bin, hashing them
      as they pass: one PUT up to PART_SIZE, else a multipart upload cut at
      schema.upload_part_size(size), every request carrying its SHA-256.
-     Nothing touches local disk; parts wait in memory, at most MAX_IN_FLIGHT
-     bytes of them at once;
+     Nothing touches local disk; parts wait in memory, MAX_IN_FLIGHT bytes
+     of them uploading plus the part being read;
   3. checks the first bytes against expect_types and the byte count against
      the declared length, and builds and validates the sidecar, all before
      the data becomes an object (a multipart upload is aborted instead), so a
@@ -79,9 +79,10 @@ OVER_S3_LIMIT = "over_s3_limit"  # declared larger than S3 can hold (schema.MAX_
 PARTIAL_RESPONSE = "partial_response"  # a Content-Range that isn't the whole file
 READ_ERROR = "read_error"  # the body raised while read (a Request records it; Intake.stage raises BodyError)
 # A live response other than 200 or 203 fails as http_<status>, e.g. http_404.
-NO_RECORD = "no_record"  # unchanged() named an upload with no intake record
 RECORD_MISMATCH = "record_mismatch"  # unchanged() named another file's record
 STILL_ENCODED = "still_encoded"  # gzip bytes under Content-Encoding: gzip (the raw body, not the file)
+CHANGED = "changed"  # the file on disk changed while it was read
+GIT_MISMATCH = "git_mismatch"  # a git backfill's bytes aren't the blob its commit names
 
 
 _BYTES = (bytes, bytearray, memoryview)
@@ -135,8 +136,10 @@ class Response:
 
     @classmethod
     def from_requests(cls, resp):
-        """A requests.Response (history holds the hops)."""
-        return cls(resp.status_code, tuple(resp.headers.items()), resp.url,
+        """A requests.Response (history holds the hops). Headers come from
+        urllib3's raw response, which keeps repeats apart: requests joins
+        them, so a source sending the same ETag twice would read as opaque."""
+        return cls(resp.status_code, _header_pairs(resp), resp.url,
                    tuple((h.status_code, h.url, h.headers.get("location", "")) for h in resp.history))
 
     @classmethod
@@ -154,6 +157,12 @@ class Response:
                 hops.append((answered.status, prev.url, answered.header_value("location") or ""))
             prev = prev.redirected_from
         return cls(resp.status, tuple((h["name"], h["value"]) for h in pairs), resp.url, tuple(reversed(hops)))
+
+    @property
+    def requested_url(self):
+        """The URL the fetch began at, before any redirect: pass it as the
+        source url (the library strips it to its stable form)."""
+        return self.redirects[0][1] if self.redirects else self.url
 
     def sidecar(self):
         """The sidecar's response object: headers sanitized, URLs in their
@@ -227,22 +236,22 @@ class _Reader:
 
 
 def _chunks_reader(chunks):
-    carry, empty = b"", 0
+    carry, at, empty = b"", 0, 0
 
     def read(n):
-        nonlocal carry, empty
-        while not carry:
+        nonlocal carry, at, empty
+        while at >= len(carry):
             try:
                 chunk = next(chunks)
             except StopIteration:
                 return b""
             if not isinstance(chunk, _BYTES):
                 return chunk  # read_full refuses it (bytes(3) would be three zero bytes)
-            carry = bytes(chunk)  # an empty chunk isn't the end...
+            carry, at = bytes(chunk), 0  # an empty chunk isn't the end...
             empty = 0 if carry else empty + 1
             if empty >= MAX_EMPTY_CHUNKS:  # ...but endless ones are (iter(read, '') never meets b"")
                 raise TypeError("the body yields only empty chunks")
-        out, carry = carry[:n], carry[n:]
+        out, at = carry[at:at + n], at + n  # an offset, not carry[n:]: one huge chunk isn't re-copied per read
         return out
     return read
 
@@ -285,17 +294,21 @@ class _Parts:
 class _Digest:
     """What the library learns from the bytes as they pass, in order."""
 
-    def __init__(self, etag_part_sizes):
+    def __init__(self, etag_part_sizes, *, git_size=None):
         self.size, self.head = 0, b""
         self.sha256, self.md5 = hashlib.sha256(), hashlib.md5(usedforsecurity=False)
         self.etag_parts = [_Parts(n) for n in etag_part_sizes]
+        self.git = None  # git's blob id: sha1 of "blob <size>\0" + the bytes, for a git backfill
+        if git_size is not None:
+            self.git = hashlib.sha1(b"blob %d\0" % git_size, usedforsecurity=False)
 
     def update(self, chunk):
         if len(self.head) < s.SNIFF_BYTES:
             self.head += bytes(chunk[:s.SNIFF_BYTES - len(self.head)])
         self.size += len(chunk)
-        for h in (self.sha256, self.md5, *self.etag_parts):
-            h.update(chunk)
+        for h in (self.sha256, self.md5, self.git, *self.etag_parts):
+            if h is not None:
+                h.update(chunk)
 
 
 def _code(exc):
@@ -371,6 +384,21 @@ def _observed(body):
         return True
 
 
+def _header_pairs(resp):
+    raw = getattr(getattr(resp, "raw", None), "headers", None)
+    return tuple(raw.items() if raw is not None and hasattr(raw, "items") else resp.headers.items())
+
+
+def _check_legacy_path(path):
+    """A backfill's old path as a repo- or archive-relative path, never an
+    absolute one (it would store a home directory in a permanent record)."""
+    if type(path) is not str:
+        return  # validate_context refuses it
+    parts = path.replace("\\", "/").split("/")
+    if path.startswith(("/", "~")) or (len(path) > 1 and path[1] == ":") or ".." in parts or "." in parts:
+        raise ValueError("legacy_path is relative: no leading / or ~, drive letter, . or ..")
+
+
 def _stable(url):
     """The stored form of a source URL: strip_signing_params (no secret
     parameters, no session in the path), or None."""
@@ -410,7 +438,8 @@ class Intake:
     wall clock, a monotonic clock and time.sleep, replaceable for tests.
     `log` takes one JSON line at a time, from worker threads too."""
 
-    def __init__(self, s3, *, staging_bucket, evidence_bucket, connector, run_id=None, connector_version=None,
+    def __init__(self, s3, *, staging_bucket, evidence_bucket, connector, access, run_id=None,
+                 connector_version=None,
                  ci_run=None, workers=WORKERS, timeout=None, log=None,
                  now=lambda: datetime.now(timezone.utc), clock=time.monotonic, sleep=time.sleep):
         envs = set()
@@ -426,12 +455,13 @@ class Intake:
             raise ValueError("the buckets aren't one environment's")
         self.s3, self.staging, self.evidence = s3, staging_bucket, evidence_bucket
         self.connector, self.connector_version, self.ci_run = connector, connector_version, ci_run
+        self.access = access  # anonymous, or logged in as the requester: stated, never assumed
         self.run_id = run_id if run_id is not None else s.new_uuid()
         self.workers, self.timeout, self._log = workers, timeout, log
         self._now, self._clock, self._sleep = now, clock, sleep
         stamp = s.format_timestamp(now())  # every sidecar carries the connector, run and CI ids: check them now
         s.validate_context("file", _PROBE_SOURCE, self._fetch("local-copy", s.new_uuid(), stamp, None, stamp,
-                                                              legacy_path="probe"), None, None)
+                                                              access=access, legacy_path="probe"), None, None)
 
     @classmethod
     def from_env(cls, *, connector, env=None, profile=None, region=None, **kw):
@@ -481,9 +511,17 @@ class Intake:
         saved = kw.get("response") is not None
         origin = origin or ("live" if saved else "local-copy")
         with open(path, "rb") as f:
+            before = os.fstat(f.fileno())
+            if not stat.S_ISREG(before.st_mode):
+                raise ValueError("not a regular file")
+
+            def unchanged():  # an in-place rewrite of the same length changes its times
+                after = os.fstat(f.fileno())
+                return all(getattr(before, k) == getattr(after, k)
+                           for k in ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns"))
             if not saved:
-                kw.setdefault("declared_length", os.fstat(f.fileno()).st_size)  # it can't change while read
-            return self._stage_body(source, f, observed=not saved, origin=origin, **kw)
+                kw.setdefault("declared_length", before.st_size)
+            return self._stage_body(source, f, observed=not saved, origin=origin, unchanged_file=unchanged, **kw)
 
     def stage(self, source, body, **kw):
         """Stream `body` into staging and commit it; returns a Staged whose
@@ -494,7 +532,8 @@ class Intake:
         int); a live fetch passes its Response. Keywords: content_kind,
         origin, response, listing, expect_types, access, attempt, retries,
         work_id, started_at, completed_at, approval, declared_length, eof,
-        legacy_path, original_fetched_at, git_commit, stamp_ref.
+        legacy_path, original_fetched_at, git_commit, git_blob, stamp_ref.
+        `access` defaults to the Intake's.
 
         Fetch times: for a stream the library times the fetch itself
         (started_at, if not given, is now; then the first byte and the end
@@ -513,9 +552,11 @@ class Intake:
         return self._stage_body(source, body, observed=_observed(body), **kw)
 
     def _stage_body(self, source, body, *, observed, content_kind="file", origin="live", response=None,
-                    listing=None, expect_types=None, access="anonymous", attempt=1, retries=0, work_id=None,
+                    listing=None, expect_types=None, access=None, attempt=1, retries=0, work_id=None,
                     started_at=None, completed_at=None, approval=None, declared_length=None, eof=None,
-                    legacy_path=None, original_fetched_at=None, git_commit=None, stamp_ref=None):
+                    legacy_path=None, original_fetched_at=None, git_commit=None, git_blob=None, stamp_ref=None,
+                    unchanged_file=None):
+        access = self.access if access is None else access
         now = self._now()
         _timestamp(started_at, "started_at")
         _timestamp(completed_at, "completed_at")
@@ -532,6 +573,13 @@ class Intake:
             raise ValueError("original_fetched_at is in the future")
         if declared_length is not None and origin == "live":
             raise ValueError("a live fetch's declared length is its response's Content-Length")
+        if origin in ("local-copy", "git"):
+            if started_at is not None or completed_at is not None:
+                raise ValueError("a backfill's fetch is the library's read of it; the original time is "
+                                 "original_fetched_at")
+            _check_legacy_path(legacy_path)
+        if (origin == "git") != (git_blob is not None):
+            raise ValueError("a git backfill names the file's blob id (git rev-parse <commit>:<path>), and only it")
         started = started_at if started_at is not None or not observed else now
         stamp = _timestamp(started, "started_at")
         if eof not in (None, *s.EOF_CHECKS):
@@ -558,8 +606,10 @@ class Intake:
                                listing)
         except s.SchemaError as e:
             raise InvalidContext(e.reason, e.field, e.problem) from None
-        if expect_types is not None and not set(expect_types) <= set(s.SNIFF_TYPES):
-            raise ValueError("expect_types must be SNIFF_TYPES")
+        if expect_types is not None:
+            expect_types = list(expect_types)  # a generator would be used up by the check
+            if not expect_types or not set(expect_types) <= set(s.SNIFF_TYPES):
+                raise ValueError("expect_types must be a non-empty list of SNIFF_TYPES")
         if source_error:
             return self._not_staged(FAILED, f"http_{status}")
 
@@ -584,8 +634,12 @@ class Intake:
         ctx = {"content_kind": content_kind, "origin": origin, "source": source, "fetch": fetch, "response": resp,
                "listing": listing, "expect_types": list(expect_types) if expect_types is not None else None,
                "declared": declared, "approval": approval, "eof": eof, "headers": headers, "started": started,
-               "observed": observed, "completed": completed_at or now}
-        reader, digest, u = _Reader(body, self._now), _Digest(candidates), s.new_uuid()
+               "observed": observed, "completed": completed_at or now, "git_blob": git_blob,
+               "unchanged_file": unchanged_file}
+        if git_blob is not None and declared is None:
+            raise ValueError("a git backfill needs its size first (its blob id hashes the size)")
+        reader, u = _Reader(body, self._now), s.new_uuid()
+        digest = _Digest(candidates, git_size=declared if git_blob is not None else None)
         try:
             return self._stage(u, reader, digest, ctx)
         except _Stop as stop:
@@ -596,8 +650,8 @@ class Intake:
         self.log("not_staged", status=status, reason=reason, size=size)
         return Staged(self, result=Result(status, size=size, reason=reason))
 
-    def _fetch(self, origin, fetch_id, started, first_byte, completed, *, work_id=None, attempt=1,
-               access="anonymous", retries=0, approval=None, legacy_path=None, original_fetched_at=None,
+    def _fetch(self, origin, fetch_id, started, first_byte, completed, *, access, work_id=None, attempt=1,
+               retries=0, approval=None, legacy_path=None, original_fetched_at=None,
                git_commit=None, stamp_ref=None):
         return {
             "origin": origin, "fetch_id": fetch_id, "run_id": self.run_id, "work_id": work_id, "attempt": attempt,
@@ -618,7 +672,7 @@ class Intake:
             raise _Stop(FAILED, STILL_ENCODED)  # e.g. requests' resp.raw: pass the decoded content
         if len(buf) <= s.PART_SIZE:  # the whole file: one PUT
             digest.update(buf)
-            self._check_read(ctx, digest.size)
+            self._check_read(ctx, digest)
             sidecar, raw = self._sidecar(u, ctx, reader, digest, {"method": "put", "part_size": None,
                                                                    "part_sha256": None}, f'"{digest.md5.hexdigest()}"')
             got = self._put_new(key, bytes(buf), Metadata=meta)
@@ -635,7 +689,7 @@ class Intake:
                 ServerSideEncryption=s.STAGING_SSE)["UploadId"]
             try:
                 parts = self._send_parts(key, upload_id, reader, buf, part_size, digest, limit, declared, ctx)
-                self._check_read(ctx, digest.size)
+                self._check_read(ctx, digest)
                 shas, md5s = [p[1] for p in parts], [p[2] for p in parts]
                 sidecar, raw = self._sidecar(u, ctx, reader, digest, {
                     "method": "multipart", "part_size": part_size, "part_sha256": shas},
@@ -659,18 +713,24 @@ class Intake:
             raise _Stop(FAILED, UNEXPECTED_TYPE)
 
     @staticmethod
-    def _check_read(ctx, size):
-        """What was read is the whole file the response declared."""
-        declared, headers = ctx["declared"], ctx["headers"]
+    def _check_read(ctx, digest):
+        """What was read is the whole file the response declared, the file
+        on disk didn't change while read, and a git backfill's bytes are the
+        blob its commit names."""
+        size, declared, headers = digest.size, ctx["declared"], ctx["headers"]
         if declared is not None and size != declared:
             raise _Stop(FAILED, TRUNCATED if size < declared else OVERLONG, size)
         if "content-range" in headers and not s._full_range(headers, size):  # e.g. a Content-Encoded slice
             raise _Stop(FAILED, PARTIAL_RESPONSE, size)
+        if ctx["unchanged_file"] is not None and not ctx["unchanged_file"]():
+            raise _Stop(FAILED, CHANGED, size)
+        if ctx["git_blob"] is not None and digest.git.hexdigest() != ctx["git_blob"]:
+            raise _Stop(FAILED, GIT_MISMATCH, size)
 
     def _send_parts(self, key, upload_id, reader, buf, part_size, digest, limit, declared, ctx):
         """Upload the body in parts of part_size, WORKERS at a time with at
-        most MAX_IN_FLIGHT bytes waiting; returns (part number, SHA-256, MD5)
-        per part, in order."""
+        most MAX_IN_FLIGHT bytes uploading (plus the part being read);
+        returns (part number, SHA-256, MD5) per part, in order."""
         parts, futures, in_flight = [], {}, 0
         pending, n = buf, 0
         with ThreadPoolExecutor(self.workers) as pool:
@@ -794,19 +854,25 @@ class Intake:
     def _put_new(self, key, body, **kw):
         """A write-once PUT carrying the body's SHA-256. A 412 means an earlier
         attempt of this call landed (the key is a fresh uuid's), and so does
-        the object being there after a dropped connection or a 5xx: None."""
-        try:
-            return self.s3.put_object(Bucket=self.staging, Key=key, Body=body, ContentLength=len(body),
-                                      ChecksumSHA256=s.sha256_b64(hashlib.sha256(body).hexdigest()),
-                                      IfNoneMatch="*", ServerSideEncryption=s.STAGING_SSE, **kw)
-        except Exception as e:
-            if _is_precondition(e):
-                self.log("put_retried", key_kind=s.parse_staging_key(key)[1])
-                return None
-            if _retryable(e) and self._exists(key):  # it landed; only the answer was lost
-                self.log("put_landed", key_kind=s.parse_staging_key(key)[1], error=type(e).__name__)
-                return None
-            raise
+        the object being there after a dropped connection, a 5xx, or a 409
+        (its first attempt still settling, asked again first): None."""
+        for attempt in range(CONFLICT_RETRIES + 1):
+            try:
+                return self.s3.put_object(Bucket=self.staging, Key=key, Body=body, ContentLength=len(body),
+                                          ChecksumSHA256=s.sha256_b64(hashlib.sha256(body).hexdigest()),
+                                          IfNoneMatch="*", ServerSideEncryption=s.STAGING_SSE, **kw)
+            except Exception as e:
+                if _is_precondition(e):
+                    self.log("put_retried", key_kind=s.parse_staging_key(key)[1])
+                    return None
+                conflict = _code(e) == "ConditionalRequestConflict"
+                if conflict and attempt < CONFLICT_RETRIES:
+                    self._sleep(min(2 ** attempt, 8))  # botocore doesn't retry a 409
+                    continue
+                if (conflict or _retryable(e)) and self._exists(key):  # it landed; only the answer was lost
+                    self.log("put_landed", key_kind=s.parse_staging_key(key)[1], error=type(e).__name__)
+                    return None
+                raise
 
     def _exists(self, key):
         try:
@@ -926,14 +992,20 @@ class Intake:
             raise IntakeError(f"a stored record doesn't parse: {e.reason}") from None
 
     def _unrecorded(self, u):
-        """The outcome so far of upload `u`, which has no record: from its
-        staging tags, or failed (no_record) if staging doesn't know it."""
+        """The outcome so far of upload `u`, whose record reads as absent:
+        from its staging tags. The writer can't list, so "absent" may be a
+        denied read: with no staging objects either (ingested ones expire
+        after a day), or tagged ingested (its record exists), that's an
+        IntakeError, never a manifest entry claiming no record."""
         try:
             tags = self._tags(u)
         except Exception as e:
             if _is_absent(e):
-                return Result(FAILED, u, reason=NO_RECORD)
+                raise IntakeError("no record or staging objects for that upload: a record the writer can't "
+                                  "read, or a uuid from other state") from None
             raise
+        if tags.get(s.INGESTED_TAG[0]) == s.INGESTED_TAG[1]:
+            raise IntakeError("the upload is tagged ingested but its record reads as absent (a missing grant?)")
         state = tags.get("intake")
         if state == DEFERRED:
             return Result(DEFERRED, u, reason=DEFERRED)
@@ -952,11 +1024,12 @@ class Intake:
     # --- Requests -------------------------------------------------------------------------------
 
     def request(self, *, kind, platform, host, request_id, agency=None, request_url=None, files_listed=None,
-                access="anonymous", work_id=None, attempt=1):
+                access=None, work_id=None, attempt=1):
         """A Request for one PRA request's files in this run; see Request."""
         return Request(self, {"kind": kind, "platform": platform, "host": host, "agency": agency,
                               "request_id": request_id, "request_url": _stable(request_url)},
-                       files_listed=files_listed, access=access, work_id=work_id, attempt=attempt)
+                       files_listed=files_listed, access=self.access if access is None else access, work_id=work_id,
+                       attempt=attempt)
 
 
 class Request:
@@ -985,7 +1058,7 @@ class Request:
                                                                 legacy_path="probe"), None, None)
         self._intake, self.source, self.files_listed = intake, source, files_listed
         self._access, self._work_id, self._attempt = access, work_id, attempt
-        self._items = []  # (filename, doc_id, url, Staged)
+        self._items, self._bytes = [], 0  # (filename, doc_id, url, Staged); the manifest's size so far, at most
         self.manifest, self._closed = None, False
 
     def __enter__(self):
@@ -1022,14 +1095,20 @@ class Request:
                 "released_on": released_on}
 
     def _check_entry(self, filename, doc_id, url, reason="x"):
-        """The file can be listed in the manifest (errors name file.<field>)."""
+        """The file can be listed in the manifest (errors name file.<field>),
+        and the manifest still fits its caps (checked now, not after every
+        file has been staged and waited for)."""
         if self._closed:
             raise RuntimeError("the request's block has ended: its manifest is written")
+        entry = s.manifest_entry(filename, status="failed", reason=reason, doc_id=doc_id, url=url)
         try:
-            s.build_manifest(self.source, [s.manifest_entry(filename, status="failed", reason=reason,
-                                                            doc_id=doc_id, url=url)])
+            s.build_manifest(self.source, [entry])
         except s.SchemaError as e:
             raise s.SchemaError(e.reason, e.field.replace("manifest.files[0]", "file"), e.problem) from None
+        size = len(s.canonical_json({**entry, "sha256": "0" * 64, "size": s.MAX_OBSERVED_SIZE})) + 1
+        if len(self._items) >= s.MAX_MANIFEST_FILES or self._bytes + size > s.MAX_MANIFEST_BYTES - 64 * 1024:
+            raise ValueError("the request's manifest is full (MAX_MANIFEST_FILES or MAX_MANIFEST_BYTES)")
+        self._bytes += size
 
     def _add(self, filename, doc_id, url, staged):
         self._items.append((filename, doc_id, url, staged))
@@ -1038,13 +1117,16 @@ class Request:
     def upload(self, filename, body, *, doc_id=None, title=None, url=None, released_on=None, **kw):
         """Stage one file of this request (Intake.stage's keywords). Returns
         its Staged. A body that raises fails only this file (read_error)."""
+        _live_only(kw)
         source = self._file_source(filename, doc_id, title, url, released_on)
         kw = {"access": self._access, "work_id": self._work_id, "attempt": self._attempt, **kw}
         return self._add(filename, source["doc_id"], source["url"], self._read_errors(self._intake.stage, source,
                                                                                        body, kw))
 
     def upload_file(self, path, filename, *, doc_id=None, title=None, url=None, released_on=None, **kw):
-        """Stage one local file of this request (Intake.stage_file)."""
+        """Stage one file of this request the client saved to disk, with its
+        response (Intake.stage_file)."""
+        _live_only(kw)
         source = self._file_source(filename, doc_id, title, url, released_on)
         kw = {"access": self._access, "work_id": self._work_id, "attempt": self._attempt, **kw}
         return self._add(filename, source["doc_id"], source["url"], self._read_errors(self._intake.stage_file, path,
@@ -1067,8 +1149,9 @@ class Request:
         record exists and is this file's: the same doc id when both name
         one, else the same url when both name one, else the same filename;
         else failed (record_mismatch: fetch it again). With no record yet,
-        its outcome so far: deferred or rejected (terminal), pending, or
-        failed (no_record) for an upload staging doesn't know.
+        its outcome so far: deferred or rejected (terminal), or pending.
+        IntakeError if neither the record nor its staging objects can be
+        read (a denied read, or a uuid from other state).
         ValueError if the record is another request's or a manifest's (a
         uuid from the wrong state). Returns its Result."""
         doc_id = s.doc_id_text(doc_id) if doc_id is not None else None
@@ -1107,6 +1190,13 @@ class Request:
         result = Result(FAILED, reason=reason, final=final)
         self._add(filename, doc_id, url, Staged(self._intake, result=result))
         return result
+
+
+def _live_only(kw):
+    """A request's manifest says what the source listed this run; a backfill
+    never asked the source, so it goes through Intake.upload_file instead."""
+    if kw.get("origin", "live") != "live" or kw.get("response") is None:
+        raise ValueError("a request's files are live fetches with their response; backfills go through Intake")
 
 
 def _manifest_entry(filename, doc_id, url, result):

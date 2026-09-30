@@ -92,7 +92,7 @@ caller's AWS account and region (boto3 isn't a project dependency:
 `uv run --with boto3`). A connector works one PRA request at a time:
 
 ```python
-intake = Intake.from_env(connector="muckrock", connector_version=commit)
+intake = Intake.from_env(connector="muckrock", connector_version=commit, access="anonymous")
 with intake.request(kind="muckrock", platform="muckrock", host="www.muckrock.com",
                     request_id="12345", request_url=url, files_listed=len(files)) as req:
     for f in files:
@@ -108,8 +108,12 @@ for name, result in req.results:
 done = req.manifest.terminal and all(r.terminal for _, r in req.results)
 ```
 
-**What to pass.** `url` is the URL requested, before any redirect; the
-library stores it through `strip_signing_params` (no signature or session
+**What to pass.** `access` is required: `anonymous`, or `requester` when
+the connector is logged in (a GovQA or NextRequest session); "was it
+public" is itself a finding, so it's never assumed. Give it to the
+`Intake` for the run (a request or a file may override it). `url` is the
+URL requested, before any redirect (`Response.requested_url`); the library
+stores it through `strip_signing_params` (no signature or session
 parameters), and refuses one whose redirect chain began elsewhere (passing
 the final, signed URL would lose where the fetch began). The body is what
 a browser would save (content-decoded: `resp.iter_content`, not `resp.raw`,
@@ -121,11 +125,22 @@ empty chunks such as `iter(partial(f.read, n), '')` gives) raises
 `context.request.get`, which exposes no redirect hops) record what the
 client saw; or build a `Response` from the status, the header pairs as
 received, the final URL, and each redirect as (status, the URL that
-answered, its Location). A Playwright `Download` has neither status nor
-headers: fetch through `context.request.get`, or capture the page
-`Response` that delivered it. A download the client saved to disk goes
-through `upload_file(path, name, response=...)` (origin `live`), checked
-against the response's Content-Length. A live fetch's declared length is
+answered, its Location).
+
+Playwright: `context.request.get(url)` suits a file with its own GET URL
+that isn't large (`APIResponse.body()` holds it all in memory, through the
+driver, and fails above a few hundred MB; it also hides the redirects it
+followed, so pass `max_redirects=0` and follow them yourself if the hops
+matter). A `Download` has neither status nor headers, and a GovQA
+attachment's `Download.url` is the form page it was posted from, not the
+file: `context.request.get(dl.url)` would fetch that page. For those,
+capture the page `Response` that delivered the file (`page.expect_response`),
+save the download, and stage it with `upload_file(dl.path(), name,
+response=Response.from_playwright(page_response), url=<the chain's start>,
+doc_id=<the portal's attachment id>)`. Schema 1 doesn't record the method,
+so a file delivered by a POST is recorded by its URLs alone. A download the
+client saved to disk is checked against the response's Content-Length, and
+refused (`changed`) if it changes while the library reads it. A live fetch's declared length is
 always its response's Content-Length (`declared_length=` is for backfills).
 Fetch manifests are written only by a `Request`: `stage()` refuses one.
 
@@ -148,9 +163,11 @@ Values: `kind` is one of `muckrock`, `portal`, `own` (`SOURCE_KINDS`);
 **What the library checks.** Before reading a byte: the source, fetch,
 response and listing under write policy (`validate_context`); a response
 other than 200 or 203 fails as `http_<status>`, a declared size S3 couldn't
-hold as `over_s3_limit`, a Content-Range that isn't the whole file as
-`partial_response`, and a size over `COST_GATE` without an approval is
-`needs_approval`. While reading, it hashes in memory, never on disk: about
+hold as `over_s3_limit`, a declared Content-Range that isn't the whole file
+as `partial_response`, and a declared size over `COST_GATE` without an
+approval is `needs_approval` (an undeclared one is read up to the gate,
+then aborted as `needs_approval`; a Content-Range on an undeclared body is
+checked once it's read). While reading, it hashes in memory, never on disk: about
 32 MiB for a file that goes in one PUT and about 96 MiB for a multipart one
 (`MAX_IN_FLIGHT`, 64 MiB of parts uploading, plus the part being read;
 more only for an approved file over about 167 GB). The type, the length and
@@ -183,12 +200,12 @@ stores no manifest. A request isn't thread-safe.
 `terminal` is true for the first four and for a file given up on with
 `failed(..., final=True)`. Failure reasons: `http_<status>`, `truncated`,
 `overlong`, `partial_response`, `still_encoded`, `unexpected_type`,
-`undeclared_length`, `over_s3_limit`; `read_error` (the body raised: in a
+`undeclared_length`, `over_s3_limit`, `changed` (a file on disk changed
+while read), `git_mismatch`; `read_error` (the body raised: in a
 request, only that file fails); a schema reason code such as
 `invalid_metadata` (in a request, a bad value in one file's source, such as
 an agency's timestamp as `released_on`, fails only that file and logs
-`invalid_file` with the field); `no_record` or `record_mismatch` from
-`unchanged()`; or the connector's own from `failed()`. Some come from the
+`invalid_file` with the field); `record_mismatch` from `unchanged()`; or the connector's own from `failed()`. Some come from the
 source and repeat on every fetch (a 404, an HTML login page), hence the
 cap: count attempts (`attempt=`).
 
@@ -199,10 +216,13 @@ file's (the same doc id when both name one, else the same url when both
 name one, else the same filename; a renamed file with the same url is the
 same file), filling in the doc id and url from the record; `failed`,
 `record_mismatch` if it's another file's (fetch it again). With no record
-yet it reports the outcome so far (`deferred`, `rejected`, `pending`) or
-`failed`, `no_record`, for an upload staging doesn't know. A record of
-another request or a manifest's raises `ValueError`: a uuid from the wrong
-state. A file tried more than once in a run is listed once, as it ended; a
+yet it reports the outcome so far (`deferred`, `rejected`, `pending`). The
+writer can't list, so a record that reads as absent may be a denied read:
+with no staging objects either (lifecycle removes ingested ones after a
+day), or tagged ingested, `unchanged()` raises `IntakeError` rather than
+store a manifest claiming the file isn't held. A record of another request
+or a manifest's raises `ValueError`: a uuid from the wrong state.
+`unchanged()` is for a file not fetched this run. A file tried more than once in a run is listed once, as it ended; a
 listing count that doesn't match the entries is logged
 (`listing_mismatch`).
 
@@ -220,9 +240,19 @@ file's own tags included (a missing grant would otherwise leave every file
 than the ones sent, or tagged a file ingested whose record the library
 can't read: don't ack; alert.
 
-Backfills use `upload_file(path, source, legacy_path=...,
-original_fetched_at=...)` (origin `local-copy`, or `git` with
-`git_commit`), and `stamp_ref` names a stamped manifest already held.
+Backfills go through `Intake.upload_file(path, source, legacy_path=...,
+original_fetched_at=...)`, never a `Request` (a manifest says what the
+source listed; a backfill never asked it). `legacy_path` is the old
+repo- or archive-relative path (no leading `/` or `~`, drive letter, `.`
+or `..`: an absolute path would put a home directory in a permanent
+record). The library times the backfill's own read (so no `started_at` or
+`completed_at`); the original fetch's time is `original_fetched_at`, and
+`access` is how the original was fetched. Origin `git` also takes
+`git_commit` and `git_blob`, the file's blob id at that commit (`git
+rev-parse <commit>:<path>`): the library checks the bytes it reads hash to
+it (`git_mismatch` otherwise), since a working tree can differ from the
+commit. `stamp_ref` names a stamped manifest already held. A file that
+changes while read fails as `changed`.
 
 Known limit: a 200 with a Content-Encoding and a Content-Range covering the
 whole *encoded* file fails as `partial_response` (schema 1 compares the
@@ -393,6 +423,10 @@ record.
   outcome, and `s3:GetObject` on evidence `_intake/*` to read its records
   (without `s3:ListBucket` there, a record not written yet reads as 403: not
   yet). Sidecars are written with one PUT; the Lambda rejects any other.
+  The writer's session must outlast its longest upload: at 16 MB/s a
+  1-hour session carries about 57 GB, so raise the role's
+  `MaxSessionDuration` to cover the largest approval (an expired token also
+  fails the abort; the staging lifecycle clears what's left).
 - The ops bucket: no lifecycle rule may touch `approvals/` (an approval must
   outlive the job for every file it covers).
 - The staging bucket policy, as Denies (within one account an Allow in a
