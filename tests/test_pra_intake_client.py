@@ -332,7 +332,7 @@ def test_an_undeclared_length_still_tries_every_etag_part_size(world):
                                                                         extra=[("Transfer-Encoding", "chunked")]))
     sc = sidecar_of(r)
     assert sc["data"]["md5_multipart"]["part_size"] == 8 * MiB
-    assert (sc["checks"]["length"], sc["checks"]["eof"]) == ("undeclared", "clean")  # chunked framing ends cleanly
+    assert (sc["checks"]["length"], sc["checks"]["eof"]) == ("undeclared", "unknown")  # a chunked stream may just stop
 
 
 @pytest.mark.parametrize("etag,check", [
@@ -393,6 +393,7 @@ def test_a_body_that_isnt_its_declared_length_leaves_nothing_staged(world, size,
     resp = response_for(body, length=False, extra=[("Content-Length", str(declared))])
     r = world.intake.upload(SOURCE, body, response=resp)
     assert (r.status, r.reason, r.terminal) == ("failed", reason, False)
+    assert r.size is not None and r.size > 0  # what was read, on every path
     assert_nothing_staged(world)
     assert len(world.fake.ops("create_multipart_upload")) == len(world.fake.ops("abort_multipart_upload"))
 
@@ -794,6 +795,29 @@ def test_a_complete_that_keeps_answering_409_is_aborted_and_raises(world):
         world.intake.upload(SOURCE, BIG, response=response_for(BIG))
     assert_nothing_staged(world)
     assert len(world.fake.ops("complete_multipart_upload")) == c.CONFLICT_RETRIES + 1
+
+
+@pytest.mark.parametrize("op,body", [("complete_multipart_upload", BIG), ("put_object", CSV)], ids=["complete", "put"])
+def test_a_write_that_landed_is_committed_whatever_error_came_back(op, body):
+    """The key is this call's fresh uuid, so its existing is the proof, not
+    the error's shape (a code not seen before, a wrapped exception)."""
+    def lands_then_odd(fn, **kw):
+        if not kw["Key"].endswith(".json") and not getattr(lands_then_odd, "done", False):
+            lands_then_odd.done = True
+            fn(**kw)
+            raise FakeClientError("SomethingNew", 400, op)
+        return fn(**kw)
+    w = World()
+    w.intake.s3 = Proxy(w.intake.s3, **{op: lands_then_odd})
+    assert w.intake.upload(SOURCE, body, response=response_for(body)).status == "held"
+
+
+def test_a_failed_write_whose_landing_cant_be_checked_raises_its_own_error(world):
+    """If the existence check fails too, the write's error is the one to see."""
+    world.fake.fail("put_object", code="InternalError", status=500, when=lambda kw: kw["Key"].endswith(".bin"))
+    world.fake.fail("get_object_tagging", code="SlowDown", status=503)
+    with pytest.raises(FakeClientError, match="put_object: InternalError"):
+        world.intake.upload(SOURCE, CSV, response=response_for(CSV))
 
 
 def test_a_complete_that_fails_without_landing_raises(world):
@@ -1367,6 +1391,13 @@ def test_unchanged_reports_an_upload_still_without_a_record(world):
         ("deferred", "deferred", True), ("rejected", "missing_blob", True), ("pending", "pending", False)]
 
 
+def test_unchanged_rides_out_a_transient_record_read(world):
+    first = world.intake.upload(SOURCE, CSV, response=response_for(CSV))
+    world.fake.fail("get_object", times=2, when=lambda kw: kw["Key"].startswith(s.RECORD_PREFIX))
+    with world.intake.request(**REQUEST) as req:
+        assert req.unchanged("a.csv", record=first.uuid).status == "held"
+
+
 def test_unchanged_names_the_file_as_fully_as_its_record(world):
     first = world.intake.upload(SOURCE, CSV, response=response_for(CSV))
     with world.intake.request(**REQUEST) as req:
@@ -1670,12 +1701,18 @@ def test_bytes_already_fetched_arent_timed_as_a_fetch(world, tmp_path):
     assert f["first_byte_at"] is not None  # a stream is watched
 
 
-def test_a_saved_chunked_download_doesnt_claim_a_clean_end(world, tmp_path):
+def test_a_chunked_download_claims_a_clean_end_only_when_the_connector_does(world, tmp_path):
+    """A chunked body that just stops (a reset the client didn't raise) can't
+    be told from one that ended: clean only on the connector's word, whose
+    client enforces the chunk framing."""
     path = tmp_path / "a.csv"
     path.write_bytes(CSV)
     chunked = response_for(CSV, length=False, extra=[("Transfer-Encoding", "chunked")])
     assert sidecar_of(world.intake.upload_file(path, SOURCE, response=chunked))["checks"]["eof"] == "unknown"
-    assert sidecar_of(world.intake.upload(SOURCE, iter([CSV]), response=chunked))["checks"]["eof"] == "clean"
+    assert sidecar_of(world.intake.upload(SOURCE, iter([CSV]), response=chunked))["checks"]["eof"] == "unknown"
+    r = world.intake.upload(SOURCE, iter([CSV + b"c"]), response=response_for(CSV + b"c", length=False, extra=[
+        ("Transfer-Encoding", "chunked")]), eof="clean")
+    assert sidecar_of(r)["checks"]["eof"] == "clean"
 
 
 def test_a_live_fetchs_length_is_the_servers(world):
@@ -1714,6 +1751,30 @@ def test_completed_at_is_only_for_a_fetch_the_library_didnt_see(world, kw):
     with pytest.raises(ValueError):
         world.intake.upload(SOURCE, body, response=response_for(CSV), **extra)
     assert world.fake.calls == []
+
+
+def test_fetch_times_follow_a_monotonic_clock_when_the_wall_clock_steps_back_and_stays(world):
+    """The wall clock steps back 60 s just after the fetch starts and stays
+    there: the first byte and the end still follow the fetch's elapsed time."""
+    readings = iter([world.fake.now] + [world.fake.now - timedelta(seconds=60)] * 1000)
+    world.intake._now = lambda: next(readings)
+
+    def slow():
+        world.clock += 2  # two seconds to the first byte...
+        yield CSV[:10]
+        world.clock += 3  # ...then three to the end
+        yield CSV[10:]
+    f = sidecar_of(world.intake.upload(SOURCE, slow(), response=response_for(CSV)))["fetch"]
+    start = s.parse_timestamp(f["started_at"])
+    assert s.parse_timestamp(f["first_byte_at"]) - start == timedelta(seconds=2)
+    assert s.parse_timestamp(f["completed_at"]) - start == timedelta(seconds=5)
+
+
+def test_the_connectors_retry_count_is_recorded(world):
+    assert sidecar_of(world.intake.upload(SOURCE, CSV, response=response_for(CSV), retries=2))["fetch"]["retries"] == 2
+    with world.intake.request(**REQUEST) as req:
+        staged = req.upload("b.csv", CSV + b"b", url=START, response=response_for(CSV + b"b"), retries=3)
+    assert sidecar_of(staged.result())["fetch"]["retries"] == 3
 
 
 def test_timestamps_follow_the_fetch(world):
