@@ -378,7 +378,7 @@ def test_audit_check_page_shows_recovered_content_in_row_context(tmp_path):
             blocks = page.locator(".vecblk").count()
             header = page.locator(".vecblk h4").first.inner_text()
             crops = page.locator(".veccrops img").count()
-            scale = 2
+            scale = 6  # CONTEXT_SCALE in pdf_vector_redaction.js
             probe = page.evaluate(_PIXEL_PROBE_JS, [_CTX_PLATE_X0 * scale, _CTX_PLATE_X1 * scale])
             browser.close()
     except Exception as e:
@@ -389,6 +389,6 @@ def test_audit_check_page_shows_recovered_content_in_row_context(tmp_path):
     assert blocks == 1                        # one block for the page, not one per box
     assert "3 boxes" in header and "21 hidden shape(s)" in header
     assert crops == 3                         # isolated reconstructions still available
-    assert probe["w"] == int(_CTX_PAGE_W * 2)  # the whole row width, not the plate crop
+    assert probe["w"] == int(_CTX_PAGE_W * scale)  # the whole row width, not the plate crop
     assert probe["red"] > 200                 # recovered glyphs drawn inside the plate column
     assert probe["darkInReason"] > 200        # the reason column's own text is rendered alongside

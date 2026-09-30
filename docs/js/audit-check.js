@@ -667,6 +667,13 @@
     if (vecFindings.length && vecGenHere === vecGen) renderVecContexts(vecByPage, vecGenHere);
   }
 
+  // Click an in-context render to toggle between fit-to-width and its full rendered
+  // resolution (scrollable), where small print is legible.
+  out.addEventListener("click", function (e) {
+    var img = e.target && e.target.closest && e.target.closest(".vecctx .vecimg");
+    if (img) img.parentNode.classList.toggle("full");
+  });
+
   // Render each flagged page in context as its block scrolls near the viewport, one at
   // a time (each is a full-page pdf.js render).
   function renderVecContexts(byPage, gen) {

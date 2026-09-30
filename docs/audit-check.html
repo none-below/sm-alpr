@@ -80,7 +80,9 @@
   .vecblk h4 { font-size: 13px; color: #fde68a; margin-bottom: 6px; }
   .vecnote { font-size: 12px; color: #cbd5e1; line-height: 1.5; margin-bottom: 10px; }
   .vecimg { display: block; max-width: 100%; background: #fff; border-radius: 4px; padding: 6px; }
-  .vecctx .vecimg { width: 100%; padding: 0; }
+  .vecctx .vecimg { width: 100%; padding: 0; cursor: zoom-in; }
+  .vecctx.full { overflow: auto; max-height: 85vh; border-radius: 4px; }
+  .vecctx.full .vecimg { width: auto; max-width: none; cursor: zoom-out; }
   .veccrops { margin-top: 8px; font-size: 12px; color: #cbd5e1; }
   .veccrops summary { cursor: pointer; color: #fde68a; }
   .veccrops .vecimg { display: inline-block; margin: 6px 6px 0 0; vertical-align: top; }

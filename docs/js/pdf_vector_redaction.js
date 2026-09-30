@@ -382,8 +382,10 @@
   // lines the overlay up with the render). Cropped to the full page width and the
   // vertical span of the given findings (all on pageNum) plus a margin. Returns a PNG
   // data URL. The longest side is capped so a huge sheet doesn't exhaust the tab.
-  var CONTEXT_SCALE = 2;
-  var CONTEXT_MAX_PX = 3000;
+  // High enough to read a fit-to-page audit export's small print when zoomed in (real
+  // SMPD exports print a whole row across a landscape page at a few points per line).
+  var CONTEXT_SCALE = 6;
+  var CONTEXT_MAX_PX = 6000;
   var CONTEXT_PAD_PT = 24;
   var CONTEXT_BOX_FILL = "#fff3a8";
   var CONTEXT_SHAPE_FILL = "#c00000";
