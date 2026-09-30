@@ -297,3 +297,98 @@ def test_browser_recover_agrees_with_python_detection_and_produces_an_image(tmp_
     assert len(rows) == 1
     assert rows[0]["page"] == py_findings[0]["page"]
     assert rows[0]["recovered_png"].startswith(b"\x89PNG")
+
+
+# The audit-export shape the context view exists for: a per-row redaction box over
+# one column, with ordinary text in the columns either side.
+_CTX_PAGE_W, _CTX_PAGE_H = 612.0, 240.0
+_CTX_PLATE_X0, _CTX_PLATE_X1 = 230.0, 284.0
+_CTX_REASON_X = 300.0
+_CTX_ROWS_Y = (60.0, 90.0, 120.0)
+
+
+def _audit_table_pdf(path):
+    doc, page = _new_page(_CTX_PAGE_W, _CTX_PAGE_H)
+    for y in _CTX_ROWS_Y:
+        page.insert_text((20, y + 8), "0f3c9a1e-SEARCH-ID", fontsize=8)
+        page.insert_text((130, y + 8), "06/14/2024 10:22", fontsize=8)
+        page.insert_text((_CTX_REASON_X, y + 8), "Investigation - stolen vehicle", fontsize=8)
+    shape = page.new_shape()
+    for y in _CTX_ROWS_Y:
+        _row_of_glyphs(shape, x0=_CTX_PLATE_X0 + 2, y0=y, n=7)
+        _draw_box(shape, (_CTX_PLATE_X0, y - 2, _CTX_PLATE_X1, y + 10))
+    shape.commit()
+    doc.save(path)
+    doc.close()
+
+
+_PIXEL_PROBE_JS = """async ([x0, x1]) => {
+    const img = document.querySelector('.vecctx img');
+    await img.decode();
+    const c = document.createElement('canvas');
+    c.width = img.naturalWidth; c.height = img.naturalHeight;
+    const ctx = c.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    const d = ctx.getImageData(0, 0, c.width, c.height).data;
+    let red = 0, darkInReason = 0;
+    for (let y = 0; y < c.height; y++) {
+        for (let x = 0; x < c.width; x++) {
+            const i = (y * c.width + x) * 4, r = d[i], g = d[i + 1], b = d[i + 2];
+            if (r > 150 && g < 60 && b < 60 && x >= x0 && x <= x1) red++;
+            if (r < 90 && g < 90 && b < 90 && x > x1 + 20) darkInReason++;
+        }
+    }
+    return {w: img.naturalWidth, red, darkInReason};
+}"""
+
+
+def test_audit_check_page_shows_recovered_content_in_row_context(tmp_path):
+    """The audit-check page groups findings per page and renders each flagged page
+    whole with its boxes opened up in place, so hidden content reads next to the
+    rest of its row — not only as an isolated crop of the redacted field. Drives the
+    real docs/audit-check.html in headless Chromium against a synthetic table."""
+    pytest.importorskip("playwright.sync_api")
+    from playwright.sync_api import sync_playwright
+
+    pdf_path = tmp_path / "audit_table.pdf"
+    _audit_table_pdf(pdf_path)
+    docs = Path(__file__).resolve().parent.parent / "docs"
+    origin = "http://audit-check.test"
+
+    def _serve_docs(route):
+        rel = route.request.url[len(origin) + 1:].split("?")[0]
+        f = docs / rel
+        if f.is_file():
+            ctype = {"html": "text/html", "js": "text/javascript", "css": "text/css",
+                     "json": "application/json"}.get(f.suffix.lstrip("."), "application/octet-stream")
+            route.fulfill(status=200, content_type=ctype, body=f.read_bytes())
+        else:
+            route.fulfill(status=404, body="")
+
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page(viewport={"width": 1100, "height": 900})
+            page.route(origin + "/**", _serve_docs)
+            page.route("https://gc.zgo.at/**", lambda r: r.abort())
+            page.goto(origin + "/audit-check.html")
+            page.wait_for_function("window.pdfjsLib && window.PdfVectorRedaction")
+            page.set_input_files("#file", str(pdf_path))
+            page.wait_for_selector(".vecctx img", timeout=30000)
+            blocks = page.locator(".vecblk").count()
+            header = page.locator(".vecblk h4").first.inner_text()
+            crops = page.locator(".veccrops img").count()
+            scale = 2
+            probe = page.evaluate(_PIXEL_PROBE_JS, [_CTX_PLATE_X0 * scale, _CTX_PLATE_X1 * scale])
+            browser.close()
+    except Exception as e:
+        if "Executable doesn't exist" in str(e) or "net::" in str(e):
+            pytest.skip(f"headless browser unavailable ({e})")
+        raise
+
+    assert blocks == 1                        # one block for the page, not one per box
+    assert "3 boxes" in header and "21 hidden shape(s)" in header
+    assert crops == 3                         # isolated reconstructions still available
+    assert probe["w"] == int(_CTX_PAGE_W * 2)  # the whole row width, not the plate crop
+    assert probe["red"] > 200                 # recovered glyphs drawn inside the plate column
+    assert probe["darkInReason"] > 200        # the reason column's own text is rendered alongside

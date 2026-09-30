@@ -13,7 +13,9 @@
 //
 // Recovery: the flagged shapes are ordinary vector paths, so they're redrawn — the
 // covering box omitted — onto an offscreen canvas and returned as a PNG data URL. No
-// OCR is run client-side; a human looks at the reconstructed image.
+// OCR is run client-side; a human looks at the reconstructed image. renderInContext
+// does the same on top of a normal render of the whole page, so the recovered content
+// reads alongside the rest of its row.
 //
 // Tunables mirror scripts/pdf_vector_redaction.py so the two checks agree.
 
@@ -362,7 +364,8 @@
       findingsOnPage(pc.candidates, pc.boxes).forEach(function (f) {
         out.push({
           page: p, rect: f.rect, nShapes: f.shapes.length, confidence: f.confidence,
-          image: reconstructImage(f, pdfjsLib)
+          image: reconstructImage(f, pdfjsLib),
+          shapes: f.shapes  // kept for renderInContext; not serialized by the Python harness
         });
       });
       if (onProgress) onProgress(p, doc.numPages);
@@ -370,5 +373,67 @@
     return out;
   }
 
-  global.PdfVectorRedaction = { scanDocument: scanDocument };
+  // The page as released, with its flagged boxes opened up in place. reconstructImage
+  // crops to the box alone, which for a per-row column redaction is a sliver of the one
+  // redacted field; this shows what that field sits next to. The page is rendered
+  // normally by pdf.js, then each box is repainted a pale highlight and the shapes it
+  // covers are redrawn on top in red, in the same user space the operator-list walk
+  // tracked (pdf.js renders content under viewport.transform, so applying it first
+  // lines the overlay up with the render). Cropped to the full page width and the
+  // vertical span of the given findings (all on pageNum) plus a margin. Returns a PNG
+  // data URL. The longest side is capped so a huge sheet doesn't exhaust the tab.
+  var CONTEXT_SCALE = 2;
+  var CONTEXT_MAX_PX = 3000;
+  var CONTEXT_PAD_PT = 24;
+  var CONTEXT_BOX_FILL = "#fff3a8";
+  var CONTEXT_SHAPE_FILL = "#c00000";
+
+  async function renderInContext(doc, pdfjsLib, pageNum, findings, scale) {
+    var page = await doc.getPage(pageNum);
+    var base = page.getViewport({ scale: 1 });
+    scale = Math.min(scale || CONTEXT_SCALE, CONTEXT_MAX_PX / Math.max(base.width, base.height));
+    var vp = page.getViewport({ scale: scale });
+    var canvas = document.createElement("canvas");
+    canvas.width = Math.ceil(vp.width);
+    canvas.height = Math.ceil(vp.height);
+    var ctx = canvas.getContext("2d");
+    await page.render({ canvasContext: ctx, viewport: vp }).promise;
+
+    var OPS = pdfjsLib.OPS;
+    var t = vp.transform;
+    findings.forEach(function (f) {
+      var r = f.rect;
+      ctx.setTransform(t[0], t[1], t[2], t[3], t[4], t[5]);
+      ctx.fillStyle = CONTEXT_BOX_FILL;
+      ctx.fillRect(r.x0, r.y0, r.x1 - r.x0, r.y1 - r.y0);
+      ctx.fillStyle = CONTEXT_SHAPE_FILL;
+      f.shapes.forEach(function (s) {
+        ctx.save();
+        ctx.transform(s.ctm[0], s.ctm[1], s.ctm[2], s.ctm[3], s.ctm[4], s.ctm[5]);
+        ctx.beginPath();
+        walkPath(ctx, s.subOps, s.coords, OPS);
+        ctx.fill(s.evenOdd ? "evenodd" : "nonzero");
+        ctx.restore();
+      });
+    });
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    var top = Infinity, bottom = -Infinity;
+    findings.forEach(function (f) {
+      var q = vp.convertToViewportRectangle([f.rect.x0, f.rect.y0, f.rect.x1, f.rect.y1]);
+      top = Math.min(top, q[1], q[3]);
+      bottom = Math.max(bottom, q[1], q[3]);
+    });
+    var pad = CONTEXT_PAD_PT * scale;
+    var y0 = Math.max(0, Math.floor(top - pad));
+    var y1 = Math.min(canvas.height, Math.ceil(bottom + pad));
+    var band = document.createElement("canvas");
+    band.width = canvas.width;
+    band.height = Math.max(1, y1 - y0);
+    band.getContext("2d").drawImage(canvas, 0, y0, canvas.width, band.height, 0, 0, canvas.width, band.height);
+    page.cleanup();
+    return band.toDataURL("image/png");
+  }
+
+  global.PdfVectorRedaction = { scanDocument: scanDocument, renderInContext: renderInContext };
 })(window);
