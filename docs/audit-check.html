@@ -127,6 +127,16 @@
     the result without re-uploading.
   </p>
 
+  <div class="urlrow">
+    <input type="text" id="vecpages" placeholder="only check page(s) for hidden redactions, e.g. 35 or 12,40-44 (optional)">
+  </div>
+  <p class="hint">
+    Revision/edit history is still checked across the whole file, but on a large audit export the
+    <b>vector-redaction check</b> (finding text hidden as outlined shapes under a box) can be the slow part &mdash;
+    scanning every page of a many-hundred-page packet one at a time. Give it a page or range here to check just
+    that instead of the whole document. Carries over into the shareable link as <code>&amp;pages=</code>.
+  </p>
+
   <div class="picker" id="picker"></div>
 
   <div id="out"></div>

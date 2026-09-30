@@ -260,22 +260,21 @@ def scan_bytes(data: bytes, label: str = "<bytes>") -> list[dict]:
 PDFJS_CDN = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
 PDFJS_WORKER_CDN = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
 
-_BROWSER_SCAN_JS = """async (b64) => {
+_PDF_URL = "https://local.invalid/doc.pdf"  # intercepted by page.route(), never actually requested over the network
+
+_BROWSER_SCAN_JS = """async (pages) => {
     pdfjsLib.GlobalWorkerOptions.workerSrc = %r;
-    const bin = atob(b64);
-    const bytes = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    const doc = await pdfjsLib.getDocument({data: bytes, stopAtErrors: false}).promise;
-    const findings = await PdfVectorRedaction.scanDocument(doc, pdfjsLib);
+    const doc = await pdfjsLib.getDocument({url: %r, stopAtErrors: false}).promise;
+    const findings = await PdfVectorRedaction.scanDocument(doc, pdfjsLib, null, pages && pages.length ? pages : null);
     await doc.destroy();
     return findings.map(f => ({
         page: f.page, rect: [f.rect.x0, f.rect.y0, f.rect.x1, f.rect.y1],
         nShapes: f.nShapes, confidence: f.confidence, image: f.image
     }));
-}""" % PDFJS_WORKER_CDN
+}""" % (PDFJS_WORKER_CDN, _PDF_URL)
 
 
-def browser_recover_pdf(path: Path, ocr: bool = True) -> list[dict]:
+def browser_recover_pdf(path: Path, ocr: bool = True, pages: list[int] | None = None) -> list[dict]:
     """Detect AND recover via a headless browser running docs/js/pdf_vector_redaction.js
     — the exact code the audit-check web page uses, not a second implementation.
 
@@ -289,6 +288,13 @@ def browser_recover_pdf(path: Path, ocr: bool = True) -> list[dict]:
     bounding boxes, no fill), so the fast default path (scan_pdf) still uses PyMuPDF —
     only recovery goes through the browser.
 
+    pages: optional 1-indexed page numbers to restrict recovery to. Reconstructing
+    every finding across every page of a large, physically-huge-paged document (e.g.
+    an architectural sheet set) in one browser session can exhaust the tab's memory
+    and crash it (seen on a 131-page, 2592x1728pt council packet with 81 findings) —
+    pass the specific pages a prior scan_pdf() call already flagged instead of
+    scanning the whole file again.
+
     Returns one dict per finding: file/page/rect/n_shapes/confidence (as scan_pdf) plus
     'recovered_png' (raw PNG bytes — caller decides whether/where to save; this
     function never writes recovered content to disk) and, if ocr=True, 'recovered_text'
@@ -299,7 +305,35 @@ def browser_recover_pdf(path: Path, ocr: bool = True) -> list[dict]:
     from playwright.sync_api import sync_playwright
 
     js_src = (Path(__file__).resolve().parent.parent / "docs" / "js" / "pdf_vector_redaction.js").read_text()
-    pdf_b64 = base64.b64encode(Path(path).read_bytes()).decode()
+
+    # When specific pages are requested, extract just those into a standalone PDF
+    # BEFORE handing anything to the browser. pdf.js has to fully load/parse a
+    # document up front regardless of which pages scanDocument is later restricted
+    # to — `pages` alone doesn't avoid the memory hit of a huge source file (a real
+    # 378MB, 131-page architectural production crashed the tab here even scoped to
+    # one page); shrinking the file itself is what actually bounds the cost.
+    page_map: dict[int, int] | None = None  # sub-doc page number -> original page number
+    if pages:
+        sorted_pages = sorted(set(pages))
+        src_doc = fitz.open(path)
+        sub_doc = fitz.open()
+        for p in sorted_pages:
+            sub_doc.insert_pdf(src_doc, from_page=p - 1, to_page=p - 1)
+        pdf_bytes = sub_doc.tobytes()
+        page_map = {i + 1: p for i, p in enumerate(sorted_pages)}
+        sub_doc.close()
+        src_doc.close()
+    else:
+        pdf_bytes = Path(path).read_bytes()
+
+    def _serve_pdf(route):
+        # Fulfilling from the already-read bytes (not re-reading the file) and turning
+        # off ranges: base64+atob was the original approach, but a large real-world
+        # production blows past what a JS byte-by-byte atob decode loop and
+        # Playwright's JSON-based evaluate() channel can handle without crashing the
+        # tab. Native binary fetch via route interception has no such cap.
+        route.fulfill(status=200, content_type="application/pdf", body=pdf_bytes,
+                      headers={"Accept-Ranges": "none"})
 
     with sync_playwright() as p:
         browser = p.chromium.launch()
@@ -307,14 +341,16 @@ def browser_recover_pdf(path: Path, ocr: bool = True) -> list[dict]:
         page.set_content("<!doctype html><html><body></body></html>")
         page.add_script_tag(url=PDFJS_CDN)
         page.add_script_tag(content=js_src)
-        raw = page.evaluate(_BROWSER_SCAN_JS, pdf_b64)
+        page.route(_PDF_URL, _serve_pdf)
+        raw = page.evaluate(_BROWSER_SCAN_JS, [])  # sub-doc already has only the wanted pages
         browser.close()
 
     out = []
     for r in raw:
+        out_page = page_map[r["page"]] if page_map else r["page"]
         row = {
             "file": str(path),
-            "page": r["page"],
+            "page": out_page,
             "rect": tuple(round(v, 1) for v in r["rect"]),
             "n_shapes": r["nShapes"],
             "confidence": r["confidence"],

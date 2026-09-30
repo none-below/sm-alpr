@@ -57,6 +57,28 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c];
     });
   }
+
+  // "35" / "35,40-44" / "12, 40-44, 90" -> [35] / [35,40,41,42,43,44] / ... (sorted,
+  // deduped, invalid tokens ignored). Empty/blank -> null, meaning "no restriction —
+  // check every page" (scanDocument's own default).
+  function parsePageSpec(s) {
+    s = (s || "").trim();
+    if (!s) return null;
+    var out = {};
+    s.split(",").forEach(function (tok) {
+      tok = tok.trim();
+      if (!tok) return;
+      var m = /^(\d+)\s*-\s*(\d+)$/.exec(tok);
+      if (m) {
+        var lo = Math.min(+m[1], +m[2]), hi = Math.max(+m[1], +m[2]);
+        for (var i = lo; i <= hi; i++) out[i] = true;
+      } else if (/^\d+$/.test(tok)) {
+        out[+tok] = true;
+      }
+    });
+    var pages = Object.keys(out).map(Number).sort(function (a, b) { return a - b; });
+    return pages.length ? pages : null;
+  }
   function norm(s) { return s.split(/\s+/).filter(Boolean).join(" "); }
 
   var UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
@@ -292,7 +314,9 @@
     catch (e) { out.innerHTML = '<p class="err">Could not read response.</p>'; return; }
     if (updateBar) {
       try {
-        var q = "?pdf=" + encodeURIComponent(value.trim()) + (ref && ref !== "main" ? "&ref=" + encodeURIComponent(ref) : "");
+        var pagesVal = document.getElementById("vecpages").value.trim();
+        var q = "?pdf=" + encodeURIComponent(value.trim()) + (ref && ref !== "main" ? "&ref=" + encodeURIComponent(ref) : "") +
+                (pagesVal ? "&pages=" + encodeURIComponent(pagesVal) : "");
         history.replaceState(null, "", q);
       } catch (e) { /* ignore */ }
     }
@@ -462,9 +486,11 @@
     if (window.PdfVectorRedaction) {
       try {
         var vecDoc = await pdfjsLib.getDocument({ data: buf.slice(), stopAtErrors: false }).promise;
+        var vecPageSpec = parsePageSpec(document.getElementById("vecpages").value);
         vecFindings = await PdfVectorRedaction.scanDocument(vecDoc, pdfjsLib, function (p, n) {
-          out.innerHTML = loadingHtml("Checking for hidden redacted content… page " + p + " of " + n);
-        });
+          out.innerHTML = loadingHtml("Checking for hidden redacted content… page " + p + " of " + n +
+            (vecPageSpec ? " (" + vecPageSpec.length + " page(s) requested)" : ""));
+        }, vecPageSpec);
         await vecDoc.destroy();
       } catch (e) { /* leave vecFindings empty; not fatal to the rest of the analysis */ }
     }
@@ -678,6 +704,8 @@
   (function () {
     var params = new URLSearchParams(location.search);
     var pdf = params.get("pdf");
+    var pages = params.get("pages");
+    if (pages) document.getElementById("vecpages").value = pages;
     if (pdf) { document.getElementById("url").value = pdf; loadFromUrl(pdf, params.get("ref"), false); }
   })();
 })();

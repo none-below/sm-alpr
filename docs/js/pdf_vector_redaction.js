@@ -340,15 +340,21 @@
     return canvas.toDataURL("image/png");
   }
 
-  // Scan every page of an already-open pdf.js document. Returns
-  // [{page, rect, shapes, confidence, image}], one entry per flagged box.
-  // onProgress(pageNum, numPages), if given, fires after each page — a dense,
-  // vector-outlined page can have thousands of drawings, so this scan is the slow
-  // part of the whole checker on some real-world files; callers use this to keep
-  // the UI from looking frozen.
-  async function scanDocument(doc, pdfjsLib, onProgress) {
+  // Scan an already-open pdf.js document. Returns [{page, rect, shapes, confidence,
+  // image}], one entry per flagged box. onProgress(pageNum, numPages), if given,
+  // fires after each page — a dense, vector-outlined page can have thousands of
+  // drawings, so this scan is the slow part of the whole checker on some real-world
+  // files; callers use this to keep the UI from looking frozen.
+  // pages (optional): restrict to these 1-indexed page numbers instead of every page
+  // in the document — reconstructing every finding across every page of a large,
+  // physically-huge-paged PDF (e.g. an architectural sheet set) in one browser session
+  // can exhaust memory and crash the page; a caller that already knows which pages
+  // matter (e.g. from a fast Python pre-scan) should pass just those.
+  async function scanDocument(doc, pdfjsLib, onProgress, pages) {
     var out = [];
-    for (var p = 1; p <= doc.numPages; p++) {
+    var pageList = pages && pages.length ? pages : Array.from({ length: doc.numPages }, function (_, i) { return i + 1; });
+    for (var pi = 0; pi < pageList.length; pi++) {
+      var p = pageList[pi];
       var page = await doc.getPage(p);
       var pc;
       try { pc = await pageCandidates(page, pdfjsLib); }
