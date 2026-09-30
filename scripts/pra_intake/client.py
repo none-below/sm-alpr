@@ -1,0 +1,814 @@
+"""The upload library: connectors hand it the files they fetch; it stages each
+one for the ingest Lambda and waits for the outcome.
+
+For each file it:
+  1. checks what it was told about the file (source, fetch, response,
+     listing) under write policy before reading a byte, so a credential in a
+     URL is refused before anything moves;
+  2. streams the bytes into the staging bucket as in/<uuid>.bin, hashing them
+     as they pass: one PUT up to PART_SIZE, else a multipart upload cut at
+     schema.upload_part_size(size), every request carrying its SHA-256.
+     Nothing touches local disk; parts wait in memory, at most MAX_IN_FLIGHT
+     bytes of them at once;
+  3. checks the first bytes against expect_types and the byte count against
+     the declared length, and builds and validates the sidecar, all before
+     the data becomes an object (a multipart upload is aborted instead), so a
+     truncated download or a bad sidecar leaves nothing in staging;
+  4. writes the sidecar in/<uuid>.json, the commit marker, last;
+  5. waits for the Lambda: the intake record _intake/<uuid>.json, checked
+     against what it hashed itself, or the staging tags for a file rejected
+     or deferred, until its own timeout.
+
+A Request groups one run's files for one PRA request. When its with block
+ends it stores the fetch manifest: every file the run found, held (with its
+sha256), failed (and why) or needing approval. A manifest lists a file held
+only once the library has read its intake record.
+
+The library can't read staging objects or list any bucket: it runs with
+exactly PERMISSIONS, the writer role's grants. Logs carry uuids, sizes,
+outcomes and reason codes, never a filename, URL or other presented text.
+"""
+import hashlib
+import io
+import json
+import os
+import time
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+from dataclasses import dataclass
+from datetime import datetime, timezone
+
+from . import schema as s
+
+LIBRARY_VERSION = "1"  # fetch.library_version; bump when what the library writes or checks changes
+# Part sizes a source's multipart ETag is tried at: MuckRock and rclone (5 MiB),
+# the AWS CLI and boto3 (8 MiB), s3cmd (15 MiB), this library (16 MiB).
+ETAG_PART_SIZES = (s.MUCKROCK_ETAG_PART_SIZE, 8 * s.MiB, 15 * s.MiB, 16 * s.MiB)
+READ_CHUNK = s.MiB  # how much the library asks a body for at a time
+WORKERS = 4  # concurrent UploadPart calls
+MAX_IN_FLIGHT = 64 * s.MiB  # part bytes held in memory while their uploads run (at least one part)
+POLL_FIRST, POLL_MAX = 1.0, 15.0  # seconds between checks for outcomes, doubling
+BASE_TIMEOUT, TIMEOUT_RATE, MAX_TIMEOUT = 120.0, 30_000_000, 1200.0  # seconds, bytes/s, seconds
+
+# The writer role's grants, {bucket role: {key prefix: actions}}; PR 4 builds
+# its policy from this, and the tests run the library with exactly these.
+# Without s3:ListBucket a record not written yet reads as 403, as the library
+# expects. No s3:GetObject on staging (it never reads what it staged), and no
+# tagging (the bucket policy lets only the Lambda and the sweep tag).
+PERMISSIONS = {
+    "staging": {s.STAGING_PREFIX: ("s3:PutObject", "s3:AbortMultipartUpload", "s3:GetObjectTagging")},
+    "evidence": {s.RECORD_PREFIX: ("s3:GetObject",)},
+}
+
+# Outcomes. held, rejected, deferred and needs_approval are terminal: a
+# connector acks its work item. pending and failed are not: fetch it again.
+HELD, REJECTED, DEFERRED, NEEDS_APPROVAL = "held", "rejected", "deferred", "needs_approval"
+PENDING, FAILED = "pending", "failed"
+TERMINAL = frozenset({HELD, REJECTED, DEFERRED, NEEDS_APPROVAL})
+# Reasons for a failed result, also a manifest's reason for a file not held.
+TRUNCATED = "truncated"  # the body ended before its declared length
+OVERLONG = "overlong"  # the body ran past its declared length
+UNEXPECTED_TYPE = "unexpected_type"  # the first bytes aren't one of expect_types
+UNDECLARED_LENGTH = "undeclared_length"  # too large to stage without knowing the size first
+NO_RECORD = "no_record"  # unchanged() named an upload with no intake record
+
+
+class IntakeError(Exception):
+    """S3 or the Lambda answered something the library can't reconcile with
+    what it sent: never a property of the file, always worth a look."""
+
+
+@dataclass(frozen=True)
+class Result:
+    status: str  # held | rejected | deferred | needs_approval | pending | failed
+    uuid: str = None
+    sha256: str = None  # as the library hashed it (None if it never finished reading)
+    size: int = None  # bytes read, or the declared size of a file needing approval
+    reason: str = None  # the reject code, or why it failed or needs approval
+    record: dict = None  # the intake record, when held
+
+    @property
+    def terminal(self):
+        """Nothing to retry: ack the work item."""
+        return self.status in TERMINAL
+
+
+@dataclass(frozen=True)
+class Response:
+    """What the connector's HTTP client saw: the status and header pairs (as
+    received, repeats included) of the response that delivered the bytes,
+    the URL that answered, and each redirect hop on the way as (status, the
+    URL that answered it, its Location)."""
+    status: int
+    headers: tuple
+    url: str
+    redirects: tuple = ()
+
+    @classmethod
+    def from_requests(cls, resp):
+        """A requests.Response (history holds the hops)."""
+        return cls(resp.status_code, tuple(resp.headers.items()), resp.url,
+                   tuple((h.status_code, h.url, h.headers.get("location", "")) for h in resp.history))
+
+    @classmethod
+    def from_playwright(cls, resp):
+        """A Playwright APIResponse or Response. Playwright doesn't expose
+        the hops of a request it followed, so none are recorded."""
+        return cls(resp.status, tuple((h["name"], h["value"]) for h in resp.headers_array), resp.url)
+
+    def sidecar(self):
+        """The sidecar's response object: headers sanitized, URLs in their
+        stored form (no query)."""
+        return {"status": self.status, "headers": s.sanitize_headers(self.headers),
+                "redirects": [{"status": st, "url": s.redirect_url(base, loc)} for st, base, loc in self.redirects],
+                "final_url": s.redirect_url(self.url, self.url) or None}
+
+
+class Staged:
+    """A file handed to the library. result() waits for its outcome (at once
+    for one refused before staging)."""
+
+    def __init__(self, intake, u=None, *, sha256=None, size=None, sidecar_sha256=None, staging_etag=None,
+                 deadline=None, result=None):
+        self._intake, self.uuid, self.sha256, self.size = intake, u, sha256, size
+        self._sidecar_sha256, self._staging_etag, self._deadline, self._result = (
+            sidecar_sha256, staging_etag, deadline, result)
+
+    def result(self):
+        return self._intake.wait([self])[0]
+
+
+class _Stop(Exception):
+    """Ends staging early with a result: nothing is left behind."""
+
+    def __init__(self, status, reason, size=None):
+        super().__init__(reason)
+        self.status, self.reason, self.size = status, reason, size
+
+
+class _Reader:
+    """A body as read_full(n): bytes, a file-like object, or an iterable of
+    chunks. Notes when the first byte arrived and when the body ended."""
+
+    def __init__(self, body, now):
+        self._now, self.first_at, self.end_at = now, None, None
+        if isinstance(body, (bytes, bytearray, memoryview)):
+            self._read = io.BytesIO(bytes(body)).read
+        elif hasattr(body, "read"):
+            self._read = body.read
+        else:
+            self._read = _chunks_reader(iter(body))
+
+    def read_full(self, n):
+        """Up to n bytes: fewer only at the end of the body."""
+        out = bytearray()
+        while len(out) < n:
+            chunk = self._read(min(READ_CHUNK, n - len(out)))
+            if not chunk:
+                self.end_at = self.end_at or self._now()
+                break
+            if self.first_at is None:
+                self.first_at = self._now()
+            out += chunk
+        return out
+
+
+def _chunks_reader(chunks):
+    carry = b""
+
+    def read(n):
+        nonlocal carry
+        while not carry:
+            try:
+                carry = bytes(next(chunks))  # an empty chunk isn't the end
+            except StopIteration:
+                return b""
+        out, carry = carry[:n], carry[n:]
+        return out
+    return read
+
+
+class _Parts:
+    """MD5s of consecutive parts of one size (the last may be short): a
+    source's multipart ETag, if it was cut at this size."""
+
+    def __init__(self, size):
+        self.size, self._done, self._in = size, [], 0
+        self._hash = hashlib.md5(usedforsecurity=False)
+
+    def update(self, chunk):
+        view = memoryview(chunk)
+        while view:
+            take = min(len(view), self.size - self._in)
+            self._hash.update(view[:take])
+            self._in, view = self._in + take, view[take:]
+            if self._in == self.size:
+                self._done.append(self._hash.hexdigest())
+                self._hash, self._in = hashlib.md5(usedforsecurity=False), 0
+
+    def etag(self):
+        return s.md5_multipart_etag(self._done + ([self._hash.hexdigest()] if self._in or not self._done else []))
+
+
+class _Digest:
+    """What the library learns from the bytes as they pass, in order."""
+
+    def __init__(self, etag_part_sizes):
+        self.size, self.head = 0, b""
+        self.sha256, self.md5 = hashlib.sha256(), hashlib.md5(usedforsecurity=False)
+        self.etag_parts = [_Parts(n) for n in etag_part_sizes]
+
+    def update(self, chunk):
+        if len(self.head) < s.SNIFF_BYTES:
+            self.head += bytes(chunk[:s.SNIFF_BYTES - len(self.head)])
+        self.size += len(chunk)
+        for h in (self.sha256, self.md5, *self.etag_parts):
+            h.update(chunk)
+
+
+def _code(exc):
+    return ((getattr(exc, "response", None) or {}).get("Error") or {}).get("Code")
+
+
+def _http_status(exc):
+    return ((getattr(exc, "response", None) or {}).get("ResponseMetadata") or {}).get("HTTPStatusCode")
+
+
+def _is_precondition(exc):
+    return _code(exc) == "PreconditionFailed" or _http_status(exc) == 412
+
+
+def _is_absent(exc):
+    """No such key, or (without s3:ListBucket, as the writer runs) a 403."""
+    return _code(exc) in ("NoSuchKey", "404", "NotFound", "AccessDenied", "403") or _http_status(exc) in (403, 404)
+
+
+def _etag_check(headers, md5_hex, md5_multipart):
+    """checks.etag: how the source's ETag relates to these bytes."""
+    if "etag" not in headers:
+        return "absent"
+    form, body = s.etag_form(headers["etag"])
+    if form == "opaque":
+        return "opaque"
+    if form == "md5":
+        return "md5" if body == md5_hex else "unmatched"
+    return "md5-multipart" if md5_multipart is not None and md5_multipart["etag"] == body else "unmatched"
+
+
+# A source that passes validation, to check an Intake's own fetch fields at construction.
+_PROBE_SOURCE = {"kind": "own", "platform": "other", "host": "example.org", "agency": None, "request_id": "probe",
+                 "request_url": None, "doc_id": None, "filename": "probe", "title": None, "url": None,
+                 "released_on": None}
+
+
+def _timestamp(value, name):
+    if value is None:
+        return None
+    if not isinstance(value, datetime) or value.tzinfo is None:
+        raise TypeError(f"{name} must be a timezone-aware datetime")
+    return s.format_timestamp(value)
+
+
+class Intake:
+    """Stages files for one connector run. `s3` is a boto3 S3 client with the
+    writer role's grants (from_env makes one); now, clock and sleep are the
+    wall clock, a monotonic clock and time.sleep, replaceable for tests."""
+
+    def __init__(self, s3, *, staging_bucket, evidence_bucket, connector, run_id=None, connector_version=None,
+                 ci_run=None, workers=WORKERS, timeout=None, log=None,
+                 now=lambda: datetime.now(timezone.utc), clock=time.monotonic, sleep=time.sleep):
+        envs = set()
+        for name, role in ((staging_bucket, "staging"), (evidence_bucket, "evidence")):
+            try:
+                env, got, account, region = s.parse_bucket_name(name)
+            except s.SchemaError:
+                raise ValueError(f"the {role} bucket isn't an intake bucket name") from None
+            if got != role:
+                raise ValueError(f"the {role} bucket is a {got} bucket")
+            envs.add((env, account, region))
+        if len(envs) != 1:
+            raise ValueError("the buckets aren't one environment's")
+        self.s3, self.staging, self.evidence = s3, staging_bucket, evidence_bucket
+        self.connector, self.connector_version, self.ci_run = connector, connector_version, ci_run
+        self.run_id = run_id if run_id is not None else s.new_uuid()
+        self.workers, self.timeout, self._log = workers, timeout, log
+        self._now, self._clock, self._sleep = now, clock, sleep
+        stamp = s.format_timestamp(now())  # every sidecar carries the connector, run and CI ids: check them now
+        s.validate_context("file", _PROBE_SOURCE, self._fetch("local-copy", s.new_uuid(), stamp, None, stamp,
+                                                              legacy_path="probe"), None, None)
+
+    @classmethod
+    def from_env(cls, *, connector, env=None, profile=None, region=None, **kw):
+        """An Intake for `env` (dev or prod; else PRA_INTAKE_ENV), with the
+        buckets named for the caller's account and region (a profile, else
+        PRA_INTAKE_PROFILE or the default chain) and the GitHub Actions run,
+        if there is one."""
+        env = env or os.environ.get("PRA_INTAKE_ENV")
+        if env not in s.ENV_PREFIXES:
+            raise ValueError("pass env=, or set PRA_INTAKE_ENV to dev or prod")
+        import boto3  # only where AWS is; boto3 isn't a project dependency (uv run --with boto3)
+        from botocore.config import Config
+
+        session = boto3.Session(profile_name=profile or os.environ.get("PRA_INTAKE_PROFILE") or None,
+                                region_name=region or os.environ.get("PRA_INTAKE_REGION") or None)
+        account = session.client("sts").get_caller_identity()["Account"]
+        # payload_signing_enabled=False: TLS and every request's ChecksumSHA256
+        # already cover the body; signing it too would hash each byte again.
+        s3 = session.client("s3", config=Config(
+            retries={"mode": "standard", "max_attempts": 10}, max_pool_connections=WORKERS + 4,
+            s3={"payload_signing_enabled": False}))
+        kw.setdefault("ci_run", _ci_run(os.environ))
+        return cls(s3, staging_bucket=s.bucket_name("staging", env, account, session.region_name or ""),
+                   evidence_bucket=s.bucket_name("evidence", env, account, session.region_name or ""),
+                   connector=connector, **kw)
+
+    def log(self, event, **fields):
+        if self._log is not None:
+            self._log(json.dumps({"event": event, **fields}, sort_keys=True))
+
+    # --- Staging ------------------------------------------------------------------------------
+
+    def upload(self, source, body, **kw):
+        """stage() and wait for the outcome: a Result."""
+        return self.stage(source, body, **kw).result()
+
+    def upload_file(self, path, source, **kw):
+        """stage_file() and wait for the outcome: a Result."""
+        return self.stage_file(path, source, **kw).result()
+
+    def stage_file(self, path, source, *, origin="local-copy", **kw):
+        """Stage a file already on disk (a backfill: origin local-copy or git,
+        with legacy_path), declaring its size from the file system."""
+        with open(path, "rb") as f:
+            return self.stage(source, f, origin=origin, declared_length=os.fstat(f.fileno()).st_size, **kw)
+
+    def stage(self, source, body, *, content_kind="file", origin="live", response=None, listing=None,
+              expect_types=None, access="anonymous", attempt=1, retries=0, work_id=None, started_at=None,
+              approval=None, declared_length=None, eof=None, legacy_path=None, original_fetched_at=None,
+              git_commit=None, stamp_ref=None):
+        """Stream `body` (bytes, a file-like object, or an iterable of chunks)
+        into staging and commit it; returns a Staged whose result() waits for
+        the Lambda. `source` is the sidecar's source object (doc_id may be an
+        int). A live fetch passes its Response. Refused before a byte is read
+        (SchemaError, or ValueError for an argument the sidecar has no field
+        for): what the contract refuses, such as a URL carrying a credential
+        or a live fetch without its URL. Raises whatever the body or S3
+        raises (a multipart upload is aborted first)."""
+        started = started_at or self._now()
+        stamp = _timestamp(started, "started_at")
+        if started > self._now():
+            raise ValueError("started_at is in the future")
+        if eof not in (None, *s.EOF_CHECKS):
+            raise ValueError("eof must be one of EOF_CHECKS")
+        source = dict(source)
+        if source.get("doc_id") is not None:
+            source["doc_id"] = s.doc_id_text(source["doc_id"])
+        resp = response.sidecar() if response is not None else None
+        fetch = self._fetch(origin, s.new_uuid(), stamp, None, stamp, work_id=work_id, attempt=attempt,
+                            access=access, retries=retries, approval=approval, legacy_path=legacy_path,
+                            original_fetched_at=_timestamp(original_fetched_at, "original_fetched_at"),
+                            git_commit=git_commit, stamp_ref=stamp_ref)
+        s.validate_context(content_kind, source, fetch, resp, listing)
+        if expect_types is not None and not set(expect_types) <= set(s.SNIFF_TYPES):
+            raise ValueError("expect_types must be SNIFF_TYPES")
+
+        declared = s.declared_length(resp["headers"]) if resp is not None else None
+        if declared is None:
+            declared = declared_length
+        elif declared_length is not None and declared_length != declared:
+            raise ValueError("declared_length disagrees with the Content-Length")
+        if declared is not None and declared > s.COST_GATE and approval is None:
+            self.log("needs_approval", size=declared)
+            return Staged(self, result=Result(NEEDS_APPROVAL, size=declared, reason=s.NEEDS_APPROVAL_REASON))
+
+        headers = resp["headers"] if resp is not None else {}
+        form, body_etag = s.etag_form(headers.get("etag"))
+        candidates = ()
+        if form == "md5-multipart":  # only part sizes that could give its part count
+            n = int(body_etag.split("-")[1])
+            candidates = tuple(p for p in ETAG_PART_SIZES if declared is None or s.part_count(declared, p) == n)
+        ctx = {"content_kind": content_kind, "origin": origin, "source": source, "fetch": fetch, "response": resp,
+               "listing": listing, "expect_types": list(expect_types) if expect_types is not None else None,
+               "declared": declared, "approval": approval, "eof": eof, "headers": headers}
+        reader, digest, u = _Reader(body, self._now), _Digest(candidates), s.new_uuid()
+        try:
+            return self._stage(u, reader, digest, ctx)
+        except _Stop as stop:
+            self.log("not_staged", uuid=u, status=stop.status, reason=stop.reason, size=stop.size)
+            return Staged(self, result=Result(stop.status, size=stop.size, reason=stop.reason))
+
+    def _fetch(self, origin, fetch_id, started, first_byte, completed, *, work_id=None, attempt=1,
+               access="anonymous", retries=0, approval=None, legacy_path=None, original_fetched_at=None,
+               git_commit=None, stamp_ref=None):
+        return {
+            "origin": origin, "fetch_id": fetch_id, "run_id": self.run_id, "work_id": work_id, "attempt": attempt,
+            "connector": self.connector, "connector_version": self.connector_version,
+            "library_version": LIBRARY_VERSION, "access": access, "started_at": started,
+            "first_byte_at": first_byte, "completed_at": completed, "retries": retries, "ci_run": self.ci_run,
+            "approval": approval, "legacy_path": legacy_path, "original_fetched_at": original_fetched_at,
+            "git_commit": git_commit, "stamp_ref": stamp_ref,
+        }
+
+    def _stage(self, u, reader, digest, ctx):
+        declared, key = ctx["declared"], s.staging_data_key(u)
+        meta = s.staging_metadata(ctx["source"], u, ctx["fetch"]["fetch_id"])
+        buf = reader.read_full(s.PART_SIZE + 1)
+        self._check_type(ctx, buf[:s.SNIFF_BYTES])
+        if len(buf) <= s.PART_SIZE:  # the whole file: one PUT
+            digest.update(buf)
+            self._check_length(declared, digest.size)
+            sidecar, raw = self._sidecar(u, ctx, reader, digest, {"method": "put", "part_size": None,
+                                                                   "part_sha256": None}, f'"{digest.md5.hexdigest()}"')
+            got = self._put_new(key, bytes(buf), Metadata=meta)
+            if got is not None and got.get("ETag") != sidecar["data"]["staging_etag"]:
+                raise IntakeError("S3 stored the data object with another ETag")
+        else:
+            if declared is not None and declared <= s.PART_SIZE:
+                raise _Stop(FAILED, OVERLONG)
+            part_size = s.upload_part_size(declared) if declared is not None else s.PART_SIZE
+            limit = declared if declared is not None else (
+                s.COST_GATE if ctx["approval"] is None else s.PART_SIZE * s.MAX_PARTS)
+            upload_id = self.s3.create_multipart_upload(
+                Bucket=self.staging, Key=key, ChecksumAlgorithm="SHA256", Metadata=meta,
+                ServerSideEncryption=s.STAGING_SSE)["UploadId"]
+            try:
+                parts = self._send_parts(key, upload_id, reader, buf, part_size, digest, limit, declared, ctx)
+                self._check_length(declared, digest.size)
+                shas, md5s = [p[1] for p in parts], [p[2] for p in parts]
+                sidecar, raw = self._sidecar(u, ctx, reader, digest, {
+                    "method": "multipart", "part_size": part_size, "part_sha256": shas},
+                    f'"{s.md5_multipart_etag(md5s)}"')
+                self._complete(key, upload_id, parts, sidecar)
+            except BaseException:
+                self._abort(u, key, upload_id)
+                raise
+        self._put_new(s.staging_sidecar_key(u), raw, ContentType="application/json")
+        data = sidecar["data"]
+        self.log("staged", uuid=u, size=data["size"], method=data["upload"]["method"])
+        return Staged(self, u, sha256=data["sha256"], size=data["size"],
+                      sidecar_sha256=hashlib.sha256(raw).hexdigest(), staging_etag=data["staging_etag"],
+                      deadline=self._clock() + self._timeout_for(data["size"]))
+
+    def _check_type(self, ctx, head):
+        """Refuse a file whose first bytes aren't what the connector expected
+        (an HTML error page saved where a PDF should be), before it's staged."""
+        expect = ctx["expect_types"]
+        if expect is not None and s.expected_sniff(ctx["content_kind"], bytes(head)) not in expect:
+            raise _Stop(FAILED, UNEXPECTED_TYPE)
+
+    @staticmethod
+    def _check_length(declared, size):
+        if declared is not None and size != declared:
+            raise _Stop(FAILED, TRUNCATED if size < declared else OVERLONG, size)
+
+    def _send_parts(self, key, upload_id, reader, buf, part_size, digest, limit, declared, ctx):
+        """Upload the body in parts of part_size, WORKERS at a time with at
+        most MAX_IN_FLIGHT bytes waiting; returns (part number, SHA-256, MD5)
+        per part, in order."""
+        parts, futures, in_flight = [], {}, 0
+        pending, n = buf, 0
+        with ThreadPoolExecutor(self.workers) as pool:
+            try:
+                while True:
+                    if len(pending) < part_size:
+                        pending += reader.read_full(part_size - len(pending))
+                    if not pending:
+                        break
+                    part = bytes(pending[:part_size])
+                    del pending[:part_size]
+                    n += 1
+                    digest.update(part)
+                    if digest.size > limit:
+                        if declared is not None:
+                            raise _Stop(FAILED, OVERLONG, digest.size)
+                        if ctx["approval"] is None:
+                            raise _Stop(NEEDS_APPROVAL, s.NEEDS_APPROVAL_REASON)
+                        raise _Stop(FAILED, UNDECLARED_LENGTH)
+                    while futures and in_flight + len(part) > max(part_size, MAX_IN_FLIGHT):
+                        in_flight -= self._settle(futures, parts)
+                    futures[pool.submit(self._upload_part, key, upload_id, n, part)] = len(part)
+                    in_flight += len(part)
+                    if len(part) < part_size:  # a short part is the last
+                        break
+                while futures:
+                    self._settle(futures, parts)
+            except BaseException:
+                for f in futures:
+                    f.cancel()
+                raise
+        return sorted(parts)
+
+    @staticmethod
+    def _settle(futures, parts):
+        """Wait for one or more part uploads; raises the first failure.
+        Returns the bytes they freed."""
+        done, _ = wait(futures, return_when=FIRST_COMPLETED)
+        freed = 0
+        for f in done:
+            parts.append(f.result())
+            freed += futures.pop(f)
+        return freed
+
+    def _upload_part(self, key, upload_id, n, part):
+        sha, md5 = hashlib.sha256(part).hexdigest(), hashlib.md5(part, usedforsecurity=False).hexdigest()
+        got = self.s3.upload_part(Bucket=self.staging, Key=key, UploadId=upload_id, PartNumber=n, Body=part,
+                                  ContentLength=len(part), ChecksumSHA256=s.sha256_b64(sha))
+        if got.get("ETag") != f'"{md5}"' or got.get("ChecksumSHA256") != s.sha256_b64(sha):
+            raise IntakeError(f"S3 stored part {n} with another ETag or checksum")
+        return n, sha, md5
+
+    def _complete(self, key, upload_id, parts, sidecar):
+        """Complete the upload write-once. If a retry of it finds the upload
+        already completed (412, or NoSuchUpload), the data object is there:
+        the key is this call's own fresh uuid."""
+        data = sidecar["data"]
+        try:
+            got = self.s3.complete_multipart_upload(
+                Bucket=self.staging, Key=key, UploadId=upload_id, IfNoneMatch="*", MultipartUpload={"Parts": [
+                    {"PartNumber": n, "ETag": f'"{md5}"', "ChecksumSHA256": s.sha256_b64(sha)}
+                    for n, sha, md5 in parts]})
+        except Exception as e:
+            if (_is_precondition(e) or _code(e) == "NoSuchUpload") and self._exists(key):
+                self.log("complete_retried", uuid=sidecar["uuid"])
+                return
+            raise
+        want = s.composite_sha256(data["upload"]["part_sha256"])
+        if got.get("ETag") != data["staging_etag"] or got.get("ChecksumSHA256") != want:
+            raise IntakeError("S3 completed the upload with another ETag or checksum")
+
+    def _sidecar(self, u, ctx, reader, digest, upload, staging_etag):
+        """The sidecar for what was read, validated (under write policy) and
+        serialized, before the data becomes an object."""
+        size, md5, headers = digest.size, digest.md5.hexdigest(), ctx["headers"]
+        md5_multipart = None
+        form, body = s.etag_form(headers.get("etag"))
+        if form == "md5-multipart" and size:
+            n = int(body.split("-")[1])
+            for parts in digest.etag_parts:
+                if s.part_count(size, parts.size) == n and parts.etag() == body:
+                    md5_multipart = {"part_size": parts.size, "etag": body}
+                    break
+        declared, origin = ctx["declared"], ctx["origin"]
+        eof = ctx["eof"] or ("clean" if declared is not None or origin != "live" or "transfer-encoding" in headers
+                             else "unknown")
+        fetch = dict(ctx["fetch"], first_byte_at=_timestamp(reader.first_at, "first_byte_at"),
+                     completed_at=s.format_timestamp(reader.end_at),  # staging read to the end first
+                     approval=ctx["approval"] if size > s.COST_GATE else None)
+        sidecar = {
+            "schema": s.SCHEMA_VERSION, "uuid": u, "content_kind": ctx["content_kind"],
+            "data": {"size": size, "sha256": digest.sha256.hexdigest(), "md5": md5, "md5_multipart": md5_multipart,
+                     "staging_etag": staging_etag, "upload": upload},
+            "source": ctx["source"], "fetch": fetch, "response": ctx["response"], "listing": ctx["listing"],
+            "checks": {
+                "declared_length": declared, "length": "ok" if declared is not None else "undeclared", "eof": eof,
+                "etag": _etag_check(headers, md5, md5_multipart), "content_md5": s.content_md5_check(headers, md5),
+                "sniffed_type": s.expected_sniff(ctx["content_kind"], digest.head),
+                "expect_types": ctx["expect_types"],
+            },
+        }
+        return sidecar, s.sidecar_bytes(sidecar)
+
+    def _put_new(self, key, body, **kw):
+        """A write-once PUT carrying the body's SHA-256. A 412 means an earlier
+        attempt of this call landed (the key is a fresh uuid's): None."""
+        try:
+            return self.s3.put_object(Bucket=self.staging, Key=key, Body=body, ContentLength=len(body),
+                                      ChecksumSHA256=s.sha256_b64(hashlib.sha256(body).hexdigest()),
+                                      IfNoneMatch="*", ServerSideEncryption=s.STAGING_SSE, **kw)
+        except Exception as e:
+            if _is_precondition(e):
+                self.log("put_retried", key_kind=s.parse_staging_key(key)[1])
+                return None
+            raise
+
+    def _exists(self, key):
+        try:
+            self.s3.get_object_tagging(Bucket=self.staging, Key=key)
+            return True
+        except Exception as e:
+            if _is_absent(e):
+                return False
+            raise
+
+    def _abort(self, u, key, upload_id):
+        """Best effort (the staging lifecycle aborts what's left after 7
+        days), but logged: a failure that persists is a grant or an outage."""
+        try:
+            self.s3.abort_multipart_upload(Bucket=self.staging, Key=key, UploadId=upload_id)
+        except Exception as e:
+            self.log("abort_failed", uuid=u, error=type(e).__name__, code=_code(e), status=_http_status(e))
+
+    def _timeout_for(self, size):
+        if self.timeout is not None:
+            return self.timeout
+        return min(MAX_TIMEOUT, BASE_TIMEOUT + size / TIMEOUT_RATE)
+
+    # --- Outcomes -----------------------------------------------------------------------------
+
+    def wait(self, handles):
+        """Results for Staged handles, in order: each waits until the Lambda
+        records, rejects or defers its file, or its own deadline passes
+        (pending). Handles are checked together, so waiting for many files
+        costs about as long as the slowest."""
+        todo, delay = [h for h in handles if h._result is None], POLL_FIRST
+        while todo:
+            left = []
+            for h in todo:
+                result = self._outcome(h)
+                if result is None and self._clock() >= h._deadline:
+                    result = Result(PENDING, h.uuid, h.sha256, h.size, reason=PENDING)
+                if result is None:
+                    left.append(h)
+                else:
+                    h._result = result
+                    self.log("outcome", uuid=h.uuid, status=result.status, reason=result.reason)
+            todo = left
+            if todo:
+                self._sleep(delay)
+                delay = min(delay * 2, POLL_MAX)
+        return [h._result for h in handles]
+
+    def _outcome(self, h):
+        """The file's outcome if there is one yet. A record always wins: one
+        written after a rejected or deferred tag (the one-off job, a retry)
+        supersedes it."""
+        record = self._record_for(h)
+        if record is not None:
+            return Result(HELD, h.uuid, h.sha256, h.size, record=record)
+        tags = self._tags(h.uuid)  # read second: the Lambda records, then tags
+        state = tags.get("intake")
+        if state not in (REJECTED, DEFERRED):
+            return None
+        record = self._record_for(h)
+        if record is not None:
+            return Result(HELD, h.uuid, h.sha256, h.size, record=record)
+        if state == DEFERRED:
+            return Result(DEFERRED, h.uuid, h.sha256, h.size, reason=DEFERRED)
+        reason = tags.get("reason")
+        return Result(REJECTED, h.uuid, h.sha256, h.size, reason=reason if reason in s.REJECT_REASONS else REJECTED)
+
+    def _record_for(self, h):
+        try:
+            record = self.read_record(h.uuid)
+        except IntakeError:
+            raise
+        except Exception as e:  # a throttle or 5xx botocore gave up on: look again next round
+            self.log("poll_failed", uuid=h.uuid, error=type(e).__name__, code=_code(e), status=_http_status(e))
+            return None
+        if record is None:
+            return None
+        st = record["staging"]
+        if (record["sha256"], st["sidecar_sha256"], st["data_etag"]) != (h.sha256, h._sidecar_sha256, h._staging_etag):
+            raise IntakeError("the intake record describes another upload")
+        return record
+
+    def read_record(self, u):
+        """The intake record for uuid `u` (parsed as stored), or None if there
+        isn't one yet."""
+        try:
+            got = self.s3.get_object(Bucket=self.evidence, Key=s.record_key(u))
+        except Exception as e:
+            if _is_absent(e):
+                return None
+            raise
+        raw = _Reader(got["Body"], self._now).read_full(s.MAX_RECORD_BYTES + 1)  # reads may come up short
+        try:
+            return s.parse_record(raw, stored=True, key=s.record_key(u))
+        except s.SchemaError as e:
+            raise IntakeError(f"a stored record doesn't parse: {e.reason}") from None
+
+    def _tags(self, u):
+        """The sidecar's tags (the Lambda tags it last); {} if it can't tell."""
+        try:
+            got = self.s3.get_object_tagging(Bucket=self.staging, Key=s.staging_sidecar_key(u))
+        except Exception as e:
+            if not _is_absent(e):  # a throttle or 5xx botocore gave up on: look again next round
+                self.log("poll_failed", uuid=u, error=type(e).__name__, code=_code(e), status=_http_status(e))
+            return {}
+        return {t["Key"]: t["Value"] for t in got.get("TagSet", [])}
+
+    # --- Requests -------------------------------------------------------------------------------
+
+    def request(self, *, kind, platform, host, request_id, agency=None, request_url=None, files_listed=None,
+                access="anonymous", work_id=None, attempt=1):
+        """A Request for one PRA request's files in this run; see Request."""
+        return Request(self, {"kind": kind, "platform": platform, "host": host, "agency": agency,
+                              "request_id": request_id, "request_url": request_url},
+                       files_listed=files_listed, access=access, work_id=work_id, attempt=attempt)
+
+
+class Request:
+    """One run's files for one PRA request:
+
+        with intake.request(kind="muckrock", platform="muckrock", host=...,
+                            request_id="12345", files_listed=10) as req:
+            req.upload("a.pdf", body, url=..., response=Response(...))
+            req.unchanged("b.pdf", record=uuid_from_an_earlier_run)
+            req.failed("c.pdf", "source_404")
+
+    upload() stages at once and returns a Staged; the outcomes are waited for
+    together when the block ends. Then the fetch manifest (every file, held
+    or failed and why) is uploaded like any file, and its Result is
+    `manifest`. A block that raises writes no manifest (the staged files are
+    still ingested). results holds (filename, Result) per file, in order."""
+
+    def __init__(self, intake, source, *, files_listed, access, work_id, attempt):
+        s.build_manifest(source, [], files_listed)  # the request's own fields, checked now
+        self._intake, self.source, self.files_listed = intake, source, files_listed
+        self._access, self._work_id, self._attempt = access, work_id, attempt
+        self._items = []  # (filename, doc_id, url, Staged)
+        self.manifest = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        if exc_type is not None:
+            return False
+        results = self._intake.wait([item[3] for item in self._items])
+        entries = [_manifest_entry(f, d, url, r) for (f, d, url, _), r in zip(self._items, results)]
+        raw = s.manifest_bytes(s.build_manifest(self.source, entries, self.files_listed))
+        source = {**self.source, "doc_id": None, "filename": s.MANIFEST_FILENAME, "title": None, "url": None,
+                  "released_on": None}
+        self.manifest = self._intake.upload(source, raw, content_kind="fetch_manifest", origin="generated",
+                                            access=self._access, work_id=self._work_id, attempt=self._attempt,
+                                            declared_length=len(raw))
+        return False
+
+    @property
+    def results(self):
+        return [(f, h._result) for f, _, _, h in self._items]
+
+    def _file_source(self, filename, doc_id, title, url, released_on):
+        doc_id = s.doc_id_text(doc_id) if doc_id is not None else None
+        self._check_entry(filename, doc_id, url)
+        return {**self.source, "doc_id": doc_id, "filename": filename, "title": title, "url": url,
+                "released_on": released_on}
+
+    def _check_entry(self, filename, doc_id, url):
+        s.build_manifest(self.source, [s.manifest_entry(filename, status="failed", reason="x", doc_id=doc_id,
+                                                        url=url)])
+
+    def _add(self, filename, doc_id, url, staged):
+        self._items.append((filename, doc_id, url, staged))
+        return staged
+
+    def upload(self, filename, body, *, doc_id=None, title=None, url=None, released_on=None, **kw):
+        """Stage one file of this request (Intake.stage's keywords). Returns
+        its Staged."""
+        source = self._file_source(filename, doc_id, title, url, released_on)
+        kw = {"access": self._access, "work_id": self._work_id, "attempt": self._attempt, **kw}
+        return self._add(filename, source["doc_id"], url, self._intake.stage(source, body, **kw))
+
+    def upload_file(self, path, filename, *, doc_id=None, title=None, url=None, released_on=None, **kw):
+        """Stage one local file of this request (Intake.stage_file)."""
+        source = self._file_source(filename, doc_id, title, url, released_on)
+        kw = {"access": self._access, "work_id": self._work_id, "attempt": self._attempt, **kw}
+        return self._add(filename, source["doc_id"], url, self._intake.stage_file(path, source, **kw))
+
+    def unchanged(self, filename, *, record, doc_id=None, url=None):
+        """A file the connector recognized as unchanged since an earlier
+        upload, whose uuid is `record`. Listed held only if that intake
+        record exists and belongs to this request; else failed (no_record).
+        Returns its Result."""
+        doc_id = s.doc_id_text(doc_id) if doc_id is not None else None
+        self._check_entry(filename, doc_id, url)
+        found = self._intake.read_record(record)
+        if found is None:
+            result = Result(FAILED, record, reason=NO_RECORD)
+        else:
+            src = found["sidecar"]["source"]
+            if any(src[k] != self.source[k] for k in ("kind", "platform", "host", "request_id")):
+                raise ValueError("that record belongs to another request")
+            result = Result(HELD, record, found["sha256"], found["size"], record=found)
+        self._add(filename, doc_id, url, Staged(self._intake, record, result=result))
+        return result
+
+    def failed(self, filename, reason, *, doc_id=None, url=None):
+        """A file the connector couldn't fetch; `reason` is a code like
+        source_404 (lower-case letters, digits, _). Returns its Result."""
+        doc_id = s.doc_id_text(doc_id) if doc_id is not None else None
+        s.build_manifest(self.source, [s.manifest_entry(filename, status="failed", reason=reason, doc_id=doc_id,
+                                                        url=url)])
+        result = Result(FAILED, reason=reason)
+        self._add(filename, doc_id, url, Staged(self._intake, result=result))
+        return result
+
+
+def _manifest_entry(filename, doc_id, url, result):
+    if result.status == HELD:
+        return s.manifest_entry(filename, status="held", sha256=result.sha256, size=result.size, doc_id=doc_id,
+                                url=url)
+    if result.status == NEEDS_APPROVAL:
+        return s.manifest_entry(filename, status="needs_approval", reason=s.NEEDS_APPROVAL_REASON,
+                                size=result.size, doc_id=doc_id, url=url)
+    return s.manifest_entry(filename, status="failed", reason=result.reason, doc_id=doc_id, url=url)
+
+
+def _ci_run(environ):
+    """The GitHub Actions run attempt this process belongs to, if any."""
+    if environ.get("GITHUB_ACTIONS") != "true":
+        return None
+    server, repo, run = (environ.get(k) for k in ("GITHUB_SERVER_URL", "GITHUB_REPOSITORY", "GITHUB_RUN_ID"))
+    if not (server and repo and run):
+        return None
+    return f"{server}/{repo}/actions/runs/{run}/attempts/{environ.get('GITHUB_RUN_ATTEMPT') or '1'}"

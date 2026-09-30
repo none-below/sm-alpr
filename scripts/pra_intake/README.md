@@ -3,14 +3,14 @@
 Downloaders ("connectors", one per PRA platform) hand each file to an upload
 library. The library streams it into a **staging** bucket. A Lambda then copies
 it, write-once, into a content-addressed **evidence** bucket and records how it
-got there. `schema.py` is the contract all three share; `ingest.py` is the
-Lambda. The library and the infrastructure come in later PRs.
+got there. `schema.py` is the contract all three share; `client.py` is the
+library and `ingest.py` the Lambda. The infrastructure comes in a later PR.
 
 ## Flow
 
-1. The library streams the file to staging as `in/<uuid>.bin`: by default one
-   PUT up to 16 MiB and multipart above, though the contract accepts any
-   S3-legal layout with one part size. Every part carries its SHA-256, and nothing touches local
+1. The library streams the file to staging as `in/<uuid>.bin`: one PUT up to
+   `PART_SIZE` (16 MiB), else multipart cut at `upload_part_size(size)`,
+   though the contract accepts any S3-legal layout with one part size. Every part carries its SHA-256, and nothing touches local
    disk. Before completing, it checks the byte count against the declared
    length and aborts on a mismatch, so a truncated download never becomes an
    object.
@@ -79,10 +79,79 @@ Records don't say which sighting was first; the earliest record for a blob
 version is. One exception: a blob over 5 GB records the part boundaries it
 was copied on, and v1 records one layout per blob, so the same bytes staged
 on other boundaries are rejected `layout_conflict` (the bytes themselves
-aren't compared). The library makes the part size a function of the file
-size alone (PR 3 puts it in `schema.py` and pins it), so this only happens
-if that function changes. A stored blob of another size, or without a
+aren't compared). The library cuts parts at `upload_part_size(size)`, a
+function of the size alone, pinned in `tests/fixtures/pra_intake/part_sizes.json`,
+so this only happens if that function changes. A stored blob of another size, or without a
 SHA-256 composite, is `evidence_conflict`.
+
+## The library
+
+`client.Intake` stages files for one connector run.
+`Intake.from_env(connector=..., env="dev")` names the buckets from the
+caller's AWS account and region (boto3 isn't a project dependency:
+`uv run --with boto3`). A connector works one PRA request at a time:
+
+```python
+intake = Intake.from_env(connector="muckrock", connector_version=commit)
+with intake.request(kind="muckrock", platform="muckrock", host="www.muckrock.com",
+                    request_id="12345", request_url=url, files_listed=len(files)) as req:
+    for f in files:
+        if f.unchanged_since_last_run:
+            req.unchanged(f.name, record=f.last_uuid, doc_id=f.id, url=f.url)
+            continue
+        resp = session.get(f.url, stream=True)
+        req.upload(f.name, resp.iter_content(1 << 20), doc_id=f.id, url=f.url,
+                   response=Response.from_requests(resp), expect_types=["pdf"])
+done = req.manifest.terminal and all(r.terminal for _, r in req.results)
+```
+
+`url` is the stable URL (`strip_signing_params` of the URL the client
+sent). The body is what a browser would save (content-decoded), as bytes, a
+file object or an iterable of chunks; `Response.from_requests` and
+`Response.from_playwright` record what the client saw, or build a
+`Response` from the status, the header pairs as received, the final URL and
+each redirect as (status, the URL that answered, its Location).
+
+Before reading a byte the library checks the file's source, fetch,
+response and listing under write policy (`validate_context`), so a
+credential in a URL or a live fetch without its URL raises `SchemaError`
+and nothing moves; a declared size over `COST_GATE` without an approval
+returns `needs_approval` unread. It hashes as it streams, holding one PUT's
+file (up to 16 MiB) or `MAX_IN_FLIGHT` (64 MiB) of parts in memory, never on
+disk. The type check, the length check and the whole sidecar's validation
+all come before the data becomes an object (a multipart upload is aborted
+instead), so a refused file leaves nothing in staging. The data object is
+written, then the sidecar; only an S3 failure between the two leaves data
+without a sidecar, which the sweep reports.
+
+`upload()` returns a `Result`; `stage()` returns at the commit, and
+`wait(handles)` checks many files together, so waiting costs about as long
+as the slowest. A request waits for all its files when its block ends, then
+stores the fetch manifest and waits for that too (`req.manifest`). A block
+that raises stores no manifest.
+
+| `status` | Meaning | The connector |
+|---|---|---|
+| `held` | the intake record exists and names the sha256 the library computed (`record` holds it) | acks |
+| `rejected` | the Lambda refused the upload; `reason` is the reject code | acks; the file waits in staging for a person |
+| `deferred` | over `LAMBDA_MAX_SIZE`: the one-off job records it | acks |
+| `needs_approval` | over `COST_GATE` with no approval (`reason` `too_large`) | acks and reports it |
+| `pending` | no outcome by its timeout (120 s plus 1 s per 30 MB, at most 20 minutes); it's committed and will be ingested | retries later |
+| `failed` | nothing staged: `truncated`, `overlong`, `unexpected_type` or `undeclared_length`; `no_record` from `unchanged()`; or the connector's own reason from `failed()` | fetches again |
+
+`terminal` is true for the first four. The manifest lists a `held` file
+with its sha256, anything else `failed` with the reason above (`deferred`,
+`pending`, a reject code) or `needs_approval`. `unchanged(record=uuid)`
+lists a file `held` only if that upload's record exists and belongs to this
+request. Exceptions: `SchemaError` or `ValueError` before any byte moves is
+a connector bug; an exception from the body or from S3 (after botocore's
+retries) aborts the file and propagates, so retry the work item;
+`IntakeError` means S3 or the Lambda answered for bytes other than the ones
+sent, which is always worth a look.
+
+Backfills use `upload_file(path, source, legacy_path=...,
+original_fetched_at=...)` (origin `local-copy`, or `git` with
+`git_commit`), and `stamp_ref` names a stamped manifest already held.
 
 ## The Lambda
 
@@ -241,7 +310,8 @@ record.
   It records `--code-sha256` only when given (pass it only when running the
   published zip); otherwise the record says null. Records the Lambda writes
   name its published zip (below).
-- The writer (library) role: `s3:PutObject` and `s3:AbortMultipartUpload` on
+- The writer (library) role, `client.PERMISSIONS` (the tests run the library
+  with exactly these): `s3:PutObject` and `s3:AbortMultipartUpload` on
   `in/*` (If-None-Match is enforced by the bucket policy below; don't put an
   if-none-match condition on the writer's own policy, which would deny its
   multipart uploads), `s3:GetObjectTagging` on `in/*` to read the Lambda's
@@ -311,8 +381,8 @@ record.
 Known limit: a principal that can write to staging can stage a file over
 5 GB on its own part boundaries first, so honest copies of the same bytes
 are rejected `layout_conflict` until an admin replaces the blob. Only the
-library's role writes to staging, and once PR 3 pins the part-size function
-the Lambda can refuse other layouts.
+library's role writes to staging. The Lambda could refuse every layout other
+than `upload_part_size`'s; it doesn't yet.
 
 ## Buckets
 
