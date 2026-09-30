@@ -46,6 +46,12 @@
     if (f) handleFile(f);
   });
 
+  // A dense, vector-outlined page can have thousands of drawings, so the vector-
+  // redaction scan below is the slow part of the whole checker on some real-world
+  // files (multi-second); this spinner + live page count keeps that from looking
+  // like a frozen tab.
+  function loadingHtml(msg) { return '<p class="nochange"><span class="spinner"></span>' + esc(msg) + "</p>"; }
+
   function esc(s) {
     return String(s).replace(/[&<>]/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c];
@@ -255,7 +261,7 @@
   }
 
   async function handleFile(file) {
-    out.innerHTML = '<p class="nochange">Reading &amp; reconstructing revisions&hellip;</p>';
+    out.innerHTML = loadingHtml("Reading & reconstructing revisions…");
     var buf;
     try { buf = new Uint8Array(await file.arrayBuffer()); }
     catch (e) { out.innerHTML = '<p class="err">Could not read file.</p>'; return; }
@@ -276,7 +282,7 @@
   async function loadFromUrl(value, ref, updateBar) {
     var url = resolveUrl(value, ref);
     if (!url) return;
-    out.innerHTML = '<p class="nochange">Fetching &amp; reconstructing revisions&hellip;</p>';
+    out.innerHTML = loadingHtml("Fetching & reconstructing revisions…");
     var resp;
     try { resp = await fetch(url); }
     catch (e) { out.innerHTML = '<p class="err">Fetch failed (network or CORS): ' + esc(String((e && e.message) || e)) + "</p>"; return; }
@@ -445,6 +451,24 @@
       catch (err) { recs.push({ error: String(err), text: "", rows: [] }); }
     }
 
+    // Vector-redaction check (scripts/pdf_vector_redaction.py's browser port): text
+    // rendered as filled vector paths under an opaque box, invisible to the text-span
+    // diff above. Runs against the final revision as released.
+    // IMPORTANT: getDocument({data}) TRANSFERS the given buffer's memory to the pdf.js
+    // worker, detaching it in this thread (buf.byteLength -> 0). buf is reused below
+    // (per-revision blob links via buf.slice(...)), so we must hand pdf.js a throwaway
+    // copy here, never buf itself.
+    var vecFindings = [];
+    if (window.PdfVectorRedaction) {
+      try {
+        var vecDoc = await pdfjsLib.getDocument({ data: buf.slice(), stopAtErrors: false }).promise;
+        vecFindings = await PdfVectorRedaction.scanDocument(vecDoc, pdfjsLib, function (p, n) {
+          out.innerHTML = loadingHtml("Checking for hidden redacted content… page " + p + " of " + n);
+        });
+        await vecDoc.destroy();
+      } catch (e) { /* leave vecFindings empty; not fatal to the rest of the analysis */ }
+    }
+
     // diff each transition once; the badge for revision N reflects what the save into
     // it actually changed (base / re-saved with no change / edited).
     var diffs = [null];
@@ -512,6 +536,19 @@
         s += "; no later revision recovered";
       }
       html += '<div class="summary">' + esc(s) + "</div>";
+    }
+
+    if (vecFindings.length) {
+      html += '<h2 class="tl">vector redaction check <span class="badge vec">' + vecFindings.length +
+              ' finding' + (vecFindings.length === 1 ? "" : "s") + '</span></h2>';
+      html += '<div class="vecnote">Text rendered as filled vector paths (outlined, not real characters) found ' +
+              'hidden under an opaque box. A text-layer check finds nothing here, but the content is still ' +
+              'present as ordinary graphics and was reconstructed below (the covering box omitted, redrawn ' +
+              'from the same path data).</div>';
+      vecFindings.forEach(function (f) {
+        html += '<div class="vecblk"><h4>page ' + f.page + ' &middot; ' + f.nShapes + ' shape(s) &middot; confidence: ' +
+                f.confidence + '</h4><img class="vecimg" src="' + f.image + '" alt="recovered content, page ' + f.page + '"></div>';
+      });
     }
 
     // A sequence of saves fragments one logical edit (e.g. scrub a value, then tidy

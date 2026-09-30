@@ -67,12 +67,19 @@
   .change .ad { background: #14361f; color: #bbf7d0; }
   .tag { display: inline-block; width: 78px; color: #94a3b8; font-weight: 600; }
   .nochange { color: #64748b; font-size: 13px; margin: 8px 0; }
+  .spinner { display: inline-block; width: 12px; height: 12px; margin-right: 7px; border: 2px solid #334155; border-top-color: #38bdf8; border-radius: 50%; vertical-align: -2px; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
   .err { color: #fca5a5; font-size: 13px; }
   .note { color: #64748b; font-size: 12px; margin-top: 18px; max-width: 720px; }
   .rev.ghost { border-style: dashed; border-color: #475569; background: #0b1426; }
   .rev.ghost h3 { color: #94a3b8; letter-spacing: .04em; }
   .rev.ghost .kv { color: #64748b; white-space: normal; }
   .badge.flat { background: #3b2f0a; color: #fde68a; }
+  .badge.vec { background: #7c2d12; color: #fed7aa; }
+  .vecblk { border: 1px solid #b45309; border-radius: 8px; padding: 10px 14px; margin: 10px 0; background: #1c1408; }
+  .vecblk h4 { font-size: 13px; color: #fde68a; margin-bottom: 6px; }
+  .vecnote { font-size: 12px; color: #cbd5e1; line-height: 1.5; margin-bottom: 10px; }
+  .vecimg { display: block; max-width: 100%; background: #fff; border-radius: 4px; padding: 6px; }
   .revlinks { font-size: 12px; margin-top: 8px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
   .revlinks a { color: #38bdf8; }
   .revlinks .vsz { color: #64748b; }
@@ -134,6 +141,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="js/pdf_vector_redaction.js" defer></script>
 <script src="js/audit-check.js" defer></script>
 <script data-goatcounter="https://none-below.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
