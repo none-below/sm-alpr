@@ -16,7 +16,6 @@ import json
 import random
 import sys
 import threading
-import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -243,6 +242,11 @@ def test_a_local_copy_is_backfilled_with_its_old_path(world, tmp_path):
     assert (sc["checks"]["length"], sc["checks"]["declared_length"], sc["checks"]["eof"]) == ("ok", len(CSV), "clean")
 
 
+def test_a_backfill_of_undeclared_length_still_ends_cleanly(world):
+    r = world.intake.upload({**SOURCE, "url": None}, iter([CSV]), origin="local-copy", legacy_path="a.csv")
+    assert (sidecar_of(r)["checks"]["length"], sidecar_of(r)["checks"]["eof"]) == ("undeclared", "clean")
+
+
 def test_a_git_backfill_names_its_commit(world, tmp_path):
     path = tmp_path / "a.csv"
     path.write_bytes(CSV)
@@ -260,6 +264,15 @@ def test_a_source_multipart_etag_is_matched_at_its_part_size_and_verified_by_the
     sc = sidecar_of(r)
     assert r.status == "held" and sc["checks"]["etag"] == "md5-multipart"
     assert sc["data"]["md5_multipart"] == {"part_size": part_size, "etag": multipart_etag(body, part_size)}
+
+
+@pytest.mark.parametrize("size,part_size", [(2 * c.ETAG_PART_SIZES[0], c.ETAG_PART_SIZES[0]), (PART, 8 * MiB),
+                                             (PART, PART)], ids=["10MiB-at-5", "16MiB-at-8", "16MiB-at-16"])
+def test_a_source_etag_of_whole_parts_matches(world, size, part_size):
+    body = data(size, 12)
+    r = world.intake.upload(SOURCE, body, response=response_for(body, etag=f'"{multipart_etag(body, part_size)}"'))
+    assert sidecar_of(r)["checks"]["etag"] == "md5-multipart"
+    assert sidecar_of(r)["data"]["md5_multipart"]["part_size"] == part_size
 
 
 def test_an_undeclared_length_still_tries_every_etag_part_size(world):
@@ -365,6 +378,22 @@ def test_an_approved_file_of_undeclared_length_stops_at_the_part_limit(world, mo
     assert_nothing_staged(world)
 
 
+def test_an_approved_file_over_the_gate_is_staged_and_held(monkeypatch):
+    monkeypatch.setattr(s, "COST_GATE", PART)
+    w = World()
+    it.put_approval(w.fake, {"source": {**SOURCE, "doc_id": "987654"}})
+    r = w.intake.upload(SOURCE, BIG, response=response_for(BIG), approval=it.APPROVAL)
+    assert r.status == "held" and sidecar_of(r)["fetch"]["approval"] == it.APPROVAL
+
+
+def test_a_file_too_large_for_max_parts_of_part_size_gets_bigger_parts(world, monkeypatch):
+    monkeypatch.setattr(s, "MAX_PARTS", 2)
+    body = data(3 * PART, 11)
+    r = world.intake.upload(SOURCE, body, response=response_for(body))
+    assert r.status == "held"
+    assert sidecar_of(r)["data"]["upload"]["part_size"] == s.upload_part_size(len(body)) == 24 * MiB
+
+
 def test_the_cost_gate_needs_approval_only_above_it(world, monkeypatch):
     monkeypatch.setattr(s, "COST_GATE", PART + 10)
     at, over = data(PART + 10, 8), data(PART + 11, 8)
@@ -376,6 +405,30 @@ def test_the_cost_gate_needs_approval_only_above_it(world, monkeypatch):
 def test_an_approval_for_a_file_under_the_gate_is_left_out(world):
     r = world.intake.upload(SOURCE, CSV, response=response_for(CSV), approval=s.approval_key(s.new_uuid()))
     assert r.status == "held" and sidecar_of(r)["fetch"]["approval"] is None
+
+
+@pytest.mark.parametrize("status", [404, 500, 206, 304])
+def test_a_live_response_other_than_200_or_203_fails_unread(world, status):
+    r = world.intake.upload(SOURCE, Unread(), response=response_for(CSV, status=status))
+    assert (r.status, r.reason, r.terminal) == ("failed", f"http_{status}", False)
+    assert world.fake.calls == []
+
+
+def test_a_length_s3_couldnt_hold_fails_unread(world):
+    resp = response_for(b"", length=False, extra=[("Content-Length", str(s.MAX_OBJECT_SIZE + 1))])
+    for approval in (None, s.approval_key(s.new_uuid())):
+        r = world.intake.upload(SOURCE, Unread(), response=resp, approval=approval)
+        assert (r.status, r.reason, r.size) == ("failed", "over_s3_limit", None)
+    assert world.fake.calls == []
+
+
+def test_a_saved_download_is_checked_against_its_response(world, tmp_path):
+    path = tmp_path / "a.csv"
+    path.write_bytes(CSV[:-5])  # the client saved less than the server declared
+    r = world.intake.upload_file(path, SOURCE, origin="live", response=response_for(CSV))
+    assert (r.status, r.reason) == ("failed", "truncated")
+    path.write_bytes(CSV)
+    assert world.intake.upload_file(path, SOURCE, origin="live", response=response_for(CSV)).status == "held"
 
 
 def test_a_signed_url_is_refused_before_any_s3_call(world):
@@ -390,7 +443,6 @@ def test_a_signed_url_is_refused_before_any_s3_call(world):
     ({"origin": "local-copy", "response": None}, s.SchemaError),  # a backfill without its old path
     ({"response": None}, s.SchemaError),  # a live fetch without one
     ({"content_kind": "fetch_manifest"}, s.SchemaError),  # a manifest that isn't generated
-    ({"response": response_for(CSV, status=206)}, s.SchemaError),
     ({"source": {**SOURCE, "url": None}}, s.SchemaError),  # a live fetch without its URL
     ({"expect_types": ["pdf", "docx"]}, ValueError),
     ({"eof": "maybe"}, ValueError),
@@ -400,7 +452,7 @@ def test_a_signed_url_is_refused_before_any_s3_call(world):
     ({"access": "someone"}, s.SchemaError),
     ({"listing": {"size": -1, "date": None, "title": None}}, s.SchemaError),
     ({"approval": "approvals/not-a-uuid.json"}, s.SchemaError)],
-    ids=["backfill-response", "backfill-no-path", "live-no-response", "manifest-live", "partial", "live-no-url",
+    ids=["backfill-response", "backfill-no-path", "live-no-response", "manifest-live", "live-no-url",
          "bad-type", "bad-eof", "declared",
          "future", "naive", "access", "listing", "approval"])
 def test_arguments_the_contract_refuses_fail_before_any_s3_call(world, kw, error):
@@ -496,6 +548,35 @@ def test_a_complete_whose_first_attempt_landed_is_accepted():
     assert any(json.loads(line)["event"] == "complete_retried" for line in w.logs)
 
 
+def test_a_complete_whose_retry_meets_a_412_is_accepted():
+    """The upload landed and botocore's retry got 412 (If-None-Match), not
+    NoSuchUpload: the library checks the object exists and carries on."""
+    def lands_then_412(fn, **kw):
+        if not getattr(lands_then_412, "done", False):
+            lands_then_412.done = True
+            fn(**kw)
+            raise FakeClientError("PreconditionFailed", 412, "CompleteMultipartUpload")
+        return fn(**kw)
+    w = World()
+    w.intake.s3 = Proxy(w.intake.s3, complete_multipart_upload=lands_then_412)
+    r = w.intake.upload(SOURCE, BIG, response=response_for(BIG))
+    assert r.status == "held" and any(json.loads(line)["event"] == "complete_retried" for line in w.logs)
+
+
+def test_a_complete_whose_retry_meets_its_own_first_attempt_is_accepted():
+    """A 409 ConditionalRequestConflict (botocore doesn't retry it) while the
+    first attempt finishes: the object is there, so it's this upload's."""
+    def lands_then_409(fn, **kw):
+        if not getattr(lands_then_409, "done", False):
+            lands_then_409.done = True
+            fn(**kw)
+            raise FakeClientError("ConditionalRequestConflict", 409, "CompleteMultipartUpload")
+        return fn(**kw)
+    w = World()
+    w.intake.s3 = Proxy(w.intake.s3, complete_multipart_upload=lands_then_409)
+    assert w.intake.upload(SOURCE, BIG, response=response_for(BIG)).status == "held"
+
+
 def test_a_complete_that_fails_without_landing_raises(world):
     world.fake.fail("complete_multipart_upload", code="PreconditionFailed", status=412)
     with pytest.raises(FakeClientError):
@@ -504,6 +585,17 @@ def test_a_complete_that_fails_without_landing_raises(world):
 
 
 OTHER_ETAG = '"' + "0" * 32 + '"'
+
+
+@pytest.mark.parametrize("op", ["upload_part", "complete_multipart_upload"])
+def test_s3_answering_with_another_checksum_is_an_intake_error(world, op):
+    def other(fn, **kw):
+        got = fn(**kw)
+        return {**got, "ChecksumSHA256": "A" * 43 + "=" + ("-3" if op.startswith("complete") else "")}
+    world.intake.s3 = Proxy(world.intake.s3, **{op: other})
+    with pytest.raises(c.IntakeError):
+        world.intake.upload(SOURCE, BIG, response=response_for(BIG))
+    assert [k for k in world.staged() if k.endswith(".json")] == []
 
 
 @pytest.mark.parametrize("op,body", [
@@ -518,25 +610,33 @@ def test_s3_answering_for_other_bytes_is_an_intake_error_and_commits_nothing(wor
     assert [k for k in world.staged() if k.endswith(".json")] == [] and world.open_uploads() == {}
 
 
-def test_in_flight_parts_are_bounded(monkeypatch):
+def test_in_flight_parts_are_bounded_and_the_window_slides(monkeypatch):
+    """Each part's upload holds until the next part's upload starts, so the
+    library must keep two parts in flight (and free each as it finishes) or
+    stall. No sleeps: a stall is a 5 s wait that times out."""
     monkeypatch.setattr(c, "MAX_IN_FLIGHT", 2 * PART)
     w = World(workers=8)
-    live, most, lock = [0], [0], threading.Lock()
+    body = data(5 * PART + 1, 7)
+    n_parts = -(-len(body) // PART)
+    started = {n: threading.Event() for n in range(1, n_parts + 2)}
+    live, most, stalls, lock = [0], [0], [], threading.Lock()
 
-    def slow(fn, **kw):
+    def held(fn, **kw):
+        n = kw["PartNumber"]
+        started[n].set()
         with lock:
             live[0] += 1
             most[0] = max(most[0], live[0])
-        time.sleep(0.3)  # long enough for the next part to be read and sent
         try:
+            if n < n_parts and not started[n + 1].wait(5):
+                stalls.append(n)
             return fn(**kw)
         finally:
             with lock:
                 live[0] -= 1
-    w.intake.s3 = Proxy(w.intake.s3, upload_part=slow)
-    body = data(5 * PART + 1, 7)
+    w.intake.s3 = Proxy(w.intake.s3, upload_part=held)
     assert w.intake.upload(SOURCE, body, response=response_for(body)).status == "held"
-    assert most[0] == 2
+    assert most[0] == 2 and stalls == []
 
 
 # --- Outcomes -----------------------------------------------------------------------------------------
@@ -597,9 +697,11 @@ def test_a_reject_tag_outside_the_vocabulary_reads_as_rejected():
     assert (staged.result().status, staged.result().reason) == ("rejected", "rejected")
 
 
-def test_a_record_for_other_staging_bytes_is_an_intake_error(world):
+@pytest.mark.parametrize("field,value", [("_sidecar_sha256", "0" * 64), ("sha256", "0" * 64),
+                                         ("_staging_etag", OTHER_ETAG)])
+def test_a_record_for_other_staging_bytes_is_an_intake_error(world, field, value):
     staged = world.intake.stage(SOURCE, CSV, response=response_for(CSV))
-    staged._sidecar_sha256 = "0" * 64
+    setattr(staged, field, value)
     with pytest.raises(c.IntakeError):
         staged.result()
 
@@ -665,19 +767,53 @@ def without(action):
                    for role, scopes in c.PERMISSIONS.items()}, it.BUCKETS)
 
 
-def test_without_the_tagging_grant_a_rejection_goes_unseen():
-    w = World(timeout=10)
+def test_without_the_tagging_grant_waiting_fails_loudly():
+    """The library wrote the sidecar, so AccessDenied on its tags is a missing
+    grant, not a file still to come: every file would end pending."""
+    w = World()
     w.intake.s3 = w.fake.as_role(without("s3:GetObjectTagging"))
-    r = w.intake.upload({**SOURCE, "url": None}, CSV, origin="local-copy", legacy_path="a.csv",
-                        declared_length=len(CSV), stamp_ref=sha(b"missing"))
-    assert r.status == "pending" and w.fake.tags(STG, s.staging_sidecar_key(r.uuid))["intake"] == "rejected"
+    with pytest.raises(FakeClientError, match="AccessDenied"):
+        w.intake.upload(SOURCE, CSV, response=response_for(CSV))
 
 
-def test_without_the_record_grant_nothing_is_held():
-    w = World(timeout=10)
+def test_without_the_record_grant_waiting_fails_loudly():
+    """A missing record reads as AccessDenied too (the writer can't list), but
+    the Lambda tags a file ingested only after its record exists."""
+    w = World()
     w.intake.s3 = w.fake.as_role(without("s3:GetObject"))
-    r = w.intake.upload(SOURCE, CSV, response=response_for(CSV))
-    assert r.status == "pending" and w.fake.keys(EVD, s.RECORD_PREFIX) == [s.record_key(r.uuid)]
+    with pytest.raises(c.IntakeError):
+        w.intake.upload(SOURCE, CSV, response=response_for(CSV))
+    assert len(w.fake.keys(EVD, s.RECORD_PREFIX)) == 1
+
+
+@pytest.mark.parametrize("code,status", [("SignatureDoesNotMatch", 403), ("InvalidAccessKeyId", 403),
+                                         ("ExpiredToken", 400)])
+def test_an_s3_error_that_isnt_absence_or_a_throttle_ends_the_wait(world, code, status):
+    world.fake.fail("get_object", code=code, status=status, when=lambda kw: kw["Key"].startswith(s.RECORD_PREFIX))
+    with pytest.raises(FakeClientError, match=code):
+        world.intake.upload(SOURCE, CSV, response=response_for(CSV))
+
+
+def test_a_dropped_connection_while_waiting_is_tried_again(world):
+    def drop(fn, **kw):
+        if kw["Key"].startswith(s.RECORD_PREFIX) and not getattr(drop, "done", False):
+            drop.done = True
+            raise ConnectionResetError("reset by peer")
+        return fn(**kw)
+    world.intake.s3 = Proxy(world.intake.s3, get_object=drop)
+    assert world.intake.upload(SOURCE, CSV, response=response_for(CSV)).status == "held"
+    assert any(json.loads(line).get("error") == "ConnectionResetError" for line in world.logs)
+
+
+def test_a_file_staged_long_ago_still_gets_a_look_after_waiting_starts():
+    """A long run stages its first files long before its block ends: each
+    file's timeout runs from the start of the wait, so it gets more than one
+    look."""
+    w = World(lambda_runs=False, timeout=5)
+    staged = w.intake.stage(SOURCE, CSV, response=response_for(CSV))
+    w.clock += 3600
+    w.lambda_runs = True
+    assert staged.result().status == "held"
 
 
 def test_logs_hold_no_presented_text(world):
@@ -700,7 +836,7 @@ def manifest_of(w, req):
 
 
 def test_a_request_stores_a_manifest_of_every_file_after_their_outcomes(world):
-    earlier = world.intake.upload(SOURCE, PDF, response=response_for(PDF))
+    earlier = world.intake.upload({**SOURCE, "doc_id": 3}, PDF, response=response_for(PDF))
     with world.intake.request(**REQUEST, files_listed=6) as req:
         a = req.upload("a.csv", CSV, doc_id=1, url=URL, response=response_for(CSV))
         b = req.upload("b.bin", BIG, doc_id=2, url=URL, response=response_for(BIG))
@@ -725,21 +861,14 @@ def test_a_request_stores_a_manifest_of_every_file_after_their_outcomes(world):
     assert [r.status for _, r in req.results] == ["held", "held", "held", "failed", "failed", "needs_approval"]
 
 
-def test_a_manifest_lists_rejected_and_deferred_files_as_failed_with_why():
+def test_a_manifest_lists_rejected_and_deferred_files_as_failed_with_why(tmp_path):
     w = World(max_lambda_size=PART)
+    (tmp_path / "a.csv").write_bytes(CSV)
     with w.intake.request(**REQUEST) as req:
         req.upload("big.bin", BIG, url=URL, response=response_for(BIG))
-        req.upload_file(_tmp_file(CSV), "a.csv", origin="local-copy", legacy_path="a.csv", stamp_ref=sha(b"x"))
+        req.upload_file(tmp_path / "a.csv", "a.csv", origin="local-copy", legacy_path="a.csv", stamp_ref=sha(b"x"))
     got = {e["filename"]: (e["status"], e["reason"]) for e in manifest_of(w, req)["files"]}
     assert got == {"big.bin": ("failed", "deferred"), "a.csv": ("failed", "missing_blob")}
-
-
-def _tmp_file(body):
-    import tempfile
-    f = tempfile.NamedTemporaryFile(delete=False)
-    f.write(body)
-    f.close()
-    return f.name
 
 
 def test_with_the_lambda_down_a_manifest_lists_its_files_pending():
@@ -762,14 +891,40 @@ def test_an_unchanged_listing_stores_one_manifest_blob_and_a_record_per_run(worl
     assert len(world.fake.keys(EVD, s.RECORD_PREFIX)) == 3
 
 
+OTHER_REQUESTS = [{"request_id": "999"}, {"host": "other.example.org", "request_url": None},
+                  {"kind": "portal", "platform": "nextrequest"}, {"kind": "own", "platform": "email"}]
+
+
 def test_unchanged_names_a_record_of_this_request(world):
-    other = world.intake.upload({**SOURCE, "request_id": "999"}, CSV, response=response_for(CSV))
+    others = [world.intake.upload({**SOURCE, **o}, CSV, response=response_for(CSV)).uuid for o in OTHER_REQUESTS]
+    mine = world.intake.upload(SOURCE, CSV, response=response_for(CSV))
+    with world.intake.request(**REQUEST) as first:
+        first.failed("x.pdf", "source_404")
     with world.intake.request(**REQUEST) as req:
-        with pytest.raises(ValueError):
-            req.unchanged("a.csv", record=other.uuid)
+        for uuid, doc_id in [(u, None) for u in others] + [(first.manifest.uuid, None), (mine.uuid, 111)]:
+            with pytest.raises(ValueError):
+                req.unchanged("a.csv", record=uuid, doc_id=doc_id)
         missing = req.unchanged("b.csv", record=s.new_uuid())
     assert (missing.status, missing.reason, missing.terminal) == ("failed", "no_record", False)
     assert [(e["filename"], e["reason"]) for e in manifest_of(world, req)["files"]] == [("b.csv", "no_record")]
+
+
+def test_a_request_takes_no_files_after_its_block(world):
+    with world.intake.request(**REQUEST) as req:
+        req.failed("a.pdf", "source_404")
+    for call in (lambda: req.upload("b.csv", CSV, url=URL, response=response_for(CSV)),
+                 lambda: req.failed("c.pdf", "source_404"), lambda: req.unchanged("d.pdf", record=s.new_uuid())):
+        with pytest.raises(RuntimeError):
+            call()
+    assert [f for f, _ in req.results] == ["a.pdf"]
+
+
+def test_a_source_error_is_listed_failed_and_the_rest_still_held(world):
+    with world.intake.request(**REQUEST) as req:
+        req.upload("gone.pdf", Unread(), url=URL, response=response_for(CSV, status=404))
+        req.upload("a.csv", CSV, url=URL, response=response_for(CSV))
+    got = {e["filename"]: (e["status"], e["reason"]) for e in manifest_of(world, req)["files"]}
+    assert got == {"gone.pdf": ("failed", "http_404"), "a.csv": ("held", None)}
 
 
 def test_a_block_that_raises_stores_no_manifest(world):
@@ -846,10 +1001,57 @@ def test_a_requests_response_becomes_the_sidecar_response():
         "redirects": [{"status": 301, "url": "https://www.muckrock.com/dl/a.csv"}], "final_url": URL}
 
 
-def test_a_playwright_response_becomes_the_sidecar_response():
+def test_a_playwright_api_response_becomes_the_sidecar_response():
+    """context.request.get's APIResponse: headers_array is a property, and no hops are exposed."""
     resp = Obj(status=200, url=URL, headers_array=[{"name": "ETag", "value": '"x"'}, {"name": "etag", "value": '"x"'}])
     assert c.Response.from_playwright(resp).sidecar() == {
         "status": 200, "headers": {"etag": '"x"'}, "redirects": [], "final_url": URL}
+
+
+class PageResponse:
+    """Playwright's page Response: headers_array() and header_value() are
+    methods, and the hops hang off request.redirected_from."""
+
+    def __init__(self, status, url, headers, request):
+        self.status, self.url, self._headers, self.request = status, url, headers, request
+
+    def headers_array(self):
+        return [{"name": n, "value": v} for n, v in self._headers]
+
+    def header_value(self, name):
+        return next((v for n, v in self._headers if n.lower() == name), None)
+
+
+class PageRequest:
+    def __init__(self, url, redirected_from=None, response=None):
+        self.url, self.redirected_from, self._response = url, redirected_from, response
+
+    def response(self):
+        return self._response
+
+
+def test_a_playwright_page_response_records_its_redirect_chain():
+    first = PageRequest("https://www.muckrock.com/foi/files/9/?session=x")
+    first._response = PageResponse(301, first.url, [("Location", "/dl/a.csv?token=abc")], first)
+    second = PageRequest("https://www.muckrock.com/dl/a.csv?token=abc", redirected_from=first)
+    second._response = PageResponse(302, second.url, [("Location", URL + "?X-Amz-Signature=1")], second)
+    last = PageRequest(URL + "?X-Amz-Signature=1", redirected_from=second)
+    resp = PageResponse(200, last.url, [("Content-Type", "text/csv")], last)
+    assert c.Response.from_playwright(resp).sidecar() == {
+        "status": 200, "headers": {"content-type": "text/csv"}, "final_url": URL,
+        "redirects": [{"status": 301, "url": "https://www.muckrock.com/dl/a.csv"}, {"status": 302, "url": URL}]}
+
+
+@pytest.mark.parametrize("body", [CSV, BIG], ids=["put", "parts"])
+def test_a_wall_clock_stepping_back_mid_fetch_never_orders_the_times_backwards(body):
+    """An NTP step on a fresh runner: the first byte and the end are read
+    after the start, whatever the wall clock says."""
+    w = World()
+    readings = iter([w.fake.now] + [w.fake.now - timedelta(seconds=5)] * 1000)
+    w.intake._now = lambda: next(readings)
+    r = w.intake.upload(SOURCE, body, response=response_for(body))
+    f = sidecar_of(r)["fetch"]
+    assert r.status == "held" and f["started_at"] == f["first_byte_at"] == f["completed_at"]
 
 
 def test_timestamps_follow_the_fetch(world):
