@@ -14,6 +14,7 @@ import copy
 import enum
 import hashlib
 import json
+import random
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -796,6 +797,33 @@ SIDECAR_MUTATIONS = [
 @pytest.mark.parametrize("path,value,reason,field", SIDECAR_MUTATIONS)
 def test_sidecar_rules(path, value, reason, field):
     rejects(s.validate_sidecar, with_(make_sidecar(), path, value), reason, field)
+
+
+CONTEXT_PARTS = ("content_kind", "source", "fetch", "response", "listing")
+BYTE_RULES = ("fetch.completed_at", "fetch.first_byte_at", "fetch.started_at", "response.headers.")
+
+
+def validate_context_of(sc):
+    return s.validate_context(sc["content_kind"], sc["source"], sc["fetch"], sc["response"], sc["listing"])
+
+
+@pytest.mark.parametrize("path,value,reason,field", [m for m in SIDECAR_MUTATIONS if m[0].split(".")[0] in CONTEXT_PARTS])
+def test_the_context_check_refuses_what_the_sidecar_check_does(path, value, reason, field):
+    """What a writer can check before it reads the bytes: validate_context
+    refuses each mutation of those parts exactly as validate_sidecar does,
+    except the rules that need the bytes (the headers against the size and
+    hashes; the fetch clock, which the library stamps)."""
+    sc = with_(make_sidecar(), path, value)
+    if path.startswith(BYTE_RULES) or (path, value) == ("fetch.approval", APPROVAL):  # an approval: only over the gate
+        validate_context_of(sc)
+    else:
+        rejects(validate_context_of, sc, reason, field)
+
+
+@pytest.mark.parametrize("origin", ["live", "local-copy", "git", "generated"])
+def test_the_context_check_passes_every_origin(origin):
+    sc = make_manifest_sidecar() if origin == "generated" else make_sidecar(origin=origin)
+    assert s.validate_sidecar(sc) and validate_context_of(sc) is None
 
 
 def test_strict_fields_refuse_every_invisible_character():
@@ -1806,7 +1834,47 @@ def test_a_fetch_manifest_sniffs_as_text_whatever_its_filenames_say():
     assert s.expected_sniff("file", body[:s.SNIFF_BYTES]) == "pdf"
 
 
+PART_SIZE_SAMPLES = sorted({0, 1, s.MiB, s.PART_SIZE - 1, s.PART_SIZE, s.PART_SIZE + 1, 2 * s.PART_SIZE, s.SINGLE_PUT_MAX, s.SINGLE_PUT_MAX + 1,
+                            s.COST_GATE, s.PART_SIZE * s.MAX_PARTS - 1, s.PART_SIZE * s.MAX_PARTS, s.PART_SIZE * s.MAX_PARTS + 1,
+                            200 * 10 ** 9, 10 ** 12, 10 ** 13, s.MAX_OBJECT_SIZE - 1, s.MAX_OBJECT_SIZE}
+                           | {int(10 ** random.Random(i).uniform(0, 13.6)) for i in range(300)})
+
+
+def part_sizes():
+    return {str(n): s.upload_part_size(n) for n in PART_SIZE_SAMPLES}
+
+
+def test_part_sizes_are_pinned():
+    """A blob over SINGLE_PUT_MAX keeps the part layout it was first copied
+    on, so the same bytes staged on other boundaries are rejected
+    layout_conflict. If this fails, the part-size function changed: files
+    already stored would no longer deduplicate. Don't regenerate the fixture."""
+    assert json.loads((FIXTURES / "part_sizes.json").read_text()) == part_sizes()
+
+
+@pytest.mark.parametrize("size", PART_SIZE_SAMPLES[::7])
+def test_a_part_size_fits_its_file_in_s3s_limits(size):
+    part = s.upload_part_size(size)
+    if size <= s.PART_SIZE:
+        assert part is None
+        return
+    assert part % s.MiB == 0 and s.PART_SIZE <= part <= s.MAX_PART_SIZE
+    assert s.part_count(size, part) <= s.MAX_PARTS
+    assert part == s.PART_SIZE or s.part_count(size, part - s.MiB) > s.MAX_PARTS  # the smallest that fits
+
+
+@pytest.mark.parametrize("size", [-1, s.MAX_OBJECT_SIZE + 1, 1.0, "1", True])
+def test_part_size_refuses_what_s3_cant_hold(size):
+    with pytest.raises(ValueError):
+        s.upload_part_size(size)
+
+
 V1_DOCUMENTS = sorted(p.name for p in V1.glob("*.json"))
+
+
+@pytest.mark.parametrize("name", [n for n in V1_DOCUMENTS if n.startswith("sidecar")])
+def test_every_frozen_sidecar_passes_the_context_check(name):
+    validate_context_of(s.parse_strict_json((V1 / name).read_bytes(), max_bytes=s.MAX_SIDECAR_BYTES))
 
 
 def test_v1_fixtures_exist():
@@ -1830,7 +1898,8 @@ def test_writers_reproduce_v1_documents(name):
 
 if __name__ == "__main__":  # write only what's missing: python tests/test_pra_intake_schema.py
     V1.mkdir(parents=True, exist_ok=True)
-    for name, make in (("vocabulary.json", vocabulary), ("policy.json", policy), ("sniff_v1.json", sniff_samples)):
+    for name, make in (("vocabulary.json", vocabulary), ("policy.json", policy), ("sniff_v1.json", sniff_samples),
+                       ("part_sizes.json", part_sizes)):
         if not (FIXTURES / name).exists():
             (FIXTURES / name).write_text(json.dumps(make(), indent=2, sort_keys=True) + "\n")
     for name, raw in documents().items():
