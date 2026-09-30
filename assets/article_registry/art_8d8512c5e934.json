@@ -22,6 +22,15 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:explainer",
+    "incident:misuse",
+    "legal:legislation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -89,10 +98,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-09-30T13:47:48Z",
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "San Francisco announced it will keep its Flock ALPR cameras but impose new access restrictions, requiring leadership approval and a tie to an active investigation for data queries, shortening Flock retention to 30 days (SFPD keeps a copy up to a year), and mandating regular audits by the Department of Police Accountability. DA Brooke Jenkins is also working with Assemblymember Matt Haney on state legislation to criminalize misuse of ALPR data.",
+  "key_quotes": [
+    {
+      "quote": "Under the new policy, officers will need approval from leadership and a connection to an active criminal investigation to search data tied to the city's network of automated license plate readers (ALPR).",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "The data will also be removed from Flock's platform after 30 days. San Francisco police will keep their own copy for up to a year.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "District Attorney Brooke Jenkins said she asked state Assemblymember Matt Haney to work on state legislation that would make it a crime for a police officer or anyone else to access ALPR data for personal or inappropriate reasons.",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-30T19:19:17Z",
   "article_id": "art_8d8512c5e934"
 }
