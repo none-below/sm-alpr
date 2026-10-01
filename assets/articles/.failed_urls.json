@@ -94,6 +94,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-15T01:25:48Z"
   },
+  "https://www.404media.co/how-cities-are-forced-to-funnel-license-plate-data-to-a-massive-federal-surveillance-program-hidta/": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.404media.co/how-cities-are-forced-to-funnel-license-plate-data-to-a-massive-federal-surveillance-program-hidta/\nCall log:\n  - navigating to \"https://www.404media.co/how-cities-are-forced-to-funnel-license-plate-data-to-a-massive-federal-surveillanc",
+    "last_attempt": "2026-10-01T18:53:54Z"
+  },
   "https://www.aclunc.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.aclunorcal.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them",
@@ -298,11 +303,6 @@
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-26T19:52:22Z"
-  },
-  "https://www.nbcbayarea.com/news/local/san-jose-protest-flock-camera-network/4151158/": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.nbcbayarea.com/news/local/san-jose-protest-flock-camera-network/4151158/\nCall log:\n  - navigating to \"https://www.nbcbayarea.com/news/local/san-jose-protest-flock-camera-network/4151158/\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-10-01T13:12:24Z"
   },
   "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-september-18/": {
     "attempts": 3,
