@@ -1,0 +1,4873 @@
+{
+ "case_ids": [
+  {
+   "by_source": {
+    "la_network": 48
+   },
+   "cad_date": "2025-04-01",
+   "categories": [],
+   "first_search": "2025-04-01T08:16:37Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 420.0,
+    "incident_date": "2025-04-01",
+    "incident_number": 202504010010,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2504010010",
+   "kind": "cad_event",
+   "last_search": "2025-04-01T11:44:14Z",
+   "multi_category": false,
+   "n_searches": 48,
+   "sample_reasons": [
+    "2504010010"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 46
+   },
+   "cad_date": "2024-06-26",
+   "categories": [],
+   "first_search": "2024-06-27T06:37:16Z",
+   "hydration": {
+    "incident_number": 202406260122,
+    "matched": false
+   },
+   "id": "2406260122",
+   "kind": "cad_event",
+   "last_search": "2024-06-27T06:48:08Z",
+   "multi_category": false,
+   "n_searches": 46,
+   "sample_reasons": [
+    "2406260122"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 16,
+    "rwc_network": 16
+   },
+   "categories": [],
+   "first_search": "2025-05-30T03:13:35Z",
+   "hydration": null,
+   "id": "25-00253",
+   "kind": "hyphen_case",
+   "last_search": "2025-05-30T03:17:43Z",
+   "multi_category": false,
+   "n_searches": 32,
+   "sample_reasons": [
+    "25-00253"
+   ],
+   "searchers": [
+    "C. Rey"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 21
+   },
+   "cad_date": "2024-06-25",
+   "categories": [],
+   "first_search": "2024-06-25T10:42:15Z",
+   "hydration": {
+    "incident_number": 202406250013,
+    "matched": false
+   },
+   "id": "2406250013",
+   "kind": "cad_event",
+   "last_search": "2024-06-25T11:31:10Z",
+   "multi_category": false,
+   "n_searches": 21,
+   "sample_reasons": [
+    "smpd inc 2406250013"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 19
+   },
+   "cad_date": "2024-07-13",
+   "categories": [],
+   "first_search": "2024-07-13T20:59:26Z",
+   "hydration": {
+    "incident_number": 202407130052,
+    "matched": false
+   },
+   "id": "2407130052",
+   "kind": "cad_event",
+   "last_search": "2024-07-13T23:08:06Z",
+   "multi_category": false,
+   "n_searches": 19,
+   "sample_reasons": [
+    "2407130052",
+    "inc #2407130052"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 17
+   },
+   "cad_date": "2024-11-02",
+   "categories": [],
+   "first_search": "2024-11-02T23:04:13Z",
+   "hydration": {
+    "incident_number": 202411020070,
+    "matched": false
+   },
+   "id": "2411020070",
+   "kind": "cad_event",
+   "last_search": "2024-11-03T01:29:43Z",
+   "multi_category": false,
+   "n_searches": 17,
+   "sample_reasons": [
+    "2411020070"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 16
+   },
+   "cad_date": "2024-07-21",
+   "categories": [],
+   "first_search": "2024-07-21T18:46:07Z",
+   "hydration": {
+    "incident_number": 202407210042,
+    "matched": false
+   },
+   "id": "2407210042",
+   "kind": "cad_event",
+   "last_search": "2024-07-21T20:33:41Z",
+   "multi_category": false,
+   "n_searches": 16,
+   "sample_reasons": [
+    "2407210042",
+    "HPD# 2407210042"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 15,
+    "rwc_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-03-11T13:41:19Z",
+   "hydration": null,
+   "id": "25-00629",
+   "kind": "hyphen_case",
+   "last_search": "2025-03-11T13:46:43Z",
+   "multi_category": false,
+   "n_searches": 16,
+   "sample_reasons": [
+    "BPD 1180",
+    "25-00629",
+    "BPD 25-00629"
+   ],
+   "searchers": [
+    "M. Gal"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 8,
+    "rwc_network": 8
+   },
+   "cad_date": "2025-01-12",
+   "categories": [],
+   "first_search": "2025-01-13T03:07:37Z",
+   "hydration": {
+    "call_type": "Burglary - Residential",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "2025-0020",
+     "crime_classification": "Felony",
+     "crime_type": "Burglary - Residential",
+     "offenses": [
+      "Burglary:first degree - All other larceny (F)"
+     ]
+    },
+    "gap_seconds": 1368.0,
+    "incident_date": "2025-01-12",
+    "incident_number": 202501120037,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2501120037",
+   "kind": "cad_event",
+   "last_search": "2025-01-13T03:49:02Z",
+   "multi_category": false,
+   "n_searches": 16,
+   "sample_reasons": [
+    "2501120037"
+   ],
+   "searchers": [
+    "C. Rey"
+   ]
+  },
+  {
+   "by_source": {
+    "rwc_network": 13
+   },
+   "categories": [],
+   "first_search": "2023-12-11T15:06:05Z",
+   "hydration": null,
+   "id": "23-0492",
+   "kind": "hyphen_case",
+   "last_search": "2023-12-11T17:11:15Z",
+   "multi_category": false,
+   "n_searches": 13,
+   "sample_reasons": [
+    "23-0492"
+   ],
+   "searchers": [
+    "C. Rey"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 13
+   },
+   "cad_date": "2024-11-02",
+   "categories": [],
+   "first_search": "2024-11-02T23:45:38Z",
+   "hydration": {
+    "incident_number": 202411020073,
+    "matched": false
+   },
+   "id": "2411020073",
+   "kind": "cad_event",
+   "last_search": "2024-11-03T01:20:10Z",
+   "multi_category": false,
+   "n_searches": 13,
+   "sample_reasons": [
+    "2411020073"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "rwc_network": 12
+   },
+   "cad_date": "2023-12-27",
+   "categories": [],
+   "first_search": "2023-12-28T00:30:47Z",
+   "hydration": {
+    "incident_number": 202312270037,
+    "matched": false
+   },
+   "id": "2312270037",
+   "kind": "cad_event",
+   "last_search": "2023-12-28T01:05:18Z",
+   "multi_category": false,
+   "n_searches": 12,
+   "sample_reasons": [
+    "2312270037.0",
+    "inc 2312270037"
+   ],
+   "searchers": [
+    ". Hpd",
+    "c. Gri"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 12
+   },
+   "categories": [],
+   "first_search": "2025-05-14T03:36:34Z",
+   "hydration": null,
+   "id": "25-0235",
+   "kind": "hyphen_case",
+   "last_search": "2025-05-14T03:42:09Z",
+   "multi_category": false,
+   "n_searches": 12,
+   "sample_reasons": [
+    "25-0235"
+   ],
+   "searchers": []
+  },
+  {
+   "agency_prefix": "SH",
+   "by_source": {
+    "la_network": 12
+   },
+   "categories": [],
+   "first_search": "2025-11-02T22:14:18Z",
+   "hydration": null,
+   "id": "SH25000078109",
+   "kind": "agency_rms",
+   "last_search": "2025-11-06T01:58:42Z",
+   "multi_category": false,
+   "n_searches": 12,
+   "sample_reasons": [
+    "SMCSO SH25000078109"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 10
+   },
+   "categories": [],
+   "first_search": "2024-11-05T01:45:39Z",
+   "hydration": null,
+   "id": "23-0145",
+   "kind": "hyphen_case",
+   "last_search": "2024-11-05T01:55:20Z",
+   "multi_category": false,
+   "n_searches": 10,
+   "sample_reasons": [
+    "23-0145"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 10
+   },
+   "cad_date": "2024-08-19",
+   "categories": [],
+   "first_search": "2024-08-20T03:54:20Z",
+   "hydration": {
+    "incident_number": 202408190095,
+    "matched": false
+   },
+   "id": "2408190095",
+   "kind": "cad_event",
+   "last_search": "2024-08-20T04:04:28Z",
+   "multi_category": false,
+   "n_searches": 10,
+   "sample_reasons": [
+    "HPD INC 2408190095"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 10
+   },
+   "cad_date": "2025-07-31",
+   "categories": [],
+   "first_search": "2025-07-31T21:13:42Z",
+   "hydration": {
+    "call_type": "Public Disturbance",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Report Taken",
+    "escalated_to_case": null,
+    "gap_seconds": 287.0,
+    "incident_date": "2025-07-31",
+    "incident_number": 202507310053,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2507310053",
+   "kind": "cad_event",
+   "last_search": "2025-07-31T21:42:36Z",
+   "multi_category": false,
+   "n_searches": 10,
+   "sample_reasons": [
+    "2507310053"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 10
+   },
+   "cad_date": "2025-09-07",
+   "categories": [],
+   "first_search": "2025-09-08T01:25:01Z",
+   "hydration": {
+    "incident_number": 202509070085,
+    "matched": false
+   },
+   "id": "2509070085",
+   "kind": "cad_event",
+   "last_search": "2025-09-08T17:21:37Z",
+   "multi_category": false,
+   "n_searches": 10,
+   "sample_reasons": [
+    "HPD INC 2509070085",
+    "2509070085",
+    "Hillsborough Police Incident: 2509070085"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 9
+   },
+   "cad_date": "2024-07-15",
+   "categories": [],
+   "first_search": "2024-07-16T04:13:32Z",
+   "hydration": {
+    "incident_number": 202407150085,
+    "matched": false
+   },
+   "id": "2407150085",
+   "kind": "cad_event",
+   "last_search": "2024-07-16T04:21:26Z",
+   "multi_category": false,
+   "n_searches": 9,
+   "sample_reasons": [
+    "HPD 2407150085"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 9
+   },
+   "cad_date": "2024-07-31",
+   "categories": [],
+   "first_search": "2024-07-31T23:59:01Z",
+   "hydration": {
+    "incident_number": 202407310070,
+    "matched": false
+   },
+   "id": "2407310070",
+   "kind": "cad_event",
+   "last_search": "2024-08-01T00:06:25Z",
+   "multi_category": false,
+   "n_searches": 9,
+   "sample_reasons": [
+    "2407310070"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 9
+   },
+   "cad_date": "2024-12-16",
+   "categories": [],
+   "first_search": "2024-12-16T18:25:07Z",
+   "hydration": {
+    "incident_number": 202412160016,
+    "matched": false
+   },
+   "id": "241216016",
+   "kind": "cad_event",
+   "last_search": "2024-12-16T18:58:32Z",
+   "multi_category": false,
+   "n_searches": 9,
+   "sample_reasons": [
+    "241216016"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 9
+   },
+   "cad_date": "2025-02-02",
+   "categories": [],
+   "first_search": "2025-02-02T09:55:37Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 780.0,
+    "incident_date": "2025-02-02",
+    "incident_number": 202502020002,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2502020002",
+   "kind": "cad_event",
+   "last_search": "2025-02-02T12:07:15Z",
+   "multi_category": false,
+   "n_searches": 9,
+   "sample_reasons": [
+    "HPD 2502020002",
+    "HPD INC 2502020002",
+    "INC: 2502020002"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 8
+   },
+   "cad_date": "2024-08-04",
+   "categories": [],
+   "first_search": "2024-08-05T00:39:36Z",
+   "hydration": {
+    "incident_number": 202408040031,
+    "matched": false
+   },
+   "id": "2408040031",
+   "kind": "cad_event",
+   "last_search": "2024-08-05T00:54:24Z",
+   "multi_category": false,
+   "n_searches": 8,
+   "sample_reasons": [
+    "2408040031"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 8
+   },
+   "cad_date": "2025-06-05",
+   "categories": [],
+   "first_search": "2025-06-05T18:50:07Z",
+   "hydration": {
+    "incident_number": 202506050109,
+    "matched": false
+   },
+   "id": "2506050109",
+   "kind": "cad_event",
+   "last_search": "2025-06-05T19:55:41Z",
+   "multi_category": false,
+   "n_searches": 8,
+   "sample_reasons": [
+    "SMPD 2506050109",
+    "SMPD INC 2506050109"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 8
+   },
+   "cad_date": "2025-07-31",
+   "categories": [],
+   "first_search": "2025-07-31T18:10:51Z",
+   "hydration": {
+    "incident_number": 202507310048,
+    "matched": false
+   },
+   "id": "2507310048",
+   "kind": "cad_event",
+   "last_search": "2025-07-31T18:14:00Z",
+   "multi_category": false,
+   "n_searches": 8,
+   "sample_reasons": [
+    "2507310048"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 7
+   },
+   "cad_date": "2024-06-17",
+   "categories": [],
+   "first_search": "2024-06-17T09:59:44Z",
+   "hydration": {
+    "incident_number": 202406170013,
+    "matched": false
+   },
+   "id": "2406170013",
+   "kind": "cad_event",
+   "last_search": "2024-06-17T10:06:54Z",
+   "multi_category": false,
+   "n_searches": 7,
+   "sample_reasons": [
+    "SBPD INC 2406170013"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 7
+   },
+   "cad_date": "2024-06-24",
+   "categories": [],
+   "first_search": "2024-06-24T14:51:13Z",
+   "hydration": {
+    "incident_number": 202406240024,
+    "matched": false
+   },
+   "id": "2406240024",
+   "kind": "cad_event",
+   "last_search": "2024-06-24T16:43:24Z",
+   "multi_category": false,
+   "n_searches": 7,
+   "sample_reasons": [
+    "2406240024",
+    "HPD INC 2406240024"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 7
+   },
+   "cad_date": "2025-02-24",
+   "categories": [],
+   "first_search": "2025-02-24T08:30:44Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Detail Complete",
+    "escalated_to_case": null,
+    "gap_seconds": 276.0,
+    "incident_date": "2025-02-24",
+    "incident_number": 202502240011,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2502240011",
+   "kind": "cad_event",
+   "last_search": "2025-02-24T08:35:26Z",
+   "multi_category": false,
+   "n_searches": 7,
+   "sample_reasons": [
+    "hpd inc 2502240011"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 7
+   },
+   "cad_date": "2025-05-29",
+   "categories": [],
+   "first_search": "2025-05-29T23:20:12Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 418.0,
+    "incident_date": "2025-05-29",
+    "incident_number": 202505290083,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2505290083",
+   "kind": "cad_event",
+   "last_search": "2025-05-29T23:33:41Z",
+   "multi_category": false,
+   "n_searches": 7,
+   "sample_reasons": [
+    "2505290083"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 6
+   },
+   "cad_date": "2024-10-23",
+   "categories": [],
+   "first_search": "2024-10-23T11:15:22Z",
+   "hydration": {
+    "incident_number": 202410230027,
+    "matched": false
+   },
+   "id": "2410230027",
+   "kind": "cad_event",
+   "last_search": "2024-10-23T11:29:37Z",
+   "multi_category": false,
+   "n_searches": 6,
+   "sample_reasons": [
+    "SMPD 2410230027",
+    "2410230027"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 6
+   },
+   "cad_date": "2024-11-04",
+   "categories": [],
+   "first_search": "2024-11-04T10:20:02Z",
+   "hydration": {
+    "incident_number": 202411040015,
+    "matched": false
+   },
+   "id": "2411040015",
+   "kind": "cad_event",
+   "last_search": "2024-11-04T10:22:53Z",
+   "multi_category": false,
+   "n_searches": 6,
+   "sample_reasons": [
+    "sbpd 2411040015"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 6
+   },
+   "cad_date": "2024-11-15",
+   "categories": [],
+   "first_search": "2024-11-15T11:02:13Z",
+   "hydration": {
+    "incident_number": 202411150001,
+    "matched": false
+   },
+   "id": "2411150001",
+   "kind": "cad_event",
+   "last_search": "2024-11-15T16:09:23Z",
+   "multi_category": false,
+   "n_searches": 6,
+   "sample_reasons": [
+    "inc: 2411150001",
+    "2411150001"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 6
+   },
+   "cad_date": "2024-12-16",
+   "categories": [],
+   "first_search": "2024-12-16T18:05:41Z",
+   "hydration": {
+    "incident_number": 202412160016,
+    "matched": false
+   },
+   "id": "2412160016",
+   "kind": "cad_event",
+   "last_search": "2024-12-16T18:20:36Z",
+   "multi_category": false,
+   "n_searches": 6,
+   "sample_reasons": [
+    "2412160016"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2,
+    "rwc_network": 4
+   },
+   "cad_date": "2025-06-05",
+   "categories": [],
+   "first_search": "2025-06-05T20:46:51Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Assistance Rendered",
+    "escalated_to_case": {
+     "case_disposition": "U",
+     "case_number": "2025-0266",
+     "crime_classification": null,
+     "crime_type": "Disturbance",
+     "offenses": [
+      "Suspicious Circumstances"
+     ]
+    },
+    "gap_seconds": 433.0,
+    "incident_date": "2025-06-05",
+    "incident_number": 202506050042,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2506050042",
+   "kind": "cad_event",
+   "last_search": "2025-06-05T20:49:07Z",
+   "multi_category": false,
+   "n_searches": 6,
+   "sample_reasons": [
+    "investigation",
+    "2506050042"
+   ],
+   "searchers": [
+    "c. Gri"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 6
+   },
+   "cad_date": "2025-07-31",
+   "categories": [],
+   "first_search": "2025-07-31T17:59:51Z",
+   "hydration": {
+    "incident_number": 202507310047,
+    "matched": false
+   },
+   "id": "2507310047",
+   "kind": "cad_event",
+   "last_search": "2025-07-31T18:00:40Z",
+   "multi_category": false,
+   "n_searches": 6,
+   "sample_reasons": [
+    "2507310047"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 6
+   },
+   "cad_date": "2025-09-10",
+   "categories": [],
+   "first_search": "2025-09-11T06:01:41Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 862.0,
+    "incident_date": "2025-09-10",
+    "incident_number": 202509100073,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2509100073",
+   "kind": "cad_event",
+   "last_search": "2025-09-11T09:16:29Z",
+   "multi_category": false,
+   "n_searches": 6,
+   "sample_reasons": [
+    "664 460",
+    "2509100073"
+   ],
+   "searchers": []
+  },
+  {
+   "agency_prefix": "DP",
+   "by_source": {
+    "la_network": 6
+   },
+   "categories": [],
+   "first_search": "2024-11-21T09:02:56Z",
+   "hydration": null,
+   "id": "DP24000052910",
+   "kind": "agency_rms",
+   "last_search": "2024-11-21T10:39:46Z",
+   "multi_category": false,
+   "n_searches": 6,
+   "sample_reasons": [
+    "DCPD DP24000052910"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "categories": [],
+   "first_search": "2024-06-23T20:44:06Z",
+   "hydration": null,
+   "id": "24-00269",
+   "kind": "hyphen_case",
+   "last_search": "2024-06-23T21:07:35Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "24-00269"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "categories": [],
+   "first_search": "2024-07-01T13:47:47Z",
+   "hydration": null,
+   "id": "24-0278",
+   "kind": "hyphen_case",
+   "last_search": "2024-07-01T17:00:16Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "24-0278"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "categories": [],
+   "first_search": "2024-08-10T22:08:29Z",
+   "hydration": null,
+   "id": "24-0335",
+   "kind": "hyphen_case",
+   "last_search": "2024-08-10T22:10:24Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "24-0335"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2024-08-21",
+   "categories": [],
+   "first_search": "2024-08-21T19:03:43Z",
+   "hydration": {
+    "incident_number": 202408210050,
+    "matched": false
+   },
+   "id": "2408210050",
+   "kind": "cad_event",
+   "last_search": "2024-08-21T19:18:44Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "2408210050"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2024-11-06",
+   "categories": [],
+   "first_search": "2024-11-07T04:11:52Z",
+   "hydration": {
+    "incident_number": 202411060055,
+    "matched": false
+   },
+   "id": "2411060055",
+   "kind": "cad_event",
+   "last_search": "2024-11-07T04:16:38Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "2411060055"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2024-11-15",
+   "categories": [],
+   "first_search": "2024-11-15T16:16:55Z",
+   "hydration": {
+    "incident_number": 202411150018,
+    "matched": false
+   },
+   "id": "2411150018",
+   "kind": "cad_event",
+   "last_search": "2024-11-15T16:17:59Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "INCIDENT 2411150018"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2024-12-08",
+   "categories": [],
+   "first_search": "2024-12-09T02:11:35Z",
+   "hydration": {
+    "incident_number": 202412080020,
+    "matched": false
+   },
+   "id": "2412080020",
+   "kind": "cad_event",
+   "last_search": "2024-12-09T02:12:59Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "2412080020"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2024-12-11",
+   "categories": [],
+   "first_search": "2024-12-11T20:16:58Z",
+   "hydration": {
+    "incident_number": 202412110038,
+    "matched": false
+   },
+   "id": "2412110038",
+   "kind": "cad_event",
+   "last_search": "2024-12-11T20:22:35Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "2412110038",
+    "INC 2412110038"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2024-12-17",
+   "categories": [],
+   "first_search": "2024-12-19T06:06:08Z",
+   "hydration": {
+    "incident_number": 202412170085,
+    "matched": false
+   },
+   "id": "2412170085",
+   "kind": "cad_event",
+   "last_search": "2024-12-19T06:07:17Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "2412170085"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2025-05-01",
+   "categories": [],
+   "first_search": "2025-05-01T21:30:57Z",
+   "hydration": {
+    "incident_number": 202505010142,
+    "matched": false
+   },
+   "id": "2505010142",
+   "kind": "cad_event",
+   "last_search": "2025-05-01T21:31:31Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "SSFPD 2505010142"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2025-08-22",
+   "categories": [],
+   "first_search": "2025-08-22T20:22:44Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 350.0,
+    "incident_date": "2025-08-22",
+    "incident_number": 202508220065,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2508220065",
+   "kind": "cad_event",
+   "last_search": "2025-08-22T20:27:27Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "2508220065"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2025-11-05",
+   "categories": [],
+   "first_search": "2025-11-06T03:16:29Z",
+   "hydration": {
+    "incident_number": 202511050076,
+    "matched": false
+   },
+   "id": "2511050076",
+   "kind": "cad_event",
+   "last_search": "2025-11-06T10:26:51Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "BOL prowling",
+    "BOL"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 5
+   },
+   "cad_date": "2025-11-30",
+   "categories": [],
+   "first_search": "2025-11-30T21:04:41Z",
+   "hydration": {
+    "incident_number": 202511300072,
+    "matched": false
+   },
+   "id": "2511300072",
+   "kind": "cad_event",
+   "last_search": "2025-11-30T21:17:11Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "2511300072"
+   ],
+   "searchers": []
+  },
+  {
+   "agency_prefix": "DP",
+   "by_source": {
+    "la_network": 5
+   },
+   "categories": [],
+   "first_search": "2025-05-25T23:55:56Z",
+   "hydration": null,
+   "id": "DP25000023453",
+   "kind": "agency_rms",
+   "last_search": "2025-05-25T23:57:51Z",
+   "multi_category": false,
+   "n_searches": 5,
+   "sample_reasons": [
+    "DCPD DP25000023453"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "rwc_network": 4
+   },
+   "categories": [],
+   "first_search": "2023-12-16T02:10:27Z",
+   "hydration": null,
+   "id": "23-0495",
+   "kind": "hyphen_case",
+   "last_search": "2023-12-28T00:54:57Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "23-0495"
+   ],
+   "searchers": [
+    "C. Rey"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 4
+   },
+   "categories": [],
+   "first_search": "2024-11-19T09:16:25Z",
+   "hydration": null,
+   "id": "24-110373",
+   "kind": "hyphen_case",
+   "last_search": "2024-11-19T09:17:49Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "RCPD 24-110373"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 4
+   },
+   "cad_date": "2024-09-26",
+   "categories": [],
+   "first_search": "2024-09-26T19:16:13Z",
+   "hydration": {
+    "incident_number": 202409260029,
+    "matched": false
+   },
+   "id": "2409260029",
+   "kind": "cad_event",
+   "last_search": "2024-09-26T19:21:30Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "2409260029"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 4
+   },
+   "cad_date": "2024-11-11",
+   "categories": [],
+   "first_search": "2024-11-12T05:06:25Z",
+   "hydration": {
+    "incident_number": 202411110167,
+    "matched": false
+   },
+   "id": "2411110167",
+   "kind": "cad_event",
+   "last_search": "2024-11-12T05:06:45Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "RPD 2411110167",
+    "RCPD 2411110167"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 4
+   },
+   "cad_date": "2024-12-17",
+   "categories": [],
+   "first_search": "2024-12-17T18:13:33Z",
+   "hydration": {
+    "incident_number": 202412170039,
+    "matched": false
+   },
+   "id": "2412170039",
+   "kind": "cad_event",
+   "last_search": "2024-12-17T19:46:43Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "2412170039"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2,
+    "rwc_network": 2
+   },
+   "categories": [],
+   "first_search": "2025-01-13T04:13:30Z",
+   "hydration": null,
+   "id": "25-00020",
+   "kind": "hyphen_case",
+   "last_search": "2025-01-13T04:13:45Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "HPD 25-00020"
+   ],
+   "searchers": [
+    "M. Rod"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 2,
+    "rwc_network": 2
+   },
+   "categories": [],
+   "first_search": "2025-01-07T03:23:39Z",
+   "hydration": null,
+   "id": "25-00113",
+   "kind": "hyphen_case",
+   "last_search": "2025-01-07T03:23:43Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "SMCSO 25-00113"
+   ],
+   "searchers": [
+    "M. Rod"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 2,
+    "rwc_network": 2
+   },
+   "cad_date": "2025-01-01",
+   "categories": [],
+   "first_search": "2025-01-01T13:35:41Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Detail Complete",
+    "escalated_to_case": null,
+    "gap_seconds": 770.0,
+    "incident_date": "2025-01-01",
+    "incident_number": 202501010024,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2501010024",
+   "kind": "cad_event",
+   "last_search": "2025-01-01T13:35:48Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "INC 2501010024"
+   ],
+   "searchers": [
+    ". Hpd"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 2,
+    "rwc_network": 2
+   },
+   "cad_date": "2025-01-14",
+   "categories": [],
+   "first_search": "2025-01-14T21:15:04Z",
+   "hydration": {
+    "incident_number": 202501140006,
+    "matched": false
+   },
+   "id": "250114006",
+   "kind": "cad_event",
+   "last_search": "2025-01-14T21:17:36Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "SMPD 25-0114006"
+   ],
+   "searchers": [
+    "M. Rod"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 4
+   },
+   "cad_date": "2025-04-22",
+   "categories": [],
+   "first_search": "2025-04-22T07:57:28Z",
+   "hydration": {
+    "incident_number": 202504220001,
+    "matched": false
+   },
+   "id": "2504220001",
+   "kind": "cad_event",
+   "last_search": "2025-04-22T08:09:26Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "inc. 2504220001"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 4
+   },
+   "cad_date": "2025-05-11",
+   "categories": [],
+   "first_search": "2025-05-11T18:57:23Z",
+   "hydration": {
+    "incident_number": 202505110002,
+    "matched": false
+   },
+   "id": "250511002",
+   "kind": "cad_event",
+   "last_search": "2025-05-11T19:05:28Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "SMPD 25-0511002"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 4
+   },
+   "cad_date": "2025-07-29",
+   "categories": [],
+   "first_search": "2025-07-29T16:34:00Z",
+   "hydration": {
+    "call_type": "Traffic Incident",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Detail Complete",
+    "escalated_to_case": null,
+    "gap_seconds": 166.0,
+    "incident_date": "2025-07-29",
+    "incident_number": 202507290027,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2507290027",
+   "kind": "cad_event",
+   "last_search": "2025-07-29T16:35:01Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "Investigation"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 4
+   },
+   "cad_date": "2025-09-03",
+   "categories": [],
+   "first_search": "2025-09-03T15:47:36Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 1274.0,
+    "incident_date": "2025-09-03",
+    "incident_number": 202509030023,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2509030023",
+   "kind": "cad_event",
+   "last_search": "2025-09-03T23:23:05Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "2509030023"
+   ],
+   "searchers": []
+  },
+  {
+   "agency_prefix": "SH",
+   "by_source": {
+    "la_network": 4
+   },
+   "categories": [],
+   "first_search": "2024-07-02T09:52:49Z",
+   "hydration": null,
+   "id": "SH24000048615",
+   "kind": "agency_rms",
+   "last_search": "2024-07-02T10:13:00Z",
+   "multi_category": false,
+   "n_searches": 4,
+   "sample_reasons": [
+    "SMCSO INC SH24000048615"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "rwc_network": 3
+   },
+   "categories": [],
+   "first_search": "2023-12-21T16:29:27Z",
+   "hydration": null,
+   "id": "23-03391",
+   "kind": "hyphen_case",
+   "last_search": "2023-12-21T20:38:01Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "PPD 23-03391",
+    "PPD Case# 23-03391"
+   ],
+   "searchers": [
+    "G. Che",
+    "M. Gal"
+   ]
+  },
+  {
+   "by_source": {
+    "rwc_network": 3
+   },
+   "cad_date": "2023-12-21",
+   "categories": [],
+   "first_search": "2023-12-21T20:56:17Z",
+   "hydration": {
+    "incident_number": 202312210053,
+    "matched": false
+   },
+   "id": "2312210053",
+   "kind": "cad_event",
+   "last_search": "2023-12-21T20:56:32Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2312210053.0"
+   ],
+   "searchers": [
+    "J. Ort"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "categories": [],
+   "first_search": "2024-12-09T21:43:44Z",
+   "hydration": null,
+   "id": "24-0538",
+   "kind": "hyphen_case",
+   "last_search": "2024-12-09T21:44:57Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "24-0538"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "categories": [],
+   "first_search": "2024-09-02T08:00:59Z",
+   "hydration": null,
+   "id": "24-06464",
+   "kind": "hyphen_case",
+   "last_search": "2024-09-02T08:01:47Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "24-06464"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "categories": [],
+   "first_search": "2024-11-04T05:59:09Z",
+   "hydration": null,
+   "id": "24-08278",
+   "kind": "hyphen_case",
+   "last_search": "2024-11-04T05:59:24Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "SMCSO 24-08278"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2024-06-23",
+   "categories": [],
+   "first_search": "2024-06-23T19:58:58Z",
+   "hydration": {
+    "incident_number": 202406230049,
+    "matched": false
+   },
+   "id": "2406230049",
+   "kind": "cad_event",
+   "last_search": "2024-06-23T20:42:42Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2406230049"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2024-07-20",
+   "categories": [],
+   "first_search": "2024-07-23T11:11:25Z",
+   "hydration": {
+    "incident_number": 202407200041,
+    "matched": false
+   },
+   "id": "240720041",
+   "kind": "cad_event",
+   "last_search": "2024-07-23T11:11:50Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "240720041"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2024-08-06",
+   "categories": [],
+   "first_search": "2024-08-07T05:51:34Z",
+   "hydration": {
+    "incident_number": 202408060098,
+    "matched": false
+   },
+   "id": "2408060098",
+   "kind": "cad_event",
+   "last_search": "2024-08-07T06:07:03Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "HPD 2408060098"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2024-08-19",
+   "categories": [],
+   "first_search": "2024-08-20T03:50:29Z",
+   "hydration": {
+    "incident_number": 202408190005,
+    "matched": false
+   },
+   "id": "240819005",
+   "kind": "cad_event",
+   "last_search": "2024-08-20T03:51:39Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "SMPD 240819005"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2024-09-17",
+   "categories": [],
+   "first_search": "2024-09-18T05:45:26Z",
+   "hydration": {
+    "incident_number": 202409170051,
+    "matched": false
+   },
+   "id": "2409170051",
+   "kind": "cad_event",
+   "last_search": "2024-09-18T05:54:10Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2409170051"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2024-09-28",
+   "categories": [],
+   "first_search": "2024-09-28T20:15:23Z",
+   "hydration": {
+    "incident_number": 202409280101,
+    "matched": false
+   },
+   "id": "2409280101",
+   "kind": "cad_event",
+   "last_search": "2024-09-28T20:17:34Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2409280101"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2024-10-18",
+   "categories": [],
+   "first_search": "2024-10-18T20:02:40Z",
+   "hydration": {
+    "incident_number": 202410180054,
+    "matched": false
+   },
+   "id": "2410180054",
+   "kind": "cad_event",
+   "last_search": "2024-10-18T20:16:28Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2410180054"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2024-11-13",
+   "categories": [],
+   "first_search": "2024-11-13T11:20:30Z",
+   "hydration": {
+    "incident_number": 202411130040,
+    "matched": false
+   },
+   "id": "2411130040",
+   "kind": "cad_event",
+   "last_search": "2024-11-13T11:20:43Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "SSF INC 2411130040"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2024-11-26",
+   "categories": [],
+   "first_search": "2024-11-26T20:53:13Z",
+   "hydration": {
+    "incident_number": 202411260013,
+    "matched": false
+   },
+   "id": "2411260013",
+   "kind": "cad_event",
+   "last_search": "2024-11-26T20:55:05Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2411260013"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "categories": [],
+   "first_search": "2025-02-23T04:51:20Z",
+   "hydration": null,
+   "id": "25-0104",
+   "kind": "hyphen_case",
+   "last_search": "2025-02-23T04:55:17Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "25-0104"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "categories": [],
+   "first_search": "2025-05-11T16:30:25Z",
+   "hydration": null,
+   "id": "25-0228",
+   "kind": "hyphen_case",
+   "last_search": "2025-05-11T17:16:45Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "HPD 25-0228"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2,
+    "rwc_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-04-29T21:20:36Z",
+   "hydration": null,
+   "id": "25-03099",
+   "kind": "hyphen_case",
+   "last_search": "2025-04-29T21:28:40Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "25-03099"
+   ],
+   "searchers": [
+    "C. Rey"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2025-02-18",
+   "categories": [],
+   "first_search": "2025-02-18T23:24:28Z",
+   "hydration": {
+    "call_type": "Citizen Assist",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Assistance Rendered",
+    "escalated_to_case": null,
+    "gap_seconds": 941.0,
+    "incident_date": "2025-02-18",
+    "incident_number": 202502180044,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2502180044",
+   "kind": "cad_event",
+   "last_search": "2025-02-18T23:27:23Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2502180044"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2025-05-09",
+   "categories": [],
+   "first_search": "2025-05-10T00:40:38Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Information only",
+    "escalated_to_case": null,
+    "gap_seconds": 221.0,
+    "incident_date": "2025-05-09",
+    "incident_number": 202505090047,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2505090047",
+   "kind": "cad_event",
+   "last_search": "2025-05-10T00:41:02Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2505090047"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2025-05-11",
+   "categories": [],
+   "first_search": "2025-05-11T19:56:29Z",
+   "hydration": {
+    "incident_number": 202505110088,
+    "matched": false
+   },
+   "id": "2505110088",
+   "kind": "cad_event",
+   "last_search": "2025-05-11T20:02:14Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "SBPD 2505110088"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2025-06-02",
+   "categories": [],
+   "first_search": "2025-06-02T22:27:46Z",
+   "hydration": {
+    "incident_number": 202506020148,
+    "matched": false
+   },
+   "id": "2506020148",
+   "kind": "cad_event",
+   "last_search": "2025-06-02T22:28:36Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "SNB INC 2506020148"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2025-06-14",
+   "categories": [],
+   "first_search": "2025-07-18T21:44:07Z",
+   "hydration": {
+    "incident_number": 202506140059,
+    "matched": false
+   },
+   "id": "2506140059",
+   "kind": "cad_event",
+   "last_search": "2025-07-18T21:46:04Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2506140059"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2025-07-03",
+   "categories": [],
+   "first_search": "2025-07-03T20:17:54Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Detail Complete",
+    "escalated_to_case": null,
+    "gap_seconds": 328.0,
+    "incident_date": "2025-07-03",
+    "incident_number": 202507030039,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2507030039",
+   "kind": "cad_event",
+   "last_search": "2025-07-03T20:22:44Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2507030039"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2025-09-03",
+   "categories": [],
+   "first_search": "2025-09-03T23:23:40Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 225.0,
+    "incident_date": "2025-09-03",
+    "incident_number": 202509030058,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2509030058",
+   "kind": "cad_event",
+   "last_search": "2025-09-08T18:09:10Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2509030058"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2025-09-07",
+   "categories": [],
+   "first_search": "2025-09-08T01:45:10Z",
+   "hydration": {
+    "call_type": "Alarm",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Alarm - No Cite",
+    "escalated_to_case": null,
+    "gap_seconds": 313.0,
+    "incident_date": "2025-09-07",
+    "incident_number": 202509070086,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2509070086",
+   "kind": "cad_event",
+   "last_search": "2025-09-08T01:47:23Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "2509070086",
+    "250907086"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 3
+   },
+   "cad_date": "2025-11-20",
+   "categories": [],
+   "first_search": "2025-11-21T01:07:33Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "2025-0525",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Theft",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
+    "gap_seconds": 474.0,
+    "incident_date": "2025-11-20",
+    "incident_number": 202511200045,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2511200045",
+   "kind": "cad_event",
+   "last_search": "2025-11-21T01:48:33Z",
+   "multi_category": false,
+   "n_searches": 3,
+   "sample_reasons": [
+    "stolen",
+    "2511200045"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "categories": [],
+   "first_search": "2024-11-07T04:38:21Z",
+   "hydration": null,
+   "id": "24-00486",
+   "kind": "hyphen_case",
+   "last_search": "2024-11-07T04:40:13Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "24-00486"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "categories": [],
+   "first_search": "2024-06-24T20:28:24Z",
+   "hydration": null,
+   "id": "24-0271",
+   "kind": "hyphen_case",
+   "last_search": "2024-06-24T20:29:14Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "24-0271"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "categories": [],
+   "first_search": "2024-07-24T09:52:27Z",
+   "hydration": null,
+   "id": "24-0317",
+   "kind": "hyphen_case",
+   "last_search": "2024-07-24T09:52:49Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "HPD 24-0317"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "categories": [],
+   "first_search": "2024-08-27T20:21:22Z",
+   "hydration": null,
+   "id": "24-05473",
+   "kind": "hyphen_case",
+   "last_search": "2024-08-27T20:25:14Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SO 24-05473"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "categories": [],
+   "first_search": "2024-09-25T01:45:25Z",
+   "hydration": null,
+   "id": "24-4516",
+   "kind": "hyphen_case",
+   "last_search": "2024-09-25T01:47:08Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "24-4516"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-05-08",
+   "categories": [],
+   "first_search": "2024-05-09T04:09:56Z",
+   "hydration": {
+    "incident_number": 202405080055,
+    "matched": false
+   },
+   "id": "2405080055",
+   "kind": "cad_event",
+   "last_search": "2024-05-09T04:20:03Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2405080055"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-06-13",
+   "categories": [],
+   "first_search": "2024-06-13T22:07:30Z",
+   "hydration": {
+    "incident_number": 202406130041,
+    "matched": false
+   },
+   "id": "2406130041",
+   "kind": "cad_event",
+   "last_search": "2024-06-13T22:07:51Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2406130041"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-06-18",
+   "categories": [],
+   "first_search": "2024-06-18T11:46:39Z",
+   "hydration": {
+    "incident_number": 202406180026,
+    "matched": false
+   },
+   "id": "2406180026",
+   "kind": "cad_event",
+   "last_search": "2024-06-18T11:48:59Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SMPD 2406180026"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-06-19",
+   "categories": [],
+   "first_search": "2024-06-19T10:20:47Z",
+   "hydration": {
+    "incident_number": 202406190013,
+    "matched": false
+   },
+   "id": "2406190013",
+   "kind": "cad_event",
+   "last_search": "2024-06-19T10:22:12Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2406190013"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-06-23",
+   "categories": [],
+   "first_search": "2024-06-23T20:42:40Z",
+   "hydration": {
+    "incident_number": 202406230051,
+    "matched": false
+   },
+   "id": "2406230051",
+   "kind": "cad_event",
+   "last_search": "2024-06-23T20:43:19Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2406230051"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-06-23",
+   "categories": [],
+   "first_search": "2024-06-24T07:07:46Z",
+   "hydration": {
+    "incident_number": 202406230085,
+    "matched": false
+   },
+   "id": "2406230085",
+   "kind": "cad_event",
+   "last_search": "2024-06-24T07:07:50Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2406230085"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-06-23",
+   "categories": [],
+   "first_search": "2024-06-23T20:44:27Z",
+   "hydration": {
+    "incident_number": 202406230001,
+    "matched": false
+   },
+   "id": "24062301",
+   "kind": "cad_event",
+   "last_search": "2024-06-23T21:22:19Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "24062301"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-07-01",
+   "categories": [],
+   "first_search": "2024-07-01T11:33:13Z",
+   "hydration": {
+    "incident_number": 202407010034,
+    "matched": false
+   },
+   "id": "2407010034",
+   "kind": "cad_event",
+   "last_search": "2024-07-01T11:33:19Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2407010034"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-08-12",
+   "categories": [],
+   "first_search": "2024-08-12T11:28:15Z",
+   "hydration": {
+    "incident_number": 202408120042,
+    "matched": false
+   },
+   "id": "2408120042",
+   "kind": "cad_event",
+   "last_search": "2024-08-12T11:28:23Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2408120042"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-09-19",
+   "categories": [],
+   "first_search": "2024-09-19T23:22:59Z",
+   "hydration": {
+    "incident_number": 202409190045,
+    "matched": false
+   },
+   "id": "2409190045",
+   "kind": "cad_event",
+   "last_search": "2024-09-19T23:27:21Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "INC 2409190045"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-10-23",
+   "categories": [],
+   "first_search": "2024-10-24T03:17:21Z",
+   "hydration": {
+    "incident_number": 202410230238,
+    "matched": false
+   },
+   "id": "2410230238",
+   "kind": "cad_event",
+   "last_search": "2024-10-24T03:17:26Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SBPD 2410230238"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-11-10",
+   "categories": [],
+   "first_search": "2024-11-11T05:10:19Z",
+   "hydration": {
+    "incident_number": 202411100012,
+    "matched": false
+   },
+   "id": "241110012",
+   "kind": "cad_event",
+   "last_search": "2024-11-11T05:33:53Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SMPD 24-1110012"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-11-20",
+   "categories": [],
+   "first_search": "2024-11-21T06:59:57Z",
+   "hydration": {
+    "incident_number": 202411200095,
+    "matched": false
+   },
+   "id": "2411200095",
+   "kind": "cad_event",
+   "last_search": "2024-11-21T07:00:09Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2411200095"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-11-21",
+   "categories": [],
+   "first_search": "2024-11-21T19:14:52Z",
+   "hydration": {
+    "incident_number": 202411210049,
+    "matched": false
+   },
+   "id": "2411210049",
+   "kind": "cad_event",
+   "last_search": "2024-11-21T19:35:04Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2411210049"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-11-25",
+   "categories": [],
+   "first_search": "2024-11-25T11:37:11Z",
+   "hydration": {
+    "incident_number": 202411250003,
+    "matched": false
+   },
+   "id": "2411250003",
+   "kind": "cad_event",
+   "last_search": "2024-11-25T11:37:36Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "HPD INC 2411250003"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-12-10",
+   "categories": [],
+   "first_search": "2024-12-11T04:15:09Z",
+   "hydration": {
+    "incident_number": 202412100223,
+    "matched": false
+   },
+   "id": "2412100223",
+   "kind": "cad_event",
+   "last_search": "2024-12-11T05:48:53Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SMPD INC 2412100223"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-12-19",
+   "categories": [],
+   "first_search": "2024-12-19T12:26:21Z",
+   "hydration": {
+    "incident_number": 202412190026,
+    "matched": false
+   },
+   "id": "2412190026",
+   "kind": "cad_event",
+   "last_search": "2024-12-19T12:33:44Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SMPD 2412190026"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2024-12-26",
+   "categories": [],
+   "first_search": "2024-12-26T15:04:37Z",
+   "hydration": {
+    "incident_number": 202412260027,
+    "matched": false
+   },
+   "id": "2412260027",
+   "kind": "cad_event",
+   "last_search": "2024-12-26T15:10:33Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2412260027"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "categories": [],
+   "first_search": "2025-11-30T00:17:21Z",
+   "hydration": null,
+   "id": "25-00554",
+   "kind": "hyphen_case",
+   "last_search": "2025-11-30T00:19:38Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "atherton burg sus vehicle"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "categories": [],
+   "first_search": "2025-05-11T15:29:23Z",
+   "hydration": null,
+   "id": "25-01172",
+   "kind": "hyphen_case",
+   "last_search": "2025-05-11T15:29:26Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "BPD 25-01172"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "categories": [],
+   "first_search": "2025-09-08T22:28:47Z",
+   "hydration": null,
+   "id": "25-06680",
+   "kind": "hyphen_case",
+   "last_search": "2025-09-08T22:29:17Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SMC",
+    "SMC case 25-06680"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1,
+    "rwc_network": 1
+   },
+   "cad_date": "2025-01-09",
+   "categories": [],
+   "first_search": "2025-01-10T00:33:41Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 1604.0,
+    "incident_date": "2025-01-09",
+    "incident_number": 202501090039,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2501090039",
+   "kind": "cad_event",
+   "last_search": "2025-01-10T00:33:41Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2501090039"
+   ],
+   "searchers": [
+    ". Hpd"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 1,
+    "rwc_network": 1
+   },
+   "cad_date": "2025-01-11",
+   "categories": [],
+   "first_search": "2025-01-11T15:55:37Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Checks Clear",
+    "escalated_to_case": null,
+    "gap_seconds": 632.0,
+    "incident_date": "2025-01-11",
+    "incident_number": 202501110024,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2501110024",
+   "kind": "cad_event",
+   "last_search": "2025-01-11T15:55:37Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2501110024"
+   ],
+   "searchers": [
+    ". Hpd"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-01-20",
+   "categories": [],
+   "first_search": "2025-01-20T16:30:39Z",
+   "hydration": {
+    "incident_number": 202501200057,
+    "matched": false
+   },
+   "id": "2501200057",
+   "kind": "cad_event",
+   "last_search": "2025-01-20T16:30:47Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SMPD 2501200057"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-01-22",
+   "categories": [],
+   "first_search": "2025-01-23T00:42:07Z",
+   "hydration": {
+    "incident_number": 202501220053,
+    "matched": false
+   },
+   "id": "2501220053",
+   "kind": "cad_event",
+   "last_search": "2025-01-23T00:42:33Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2501220053"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-01-24",
+   "categories": [],
+   "first_search": "2025-01-24T16:15:32Z",
+   "hydration": {
+    "incident_number": 202501240027,
+    "matched": false
+   },
+   "id": "2501240027",
+   "kind": "cad_event",
+   "last_search": "2025-01-24T16:15:44Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2501240027"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-01-25",
+   "categories": [],
+   "first_search": "2025-01-26T09:00:35Z",
+   "hydration": {
+    "call_type": "Traffic Stop",
+    "city": "Hillsborough",
+    "confidence": "same_day",
+    "disposition": "Warning Issued - Verbal",
+    "escalated_to_case": null,
+    "gap_seconds": 85606.0,
+    "incident_date": "2025-01-25",
+    "incident_number": 202501250023,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2501250023",
+   "kind": "cad_event",
+   "last_search": "2025-01-26T09:01:02Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "Incident 2501250023"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-02-03",
+   "categories": [],
+   "first_search": "2025-02-03T23:11:34Z",
+   "hydration": {
+    "incident_number": 202502030172,
+    "matched": false
+   },
+   "id": "2502030172",
+   "kind": "cad_event",
+   "last_search": "2025-02-03T23:14:58Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SMPD 2502030172"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-02-22",
+   "categories": [],
+   "first_search": "2025-02-23T02:03:06Z",
+   "hydration": {
+    "call_type": "Assaults",
+    "city": "Hillsborough",
+    "confidence": "same_day",
+    "disposition": "Report Taken",
+    "escalated_to_case": null,
+    "gap_seconds": 8011.0,
+    "incident_date": "2025-02-22",
+    "incident_number": 202502220057,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2502220057",
+   "kind": "cad_event",
+   "last_search": "2025-02-23T02:03:50Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "INC 2502220057"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-03-05",
+   "categories": [],
+   "first_search": "2025-03-05T19:43:28Z",
+   "hydration": {
+    "call_type": "Public Disturbance",
+    "city": "Hillsborough",
+    "confidence": "same_day",
+    "disposition": "Report Taken",
+    "escalated_to_case": null,
+    "gap_seconds": 2174.0,
+    "incident_date": "2025-03-05",
+    "incident_number": 202503050021,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2503050021",
+   "kind": "cad_event",
+   "last_search": "2025-03-05T19:44:52Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2503050021"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-03-06",
+   "categories": [],
+   "first_search": "2025-03-06T16:40:08Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 281.0,
+    "incident_date": "2025-03-06",
+    "incident_number": 202503060010,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2503060010",
+   "kind": "cad_event",
+   "last_search": "2025-03-06T16:43:34Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2503060010"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1,
+    "rwc_network": 1
+   },
+   "cad_date": "2025-03-07",
+   "categories": [],
+   "first_search": "2025-04-30T00:25:15Z",
+   "hydration": {
+    "call_type": "Alarm",
+    "city": "Hillsborough",
+    "confidence": "loose",
+    "disposition": "Alarm - No Cite",
+    "escalated_to_case": null,
+    "gap_seconds": 4615453.0,
+    "incident_date": "2025-03-07",
+    "incident_number": 202503070007,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "250307007",
+   "kind": "cad_event",
+   "last_search": "2025-04-30T00:25:15Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "Union city 250307007",
+    "Union City 250307007"
+   ],
+   "searchers": [
+    "C. Rey"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-04-10",
+   "categories": [],
+   "first_search": "2025-04-10T15:19:33Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Information only",
+    "escalated_to_case": null,
+    "gap_seconds": 39.0,
+    "incident_date": "2025-04-10",
+    "incident_number": 202504100030,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2504100030",
+   "kind": "cad_event",
+   "last_search": "2025-04-10T15:23:20Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2504100030"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-04-16",
+   "categories": [],
+   "first_search": "2025-04-16T23:53:26Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Information only",
+    "escalated_to_case": null,
+    "gap_seconds": 56.0,
+    "incident_date": "2025-04-16",
+    "incident_number": 202504160030,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2504160030",
+   "kind": "cad_event",
+   "last_search": "2025-04-16T23:53:43Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2504160030"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-04-22",
+   "categories": [],
+   "first_search": "2025-04-22T20:49:41Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Detail Complete",
+    "escalated_to_case": null,
+    "gap_seconds": 803.0,
+    "incident_date": "2025-04-22",
+    "incident_number": 202504220037,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2504220037",
+   "kind": "cad_event",
+   "last_search": "2025-04-22T20:49:52Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2504220037"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-05-01",
+   "categories": [],
+   "first_search": "2025-05-01T14:07:03Z",
+   "hydration": {
+    "call_type": "Vehicle Theft",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "2025-0221",
+     "crime_classification": "Felony",
+     "crime_type": "Vehicle Theft",
+     "offenses": [
+      "Take vehicle w/o owners consent/vehicle theft - Motor vehicle theft (F)"
+     ]
+    },
+    "gap_seconds": 563.0,
+    "incident_date": "2025-05-01",
+    "incident_number": 202505010019,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2505010019",
+   "kind": "cad_event",
+   "last_search": "2025-05-01T14:07:37Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2505010019"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-05-19",
+   "categories": [],
+   "first_search": "2025-05-19T22:11:06Z",
+   "hydration": {
+    "call_type": "Proactive Enforcement",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Checks Clear",
+    "escalated_to_case": null,
+    "gap_seconds": 156.0,
+    "incident_date": "2025-05-19",
+    "incident_number": 202505190053,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2505190053",
+   "kind": "cad_event",
+   "last_search": "2025-05-19T23:06:29Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "HPD INC 2505190053"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-05-27",
+   "categories": [],
+   "first_search": "2025-05-27T21:18:52Z",
+   "hydration": {
+    "incident_number": 202505270007,
+    "matched": false
+   },
+   "id": "250527007",
+   "kind": "cad_event",
+   "last_search": "2025-05-27T21:18:55Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SMPD 25-0527007"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1,
+    "rwc_network": 1
+   },
+   "cad_date": "2025-06-29",
+   "categories": [],
+   "first_search": "2025-06-29T18:03:53Z",
+   "hydration": {
+    "incident_number": 202506290121,
+    "matched": false
+   },
+   "id": "2506290121",
+   "kind": "cad_event",
+   "last_search": "2025-06-29T18:03:53Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "Burlingame Police Incident: 2506290121"
+   ],
+   "searchers": [
+    "C. Rey"
+   ]
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-08-01",
+   "categories": [],
+   "first_search": "2025-08-02T04:05:31Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Checks Clear",
+    "escalated_to_case": null,
+    "gap_seconds": 239.0,
+    "incident_date": "2025-08-01",
+    "incident_number": 202508010099,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2508010099",
+   "kind": "cad_event",
+   "last_search": "2025-08-02T04:05:31Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2508010099"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-09-07",
+   "categories": [],
+   "first_search": "2025-09-08T01:47:14Z",
+   "hydration": {
+    "call_type": "Alarm",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Alarm - No Cite",
+    "escalated_to_case": null,
+    "gap_seconds": 437.0,
+    "incident_date": "2025-09-07",
+    "incident_number": 202509070086,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "250907086",
+   "kind": "cad_event",
+   "last_search": "2025-09-08T01:47:23Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "250907086"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-10-08",
+   "categories": [],
+   "first_search": "2025-10-08T15:37:44Z",
+   "hydration": {
+    "incident_number": 202510080046,
+    "matched": false
+   },
+   "id": "2510080046",
+   "kind": "cad_event",
+   "last_search": "2025-10-08T15:39:38Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "Burlingame Police Incident: 2510080046"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-11-20",
+   "categories": [],
+   "first_search": "2025-11-20T20:08:49Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 704.0,
+    "incident_date": "2025-11-20",
+    "incident_number": 202511200029,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2511200029",
+   "kind": "cad_event",
+   "last_search": "2025-11-20T20:13:28Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "2511200029"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2025-11-22",
+   "categories": [],
+   "first_search": "2025-11-22T16:15:10Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Detail Complete",
+    "escalated_to_case": null,
+    "gap_seconds": 1702.0,
+    "incident_date": "2025-11-22",
+    "incident_number": 202511220031,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2511220031",
+   "kind": "cad_event",
+   "last_search": "2025-11-22T16:18:18Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "investigation"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 2
+   },
+   "cad_date": "2026-03-01",
+   "categories": [
+    "Counterfeiting/Forgery"
+   ],
+   "first_search": "2026-03-01T19:57:44Z",
+   "hydration": {
+    "call_type": "Traffic Stop",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Warning Issued - Verbal",
+    "escalated_to_case": null,
+    "gap_seconds": 269.0,
+    "incident_date": "2026-03-01",
+    "incident_number": 202603010015,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2603010015",
+   "kind": "cad_event",
+   "last_search": "2026-03-01T19:57:47Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "Counterfeiting/Forgery - 2603010015"
+   ],
+   "searchers": []
+  },
+  {
+   "agency_prefix": "SH",
+   "by_source": {
+    "la_network": 2
+   },
+   "categories": [],
+   "first_search": "2024-06-19T06:43:30Z",
+   "hydration": null,
+   "id": "SH24000044976",
+   "kind": "agency_rms",
+   "last_search": "2024-06-19T06:43:46Z",
+   "multi_category": false,
+   "n_searches": 2,
+   "sample_reasons": [
+    "SH24000044976"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2024-08-26T03:47:39Z",
+   "hydration": null,
+   "id": "24-00368",
+   "kind": "hyphen_case",
+   "last_search": "2024-08-26T03:47:39Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "24-00368"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2024-08-15T02:58:44Z",
+   "hydration": null,
+   "id": "24-06043",
+   "kind": "hyphen_case",
+   "last_search": "2024-08-15T02:58:44Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SMCSO 24-06043"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2024-11-19T06:34:01Z",
+   "hydration": null,
+   "id": "24-08415",
+   "kind": "hyphen_case",
+   "last_search": "2024-11-19T06:34:01Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "24-08415"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-04-08",
+   "categories": [],
+   "first_search": "2024-04-08T11:07:15Z",
+   "hydration": {
+    "incident_number": 202404080015,
+    "matched": false
+   },
+   "id": "2404080015",
+   "kind": "cad_event",
+   "last_search": "2024-04-08T11:07:15Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2404080015"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-06-17",
+   "categories": [],
+   "first_search": "2024-06-19T15:45:33Z",
+   "hydration": {
+    "incident_number": 202406170013,
+    "matched": false
+   },
+   "id": "240617013",
+   "kind": "cad_event",
+   "last_search": "2024-06-19T15:45:33Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SMPD 240617013"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-06-26",
+   "categories": [],
+   "first_search": "2024-06-26T07:22:55Z",
+   "hydration": {
+    "incident_number": 202406260002,
+    "matched": false
+   },
+   "id": "2406260002",
+   "kind": "cad_event",
+   "last_search": "2024-06-26T07:22:55Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "APD 2406260002"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-06-26",
+   "categories": [],
+   "first_search": "2024-06-26T19:56:22Z",
+   "hydration": {
+    "incident_number": 202406260059,
+    "matched": false
+   },
+   "id": "2406260059",
+   "kind": "cad_event",
+   "last_search": "2024-06-26T19:56:22Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2406260059"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-06-29",
+   "categories": [],
+   "first_search": "2024-06-29T11:51:25Z",
+   "hydration": {
+    "incident_number": 202406290009,
+    "matched": false
+   },
+   "id": "2406290009",
+   "kind": "cad_event",
+   "last_search": "2024-06-29T11:51:25Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "INC: 2406290009"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-07-12",
+   "categories": [],
+   "first_search": "2024-07-12T23:49:57Z",
+   "hydration": {
+    "incident_number": 202407120057,
+    "matched": false
+   },
+   "id": "2407120057",
+   "kind": "cad_event",
+   "last_search": "2024-07-12T23:49:57Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2407120057"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-07-23",
+   "categories": [],
+   "first_search": "2024-07-23T11:21:39Z",
+   "hydration": {
+    "incident_number": 202407230041,
+    "matched": false
+   },
+   "id": "2407230041",
+   "kind": "cad_event",
+   "last_search": "2024-07-23T11:21:39Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2407230041"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-08-03",
+   "categories": [],
+   "first_search": "2024-08-03T18:40:42Z",
+   "hydration": {
+    "incident_number": 202408030052,
+    "matched": false
+   },
+   "id": "2408030052",
+   "kind": "cad_event",
+   "last_search": "2024-08-03T18:40:42Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2408030052"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-08-18",
+   "categories": [],
+   "first_search": "2024-08-19T06:15:20Z",
+   "hydration": {
+    "incident_number": 202408180228,
+    "matched": false
+   },
+   "id": "2408180228",
+   "kind": "cad_event",
+   "last_search": "2024-08-19T06:15:20Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SMPD 2408180228"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-08-19",
+   "categories": [],
+   "first_search": "2024-08-20T03:36:30Z",
+   "hydration": {
+    "incident_number": 202408190007,
+    "matched": false
+   },
+   "id": "240819007",
+   "kind": "cad_event",
+   "last_search": "2024-08-20T03:36:30Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SMPD 24-0819007"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-08-23",
+   "categories": [],
+   "first_search": "2024-08-24T00:39:05Z",
+   "hydration": {
+    "incident_number": 202408230070,
+    "matched": false
+   },
+   "id": "2408230070",
+   "kind": "cad_event",
+   "last_search": "2024-08-24T00:39:05Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2408230070"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-09-05",
+   "categories": [],
+   "first_search": "2024-09-05T15:36:17Z",
+   "hydration": {
+    "incident_number": 202409050036,
+    "matched": false
+   },
+   "id": "2409050036",
+   "kind": "cad_event",
+   "last_search": "2024-09-05T15:36:17Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2409050036"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-09-05",
+   "categories": [],
+   "first_search": "2024-09-05T23:27:14Z",
+   "hydration": {
+    "incident_number": 202409050066,
+    "matched": false
+   },
+   "id": "2409050066",
+   "kind": "cad_event",
+   "last_search": "2024-09-05T23:27:14Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2409050066"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-09-10",
+   "categories": [],
+   "first_search": "2024-09-11T01:41:43Z",
+   "hydration": {
+    "incident_number": 202409100037,
+    "matched": false
+   },
+   "id": "2409100037",
+   "kind": "cad_event",
+   "last_search": "2024-09-11T01:41:43Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2409100037"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-09-17",
+   "categories": [],
+   "first_search": "2024-09-17T21:20:14Z",
+   "hydration": {
+    "incident_number": 202409170045,
+    "matched": false
+   },
+   "id": "2409170045",
+   "kind": "cad_event",
+   "last_search": "2024-09-17T21:20:14Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2409170045"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-10-12",
+   "categories": [],
+   "first_search": "2024-10-12T17:58:25Z",
+   "hydration": {
+    "incident_number": 202410120031,
+    "matched": false
+   },
+   "id": "2410120031",
+   "kind": "cad_event",
+   "last_search": "2024-10-12T17:58:25Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2410120031"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-11-08",
+   "categories": [],
+   "first_search": "2024-11-08T21:28:06Z",
+   "hydration": {
+    "incident_number": 202411080052,
+    "matched": false
+   },
+   "id": "2411080052",
+   "kind": "cad_event",
+   "last_search": "2024-11-08T21:28:06Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2411080052"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-11-11",
+   "categories": [],
+   "first_search": "2024-11-11T08:54:04Z",
+   "hydration": {
+    "incident_number": 202411110004,
+    "matched": false
+   },
+   "id": "2411110004",
+   "kind": "cad_event",
+   "last_search": "2024-11-11T08:54:04Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SBPD 2411110004"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-11-20",
+   "categories": [],
+   "first_search": "2024-11-20T18:01:14Z",
+   "hydration": {
+    "incident_number": 202411200020,
+    "matched": false
+   },
+   "id": "2411200020",
+   "kind": "cad_event",
+   "last_search": "2024-11-20T18:01:14Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2411200020"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-11-20",
+   "categories": [],
+   "first_search": "2025-11-21T01:16:48Z",
+   "hydration": {
+    "incident_number": 202411200045,
+    "matched": false
+   },
+   "id": "2411200045",
+   "kind": "cad_event",
+   "last_search": "2025-11-21T01:16:48Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "investigation"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2024-12-28",
+   "categories": [],
+   "first_search": "2024-12-28T20:12:27Z",
+   "hydration": {
+    "incident_number": 202412280060,
+    "matched": false
+   },
+   "id": "2412280060",
+   "kind": "cad_event",
+   "last_search": "2024-12-28T20:12:27Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2412280060"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-02-23T08:59:21Z",
+   "hydration": null,
+   "id": "25-00104",
+   "kind": "hyphen_case",
+   "last_search": "2025-02-23T08:59:21Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "25-00104"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-01-16T05:00:18Z",
+   "hydration": null,
+   "id": "25-0020",
+   "kind": "hyphen_case",
+   "last_search": "2025-01-16T05:00:18Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "25-0020"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-04-23T06:30:22Z",
+   "hydration": null,
+   "id": "25-00879",
+   "kind": "hyphen_case",
+   "last_search": "2025-04-23T06:30:22Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "Menlo Park 25-00879"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-07-10T05:44:36Z",
+   "hydration": null,
+   "id": "25-01554",
+   "kind": "hyphen_case",
+   "last_search": "2025-07-10T05:44:36Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "mppd 25-01554"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-07-11T04:53:21Z",
+   "hydration": null,
+   "id": "25-0308",
+   "kind": "hyphen_case",
+   "last_search": "2025-07-11T04:53:21Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "25-0308"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-11-17T20:41:37Z",
+   "hydration": null,
+   "id": "25-0505",
+   "kind": "hyphen_case",
+   "last_search": "2025-11-17T20:41:37Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "HPD 2025-0505"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-10-26T13:30:32Z",
+   "hydration": null,
+   "id": "25-1018",
+   "kind": "hyphen_case",
+   "last_search": "2025-10-26T13:30:32Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "mutual aid broadmoor"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-11-19T21:55:38Z",
+   "hydration": null,
+   "id": "25-11416",
+   "kind": "hyphen_case",
+   "last_search": "2025-11-19T21:55:38Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "25-11416"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-01-16",
+   "categories": [],
+   "first_search": "2025-01-16T15:33:06Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 1180.0,
+    "incident_date": "2025-01-16",
+    "incident_number": 202501160007,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2501160007",
+   "kind": "cad_event",
+   "last_search": "2025-01-16T15:33:06Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2501160007"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-02-07",
+   "categories": [],
+   "first_search": "2025-02-08T00:12:49Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Call Canceled",
+    "escalated_to_case": null,
+    "gap_seconds": 178.0,
+    "incident_date": "2025-02-07",
+    "incident_number": 202502070110,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2502070110",
+   "kind": "cad_event",
+   "last_search": "2025-02-08T00:12:49Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2502070110"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-02-22",
+   "categories": [],
+   "first_search": "2025-02-22T17:32:35Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Unfounded",
+    "escalated_to_case": null,
+    "gap_seconds": 1134.0,
+    "incident_date": "2025-02-22",
+    "incident_number": 202502220013,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2502220013",
+   "kind": "cad_event",
+   "last_search": "2025-02-22T17:32:35Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2502220013"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-02-27",
+   "categories": [],
+   "first_search": "2025-02-28T03:07:02Z",
+   "hydration": {
+    "incident_number": 202502270044,
+    "matched": false
+   },
+   "id": "2502270044",
+   "kind": "cad_event",
+   "last_search": "2025-02-28T03:07:02Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "HPD INC 2502270044"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-03-01",
+   "categories": [],
+   "first_search": "2025-03-01T23:27:05Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Unincorporated Area-San Mateo County",
+    "confidence": "near_simultaneous",
+    "disposition": "Detail Complete",
+    "escalated_to_case": null,
+    "gap_seconds": 703.0,
+    "incident_date": "2025-03-01",
+    "incident_number": 202503010042,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2503010042",
+   "kind": "cad_event",
+   "last_search": "2025-03-01T23:27:05Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2503010042"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-03-11",
+   "categories": [],
+   "first_search": "2025-03-11T19:13:52Z",
+   "hydration": {
+    "incident_number": 202503110024,
+    "matched": false
+   },
+   "id": "2503110024",
+   "kind": "cad_event",
+   "last_search": "2025-03-11T19:13:52Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2503110024"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-03-19",
+   "categories": [],
+   "first_search": "2025-03-19T16:48:12Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Unfounded",
+    "escalated_to_case": null,
+    "gap_seconds": 835.0,
+    "incident_date": "2025-03-19",
+    "incident_number": 202503190036,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2503190036",
+   "kind": "cad_event",
+   "last_search": "2025-03-19T16:48:12Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "inc 2503190036"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-04-02",
+   "categories": [],
+   "first_search": "2025-04-02T16:08:24Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "2025-0168",
+     "crime_classification": null,
+     "crime_type": "Disturbance",
+     "offenses": [
+      "Suspicious Circumstances"
+     ]
+    },
+    "gap_seconds": 343.0,
+    "incident_date": "2025-04-02",
+    "incident_number": 202504020035,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2504020035",
+   "kind": "cad_event",
+   "last_search": "2025-04-02T16:08:24Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2504020035"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-04-10",
+   "categories": [],
+   "first_search": "2025-04-10T14:11:12Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 827.0,
+    "incident_date": "2025-04-10",
+    "incident_number": 202504100028,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2504100028",
+   "kind": "cad_event",
+   "last_search": "2025-04-10T14:11:12Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2504100028"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-05-13",
+   "categories": [],
+   "first_search": "2025-05-14T03:42:12Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "same_day",
+    "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "2025-0235",
+     "crime_classification": null,
+     "crime_type": "Disturbance",
+     "offenses": [
+      "Suspicious Circumstances"
+     ]
+    },
+    "gap_seconds": 4674.0,
+    "incident_date": "2025-05-13",
+    "incident_number": 202505130058,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2505130058",
+   "kind": "cad_event",
+   "last_search": "2025-05-14T03:42:12Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2505130058"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-05-15",
+   "categories": [],
+   "first_search": "2025-05-16T00:57:31Z",
+   "hydration": {
+    "call_type": "Municipal Code Incident",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "2025-0238",
+     "crime_classification": "Misdemeanor",
+     "crime_type": "Disturbance",
+     "offenses": [
+      "Unlawful to dump waste matter on public or private property"
+     ]
+    },
+    "gap_seconds": 1230.0,
+    "incident_date": "2025-05-15",
+    "incident_number": 202505150050,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2505150050",
+   "kind": "cad_event",
+   "last_search": "2025-05-16T00:57:31Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2505150050"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-05-28",
+   "categories": [],
+   "first_search": "2025-05-28T16:42:29Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 695.0,
+    "incident_date": "2025-05-28",
+    "incident_number": 202505280024,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2505280024",
+   "kind": "cad_event",
+   "last_search": "2025-05-28T16:42:29Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2505280024"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-05-31",
+   "categories": [],
+   "first_search": "2025-05-31T21:19:18Z",
+   "hydration": {
+    "incident_number": 202505310044,
+    "matched": false
+   },
+   "id": "2505310044",
+   "kind": "cad_event",
+   "last_search": "2025-05-31T21:19:18Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2505310044"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-06-02",
+   "categories": [],
+   "first_search": "2025-06-02T17:50:20Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Unincorporated Area-San Mateo County",
+    "confidence": "near_simultaneous",
+    "disposition": "Report Taken",
+    "escalated_to_case": null,
+    "gap_seconds": 126.0,
+    "incident_date": "2025-06-02",
+    "incident_number": 202506020043,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2506020043",
+   "kind": "cad_event",
+   "last_search": "2025-06-02T17:50:20Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2506020043"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-06-05",
+   "categories": [],
+   "first_search": "2025-06-05T20:05:41Z",
+   "hydration": {
+    "incident_number": 202506050147,
+    "matched": false
+   },
+   "id": "2506050147",
+   "kind": "cad_event",
+   "last_search": "2025-06-05T20:05:41Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SBPD 2506050147"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-06-06",
+   "categories": [],
+   "first_search": "2025-06-06T07:39:15Z",
+   "hydration": {
+    "call_type": "Citizen Assist",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Assistance Rendered",
+    "escalated_to_case": null,
+    "gap_seconds": 1704.0,
+    "incident_date": "2025-06-06",
+    "incident_number": 202506060001,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2506060001",
+   "kind": "cad_event",
+   "last_search": "2025-06-06T07:39:15Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "INC: 2506060001"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-07-09",
+   "categories": [],
+   "first_search": "2025-07-09T23:51:26Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Information only",
+    "escalated_to_case": null,
+    "gap_seconds": 75.0,
+    "incident_date": "2025-07-09",
+    "incident_number": 202507090094,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2507090094",
+   "kind": "cad_event",
+   "last_search": "2025-07-09T23:51:26Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2507090094"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-07-11",
+   "categories": [],
+   "first_search": "2025-07-12T02:15:18Z",
+   "hydration": {
+    "incident_number": 202507110059,
+    "matched": false
+   },
+   "id": "2507110059",
+   "kind": "cad_event",
+   "last_search": "2025-07-12T02:15:18Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "FCPD 2507110059"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-07-26",
+   "categories": [],
+   "first_search": "2025-07-26T16:41:13Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 601.0,
+    "incident_date": "2025-07-26",
+    "incident_number": 202507260048,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2507260048",
+   "kind": "cad_event",
+   "last_search": "2025-07-26T16:41:13Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2507260048"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-08-08",
+   "categories": [],
+   "first_search": "2025-08-08T18:42:56Z",
+   "hydration": {
+    "call_type": "Traffic Incident",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 369.0,
+    "incident_date": "2025-08-08",
+    "incident_number": 202508080018,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2508080018",
+   "kind": "cad_event",
+   "last_search": "2025-08-08T18:42:56Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "investigation"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-09-09",
+   "categories": [],
+   "first_search": "2025-09-09T22:21:28Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 1190.0,
+    "incident_date": "2025-09-09",
+    "incident_number": 202509090050,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2509090050",
+   "kind": "cad_event",
+   "last_search": "2025-09-09T22:21:28Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2509090050"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-09-25",
+   "categories": [],
+   "first_search": "2025-09-25T21:00:26Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Checks Clear",
+    "escalated_to_case": null,
+    "gap_seconds": 1079.0,
+    "incident_date": "2025-09-25",
+    "incident_number": 202509250053,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2509250053",
+   "kind": "cad_event",
+   "last_search": "2025-09-25T21:00:26Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2509250053"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-10-02",
+   "categories": [],
+   "first_search": "2025-10-02T22:58:14Z",
+   "hydration": {
+    "call_type": "Other Calls For Service",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 353.0,
+    "incident_date": "2025-10-02",
+    "incident_number": 202510020048,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2510020048",
+   "kind": "cad_event",
+   "last_search": "2025-10-02T22:58:14Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2510020048"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-10-17",
+   "categories": [],
+   "first_search": "2025-10-22T16:15:18Z",
+   "hydration": {
+    "incident_number": 202510170013,
+    "matched": false
+   },
+   "id": "251017013",
+   "kind": "cad_event",
+   "last_search": "2025-10-22T16:15:18Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SMPD 251017013"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-10-28",
+   "categories": [],
+   "first_search": "2025-11-06T00:21:59Z",
+   "hydration": {
+    "incident_number": 202510280020,
+    "matched": false
+   },
+   "id": "251028020",
+   "kind": "cad_event",
+   "last_search": "2025-11-06T00:21:59Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "Sonoma County (Gold bar)"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-10-29",
+   "categories": [],
+   "first_search": "2025-10-30T05:01:39Z",
+   "hydration": {
+    "call_type": "Burglary - Residential",
+    "city": "Hillsborough",
+    "confidence": "same_day",
+    "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "2025-0492",
+     "crime_classification": "Felony",
+     "crime_type": "Burglary - Residential",
+     "offenses": [
+      "Burglary:first degree (F)",
+      "Grand theft:money/labor/property - All other larceny (M)",
+      "Conspiracy:commit crime (F)"
+     ]
+    },
+    "gap_seconds": 2397.0,
+    "incident_date": "2025-10-29",
+    "incident_number": 202510290077,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2510290077",
+   "kind": "cad_event",
+   "last_search": "2025-10-30T05:01:39Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2510290077"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-11-12",
+   "categories": [],
+   "first_search": "2025-11-12T16:29:05Z",
+   "hydration": {
+    "call_type": "Traffic Incident",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "UTL/GOA",
+    "escalated_to_case": null,
+    "gap_seconds": 1246.0,
+    "incident_date": "2025-11-12",
+    "incident_number": 202511120010,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2511120010",
+   "kind": "cad_event",
+   "last_search": "2025-11-12T16:29:05Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2511120010"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-11-13",
+   "categories": [],
+   "first_search": "2025-11-13T22:18:24Z",
+   "hydration": {
+    "call_type": "Burglary - Residential",
+    "city": "Hillsborough",
+    "confidence": "near_simultaneous",
+    "disposition": "Report Taken",
+    "escalated_to_case": {
+     "case_disposition": "",
+     "case_number": "2025-0515",
+     "crime_classification": "Felony",
+     "crime_type": "Burglary - Residential",
+     "offenses": [
+      "Burglary:first degree (F)",
+      "Conspiracy:commit crime (F)"
+     ]
+    },
+    "gap_seconds": 918.0,
+    "incident_date": "2025-11-13",
+    "incident_number": 202511130038,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2511130038",
+   "kind": "cad_event",
+   "last_search": "2025-11-13T22:18:24Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "2511130038"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2025-11-29",
+   "categories": [],
+   "first_search": "2025-11-30T05:23:33Z",
+   "hydration": {
+    "incident_number": 202511290098,
+    "matched": false
+   },
+   "id": "2511290098",
+   "kind": "cad_event",
+   "last_search": "2025-11-30T05:23:33Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "459 suspect"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2026-03-01",
+   "categories": [
+    "Welfare Check"
+   ],
+   "first_search": "2026-03-02T02:05:08Z",
+   "hydration": {
+    "call_type": "Citizen Assist",
+    "city": "Hillsborough",
+    "confidence": "same_day",
+    "disposition": "Civil Problem",
+    "escalated_to_case": null,
+    "gap_seconds": 2313.0,
+    "incident_date": "2026-03-01",
+    "incident_number": 202603010022,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2603010022",
+   "kind": "cad_event",
+   "last_search": "2026-03-02T02:05:08Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "Welfare Check - 2603010022"
+   ],
+   "searchers": []
+  },
+  {
+   "by_source": {
+    "la_network": 1
+   },
+   "cad_date": "2026-04-13",
+   "categories": [
+    "Driving Under the Influence (DUI/DWI/OWI/OVI)"
+   ],
+   "first_search": "2026-04-13T17:18:57Z",
+   "hydration": {
+    "call_type": "Suspicious Circumstances",
+    "city": "Hillsborough",
+    "confidence": "same_day",
+    "disposition": "No Report Taken",
+    "escalated_to_case": null,
+    "gap_seconds": 2313.0,
+    "incident_date": "2026-04-13",
+    "incident_number": 202604130016,
+    "matched": true,
+    "status": "C"
+   },
+   "id": "2604130016",
+   "kind": "cad_event",
+   "last_search": "2026-04-13T17:18:57Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "Driving Under the Influence (DUI/DWI/OWI/OVI) - 2604130016"
+   ],
+   "searchers": []
+  },
+  {
+   "agency_prefix": "DP",
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-07-14T16:16:45Z",
+   "hydration": null,
+   "id": "DP25000031356",
+   "kind": "agency_rms",
+   "last_search": "2025-07-14T16:16:45Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "DCPD DP25000031356"
+   ],
+   "searchers": []
+  },
+  {
+   "agency_prefix": "SH",
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2024-07-22T09:39:53Z",
+   "hydration": null,
+   "id": "SH24000053806",
+   "kind": "agency_rms",
+   "last_search": "2024-07-22T09:39:53Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SH24000053806"
+   ],
+   "searchers": []
+  },
+  {
+   "agency_prefix": "SH",
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2024-12-05T05:26:51Z",
+   "hydration": null,
+   "id": "SH24000087667",
+   "kind": "agency_rms",
+   "last_search": "2024-12-05T05:26:51Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SMCSO SH24000087667"
+   ],
+   "searchers": []
+  },
+  {
+   "agency_prefix": "SH",
+   "by_source": {
+    "la_network": 1
+   },
+   "categories": [],
+   "first_search": "2025-07-01T00:31:24Z",
+   "hydration": null,
+   "id": "SH25000044957",
+   "kind": "agency_rms",
+   "last_search": "2025-07-01T00:31:24Z",
+   "multi_category": false,
+   "n_searches": 1,
+   "sample_reasons": [
+    "SMCSO INC SH25000044957"
+   ],
+   "searchers": []
+  }
+ ],
+ "stats": {
+  "baseline_case_escalation_rate": 0.0395,
+  "cad_event_escalated_to_case": 9,
+  "cad_event_escalation_rate": 0.1552,
+  "cad_event_ids": 162,
+  "cad_event_match_confidence": {
+   "loose": 1,
+   "near_simultaneous": 50,
+   "same_day": 7
+  },
+  "cad_event_match_rate": 0.358,
+  "cad_event_matched": 58,
+  "case_ids_by_kind": {
+   "agency_rms": 9,
+   "cad_event": 162,
+   "hyphen_case": 38
+  },
+  "citizenrims_case_count": 2003,
+  "citizenrims_incident_count": 14896,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-14",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 0,
+  "org_name": "Hillsborough CA PD",
+  "reason_class": {
+   "case_id": 810,
+   "code_or_other_digits": 3230,
+   "empty": 5818,
+   "no_digits": 2049,
+   "unclassified_number": 110
+  },
+  "rows_by_source": {
+   "la_network": 5633,
+   "rwc_network": 6384
+  },
+  "rows_total": 12017,
+  "rows_with_case_id": 810,
+  "unique_case_ids": 209
+ }
+}
