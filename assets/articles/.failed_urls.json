@@ -299,6 +299,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-26T19:52:22Z"
   },
+  "https://www.nbcbayarea.com/news/local/san-jose-protest-flock-camera-network/4151158/": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.nbcbayarea.com/news/local/san-jose-protest-flock-camera-network/4151158/\nCall log:\n  - navigating to \"https://www.nbcbayarea.com/news/local/san-jose-protest-flock-camera-network/4151158/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-01T13:12:24Z"
+  },
   "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-september-18/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
