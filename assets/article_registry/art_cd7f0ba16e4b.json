@@ -1,0 +1,104 @@
+{
+  "url": "https://www.npr.org/sections/planet-money/2026/10/02/g-s1-146060/san-franciscos-car-crime-has-plunged-how-much-credit-does-flock-deserve",
+  "source_domain": "npr.org",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "San Francisco's car crime has plunged. How much credit does Flock deserve?",
+  "byline": "Greg Rosalsky",
+  "published_at": "2026-10-02",
+  "fetched_at": "2026-10-02T21:21:52Z",
+  "discovered_by": "rss:npr.org",
+  "scanner_verdict": "WARNINGS \u2014 92 pts, low/medium only",
+  "scanner_score": 92,
+  "content_hash": "0b746d7134cde2150caccc21c58ce155a4d79d7bdaabbd12f49fb7bda85b9d02",
+  "paths": {
+    "html": "assets/articles/npr.org/sections-planet-money-2026-10-02-g-s1-146060-san-franciscos-car-crime-has-plunge_cd7f0ba1.html",
+    "meta": "assets/articles/npr.org/sections-planet-money-2026-10-02-g-s1-146060-san-franciscos-car-crime-has-plunge_cd7f0ba1.meta.json",
+    "pdf": "assets/articles/npr.org/sections-planet-money-2026-10-02-g-s1-146060-san-franciscos-car-crime-has-plunge_cd7f0ba1.pdf",
+    "txt": "assets/articles/npr.org/sections-planet-money-2026-10-02-g-s1-146060-san-franciscos-car-crime-has-plunge_cd7f0ba1.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "incident:wrongful-stop",
+    "legal:legislation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:motorola"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+    "56f9a46f-863a-5d77-b2c9-72403bb11a8e"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 36.9,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police"
+      ]
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 2.683,
+      "matched_forms": [
+        "Los Angeles"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 2.1,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "NPR's Planet Money examines San Francisco's dramatic drop in car thefts and break-ins since 2022 and asks how much credit Flock's AI-powered license plate reader network deserves, citing one preliminary study finding an 11% drop in car thefts in Flock-adopting agencies. The piece also details SFPD's data-sharing breaches \u2014 including 1.6 million illegal out-of-state searches and 299 improper searches tied to federal agencies \u2014 and Mayor Lurie's new 30-day retention rule plus DA Jenkins's push for state legislation criminalizing misuse.",
+  "key_quotes": [
+    {
+      "quote": "deploying Flock cameras was associated with an 11% drop in car thefts in the first year.",
+      "paragraph_idx": 30
+    },
+    {
+      "quote": "the SFPD had allowed out-of-state police agencies to \"run more than 1.6 million illegal searches of the city's license-plate reader database \u2014 including at least 19 that were marked as related to U.S. Immigration and Customs Enforcement.\"",
+      "paragraph_idx": 48
+    },
+    {
+      "quote": "an internal audit found 299 improper searches of its Flock system. Analysts working through a California-based law enforcement partner had conducted those searches on behalf of federal and out-of-state agencies.",
+      "paragraph_idx": 49
+    },
+    {
+      "quote": "removing the city's license plate data from the platform after 30 days. The SFPD can retain the records for up to a year, but officers need an active criminal investigation and approval from police leadership to access records older than 30 days.",
+      "paragraph_idx": 52
+    },
+    {
+      "quote": "around 75 percent of Flock law enforcement customers have opted to share their data with participating agencies across the nation, effectively creating a quasi-national database",
+      "paragraph_idx": 42
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-02T21:23:41Z",
+  "article_id": "art_cd7f0ba16e4b"
+}

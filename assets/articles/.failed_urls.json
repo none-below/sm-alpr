@@ -120,9 +120,9 @@
     "last_attempt": "2026-05-26T23:26:40Z"
   },
   "https://www.eff.org/deeplinks/2026/10/we-demand-more-information-how-marin-cops-illegally-shared-flock-alpr-data": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.eff.org/deeplinks/2026/10/we-demand-more-information-how-marin-cops-illegally-shared-flock-alpr-data\nCall log:\n  - navigating to \"https://www.eff.org/deeplinks/2026/10/we-demand-more-information-how-marin-cops-illegally-shared-flock-alpr-data\", wai",
-    "last_attempt": "2026-10-02T16:28:19Z"
+    "last_attempt": "2026-10-02T21:20:07Z"
   },
   "https://www.examiner-enterprise.com/story/news/2024/02/06/washington-county-flock": {
     "attempts": 3,
@@ -304,6 +304,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-26T19:52:22Z"
   },
+  "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/\nCall log:\n  - navigating to \"https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-02T21:18:30Z"
+  },
   "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-september-18/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
@@ -370,9 +375,9 @@
     "last_attempt": "2026-05-27T04:44:46Z"
   },
   "https://www.news10.com/news/troy-city-council-passes-flock-regulation-mayor-plans-to-veto/": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-02T16:30:06Z"
+    "last_attempt": "2026-10-02T21:23:18Z"
   },
   "https://www.news10.com/news/warren-county/roller-coaster-enthusiasts-flock-to-the-great-escape/": {
     "attempts": 3,
@@ -383,11 +388,6 @@
     "attempts": 3,
     "error": "HTTP 404",
     "last_attempt": "2026-05-27T08:55:17Z"
-  },
-  "https://www.npr.org/sections/planet-money/2026/10/02/g-s1-146060/san-franciscos-car-crime-has-plunged-how-much-credit-does-flock-deserve": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.npr.org/sections/planet-money/2026/10/02/g-s1-146060/san-franciscos-car-crime-has-plunged-how-much-credit-does-flock-deserve\nCall log:\n  - navigating to \"https://www.npr.org/sections/planet-money/2026/10/02/g-s1-146060/san-franciscos-car-crime-has-",
-    "last_attempt": "2026-10-02T16:31:26Z"
   },
   "https://www.nytimes.com/2026/09/28/nyregion/nyc-flock-nypd-surveillance-cameras.html": {
     "attempts": 3,
