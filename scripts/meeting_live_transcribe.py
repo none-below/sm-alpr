@@ -66,6 +66,7 @@ import json
 import os
 import platform
 import re
+import shlex
 import shutil
 import signal
 import subprocess
@@ -173,16 +174,25 @@ def wait_for_channel(channel: str, deadline: float, poll: float = 30.0) -> tuple
             time.sleep(poll)
 
 
-def hls_url(video_id: str, wait: bool = False) -> str:
+def hls_url(video_id: str, wait: bool = False, deadline: float = 0.0) -> str:
     # A scheduled stream that has not started makes plain `-g` fail with "This
     # live event will begin in N minutes"; --wait-for-video polls until it starts.
+    # YTDLP_ARGS passes extra flags through (e.g. --cookies, player clients).
     cmd = yt_dlp() + (["--wait-for-video", "30"] if wait else [])
-    out = subprocess.run(
-        cmd + ["-f", "bestaudio", "-g", f"https://www.youtube.com/watch?v={video_id}"],
-        capture_output=True,
-        text=True,
-        check=True,
-    ).stdout.strip()
+    cmd += shlex.split(os.environ.get("YTDLP_ARGS", ""))
+    cmd += ["-f", "bestaudio", "-g", f"https://www.youtube.com/watch?v={video_id}"]
+    while True:
+        res = subprocess.run(cmd, capture_output=True, text=True)
+        if res.returncode == 0:
+            break
+        tail = [ln for ln in res.stderr.strip().splitlines() if "JavaScript runtime" not in ln][-2:]
+        log(f"yt-dlp failed ({res.returncode}): {' | '.join(tail)}")
+        # Datacenter IPs get intermittent "Sign in to confirm you're not a bot";
+        # when waiting for a meeting, keep trying rather than give up.
+        if not wait or time.time() > deadline:
+            raise subprocess.CalledProcessError(res.returncode, cmd, res.stdout, res.stderr)
+        time.sleep(60)
+    out = res.stdout.strip()
     line = out.splitlines()[-1] if out else ""
     if not line.startswith("http"):
         raise SystemExit(f"yt-dlp returned no stream url for {video_id}")
@@ -225,7 +235,7 @@ def start_capture(
 ) -> subprocess.Popen:
     segdir = out / "seg"
     segdir.mkdir(parents=True, exist_ok=True)
-    url = hls_url(video_id, wait=wait)
+    url = hls_url(video_id, wait=wait, deadline=WAIT_DEADLINE)
     (out / "hls_url.txt").write_text(url + "\n")
 
     cmd = ["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "warning"]
@@ -295,6 +305,7 @@ def start_capture(
 
 
 ENGINE = "mlx"
+WAIT_DEADLINE = 0.0
 _FASTER: dict = {}
 
 
@@ -683,8 +694,9 @@ def main() -> int:
     ap.add_argument("--duration", default="", help="with --replay: seconds of recording to feed")
     args = ap.parse_args()
 
-    global ENGINE
+    global ENGINE, WAIT_DEADLINE
     ENGINE = args.engine
+    WAIT_DEADLINE = time.time() + args.wait_live * 60
     args.model = args.model or DEFAULT_MODELS[args.engine]
     needed = ["ffmpeg"]
     if args.engine == "mlx" or not shutil.which("yt-dlp"):
