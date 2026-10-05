@@ -24,6 +24,11 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://brookline.news/police-pause-flock-access",
     "last_attempt": "2026-05-08T22:10:13Z"
   },
+  "https://chicagoreader.com/news/explainer/alpr-flock-motorola-surveillance-camera/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://chicagoreader.com/news/explainer/alpr-flock-motorola-surveillance-camera/\nCall log:\n  - navigating to \"https://chicagoreader.com/news/explainer/alpr-flock-motorola-surveillance-camera/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-03T21:14:29Z"
+  },
   "https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/",
@@ -118,6 +123,11 @@
     "attempts": 3,
     "error": "HTTP 404",
     "last_attempt": "2026-05-26T23:26:40Z"
+  },
+  "https://www.eff.org/deeplinks/2026/10/we-demand-more-information-how-marin-cops-illegally-shared-flock-alpr-data": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.eff.org/deeplinks/2026/10/we-demand-more-information-how-marin-cops-illegally-shared-flock-alpr-data\nCall log:\n  - navigating to \"https://www.eff.org/deeplinks/2026/10/we-demand-more-information-how-marin-cops-illegally-shared-flock-alpr-data\", wai",
+    "last_attempt": "2026-10-03T01:08:55Z"
   },
   "https://www.examiner-enterprise.com/story/news/2024/02/06/washington-county-flock": {
     "attempts": 3,
@@ -299,10 +309,20 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-26T19:52:22Z"
   },
+  "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/\nCall log:\n  - navigating to \"https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-03T06:27:18Z"
+  },
   "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-september-18/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-19T20:34:23Z"
+  },
+  "https://www.news10.com/capitol/nyclu-praises-flock-regulation/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-04T00:33:02Z"
   },
   "https://www.news10.com/news/albany-county/colonie-group-meets-to-discuss-flock-cameras/": {
     "attempts": 3,
@@ -363,6 +383,11 @@
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-27T04:44:46Z"
+  },
+  "https://www.news10.com/news/troy-city-council-passes-flock-regulation-mayor-plans-to-veto/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-03T01:10:04Z"
   },
   "https://www.news10.com/news/warren-county/roller-coaster-enthusiasts-flock-to-the-great-escape/": {
     "attempts": 3,
