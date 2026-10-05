@@ -8,10 +8,12 @@ Two halves that run independently:
               a ~3600s window, so ``-live_start_index 0`` backfills up to an hour
               before you started — you do not have to launch this on time.
 
-  transcribe  slices overlapping windows out of that PCM and runs mlx-whisper
-              (Apple Silicon) over each, appending to a rolling transcript
-              stamped in real wall-clock time. ~13x realtime on an M-series, so
-              it closes a cold-start backlog and then sits at the live edge,
+  transcribe  slices overlapping windows out of that PCM and runs whisper over
+              each, appending to a rolling transcript stamped in real
+              wall-clock time. mlx-whisper on Apple Silicon (~13x realtime on an
+              M-series); faster-whisper on CPU anywhere else (``--engine
+              faster``, the default off a Mac — e.g. a cloud session). Either
+              closes a cold-start backlog and then sits at the live edge,
               roughly 20-50s behind the room.
 
 Run both at once with ``watch`` (the normal case), or separately if capture is
@@ -43,6 +45,16 @@ Examples
         --out ~/meetings/2026-09-22 \
         --alert 'item (thirteen|13)' --alert 'consent' --alert 'pull(ed)? .*calendar'
 
+    # from a Linux/cloud box before the meeting starts: wait up to 2h for the
+    # channel to go live, then run faster-whisper on CPU
+    scripts/meeting_live_transcribe.py watch --channel UCtQV2ZVAgoV6smi6kWfQU8A \
+        --out /tmp/meeting --engine faster --wait-live 120
+
+    # rehearse on a past meeting: replay 20 min of the recording at 2x through
+    # the same capture -> overlapping-window path (stamps are replay wall-clock)
+    scripts/meeting_live_transcribe.py watch --video <VOD id> --out /tmp/rehearsal \
+        --engine faster --replay 2 --start 2:48:00 --duration 1200
+
     # transcribe only, against a capture another process is writing
     scripts/meeting_live_transcribe.py transcribe --out ~/meetings/2026-09-22
 """
@@ -52,6 +64,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import platform
 import re
 import shutil
 import signal
@@ -66,7 +79,12 @@ from zoneinfo import ZoneInfo
 
 PACIFIC = ZoneInfo("America/Los_Angeles")
 
-DEFAULT_MODEL = "mlx-community/whisper-large-v3-turbo"
+# mlx-whisper only runs on Apple Silicon; faster-whisper (CTranslate2, CPU int8)
+# runs anywhere, which is what a cloud session gets.
+DEFAULT_MODELS = {
+    "mlx": "mlx-community/whisper-large-v3-turbo",
+    "faster": "large-v3-turbo",
+}
 SEGMENT_SECONDS = 120
 
 SAMPLE_RATE = 16000
@@ -131,16 +149,36 @@ def resolve_live_video(channel: str) -> tuple[str, str]:
     return vid.group(1), (title.group(1) if title else "(unknown)")
 
 
-def hls_url(video_id: str) -> str:
+def yt_dlp() -> list[str]:
+    return ["yt-dlp"] if shutil.which("yt-dlp") else ["uvx", "yt-dlp"]
+
+
+def default_engine() -> str:
+    return "mlx" if sys.platform == "darwin" and platform.machine() == "arm64" else "faster"
+
+
+def wait_for_channel(channel: str, deadline: float, poll: float = 30.0) -> tuple[str, str]:
+    """Poll a channel until it has a live (or scheduled) stream to point at.
+
+    Before a meeting the ``/live`` page either has no video at all or shows the
+    *scheduled* stream; ``hls_url`` then waits for that one to actually start.
+    """
+    while True:
+        try:
+            return resolve_live_video(channel)
+        except (SystemExit, subprocess.CalledProcessError) as exc:
+            if time.time() > deadline:
+                raise SystemExit(f"channel {channel} never showed a stream: {exc}")
+            log(f"no stream on the channel yet ({exc}); retrying in {poll:.0f}s")
+            time.sleep(poll)
+
+
+def hls_url(video_id: str, wait: bool = False) -> str:
+    # A scheduled stream that has not started makes plain `-g` fail with "This
+    # live event will begin in N minutes"; --wait-for-video polls until it starts.
+    cmd = yt_dlp() + (["--wait-for-video", "30"] if wait else [])
     out = subprocess.run(
-        [
-            "uvx",
-            "yt-dlp",
-            "-f",
-            "bestaudio",
-            "-g",
-            f"https://www.youtube.com/watch?v={video_id}",
-        ],
+        cmd + ["-f", "bestaudio", "-g", f"https://www.youtube.com/watch?v={video_id}"],
         capture_output=True,
         text=True,
         check=True,
@@ -182,18 +220,31 @@ def load_runs(out: Path) -> list[dict]:
 
 
 def start_capture(
-    out: Path, video_id: str, seconds: int, from_start: bool, segments: bool
+    out: Path, video_id: str, seconds: int, from_start: bool, segments: bool,
+    wait: bool = False, replay: dict | None = None,
 ) -> subprocess.Popen:
     segdir = out / "seg"
     segdir.mkdir(parents=True, exist_ok=True)
-    url = hls_url(video_id)
+    url = hls_url(video_id, wait=wait)
     (out / "hls_url.txt").write_text(url + "\n")
-    window_start = playlist_start(url) if from_start else datetime.now(PACIFIC)
 
     cmd = ["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "warning"]
-    if from_start:
+    if replay:
+        # A finished recording, fed at a fixed multiple of realtime so the window
+        # loop sees audio arrive the way it would live. No DVR playlist, so no
+        # program-date-time: stamps are the replay's own wall-clock.
+        window_start = datetime.now(PACIFIC)
+        cmd += ["-readrate", str(replay["speed"])]
+        if replay["start"]:
+            cmd += ["-ss", str(replay["start"])]
+        if replay["duration"]:
+            cmd += ["-t", str(replay["duration"])]
+    elif from_start:
+        window_start = playlist_start(url)
         # Backfill the whole DVR window rather than joining at the live edge.
         cmd += ["-live_start_index", "0"]
+    else:
+        window_start = datetime.now(PACIFIC)
     cmd += ["-i", url, "-vn", "-ac", "1", "-ar", str(SAMPLE_RATE), "-c:a", "pcm_s16le"]
     logf = open(out / "ffmpeg.log", "ab")
     if segments:
@@ -243,8 +294,14 @@ def start_capture(
 # ------------------------------------------------------------- transcribe
 
 
+ENGINE = "mlx"
+_FASTER: dict = {}
+
+
 def transcribe_file(wav: Path, model: str) -> list[tuple[float, float, str]]:
-    """Run mlx-whisper over one wav; return (start, end, text) triples."""
+    """Run whisper over one wav; return (start, end, text) triples."""
+    if ENGINE == "faster":
+        return transcribe_faster(wav, model)
     with_json = wav.with_suffix(".json")
     subprocess.run(
         [
@@ -268,6 +325,23 @@ def transcribe_file(wav: Path, model: str) -> list[tuple[float, float, str]]:
         for s in data.get("segments", [])
         if s.get("text", "").strip()
     ]
+
+
+def transcribe_faster(wav: Path, model: str) -> list[tuple[float, float, str]]:
+    """faster-whisper on CPU. The model loads once and stays resident — reloading
+    a large model per 45s window would cost more than transcribing it."""
+    if model not in _FASTER:
+        from faster_whisper import WhisperModel
+
+        t = time.time()
+        _FASTER[model] = WhisperModel(
+            model, device="cpu", compute_type="int8", cpu_threads=os.cpu_count() or 4
+        )
+        log(f"loaded {model} in {time.time() - t:.0f}s")
+    segs, _info = _FASTER[model].transcribe(
+        str(wav), language="en", beam_size=1, condition_on_previous_text=False
+    )
+    return [(float(s.start), float(s.end), s.text.strip()) for s in segs if s.text.strip()]
 
 
 def available(out: Path, runs: list[dict]) -> float:
@@ -417,7 +491,9 @@ def windows(
                     log(f"CAPTURE STALLED — no new audio for {idle:.0f}s "
                         f"(transcript ends at {fmt(anchor, avail)})")
                     if on_stall:
-                        on_stall()
+                        if on_stall() == "done":
+                            once = True  # capture finished: flush the tail, then stop
+                            continue
                         grew_at = time.time()
                 time.sleep(poll)
                 continue
@@ -428,7 +504,7 @@ def windows(
         slice_wav(out, runs, win_start, win_end, tmp)
         try:
             segs = transcribe_file(tmp, model)
-        except subprocess.CalledProcessError as exc:
+        except Exception as exc:  # noqa: BLE001 — one bad window must not end a live run
             log(f"whisper failed on window {n}: {exc}")
             n += 1
             continue
@@ -572,7 +648,14 @@ def main() -> int:
     ap.add_argument("--out", required=True, type=Path, help="working directory for this meeting")
     ap.add_argument("--channel", help="YouTube channel id to resolve the current live stream from")
     ap.add_argument("--video", help="YouTube video id (skips channel lookup)")
-    ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--engine", choices=["mlx", "faster"], default=default_engine(),
+                    help="mlx-whisper (Apple Silicon) or faster-whisper (CPU, anywhere); "
+                         "default: mlx on an arm64 Mac, else faster")
+    ap.add_argument("--model", help="whisper model (default depends on --engine: "
+                    + ", ".join(f"{k}={v}" for k, v in DEFAULT_MODELS.items()) + ")")
+    ap.add_argument("--wait-live", type=float, default=0.0, metavar="MINUTES",
+                    help="start before the meeting: wait up to this long for the channel's "
+                         "stream to go live instead of exiting")
     ap.add_argument("--stride", type=float, default=STRIDE,
                     help=f"seconds of new audio per window (default {STRIDE:g})")
     ap.add_argument("--pad-before", type=float, default=PAD_BEFORE)
@@ -592,9 +675,21 @@ def main() -> int:
                     help="seconds without new audio before declaring the capture "
                          f"stalled; `watch` then restarts it (default {STALL_AFTER:g}, 0 disables)")
     ap.add_argument("--once", action="store_true", help="transcribe what exists, then exit")
+    ap.add_argument("--replay", type=float, metavar="SPEED",
+                    help="rehearsal: --video is a finished recording; feed it at SPEED x "
+                         "realtime through the live path")
+    ap.add_argument("--start", default="", help="with --replay: offset into the recording "
+                    "(seconds or HH:MM:SS)")
+    ap.add_argument("--duration", default="", help="with --replay: seconds of recording to feed")
     args = ap.parse_args()
 
-    for tool in ("ffmpeg", "uvx"):
+    global ENGINE
+    ENGINE = args.engine
+    args.model = args.model or DEFAULT_MODELS[args.engine]
+    needed = ["ffmpeg"]
+    if args.engine == "mlx" or not shutil.which("yt-dlp"):
+        needed.append("uvx")
+    for tool in needed:
         if not shutil.which(tool):
             raise SystemExit(f"{tool} not found on PATH")
 
@@ -602,15 +697,26 @@ def main() -> int:
     alerts = [re.compile(p, re.I) for p in args.alert]
 
     cap: subprocess.Popen | None = None
+    wait = args.wait_live > 0
+    replay = None
+    if args.replay:
+        if not args.video:
+            raise SystemExit("--replay needs --video (a finished recording)")
+        replay = {"speed": args.replay, "start": args.start, "duration": args.duration}
+        args.from_start = False
     if args.mode in ("watch", "capture"):
         video = args.video
         if not video:
             if not args.channel:
                 raise SystemExit("--video or --channel required for capture")
-            video, title = resolve_live_video(args.channel)
-            log(f"live: {title} ({video})")
+            if wait:
+                video, title = wait_for_channel(args.channel, time.time() + args.wait_live * 60)
+            else:
+                video, title = resolve_live_video(args.channel)
+            log(f"stream: {title} ({video})")
         cap = start_capture(
-            args.out, video, args.segment_seconds, args.from_start, args.segments
+            args.out, video, args.segment_seconds, args.from_start, args.segments,
+            wait=wait, replay=replay,
         )
         (args.out / "video_id.txt").write_text(video + "\n")
 
@@ -624,7 +730,7 @@ def main() -> int:
     # After capture, so `watch` picks up the anchor start_capture just wrote.
     anchor = parse_anchor(args.anchor, args.out)
 
-    def restart_capture() -> None:
+    def restart_capture() -> str | None:
         """Kill a wedged ffmpeg and start a fresh run.
 
         The new run backfills the DVR window, so a stall caught inside the hour
@@ -632,6 +738,9 @@ def main() -> int:
         rather than waiting for someone to notice the transcript went quiet.
         """
         nonlocal cap
+        if replay:
+            # A replay that stops growing has reached the end of what it was fed.
+            return "done" if cap and cap.poll() is not None else None
         if cap and cap.poll() is None:
             cap.kill()
             cap.wait(timeout=10)
