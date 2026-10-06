@@ -450,6 +450,14 @@ WITHHELD_ATTACHMENTS: dict[str, dict[str, str]] = {
         "d48e5a0a69a0bbe75b09b9e39c8d224e32a7b028f1d4495fd12cd8adea98d2a9":
             "withheld pending reissue",
     },
+    # The 3/5/2026 audit PDF as released 9/14/2026, withheld pending the
+    # City's reissue. A requester-made derivative is in the request folder's
+    # requester-redacted/ subfolder; a reissue under the same filename has
+    # different bytes and so is downloaded normally.
+    "W013377-090426": {
+        "3bc889621727baed3952279495c5f095edc3ed57d3437aadaa546c36d632f1f8":
+            "withheld pending reissue",
+    },
 }
 
 
