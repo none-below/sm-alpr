@@ -30,6 +30,7 @@ TAGS = {
     "pra-process": "PRA process / portal mechanics",
     "grand-jury": "Civil Grand Jury report / Penal Code §933 responses",
     # Tech adjacent
+    "axon-alpr": "Axon ALPR (Outpost / Fleet 3)",
     "condor": "Condor (non-ALPR) cameras",
     "fusus": "Axon Fusus",
 }

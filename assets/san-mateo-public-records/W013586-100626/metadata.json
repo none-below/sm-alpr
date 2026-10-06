@@ -1,0 +1,47 @@
+{
+  "title": "Axon Fleet 3 ALPR — audits, September 2026 search audit trail, and Policy 463.10 audit scope",
+  "summary": "Quotes SOP 205: \"Our Department currently uses three independent ALPR technology platforms - Flock Safety Inc. and AXON Fleet 3 Police Vehicle In-Car Camera System.\"\n\n- Item 1: any audit, review or report of ALPR data, searches or access in the Axon Fleet 3 system, under Policy 463.10, SOP 205 or otherwise, from 2025-01-01 to the date of the request,\n- Item 2: the Axon system's audit trail of ALPR searches and queries of Fleet 3 plate data for September 2026, in the format the system exports it (for example CSV),\n- Item 3: any record assigning or describing which ALPR platforms the Policy 463.10 audits are to cover.",
+  "tags": ["axon-alpr", "policy-463.10", "sop-205", "audit-compliance"],
+  "policy_promises": [
+    {
+      "policy": "463.10",
+      "quote": "an audit is conducted of ALPR data searches at least monthly for internal ALPR users",
+      "tests": "Do the monthly 463.10 audits cover searches of Axon Fleet 3 plate data, and what record says which platforms they cover?"
+    },
+    {
+      "policy": "SOP 205",
+      "quote": "Our Department currently uses three independent ALPR technology platforms - Flock Safety Inc. and AXON Fleet 3 Police Vehicle In-Car Camera System.",
+      "tests": "What audit, review or report exists for the Fleet 3 platform SOP 205 names?"
+    },
+    {
+      "policy": "Civ. Code § 1798.90.52(a)",
+      "quote": "Maintain a record of that access",
+      "tests": "Does the Axon system keep a record of ALPR searches of Fleet 3 plate data, and can it be produced in native export format for September 2026?"
+    },
+    {
+      "policy": "Gov. Code § 7922.535(a)",
+      "quote": "agency must notify requester within 10 calendar days whether it will produce records",
+      "tests": "Does the City issue a determination by 2026-10-16?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013584-100626",
+      "relation": "companion",
+      "note": "Same-day companion: Axon Quote Q-865809 revision history and Council scheduling of File 26-11633 (Outpost)."
+    },
+    {
+      "ref": "W013585-100626",
+      "relation": "companion",
+      "note": "Same-day companion: City–Axon and internal communications containing \"Q-865809\" or \"Outpost\"."
+    },
+    {
+      "ref": "W012665-050426",
+      "relation": "context",
+      "note": "Produced the 2026-03-06 SOP 205 revision (SOP_3-6-26.pdf) and the April 2026 Policy 463.10 audit memo."
+    }
+  ],
+  "filed_because": "SOP 205 names Axon Fleet 3 as one of the Department's ALPR platforms. The request asks for any audit of that platform since January 2025, one month of the Axon system's own search audit trail in its native export format, and the record that sets which platforms the Policy 463.10 audits cover.",
+  "status_override": null,
+  "notes": "Filed 2026-10-06; auto-acknowledged the same day at 11:52 AM and forwarded to department(s) for processing. Statutory determination due 2026-10-16."
+}
