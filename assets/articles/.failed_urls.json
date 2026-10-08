@@ -104,11 +104,6 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-15T01:25:48Z"
   },
-  "https://www.404media.co/lawmakers-introduce-multiple-laws-to-curb-flock-after-404-media-coverage/": {
-    "attempts": 2,
-    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.404media.co/lawmakers-introduce-multiple-laws-to-curb-flock-after-404-media-coverage/\nCall log:\n  - navigating to \"https://www.404media.co/lawmakers-introduce-multiple-laws-to-curb-flock-after-404-media-coverage/\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-10-08T01:51:01Z"
-  },
   "https://www.aclunc.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.aclunorcal.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them",
