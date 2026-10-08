@@ -54,10 +54,15 @@
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://localnewsmatters.org/2026/10/07/berkeley-city-council-mass-surveillance/\nCall log:\n  - navigating to \"https://localnewsmatters.org/2026/10/07/berkeley-city-council-mass-surveillance/\", waiting until \"domcontentloaded\"\n",
     "last_attempt": "2026-10-08T16:44:13Z"
   },
-  "https://losgatan.com/opinion-we-need-an-automated-surveillance-bill-of-rights/": {
+  "https://localnewsmatters.org/2026/10/07/san-jose-license-plate-reader-lawsuit-dismissed/": {
     "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://localnewsmatters.org/2026/10/07/san-jose-license-plate-reader-lawsuit-dismissed/\nCall log:\n  - navigating to \"https://localnewsmatters.org/2026/10/07/san-jose-license-plate-reader-lawsuit-dismissed/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-08T22:02:54Z"
+  },
+  "https://losgatan.com/opinion-we-need-an-automated-surveillance-bill-of-rights/": {
+    "attempts": 2,
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://losgatan.com/opinion-we-need-an-automated-surveillance-bill-of-rights/\nCall log:\n  - navigating to \"https://losgatan.com/opinion-we-need-an-automated-surveillance-bill-of-rights/\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-10-08T16:47:10Z"
+    "last_attempt": "2026-10-08T22:09:47Z"
   },
   "https://madison.com/news/local/verona-flock-renewal-vote": {
     "attempts": 3,
@@ -219,6 +224,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-16T20:05:05Z"
   },
+  "https://www.kvue.com/article/news/local/hays-county/kyle-council-flock-cameras/269-401f3e43-1479-4821-8198-0efc6cf8fd5b": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kvue.com/article/news/local/hays-county/kyle-council-flock-cameras/269-401f3e43-1479-4821-8198-0efc6cf8fd5b\nCall log:\n  - navigating to \"https://www.kvue.com/article/news/local/hays-county/kyle-council-flock-cameras/269-401f3e43-1479-4821-8198-0efc",
+    "last_attempt": "2026-10-08T22:04:39Z"
+  },
   "https://www.kvue.com/article/news/police/hutto-flock-license-plate-reader-cameras/269-bb59e66e-fe73-4253-86b7-e7c66a0259a0": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
@@ -288,6 +298,11 @@
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-26T16:55:11Z"
+  },
+  "https://www.kxan.com/news/local/hays/kyle/kyle-city-council-votes-to-cover-flock-cameras/": {
+    "attempts": 1,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-08T22:05:50Z"
   },
   "https://www.kxan.com/news/local/here-are-the-central-texas-law-enforcement-agencies-with-flock-data-sharing-agreements-with-texas-dps/": {
     "attempts": 3,
@@ -395,9 +410,9 @@
     "last_attempt": "2026-09-25T22:16:04Z"
   },
   "https://www.news10.com/news/local-news/questions-remain-about-greenport-flock-contract-after-board-meeting/": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-08T16:45:38Z"
+    "last_attempt": "2026-10-08T22:08:20Z"
   },
   "https://www.news10.com/news/national/ap-license-plate-camera-company-halts-cooperation-with-federal-agencies-among-investigation-concerns/": {
     "attempts": 3,
@@ -438,6 +453,11 @@
     "attempts": 3,
     "error": "HTTP 404",
     "last_attempt": "2026-05-27T08:55:17Z"
+  },
+  "https://www.npr.org/2026/10/08/nx-s1-5981343/beyond-flock-police-ai-surveillance-tools": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.npr.org/2026/10/08/nx-s1-5981343/beyond-flock-police-ai-surveillance-tools\nCall log:\n  - navigating to \"https://www.npr.org/2026/10/08/nx-s1-5981343/beyond-flock-police-ai-surveillance-tools\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-08T22:07:00Z"
   },
   "https://www.nytimes.com/2026/09/28/nyregion/nyc-flock-nypd-surveillance-cameras.html": {
     "attempts": 3,
