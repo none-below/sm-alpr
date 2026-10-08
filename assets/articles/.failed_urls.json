@@ -49,6 +49,16 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-06-05T17:54:33Z"
   },
+  "https://localnewsmatters.org/2026/10/07/berkeley-city-council-mass-surveillance/": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://localnewsmatters.org/2026/10/07/berkeley-city-council-mass-surveillance/\nCall log:\n  - navigating to \"https://localnewsmatters.org/2026/10/07/berkeley-city-council-mass-surveillance/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-08T16:44:13Z"
+  },
+  "https://losgatan.com/opinion-we-need-an-automated-surveillance-bill-of-rights/": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://losgatan.com/opinion-we-need-an-automated-surveillance-bill-of-rights/\nCall log:\n  - navigating to \"https://losgatan.com/opinion-we-need-an-automated-surveillance-bill-of-rights/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-08T16:47:10Z"
+  },
   "https://madison.com/news/local/verona-flock-renewal-vote": {
     "attempts": 3,
     "error": "HTTP 429",
@@ -108,6 +118,11 @@
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.aclunorcal.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them",
     "last_attempt": "2026-05-06T12:04:13Z"
+  },
+  "https://www.berkeleyside.org/2026/10/07/berkeley-city-council-district-1-ross-bernet-laura-babitt-daria-wrubel-moni-gangopadhyay-steve-kromer": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.berkeleyside.org/2026/10/07/berkeley-city-council-district-1-ross-bernet-laura-babitt-daria-wrubel-moni-gangopadhyay-steve-kromer\nCall log:\n  - navigating to \"https://www.berkeleyside.org/2026/10/07/berkeley-city-council-district-1-ross-bernet-laur",
+    "last_attempt": "2026-10-08T16:49:50Z"
   },
   "https://www.cambridgema.gov/Departments/citymanagersoffice/news/2025/flock-contract-terminated": {
     "attempts": 3,
@@ -379,6 +394,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-25T22:16:04Z"
   },
+  "https://www.news10.com/news/local-news/questions-remain-about-greenport-flock-contract-after-board-meeting/": {
+    "attempts": 1,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-08T16:45:38Z"
+  },
   "https://www.news10.com/news/national/ap-license-plate-camera-company-halts-cooperation-with-federal-agencies-among-investigation-concerns/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
@@ -473,6 +493,11 @@
     "attempts": 3,
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html",
     "last_attempt": "2026-05-05T20:15:18Z"
+  },
+  "https://www.tennessean.com/story/news/2026/10/07/pueblo-has-93-license-plate-reader-cameras-heres-how-police-use-them/92117885007/": {
+    "attempts": 1,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.tennessean.com/story/news/2026/10/07/pueblo-has-93-license-plate-reader-cameras-heres-how-police-use-them/92117885007/\nCall log:\n  - navigating to \"https://www.tennessean.com/story/news/2026/10/07/pueblo-has-93-license-plate-reader-cameras-heres-ho",
+    "last_attempt": "2026-10-08T16:51:38Z"
   },
   "https://www.theolympian.com/news/local/article-olympia-flock": {
     "attempts": 3,
