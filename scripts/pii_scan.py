@@ -89,6 +89,10 @@ ALLOWED_EMAIL_DOMAINS = {
     # address is published on the BSCC contact page; appears in outbound
     # correspondence under assets/public-records/bscc/.
     "bscc.ca.gov",
+    # City of San José. Published city addresses in the San Jose PD ALPR reference
+    # documents under assets/public-records/san-jose/reference/: the Digital Privacy
+    # Office intake address and the memo author's contact line in File 26-215.
+    "sanjoseca.gov",
 }
 
 # Known public phone numbers from published City of San Mateo records.
