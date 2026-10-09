@@ -49,11 +49,6 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-06-05T17:54:33Z"
   },
-  "https://localnewsmatters.org/2026/10/07/berkeley-city-council-mass-surveillance/": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://localnewsmatters.org/2026/10/07/berkeley-city-council-mass-surveillance/\nCall log:\n  - navigating to \"https://localnewsmatters.org/2026/10/07/berkeley-city-council-mass-surveillance/\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-10-08T16:44:13Z"
-  },
   "https://localnewsmatters.org/2026/10/07/san-jose-license-plate-reader-lawsuit-dismissed/": {
     "attempts": 1,
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://localnewsmatters.org/2026/10/07/san-jose-license-plate-reader-lawsuit-dismissed/\nCall log:\n  - navigating to \"https://localnewsmatters.org/2026/10/07/san-jose-license-plate-reader-lawsuit-dismissed/\", waiting until \"domcontentloaded\"\n",
@@ -123,11 +118,6 @@
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.aclunorcal.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them",
     "last_attempt": "2026-05-06T12:04:13Z"
-  },
-  "https://www.berkeleyside.org/2026/10/07/berkeley-city-council-district-1-ross-bernet-laura-babitt-daria-wrubel-moni-gangopadhyay-steve-kromer": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.berkeleyside.org/2026/10/07/berkeley-city-council-district-1-ross-bernet-laura-babitt-daria-wrubel-moni-gangopadhyay-steve-kromer\nCall log:\n  - navigating to \"https://www.berkeleyside.org/2026/10/07/berkeley-city-council-district-1-ross-bernet-laur",
-    "last_attempt": "2026-10-08T16:49:50Z"
   },
   "https://www.cambridgema.gov/Departments/citymanagersoffice/news/2025/flock-contract-terminated": {
     "attempts": 3,
@@ -225,9 +215,9 @@
     "last_attempt": "2026-09-16T20:05:05Z"
   },
   "https://www.kvue.com/article/news/local/hays-county/kyle-council-flock-cameras/269-401f3e43-1479-4821-8198-0efc6cf8fd5b": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kvue.com/article/news/local/hays-county/kyle-council-flock-cameras/269-401f3e43-1479-4821-8198-0efc6cf8fd5b\nCall log:\n  - navigating to \"https://www.kvue.com/article/news/local/hays-county/kyle-council-flock-cameras/269-401f3e43-1479-4821-8198-0efc",
-    "last_attempt": "2026-10-08T22:04:39Z"
+    "last_attempt": "2026-10-09T02:09:26Z"
   },
   "https://www.kvue.com/article/news/police/hutto-flock-license-plate-reader-cameras/269-bb59e66e-fe73-4253-86b7-e7c66a0259a0": {
     "attempts": 3,
@@ -300,9 +290,9 @@
     "last_attempt": "2026-05-26T16:55:11Z"
   },
   "https://www.kxan.com/news/local/hays/kyle/kyle-city-council-votes-to-cover-flock-cameras/": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-08T22:05:50Z"
+    "last_attempt": "2026-10-09T02:10:52Z"
   },
   "https://www.kxan.com/news/local/here-are-the-central-texas-law-enforcement-agencies-with-flock-data-sharing-agreements-with-texas-dps/": {
     "attempts": 3,
@@ -455,9 +445,9 @@
     "last_attempt": "2026-05-27T08:55:17Z"
   },
   "https://www.npr.org/2026/10/08/nx-s1-5981343/beyond-flock-police-ai-surveillance-tools": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.npr.org/2026/10/08/nx-s1-5981343/beyond-flock-police-ai-surveillance-tools\nCall log:\n  - navigating to \"https://www.npr.org/2026/10/08/nx-s1-5981343/beyond-flock-police-ai-surveillance-tools\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-10-08T22:07:00Z"
+    "last_attempt": "2026-10-09T02:12:06Z"
   },
   "https://www.nytimes.com/2026/09/28/nyregion/nyc-flock-nypd-surveillance-cameras.html": {
     "attempts": 3,
@@ -513,11 +503,6 @@
     "attempts": 3,
     "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.smdailyjournal.com/opinion/guest_perspectives/why-both-privacy-and-public-safety-matter-with-license-plate-reader-data/article_bdbd7d8a-9bf8-11eb-85e4-53c51152eaf0.html",
     "last_attempt": "2026-05-05T20:15:18Z"
-  },
-  "https://www.tennessean.com/story/news/2026/10/07/pueblo-has-93-license-plate-reader-cameras-heres-how-police-use-them/92117885007/": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.tennessean.com/story/news/2026/10/07/pueblo-has-93-license-plate-reader-cameras-heres-how-police-use-them/92117885007/\nCall log:\n  - navigating to \"https://www.tennessean.com/story/news/2026/10/07/pueblo-has-93-license-plate-reader-cameras-heres-ho",
-    "last_attempt": "2026-10-08T16:51:38Z"
   },
   "https://www.theolympian.com/news/local/article-olympia-flock": {
     "attempts": 3,
