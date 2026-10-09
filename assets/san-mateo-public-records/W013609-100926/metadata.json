@@ -1,0 +1,40 @@
+{
+  "title": "Case number R3-23-0055 — every Flock search citing it, and all Department records referring to it (follow-up to W013534)",
+  "summary": "Asks for records about case number R3-23-0055 for January 1, 2023 through the request date. The request notes that the Department's 10/9/2026 response to W013534-092926 produced the Flock audit record for search e3ff26d0-8f26-43d6-8e73-7c70b723b665 (04/09/2024, 07:44:34 PM UTC, 428 networks) with its reason field withheld under Gov. Code § 7923.600, and that this case number is associated with that search.\n\n- Item 1: the Flock audit record of every search under the Department's Flock account with R3-23-0055 in the reason or Case # field (any capitalization or spacing), with every field, in the electronic format the Department holds (Gov. Code § 7922.570). Quotes Civ. Code § 1798.90.52(a)'s access-record requirement and notes that a 'no responsive records' answer would conflict with the W013534 production.\n- Item 2: all other Department records containing or referring to the number: CAD/RMS/incident/case/case-management records; records of a request for, approval of, or assignment of work under it; records of ALPR results provided outside the Department under it, including Flock share/export/download event-log entries; and email, text and messaging on City accounts and on personal accounts or devices used for City business (City of San Jose v. Superior Court (2017) 2 Cal.5th 608), searched for the number and its unpunctuated form, including in the accounts of each user recorded for an item 1 search.\n\nWithheld portions are to be marked in place, field by field, with the exemption relied on (Gov. Code §§ 7922.525(b), 7922.540). If the Department says a responsive record is held by another agency, the request asks it to say so for that record. The request states it is separate from W013534 and from any rolling production of monthly audit logs.",
+  "tags": [
+    "audit-compliance",
+    "pra-process"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Civ. Code § 1798.90.52(a)",
+      "quote": "Maintain a record of that access. At a minimum, the record shall include all of the following: (1) The date and time the information is accessed. ... (4) The purpose for accessing the information.",
+      "tests": "Whether the Department produces the access record for every search citing this case number; the request notes one such record was already produced under W013534."
+    },
+    {
+      "policy": "Gov. Code § 7922.570",
+      "quote": "The agency shall make the information available in any electronic format in which it holds the information.",
+      "tests": "Whether the search records are produced in the native organization-audit .csv/.xlsx format rather than a PDF rendering."
+    },
+    {
+      "policy": "Gov. Code § 7922.525(b)",
+      "quote": "Any reasonably segregable portion of a record shall be available for inspection ... after deletion of the portions that are exempt by law",
+      "tests": "Whether any withholding is marked in place, field by field, with the exemption for each field."
+    },
+    {
+      "policy": "City of San Jose v. Superior Court (2017) 2 Cal.5th 608",
+      "quote": "when a city employee uses a personal account to communicate about the conduct of public business, the writings may be subject to disclosure under the California Public Records Act",
+      "tests": "Whether the item 2 message search covers personal accounts and devices used for City business."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013534-092926",
+      "relation": "scope-expansion",
+      "note": "Single-search request answered 10/9/2026 with a one-row audit record (reason withheld under § 7923.600) and 'No responsive records' on items 2-5. This request widens from that one search to every search and every Department record referring to the case number associated with it."
+    }
+  ],
+  "filed_because": "W013534 asked about one search and got its audit row with the reason withheld and no other records. This request names the case number associated with that search and asks for every search run under it and every Department record that refers to it, so the Department makes one determination covering the whole case number rather than a single search.",
+  "status_override": null,
+  "notes": "Filed 2026-10-09 (portal receipt 10/9/2026 12:05 PM); auto-acknowledged and forwarded to department(s). 10-day statutory determination due 2026-10-19."
+}
