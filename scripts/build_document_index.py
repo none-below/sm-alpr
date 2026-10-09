@@ -51,6 +51,8 @@ CITY_AGENCY = {
     "san-mateo": ("san-mateo-pd", "San Mateo PD"),
     "east-palo-alto": ("east-palo-alto-pd", "East Palo Alto PD"),
     "stockton": ("stockton-pd", "Stockton PD"),
+    "san-jose": ("san-jose-pd", "San Jose PD"),
+    "smcso": ("smcso", "San Mateo County SO"),
 }
 SMPD = ("san-mateo-pd", "San Mateo PD")
 
