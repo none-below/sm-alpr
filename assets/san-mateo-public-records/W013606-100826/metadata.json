@@ -1,0 +1,57 @@
+{
+  "title": "ALPR platform user accounts, account history and training records (Flock and Axon)",
+  "summary": "Asks for records on who has held accounts on the Department's ALPR platforms (Flock Safety, Axon including Fleet 3, and any other platform such as Vigilant or NCRIC AstroMetrics) from 2019-10-25 to the date of the request, in two parts. Part B is offered as a separate request if the City prefers, so it does not delay Part A.\n\nPart A — accounts and how they are managed:\n\n- Item 1: the account list for each platform (for example, the Flock admin user-list export and the Axon equivalent), with holder name, login, agency, role, creation and deactivation dates, including deactivated accounts,\n- Item 2: event-log entries for account creation, role or permission changes and deactivation, citing the Flock EVENTLOG produced under W012570 as the format,\n- Item 3: any record designating an \"authorized designee\" or other non-employee to access ALPR data under the Department's authority,\n- Item 4: the job-title or designation description of authorized users that Civ. Code § 1798.90.51(b)(2)(B) requires in the usage policy, plus any approved-roles or eligibility document,\n- Item 5: records showing whether ALPR accounts are managed under Policy 821 (CJIS), including annual account reviews and Policy 821.6 disablements,\n- Item 6: authentication or SSO records showing whether disabling a City account also disables platform access.\n\nPart B — per-person records:\n\n- Item 7: for each account holder, the record that they completed department-approved ALPR training before the account was issued (the W012672 sign-in sheet and roster show listing, not completion),\n- Item 8: the record by which each holder's access was approved, including the job-duties determination,\n- Item 9: each holder's start and end dates of employment or assignment,\n- Item 10: any record identifying or addressing an account used after the holder left or by an untrained holder.",
+  "tags": ["policy-463", "sop-205", "axon-alpr", "audit-compliance"],
+  "policy_promises": [
+    {
+      "policy": "463.6(a) / Civ. Code § 1798.90.52(a)(3)",
+      "quote": "shall be accessible only through a login/password-protected system capable of documenting all access of information by name, date and time",
+      "tests": "Can the Department produce the list of accounts on each ALPR platform, with each holder's name and affiliation?"
+    },
+    {
+      "policy": "463.4(a) / 463.4(d)",
+      "quote": "Department member(s) or authorized designee whose job duties necessitate the use of ALPR",
+      "tests": "What record designates any non-employee as an authorized designee, and what record shows each holder's job duties necessitate ALPR use?"
+    },
+    {
+      "policy": "463.4(d)",
+      "quote": "No member of this department or authorized designee shall operate ALPR equipment or access ALPR data without first completing department-approved training.",
+      "tests": "Is there a completion record (not just a sign-in sheet or blank roster) for each account holder, dated before the account was issued?"
+    },
+    {
+      "policy": "SOP 205.3 / 205.4",
+      "quote": "Records of this training shall be maintained by our Training Division.",
+      "tests": "Does the Training Division hold completion records for every ALPR end-user?"
+    },
+    {
+      "policy": "Civ. Code § 1798.90.51(b)(2)(B)",
+      "quote": "A description of the job title or other designation of the employees and independent contractors who are authorized to use or access the ALPR system",
+      "tests": "Does Policy 463, which lists no job titles, contain the description state law requires, or does one exist elsewhere?"
+    },
+    {
+      "policy": "821.3.1(b)(3) / 821.6",
+      "quote": "Reviewing member accounts for compliance with legal and policy requirements at least annually",
+      "tests": "Are ALPR platform accounts reviewed annually and disabled within one week of separation or 90 days' inactivity, as Policy 821 requires?"
+    },
+    {
+      "policy": "Gov. Code § 7922.535(a)",
+      "quote": "agency must notify requester within 10 calendar days whether it will produce records",
+      "tests": "Does the City issue a determination by 2026-10-18?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W012672-050426",
+      "relation": "scope-followup",
+      "note": "Produced the undated LEFTA \"Flock Training (Initial)\" sign-in sheet (151 names, blank completion boxes) and the Feb 10–11, 2020 POST 2-111 roster with blank completion columns. Item 7 asks for completion records those documents do not show."
+    },
+    {
+      "ref": "W012570-041926",
+      "relation": "context",
+      "note": "Produced a Flock EVENTLOG; item 2 cites it as the record format and says a \"no records\" reply would conflict with that production."
+    }
+  ],
+  "filed_because": "The W012672 training production shows who was listed for Flock training, not who completed it, and Policy 463 names no job titles for authorized users. The request asks for the account lists themselves, the account event history, the approval and training-completion record for each holder, and their employment dates, so that account holders can be checked against the training, approval and Policy 821 disablement rules.",
+  "status_override": null,
+  "notes": "Filed 2026-10-08; auto-acknowledged the same day at 8:56 PM and forwarded to department(s) for processing. Statutory determination due 2026-10-18 (a Sunday)."
+}
