@@ -18,6 +18,7 @@ def test_label_and_part_parsing():
     assert bm.label_for("1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_1_.pdf")[0] == "Jan 2025 (pt1)"
     assert bm.label_for("12_1_2025-12_31_2025-San_Mateo_CA_PD_Audit.pdf")[0] == "Dec 2025"
     assert bm.label_for("2_1_2026-2_28_2026-San_Mateo_CA_PD-Audit__2_.pdf")[0] == "Feb 2026"
+    assert bm.label_for("01-01-23-01-15-23-San_Mateo_CA_PD-Audit.pdf")[0] == "Jan 1–15 2023"
 
 
 @pytest.mark.skipif(not FOLDER.exists(), reason="W012541 audit PDFs not present")
@@ -29,7 +30,7 @@ def test_manifest_flags_and_hygiene():
     # the non-audit production record must not leak into the picker
     assert not any("Message_History" in e["path"] for e in man)
     # chronological order (robust to how many months are present)
-    assert man[0]["label"] == "Jan 2023"
+    assert man[0]["label"].startswith("Jan") and man[0]["label"].endswith("2023")
     keys = [bm.label_for(Path(e["path"]).name)[1] for e in man]
     assert keys == sorted(keys)
     # chips carry flags ONLY — no edit detail, notes, or person names baked in

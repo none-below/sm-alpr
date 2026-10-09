@@ -34,11 +34,18 @@ MONTHS = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 def label_for(name: str) -> tuple[str, tuple]:
     """Human label + chronological sort key from a filename like
-    '1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_1_.pdf'."""
+    '1_1_2025-1_31_2025-San_Mateo_CA_PD-Audit__Part_1_.pdf', or a part-month
+    range like '01-01-23-01-15-23-San_Mateo_CA_PD-Audit.pdf' (MM-DD-YY twice)."""
     m = re.match(r"^(\d+)_(\d+)_(\d+)-", name)
+    d = re.match(r"^(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-", name)
     if m:
         mo, _da, yr = int(m.group(1)), int(m.group(2)), int(m.group(3))
         label = f"{MONTHS[mo]} {yr}" if 1 <= mo <= 12 else str(yr)
+    elif d:
+        mo, da, yr = int(d.group(1)), int(d.group(2)), 2000 + int(d.group(3))
+        end_mo, end_da = int(d.group(4)), int(d.group(5))
+        span = f" {da}–{end_da}" if end_mo == mo else ""
+        label = f"{MONTHS[mo]}{span} {yr}" if 1 <= mo <= 12 else str(yr)
     else:
         mo, yr, label = 0, 0, name
     pm = re.search(r"Part_(\d+)", name)
