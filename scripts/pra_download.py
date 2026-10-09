@@ -124,6 +124,31 @@ def pdf_text_fingerprint(pdf_bytes: bytes) -> str | None:
     return hashlib.md5(normalized.encode("utf-8")).hexdigest()
 
 
+def message_history_problem(pdf_bytes: bytes, request_id: str) -> str | None:
+    """Why a downloaded Message History can't be this request's, or None.
+
+    The portal's print opens with a "<id> - California Public Records Request"
+    heading. Two failures have overwritten good copies: an HTML error page
+    saved as the PDF, and a different request's history (and attachments)
+    filed under this id after the scraper clicked the wrong card."""
+    if not pdf_bytes.startswith(b"%PDF"):
+        return "Message History is not a PDF (portal error page?)"
+    try:
+        doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+    except Exception:
+        return "Message History PDF is unreadable"
+    try:
+        text = doc[0].get_text() if doc.page_count else ""
+    finally:
+        doc.close()
+    heading = next((ln.strip() for ln in text.splitlines() if ln.strip()), "")
+    if not heading.startswith(request_id):
+        found = W_REQUEST_ID_RE.search(heading)
+        return (f"Message History is for {found.group(0) if found else '?'}, "
+                f"not {request_id} (opened the wrong request)")
+    return None
+
+
 FILENAME_CD_RE = re.compile(
     r"filename[*]?=(?:UTF-8''|)[\"']?([^\"';]+)[\"']?",
     re.IGNORECASE,
@@ -879,7 +904,7 @@ def discover_and_stub_new_requests(page: Page, home_url: str) -> list[str]:
 
 
 def local_pdf_names(folder: Path) -> set[str]:
-    return {p.name for p in folder.glob("*.pdf")}
+    return {p.name for p in folder.glob("*.pdf", case_sensitive=False)}
 
 
 DOCLIKE_EXTS = (".pdf", ".doc", ".docx", ".xls", ".xlsx", ".zip", ".csv",
@@ -1310,19 +1335,27 @@ def _goto_request_section(page: Page, home_url: str, request_id: str,
 
     button_label = "View File" if section == "view_files" else "Details"
 
+    # get_by_role matches <button>, <input type="submit">, and anything
+    # with role='button', which covers DevExpress ASPxButton variants.
+    name_re = re.compile(rf"^\s*{re.escape(button_label)}", re.IGNORECASE)
+    buttons = page.get_by_role("button", name=name_re)
     if search_for_request(page, request_id):
-        # After search there's exactly one card on the page, so we can grab
-        # the only matching button directly — no card-scoping needed.
-        # get_by_role matches <button>, <input type="submit">, and anything
-        # with role='button', which covers DevExpress ASPxButton variants.
-        name_re = re.compile(rf"^\s*{re.escape(button_label)}",
-                             re.IGNORECASE)
-        btn = page.get_by_role("button", name=name_re).first
+        btn = buttons.first
         try:
             btn.wait_for(state="attached", timeout=5_000)
         except PWTimeout:
             err(f"   {button_label} button not attached after search")
             return False
+        # A successful search leaves exactly one card, so the only button is
+        # ours. More than one means the search didn't narrow the list (slow
+        # or dropped postback) and .first is whichever request sorts on top —
+        # fall through to the card-scoped walk rather than click a stranger.
+        n = buttons.count()
+        if n != 1:
+            warn(f"   search left {n} {button_label} buttons; "
+                 f"locating {request_id}'s card instead")
+            return open_request_from_home(page, home_url, request_id,
+                                          button_label=button_label)
         # Invoke the native HTMLElement.click() via JS: fires the click event
         # AND triggers default actions (anchor nav, form submit, onclick),
         # without Playwright's scroll-into-view dance. The page's own JS has
@@ -1378,9 +1411,23 @@ def process_request(page: Page, home_url: str, request_id: str,
         if mh_link is None:
             warn(f"   WARN: no Print Messages (PDF) link found")
         else:
+            previous = mh_target.read_bytes() if mh_target.exists() else None
             result = save_pdf_via_click(page, mh_link, target_path=mh_target)
             if result:
                 _, state = result
+                problem = message_history_problem(mh_target.read_bytes(),
+                                                  request_id)
+                if problem:
+                    if previous is None:
+                        mh_target.unlink()
+                    else:
+                        mh_target.write_bytes(previous)
+                    # The page isn't this request's, so neither are its
+                    # attachments — skip them rather than file a stranger's
+                    # production under this id.
+                    err(f"   ERR: {problem}; kept the previous copy, "
+                        f"skipping {request_id}")
+                    return
                 file_status(state, mh_target.name)
             else:
                 err(f"   ERR: Print Messages fetch failed")
