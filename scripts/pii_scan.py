@@ -89,6 +89,20 @@ ALLOWED_EMAIL_DOMAINS = {
     # address is published on the BSCC contact page; appears in outbound
     # correspondence under assets/public-records/bscc/.
     "bscc.ca.gov",
+    # Axon Enterprise — vendor sales-rep, privacy@ and aceip@ contact addresses
+    # printed in Axon quotes and terms attached to other agencies' council
+    # records under assets/public-records/denver/ and cloquet-mn/.
+    "axon.com",
+    # City and County of Denver — contract-manager and Privacy@ addresses in the
+    # council-approved Axon ALPR agreement (file 26-0246),
+    # assets/public-records/denver/reference/.
+    "denvergov.org",
+    # City of Cloquet, MN — police department letterhead and chief's address in
+    # the Feb 17, 2026 Request for Council Action (Axon Draft One),
+    # assets/public-records/cloquet-mn/reference/. The second form is how the
+    # chief's address is printed in that document.
+    "cloquetmn.gov",
+    "cloquet.mn.gov",
 }
 
 # Known public phone numbers from published City of San Mateo records.

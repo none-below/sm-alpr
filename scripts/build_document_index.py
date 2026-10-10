@@ -51,6 +51,8 @@ CITY_AGENCY = {
     "san-mateo": ("san-mateo-pd", "San Mateo PD"),
     "east-palo-alto": ("east-palo-alto-pd", "East Palo Alto PD"),
     "stockton": ("stockton-pd", "Stockton PD"),
+    "denver": ("denver-pd", "Denver PD"),
+    "cloquet-mn": ("cloquet-pd", "Cloquet PD (MN)"),
 }
 SMPD = ("san-mateo-pd", "San Mateo PD")
 
