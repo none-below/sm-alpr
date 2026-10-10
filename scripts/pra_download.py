@@ -483,6 +483,15 @@ WITHHELD_ATTACHMENTS: dict[str, dict[str, str]] = {
         "3bc889621727baed3952279495c5f095edc3ed57d3437aadaa546c36d632f1f8":
             "withheld pending reissue",
     },
+    # 2406180016_CAD.pdf as released 10/8/2026: the Persons block shows third
+    # parties' names, DOBs, and a DL number, which the request excluded. A
+    # requester-made derivative is in the request folder's requester-redacted/
+    # subfolder; a corrected re-upload has different bytes and so is downloaded
+    # normally.
+    "W013546-093026": {
+        "4fd0deaf5dcf2e1746f79010ace06620970e4b3d28f98129700fecedf8c0e00b":
+            "third-party PII",
+    },
 }
 
 
