@@ -109,11 +109,6 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-27T16:49:26Z"
   },
-  "https://timesofsandiego.com/print-editions/2026/10/09/la-jolla-village-news-october-9-2026/": {
-    "attempts": 2,
-    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://timesofsandiego.com/print-editions/2026/10/09/la-jolla-village-news-october-9-2026/\nCall log:\n  - navigating to \"https://timesofsandiego.com/print-editions/2026/10/09/la-jolla-village-news-october-9-2026/\", waiting until \"domcontentloaded\"\n",
-    "last_attempt": "2026-10-10T18:35:09Z"
-  },
   "https://universe.byu.edu/metro/the-debate-of-alpr-cameras-in-provo": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
@@ -135,9 +130,9 @@
     "last_attempt": "2026-05-09T06:28:56Z"
   },
   "https://www.cleveland.com/crime/2026/10/clevelands-police-commission-wants-to-pause-flock-camera-use-will-that-happen.html": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-10T18:06:11Z"
+    "last_attempt": "2026-10-10T22:31:04Z"
   },
   "https://www.columbian.com/news/2025/skamania-county-flock": {
     "attempts": 3,
@@ -215,9 +210,9 @@
     "last_attempt": "2026-06-19T17:25:12Z"
   },
   "https://www.kron4.com/news/technology-ai/controversial-surveillance-camera-company-flock-safety-reducing-staff-amid-backlash/": {
-    "attempts": 1,
-    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kron4.com/news/technology-ai/controversial-surveillance-camera-company-flock-safety-reducing-staff-amid-backlash/\nCall log:\n  - navigating to \"https://www.kron4.com/news/technology-ai/controversial-surveillance-camera-company-flock-safety-reducing-",
-    "last_attempt": "2026-10-10T18:05:48Z"
+    "attempts": 2,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-10T22:29:48Z"
   },
   "https://www.kut.org/austin/2025-07-01/austin-ends-flock-cameras": {
     "attempts": 3,
@@ -485,9 +480,9 @@
     "last_attempt": "2026-05-08T22:11:56Z"
   },
   "https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2026-10-09/": {
-    "attempts": 2,
-    "error": "HTTP 401",
-    "last_attempt": "2026-10-10T18:36:23Z"
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2026-10-09/\nCall log:\n  - navigating to \"https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2",
+    "last_attempt": "2026-10-10T22:34:25Z"
   },
   "https://www.smdailyjournal.com/news/local/belmont-moves-ahead-with-drone-program/article_4723b7c0-52d9-11ef-ac5e-efdc64cb5f0f.html": {
     "attempts": 3,
@@ -515,14 +510,14 @@
     "last_attempt": "2026-05-27T16:47:32Z"
   },
   "https://www.smdailyjournal.com/news/local/san-mateo-police-department-restricts-data-sharing/article_0625c800-b15c-4085-9246-2358fd3e9662.html": {
-    "attempts": 2,
-    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.smdailyjournal.com/news/local/san-mateo-police-department-restricts-data-sharing/article_0625c800-b15c-4085-9246-2358fd3e9662.html\nCall log:\n  - navigating to \"https://www.smdailyjournal.com/news/local/san-mateo-police-department-restricts-data-sha",
-    "last_attempt": "2026-10-10T18:32:14Z"
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_HTTP_RESPONSE_CODE_FAILURE at https://www.smdailyjournal.com/news/local/san-mateo-police-department-restricts-data-sharing/article_0625c800-b15c-4085-9246-2358fd3e9662.html\nCall log:\n  - navigating to \"https://www.smdailyjournal.com/news/local/san-mateo-police-department-restrict",
+    "last_attempt": "2026-10-10T22:28:36Z"
   },
   "https://www.smdailyjournal.com/news/local/san-mateo-to-implement-axon-cameras-the-city-will-add-alpr-cameras-in-new-contract/article_7a240de8-4b73-4afa-a6fa-62c6eec28e68.html": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "Error: Page.goto: net::ERR_HTTP_RESPONSE_CODE_FAILURE at https://www.smdailyjournal.com/news/local/san-mateo-to-implement-axon-cameras-the-city-will-add-alpr-cameras-in-new-contract/article_7a240de8-4b73-4afa-a6fa-62c6eec28e68.html\nCall log:\n  - navigating to \"https://www.smdailyjournal.com/news/local/san-",
-    "last_attempt": "2026-10-10T18:30:53Z"
+    "last_attempt": "2026-10-10T22:27:22Z"
   },
   "https://www.smdailyjournal.com/news/local/south-san-francisco-police-leverage-ai/article_98ae85ac-3282-41d1-aabe-00a0a5b2aa0e.html": {
     "attempts": 3,
