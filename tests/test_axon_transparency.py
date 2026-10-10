@@ -1,0 +1,381 @@
+#!/usr/bin/env python3
+"""Tests for the Axon ALPR transparency archiver (axon_transparency.py).
+
+A fake HTTP session stands in for evidence.com; captures land in tmp_path.
+Run with: uv run pytest tests/test_axon_transparency.py
+"""
+
+import base64
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+import axon_transparency as ax  # noqa: E402
+
+
+# ── fakes ────────────────────────────────────────────────────────
+
+class Resp:
+    def __init__(self, status, body=b"", headers=None):
+        self.status_code = status
+        self.content = body
+        self.headers = {k.lower(): v for k, v in (headers or {}).items()}
+
+
+class FakeSession:
+    """Routes GETs by exact URL; unknown URLs are a test failure."""
+
+    def __init__(self, routes):
+        self.routes = dict(routes)
+        self.calls = []
+
+    def get(self, url, allow_redirects=True, timeout=None):
+        self.calls.append(url)
+        r = self.routes[url]
+        return r() if callable(r) else r
+
+
+BLOB_404 = Resp(404, b'\xef\xbb\xbf<?xml version="1.0"?><Error><Code>BlobNotFound</Code></Error>')
+
+
+def doc(**over):
+    d = {
+        "agencyInfo": {"id": "a-1", "name": "Test PD"},
+        "transparencySetting": {"general_enable": True},
+        "policy": {"readRetentionSetting": 30, "hitRetentionSetting": 365,
+                   "offenseCategories": [{"id": 59, "name": "Stolen Vehicle"}]},
+        "metric": {"readsRetained": 1000, "hitsRetained": 10, "vehicles": 5},
+        "updatedAt": 1791288321,
+        "deviceBreakdown": {"fleet": 5, "outpost": 0, "lightpost": 0},
+        "categoryBreakdown": {"59": 3},
+    }
+    for k, v in over.items():
+        if isinstance(v, dict) and isinstance(d.get(k), dict):
+            d[k] = {**d[k], **v}
+        else:
+            d[k] = v
+    return d
+
+
+def published(d, md5=True):
+    body = json.dumps(d, separators=(",", ":")).encode()
+    h = {"Last-Modified": "Tue, 06 Oct 2026 12:05:21 GMT", "ETag": "0x1"}
+    if md5:
+        h["Content-MD5"] = base64.b64encode(hashlib.md5(body).digest()).decode()
+    return Resp(200, body, h)
+
+
+def tenant_redirect(host):
+    return Resp(303, headers={"Location": f"https://id.evidence.com/oauth/authorize?state=x&domain={host}&client_id=y"})
+
+
+NO_TENANT = Resp(303, headers={"Location": "https://id.evidence.com/login?return_url=%2Faxon%2Fdashboard"})
+
+H = "testpdca.evidence.com"
+
+
+# ── hosts ────────────────────────────────────────────────────────
+
+@pytest.mark.parametrize("text,host", [
+    ("springfieldpdca", "springfieldpdca.evidence.com"),
+    ("SpringfieldPDCA.evidence.com", "springfieldpdca.evidence.com"),
+    ("https://lewisvillepdtx.evidence.com/alpr/public/policy", "lewisvillepdtx.evidence.com"),
+    ("hps.ca", "hps.ca.evidence.com"),
+])
+def test_normalize_host(text, host):
+    assert ax.normalize_host(text) == host
+
+
+@pytest.mark.parametrize("bad", ["", "evidence.com", "foo bar", "https:///x"])
+def test_normalize_host_rejects(bad):
+    with pytest.raises(ValueError):
+        ax.normalize_host(bad)
+
+
+def test_file_url_uses_first_label_for_regional_hosts():
+    assert ax.file_url("hps.ca.evidence.com") == \
+        "https://hps.ca.evidence.com/alpr/public/v1/transparency/file/hps.json"
+    assert ax.host_key("hps.ca.evidence.com") == "hps.ca"
+
+
+def test_classify_login_redirect():
+    loc_real = "https://id.evidence.com/oauth/authorize?state=x&domain=springfieldpdca.evidence.com&redirect_uri=z"
+    assert ax.classify_login_redirect(303, loc_real, "springfieldpdca.evidence.com") == "tenant"
+    # Another tenant's domain in the redirect is not a match for this host.
+    assert ax.classify_login_redirect(303, loc_real, "shelbyvillepdca.evidence.com") == "unknown"
+    assert ax.classify_login_redirect(
+        303, "https://id.evidence.com/login?return_url=%2Faxon%2Fdashboard", "x.evidence.com") == "no_tenant"
+    assert ax.classify_login_redirect(200, "", "x.evidence.com") == "unknown"
+    assert ax.classify_login_redirect(503, loc_real, "springfieldpdca.evidence.com") == "unknown"
+
+
+# ── fetch ────────────────────────────────────────────────────────
+
+def test_fetch_published_records_provenance():
+    s = FakeSession({ax.file_url(H): published(doc())})
+    r = ax.fetch_transparency(s, H)
+    assert r["status"] == "published"
+    assert r["doc"]["agencyInfo"]["name"] == "Test PD"
+    m = r["meta"]
+    assert m["sha256"] == hashlib.sha256(r["body"]).hexdigest()
+    assert m["content_md5_ok"] is True
+    assert m["updated_at"] == "2026-10-06T12:05:21Z"
+    assert m["fetched_at"].endswith("Z")
+
+
+def test_fetch_md5_mismatch_is_error():
+    bad = published(doc())
+    bad.headers["content-md5"] = base64.b64encode(b"0" * 16).decode()
+    r = ax.fetch_transparency(FakeSession({ax.file_url(H): bad}), H)
+    assert r["status"] == "error" and "MD5" in r["error"]
+
+
+def test_fetch_without_md5_header_still_published():
+    r = ax.fetch_transparency(FakeSession({ax.file_url(H): published(doc(), md5=False)}), H)
+    assert r["status"] == "published" and r["meta"]["content_md5_ok"] is None
+
+
+@pytest.mark.parametrize("resp,status", [
+    (BLOB_404, "not_published"),
+    (Resp(404, b"<html>nginx 404</html>"), "error"),
+    (Resp(403, b"denied"), "error"),
+    (Resp(200, b"<html>login</html>"), "error"),
+    (Resp(200, b'{"no":"agencyInfo"}'), "error"),
+])
+def test_fetch_classification(resp, status):
+    assert ax.fetch_transparency(FakeSession({ax.file_url(H): resp}), H)["status"] == status
+
+
+def test_fetch_429_raises():
+    with pytest.raises(ax.RateLimited):
+        ax.fetch_transparency(FakeSession({ax.file_url(H): Resp(429)}), H)
+
+
+# ── capture policy ───────────────────────────────────────────────
+
+def test_counters_only_change_is_not_material():
+    a = doc()
+    b = doc(metric={"readsRetained": 999999, "hitsRetained": 77}, updatedAt=1, categoryBreakdown={"59": 9})
+    assert ax.material_view(a) == ax.material_view(b)
+    assert ax.should_capture("2026-10-08", a, b, "2026-10-10", 7) is None
+    assert ax.should_capture("2026-10-03", a, b, "2026-10-10", 7) == "stale"
+
+
+@pytest.mark.parametrize("over", [
+    {"policy": {"readRetentionSetting": 365}},
+    {"deviceBreakdown": {"outpost": 12}},
+    {"metric": {"vehicles": 6}},
+    {"sharedAgencies": [{"agencyId": "b", "agencyName": "Other PD", "state": "CA", "sharedSince": "2026-01-01"}]},
+    {"policyStatements": {"data_access": "new text"}},
+])
+def test_material_change_captures_immediately(over):
+    assert ax.should_capture("2026-10-09", doc(), doc(**over), "2026-10-10", 7) == "changed"
+
+
+def test_first_capture():
+    assert ax.should_capture(None, None, doc(), "2026-10-10", 7) == "first"
+
+
+def test_material_changes_lines():
+    prev = doc(sharedAgencies=[{"agencyId": "1", "agencyName": "Old PD", "state": "CA"}])
+    cur = doc(sharedAgencies=[{"agencyId": "2", "agencyName": "New SO", "state": " TX "}],
+              deviceBreakdown={"outpost": 12})
+    lines = ax.material_changes(prev, cur)
+    assert "sharing added: New SO, TX" in lines
+    assert "sharing removed: Old PD, CA" in lines
+    assert "deviceBreakdown.outpost: 0 → 12" in lines
+    assert ax.material_changes(None, cur) == []
+
+
+# ── crawl (end to end on disk) ───────────────────────────────────
+
+def _register(tmp_path, host=H):
+    d, new = ax.register(tmp_path, host, "2026-10-01")
+    assert new
+    return d
+
+
+def test_crawl_writes_raw_bytes_meta_and_transition(tmp_path):
+    d = _register(tmp_path)
+    resp = published(doc())
+    ax.run_crawl(FakeSession({ax.file_url(H): resp}), tmp_path, delay=0, today="2026-10-10")
+
+    assert (d / "2026-10-10.json").read_bytes() == resp.content  # byte-for-byte
+    meta = json.loads((d / "2026-10-10.meta.json").read_text())
+    assert meta["sha256"] == hashlib.sha256(resp.content).hexdigest()
+    rec = ax.load_tenant(d)
+    assert rec["published"] is True
+    assert rec["axon_agency"] == {"id": "a-1", "name": "Test PD"}
+    assert [e["event"] for e in rec["events"]] == ["tenant_found", "published"]
+    assert ax.load_state(tmp_path)["tenants"][H] == "2026-10-10"
+
+
+def test_crawl_skips_counter_only_change_but_marks_checked(tmp_path):
+    d = _register(tmp_path)
+    ax.run_crawl(FakeSession({ax.file_url(H): published(doc())}), tmp_path, delay=0, today="2026-10-10")
+    tenant_before = (d / ax.TENANT_FILE).read_text()
+    ax.run_crawl(FakeSession({ax.file_url(H): published(doc(metric={"readsRetained": 5}))}),
+                 tmp_path, delay=0, today="2026-10-11")
+    assert [c for c, _ in ax.captures(d)] == ["2026-10-10"]
+    assert (d / ax.TENANT_FILE).read_text() == tenant_before  # no churn
+    assert ax.load_state(tmp_path)["tenants"][H] == "2026-10-11"
+
+
+def test_crawl_unpublish_is_an_event_and_keeps_captures(tmp_path):
+    d = _register(tmp_path)
+    ax.run_crawl(FakeSession({ax.file_url(H): published(doc())}), tmp_path, delay=0, today="2026-10-10")
+    ax.run_crawl(FakeSession({ax.file_url(H): BLOB_404}), tmp_path, delay=0, today="2026-10-12")
+    rec = ax.load_tenant(d)
+    assert rec["published"] is False
+    assert rec["events"][-1] == {"date": "2026-10-12", "event": "not_published"}
+    assert [c for c, _ in ax.captures(d)] == ["2026-10-10"]
+
+
+def test_crawl_error_leaves_tenant_unchecked(tmp_path):
+    d = _register(tmp_path)
+    counts = ax.run_crawl(FakeSession({ax.file_url(H): Resp(403)}), tmp_path, delay=0, today="2026-10-10")
+    assert counts["error"] == 1
+    assert ax.load_tenant(d)["published"] is None
+    assert H not in ax.load_state(tmp_path)["tenants"]
+    assert ax.captures(d) == []
+
+
+def test_crawl_order_is_oldest_checked_first(tmp_path):
+    hosts = ["a.evidence.com", "b.evidence.com", "c.evidence.com"]
+    for h in hosts:
+        _register(tmp_path, h)
+    st = ax.load_state(tmp_path)
+    st["tenants"] = {"a.evidence.com": "2026-10-09", "b.evidence.com": "2026-10-01"}
+    ax.save_state(tmp_path, st)
+    s = FakeSession({ax.file_url(h): BLOB_404 for h in hosts})
+    ax.run_crawl(s, tmp_path, limit=2, delay=0, today="2026-10-10")
+    assert s.calls == [ax.file_url("c.evidence.com"), ax.file_url("b.evidence.com")]
+
+
+# ── probe ────────────────────────────────────────────────────────
+
+def entry(aid, name, role, state="CA", kind=None, lat=None, lng=None):
+    return {"agency_id": aid, "agency_role": role,
+            "geo": {"name": name, "state": state, "kind": kind or ("county" if role == "sheriff" else "place"),
+                    "lat": lat, "lng": lng}}
+
+
+def test_agency_candidates():
+    pd = [h for h, _ in ax.agency_candidates(entry("1", "Springfield", "police"))]
+    assert pd == ["springfieldpdca.evidence.com", "springfieldpoliceca.evidence.com", "springfieldpd.evidence.com"]
+    so = [h for h, _ in ax.agency_candidates(entry("2", "Springfield County", "sheriff"))]
+    assert so[0] == "springfieldsoca.evidence.com" and "springfieldcountysoca.evidence.com" in so
+    assert ax.agency_candidates(entry("3", "La Cañada Flintridge", "police"))[0][0] == \
+        "lacanadaflintridgepdca.evidence.com"
+    assert ax.agency_candidates(entry("4", "X", "da")) == []
+    assert ax.agency_candidates(entry("5", "California", "police", kind="state-only")) == []
+    assert ax.agency_candidates({"agency_id": "6", "agency_role": "police"}) == []
+
+
+def test_registry_targets_filters_and_orders():
+    es = [entry("far", "Fresno", "police", lat=36.7, lng=-119.8),
+          entry("near", "Shelbyville", "police", lat=37.58, lng=-122.36),
+          entry("linked", "Springfield", "police", lat=37.56, lng=-122.31),
+          entry("tx", "Lewisville", "police", state="TX", lat=33.0, lng=-97.0),
+          entry("nocoord", "Somewhere", "police")]
+    got = [e["agency_id"] for e in ax.registry_targets(es, {"linked"}, state="CA", near=(37.56, -122.31))]
+    assert got == ["near", "far", "nocoord"]
+
+
+def test_probe_stops_at_first_hit_and_crawls(tmp_path):
+    e = entry("agency-1", "Test", "police")
+    s = FakeSession({
+        ax.login_url("testpdca.evidence.com"): NO_TENANT,
+        ax.login_url("testpoliceca.evidence.com"): tenant_redirect("testpoliceca.evidence.com"),
+        ax.file_url("testpoliceca.evidence.com"): BLOB_404,
+    })
+    found = ax.run_probe(s, tmp_path, entries=[e], delay=0, today="2026-10-10")
+    assert found == ["testpoliceca.evidence.com"]
+    assert ax.login_url("testpd.evidence.com") not in s.calls  # stopped at first hit
+    rec = ax.load_tenant(tmp_path / "testpoliceca")
+    assert rec["agency_id"] == "agency-1" and rec["match"] == "registry:{b}police{st}"
+    assert rec["published"] is False  # crawled right away: "has tenant, publishes nothing"
+    st = ax.load_state(tmp_path)
+    assert st["candidates"]["testpdca.evidence.com"] == {"checked": "2026-10-10", "result": "no_tenant"}
+
+
+def test_probe_skips_recent_negatives_and_rechecks_old_ones(tmp_path):
+    e = entry("agency-1", "Test", "police")
+    st = ax.load_state(tmp_path)
+    st["candidates"] = {
+        "testpdca.evidence.com": {"checked": "2026-10-01", "result": "no_tenant"},     # recent: skip
+        "testpoliceca.evidence.com": {"checked": "2026-01-01", "result": "no_tenant"},  # old: recheck
+    }
+    ax.save_state(tmp_path, st)
+    s = FakeSession({ax.login_url("testpoliceca.evidence.com"): NO_TENANT,
+                     ax.login_url("testpd.evidence.com"): NO_TENANT})
+    ax.run_probe(s, tmp_path, entries=[e], delay=0, today="2026-10-10")
+    assert s.calls == [ax.login_url("testpoliceca.evidence.com"), ax.login_url("testpd.evidence.com")]
+
+
+def test_probe_unknown_redirect_is_not_recorded(tmp_path):
+    s = FakeSession({ax.login_url(H): Resp(200)})
+    ax.run_probe(s, tmp_path, hosts=[H], delay=0, today="2026-10-10")
+    assert H not in ax.load_state(tmp_path)["candidates"]
+    assert ax.known_tenants(tmp_path) == {}
+
+
+def test_probe_links_existing_unlinked_tenant_without_a_request(tmp_path):
+    _register(tmp_path, "testpdca.evidence.com")
+    s = FakeSession({})
+    ax.run_probe(s, tmp_path, entries=[entry("agency-1", "Test", "police")], delay=0, today="2026-10-10")
+    assert s.calls == []
+    assert ax.load_tenant(tmp_path / "testpdca")["agency_id"] == "agency-1"
+
+
+def test_probe_rate_limit_stops_and_saves_state(tmp_path):
+    es = [entry("a", "Alpha", "police"), entry("b", "Beta", "police")]
+    s = FakeSession({ax.login_url("alphapdca.evidence.com"): NO_TENANT,
+                     ax.login_url("alphapoliceca.evidence.com"): Resp(429)})
+    ax.run_probe(s, tmp_path, entries=es, delay=0, today="2026-10-10")
+    assert ax.load_state(tmp_path)["candidates"]["alphapdca.evidence.com"]["result"] == "no_tenant"
+    assert not any("beta" in c for c in s.calls)
+
+
+def test_probe_limit_counts_agencies_not_requests(tmp_path):
+    es = [entry("a", "Alpha", "police"), entry("b", "Beta", "police")]
+    s = FakeSession({ax.login_url(h): NO_TENANT for e in es for h, _ in ax.agency_candidates(e)})
+    ax.run_probe(s, tmp_path, entries=es, limit=1, delay=0, today="2026-10-10")
+    assert len(s.calls) == 3 and all("alpha" in c for c in s.calls)
+
+
+def test_probe_hit_without_state_code_links_only_as_candidate(tmp_path):
+    e = entry("agency-1", "Test", "police")
+    s = FakeSession({
+        ax.login_url("testpdca.evidence.com"): NO_TENANT,
+        ax.login_url("testpoliceca.evidence.com"): NO_TENANT,
+        ax.login_url("testpd.evidence.com"): tenant_redirect("testpd.evidence.com"),
+        ax.file_url("testpd.evidence.com"): BLOB_404,
+    })
+    ax.run_probe(s, tmp_path, entries=[e], delay=0, today="2026-10-10")
+    rec = ax.load_tenant(tmp_path / "testpd")
+    assert rec["agency_id"] is None
+    assert rec["candidate_agency_id"] == "agency-1"
+    assert rec["match"] == "registry:{b}pd"
+
+
+def test_explicit_agency_id_confirms_a_candidate(tmp_path):
+    ax.register(tmp_path, "testpd.evidence.com", "2026-10-10", "agency-1", "{b}pd")
+    s = FakeSession({ax.login_url("testpd.evidence.com"): tenant_redirect("testpd.evidence.com"),
+                     ax.file_url("testpd.evidence.com"): BLOB_404})
+    ax.run_probe(s, tmp_path, hosts=["testpd.evidence.com"], agency_id="agency-1", delay=0, today="2026-10-11")
+    rec = ax.load_tenant(tmp_path / "testpd")
+    assert rec["agency_id"] == "agency-1" and rec["candidate_agency_id"] is None
+    assert rec["match"] == "manual"
+
+
+def test_probe_unknown_verdict_does_not_fall_through_to_weaker_rule(tmp_path):
+    e = entry("agency-1", "Test", "police")
+    s = FakeSession({ax.login_url("testpdca.evidence.com"): Resp(200)})  # no redirect: unrecognized
+    ax.run_probe(s, tmp_path, entries=[e], delay=0, today="2026-10-10")
+    assert s.calls == [ax.login_url("testpdca.evidence.com")]
+    assert ax.load_state(tmp_path)["candidates"] == {}

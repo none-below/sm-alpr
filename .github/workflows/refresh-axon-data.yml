@@ -1,0 +1,146 @@
+name: Refresh Axon Transparency Data
+
+# Archives Axon's opt-in ALPR "Policy and Usage" pages
+# (<tenant>.evidence.com/alpr/public/policy) via scripts/axon_transparency.py:
+# re-checks every known tenant, then probes a few more California agencies
+# for tenants (nearest San Mateo first). Axon regenerates the files around
+# 12:00 UTC (Last-Modified on every capture so far), so this runs after.
+#
+# Captures accumulate on the axon-refresh branch across runs — like
+# flock-refresh, and unlike the FBI jobs that rebuild their branch from main —
+# because each day's file is point-in-time evidence that an unmerged,
+# rebuilt-from-main branch would silently drop.
+
+on:
+  schedule:
+    - cron: '23 13 * * *'
+  workflow_dispatch:
+    inputs:
+      probe_limit:
+        description: 'Registry agencies to probe for new tenants (0 = skip probing)'
+        default: '20'
+
+concurrency:
+  group: axon-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          # Full history so the rebase below finds a common ancestor with
+          # origin/axon-refresh (see refresh-flock-data.yml).
+          fetch-depth: 0
+          # PAT so the push and PR are authed as a human (GITHUB_TOKEN can't
+          # push a workflow-carrying branch and its PRs don't trigger CI).
+          token: ${{ secrets.REFRESH_PAT || github.token }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up refresh branch
+        run: |
+          git fetch origin axon-refresh || true
+          if git rev-parse --verify origin/axon-refresh >/dev/null 2>&1; then
+            git checkout axon-refresh
+            # Never auto-reset to main on conflict: that discards unmerged
+            # captures. Fail loudly; a human resolves and force-pushes.
+            git rebase origin/main || {
+              git rebase --abort
+              echo "::error::rebase against origin/main conflicts. Bot branch left untouched — resolve manually. NOT auto-resetting (would destroy unmerged captures)."
+              exit 1
+            }
+          else
+            git checkout -b axon-refresh
+          fi
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Crawl known tenants
+        id: crawl
+        run: |
+          # Record rc rather than dying: the state file still has to be
+          # committed for whatever did succeed. Failed for real at the end.
+          set -o pipefail
+          rc=0
+          uv run python scripts/axon_transparency.py crawl | tee /tmp/axon.log || rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+
+      - name: Probe for new tenants
+        if: (inputs.probe_limit || '20') != '0'
+        run: |
+          set -o pipefail
+          uv run python scripts/axon_transparency.py probe --registry --state CA \
+            --near 37.56031,-122.3106 --limit ${{ inputs.probe_limit || '20' }} | tee -a /tmp/axon.log
+
+      - name: Commit and push
+        id: commit
+        run: |
+          git add assets/evidence.com/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          git commit -m "chore: refresh Axon transparency data ($(date -u +%Y-%m-%d))"
+          git push --force-with-lease origin axon-refresh
+
+      - name: Create or update PR
+        if: steps.commit.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          new_tenants=$(git diff --name-only --diff-filter=A origin/main...HEAD -- 'assets/evidence.com/*/tenant.json' | wc -l)
+          new_captures=$(git diff --name-only --diff-filter=A origin/main...HEAD -- 'assets/evidence.com/*/*.meta.json' | wc -l)
+          {
+            echo "Automated refresh of Axon ALPR transparency pages (\`assets/evidence.com/\`)."
+            echo "Accumulates daily runs; merge when ready — the next run starts a fresh branch from main."
+            echo
+            echo "Since main: **${new_tenants}** new tenants, **${new_captures}** new captures."
+            echo "A tenant existing is not evidence of ALPR use (Axon Evidence is near-universal); see the script docstring."
+            echo
+            echo "### Published pages"
+            echo
+            uv run python scripts/axon_transparency.py report --markdown --published-only
+          } > /tmp/pr-body.md
+
+          changes=$(grep -E "CHANGED |TENANT |RATE LIMITED|ERROR " /tmp/axon.log || true)
+          existing=$(gh pr list --head axon-refresh --state open --json number -q '.[0].number')
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --body-file /tmp/pr-body.md
+            if [ -n "$changes" ]; then
+              printf 'Run %s:\n\n```\n%s\n```\n' "$(date -u +%Y-%m-%d)" "$changes" > /tmp/pr-comment.md
+              gh pr comment "$existing" --body-file /tmp/pr-comment.md
+            fi
+          else
+            if [ -n "$changes" ]; then
+              printf '\n### This run\n\n```\n%s\n```\n' "$changes" >> /tmp/pr-body.md
+            fi
+            gh pr create \
+              --title "chore: refresh Axon transparency data" \
+              --body-file /tmp/pr-body.md \
+              --head axon-refresh \
+              --base main
+          fi
+
+      - name: Fail if the crawl failed
+        if: steps.crawl.outputs.rc != '0'
+        run: |
+          echo "::error::Every tenant check errored (exit ${{ steps.crawl.outputs.rc }}). State for anything that succeeded was committed above."
+          exit 1
