@@ -1,0 +1,152 @@
+{
+  "url": "https://www.npr.org/2026/10/08/nx-s1-5981343/beyond-flock-police-ai-surveillance-tools",
+  "source_domain": "npr.org",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "Flock is catching flak. Experts say other police surveillance tools are more worrisome",
+  "byline": "Meg Anderson",
+  "published_at": "2026-10-08",
+  "fetched_at": "2026-10-09T09:04:20Z",
+  "discovered_by": "rss:npr.org",
+  "scanner_verdict": "WARNINGS \u2014 86 pts, low/medium only",
+  "scanner_score": 86,
+  "content_hash": "2e4b759f4f1554803ab13c393105c4207a31f3078522e1cb5a3566421f2b2459",
+  "paths": {
+    "html": "assets/articles/npr.org/2026-10-08-nx-s1-5981343-beyond-flock-police-ai-surveillance-tools_e4c6f75f.html",
+    "meta": "assets/articles/npr.org/2026-10-08-nx-s1-5981343-beyond-flock-police-ai-surveillance-tools_e4c6f75f.meta.json",
+    "pdf": "assets/articles/npr.org/2026-10-08-nx-s1-5981343-beyond-flock-police-ai-surveillance-tools_e4c6f75f.pdf",
+    "txt": "assets/articles/npr.org/2026-10-08-nx-s1-5981343-beyond-flock-police-ai-surveillance-tools_e4c6f75f.txt"
+  },
+  "wayback_url": "https://www.npr.org/2026/10/08/nx-s1-5981343/beyond-flock-police-ai-surveillance-tools",
+  "wayback_timestamp": null,
+  "wayback_source": "existing",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "policy:audit",
+    "policy:retention",
+    "scope:national",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:fusus"
+  ],
+  "agencies": [
+    "42ac4d61-32cd-5fa4-aa11-b6713123a5c7",
+    "3707fe3f-94c4-527c-82ec-7037db1438fb",
+    "e315ed7a-38a7-5d85-8048-28fc54fbbe4a",
+    "2c981ce6-8d54-565f-bb99-ac885eee8769",
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "6fc47404-6f79-5f5d-ace0-18db02bc2391",
+    "100fe8be-e599-591f-8d5f-8c8b70e195d5",
+    "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+    "90120363-c2b2-5550-8513-2bba14ab260d"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "42ac4d61-32cd-5fa4-aa11-b6713123a5c7",
+      "display_name": "Irvine CA PD",
+      "state": "CA",
+      "score": 6.317,
+      "matched_forms": [
+        "Irvine",
+        "Irvine Police",
+        "Irvine Police Department"
+      ]
+    },
+    {
+      "agency_id": "3707fe3f-94c4-527c-82ec-7037db1438fb",
+      "display_name": "Greenville County SC SO",
+      "state": "SC",
+      "score": 5.7,
+      "matched_forms": [
+        "Greenville County",
+        "Greenville County Sheriff",
+        "Greenville County Sheriff's Office"
+      ]
+    },
+    {
+      "agency_id": "e315ed7a-38a7-5d85-8048-28fc54fbbe4a",
+      "display_name": "Oklahoma City OK PD",
+      "state": "OK",
+      "score": 5.55,
+      "matched_forms": [
+        "Oklahoma City",
+        "Oklahoma City Police",
+        "Oklahoma City Police Department"
+      ]
+    },
+    {
+      "agency_id": "2c981ce6-8d54-565f-bb99-ac885eee8769",
+      "display_name": "Orange County SO CA",
+      "state": "CA",
+      "score": 3.933,
+      "matched_forms": [
+        "Orange County"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 2.717,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "6fc47404-6f79-5f5d-ace0-18db02bc2391",
+      "display_name": "Anderson CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Anderson"
+      ]
+    },
+    {
+      "agency_id": "100fe8be-e599-591f-8d5f-8c8b70e195d5",
+      "display_name": "Anderson SC PD",
+      "state": "SC",
+      "score": 2.633,
+      "matched_forms": [
+        "Anderson"
+      ]
+    },
+    {
+      "agency_id": "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+      "display_name": "New York City Department of Environmental Protection PD",
+      "state": "NY",
+      "score": 2.633,
+      "matched_forms": [
+        "New York"
+      ]
+    },
+    {
+      "agency_id": "90120363-c2b2-5550-8513-2bba14ab260d",
+      "display_name": "Liberty Village NY PD",
+      "state": "NY",
+      "score": 2.617,
+      "matched_forms": [
+        "Liberty"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "NPR reports that while Flock ALPR cameras have drawn public backlash, privacy experts argue that AI-powered real-time crime center software like Axon's Fusus poses broader surveillance concerns by aggregating ALPRs, drones, body cams, 911, gunshot detection, and private camera feeds into a single interface. Use of Fusus has more than doubled since Axon's 2024 acquisition, with police touting efficiency gains while experts call for legislative guardrails.",
+  "key_quotes": [
+    {
+      "quote": "real-time crime centers have not just ALPR cameras and sensors, but video analytics and drones and essentially a way to create a visual single-pane-of-glass vision of what's going on in a city, with time machine capabilities where you can go back and investigate crime.",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "The number of law enforcement agencies using the tool has more than doubled since then, according to Axon.",
+      "paragraph_idx": 15
+    },
+    {
+      "quote": "What happens if there is a government that wants to silence a particular group or even a particular person? And you just built the architecture of surveillance that makes that super-easy",
+      "paragraph_idx": 24
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-09T09:04:59Z",
+  "article_id": "art_e4c6f75f8cd9"
+}
