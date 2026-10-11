@@ -48,6 +48,8 @@ class _FakePage:
     def goto(self, url, wait_until=None, timeout=None):
         if self._status is None:
             raise RuntimeError("net::ERR_HTTP2_PROTOCOL_ERROR")
+        if isinstance(self._status, str):
+            raise RuntimeError(f"Page.goto: {self._status} at {url}")
         return _FakeResponse(self._status)
 
     def content(self):
@@ -170,6 +172,33 @@ def test_all_three_failing_chains_every_error(chain):
     assert out["body"] is None
     err = out["fetch_error"]
     assert "playwright:" in err and "curl_cffi:" in err and "requests:" in err, err
+
+
+@pytest.mark.parametrize("net_error", [
+    "net::ERR_INVALID_ARGUMENT",
+    "net::ERR_HTTP_RESPONSE_CODE_FAILURE",
+])
+def test_statusless_goto_throw_falls_back(chain, net_error):
+    """The smdailyjournal case: goto() throws with no status once the site
+    walls headless Chrome, while a bare GET still gets 200. Without these
+    codes classified, both SMDJ URLs failed every tier-1 retry and were
+    never offered to curl_cffi or requests."""
+    calls = chain(net_error, _blocked(), _served("<html>smdj</html>",
+                                                 "skipped-requests-fallback"))
+    out = ac.fetch_and_render("https://example.test/article", None, skip_pdf=True)
+
+    assert calls == ["curl_cffi", "requests"], calls
+    assert out["fetch_path"] == "requests"
+    assert out["body"] == "<html>smdj</html>"
+
+
+def test_navigation_timeout_burns_no_fallback(chain):
+    """A timeout is slowness, not a wall — no switch of engine helps."""
+    calls = chain("Timeout 45000ms exceeded.", _served(), _served())
+    out = ac.fetch_and_render("https://example.test/article", None, skip_pdf=True)
+
+    assert calls == [], calls
+    assert out["body"] is None
 
 
 @pytest.mark.parametrize("status", [404, 429, 500])

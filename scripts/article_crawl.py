@@ -90,6 +90,13 @@ USER_AGENT = (
 )
 TIMEOUT = 30
 MAX_RETRIES_PER_URL = 3
+# Chrome net errors from page.goto() that mean "walled the browser", not
+# "the page is gone" — see _is_fingerprint_failure.
+FINGERPRINT_NET_ERRORS = (
+    "ERR_HTTP2_PROTOCOL_ERROR",
+    "ERR_INVALID_ARGUMENT",
+    "ERR_HTTP_RESPONSE_CODE_FAILURE",
+)
 
 
 # ───────────────────────── data plumbing ─────────────────────────
@@ -517,11 +524,19 @@ def wayback_lookup_or_save(url: str) -> dict:
 def _is_fingerprint_failure(out: dict) -> bool:
     """Does this Playwright result look like TLS/JS-fingerprint blocking?
 
-    Two patterns we know curl_cffi can recover:
+    Patterns we know the non-browser tiers can recover:
       - HTTP 403 — Cloudflare-tier walls reject the headless-Chrome JA3
         plus header-shape combo even with channel='chrome' + stealth.
       - ERR_HTTP2_PROTOCOL_ERROR — the stream gets RST'd at TLS
         handshake before any HTTP transaction (McClatchy pattern).
+      - ERR_INVALID_ARGUMENT / ERR_HTTP_RESPONSE_CODE_FAILURE — goto()
+        throws with no status at all. smdailyjournal.com serves the first
+        Playwright fetch, then walls headless Chrome this way on every
+        later one (and on the first, from a CI runner IP) while a bare
+        curl still gets 200; kron4.com threw the same. Chrome raises
+        RESPONSE_CODE_FAILURE for an error status with an empty body, so
+        it can mask a plain 404/429 — the cost is two extra requests on
+        a URL that was failing anyway.
 
     Other failure modes — 404, 429, navigation timeouts, empty
     responses — don't benefit from a fingerprint switch, so we don't
@@ -530,9 +545,7 @@ def _is_fingerprint_failure(out: dict) -> bool:
     err = out.get("fetch_error") or ""
     if out.get("status") == 403:
         return True
-    if "ERR_HTTP2_PROTOCOL_ERROR" in err:
-        return True
-    return False
+    return any(code in err for code in FINGERPRINT_NET_ERRORS)
 
 
 def _fetch_curl_cffi(url: str) -> dict:
@@ -606,8 +619,8 @@ def fetch_and_render(url: str, pdf_path: Path | None,
                      *, skip_pdf: bool = False) -> dict:
     """Navigate to `url` with Playwright (real Chrome UA), capture HTML,
     and optionally render the loaded page to `pdf_path` in the same
-    browser session. On fingerprint-shaped failures (HTTP 403,
-    ERR_HTTP2_PROTOCOL_ERROR) falls back in order: curl_cffi, then
+    browser session. On fingerprint-shaped failures (HTTP 403, or a
+    FINGERPRINT_NET_ERRORS throw) falls back in order: curl_cffi, then
     plain requests. Each tier is less browser-shaped than the last,
     which is the point — the walls we hit key on looking like an
     automated browser.
