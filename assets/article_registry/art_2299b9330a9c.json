@@ -22,6 +22,11 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:ice-cooperation",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:axon",
     "vendor:flock"
   ],
@@ -131,10 +136,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-10-10T18:26:18Z",
+  "primary_subject_agency_ids": [
+    "847ce8af-3e88-59ca-90f3-d621db6f31f6"
+  ],
+  "summary": "The San Mateo City Council voted 4-1 to approve an eight-year purchase agreement with Axon Enterprise that includes a one-year free trial of Axon ALPR cameras, which SMPD will deploy alongside existing Flock cameras to compare the two systems. The decision came despite public opposition citing privacy concerns, Axon's ICE contracts, and a recent civil grand jury report finding oversight deficiencies in the city's Flock system.",
+  "key_quotes": [
+    {
+      "quote": "During the trial, the San Mateo Police Department will deploy Axon ALPRs to the same locations as the current cameras supplied by Flock Safety, another prominent law enforcement vendor, and conduct a side-by-side comparison to determine which system is preferred.",
+      "paragraph_idx": 2
+    },
+    {
+      "quote": "Axon is Flock's evil twin and has received millions of dollars from ICE. We simply cannot trust Axon to keep our data secure",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "We have taken a very responsible approach to ALPR data in the city. We have to be conscious and aware of other issues Flock has had in the state and across the country.",
+      "paragraph_idx": 4
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-11T20:13:32Z",
   "article_id": "art_2299b9330a9c"
 }
