@@ -26,9 +26,18 @@ scripts/pra_portal_discover.py):
                files at /Attachments/Download/<attachmentId>.
 
 Subcommands:
-  search   index ALPR-relevant requests per portal -> <out>/<platform>/<host>/index.json
-  fetch    download documents from indexed requests (audit-like files by default)
-  report   print a summary table of what's indexed / fetched
+  search        index ALPR-relevant requests per portal (a dated snapshot per run, see Layout)
+  fetch         download documents from the latest index (audit-like files by default)
+  report        print a summary table of what's indexed / fetched
+  migrate-dated one-time move of an older undated layout into the dated one
+
+Layout under <out>/<platform>/<host>/. Nothing a search or fetch writes is ever replaced: a refresh adds a new
+dated snapshot next to the earlier ones, so what a portal listed on each date stays on disk.
+  index/<searched_at>.json          one per search run (searched_at as YYYY-MM-DDTHHMMSSZ, UTC)
+  index.json                        symlink to the newest index/<searched_at>.json
+  <request>/meta/<searched_at>/     that run's request.json / documents.json / timeline.json (row.json on GovQA)
+  <request>/files/                  downloaded documents; a name already taken gets .fetched-<date> added
+  MANIFEST.jsonl (in <out>)         append-only: one line per downloaded file, with sha256
 
 Output defaults to the primary checkout's
 .claude/local_evidence/pra-portals-ca/ (gitignored; released audit logs can
@@ -134,6 +143,56 @@ def safe_name(s: str, limit: int = 150) -> str:
 
 def now_utc() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+
+
+META_FILES = ("request.json", "documents.json", "timeline.json", "row.json")  # per-request files a search writes
+
+
+def stamp(ts: str) -> str:
+    """'2026-10-12T05:30:12Z' -> '2026-10-12T053012Z': sortable, and safe in a file name."""
+    return ts.replace(":", "")
+
+
+def latest_index(pdir: Path) -> Path | None:
+    """The newest dated index of one portal, or None when it was never searched."""
+    files = sorted((pdir / "index").glob("*.json"))
+    return files[-1] if files else None
+
+
+def old_layout(pdir: Path) -> bool:
+    """An index.json that is a plain file, not the link to a dated index: written before the dated layout."""
+    idx = pdir / "index.json"
+    return idx.exists() and not idx.is_symlink()
+
+
+def latest_indexes(out: Path) -> list[Path]:
+    """The newest dated index of every portal under out; stops on a portal still in the undated layout."""
+    stale = sorted(str(p.parent) for p in out.glob("*/*/index.json") if old_layout(p.parent))
+    if stale:
+        raise SystemExit(f"{len(stale)} portal(s) still use the undated layout (e.g. {stale[0]}): "
+                         "run `migrate-dated` first")
+    return [i for i in (latest_index(d) for d in sorted(out.glob("*/*")) if d.is_dir()) if i]
+
+
+def write_new(path: Path, text: str) -> Path:
+    """Write text to a file that does not exist yet (atomically); a taken name gets -2, -3, ... added."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    dest, k = path, 1
+    while dest.exists():
+        k += 1
+        dest = path.with_name(f"{path.stem}-{k}{path.suffix}")
+    tmp = dest.with_name(dest.name + ".tmp")
+    tmp.write_text(text)
+    tmp.rename(dest)
+    return dest
+
+
+def point_latest(pdir: Path, idx: Path) -> None:
+    """Make <pdir>/index.json a symlink to idx (relative, swapped in atomically)."""
+    tmp = pdir / "index.json.tmp"
+    tmp.unlink(missing_ok=True)
+    tmp.symlink_to(idx.relative_to(pdir))
+    tmp.replace(pdir / "index.json")
 
 
 # ------------------------------------------------------------------ transport
@@ -506,13 +565,17 @@ def load_portals(path: Path, platforms: list[str] | None, hosts: list[str] | Non
 
 def search_one(p: dict, out: Path, refresh: bool) -> str | None:
     pdir = out / p["platform"] / p["host"]
-    idx_path = pdir / "index.json"
-    if idx_path.exists() and not refresh:
+    if old_layout(pdir):
+        return f"{p['platform']} {p['host']}: SKIPPED, undated layout: run `migrate-dated` first"
+    if latest_index(pdir) and not refresh:
         return None
     adapter = ADAPTERS[p["platform"]]()
+    searched_at = now_utc()
+    st = stamp(searched_at)
 
     def rdir_for(rid):
-        d = pdir / safe_name(rid)
+        # this run's request metadata goes in its own dated folder, next to earlier runs'
+        d = pdir / safe_name(rid) / "meta" / st
         d.mkdir(parents=True, exist_ok=True)
         return d
 
@@ -521,12 +584,10 @@ def search_one(p: dict, out: Path, refresh: bool) -> str | None:
         reqs = adapter.search(p["host"], rdir_for)
     except Exception as e:
         return f"{p['platform']} {p['host']}: FAILED {e!r}"
-    pdir.mkdir(parents=True, exist_ok=True)
-    tmp = idx_path.with_name("index.json.tmp")  # atomic: fetch may be reading it
-    tmp.write_text(json.dumps({
+    idx = write_new(pdir / "index" / f"{st}.json", json.dumps({
         "platform": p["platform"], "host": p["host"], "agency": p.get("agency"), "label": p.get("label"),
-        "searched_at": now_utc(), "terms": SEARCH_TERMS, "requests": reqs}, indent=1))
-    tmp.rename(idx_path)
+        "searched_at": searched_at, "terms": SEARCH_TERMS, "requests": reqs}, indent=1))
+    point_latest(pdir, idx)
     n_docs = sum(len(r["documents"]) for r in reqs)
     return (f"{p['platform']} {p['host']}: {len(reqs)} ALPR requests, {n_docs} docs "
             f"({time.time() - t0:.0f}s)")
@@ -581,7 +642,7 @@ def cmd_fetch(args) -> None:
     budget = args.max_gb * (1 << 30) if args.max_gb else None
     fetched = 0
     with open(manifest, "a") as mf:
-        for idx_path in sorted(out.glob("*/*/index.json")):
+        for idx_path in latest_indexes(out):
             idx = json.loads(idx_path.read_text())
             host, platform = idx["host"], idx["platform"]
             if (args.host and host not in args.host) or (args.platform and platform not in args.platform):
@@ -593,9 +654,14 @@ def cmd_fetch(args) -> None:
                 for d in r["documents"]:
                     if (host, r["id"], str(d["id"])) in done or not wanted(d, args.all, args.max_file_mb):
                         continue
-                    fdir = idx_path.parent / safe_name(r["id"]) / "files"
+                    fdir = idx_path.parent.parent / safe_name(r["id"]) / "files"
                     fdir.mkdir(parents=True, exist_ok=True)
                     dest = fdir / safe_name(f"{doc_prefix(d)}__{d['title'] or d['id']}")
+                    if dest.exists():  # never replace a file already held (a re-posted document with the same name)
+                        dest = dest.with_name(f"{dest.stem}.fetched-{now_utc()[:10]}{dest.suffix}")
+                        if dest.exists():
+                            print(f"  SKIP {host} {r['id']} {d['title']}: {dest.name} already exists", flush=True)
+                            continue
                     try:
                         sha, n = adapter.download(host, r, d, dest)
                     except Exception as e:
@@ -621,7 +687,7 @@ def cmd_report(args) -> None:
             m = json.loads(line)
             fetched.setdefault(m["host"], []).append(m)
     rows = []
-    for idx_path in sorted(out.glob("*/*/index.json")):
+    for idx_path in latest_indexes(out):
         idx = json.loads(idx_path.read_text())
         if not idx["requests"]:
             continue
@@ -634,6 +700,54 @@ def cmd_report(args) -> None:
     print(f"{'platform':11} {'host':42} {'agency':28} {'reqs':>5} {'docs':>5} {'audit':>5} {'got':>4} {'MB':>8}")
     for r in sorted(rows, key=lambda r: -r[5]):
         print(f"{r[0]:11} {r[1][:42]:42} {r[2][:28]:28} {r[3]:5} {r[4]:5} {r[5]:5} {r[6]:4} {r[7]:8.1f}")
+
+
+def cmd_migrate(args) -> None:
+    """Move each undated <host>/index.json to index/<its searched_at>.json (index.json becomes the link to it), and each
+    listed request's metadata files to <request>/meta/<same searched_at>/. Metadata left by an earlier search whose
+    index was overwritten (a request the kept index no longer lists) goes to meta/<the files' write time>/, the only
+    date that survives for it. Refuses to overwrite anything; safe to re-run."""
+    out = Path(args.out)
+    moved = 0
+    for old in sorted(out.glob("*/*/index.json")):
+        pdir = old.parent
+        if not old_layout(pdir):
+            continue
+        idx = json.loads(old.read_text())
+        st = stamp(idx["searched_at"])
+        plan = []
+        for r in idx["requests"]:
+            rdir = pdir / safe_name(r["id"])
+            plan += [(rdir / n, rdir / "meta" / st / n) for n in META_FILES if (rdir / n).is_file()]
+        dest = pdir / "index" / f"{st}.json"
+        clash = [str(b) for _, b in plan + [(old, dest)] if b.exists()]
+        if clash:
+            raise SystemExit(f"refusing to overwrite: {clash[:3]}")
+        for a, b in plan:
+            b.parent.mkdir(parents=True, exist_ok=True)
+            a.rename(b)
+        dest.parent.mkdir(exist_ok=True)
+        old.rename(dest)
+        point_latest(pdir, dest)
+        moved += 1
+        print(f"{pdir.relative_to(out)}: index/{dest.name}, {len(plan)} request files", flush=True)
+    print(f"{moved} portal(s) moved to the dated layout")
+    unlisted = 0
+    for rdir in sorted({f.parent for n in META_FILES for f in out.glob(f"*/*/*/{n}")}):
+        files = [rdir / n for n in META_FILES if (rdir / n).is_file()]
+        written = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(max(f.stat().st_mtime for f in files)))
+        mdir = rdir / "meta" / stamp(written)
+        clash = [str(mdir / f.name) for f in files if (mdir / f.name).exists()]
+        if clash:
+            raise SystemExit(f"refusing to overwrite: {clash[:3]}")
+        mdir.mkdir(parents=True, exist_ok=True)
+        for f in files:
+            f.rename(mdir / f.name)
+        unlisted += 1
+        print(f"{rdir.relative_to(out)}: not in its portal's index, moved to meta/{mdir.name} (file write time)",
+              flush=True)
+    if unlisted:
+        print(f"{unlisted} request folder(s) of unindexed metadata dated by write time")
 
 
 def main() -> None:
@@ -657,6 +771,8 @@ def main() -> None:
     f.set_defaults(func=cmd_fetch)
     r = sub.add_parser("report", help="summarize indexed and fetched requests")
     r.set_defaults(func=cmd_report)
+    m = sub.add_parser("migrate-dated", help="move an undated index.json layout into the dated one (one time)")
+    m.set_defaults(func=cmd_migrate)
     args = ap.parse_args()
     args.func(args)
 

@@ -6,8 +6,11 @@ live harvest depends on (DevExpress callback encoding, grid row parsing).
 """
 
 import json
+import os
 import sys
 from pathlib import Path
+
+import pytest
 
 SCRIPT_DIR = Path(__file__).parent.parent / "scripts"
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -163,3 +166,83 @@ def test_link_documents_are_not_downloaded():
     assert harv.is_link(url_title) and not harv.wanted(url_title, True, None)
     assert not harv.wanted({"title": "Network Audit.xlsx", "ext": "xlsx", "link": True}, True, None)
     assert harv.wanted({"title": "Network Audit.xlsx", "ext": "xlsx", "link": False}, False, None)
+
+
+class _FakeAdapter:
+    """Stands in for a platform adapter: one request, whose metadata the search writes through rdir_for."""
+    platform = "nextrequest"
+    title = "audit.csv"
+
+    def search(self, host, rdir_for):
+        rdir = rdir_for("26-1")
+        (rdir / "request.json").write_text(json.dumps({"host": host}))
+        return [{"id": "26-1", "documents": [{"id": 7, "title": self.title, "ext": "csv", "size": 10}]}]
+
+    def download(self, host, req, doc, dest):
+        dest.write_text("new bytes")
+        return "sha", 9
+
+
+def test_search_keeps_every_dated_index(tmp_path, monkeypatch):
+    monkeypatch.setitem(harv.ADAPTERS, "nextrequest", _FakeAdapter)
+    portal = {"platform": "nextrequest", "host": "x.nextrequest.com"}
+    pdir = tmp_path / "nextrequest" / "x.nextrequest.com"
+    times = iter(["2026-09-25T10:00:00Z", "2026-10-12T05:30:12Z"])
+    monkeypatch.setattr(harv, "now_utc", lambda: next(times))
+    harv.search_one(portal, tmp_path, refresh=False)
+    assert harv.search_one(portal, tmp_path, refresh=False) is None  # already indexed, no refresh: nothing written
+    harv.search_one(portal, tmp_path, refresh=True)
+    assert [p.name for p in sorted((pdir / "index").glob("*.json"))] == ["2026-09-25T100000Z.json",
+                                                                         "2026-10-12T053012Z.json"]
+    assert (pdir / "index.json").is_symlink()
+    assert json.loads((pdir / "index.json").read_text())["searched_at"] == "2026-10-12T05:30:12Z"
+    assert sorted(p.name for p in (pdir / "26-1" / "meta").iterdir()) == ["2026-09-25T100000Z", "2026-10-12T053012Z"]
+
+
+def test_migrate_dated_moves_old_layout_and_refuses_to_overwrite(tmp_path):
+    pdir = tmp_path / "govqa" / "y.govqa.us"
+    (pdir / "R1").mkdir(parents=True)
+    (pdir / "index.json").write_text(json.dumps({"host": "y.govqa.us", "searched_at": "2026-09-25T10:00:00Z",
+                                                 "requests": [{"id": "R1", "documents": []}]}))
+    (pdir / "R1" / "row.json").write_text("{}")
+    (pdir / "R1" / "documents.json").write_text("[]")
+    (pdir / "R0").mkdir()  # left by an earlier search whose index was overwritten: dated by its write time
+    (pdir / "R0" / "row.json").write_text("{}")
+    os.utime(pdir / "R0" / "row.json", (1758790000, 1758790000))  # 2025-09-25T08:46:40Z
+    args = type("A", (), {"out": str(tmp_path)})()
+    harv.cmd_migrate(args)
+    assert (pdir / "R0" / "meta" / "2025-09-25T084640Z" / "row.json").is_file()
+    assert (pdir / "index.json").is_symlink()
+    assert (pdir / "index" / "2026-09-25T100000Z.json").is_file()
+    assert sorted(p.name for p in (pdir / "R1" / "meta" / "2026-09-25T100000Z").iterdir()) == ["documents.json",
+                                                                                              "row.json"]
+    harv.cmd_migrate(args)  # second run: already dated, nothing to do
+    assert harv.latest_index(pdir).name == "2026-09-25T100000Z.json"
+    # an undated index whose dated name is already taken is refused, not overwritten
+    (pdir / "index.json").unlink()
+    (pdir / "index.json").write_text(json.dumps({"searched_at": "2026-09-25T10:00:00Z", "requests": []}))
+    with pytest.raises(SystemExit):
+        harv.cmd_migrate(args)
+
+
+def test_fetch_never_replaces_a_held_file(tmp_path, monkeypatch):
+    monkeypatch.setitem(harv.ADAPTERS, "nextrequest", _FakeAdapter)
+    harv.search_one({"platform": "nextrequest", "host": "x.nextrequest.com"}, tmp_path, refresh=False)
+    fdir = tmp_path / "nextrequest" / "x.nextrequest.com" / "26-1" / "files"
+    fdir.mkdir(parents=True)
+    (fdir / "7__audit.csv").write_text("old bytes")
+    args = type("A", (), {"out": str(tmp_path), "host": None, "platform": None, "request": None, "all": False,
+                          "max_gb": None, "max_file_mb": None})()
+    harv.cmd_fetch(args)
+    assert (fdir / "7__audit.csv").read_text() == "old bytes"
+    assert [p.read_text() for p in fdir.glob("7__audit.fetched-*.csv")] == ["new bytes"]
+
+
+def test_fetch_stops_on_undated_layout(tmp_path):
+    pdir = tmp_path / "nextrequest" / "x.nextrequest.com"
+    pdir.mkdir(parents=True)
+    (pdir / "index.json").write_text(json.dumps({"searched_at": "2026-09-25T10:00:00Z", "requests": []}))
+    args = type("A", (), {"out": str(tmp_path), "host": None, "platform": None, "request": None, "all": False,
+                          "max_gb": None, "max_file_mb": None})()
+    with pytest.raises(SystemExit):
+        harv.cmd_fetch(args)
