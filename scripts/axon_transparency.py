@@ -40,13 +40,21 @@ Layout (dates are UTC):
                                 (lewisvillepdtx, hps.ca)
       tenant.json               identity + publish-state transitions only
       <YYYY-MM-DD>.json         raw transparency JSON, byte-for-byte as served
-      <YYYY-MM-DD>.meta.json    fetch provenance: url, time, sha256, headers
+      <YYYY-MM-DD>.pdf          the page as a browser renders it (visual archive)
+      <YYYY-MM-DD>.meta.json    provenance: url, time, sha256, headers, and the
+                                PDF's hash, renderer bundle and whether the JSON
+                                the page fetched matches the archived bytes
     .state.json                 last-checked date per tenant + probed candidates
 
 A new dated capture is written when anything except the rolling counters
 (retained read/hit counts, per-category hit counts, updatedAt) changed, or when
 the newest capture is --max-age days old. Policy, sharing-list and device
 changes are archived the day they're seen; counters land weekly.
+
+The JSON is the record; there is no HTML to keep (the page is an empty JS
+shell). The PDF is for people looking back at what the page showed: headless
+Chromium loads the live page, which fetches the same JSON, and prints it.
+--no-pdf skips rendering; a render failure never blocks the JSON capture.
 
 Usage:
   uv run python scripts/axon_transparency.py crawl
@@ -60,6 +68,7 @@ print = functools.partial(print, flush=True)
 
 import argparse
 import base64
+import contextlib
 import copy
 import hashlib
 import json
@@ -87,6 +96,9 @@ DEFAULT_DELAY = 1.5
 DEFAULT_MAX_AGE = 7
 DEFAULT_UNPUBLISHED_EVERY = 7
 DEFAULT_RECHECK_DAYS = 90
+# The page prints "Last Updated" in the browser's zone; pin it so local and CI
+# renders read the same.
+PDF_TIMEZONE = "America/Los_Angeles"
 
 # Rolling counters that move every day without anything about the program
 # changing. Everything else in the file (retention, hotlist categories, policy
@@ -277,8 +289,10 @@ def latest_capture(tenant_dir):
     return d, json.loads(p.read_bytes())
 
 
-def should_capture(prev_date, prev_doc, doc, today, max_age):
-    """Why to write a new capture ('first'/'changed'/'stale'), or None."""
+def should_capture(prev_date, prev_doc, doc, today, max_age, need_pdf=False):
+    """Why to write a new capture ('first'/'changed'/'stale'/'no_pdf'), or
+    None. `need_pdf`: rendering is on and the newest capture has no PDF (and
+    didn't already fail to render one)."""
     if prev_doc is None:
         return "first"
     if material_view(prev_doc) != material_view(doc):
@@ -286,6 +300,8 @@ def should_capture(prev_date, prev_doc, doc, today, max_age):
     age = (date.fromisoformat(today) - date.fromisoformat(prev_date)).days
     if age >= max_age:
         return "stale"
+    if need_pdf:
+        return "no_pdf"
     return None
 
 
@@ -301,12 +317,88 @@ def _atomic_write(path, data):
         raise
 
 
-def write_capture(tenant_dir, today, body, meta):
-    """Raw body first, then its provenance — a meta file never points at a
-    body that isn't there."""
+def write_capture(tenant_dir, today, body, meta, pdf=None):
+    """Raw body, then the PDF, then the provenance — a meta file never points
+    at an artifact that isn't there. A same-day re-capture replaces all three
+    (and drops a stale PDF when this one has none)."""
     _atomic_write(tenant_dir / f"{today}.json", body)
+    pdf_path = tenant_dir / f"{today}.pdf"
+    if pdf is not None:
+        _atomic_write(pdf_path, pdf)
+    else:
+        pdf_path.unlink(missing_ok=True)
     _atomic_write(tenant_dir / f"{today}.meta.json",
                   (json.dumps(meta, indent=2, sort_keys=True) + "\n").encode())
+
+
+def pdf_state(tenant_dir, capture_date):
+    """'ok' / 'failed' / 'missing' for a capture's PDF, from its meta file —
+    not the .pdf itself, which sparse worktrees don't check out."""
+    if capture_date is None:
+        return "missing"
+    meta = load_json(tenant_dir / f"{capture_date}.meta.json")
+    if meta.get("pdf"):
+        return "ok"
+    return "failed" if meta.get("pdf_error") else "missing"
+
+
+def policy_url(host):
+    return f"https://{host}/alpr/public/policy"
+
+
+class PageRenderer:
+    """Prints a tenant's public policy page to PDF in one headless Chromium
+    shared across the run. Calling it returns (pdf_bytes, info)."""
+
+    def __enter__(self):
+        from playwright.sync_api import sync_playwright
+        self._pw = sync_playwright().start()
+        self._browser = self._pw.chromium.launch()
+        self._context = self._browser.new_context(
+            viewport={"width": 1280, "height": 900}, timezone_id=PDF_TIMEZONE, user_agent=USER_AGENT)
+        return self
+
+    def __exit__(self, *exc):
+        self._browser.close()
+        self._pw.stop()
+
+    def __call__(self, host):
+        page = self._context.new_page()
+        seen = {}
+
+        def on_response(r):
+            if "/alpr/public/v1/transparency/file/" in r.url:
+                try:
+                    seen["json"] = r.body()
+                except Exception:  # body unavailable (aborted, redirected)
+                    pass
+            elif "/axon/assets/alpr-public/app." in r.url:
+                seen["renderer"] = urllib.parse.urlsplit(r.url).path
+
+        page.on("response", on_response)
+        try:
+            page.goto(policy_url(host), wait_until="networkidle", timeout=60_000)
+            page.wait_for_selector("main", timeout=30_000)
+            # Scrolling boxes (the sharing list) would clip in print; flow
+            # them out in full, as the Flock archiver does.
+            page.add_style_tag(content="*{max-height:none !important;overflow:visible !important;}")
+            cdp = self._context.new_cdp_session(page)
+            res = cdp.send("Page.printToPDF", {
+                "printBackground": True, "paperWidth": 11, "paperHeight": 17,
+                "marginTop": 0.4, "marginBottom": 0.4, "marginLeft": 0.4, "marginRight": 0.4,
+            })
+            cdp.detach()
+        finally:
+            page.close()
+        pdf = base64.b64decode(res["data"])
+        info = {
+            "url": policy_url(host),
+            "rendered_at": utc_now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "timezone": PDF_TIMEZONE,
+            "renderer": seen.get("renderer"),
+            "json_sha256": hashlib.sha256(seen["json"]).hexdigest() if "json" in seen else None,
+        }
+        return pdf, info
 
 
 def _shared_names(doc):
@@ -446,8 +538,29 @@ def save_state(data_dir, st):
 
 # ── crawl ────────────────────────────────────────────────────────
 
-def crawl_one(session, host, tenant_dir, state, today, max_age, now=None):
-    """Check one tenant; archive if warranted. Returns the result status."""
+def render_pdf(render, host, meta):
+    """Run the renderer; fold its provenance into `meta`. Returns the PDF
+    bytes, or None after recording the failure in meta['pdf_error']."""
+    try:
+        pdf, info = render(host)
+    except Exception as e:
+        meta["pdf_error"] = f"{type(e).__name__}: {e}"[:300]
+        print(f"  PDF_ERROR {host}: {meta['pdf_error']}")
+        return None
+    info["sha256"] = hashlib.sha256(pdf).hexdigest()
+    info["bytes"] = len(pdf)
+    # The page fetches the blob itself; if Axon regenerated it between our
+    # fetch and the render, the PDF shows newer numbers than the JSON.
+    info["json_matches_capture"] = info.get("json_sha256") == meta["sha256"]
+    if not info["json_matches_capture"]:
+        print(f"  PDF_JSON_MISMATCH {host}: rendered page fetched different JSON than archived")
+    meta["pdf"] = info
+    return pdf
+
+
+def crawl_one(session, host, tenant_dir, state, today, max_age, now=None, render=None):
+    """Check one tenant; archive if warranted (with a PDF when `render` is
+    given). Returns the result status."""
     rec = load_tenant(tenant_dir)
     result = fetch_transparency(session, host, now=now)
     status = result["status"]
@@ -464,9 +577,12 @@ def crawl_one(session, host, tenant_dir, state, today, max_age, now=None):
         return status
 
     prev_date, prev_doc = latest_capture(tenant_dir)
-    why = should_capture(prev_date, prev_doc, result["doc"], today, max_age)
+    need_pdf = render is not None and pdf_state(tenant_dir, prev_date) == "missing"
+    why = should_capture(prev_date, prev_doc, result["doc"], today, max_age, need_pdf)
     if why:
-        write_capture(tenant_dir, today, result["body"], result["meta"])
+        meta = result["meta"]
+        pdf = render_pdf(render, host, meta) if render is not None else None
+        write_capture(tenant_dir, today, result["body"], meta, pdf)
         print(f"  {host}: captured {today} ({why})")
         for line in material_changes(prev_doc, result["doc"]):
             print(f"    CHANGED {host}: {line}")
@@ -485,7 +601,8 @@ def crawl_due(rec, last_checked, today, unpublished_every):
 
 
 def run_crawl(session, data_dir, hosts=None, limit=0, max_age=DEFAULT_MAX_AGE,
-              delay=DEFAULT_DELAY, today=None, unpublished_every=DEFAULT_UNPUBLISHED_EVERY):
+              delay=DEFAULT_DELAY, today=None, unpublished_every=DEFAULT_UNPUBLISHED_EVERY,
+              render=None):
     today = today or utc_now().date().isoformat()
     tenants = known_tenants(data_dir)
     state = load_state(data_dir)
@@ -507,7 +624,7 @@ def run_crawl(session, data_dir, hosts=None, limit=0, max_age=DEFAULT_MAX_AGE,
         for i, host in enumerate(todo):
             if i:
                 time.sleep(delay)
-            counts[crawl_one(session, host, tenants[host], state, today, max_age)] += 1
+            counts[crawl_one(session, host, tenants[host], state, today, max_age, render=render)] += 1
     except RateLimited as e:
         print(f"RATE LIMITED at {e}; stopping this run")
         counts["error"] += 1
@@ -719,7 +836,7 @@ def register(data_dir, host, today, link=None, rule="manual", source="manual"):
 
 
 def run_probe(session, data_dir, hosts=(), targets=(), limit=0, recheck_days=DEFAULT_RECHECK_DAYS,
-              delay=DEFAULT_DELAY, max_age=DEFAULT_MAX_AGE, link=None, today=None):
+              delay=DEFAULT_DELAY, max_age=DEFAULT_MAX_AGE, link=None, today=None, render=None):
     """Probe explicit hosts (linked to `link` if given), then targets. `limit`
     caps targets that needed a request this run, so targets whose every
     candidate was checked recently cost nothing and the rotation moves on.
@@ -771,7 +888,7 @@ def run_probe(session, data_dir, hosts=(), targets=(), limit=0, recheck_days=DEF
                 print(f"  TENANT {host}{who} [{rule}]" + ("" if new else " (known)"))
                 found.append(host)
                 pause()
-                crawl_one(session, host, tenant_dir, state, today, max_age)
+                crawl_one(session, host, tenant_dir, state, today, max_age, render=render)
                 break
             if target is not None and requests_made > before:
                 probed += 1
@@ -862,6 +979,7 @@ def main(argv=None):
     c.add_argument("--max-age", type=int, default=DEFAULT_MAX_AGE, metavar="DAYS",
                    help="write a capture after this long even if only counters changed")
     c.add_argument("--delay", type=float, default=DEFAULT_DELAY, metavar="SECONDS")
+    c.add_argument("--no-pdf", action="store_true", help="skip rendering the page to PDF")
     c.add_argument("--unpublished-every", type=int, default=DEFAULT_UNPUBLISHED_EVERY, metavar="DAYS",
                    help="re-check tenants without a published page this often (published: daily)")
 
@@ -877,6 +995,7 @@ def main(argv=None):
                     help="skip candidates found absent within this many days")
     pr.add_argument("--max-age", type=int, default=DEFAULT_MAX_AGE, metavar="DAYS")
     pr.add_argument("--delay", type=float, default=DEFAULT_DELAY, metavar="SECONDS")
+    pr.add_argument("--no-pdf", action="store_true", help="skip rendering new captures to PDF")
 
     r = sub.add_parser("report", help="table of known tenants")
     r.add_argument("--markdown", action="store_true")
@@ -892,28 +1011,29 @@ def main(argv=None):
         return 0
 
     session = new_session()
-    if args.cmd == "crawl":
-        hosts = [normalize_host(h) for h in args.hosts]
-        counts = run_crawl(session, args.data_dir, hosts, args.limit, args.max_age, args.delay,
-                           unpublished_every=args.unpublished_every)
-        checked = sum(counts.values())
-        return 1 if checked and counts["error"] == checked else 0
+    with (contextlib.nullcontext() if args.no_pdf else PageRenderer()) as render:
+        if args.cmd == "crawl":
+            hosts = [normalize_host(h) for h in args.hosts]
+            counts = run_crawl(session, args.data_dir, hosts, args.limit, args.max_age, args.delay,
+                               unpublished_every=args.unpublished_every, render=render)
+            checked = sum(counts.values())
+            return 1 if checked and counts["error"] == checked else 0
 
-    hosts = [normalize_host(h) for h in args.hosts]
-    if not hosts and not args.state:
-        p.error("probe needs hosts or --state")
-    link = None
-    if args.agency_id or args.ori:
-        link = {"agency_id": args.agency_id, "ori": args.ori, "name": args.name}
-    targets = []
-    if args.state:
-        recs = [load_tenant(d) for d in known_tenants(args.data_dir).values()]
-        targets = unlinked_targets(build_targets(args.state.upper(), load_fbi_rows(), load_registry()),
-                                   recs, near=args.near)
-        print(f"probe: {len(targets)} unlinked {args.state.upper()} agencies")
-    run_probe(session, args.data_dir, hosts, targets, args.limit, args.recheck_days,
-              args.delay, args.max_age, link)
-    return 0
+        hosts = [normalize_host(h) for h in args.hosts]
+        if not hosts and not args.state:
+            p.error("probe needs hosts or --state")
+        link = None
+        if args.agency_id or args.ori:
+            link = {"agency_id": args.agency_id, "ori": args.ori, "name": args.name}
+        targets = []
+        if args.state:
+            recs = [load_tenant(d) for d in known_tenants(args.data_dir).values()]
+            targets = unlinked_targets(build_targets(args.state.upper(), load_fbi_rows(), load_registry()),
+                                       recs, near=args.near)
+            print(f"probe: {len(targets)} unlinked {args.state.upper()} agencies")
+        run_probe(session, args.data_dir, hosts, targets, args.limit, args.recheck_days,
+                  args.delay, args.max_age, link, render=render)
+        return 0
 
 
 if __name__ == "__main__":

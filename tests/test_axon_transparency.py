@@ -473,3 +473,85 @@ def test_crawl_checks_published_daily_and_unpublished_weekly(tmp_path):
     s = FakeSession({ax.file_url(h): BLOB_404 for h in (pub, unpub_recent, unpub_old)})
     ax.run_crawl(s, tmp_path, delay=0, today="2026-10-10")
     assert s.calls == [ax.file_url(unpub_old), ax.file_url(pub)]
+
+
+# ── PDF rendering ────────────────────────────────────────────────
+
+class FakeRenderer:
+    """Stands in for PageRenderer: returns (pdf, info) with the sha of the
+    JSON the 'page' fetched, or raises."""
+
+    def __init__(self, page_json=None, fail=False):
+        self.page_json, self.fail, self.calls = page_json, fail, []
+
+    def __call__(self, host):
+        self.calls.append(host)
+        if self.fail:
+            raise TimeoutError("page never rendered")
+        return b"%PDF-1.4 fake", {"url": ax.policy_url(host), "rendered_at": "2026-10-10T13:30:00Z",
+                                  "timezone": ax.PDF_TIMEZONE, "renderer": "/axon/assets/alpr-public/app.x.js",
+                                  "json_sha256": hashlib.sha256(self.page_json).hexdigest()}
+
+
+def test_capture_with_pdf_records_provenance(tmp_path):
+    d = _register(tmp_path)
+    resp = published(doc())
+    r = FakeRenderer(page_json=resp.content)
+    ax.run_crawl(FakeSession({ax.file_url(H): resp}), tmp_path, delay=0, today="2026-10-10", render=r)
+    assert (d / "2026-10-10.pdf").read_bytes() == b"%PDF-1.4 fake"
+    pdf = json.loads((d / "2026-10-10.meta.json").read_text())["pdf"]
+    assert pdf["sha256"] == hashlib.sha256(b"%PDF-1.4 fake").hexdigest()
+    assert pdf["json_matches_capture"] is True and pdf["renderer"].endswith("app.x.js")
+
+
+def test_pdf_of_different_json_is_kept_but_flagged(tmp_path):
+    d = _register(tmp_path)
+    r = FakeRenderer(page_json=b'{"agencyInfo":{"name":"newer"}}')
+    ax.run_crawl(FakeSession({ax.file_url(H): published(doc())}), tmp_path, delay=0, today="2026-10-10", render=r)
+    assert (d / "2026-10-10.pdf").exists()
+    assert json.loads((d / "2026-10-10.meta.json").read_text())["pdf"]["json_matches_capture"] is False
+
+
+def test_render_failure_keeps_json_and_does_not_retry_daily(tmp_path):
+    d = _register(tmp_path)
+    ax.run_crawl(FakeSession({ax.file_url(H): published(doc())}), tmp_path, delay=0, today="2026-10-10",
+                 render=FakeRenderer(fail=True))
+    assert (d / "2026-10-10.json").exists() and not (d / "2026-10-10.pdf").exists()
+    assert "TimeoutError" in json.loads((d / "2026-10-10.meta.json").read_text())["pdf_error"]
+    r = FakeRenderer(page_json=b"{}")
+    ax.run_crawl(FakeSession({ax.file_url(H): published(doc(metric={"readsRetained": 7}))}), tmp_path,
+                 delay=0, today="2026-10-11", render=r)
+    assert r.calls == [] and [c for c, _ in ax.captures(d)] == ["2026-10-10"]  # waits for the weekly capture
+
+
+def test_capture_without_pdf_is_backfilled_when_rendering_is_on(tmp_path):
+    d = _register(tmp_path)
+    ax.run_crawl(FakeSession({ax.file_url(H): published(doc())}), tmp_path, delay=0, today="2026-10-10")
+    assert not (d / "2026-10-10.pdf").exists()
+    resp = published(doc(metric={"readsRetained": 7}))
+    ax.run_crawl(FakeSession({ax.file_url(H): resp}), tmp_path, hosts=[H], delay=0, today="2026-10-10",
+                 render=FakeRenderer(page_json=resp.content))
+    assert (d / "2026-10-10.json").read_bytes() == resp.content  # same-day set replaced together
+    assert json.loads((d / "2026-10-10.meta.json").read_text())["pdf"]["json_matches_capture"] is True
+
+
+def test_same_day_recapture_without_pdf_drops_the_stale_pdf(tmp_path):
+    d = _register(tmp_path)
+    resp = published(doc())
+    ax.run_crawl(FakeSession({ax.file_url(H): resp}), tmp_path, delay=0, today="2026-10-10",
+                 render=FakeRenderer(page_json=resp.content))
+    ax.run_crawl(FakeSession({ax.file_url(H): published(doc(policy={"readRetentionSetting": 365}))}), tmp_path,
+                 hosts=[H], delay=0, today="2026-10-10", render=FakeRenderer(fail=True))
+    assert not (d / "2026-10-10.pdf").exists()  # it showed the old policy
+
+
+def test_pdf_absent_from_a_sparse_checkout_is_not_rerendered(tmp_path):
+    d = _register(tmp_path)
+    resp = published(doc())
+    ax.run_crawl(FakeSession({ax.file_url(H): resp}), tmp_path, delay=0, today="2026-10-10",
+                 render=FakeRenderer(page_json=resp.content))
+    (d / "2026-10-10.pdf").unlink()  # sparse worktrees skip assets/evidence.com/**/*.pdf
+    r = FakeRenderer(page_json=b"{}")
+    ax.run_crawl(FakeSession({ax.file_url(H): published(doc(metric={"readsRetained": 7}))}), tmp_path,
+                 delay=0, today="2026-10-11", render=r)
+    assert r.calls == []
