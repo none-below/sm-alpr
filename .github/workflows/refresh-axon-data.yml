@@ -2,9 +2,12 @@ name: Refresh Axon Transparency Data
 
 # Archives Axon's opt-in ALPR "Policy and Usage" pages
 # (<tenant>.evidence.com/alpr/public/policy) via scripts/axon_transparency.py:
-# re-checks every known tenant, then probes a few more California agencies
-# for tenants (nearest San Mateo first). Axon regenerates the files around
-# 12:00 UTC (Last-Modified on every capture so far), so this runs after.
+# re-checks every known tenant, then probes the next batch of California
+# agencies for tenants: every agency in the FBI ORI directory plus registry
+# police/sheriff without an ORI, nearest San Mateo first. Candidates found
+# absent are re-checked after 90 days, so once a full pass is done each run
+# only touches a handful. Axon regenerates the files around 12:00 UTC
+# (Last-Modified on every capture so far), so this runs after.
 #
 # Captures accumulate on the axon-refresh branch across runs — like
 # flock-refresh, and unlike the FBI jobs that rebuild their branch from main —
@@ -17,8 +20,8 @@ on:
   workflow_dispatch:
     inputs:
       probe_limit:
-        description: 'Registry agencies to probe for new tenants (0 = skip probing)'
-        default: '20'
+        description: 'Agencies to probe for new tenants (0 = skip probing)'
+        default: '100'
 
 concurrency:
   group: axon-refresh
@@ -82,11 +85,11 @@ jobs:
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
 
       - name: Probe for new tenants
-        if: (inputs.probe_limit || '20') != '0'
+        if: (inputs.probe_limit || '100') != '0'
         run: |
           set -o pipefail
-          uv run python scripts/axon_transparency.py probe --registry --state CA \
-            --near 37.56031,-122.3106 --limit ${{ inputs.probe_limit || '20' }} | tee -a /tmp/axon.log
+          uv run python scripts/axon_transparency.py probe --state CA \
+            --near 37.56031,-122.3106 --limit ${{ inputs.probe_limit || '100' }} | tee -a /tmp/axon.log
 
       - name: Commit and push
         id: commit

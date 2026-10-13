@@ -256,55 +256,113 @@ def test_crawl_order_is_oldest_checked_first(tmp_path):
     assert s.calls == [ax.file_url("c.evidence.com"), ax.file_url("b.evidence.com")]
 
 
-# ── probe ────────────────────────────────────────────────────────
+# ── targets ──────────────────────────────────────────────────────
 
-def entry(aid, name, role, state="CA", kind=None, lat=None, lng=None):
-    return {"agency_id": aid, "agency_role": role,
+def entry(aid, name, role, state="CA", kind=None, lat=None, lng=None, ori=None):
+    return {"agency_id": aid, "agency_role": role, "ori": ori or [],
             "geo": {"name": name, "state": state, "kind": kind or ("county" if role == "sheriff" else "place"),
                     "lat": lat, "lng": lng}}
 
 
-def test_agency_candidates():
-    pd = [h for h, _ in ax.agency_candidates(entry("1", "Springfield", "police"))]
-    assert pd == ["springfieldpdca.evidence.com", "springfieldpoliceca.evidence.com", "springfieldpd.evidence.com"]
-    so = [h for h, _ in ax.agency_candidates(entry("2", "Springfield County", "sheriff"))]
-    assert so[0] == "springfieldsoca.evidence.com" and "springfieldcountysoca.evidence.com" in so
-    assert ax.agency_candidates(entry("3", "La Cañada Flintridge", "police"))[0][0] == \
-        "lacanadaflintridgepdca.evidence.com"
-    assert ax.agency_candidates(entry("4", "X", "da")) == []
-    assert ax.agency_candidates(entry("5", "California", "police", kind="state-only")) == []
-    assert ax.agency_candidates({"agency_id": "6", "agency_role": "police"}) == []
+def fbi(ori, name, typ, state="CA", lat="", lng=""):
+    return {"ori": ori, "agency_name": name, "agency_type_name": typ, "state": state, "lat": lat, "lng": lng}
 
 
-def test_registry_targets_filters_and_orders():
-    es = [entry("far", "Fresno", "police", lat=36.7, lng=-119.8),
-          entry("near", "Shelbyville", "police", lat=37.58, lng=-122.36),
-          entry("linked", "Springfield", "police", lat=37.56, lng=-122.31),
-          entry("tx", "Lewisville", "police", state="TX", lat=33.0, lng=-97.0),
-          entry("nocoord", "Somewhere", "police")]
-    got = [e["agency_id"] for e in ax.registry_targets(es, {"linked"}, state="CA", near=(37.56, -122.31))]
-    assert got == ["near", "far", "nocoord"]
+def hosts_of(t):
+    return [h.removesuffix(".evidence.com") for h, _ in ax.candidates(t)]
+
+
+def test_registry_target_candidates():
+    t = ax.target_from_registry(entry("1", "Springfield", "police"))
+    assert hosts_of(t) == ["springfieldpdca", "springfieldpoliceca", "springfieldpd", "springfield"]
+    so = hosts_of(ax.target_from_registry(entry("2", "Springfield County", "sheriff")))
+    assert so[0] == "springfieldsoca" and "springfieldcountysoca" in so
+    assert not any(h.startswith("s") and len(h) <= 4 for h in so)  # one word: no initials rules
+    assert hosts_of(ax.target_from_registry(entry("3", "La Cañada Flintridge", "police")))[0] == \
+        "lacanadaflintridgepdca"
+    assert ax.target_from_registry(entry("4", "X", "da")) is None
+    assert ax.target_from_registry(entry("5", "California", "police", kind="state-only")) is None
+    assert ax.target_from_registry({"agency_id": "6", "agency_role": "police"}) is None
+
+
+def test_fbi_name_parsing_and_initials_rules():
+    city = ax.target_from_fbi(fbi("CA1", "North Haverbrook Police Department", "City"))
+    assert hosts_of(city) == ["northhaverbrookpdca", "northhaverbrookpoliceca", "northhaverbrookpd",
+                              "nhpd", "northhaverbrook"]
+    so = ax.target_from_fbi(fbi("CA2", "Capital City County Sheriff's Office", "County"))
+    assert so["kind"] == "sheriff" and "ccsd" in hosts_of(so) and "ccsheriff" in hosts_of(so)
+    dps = ax.target_from_fbi(fbi("CA3", "Ogdenville Department of Public Safety", "City"))
+    assert hosts_of(dps)[0] == "ogdenvilledpsca"
+    uc = ax.target_from_fbi(fbi("CA4", "University of California: West Springfield", "University or College"))
+    assert hosts_of(uc) == ["ucwspd", "ucwestspringfieldpd", "ucws", "ucwestspringfield"]
+    rail = ax.target_from_fbi(fbi("CA5", "Monorail Transit: Springfield County", "Other"))
+    assert hosts_of(rail)[0] == "monorailtransitpdca"
+    assert ax.target_from_fbi(fbi("CA6", "Highway Patrol: Springfield Area Office", "State Police")) is None
+    assert ax.target_from_fbi(fbi("CA7", "Springfield Fire Marshal", "City")) is None
+
+
+def test_build_targets_merges_county_rows_links_registry_and_adds_unmatched():
+    rows = [fbi("CA1", "Springfield Police Department", "City"),
+            fbi("CA2", "Monorail Transit: A County", "Other"),
+            fbi("CA3", "Monorail Transit: B County", "Other"),
+            fbi("TX1", "Lewisville Police Department", "City", state="TX")]
+    reg = [entry("reg-spd", "Springfield", "police", ori=["CA1"]),
+           entry("reg-shelby", "Shelbyville", "police"),          # no ORI: added from registry
+           entry("reg-dup", "Springfield", "police")]             # same agency, no ORI: same candidates
+    ts = ax.build_targets("CA", rows, reg)
+    assert [t["name"] for t in ts] == ["Springfield Police Department", "Monorail Transit: A County",
+                                       "Shelbyville"]
+    assert ts[0]["agency_id"] == "reg-spd" and ts[0]["ori"] == ["CA1"]
+    assert ts[1]["ori"] == ["CA2", "CA3"]
+    assert ts[2]["agency_id"] == "reg-shelby" and ts[2]["ori"] == []
+    assert [t["source"] for t in ts] == ["fbi", "fbi", "registry"]
+    assert len(ts) == 3
+
+
+def test_unlinked_targets_drops_confirmed_and_candidate_links_and_orders():
+    ts = [ax.make_target("Far PD", "police", "Far", "CA", ori=["CA1"], lat=36.7, lng=-119.8),
+          ax.make_target("Near PD", "police", "Near", "CA", ori=["CA2"], lat=37.58, lng=-122.36),
+          ax.make_target("Linked PD", "police", "Linked", "CA", ori=["CA3"], lat=37.56, lng=-122.31),
+          ax.make_target("Cand PD", "police", "Cand", "CA", agency_id="cand", lat=37.5, lng=-122.3),
+          ax.make_target("Nowhere PD", "police", "Nowhere", "CA", ori=["CA5"])]
+    recs = [{"agency_id": None, "ori": ["CA3"]},
+            {"agency_id": None, "ori": [], "candidate": {"agency_id": "cand", "ori": []}}]
+    got = [t["name"] for t in ax.unlinked_targets(ts, recs, near=(37.56, -122.31))]
+    assert got == ["Near PD", "Far PD", "Nowhere PD"]
+
+
+# ── probe ────────────────────────────────────────────────────────
+
+def target(name="Test", aid="agency-1", ori=("CA1",)):
+    return ax.make_target(f"{name} Police Department", "police", name, "CA", agency_id=aid, ori=ori)
 
 
 def test_probe_stops_at_first_hit_and_crawls(tmp_path):
-    e = entry("agency-1", "Test", "police")
     s = FakeSession({
         ax.login_url("testpdca.evidence.com"): NO_TENANT,
         ax.login_url("testpoliceca.evidence.com"): tenant_redirect("testpoliceca.evidence.com"),
         ax.file_url("testpoliceca.evidence.com"): BLOB_404,
     })
-    found = ax.run_probe(s, tmp_path, entries=[e], delay=0, today="2026-10-10")
+    found = ax.run_probe(s, tmp_path, targets=[target()], delay=0, today="2026-10-10")
     assert found == ["testpoliceca.evidence.com"]
     assert ax.login_url("testpd.evidence.com") not in s.calls  # stopped at first hit
     rec = ax.load_tenant(tmp_path / "testpoliceca")
-    assert rec["agency_id"] == "agency-1" and rec["match"] == "registry:{b}police{st}"
+    assert (rec["agency_id"], rec["ori"], rec["name"]) == ("agency-1", ["CA1"], "Test Police Department")
+    assert rec["candidate"] is None and rec["match"] == "fbi:{b}police{st}"
     assert rec["published"] is False  # crawled right away: "has tenant, publishes nothing"
     st = ax.load_state(tmp_path)
     assert st["candidates"]["testpdca.evidence.com"] == {"checked": "2026-10-10", "result": "no_tenant"}
 
 
+def test_probe_fbi_only_target_records_source(tmp_path):
+    s = FakeSession({ax.login_url("testpdca.evidence.com"): tenant_redirect("testpdca.evidence.com"),
+                     ax.file_url("testpdca.evidence.com"): BLOB_404})
+    ax.run_probe(s, tmp_path, targets=[target(aid=None)], delay=0, today="2026-10-10")
+    rec = ax.load_tenant(tmp_path / "testpdca")
+    assert rec["match"] == "fbi:{b}pd{st}" and rec["ori"] == ["CA1"] and rec["agency_id"] is None
+
+
 def test_probe_skips_recent_negatives_and_rechecks_old_ones(tmp_path):
-    e = entry("agency-1", "Test", "police")
     st = ax.load_state(tmp_path)
     st["candidates"] = {
         "testpdca.evidence.com": {"checked": "2026-10-01", "result": "no_tenant"},     # recent: skip
@@ -312,9 +370,11 @@ def test_probe_skips_recent_negatives_and_rechecks_old_ones(tmp_path):
     }
     ax.save_state(tmp_path, st)
     s = FakeSession({ax.login_url("testpoliceca.evidence.com"): NO_TENANT,
-                     ax.login_url("testpd.evidence.com"): NO_TENANT})
-    ax.run_probe(s, tmp_path, entries=[e], delay=0, today="2026-10-10")
-    assert s.calls == [ax.login_url("testpoliceca.evidence.com"), ax.login_url("testpd.evidence.com")]
+                     ax.login_url("testpd.evidence.com"): NO_TENANT,
+                     ax.login_url("test.evidence.com"): NO_TENANT})
+    ax.run_probe(s, tmp_path, targets=[target()], delay=0, today="2026-10-10")
+    assert s.calls == [ax.login_url("testpoliceca.evidence.com"), ax.login_url("testpd.evidence.com"),
+                       ax.login_url("test.evidence.com")]
 
 
 def test_probe_unknown_redirect_is_not_recorded(tmp_path):
@@ -325,57 +385,74 @@ def test_probe_unknown_redirect_is_not_recorded(tmp_path):
 
 
 def test_probe_links_existing_unlinked_tenant_without_a_request(tmp_path):
-    _register(tmp_path, "testpdca.evidence.com")
+    ax.register(tmp_path, "testpdca.evidence.com", "2026-10-01")
     s = FakeSession({})
-    ax.run_probe(s, tmp_path, entries=[entry("agency-1", "Test", "police")], delay=0, today="2026-10-10")
+    ax.run_probe(s, tmp_path, targets=[target()], delay=0, today="2026-10-10")
     assert s.calls == []
     assert ax.load_tenant(tmp_path / "testpdca")["agency_id"] == "agency-1"
 
 
 def test_probe_rate_limit_stops_and_saves_state(tmp_path):
-    es = [entry("a", "Alpha", "police"), entry("b", "Beta", "police")]
+    ts = [target("Alpha"), target("Beta")]
     s = FakeSession({ax.login_url("alphapdca.evidence.com"): NO_TENANT,
                      ax.login_url("alphapoliceca.evidence.com"): Resp(429)})
-    ax.run_probe(s, tmp_path, entries=es, delay=0, today="2026-10-10")
+    ax.run_probe(s, tmp_path, targets=ts, delay=0, today="2026-10-10")
     assert ax.load_state(tmp_path)["candidates"]["alphapdca.evidence.com"]["result"] == "no_tenant"
     assert not any("beta" in c for c in s.calls)
 
 
 def test_probe_limit_counts_agencies_not_requests(tmp_path):
-    es = [entry("a", "Alpha", "police"), entry("b", "Beta", "police")]
-    s = FakeSession({ax.login_url(h): NO_TENANT for e in es for h, _ in ax.agency_candidates(e)})
-    ax.run_probe(s, tmp_path, entries=es, limit=1, delay=0, today="2026-10-10")
-    assert len(s.calls) == 3 and all("alpha" in c for c in s.calls)
+    ts = [target("Alpha"), target("Beta")]
+    s = FakeSession({ax.login_url(h): NO_TENANT for t in ts for h, _ in ax.candidates(t)})
+    ax.run_probe(s, tmp_path, targets=ts, limit=1, delay=0, today="2026-10-10")
+    assert len(s.calls) == len(ax.candidates(ts[0])) and all("alpha" in c for c in s.calls)
+
+
+def test_probe_limit_skips_targets_with_nothing_to_check(tmp_path):
+    # Rotation: once Alpha's candidates are all recently checked, a limit-1
+    # run must move on to Beta instead of spending its slot on Alpha.
+    ts = [target("Alpha"), target("Beta")]
+    st = ax.load_state(tmp_path)
+    st["candidates"] = {h: {"checked": "2026-10-09", "result": "no_tenant"} for h, _ in ax.candidates(ts[0])}
+    ax.save_state(tmp_path, st)
+    s = FakeSession({ax.login_url(h): NO_TENANT for h, _ in ax.candidates(ts[1])})
+    ax.run_probe(s, tmp_path, targets=ts, limit=1, delay=0, today="2026-10-10")
+    assert s.calls and all("beta" in c for c in s.calls)
 
 
 def test_probe_hit_without_state_code_links_only_as_candidate(tmp_path):
-    e = entry("agency-1", "Test", "police")
     s = FakeSession({
         ax.login_url("testpdca.evidence.com"): NO_TENANT,
         ax.login_url("testpoliceca.evidence.com"): NO_TENANT,
         ax.login_url("testpd.evidence.com"): tenant_redirect("testpd.evidence.com"),
         ax.file_url("testpd.evidence.com"): BLOB_404,
     })
-    ax.run_probe(s, tmp_path, entries=[e], delay=0, today="2026-10-10")
+    ax.run_probe(s, tmp_path, targets=[target()], delay=0, today="2026-10-10")
     rec = ax.load_tenant(tmp_path / "testpd")
-    assert rec["agency_id"] is None
-    assert rec["candidate_agency_id"] == "agency-1"
-    assert rec["match"] == "registry:{b}pd"
+    assert rec["agency_id"] is None and rec["ori"] == []
+    assert rec["candidate"] == {"agency_id": "agency-1", "ori": ["CA1"], "name": "Test Police Department"}
+    assert rec["match"] == "fbi:{b}pd"
 
 
-def test_explicit_agency_id_confirms_a_candidate(tmp_path):
-    ax.register(tmp_path, "testpd.evidence.com", "2026-10-10", "agency-1", "{b}pd")
+def test_explicit_link_confirms_a_candidate(tmp_path):
+    ax.register(tmp_path, "testpd.evidence.com", "2026-10-10",
+                {"agency_id": "agency-1", "ori": ["CA1"], "name": "Test PD"}, "{b}pd", "registry")
     s = FakeSession({ax.login_url("testpd.evidence.com"): tenant_redirect("testpd.evidence.com"),
                      ax.file_url("testpd.evidence.com"): BLOB_404})
-    ax.run_probe(s, tmp_path, hosts=["testpd.evidence.com"], agency_id="agency-1", delay=0, today="2026-10-11")
+    ax.run_probe(s, tmp_path, hosts=["testpd.evidence.com"], link={"agency_id": None, "ori": ["CA1"], "name": "Test PD"},
+                 delay=0, today="2026-10-11")
     rec = ax.load_tenant(tmp_path / "testpd")
-    assert rec["agency_id"] == "agency-1" and rec["candidate_agency_id"] is None
-    assert rec["match"] == "manual"
+    assert rec["ori"] == ["CA1"] and rec["candidate"] is None and rec["match"] == "manual"
+
+
+def test_confirmed_link_is_never_overwritten(tmp_path):
+    ax.register(tmp_path, H, "2026-10-10", {"agency_id": "a", "ori": [], "name": "A"})
+    ax.register(tmp_path, H, "2026-10-11", {"agency_id": "b", "ori": [], "name": "B"})
+    assert ax.load_tenant(tmp_path / "testpdca")["agency_id"] == "a"
 
 
 def test_probe_unknown_verdict_does_not_fall_through_to_weaker_rule(tmp_path):
-    e = entry("agency-1", "Test", "police")
     s = FakeSession({ax.login_url("testpdca.evidence.com"): Resp(200)})  # no redirect: unrecognized
-    ax.run_probe(s, tmp_path, entries=[e], delay=0, today="2026-10-10")
+    ax.run_probe(s, tmp_path, targets=[target()], delay=0, today="2026-10-10")
     assert s.calls == [ax.login_url("testpdca.evidence.com")]
     assert ax.load_state(tmp_path)["candidates"] == {}

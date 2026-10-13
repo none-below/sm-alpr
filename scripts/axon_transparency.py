@@ -29,8 +29,9 @@ nothing" only means something where ALPR use is established independently.
 Commands:
   crawl    Re-check every known tenant, oldest-checked first; archive the
            transparency JSON when published.
-  probe    Discover tenants from explicit hosts or candidates generated from
-           the agency registry; register hits and crawl them.
+  probe    Discover tenants from explicit hosts, or from candidates generated
+           for every agency in a state (FBI ORI directory + agency registry);
+           register hits and crawl them.
   report   Table of known tenants (--markdown for PR bodies).
 
 Layout (dates are UTC):
@@ -50,7 +51,7 @@ changes are archived the day they're seen; counters land weekly.
 Usage:
   uv run python scripts/axon_transparency.py crawl
   uv run python scripts/axon_transparency.py probe lewisvillepdtx hps.ca
-  uv run python scripts/axon_transparency.py probe --registry --state CA --limit 40
+  uv run python scripts/axon_transparency.py probe --state CA --limit 40
   uv run python scripts/axon_transparency.py report --markdown
 """
 
@@ -359,17 +360,46 @@ def save_tenant(tenant_dir, rec):
     save_json(tenant_dir / TENANT_FILE, rec)
 
 
-def new_tenant(host, today, agency_id=None, match="manual", candidate_agency_id=None):
+def new_tenant(host, today, match="manual"):
     return {
         "host": host,
-        "agency_id": agency_id,
-        "candidate_agency_id": candidate_agency_id,
+        # Confirmed link: registry agency_id and/or FBI ORIs, plus the agency
+        # name it was matched from. A rule without the state code can't be
+        # pinned to one agency, so its hit goes in `candidate` instead.
+        "agency_id": None,
+        "ori": [],
+        "name": None,
+        "candidate": None,
         "match": match,
         "first_seen": today,
         "published": None,
         "axon_agency": None,
         "events": [{"date": today, "event": "tenant_found"}],
     }
+
+
+def is_linked(rec):
+    return bool(rec.get("agency_id") or rec.get("ori"))
+
+
+def apply_link(rec, link, match):
+    """Attach an agency link. A confirmed link fills an unlinked record (and
+    replaces a candidate); an unconfirmed one only fills an empty candidate
+    slot. Existing links are never overwritten — fix those by hand. Returns
+    True if the record changed."""
+    if not link:
+        return False
+    fields = {"agency_id": link.get("agency_id"), "ori": sorted(link.get("ori") or []),
+              "name": link.get("name")}
+    if link.get("confirmed"):
+        if is_linked(rec):
+            return False
+        rec.update(fields, candidate=None, match=match)
+        return True
+    if is_linked(rec) or rec.get("candidate"):
+        return False
+    rec.update(candidate=fields, match=match)
+    return True
 
 
 def apply_check(rec, today, result):
@@ -477,51 +507,158 @@ def run_crawl(session, data_dir, hosts=None, limit=0, max_age=DEFAULT_MAX_AGE,
 
 
 # ── probe ────────────────────────────────────────────────────────
+#
+# Targets are agencies to look for: every agency in the FBI ORI directory
+# (data/fbi/agencies.tsv) for the state, plus agency-registry police/sheriff
+# entries that have no ORI there. Each target yields candidate tenant names
+# from RULES, tried most-likely first; a probe stops at a target's first hit.
+#
+# A rule containing {st} pins the hit to one state, so it links as confirmed.
+# Rules without it (initials like sfpd/lasd, bare city names like
+# mountainview, campus abbreviations like ucsf) could be another state's
+# agency or a non-police tenant of the same city, so their hits link only as
+# `candidate` until someone confirms them (`probe <host> --ori/--agency-id`).
+
+FBI_AGENCIES = Path("data/fbi/agencies.tsv")
+
+RULES = {
+    "police": ("{b}pd{st}", "{b}police{st}", "{b}pd", "{i}pd", "{b}"),
+    "dps": ("{b}dps{st}", "{b}pd{st}", "{b}dps", "{b}pd", "{i}pd", "{b}"),
+    "sheriff": ("{b}so{st}", "{b}countyso{st}", "{b}sheriff{st}", "{b}cso{st}", "{b}so",
+                "{b}sheriff", "{b}countysheriff", "{i}so", "{i}sd", "{i}cso", "{i}sheriff"),
+    "campus": ("{p}{i}pd", "{p}{b}pd", "{p}{i}", "{p}{b}"),
+    "other": ("{b}pd{st}", "{b}pd", "{i}pd"),
+}
+
+_STOPWORDS = {"of", "the", "and", "at"}
+_CITY = re.compile(r"^(.*?)\s+(Police Department|Police|Department of Public Safety|Public Safety)$")
+_COUNTY = re.compile(r"^(.*?)\s+County\s+Sheriff'?s?\s+(?:Office|Department)$")
+_CAMPUS = re.compile(r"^(University of California|California State (?:Polytechnic )?University):\s*(.+)$")
+
 
 def _alnum(s):
     s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
     return re.sub(r"[^a-z0-9]", "", s.lower())
 
 
-# Ordered most-likely first; a probe stops at an agency's first hit. Patterns
-# without the state code come last because a hit on one can't be pinned to a
-# state (hillsboroughpd could be Hillsborough NC or NH). Such a hit is stored
-# as candidate_agency_id, not agency_id, until someone confirms it (the
-# published agencyInfo.name, or a records request) and links it with
-# `probe <host> --agency-id`.
-POLICE_RULES = ("{b}pd{st}", "{b}police{st}", "{b}pd")
-SHERIFF_RULES = ("{b}so{st}", "{b}countyso{st}", "{b}coso{st}", "{b}sheriff{st}",
-                 "{b}cso{st}", "{b}so", "{b}sheriff")
+def _words(s):
+    return [w for w in (_alnum(x) for x in re.split(r"[\s/-]+", s)) if w and w not in _STOPWORDS]
 
 
-def agency_candidates(entry):
-    """[(host, rule)] to try for one registry entry, most likely first."""
+def make_target(name, kind, base, st, *, agency_id=None, ori=(), prefix="", lat=None, lng=None,
+                source="fbi"):
+    """`source` names the list `name`/`base` came from (recorded in a hit's
+    `match`); agency_id/ori are links regardless of source."""
+    return {"name": name, "kind": kind, "words": _words(base), "prefix": prefix, "source": source,
+            "st": st.lower(), "agency_id": agency_id, "ori": list(ori), "lat": lat, "lng": lng}
+
+
+def target_from_fbi(row, ori_to_agency=None):
+    """Target for one agencies.tsv row, or None if it isn't a probe-able kind."""
+    name, typ, st = row["agency_name"].strip(), row["agency_type_name"], row["state"]
+    ori = row["ori"]
+    kw = {"agency_id": (ori_to_agency or {}).get(ori), "ori": [ori],
+          "lat": _float(row.get("lat")), "lng": _float(row.get("lng"))}
+    if typ == "City":
+        m = _CITY.match(name)
+        if m:
+            return make_target(name, "dps" if "Safety" in m.group(2) else "police", m.group(1), st, **kw)
+        return None
+    if typ == "County":
+        m = _COUNTY.match(name)
+        return make_target(name, "sheriff", m.group(1), st, **kw) if m else None
+    if typ in ("University or College", "Other", "Tribal"):
+        m = _CAMPUS.match(name)
+        if m:
+            prefix = "uc" if m.group(1).startswith("University") else "csu"
+            return make_target(name, "campus", m.group(2), st, prefix=prefix, **kw)
+        # "Union Pacific Railroad: Alameda County" — one agency per county row.
+        return make_target(name, "other", name.split(":")[0], st, **kw)
+    return None  # State Police (CHP offices), Other State Agency
+
+
+def target_from_registry(entry):
     geo = entry.get("geo") or {}
-    name, st = geo.get("name"), (geo.get("state") or "").lower()
+    name, st = geo.get("name"), geo.get("state")
     if not name or not st or geo.get("kind") == "state-only":
-        return []
+        return None
     role = entry.get("agency_role")
-    if role == "police":
-        rules = POLICE_RULES
-    elif role == "sheriff":
-        rules = SHERIFF_RULES
+    if role not in ("police", "sheriff"):
+        return None
+    if role == "sheriff":
         name = re.sub(r"\s+county$", "", name, flags=re.IGNORECASE)
-    else:
+    return make_target(agency_display_name(entry, fallback=name), role, name, st,
+                       agency_id=entry["agency_id"], ori=entry.get("ori") or [],
+                       lat=geo.get("lat"), lng=geo.get("lng"), source="registry")
+
+
+def _float(v):
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def candidates(target):
+    """[(host, rule)] to try for one target, most likely first."""
+    w, st, prefix = target["words"], target["st"], target["prefix"]
+    if not w:
         return []
-    b = _alnum(name)
-    if not b:
-        return []
+    b = "".join(w)
+    i = "".join(x[0] for x in w) if len(w) >= 2 else None
     out = []
-    for rule in rules:
-        host = f"{rule.format(b=b, st=st)}.{DOMAIN}"
+    for rule in RULES[target["kind"]]:
+        if "{i}" in rule and not i:
+            continue
+        host = f"{rule.format(b=b, i=i, st=st, p=prefix)}.{DOMAIN}"
         if host not in (h for h, _ in out):
             out.append((host, rule))
     return out
 
 
-def _distance(entry, near):
-    geo = entry.get("geo") or {}
-    lat, lng = geo.get("lat"), geo.get("lng")
+def state_qualified(rule):
+    return rule == "manual" or "{st}" in rule
+
+
+def load_fbi_rows(path=FBI_AGENCIES):
+    import csv
+    if not path.exists():
+        return []
+    with path.open(newline="") as f:
+        return list(csv.DictReader(f, delimiter="\t"))
+
+
+def build_targets(state, fbi_rows, registry):
+    """FBI agencies for `state`, then registry police/sheriff with no FBI
+    match. Targets yielding the same candidate list (an agency listed once
+    per county, like a railroad or transit police) merge their ORIs."""
+    ori_to_agency = {o: e["agency_id"] for e in registry for o in (e.get("ori") or [])}
+    targets = [t for t in (target_from_fbi(r, ori_to_agency) for r in fbi_rows if r.get("state") == state) if t]
+    covered = {t["agency_id"] for t in targets if t["agency_id"]}
+    covered_ori = {o for t in targets for o in t["ori"]}
+    for e in registry:
+        if (e.get("geo") or {}).get("state") != state or e["agency_id"] in covered:
+            continue
+        if set(e.get("ori") or []) & covered_ori:
+            continue
+        t = target_from_registry(e)
+        if t:
+            targets.append(t)
+    merged, by_cands = [], {}
+    for t in targets:
+        key = tuple(h for h, _ in candidates(t))
+        if not key:
+            continue
+        if key in by_cands:
+            by_cands[key]["ori"] = sorted(set(by_cands[key]["ori"]) | set(t["ori"]))
+            continue
+        by_cands[key] = t
+        merged.append(t)
+    return merged
+
+
+def _distance(target, near):
+    lat, lng = target.get("lat"), target.get("lng")
     if lat is None or lng is None:
         return math.inf
     # Equirectangular is plenty for ordering.
@@ -530,15 +667,18 @@ def _distance(entry, near):
     return math.hypot(x, y)
 
 
-def registry_targets(entries, linked_ids, state=None, near=None):
-    """Registry entries worth probing: police/sheriff, in `state` if given,
-    not already linked to a tenant. Nearest first when `near` is given."""
-    out = [e for e in entries
-           if e.get("agency_id") not in linked_ids
-           and (state is None or (e.get("geo") or {}).get("state") == state)
-           and agency_candidates(e)]
+def unlinked_targets(targets, tenant_recs, near=None):
+    """Drop targets already linked (confirmed or candidate) to a tenant;
+    nearest first when `near` is given."""
+    ids, oris = set(), set()
+    for rec in tenant_recs:
+        for link in (rec, rec.get("candidate") or {}):
+            if link.get("agency_id"):
+                ids.add(link["agency_id"])
+            oris.update(link.get("ori") or [])
+    out = [t for t in targets if t["agency_id"] not in ids and not set(t["ori"]) & oris]
     if near:
-        out.sort(key=lambda e: _distance(e, near))
+        out.sort(key=lambda t: _distance(t, near))
     return out
 
 
@@ -550,86 +690,84 @@ def _recently_checked(state, host, today, recheck_days):
     return age < recheck_days
 
 
-def state_qualified(rule):
-    return rule == "manual" or "{st}" in rule
-
-
-def register(data_dir, host, today, agency_id=None, rule="manual"):
-    """Create or link a tenant record. A registry hit on a rule without the
-    state code links only as candidate_agency_id; an explicit (manual)
-    --agency-id or a state-qualified rule links agency_id."""
-    match = rule if rule == "manual" else f"registry:{rule}"
-    confirmed = state_qualified(rule)
-    aid = agency_id if confirmed else None
-    cand = None if confirmed else agency_id
+def register(data_dir, host, today, link=None, rule="manual", source="manual"):
+    """Create the tenant record if new and attach `link` (confirmed only for
+    state-qualified rules and manual links). Returns (tenant_dir, is_new)."""
+    match = "manual" if rule == "manual" else f"{source}:{rule}"
+    if link is not None:
+        link = {**link, "confirmed": state_qualified(rule)}
     tenant_dir = data_dir / host_key(host)
     rec = load_tenant(tenant_dir)
-    if rec is None:
-        save_tenant(tenant_dir, new_tenant(host, today, aid, match, cand))
-        return tenant_dir, True
-    if aid and not rec.get("agency_id"):
-        rec.update(agency_id=aid, candidate_agency_id=None, match=match)
+    is_new = rec is None
+    if is_new:
+        rec = new_tenant(host, today, match)
+    if apply_link(rec, link, match) or is_new:
         save_tenant(tenant_dir, rec)
-    elif cand and not rec.get("agency_id") and not rec.get("candidate_agency_id"):
-        rec.update(candidate_agency_id=cand, match=match)
-        save_tenant(tenant_dir, rec)
-    return tenant_dir, False
+    return tenant_dir, is_new
 
 
-def run_probe(session, data_dir, hosts=(), entries=(), limit=0, recheck_days=DEFAULT_RECHECK_DAYS,
-              delay=DEFAULT_DELAY, max_age=DEFAULT_MAX_AGE, agency_id=None, today=None):
-    """Probe explicit hosts, then registry entries (up to `limit` agencies).
+def run_probe(session, data_dir, hosts=(), targets=(), limit=0, recheck_days=DEFAULT_RECHECK_DAYS,
+              delay=DEFAULT_DELAY, max_age=DEFAULT_MAX_AGE, link=None, today=None):
+    """Probe explicit hosts (linked to `link` if given), then targets. `limit`
+    caps targets that needed a request this run, so targets whose every
+    candidate was checked recently cost nothing and the rotation moves on.
     A hit is registered and crawled right away."""
     today = today or utc_now().date().isoformat()
     state = load_state(data_dir)
     tenants = known_tenants(data_dir)
-    found, checked = [], 0
+    found, requests_made, probed = [], 0, 0
 
-    # Explicit hosts carry no candidate list; registry entries try their rules
-    # in order and stop at the first hit.
     jobs = [(None, [(h, "manual")]) for h in hosts]
-    jobs += [(e, agency_candidates(e)) for e in entries]
-    if limit:
-        jobs = jobs[: len(hosts) + limit]
+    jobs += [(t, candidates(t)) for t in targets]
 
     def pause():
-        nonlocal checked
-        if checked:
+        nonlocal requests_made
+        if requests_made:
             time.sleep(delay)
-        checked += 1
+        requests_made += 1
 
     try:
-        for entry, cands in jobs:
-            aid = entry["agency_id"] if entry else agency_id
+        for target, cands in jobs:
+            if target is not None and limit and probed >= limit:
+                break
+            if target is not None:
+                tlink = {k: target[k] for k in ("agency_id", "ori", "name")}
+                source = target["source"]
+            else:
+                tlink, source = link, "manual"
+            before = requests_made
             for host, rule in cands:
-                if entry is not None and host in tenants:
+                if target is not None and host in tenants:
                     # Already registered (maybe unlinked): link it, no request.
-                    register(data_dir, host, today, aid, rule)
+                    register(data_dir, host, today, tlink, rule, source)
                     break
-                if entry is not None and _recently_checked(state, host, today, recheck_days):
+                if target is not None and _recently_checked(state, host, today, recheck_days):
                     continue
                 pause()
                 verdict = check_tenant(session, host)
                 if verdict == "unknown":
-                    # Give up on this agency for the run rather than fall
+                    # Give up on this target for the run rather than fall
                     # through to a less specific rule: next run retries in order.
                     print(f"  ? {host}: unrecognized login redirect; will retry next run")
                     break
                 state["candidates"][host] = {"checked": today, "result": verdict}
                 if verdict == "no_tenant":
                     continue
-                tenant_dir, new = register(data_dir, host, today, aid, rule)
+                tenant_dir, new = register(data_dir, host, today, tlink, rule, source)
                 tenants[host] = tenant_dir
-                print(f"  TENANT {host}" + (f" (agency {aid}, {rule})" if aid else "") + ("" if new else " [known]"))
+                who = f" ← {tlink['name'] or tlink['agency_id'] or tlink['ori']}" if tlink else ""
+                print(f"  TENANT {host}{who} [{rule}]" + ("" if new else " (known)"))
                 found.append(host)
                 pause()
                 crawl_one(session, host, tenant_dir, state, today, max_age)
                 break
+            if target is not None and requests_made > before:
+                probed += 1
     except RateLimited as e:
         print(f"RATE LIMITED at {e}; stopping this run")
     finally:
         save_state(data_dir, state)
-    print(f"probe: {checked} requests, {len(found)} tenants found")
+    print(f"probe: {requests_made} requests, {probed} agencies probed, {len(found)} tenants found")
     return found
 
 
@@ -642,11 +780,12 @@ def tenant_rows(data_dir):
         rec = load_tenant(d)
         cap_date, doc = latest_capture(d)
         doc = doc or {}
-        aid = rec.get("agency_id") or rec.get("candidate_agency_id")
-        entry = by_id.get(aid) or {}
-        registry_name = agency_display_name(entry, fallback="") if entry else None
-        if registry_name and not rec.get("agency_id"):
-            registry_name += " (unconfirmed)"
+        cand = rec.get("candidate") or {}
+        link = rec if is_linked(rec) else cand
+        entry = by_id.get(link.get("agency_id")) or {}
+        agency = (agency_display_name(entry, fallback="") if entry else None) or link.get("name")
+        if agency and not is_linked(rec):
+            agency += " (unconfirmed)"
         settings = doc.get("transparencySetting") or {}
         if doc.get("sharedAgencies"):
             sharing = len(doc["sharedAgencies"])
@@ -662,7 +801,7 @@ def tenant_rows(data_dir):
             "since": next((ev["date"] for ev in reversed(rec["events"])
                            if ev["event"] in ("published", "not_published")), None),
             "axon_name": (rec.get("axon_agency") or {}).get("name"),
-            "registry": registry_name,
+            "agency": agency,
             "match": rec.get("match"),
             "capture": cap_date,
             "devices": ", ".join(f"{k} {v}" for k, v in devices.items() if v) or None,
@@ -681,7 +820,7 @@ def _days(v):
 
 
 def print_report(rows, markdown=False):
-    cols = ["host", "published", "since", "axon_name", "registry", "devices", "retention", "sharing", "capture"]
+    cols = ["host", "published", "since", "axon_name", "agency", "devices", "retention", "sharing", "capture"]
     fmt = lambda v: "—" if v is None else str(v)  # noqa: E731
     if markdown:
         print("| " + " | ".join(cols) + " |")
@@ -714,11 +853,12 @@ def main(argv=None):
 
     pr = sub.add_parser("probe", help="discover tenants")
     pr.add_argument("hosts", nargs="*", help="explicit tenant keys, hosts or URLs")
-    pr.add_argument("--agency-id", help="registry agency_id to link explicit hosts to")
-    pr.add_argument("--registry", action="store_true", help="generate candidates from the agency registry")
-    pr.add_argument("--state", help="registry candidates only for this 2-letter state")
+    pr.add_argument("--agency-id", help="registry agency_id to link explicit hosts to (confirmed)")
+    pr.add_argument("--ori", action="append", default=[], help="FBI ORI to link explicit hosts to (repeatable)")
+    pr.add_argument("--name", help="agency name to record with --agency-id/--ori")
+    pr.add_argument("--state", help="probe every agency in this state (FBI ORI directory + registry)")
     pr.add_argument("--near", type=_parse_near, metavar="LAT,LNG", help="probe nearest agencies first")
-    pr.add_argument("--limit", type=int, default=0, help="max registry agencies this run")
+    pr.add_argument("--limit", type=int, default=0, help="max agencies needing a request this run")
     pr.add_argument("--recheck-days", type=int, default=DEFAULT_RECHECK_DAYS,
                     help="skip candidates found absent within this many days")
     pr.add_argument("--max-age", type=int, default=DEFAULT_MAX_AGE, metavar="DAYS")
@@ -745,18 +885,19 @@ def main(argv=None):
         return 1 if checked and counts["error"] == checked else 0
 
     hosts = [normalize_host(h) for h in args.hosts]
-    entries = []
-    if args.registry:
-        linked = set()
-        for d in known_tenants(args.data_dir).values():
-            rec = load_tenant(d)
-            linked |= {rec.get("agency_id"), rec.get("candidate_agency_id")}
-        entries = registry_targets(load_registry(), linked - {None},
-                                   state=args.state.upper() if args.state else None, near=args.near)
-    elif not hosts:
-        p.error("probe needs hosts or --registry")
-    run_probe(session, args.data_dir, hosts, entries, args.limit, args.recheck_days,
-              args.delay, args.max_age, args.agency_id)
+    if not hosts and not args.state:
+        p.error("probe needs hosts or --state")
+    link = None
+    if args.agency_id or args.ori:
+        link = {"agency_id": args.agency_id, "ori": args.ori, "name": args.name}
+    targets = []
+    if args.state:
+        recs = [load_tenant(d) for d in known_tenants(args.data_dir).values()]
+        targets = unlinked_targets(build_targets(args.state.upper(), load_fbi_rows(), load_registry()),
+                                   recs, near=args.near)
+        print(f"probe: {len(targets)} unlinked {args.state.upper()} agencies")
+    run_probe(session, args.data_dir, hosts, targets, args.limit, args.recheck_days,
+              args.delay, args.max_age, link)
     return 0
 
 
