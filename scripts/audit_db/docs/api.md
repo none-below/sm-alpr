@@ -98,9 +98,13 @@ the repo commit, which identifies the build code as well as the committed inputs
 
 | Script | What it does | Arguments |
 |---|---|---|
-| `muckrock_ingest.py` | Stages every MuckRock release (file, zip member, sheet) as a CSV for the truth build. Also the MuckRock loader `build_truth.py` imports. | `stage <evidence dir> <tmp dir>` |
+| `muckrock_ingest.py` | Stages every MuckRock release (file, zip member, sheet) as a CSV for the truth build. Also the MuckRock loader `build_truth.py` imports. `profile-resweep` catalogs the files a later re-sweep fetched (`MANIFEST_resweep_<run>.txt`) into `catalog_resweep_<run>.json` and `catalog_requests_resweep_<run>.json`, which the loader reads with the original catalogs. | `stage <evidence dir> <tmp dir>`; `profile-resweep <evidence dir> <run>` |
 | `build_truth.py` | Builds `truth.duckdb`: released rows verbatim from the repo checkout (NDJSON conversions, San Mateo PD's audit PDFs) and the staged MuckRock releases, plus the authored facts. Refuses to run from a different checkout than `--repo`. | `OUT.duckdb TMPDIR [--repo CHECKOUT]` |
 | `smpd_pdf_loader.py` | San Mateo PD's PDF reader, used by `build_truth.py`. Run on its own, it prints a per-PDF summary. | `PDF...` |
+| `portal_ingest.py` | Stages every Flock audit table in the public-records-portal harvest (profiled with `table_profile.py`, staged with `muckrock_ingest.to_csv`), and loads them as `pp:` releases (`add_portals`, called by `build_truth.py`). | `stage <portals dir> <tmp dir>` |
+| `pdf_table_ingest.py` | Reads every PDF in the MuckRock corpus and the portal harvest whose page 1 holds a Flock header (`pdf_table_reader.py`), caches the rows by file sha256, and loads those that pass the layout gate (checked on the first pages before the rest is read) as `pdft:` releases (`add_pdf_tables`); the rest go to `release_exclusions`. | `stage <evidence dir> <portals dir> <tmp dir>` |
+| `pdf_table_reader.py` | Module: reads an audit spreadsheet printed to PDF by position (`read_pdf`, `rows`), with the layout gate (`layout_ok`). | — |
+| `table_profile.py` | Module: which tables in a file (CSV, sheet, zip member) are Flock audit logs, and of what kind, by content. | — |
 | `build_derived.py` | Builds `derived.duckdb`: the views and macros, `public_macros.sql`, and the event-linking cache. Run from the audit dir. | `truth.duckdb derived.duckdb [--views-only]` (refresh views and macros, keep the cache) |
 | `sql_templates.py` | Module: the parse and citation SQL shared by the full views, the row-lookup macros and `audit_client.py`. | — |
 | `cache_fingerprint.py` | Module: what the cache was built from (truth fingerprint, linking-code hash, DuckDB version). | — |
@@ -129,6 +133,8 @@ py()   { uv run --locked --project "$C" python "$@"; }                         #
 bgpy() { nice -n 19 taskpolicy -b uv run --locked --project "$C" python "$@"; }  # heavy steps, at background QoS
 cd "$R"
 bgpy "$C/muckrock_ingest.py" stage <evidence dir> "$T"                                             # ~6 min
+bgpy "$C/portal_ingest.py" stage <portals dir> "$T"                                                # ~5 min
+bgpy "$C/pdf_table_ingest.py" stage <evidence dir> <portals dir> "$T"                              # ~1 h first time; cached by sha256
 bgpy "$C/build_truth.py" "$A/truth_new.duckdb" "$T" && mv "$A/truth_new.duckdb" "$A/truth.duckdb"   # ~10 min
 rm -f "$A/derived.duckdb" && (cd "$A" && bgpy "$C/build_derived.py" truth.duckdb derived.duckdb)  # ~12 min
 py "$C/check_cache.py"                                   # seconds; exit 1 = stale cache

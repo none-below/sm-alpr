@@ -1,0 +1,107 @@
+{
+ "_doc": "Authored attribution for public-records-portal releases (portal_ingest.py, pdf_table_ingest.py): which Flock org's log a file is, in the registry's flock_names spelling. Precedence: 'files' ('<host>:<request>:<file as saved>') over 'requests' ('<host>:<request>') over the file name ('<dates>-<Org>-[Network-]Audit') over the request's own-search dominant Org Name over 'hosts'. A host entry says whose records portal it is, so it is the fallback for a file that names no org (e.g. 'Manteca_CA_PD_network_Apr_2024.csv'); a city portal can also post another agency's log, which needs a 'files' or 'requests' entry with its own source.",
+ "hosts": {
+  "campbellca.govqa.us": {
+   "org": "Campbell CA PD",
+   "source": "campbellca.govqa.us is the public records portal of the agency that runs Campbell CA PD"
+  },
+  "cathedralcityca.nextrequest.com": {
+   "org": "Cathedral City CA PD",
+   "source": "cathedralcityca.nextrequest.com is the public records portal of the agency that runs Cathedral City CA PD"
+  },
+  "cityofdixonca.nextrequest.com": {
+   "org": "Dixon CA PD",
+   "source": "cityofdixonca.nextrequest.com is the public records portal of the agency that runs Dixon CA PD"
+  },
+  "cityofhollister-ca.nextrequest.com": {
+   "org": "Hollister CA PD",
+   "source": "cityofhollister-ca.nextrequest.com is the public records portal of the agency that runs Hollister CA PD"
+  },
+  "cityofmanteca.nextrequest.com": {
+   "org": "Manteca CA PD",
+   "source": "cityofmanteca.nextrequest.com is the public records portal of the agency that runs Manteca CA PD"
+  },
+  "cityofnapaca.nextrequest.com": {
+   "org": "Napa CA PD",
+   "source": "cityofnapaca.nextrequest.com is the public records portal of the agency that runs Napa CA PD"
+  },
+  "cityofnationalcityca.nextrequest.com": {
+   "org": "National City CA PD",
+   "source": "cityofnationalcityca.nextrequest.com is the public records portal of the agency that runs National City CA PD"
+  },
+  "cityofoceansideca.nextrequest.com": {
+   "org": "Oceanside CA PD",
+   "source": "cityofoceansideca.nextrequest.com is the public records portal of the agency that runs Oceanside CA PD"
+  },
+  "cityofpetalumaca.nextrequest.com": {
+   "org": "Petaluma CA PD",
+   "source": "cityofpetalumaca.nextrequest.com is the public records portal of the agency that runs Petaluma CA PD"
+  },
+  "cityofrichmondca.nextrequest.com": {
+   "org": "Richmond CA PD",
+   "source": "cityofrichmondca.nextrequest.com is the public records portal of the agency that runs Richmond CA PD"
+  },
+  "cityofsantaanaca.nextrequest.com": {
+   "org": "Santa Ana CA PD",
+   "source": "cityofsantaanaca.nextrequest.com is the public records portal of the agency that runs Santa Ana CA PD"
+  },
+  "cityofsantarosaca.nextrequest.com": {
+   "org": "Santa Rosa CA PD",
+   "source": "cityofsantarosaca.nextrequest.com is the public records portal of the agency that runs Santa Rosa CA PD"
+  },
+  "cityofseaside-ca.nextrequest.com": {
+   "org": "Seaside CA PD",
+   "source": "cityofseaside-ca.nextrequest.com is the public records portal of the agency that runs Seaside CA PD"
+  },
+  "cityofturlockca.nextrequest.com": {
+   "org": "Turlock CA PD",
+   "source": "cityofturlockca.nextrequest.com is the public records portal of the agency that runs Turlock CA PD"
+  },
+  "fairfieldcapd.nextrequest.com": {
+   "org": "Fairfield CA PD",
+   "source": "fairfieldcapd.nextrequest.com is the public records portal of the agency that runs Fairfield CA PD"
+  },
+  "fullerton.govqa.us": {
+   "org": "Fullerton CA PD",
+   "source": "fullerton.govqa.us is the public records portal of the agency that runs Fullerton CA PD"
+  },
+  "kerncountysheriffca.justfoia.com": {
+   "org": "Kern County CA SO",
+   "source": "kerncountysheriffca.justfoia.com is the public records portal of the agency that runs Kern County CA SO"
+  },
+  "losaltosca.nextrequest.com": {
+   "org": "Los Altos CA PD",
+   "source": "losaltosca.nextrequest.com is the public records portal of the agency that runs Los Altos CA PD"
+  },
+  "oaklandca.nextrequest.com": {
+   "org": "Oakland CA PD",
+   "source": "oaklandca.nextrequest.com is the public records portal of the agency that runs Oakland CA PD"
+  },
+  "riversideca.mycusthelp.com": {
+   "org": "City of Riverside CA PD",
+   "source": "riversideca.mycusthelp.com is the public records portal of the City of Riverside (City of Riverside CA PD)"
+  },
+  "sandiego.nextrequest.com": {
+   "org": "San Diego CA PD",
+   "source": "sandiego.nextrequest.com is the public records portal of the agency that runs San Diego CA PD"
+  },
+  "sanfrancisco.nextrequest.com": {
+   "org": "San Francisco CA PD",
+   "source": "sanfrancisco.nextrequest.com is the public records portal of the agency that runs San Francisco CA PD"
+  },
+  "santaclara.nextrequest.com": {
+   "org": "Santa Clara CA PD",
+   "source": "santaclara.nextrequest.com is the public records portal of the agency that runs Santa Clara CA PD"
+  },
+  "sdsheriff.govqa.us": {
+   "org": "San Diego County CA SO",
+   "source": "sdsheriff.govqa.us is the public records portal of the agency that runs San Diego County CA SO"
+  },
+  "westsacramento.nextrequest.com": {
+   "org": "West Sacramento CA PD",
+   "source": "westsacramento.nextrequest.com is the public records portal of the agency that runs West Sacramento CA PD"
+  }
+ },
+ "requests": {},
+ "files": {}
+}
