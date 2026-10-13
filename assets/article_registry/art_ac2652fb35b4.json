@@ -22,6 +22,11 @@
   "wayback_source": "save-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:sharing",
+    "scope:local",
     "vendor:axon",
     "vendor:flock"
   ],
@@ -133,10 +138,25 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-10-10T18:26:08Z",
+  "primary_subject_agency_ids": [
+    "847ce8af-3e88-59ca-90f3-d621db6f31f6"
+  ],
+  "summary": "The San Mateo Police Department has tightened controls on its Real Time Information Center technology, including Flock ALPRs, by cutting data-sharing partners from over 280 to just eight, removing university police departments, requiring sharing agreements, and implementing monthly audits with case numbers and search justifications. The changes follow recommendations in an Aug. 3 San Mateo County Civil Grand Jury report and were presented at a City Council special meeting.",
+  "key_quotes": [
+    {
+      "quote": "the police significantly reduced the number of agencies it was sharing data with, from over 280 at its height, to now just eight",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "We've really limited our sharing just to have more control over the data and who it gets to",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Mass surveillance cameras violate our civil rights and make us all less safe",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-11T20:13:41Z",
   "article_id": "art_ac2652fb35b4"
 }
