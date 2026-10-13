@@ -1,8 +1,8 @@
 # Requester-made derivative: CAD incident 2406180016
 
 The CAD incident report for 2406180016 released on 2026-10-08 under W013546-093026 is withheld from
-this repository. Its Persons block shows third parties' names, dates of birth and a driver's license
-number, which the request said it did not seek. The file in this folder is a derivative made by the
+this repository. Its Persons block shows three people's names and dates of birth and two driver's
+license numbers, which the request said it did not seek. The file in this folder is a derivative made by the
 requester, not the City's release: the page is flattened to an image, with the Persons rows blacked out.
 
 | Original file (as released) | SHA-256 of the original |

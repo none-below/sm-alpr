@@ -484,7 +484,7 @@ WITHHELD_ATTACHMENTS: dict[str, dict[str, str]] = {
             "withheld pending reissue",
     },
     # 2406180016_CAD.pdf as released 10/8/2026: the Persons block shows third
-    # parties' names, DOBs, and a DL number, which the request excluded. A
+    # parties' names, DOBs, and DL numbers, which the request excluded. A
     # requester-made derivative is in the request folder's requester-redacted/
     # subfolder; a corrected re-upload has different bytes and so is downloaded
     # normally.
