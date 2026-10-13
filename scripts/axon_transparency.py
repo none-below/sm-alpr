@@ -27,8 +27,8 @@ storage) is near-universal among police departments; "has a tenant, publishes
 nothing" only means something where ALPR use is established independently.
 
 Commands:
-  crawl    Re-check every known tenant, oldest-checked first; archive the
-           transparency JSON when published.
+  crawl    Re-check known tenants (published daily, the rest weekly), oldest-
+           checked first; archive the transparency JSON when published.
   probe    Discover tenants from explicit hosts, or from candidates generated
            for every agency in a state (FBI ORI directory + agency registry);
            register hits and crawl them.
@@ -85,6 +85,7 @@ USER_AGENT = "sm-alpr axon_transparency (public-records research; github.com/non
 
 DEFAULT_DELAY = 1.5
 DEFAULT_MAX_AGE = 7
+DEFAULT_UNPUBLISHED_EVERY = 7
 DEFAULT_RECHECK_DAYS = 90
 
 # Rolling counters that move every day without anything about the program
@@ -474,8 +475,17 @@ def crawl_one(session, host, tenant_dir, state, today, max_age, now=None):
     return status
 
 
+def crawl_due(rec, last_checked, today, unpublished_every):
+    """Published tenants are checked daily; the rest every
+    `unpublished_every` days, enough to catch a page being turned on."""
+    if not last_checked:
+        return True
+    age = (date.fromisoformat(today) - date.fromisoformat(last_checked)).days
+    return age >= (1 if rec.get("published") else unpublished_every)
+
+
 def run_crawl(session, data_dir, hosts=None, limit=0, max_age=DEFAULT_MAX_AGE,
-              delay=DEFAULT_DELAY, today=None):
+              delay=DEFAULT_DELAY, today=None, unpublished_every=DEFAULT_UNPUBLISHED_EVERY):
     today = today or utc_now().date().isoformat()
     tenants = known_tenants(data_dir)
     state = load_state(data_dir)
@@ -485,8 +495,10 @@ def run_crawl(session, data_dir, hosts=None, limit=0, max_age=DEFAULT_MAX_AGE,
             raise SystemExit(f"not registered (run probe first): {', '.join(missing)}")
         todo = list(hosts)
     else:
-        # Oldest-checked first; never-checked ("") before everything.
-        todo = sorted(tenants, key=lambda h: (state["tenants"].get(h, ""), h))
+        # Due tenants, oldest-checked first; never-checked ("") before everything.
+        todo = sorted((h for h, d in tenants.items()
+                       if crawl_due(load_tenant(d), state["tenants"].get(h), today, unpublished_every)),
+                      key=lambda h: (state["tenants"].get(h, ""), h))
     if limit:
         todo = todo[:limit]
 
@@ -850,6 +862,8 @@ def main(argv=None):
     c.add_argument("--max-age", type=int, default=DEFAULT_MAX_AGE, metavar="DAYS",
                    help="write a capture after this long even if only counters changed")
     c.add_argument("--delay", type=float, default=DEFAULT_DELAY, metavar="SECONDS")
+    c.add_argument("--unpublished-every", type=int, default=DEFAULT_UNPUBLISHED_EVERY, metavar="DAYS",
+                   help="re-check tenants without a published page this often (published: daily)")
 
     pr = sub.add_parser("probe", help="discover tenants")
     pr.add_argument("hosts", nargs="*", help="explicit tenant keys, hosts or URLs")
@@ -880,7 +894,8 @@ def main(argv=None):
     session = new_session()
     if args.cmd == "crawl":
         hosts = [normalize_host(h) for h in args.hosts]
-        counts = run_crawl(session, args.data_dir, hosts, args.limit, args.max_age, args.delay)
+        counts = run_crawl(session, args.data_dir, hosts, args.limit, args.max_age, args.delay,
+                           unpublished_every=args.unpublished_every)
         checked = sum(counts.values())
         return 1 if checked and counts["error"] == checked else 0
 

@@ -456,3 +456,20 @@ def test_probe_unknown_verdict_does_not_fall_through_to_weaker_rule(tmp_path):
     ax.run_probe(s, tmp_path, targets=[target()], delay=0, today="2026-10-10")
     assert s.calls == [ax.login_url("testpdca.evidence.com")]
     assert ax.load_state(tmp_path)["candidates"] == {}
+
+
+def test_crawl_checks_published_daily_and_unpublished_weekly(tmp_path):
+    pub, unpub_recent, unpub_old = "pub.evidence.com", "recent.evidence.com", "old.evidence.com"
+    for h in (pub, unpub_recent, unpub_old):
+        _register(tmp_path, h)
+    for h, published in ((pub, True), (unpub_recent, False), (unpub_old, False)):
+        d = tmp_path / ax.host_key(h)
+        rec = ax.load_tenant(d)
+        rec["published"] = published
+        ax.save_tenant(d, rec)
+    st = ax.load_state(tmp_path)
+    st["tenants"] = {pub: "2026-10-09", unpub_recent: "2026-10-08", unpub_old: "2026-10-02"}
+    ax.save_state(tmp_path, st)
+    s = FakeSession({ax.file_url(h): BLOB_404 for h in (pub, unpub_recent, unpub_old)})
+    ax.run_crawl(s, tmp_path, delay=0, today="2026-10-10")
+    assert s.calls == [ax.file_url(unpub_old), ax.file_url(pub)]
