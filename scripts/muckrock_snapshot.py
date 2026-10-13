@@ -23,8 +23,9 @@ Redactions, applied to everything written:
 Cloudflare-obfuscated addresses ("[email protected]") are decoded first, so
 agency addresses read as sent.
 
-Fetching: www.muckrock.com challenges browser user agents, but plain curl
-with its default user agent gets the page, so this shells out to curl.
+Fetching: www.muckrock.com's Cloudflare rules filter on the user agent. Since
+about 2026-10-11 they 403 curl's default UA as well as browser UAs; a plain
+descriptive UA (USER_AGENT below) gets the page. This shells out to curl.
 
 Usage:
   uv run python scripts/muckrock_snapshot.py --agency san-jose <request-url> [<request-url> ...]
@@ -60,10 +61,13 @@ SENDGRID_RE = re.compile(r"https?://\S*sendgrid\.net\S*")
 ROUTING_ADDR_RE = re.compile(r"[\w.+-]+@requests\.muckrock\.com", re.I)
 
 
+USER_AGENT = "sm-alpr-research/1.0 (public-records research)"
+
+
 def fetch(url: str) -> str:
-    # No -A: the default curl UA passes Cloudflare where browser UAs are challenged.
+    # A descriptive UA: curl's default and browser UAs both get a Cloudflare 403 (checked 2026-10-12).
     out = subprocess.run(
-        ["curl", "-sS", "-f", "--max-time", "60", url],
+        ["curl", "-sS", "-f", "--max-time", "60", "-A", USER_AGENT, url],
         check=True, capture_output=True,
     )
     return out.stdout.decode("utf-8")
@@ -272,7 +276,7 @@ def download_attachments(req: dict, folder: Path, requester_first: str) -> list[
                 continue
             dest = folder / name
             if not dest.exists():
-                subprocess.run(["curl", "-sS", "-f", "-o", str(dest), a["url"]], check=True)
+                subprocess.run(["curl", "-sS", "-f", "-A", USER_AGENT, "-o", str(dest), a["url"]], check=True)
             saved.append(dest)
     return saved
 
