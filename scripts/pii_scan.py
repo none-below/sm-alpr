@@ -56,6 +56,14 @@ EXCLUDED_PATH_PREFIXES = (
     # peer-city staff addresses plus the signature-block office and cell numbers
     # those staff publish themselves. Expected content, not a leak.
     "assets/san-mateo-public-records/smcso-pra-081826/",
+    # BSCC's production on grant agreement 1150-23 (GovQA request
+    # R000014-092126), kept byte-exact. It is grant-administration email among
+    # BSCC, Daly City, San Bruno, and San Mateo staff, plus BSCC distribution
+    # lists addressed to every ORT grantee agency statewide, so it carries
+    # dozens of agency domains and staff signature-block numbers. Expected
+    # content, not a leak. The requester's own outbound request one level up
+    # stays scanned.
+    "assets/public-records/bscc/1150-23/R000014-092126/",
 )
 
 ALLOWED_EMAIL_DOMAINS = {
