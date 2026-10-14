@@ -1,0 +1,86 @@
+{
+  "url": "https://www.eff.org/deeplinks/2026/10/federal-court-rules-alprs-are-mass-surveillance-eff-gets-disappointing-ruling",
+  "source_domain": "eff.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "As Federal Court Rules ALPRs are Mass Surveillance, EFF Gets Disappointing Ruling",
+  "byline": "Devanshi Nishar and Andrew Crocker",
+  "published_at": "2026-10-13T10:19:19-07:00",
+  "fetched_at": "2026-10-14T13:46:09Z",
+  "discovered_by": "rss:eff.org",
+  "scanner_verdict": "WARNINGS \u2014 1 pts, low/medium only",
+  "scanner_score": 1,
+  "content_hash": "9b24ba3256993eb3c504fd58400d1953d9dcdecc322a6e432ad4ca7f81f96bd7",
+  "paths": {
+    "html": "assets/articles/eff.org/deeplinks-2026-10-federal-court-rules-alprs-are-mass-surveillance-eff-gets-disap_8a9aa01b.html",
+    "meta": "assets/articles/eff.org/deeplinks-2026-10-federal-court-rules-alprs-are-mass-surveillance-eff-gets-disap_8a9aa01b.meta.json",
+    "txt": "assets/articles/eff.org/deeplinks-2026-10-federal-court-rules-alprs-are-mass-surveillance-eff-gets-disap_8a9aa01b.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:opinion",
+    "legal:court-ruling",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "1b106ca6-6fdd-51e8-a479-6408673c0e53"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0",
+      "display_name": "San Jose CA PD",
+      "state": "CA",
+      "score": 9.433,
+      "matched_forms": [
+        "San Jose"
+      ]
+    },
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 4.05,
+      "matched_forms": [
+        "San Francisco",
+        "San Francisco Police"
+      ]
+    },
+    {
+      "agency_id": "1b106ca6-6fdd-51e8-a479-6408673c0e53",
+      "display_name": "CA",
+      "state": "CA",
+      "score": 3.567,
+      "matched_forms": [
+        "CA"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "e1cd8f7f-abbd-536c-b8a5-f5516061c4b0"
+  ],
+  "summary": "A California trial court dismissed SIREN v. San Jose, EFF and ACLU-NC's challenge to San Jose police's warrantless searches of its ALPR database, finding no reasonable expectation of privacy on public roads. EFF plans to appeal and contrasts the ruling with a federal district court decision in Oklahoma issued a day earlier that called ALPRs 'indiscriminate mass surveillance' and held a warrantless Flock search violated the Fourth Amendment.",
+  "key_quotes": [
+    {
+      "quote": "a California trial court dismissed SIREN v. San Jose, our case challenging the city of San Jose's warrantless searches of its vast stores of automated license plate reader (ALPR) data",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "a federal district court in Oklahoma called ALPRs \"a type of indiscriminate mass surveillance\" and decided that a law enforcement officer's warrantless search of ALPR data violated the Fourth Amendment",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "It blankets the city's streets in nearly five hundred cameras that continuously photograph every car that passes by and retains the collected data for a month or longer",
+      "paragraph_idx": 4
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-14T13:49:00Z",
+  "article_id": "art_8a9aa01ba55c"
+}
