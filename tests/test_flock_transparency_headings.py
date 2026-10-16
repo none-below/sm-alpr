@@ -186,6 +186,49 @@ def test_parse_org_names_merges_company_suffix():
     assert "Fairfield CA PD" in names
 
 
+def test_parse_org_names_rejoins_comma_split_account_names():
+    """Account names with a comma were split into fragment agencies that
+    then got registry rows and map pins (#645)."""
+    body = (
+        "Montgomery County Constable, Precinct 3 (TX), Montgomery County SO, "
+        "1st Judicial District, District Attorney's Office TX, "
+        "Westfield Park Recreation and Parkways, District #12 (CA), "
+        "Wild Horse Valley Rd, Napa (CA), "
+        "Property Management & Accounting, Inc. (CA), "
+        "Owner's Association of Patriot Estates, Inc (TX), "
+        "Woodland CA PD"
+    )
+    assert _parse_org_names(body) == [
+        "Montgomery County Constable, Precinct 3 (TX)",
+        "Montgomery County SO",
+        "1st Judicial District, District Attorney's Office TX",
+        "Westfield Park Recreation and Parkways, District #12 (CA)",
+        "Wild Horse Valley Rd, Napa (CA)",
+        "Property Management & Accounting, Inc. (CA)",
+        "Owner's Association of Patriot Estates, Inc (TX)",
+        "Woodland CA PD",
+    ]
+    # Same accounts split across lines of the one-per-line layout.
+    assert _parse_org_names(
+        "Montgomery County Constable\nPrecinct 4 (TX)\nMontgomery County SO"
+    ) == ["Montgomery County Constable, Precinct 4 (TX)", "Montgomery County SO"]
+
+
+def test_parse_org_names_keeps_standalone_lookalikes_apart():
+    """Each rejoin needs both halves to match, so real neighbors that only
+    resemble one half stay separate."""
+    assert _parse_org_names(
+        "Harris County Constable, Precinct 4 Constable TX, Napa (CA), "
+        "Judicial District Court TX, District Attorney's Office TX"
+    ) == [
+        "Harris County Constable",
+        "Precinct 4 Constable TX",
+        "Napa (CA)",
+        "Judicial District Court TX",
+        "District Attorney's Office TX",
+    ]
+
+
 def test_parse_org_names_handles_one_per_line_layout():
     """The 2026 layout renders the partner list with one agency per
     line (was: comma-separated paragraph). Both must work, including
