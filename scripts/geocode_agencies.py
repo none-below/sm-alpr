@@ -879,6 +879,29 @@ GAZ_OVERRIDES = {
     "67402503-d65a-5bf3-bb57-23194bf7748c": ("place", "Macomb", "IL"),  # Western Illinois University IL PD (main campus, Macomb)
     # issue #804 — recipients missing coordinates
     "e2c64c04-c17a-5ba2-818a-b72e28096cff": ("place", "Portsmouth", "OH"),  # Southern Ohio Drug Task Force (Portsmouth PD + Scioto Co. SO + FBI; Scioto Co. base)
+    # Formerly skipped as federal: classify() tagged them federal because a
+    # bare ICE\b matched "Police"/"Office"/"Service".
+    "efb4d821-4f85-5e9b-99fd-93a622d02703": ("county", "Anne Arundel", "MD"),  # Anne Arundel County Police Department
+    "483b1e52-bb2b-51bd-948f-b05ecd156a3c": ("place", "Cleveland", "OH"),  # Cleveland OH Metropolitan Schools Police Department (Cleveland Metropolitan School District)
+    "626afc67-33b4-5c8e-8d2a-fe57c8c5c46d": ("place", "Birmingham", "AL"),  # Briarwood AL Campus Police (Briarwood Presbyterian/Christian School campuses, unincorporated Jefferson & Shelby Cos.)
+    "95addc4e-f767-5d99-8414-ee6fc3efad70": ("place", "Atlanta", "GA"),  # Office of Commissioner of Insurance and Safety Fire (GA) (state agency HQ)
+    "c480a3a7-11f4-50ec-9f1e-f0f540d1325e": ("place", "Cottleville", "MO"),  # St. Charles Community College Campus Police MO [Inactive]
+    "157b958c-a801-558f-bf7f-b80437791be2": ("cousub", "Ledyard", "CT"),  # Tribal Police at Foxwoods CT PD (Mashantucket Pequot reservation)
+    "6cb15ca8-f911-5b2c-b474-a34cb9c53dc9": ("place", "Blacksburg", "VA"),  # Virginia Tech Police Department
+    "c9d5344c-9f53-5da1-a428-58d6882d054b": ("place", "Houston", "TX"),  # Rice University TX PD
+    "50b32663-bd46-5c7f-9fcf-d8c03f1976ea": ("place", "Chesapeake", "VA"),  # Chesapeake Sheriff's Office (independent city)
+    "6362300a-def3-541f-9e26-ba118ec71661": ("place", "Amarillo", "TX"),  # 47th District Attorney's Office TX (Potter & Armstrong Cos.; office in Amarillo)
+    "7856c56f-320b-5d5b-9f5f-093fcd65e6c8": ("place", "Whiteland", "IN"),  # Clark-Pleasant Police Department - IN PD (Clark-Pleasant school district police)
+    "1a1a24bd-ed5d-59b9-b151-7b6374437093": ("county", "Calhoun", "MI"),  # Nottawaseppi Huron Band of the Potawatomi Tribal Police MI (Pine Creek reservation)
+    "b40048d4-591a-57d4-9c22-d1cb694ab2ac": ("place", "State College", "PA"),  # Penn State University Police and Public Safety PA (University Park campus)
+    "95830be8-4965-5698-a7ef-0c2147cf7ce6": ("county", "Fort Bend", "TX"),  # Fort Bend County TX District Attorney's Office
+    "0cab0fd4-839f-593a-8702-9dfc977f77bd": ("place", "Quapaw", "OK"),  # Quapaw Nation OK Marshals Service
+    "6649962a-1efe-5111-a64c-c01c7f0c45e5": ("county", "Snohomish", "WA"),  # Tulalip Tribal Police Dept. (WA) (Tulalip reservation)
+    "a5fe1ce1-350c-5c34-93d9-45cd85e7dcb0": ("county", "Sawyer", "WI"),  # Lac Courte Oreilles Tribal Police WI (Lac Courte Oreilles reservation)
+    "bff633df-1498-5115-9f91-7fb558325387": ("place", "Owatonna", "MN"),  # Rice & Steele County MN 911 Center (relocating to Faribault in 2026)
+    "0eadee12-f285-5750-a555-20e83e01cd3d": ("county", "Leelanau", "MI"),  # The Tribal Police of the Grand Traverse Band of Ottawa & Chippewa Indians MI (Peshawbestown)
+    "9c60d40d-5c2a-5d50-98df-ef9207ad246e": ("place", "Nespelem", "WA"),  # Colville WA Tribal Police (Colville Agency)
+    "25c6dfca-8c81-52e1-90db-6ba3ec5d9ad8": ("cousub", "Preston", "CT"),  # Town of Preston CT Resident State Troopers Office (town office, not statewide)
 }
 
 

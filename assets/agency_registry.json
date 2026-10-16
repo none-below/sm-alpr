@@ -3470,8 +3470,7 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "public",
-      "federal"
+      "public"
     ],
     "geo": {
       "kind": "place",
@@ -6818,7 +6817,6 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
@@ -8256,14 +8254,20 @@
     ],
     "display_name": null,
     "agency_role": "police",
-    "agency_type": "federal",
+    "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
-    "geo": null
+    "geo": {
+      "kind": "county",
+      "fips": "24003",
+      "name": "Anne Arundel",
+      "state": "MD",
+      "lat": 38.991617,
+      "lng": -76.560894
+    }
   },
   {
     "agency_id": "32c6fbd1-757c-5b19-8f1e-108bf26e0324",
@@ -8274,17 +8278,20 @@
       "Lawrence County District Attorney's Office PA"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
+    "agency_role": "da",
+    "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "PA"
+      "kind": "county",
+      "fips": "42073",
+      "name": "Lawrence",
+      "state": "PA",
+      "lat": 40.992735,
+      "lng": -80.334446
     }
   },
   {
@@ -8346,12 +8353,11 @@
       "Federal Realty (CA)"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
+    "agency_role": "business",
+    "agency_type": "private",
     "website": null,
     "tags": [
-      "federal",
-      "public"
+      "private"
     ],
     "flags": [],
     "geo": {
@@ -11916,17 +11922,20 @@
       "Leon County Sheriffs Office (FL)"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
+    "agency_role": "sheriff",
+    "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "FL"
+      "kind": "county",
+      "fips": "12073",
+      "name": "Leon",
+      "state": "FL",
+      "lat": 30.45931,
+      "lng": -84.2778
     }
   },
   {
@@ -13357,16 +13366,19 @@
     ],
     "display_name": null,
     "agency_role": "police",
-    "agency_type": "federal",
+    "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "FL"
+      "kind": "place",
+      "fips": "1270600",
+      "name": "Tallahassee",
+      "state": "FL",
+      "lat": 30.453529,
+      "lng": -84.252272
     },
     "ori": [
       "FL0370300"
@@ -14757,13 +14769,16 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IN"
+      "kind": "county",
+      "fips": "18099",
+      "name": "Marshall",
+      "state": "IN",
+      "lat": 41.325003,
+      "lng": -86.269036
     }
   },
   {
@@ -14780,7 +14795,6 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
@@ -14847,16 +14861,19 @@
     ],
     "display_name": null,
     "agency_role": "police",
-    "agency_type": "federal",
+    "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MN"
+      "kind": "place",
+      "fips": "2758000",
+      "name": "St. Paul",
+      "state": "MN",
+      "lat": 44.948901,
+      "lng": -93.104063
     }
   },
   {
@@ -15232,16 +15249,19 @@
     ],
     "display_name": null,
     "agency_role": "police",
-    "agency_type": "federal",
+    "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "KY"
+      "kind": "state",
+      "fips": "21",
+      "name": "KY",
+      "state": "KY",
+      "lat": 37.621722758333334,
+      "lng": -85.20171535833333
     }
   },
   {
@@ -15935,16 +15955,19 @@
     ],
     "display_name": null,
     "agency_role": "police",
-    "agency_type": "federal",
+    "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "OH"
+      "kind": "place",
+      "fips": "3916000",
+      "name": "Cleveland",
+      "state": "OH",
+      "lat": 41.478462,
+      "lng": -81.679435
     }
   },
   {
@@ -19437,17 +19460,21 @@
       "Briarwood AL Campus Police"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
+    "agency_role": "campus_safety",
+    "agency_type": "university",
     "website": null,
     "tags": [
-      "federal",
+      "needs-review",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "AL"
+      "kind": "place",
+      "fips": "0107000",
+      "name": "Birmingham",
+      "state": "AL",
+      "lat": 33.527174,
+      "lng": -86.797036
     }
   },
   {
@@ -20664,17 +20691,21 @@
       "Decatur County IN Prosecutor's Office"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
+    "agency_role": "other",
+    "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
+      "needs-review",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IN"
+      "kind": "county",
+      "fips": "18031",
+      "name": "Decatur",
+      "state": "IN",
+      "lat": 39.30598,
+      "lng": -85.499831
     }
   },
   {
@@ -22656,17 +22687,20 @@
       "Houston County GA District Attorney's Office"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
+    "agency_role": "da",
+    "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "county",
+      "fips": "13153",
+      "name": "Houston",
+      "state": "GA",
+      "lat": 32.458147,
+      "lng": -83.662309
     }
   },
   {
@@ -24557,17 +24591,21 @@
       "Office of Commissioner of Insurance and Safety Fire (GA)"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
+    "agency_role": "other",
+    "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
+      "needs-review",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1304000",
+      "name": "Atlanta",
+      "state": "GA",
+      "lat": 33.762909,
+      "lng": -84.422675
     }
   },
   {
@@ -25579,17 +25617,21 @@
       "Salem County NJ Prosecutors Office"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
+    "agency_role": "other",
+    "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
+      "needs-review",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NJ"
+      "kind": "county",
+      "fips": "34033",
+      "name": "Salem",
+      "state": "NJ",
+      "lat": 39.573828,
+      "lng": -75.357356
     },
     "ori": [
       "NJ0178900"
@@ -26073,19 +26115,23 @@
       "St. Charles Community College Campus Police MO [Inactive]"
     ],
     "display_name": null,
-    "agency_role": "police",
-    "agency_type": "federal",
+    "agency_role": "campus_safety",
+    "agency_type": "university",
     "website": null,
     "tags": [
-      "federal",
+      "needs-review",
       "public"
     ],
     "flags": [
       "inactive"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "MO"
+      "kind": "place",
+      "fips": "2916678",
+      "name": "Cottleville",
+      "state": "MO",
+      "lat": 38.751594,
+      "lng": -90.6578
     },
     "ori": [
       "MO0921400"
@@ -28522,17 +28568,20 @@
       "Tribal Police at Foxwoods CT PD"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "tribal",
     "agency_type": "tribal",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CT"
+      "kind": "cousub",
+      "fips": "0918042600",
+      "name": "Ledyard",
+      "state": "CT",
+      "lat": 41.431132,
+      "lng": -72.020303
     },
     "ori": [
       "CTDI00200"
@@ -29960,17 +30009,20 @@
       "Virginia Tech Police Department"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "campus_safety",
     "agency_type": "university",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "VA"
+      "kind": "place",
+      "fips": "5107784",
+      "name": "Blacksburg",
+      "state": "VA",
+      "lat": 37.231264,
+      "lng": -80.426745
     }
   },
   {
@@ -30070,13 +30122,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CT"
+      "kind": "state",
+      "fips": "09",
+      "name": "CT",
+      "state": "CT",
+      "lat": 41.52132677777777,
+      "lng": -72.77178966666666
     },
     "ori": [
       "CTCSP0000"
@@ -30312,11 +30367,10 @@
       "NESPIN - New England State Police Information Network"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "intelligence",
     "agency_type": "fusion_center",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
@@ -30610,13 +30664,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CT"
+      "kind": "cousub",
+      "fips": "0918062150",
+      "name": "Preston",
+      "state": "CT",
+      "lat": 41.518652,
+      "lng": -72.006597
     }
   },
   {
@@ -32165,13 +32222,16 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NY"
+      "kind": "county",
+      "fips": "36027",
+      "name": "Dutchess",
+      "state": "NY",
+      "lat": 41.754825,
+      "lng": -73.740014
     }
   },
   {
@@ -33698,13 +33758,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NH"
+      "kind": "state",
+      "fips": "33",
+      "name": "NH",
+      "state": "NH",
+      "lat": 43.4745565,
+      "lng": -71.57668129999999
     },
     "ori": [
       "NHNSP0000"
@@ -33751,13 +33814,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NJ"
+      "kind": "state",
+      "fips": "34",
+      "name": "NJ",
+      "state": "NJ",
+      "lat": 40.28042971428572,
+      "lng": -74.62094428571429
     },
     "ori": [
       "NJNSP2200"
@@ -35142,17 +35208,20 @@
       "Suffolk County District Attorney's Office NY"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NY"
+      "kind": "county",
+      "fips": "36103",
+      "name": "Suffolk",
+      "state": "NY",
+      "lat": 40.943554,
+      "lng": -72.692218
     }
   },
   {
@@ -41110,17 +41179,20 @@
       "Rice University TX PD"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "campus_safety",
     "agency_type": "university",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "place",
+      "fips": "4835000",
+      "name": "Houston",
+      "state": "TX",
+      "lat": 29.785743,
+      "lng": -95.388806
     },
     "ori": [
       "TX101389E"
@@ -44628,13 +44700,16 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "AZ"
+      "kind": "place",
+      "fips": "0411300",
+      "name": "Cave Creek",
+      "state": "AZ",
+      "lat": 33.836219,
+      "lng": -111.982084
     }
   },
   {
@@ -44868,13 +44943,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "FL"
+      "kind": "state",
+      "fips": "12",
+      "name": "FL",
+      "state": "FL",
+      "lat": 28.931980641791043,
+      "lng": -82.70599525373134
     }
   },
   {
@@ -45423,7 +45501,6 @@
     "agency_type": "other",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
@@ -46457,13 +46534,16 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MN"
+      "kind": "place",
+      "fips": "2759350",
+      "name": "Shakopee",
+      "state": "MN",
+      "lat": 44.771906,
+      "lng": -93.475699
     },
     "ori": [
       "MN0700400"
@@ -50202,17 +50282,20 @@
       "Cook County States Attorney's Office IL PD"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "county",
+      "fips": "17031",
+      "name": "Cook",
+      "state": "IL",
+      "lat": 41.894294,
+      "lng": -87.645455
     }
   },
   {
@@ -51845,15 +51928,18 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [
       "inactive"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "OH"
+      "kind": "place",
+      "fips": "3932158",
+      "name": "Greenhills",
+      "state": "OH",
+      "lat": 39.26696,
+      "lng": -84.519358
     },
     "ori": [
       "OH0311500"
@@ -52704,17 +52790,20 @@
       "Outagamie County DA's Office WI"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "WI"
+      "kind": "county",
+      "fips": "55087",
+      "name": "Outagamie",
+      "state": "WI",
+      "lat": 44.418226,
+      "lng": -88.464988
     }
   },
   {
@@ -52894,17 +52983,20 @@
       "Price County WI SO"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "sheriff",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "WI"
+      "kind": "county",
+      "fips": "55099",
+      "name": "Price",
+      "state": "WI",
+      "lat": 45.679072,
+      "lng": -90.35965
     },
     "ori": [
       "WI0510000"
@@ -54567,13 +54659,16 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NJ"
+      "kind": "county",
+      "fips": "34009",
+      "name": "Cape May",
+      "state": "NJ",
+      "lat": 39.085841,
+      "lng": -74.846354
     },
     "ori": [
       "NJ0058900"
@@ -54756,17 +54851,20 @@
       "Chesapeake Sheriff's Office"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "sheriff",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "VA"
+      "kind": "place",
+      "fips": "5116000",
+      "name": "Chesapeake",
+      "state": "VA",
+      "lat": 36.679376,
+      "lng": -76.301788
     },
     "ori": [
       "VA1030000"
@@ -55416,17 +55514,20 @@
       "Dutchess County NY District Attorney's (DA) Office"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NY"
+      "kind": "county",
+      "fips": "36027",
+      "name": "Dutchess",
+      "state": "NY",
+      "lat": 41.754825,
+      "lng": -73.740014
     }
   },
   {
@@ -57461,13 +57562,16 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NJ"
+      "kind": "county",
+      "fips": "34029",
+      "name": "Ocean",
+      "state": "NJ",
+      "lat": 39.865669,
+      "lng": -74.258864
     },
     "ori": [
       "NJ0158900"
@@ -57673,17 +57777,20 @@
       "Orange County (NY) District Attorney's Office"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NY"
+      "kind": "county",
+      "fips": "36071",
+      "name": "Orange",
+      "state": "NY",
+      "lat": 41.40241,
+      "lng": -74.306252
     }
   },
   {
@@ -63679,13 +63786,16 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NJ"
+      "kind": "county",
+      "fips": "34019",
+      "name": "Hunterdon",
+      "state": "NJ",
+      "lat": 40.565283,
+      "lng": -74.911969
     },
     "ori": [
       "NJ0108900"
@@ -66713,13 +66823,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "OH"
+      "kind": "state",
+      "fips": "39",
+      "name": "OH",
+      "state": "OH",
+      "lat": 40.317420761363636,
+      "lng": -82.83129609090909
     }
   },
   {
@@ -66952,17 +67065,20 @@
       "Onondaga County DA Office"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NY"
+      "kind": "county",
+      "fips": "36067",
+      "name": "Onondaga",
+      "state": "NY",
+      "lat": 43.006516,
+      "lng": -76.196134
     }
   },
   {
@@ -69749,13 +69865,16 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "FL"
+      "kind": "place",
+      "fips": "1273900",
+      "name": "Venice",
+      "state": "FL",
+      "lat": 27.116973,
+      "lng": -82.41519
     },
     "ori": [
       "FL0580200"
@@ -69964,13 +70083,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "VA"
+      "kind": "state",
+      "fips": "51",
+      "name": "VA",
+      "state": "VA",
+      "lat": 37.565426338345866,
+      "lng": -78.51268430075189
     },
     "ori": [
       "VAVSP0000"
@@ -72443,17 +72565,20 @@
       "47th District Attorney's Office TX"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "place",
+      "fips": "4803000",
+      "name": "Amarillo",
+      "state": "TX",
+      "lat": 35.198064,
+      "lng": -101.833107
     }
   },
   {
@@ -76536,17 +76661,20 @@
       "Chautauqua County NY District Attorney's Office"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NY"
+      "kind": "county",
+      "fips": "36013",
+      "name": "Chautauqua",
+      "state": "NY",
+      "lat": 42.304216,
+      "lng": -79.407595
     }
   },
   {
@@ -76897,13 +77025,16 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IN"
+      "kind": "place",
+      "fips": "1883816",
+      "name": "Whiteland",
+      "state": "IN",
+      "lat": 39.555138,
+      "lng": -86.074352
     }
   },
   {
@@ -78662,13 +78793,16 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IN"
+      "kind": "county",
+      "fips": "18037",
+      "name": "Dubois",
+      "state": "IN",
+      "lat": 38.373344,
+      "lng": -86.873385
     }
   },
   {
@@ -82611,13 +82745,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "state",
+      "fips": "17",
+      "name": "IL",
+      "state": "IL",
+      "lat": 39.84225869607843,
+      "lng": -89.1744509509804
     },
     "ori": [
       "IL0849700"
@@ -88243,17 +88380,20 @@
       "Nottawaseppi Huron Band of the Potawatomi Tribal Police MI"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "tribal",
     "agency_type": "tribal",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MI"
+      "kind": "county",
+      "fips": "26025",
+      "name": "Calhoun",
+      "state": "MI",
+      "lat": 42.24299,
+      "lng": -85.012385
     },
     "ori": [
       "MIDI07000"
@@ -89270,13 +89410,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "OH"
+      "kind": "state",
+      "fips": "39",
+      "name": "OH",
+      "state": "OH",
+      "lat": 40.317420761363636,
+      "lng": -82.83129609090909
     }
   },
   {
@@ -89925,17 +90068,20 @@
       "Penn State University Police and Public Safety PA"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "campus_safety",
     "agency_type": "university",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "PA"
+      "kind": "place",
+      "fips": "4273808",
+      "name": "State College",
+      "state": "PA",
+      "lat": 40.791039,
+      "lng": -77.856813
     },
     "ori": [
       "PA0141100"
@@ -95923,17 +96069,20 @@
       "Will County State Attorney's Office (IL)"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "county",
+      "fips": "17197",
+      "name": "Will",
+      "state": "IL",
+      "lat": 41.448474,
+      "lng": -87.978456
     }
   },
   {
@@ -96852,13 +97001,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "AL"
+      "kind": "state",
+      "fips": "01",
+      "name": "AL",
+      "state": "AL",
+      "lat": 32.87862476119403,
+      "lng": -86.71127807462686
     },
     "ori": [
       "AL0031400"
@@ -98881,13 +99033,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "AR"
+      "kind": "state",
+      "fips": "05",
+      "name": "AR",
+      "state": "AR",
+      "lat": 34.911908053333335,
+      "lng": -92.43355793333333
     }
   },
   {
@@ -106847,17 +107002,20 @@
       "Fort Bend County TX District Attorney's Office"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "county",
+      "fips": "48157",
+      "name": "Fort Bend",
+      "state": "TX",
+      "lat": 29.526602,
+      "lng": -95.771015
     }
   },
   {
@@ -107710,13 +107868,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "state",
+      "fips": "13",
+      "name": "GA",
+      "state": "GA",
+      "lat": 32.806825578616355,
+      "lng": -83.57673413207547
     }
   },
   {
@@ -108537,13 +108698,16 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "county",
+      "fips": "13135",
+      "name": "Gwinnett",
+      "state": "GA",
+      "lat": 33.958756,
+      "lng": -84.025735
     }
   },
   {
@@ -110315,13 +110479,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "ID"
+      "kind": "state",
+      "fips": "16",
+      "name": "ID",
+      "state": "ID",
+      "lat": 44.26686656818182,
+      "lng": -114.46154547727274
     },
     "ori": [
       "IDISP0000"
@@ -113513,17 +113680,20 @@
       "Luzerne County PA DA's Office"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "da",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "PA"
+      "kind": "county",
+      "fips": "42079",
+      "name": "Luzerne",
+      "state": "PA",
+      "lat": 41.173078,
+      "lng": -75.976053
     },
     "ori": [
       "PA0400900"
@@ -116178,13 +116348,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MS"
+      "kind": "state",
+      "fips": "28",
+      "name": "MS",
+      "state": "MS",
+      "lat": 32.79092434146341,
+      "lng": -89.64612790243902
     }
   },
   {
@@ -116785,13 +116958,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "NY"
+      "kind": "state",
+      "fips": "36",
+      "name": "NY",
+      "state": "NY",
+      "lat": 42.55452761290323,
+      "lng": -75.47726172580644
     },
     "ori": [
       "NY1010000"
@@ -118252,13 +118428,16 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "GA"
+      "kind": "place",
+      "fips": "1359735",
+      "name": "Peachtree Corners",
+      "state": "GA",
+      "lat": 33.96715,
+      "lng": -84.232328
     }
   },
   {
@@ -119215,17 +119394,20 @@
       "Quapaw Nation OK Marshals Service"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "tribal",
     "agency_type": "tribal",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "OK"
+      "kind": "place",
+      "fips": "4061400",
+      "name": "Quapaw",
+      "state": "OK",
+      "lat": 36.949034,
+      "lng": -94.786513
     },
     "ori": [
       "OKDI00800"
@@ -119604,17 +119786,20 @@
       "Rice County KS SO"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "sheriff",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "KS"
+      "kind": "county",
+      "fips": "20159",
+      "name": "Rice",
+      "state": "KS",
+      "lat": 38.347178,
+      "lng": -98.201415
     },
     "ori": [
       "KS0800000"
@@ -122585,17 +122770,20 @@
       "Summit County Sheriff's Office (CO)"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "sheriff",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CO"
+      "kind": "county",
+      "fips": "08117",
+      "name": "Summit",
+      "state": "CO",
+      "lat": 39.621023,
+      "lng": -106.137555
     },
     "ori": [
       "CO0590000"
@@ -127186,13 +127374,16 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "WA"
+      "kind": "place",
+      "fips": "5322640",
+      "name": "Everett",
+      "state": "WA",
+      "lat": 47.965413,
+      "lng": -122.189895
     },
     "ori": [
       "WA0310300"
@@ -127211,13 +127402,16 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "WA"
+      "kind": "place",
+      "fips": "5323515",
+      "name": "Federal Way",
+      "state": "WA",
+      "lat": 47.311596,
+      "lng": -122.337757
     },
     "ori": [
       "WA0173600"
@@ -128406,17 +128600,20 @@
       "Tulalip Tribal Police Dept. (WA)"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "tribal",
     "agency_type": "tribal",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "WA"
+      "kind": "county",
+      "fips": "53061",
+      "name": "Snohomish",
+      "state": "WA",
+      "lat": 48.054913,
+      "lng": -121.765038
     },
     "ori": [
       "WADI06800"
@@ -132857,13 +133054,16 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "county",
+      "fips": "17043",
+      "name": "DuPage",
+      "state": "IL",
+      "lat": 41.852058,
+      "lng": -88.086039
     }
   },
   {
@@ -137069,17 +137269,20 @@
       "Lac Courte Oreilles Tribal Police WI"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "tribal",
     "agency_type": "tribal",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "WI"
+      "kind": "county",
+      "fips": "55113",
+      "name": "Sawyer",
+      "state": "WI",
+      "lat": 45.864999,
+      "lng": -91.147063
     },
     "ori": [
       "WIDI01100"
@@ -139126,13 +139329,16 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MI"
+      "kind": "county",
+      "fips": "26049",
+      "name": "Genesee",
+      "state": "MI",
+      "lat": 43.021077,
+      "lng": -83.706372
     },
     "ori": [
       "MI2565000"
@@ -139232,13 +139438,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MI"
+      "kind": "state",
+      "fips": "26",
+      "name": "MI",
+      "state": "MI",
+      "lat": 44.04901728915663,
+      "lng": -85.1980886626506
     },
     "ori": [
       "MI3300100"
@@ -142867,13 +143076,16 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "WI"
+      "kind": "place",
+      "fips": "5567350",
+      "name": "Rice Lake",
+      "state": "WI",
+      "lat": 45.481992,
+      "lng": -91.745762
     },
     "ori": [
       "WI0030100"
@@ -142892,13 +143104,16 @@
     "agency_type": "other",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MN"
+      "kind": "place",
+      "fips": "2749300",
+      "name": "Owatonna",
+      "state": "MN",
+      "lat": 44.091904,
+      "lng": -93.231715
     }
   },
   {
@@ -145220,17 +145435,20 @@
       "The Tribal Police of the Grand Traverse Band of Ottawa & Chippewa Indians MI"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "tribal",
     "agency_type": "tribal",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "MI"
+      "kind": "county",
+      "fips": "26089",
+      "name": "Leelanau",
+      "state": "MI",
+      "lat": 45.146182,
+      "lng": -86.051574
     },
     "ori": [
       "MI4596900"
@@ -147010,13 +147228,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "WI"
+      "kind": "state",
+      "fips": "55",
+      "name": "WI",
+      "state": "WI",
+      "lat": 44.40707186111111,
+      "lng": -89.77150725
     }
   },
   {
@@ -147225,13 +147446,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "WI"
+      "kind": "state",
+      "fips": "55",
+      "name": "WI",
+      "state": "WI",
+      "lat": 44.40707186111111,
+      "lng": -89.77150725
     },
     "ori": [
       "WI0137800"
@@ -149560,12 +149784,15 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "OH"
+      "kind": "place",
+      "fips": "3916000",
+      "name": "Cleveland",
+      "state": "OH",
+      "lat": 41.478462,
+      "lng": -81.679435
     },
     "flags": []
   },
@@ -149852,16 +150079,19 @@
       "Colville WA Tribal Police"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "tribal",
     "agency_type": "tribal",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "WA"
+      "kind": "place",
+      "fips": "5348540",
+      "name": "Nespelem",
+      "state": "WA",
+      "lat": 48.166906,
+      "lng": -118.972115
     },
     "flags": [],
     "ori": [
@@ -151063,13 +151293,16 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CO"
+      "kind": "place",
+      "fips": "0827425",
+      "name": "Fort Collins",
+      "state": "CO",
+      "lat": 40.548216,
+      "lng": -105.064833
     },
     "ori": [
       "CO0350300"
@@ -152717,12 +152950,15 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "IN"
+      "kind": "state",
+      "fips": "18",
+      "name": "IN",
+      "state": "IN",
+      "lat": 39.838640706521744,
+      "lng": -86.21905106521739
     },
     "flags": [],
     "ori": [
@@ -153131,12 +153367,15 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "IL"
+      "kind": "place",
+      "fips": "1738830",
+      "name": "Justice",
+      "state": "IL",
+      "lat": 41.753401,
+      "lng": -87.826941
     },
     "flags": [],
     "ori": [
@@ -154078,12 +154317,15 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "LA"
+      "kind": "state",
+      "fips": "22",
+      "name": "LA",
+      "state": "LA",
+      "lat": 31.080961546875,
+      "lng": -91.819719234375
     },
     "flags": [],
     "ori": [
@@ -155394,12 +155636,15 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "place",
+      "fips": "4850796",
+      "name": "New Berlin",
+      "state": "TX",
+      "lat": 29.489043,
+      "lng": -98.109375
     },
     "flags": [
       "inactive"
@@ -155918,13 +156163,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "OH"
+      "kind": "state",
+      "fips": "39",
+      "name": "OH",
+      "state": "OH",
+      "lat": 40.317420761363636,
+      "lng": -82.83129609090909
     }
   },
   {
@@ -158143,12 +158391,15 @@
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "NJ"
+      "kind": "county",
+      "fips": "34035",
+      "name": "Somerset",
+      "state": "NJ",
+      "lat": 40.565527,
+      "lng": -74.619938
     },
     "flags": [],
     "ori": [
@@ -158588,13 +158839,16 @@
     "agency_type": "state",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "TX"
+      "kind": "state",
+      "fips": "48",
+      "name": "TX",
+      "state": "TX",
+      "lat": 31.658176677165354,
+      "lng": -98.65226565748031
     },
     "ori": [
       "TX2360800"
@@ -158777,16 +159031,19 @@
       "Tompkins County NY Sheriff's Office"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "sheriff",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
-      "kind": "state-only",
-      "state": "NY"
+      "kind": "county",
+      "fips": "36109",
+      "name": "Tompkins",
+      "state": "NY",
+      "lat": 42.453006,
+      "lng": -76.473483
     },
     "flags": []
   },
@@ -165644,7 +165901,6 @@
     "agency_type": "private",
     "website": null,
     "tags": [
-      "federal",
       "private"
     ],
     "geo": {
@@ -168949,7 +169205,6 @@
     "agency_type": "city",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "geo": {
@@ -170073,17 +170328,20 @@
       "Yuba County Sheriffs Office"
     ],
     "display_name": null,
-    "agency_role": "police",
+    "agency_role": "sheriff",
     "agency_type": "county",
     "website": null,
     "tags": [
-      "federal",
       "public"
     ],
     "flags": [],
     "geo": {
-      "kind": "state-only",
-      "state": "CA"
+      "kind": "county",
+      "fips": "06115",
+      "name": "Yuba",
+      "state": "CA",
+      "lat": 39.27013,
+      "lng": -121.344259
     }
   },
   {
@@ -170150,7 +170408,6 @@
     "agency_type": "test",
     "website": null,
     "tags": [
-      "federal",
       "private"
     ],
     "geo": {
