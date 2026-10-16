@@ -1017,6 +1017,24 @@ def test_issue698_heading_variants_classify():
         assert field == want, f"{heading!r}: got {field!r}, want {want!r}"
 
 
+def test_issue527_heading_variants_classify():
+    """Bold headings that kept blue-springs-mo-pd and hannibal-mo-pd from
+    parsing in the 5/31–7/22 refreshes (issues #527/#645). Neither slug has
+    a capture on main — every attempt aborted, and later ones 403'd before
+    reaching the parser. One-off agency strings, so exact aliases.
+    """
+    from flock_transparency import _match_heading_kind
+    expected = {
+        "Flight Dashboard": "additional_info",                     # blue-springs
+        "Important links listed at the bottom along with Drone Flight path information": "additional_info",
+        "RTCC Policy": "policy_info",
+        "Package Theft from a Front Porch": "success_stories",
+        "New license plate reader system helps in capture of NEMO shooting suspect": "success_stories",  # hannibal
+    }
+    for heading, want in expected.items():
+        assert _match_heading_kind(heading) == (want, "exact"), heading
+
+
 def test_issue698_bold_heading_entity_form_classifies():
     """extract_bold_headings strips tags but does not unescape entities, so
     the same heading reaches the unrecognized-bold check as "&amp;" while the

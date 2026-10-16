@@ -477,6 +477,9 @@ _HEADING_MAP = {
     # policy alongside its ALPR-specific policy link. Route to policy_info,
     # not alpr_policy, so the ALPR policy field stays the ALPR policy.
     "MVPD Public Safety Video Surveillance System Policy:": "policy_info",
+    # blue-springs-mo-pd links its Real Time Crime Center policy beside the
+    # ALPR one — broader scope, same treatment as mill-valley's above.
+    "RTCC Policy":                           "policy_info",
     # ── other structural fields ──
     "Additional Info":                       "additional_info",
     "Additional Information":                "additional_info",
@@ -492,6 +495,10 @@ _HEADING_MAP = {
     # alameda-ca-pd bolds the shortened form (rendered "FLOCK Contract";
     # heading lookup is case-insensitive so one spelling covers both).
     "Flock Contract":                        "additional_info",
+    # blue-springs-mo-pd bolds links for its drone program — not ALPR data,
+    # but kept as text rather than dropped as chrome.
+    "Flight Dashboard":                      "additional_info",
+    "Important links listed at the bottom along with Drone Flight path information": "additional_info",
     "Download CSV":                          "download_csv",
     "Public Search Audit":                   "search_audit",
     "Search Audit":                          "search_audit",
@@ -515,6 +522,9 @@ _HEADING_MAP = {
     # a trailing "(Aug. 2026)" — the prefix branch absorbs that suffix.
     "Armed Suspects Located Through ALPR and Regional RTIC Partnership": "success_stories",
     "Yuba County SO -Assist in Bicycle Recovery": "success_stories",
+    "Package Theft from a Front Porch":      "success_stories",  # blue-springs-mo-pd
+    # hannibal-mo-pd reposts a news headline as a case write-up.
+    "New license plate reader system helps in capture of NEMO shooting suspect": "success_stories",
     "Disclaimer":                            "disclaimer",
     "California SVS":                        "california_svs",
     "SB54: California Values Act":           "sb54",
