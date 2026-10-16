@@ -53,6 +53,8 @@ CITY_AGENCY = {
     "stockton": ("stockton-pd", "Stockton PD"),
     "denver": ("denver-pd", "Denver PD"),
     "cloquet-mn": ("cloquet-pd", "Cloquet PD (MN)"),
+    "san-jose": ("san-jose-pd", "San Jose PD"),
+    "smcso": ("smcso", "San Mateo County SO"),
 }
 SMPD = ("san-mateo-pd", "San Mateo PD")
 

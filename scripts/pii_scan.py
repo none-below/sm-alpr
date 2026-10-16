@@ -111,6 +111,10 @@ ALLOWED_EMAIL_DOMAINS = {
     # chief's address is printed in that document.
     "cloquetmn.gov",
     "cloquet.mn.gov",
+    # City of San José. Published city addresses in the San Jose PD ALPR reference
+    # documents under assets/public-records/san-jose/reference/: the Digital Privacy
+    # Office intake address and the memo author's contact line in File 26-215.
+    "sanjoseca.gov",
 }
 
 # Known public phone numbers from published City of San Mateo records.
