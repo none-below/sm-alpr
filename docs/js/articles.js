@@ -1,13 +1,27 @@
-// Article viewer: list + tag filter (include/exclude/off cycle).
+// Article viewer: list + tag filter (include/exclude/off cycle) + date range.
 
 var STATE = {
   data: null,
   filters: {},          // tag -> 'include' | 'exclude'
   agencyFilter: null,   // agency_id when narrowed by city/agency
   agencyIndex: [],      // [{ agency_id, slug, name, state, count, _lower }]
+  datePreset: null,     // DATE_PRESETS key, e.g. '1m'
+  dateFrom: '',         // custom range, 'YYYY-MM-DD' (inclusive)
+  dateTo: '',           // custom range, 'YYYY-MM-DD' (inclusive)
   map: null,
   markerLayer: null
 };
+
+// Rolling windows ending now. Month-based presets step the calendar
+// month rather than a fixed day count so "Past month" on Oct 16 means
+// "since Sep 16".
+var DATE_PRESETS = [
+  { key: '7d', label: 'Past week', days: 7 },
+  { key: '1m', label: 'Past month', months: 1 },
+  { key: '3m', label: 'Past 3 months', months: 3 },
+  { key: '6m', label: 'Past 6 months', months: 6 },
+  { key: '1y', label: 'Past year', months: 12 }
+];
 
 
 function cycleFilter(tag) {
@@ -21,6 +35,9 @@ function cycleFilter(tag) {
 function clearFilters() {
   STATE.filters = {};
   STATE.agencyFilter = null;
+  STATE.datePreset = null;
+  STATE.dateFrom = '';
+  STATE.dateTo = '';
   syncUrl();
   render();
 }
@@ -31,10 +48,28 @@ function setAgencyFilter(agencyId) {
   render();
 }
 
-// Reflect the active agency filter in the URL so the page is shareable
-// and the sharing_map / report pages can deep-link in. Use replaceState
-// (not pushState) so the browser back button doesn't trap users in a
-// chain of intermediate filter states.
+// A preset and a custom range are mutually exclusive: picking one
+// clears the other, so the active bar never has to explain which won.
+function setDatePreset(key) {
+  STATE.datePreset = findDatePreset(key) ? key : null;
+  STATE.dateFrom = '';
+  STATE.dateTo = '';
+  syncUrl();
+  render();
+}
+
+function setDateRange(from, to) {
+  STATE.datePreset = null;
+  STATE.dateFrom = dayStartTs(from) !== null ? from : '';
+  STATE.dateTo = dayStartTs(to) !== null ? to : '';
+  syncUrl();
+  render();
+}
+
+// Reflect the agency and date filters in the URL so the page is
+// shareable and the sharing_map / report pages can deep-link in. Use
+// replaceState (not pushState) so the browser back button doesn't trap
+// users in a chain of intermediate filter states.
 function syncUrl() {
   var url = new URL(window.location.href);
   if (STATE.agencyFilter) {
@@ -44,7 +79,58 @@ function syncUrl() {
   } else {
     url.searchParams.delete('agency');
   }
+  url.searchParams.delete('range');
+  url.searchParams.delete('from');
+  url.searchParams.delete('to');
+  if (STATE.datePreset) url.searchParams.set('range', STATE.datePreset);
+  if (STATE.dateFrom) url.searchParams.set('from', STATE.dateFrom);
+  if (STATE.dateTo) url.searchParams.set('to', STATE.dateTo);
   history.replaceState(null, '', url.toString());
+}
+
+function findDatePreset(key) {
+  for (var i = 0; i < DATE_PRESETS.length; i++) {
+    if (DATE_PRESETS[i].key === key) return DATE_PRESETS[i];
+  }
+  return null;
+}
+
+// 'YYYY-MM-DD' -> epoch seconds at 00:00 UTC, or null if malformed.
+// UTC because published_ts is UTC and formatArticleDate renders in UTC,
+// so a card dated "Oct 1" is inside a range that starts on Oct 1.
+function dayStartTs(iso) {
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  if (!m) return null;
+  return Date.UTC(+m[1], +m[2] - 1, +m[3]) / 1000;
+}
+
+function presetCutoff(preset) {
+  var d = new Date();
+  if (preset.days) d.setDate(d.getDate() - preset.days);
+  else d.setMonth(d.getMonth() - preset.months);
+  return d.getTime() / 1000;
+}
+
+// Active date window as { min, max } epoch seconds (min inclusive,
+// max exclusive, either may be null), or null when no date filter is on.
+function dateBounds() {
+  var preset = findDatePreset(STATE.datePreset);
+  if (preset) return { min: presetCutoff(preset), max: null };
+  if (!STATE.dateFrom && !STATE.dateTo) return null;
+  var min = dayStartTs(STATE.dateFrom);
+  var toStart = dayStartTs(STATE.dateTo);
+  return { min: min, max: toStart === null ? null : toStart + 86400 };
+}
+
+// Undated articles never match an active date filter: there's no
+// honest way to place them inside or outside the window.
+function inDateBounds(article, bounds) {
+  if (!bounds) return true;
+  var ts = articleTimestamp(article);
+  if (ts === null) return false;
+  if (bounds.min !== null && ts < bounds.min) return false;
+  if (bounds.max !== null && ts >= bounds.max) return false;
+  return true;
 }
 
 function resolveAgencyParam(data, param) {
@@ -93,7 +179,8 @@ function tagNamespace(tag) {
 // Filter semantics: OR within a namespace (selecting outcome:terminated and
 // outcome:rejected widens the result), AND across namespaces. Excludes always
 // drop matching articles regardless of grouping.
-function articleMatches(article) {
+function articleMatches(article, bounds) {
+  if (!inDateBounds(article, bounds)) return false;
   // Match the agency filter against primary_subject_agencies only,
   // not the broader agencies[] mentions list. The mentions list is
   // noisy — name-checks, list asides, and curator slip-ups (e.g. an
@@ -116,16 +203,11 @@ function articleMatches(article) {
   var tags = article.tags || [];
   var tagSet = {};
   for (var i = 0; i < tags.length; i++) tagSet[tags[i]] = true;
-  var srcKey = 'source:' + (article.source_domain || '');
-
-  function tagPresent(t) {
-    return t.indexOf('source:') === 0 ? (t === srcKey) : !!tagSet[t];
-  }
 
   var includesByNs = {};
   for (var t in STATE.filters) {
     var mode = STATE.filters[t];
-    if (mode === 'exclude' && tagPresent(t)) return false;
+    if (mode === 'exclude' && tagSet[t]) return false;
     if (mode === 'include') {
       var ns = tagNamespace(t);
       if (!includesByNs[ns]) includesByNs[ns] = [];
@@ -137,7 +219,7 @@ function articleMatches(article) {
     var group = includesByNs[ns2];
     var anyMatch = false;
     for (var k = 0; k < group.length; k++) {
-      if (tagPresent(group[k])) { anyMatch = true; break; }
+      if (tagSet[group[k]]) { anyMatch = true; break; }
     }
     if (!anyMatch) return false;
   }
@@ -153,16 +235,6 @@ function renderTagGroups() {
     var ns = info.namespace || 'other';
     if (!byNs[ns]) byNs[ns] = [];
     byNs[ns].push({ tag: tag, info: info });
-  }
-
-  var sources = data.sources || [];
-  if (sources.length) {
-    byNs['source'] = sources.map(function (s) {
-      return {
-        tag: 'source:' + s.domain,
-        info: { count: s.count, description: s.domain }
-      };
-    });
   }
 
   // Append any namespaces not in nsOrder.
@@ -207,6 +279,66 @@ function renderTagGroups() {
   }
 }
 
+// Preset chips are single-select (the active one wears the "include"
+// style); counts are library-wide, like the tag chips, not narrowed by
+// the other active filters.
+function renderDateFilter() {
+  var articles = STATE.data.articles;
+  var undated = 0;
+  for (var i = 0; i < articles.length; i++) {
+    if (articleTimestamp(articles[i]) === null) undated++;
+  }
+
+  var anyActive = !!(STATE.datePreset || STATE.dateFrom || STATE.dateTo);
+  var html = '<span class="chip' + (anyActive ? '' : ' include')
+    + '" data-preset="">Any time</span>';
+  for (var p = 0; p < DATE_PRESETS.length; p++) {
+    var preset = DATE_PRESETS[p];
+    var bounds = { min: presetCutoff(preset), max: null };
+    var count = 0;
+    for (var j = 0; j < articles.length; j++) {
+      if (inDateBounds(articles[j], bounds)) count++;
+    }
+    var cls = 'chip' + (STATE.datePreset === preset.key ? ' include' : '');
+    html += '<span class="' + cls + '" data-preset="' + preset.key + '">'
+      + escapeHtml(preset.label)
+      + '<span class="count">' + count + '</span>'
+      + '</span>';
+  }
+  var presetsEl = document.getElementById('date-presets');
+  presetsEl.innerHTML = html;
+  var chips = presetsEl.querySelectorAll('.chip');
+  for (var k = 0; k < chips.length; k++) {
+    chips[k].addEventListener('click', function (ev) {
+      setDatePreset(ev.currentTarget.getAttribute('data-preset'));
+    });
+  }
+
+  document.getElementById('date-from').value = STATE.dateFrom;
+  document.getElementById('date-to').value = STATE.dateTo;
+  document.getElementById('date-note').textContent = anyActive && undated
+    ? 'Hides the ' + undated + ' article' + (undated !== 1 ? 's' : '')
+      + ' with no publication date.'
+    : '';
+}
+
+function wireDateInputs() {
+  var fromEl = document.getElementById('date-from');
+  var toEl = document.getElementById('date-to');
+  function onChange() { setDateRange(fromEl.value, toEl.value); }
+  fromEl.addEventListener('change', onChange);
+  toEl.addEventListener('change', onChange);
+}
+
+function dateFilterLabel() {
+  var preset = findDatePreset(STATE.datePreset);
+  if (preset) return preset.label.toLowerCase();
+  if (STATE.dateFrom && STATE.dateTo) return STATE.dateFrom + ' to ' + STATE.dateTo;
+  if (STATE.dateFrom) return 'since ' + STATE.dateFrom;
+  if (STATE.dateTo) return 'through ' + STATE.dateTo;
+  return '';
+}
+
 function renderAgencyPin() {
   var wrap = document.getElementById('agency-search-input-wrap');
   if (!wrap) return;
@@ -246,6 +378,12 @@ function renderActiveBar(matchedCount, totalCount) {
   }
   var html = '<span><strong>' + matchedCount + '</strong> of '
     + totalCount + ' articles</span>';
+  var dateLabel = dateFilterLabel();
+  if (dateLabel) {
+    html += '<span class="dot">·</span>published: '
+      + '<span class="chip include" style="cursor:default">'
+      + escapeHtml(dateLabel) + '</span>';
+  }
   if (includes.length) {
     html += '<span class="dot">·</span>require: ';
     for (var i = 0; i < includes.length; i++) {
@@ -260,7 +398,7 @@ function renderActiveBar(matchedCount, totalCount) {
         + escapeHtml(excludes[j]) + '</span>';
     }
   }
-  if (includes.length || excludes.length) {
+  if (includes.length || excludes.length || dateLabel) {
     html += '<button class="clear" id="clear-btn">clear filters</button>';
   }
   bar.innerHTML = html;
@@ -580,9 +718,10 @@ function compareArticles(a, b) {
 
 function getMatched() {
   var articles = STATE.data.articles;
+  var bounds = dateBounds();
   var matched = [];
   for (var i = 0; i < articles.length; i++) {
-    if (articleMatches(articles[i])) matched.push(articles[i]);
+    if (articleMatches(articles[i], bounds)) matched.push(articles[i]);
   }
   matched.sort(compareArticles);
   return matched;
@@ -591,6 +730,7 @@ function getMatched() {
 function render() {
   var matched = getMatched();
   renderAgencyPin();
+  renderDateFilter();
   renderTagGroups();
   renderMap(matched);
   renderArticleList(matched);
@@ -720,13 +860,30 @@ fetch('data/articles_data.json')
   .then(function (data) {
     STATE.data = data;
     STATE.agencyIndex = buildAgencyIndex(data);
-    var param = new URL(window.location.href).searchParams.get('agency');
+    var params = new URL(window.location.href).searchParams;
+    var param = params.get('agency');
     STATE.agencyFilter = resolveAgencyParam(data, param);
-    // If a URL param pointed at an unknown agency, drop it from the URL
-    // rather than leaving a dead query string sitting on the address bar.
-    if (param && !STATE.agencyFilter) syncUrl();
+    var range = params.get('range');
+    var from = params.get('from');
+    var to = params.get('to');
+    if (findDatePreset(range)) {
+      STATE.datePreset = range;
+    } else {
+      if (dayStartTs(from) !== null) STATE.dateFrom = from;
+      if (dayStartTs(to) !== null) STATE.dateTo = to;
+    }
+    // If a URL param pointed at an unknown agency or held a malformed
+    // date, drop it from the URL rather than leaving a dead query string
+    // sitting on the address bar.
+    if ((param && !STATE.agencyFilter)
+        || (range && !STATE.datePreset)
+        || (from && from !== STATE.dateFrom)
+        || (to && to !== STATE.dateTo)) {
+      syncUrl();
+    }
     initMap();
     wireAgencySearchInput();
+    wireDateInputs();
     render();
   })
   .catch(function (err) {

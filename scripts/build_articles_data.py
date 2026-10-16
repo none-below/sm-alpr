@@ -119,8 +119,8 @@ def main() -> int:
     for entry in registry:
         # Off-topic entries (the curator's not-about-ALPR verdict) stay in
         # the registry as dedup tombstones but never reach the public viewer
-        # — skip them here so they're absent from the article list, tag/
-        # source counts, and the per-agency index alike.
+        # — skip them here so they're absent from the article list, tag
+        # counts, and the per-agency index alike.
         if entry.get("curation_status") == "off_topic":
             continue
         agencies = []
@@ -197,19 +197,8 @@ def main() -> int:
             "count": count,
         }
 
-    namespace_order = ["source", "vendor", "policy", "incident", "legal",
+    namespace_order = ["vendor", "policy", "incident", "legal",
                        "scope", "stance", "genre", "agency", "other"]
-
-    source_counts: dict[str, int] = {}
-    for a in articles:
-        d = a.get("source_domain")
-        if d:
-            source_counts[d] = source_counts.get(d, 0) + 1
-    sources_out = [
-        {"domain": d, "count": c}
-        for d, c in sorted(source_counts.items(),
-                           key=lambda kv: (-kv[1], kv[0]))
-    ]
 
     # Per-agency index. Lets the sharing_map page show an "Articles (N)"
     # link and the report page render a press-coverage list without
@@ -287,7 +276,6 @@ def main() -> int:
     out = {
         "articles": articles,
         "tags": tags_out,
-        "sources": sources_out,
         "namespace_order": namespace_order,
         "articles_by_agency": articles_by_agency,
         "counts": {
