@@ -128,6 +128,8 @@ SELECT r.release_id, public_rid(r.release_id, r.pra_id, r.container_path, r.memb
   r.producer, r.producer_agency_id, r.audit, r.pra_id,
   CASE WHEN r.pra_id LIKE 'muckrock-%' THEN 'MuckRock request ' || replace(r.pra_id, 'muckrock-', '')
        WHEN r.release_id LIKE 'smpd:%' THEN 'San Mateo public records request ' || r.pra_id
+       WHEN r.container_root = 'portals' THEN r.producer || ' public records request ' || split_part(r.pra_id, ':', 2)
+            || ' (' || split_part(r.pra_id, ':', 1) || ')'
        ELSE r.producer || ' public records request ' || r.pra_id END AS request_label,
   r.request_url, r.released_on, r.released_on_basis,
   basename(r.container_path) AS container_file, r.member, basename(r.member) AS member_file, r.sheet, r.source_file,
@@ -303,11 +305,14 @@ con.execute("ALTER TABLE cache.builds ADD COLUMN IF NOT EXISTS duckdb_version VA
 con.execute("""CREATE OR REPLACE TABLE cache.sighting_keys AS
   SELECT sighting_id, release_id, row_no, producer, audit, flock_id, tf_start IS NOT NULL AS has_tf,
          CASE WHEN t IS NOT NULL AND org IS NOT NULL THEN hash(org, t, nets) END AS k3,
-         CASE WHEN t IS NOT NULL AND org IS NOT NULL AND tf_start IS NOT NULL THEN hash(org, t, nets, tf_start, tf_end) END AS k5
+         CASE WHEN t IS NOT NULL AND org IS NOT NULL AND tf_start IS NOT NULL THEN hash(org, t, nets, tf_start, tf_end) END AS k5,
+         CASE WHEN t IS NOT NULL AND org IS NOT NULL THEN hash(org, t) END AS k2,
+         (flock_id IS NULL AND nets IS NULL AND tf_start IS NULL) AS weak   -- a release with only org / reason / time
   FROM sightings WHERE (t IS NOT NULL AND org IS NOT NULL) OR flock_id IS NOT NULL""")
 step("cache.sighting_keys (parsed once)")
-# Linking intermediates (140M rows) go to a scratch database file, compressed on disk and deleted afterwards: as TEMP
-# tables they spilled uncompressed and ran the disk out; inside derived.duckdb their freed blocks would stay in the file.
+# Linking intermediates (the key lookups and the few rows tiers 4-8 place) go to a scratch database file, compressed on
+# disk and deleted afterwards: as TEMP tables they spilled uncompressed and ran the disk out; inside derived.duckdb their
+# freed blocks would stay in the file. Per-sighting results are read in place (views t13, base), never copied.
 CB_PATH = Path(DERIVED).with_name(Path(DERIVED).name + ".link_tmp.duckdb")
 CB_PATH.unlink(missing_ok=True)
 con.execute(f"ATTACH '{CB_PATH}' AS cb")
@@ -319,7 +324,9 @@ con.execute("""CREATE OR REPLACE TABLE cb.k3n AS SELECT k3, count(DISTINCT flock
   FROM cache.sighting_keys WHERE flock_id IS NOT NULL AND k3 IS NOT NULL AND NOT has_tf GROUP BY k3""")  # UUID sightings with no time frame (e.g. SMPD own log)
 con.execute("""CREATE OR REPLACE TABLE cb.k5u AS SELECT k5, count(DISTINCT flock_id) n, min(flock_id) fid
   FROM cache.sighting_keys WHERE flock_id IS NOT NULL AND k5 IS NOT NULL GROUP BY k5""")
-con.execute("""CREATE OR REPLACE TABLE cb.a AS
+# Tiers 1-3 per sighting, read in place: one pass over the keys through the three lookups. Materialized, this 245M-row
+# result was 11.5 GB of scratch and, with the final cache table, ran the disk out on 2026-10-12.
+con.execute("""CREATE OR REPLACE TEMP VIEW t13 AS
   SELECT k.sighting_id, k.release_id, k.row_no, k.producer, k.audit, k.has_tf, k.k3, k.k5,
     CASE WHEN k.flock_id IS NOT NULL THEN 'u:' || k.flock_id
          WHEN k5u.n = 1 THEN 'u:' || k5u.fid
@@ -331,20 +338,68 @@ con.execute("""CREATE OR REPLACE TABLE cb.a AS
          WHEN k5u.n > 1 OR (NOT k.has_tf AND k3u.n > 1) OR (k.has_tf AND k5u.n IS NULL AND k3n.n > 1) THEN 'x_ambiguous' END AS basis
   FROM cache.sighting_keys k LEFT JOIN cb.k5u k5u USING (k5) LEFT JOIN cb.k3u k3u USING (k3)
        LEFT JOIN cb.k3n k3n ON k3n.k3 = k.k3""")
-step("tiers 1-3")
+step("tiers 1-3 lookups")
 # tiers 4-6 only for the unresolved rows, joined on a pre-filtered set (no residual predicates in the join)
-con.execute("""CREATE OR REPLACE TABLE cb.k3g AS SELECT k3, count(DISTINCT k5) n, min(k5) k5 FROM cb.a
+con.execute("""CREATE OR REPLACE TABLE cb.k3g AS SELECT k3, count(DISTINCT k5) n, min(k5) k5 FROM t13
   WHERE basis IS NULL AND has_tf GROUP BY k3""")
 con.execute("""CREATE OR REPLACE TABLE cb.rest AS
   SELECT a.sighting_id, a.release_id, a.row_no, a.producer, a.audit,
     CASE WHEN a.has_tf THEN 'k5:' || a.k5 WHEN g.n = 1 THEN 'k5:' || g.k5 WHEN g.n > 1 THEN 'x:' || a.sighting_id ELSE 'k3:' || a.k3 END AS event_id,
     CASE WHEN a.has_tf THEN '4_k5_group' WHEN g.n = 1 THEN '5_k3_to_group' WHEN g.n > 1 THEN 'x_ambiguous' ELSE '6_k3_group' END AS basis
-  FROM (SELECT * FROM cb.a WHERE basis IS NULL) a LEFT JOIN cb.k3g g USING (k3)""")
-con.execute("""CREATE OR REPLACE TABLE cache.sighting_event AS
-  SELECT *, hash(event_id) AS event_key FROM (
+  FROM (SELECT * FROM t13 WHERE basis IS NULL) a LEFT JOIN cb.k3g g USING (k3)""")
+# The tier 1-6 result, read in place like t13
+con.execute("""CREATE OR REPLACE TEMP VIEW base AS
   SELECT sighting_id, release_id, row_no, producer, audit, CASE WHEN basis = 'x_ambiguous' THEN 'x:' || sighting_id ELSE eid END AS event_id, basis
-  FROM cb.a WHERE basis IS NOT NULL
-  UNION ALL SELECT sighting_id, release_id, row_no, producer, audit, event_id, basis FROM cb.rest)""")
+  FROM t13 WHERE basis IS NOT NULL
+  UNION ALL SELECT sighting_id, release_id, row_no, producer, audit, event_id, basis FROM cb.rest""")
+step("tiers 4-6")
+# Tier 7: a release that carries only org / reason / time (no Flock ID, network count or time frame; e.g. Los Altos PRA
+# 26-27) cannot use the k3/k5 keys; its row joins the search when exactly one search by that org is recorded, by the
+# stronger tiers, at that second. Tier 8: a row the tiers left on its own (x_ambiguous: two searches by the org at that
+# second and no Flock ID in this release; or a weak row tier 7 could not place) joins a same-second search identified by
+# Flock ID whose Reason text is the same (normalized); with no readable Reason, the lowest such search. Either way it
+# stops counting as a search of its own; the reason it carries is the same one.
+# Each step selects its few rows from the keys first, then reads their tier 1-6 events in one pass over base.
+con.execute("""CREATE OR REPLACE TABLE cb.wk AS SELECT DISTINCT k2 FROM cache.sighting_keys WHERE weak AND k2 IS NOT NULL""")
+con.execute("""CREATE OR REPLACE TABLE cb.k2strong AS
+  WITH s AS (SELECT k.sighting_id, k.k2 FROM cache.sighting_keys k SEMI JOIN cb.wk USING (k2) WHERE NOT k.weak)
+  SELECT s.k2, count(DISTINCT b.event_id) n, min(b.event_id) eid
+  FROM s JOIN base b USING (sighting_id) WHERE b.event_id NOT LIKE 'x:%' GROUP BY s.k2""")
+con.execute("""CREATE OR REPLACE TABLE cb.t7 AS
+  WITH w AS (SELECT k.sighting_id, s.eid FROM cache.sighting_keys k JOIN cb.k2strong s USING (k2) WHERE k.weak AND s.n = 1)
+  SELECT w.sighting_id, w.eid AS event_id FROM w JOIN base b USING (sighting_id) WHERE b.event_id <> w.eid""")
+con.execute("""CREATE OR REPLACE TABLE cb.xs AS SELECT sighting_id FROM base WHERE event_id LIKE 'x:%'""")
+con.execute("""CREATE OR REPLACE TABLE cb.loose AS
+  SELECT k.sighting_id, k.release_id, k.row_no, k.k2 FROM cache.sighting_keys k
+  WHERE (k.weak OR k.sighting_id IN (SELECT sighting_id FROM cb.xs)) AND k.k2 IS NOT NULL
+    AND k.sighting_id NOT IN (SELECT sighting_id FROM cb.t7)""")
+con.execute("""CREATE OR REPLACE TABLE cb.anchor AS
+  WITH c AS (SELECT k.sighting_id, k.release_id, k.row_no, k.k2 FROM cache.sighting_keys k
+             WHERE k.k2 IN (SELECT k2 FROM cb.loose))
+  SELECT c.*, b.event_id FROM c JOIN base b USING (sighting_id) WHERE b.event_id LIKE 'u:%'""")
+# reasons only for these rows: parse the selected truth rows with the shared templates (sql_templates.py)
+con.execute("""CREATE OR REPLACE TABLE cb.need AS SELECT release_id, row_no FROM cb.loose UNION SELECT release_id, row_no FROM cb.anchor""")
+raw = "(SELECT a.* FROM truth.flock_audit_rows a SEMI JOIN cb.need n ON a.release_id = n.release_id AND a.row_no = n.row_no)"
+con.execute(f"""CREATE OR REPLACE TABLE cb.nr AS
+  SELECT sighting_id, lower(regexp_replace(trim(reason), '\\s+', ' ', 'g')) AS nr
+  FROM ({sightings_flock_sql(f"({flock_rows_sql(raw)})")})""")
+con.execute("""CREATE OR REPLACE TABLE cb.t8 AS
+  SELECT l.sighting_id,
+         coalesce(min(a.event_id) FILTER (WHERE an.nr = ln.nr), CASE WHEN ln.nr IS NULL THEN min(a.event_id) END) AS event_id,
+         CASE WHEN min(a.event_id) FILTER (WHERE an.nr = ln.nr) IS NOT NULL THEN '8_same_second_same_reason'
+              ELSE '8_same_second_no_reason' END AS basis
+  FROM cb.loose l JOIN cb.anchor a USING (k2)
+  LEFT JOIN cb.nr ln ON ln.sighting_id = l.sighting_id LEFT JOIN cb.nr an ON an.sighting_id = a.sighting_id
+  GROUP BY l.sighting_id, ln.nr
+  HAVING coalesce(min(a.event_id) FILTER (WHERE an.nr = ln.nr), CASE WHEN ln.nr IS NULL THEN min(a.event_id) END) IS NOT NULL""")
+con.execute("""CREATE OR REPLACE TABLE cache.sighting_event AS
+  SELECT b.sighting_id, b.release_id, b.row_no, b.producer, b.audit,
+         coalesce(t7.event_id, t8.event_id, b.event_id) AS event_id,
+         CASE WHEN t7.event_id IS NOT NULL THEN '7_org_second' WHEN t8.event_id IS NOT NULL THEN t8.basis ELSE b.basis END AS basis,
+         hash(coalesce(t7.event_id, t8.event_id, b.event_id)) AS event_key
+  FROM base b LEFT JOIN cb.t7 t7 USING (sighting_id) LEFT JOIN cb.t8 t8 USING (sighting_id)""")
+con.execute("DROP VIEW base")
+con.execute("DROP VIEW t13")
 con.execute("DETACH cb")
 CB_PATH.unlink(missing_ok=True)
 step("cache.sighting_event")

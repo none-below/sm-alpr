@@ -79,11 +79,15 @@ def link_tiers():
 def precision():
     # precision of the fallback keys, measured on sightings that carry a Flock UUID (the ground truth)
     prec = q("""
-      WITH u AS (SELECT flock_id, k3, k5 FROM cache.sighting_keys WHERE flock_id IS NOT NULL),
-      k3 AS (SELECT k3, count(DISTINCT flock_id) n FROM u WHERE k3 IS NOT NULL GROUP BY 1),
-      k5 AS (SELECT k5, count(DISTINCT flock_id) n FROM u WHERE k5 IS NOT NULL GROUP BY 1),
-      s3 AS (SELECT flock_id, count(DISTINCT k3) n FROM u WHERE k3 IS NOT NULL GROUP BY 1),
-      s5 AS (SELECT flock_id, count(DISTINCT k5) n FROM u WHERE k5 IS NOT NULL GROUP BY 1)
+      -- distinct (UUID, key) pairs first, then plain counts: count(DISTINCT) per group over 130M+ UUID strings ran
+      -- past the 12 GiB spill cap. UUIDs as 64-bit hashes (a collision among ~70M is ~1e-4 likely; it moves a share
+      -- by one UUID at most)
+      WITH p3 AS (SELECT DISTINCT hash(flock_id) f, k3 FROM cache.sighting_keys WHERE flock_id IS NOT NULL AND k3 IS NOT NULL),
+      p5 AS (SELECT DISTINCT hash(flock_id) f, k5 FROM cache.sighting_keys WHERE flock_id IS NOT NULL AND k5 IS NOT NULL),
+      k3 AS (SELECT k3, count(*) n FROM p3 GROUP BY 1),
+      k5 AS (SELECT k5, count(*) n FROM p5 GROUP BY 1),
+      s3 AS (SELECT f, count(*) n FROM p3 GROUP BY 1),
+      s5 AS (SELECT f, count(*) n FROM p5 GROUP BY 1)
       SELECT 'k3 = hash(org, t, nets)', (SELECT count(*) FROM k3), (SELECT avg((n = 1)::INT) FROM k3), (SELECT avg((n = 1)::INT) FROM s3)
       UNION ALL
       SELECT 'k5 = k3 + time frame', (SELECT count(*) FROM k5), (SELECT avg((n = 1)::INT) FROM k5), (SELECT avg((n = 1)::INT) FROM s5)""")

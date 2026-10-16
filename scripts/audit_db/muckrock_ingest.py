@@ -1,4 +1,4 @@
-"""TRUTH loader for the MuckRock CA audit-log corpus (tabular files only; PDFs deferred).
+"""TRUTH loader for the MuckRock CA audit-log corpus (tabular files; PDF tables are pdf_table_ingest.py's).
 
 Provenance travels with every row: flock_audit_rows.src_row is the row as a reader sees it when opening the original
 (spreadsheet row number; for CSV the record number with the header as row 1), and releases carries the request page
@@ -48,6 +48,7 @@ def org_from_name(name):
     if not m:
         return None
     org = re.sub(r"_+", " ", m.group("org")).strip(" -_")
+    org = re.sub(r"(?i)[ -]+org$", "", org)   # 'Roseville CA PD org-Audit', 'San Diego CA PD-ORG-Audit'
     return org if re.search(r"\b(CA|PD|SO|FD|Sheriff|Police)\b", org) else None
 
 
@@ -188,9 +189,17 @@ def file_override(ov, u, res):
     return next((files[n] for n in names if n and n in files), {})
 
 
+def catalogs(EV):
+    """The catalog files, oldest first: the 2026-09-24 sweep's, then one per later re-sweep (profile-resweep)."""
+    return ["catalog.json", "catalog2.json", *sorted(p.name for p in EV.glob("catalog_resweep_*.json"))]
+
+
 def units(EV):
-    cat = json.load(open(EV / "catalog.json")) + json.load(open(EV / "catalog2.json"))
-    reqs = {r["request_id"]: r for r in json.load(open(EV / "catalog_requests.json"))}
+    cat = [e for name in catalogs(EV) for e in json.load(open(EV / name))]
+    reqs = {}
+    for name in ("catalog_requests.json", *sorted(p.name for p in EV.glob("catalog_requests_resweep_*.json"))):
+        for r in json.load(open(EV / name)):
+            reqs.setdefault(r["request_id"], r)
     seen, out = set(), []
     for e in cat:
         if e.get("http") != 200 or not e.get("local_path"):
@@ -402,7 +411,47 @@ def stage_all(EV, TMP, workers=2):  # each worker can hold a whole sheet in memo
     print(f"staged {ok} of {len(us)} units; {sum(isinstance(r, str) for r in results)} errors", flush=True)
 
 
+def profile_resweep(EV, run):
+    """Catalog the files a re-sweep fetched (MANIFEST_resweep_<run>.txt) the way catalog.json catalogs the 9/24 sweep's:
+    writes catalog_resweep_<run>.json (files, with each audit table's kind and headers, by content: table_profile.py)
+    and catalog_requests_resweep_<run>.json (requests not in catalog_requests.json, from the saved request pages).
+    New files only; never rewrites an existing catalog."""
+    from table_profile import profile_file
+    EV = Path(EV)
+    out_files, out_reqs = EV / f"catalog_resweep_{run}.json", EV / f"catalog_requests_resweep_{run}.json"
+    if out_files.exists() or out_reqs.exists():
+        raise SystemExit(f"{out_files.name} / {out_reqs.name} already exist: catalogs are append-only")
+    pages = {str(r["request_id"]): r for r in json.load(open(EV / "_resweep" / run / "requests.json"))}
+    known = {str(r["request_id"]) for r in json.load(open(EV / "catalog_requests.json"))}
+    entries = []
+    for line in (EV / f"MANIFEST_resweep_{run}.txt").read_text().splitlines():
+        sha, path, url = line.split("  ")
+        req = path.split("/", 1)[0].split("-", 1)[0]
+        m = re.search(r"/(\d{4})/(\d{2})/(\d{2})/", url)
+        prof, err = profile_file(EV / path)
+        entries.append({"request_id": req, "agency": None, "file_name": Path(path).name, "local_path": path, "url": url,
+                        "http": 200, "sha256": sha, "file_date": "-".join(m.groups()) if m else None,
+                        "profile": [{**p, "sheet": p["sheet"][:40] if p["sheet"] else None} for p in prof],
+                        "profile_error": err})
+    reqs = []
+    for rid, p in sorted(pages.items()):
+        if rid in known:
+            continue
+        title = p.get("title") or ""
+        agency = [a for a in re.findall(r"\(([^()]+)\)", title.split(" \u2022 ")[0])
+                  if re.search(r"\b(police|sheriff|department|county|city|attorney|district|office|patrol|university|"
+                               r"PD|SO|center|agency)\b", a, re.I) and not re.search(r"\d", a)]
+        reqs.append({"request_id": rid, "url": p["url"], "title": title.split(" \u2022 ")[0],
+                     "agency": agency[-1] if agency else None, "source": f"_resweep/{run}/pages/{rid}.html"})
+    json.dump(entries, open(out_files, "w"), indent=1)
+    json.dump(reqs, open(out_reqs, "w"), indent=1)
+    print(f"{out_files.name}: {len(entries)} files, {sum(len(e['profile']) for e in entries)} audit tables; "
+          f"{out_reqs.name}: {len(reqs)} new requests", flush=True)
+
+
 if __name__ == "__main__":
     import sys
     if len(sys.argv) >= 4 and sys.argv[1] == "stage":
         stage_all(sys.argv[2], sys.argv[3])
+    elif len(sys.argv) >= 4 and sys.argv[1] == "profile-resweep":
+        profile_resweep(sys.argv[2], sys.argv[3])

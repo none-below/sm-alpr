@@ -44,6 +44,13 @@ def evidence_dir():
     return primary_checkout() / ".claude" / "local_evidence" / "muckrock-ca-audit-logs"
 
 
+def portals_dir():
+    """The CA public-records-portal harvest (NextRequest / GovQA / JustFOIA): the primary checkout's
+    .claude/local_evidence/pra-portals-ca (originals under <platform>/<host>/<request>/files/, MANIFEST.jsonl with each
+    download's sha256, dated indexes per portal). Local only, never in git."""
+    return primary_checkout() / ".claude" / "local_evidence" / "pra-portals-ca"
+
+
 def sql_str(v):
     """A SQL string literal: v as text, single quotes doubled."""
     return "'" + str(v).replace("'", "''") + "'"
