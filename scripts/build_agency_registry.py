@@ -141,7 +141,9 @@ def classify(name):
         return {"agency_role": "school", "agency_type": "other", "tags": ["needs-review"]}
 
     # Federal
-    if re.search(r"\bFBI\b|Federal\b|US Marshal|DEA\b|ATF\b|ICE\b|CBP\b|Secret Service", n, re.I):
+    # Every alternative needs its own leading \b: a bare `ICE\b` matched
+    # the end of "Police", "Office" and "Service".
+    if re.search(r"\b(FBI|Federal|DEA|ATF|ICE|CBP)\b|\bUS Marshal|\bSecret Service", n, re.I):
         return {"agency_role": "police", "agency_type": "federal", "tags": ["public", "federal"]}
 
     # State agencies

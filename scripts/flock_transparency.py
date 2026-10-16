@@ -436,11 +436,42 @@ _EXPECTS_CONTINUATION = re.compile(
 # previous name (e.g. "LLC", "Inc.", "CA"). Flock's data has split entries
 # from un-escaped commas in their source — e.g. "Brickyard Cove - Richmond, CA"
 # splits into ["Brickyard Cove - Richmond", "CA"]. Re-attach to the prior entry.
-# Two-letter tokens are US state abbreviations (CA, NY, TX, …).
+# Two-letter tokens are US state abbreviations (CA, NY, TX, …). A company
+# suffix may carry Flock's state tag ("Inc. (CA)").
 _IS_CONTINUATION_SUFFIX = re.compile(
-    r"^(LLC|L\.L\.C\.?|Inc\.?|Corp\.?|Ltd\.?|Co\.?|[A-Z]{2})$",
+    r"^((LLC|L\.L\.C\.?|Inc\.?|Corp\.?|Ltd\.?|Co\.?)( \([A-Z]{2}\))?|[A-Z]{2})$",
     re.IGNORECASE,
 )
+
+# (previous-part end, part) shapes that are one account split on its
+# comma (#645): "Montgomery County Constable, Precinct 4 (TX)",
+# "1st Judicial District, District Attorney's Office TX". Both sides must
+# match, so a standalone "Precinct 4 Constable TX" is left alone.
+_STATE_TAG = r"( [A-Z]{2}| \([A-Z]{2}\))?"
+_CONTINUATION_PAIRS = (
+    (re.compile(r"\bConstable$"),
+     re.compile(rf"^(Precinct|Pct\.?) \d+{_STATE_TAG}$")),
+    (re.compile(r"\bJudicial District$"),
+     re.compile(rf"^District Attorney'?s? Office{_STATE_TAG}$")),
+    (None, re.compile(r"^District #\d+ \([A-Z]{2}\)$")),
+)
+
+# One-off accounts whose split halves match no general shape.
+_KNOWN_COMMA_NAMES = frozenset({
+    "Wild Horse Valley Rd, Napa (CA)",
+})
+
+
+def _continues_name(prev, part):
+    """True when ``part`` is the rest of ``prev`` split on a comma."""
+    return bool(
+        _EXPECTS_CONTINUATION.search(prev)
+        or _IS_CONTINUATION_SUFFIX.match(part)
+        or any((p is None or p.search(prev)) and q.match(part)
+               for p, q in _CONTINUATION_PAIRS)
+        or f"{prev}, {part}" in _KNOWN_COMMA_NAMES
+    )
+
 
 # Maps heading aliases -> canonical field name.  This is the single source of
 # truth for all known headings.  Use None for structural headings (page chrome
@@ -1073,11 +1104,7 @@ def _parse_org_names(body):
         raw = [n.strip() for n in " ".join(lines).split(", ") if n.strip()]
     names = []
     for part in raw:
-        merge = names and (
-            _EXPECTS_CONTINUATION.search(names[-1])
-            or _IS_CONTINUATION_SUFFIX.match(part)
-        )
-        if merge:
+        if names and _continues_name(names[-1], part):
             names[-1] = f"{names[-1]}, {part}"
         else:
             names.append(part)

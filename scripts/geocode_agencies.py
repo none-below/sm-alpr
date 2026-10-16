@@ -577,15 +577,6 @@ MANUAL_OVERRIDES = {
         "kind": "manual", "name": "Park Hills", "state": "MO",
         "lat": 37.8553, "lng": -90.5178,
     },
-    # Montgomery County Constable — Montgomery County, TX (Conroe).
-    # The registry has no state; multiple states have a Montgomery
-    # County, but in context (Cabot AR PD shares with TX agencies and
-    # the Constable role is a Texas-specific institution) TX is the
-    # safe call.
-    "a876b7c8-45b2-53a9-a8a6-460d19bdfc51": {
-        "kind": "manual", "name": "Conroe", "state": "TX",
-        "lat": 30.3119, "lng": -95.4561,
-    },
     # Northwest Arkansas Regional Airport (XNA) — Highfill, AR (serves
     # Bentonville/Fayetteville).
     "ee18a416-bc7f-5307-83e7-cfc14adac657": {
@@ -672,10 +663,8 @@ MANUAL_OVERRIDES = {
         "lat": 40.6470, "lng": -80.0590,
     },
     # Montgomery County Constable Pct 4 — office at 21130 US-59,
-    # New Caney, TX (unincorporated; not a census place). The account
-    # name is a comma-split fragment of "Montgomery County Constable,
-    # Precinct 4 (TX)" (issue #636).
-    "c555da83-0c47-5b2b-8988-5a09bf3ef980": {
+    # New Caney, TX (unincorporated; not a census place).
+    "abf06b14-421a-5f95-bdf7-586d75058871": {
         "kind": "manual", "name": "New Caney", "state": "TX",
         "lat": 30.1395, "lng": -95.2171,
     },
@@ -796,7 +785,7 @@ GAZ_OVERRIDES = {
     "ec54b02b-0101-59bc-a7a0-27cc6f96accc": ("cousub", "Lisbon", "CT"),  # Town of Lisbon (resident troopers)
     # issue #636 — recipients missing coordinates (researched + verified
     # per-entity; see the issue for the triage record)
-    "5095ae77-a4ff-57bd-956a-5d09630dff5f": ("place", "Hemphill", "TX"),  # 1st Judicial District
+    "e7256ff0-4482-58dc-bea5-65f4cfaf4f86": ("place", "Hemphill", "TX"),  # 1st Judicial District, District Attorney's Office TX
     "4a90ab8e-1b8b-5a79-994e-49dd35818740": ("place", "Jacksonville", "AL"),  # AL - Jacksonville State University Campus PD
     "c753700e-a641-5f4b-a85c-14b657a14822": ("county", "Randolph", "AL"),  # Alabama Drug Enforcement Task Force Region G
     "e82c9df2-d04b-5dda-bb3a-b99e2ef82931": ("place", "Buford", "GA"),  # Buford City Schools GA
@@ -839,8 +828,8 @@ GAZ_OVERRIDES = {
     "598aca59-bd7e-5d67-80df-e93bcbdef150": ("place", "Oklahoma City", "OK"),  # OK - 477
     "0facc144-81b9-5951-9e3d-be23cb11656a": ("place", "Oak Lawn", "IL"),  # OLREC IL Dispatch
     "03e33852-8173-5c02-acb9-f1acace99988": ("place", "Oakland", "CA"),  # Port Of Oakland (CA)
-    "cf916c0a-c36c-52b7-9bd3-b82703c502bb": ("place", "The Woodlands", "TX"),  # Precinct 3 (TX)
-    "43ff10f6-3ea5-5df1-b594-dc3dd2dfc324": ("place", "Magnolia", "TX"),  # Precinct 5 (TX)
+    "b0aa1d8e-8ae7-5acc-8e32-ee6fbcec8114": ("place", "The Woodlands", "TX"),  # Montgomery County Constable, Precinct 3 (TX)
+    "4d95b588-6ecc-5c05-ac1b-0ab9564c1d99": ("place", "Magnolia", "TX"),  # Montgomery County Constable, Precinct 5 (TX)
     "65d079be-0bf9-5384-bd97-d01b6c77cd3f": ("place", "Clinton", "SC"),  # Presbyterian College SC PD
     "d38ca136-aa34-59e8-b13c-59cdf8567b88": ("place", "Milan", "IL"),  # QComm911 Dispatch IL
     "d27486bc-f265-5158-a0ae-10038f258e62": ("county", "Williamson", "TX"),  # Regional Vehicle Burglary Suppression Taskforce TX
@@ -880,7 +869,8 @@ GAZ_OVERRIDES = {
     "6aaae188-0468-5e16-87c6-577de1350d02": ("place", "Raleigh", "NC"),  # North Carolina Department of Transportation (HQ)
     "42aee1ae-f368-5f96-a0a5-b6cefb6aaeaf": ("place", "Annandale", "VA"),  # Northern Virginia Cmnty College Campus VA PD (police HQ, Annandale campus)
     "3ded53b5-2878-57e4-8533-d364aa565ac7": ("place", "Norfolk", "VA"),  # Old Dominion Univ VA PD
-    "d2c11666-952e-5bc7-a5ae-5b7bec5200a3": ("place", "Willis", "TX"),  # Precinct 1 (TX) — Montgomery County Constable Pct 1, Willis (#645 comma-split fragment)
+    "41345b10-67db-503f-aff8-0de7339eda1d": ("place", "Willis", "TX"),  # Montgomery County Constable, Precinct 1 (TX)
+    "c97b3df4-634d-56fa-94da-9b062002dd39": ("place", "Napa", "CA"),  # Wild Horse Valley Rd, Napa (CA)
     "bf39b868-25b1-5be4-bfa9-534aafbf9eb5": ("county", "Riverside", "CA"),  # Riverside Co CA DPSS (countywide county dept)
     "2a64f798-8643-5fe6-a76c-2d24e6f1415f": ("county", "San Diego", "CA"),  # San Diego County District Attorney
     "829b7f56-f054-5b11-a6a8-50293b853db6": ("place", "Jacksonville", "FL"),  # University of North FL PD (UNF, Jacksonville)
