@@ -149,46 +149,19 @@ jobs:
           # no .txt/.html/.json/.pdf. There is nothing on disk to re-parse —
           # the fix is forward-only (harden the parser; the next crawl
           # re-captures). Don't tell readers to re-parse a saved file.
-          if [ ! -f /tmp/crawl.log ]; then exit 0; fi
-          ERRORS=$(grep -E "PARSE_ERROR: " /tmp/crawl.log | sort -u || true)
-          if [ -z "$ERRORS" ]; then exit 0; fi
-          ERRORS_HASH=$(echo "$ERRORS" | sha256sum | cut -d' ' -f1)
-          {
-            echo "Parser tripped on one or more agency portals. The capture"
-            echo "for each failing date was **discarded** — \`archive_agency\`"
-            echo "parses in memory before writing, so no \`.txt\`/\`.html\` was"
-            echo "saved and there is nothing to re-parse. Fix the parser; the"
-            echo "next crawl re-captures. Errors whose fix needs the page body"
-            echo "(overview-marker misses, numeric fields with no pure-number"
-            echo "line) require re-scraping that slug to diagnose."
-            echo
-            echo '```'
-            echo "$ERRORS"
-            echo '```'
-            echo
-            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-            echo
-            echo "<!-- parse-errors-hash: $ERRORS_HASH -->"
-          } > /tmp/parse-issue-body.md
-          EXISTING=$(gh issue list --label parser --state open --json number -q '.[0].number' || true)
-          if [ -n "$EXISTING" ]; then
-            # Skip the comment when this run's errors match the newest ones
-            # already on the issue — repeat failures on every refresh run
-            # flooded the rolling issue with identical comments (#223).
-            LAST_HASH=$(gh issue view "$EXISTING" --json body,comments \
-              -q '[.body, (.comments[-1].body // "")] | join("\n")' \
-              | grep -oE 'parse-errors-hash: [0-9a-f]+' | tail -1 || true)
-            if [ "$LAST_HASH" = "parse-errors-hash: $ERRORS_HASH" ]; then
-              echo "Same parse errors already reported on issue #$EXISTING; not commenting."
-            else
-              gh issue comment "$EXISTING" --body-file /tmp/parse-issue-body.md
-            fi
-          else
-            gh issue create \
-              --title "Parser tripped on a new Flock portal variant" \
-              --label parser \
-              --body-file /tmp/parse-issue-body.md
-          fi
+          #
+          # Issue selection and the dedupe guard live in
+          # scripts/report_parse_errors.sh, shared with probe-slugs.yml.
+          cat > /tmp/parse-intro.md <<'EOF'
+          Parser tripped on one or more agency portals. The capture
+          for each failing date was **discarded** — `archive_agency`
+          parses in memory before writing, so no `.txt`/`.html` was
+          saved and there is nothing to re-parse. Fix the parser; the
+          next crawl re-captures. Errors whose fix needs the page body
+          (overview-marker misses, numeric fields with no pure-number
+          line) require re-scraping that slug to diagnose.
+          EOF
+          bash scripts/report_parse_errors.sh /tmp/crawl.log /tmp/parse-intro.md
 
       - name: Install Tesseract (cached)
         uses: awalsh128/cache-apt-pkgs-action@latest

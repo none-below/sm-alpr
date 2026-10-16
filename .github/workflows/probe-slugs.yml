@@ -114,31 +114,17 @@ jobs:
           # full success), so the parser fix is the only follow-up —
           # the next refresh-flock-data crawl will re-capture once
           # the parser is updated.
-          if [ ! -f /tmp/probe.log ]; then exit 0; fi
-          ERRORS=$(grep -E "PARSE_ERROR: " /tmp/probe.log | sort -u || true)
-          if [ -z "$ERRORS" ]; then exit 0; fi
-          {
-            echo "slug_probe captured one or more Flock portals the parser"
-            echo "couldn't read. No partial artifact set was written to the"
-            echo "asset tree. Add the unrecognized bold headings to"
-            echo "_HEADING_MAP / _DYNAMIC_HEADINGS in scripts/flock_transparency.py;"
-            echo "the next crawl will re-capture cleanly."
-            echo
-            echo '```'
-            echo "$ERRORS"
-            echo '```'
-            echo
-            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          } > /tmp/parse-issue-body.md
-          EXISTING=$(gh issue list --label parser --state open --json number -q '.[0].number' || true)
-          if [ -n "$EXISTING" ]; then
-            gh issue comment "$EXISTING" --body-file /tmp/parse-issue-body.md
-          else
-            gh issue create \
-              --title "Parser tripped on a new Flock portal variant" \
-              --label parser \
-              --body-file /tmp/parse-issue-body.md
-          fi
+          #
+          # Issue selection and the dedupe guard live in
+          # scripts/report_parse_errors.sh, shared with refresh-flock-data.yml.
+          cat > /tmp/parse-intro.md <<'EOF'
+          slug_probe captured one or more Flock portals the parser
+          couldn't read. No partial artifact set was written to the
+          asset tree. Add the unrecognized bold headings to
+          _HEADING_MAP / _DYNAMIC_HEADINGS in scripts/flock_transparency.py;
+          the next crawl will re-capture cleanly.
+          EOF
+          bash scripts/report_parse_errors.sh /tmp/probe.log /tmp/parse-intro.md
 
       - name: Commit and push
         id: commit
