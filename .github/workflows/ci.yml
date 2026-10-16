@@ -430,8 +430,15 @@ jobs:
             echo "::notice::$(head -1 "$COORD_FILE" 2>/dev/null || echo 'recipients missing coordinates') — geocoding issue not updated; only main writes it."
             exit 0
           fi
-          # Don't duplicate — check for an existing open issue
-          EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
+          # Don't duplicate — check for an existing open issue. A failed
+          # lookup must not read as "no open issue": `|| true` here once
+          # turned a GraphQL 503 into an empty EXISTING, so the else branch
+          # minted #804 while #737 was still open — and since every writer
+          # takes `.[0]` (the newest), #737 was orphaned with a stale list.
+          if ! EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number'); then
+            echo "::warning::Could not list open geocoding issues; skipping rather than risk opening a duplicate."
+            exit 0
+          fi
           if [ -n "$EXISTING" ]; then
             # The issue body is bot-owned and always holds the current list.
             # Only touch the issue when the list actually changes. Commenting

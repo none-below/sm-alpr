@@ -61,10 +61,25 @@ LIST_B = (
     "  Epsilon PD  <- Zeta PD\n"
 )
 
-# `$2` is the gh subcommand ("view"/"edit"/"comment") for `gh issue <sub> ...`.
+# `$2` is the gh subcommand ("list"/"view"/"edit"/"comment"/"create") for
+# `gh issue <sub> ...`.
 MOCK_GH = """\
 #!/usr/bin/env bash
 case "$2" in
+  list)
+    # The shape of the 2026-09-22 failure that minted duplicate #804: stderr
+    # noise, nothing on stdout, non-zero exit.
+    if [ -n "${GH_LIST_FAIL:-}" ]; then
+      echo "HTTP 503: 503 Service Unavailable (https://api.github.com/graphql)" >&2
+      exit 1
+    fi
+    # `-q '.[0].number'` prints the number, or nothing when no issue is open.
+    if [ -n "${GH_LIST_OUT:-}" ]; then echo "$GH_LIST_OUT"; fi
+    ;;
+  create)
+    shift; while [ "$1" != "--body-file" ]; do shift; done
+    cp "$2" "$REC/created_body.md"; echo CREATE >> "$REC/actions"
+    ;;
   view)
     # Simulate a transient gh failure (502, secondary rate limit, ...):
     # no output, non-zero exit.
@@ -87,13 +102,19 @@ exit 0
 """
 
 
-def _extract_guard(workflow, step_name):
+VIEW_ANCHOR = 'gh issue view "$EXISTING"'
+LOOKUP_ANCHOR = "gh issue list --label geocoding"
+
+
+def _extract_guard(workflow, step_name, anchor=VIEW_ANCHOR):
     """Slice the guard shell out of a workflow's `run:` block.
 
     Text-based on purpose: pyyaml is not a project dependency. Starts at the
-    `gh issue view "$EXISTING"` line and runs to the end of that step. Raises
-    if the anchor is missing, so a rename fails the test loudly instead of
-    silently testing nothing.
+    line holding `anchor` and runs to the end of that step. VIEW_ANCHOR yields
+    the body-diff guard; LOOKUP_ANCHOR starts one step earlier, at the open-
+    issue lookup, so the create path is included. Raises if the anchor is
+    missing, so a rename fails the test loudly instead of silently testing
+    nothing.
     """
     text = (WORKFLOWS / workflow).read_text()
     step_at = text.find(f"- name: {step_name}")
@@ -103,12 +124,12 @@ def _extract_guard(workflow, step_name):
     nxt = re.search(r"\n( *)- name: ", tail[1:])
     if nxt:
         tail = tail[: 1 + nxt.start()]
-    anchor = tail.find('gh issue view "$EXISTING"')
-    assert anchor != -1, (
+    at = tail.find(anchor)
+    assert at != -1, (
         f"{workflow} :: {step_name} no longer contains the "
-        'gh issue view "$EXISTING" anchor — update this test'
+        f"{anchor!r} anchor — update this test"
     )
-    line_start = tail.rfind("\n", 0, anchor) + 1
+    line_start = tail.rfind("\n", 0, at) + 1
     lines = tail[line_start:].split("\n")
     indent = len(lines[0]) - len(lines[0].lstrip())
     # Stop at the first line shallower than the anchor. In ci.yml the guard
@@ -122,7 +143,8 @@ def _extract_guard(workflow, step_name):
     return textwrap.dedent("\n".join(out))
 
 
-def _run_guard(guard, tmp_path, stored_body, fresh_body, view_fails=False):
+def _run_guard(guard, tmp_path, stored_body, fresh_body, view_fails=False,
+               prelude="EXISTING=999\n", extra_env=None):
     """Run the guard with a mocked gh; return (actions, comment_body)."""
     rec = tmp_path / "rec"
     rec.mkdir()
@@ -145,8 +167,9 @@ def _run_guard(guard, tmp_path, stored_body, fresh_body, view_fails=False):
     }
     if view_fails:
         env["GH_VIEW_FAIL"] = "1"
+    env.update(extra_env or {})
     proc = subprocess.run(
-        ["bash", "-c", 'EXISTING=999\n' + guard],
+        ["bash", "-c", prelude + guard],
         capture_output=True, text=True, env=env,
     )
     assert proc.returncode == 0, f"guard exited {proc.returncode}: {proc.stderr}"
@@ -273,3 +296,46 @@ def test_posted_comment_is_never_an_empty_diff(workflow, step, tmp_path):
         assert "```diff\n```" not in comment, (
             f"{workflow} posted an empty diff block: {comment!r}"
         )
+
+
+def _run_lookup(workflow, step, tmp_path, extra_env):
+    """Run from the open-issue lookup on, with no EXISTING preset.
+
+    ci.yml builds its body from $COORD_FILE, assigned above the slice, so it
+    is passed in the environment; refresh-flock-data.yml has already written
+    coord-issue-body.md by this point, which _run_guard provides.
+    """
+    guard = _extract_guard(workflow, step, anchor=LOOKUP_ANCHOR)
+    coord = tmp_path / "coord-check.txt"
+    coord.write_text(LIST_A)
+    body = BODY_TMPL.format(block=LIST_A) + "\n"
+    return _run_guard(
+        guard, tmp_path, body, body, prelude="",
+        extra_env={"COORD_FILE": str(coord), **extra_env},
+    )
+
+
+@pytest.mark.parametrize("workflow,step", GUARD_SITES)
+def test_failed_issue_lookup_does_not_open_a_duplicate(workflow, step, tmp_path):
+    """A failed `gh issue list` must skip, not read as "no open issue".
+
+    `EXISTING=$(gh issue list … || true)` turned a GraphQL 503 into an empty
+    string, and the create path minted #804 while #737 was still open. Every
+    writer then took `.[0]` — the newest — so #737 was orphaned mid-thread.
+    """
+    actions, comment = _run_lookup(workflow, step, tmp_path, {"GH_LIST_FAIL": "1"})
+    assert actions == [], (
+        f"{workflow} wrote to GitHub after a failed issue lookup: {actions} {comment!r}"
+    )
+
+
+@pytest.mark.parametrize("workflow,step", GUARD_SITES)
+def test_no_open_issue_still_opens_one(workflow, step, tmp_path):
+    """A successful lookup that finds nothing must still create the issue.
+
+    Closing a capped issue relies on this: the next run mints a fresh one.
+    """
+    actions, _ = _run_lookup(workflow, step, tmp_path, {})
+    assert actions == ["CREATE"], f"{workflow} did not open a new issue: {actions}"
+    created = (tmp_path / "rec" / "created_body.md").read_text()
+    assert "Gamma PD" in created, f"created issue lost the list: {created!r}"

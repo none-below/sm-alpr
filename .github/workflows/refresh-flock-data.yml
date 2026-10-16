@@ -238,7 +238,15 @@ jobs:
             echo
             echo "Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
           } > /tmp/coord-issue-body.md
-          EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
+          # A failed lookup must not read as "no open issue". `|| true` here
+          # once turned a GraphQL 503 into an empty EXISTING, so the create
+          # below minted #804 while #737 was still open — and since every
+          # writer takes `.[0]` (the newest), #737 was orphaned with a stale
+          # list. An empty result from a successful call still creates.
+          if ! EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number'); then
+            echo "::warning::Could not list open geocoding issues; skipping rather than risk opening a duplicate."
+            exit 0
+          fi
           if [ -z "$EXISTING" ]; then
             gh issue create \
               --title "Recipients missing coordinates in agency registry" \
