@@ -1,0 +1,82 @@
+{
+  "url": "https://arstechnica.com/tech-policy/2026/10/georgia-man-sues-flock-sheriffs-office-over-alleged-alpr-fueled-retaliation/",
+  "source_domain": "arstechnica.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Georgia man sues Flock, sheriff's office over alleged ALPR-fueled retaliation",
+  "byline": "Ars Staff",
+  "published_at": "2026-10-14T19:53:01+00:00",
+  "fetched_at": "2026-10-15T13:24:45Z",
+  "discovered_by": "rss:arstechnica.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 17 pts, HIGH/CRITICAL findings",
+  "scanner_score": 17,
+  "content_hash": "2e5d9156e8f99a0260c24324fb395a05fd9c7416169b213052ce4b69b6db1ceb",
+  "paths": {
+    "html": "assets/articles/arstechnica.com/tech-policy-2026-10-georgia-man-sues-flock-sheriffs-office-over-alleged-alpr-fue_bebdf350.html",
+    "meta": "assets/articles/arstechnica.com/tech-policy-2026-10-georgia-man-sues-flock-sheriffs-office-over-alleged-alpr-fue_bebdf350.meta.json",
+    "txt": "assets/articles/arstechnica.com/tech-policy-2026-10-georgia-man-sues-flock-sheriffs-office-over-alleged-alpr-fue_bebdf350.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "legal:court-ruling",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "542160c4-f416-5ff7-9eba-2eee66072070",
+    "4f545e10-4f02-51d7-9f85-b670f74f352c"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "542160c4-f416-5ff7-9eba-2eee66072070",
+      "display_name": "Coweta County GA SO",
+      "state": "GA",
+      "score": 9.2,
+      "matched_forms": [
+        "Coweta County",
+        "Coweta County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "4f545e10-4f02-51d7-9f85-b670f74f352c",
+      "display_name": "Orange CA PD",
+      "state": "CA",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "542160c4-f416-5ff7-9eba-2eee66072070"
+  ],
+  "summary": "Georgia small-business owner Tyler Murkerson has sued Flock and the Coweta County Sheriff's Office, alleging deputies conducted repeated warrantless ALPR searches of his vehicle in retaliation for an earlier excessive-force lawsuit, using nonsense justifications like 'info' and '37' in Flock's free-text field. The complaint highlights Flock's lack of case-number requirements, which the company announced in August 2026 it would fix by year-end, and notes three sheriff's office employees resigned during an internal audit.",
+  "key_quotes": [
+    {
+      "quote": "The lawsuit alleges that Flock also failed to put safeguards in place to prevent illegal surveillance by officers by accepting free-text-field entries instead of specific case numbers or investigations.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "The only justifications entered for the searches of Mr. Murkerson's vehicle were 'info' and '37.' Neither corresponds to any investigation, case, incident, or call for service.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "In August 2026, Flock announced it would change its software and require 'case codes for all law enforcement searches by the end of the year' as a way to mitigate these abuses.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "three employees had resigned before the audit was completed",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-15T13:27:05Z",
+  "article_id": "art_bebdf350da27"
+}

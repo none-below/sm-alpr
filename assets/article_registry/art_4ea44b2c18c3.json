@@ -1,0 +1,88 @@
+{
+  "url": "https://www.kcrg.com/2026/10/14/north-liberty-considers-removing-flock-cameras/",
+  "source_domain": "kcrg.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "North Liberty considers removing Flock cameras",
+  "byline": "Elizabeth Schultz",
+  "published_at": "2026-10-14T03:25:40.269Z",
+  "fetched_at": "2026-10-14T13:42:32Z",
+  "discovered_by": "rss:kcrg.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 34 pts, HIGH/CRITICAL findings",
+  "scanner_score": 34,
+  "content_hash": "370acd4ef9da1a840286787275be41374d088d7dd915f146e6da103249f22110",
+  "paths": {
+    "html": "assets/articles/kcrg.com/2026-10-14-north-liberty-considers-removing-flock-cameras_4ea44b2c.html",
+    "meta": "assets/articles/kcrg.com/2026-10-14-north-liberty-considers-removing-flock-cameras_4ea44b2c.meta.json",
+    "pdf": "assets/articles/kcrg.com/2026-10-14-north-liberty-considers-removing-flock-cameras_4ea44b2c.pdf",
+    "txt": "assets/articles/kcrg.com/2026-10-14-north-liberty-considers-removing-flock-cameras_4ea44b2c.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "outcome:reconsidering",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "7dfe18e8-7be7-5ee4-97ab-9f23c75008e4",
+    "308e7ece-43c7-53c1-90a6-82f1e7a26d68",
+    "b8c85dfd-939e-57be-990b-33e4391c8c43"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "7dfe18e8-7be7-5ee4-97ab-9f23c75008e4",
+      "display_name": "North Liberty IA PD",
+      "state": "IA",
+      "score": 11.35,
+      "matched_forms": [
+        "North Liberty",
+        "North Liberty Police"
+      ]
+    },
+    {
+      "agency_id": "308e7ece-43c7-53c1-90a6-82f1e7a26d68",
+      "display_name": "Cedar Rapids IA PD",
+      "state": "IA",
+      "score": 2.7,
+      "matched_forms": [
+        "Cedar Rapids"
+      ]
+    },
+    {
+      "agency_id": "b8c85dfd-939e-57be-990b-33e4391c8c43",
+      "display_name": "Davenport IA PD",
+      "state": "IA",
+      "score": 2.65,
+      "matched_forms": [
+        "Davenport"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "7dfe18e8-7be7-5ee4-97ab-9f23c75008e4"
+  ],
+  "summary": "The North Liberty, Iowa City Council held a meeting on whether to remove its 12 Flock license plate reader cameras, which were installed via budget approval in 2024 without a separate contract vote. After hours of public comment uniformly opposed to the cameras, and after the police chief announced a reduction in data retention from 30 to 7 days, the council voted 4-1 to table the decision for two weeks.",
+  "key_quotes": [
+    {
+      "quote": "The information is hard sanitized after seven days and we are committed to using the system for legitimate law enforcement purposes",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "This is about the technology, the information it collects, and the fact we are handing that information over to a private third-party company we don't have any input on.",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "They voted 4-1 to table a decision until the next City Council meeting in two weeks.",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-14T13:48:43Z",
+  "article_id": "art_4ea44b2c18c3"
+}
