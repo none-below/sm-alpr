@@ -530,6 +530,11 @@ _HEADING_MAP = {
     # but kept as text rather than dropped as chrome.
     "Flight Dashboard":                      "additional_info",
     "Important links listed at the bottom along with Drone Flight path information": "additional_info",
+    "Murfreesboro Police Department's Real Time Crime Center Webpage": "additional_info",
+    # murfreesboro-tn-pd's write-up beside the standard "Data retention"
+    # stat. Not data_retention: that field is a last-wins number, so a prose
+    # section there would clobber the real value or raise.
+    "LPR Data Retention Length":             "additional_info",
     "Download CSV":                          "download_csv",
     "Public Search Audit":                   "search_audit",
     "Search Audit":                          "search_audit",
@@ -553,6 +558,8 @@ _HEADING_MAP = {
     # a trailing "(Aug. 2026)" — the prefix branch absorbs that suffix.
     "Armed Suspects Located Through ALPR and Regional RTIC Partnership": "success_stories",
     "Yuba County SO -Assist in Bicycle Recovery": "success_stories",
+    "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Four Suspects": "success_stories",  # hollister
+    "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Two Suspects": "success_stories",   # hollister
     "Package Theft from a Front Porch":      "success_stories",  # blue-springs-mo-pd
     # hannibal-mo-pd reposts a news headline as a case write-up.
     "New license plate reader system helps in capture of NEMO shooting suspect": "success_stories",
