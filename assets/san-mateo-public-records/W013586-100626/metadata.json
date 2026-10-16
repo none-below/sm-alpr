@@ -1,7 +1,12 @@
 {
   "title": "Axon Fleet 3 ALPR — audits, September 2026 search audit trail, and Policy 463.10 audit scope",
   "summary": "Quotes SOP 205: \"Our Department currently uses three independent ALPR technology platforms - Flock Safety Inc. and AXON Fleet 3 Police Vehicle In-Car Camera System.\"\n\n- Item 1: any audit, review or report of ALPR data, searches or access in the Axon Fleet 3 system, under Policy 463.10, SOP 205 or otherwise, from 2025-01-01 to the date of the request,\n- Item 2: the Axon system's audit trail of ALPR searches and queries of Fleet 3 plate data for September 2026, in the format the system exports it (for example CSV),\n- Item 3: any record assigning or describing which ALPR platforms the Policy 463.10 audits are to cover.",
-  "tags": ["axon-alpr", "policy-463.10", "sop-205", "audit-compliance"],
+  "tags": [
+    "axon-alpr",
+    "policy-463.10",
+    "sop-205",
+    "audit-compliance"
+  ],
   "policy_promises": [
     {
       "policy": "463.10",
@@ -43,5 +48,5 @@
   ],
   "filed_because": "SOP 205 names Axon Fleet 3 as one of the Department's ALPR platforms. The request asks for any audit of that platform since January 2025, one month of the Axon system's own search audit trail in its native export format, and the record that sets which platforms the Policy 463.10 audits cover.",
   "status_override": null,
-  "notes": "Filed 2026-10-06; auto-acknowledged the same day at 11:52 AM and forwarded to department(s) for processing. Statutory determination due 2026-10-16."
+  "notes": "Filed 2026-10-06; auto-acknowledged the same day at 11:52 AM and forwarded to department(s) for processing. Statutory determination due 2026-10-16.\n\n2026-10-15 response letter (Kelly O'Keefe, Police Technical Services Administrator); request closed the same day:\n- Item 1: \"No responsive records.\" No audit, review or report of Axon Fleet 3 ALPR data, searches or access exists for 2025-01-01 through the request date, under Policy 463.10, SOP 205 or otherwise.\n- Item 2: the September 2026 Axon audit trail was produced as a one-page PDF with 54 logged events (45 ALPR searches, 9 record accesses). Client application is evidence.com for 52 events and \"FUSUS WEB\" for 2 (2026-10-01 UTC, i.e. 2026-09-30 Pacific). Searcher names and badge IDs are visible. Portions of the search-reason and case-number columns are withheld under Gov. Code § 7923.600 (black boxes). The City produced PDF rather than the native XLS \"to ensure that the redacted information cannot be accessed, recovered, or otherwise disclosed through the native electronic file,\" citing Gov. Code § 7922.580(c). Redactions checked: no text under the boxes, no images, no annotations; the only earlier \"revision\" is a 471-byte linearization stub.\n- Item 3: \"No responsive records.\" No record assigns or describes which ALPR platforms the Policy 463.10 audits cover."
 }

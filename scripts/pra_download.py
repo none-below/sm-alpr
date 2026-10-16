@@ -450,6 +450,12 @@ SKIP_ATTACHMENTS: dict[str, frozenset[str]] = {
     "W012462-040226": frozenset({"download"}),
 }
 
+# Attachment labels skipped on every request. "blocked.gif" is the 118-byte
+# placeholder a webmail client inserts for a blocked remote image when the
+# requester replies to a portal email by email; GovQA stores it as an
+# attachment on the requester's own message. It is not an agency record.
+SKIP_ATTACHMENTS_ALL: frozenset[str] = frozenset({"blocked.gif"})
+
 # Produced attachments that must not land in the repo as released, keyed by
 # request id, then by SHA-256 of the file's bytes, mapped to a short reason.
 # The portal gives no hash up front, so these are still downloaded, then
@@ -1481,6 +1487,11 @@ def process_request(page: Page, home_url: str, request_id: str,
             if target_label in skip_labels:
                 counts["skipped"] += 1
                 file_status("skipped", f"{target_label} (known broken)")
+                continue
+
+            if target_label.lower() in SKIP_ATTACHMENTS_ALL:
+                counts["skipped"] += 1
+                file_status("skipped", f"{target_label} (requester email artifact)")
                 continue
 
             if target_label in existing or sanitize(target_label) in existing:
