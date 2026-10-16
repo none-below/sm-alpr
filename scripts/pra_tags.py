@@ -33,4 +33,5 @@ TAGS = {
     "axon-alpr": "Axon ALPR (Outpost / Fleet 3)",
     "condor": "Condor (non-ALPR) cameras",
     "fusus": "Axon Fusus",
+    "uas": "Drones / UAS",
 }
