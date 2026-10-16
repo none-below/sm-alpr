@@ -35,9 +35,9 @@
     "last_attempt": "2026-05-08T22:09:04Z"
   },
   "https://davisvanguard.org/2026/10/marin-alpr-data-breach/": {
-    "attempts": 1,
-    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-16T12:28:04Z"
+    "attempts": 2,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://davisvanguard.org/2026/10/marin-alpr-data-breach/\nCall log:\n  - navigating to \"https://davisvanguard.org/2026/10/marin-alpr-data-breach/\", waiting until \"domcontentloaded\"\n; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-16T23:37:49Z"
   },
   "https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr": {
     "attempts": 3,
@@ -110,9 +110,9 @@
     "last_attempt": "2026-05-27T16:49:26Z"
   },
   "https://thehill.com/policy/technology/6073913-alpr-camera-privacy-debate/": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-16T12:23:35Z"
+    "last_attempt": "2026-10-16T23:34:48Z"
   },
   "https://universe.byu.edu/metro/the-debate-of-alpr-cameras-in-provo": {
     "attempts": 3,
@@ -120,9 +120,9 @@
     "last_attempt": "2026-09-15T01:25:48Z"
   },
   "https://urgentcomm.com/tracking-monitoring-control/ai-driven-alpr-systems-scrutinized-during-senate-hearing": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://urgentcomm.com/tracking-monitoring-control/ai-driven-alpr-systems-scrutinized-during-senate-hearing\nCall log:\n  - navigating to \"https://urgentcomm.com/tracking-monitoring-control/ai-driven-alpr-systems-scrutinized-during-senate-hearing\", waiting until; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-16T12:26:16Z"
+    "last_attempt": "2026-10-16T23:36:32Z"
   },
   "https://www.aclunc.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them": {
     "attempts": 3,

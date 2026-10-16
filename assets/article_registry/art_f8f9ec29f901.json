@@ -22,6 +22,11 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "legal:pra",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
     "vendor:flock"
   ],
   "agencies": [
@@ -135,10 +140,32 @@
       ]
     }
   ],
-  "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-10-16T21:09:53Z",
+  "primary_subject_agency_ids": [
+    "1adc2870-4ac8-5921-bf8d-bff7ea353a9c",
+    "5626d94a-5b00-50f0-aa13-496d342534e8",
+    "5e7c03be-76e0-5046-aa16-565ce8fa6442",
+    "466e34d4-47b4-562e-8004-ca9cd4d4c19b"
+  ],
+  "summary": "WVXU investigates how Flock Safety spread its ALPR cameras across Northern Kentucky through personal relationships with police, free trials, demo cameras, discounts, and contracts priced low enough to bypass council approval. Based on FOIA'd emails with five departments (Newport, Independence, Fort Thomas, Boone County, Kenton County), the article shows Flock coaching officers with talking points and 'board-friendly' scripts. As of early October 2026, all five agencies had terminated or paused their Flock relationships amid public backlash.",
+  "key_quotes": [
+    {
+      "quote": "As of early October, all these cities and counties have since terminated or paused their relationship with Flock.",
+      "paragraph_idx": 19
+    },
+    {
+      "quote": "Flock's free trials and some of the company's smaller contracts stayed under that threshold, so the company could begin operating in a city or county with only a lieutenant's or captain's signature.",
+      "paragraph_idx": 23
+    },
+    {
+      "quote": "In July, Newport started the trend, with Kenton County and Fort Mitchell soon following. Two weeks later, Kenton's proposal failed to pass the fiscal court. Independence, Fort Thomas, Florence, Edgewood, and Bellevue followed.",
+      "paragraph_idx": 52
+    },
+    {
+      "quote": "In three short months, Flock went from having sold and installed more than 100 cameras in Northern Kentucky, to numerous cancelled contracts and paused accounts.",
+      "paragraph_idx": 54
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-16T23:38:27Z",
   "article_id": "art_f8f9ec29f901"
 }
