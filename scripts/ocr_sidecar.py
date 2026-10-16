@@ -154,6 +154,9 @@ def extract_annotations(doc):
     return out
 
 
+PORTAL_RENDER_DIRS = ("assets/transparency.flocksafety.com/", "assets/evidence.com/")
+
+
 def generate_sidecar(file_path, force=False, removed_stale=None):
     """Generate a .txt sidecar for a PDF or .doc file.
 
@@ -162,10 +165,11 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
     are appended to it (so callers can stage the deletions in git).
     """
     file_path = Path(file_path)
-    # Transparency portal PDFs are rendered from the HTML we already save as
-    # YYYY-MM-DD.txt during the crawl. A hash-suffixed sidecar next to them
-    # collides with the portal parser's strict date-keyed file layout.
-    if "assets/transparency.flocksafety.com/" in file_path.as_posix():
+    # Transparency portal PDFs are renders of data the crawl already archives
+    # as text (Flock: the page as YYYY-MM-DD.txt; Axon: the raw JSON). A
+    # hash-suffixed sidecar next to them duplicates that and collides with
+    # the scrapers' strict date-keyed file layout.
+    if any(d in file_path.as_posix() for d in PORTAL_RENDER_DIRS):
         return None
     sidecar = sidecar_path_for(file_path)
 
