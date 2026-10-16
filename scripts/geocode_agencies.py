@@ -887,6 +887,8 @@ GAZ_OVERRIDES = {
     "54f02c39-9f17-581d-8bc8-6058823b3a76": ("place", "Valdosta", "GA"),  # Valdosta State University GA PD
     "123089d4-9b4b-53e9-8ddc-b4dfcb321909": ("place", "Bismarck", "IL"),  # Vermilion County SO - Bismarck Village (Bismarck village, Vermilion Co. IL)
     "67402503-d65a-5bf3-bb57-23194bf7748c": ("place", "Macomb", "IL"),  # Western Illinois University IL PD (main campus, Macomb)
+    # issue #804 — recipients missing coordinates
+    "e2c64c04-c17a-5ba2-818a-b72e28096cff": ("place", "Portsmouth", "OH"),  # Southern Ohio Drug Task Force (Portsmouth PD + Scioto Co. SO + FBI; Scioto Co. base)
 }
 
 
