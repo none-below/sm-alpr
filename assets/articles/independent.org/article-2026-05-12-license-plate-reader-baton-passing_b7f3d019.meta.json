@@ -1,0 +1,31 @@
+{
+  "byte_size": 526279,
+  "content_hash": "f9284fbf0978037f54016f0dd2b46dab28b03acf5d780241adf9ad6214bfc42b",
+  "discovered_by": "bing-reject-backfill",
+  "extracted_chars": 15342,
+  "fetch_path": "curl_cffi",
+  "fetched_at": "2026-10-16T17:30:28Z",
+  "final_url": "https://www.independent.org/article/2026/05/12/license-plate-reader-baton-passing/",
+  "http_status": 200,
+  "http_title": "License Plate Reader Baton Passing",
+  "paths": {
+    "html": "assets/articles/independent.org/article-2026-05-12-license-plate-reader-baton-passing_b7f3d019.html",
+    "meta": "assets/articles/independent.org/article-2026-05-12-license-plate-reader-baton-passing_b7f3d019.meta.json",
+    "txt": "assets/articles/independent.org/article-2026-05-12-license-plate-reader-baton-passing_b7f3d019.txt"
+  },
+  "pdf_byte_size": null,
+  "pdf_status": "skipped-curl-fallback",
+  "queued_at": "2026-10-16T08:49:06Z",
+  "scanner_score": 114,
+  "scanner_verdict": "REVIEW REQUIRED \u2014 114 pts, HIGH/CRITICAL findings",
+  "slug": "article-2026-05-12-license-plate-reader-baton-passing_b7f3d019",
+  "source_domain": "independent.org",
+  "stance": "critical",
+  "status": "fetched",
+  "tier": 2,
+  "url": "https://www.independent.org/article/2026/05/12/license-plate-reader-baton-passing/",
+  "wayback_error": "HTTPError: 429 Client Error: Too Many Requests for url: https://web.archive.org/save",
+  "wayback_source": "submit-failed",
+  "wayback_timestamp": null,
+  "wayback_url": null
+}
