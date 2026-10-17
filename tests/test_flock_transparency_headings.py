@@ -1078,6 +1078,21 @@ def test_issue527_heading_variants_classify():
         assert _match_heading_kind(heading) == (want, "exact"), heading
 
 
+def test_2026_09_heading_variants_classify():
+    """Headings that aborted murfreesboro-tn-pd and hollister-ca-pd captures
+    in the September refreshes (reported on #645). Failed captures are
+    discarded, so the fix applies from the next crawl."""
+    from flock_transparency import _match_heading_kind
+    expected = {
+        "LPR Data Retention Length": "additional_info",  # murfreesboro
+        "Murfreesboro Police Department's Real Time Crime Center Webpage": "additional_info",
+        "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Four Suspects": "success_stories",  # hollister
+        "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Two Suspects": "success_stories",
+    }
+    for heading, want in expected.items():
+        assert _match_heading_kind(heading) == (want, "exact"), heading
+
+
 def test_issue698_bold_heading_entity_form_classifies():
     """extract_bold_headings strips tags but does not unescape entities, so
     the same heading reaches the unrecognized-bold check as "&amp;" while the
