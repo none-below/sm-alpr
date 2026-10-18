@@ -481,13 +481,12 @@ WITHHELD_ATTACHMENTS: dict[str, dict[str, str]] = {
         "d48e5a0a69a0bbe75b09b9e39c8d224e32a7b028f1d4495fd12cd8adea98d2a9":
             "withheld pending reissue",
     },
-    # The 3/5/2026 audit PDF as released 9/14/2026, withheld pending the
-    # City's reissue. A requester-made derivative is in the request folder's
-    # requester-redacted/ subfolder; a reissue under the same filename has
-    # different bytes and so is downloaded normally.
+    # The 3/5/2026 audit PDF as released 9/14/2026, withheld from the repo.
+    # The City reissued it on the portal under the same filename on
+    # 10/17/2026; that reissued copy is the one committed.
     "W013377-090426": {
         "3bc889621727baed3952279495c5f095edc3ed57d3437aadaa546c36d632f1f8":
-            "withheld pending reissue",
+            "superseded by reissue",
     },
     # 2406180016_CAD.pdf as released 10/8/2026: the Persons block shows third
     # parties' names, DOBs, and DL numbers, which the request excluded. A
