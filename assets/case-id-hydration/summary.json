@@ -1,0 +1,441 @@
+{
+ "atherton": {
+  "baseline_case_escalation_rate": 0.0164,
+  "cad_event_escalated_to_case": 0,
+  "cad_event_escalation_rate": 0.0,
+  "cad_event_ids": 12,
+  "cad_event_match_confidence": {
+   "near_simultaneous": 4,
+   "same_day": 5
+  },
+  "cad_event_match_rate": 0.75,
+  "cad_event_matched": 9,
+  "case_ids_by_kind": {
+   "cad_event": 12,
+   "hyphen_case": 1
+  },
+  "citizenrims_case_count": 1467,
+  "citizenrims_incident_count": 20893,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-13",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 0,
+  "org_name": "Atherton CA PD",
+  "reason_class": {
+   "case_id": 66,
+   "code_or_other_digits": 182,
+   "empty": 2120,
+   "no_digits": 325
+  },
+  "rows_by_source": {
+   "la_network": 409,
+   "rwc_network": 2284
+  },
+  "rows_total": 2693,
+  "rows_with_case_id": 66,
+  "unique_case_ids": 13
+ },
+ "belmont": {
+  "baseline_case_escalation_rate": 0.0342,
+  "cad_event_escalated_to_case": 13,
+  "cad_event_escalation_rate": 0.2549,
+  "cad_event_ids": 133,
+  "cad_event_match_confidence": {
+   "loose": 2,
+   "near_simultaneous": 44,
+   "same_day": 5
+  },
+  "cad_event_match_rate": 0.3835,
+  "cad_event_matched": 51,
+  "case_ids_by_kind": {
+   "agency_rms": 3,
+   "cad_event": 133,
+   "court_case": 4,
+   "hyphen_case": 9
+  },
+  "citizenrims_case_count": 2660,
+  "citizenrims_incident_count": 9723,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-13",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 0,
+  "org_name": "Belmont CA PD",
+  "reason_class": {
+   "case_id": 386,
+   "code_or_other_digits": 1013,
+   "empty": 4150,
+   "no_digits": 3385,
+   "unclassified_number": 11
+  },
+  "rows_by_source": {
+   "la_network": 4166,
+   "rwc_network": 4779
+  },
+  "rows_total": 8945,
+  "rows_with_case_id": 386,
+  "unique_case_ids": 149
+ },
+ "brisbane": {
+  "baseline_case_escalation_rate": 0.0042,
+  "cad_event_escalated_to_case": 0,
+  "cad_event_escalation_rate": null,
+  "cad_event_ids": 61,
+  "cad_event_match_confidence": {},
+  "cad_event_match_rate": 0.0,
+  "cad_event_matched": 0,
+  "case_ids_by_kind": {
+   "agency_rms": 10,
+   "cad_event": 61,
+   "hyphen_case": 6
+  },
+  "citizenrims_case_count": 70,
+  "citizenrims_incident_count": 7648,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-13",
+   "min_date": "2025-01-02"
+  },
+  "multi_category_case_ids": 0,
+  "org_name": "Brisbane CA PD",
+  "reason_class": {
+   "case_id": 307,
+   "code_or_other_digits": 131,
+   "empty": 5170,
+   "no_digits": 91,
+   "unclassified_number": 10
+  },
+  "rows_by_source": {
+   "la_network": 371,
+   "rwc_network": 5338
+  },
+  "rows_total": 5709,
+  "rows_with_case_id": 307,
+  "unique_case_ids": 77
+ },
+ "burlingame": {
+  "baseline_case_escalation_rate": 0.0991,
+  "cad_event_escalated_to_case": 95,
+  "cad_event_escalation_rate": 0.4774,
+  "cad_event_ids": 269,
+  "cad_event_match_confidence": {
+   "loose": 5,
+   "near_simultaneous": 179,
+   "same_day": 15
+  },
+  "cad_event_match_rate": 0.7398,
+  "cad_event_matched": 199,
+  "case_ids_by_kind": {
+   "cad_event": 269,
+   "hyphen_case": 2
+  },
+  "citizenrims_case_count": 6821,
+  "citizenrims_incident_count": 33700,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-14",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 0,
+  "org_name": "Burlingame  CA PD",
+  "reason_class": {
+   "case_id": 800,
+   "code_or_other_digits": 455,
+   "empty": 6586,
+   "no_digits": 3252,
+   "unclassified_number": 1659
+  },
+  "rows_by_source": {
+   "la_network": 5877,
+   "rwc_network": 6875
+  },
+  "rows_total": 12752,
+  "rows_with_case_id": 800,
+  "unique_case_ids": 271
+ },
+ "hillsborough": {
+  "baseline_case_escalation_rate": 0.0395,
+  "cad_event_escalated_to_case": 9,
+  "cad_event_escalation_rate": 0.1552,
+  "cad_event_ids": 162,
+  "cad_event_match_confidence": {
+   "loose": 1,
+   "near_simultaneous": 50,
+   "same_day": 7
+  },
+  "cad_event_match_rate": 0.358,
+  "cad_event_matched": 58,
+  "case_ids_by_kind": {
+   "agency_rms": 9,
+   "cad_event": 162,
+   "hyphen_case": 38
+  },
+  "citizenrims_case_count": 2003,
+  "citizenrims_incident_count": 14896,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-14",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 0,
+  "org_name": "Hillsborough CA PD",
+  "reason_class": {
+   "case_id": 810,
+   "code_or_other_digits": 3230,
+   "empty": 5818,
+   "no_digits": 2049,
+   "unclassified_number": 110
+  },
+  "rows_by_source": {
+   "la_network": 5633,
+   "rwc_network": 6384
+  },
+  "rows_total": 12017,
+  "rows_with_case_id": 810,
+  "unique_case_ids": 209
+ },
+ "menlopark": {
+  "baseline_case_escalation_rate": 0.0423,
+  "cad_event_escalated_to_case": 23,
+  "cad_event_escalation_rate": 0.2447,
+  "cad_event_ids": 186,
+  "cad_event_match_confidence": {
+   "loose": 5,
+   "near_simultaneous": 50,
+   "same_day": 39
+  },
+  "cad_event_match_rate": 0.5054,
+  "cad_event_matched": 94,
+  "case_ids_by_kind": {
+   "agency_rms": 14,
+   "cad_event": 186,
+   "court_case": 43,
+   "hyphen_case": 185
+  },
+  "citizenrims_case_count": 11053,
+  "citizenrims_incident_count": 50668,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-13",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 1,
+  "org_name": "Menlo Park CA PD",
+  "reason_class": {
+   "case_id": 3195,
+   "code_or_other_digits": 2540,
+   "empty": 13907,
+   "no_digits": 1877,
+   "unclassified_number": 165
+  },
+  "rows_by_source": {
+   "la_network": 6653,
+   "rwc_network": 15031
+  },
+  "rows_total": 21684,
+  "rows_with_case_id": 3195,
+  "unique_case_ids": 428
+ },
+ "pacifica": {
+  "baseline_case_escalation_rate": 0.3668,
+  "cad_event_escalated_to_case": 40,
+  "cad_event_escalation_rate": 0.6897,
+  "cad_event_ids": 156,
+  "cad_event_match_confidence": {
+   "near_simultaneous": 48,
+   "same_day": 10
+  },
+  "cad_event_match_rate": 0.3718,
+  "cad_event_matched": 58,
+  "case_ids_by_kind": {
+   "agency_rms": 8,
+   "cad_event": 156,
+   "court_case": 2,
+   "hyphen_case": 117
+  },
+  "citizenrims_case_count": 7091,
+  "citizenrims_incident_count": 4259,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-13",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 0,
+  "org_name": "Pacifica CA PD",
+  "reason_class": {
+   "case_id": 601,
+   "code_or_other_digits": 900,
+   "empty": 2626,
+   "no_digits": 2225,
+   "unclassified_number": 9
+  },
+  "rows_by_source": {
+   "la_network": 3357,
+   "rwc_network": 3004
+  },
+  "rows_total": 6361,
+  "rows_with_case_id": 601,
+  "unique_case_ids": 283
+ },
+ "redwoodcity": {
+  "baseline_case_escalation_rate": 0.0461,
+  "cad_event_escalated_to_case": 100,
+  "cad_event_escalation_rate": 0.431,
+  "cad_event_ids": 741,
+  "cad_event_match_confidence": {
+   "loose": 5,
+   "near_simultaneous": 175,
+   "same_day": 52
+  },
+  "cad_event_match_rate": 0.3131,
+  "cad_event_matched": 232,
+  "case_ids_by_kind": {
+   "agency_rms": 12,
+   "cad_event": 741,
+   "court_case": 3,
+   "hyphen_case": 77
+  },
+  "citizenrims_case_count": 9554,
+  "citizenrims_incident_count": 65301,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-14",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 36,
+  "org_name": "Redwood City CA PD",
+  "reason_class": {
+   "case_id": 4373,
+   "code_or_other_digits": 5360,
+   "empty": 38253,
+   "no_digits": 1144,
+   "unclassified_number": 103
+  },
+  "rows_by_source": {
+   "la_network": 7844,
+   "rwc_network": 41389
+  },
+  "rows_total": 49233,
+  "rows_with_case_id": 4373,
+  "unique_case_ids": 833
+ },
+ "sanbruno": {
+  "baseline_case_escalation_rate": 0.091,
+  "cad_event_escalated_to_case": 226,
+  "cad_event_escalation_rate": 0.3548,
+  "cad_event_ids": 1854,
+  "cad_event_match_confidence": {
+   "loose": 27,
+   "near_simultaneous": 448,
+   "same_day": 162
+  },
+  "cad_event_match_rate": 0.3436,
+  "cad_event_matched": 637,
+  "case_ids_by_kind": {
+   "agency_rms": 210,
+   "cad_event": 1854,
+   "court_case": 111,
+   "hyphen_case": 327
+  },
+  "citizenrims_case_count": 4777,
+  "citizenrims_incident_count": 31725,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-14",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 15,
+  "org_name": "San Bruno CA PD",
+  "reason_class": {
+   "case_id": 15345,
+   "code_or_other_digits": 5726,
+   "empty": 45974,
+   "no_digits": 5826,
+   "unclassified_number": 5492
+  },
+  "rows_by_source": {
+   "la_network": 30471,
+   "rwc_network": 47892
+  },
+  "rows_total": 78363,
+  "rows_with_case_id": 15345,
+  "unique_case_ids": 2502
+ },
+ "sanmateopd": {
+  "baseline_case_escalation_rate": 0.0139,
+  "cad_event_escalated_to_case": 229,
+  "cad_event_escalation_rate": 0.1065,
+  "cad_event_ids": 4640,
+  "cad_event_match_confidence": {
+   "loose": 227,
+   "near_simultaneous": 1463,
+   "same_day": 460
+  },
+  "cad_event_match_rate": 0.4634,
+  "cad_event_matched": 2150,
+  "case_ids_by_kind": {
+   "agency_rms": 40,
+   "cad_event": 4640,
+   "court_case": 118,
+   "hyphen_case": 244
+  },
+  "citizenrims_case_count": 1866,
+  "citizenrims_incident_count": 85889,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-13",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 111,
+  "org_name": "San Mateo CA PD",
+  "reason_class": {
+   "case_id": 49304,
+   "code_or_other_digits": 9989,
+   "empty": 77768,
+   "no_digits": 119427,
+   "unclassified_number": 1382,
+   "uuid": 33
+  },
+  "rows_by_source": {
+   "la_network": 72839,
+   "rwc_network": 82291,
+   "smpd_audit": 102773
+  },
+  "rows_total": 257903,
+  "rows_with_case_id": 49304,
+  "unique_case_ids": 5042
+ },
+ "southsanfranciscopd": {
+  "baseline_case_escalation_rate": 0.2858,
+  "cad_event_escalated_to_case": 14,
+  "cad_event_escalation_rate": 0.56,
+  "cad_event_ids": 96,
+  "cad_event_match_confidence": {
+   "near_simultaneous": 20,
+   "same_day": 5
+  },
+  "cad_event_match_rate": 0.2604,
+  "cad_event_matched": 25,
+  "case_ids_by_kind": {
+   "agency_rms": 2,
+   "cad_event": 96,
+   "court_case": 1,
+   "hyphen_case": 63
+  },
+  "citizenrims_case_count": 5952,
+  "citizenrims_incident_count": 9577,
+  "citizenrims_incident_coverage": {
+   "max_date": "2026-09-13",
+   "min_date": "2025-01-01"
+  },
+  "multi_category_case_ids": 0,
+  "org_name": "South San Francisco CA PD",
+  "reason_class": {
+   "case_id": 1071,
+   "code_or_other_digits": 211,
+   "empty": 30655,
+   "no_digits": 5,
+   "unclassified_number": 35
+  },
+  "rows_by_source": {
+   "la_network": 2,
+   "rwc_network": 31975
+  },
+  "rows_total": 31977,
+  "rows_with_case_id": 1071,
+  "unique_case_ids": 162
+ }
+}
