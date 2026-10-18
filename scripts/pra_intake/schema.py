@@ -493,6 +493,21 @@ def part_count(size, part_size):
     return max(1, math.ceil(size / part_size))
 
 
+def upload_part_size(size):
+    """How the library stages a file of `size` bytes: None for one PUT (at or
+    below PART_SIZE), else its part size: PART_SIZE, or, for a file too large
+    for MAX_PARTS of those, the smallest whole number of MiB that fits it in
+    MAX_PARTS. A function of the size alone, so the same bytes are always
+    staged on the same boundaries: a blob over SINGLE_PUT_MAX keeps the layout
+    it was first copied on, and other layouts are rejected layout_conflict.
+    Pinned in tests/fixtures/pra_intake/part_sizes.json."""
+    if type(size) is not int or not 0 <= size <= MAX_OBJECT_SIZE:
+        raise ValueError("size out of range")
+    if size <= PART_SIZE:
+        return None
+    return max(PART_SIZE, -(-size // (MAX_PARTS * MiB)) * MiB)
+
+
 _ETAG_MD5_RE = re.compile(r"[0-9a-f]{32}")
 _ETAG_MULTIPART_RE = re.compile(r"[0-9a-f]{32}-[1-9][0-9]{0,4}")
 
@@ -1163,6 +1178,26 @@ def _content_length(headers):
     return int(v) if v.isascii() and v.isdigit() and len(v) <= 19 else None
 
 
+def declared_length(headers):
+    """The file size a response's headers (sanitize_headers form) declare, as
+    checks.length reads them: the Content-Length, unless a Content-Encoding or
+    Transfer-Encoding means it isn't the file's size; None if there's none."""
+    encoded = headers.get("content-encoding", "identity").strip().lower() not in ("", "identity")
+    framed = "transfer-encoding" in headers  # chunked: Content-Length doesn't apply
+    return None if encoded or framed else _content_length(headers)
+
+
+def content_md5_check(headers, md5_hex):
+    """checks.content_md5 for a file whose MD5 is md5_hex: "absent" without a
+    Content-MD5 style header, "match" when every one names this MD5, else
+    "mismatch"."""
+    values = [headers[n] for n in ("content-md5", "x-ms-blob-content-md5") if n in headers]
+    own = bytes.fromhex(md5_hex)
+    if not values:
+        return "absent"
+    return "match" if all(content_md5_digest(v) == own for v in values) else "mismatch"
+
+
 def _full_range(headers, size):
     """True if a Content-Range covers the whole file: bytes 0-(size-1)/size,
     or bytes */0 for an empty one."""
@@ -1302,10 +1337,6 @@ def _require_schema(obj, field, reason):
         _fail(f"{field}.schema", "a schema version this code can't read", "schema_version")
 
 
-def _content_md5_headers(headers):
-    return [headers[n] for n in ("content-md5", "x-ms-blob-content-md5") if n in headers]
-
-
 def _validate_sidecar_v1(obj):
     _check_obj(obj, "sidecar", _SIDECAR_SPEC)
     data, src, fetch, checks, resp = obj["data"], obj["source"], obj["fetch"], obj["checks"], obj["response"]
@@ -1342,40 +1373,12 @@ def _validate_sidecar_v1(obj):
         if n > MAX_PARTS or n != part_count(size, mp["part_size"]):
             _fail("sidecar.data.md5_multipart", "part count doesn't match size / part_size")
 
-    generated = origin == "generated"
-    if (obj["content_kind"] == "fetch_manifest") != generated:
-        _fail("sidecar.fetch.origin", "a fetch manifest, and only one, is generated")
-    backfill = origin in ("local-copy", "git")
-    if backfill != (fetch["legacy_path"] is not None):
-        _fail("sidecar.fetch.legacy_path", "set exactly for local copies and git")
-    if (origin == "git") != (fetch["git_commit"] is not None):
-        _fail("sidecar.fetch.git_commit", "set exactly when origin is git")
-    if not backfill and (fetch["original_fetched_at"] is not None or fetch["stamp_ref"] is not None):
-        _fail("sidecar.fetch.original_fetched_at", "only for local copies and git")
+    _check_origin_v1(obj["content_kind"], src, fetch, resp, obj["listing"])
     if fetch["stamp_ref"] is not None and fetch["stamp_ref"] == data["sha256"]:
         _fail("sidecar.fetch.stamp_ref", "a file can't be its own stamped manifest")
-    if origin in ("live", "generated") and fetch["run_id"] is None:
-        _fail("sidecar.fetch.run_id", "a live or generated upload belongs to a run")
-    if origin == "live":
-        if src["url"] is None:
-            _fail("sidecar.source.url", "a live fetch needs its URL")
-        if resp is None:
-            _fail("sidecar.response", "a live fetch records its response")
-        if resp["status"] not in LIVE_STATUSES:
-            _fail("sidecar.response.status", "not a complete 200 or 203 response")
-        if resp["final_url"] is None:
-            _fail("sidecar.response.final_url", "a live fetch records where the bytes came from")
-        if any(r["status"] not in REDIRECT_STATUSES for r in resp["redirects"]):
-            _fail("sidecar.response.redirects", "not a 301, 302, 303, 307 or 308")
-        if "content-range" in resp["headers"] and not _full_range(resp["headers"], size):
-            _fail("sidecar.response.headers", "a partial response")
-    elif resp is not None:
-        _fail("sidecar.response", "only a live fetch has a response")
-    if generated:
-        if src["url"] is not None or obj["listing"] is not None or src["filename"] != MANIFEST_FILENAME:
-            _fail("sidecar.source", "a generated manifest has no url or listing and a fixed filename")
-        if src["doc_id"] is not None or src["title"] is not None or src["released_on"] is not None:
-            _fail("sidecar.source", "a generated manifest names no document")
+    if resp is not None and "content-range" in resp["headers"] and not _full_range(resp["headers"], size):
+        _fail("sidecar.response.headers", "a partial response")
+    if origin == "generated":
         if checks["sniffed_type"] != "text" or checks["expect_types"] not in (None, ["text"]):
             _fail("sidecar.checks.sniffed_type", "a generated manifest is JSON text")
         if not 0 < size <= MAX_MANIFEST_BYTES:
@@ -1387,9 +1390,7 @@ def _validate_sidecar_v1(obj):
             _fail(f"sidecar.fetch.{n2}", f"earlier than {n1}")
 
     headers = resp["headers"] if resp is not None else {}
-    encoded = headers.get("content-encoding", "identity").strip().lower() not in ("", "identity")
-    framed = "transfer-encoding" in headers  # chunked: Content-Length doesn't apply
-    declared = None if encoded or framed else _content_length(headers)
+    declared = declared_length(headers)
     if checks["length"] == "ok":
         if checks["declared_length"] != size:
             _fail("sidecar.checks.declared_length", "doesn't equal data.size")
@@ -1420,15 +1421,48 @@ def _validate_sidecar_v1(obj):
             _fail("sidecar.checks.etag", "an opaque ETag can't be unmatched")
         if body == data["md5"] or (mp is not None and body == mp["etag"]):
             _fail("sidecar.checks.etag", "the ETag matches")
-    md5_values = _content_md5_headers(headers)
-    own = bytes.fromhex(data["md5"])
-    agree = [content_md5_digest(v) == own for v in md5_values]
-    expected = "absent" if not md5_values else "match" if all(agree) else "mismatch"
+    expected = content_md5_check(headers, data["md5"])
     if checks["content_md5"] != expected:
         _fail("sidecar.checks.content_md5", f"the Content-MD5 headers say {expected}")
     if len(canonical_json(obj)) > MAX_SIDECAR_BYTES:
         _fail("sidecar", "too large", "bad_sidecar")
     return obj
+
+
+def _check_origin_v1(content_kind, src, fetch, resp, listing):
+    """The rules tying a sidecar's origin to its other parts that don't
+    depend on the bytes, so a writer can check them before it reads any."""
+    origin = fetch["origin"]
+    generated = origin == "generated"
+    if (content_kind == "fetch_manifest") != generated:
+        _fail("sidecar.fetch.origin", "a fetch manifest, and only one, is generated")
+    backfill = origin in ("local-copy", "git")
+    if backfill != (fetch["legacy_path"] is not None):
+        _fail("sidecar.fetch.legacy_path", "set exactly for local copies and git")
+    if (origin == "git") != (fetch["git_commit"] is not None):
+        _fail("sidecar.fetch.git_commit", "set exactly when origin is git")
+    if not backfill and (fetch["original_fetched_at"] is not None or fetch["stamp_ref"] is not None):
+        _fail("sidecar.fetch.original_fetched_at", "only for local copies and git")
+    if origin in ("live", "generated") and fetch["run_id"] is None:
+        _fail("sidecar.fetch.run_id", "a live or generated upload belongs to a run")
+    if origin == "live":
+        if src["url"] is None:
+            _fail("sidecar.source.url", "a live fetch needs its URL")
+        if resp is None:
+            _fail("sidecar.response", "a live fetch records its response")
+        if resp["status"] not in LIVE_STATUSES:
+            _fail("sidecar.response.status", "not a complete 200 or 203 response")
+        if resp["final_url"] is None:
+            _fail("sidecar.response.final_url", "a live fetch records where the bytes came from")
+        if any(r["status"] not in REDIRECT_STATUSES for r in resp["redirects"]):
+            _fail("sidecar.response.redirects", "not a 301, 302, 303, 307 or 308")
+    elif resp is not None:
+        _fail("sidecar.response", "only a live fetch has a response")
+    if generated:
+        if src["url"] is not None or listing is not None or src["filename"] != MANIFEST_FILENAME:
+            _fail("sidecar.source", "a generated manifest has no url or listing and a fixed filename")
+        if src["doc_id"] is not None or src["title"] is not None or src["released_on"] is not None:
+            _fail("sidecar.source", "a generated manifest names no document")
 
 
 _SIDECAR_VALIDATORS = {1: _validate_sidecar_v1}
@@ -1442,6 +1476,23 @@ def validate_sidecar(obj, *, stored=False):
     _require_schema(obj, "sidecar", "bad_sidecar")
     with _reading(stored):
         return _SIDECAR_VALIDATORS[obj["schema"]](obj)
+
+
+def validate_context(content_kind, source, fetch, response, listing):
+    """Check what a writer knows about a file before reading it: the source,
+    fetch, response and listing parts of its sidecar, and the rules tying
+    them to the origin, under write policy (a credential in a URL, a live
+    fetch without its URL). The whole sidecar is still checked when it's
+    written; this leaves out only what depends on the bytes. It applies the
+    rules of SCHEMA_VERSION, the version writers stamp: a new version needs
+    its own."""
+    with _reading(False):
+        _enum(CONTENT_KINDS)(content_kind, "sidecar.content_kind")
+        _check_source(source, "sidecar.source")
+        _check_obj(fetch, "sidecar.fetch", _FETCH_SPEC)
+        _nullable(_obj(_RESPONSE_SPEC))(response, "sidecar.response")
+        _nullable(_obj(_LISTING_SPEC))(listing, "sidecar.listing")
+        _check_origin_v1(content_kind, source, fetch, response, listing)
 
 
 def check_sidecar_key(sidecar, key):
