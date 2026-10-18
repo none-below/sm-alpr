@@ -1,0 +1,3911 @@
+{
+ "_comment": "Public records portals of California agencies on hosted PRA platforms, found by scripts/pra_portal_discover.py. 'searchable' = the portal lets anyone search published requests without an account. 'ca_confirmed' is null when only the subdomain name ties the tenant to CA.",
+ "built_at": "2026-09-25T10:57:24Z",
+ "portals": [
+  {
+   "platform": "nextrequest",
+   "host": "actransit.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 1066
+  },
+  {
+   "platform": "nextrequest",
+   "host": "adelanto.nextrequest.com",
+   "agency": "Adelanto",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Adelanto"
+   ],
+   "published_requests": 1683
+  },
+  {
+   "platform": "nextrequest",
+   "host": "alamedacountyca.nextrequest.com",
+   "agency": "Alameda County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "county:Alameda County"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "alamedacountysheriffca.nextrequest.com",
+   "agency": "Alameda County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "county:Alameda County"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "antioch.nextrequest.com",
+   "agency": "Antioch",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Antioch"
+   ],
+   "published_requests": 7
+  },
+  {
+   "platform": "nextrequest",
+   "host": "applevalley.nextrequest.com",
+   "agency": "Apple Valley",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Apple Valley"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "arroyogrande.nextrequest.com",
+   "agency": "Arroyo Grande",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Arroyo Grande"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "arvin.nextrequest.com",
+   "agency": "Arvin",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Arvin"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "bart.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 3428
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cadoj.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "caltrain.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 95
+  },
+  {
+   "platform": "nextrequest",
+   "host": "canyonlakeca.nextrequest.com",
+   "agency": "Canyon Lake",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Canyon Lake"
+   ],
+   "published_requests": 343
+  },
+  {
+   "platform": "nextrequest",
+   "host": "carmelbythesea.nextrequest.com",
+   "agency": "Carmel-by-the-Sea",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Carmel-by-the-Sea",
+    "seed"
+   ],
+   "published_requests": 64
+  },
+  {
+   "platform": "nextrequest",
+   "host": "carsonca.nextrequest.com",
+   "agency": "Carson",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Carson"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cathedralcityca.nextrequest.com",
+   "agency": "Cathedral City",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Cathedral City",
+    "seed"
+   ],
+   "published_requests": 1943
+  },
+  {
+   "platform": "nextrequest",
+   "host": "chicopd.nextrequest.com",
+   "agency": "Chico",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Chico"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "chinopd.nextrequest.com",
+   "agency": "Chino",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Chino"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "city-of-milpitas-ca.nextrequest.com",
+   "agency": "Milpitas",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Milpitas"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "city-of-salinas-ca.nextrequest.com",
+   "agency": "Salinas",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Salinas",
+    "seed"
+   ],
+   "published_requests": 1142
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofalamedaca.nextrequest.com",
+   "agency": "Alameda",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Alameda"
+   ],
+   "published_requests": 3040
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofanaheimcapd.nextrequest.com",
+   "agency": "Anaheim",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Anaheim",
+    "seed"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofartesiaca.nextrequest.com",
+   "agency": "Artesia",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Artesia"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofbaldwinparkca.nextrequest.com",
+   "agency": "Baldwin Park",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Baldwin Park"
+   ],
+   "published_requests": 166
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofbellgardensca.nextrequest.com",
+   "agency": "Bell Gardens",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Bell Gardens"
+   ],
+   "published_requests": 11
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofberkeleyca.nextrequest.com",
+   "agency": "Berkeley",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Berkeley",
+    "seed"
+   ],
+   "published_requests": 5880
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofbrentwood-ca.nextrequest.com",
+   "agency": "Brentwood",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Brentwood"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofcalabasas.nextrequest.com",
+   "agency": "Calabasas",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Calabasas"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofcalexicoca.nextrequest.com",
+   "agency": "Calexico",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Calexico"
+   ],
+   "published_requests": 388
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofceresca.nextrequest.com",
+   "agency": "Ceres",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Ceres"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofchicoca.nextrequest.com",
+   "agency": "Chico",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Chico"
+   ],
+   "published_requests": 1734
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofchinoca.nextrequest.com",
+   "agency": "Chino",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Chino"
+   ],
+   "published_requests": 175
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofchinohillsca.nextrequest.com",
+   "agency": "Chino Hills",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Chino Hills"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofchowchilla.nextrequest.com",
+   "agency": "Chowchilla",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Chowchilla"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofclaytonca.nextrequest.com",
+   "agency": "Clayton",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Clayton"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofcloverdaleca.nextrequest.com",
+   "agency": "Cloverdale",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Cloverdale"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofcommerce.nextrequest.com",
+   "agency": "Commerce",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Commerce"
+   ],
+   "published_requests": 3011
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofconcordca.nextrequest.com",
+   "agency": "Concord",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Concord"
+   ],
+   "published_requests": 292
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofcorning.nextrequest.com",
+   "agency": "Corning",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Corning"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofcovinaca.nextrequest.com",
+   "agency": "Covina",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Covina"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofcupertinoca.nextrequest.com",
+   "agency": "Cupertino",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Cupertino"
+   ],
+   "published_requests": 1390
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofdavisca.nextrequest.com",
+   "agency": "Davis",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Davis"
+   ],
+   "published_requests": 675
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofdeserthotspringsca.nextrequest.com",
+   "agency": "Desert Hot Springs",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Desert Hot Springs"
+   ],
+   "published_requests": 916
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofdixonca.nextrequest.com",
+   "agency": "Dixon",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Dixon"
+   ],
+   "published_requests": 181
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofdublinca.nextrequest.com",
+   "agency": "Dublin",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Dublin"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofeastpaloaltoca.nextrequest.com",
+   "agency": "East Palo Alto",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:East Palo Alto"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofelcentroca.nextrequest.com",
+   "agency": "El Centro",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:El Centro",
+    "seed"
+   ],
+   "published_requests": 49
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofelsegundocapd.nextrequest.com",
+   "agency": "El Segundo",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:El Segundo"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofescondidoca.nextrequest.com",
+   "agency": "Escondido",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Escondido"
+   ],
+   "published_requests": 5544
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoffairfield-ca.nextrequest.com",
+   "agency": "Fairfield",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Fairfield"
+   ],
+   "published_requests": 2525
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoffolsomca.nextrequest.com",
+   "agency": "Folsom",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Folsom",
+    "seed"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoffortbraggca.nextrequest.com",
+   "agency": "Fort Bragg",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Fort Bragg"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoffostercityca.nextrequest.com",
+   "agency": "Foster City",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Foster City"
+   ],
+   "published_requests": 738
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoffremontca.nextrequest.com",
+   "agency": "Fremont",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Fremont",
+    "seed"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofgardenaca.nextrequest.com",
+   "agency": "Gardena",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Gardena"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofgridley.nextrequest.com",
+   "agency": "Gridley",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Gridley"
+   ],
+   "published_requests": 5
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofhanfordca.nextrequest.com",
+   "agency": "Hanford",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Hanford"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofhermosabeach-ca.nextrequest.com",
+   "agency": "Hermosa Beach",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Hermosa Beach"
+   ],
+   "published_requests": 41
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofhollister-ca.nextrequest.com",
+   "agency": "Hollister",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Hollister"
+   ],
+   "published_requests": 1732
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofimperialbeachca.nextrequest.com",
+   "agency": "Imperial Beach",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Imperial Beach"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofimperialca.nextrequest.com",
+   "agency": "Imperial",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Imperial"
+   ],
+   "published_requests": 21
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofindio.nextrequest.com",
+   "agency": "Indio",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Indio"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoflagunahillsca.nextrequest.com",
+   "agency": "Laguna Hills",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Laguna Hills"
+   ],
+   "published_requests": 637
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoflapuenteca.nextrequest.com",
+   "agency": "La Puente",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:La Puente"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoflemongroveca.nextrequest.com",
+   "agency": "Lemon Grove",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Lemon Grove"
+   ],
+   "published_requests": 39
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoflincolnca.nextrequest.com",
+   "agency": "Lincoln",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Lincoln"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoflivermoreca.nextrequest.com",
+   "agency": "Livermore",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Livermore"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmalibuca.nextrequest.com",
+   "agency": "Malibu",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Malibu"
+   ],
+   "published_requests": 49
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmanteca.nextrequest.com",
+   "agency": "Manteca",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Manteca"
+   ],
+   "published_requests": 1880
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmarina.nextrequest.com",
+   "agency": "Marina",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Marina",
+    "seed"
+   ],
+   "published_requests": 193
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmartinezca.nextrequest.com",
+   "agency": "Martinez",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Martinez"
+   ],
+   "published_requests": 699
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmarysvilleca.nextrequest.com",
+   "agency": "Marysville",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Marysville"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmaywoodca.nextrequest.com",
+   "agency": "Maywood",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Maywood"
+   ],
+   "published_requests": 41
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmenifeeca.nextrequest.com",
+   "agency": "Menifee",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Menifee"
+   ],
+   "published_requests": 4247
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmodestoca.nextrequest.com",
+   "agency": "Modesto",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Modesto"
+   ],
+   "published_requests": 5449
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmontclairca.nextrequest.com",
+   "agency": "Montclair",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Montclair"
+   ],
+   "published_requests": 26
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmontebelloca.nextrequest.com",
+   "agency": "Montebello",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Montebello"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmontereyparkca.nextrequest.com",
+   "agency": "Monterey Park",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Monterey Park"
+   ],
+   "published_requests": 254
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmorrobayca.nextrequest.com",
+   "agency": "Morro Bay",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Morro Bay"
+   ],
+   "published_requests": 2
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofmountainviewca.nextrequest.com",
+   "agency": "Mountain View",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Mountain View",
+    "seed"
+   ],
+   "published_requests": 1499
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofnapaca.nextrequest.com",
+   "agency": "Napa",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Napa"
+   ],
+   "published_requests": 2294
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofnationalcityca.nextrequest.com",
+   "agency": "National City",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:National City"
+   ],
+   "published_requests": 2444
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofnewportbeachca.nextrequest.com",
+   "agency": "Newport Beach",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Newport Beach"
+   ],
+   "published_requests": 1112
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofoakleyca.nextrequest.com",
+   "agency": "Oakley",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Oakley"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofoakleycapd.nextrequest.com",
+   "agency": "Oakley",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Oakley"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofoceansideca.nextrequest.com",
+   "agency": "Oceanside",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Oceanside",
+    "seed"
+   ],
+   "published_requests": 3856
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoforangeca.nextrequest.com",
+   "agency": "Orange",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Orange",
+    "seed"
+   ],
+   "published_requests": 1831
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoforovilleca.nextrequest.com",
+   "agency": "Oroville",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Oroville"
+   ],
+   "published_requests": 219
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofpacificaca.nextrequest.com",
+   "agency": "Pacifica",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Pacifica"
+   ],
+   "published_requests": 1251
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofperrisca.nextrequest.com",
+   "agency": "Perris",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Perris",
+    "seed"
+   ],
+   "published_requests": 24
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofpetaluma.nextrequest.com",
+   "agency": "Petaluma",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Petaluma"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofpetalumaca.nextrequest.com",
+   "agency": "Petaluma",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Petaluma",
+    "seed"
+   ],
+   "published_requests": 1370
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofpiedmontca.nextrequest.com",
+   "agency": "Piedmont",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Piedmont"
+   ],
+   "published_requests": 52
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofpittsburgca.nextrequest.com",
+   "agency": "Pittsburg",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Pittsburg"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofpowayca.nextrequest.com",
+   "agency": "Poway",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Poway"
+   ],
+   "published_requests": 5
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofranchocordovaca.nextrequest.com",
+   "agency": "Rancho Cordova",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Rancho Cordova"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofredlandsca.nextrequest.com",
+   "agency": "Redlands",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Redlands"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofrichmondca.nextrequest.com",
+   "agency": "Richmond",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Richmond",
+    "seed"
+   ],
+   "published_requests": 3079
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofriovistaca.nextrequest.com",
+   "agency": "Rio Vista",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Rio Vista"
+   ],
+   "published_requests": 367
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofriverbankca.nextrequest.com",
+   "agency": "Riverbank",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Riverbank"
+   ],
+   "published_requests": 471
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsacramentoca.nextrequest.com",
+   "agency": "Sacramento",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Sacramento"
+   ],
+   "published_requests": 9638
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsanbernardinoca.nextrequest.com",
+   "agency": "San Bernardino",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:San Bernardino"
+   ],
+   "published_requests": 8023
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsancarlos-ca.nextrequest.com",
+   "agency": "San Carlos",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:San Carlos"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsangabrielca.nextrequest.com",
+   "agency": "San Gabriel",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:San Gabriel"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsanpabloca.nextrequest.com",
+   "agency": "San Pablo",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:San Pablo"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsanrafael.nextrequest.com",
+   "agency": "San Rafael",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:San Rafael"
+   ],
+   "published_requests": 791
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsanrafaelcapd.nextrequest.com",
+   "agency": "San Rafael",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:San Rafael"
+   ],
+   "published_requests": 2
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsantaanaca.nextrequest.com",
+   "agency": "Santa Ana",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Santa Ana",
+    "seed"
+   ],
+   "published_requests": 15319
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsantaanacapd.nextrequest.com",
+   "agency": "Santa Ana",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Santa Ana"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsantafespringsca.nextrequest.com",
+   "agency": "Santa Fe Springs",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Santa Fe Springs"
+   ],
+   "published_requests": 197
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsantarosaca.nextrequest.com",
+   "agency": "Santa Rosa",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Santa Rosa"
+   ],
+   "published_requests": 3718
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsausalitoca.nextrequest.com",
+   "agency": "Sausalito",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Sausalito"
+   ],
+   "published_requests": 11
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsealbeach.nextrequest.com",
+   "agency": "Seal Beach",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Seal Beach"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofseaside-ca.nextrequest.com",
+   "agency": "Seaside",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Seaside"
+   ],
+   "published_requests": 803
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsolvangca.nextrequest.com",
+   "agency": "Solvang",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Solvang"
+   ],
+   "published_requests": 1169
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsonoma.nextrequest.com",
+   "agency": "Sonoma",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Sonoma"
+   ],
+   "published_requests": 285
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsthelenaca.nextrequest.com",
+   "agency": "St. Helena",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:St. Helena"
+   ],
+   "published_requests": 99
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsunnyvaleca.nextrequest.com",
+   "agency": "Sunnyvale",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Sunnyvale"
+   ],
+   "published_requests": 8
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofsusanvilleca.nextrequest.com",
+   "agency": "Susanville",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Susanville"
+   ],
+   "published_requests": 151
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoftehachapica.nextrequest.com",
+   "agency": "Tehachapi",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Tehachapi"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityoftracy.nextrequest.com",
+   "agency": "Tracy",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Tracy"
+   ],
+   "published_requests": 5416
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofturlockca.nextrequest.com",
+   "agency": "Turlock",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Turlock"
+   ],
+   "published_requests": 947
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofventura-ca.nextrequest.com",
+   "agency": "San Buenaventura (Ventura)",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:San Buenaventura (Ventura)",
+    "seed"
+   ],
+   "published_requests": 727
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofvictorvilleca.nextrequest.com",
+   "agency": "Victorville",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Victorville"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cityofwatsonvilleca.nextrequest.com",
+   "agency": "Watsonville",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Watsonville",
+    "seed"
+   ],
+   "published_requests": 11
+  },
+  {
+   "platform": "nextrequest",
+   "host": "coachella.nextrequest.com",
+   "agency": "Coachella",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Coachella"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "coalinga.nextrequest.com",
+   "agency": "Coalinga",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Coalinga"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cotaticity.nextrequest.com",
+   "agency": "Cotati",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Cotati"
+   ],
+   "published_requests": 85
+  },
+  {
+   "platform": "nextrequest",
+   "host": "countyofcolusaca.nextrequest.com",
+   "agency": "Colusa County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Colusa County"
+   ],
+   "published_requests": 5
+  },
+  {
+   "platform": "nextrequest",
+   "host": "countyofkingsca.nextrequest.com",
+   "agency": "Kings County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Kings County"
+   ],
+   "published_requests": 27
+  },
+  {
+   "platform": "nextrequest",
+   "host": "countyofmontereyca.nextrequest.com",
+   "agency": "Monterey County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Monterey County"
+   ],
+   "published_requests": 866
+  },
+  {
+   "platform": "nextrequest",
+   "host": "countyofnapa.nextrequest.com",
+   "agency": "Napa County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "county:Napa County"
+   ],
+   "published_requests": 329
+  },
+  {
+   "platform": "nextrequest",
+   "host": "countyoftulareca.nextrequest.com",
+   "agency": "Tulare County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Tulare County"
+   ],
+   "published_requests": 5
+  },
+  {
+   "platform": "nextrequest",
+   "host": "cpuc.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 5838
+  },
+  {
+   "platform": "nextrequest",
+   "host": "culvercity.nextrequest.com",
+   "agency": "Culver City",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Culver City",
+    "seed"
+   ],
+   "published_requests": 308
+  },
+  {
+   "platform": "nextrequest",
+   "host": "danapoint.nextrequest.com",
+   "agency": "Dana Point",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Dana Point"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "delmar.nextrequest.com",
+   "agency": "Del Mar",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Del Mar"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "delnortecountyca.nextrequest.com",
+   "agency": "Del Norte County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Del Norte County"
+   ],
+   "published_requests": 1116
+  },
+  {
+   "platform": "nextrequest",
+   "host": "delreyoaksca.nextrequest.com",
+   "agency": "Del Rey Oaks",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Del Rey Oaks"
+   ],
+   "published_requests": 64
+  },
+  {
+   "platform": "nextrequest",
+   "host": "eastvaleca.nextrequest.com",
+   "agency": "Eastvale",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Eastvale"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "elsegundo.nextrequest.com",
+   "agency": "El Segundo",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:El Segundo"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "fairfieldcapd.nextrequest.com",
+   "agency": "Fairfield",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Fairfield"
+   ],
+   "published_requests": 382
+  },
+  {
+   "platform": "nextrequest",
+   "host": "fontanaca.nextrequest.com",
+   "agency": "Fontana",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Fontana"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "fresnocountyca.nextrequest.com",
+   "agency": "Fresno County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Fresno County"
+   ],
+   "published_requests": 2772
+  },
+  {
+   "platform": "nextrequest",
+   "host": "fresnosheriff.nextrequest.com",
+   "agency": "Fresno County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "county:Fresno County",
+    "extra"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "greenfield.nextrequest.com",
+   "agency": "Greenfield",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Greenfield"
+   ],
+   "published_requests": 3515
+  },
+  {
+   "platform": "nextrequest",
+   "host": "groverbeachca.nextrequest.com",
+   "agency": "Grover Beach",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Grover Beach",
+    "seed"
+   ],
+   "published_requests": 166
+  },
+  {
+   "platform": "nextrequest",
+   "host": "halfmoonbay.nextrequest.com",
+   "agency": "Half Moon Bay",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra",
+    "place:Half Moon Bay"
+   ],
+   "published_requests": 442
+  },
+  {
+   "platform": "nextrequest",
+   "host": "inyocountyca.nextrequest.com",
+   "agency": "Inyo County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Inyo County"
+   ],
+   "published_requests": 586
+  },
+  {
+   "platform": "nextrequest",
+   "host": "irwindaleca.nextrequest.com",
+   "agency": "Irwindale",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Irwindale"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "kerncountyca.nextrequest.com",
+   "agency": "Kern County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Kern County"
+   ],
+   "published_requests": 3022
+  },
+  {
+   "platform": "nextrequest",
+   "host": "kingcityca.nextrequest.com",
+   "agency": "King City",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:King City"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "la-mesa-ca.nextrequest.com",
+   "agency": "La Mesa",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:La Mesa"
+   ],
+   "published_requests": 1724
+  },
+  {
+   "platform": "nextrequest",
+   "host": "lacity.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra",
+    "seed"
+   ],
+   "published_requests": 66428
+  },
+  {
+   "platform": "nextrequest",
+   "host": "lacountyrrcc.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra",
+    "seed"
+   ],
+   "published_requests": 19
+  },
+  {
+   "platform": "nextrequest",
+   "host": "lametro.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 1508
+  },
+  {
+   "platform": "nextrequest",
+   "host": "lassencounty.nextrequest.com",
+   "agency": "Lassen County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "county:Lassen County"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "nextrequest",
+   "host": "lawa.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 101
+  },
+  {
+   "platform": "nextrequest",
+   "host": "losaltosca.nextrequest.com",
+   "agency": "Los Altos",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Los Altos"
+   ],
+   "published_requests": 1397
+  },
+  {
+   "platform": "nextrequest",
+   "host": "losgatosca.nextrequest.com",
+   "agency": "Los Gatos",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Los Gatos"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "marincountyca.nextrequest.com",
+   "agency": "Marin County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Marin County",
+    "seed"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "nextrequest",
+   "host": "mariposacounty.nextrequest.com",
+   "agency": "Mariposa County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "county:Mariposa County"
+   ],
+   "published_requests": 2037
+  },
+  {
+   "platform": "nextrequest",
+   "host": "mcfarlandcity.nextrequest.com",
+   "agency": "McFarland",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:McFarland"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "mendocinocounty.nextrequest.com",
+   "agency": "Mendocino County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "county:Mendocino County"
+   ],
+   "published_requests": 5280
+  },
+  {
+   "platform": "nextrequest",
+   "host": "modoccountyca.nextrequest.com",
+   "agency": "Modoc County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "county:Modoc County"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "montereycountysheriff.nextrequest.com",
+   "agency": "Monterey County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "county:Monterey County"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "moorparkca.nextrequest.com",
+   "agency": "Moorpark",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Moorpark"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "oaklandca.nextrequest.com",
+   "agency": "Oakland",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "extra",
+    "place:Oakland",
+    "seed"
+   ],
+   "published_requests": 117785
+  },
+  {
+   "platform": "nextrequest",
+   "host": "orangecounty.nextrequest.com",
+   "agency": "Orange County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "county:Orange County"
+   ],
+   "published_requests": 33
+  },
+  {
+   "platform": "nextrequest",
+   "host": "oxnard.nextrequest.com",
+   "agency": "Oxnard",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Oxnard"
+   ],
+   "published_requests": 121
+  },
+  {
+   "platform": "nextrequest",
+   "host": "pattersonca.nextrequest.com",
+   "agency": "Patterson",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Patterson"
+   ],
+   "published_requests": 1530
+  },
+  {
+   "platform": "nextrequest",
+   "host": "pittsburgcapd.nextrequest.com",
+   "agency": "Pittsburg",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Pittsburg"
+   ],
+   "published_requests": 137
+  },
+  {
+   "platform": "nextrequest",
+   "host": "placercounty.nextrequest.com",
+   "agency": "Placer County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "county:Placer County",
+    "extra"
+   ],
+   "published_requests": 7680
+  },
+  {
+   "platform": "nextrequest",
+   "host": "pleasantonca.nextrequest.com",
+   "agency": "Pleasanton",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Pleasanton"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "portervilleca.nextrequest.com",
+   "agency": "Porterville",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Porterville"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "portofla.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 598
+  },
+  {
+   "platform": "nextrequest",
+   "host": "portofoakland.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 1392
+  },
+  {
+   "platform": "nextrequest",
+   "host": "redwoodcity.nextrequest.com",
+   "agency": "Redwood City",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra",
+    "place:Redwood City"
+   ],
+   "published_requests": 4610
+  },
+  {
+   "platform": "nextrequest",
+   "host": "riversidecountyca.nextrequest.com",
+   "agency": "Riverside County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "county:Riverside County"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "saccounty.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 36727
+  },
+  {
+   "platform": "nextrequest",
+   "host": "sacramentocountysheriff.nextrequest.com",
+   "agency": "Sacramento County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "county:Sacramento County"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "samtrans.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 7
+  },
+  {
+   "platform": "nextrequest",
+   "host": "sanbenitocounty-ca.nextrequest.com",
+   "agency": "San Benito County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:San Benito County"
+   ],
+   "published_requests": 1298
+  },
+  {
+   "platform": "nextrequest",
+   "host": "sanbernardinocounty.nextrequest.com",
+   "agency": "San Bernardino County",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "county:San Bernardino County",
+    "seed"
+   ],
+   "published_requests": 66
+  },
+  {
+   "platform": "nextrequest",
+   "host": "sandiego.nextrequest.com",
+   "agency": "San Diego",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra",
+    "place:San Diego",
+    "seed"
+   ],
+   "published_requests": 44156
+  },
+  {
+   "platform": "nextrequest",
+   "host": "sanfrancisco.nextrequest.com",
+   "agency": "San Francisco",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:San Francisco"
+   ],
+   "published_requests": 16217
+  },
+  {
+   "platform": "nextrequest",
+   "host": "santabarbaracapd.nextrequest.com",
+   "agency": "Santa Barbara",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Santa Barbara"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "santaclara.nextrequest.com",
+   "agency": "Santa Clara",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Santa Clara",
+    "seed"
+   ],
+   "published_requests": 9006
+  },
+  {
+   "platform": "nextrequest",
+   "host": "santaclaracountyca.nextrequest.com",
+   "agency": "Santa Clara County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Santa Clara County"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "santacruzcounty-ca.nextrequest.com",
+   "agency": "Santa Cruz County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Santa Cruz County"
+   ],
+   "published_requests": 1151
+  },
+  {
+   "platform": "nextrequest",
+   "host": "scc-sheriffca.nextrequest.com",
+   "agency": null,
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "extra",
+    "seed"
+   ],
+   "published_requests": 797
+  },
+  {
+   "platform": "nextrequest",
+   "host": "shastacountyca.nextrequest.com",
+   "agency": "Shasta County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Shasta County"
+   ],
+   "published_requests": 2720
+  },
+  {
+   "platform": "nextrequest",
+   "host": "sonomacountyca.nextrequest.com",
+   "agency": "Sonoma County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "county:Sonoma County"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "suttercountyca.nextrequest.com",
+   "agency": "Sutter County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Sutter County"
+   ],
+   "published_requests": 631
+  },
+  {
+   "platform": "nextrequest",
+   "host": "tehama.nextrequest.com",
+   "agency": "Tehama",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Tehama"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "townoflosaltoshillsca.nextrequest.com",
+   "agency": "Los Altos Hills",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Los Altos Hills"
+   ],
+   "published_requests": 4
+  },
+  {
+   "platform": "nextrequest",
+   "host": "townofparadiseca.nextrequest.com",
+   "agency": "Paradise",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Paradise"
+   ],
+   "published_requests": 1180
+  },
+  {
+   "platform": "nextrequest",
+   "host": "townoftruckee.nextrequest.com",
+   "agency": "Truckee",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Truckee"
+   ],
+   "published_requests": 961
+  },
+  {
+   "platform": "nextrequest",
+   "host": "townofwindsorca.nextrequest.com",
+   "agency": "Windsor",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Windsor"
+   ],
+   "published_requests": 215
+  },
+  {
+   "platform": "nextrequest",
+   "host": "townofyountville.nextrequest.com",
+   "agency": "Yountville",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Yountville"
+   ],
+   "published_requests": 114
+  },
+  {
+   "platform": "nextrequest",
+   "host": "townofyuccavalleyca.nextrequest.com",
+   "agency": "Yucca Valley",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Yucca Valley"
+   ],
+   "published_requests": 967
+  },
+  {
+   "platform": "nextrequest",
+   "host": "tustinca.nextrequest.com",
+   "agency": "Tustin",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Tustin"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "unioncity.nextrequest.com",
+   "agency": "Union City",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Union City",
+    "seed"
+   ],
+   "published_requests": 152
+  },
+  {
+   "platform": "nextrequest",
+   "host": "uplandca.nextrequest.com",
+   "agency": "Upland",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Upland"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "vallejo.nextrequest.com",
+   "agency": "Vallejo",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Vallejo"
+   ],
+   "published_requests": 10601
+  },
+  {
+   "platform": "nextrequest",
+   "host": "ventura.nextrequest.com",
+   "agency": "San Buenaventura (Ventura)",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "extra",
+    "place:San Buenaventura (Ventura)",
+    "seed"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "nextrequest",
+   "host": "visalia.nextrequest.com",
+   "agency": "Visalia",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Visalia"
+   ],
+   "published_requests": 2
+  },
+  {
+   "platform": "nextrequest",
+   "host": "westsacramento.nextrequest.com",
+   "agency": "West Sacramento",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:West Sacramento"
+   ],
+   "published_requests": 4074
+  },
+  {
+   "platform": "nextrequest",
+   "host": "yubacity.nextrequest.com",
+   "agency": "Yuba City",
+   "label": null,
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Yuba City"
+   ],
+   "published_requests": 569
+  },
+  {
+   "platform": "nextrequest",
+   "host": "yubacountyca.nextrequest.com",
+   "agency": "Yuba County",
+   "label": null,
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Yuba County"
+   ],
+   "published_requests": 255
+  },
+  {
+   "platform": "govqa",
+   "host": "alpinecountyca.govqa.us",
+   "agency": "Alpine County",
+   "label": "Alpine County CA | Public Records Request Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Alpine County"
+   ],
+   "published_requests": 9
+  },
+  {
+   "platform": "govqa",
+   "host": "americancanyon.govqa.us",
+   "agency": "American Canyon",
+   "label": "American Canyon CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:American Canyon"
+   ],
+   "published_requests": 2
+  },
+  {
+   "platform": "govqa",
+   "host": "auburn.govqa.us",
+   "agency": "Auburn",
+   "label": "Correspondence Center",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Auburn"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "barstowca.govqa.us",
+   "agency": "Barstow",
+   "label": "City of Barstow | Public Records Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Barstow"
+   ],
+   "published_requests": 10
+  },
+  {
+   "platform": "govqa",
+   "host": "belmontca.govqa.us",
+   "agency": "Belmont",
+   "label": "City of Belmont | Public Records Request Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Belmont"
+   ],
+   "published_requests": 217
+  },
+  {
+   "platform": "govqa",
+   "host": "buttecounty.govqa.us",
+   "agency": "Butte County",
+   "label": "Butte County, CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "county:Butte County"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "calfire.govqa.us",
+   "agency": null,
+   "label": "CAL Fire",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "caltrans.mycusthelp.com",
+   "agency": null,
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "camarilloca.govqa.us",
+   "agency": "Camarillo",
+   "label": "Camarillo, CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Camarillo"
+   ],
+   "published_requests": 2
+  },
+  {
+   "platform": "govqa",
+   "host": "campbellca.govqa.us",
+   "agency": "Campbell",
+   "label": "Campbell CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Campbell"
+   ],
+   "published_requests": 422
+  },
+  {
+   "platform": "govqa",
+   "host": "carlsbadca.govqa.us",
+   "agency": "Carlsbad",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Carlsbad"
+   ],
+   "published_requests": 5463
+  },
+  {
+   "platform": "govqa",
+   "host": "chulavistaca.govqa.us",
+   "agency": "Chula Vista",
+   "label": "Public Records Center | Chula Vista CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Chula Vista"
+   ],
+   "published_requests": 50
+  },
+  {
+   "platform": "govqa",
+   "host": "cityofconcord.govqa.us",
+   "agency": "Concord",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Concord"
+   ],
+   "published_requests": 6
+  },
+  {
+   "platform": "govqa",
+   "host": "cityofindustryca.govqa.us",
+   "agency": "Industry",
+   "label": "City of Industry, CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Industry"
+   ],
+   "published_requests": 9
+  },
+  {
+   "platform": "govqa",
+   "host": "cityofinglewood.govqa.us",
+   "agency": "Inglewood",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Inglewood"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "cityofsouthgate.govqa.us",
+   "agency": "South Gate",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:South Gate"
+   ],
+   "published_requests": 2
+  },
+  {
+   "platform": "govqa",
+   "host": "comptonca.mycusthelp.com",
+   "agency": "Compton",
+   "label": "Compton CA Request Center",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Compton"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "coronaca.govqa.us",
+   "agency": "Corona",
+   "label": "Corona, CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Corona"
+   ],
+   "published_requests": 205
+  },
+  {
+   "platform": "govqa",
+   "host": "eastvaleca.govqa.us",
+   "agency": "Eastvale",
+   "label": "City of Eastvale, CA | Public Records Request Portal",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Eastvale"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "eldoradocountyca.mycusthelp.com",
+   "agency": "El Dorado County",
+   "label": "County of El Dorado Public Records Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "county:El Dorado County"
+   ],
+   "published_requests": 8
+  },
+  {
+   "platform": "govqa",
+   "host": "encinitasca.mycusthelp.com",
+   "agency": "Encinitas",
+   "label": "City of Encinitas CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Encinitas"
+   ],
+   "published_requests": 6632
+  },
+  {
+   "platform": "govqa",
+   "host": "fresnoca.govqa.us",
+   "agency": "Fresno",
+   "label": "Public Records Center - City of Fresno",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Fresno"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "govqa",
+   "host": "fullerton.govqa.us",
+   "agency": "Fullerton",
+   "label": "Fullerton California | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Fullerton",
+    "seed"
+   ],
+   "published_requests": 5483
+  },
+  {
+   "platform": "govqa",
+   "host": "fullertonca.mycusthelp.com",
+   "agency": "Fullerton",
+   "label": "Fullerton California Citizen Support Center",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Fullerton"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "goletaca.mycusthelp.com",
+   "agency": "Goleta",
+   "label": "Goleta, CA : City Assist",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Goleta"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "hemetca.govqa.us",
+   "agency": "Hemet",
+   "label": "Hemet CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Hemet"
+   ],
+   "published_requests": 413
+  },
+  {
+   "platform": "govqa",
+   "host": "hesperiaca.mycusthelp.com",
+   "agency": "Hesperia",
+   "label": "City of Hesperia | Public Records Center",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Hesperia"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "huntingtonbeachca.mycusthelp.com",
+   "agency": "Huntington Beach",
+   "label": "City of Huntington Beach, CA - Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Huntington Beach"
+   ],
+   "published_requests": 563
+  },
+  {
+   "platform": "govqa",
+   "host": "indioca.govqa.us",
+   "agency": "Indio",
+   "label": "City of Indio CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Indio"
+   ],
+   "published_requests": 1059
+  },
+  {
+   "platform": "govqa",
+   "host": "jurupavalleyca.govqa.us",
+   "agency": "Jurupa Valley",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Jurupa Valley"
+   ],
+   "published_requests": 101
+  },
+  {
+   "platform": "govqa",
+   "host": "lacounty.govqa.us",
+   "agency": null,
+   "label": "LA County | Records Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "govqa",
+   "host": "lakeforestca.govqa.us",
+   "agency": "Lake Forest",
+   "label": "Lake Forest CA | Public Records Request Portal",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Lake Forest"
+   ],
+   "published_requests": 1459
+  },
+  {
+   "platform": "govqa",
+   "host": "livermoreca.govqa.us",
+   "agency": "Livermore",
+   "label": "City of Livermore CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Livermore"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "govqa",
+   "host": "longbeachca.govqa.us",
+   "agency": "Long Beach",
+   "label": "CITY OF LONG BEACH CA PUBLIC RECORDS REQUEST CENTER",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Long Beach"
+   ],
+   "published_requests": 3
+  },
+  {
+   "platform": "govqa",
+   "host": "manhattanbeachca.mycusthelp.com",
+   "agency": "Manhattan Beach",
+   "label": "Manhattan Beach, CA | Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Manhattan Beach"
+   ],
+   "published_requests": 2759
+  },
+  {
+   "platform": "govqa",
+   "host": "menloparkca.mycusthelp.com",
+   "agency": "Menlo Park",
+   "label": "Public Records Center | City of Menlo Park",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Menlo Park"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "murrietaca.govqa.us",
+   "agency": "Murrieta",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Murrieta"
+   ],
+   "published_requests": 241
+  },
+  {
+   "platform": "govqa",
+   "host": "nevadacountyca.govqa.us",
+   "agency": "Nevada County",
+   "label": "Nevada County California | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Nevada County"
+   ],
+   "published_requests": 6
+  },
+  {
+   "platform": "govqa",
+   "host": "novatoca.govqa.us",
+   "agency": "Novato",
+   "label": "Novato CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Novato"
+   ],
+   "published_requests": 5
+  },
+  {
+   "platform": "govqa",
+   "host": "octa.govqa.us",
+   "agency": null,
+   "label": "OCTA Public Records Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 3983
+  },
+  {
+   "platform": "govqa",
+   "host": "ontarioca.govqa.us",
+   "agency": "Ontario",
+   "label": "Ontario, CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Ontario"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "palmdesertca.govqa.us",
+   "agency": "Palm Desert",
+   "label": "City of Palm Desert | Records Request Portal",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Palm Desert"
+   ],
+   "published_requests": 1039
+  },
+  {
+   "platform": "govqa",
+   "host": "paloaltoca.mycusthelp.com",
+   "agency": "Palo Alto",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Palo Alto"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "pinoleca.govqa.us",
+   "agency": "Pinole",
+   "label": "Public Records Center | City of Pinole, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Pinole"
+   ],
+   "published_requests": 177
+  },
+  {
+   "platform": "govqa",
+   "host": "pittsburg.mycusthelp.com",
+   "agency": "Pittsburg",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Pittsburg"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "pleasantonca.mycusthelp.com",
+   "agency": "Pleasanton",
+   "label": "City of Pleasanton | Public Records Request Center",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Pleasanton"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "pomona.govqa.us",
+   "agency": "Pomona",
+   "label": "City of Pomona, CA Request Center",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Pomona"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "ranchocucamongaca.mycusthelp.com",
+   "agency": "Rancho Cucamonga",
+   "label": "City of Rancho Cucamonga, CA | Public Records Request",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Rancho Cucamonga"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "rialtoca.mycusthelp.com",
+   "agency": "Rialto",
+   "label": "Rialto CA Request Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Rialto"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "govqa",
+   "host": "riversideca.mycusthelp.com",
+   "agency": "Riverside",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Riverside"
+   ],
+   "published_requests": 16610
+  },
+  {
+   "platform": "govqa",
+   "host": "riversidesheriff.govqa.us",
+   "agency": "Riverside County",
+   "label": "Riverside County Sheriff, CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Riverside County"
+   ],
+   "published_requests": 2
+  },
+  {
+   "platform": "govqa",
+   "host": "sanbernardino.govqa.us",
+   "agency": "San Bernardino",
+   "label": "San Bernadino, CA | Subpoena Center",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:San Bernardino"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "sandimasca.mycusthelp.com",
+   "agency": "San Dimas",
+   "label": "SAN DIMAS CA PUBLIC RECORDS CENTER",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:San Dimas"
+   ],
+   "published_requests": 1621
+  },
+  {
+   "platform": "govqa",
+   "host": "sanfranciscopd.govqa.us",
+   "agency": "San Francisco",
+   "label": "City of San Francisco Incident Report Request Portal",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:San Francisco"
+   ],
+   "published_requests": 7
+  },
+  {
+   "platform": "govqa",
+   "host": "sanjoseca.govqa.us",
+   "agency": "San Jose",
+   "label": "San Jose, CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "extra",
+    "place:San Jose"
+   ],
+   "published_requests": 212
+  },
+  {
+   "platform": "govqa",
+   "host": "sanleandroca.govqa.us",
+   "agency": "San Leandro",
+   "label": "City of San Leandro CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:San Leandro"
+   ],
+   "published_requests": 1881
+  },
+  {
+   "platform": "govqa",
+   "host": "sanmateoca.mycusthelp.com",
+   "agency": "San Mateo",
+   "label": "San Mateo Public Records Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:San Mateo",
+    "seed"
+   ],
+   "published_requests": 2452
+  },
+  {
+   "platform": "govqa",
+   "host": "sanramonca.mycusthelp.com",
+   "agency": "San Ramon",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:San Ramon"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "santabarbaraca.mycusthelp.com",
+   "agency": "Santa Barbara",
+   "label": "Santa Barbara County Sheriff",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Santa Barbara"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "santabarbaracountyca.govqa.us",
+   "agency": "Santa Barbara County",
+   "label": "County of Santa Barbara - Public Records Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "county:Santa Barbara County"
+   ],
+   "published_requests": 2
+  },
+  {
+   "platform": "govqa",
+   "host": "santamariaca.mycusthelp.com",
+   "agency": "Santa Maria",
+   "label": "City of Santa Maria Public Records Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Santa Maria"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "govqa",
+   "host": "santamonicaca.mycusthelp.com",
+   "agency": "Santa Monica",
+   "label": "SANTA MONICA CALIFORNIA PUBLIC RECORDS CENTER",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Santa Monica"
+   ],
+   "published_requests": 14
+  },
+  {
+   "platform": "govqa",
+   "host": "sdsheriff.govqa.us",
+   "agency": null,
+   "label": "San Diego County Sheriff's Office| Public Records Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 1963
+  },
+  {
+   "platform": "govqa",
+   "host": "sdsu.govqa.us",
+   "agency": null,
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "govqa",
+   "host": "siskiyoucountyca.govqa.us",
+   "agency": "Siskiyou County",
+   "label": "Siskiyou County CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Siskiyou County"
+   ],
+   "published_requests": 3
+  },
+  {
+   "platform": "govqa",
+   "host": "solanabeachca.mycusthelp.com",
+   "agency": "Solana Beach",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Solana Beach"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "solanocountyca.govqa.us",
+   "agency": "Solano County",
+   "label": "Solano County Public Records Center| Solano County, California",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Solano County"
+   ],
+   "published_requests": 1
+  },
+  {
+   "platform": "govqa",
+   "host": "southpasadenaca.govqa.us",
+   "agency": "South Pasadena",
+   "label": "City of South Pasadena CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:South Pasadena"
+   ],
+   "published_requests": 3
+  },
+  {
+   "platform": "govqa",
+   "host": "southsanfranciscoca.mycusthelp.com",
+   "agency": "South San Francisco",
+   "label": "City of South San Francisco | Public Records Center",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:South San Francisco"
+   ],
+   "published_requests": 1745
+  },
+  {
+   "platform": "govqa",
+   "host": "suisuncityca.govqa.us",
+   "agency": "Suisun City",
+   "label": "Suisun City, CA | Public Records Request Portal",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Suisun City"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "suttercountyca.mycusthelp.com",
+   "agency": "Sutter County",
+   "label": "SUTTER COUNTY CA RECORDS REQUEST CENTER",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "county:Sutter County"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "temeculaca.mycusthelp.com",
+   "agency": "Temecula",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Temecula"
+   ],
+   "published_requests": 6503
+  },
+  {
+   "platform": "govqa",
+   "host": "torranceca.mycusthelp.com",
+   "agency": "Torrance",
+   "label": "City of Torrance | Public Records Center",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Torrance"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "uci.govqa.us",
+   "agency": null,
+   "label": "University of California Irvine | Public Records Portal",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "ucmerced.govqa.us",
+   "agency": null,
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "ucsd.govqa.us",
+   "agency": null,
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "extra"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "vacavilleca.govqa.us",
+   "agency": "Vacaville",
+   "label": "Public Records Request Portal | Vacaville, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Vacaville"
+   ],
+   "published_requests": 869
+  },
+  {
+   "platform": "govqa",
+   "host": "vernonca.govqa.us",
+   "agency": "Vernon",
+   "label": "Support Home Page",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Vernon"
+   ],
+   "published_requests": 583
+  },
+  {
+   "platform": "govqa",
+   "host": "walnutcreekca.govqa.us",
+   "agency": "Walnut Creek",
+   "label": "Walnut Creek, CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Walnut Creek"
+   ],
+   "published_requests": 0
+  },
+  {
+   "platform": "govqa",
+   "host": "westhollywoodca.govqa.us",
+   "agency": "West Hollywood",
+   "label": "West Hollywood CA | Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:West Hollywood"
+   ],
+   "published_requests": 76
+  },
+  {
+   "platform": "govqa",
+   "host": "yucaipa.govqa.us",
+   "agency": "Yucaipa",
+   "label": "City of Yucaipa, CA Public Records Center",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Yucaipa"
+   ],
+   "published_requests": 938
+  },
+  {
+   "platform": "justfoia",
+   "host": "azusaca.justfoia.com",
+   "agency": "Azusa",
+   "label": "City of Azusa",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Azusa"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "bakersfieldca.justfoia.com",
+   "agency": "Bakersfield",
+   "label": "Bakersfield, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Bakersfield"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "beniciaca.justfoia.com",
+   "agency": "Benicia",
+   "label": "Benicia, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Benicia"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "beverlyhillsca.justfoia.com",
+   "agency": "Beverly Hills",
+   "label": "City of Beverly Hills",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Beverly Hills"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "bigbearlakeca.justfoia.com",
+   "agency": "Big Bear Lake",
+   "label": "Big Bear Lake, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Big Bear Lake"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "cityofarcata.justfoia.com",
+   "agency": "Arcata",
+   "label": "Arcata, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Arcata"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "cityofbrea.justfoia.com",
+   "agency": "Brea",
+   "label": "Brea, CA",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Brea"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "cityofclovisca.justfoia.com",
+   "agency": "Clovis",
+   "label": "City of Clovis, CA",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Clovis"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "cityoflancasterca.justfoia.com",
+   "agency": "Lancaster",
+   "label": "City of Lancaster",
+   "ca_confirmed": null,
+   "searchable": false,
+   "sources": [
+    "place:Lancaster"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "cityofredding.justfoia.com",
+   "agency": "Redding",
+   "label": "Redding, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Redding"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "cityofrohnertpark.justfoia.com",
+   "agency": "Rohnert Park",
+   "label": "Rohnert Park, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Rohnert Park"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "coronado.justfoia.com",
+   "agency": "Coronado",
+   "label": "Coronado, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Coronado"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "downeyca.justfoia.com",
+   "agency": "Downey",
+   "label": "Downey, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Downey"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "elkgroveca.justfoia.com",
+   "agency": "Elk Grove",
+   "label": "Elk Grove, CA",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Elk Grove"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "kerncountysheriffca.justfoia.com",
+   "agency": "Kern County",
+   "label": "Kern County Sheriff, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "county:Kern County"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "lagunabeachca.justfoia.com",
+   "agency": "Laguna Beach",
+   "label": "Laguna Beach, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Laguna Beach"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "lametro.justfoia.com",
+   "agency": null,
+   "label": "Los Angeles County Metro, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "extra"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "lincolnca.justfoia.com",
+   "agency": "Lincoln",
+   "label": "Lincoln, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Lincoln"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "mercedca.justfoia.com",
+   "agency": "Merced",
+   "label": "Merced, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Merced"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "monroviaca.justfoia.com",
+   "agency": "Monrovia",
+   "label": "City of Monrovia",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Monrovia"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "norwalkca.justfoia.com",
+   "agency": "Norwalk",
+   "label": "Norwalk, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Norwalk"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "palmdaleca.justfoia.com",
+   "agency": "Palmdale",
+   "label": "Palmdale, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Palmdale"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "palmspringsca.justfoia.com",
+   "agency": "Palm Springs",
+   "label": "Palm Springs, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Palm Springs"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "ranchomirageca.justfoia.com",
+   "agency": "Rancho Mirage",
+   "label": "Rancho Mirage, CA",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Rancho Mirage"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "rosevilleca.justfoia.com",
+   "agency": "Roseville",
+   "label": "Roseville, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Roseville"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "sanclementeca.justfoia.com",
+   "agency": "San Clemente",
+   "label": "San Clemente, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:San Clemente"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "sanjuancapistranoca.justfoia.com",
+   "agency": "San Juan Capistrano",
+   "label": "San Juan Capistrano, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:San Juan Capistrano"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "sanmarcosca.justfoia.com",
+   "agency": "San Marcos",
+   "label": "San Marcos, CA",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:San Marcos"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "santapaulaca.justfoia.com",
+   "agency": "Santa Paula",
+   "label": "Santa Paula, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Santa Paula"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "saratogaca.justfoia.com",
+   "agency": "Saratoga",
+   "label": "City of Saratoga, CA",
+   "ca_confirmed": true,
+   "searchable": false,
+   "sources": [
+    "place:Saratoga"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "sierramadreca.justfoia.com",
+   "agency": "Sierra Madre",
+   "label": "Sierra Madre, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Sierra Madre"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "simivalley.justfoia.com",
+   "agency": "Simi Valley",
+   "label": "Simi Valley, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Simi Valley"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "stocktonca.justfoia.com",
+   "agency": "Stockton",
+   "label": "Stockton, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Stockton"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "tulare.justfoia.com",
+   "agency": "Tulare",
+   "label": "City of Tulare, CA",
+   "ca_confirmed": true,
+   "searchable": true,
+   "sources": [
+    "place:Tulare"
+   ]
+  },
+  {
+   "platform": "justfoia",
+   "host": "westminsterca.justfoia.com",
+   "agency": "Westminster",
+   "label": "Westminster City Clerks Office",
+   "ca_confirmed": null,
+   "searchable": true,
+   "sources": [
+    "place:Westminster"
+   ]
+  }
+ ]
+}
