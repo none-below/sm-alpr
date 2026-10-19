@@ -1,0 +1,64 @@
+{
+  "agency_id": "847ce8af-3e88-59ca-90f3-d621db6f31f6",
+  "agency_name": "San Mateo Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-09-25T01:08:46Z",
+      "id": "bf75045386734d17910cbf23f04cbe1a",
+      "title": "San Mateo Police Department  Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/bf75045386734d17910cbf23f04cbe1a"
+    }
+  ],
+  "description": "Feature service for San Mateo Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "bf75045386734d17910cbf23f04cbe1a",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "San Mateo Police Department  Drone Flights"
+    },
+    {
+      "agency_id": "847ce8af-3e88-59ca-90f3-d621db6f31f6",
+      "basis": "name+role+extent",
+      "date": "2026-10-18",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 114,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-15T12:17:06Z",
+    "last_takeoff": "2026-10-17T22:36:46Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "513083d4-ca53-4a0d-a555-03ab785b594c",
+  "ori": [
+    "CA0411600"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/513083d4-ca53-4a0d-a555-03ab785b594c-production/FeatureServer"
+}

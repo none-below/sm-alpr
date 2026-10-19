@@ -247,6 +247,9 @@ jobs:
         timeout-minutes: 5
         run: uv run pytest tests/test_pra_intake_*.py -v
 
+      - name: Run drone flight-log archiver tests
+        run: uv run pytest tests/test_drone_flights.py -v
+
       - name: Run Makefile artifact-hygiene tests
         run: uv run pytest tests/test_make_clean_covers_artifacts.py -v
 

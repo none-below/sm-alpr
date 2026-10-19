@@ -1,0 +1,49 @@
+{
+  "agency_id": "34b09634-c949-542c-90ce-e790b877570d",
+  "agency_name": "Daly City Police Department (CA)",
+  "dashboards": [],
+  "description": "Feature service for Daly City Police Department (CA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "34b09634-c949-542c-90ce-e790b877570d",
+      "basis": "name+role+state",
+      "date": "2026-10-18",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "05386ac3-0a16-4260-bff7-a5398f8a8d65",
+  "ori": [
+    "CA0410600"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/05386ac3-0a16-4260-bff7-a5398f8a8d65-production/FeatureServer"
+}
