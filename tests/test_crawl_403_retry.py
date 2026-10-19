@@ -357,3 +357,80 @@ def test_user_agent_matches_the_launched_browser(platform, token):
     assert ua == (f"Mozilla/5.0 ({token}) AppleWebKit/537.36 "
                   "(KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"), ua
     assert "Headless" not in ua
+
+
+def _relaunching_session():
+    session = ft.new_crawl_session()
+    session["launched"] = 0
+
+    def relaunch():
+        session["launched"] += 1
+        session["page"] = MagicMock()
+        return session["page"]
+
+    session["relaunch"] = relaunch
+    return session
+
+
+def test_unreachable_relaunches_once_and_continues_when_that_clears_it(tmp_path, monkeypatch):
+    """The failure happens inside Chrome before any request is sent, so one
+    fresh browser is a free retry. When it works, the run carries on with the
+    rest of the batch on the new page instead of ending."""
+    calls = []
+
+    def first_unreachable(page, slug, data_dir, force=False, hashes=None, progress=""):
+        calls.append(slug)
+        return ("unreachable" if len(calls) == 1 else "unchanged"), []
+
+    monkeypatch.setattr(ft, "archive_agency", first_unreachable)
+    session = _relaunching_session()
+
+    results, _, blocked = ft.run_crawl_batch(
+        MagicMock(), ["one-ca-pd", "two-ca-pd"], tmp_path,
+        force=False, delay=0, hashes={}, failed_slugs={}, session=session,
+    )
+
+    assert session["launched"] == 1
+    assert calls == ["one-ca-pd", "one-ca-pd", "two-ca-pd"], calls
+    assert blocked is False
+    assert results == [("one-ca-pd", "unchanged"), ("two-ca-pd", "unchanged")], results
+
+
+def test_unreachable_after_relaunch_ends_the_run_as_before(tmp_path, monkeypatch):
+    calls = []
+
+    def always_unreachable(page, slug, data_dir, force=False, hashes=None, progress=""):
+        calls.append(slug)
+        return "unreachable", []
+
+    monkeypatch.setattr(ft, "archive_agency", always_unreachable)
+    session = _relaunching_session()
+    failed = {}
+
+    results, _, blocked = ft.run_crawl_batch(
+        MagicMock(), ["one-ca-pd", "two-ca-pd"], tmp_path,
+        force=False, delay=0, hashes={}, failed_slugs=failed, session=session,
+    )
+
+    assert session["launched"] == 1, "exactly one relaunch per session"
+    assert calls == ["one-ca-pd", "one-ca-pd"], calls
+    assert blocked is True
+    assert failed == {}
+    assert "one-ca-pd" not in (ft.load_json(tmp_path / ft.ATTEMPT_FILE) or {})
+
+
+def test_relaunched_browser_gets_its_own_warmup_when_still_unspent(tmp_path, monkeypatch):
+    """The production shape the relaunch is for: unreachable, fresh browser,
+    cold-IP 403, warm-up retry clears — one capture instead of a dead run."""
+    outcomes = iter(["unreachable", "forbidden", "unchanged"])
+    monkeypatch.setattr(ft, "archive_agency", lambda *a, **k: (next(outcomes), []))
+    session = _relaunching_session()
+
+    results, _, blocked = ft.run_crawl_batch(
+        MagicMock(), ["one-ca-pd"], tmp_path,
+        force=False, delay=0, hashes={}, failed_slugs={}, session=session,
+    )
+
+    assert results == [("one-ca-pd", "unchanged")], results
+    assert blocked is False
+    assert session["warmup_retries"] == 0

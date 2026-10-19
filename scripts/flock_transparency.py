@@ -1713,8 +1713,15 @@ def new_crawl_session():
     One warm-up retry per session, not per slug: the cold-IP handshake happens
     once, when the session's first request meets the edge. Every 403 after that
     is the rate limit, and no number of retries clears it.
+
+    Also one browser relaunch per session for "unreachable" (UNREACHABLE_NOTE).
+    The net-log of an affected run shows Chrome never issued the page request
+    — only a speculative preconnect — so the failure is inside Chrome's
+    navigation layer and the retry spends none of Flock's rate budget.
+    cmd_crawl sets "relaunch" (closes the browser, starts a fresh one, returns
+    its page) and "page" (the current page, which later BFS levels must use).
     """
-    return {"warmup_retries": 1}
+    return {"warmup_retries": 1, "relaunches": 1}
 
 
 def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
@@ -1780,6 +1787,27 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                   f"{backoff:.0f}s in case it's the cold-IP handshake")
             time.sleep(backoff)
             status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
+
+        if status == "unreachable" and session.get("relaunch") and session["relaunches"]:
+            # Free to retry: Chrome failed the navigation before sending any
+            # request. A fresh browser either clears it (the run continues on
+            # the new page) or doesn't (the run ends below, as before) — the
+            # log line says which, so this doubles as the diagnosis.
+            session["relaunches"] -= 1
+            print("    relaunching the browser and retrying once "
+                  "(the failure never reached Flock)")
+            page = session["relaunch"]()
+            status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
+            print(f"    after relaunch: "
+                  f"{'still unreachable' if status == 'unreachable' else 'navigation succeeded'}")
+            if status in ("rate_limited", "forbidden") and session["warmup_retries"]:
+                # The fresh browser's first request meets the edge cold.
+                session["warmup_retries"] -= 1
+                backoff = max(delay, WARMUP_RETRY_BACKOFF) * random.uniform(0.7, 1.3)
+                print(f"    first 403/429 of the session — retrying once after "
+                      f"{backoff:.0f}s in case it's the cold-IP handshake")
+                time.sleep(backoff)
+                status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
 
         if status in ("rate_limited", "forbidden", "unreachable"):
             # Warm-up already spent (or just spent and didn't clear), so this
@@ -1884,40 +1912,59 @@ def cmd_crawl(args):
         # Flock tightened their edge the whole rotation started 403ing.
         # Falls back to bundled Chromium so a machine without real Chrome
         # still runs (it will likely 403, but that is better than crashing).
-        launch_args = ["--headless=new"]
-        # Diagnostic: with FLOCK_NETLOG=<path>, Chrome writes a net-log there,
-        # so a run that hits net::ERR_INVALID_ARGUMENT (UNREACHABLE_NOTE) shows
-        # which layer raised it — DNS, connect, TLS or the HTTP exchange.
-        netlog = os.environ.get("FLOCK_NETLOG")
-        if netlog:
-            launch_args.append(f"--log-net-log={netlog}")
-        launch_kwargs = {"headless": True, "args": launch_args}
-        if args.proxy:
-            launch_kwargs["proxy"] = {"server": args.proxy}
-        try:
-            browser = p.chromium.launch(channel="chrome", **launch_kwargs)
-        except Exception as e:
-            print(f"  real Chrome unavailable ({e.__class__.__name__}); "
-                  f"falling back to bundled Chromium — expect 403s")
-            browser = p.chromium.launch(**launch_kwargs)
-        user_agent = chrome_user_agent(browser.version)
-        print(f"  browser {browser.version}; UA {user_agent}")
-        context = browser.new_context(
-            viewport=VIEWPORT,
-            user_agent=user_agent,
-        )
-        page = context.new_page()
+        def launch(first=True):
+            """Start a browser and return (browser, page). Called again by
+            the unreachable path's relaunch, which skips the net-log flag so
+            the first failure's log isn't overwritten."""
+            launch_args = ["--headless=new"]
+            # Diagnostic: with FLOCK_NETLOG=<path>, Chrome writes a net-log
+            # there, for runs that hit net::ERR_INVALID_ARGUMENT
+            # (UNREACHABLE_NOTE).
+            netlog = os.environ.get("FLOCK_NETLOG")
+            if netlog and first:
+                launch_args.append(f"--log-net-log={netlog}")
+            launch_kwargs = {"headless": True, "args": launch_args}
+            if args.proxy:
+                launch_kwargs["proxy"] = {"server": args.proxy}
+            try:
+                browser = p.chromium.launch(channel="chrome", **launch_kwargs)
+            except Exception as e:
+                print(f"  real Chrome unavailable ({e.__class__.__name__}); "
+                      f"falling back to bundled Chromium — expect 403s")
+                browser = p.chromium.launch(**launch_kwargs)
+            user_agent = chrome_user_agent(browser.version)
+            print(f"  browser {browser.version}; UA {user_agent}")
+            context = browser.new_context(
+                viewport=VIEWPORT,
+                user_agent=user_agent,
+            )
+            page = context.new_page()
+            # tf-playwright-stealth patches the JS-layer detection signals
+            # (navigator.webdriver, plugin enumeration, WebGL vendor strings).
+            # Stacks on the TLS-layer fix above. Optional import so the
+            # crawler still runs where the package isn't installed.
+            if stealth_sync is not None:
+                try:
+                    stealth_sync(page)
+                except Exception as e:
+                    print(f"  stealth patch failed ({e.__class__.__name__}), continuing")
+            return browser, page
+
+        browser, page = launch()
         # One session's worth of warm-up budget, shared by every batch below.
         session = new_crawl_session()
-        # tf-playwright-stealth patches the JS-layer detection signals
-        # (navigator.webdriver, plugin enumeration, WebGL vendor strings).
-        # Stacks on the TLS-layer fix above. Optional import so the crawler
-        # still runs where the package isn't installed.
-        if stealth_sync is not None:
+        session["page"] = page
+
+        def relaunch():
+            nonlocal browser
             try:
-                stealth_sync(page)
-            except Exception as e:
-                print(f"  stealth patch failed ({e.__class__.__name__}), continuing")
+                browser.close()
+            except Exception:
+                pass
+            browser, session["page"] = launch(first=False)
+            return session["page"]
+
+        session["relaunch"] = relaunch
 
         if args.all_agencies and not slugs:
             slugs = list(DEFAULT_SLUGS)
@@ -2047,7 +2094,7 @@ def cmd_crawl(args):
                     print(f"[{label}] Archiving {len(new_slugs)} agency portal(s):\n")
 
                     results, newly_discovered, rate_limited = run_crawl_batch(
-                        page, new_slugs, data_dir, args.force,
+                        session["page"], new_slugs, data_dir, args.force,
                         args.delay, hashes, failed_slugs,
                         try_variations=args.try_variations,
                         session=session,
@@ -2068,7 +2115,7 @@ def cmd_crawl(args):
                 slugs = slugs[:args.batch]
             print(f"Archiving {len(slugs)} agency portal(s):\n")
             results, _, _ = run_crawl_batch(
-                page, slugs, data_dir, args.force,
+                session["page"], slugs, data_dir, args.force,
                 args.delay, hashes, failed_slugs,
                 try_variations=args.try_variations,
                 explicit=True,
