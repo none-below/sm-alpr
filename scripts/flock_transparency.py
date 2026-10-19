@@ -127,6 +127,57 @@ STALE_DAYS = 14
 WARMUP_RETRY_BACKOFF = 8   # seconds before the one cold-IP handshake retry, ±30% jitter
 RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears it"
 
+# The other face of the per-IP block: goto() raises with no HTTP response at
+# all (net::ERR_INVALID_ARGUMENT, from 2026-09-22 on). It is never about the
+# slug — the host is the same for every portal — and it is per-session: in
+# every run that hit it, every slug in the run failed the same way within a
+# second of each other, while the next runner's IP fetched them fine. So it is
+# handled exactly like a post-warm-up 403: end the run, don't stamp, don't
+# quarantine. It does not spend the warm-up retry, since the sampled runs show
+# a same-session retry seconds later fails too.
+#
+# It used to be quarantined like a 404. Over four weeks that parked 238 live,
+# previously-captured portals (san-mateo-ca-pd among them) in .failed_slugs.json
+# — 255 of the 261 captured slugs in total — leaving six in the rotation, so
+# even a `--max-age 1` run found only two eligible.
+UNREACHABLE_NOTE = "portal unreachable from this IP (no HTTP response); only a fresh IP clears it"
+
+
+def is_quarantinable(reason):
+    """True when a failure reason says the slug itself is not a portal.
+
+    Only these belong in .failed_slugs.json, which parks a slug until a manual
+    --retry-failed. Anything transient must stay out, because a quarantined
+    slug never fails visibly again — it silently stops being crawled:
+      parse_error — the parser tripped on a new format; fixed forward, and the
+        next crawl re-captures. Surfaced as a tracking issue instead.
+      http_5xx — the portal was reached but the server was having a bad
+        moment. redwood-city-ca-pd sat parked on one 503 from 2026-07-08.
+      navigation_error — legacy reason for what is now the "unreachable"
+        sentinel, which never reaches the quarantine path. Listed so entries
+        written before that change get pruned on load.
+    """
+    if reason in ("parse_error", "navigation_error"):
+        return False
+    return not reason.startswith("http_5")
+
+
+def prune_transient_quarantines(failed_slugs):
+    """Drop quarantine entries whose reason is_quarantinable rejects, in place.
+
+    Returns the pruned slugs. Makes a policy change self-applying: entries
+    written under an older, broader policy are released on the next crawl
+    rather than needing a hand-edit or a --retry-failed that would also release
+    the genuine 404s.
+    """
+    pruned = sorted(
+        slug for slug, info in failed_slugs.items()
+        if isinstance(info, dict) and not is_quarantinable(info.get("reason", ""))
+    )
+    for slug in pruned:
+        del failed_slugs[slug]
+    return pruned
+
 
 # ═══════════════════════════════════════════════════════════
 # Shared utilities
@@ -1487,8 +1538,8 @@ def attach_csv_integrity(portal_data):
 def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     """Returns (status, discovered_slugs).
 
-    status: Path (saved), "unchanged", "rate_limited", "forbidden", or
-    ("failed", reason).
+    status: Path (saved), "unchanged", "rate_limited", "forbidden",
+    "unreachable", or ("failed", reason).
 
     Artifact-set integrity: a slug-dir capture is the four-tuple
     .txt/.html/.json/.pdf. The whole set is staged in a `mktemp -d`
@@ -1510,8 +1561,10 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     try:
         response = page.goto(url, wait_until="domcontentloaded", timeout=30000)
     except Exception as e:
+        # No response at all — a per-IP block, not a verdict on the slug.
+        # See UNREACHABLE_NOTE.
         print(f"    WARNING: navigation failed: {e}")
-        return ("failed", "navigation_error"), []
+        return "unreachable", []
 
     # 403 and 429 are the same signal from Flock's edge — this IP is over its
     # hourly request budget — and neither is a block on the slug. run_crawl_batch
@@ -1672,7 +1725,7 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             for alt in slug_variations(slug)[1:]:
                 print(f"    trying variation: {alt}")
                 status, discovered_slugs = archive_agency(page, alt, data_dir, force, hashes)
-                if status in ("rate_limited", "forbidden"):
+                if status in ("rate_limited", "forbidden", "unreachable"):
                     # Budget spent mid-probe. A 403 says nothing about whether
                     # this variation exists, so don't claim it as the working
                     # slug — fall through to the stop below, still under the
@@ -1697,9 +1750,11 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             time.sleep(backoff)
             status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
 
-        if status in ("rate_limited", "forbidden"):
+        if status in ("rate_limited", "forbidden", "unreachable"):
             # Warm-up already spent (or just spent and didn't clear), so this
-            # is the rate limit. Don't retry and don't move on to the next
+            # is the rate limit — or the no-response form of the same per-IP
+            # block (UNREACHABLE_NOTE), which takes this path directly. Don't
+            # retry and don't move on to the next
             # slug: the cooldown is per-IP and hours long, so both would only
             # collect more 403s while burning the budget the remaining slugs
             # would have had. Leave the rest untouched for the next run's fresh
@@ -1716,7 +1771,7 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             # times running gets stamped, so a permanently unreachable one
             # still ages out instead of pinning position #1.
             remaining = total - i - 1
-            print(f"    {RATE_LIMIT_NOTE}")
+            print(f"    {UNREACHABLE_NOTE if status == 'unreachable' else RATE_LIMIT_NOTE}")
             print(f"    ending this run; {remaining} slug(s) left for the next run")
             if record_rate_limit_burn(slug, data_dir):
                 print(f"    {slug} has burned {RATE_LIMIT_BURN_LIMIT} runs in a "
@@ -1735,14 +1790,12 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
         if discovered_slugs:
             discovered.extend(discovered_slugs)
         if isinstance(status, tuple) and status[0] == "failed":
-            # Don't permanently quarantine transient failures:
-            #   parse_error: parser tripped on a new format variant; archive_agency
-            #     stages and only commits on full success so no artifacts written.
-            #     Surfaced as a tracking issue by the workflow.
-            # (403/429 rate limits return above and never reach here. Other
-            #  HTTP 4xx/5xx are real failures and do get quarantined until the
-            #  next --retry-failed.)
-            if status[1] != "parse_error":
+            # Quarantine only failures that say the slug isn't a portal (404
+            # and other 4xx, not_a_portal) until the next --retry-failed.
+            # Transient ones — parse_error, 5xx — are attempted (stamped
+            # above) but stay in the rotation; see is_quarantinable. 403/429
+            # and unreachable return above and never reach here.
+            if is_quarantinable(status[1]):
                 failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
         save_json(data_dir / HASH_FILE, hashes)
@@ -1774,6 +1827,14 @@ def cmd_crawl(args):
     data_dir.mkdir(parents=True, exist_ok=True)
     hashes = load_json(data_dir / HASH_FILE)
     failed_slugs = load_json(data_dir / FAILED_FILE)
+    # Release entries an older policy quarantined for transient reasons. Saved
+    # now, not with the first finished slug, so slug_probe and the dashboard
+    # see the released set even if this run is rate-limited on slug #1.
+    released = prune_transient_quarantines(failed_slugs)
+    if released:
+        print(f"  released {len(released)} transiently-quarantined slug(s) "
+              f"back into the rotation")
+        save_json(data_dir / FAILED_FILE, failed_slugs)
     # Snapshot the previously-failed set before --retry-failed wipes it — we
     # still want the sort to deprioritize retries of prior 404s below fresh
     # uncrawled slugs.
