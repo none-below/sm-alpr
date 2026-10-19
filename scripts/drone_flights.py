@@ -353,6 +353,9 @@ def cmd_discover(args, client=None, data_dir=DATA_DIR, today=None):
     state["unresolved_dashboards"] = unresolved
     state["discovered"] = today
     known = {p.parent.name for p in data_dir.glob(f"*/{ORG_FILE}")}
+    registry = load_registry()
+    reg_names = {e["agency_id"]: e.get("display_name") or (e.get("geo") or {}).get("name") for e in registry}
+    linked, unmatched = 0, 0
     for org_id in sorted(set(services) | known):
         path = data_dir / org_id / ORG_FILE
         org = load_json(path) or new_org(org_id, today)
@@ -367,6 +370,23 @@ def cmd_discover(args, client=None, data_dir=DATA_DIR, today=None):
         events = apply_discovery(org, today=today, listed=listed, description=description,
                                  dashboards=dashboards.get(org_id, []))
         name = org.get("agency_name") or org_id
+        # Link here, not only in crawl: discover is the step a person runs and
+        # reads when seeding, so a miss surfaces while someone can fix it (set
+        # agency_id and match "manual"). Crawl re-checks on every pull.
+        if (listed and not org.get("agency_id") and org.get("match") != "manual"
+                and parse_agency_name(org.get("agency_name"))):
+            try:
+                count, extent = fetch_count(client, org_id)
+            except (ArcGISError, IncompleteFetch) as e:
+                print(f"ERROR {org_id}: flight extent: {e}")
+            else:
+                ev, basis = apply_link(org, extent if count else None, today, registry)
+                if ev:
+                    linked += 1
+                    print(f"LINKED {name} -> {reg_names.get(ev['agency_id'])} ({ev['agency_id']}, {basis})")
+                else:
+                    unmatched += 1
+                    print(f"NO MATCH {name} ({org_id}): {basis}")
         if is_new:
             org["events"].insert(0, {"date": today, "event": "listed"})
             print(f"NEW SERVICE {name} ({org_id})")
@@ -375,6 +395,7 @@ def cmd_discover(args, client=None, data_dir=DATA_DIR, today=None):
                   + json.dumps({k: v for k, v in e.items() if k not in ("date", "event")}))
         save_json(path, org)
     save_json(data_dir / STATE_FILE, state)
+    print(f"registry: {linked} newly linked, {unmatched} police/sheriff orgs unmatched")
     return 0
 
 
@@ -450,23 +471,24 @@ def link_agency(name, extent, registry=None):
 
 
 def apply_link(org, extent, today, registry=None):
-    """Set agency_id/ori from the registry unless a human set them (match=manual)."""
+    """Set agency_id/ori from the registry unless a human set them (match=manual).
+    Returns (event or None, basis) — basis is link_agency's reason on a miss."""
     if org.get("match") == "manual":
-        return None
+        return None, "manual"
     entry, basis = link_agency(org.get("agency_name"), extent, registry)
     if entry is None:
         if org.get("agency_id"):
-            return None  # keep an earlier unique link rather than flapping on a sparse extent
+            return None, basis  # keep an earlier unique link rather than flapping on a sparse extent
         org["match"] = None
-        return None
+        return None, basis
     if entry["agency_id"] != org.get("agency_id"):
         org["agency_id"] = entry["agency_id"]
         org["ori"] = list(entry.get("ori") or [])
         org["match"] = basis
         ev = {"date": today, "event": "linked", "agency_id": entry["agency_id"], "basis": basis}
         org.setdefault("events", []).append(ev)
-        return ev
-    return None
+        return ev, basis
+    return None, basis
 
 
 # ── flights store ───────────────────────────────────────────────
