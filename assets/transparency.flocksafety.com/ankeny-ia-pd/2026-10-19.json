@@ -1,0 +1,1624 @@
+{
+  "crawled_slug": "ankeny-ia-pd",
+  "crawled_name": "Ankeny IA PD",
+  "archived_date": "2026-10-19",
+  "whats_detected": "License Plates, Vehicles",
+  "whats_not_detected": "Facial recognition, People, Gender, Race",
+  "acceptable_use_policy": "Data is used for law enforcement purposes only. Data is owned by Ankeny IA PD and is never sold to 3rd parties.",
+  "prohibited_uses": "Immigration enforcement, traffic enforcement, harassment or intimidation, usage based solely on a protected class (i.e. race, sex, religion), Personal use.",
+  "access_policy": "All system access requires a valid reason and is stored indefinitely.",
+  "hotlist_policy": "Hotlist hits are required to be human verified prior to action.\nSOC 2 Type II\n\nIndependently audited controls covering security, availability, and confidentiality.\n\nISO 27001\n\nInformation security management aligned with international standards.\n\nAdherence to Key Privacy Principles\n\nBuilt to focus on data minimization, purpose limitation, and transparency.\n\nMyth vs. Fact\nMyth\n\nFlock has been hacked.\n\nFact\n\nFlock's cloud environment has never been breached. Flock invests in a strong security posture, including adhering to NDAA, SOC2 (Type II), ISO 27001, ISO 27018 FedRAMP 20x, and Higher Education Community Vendor Assessment Tool (HECVAT) compliance. Additional security precautions include Role-Based Access Controls, data encrypted at-rest and in transit, required Multi-Factor Authentication, and regular penetration testing.\n\nMyth\n\nFlock sells and/or shares customer data.\n\nFact\n\nYour community owns 100% of your data and it will never be sold. Only your agency decides who to share your data with, not Flock. Flock Safety does not publicly release agency search data. Flock does not operate or support any public-facing searchable database of law enforcement lookups, and we do not provide license plate search histories to websites or third parties without the agency's knowledge and authorization. Other agencies who you share footage with have been responding to FOIA requests and sharing this search data.\n\nMyth\n\nMy data is fed into a national database.\n\nFact\n\nEach agency controls access to its own data. Agencies may choose to share information through a broader network, but nothing is shared automatically. Participation is opt-in, governed by defined agreements, and limited to lawful investigative purposes.\n\nMyth\n\nFlock cameras use facial recognition.\n\nFact\n\nFlock cameras do not use facial recognition technology. Searches are based on vehicle characteristics, and not identity. Flock cannot recognize, identify, or track individuals. It is purpose built for specific public safety investigations, not to monitor people.\n\nMore Info",
+  "sharing_with_partners": "",
+  "sharing_restrictions": "",
+  "data_retention_days": 30,
+  "camera_count": 15,
+  "hotlists_alerted_on": "NCIC, NCMEC Amber Alert",
+  "vehicles_detected_30d": 439016,
+  "hotlist_hits_30d": 7153,
+  "searches_30d": 196,
+  "sharing_outbound": [],
+  "sharing_inbound": [],
+  "sharing_outbound_section_present": false,
+  "sharing_inbound_section_present": false,
+  "sharing_outbound_declared_none": false,
+  "overview": "Ankeny IA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Ankeny IA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Ankeny IA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.\n\nCommunity Impact\nData & Usage Summary",
+  "policy_info": "",
+  "alpr_policy": "",
+  "alpr_sop": "",
+  "additional_info": "For further information on Flock Safety policies and other items, please refer to the links below:\n\nhttps://www.flocksafety.com/privacy-ethics\nhttps://www.flocksafety.com/trust-center\nhttps://www.flocksafety.com/legal",
+  "download_csv": "",
+  "search_audit": "Download to view searches performed over the last 30 days.",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": "",
+  "crawled_at": "2026-10-19T22:47:04.861430+00:00",
+  "search_audit_csv": [
+    {
+      "id": "7283202f-916b-4524-a06c-38f0b467af0c",
+      "userId": "***",
+      "searchDate": "2026-09-19T22:18:25.340Z",
+      "networkCount": "75",
+      "reason": "INVESTIGATION",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "49671095-aac3-4693-aa1f-4a0504856c1f",
+      "userId": "***",
+      "searchDate": "2026-09-20T22:35:41.270Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "b22f4ff3-601e-4b46-9b54-2362d9b87d83",
+      "userId": "***",
+      "searchDate": "2026-09-21T03:11:37.595Z",
+      "networkCount": "11",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "8308678b-23a9-4b95-a8ea-2f88374c9589",
+      "userId": "***",
+      "searchDate": "2026-09-21T08:50:05.368Z",
+      "networkCount": "24",
+      "reason": "INVESTIGATION",
+      "offenseType": "Assault/Battery Offenses"
+    },
+    {
+      "id": "af0d338f-2714-4c26-894b-d139600268ac",
+      "userId": "***",
+      "searchDate": "2026-09-21T10:13:07.075Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "37432650-a150-448e-96cf-7216606bd241",
+      "userId": "***",
+      "searchDate": "2026-09-21T12:04:45.352Z",
+      "networkCount": "5709",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "24a89c3f-8f3a-4bad-85fc-405d5bb36a78",
+      "userId": "***",
+      "searchDate": "2026-09-21T12:26:01.727Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "a8915aeb-0897-4b00-9b03-5c263c1713ae",
+      "userId": "***",
+      "searchDate": "2026-09-21T14:43:14.139Z",
+      "networkCount": "5703",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "9de3f1f1-73bb-491e-8800-a53e20bf6cf7",
+      "userId": "***",
+      "searchDate": "2026-09-21T18:29:17.923Z",
+      "networkCount": "1917",
+      "reason": "INVESTIGATION",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "f051e840-ca9d-41e9-82a8-a60c0170bd3f",
+      "userId": "***",
+      "searchDate": "2026-09-21T19:41:43.197Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "f3a71638-10b5-4322-be80-ab940b80ab12",
+      "userId": "***",
+      "searchDate": "2026-09-21T20:20:18.296Z",
+      "networkCount": "1917",
+      "reason": "INVESTIGATION",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "8b9d2b4c-1211-4f5e-8030-95dd7fcdb37a",
+      "userId": "***",
+      "searchDate": "2026-09-22T00:33:52.388Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "2144e499-2ea1-4088-976e-b502e8ff31d0",
+      "userId": "***",
+      "searchDate": "2026-09-22T01:27:44.921Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "41ce8dbe-a833-48be-b497-149731bde431",
+      "userId": "***",
+      "searchDate": "2026-09-22T02:34:04.346Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "024ca6da-d9e7-4ad2-8a62-7681e9ae5dfa",
+      "userId": "***",
+      "searchDate": "2026-09-22T03:08:01.189Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "0c06bff5-00b1-480e-8ebf-0de497a5b6c5",
+      "userId": "***",
+      "searchDate": "2026-09-22T10:10:55.867Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "d4cffef6-39d3-47ef-bf6f-04709ace405b",
+      "userId": "***",
+      "searchDate": "2026-09-22T12:12:59.439Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "52170c4c-cc5a-49f6-b33f-2682a417f051",
+      "userId": "***",
+      "searchDate": "2026-09-22T12:59:06.605Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "762f02a3-4d41-40cf-a16a-20c5579b96f7",
+      "userId": "***",
+      "searchDate": "2026-09-22T15:27:59.028Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "5cc4b77e-3ff0-4cbf-979c-774297c93327",
+      "userId": "***",
+      "searchDate": "2026-09-22T15:58:27.837Z",
+      "networkCount": "44",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "01d43cd8-aaea-4109-a836-b09d55e0c42d",
+      "userId": "***",
+      "searchDate": "2026-09-22T18:15:35.200Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "20bf3e1b-59ef-44dd-918d-c5fe1447ed1a",
+      "userId": "***",
+      "searchDate": "2026-09-22T21:00:10.842Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "f49e1778-89f7-4c4c-9873-ce53c075ec94",
+      "userId": "***",
+      "searchDate": "2026-09-22T21:00:29.390Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "11001a12-de77-4f06-a746-81d2d160604f",
+      "userId": "***",
+      "searchDate": "2026-09-22T21:00:43.249Z",
+      "networkCount": "44",
+      "reason": "INVESTIGATION",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "1c0de497-0767-4295-a7e5-b494b142dec0",
+      "userId": "***",
+      "searchDate": "2026-09-22T22:05:49.379Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "b5c7291d-4200-4e03-a428-33e18e739a67",
+      "userId": "***",
+      "searchDate": "2026-09-23T00:53:34.994Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "650a999e-21a7-456b-8fbe-2457eb7be588",
+      "userId": "***",
+      "searchDate": "2026-09-23T12:53:50.221Z",
+      "networkCount": "5684",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "41b34df0-5f1f-4dc7-9e8b-47bf10e844be",
+      "userId": "***",
+      "searchDate": "2026-09-23T13:12:19.966Z",
+      "networkCount": "5684",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "965d7ba2-8a9f-4f3b-9b20-023cc29630ae",
+      "userId": "***",
+      "searchDate": "2026-09-23T16:06:45.644Z",
+      "networkCount": "5680",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "0f99f2f0-1ebc-4587-b2c0-534154f0910e",
+      "userId": "***",
+      "searchDate": "2026-09-23T17:09:38.706Z",
+      "networkCount": "5679",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "afbbe7d4-79cd-4791-8ddd-3af879d2d9b2",
+      "userId": "***",
+      "searchDate": "2026-09-23T21:43:38.735Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "4b1ff5b2-f690-4095-9370-8d5cb0626c91",
+      "userId": "***",
+      "searchDate": "2026-09-23T23:14:39.162Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "b222e494-aadf-44d6-baae-26a9821ec672",
+      "userId": "***",
+      "searchDate": "2026-09-24T00:06:30.159Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "fcbd7d47-9d34-4f0a-9d87-0fca031749a2",
+      "userId": "***",
+      "searchDate": "2026-09-24T02:02:18.277Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "aabd4a83-c9b6-44a9-b9d5-4a1fe1d4d2b9",
+      "userId": "***",
+      "searchDate": "2026-09-24T05:04:45.818Z",
+      "networkCount": "37",
+      "reason": "INVESTIGATION",
+      "offenseType": "Assault/Battery Offenses"
+    },
+    {
+      "id": "f8447c5a-af1c-4584-aa03-0ee277992e53",
+      "userId": "***",
+      "searchDate": "2026-09-24T13:58:31.162Z",
+      "networkCount": "44",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "afba319d-740e-4066-b538-6e9a0faae285",
+      "userId": "***",
+      "searchDate": "2026-09-24T13:58:34.014Z",
+      "networkCount": "1903",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "6f185ec2-6f8c-4a79-92ed-b8aa2982dd1c",
+      "userId": "***",
+      "searchDate": "2026-09-24T14:00:56.374Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "9e753ae9-6e11-4ccd-988d-7b2e446f6509",
+      "userId": "***",
+      "searchDate": "2026-09-24T14:03:45.892Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "a237264d-45a4-4bf8-ac27-0a90ba2d1530",
+      "userId": "***",
+      "searchDate": "2026-09-24T20:09:49.387Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Threats/Harassment"
+    },
+    {
+      "id": "09c6e8fe-71ca-48a7-86f1-5165dd7086f1",
+      "userId": "***",
+      "searchDate": "2026-09-24T20:25:46.939Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "b017a389-766d-47a9-82cc-3c5029e72653",
+      "userId": "***",
+      "searchDate": "2026-09-25T12:42:12.144Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "4b69724f-5780-43b6-8350-2872f1354aa4",
+      "userId": "***",
+      "searchDate": "2026-09-25T13:09:17.996Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "b6ed95db-ef96-4cb4-9bc2-290a1be403b1",
+      "userId": "***",
+      "searchDate": "2026-09-25T14:30:46.664Z",
+      "networkCount": "1902",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "5887bee6-4fd9-4a4f-abb3-25490f7590ab",
+      "userId": "***",
+      "searchDate": "2026-09-25T20:34:01.839Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "723c4c77-9854-46e4-bb70-f197e93bd374",
+      "userId": "***",
+      "searchDate": "2026-09-25T21:27:28.954Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "6a5f22fc-7c60-461d-8263-95cc01448322",
+      "userId": "***",
+      "searchDate": "2026-09-25T21:33:06.245Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "d1559e74-d442-4b2e-9a49-7b82280912b0",
+      "userId": "***",
+      "searchDate": "2026-09-25T21:33:41.958Z",
+      "networkCount": "25",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "8cb8720a-5528-43d4-ade7-a945a9df80c7",
+      "userId": "***",
+      "searchDate": "2026-09-25T22:03:04.562Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "d404f4e9-8a52-4896-a944-ec7538ba2e3a",
+      "userId": "***",
+      "searchDate": "2026-09-26T14:14:40.329Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "8861c247-3dc9-4190-a876-a5efef63c5fa",
+      "userId": "***",
+      "searchDate": "2026-09-26T20:08:31.233Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "a5b993dd-ee7e-4060-9d82-1b7a7cf25a7a",
+      "userId": "***",
+      "searchDate": "2026-09-26T21:07:25.150Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "18d9ac92-983d-4147-9977-cf67cf752e73",
+      "userId": "***",
+      "searchDate": "2026-09-26T23:28:35.689Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "87fc9bcd-7bed-4059-bb08-ceb9d3fc5715",
+      "userId": "***",
+      "searchDate": "2026-09-27T00:37:08.889Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "88c201d6-2a13-4b01-82c7-83bbb715d0ef",
+      "userId": "***",
+      "searchDate": "2026-09-27T01:09:45.478Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "1edf0095-b65c-4256-900f-06346a9cad1e",
+      "userId": "***",
+      "searchDate": "2026-09-27T01:52:40.156Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "8c7ba7bd-da71-47b7-b1ad-38b04d1bf762",
+      "userId": "***",
+      "searchDate": "2026-09-27T03:15:25.620Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "192138f8-bd7e-4f9e-bb5a-b546f9f12914",
+      "userId": "***",
+      "searchDate": "2026-09-27T06:33:11.451Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "d7d84be0-7b03-411c-a7e7-ca614d455ed0",
+      "userId": "***",
+      "searchDate": "2026-09-27T07:10:20.053Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "20290d18-8b43-4956-99f2-b1a70f232323",
+      "userId": "***",
+      "searchDate": "2026-09-27T08:59:03.154Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "e3d5bfa6-662d-476c-b2e8-e13542b27685",
+      "userId": "***",
+      "searchDate": "2026-09-27T09:21:36.133Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "168b62b1-427b-4266-8b4e-4a83ff2a62b2",
+      "userId": "***",
+      "searchDate": "2026-09-27T22:26:47.569Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "e767d625-1c9a-4013-ad98-3e3d76ed69c5",
+      "userId": "***",
+      "searchDate": "2026-09-28T00:18:51.452Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "29cc03f2-f13d-4d11-b14d-9d1214437046",
+      "userId": "***",
+      "searchDate": "2026-09-28T01:01:29.923Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "aeca5b1f-ec9c-42fa-9173-75aa8efb22bb",
+      "userId": "***",
+      "searchDate": "2026-09-28T04:36:03.373Z",
+      "networkCount": "37",
+      "reason": "INVESTIGATION",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "57ced8df-db32-440a-94f9-aab72bd9645a",
+      "userId": "***",
+      "searchDate": "2026-09-29T16:50:48.945Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "fd6b8110-8e47-405a-93e1-fc8ea1a4f835",
+      "userId": "***",
+      "searchDate": "2026-09-29T19:12:02.140Z",
+      "networkCount": "1894",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "0744ff43-d5a5-4cb0-a8a3-201ed7fcbbcc",
+      "userId": "***",
+      "searchDate": "2026-09-30T06:02:45.754Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Assault/Battery Offenses"
+    },
+    {
+      "id": "a506934d-015c-431a-b9de-25f41ce155c7",
+      "userId": "***",
+      "searchDate": "2026-09-30T13:28:29.303Z",
+      "networkCount": "44",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "71038283-1e60-48f3-b3d2-4bfa2feffdac",
+      "userId": "***",
+      "searchDate": "2026-09-30T14:07:47.437Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "aae51092-3317-466c-89d1-2669d0472d13",
+      "userId": "***",
+      "searchDate": "2026-09-30T15:00:22.998Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "8e9b8665-96b8-49ac-895f-519a17b401cf",
+      "userId": "***",
+      "searchDate": "2026-09-30T15:12:08.556Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "ebb018a1-249c-4dbd-984c-ba3d0ae78c1d",
+      "userId": "***",
+      "searchDate": "2026-09-30T18:09:17.196Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "ec3dd4b4-4405-4007-8811-a6466f306cce",
+      "userId": "***",
+      "searchDate": "2026-10-01T01:23:46.878Z",
+      "networkCount": "37",
+      "reason": "INVESTIGATION",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "3a0c67f2-fd60-4ce1-8f46-2bd02d073940",
+      "userId": "***",
+      "searchDate": "2026-10-01T02:25:28.946Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "665258e3-8ebe-49cf-9473-dcd0da3f497f",
+      "userId": "***",
+      "searchDate": "2026-10-01T03:29:13.596Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "8cc45cc1-1465-43b4-9f5e-c513ab2e96b1",
+      "userId": "***",
+      "searchDate": "2026-10-01T07:53:15.130Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "163e754c-3c24-4b97-a18c-ccb273d68dff",
+      "userId": "***",
+      "searchDate": "2026-10-01T12:18:26.663Z",
+      "networkCount": "0",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "250f92c0-3f2c-46bb-acc4-3580c2e1ddf1",
+      "userId": "***",
+      "searchDate": "2026-10-01T13:10:30.480Z",
+      "networkCount": "35",
+      "reason": "INVESTIGATION",
+      "offenseType": "Traffic Infraction"
+    },
+    {
+      "id": "9b1a764d-9cf2-499b-b319-2768126ae848",
+      "userId": "***",
+      "searchDate": "2026-10-01T20:08:09.739Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "b84cab23-c642-4e8e-837a-e1b1b46bb0f3",
+      "userId": "***",
+      "searchDate": "2026-10-02T07:29:59.760Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "1b8f2042-2859-4026-a362-f125629d857a",
+      "userId": "***",
+      "searchDate": "2026-10-02T13:39:02.354Z",
+      "networkCount": "5314",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "c4c6c7a0-875d-487d-8892-11602de8c753",
+      "userId": "***",
+      "searchDate": "2026-10-02T13:58:26.865Z",
+      "networkCount": "1875",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "aae809b1-7ed4-4cfc-b07e-ac3b77407ac3",
+      "userId": "***",
+      "searchDate": "2026-10-02T14:33:23.969Z",
+      "networkCount": "1875",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "acfd451a-31df-44a6-8f78-623530a4ec7e",
+      "userId": "***",
+      "searchDate": "2026-10-02T15:22:21.608Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Assault/Battery Offenses"
+    },
+    {
+      "id": "a2e4763c-0b8b-4cb0-82c4-02f216f7edb7",
+      "userId": "***",
+      "searchDate": "2026-10-02T15:26:05.416Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "0e5b4d93-0137-45d8-b993-0c1d762db8e3",
+      "userId": "***",
+      "searchDate": "2026-10-02T15:38:39.106Z",
+      "networkCount": "1874",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "11678044-94c7-4e1d-83c8-7ec950eaede5",
+      "userId": "***",
+      "searchDate": "2026-10-02T16:04:27.389Z",
+      "networkCount": "1874",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "bba5211b-7f97-4c80-a064-24b05fcc7180",
+      "userId": "***",
+      "searchDate": "2026-10-02T16:26:02.263Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "a91e872a-b94f-4e31-bb81-b80c8f89651f",
+      "userId": "***",
+      "searchDate": "2026-10-02T17:00:56.119Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "8a97a3c8-1911-4cb4-b297-89b0728d4e05",
+      "userId": "***",
+      "searchDate": "2026-10-02T17:04:20.268Z",
+      "networkCount": "1874",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "a715d4c8-74cc-4406-b39c-e548d0afd604",
+      "userId": "***",
+      "searchDate": "2026-10-02T18:00:10.012Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "54ed11d5-4a8a-4d33-8441-302d973a5245",
+      "userId": "***",
+      "searchDate": "2026-10-02T18:00:22.231Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "fc981778-d6f9-4a67-a68f-3e0b50f3b7ee",
+      "userId": "***",
+      "searchDate": "2026-10-02T19:04:03.187Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "d663fd1b-f2dc-43b7-b6c4-cf29da97d779",
+      "userId": "***",
+      "searchDate": "2026-10-03T23:41:38.570Z",
+      "networkCount": "5197",
+      "reason": "INVESTIGATION",
+      "offenseType": "Traffic Infraction"
+    },
+    {
+      "id": "e881fe1e-2d08-4d44-8b3f-14f7bbb52218",
+      "userId": "***",
+      "searchDate": "2026-10-04T04:36:14.075Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "3f1fc1c1-2f4c-49f3-b59b-87f4afd98b0c",
+      "userId": "***",
+      "searchDate": "2026-10-04T05:05:47.164Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "2944413d-a9aa-4618-b68a-2a038cc3ce89",
+      "userId": "***",
+      "searchDate": "2026-10-04T12:36:34.738Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "da942f8a-821a-4f8a-a72b-b2d9c34cdbab",
+      "userId": "***",
+      "searchDate": "2026-10-04T12:38:43.616Z",
+      "networkCount": "25",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "d2e9a9dc-24ba-4d63-8ce7-55928d4b648b",
+      "userId": "***",
+      "searchDate": "2026-10-04T20:08:59.770Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "6a4f188d-96f5-41c2-a09a-a892c6726d52",
+      "userId": "***",
+      "searchDate": "2026-10-05T13:23:01.067Z",
+      "networkCount": "35",
+      "reason": "INVESTIGATION",
+      "offenseType": "Traffic Infraction"
+    },
+    {
+      "id": "ab381ce0-037a-41a8-86d3-a5a4fa459739",
+      "userId": "***",
+      "searchDate": "2026-10-05T13:39:44.254Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "99881d0c-58fd-4fd6-9aa1-7f12b74bc587",
+      "userId": "***",
+      "searchDate": "2026-10-05T14:30:17.302Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Destruction/Damage/Vandalism of Property"
+    },
+    {
+      "id": "779183fb-1e98-4ac2-8d35-1f6e8bdf7121",
+      "userId": "***",
+      "searchDate": "2026-10-05T15:05:27.889Z",
+      "networkCount": "44",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "3e5cd163-fe8b-4869-9fb9-b446aa360ae2",
+      "userId": "***",
+      "searchDate": "2026-10-05T15:45:52.770Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Destruction/Damage/Vandalism of Property"
+    },
+    {
+      "id": "c3485777-c6aa-49e1-af6c-936050afc1f1",
+      "userId": "***",
+      "searchDate": "2026-10-05T16:22:07.564Z",
+      "networkCount": "1870",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "d19cb800-9377-4a09-a939-0cb6588fd4c6",
+      "userId": "***",
+      "searchDate": "2026-10-05T16:54:26.487Z",
+      "networkCount": "5293",
+      "reason": "INVESTIGATION",
+      "offenseType": "Destruction/Damage/Vandalism of Property"
+    },
+    {
+      "id": "541f32f5-88d7-41f9-8c2e-0b3674439fc7",
+      "userId": "***",
+      "searchDate": "2026-10-05T17:09:13.564Z",
+      "networkCount": "5294",
+      "reason": "INVESTIGATION",
+      "offenseType": "Destruction/Damage/Vandalism of Property"
+    },
+    {
+      "id": "84d38df6-ef97-42bb-9aa6-6435c8747920",
+      "userId": "***",
+      "searchDate": "2026-10-05T19:20:24.582Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "f6c50016-b94c-490b-af7e-e5bbab6c1ce4",
+      "userId": "***",
+      "searchDate": "2026-10-05T19:21:15.613Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "9004071f-3b7d-41bf-8c1f-3e59669c88cf",
+      "userId": "***",
+      "searchDate": "2026-10-05T20:00:54.611Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "b62b63aa-11de-404b-93bc-6d1cf2b36095",
+      "userId": "***",
+      "searchDate": "2026-10-06T15:44:42.040Z",
+      "networkCount": "1855",
+      "reason": "INVESTIGATION",
+      "offenseType": "Pornography/Obscene Material"
+    },
+    {
+      "id": "7e1dc750-60d5-40e3-9608-d473bf2c657f",
+      "userId": "***",
+      "searchDate": "2026-10-06T18:45:44.997Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "622bc85d-1270-4cfd-8e21-b711fd13ff80",
+      "userId": "***",
+      "searchDate": "2026-10-07T11:29:53.512Z",
+      "networkCount": "1848",
+      "reason": "INVESTIGATION",
+      "offenseType": "Pornography/Obscene Material"
+    },
+    {
+      "id": "54f9d0c0-5e74-4f63-99b3-e4bc2d02e537",
+      "userId": "***",
+      "searchDate": "2026-10-07T11:59:10.296Z",
+      "networkCount": "1861",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "d4de048e-6f18-44d3-86f5-9a29ed9f2b73",
+      "userId": "***",
+      "searchDate": "2026-10-07T12:01:53.723Z",
+      "networkCount": "1861",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "b55a4c65-fbf7-4afd-992b-440f79e9f6a0",
+      "userId": "***",
+      "searchDate": "2026-10-07T13:27:45.481Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "9892fde6-0ded-4935-b12f-77c0d2b01f3b",
+      "userId": "***",
+      "searchDate": "2026-10-07T13:46:14.885Z",
+      "networkCount": "5476",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "8ac9e215-70e4-4aca-bbf1-40794e21157c",
+      "userId": "***",
+      "searchDate": "2026-10-07T14:16:15.087Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "42b67c1a-bdd9-4f9c-8ad2-79820174bbd1",
+      "userId": "***",
+      "searchDate": "2026-10-07T14:25:19.385Z",
+      "networkCount": "5476",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "11930cbd-5560-4622-a6d3-1a13ca71c226",
+      "userId": "***",
+      "searchDate": "2026-10-07T17:59:01.696Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "9002acd9-d390-46ad-9967-a4d865190cc3",
+      "userId": "***",
+      "searchDate": "2026-10-07T18:17:22.043Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "2a3fee52-1f7a-40da-a13c-1d0d340a0cca",
+      "userId": "***",
+      "searchDate": "2026-10-07T18:43:06.081Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "ca4b1838-b523-46ad-b03b-740390d57e49",
+      "userId": "***",
+      "searchDate": "2026-10-07T20:55:49.835Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "e3b06767-b231-4e98-91bc-0a212ca95526",
+      "userId": "***",
+      "searchDate": "2026-10-07T21:08:01.939Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "8d12deb7-d930-400a-b435-7bf6e877e329",
+      "userId": "***",
+      "searchDate": "2026-10-07T21:24:34.412Z",
+      "networkCount": "5467",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "8f68a890-6467-40d8-9825-b7f6d63fe297",
+      "userId": "***",
+      "searchDate": "2026-10-08T13:16:04.411Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "67dc458b-2cc8-4c06-a907-a0d3aa4f0d37",
+      "userId": "***",
+      "searchDate": "2026-10-08T14:20:40.713Z",
+      "networkCount": "44",
+      "reason": "INVESTIGATION",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "5de62ccf-cbe1-4a68-94eb-15b384052330",
+      "userId": "***",
+      "searchDate": "2026-10-08T14:55:57.787Z",
+      "networkCount": "2",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "cfd5900a-c30e-445f-bf03-bf9f93ac51f8",
+      "userId": "***",
+      "searchDate": "2026-10-08T15:01:22.053Z",
+      "networkCount": "6",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "8b4a143c-1550-4c01-a792-689b6955fb76",
+      "userId": "***",
+      "searchDate": "2026-10-08T16:44:58.401Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "156303b2-8bcd-4e60-9f31-1a50f1e7d089",
+      "userId": "***",
+      "searchDate": "2026-10-08T17:23:16.499Z",
+      "networkCount": "1856",
+      "reason": "INVESTIGATION",
+      "offenseType": "Drugs/Narcotics"
+    },
+    {
+      "id": "cdcc0535-2e5d-486d-8ad3-ffa26a54f448",
+      "userId": "***",
+      "searchDate": "2026-10-08T17:38:29.631Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "73320ea2-9efe-4084-ac15-ff3ba0f1eae6",
+      "userId": "***",
+      "searchDate": "2026-10-08T18:42:13.137Z",
+      "networkCount": "1854",
+      "reason": "INVESTIGATION",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "b832e2bc-1b90-494e-8be2-4526c43b73ee",
+      "userId": "***",
+      "searchDate": "2026-10-08T18:54:56.490Z",
+      "networkCount": "5230",
+      "reason": "INVESTIGATION",
+      "offenseType": "Drugs/Narcotics"
+    },
+    {
+      "id": "0bdf6a78-e4fc-49be-a834-048264c3902b",
+      "userId": "***",
+      "searchDate": "2026-10-08T19:59:19.307Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "447cbf6f-2b03-4c69-b4eb-46f6d2dcd578",
+      "userId": "***",
+      "searchDate": "2026-10-08T20:06:17.104Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "a0cb8cf4-0637-43e2-9b87-95341a98f83a",
+      "userId": "***",
+      "searchDate": "2026-10-08T20:30:26.217Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "374e9821-2509-40d9-b2d9-73c9c7109304",
+      "userId": "***",
+      "searchDate": "2026-10-08T23:14:58.301Z",
+      "networkCount": "37",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "e0557325-211e-4ed3-a33e-6d44b1675659",
+      "userId": "***",
+      "searchDate": "2026-10-08T23:16:30.372Z",
+      "networkCount": "37",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "545c0070-7515-4a65-8608-a6cc328412c3",
+      "userId": "***",
+      "searchDate": "2026-10-09T02:31:55.095Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "43171411-901b-43bf-bca3-c1bc2482f338",
+      "userId": "***",
+      "searchDate": "2026-10-09T02:40:20.832Z",
+      "networkCount": "37",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "bc249b31-7841-47be-a022-d29d18bdde0e",
+      "userId": "***",
+      "searchDate": "2026-10-09T02:41:47.518Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Traffic Infraction"
+    },
+    {
+      "id": "fe10bd6e-df84-4d69-89c4-9ac629482f3a",
+      "userId": "***",
+      "searchDate": "2026-10-09T21:22:32.858Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "9e2df8f4-c677-41f3-91ad-57fa30d9db82",
+      "userId": "***",
+      "searchDate": "2026-10-10T23:51:46.993Z",
+      "networkCount": "35",
+      "reason": "INVESTIGATION",
+      "offenseType": "Traffic Infraction"
+    },
+    {
+      "id": "34e93911-95f4-484f-92b4-c5b1482ff9f7",
+      "userId": "***",
+      "searchDate": "2026-10-11T00:00:45.777Z",
+      "networkCount": "35",
+      "reason": "INVESTIGATION",
+      "offenseType": "Traffic Infraction"
+    },
+    {
+      "id": "1da8ac14-8740-46dd-a425-d536fe921942",
+      "userId": "***",
+      "searchDate": "2026-10-11T14:19:13.359Z",
+      "networkCount": "5227",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "1858a9c1-faff-462b-922f-1c329b8433ff",
+      "userId": "***",
+      "searchDate": "2026-10-11T20:11:33.686Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "e2433688-9e0c-465d-946d-0fb418602f6d",
+      "userId": "***",
+      "searchDate": "2026-10-12T14:02:08.968Z",
+      "networkCount": "42",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "138dd8b4-b1c4-4860-90c2-822faa87ee04",
+      "userId": "***",
+      "searchDate": "2026-10-12T17:04:43.651Z",
+      "networkCount": "5228",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "0939b5e7-2f04-488c-9032-3a2a025050c2",
+      "userId": "***",
+      "searchDate": "2026-10-12T23:57:17.488Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Assault/Battery Offenses"
+    },
+    {
+      "id": "431c76d0-687a-403d-852f-808469eeae0d",
+      "userId": "***",
+      "searchDate": "2026-10-13T06:48:01.938Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Protective/Protection Order"
+    },
+    {
+      "id": "91d04062-5a0f-4703-98e1-73c702aa8850",
+      "userId": "***",
+      "searchDate": "2026-10-13T13:55:45.388Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "996ac932-803f-4efa-bbc4-f8151222ca97",
+      "userId": "***",
+      "searchDate": "2026-10-13T14:13:08.239Z",
+      "networkCount": "5210",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "4178b107-57ff-452c-9677-eb4e3cc46e12",
+      "userId": "***",
+      "searchDate": "2026-10-13T14:14:19.803Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "4cda8384-03ca-40b1-943e-2335ba4adbf4",
+      "userId": "***",
+      "searchDate": "2026-10-13T15:00:21.185Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "3d632e97-bfee-4f6d-98fc-8ff387d993cc",
+      "userId": "***",
+      "searchDate": "2026-10-13T19:13:12.928Z",
+      "networkCount": "5438",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "6f26d9ac-da4f-4674-9708-01da8eaecca9",
+      "userId": "***",
+      "searchDate": "2026-10-13T22:37:34.884Z",
+      "networkCount": "37",
+      "reason": "INVESTIGATION",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "0856ebaa-8647-4b33-bbdd-273a2d1d86e6",
+      "userId": "***",
+      "searchDate": "2026-10-14T13:28:31.137Z",
+      "networkCount": "35",
+      "reason": "INVESTIGATION",
+      "offenseType": "Traffic Infraction"
+    },
+    {
+      "id": "83111710-198a-469b-b8ab-9c1c16154731",
+      "userId": "***",
+      "searchDate": "2026-10-14T14:13:28.797Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "cf1c13ef-11f6-4795-b6d8-6654e0f35bc8",
+      "userId": "***",
+      "searchDate": "2026-10-14T14:21:10.465Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "792af7da-7bbf-4541-b962-ff654f13b0a0",
+      "userId": "***",
+      "searchDate": "2026-10-14T14:42:36.431Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Traffic Infraction, Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "1969d74e-b575-4426-a346-6104609580fe",
+      "userId": "***",
+      "searchDate": "2026-10-14T14:44:39.817Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "459e133f-6b91-4e8c-bb8a-36d48a502acb",
+      "userId": "***",
+      "searchDate": "2026-10-14T15:04:20.805Z",
+      "networkCount": "5215",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "38430d2e-5f21-49ca-b12f-00c415bb2f94",
+      "userId": "***",
+      "searchDate": "2026-10-14T15:06:29.746Z",
+      "networkCount": "1832",
+      "reason": "INVESTIGATION",
+      "offenseType": "Pornography/Obscene Material"
+    },
+    {
+      "id": "4a8eee7b-bcd6-4abe-a11e-19d2c7e6e42e",
+      "userId": "***",
+      "searchDate": "2026-10-14T15:27:04.024Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "72e4973e-d2a2-4fe7-9de3-53b6f7709769",
+      "userId": "***",
+      "searchDate": "2026-10-14T15:31:34.941Z",
+      "networkCount": "1847",
+      "reason": "INVESTIGATION",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "cc5b4853-8152-4500-97c0-8b74a0d84a7d",
+      "userId": "***",
+      "searchDate": "2026-10-14T15:40:46.370Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "47af5726-f0d4-4bdd-823e-b13e1aaf9f7f",
+      "userId": "***",
+      "searchDate": "2026-10-14T16:32:51.773Z",
+      "networkCount": "1832",
+      "reason": "INVESTIGATION",
+      "offenseType": "Pornography/Obscene Material"
+    },
+    {
+      "id": "700d035c-7f1a-484a-99f1-ea0d3c9fda66",
+      "userId": "***",
+      "searchDate": "2026-10-15T05:29:14.703Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Drugs/Narcotics"
+    },
+    {
+      "id": "8e5ee326-b5b3-43e3-9dda-4bda5266b096",
+      "userId": "***",
+      "searchDate": "2026-10-15T06:24:40.285Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Drugs/Narcotics"
+    },
+    {
+      "id": "4508ff9b-e7ec-4f06-bd89-ac88fa8725c0",
+      "userId": "***",
+      "searchDate": "2026-10-15T14:58:32.559Z",
+      "networkCount": "5213",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "49bade61-37c3-492c-b518-a14b9d5a2fb5",
+      "userId": "***",
+      "searchDate": "2026-10-15T15:46:07.152Z",
+      "networkCount": "0",
+      "reason": "INVESTIGATION",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "6e99bbe7-8984-4d91-b30f-0f3f5b34964d",
+      "userId": "***",
+      "searchDate": "2026-10-15T16:05:21.938Z",
+      "networkCount": "43",
+      "reason": "INVESTIGATION",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "a0486208-1cb3-4940-abd4-eeb4cc632fdf",
+      "userId": "***",
+      "searchDate": "2026-10-15T16:10:32.334Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "c32ae7bb-2e29-4350-b006-d2277bc30d56",
+      "userId": "***",
+      "searchDate": "2026-10-15T21:11:08.556Z",
+      "networkCount": "35",
+      "reason": "INVESTIGATION",
+      "offenseType": "Traffic Infraction"
+    },
+    {
+      "id": "4ea0812d-baf7-4e82-bf14-4250a0986fa1",
+      "userId": "***",
+      "searchDate": "2026-10-16T12:41:59.002Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "e35247f5-5884-45f4-859a-1d54a6c13f47",
+      "userId": "***",
+      "searchDate": "2026-10-16T13:31:40.454Z",
+      "networkCount": "5180",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "842636c0-6c60-4ef9-b350-0c8f4000060e",
+      "userId": "***",
+      "searchDate": "2026-10-16T14:18:41.974Z",
+      "networkCount": "5180",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "83827b66-1fc4-4826-a2d2-9ea3365128dc",
+      "userId": "***",
+      "searchDate": "2026-10-16T15:02:56.828Z",
+      "networkCount": "0",
+      "reason": "INVESTIGATION",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "22dc9a13-3835-46cc-a5fc-8bc551f288cc",
+      "userId": "***",
+      "searchDate": "2026-10-16T15:08:15.835Z",
+      "networkCount": "5181",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "baa6dd7a-9021-48e6-a73c-639b71a9551f",
+      "userId": "***",
+      "searchDate": "2026-10-16T16:11:29.054Z",
+      "networkCount": "5177",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "992ca7ff-7648-48c2-bbee-6b034c820e6f",
+      "userId": "***",
+      "searchDate": "2026-10-16T16:55:50.333Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "a4e3eca4-9b07-4f76-847a-ec30f772e795",
+      "userId": "***",
+      "searchDate": "2026-10-16T18:37:27.740Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "3e822ef1-07dc-45a8-bb55-e40ff83182ad",
+      "userId": "***",
+      "searchDate": "2026-10-16T20:25:58.012Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "731df1b1-0ef8-477e-b893-207e976cd108",
+      "userId": "***",
+      "searchDate": "2026-10-16T23:14:57.243Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Threats/Harassment"
+    },
+    {
+      "id": "a9eb7d8b-f969-4172-8f04-272d5853cf7e",
+      "userId": "***",
+      "searchDate": "2026-10-17T03:00:21.958Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "de58f6b0-74d1-4547-8a9b-9c4cf6d4905d",
+      "userId": "***",
+      "searchDate": "2026-10-18T00:09:37.819Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "bb4af5f7-294a-4440-a63d-a7b5aff2c780",
+      "userId": "***",
+      "searchDate": "2026-10-18T04:32:46.525Z",
+      "networkCount": "5173",
+      "reason": "INVESTIGATION",
+      "offenseType": "Drugs/Narcotics"
+    },
+    {
+      "id": "94f65705-ef70-41b7-af66-19b2e8237897",
+      "userId": "***",
+      "searchDate": "2026-10-18T14:30:41.157Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "a422379c-3e82-464e-b732-6d33aab13099",
+      "userId": "***",
+      "searchDate": "2026-10-18T18:05:14.404Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Homicide/Death Investigation"
+    },
+    {
+      "id": "66d6d47a-2183-463a-96e4-7acc77815394",
+      "userId": "***",
+      "searchDate": "2026-10-18T18:05:49.245Z",
+      "networkCount": "1",
+      "reason": "INVESTIGATION",
+      "offenseType": "Homicide/Death Investigation"
+    },
+    {
+      "id": "65704e17-297d-4172-ba42-860c281115ad",
+      "userId": "***",
+      "searchDate": "2026-10-18T18:06:59.856Z",
+      "networkCount": "38",
+      "reason": "INVESTIGATION",
+      "offenseType": "Homicide/Death Investigation"
+    },
+    {
+      "id": "3ff23d37-e9ea-4639-9db2-14bd24bdc5a4",
+      "userId": "***",
+      "searchDate": "2026-10-18T20:06:36.367Z",
+      "networkCount": "75",
+      "reason": "INVESTIGATION",
+      "offenseType": "Homicide/Death Investigation"
+    },
+    {
+      "id": "c3127f5f-d3f3-44af-b00a-49ca42e20288",
+      "userId": "***",
+      "searchDate": "2026-10-18T21:45:57.352Z",
+      "networkCount": "75",
+      "reason": "INVESTIGATION",
+      "offenseType": "Homicide/Death Investigation"
+    },
+    {
+      "id": "34eaea4d-5ce0-4fc8-ae9f-c5a4f4089258",
+      "userId": "***",
+      "searchDate": "2026-10-18T23:17:17.395Z",
+      "networkCount": "75",
+      "reason": "INVESTIGATION",
+      "offenseType": "Homicide/Death Investigation"
+    }
+  ],
+  "integrity": {
+    "search_audit_csv": {
+      "row_count": 196,
+      "date_resets": 0,
+      "date_ordering": "ascending",
+      "duplicate_ids": 0,
+      "date_span": {
+        "first": "2026-09-19T22:18:25.340000+00:00",
+        "last": "2026-10-18T23:17:17.395000+00:00",
+        "min": "2026-09-19T22:18:25.340000+00:00",
+        "max": "2026-10-18T23:17:17.395000+00:00"
+      }
+    }
+  }
+}
