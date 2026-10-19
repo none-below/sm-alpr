@@ -132,10 +132,13 @@ RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears 
 # 2026-09-22 on). It is never about the slug — the host is the same for every
 # portal — and it is per-runner: in every run that hit it, every slug failed
 # the same way within a second of each other (~10ms after goto), while the
-# next runner fetched them fine. Not predicted by Azure region, Chrome version
-# or runner image. Whether it is Flock's edge refusing the IP or something on
-# the runner is still open; the refresh workflow logs egress IP and DNS and
-# keeps a Chrome net-log from affected runs to settle it. Either way it is
+# next runner fetched them fine. It is Chromium's own net error -4, not a
+# server answer — usually a local syscall returning EINVAL — and it arrived
+# with Chrome 154: on 2026-09-22/23, 0 of 24 runs on Chrome 153 hit it, 11 of
+# 36 on 154 did (155 still does). Not predicted by Azure region or runner
+# image. So most likely a Chrome 154 change failing on some runner hosts, not
+# Flock's edge; the refresh workflow keeps a Chrome net-log from affected runs
+# (and logs egress IP and DNS) to show which component raises it. Either way it is
 # handled like a post-warm-up 403: end the run, don't stamp, don't
 # quarantine. It does not spend the warm-up retry, since the sampled runs show
 # a same-session request a second later fails too.
