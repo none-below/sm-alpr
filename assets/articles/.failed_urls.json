@@ -34,6 +34,11 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/",
     "last_attempt": "2026-05-08T22:09:04Z"
   },
+  "https://davisvanguard.org/2026/10/marin-alpr-data-breach/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-17T04:18:08Z"
+  },
   "https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
@@ -104,10 +109,25 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-27T16:49:26Z"
   },
+  "https://thehill.com/policy/technology/6073913-alpr-camera-privacy-debate/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-17T04:15:18Z"
+  },
+  "https://thehill.com/policy/technology/6073913-alpr-camera-privacy-debate/?ipid=promo-link-block3": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-17T19:17:59Z"
+  },
   "https://universe.byu.edu/metro/the-debate-of-alpr-cameras-in-provo": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-15T01:25:48Z"
+  },
+  "https://urgentcomm.com/tracking-monitoring-control/ai-driven-alpr-systems-scrutinized-during-senate-hearing": {
+    "attempts": 3,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://urgentcomm.com/tracking-monitoring-control/ai-driven-alpr-systems-scrutinized-during-senate-hearing\nCall log:\n  - navigating to \"https://urgentcomm.com/tracking-monitoring-control/ai-driven-alpr-systems-scrutinized-during-senate-hearing\", waiting until; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-17T04:16:49Z"
   },
   "https://www.aclunc.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them": {
     "attempts": 3,

@@ -1,0 +1,97 @@
+{
+  "url": "https://www.govtech.com/public-safety/flock-safety-cameras-go-dark-in-fullerton-calif",
+  "source_domain": "govtech.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Flock Safety Cameras Go Dark in Fullerton, Calif.",
+  "byline": null,
+  "published_at": "2026-10-16T19:42:00.737",
+  "fetched_at": "2026-10-17T13:49:52Z",
+  "discovered_by": "bing:flock",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 62 pts, HIGH/CRITICAL findings",
+  "scanner_score": 62,
+  "content_hash": "577ebff1726e0b8d260a415a4e3fefb830ac2d64dd32f3b4b36da29725c776cd",
+  "paths": {
+    "html": "assets/articles/govtech.com/public-safety-flock-safety-cameras-go-dark-in-fullerton-calif_88eeeefb.html",
+    "meta": "assets/articles/govtech.com/public-safety-flock-safety-cameras-go-dark-in-fullerton-calif_88eeeefb.meta.json",
+    "txt": "assets/articles/govtech.com/public-safety-flock-safety-cameras-go-dark-in-fullerton-calif_88eeeefb.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "outcome:reconsidering",
+    "policy:audit",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "4398b153-1fbd-5ded-9f89-bc27c442cf94",
+    "6dd1ac80-46a7-5e30-a512-bc0d51bfe013",
+    "2c981ce6-8d54-565f-bb99-ac885eee8769"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "4398b153-1fbd-5ded-9f89-bc27c442cf94",
+      "display_name": "Fullerton CA PD",
+      "state": "CA",
+      "score": 16.683,
+      "matched_forms": [
+        "Fullerton",
+        "Fullerton Police"
+      ]
+    },
+    {
+      "agency_id": "6dd1ac80-46a7-5e30-a512-bc0d51bfe013",
+      "display_name": "Santa Ana CA PD",
+      "state": "CA",
+      "score": 4.95,
+      "matched_forms": [
+        "Santa Ana"
+      ]
+    },
+    {
+      "agency_id": "2c981ce6-8d54-565f-bb99-ac885eee8769",
+      "display_name": "Orange County SO CA",
+      "state": "CA",
+      "score": 2.717,
+      "matched_forms": [
+        "Orange County"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "4398b153-1fbd-5ded-9f89-bc27c442cf94"
+  ],
+  "summary": "Fullerton, Calif., voted 3-1 to power down its 19 Flock Safety ALPR cameras for six months while the city holds a town hall and reviews police use, audit protocols, and policy, though the Flock contract remains in place through 2028. The article also notes Santa Ana's upcoming council discussion on potentially terminating its Flock contracts amid concerns about federal agency queries of its camera data.",
+  "key_quotes": [
+    {
+      "quote": "Fullerton is powering down its 19 Flock Safety automated license plate reader cameras for the next six months, while the city holds a town hall and reviews the Police Department's use of the system.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "the department's transparency portal lists more than 200 California agencies in the Flock system that could have access to Fullerton's data and roughly 250 organizations sharing their own data with Fullerton through the system, including in Nevada and Arizona.",
+      "paragraph_idx": 17
+    },
+    {
+      "quote": "Northern California Regional Intelligence Center made more than 27,000 queries of Santa Ana's camera network over six months. The search logs named federal agencies including the FBI and DEA, as well as the ATF and U.S. Marshals",
+      "paragraph_idx": 19
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-17T13:51:20Z",
+  "article_id": "art_88eeeefb0f00"
+}
