@@ -25,13 +25,28 @@
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 137,
+    "duplicates": 0,
+    "first_takeoff": "2026-08-25T20:37:22Z",
+    "last_takeoff": "2026-10-14T19:06:57Z",
+    "unhashed": 137
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
   "match": null,

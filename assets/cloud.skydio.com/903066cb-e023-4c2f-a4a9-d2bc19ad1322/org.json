@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "48a65226-c77c-557d-ac4a-fa2f396f2672",
   "agency_name": "[Paraverse] Chesterfield County Police Department (VA)",
   "dashboards": [],
   "description": "Feature service for [Paraverse] Chesterfield County Police Department (VA)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "48a65226-c77c-557d-ac4a-fa2f396f2672",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "903066cb-e023-4c2f-a4a9-d2bc19ad1322",
-  "ori": [],
+  "ori": [
+    "VA0210100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/903066cb-e023-4c2f-a4a9-d2bc19ad1322-production/FeatureServer"
 }

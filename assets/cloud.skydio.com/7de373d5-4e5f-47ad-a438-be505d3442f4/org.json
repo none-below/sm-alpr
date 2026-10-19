@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "fad690b8-293a-5847-983c-05f24030006f",
   "agency_name": "Pasco Sheriffs Office (FL)",
   "dashboards": [],
   "description": "Feature service for Pasco Sheriffs Office (FL)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "fad690b8-293a-5847-983c-05f24030006f",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2024-12-11T22:36:50Z",
+    "last_takeoff": "2024-12-17T21:59:02Z",
+    "unhashed": 2
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "7de373d5-4e5f-47ad-a438-be505d3442f4",
-  "ori": [],
+  "ori": [
+    "FL0510000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/7de373d5-4e5f-47ad-a438-be505d3442f4-production/FeatureServer"
 }

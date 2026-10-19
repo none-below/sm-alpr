@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "f49b20d2-8cce-5037-8de0-a5051274be89",
   "agency_name": "Prince William County Police Department (VA)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Prince William County Police Department (VA) Drone Flights"
+    },
+    {
+      "agency_id": "f49b20d2-8cce-5037-8de0-a5051274be89",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 64,
+    "duplicates": 0,
+    "first_takeoff": "2026-10-01T15:47:40Z",
+    "last_takeoff": "2026-10-16T01:22:36Z",
+    "unhashed": 64
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "ec311dc8-2815-421e-95a5-94b03d339709",
-  "ori": [],
+  "ori": [
+    "VA0750300"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/ec311dc8-2815-421e-95a5-94b03d339709-production/FeatureServer"
 }

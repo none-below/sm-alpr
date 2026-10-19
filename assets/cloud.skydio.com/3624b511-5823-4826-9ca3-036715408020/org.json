@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "ebb05a77-ec8d-5cea-b958-74f2a2fab56f",
   "agency_name": "Clinton County Sheriff's Office (OH)",
   "dashboards": [],
   "description": "Feature service for Clinton County Sheriff's Office (OH)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "ebb05a77-ec8d-5cea-b958-74f2a2fab56f",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 7,
+    "duplicates": 0,
+    "first_takeoff": "2026-02-26T21:51:07Z",
+    "last_takeoff": "2026-02-27T03:36:55Z",
+    "unhashed": 7
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "3624b511-5823-4826-9ca3-036715408020",
-  "ori": [],
+  "ori": [
+    "OH0140000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/3624b511-5823-4826-9ca3-036715408020-production/FeatureServer"
 }

@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "485d236f-0919-564f-807f-406dc4e3b6b4",
   "agency_name": "Kennewick Police Department (WA)",
   "dashboards": [],
   "description": "Feature service for Kennewick Police Department (WA)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "485d236f-0919-564f-807f-406dc4e3b6b4",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "3be76c77-9974-48ff-84d2-472f644b14a4",
-  "ori": [],
+  "ori": [
+    "WA0030100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/3be76c77-9974-48ff-84d2-472f644b14a4-production/FeatureServer"
 }

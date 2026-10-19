@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "e151e5dc-ed0c-55c1-b55b-6c558f9a2d8f",
   "agency_name": "Jefferson County Sheriffs Office (FL)",
   "dashboards": [],
   "description": "Feature service for Jefferson County Sheriffs Office (FL)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "e151e5dc-ed0c-55c1-b55b-6c558f9a2d8f",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "5ca3c94e-5c79-4c1e-9900-0e12d2fb75b2",
-  "ori": [],
+  "ori": [
+    "FL0330000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5ca3c94e-5c79-4c1e-9900-0e12d2fb75b2-production/FeatureServer"
 }

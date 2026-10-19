@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "07c4ae1a-d62b-59a2-90e0-5c660623f5bc",
   "agency_name": "Fort Collins Police Services",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Fort Collins Police Services Drone Flights"
+    },
+    {
+      "agency_id": "07c4ae1a-d62b-59a2-90e0-5c660623f5bc",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-04-23T05:59:08Z",
+    "last_takeoff": "2026-04-23T05:59:08Z",
+    "unhashed": 1
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "38400145-96fb-4e1b-997e-713a681cacb4",
-  "ori": [],
+  "ori": [
+    "CO0350300"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/38400145-96fb-4e1b-997e-713a681cacb4-production/FeatureServer"
 }

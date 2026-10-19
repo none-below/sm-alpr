@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "c45e5dc2-fd51-530a-8b09-3488758f9328",
   "agency_name": "Orange County Sheriff's Office (FL)",
   "dashboards": [],
   "description": "Feature service for Orange County Sheriff's Office (FL)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "c45e5dc2-fd51-530a-8b09-3488758f9328",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "4f34a04e-8d08-4987-bfc2-1407faf531a2",
-  "ori": [],
+  "ori": [
+    "FL0480000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/4f34a04e-8d08-4987-bfc2-1407faf531a2-production/FeatureServer"
 }

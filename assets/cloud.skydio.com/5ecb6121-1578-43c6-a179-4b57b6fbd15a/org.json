@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "5fdadbce-d7e7-5ad9-9aa2-39df17274168",
   "agency_name": "Adams County Sheriffs Office (WA)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Adams County Sheriffs Office (WA) Drone Flights"
+    },
+    {
+      "agency_id": "5fdadbce-d7e7-5ad9-9aa2-39df17274168",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 24,
+    "duplicates": 0,
+    "first_takeoff": "2026-04-17T06:43:54Z",
+    "last_takeoff": "2026-08-27T11:08:06Z",
+    "unhashed": 24
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "5ecb6121-1578-43c6-a179-4b57b6fbd15a",
-  "ori": [],
+  "ori": [
+    "WA0010000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5ecb6121-1578-43c6-a179-4b57b6fbd15a-production/FeatureServer"
 }

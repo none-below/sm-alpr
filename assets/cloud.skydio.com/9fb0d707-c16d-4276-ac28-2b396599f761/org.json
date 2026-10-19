@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "813bae37-fafe-5daa-ae6d-22d15479c0c9",
   "agency_name": "Galt Police Department (CA)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Galt Police Department (CA) Drone Flights"
+    },
+    {
+      "agency_id": "813bae37-fafe-5daa-ae6d-22d15479c0c9",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 10,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-10T16:03:06Z",
+    "last_takeoff": "2026-09-11T10:23:18Z",
+    "unhashed": 10
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "9fb0d707-c16d-4276-ac28-2b396599f761",
-  "ori": [],
+  "ori": [
+    "CA0340200"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/9fb0d707-c16d-4276-ac28-2b396599f761-production/FeatureServer"
 }

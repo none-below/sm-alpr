@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "51bb3db8-0336-538b-aefe-df864ee3e515",
   "agency_name": "Watchung Police Department",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Watchung Police Department Drone Flights"
+    },
+    {
+      "agency_id": "51bb3db8-0336-538b-aefe-df864ee3e515",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 80,
+    "duplicates": 0,
+    "first_takeoff": "2025-05-06T17:32:40Z",
+    "last_takeoff": "2026-10-13T13:45:59Z",
+    "unhashed": 80
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "fd6caf9d-c8a9-4a5d-8392-332b6b286f21",
-  "ori": [],
+  "ori": [
+    "NJ0182100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/fd6caf9d-c8a9-4a5d-8392-332b6b286f21-production/FeatureServer"
 }

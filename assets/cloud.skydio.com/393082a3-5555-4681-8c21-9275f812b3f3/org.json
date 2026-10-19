@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "3966672f-8846-5fca-b508-4986e15d9035",
   "agency_name": "Pickerington Police Department (OH)",
   "dashboards": [],
   "description": "Feature service for Pickerington Police Department (OH)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "3966672f-8846-5fca-b508-4986e15d9035",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "393082a3-5555-4681-8c21-9275f812b3f3",
-  "ori": [],
+  "ori": [
+    "OH0230900"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/393082a3-5555-4681-8c21-9275f812b3f3-production/FeatureServer"
 }

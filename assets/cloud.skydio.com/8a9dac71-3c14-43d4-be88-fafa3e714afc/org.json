@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "11f1cbb4-0887-5372-aa3c-30eadab40d50",
   "agency_name": "Pickens County Sheriffs Office (GA)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Pickens County Sheriffs Office (GA) Drone Flights"
+    },
+    {
+      "agency_id": "11f1cbb4-0887-5372-aa3c-30eadab40d50",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 55,
+    "duplicates": 0,
+    "first_takeoff": "2026-06-29T15:15:32Z",
+    "last_takeoff": "2026-10-17T16:09:05Z",
+    "unhashed": 55
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "8a9dac71-3c14-43d4-be88-fafa3e714afc",
-  "ori": [],
+  "ori": [
+    "GA1120000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/8a9dac71-3c14-43d4-be88-fafa3e714afc-production/FeatureServer"
 }

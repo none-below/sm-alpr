@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "8b59e382-0153-52e4-b127-fdfadbe7a54c",
   "agency_name": "Nevada County Sheriff's Office",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Nevada County Sheriff's Office Drone Flights"
+    },
+    {
+      "agency_id": "8b59e382-0153-52e4-b127-fdfadbe7a54c",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 5,
+    "duplicates": 0,
+    "first_takeoff": "2025-02-03T20:19:30Z",
+    "last_takeoff": "2025-03-01T01:04:08Z",
+    "unhashed": 5
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "78f645bb-c80a-463a-a70a-53e7af54c765",
-  "ori": [],
+  "ori": [
+    "CA0290000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/78f645bb-c80a-463a-a70a-53e7af54c765-production/FeatureServer"
 }

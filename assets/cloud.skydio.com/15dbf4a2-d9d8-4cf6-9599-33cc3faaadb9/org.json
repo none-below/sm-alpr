@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "7ae8cb40-265b-533b-969b-3079635a640b",
   "agency_name": "Cherry Valley Police Department",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Cherry Valley Police Department Drone Flights"
+    },
+    {
+      "agency_id": "7ae8cb40-265b-533b-969b-3079635a640b",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
+    "count": 4,
+    "duplicates": 0,
+    "first_takeoff": "2024-11-10T00:18:23Z",
+    "last_takeoff": "2025-12-26T02:14:16Z",
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "15dbf4a2-d9d8-4cf6-9599-33cc3faaadb9",
-  "ori": [],
+  "ori": [
+    "IL1010100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/15dbf4a2-d9d8-4cf6-9599-33cc3faaadb9-production/FeatureServer"
 }

@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "e2cf8439-aa23-50be-bb8a-43bd412c78b1",
   "agency_name": "Peoria Police Department (IL)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Peoria Police Department (IL) Drone Flights"
+    },
+    {
+      "agency_id": "e2cf8439-aa23-50be-bb8a-43bd412c78b1",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "38e01724-6bd9-4c7b-a436-ab245d12d40d",
-  "ori": [],
+  "ori": [
+    "IL0720700"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/38e01724-6bd9-4c7b-a436-ab245d12d40d-production/FeatureServer"
 }
