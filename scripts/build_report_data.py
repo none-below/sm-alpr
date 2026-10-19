@@ -65,6 +65,10 @@ HISTORY_DIR = Path("docs/data/history")
 AUDIT_DIR = Path("docs/data/audit")
 # drone_flights.py's DATA_DIR (Skydio DFR dashboards).
 SKYDIO_DIR = Path("assets/cloud.skydio.com")
+# Skydio simulation/demo orgs: "[Paraverse] Oakland County Sheriff's Office
+# (MI)", "SIM - Cincinnati Police Department". drone_flights.py links them to
+# the real agency, but their dashboards show simulated flights.
+SKYDIO_SIM_ORG = re.compile(r"\bparaverse\b|^\s*sim\s*-", re.I)
 OUT_PATH = Path("docs/data/report_data.json")
 RECENT_ADD_WINDOW_DAYS = 90
 
@@ -553,7 +557,8 @@ def _load_vendor_pages(axon_dir=None, skydio_dir=None):
     last crawl (tenant.json from axon_transparency.py). A tenant that
     publishes nothing is left out — Axon Evidence is near-universal among
     police departments, so a tenant alone says nothing about ALPR use.
-    Skydio: public drone-flight dashboards (org.json from drone_flights.py).
+    Skydio: public drone-flight dashboards (org.json from drone_flights.py),
+    minus simulation/demo orgs.
 
     Only records linked to a registry agency_id count; an unconfirmed
     `candidate` match doesn't. Either directory may be absent.
@@ -580,17 +585,22 @@ def _load_vendor_pages(axon_dir=None, skydio_dir=None):
             org = json.loads(path.read_text())
         except (OSError, json.JSONDecodeError):
             continue
-        if not org.get("agency_id"):
+        if not org.get("agency_id") or SKYDIO_SIM_ORG.search(org.get("agency_name") or ""):
             continue
-        for d in org.get("dashboards") or []:
-            # The href is rendered as-is (HTML-escaped only), so https-only.
-            if d.get("access") == "public" and (d.get("url") or "").startswith("https://"):
-                pages[org["agency_id"]].append({
-                    "vendor": "Skydio",
-                    "kind": "drone",
-                    "label": "Skydio drone flights",
-                    "url": d["url"],
-                })
+        # The href is rendered as-is (HTML-escaped only), so https-only.
+        public = [d for d in org.get("dashboards") or []
+                  if d.get("access") == "public" and (d.get("url") or "").startswith("https://")]
+        if public:
+            # One link per org: every dashboard shows the same flights, and
+            # later ones are copies ("[<staff name> COPY FOR EXPERIMENT] Denver
+            # Police Department ..."), so the first-created is the original.
+            d = min(public, key=lambda d: d.get("created") or "")
+            pages[org["agency_id"]].append({
+                "vendor": "Skydio",
+                "kind": "drone",
+                "label": "Skydio drone flights",
+                "url": d["url"],
+            })
     return pages
 
 

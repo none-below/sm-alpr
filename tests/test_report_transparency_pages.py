@@ -5,8 +5,10 @@ pages across vendors: its Flock portal (when crawled), a published Axon ALPR
 page, and public Skydio drone-flight dashboards.
 
 Focus: only records linked to a registry agency_id count (an unconfirmed
-`candidate` doesn't); an Axon tenant that publishes nothing and a non-public
-Skydio dashboard are left out; a missing vendor directory is not an error.
+`candidate` doesn't); an Axon tenant that publishes nothing, a non-public
+Skydio dashboard and a Skydio simulation org (Paraverse, "SIM - ") are left
+out; an org with several public dashboards (later ones are copies) gets one
+link; a missing vendor directory is not an error.
 """
 
 import json
@@ -26,9 +28,9 @@ def _tenant(axon, key, **fields):
     _write(axon / key / "tenant.json", {"host": f"{key}.evidence.com", **fields})
 
 
-def _org(skydio, org_id, agency_id, dashboards):
-    _write(skydio / org_id / "org.json",
-           {"org_id": org_id, "agency_id": agency_id, "dashboards": dashboards})
+def _org(skydio, org_id, agency_id, dashboards, name="Testville Police Department"):
+    _write(skydio / org_id / "org.json", {"org_id": org_id, "agency_name": name,
+                                          "agency_id": agency_id, "dashboards": dashboards})
 
 
 def test_vendor_pages(tmp_path):
@@ -38,12 +40,20 @@ def test_vendor_pages(tmp_path):
     _tenant(axon, "clearlakepd", agency_id=None, published=True,
             candidate={"agency_id": "clearlake"})
     _org(skydio, "org-sm", "san-mateo", [
-        {"access": "public", "url": "https://www.arcgis.com/apps/dashboards/aaa"},
+        # a later public copy of the same dashboard: one link, the original
+        {"access": "public", "url": "https://www.arcgis.com/apps/dashboards/copy",
+         "created": "2026-10-01T00:00:00Z"},
+        {"access": "public", "url": "https://www.arcgis.com/apps/dashboards/aaa",
+         "created": "2026-09-25T01:08:46Z"},
         {"access": "org", "url": "https://www.arcgis.com/apps/dashboards/bbb"},
     ])
     _org(skydio, "org-unlinked", None, [
         {"access": "public", "url": "https://www.arcgis.com/apps/dashboards/ccc"},
     ])
+    for org_id, sim_name in (("org-para", "[Paraverse] Oakland County Sheriff's Office (MI)"),
+                             ("org-sim", "SIM - Cincinnati Police Department")):
+        _org(skydio, org_id, "san-mateo",
+             [{"access": "public", "url": "https://www.arcgis.com/apps/dashboards/sim"}], name=sim_name)
 
     pages = build_report_data._load_vendor_pages(axon, skydio)
 
