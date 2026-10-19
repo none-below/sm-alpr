@@ -342,3 +342,18 @@ def test_prune_releases_only_transient_quarantines():
 
     assert released == ["flaky-ca-pd", "live-ca-pd"], released
     assert set(failed) == {"gone-ca-pd", "odd-ca-pd"}, failed
+
+
+@pytest.mark.parametrize("platform,token", [
+    ("linux", "X11; Linux x86_64"),
+    ("darwin", "Macintosh; Intel Mac OS X 10_15_7"),
+    ("win32", "Windows NT 10.0; Win64; x64"),
+])
+def test_user_agent_matches_the_launched_browser(platform, token):
+    """The UA must agree with the browser's own TLS handshake and client
+    hints: its major version (reduced to MAJOR.0.0.0, as Chrome sends it) and
+    the host OS — not a fixed Chrome/131-on-macOS string."""
+    ua = ft.chrome_user_agent("155.0.8059.84", platform=platform)
+    assert ua == (f"Mozilla/5.0 ({token}) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"), ua
+    assert "Headless" not in ua

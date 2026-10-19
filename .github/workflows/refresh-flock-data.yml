@@ -100,8 +100,28 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
 
+      - name: Record runner egress IP and Flock DNS
+        # Diagnostic for the intermittent net::ERR_INVALID_ARGUMENT runs
+        # (UNREACHABLE_NOTE in scripts/flock_transparency.py): every slug in
+        # an affected run fails while the next runner fetches them fine, and
+        # the Azure region doesn't predict it. Logs what else varies per
+        # runner — the egress IP, and what transparency.flocksafety.com
+        # resolves to (A/AAAA, plus the HTTPS record Chrome reads for ALPN and
+        # ECH). Never contacts Flock's edge: the IP echo is AWS's and the rest
+        # is DNS, so it spends none of the ~3 req/hr budget. Reporting-only.
+        continue-on-error: true
+        run: |
+          echo "egress IPv4: $(curl -fsS --max-time 10 https://checkip.amazonaws.com || echo unknown)"
+          getent ahosts transparency.flocksafety.com || echo "getent: lookup failed"
+          if command -v dig >/dev/null; then
+            echo "HTTPS RR: $(dig +short HTTPS transparency.flocksafety.com || echo lookup failed)"
+          fi
+
       - name: Crawl oldest agencies
         id: crawl
+        env:
+          # Chrome writes a net-log here; kept below only if a navigation failed.
+          FLOCK_NETLOG: /tmp/chrome-netlog.json
         run: |
           # pipefail is load-bearing: without it `| tee` reports tee's exit
           # status and the crawler's non-zero "everything failed" code is
@@ -125,9 +145,25 @@ jobs:
               --delay 1 | tee /tmp/crawl.log || rc=$?
           fi
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          if grep -q "navigation failed" /tmp/crawl.log; then
+            echo "unreachable=true" >> "$GITHUB_OUTPUT"
+          fi
           if [ "$rc" -ne 0 ]; then
             echo "::warning::Crawl captured nothing (exit $rc). Persisting the attempt log, then failing this job at the end."
           fi
+
+      - name: Keep the Chrome net-log from a failed navigation
+        # Shows which layer raised ERR_INVALID_ARGUMENT (DNS, connect, TLS,
+        # HTTP). Only uploaded when a navigation failed; a normal run's log is
+        # noise. Default capture mode strips cookies and credentials.
+        if: always() && steps.crawl.outputs.unreachable == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome-netlog-${{ github.run_id }}
+          path: /tmp/chrome-netlog.json
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Parse new data
         run: uv run python scripts/flock_transparency.py parse | tee -a /tmp/crawl.log
