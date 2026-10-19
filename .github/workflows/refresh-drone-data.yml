@@ -7,9 +7,12 @@ name: Refresh Drone Flight Data
 # discover lists every service + public dashboard; crawl pulls each org whose
 # layer changed since the last run (or every 7 days), records added / edited /
 # removed flights in that org's changes.ndjson, and hashes new tracks. Track
-# bytes are NOT committed — only their sha256 — so a later local
-# `fetch-geometry` can prove the stored copy is what was served. --max-geometry
-# caps the tracks hashed per run; the rest are picked up on later runs.
+# bytes are NOT committed — only their sha256. This run's new track blobs are
+# uploaded as the drone-tracks-<run>-<attempt> artifact (90-day retention);
+# `drone_flights.py sync-artifacts` pulls them into the local store and sets
+# the DRONE_TRACKS_SYNCED_THROUGH repo variable, and the last step here opens
+# an issue if an unsynced artifact reaches 60 days. --max-geometry caps the
+# tracks hashed per run; the rest are picked up on later runs.
 #
 # Captures accumulate on the drone-refresh branch across runs (like
 # axon-refresh): each day's state is point-in-time evidence, and a removal is
@@ -31,6 +34,8 @@ concurrency:
 permissions:
   contents: write
   pull-requests: write
+  issues: write    # the sync-reminder issue (GITHUB_TOKEN; REFRESH_PAT has no Issues scope)
+  actions: read    # list this repo's drone-tracks artifacts
 
 jobs:
   refresh:
@@ -83,14 +88,29 @@ jobs:
 
       - name: Crawl flights
         id: crawl
+        env:
+          # Store mode keeps the bytes of every track hashed this run (and only
+          # those) for the artifact below.
+          DRONE_GEOMETRY_DIR: ${{ runner.temp }}/drone-tracks
         run: |
           # Record rc rather than dying: state for whatever succeeded still
           # has to be committed. Failed for real at the end.
           set -o pipefail
           rc=0
-          uv run python scripts/drone_flights.py crawl --geometry hash \
+          uv run python scripts/drone_flights.py crawl --geometry store \
             --max-geometry ${{ inputs.max_geometry || '20000' }} | tee -a /tmp/drone.log || rc=$?
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
+
+      - name: Upload new track blobs
+        # Before the commit: if this fails the job stops, the hashes aren't
+        # committed, and the next run re-hashes (and re-uploads) those tracks.
+        uses: actions/upload-artifact@v4
+        with:
+          name: drone-tracks-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/drone-tracks
+          if-no-files-found: ignore
+          retention-days: 90
+          compression-level: 0   # blobs are already gzip
 
       - name: Commit and push
         id: commit
@@ -149,3 +169,12 @@ jobs:
         run: |
           echo "::error::Every org check errored (exit ${{ steps.crawl.outputs.rc }}). State for anything that succeeded was committed above."
           exit 1
+
+      - name: Sync reminder
+        # Bookkeeping last, after the push, so it can never block a capture.
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          uv run python scripts/drone_flights.py artifact-reminder \
+            --synced-through "${{ vars.DRONE_TRACKS_SYNCED_THROUGH }}"

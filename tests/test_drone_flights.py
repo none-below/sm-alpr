@@ -395,3 +395,142 @@ def test_flight_rows_normalize_times_and_blanks(env):
     assert r["duration_s"] == 600 and r["external_id"] is None and r["description"] is None
     assert r["takeoff"].endswith("Z") and "." in r["takeoff"]
     assert r["agency_id"] == "ag-testville"
+
+
+def test_store_mode_never_refetches_already_hashed_tracks(env):
+    # CI runs store mode on an empty temp store every day; only tracks hashed
+    # in that run may be fetched, or every run would re-download everything.
+    fake, client, data, store = env
+    discover(client, data)
+    crawl(client, data)  # hash only
+    before = len(fake.queries(lambda p: "objectIds" in p))
+    crawl(client, data, geometry="store", force=True)
+    assert len(fake.queries(lambda p: "objectIds" in p)) == before
+    assert not store.exists()
+
+
+# ── CI artifacts ─────────────────────────────────────────────────
+
+def blob(geom):
+    data = dl.canonical_geometry(geom)
+    sha = hashlib.sha256(data).hexdigest()
+    return f"{sha[:2]}/{sha}.json.gz", gzip.compress(data, mtime=0), sha
+
+
+def artifact_zip(entries):
+    import io
+    import zipfile
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        for name, data in entries:
+            z.writestr(name, data)
+    return buf.getvalue()
+
+
+class FakeGH:
+    def __init__(self, artifacts, zips=None, issues=None, fail_variable=False):
+        self.artifacts, self.zips, self.issues = artifacts, zips or {}, issues or []
+        self.fail_variable = fail_variable
+        self.calls = []
+
+    def __call__(self, args, binary=False):
+        self.calls.append(args)
+        if args[:2] == ["api", "--paginate"]:
+            return "".join(json.dumps(a) + "\n" for a in self.artifacts)
+        if args[0] == "api" and args[1].endswith("/zip"):
+            return self.zips[int(args[1].split("/")[-2])]
+        if args[:2] == ["variable", "set"]:
+            if self.fail_variable:
+                raise RuntimeError("HTTP 403")
+            return ""
+        if args[:2] == ["issue", "list"]:
+            return json.dumps(self.issues)
+        if args[0] == "issue":
+            return ""
+        raise AssertionError(args)
+
+    def did(self, *prefix):
+        return [c for c in self.calls if c[: len(prefix)] == list(prefix)]
+
+
+def art(i, created, expired=False):
+    return {"id": i, "name": f"drone-tracks-{i}-1", "created_at": created, "expired": expired,
+            "size": 1000, "run_id": 900 + i}
+
+
+def test_store_zip_verifies_every_entry(tmp_path):
+    good_name, good, sha = blob({"paths": [[[1.0, 2.0], [3.0, 4.0]]]})
+    other_name, _, _ = blob({"paths": [[[9.0, 9.0], [8.0, 8.0]]]})
+    data = artifact_zip([(good_name, good), (other_name, good),  # right bytes under the wrong name
+                         ("mismatches.ndjson", b"{}"), ("zz/" + sha + ".json.gz", good)])
+    res = dl.store_zip(tmp_path, data)
+    assert res["stored"] == 1 and dl.blob_path(tmp_path, sha).exists()
+    assert sorted(why for _, why in res["bad"]) == ["hash mismatch", "not a track blob", "not a track blob"]
+    assert dl.store_zip(tmp_path, artifact_zip([(good_name, good)]))["present"] == 1
+
+
+def test_synced_through_stops_at_the_first_gap():
+    arts = [art(1, "2026-10-01T00:00:00Z", expired=True), art(2, "2026-10-02T00:00:00Z"),
+            art(3, "2026-10-03T00:00:00Z"), art(4, "2026-10-04T00:00:00Z")]
+    assert dl.synced_through(arts, {"2": {}, "4": {}}) == "2026-10-02T00:00:00Z"
+    assert dl.synced_through(arts, {"3": {}}) is None
+    assert dl.synced_through(arts, {"2": {}, "3": {}, "4": {}}) == "2026-10-04T00:00:00Z"
+
+
+def test_sync_artifacts_stores_records_and_sets_variable(tmp_path, capsys):
+    n1, b1, s1 = blob({"paths": [[[1.0, 2.0], [3.0, 4.0]]]})
+    n2, b2, s2 = blob({"paths": [[[5.0, 6.0], [7.0, 8.0]]]})
+    gh = FakeGH([art(1, "2026-08-01T00:00:00Z", expired=True), art(2, "2026-10-01T00:00:00Z"),
+                 art(3, "2026-10-02T00:00:00Z")],
+                zips={2: artifact_zip([(n1, b1)]), 3: artifact_zip([(n2, b2)])})
+    ns = argparse.Namespace(repo="o/r", no_variable=False)
+    assert dl.cmd_sync_artifacts(ns, gh=gh, store=tmp_path) == 0
+    assert dl.blob_path(tmp_path, s1).exists() and dl.blob_path(tmp_path, s2).exists()
+    assert "LOST drone-tracks-1-1" in capsys.readouterr().out
+    ledger = json.loads((tmp_path / dl.SYNC_LEDGER).read_text())
+    assert set(ledger) == {"2", "3"} and ledger["3"]["stored"] == 1
+    assert gh.did("variable", "set") == [["variable", "set", dl.SYNC_VARIABLE, "--body", "2026-10-02T00:00:00Z",
+                                          "--repo", "o/r"]]
+    # a second sync downloads nothing
+    gh.calls.clear()
+    dl.cmd_sync_artifacts(ns, gh=gh, store=tmp_path)
+    assert not [c for c in gh.calls if c[0] == "api" and c[1].endswith("/zip")]
+
+
+def test_sync_artifacts_reports_a_variable_it_cannot_set(tmp_path, capsys):
+    n1, b1, _ = blob({"paths": [[[1.0, 2.0], [3.0, 4.0]]]})
+    gh = FakeGH([art(2, "2026-10-01T00:00:00Z")], zips={2: artifact_zip([(n1, b1)])}, fail_variable=True)
+    assert dl.cmd_sync_artifacts(argparse.Namespace(repo="o/r", no_variable=False), gh=gh, store=tmp_path) == 1
+    assert "WARNING" in capsys.readouterr().out
+    assert (tmp_path / dl.SYNC_LEDGER).exists()  # the sync itself still counts
+
+
+REMINDER_NOW = datetime(2026, 12, 15, tzinfo=timezone.utc)
+
+
+def reminder(gh, synced=""):
+    ns = argparse.Namespace(repo="o/r", synced_through=synced, warn_days=60)
+    return dl.cmd_artifact_reminder(ns, gh=gh, now=REMINDER_NOW)
+
+
+def test_reminder_opens_one_issue_when_an_unsynced_artifact_is_60_days_old():
+    gh = FakeGH([art(1, "2026-10-10T00:00:00Z"), art(2, "2026-12-01T00:00:00Z")])
+    reminder(gh)
+    (create,) = gh.did("issue", "create")
+    assert dl.REMINDER_TITLE in create and "drone-tracks-1-1" in create[create.index("--body") + 1]
+
+
+def test_reminder_edits_the_open_issue_instead_of_commenting():
+    gh = FakeGH([art(1, "2026-10-10T00:00:00Z")], issues=[{"number": 7, "title": dl.REMINDER_TITLE}])
+    reminder(gh)
+    assert gh.did("issue", "edit", "7") and not gh.did("issue", "create") and not gh.did("issue", "comment")
+
+
+def test_reminder_closes_once_synced_and_stays_quiet_otherwise():
+    arts = [art(1, "2026-10-10T00:00:00Z"), art(2, "2026-12-01T00:00:00Z")]
+    gh = FakeGH(arts, issues=[{"number": 7, "title": dl.REMINDER_TITLE}])
+    reminder(gh, synced="2026-10-10T00:00:00Z")  # only the 14-day-old one is unsynced
+    assert gh.did("issue", "close", "7")
+    gh = FakeGH(arts)
+    reminder(gh, synced="2026-10-10T00:00:00Z")
+    assert not [c for c in gh.calls if c[0] == "issue" and c[1] != "list"]

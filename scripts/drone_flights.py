@@ -36,6 +36,12 @@ Commands:
   fetch-geometry  Fill the local track store from the sha256s in git, checking
                   each served track still hashes to the recorded value. Never
                   writes git-tracked files.
+  sync-artifacts  Pull the CI runs' track artifacts into the local store,
+                  verifying each blob against its sha256 name; record progress
+                  in the DRONE_TRACKS_SYNCED_THROUGH repo variable.
+  artifact-reminder
+                  (CI) Open one issue while an unsynced artifact is 60+ days
+                  old (they expire at 90); close it once a sync catches up.
   report          Table of orgs with flights (--markdown for PR bodies).
   db              Build a local DuckDB of orgs, flights, changes and (when the
                   local store has them) tracks. Needs duckdb:
@@ -54,7 +60,10 @@ Layout (times are UTC):
                                 geometry_changed
     .state.json                 per-org crawl bookkeeping + unresolved dashboards
 
-Track store (local only, never committed; S3 later):
+Track store (local only, never committed; S3 later). CI runs crawl with
+--geometry store into a temp dir and uploads it as that run's artifact, so a
+track survives even if the flight is deleted before anyone syncs locally —
+as long as sync-artifacts runs within the 90-day retention:
   $DRONE_GEOMETRY_DIR or <primary checkout>/.claude/drone_geometry/
     <sha256[:2]>/<sha256>.json.gz   canonical Esri JSON geometry, gzip mtime=0
     mismatches.ndjson               fetch-geometry hash mismatches
@@ -108,6 +117,19 @@ UUID_RE = re.compile(rf"^{UUID}$")
 WEBMAP_RE = re.compile(rf"^({UUID})-production-web-map$")
 ITEM_ID_RE = re.compile(r"[0-9a-f]{32}")
 DESC_PREFIX = "Feature service for "
+
+REPO = "none-below/sm-alpr"
+# CI keeps each run's new track blobs as an Actions artifact named
+# drone-tracks-<run id>-<attempt> (90-day retention). sync-artifacts pulls them
+# into the local store and records how far it got in this repo variable, which
+# the workflow's artifact-reminder step reads.
+ARTIFACT_PREFIX = "drone-tracks-"
+SYNC_VARIABLE = "DRONE_TRACKS_SYNCED_THROUGH"
+SYNC_LEDGER = "synced_artifacts.json"
+ARTIFACT_RETENTION_DAYS = 90
+ARTIFACT_WARN_DAYS = 60
+REMINDER_TITLE = "Drone tracks: sync the local store before CI artifacts expire"
+BLOB_ENTRY_RE = re.compile(r"^([0-9a-f]{2})/([0-9a-f]{64})\.json\.gz$")
 
 PAGE = 2000          # the layers' maxRecordCount
 GEOM_BATCH = 50      # tracks per geometry request (a track can be ~9k points)
@@ -629,13 +651,9 @@ def crawl_org(client, data_dir, org_id, state, *, now, geometry="hash", store=No
 
     current = read_flights(org_dir)
     unhashed = [k for k, v in current.items() if v.get("geometry") is None]
-    missing_blobs = []
-    if geometry == "store" and store is not None:
-        missing_blobs = [k for k, v in current.items()
-                         if (v.get("geometry") or {}).get("sha256") and not blob_path(store, v["geometry"]["sha256"]).exists()]
     pulled = st.get("pulled")
     fresh = pulled and (now.date() - datetime.fromisoformat(pulled).date()).days < max_age
-    want_geom = geometry != "skip" and (unhashed or missing_blobs)
+    want_geom = geometry != "skip" and unhashed
     if not force and fresh and st.get("data_last_edit") == data_edit and fields == org["layer"]["fields"] and not want_geom:
         st["checked"] = today
         return summary
@@ -681,12 +699,11 @@ def crawl_org(client, data_dir, org_id, state, *, now, geometry="hash", store=No
     if oid_moves:
         events.append({"date": today, "event": "objectids_reassigned", "count": oid_moves})
 
-    # Tracks: hash what's new or edited (and, in store mode, fetch blobs the
-    # store lacks), within the run's budget. The rest stay null for next run.
+    # Tracks: hash what's new or edited, within the run's budget; the rest stay
+    # null for next run. Store mode also keeps those bytes (CI keeps them as a
+    # run artifact). Filling the store with older tracks is fetch-geometry's job.
     if geometry != "skip":
         need = [k for k, v in keyed.items() if v["geometry"] is None]
-        if geometry == "store" and store is not None:
-            need += [k for k in missing_blobs if k in keyed and keyed[k]["geometry"] is not None]
         if geometry_budget is not None:
             need = need[: max(geometry_budget["left"], 0)]
         by_oid = {keyed[k]["attributes"]["ObjectId"]: k for k in need}
@@ -846,6 +863,150 @@ def cmd_fetch_geometry(args, client=None, data_dir=DATA_DIR, store=None):
     return 0
 
 
+# ── CI artifacts: sync + reminder ───────────────────────────────
+
+def run_gh(args, binary=False):
+    r = subprocess.run(["gh", *args], capture_output=True, check=False)
+    if r.returncode:
+        raise RuntimeError(f"gh {' '.join(args[:3])}…: {r.stderr.decode(errors='replace').strip()}")
+    return r.stdout if binary else r.stdout.decode()
+
+
+def list_track_artifacts(gh, repo):
+    """drone-tracks-* artifacts, oldest first: {id, name, created_at, expired, size, run_id}."""
+    out = gh(["api", "--paginate", f"repos/{repo}/actions/artifacts?per_page=100", "--jq",
+              f'.artifacts[] | select(.name | startswith("{ARTIFACT_PREFIX}")) | '
+              '{id, name, created_at, expired, size: .size_in_bytes, run_id: .workflow_run.id}'])
+    arts = [json.loads(x) for x in out.splitlines() if x.strip()]
+    return sorted(arts, key=lambda a: (a["created_at"], a["id"]))
+
+
+def store_zip(store, data):
+    """Unpack an artifact zip into the store. Every entry must be
+    <aa>/<sha256>.json.gz whose gunzipped bytes hash to <sha256>; anything else
+    is reported, never stored. Returns {stored, present, bad: [(name, why)]}."""
+    import io
+    import zipfile
+    res = {"stored": 0, "present": 0, "bad": []}
+    with zipfile.ZipFile(io.BytesIO(data)) as z:
+        for info in z.infolist():
+            if info.is_dir():
+                continue
+            m = BLOB_ENTRY_RE.match(info.filename)
+            if not m or m.group(2)[:2] != m.group(1):
+                res["bad"].append((info.filename, "not a track blob"))
+                continue
+            sha = m.group(2)
+            raw = z.read(info)
+            try:
+                ok = hashlib.sha256(gzip.decompress(raw)).hexdigest() == sha
+            except OSError:
+                ok = False
+            if not ok:
+                res["bad"].append((info.filename, "hash mismatch"))
+                continue
+            path = blob_path(store, sha)
+            if path.exists():
+                res["present"] += 1
+            else:
+                _atomic_write(path, raw)
+                res["stored"] += 1
+    return res
+
+
+def synced_through(artifacts, ledger):
+    """created_at of the newest live artifact such that every live artifact up
+    to it has been synced; None if the oldest live one hasn't."""
+    out = None
+    for a in artifacts:
+        if a.get("expired"):
+            continue
+        if str(a["id"]) not in ledger:
+            break
+        out = a["created_at"]
+    return out
+
+
+def cmd_sync_artifacts(args, gh=run_gh, store=None, now=None):
+    store = store or geometry_dir()
+    now = now or utc_now()
+    ledger_path = store / SYNC_LEDGER
+    ledger = load_json(ledger_path)
+    arts = list_track_artifacts(gh, args.repo)
+    totals = collections.Counter()
+    for a in arts:
+        key = str(a["id"])
+        if key in ledger:
+            continue
+        if a.get("expired"):
+            print(f"LOST {a['name']} (created {a['created_at']}) expired before it was synced")
+            totals["lost"] += 1
+            continue
+        res = store_zip(store, gh(["api", f"repos/{args.repo}/actions/artifacts/{a['id']}/zip"], binary=True))
+        for name, why in res["bad"]:
+            print(f"BAD {a['name']} {name}: {why}")
+        ledger[key] = {"name": a["name"], "run_id": a.get("run_id"), "created_at": a["created_at"],
+                       "synced_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"), "stored": res["stored"],
+                       "present": res["present"], "bad": [list(b) for b in res["bad"]]}
+        save_json(ledger_path, ledger)  # per artifact, so an interrupted sync resumes
+        totals.update(artifacts=1, stored=res["stored"], present=res["present"], bad=len(res["bad"]))
+    through = synced_through(arts, ledger)
+    print("sync-artifacts: " + ", ".join(f"{k}={v}" for k, v in sorted(totals.items()))
+          + f"; synced through {through or '(none)'} (store {store})")
+    if through and not args.no_variable:
+        try:
+            gh(["variable", "set", SYNC_VARIABLE, "--body", through, "--repo", args.repo])
+        except RuntimeError as e:
+            print(f"WARNING couldn't set {SYNC_VARIABLE} (the CI reminder will lag): {e}")
+            return 1
+    return 0
+
+
+def _age_days(created_at, now):
+    return (now - datetime.fromisoformat(created_at.replace("Z", "+00:00"))).total_seconds() / 86400
+
+
+def cmd_artifact_reminder(args, gh=run_gh, now=None):
+    """Open (or refresh in place) one issue while any live drone-tracks artifact
+    newer than the sync mark is --warn-days old; close it once that clears."""
+    now = now or utc_now()
+    mark = args.synced_through or ""
+    live = [a for a in list_track_artifacts(gh, args.repo) if not a.get("expired")]
+    unsynced = [a for a in live if not mark or a["created_at"] > mark]
+    oldest = unsynced[0] if unsynced else None
+    age = _age_days(oldest["created_at"], now) if oldest else 0
+    overdue = oldest is not None and age >= args.warn_days
+    issues = json.loads(gh(["issue", "list", "--repo", args.repo, "--state", "open", "--search",
+                            f'in:title "{REMINDER_TITLE}"', "--json", "number,title"]) or "[]")
+    issue = next((i["number"] for i in issues if i["title"] == REMINDER_TITLE), None)
+    print(f"artifact-reminder: {len(live)} live, {len(unsynced)} unsynced"
+          + (f", oldest {age:.0f} days ({oldest['created_at']})" if oldest else "")
+          + f"; synced through {mark or '(never)'}")
+    if overdue:
+        size = sum(a.get("size") or 0 for a in unsynced)
+        body = (f"{len(unsynced)} CI artifact(s) of drone track blobs haven't been pulled into the local "
+                f"store ({size / 1e6:.0f} MB). The oldest, `{oldest['name']}`, is {age:.0f} days old and "
+                f"expires after {ARTIFACT_RETENTION_DAYS} days; its tracks are lost if any flight in it "
+                "has since been deleted or edited at the source.\n\n"
+                "Run locally (needs `gh` auth with permission to set repo variables):\n\n"
+                "```\nuv run python scripts/drone_flights.py sync-artifacts\n```\n\n"
+                f"That verifies every blob against its sha256 name, stores it, and sets `{SYNC_VARIABLE}`; "
+                "the next workflow run closes this issue.\n\n"
+                f"Synced through: {mark or '(never)'}. Updated {now.strftime('%Y-%m-%d')} by "
+                "refresh-drone-data.yml.")
+        if issue:
+            gh(["issue", "edit", str(issue), "--repo", args.repo, "--body", body])
+            print(f"REMINDER updated #{issue}")
+        else:
+            gh(["issue", "create", "--repo", args.repo, "--title", REMINDER_TITLE, "--body", body])
+            print("REMINDER opened")
+    elif issue:
+        gh(["issue", "close", str(issue), "--repo", args.repo, "--comment",
+            f"Synced through {mark or '(never)'}; no unsynced artifact is {args.warn_days}+ days old."])
+        print(f"REMINDER closed #{issue}")
+    return 0
+
+
 # ── report ──────────────────────────────────────────────────────
 
 def load_orgs(data_dir=DATA_DIR):
@@ -1001,6 +1162,15 @@ def main(argv=None):
     p.add_argument("--limit", type=int, default=None, help="tracks to fetch this run")
     p.add_argument("--delay", type=float, default=DEFAULT_DELAY)
 
+    p = sub.add_parser("sync-artifacts", help="pull CI track artifacts into the local store")
+    p.add_argument("--repo", default=REPO)
+    p.add_argument("--no-variable", action="store_true", help=f"don't update the {SYNC_VARIABLE} repo variable")
+
+    p = sub.add_parser("artifact-reminder", help="(CI) open/close the sync-reminder issue")
+    p.add_argument("--repo", default=REPO)
+    p.add_argument("--synced-through", default="", help=f"the {SYNC_VARIABLE} repo variable")
+    p.add_argument("--warn-days", type=int, default=ARTIFACT_WARN_DAYS)
+
     p = sub.add_parser("report", help="orgs with flights")
     p.add_argument("--markdown", action="store_true")
     p.add_argument("--top", type=int, default=60)
@@ -1011,6 +1181,7 @@ def main(argv=None):
     args = ap.parse_args(argv)
     return {
         "discover": cmd_discover, "crawl": cmd_crawl, "fetch-geometry": cmd_fetch_geometry,
+        "sync-artifacts": cmd_sync_artifacts, "artifact-reminder": cmd_artifact_reminder,
         "report": cmd_report, "db": cmd_db,
     }[args.cmd](args)
 
