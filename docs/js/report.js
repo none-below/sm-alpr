@@ -3071,8 +3071,18 @@
       document.getElementById("report").innerHTML = `
         <div class="error-box">
           <h1 style="margin-top:0">No agency specified</h1>
-          <p>Pass <code>?agency=&lt;slug&gt;</code> in the URL, or pick an agency from the <a href="sharing_map.html">interactive map</a>.</p>
+          <p>Search for an agency in the box above, pass <code>?agency=&lt;slug&gt;</code> in the URL, or pick an agency from the <a href="sharing_map.html">interactive map</a>.</p>
         </div>`;
+      // Still load the index so the toolbar search box works — it's
+      // the obvious next step from this page.
+      fetch("data/report_data.json?v=" + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          wireAgencySearch(data, null);
+          const input = document.getElementById("agency-search-input");
+          if (input) input.focus();
+        })
+        .catch(function(err) { console.warn("Agency search index failed to load:", err); });
       return;
     }
 
