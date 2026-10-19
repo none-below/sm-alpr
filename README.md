@@ -6,8 +6,6 @@ Tools and source documents for investigating the San Mateo Police Department's A
 
 [![Sharing Map](https://raw.githubusercontent.com/none-below/sm-alpr/readme-assets/sharing_map.png)](https://none-below.github.io/sm-alpr/sharing_map.html)
 
-[![Scoreboard](https://raw.githubusercontent.com/none-below/sm-alpr/readme-assets/scoreboard.png)](https://none-below.github.io/sm-alpr/scoreboard.html)
-
 ## Publishing
 
 GitHub Pages deploys automatically on merge to `main` via GitHub Actions.
