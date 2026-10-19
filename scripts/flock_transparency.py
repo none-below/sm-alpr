@@ -39,6 +39,7 @@ import hashlib
 import html.parser
 import io
 import json
+import os
 import random
 import re
 import shutil
@@ -57,7 +58,7 @@ except ImportError:  # pragma: no cover - optional dependency
     stealth_sync = None
 
 from lib import (
-    BASE_URL, FAILED_FILE, USER_AGENT,
+    BASE_URL, FAILED_FILE,
     audit_integrity, dedupe, load_json, save_json,
     portal_jsons, portal_txts, resolve_agency,
 )
@@ -127,20 +128,50 @@ STALE_DAYS = 14
 WARMUP_RETRY_BACKOFF = 8   # seconds before the one cold-IP handshake retry, ±30% jitter
 RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears it"
 
-# The other face of the per-IP block: goto() raises with no HTTP response at
-# all (net::ERR_INVALID_ARGUMENT, from 2026-09-22 on). It is never about the
-# slug — the host is the same for every portal — and it is per-session: in
-# every run that hit it, every slug in the run failed the same way within a
-# second of each other, while the next runner's IP fetched them fine. So it is
-# handled exactly like a post-warm-up 403: end the run, don't stamp, don't
+# goto() raising with no HTTP response at all (net::ERR_INVALID_ARGUMENT, from
+# 2026-09-22 on). It is never about the slug — the host is the same for every
+# portal — and it is per-runner: in every run that hit it, every slug failed
+# the same way within a second of each other (~10ms after goto), while the
+# next runner fetched them fine. It is Chromium's own net error -4, not a
+# server answer — usually a local syscall returning EINVAL — and it arrived
+# with Chrome 154: on 2026-09-22/23, 0 of 24 runs on Chrome 153 hit it, 11 of
+# 36 on 154 did (155 still does). Not predicted by Azure region or runner
+# image. So most likely a Chrome 154 change failing on some runner hosts, not
+# Flock's edge; the refresh workflow keeps a Chrome net-log from affected runs
+# (and logs egress IP and DNS) to show which component raises it. Either way it is
+# handled like a post-warm-up 403: end the run, don't stamp, don't
 # quarantine. It does not spend the warm-up retry, since the sampled runs show
-# a same-session retry seconds later fails too.
+# a same-session request a second later fails too.
 #
 # It used to be quarantined like a 404. Over four weeks that parked 238 live,
 # previously-captured portals (san-mateo-ca-pd among them) in .failed_slugs.json
 # — 255 of the 261 captured slugs in total — leaving six in the rotation, so
 # even a `--max-age 1` run found only two eligible.
 UNREACHABLE_NOTE = "portal unreachable from this IP (no HTTP response); only a fresh IP clears it"
+
+
+# Platform tokens for the reduced UA string Chrome itself sends.
+_UA_PLATFORMS = {
+    "darwin": "Macintosh; Intel Mac OS X 10_15_7",
+    "win32": "Windows NT 10.0; Win64; x64",
+}
+_UA_PLATFORM_DEFAULT = "X11; Linux x86_64"
+
+
+def chrome_user_agent(version, platform=None):
+    """The UA string the launched browser would send if it weren't headless.
+
+    The override exists only to drop the "HeadlessChrome" token. It used to be
+    lib.USER_AGENT, a fixed "Chrome/131 on macOS" — while CI runs real Chrome
+    155 on Linux, whose TLS handshake, client hints and navigator.platform all
+    say so. A 24-major-version, wrong-OS mismatch is exactly what edge bot
+    scoring looks for, so the UA now follows the actual browser: its major
+    version (Chrome reports MAJOR.0.0.0 since UA reduction) and the host OS.
+    """
+    major = str(version).split(".")[0]
+    token = _UA_PLATFORMS.get(platform or sys.platform, _UA_PLATFORM_DEFAULT)
+    return (f"Mozilla/5.0 ({token}) AppleWebKit/537.36 "
+            f"(KHTML, like Gecko) Chrome/{major}.0.0.0 Safari/537.36")
 
 
 def is_quarantinable(reason):
@@ -1561,7 +1592,7 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     try:
         response = page.goto(url, wait_until="domcontentloaded", timeout=30000)
     except Exception as e:
-        # No response at all — a per-IP block, not a verdict on the slug.
+        # No response at all — says nothing about the slug.
         # See UNREACHABLE_NOTE.
         print(f"    WARNING: navigation failed: {e}")
         return "unreachable", []
@@ -1854,6 +1885,12 @@ def cmd_crawl(args):
         # Falls back to bundled Chromium so a machine without real Chrome
         # still runs (it will likely 403, but that is better than crashing).
         launch_args = ["--headless=new"]
+        # Diagnostic: with FLOCK_NETLOG=<path>, Chrome writes a net-log there,
+        # so a run that hits net::ERR_INVALID_ARGUMENT (UNREACHABLE_NOTE) shows
+        # which layer raised it — DNS, connect, TLS or the HTTP exchange.
+        netlog = os.environ.get("FLOCK_NETLOG")
+        if netlog:
+            launch_args.append(f"--log-net-log={netlog}")
         launch_kwargs = {"headless": True, "args": launch_args}
         if args.proxy:
             launch_kwargs["proxy"] = {"server": args.proxy}
@@ -1863,9 +1900,11 @@ def cmd_crawl(args):
             print(f"  real Chrome unavailable ({e.__class__.__name__}); "
                   f"falling back to bundled Chromium — expect 403s")
             browser = p.chromium.launch(**launch_kwargs)
+        user_agent = chrome_user_agent(browser.version)
+        print(f"  browser {browser.version}; UA {user_agent}")
         context = browser.new_context(
             viewport=VIEWPORT,
-            user_agent=USER_AGENT,
+            user_agent=user_agent,
         )
         page = context.new_page()
         # One session's worth of warm-up budget, shared by every batch below.
