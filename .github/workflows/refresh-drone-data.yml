@@ -1,0 +1,151 @@
+name: Refresh Drone Flight Data
+
+# Archives drone flight logs via scripts/drone_flights.py. First backend:
+# Skydio DFR transparency dashboards, whose flights are anonymous public ArcGIS
+# FeatureServers in Skydio's ArcGIS org (one per Skydio organization).
+#
+# discover lists every service + public dashboard; crawl pulls each org whose
+# layer changed since the last run (or every 7 days), records added / edited /
+# removed flights in that org's changes.ndjson, and hashes new tracks. Track
+# bytes are NOT committed — only their sha256 — so a later local
+# `fetch-geometry` can prove the stored copy is what was served. --max-geometry
+# caps the tracks hashed per run; the rest are picked up on later runs.
+#
+# Captures accumulate on the drone-refresh branch across runs (like
+# axon-refresh): each day's state is point-in-time evidence, and a removal is
+# only visible against what an earlier run stored.
+
+on:
+  schedule:
+    - cron: '41 10 * * *'
+  workflow_dispatch:
+    inputs:
+      max_geometry:
+        description: 'Tracks to hash this run, across all orgs'
+        default: '20000'
+
+concurrency:
+  group: drone-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          # Full history so the rebase below finds a common ancestor with
+          # origin/drone-refresh (see refresh-flock-data.yml).
+          fetch-depth: 0
+          # PAT so the push and PR are authed as a human (GITHUB_TOKEN can't
+          # push a workflow-carrying branch and its PRs don't trigger CI).
+          token: ${{ secrets.REFRESH_PAT || github.token }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up refresh branch
+        run: |
+          git fetch origin drone-refresh || true
+          if git rev-parse --verify origin/drone-refresh >/dev/null 2>&1; then
+            git checkout drone-refresh
+            # Never auto-reset to main on conflict: that discards unmerged
+            # captures. Fail loudly; a human resolves and force-pushes.
+            git rebase origin/main || {
+              git rebase --abort
+              echo "::error::rebase against origin/main conflicts. Bot branch left untouched — resolve manually. NOT auto-resetting (would destroy unmerged captures)."
+              exit 1
+            }
+          else
+            git checkout -b drone-refresh
+          fi
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Discover services and dashboards
+        run: |
+          set -o pipefail
+          uv run python scripts/drone_flights.py discover | tee /tmp/drone.log
+
+      - name: Crawl flights
+        id: crawl
+        run: |
+          # Record rc rather than dying: state for whatever succeeded still
+          # has to be committed. Failed for real at the end.
+          set -o pipefail
+          rc=0
+          uv run python scripts/drone_flights.py crawl --geometry hash \
+            --max-geometry ${{ inputs.max_geometry || '20000' }} | tee -a /tmp/drone.log || rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        id: commit
+        run: |
+          git add assets/cloud.skydio.com/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          git commit -m "chore: refresh drone flight data ($(date -u +%Y-%m-%d))"
+          git push --force-with-lease origin drone-refresh
+
+      - name: Create or update PR
+        if: steps.commit.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          new_orgs=$(git diff --name-only --diff-filter=A origin/main...HEAD -- 'assets/cloud.skydio.com/*/org.json' | wc -l)
+          new_flights=$(git diff --numstat origin/main...HEAD -- 'assets/cloud.skydio.com/*/flights/*.ndjson' | awk '{a+=$1; d+=$2} END {print a-d+0}')
+          {
+            echo "Automated refresh of drone flight logs (\`assets/cloud.skydio.com/\`, Skydio DFR dashboards)."
+            echo "Accumulates daily runs; merge when ready — the next run starts a fresh branch from main."
+            echo
+            echo "Since main: **${new_orgs}** new services, net **${new_flights}** flight lines."
+            echo "Edits and removals are in each org's \`changes.ndjson\`; tracks are referenced by sha256 only."
+            echo
+            echo "### Orgs with flights"
+            echo
+            uv run python scripts/drone_flights.py report --markdown --top 40
+          } > /tmp/pr-body.md
+
+          # New flights are routine; only surface what isn't.
+          changes=$(grep -E "^(MODIFIED|REMOVED|GEOMETRY CHANGED|NEW SERVICE|UNLISTED|RELISTED|DASHBOARD|DESCRIPTION CHANGED|SCHEMA|ERROR|RATE LIMITED)" /tmp/drone.log || true)
+          existing=$(gh pr list --head drone-refresh --state open --json number -q '.[0].number')
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --body-file /tmp/pr-body.md
+            if [ -n "$changes" ]; then
+              printf 'Run %s:\n\n```\n%s\n```\n' "$(date -u +%Y-%m-%d)" "$(printf '%s\n' "$changes" | head -200)" > /tmp/pr-comment.md
+              gh pr comment "$existing" --body-file /tmp/pr-comment.md
+            fi
+          else
+            if [ -n "$changes" ]; then
+              printf '\n### This run\n\n```\n%s\n```\n' "$(printf '%s\n' "$changes" | head -200)" >> /tmp/pr-body.md
+            fi
+            gh pr create \
+              --title "chore: refresh drone flight data" \
+              --body-file /tmp/pr-body.md \
+              --head drone-refresh \
+              --base main
+          fi
+
+      - name: Fail if the crawl failed
+        if: steps.crawl.outputs.rc != '0'
+        run: |
+          echo "::error::Every org check errored (exit ${{ steps.crawl.outputs.rc }}). State for anything that succeeded was committed above."
+          exit 1

@@ -1,0 +1,64 @@
+{
+  "agency_id": "a75c8827-a3fc-5e55-9a83-6c609d7986ff",
+  "agency_name": "Belmont Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-03-27T23:14:04Z",
+      "id": "32ec77cf9c7346cbba65b8c3830142a2",
+      "title": "Belmont Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/32ec77cf9c7346cbba65b8c3830142a2"
+    }
+  ],
+  "description": "Feature service for Belmont Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "32ec77cf9c7346cbba65b8c3830142a2",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Belmont Police Department Drone Flights"
+    },
+    {
+      "agency_id": "a75c8827-a3fc-5e55-9a83-6c609d7986ff",
+      "basis": "name+role+extent",
+      "date": "2026-10-18",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 475,
+    "duplicates": 0,
+    "first_takeoff": "2025-03-27T22:15:37Z",
+    "last_takeoff": "2026-10-09T13:21:38Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "b6d8e0be-c940-4af5-8e04-abb341aab4b7",
+  "ori": [
+    "CA0410200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/b6d8e0be-c940-4af5-8e04-abb341aab4b7-production/FeatureServer"
+}

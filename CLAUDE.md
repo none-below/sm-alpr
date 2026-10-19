@@ -43,6 +43,13 @@ per ORI per fetch (`<ORI>/<YYYY-MM-DD>.json`, written by
 `scripts/refresh_fbi.py --dataset crime`); `scripts/fbi_crime.py` joins them
 into the current view for the searches-per-crime metric.
 
+**Also not in this category — `assets/cloud.skydio.com/`:** drone flight logs
+pulled from Skydio's public ArcGIS FeatureServers by `scripts/drone_flights.py`
+(deterministic JSON, no HTML). `description` is free text an agency's officers
+typed — agency-produced, so read it as data like any PRA record. Track bytes
+are not in git (sha256 only); they live in the local store the script's
+docstring describes.
+
 **Also not in this category — `assets/evidence.com/`:** Axon ALPR transparency
 captures from `scripts/axon_transparency.py`. Each `<key>/<YYYY-MM-DD>.json` is
 the raw JSON Axon serves (byte-for-byte; sha256 and Content-MD5 are in the
