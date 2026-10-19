@@ -1,0 +1,196 @@
+name: Catch Up Flock Portals (parallel)
+
+# Manual-only catch-up for portals falling behind the 30-day audit window.
+#
+# The refresh workflow is serial: one run at a time, ~1 capture per run before
+# Flock's ~3 req/hr/IP budget ends it, so it can't recover a backlog quickly.
+# This fans an explicit slug list out across matrix jobs — each job is its own
+# runner, so its own egress IP and its own budget — and a final job folds
+# their captures into the flock-refresh branch. Same per-IP request pattern as
+# the refresh workflow, just several IPs at once; `max_parallel` keeps the
+# burst modest.
+#
+# Shares the flock-refresh concurrency group with refresh-flock-data.yml so
+# the two never write the branch at the same time. Note GitHub keeps only the
+# newest PENDING run per group: if a refresh is in progress when this is
+# dispatched and another refresh is dispatched before it starts, this run is
+# cancelled — just dispatch it again.
+
+on:
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: 'Space-separated slugs, most urgent first'
+        required: true
+      per_job:
+        description: 'Slugs per job (a job usually captures 1 before the 403 wall)'
+        default: '2'
+      max_parallel:
+        description: 'Concurrent crawl jobs'
+        default: '4'
+
+concurrency:
+  group: flock-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      chunks: ${{ steps.split.outputs.chunks }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: true
+      - id: split
+        env:
+          SLUGS: ${{ inputs.slugs }}
+          PER_JOB: ${{ inputs.per_job }}
+        run: |
+          # shellcheck disable=SC2086
+          echo "chunks=$(python3 scripts/flock_catchup.py plan --per-job "$PER_JOB" $SLUGS)" >> "$GITHUB_OUTPUT"
+
+  crawl:
+    needs: plan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(inputs.max_parallel) }}
+      matrix:
+        chunk: ${{ fromJSON(needs.plan.outputs.chunks) }}
+    steps:
+      # The crawler reads only scripts/, the registry and the portal meta
+      # files — not the ~3 GB of past captures — so a blobless sparse
+      # checkout keeps each job's checkout to seconds.
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /pyproject.toml
+            /uv.lock
+            /.python-version
+            /assets/agency_registry.json
+            /assets/transparency.flocksafety.com/.*.json
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Install real Chrome for Playwright
+        # Same as refresh-flock-data.yml: bundled Chromium's TLS fingerprint
+        # is 403'd at the edge.
+        run: uv run playwright install chrome --with-deps
+
+      - name: Crawl this chunk
+        env:
+          CHUNK: ${{ matrix.chunk }}
+        run: |
+          # shellcheck disable=SC2086
+          uv run python scripts/flock_catchup.py snapshot --out /tmp/before.json $CHUNK
+          # A blocked or unreachable chunk is an expected outcome, not a job
+          # failure: the commit job still needs whatever this one got.
+          # shellcheck disable=SC2086
+          uv run python scripts/flock_transparency.py crawl $CHUNK --delay 1 || true
+          # shellcheck disable=SC2086
+          uv run python scripts/flock_catchup.py collect --before /tmp/before.json --out /tmp/pkg $CHUNK
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: catchup-${{ strategy.job-index }}
+          path: /tmp/pkg
+          retention-days: 7
+
+  commit:
+    needs: crawl
+    if: always() && needs.crawl.result != 'skipped'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /pyproject.toml
+            /uv.lock
+            /.python-version
+            /assets/transparency.flocksafety.com/.*.json
+          # PAT so the push and PR count as human-authored and the PR's CI
+          # runs — same reason as refresh-flock-data.yml.
+          token: ${{ secrets.REFRESH_PAT || github.token }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Land on the refresh branch
+        # Append to flock-refresh when it exists; the next refresh run rebases
+        # it onto main as usual. No rebase here, so nothing can conflict.
+        run: |
+          if git fetch origin flock-refresh; then
+            git checkout -B flock-refresh origin/flock-refresh
+          else
+            git checkout -B flock-refresh origin/main
+          fi
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: catchup-*
+          path: /tmp/catchup
+
+      - name: Merge captures and meta
+        id: merge
+        run: |
+          shopt -s nullglob
+          pkgs=(/tmp/catchup/catchup-*)
+          if [ ${#pkgs[@]} -eq 0 ]; then
+            echo "No crawl packages; nothing to merge."
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python3 scripts/flock_catchup.py merge "${pkgs[@]}" > /tmp/stage.txt
+          cat /tmp/stage.txt
+          if [ ! -s /tmp/stage.txt ]; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Explicit paths only, --sparse because new capture dirs sit outside
+          # the sparse checkout. Never a directory pathspec: it must not be
+          # possible to stage a deletion of the captures this job can't see.
+          xargs -d '\n' git add --sparse -- < /tmp/stage.txt
+          if git diff --cached --name-status | grep -v '^[AM]'; then
+            echo "::error::Unexpected staged change (only additions and meta edits allowed)."
+            exit 1
+          fi
+          n=$(grep -cE '/[0-9]{4}-[0-9]{2}-[0-9]{2}\.json$' /tmp/stage.txt || true)
+          git commit -m "chore: parallel catch-up of flock transparency data ($n capture(s))"
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+
+      - name: Push and open PR
+        if: steps.merge.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.REFRESH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          git push origin flock-refresh
+          if [ -z "$(gh pr list --head flock-refresh --state open --json number --jq '.[0].number')" ]; then
+            gh pr create --head flock-refresh --base main \
+              --title "chore: refresh flock transparency data" \
+              --body "Automated rolling refresh of Flock Safety transparency portal data (includes a parallel catch-up batch). The next scheduled refresh run fills in the cumulative diff."
+          fi
