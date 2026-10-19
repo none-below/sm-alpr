@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "22e90ef0-84b4-5f14-b976-c00dc15a7e0c",
   "agency_name": "Grand Rapids Police Department (MI)",
   "dashboards": [],
   "description": "Feature service for Grand Rapids Police Department (MI)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "22e90ef0-84b4-5f14-b976-c00dc15a7e0c",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "cddf7137-3340-476b-8f05-590966fd2379",
-  "ori": [],
+  "ori": [
+    "MI4143600"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/cddf7137-3340-476b-8f05-590966fd2379-production/FeatureServer"
 }

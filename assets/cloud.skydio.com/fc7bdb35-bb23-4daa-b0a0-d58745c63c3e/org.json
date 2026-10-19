@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "db4c7075-53cb-55f7-9129-ac41eeed943c",
   "agency_name": "Niles Police Department (IL)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Niles Police Department (IL) Drone Flights"
+    },
+    {
+      "agency_id": "db4c7075-53cb-55f7-9129-ac41eeed943c",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 38,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-04T13:20:07Z",
+    "last_takeoff": "2026-10-14T15:08:56Z",
+    "unhashed": 38
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "fc7bdb35-bb23-4daa-b0a0-d58745c63c3e",
-  "ori": [],
+  "ori": [
+    "IL0167300"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/fc7bdb35-bb23-4daa-b0a0-d58745c63c3e-production/FeatureServer"
 }

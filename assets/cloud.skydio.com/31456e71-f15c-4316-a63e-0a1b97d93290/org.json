@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "6e91f8bd-a571-56a6-a2eb-4882bb8e664b",
   "agency_name": "Thibodaux Police Department (LA)",
   "dashboards": [],
   "description": "Feature service for Thibodaux Police Department (LA)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "6e91f8bd-a571-56a6-a2eb-4882bb8e664b",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "31456e71-f15c-4316-a63e-0a1b97d93290",
-  "ori": [],
+  "ori": [
+    "LA0290500"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/31456e71-f15c-4316-a63e-0a1b97d93290-production/FeatureServer"
 }

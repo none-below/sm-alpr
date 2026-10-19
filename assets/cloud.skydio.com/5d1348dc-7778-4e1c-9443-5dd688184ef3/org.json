@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "54aae9dc-f87d-5718-ab73-08b0dd9dc994",
   "agency_name": "Brazos County Sheriff's Office (TX)",
   "dashboards": [],
   "description": "Feature service for Brazos County Sheriff's Office (TX)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "54aae9dc-f87d-5718-ab73-08b0dd9dc994",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "5d1348dc-7778-4e1c-9443-5dd688184ef3",
-  "ori": [],
+  "ori": [
+    "TX0210000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5d1348dc-7778-4e1c-9443-5dd688184ef3-production/FeatureServer"
 }

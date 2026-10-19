@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "dae9ab57-7c92-5243-9357-47a2e8c6d1ae",
   "agency_name": "Conroe Police Department (TX)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Conroe Police Department"
+    },
+    {
+      "agency_id": "dae9ab57-7c92-5243-9357-47a2e8c6d1ae",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 774,
+    "duplicates": 10,
+    "first_takeoff": "2026-05-11T18:46:45Z",
+    "last_takeoff": "2026-10-19T08:27:29Z",
+    "unhashed": 774
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "79b5be63-b4db-4db2-bad3-2b4e15ba9a71",
-  "ori": [],
+  "ori": [
+    "TX1700100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/79b5be63-b4db-4db2-bad3-2b4e15ba9a71-production/FeatureServer"
 }

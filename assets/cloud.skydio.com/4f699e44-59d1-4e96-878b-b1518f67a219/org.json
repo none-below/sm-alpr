@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "0f00be83-72aa-50be-95be-8973e9641cfd",
   "agency_name": "Glendale Police Department (CA) - Trial",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Glendale Police Department (CA) - Trial Drone Flights"
+    },
+    {
+      "agency_id": "0f00be83-72aa-50be-95be-8973e9641cfd",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 5,
+    "duplicates": 0,
+    "first_takeoff": "2026-10-16T00:40:49Z",
+    "last_takeoff": "2026-10-17T22:35:20Z",
+    "unhashed": 5
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "4f699e44-59d1-4e96-878b-b1518f67a219",
-  "ori": [],
+  "ori": [
+    "CA0192500"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/4f699e44-59d1-4e96-878b-b1518f67a219-production/FeatureServer"
 }

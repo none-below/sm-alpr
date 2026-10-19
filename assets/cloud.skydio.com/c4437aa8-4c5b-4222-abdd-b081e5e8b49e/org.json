@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "cbeaa839-a3bc-5d1a-b2c7-264bbde53c2f",
   "agency_name": "Biloxi Police Department (MS)",
   "dashboards": [],
   "description": "Feature service for Biloxi Police Department (MS)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "cbeaa839-a3bc-5d1a-b2c7-264bbde53c2f",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 2,
+    "duplicates": 1,
+    "first_takeoff": "2026-07-02T18:12:13Z",
+    "last_takeoff": "2026-07-02T18:12:13Z",
+    "unhashed": 2
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "c4437aa8-4c5b-4222-abdd-b081e5e8b49e",
-  "ori": [],
+  "ori": [
+    "MS0240100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c4437aa8-4c5b-4222-abdd-b081e5e8b49e-production/FeatureServer"
 }

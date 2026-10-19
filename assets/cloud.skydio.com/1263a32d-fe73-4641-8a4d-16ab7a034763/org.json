@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "fdea17cf-bc23-5719-9476-2baf8e95eda4",
   "agency_name": "KOKOMO Police Department",
   "dashboards": [],
   "description": "Feature service for KOKOMO Police Department",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "fdea17cf-bc23-5719-9476-2baf8e95eda4",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-10-02T07:37:13Z",
+    "last_takeoff": "2025-10-02T07:37:13Z",
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "1263a32d-fe73-4641-8a4d-16ab7a034763",
-  "ori": [],
+  "ori": [
+    "IN0340100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/1263a32d-fe73-4641-8a4d-16ab7a034763-production/FeatureServer"
 }

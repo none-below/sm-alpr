@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
   "agency_name": "Denver Police Department",
   "dashboards": [
     {
@@ -34,21 +34,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "[VINCENT COPY FOR EXPERIMENT] Denver Police Department Drone as First Responder Flights"
+    },
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 2155,
+    "duplicates": 27,
+    "first_takeoff": "2025-10-21T14:51:44Z",
+    "last_takeoff": "2026-10-19T16:00:34Z",
+    "unhashed": 2155
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "84330e44-1aca-4136-b647-22feff97871e",
-  "ori": [],
+  "ori": [
+    "CODPD0000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/84330e44-1aca-4136-b647-22feff97871e-production/FeatureServer"
 }

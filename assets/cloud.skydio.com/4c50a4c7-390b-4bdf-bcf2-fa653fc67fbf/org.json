@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "25cadfbb-6620-55f9-a75c-71be14ebc257",
   "agency_name": "Wooster Police Department (OH)",
   "dashboards": [],
   "description": "Feature service for Wooster Police Department (OH)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "25cadfbb-6620-55f9-a75c-71be14ebc257",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "4c50a4c7-390b-4bdf-bcf2-fa653fc67fbf",
-  "ori": [],
+  "ori": [
+    "OH0850300"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/4c50a4c7-390b-4bdf-bcf2-fa653fc67fbf-production/FeatureServer"
 }

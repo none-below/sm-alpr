@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "5cd5ba24-e683-5c95-80e2-d620a2828a4d",
   "agency_name": "Brownsville Police Department (TX)",
   "dashboards": [],
   "description": "Feature service for Brownsville Police Department (TX)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "5cd5ba24-e683-5c95-80e2-d620a2828a4d",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-04-29T18:25:51Z",
+    "last_takeoff": "2026-04-29T18:25:51Z",
+    "unhashed": 1
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "38e67b2c-c850-46b1-8d9e-ab46e1b38930",
-  "ori": [],
+  "ori": [
+    "TX0310100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/38e67b2c-c850-46b1-8d9e-ab46e1b38930-production/FeatureServer"
 }

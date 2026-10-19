@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "f82c7448-abbf-57f7-8f5e-14724f3246d8",
   "agency_name": "Durango Police Department (CO)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Durango Police Department (CO) Drone Flights"
+    },
+    {
+      "agency_id": "f82c7448-abbf-57f7-8f5e-14724f3246d8",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 1178,
+    "duplicates": 0,
+    "first_takeoff": "2026-06-02T22:56:04Z",
+    "last_takeoff": "2026-10-19T02:13:39Z",
+    "unhashed": 1178
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "ab5c34f9-160d-49f1-83a6-73ab507291a9",
-  "ori": [],
+  "ori": [
+    "CO0340100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/ab5c34f9-160d-49f1-83a6-73ab507291a9-production/FeatureServer"
 }

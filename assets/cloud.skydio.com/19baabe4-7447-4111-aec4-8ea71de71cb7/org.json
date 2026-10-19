@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "a64727cf-9798-595e-9bf4-72f177cdd221",
   "agency_name": "Dearborn Police Department (MI)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Dearborn Police Department (MI) Drone Flights"
+    },
+    {
+      "agency_id": "a64727cf-9798-595e-9bf4-72f177cdd221",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
+    "count": 5421,
+    "duplicates": 259,
+    "first_takeoff": "2026-01-28T19:46:31Z",
+    "last_takeoff": "2026-10-19T02:54:24Z",
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "19baabe4-7447-4111-aec4-8ea71de71cb7",
-  "ori": [],
+  "ori": [
+    "MI8234300"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/19baabe4-7447-4111-aec4-8ea71de71cb7-production/FeatureServer"
 }

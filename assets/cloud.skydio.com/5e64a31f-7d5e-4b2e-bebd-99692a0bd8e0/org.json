@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "7ac2e867-76ca-5843-a56c-8fd904b228a5",
   "agency_name": "Henderson Police Department (NV)",
   "dashboards": [],
   "description": "Feature service for Henderson Police Department (NV)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "7ac2e867-76ca-5843-a56c-8fd904b228a5",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "5e64a31f-7d5e-4b2e-bebd-99692a0bd8e0",
-  "ori": [],
+  "ori": [
+    "NV0020300"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5e64a31f-7d5e-4b2e-bebd-99692a0bd8e0-production/FeatureServer"
 }

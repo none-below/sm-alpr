@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "f50fabcd-23da-5653-a7c9-ca1fba00df70",
   "agency_name": "Albany Police Department (NY)",
   "dashboards": [],
   "description": "Feature service for Albany Police Department (NY)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "f50fabcd-23da-5653-a7c9-ca1fba00df70",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "36dd2b21-32dc-48bc-8fbe-eb913e572525",
-  "ori": [],
+  "ori": [
+    "NY0010100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/36dd2b21-32dc-48bc-8fbe-eb913e572525-production/FeatureServer"
 }

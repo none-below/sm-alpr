@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "60c367bd-9ba8-5fd8-bfed-e00825e3ed12",
   "agency_name": "[Paraverse] McKinney Police Department (TX)",
   "dashboards": [],
   "description": "Feature service for [Paraverse] McKinney Police Department (TX)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "60c367bd-9ba8-5fd8-bfed-e00825e3ed12",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "939f6a3b-bd5c-4ab5-a682-3c0df4e2ca72",
-  "ori": [],
+  "ori": [
+    "TX0430500"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/939f6a3b-bd5c-4ab5-a682-3c0df4e2ca72-production/FeatureServer"
 }

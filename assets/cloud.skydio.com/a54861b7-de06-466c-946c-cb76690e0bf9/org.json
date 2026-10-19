@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "a036044a-1978-53fd-b271-1575d223c7c4",
   "agency_name": "Hollywood Police Department",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Hollywood Police Department Drone Flights"
+    },
+    {
+      "agency_id": "a036044a-1978-53fd-b271-1575d223c7c4",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 107,
+    "duplicates": 0,
+    "first_takeoff": "2024-11-23T02:40:44Z",
+    "last_takeoff": "2026-04-24T00:31:49Z",
+    "unhashed": 107
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "a54861b7-de06-466c-946c-cb76690e0bf9",
-  "ori": [],
+  "ori": [
+    "FL0060500"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/a54861b7-de06-466c-946c-cb76690e0bf9-production/FeatureServer"
 }

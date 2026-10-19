@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "7c6e3ac2-0a81-50d7-ac9b-f523da9d8052",
   "agency_name": "[Paraverse] Altoona Police Department",
   "dashboards": [],
   "description": "Feature service for [Paraverse] Altoona Police Department",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "7c6e3ac2-0a81-50d7-ac9b-f523da9d8052",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-07-09T19:30:52Z",
+    "last_takeoff": "2025-07-09T19:30:52Z",
+    "unhashed": 1
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "286fcd7b-eb0e-45b3-a1a5-ba32acd8382e",
-  "ori": [],
+  "ori": [
+    "IA0770800"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/286fcd7b-eb0e-45b3-a1a5-ba32acd8382e-production/FeatureServer"
 }

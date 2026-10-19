@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "7b176a82-055c-505b-b86f-055f1e8dadb1",
   "agency_name": "Amarillo Police Department",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Amarillo Police Department Drone Flights"
+    },
+    {
+      "agency_id": "7b176a82-055c-505b-b86f-055f1e8dadb1",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 7,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-18T00:27:03Z",
+    "last_takeoff": "2026-09-18T07:48:53Z",
+    "unhashed": 7
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "915dc684-90d7-4ca6-b624-812231263236",
-  "ori": [],
+  "ori": [
+    "TX1880100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/915dc684-90d7-4ca6-b624-812231263236-production/FeatureServer"
 }

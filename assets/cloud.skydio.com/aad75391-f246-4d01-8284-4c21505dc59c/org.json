@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "a7af39bf-e077-5c29-89b5-617feeb3c1fd",
   "agency_name": "Fairfield Glade Police Department (TN)",
   "dashboards": [],
   "description": "Feature service for Fairfield Glade Police Department (TN)",
@@ -7,20 +7,41 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "a7af39bf-e077-5c29-89b5-617feeb3c1fd",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "aad75391-f246-4d01-8284-4c21505dc59c",
   "ori": [],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/aad75391-f246-4d01-8284-4c21505dc59c-production/FeatureServer"

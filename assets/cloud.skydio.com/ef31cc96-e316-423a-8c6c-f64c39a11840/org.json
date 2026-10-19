@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "4af8a9d0-fc4a-5bea-bdef-e84e15d7d03e",
   "agency_name": "Knox County Sheriffs Office (TN)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Knox County Sheriffs Office (TN) Drone Flights"
+    },
+    {
+      "agency_id": "4af8a9d0-fc4a-5bea-bdef-e84e15d7d03e",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 5,
+    "duplicates": 0,
+    "first_takeoff": "2026-04-10T05:06:21Z",
+    "last_takeoff": "2026-04-10T06:40:31Z",
+    "unhashed": 5
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "ef31cc96-e316-423a-8c6c-f64c39a11840",
-  "ori": [],
+  "ori": [
+    "TN0470000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/ef31cc96-e316-423a-8c6c-f64c39a11840-production/FeatureServer"
 }

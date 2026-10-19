@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "1c7b6b81-1c54-588b-9558-5c5a87ce35d4",
   "agency_name": "Addison Police Department (IL)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Addison Police Department (IL) Drone Flights"
+    },
+    {
+      "agency_id": "1c7b6b81-1c54-588b-9558-5c5a87ce35d4",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-12T02:30:38Z",
+    "last_takeoff": "2026-09-12T02:30:38Z",
+    "unhashed": 1
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "8f9b0cae-8258-49eb-bcd6-32c7506b065c",
-  "ori": [],
+  "ori": [
+    "IL0220100"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/8f9b0cae-8258-49eb-bcd6-32c7506b065c-production/FeatureServer"
 }

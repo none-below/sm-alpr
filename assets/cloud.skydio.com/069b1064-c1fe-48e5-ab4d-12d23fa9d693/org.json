@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "ec50ea66-f6a3-5d04-bba4-141a0dc10e3e",
   "agency_name": "Everett Police Department (WA)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Everett Police Department (WA) Drone Flights"
+    },
+    {
+      "agency_id": "ec50ea66-f6a3-5d04-bba4-141a0dc10e3e",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
+    "count": 248,
+    "duplicates": 0,
+    "first_takeoff": "2026-08-03T07:06:39Z",
+    "last_takeoff": "2026-10-06T22:00:08Z",
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "069b1064-c1fe-48e5-ab4d-12d23fa9d693",
-  "ori": [],
+  "ori": [
+    "WA0310300"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/069b1064-c1fe-48e5-ab4d-12d23fa9d693-production/FeatureServer"
 }

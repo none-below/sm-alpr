@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "2a46ab39-31ab-5cca-b2bb-de9c6af1fc2d",
   "agency_name": "Rogers Police Department",
   "dashboards": [],
   "description": "Feature service for Rogers Police Department",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "2a46ab39-31ab-5cca-b2bb-de9c6af1fc2d",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-06-02T04:42:43Z",
+    "last_takeoff": "2025-06-02T04:42:43Z",
+    "unhashed": 1
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "e0bdcc19-2a83-4780-afb7-52488e4b13cf",
-  "ori": [],
+  "ori": [
+    "MN0273400"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/e0bdcc19-2a83-4780-afb7-52488e4b13cf-production/FeatureServer"
 }

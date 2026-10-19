@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "b7c7e65a-3dc6-59da-9302-9c91abf653d9",
   "agency_name": "Larimer County Sheriff's Office (CO)",
   "dashboards": [],
   "description": "Feature service for  Larimer County Sheriff's Office (CO)",
@@ -7,21 +7,44 @@
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "agency_id": "b7c7e65a-3dc6-59da-9302-9c91abf653d9",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
     "count": 0,
+    "duplicates": 0,
     "first_takeoff": null,
     "last_takeoff": null,
     "unhashed": 0
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state",
   "org_id": "d1c98a8a-d592-4efb-b89d-e5c5a553e7f1",
-  "ori": [],
+  "ori": [
+    "CO0350000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d1c98a8a-d592-4efb-b89d-e5c5a553e7f1-production/FeatureServer"
 }

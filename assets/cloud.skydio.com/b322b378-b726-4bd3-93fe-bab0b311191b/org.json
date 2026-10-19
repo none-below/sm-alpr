@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "fda63002-7ff4-5aba-9b20-77951af1a775",
   "agency_name": "Cincinnati Police Department",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Cincinnati Police Department Drone Flights"
+    },
+    {
+      "agency_id": "fda63002-7ff4-5aba-9b20-77951af1a775",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 36558,
+    "duplicates": 13985,
+    "first_takeoff": "2025-03-19T22:53:35Z",
+    "last_takeoff": "2026-10-18T21:44:32Z",
+    "unhashed": 36558
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "b322b378-b726-4bd3-93fe-bab0b311191b",
-  "ori": [],
+  "ori": [
+    "OHCIP0000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/b322b378-b726-4bd3-93fe-bab0b311191b-production/FeatureServer"
 }

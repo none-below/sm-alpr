@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "378bdba1-bea5-5d95-95c8-3f362d4c3940",
   "agency_name": "Providence Police Department (RI)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Providence Police Department (RI) Drone Flights"
+    },
+    {
+      "agency_id": "378bdba1-bea5-5d95-95c8-3f362d4c3940",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 17,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-24T18:17:17Z",
+    "last_takeoff": "2026-08-02T05:21:12Z",
+    "unhashed": 17
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "215f4ae3-80af-4574-b7ef-628698975a30",
-  "ori": [],
+  "ori": [
+    "RI0040900"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/215f4ae3-80af-4574-b7ef-628698975a30-production/FeatureServer"
 }

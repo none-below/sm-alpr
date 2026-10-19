@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "b50c68c1-cb1a-5994-9830-ff47fdf1ba1d",
   "agency_name": "Wichita Police Department",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Wichita Police Department Drone Flights"
+    },
+    {
+      "agency_id": "b50c68c1-cb1a-5994-9830-ff47fdf1ba1d",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 7965,
+    "duplicates": 514,
+    "first_takeoff": "2024-05-29T20:05:55Z",
+    "last_takeoff": "2026-10-19T17:14:28Z",
+    "unhashed": 7965
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "bcdd21c4-5099-465c-b1a8-53f364447517",
-  "ori": [],
+  "ori": [
+    "KS0870300"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/bcdd21c4-5099-465c-b1a8-53f364447517-production/FeatureServer"
 }

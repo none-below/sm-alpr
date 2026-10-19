@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "510608b2-6fbf-5ab0-a1ed-766feb142222",
   "agency_name": "Norton Police Department (OH)",
   "dashboards": [
     {
@@ -21,21 +21,44 @@
       "date": "2026-10-18",
       "event": "dashboard_published",
       "title": "Norton Police Department (OH) sUAS Flights"
+    },
+    {
+      "agency_id": "510608b2-6fbf-5ab0-a1ed-766feb142222",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
-    "unhashed": 0
+    "count": 29,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-31T00:00:21Z",
+    "last_takeoff": "2026-09-07T23:08:32Z",
+    "unhashed": 29
   },
   "layer": {
-    "fields": []
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+state+extent",
   "org_id": "2fed5f2e-c902-4a3d-9fdf-4d8b1d33fb9e",
-  "ori": [],
+  "ori": [
+    "OH0771000"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/2fed5f2e-c902-4a3d-9fdf-4d8b1d33fb9e-production/FeatureServer"
 }
