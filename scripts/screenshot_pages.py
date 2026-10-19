@@ -19,7 +19,6 @@ PAGES = [
     ("index.html", "index", {"width": 800, "height": 600}),
     # Map is 100vh so full_page won't extend it — use a tall viewport
     ("sharing_map.html", "sharing_map", {"width": 1280, "height": 1800}),
-    ("scoreboard.html", "scoreboard", {"width": 1280, "height": 900}),
     # Per-agency report renders client-side from report_data.json.
     # SMPD is the project's canonical subject so it's the natural
     # example for PR previews.
