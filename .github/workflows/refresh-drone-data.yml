@@ -132,6 +132,9 @@ jobs:
         run: |
           new_orgs=$(git diff --name-only --diff-filter=A origin/main...HEAD -- 'assets/cloud.skydio.com/*/org.json' | wc -l)
           new_flights=$(git diff --numstat origin/main...HEAD -- 'assets/cloud.skydio.com/*/flights/*.ndjson' | awk '{a+=$1; d+=$2} END {print a-d+0}')
+          # New flights are routine; only surface what isn't. This is the meat,
+          # so it goes near the TOP of the body, above the long per-org table.
+          changes=$(grep -E "^(MODIFIED|REMOVED|GEOMETRY CHANGED|NEW SERVICE|UNLISTED|RELISTED|DASHBOARD|DESCRIPTION CHANGED|SCHEMA|ERROR|RATE LIMITED)" /tmp/drone.log || true)
           {
             echo "Automated refresh of drone flight logs (\`assets/cloud.skydio.com/\`, Skydio DFR dashboards)."
             echo "Accumulates daily runs; merge when ready — the next run starts a fresh branch from main."
@@ -139,24 +142,35 @@ jobs:
             echo "Since main: **${new_orgs}** new services, net **${new_flights}** flight lines."
             echo "Edits and removals are in each org's \`changes.ndjson\`; tracks are referenced by sha256 only."
             echo
-            echo "### Orgs with flights"
+            if [ -n "$changes" ]; then
+              echo "### Latest run ($(date -u +%Y-%m-%d)) — edits, removals & new services"
+              echo
+              echo '```'
+              printf '%s\n' "$changes" | head -200
+              echo '```'
+            else
+              echo "### Latest run ($(date -u +%Y-%m-%d))"
+              echo
+              echo "Only routine new flights this run — no edits, removals, or new services."
+            fi
+            echo
+            echo "<details><summary><b>All orgs with flights</b> (reference)</summary>"
             echo
             uv run python scripts/drone_flights.py report --markdown --top 40
+            echo
+            echo "</details>"
           } > /tmp/pr-body.md
 
-          # New flights are routine; only surface what isn't.
-          changes=$(grep -E "^(MODIFIED|REMOVED|GEOMETRY CHANGED|NEW SERVICE|UNLISTED|RELISTED|DASHBOARD|DESCRIPTION CHANGED|SCHEMA|ERROR|RATE LIMITED)" /tmp/drone.log || true)
           existing=$(gh pr list --head drone-refresh --state open --json number -q '.[0].number')
           if [ -n "$existing" ]; then
             gh pr edit "$existing" --body-file /tmp/pr-body.md
+            # Also drop a per-run comment so the PR keeps a run-by-run history
+            # (the body only ever shows the latest run).
             if [ -n "$changes" ]; then
               printf 'Run %s:\n\n```\n%s\n```\n' "$(date -u +%Y-%m-%d)" "$(printf '%s\n' "$changes" | head -200)" > /tmp/pr-comment.md
               gh pr comment "$existing" --body-file /tmp/pr-comment.md
             fi
           else
-            if [ -n "$changes" ]; then
-              printf '\n### This run\n\n```\n%s\n```\n' "$(printf '%s\n' "$changes" | head -200)" >> /tmp/pr-body.md
-            fi
             gh pr create \
               --title "chore: refresh drone flight data" \
               --body-file /tmp/pr-body.md \
