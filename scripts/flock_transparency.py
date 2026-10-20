@@ -1707,6 +1707,55 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     return pdf_path, discovered_slugs
 
 
+def launch_browser(p, proxy=None, netlog=None):
+    """Start the crawl browser and return (browser, page).
+
+    Shared by the crawler and slug_probe, which hit the same edge and need the
+    same fingerprint: real Chrome, a UA that matches it, and the stealth patch.
+    `p` is a sync_playwright() handle. `netlog` (a path) has Chrome write a
+    net-log there, for runs that hit net::ERR_INVALID_ARGUMENT
+    (UNREACHABLE_NOTE).
+    """
+    # channel="chrome" launches the OS-installed real Chrome instead of
+    # Playwright's bundled Chromium. Bundled Chromium's TLS handshake
+    # fingerprint (JA3/JA4) doesn't match the real-Chrome population, so
+    # Flock's edge scores it as a bot and returns HTTP 403 before any HTTP
+    # transaction. article_crawl.py hit the same wall in May 2026 and this
+    # is the fix that cleared it; the Flock crawler never got it, and when
+    # Flock tightened their edge the whole rotation started 403ing.
+    # Falls back to bundled Chromium so a machine without real Chrome
+    # still runs (it will likely 403, but that is better than crashing).
+    launch_args = ["--headless=new"]
+    if netlog:
+        launch_args.append(f"--log-net-log={netlog}")
+    launch_kwargs = {"headless": True, "args": launch_args}
+    if proxy:
+        launch_kwargs["proxy"] = {"server": proxy}
+    try:
+        browser = p.chromium.launch(channel="chrome", **launch_kwargs)
+    except Exception as e:
+        print(f"  real Chrome unavailable ({e.__class__.__name__}); "
+              f"falling back to bundled Chromium — expect 403s")
+        browser = p.chromium.launch(**launch_kwargs)
+    user_agent = chrome_user_agent(browser.version)
+    print(f"  browser {browser.version}; UA {user_agent}")
+    context = browser.new_context(
+        viewport=VIEWPORT,
+        user_agent=user_agent,
+    )
+    page = context.new_page()
+    # tf-playwright-stealth patches the JS-layer detection signals
+    # (navigator.webdriver, plugin enumeration, WebGL vendor strings).
+    # Stacks on the TLS-layer fix above. Optional import so the crawler
+    # still runs where the package isn't installed.
+    if stealth_sync is not None:
+        try:
+            stealth_sync(page)
+        except Exception as e:
+            print(f"  stealth patch failed ({e.__class__.__name__}), continuing")
+    return browser, page
+
+
 def new_crawl_session():
     """Per-browser-session crawl state.
 
@@ -1903,52 +1952,11 @@ def cmd_crawl(args):
         failed_slugs.clear()
 
     with sync_playwright() as p:
-        # channel="chrome" launches the OS-installed real Chrome instead of
-        # Playwright's bundled Chromium. Bundled Chromium's TLS handshake
-        # fingerprint (JA3/JA4) doesn't match the real-Chrome population, so
-        # Flock's edge scores it as a bot and returns HTTP 403 before any HTTP
-        # transaction. article_crawl.py hit the same wall in May 2026 and this
-        # is the fix that cleared it; the Flock crawler never got it, and when
-        # Flock tightened their edge the whole rotation started 403ing.
-        # Falls back to bundled Chromium so a machine without real Chrome
-        # still runs (it will likely 403, but that is better than crashing).
         def launch(first=True):
-            """Start a browser and return (browser, page). Called again by
-            the unreachable path's relaunch, which skips the net-log flag so
-            the first failure's log isn't overwritten."""
-            launch_args = ["--headless=new"]
-            # Diagnostic: with FLOCK_NETLOG=<path>, Chrome writes a net-log
-            # there, for runs that hit net::ERR_INVALID_ARGUMENT
-            # (UNREACHABLE_NOTE).
-            netlog = os.environ.get("FLOCK_NETLOG")
-            if netlog and first:
-                launch_args.append(f"--log-net-log={netlog}")
-            launch_kwargs = {"headless": True, "args": launch_args}
-            if args.proxy:
-                launch_kwargs["proxy"] = {"server": args.proxy}
-            try:
-                browser = p.chromium.launch(channel="chrome", **launch_kwargs)
-            except Exception as e:
-                print(f"  real Chrome unavailable ({e.__class__.__name__}); "
-                      f"falling back to bundled Chromium — expect 403s")
-                browser = p.chromium.launch(**launch_kwargs)
-            user_agent = chrome_user_agent(browser.version)
-            print(f"  browser {browser.version}; UA {user_agent}")
-            context = browser.new_context(
-                viewport=VIEWPORT,
-                user_agent=user_agent,
-            )
-            page = context.new_page()
-            # tf-playwright-stealth patches the JS-layer detection signals
-            # (navigator.webdriver, plugin enumeration, WebGL vendor strings).
-            # Stacks on the TLS-layer fix above. Optional import so the
-            # crawler still runs where the package isn't installed.
-            if stealth_sync is not None:
-                try:
-                    stealth_sync(page)
-                except Exception as e:
-                    print(f"  stealth patch failed ({e.__class__.__name__}), continuing")
-            return browser, page
+            """(browser, page). The unreachable path's relaunch passes
+            first=False so the first failure's net-log isn't overwritten."""
+            netlog = os.environ.get("FLOCK_NETLOG") if first else None
+            return launch_browser(p, proxy=args.proxy, netlog=netlog)
 
         browser, page = launch()
         # One session's worth of warm-up budget, shared by every batch below.

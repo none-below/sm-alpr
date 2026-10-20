@@ -527,3 +527,95 @@ def test_candidates_use_every_known_name_not_just_the_latest():
     assert "hamilton-township-oh-pd" in candidates, (
         f"older name dropped; got sample: {candidates[:10]}"
     )
+
+
+# ── stale `tried` entries and navigation errors ─────────────────
+
+import json  # noqa: E402
+
+import slug_probe  # noqa: E402
+
+
+def test_prune_releases_transient_tried_and_unexhausts():
+    """A tried candidate is skipped for good, so an entry that was never an
+    answer about the slug — an edge 403/429, or a navigation Chrome failed
+    before sending anything — must not stay there."""
+    state = {"agencies": {
+        "a": {"tried": {"a-ca-pd": "http_403", "a-pd": "http_404"}, "exhausted": True},
+        "b": {"tried": {"b-ca-pd": "navigation:Page.goto: net::ERR_INVALID_ARGUMENT",
+                        "b-pd": "no_response", "b-ca": "http_429"}, "exhausted": False},
+        "c": {"tried": {"c-ca-pd": "http_404", "c-pd": "http_200_no_marker"}, "exhausted": True},
+    }}
+
+    assert slug_probe.prune_transient_tried(state) == 4
+
+    ags = state["agencies"]
+    assert ags["a"] == {"tried": {"a-pd": "http_404"}, "exhausted": False}
+    assert ags["b"]["tried"] == {}
+    assert ags["c"]["exhausted"] is True, "real misses keep their exhaustion"
+    assert ags["c"]["tried"] == {"c-ca-pd": "http_404", "c-pd": "http_200_no_marker"}
+
+
+class _FakePlaywright:
+    def __enter__(self):
+        return object()
+
+    def __exit__(self, *exc):
+        return False
+
+
+def _run_main(monkeypatch, tmp_path, outcomes):
+    """Drive slug_probe.main() for one tier-A agency with probe() scripted to
+    return `outcomes` in order; no browser, no network."""
+    import flock_transparency
+    import playwright.sync_api
+
+    launches = []
+
+    class _Browser:
+        def close(self):
+            pass
+
+    def fake_launch(p, **kw):
+        launches.append(1)
+        return _Browser(), object()
+
+    calls = []
+    script = iter(outcomes)
+
+    def fake_probe(page, slug, timeout_ms=30000):
+        calls.append(slug)
+        return next(script)
+
+    registry = [{"agency_id": "anytown", "display_name": "Anytown CA PD",
+                 "flock_names": ["Anytown CA PD"], "flock_active_slug": None,
+                 "geo": {"state": "CA"}, "agency_role": "police"}]
+    monkeypatch.setattr(slug_probe, "load_registry", lambda: registry)
+    monkeypatch.setattr(slug_probe, "load_eyesonflock_index", lambda: {})
+    monkeypatch.setattr(slug_probe, "probe", fake_probe)
+    monkeypatch.setattr(slug_probe.time, "sleep", lambda *_: None)
+    monkeypatch.setattr(flock_transparency, "launch_browser", fake_launch)
+    monkeypatch.setattr(playwright.sync_api, "sync_playwright", lambda: _FakePlaywright())
+    monkeypatch.setattr(sys, "argv", ["slug_probe.py", "--limit", "1", "--delay", "0",
+                                      "--data-dir", str(tmp_path)])
+    slug_probe.main()
+    state = json.loads((tmp_path / slug_probe.STATE_FILE).read_text())
+    return calls, launches, state["agencies"].get("anytown", {}).get("tried", {})
+
+
+def test_navigation_error_relaunches_and_retries_the_same_candidate(monkeypatch, tmp_path):
+    calls, launches, tried = _run_main(
+        monkeypatch, tmp_path, [("error", "navigation:ERR_INVALID_ARGUMENT"), ("miss", "http_404")])
+
+    assert len(launches) == 2, "initial launch + one relaunch"
+    assert calls[0] == calls[1], "the errored candidate is retried, not skipped"
+    assert tried == {calls[0]: "http_404"}, "only the real answer is recorded"
+
+
+def test_navigation_error_after_relaunch_stops_without_burning_the_candidate(monkeypatch, tmp_path):
+    calls, launches, tried = _run_main(
+        monkeypatch, tmp_path, [("error", "navigation:x"), ("error", "navigation:x")])
+
+    assert len(launches) == 2
+    assert len(calls) == 2
+    assert tried == {}, "a navigation error is never recorded as tried"
