@@ -245,9 +245,9 @@
     "last_attempt": "2026-09-16T20:05:05Z"
   },
   "https://www.kvue.com/article/news/local/bastrop-flock-license-plate-reader-contract-ended/269-389cb18d-dee0-452e-acbd-4529545eedb2": {
-    "attempts": 2,
-    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-19T20:33:21Z"
+    "attempts": 3,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kvue.com/article/news/local/bastrop-flock-license-plate-reader-contract-ended/269-389cb18d-dee0-452e-acbd-4529545eedb2\nCall log:\n  - navigating to \"https://www.kvue.com/article/news/local/bastrop-flock-license-plate-reader-contract-ended/269-389cb1; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-20T00:16:37Z"
   },
   "https://www.kvue.com/article/news/local/hays-county/kyle-council-flock-cameras/269-401f3e43-1479-4821-8198-0efc6cf8fd5b": {
     "attempts": 3,
@@ -355,9 +355,9 @@
     "last_attempt": "2026-05-26T19:28:10Z"
   },
   "https://www.kxan.com/news/national-news/mapquests-new-surveillance-layer-feature-flags-flock-cameras-on-users-routes/": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-19T20:34:46Z"
+    "last_attempt": "2026-10-20T00:17:53Z"
   },
   "https://www.kxan.com/news/national-news/trump-weighs-in-on-flock-debate-i-like-them/": {
     "attempts": 3,
