@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Rohnert Park Department of Public Safety (CA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-10-19T18:12:43Z",
+      "id": "e3334dc1b0a8474ea5730687b402f345",
+      "title": "Rohnert Park Department of Public Safety (CA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/e3334dc1b0a8474ea5730687b402f345"
+    }
+  ],
+  "description": "Feature service for Rohnert Park Department of Public Safety (CA)",
+  "events": [
+    {
+      "date": "2026-10-20",
+      "event": "listed"
+    },
+    {
+      "dashboard": "e3334dc1b0a8474ea5730687b402f345",
+      "date": "2026-10-20",
+      "event": "dashboard_published",
+      "title": "Rohnert Park Department of Public Safety (CA) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-20",
+  "flights": {
+    "count": 33,
+    "duplicates": 0,
+    "first_takeoff": "2026-08-11T16:50:38Z",
+    "last_takeoff": "2026-10-15T22:02:58Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "5ecadc9c-bb21-4dfa-ae67-a71d526356f9",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5ecadc9c-bb21-4dfa-ae67-a71d526356f9-production/FeatureServer"
+}
