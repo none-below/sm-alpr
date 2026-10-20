@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+# Commit-msg hook: reject AI co-author trailers, "Generated with" lines,
+# chat citation residue and hidden Unicode in the commit message. Comment
+# lines and the verbose-commit diff below the scissors line are ignored.
+# CI runs the same check over every commit in a PR (--git-log).
+
+if ! python3 scripts/check_ai_fingerprints.py --commit-msg "$1"; then
+  echo "Commit aborted: edit the message (your draft is in $1)." >&2
+  exit 1
+fi

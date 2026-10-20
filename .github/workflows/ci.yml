@@ -52,6 +52,30 @@ jobs:
       - name: Lint article registry
         run: python3 scripts/lint_articles.py
 
+      - name: AI-fingerprint scan (tracked text, PR commit messages, PR title/body)
+        # Hidden Unicode, chat citation residue, AI utm params and AI
+        # co-author/"Generated with" lines. assets/ and data/ are skipped:
+        # third-party records are evidence, not our text. Title/body go
+        # through env, never ${{ }} inside the script.
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -uo pipefail
+          rc=0
+          python3 scripts/check_ai_fingerprints.py --tree || rc=1
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            python3 scripts/check_ai_fingerprints.py --git-log origin/main..HEAD || rc=1
+            printf '%s\n\n%s\n' "$PR_TITLE" "$PR_BODY" \
+              | python3 scripts/check_ai_fingerprints.py --label "PR title/body" - || rc=1
+          fi
+          exit "$rc"
+
+      - name: Run AI-fingerprint scanner tests
+        run: uv run pytest tests/test_check_ai_fingerprints.py -v
+
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         id: playwright-cache

@@ -124,6 +124,22 @@ The pre-commit hook:
 1. Rebuilds the findings PDF if the markdown or generator script changed
 2. Generates OCR sidecars for staged PDFs in `assets/`
 3. Scans staged PDFs for PII
+4. Blocks staged text carrying AI-assistant fingerprints or hidden Unicode
+   (`scripts/check_ai_fingerprints.py --staged`; skips `assets/` and `data/`)
+
+The commit-msg hook rejects AI co-author trailers, "Generated with" lines and
+hidden Unicode in commit messages. CI runs the same scanner over tracked text,
+every commit message in a PR, and the PR title/body.
+
+Keep the path relative: git resolves it per worktree, so each worktree runs
+its own branch's hooks. An absolute path pins every worktree to one checkout's
+copy.
+
+```sh
+python3 scripts/check_ai_fingerprints.py FILE          # scan; "-" reads stdin
+python3 scripts/check_ai_fingerprints.py --style FILE  # add advisory style tells
+python3 scripts/check_ai_fingerprints.py --fix FILE    # strip mechanical hits in place
+```
 
 ## Setup
 

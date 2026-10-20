@@ -85,7 +85,7 @@ def html_to_text(fragment: str) -> str:
     fragment = re.sub(r"<br\s*/?>", "\n", fragment)
     fragment = re.sub(r"</(p|div|li|tr|h\d)>", "\n\n", fragment)
     text = html.unescape(re.sub(r"<[^>]+>", "", fragment))
-    lines = [re.sub(r"[ \t ]+", " ", ln).strip() for ln in text.split("\n")]
+    lines = [re.sub(r"[ \t\u00a0]+", " ", ln).strip() for ln in text.split("\n")]
     return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
 
 
