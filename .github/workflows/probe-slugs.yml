@@ -87,7 +87,15 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
 
-      - name: Install Chromium for Playwright
+      - name: Install real Chrome for Playwright
+        # slug_probe launches real Chrome via flock_transparency.launch_browser,
+        # same as the refresh crawler: bundled Chromium's TLS fingerprint is
+        # 403'd at the edge, which is why the probe found nothing from
+        # 2026-09-08 on. Ungated by the cache for the same reason as in
+        # refresh-flock-data.yml — it installs outside ~/.cache/ms-playwright.
+        run: uv run playwright install chrome --with-deps
+
+      - name: Install Chromium fallback
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
 
