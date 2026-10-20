@@ -201,8 +201,9 @@ def test_discover_writes_org_with_dashboard_and_tracks_changes(env, capsys):
     assert org["agency_name"] == "Testville Police Department (CA)"
     assert [d["id"] for d in org["dashboards"]] == [DASH]
     assert org["dashboards"][0]["url"] == dl.DASHBOARD_APP_URL + DASH
-    assert [e["event"] for e in org["events"]] == ["listed", "dashboard_published"]
-    assert "NEW SERVICE" in capsys.readouterr().out
+    assert [e["event"] for e in org["events"]] == ["listed", "dashboard_published", "linked"]
+    out = capsys.readouterr().out
+    assert "NEW SERVICE" in out and "LINKED Testville Police Department (CA) -> " in out
 
     # orphan dashboard → state; the dashboard comes down; a second org appears
     fake.dashboards = [{"id": DASH_ORPHAN, "title": "Orphan", "access": "public", "created": T0}]
@@ -219,6 +220,35 @@ def test_discover_writes_org_with_dashboard_and_tracks_changes(env, capsys):
     discover(client, data)
     org = json.loads((data / ORG / dl.ORG_FILE).read_text())
     assert org["listed"] is False and org["events"][-1]["event"] == "unlisted"
+
+
+def test_discover_links_before_any_crawl_and_reports_misses(env, capsys):
+    fake, client, data, _ = env
+    fake.orgs[ORG2] = {"description": "Feature service for Belmont Police Department", "features": [], "edit": 1}
+    fake.orgs["77777777-8888-9999-0000-111111111111"] = {
+        "description": "Feature service for Skydio Demo Org", "features": [], "edit": 1}
+    discover(client, data)
+    org = json.loads((data / ORG / dl.ORG_FILE).read_text())
+    assert org["agency_id"] == "ag-testville" and org["ori"] == ["CA0000001"]
+    assert org["match"] == "name+role+state+extent"
+    assert not (data / ORG / "flights").exists()  # linking pulls no flights
+    # no flights → no extent, and no state in the name: two Belmonts, no guess
+    assert json.loads((data / ORG2 / dl.ORG_FILE).read_text())["agency_id"] is None
+    out = capsys.readouterr().out
+    assert f"NO MATCH Belmont Police Department ({ORG2}): no extent, no state (2 candidates)" in out
+    assert "registry: 1 newly linked, 1 police/sheriff orgs unmatched" in out
+    # only parseable, unlinked orgs cost an extent query
+    counted = {c[0] for c in fake.queries(lambda p: p.get("returnCountOnly"))}
+    assert counted == {dl.layer_url(ORG) + "/query", dl.layer_url(ORG2) + "/query"}
+
+    # linked and manual orgs aren't re-queried on the next discover
+    org2 = json.loads((data / ORG2 / dl.ORG_FILE).read_text())
+    org2.update(agency_id="ag-belmont-ca", match="manual")
+    (data / ORG2 / dl.ORG_FILE).write_text(json.dumps(org2))
+    before = len(fake.queries(lambda p: p.get("returnCountOnly")))
+    discover(client, data)
+    assert len(fake.queries(lambda p: p.get("returnCountOnly"))) == before
+    assert json.loads((data / ORG2 / dl.ORG_FILE).read_text())["agency_id"] == "ag-belmont-ca"
 
 
 # ── crawl ────────────────────────────────────────────────────────
