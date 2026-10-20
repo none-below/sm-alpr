@@ -1,6 +1,9 @@
 {
   "agency_id": null,
-  "axon_agency": null,
+  "axon_agency": {
+    "id": "41f41ec8-9ddf-44ba-b265-3f506e7eae73",
+    "name": "Rialto Police Department"
+  },
   "candidate": {
     "agency_id": "76ffd436-962c-5842-92bc-1fb2c82f20dd",
     "name": "Rialto Police Department",
@@ -16,6 +19,10 @@
     {
       "date": "2026-10-13",
       "event": "not_published"
+    },
+    {
+      "date": "2026-10-20",
+      "event": "published"
     }
   ],
   "first_seen": "2026-10-13",
@@ -23,5 +30,5 @@
   "match": "fbi:{b}pd",
   "name": null,
   "ori": [],
-  "published": false
+  "published": true
 }
