@@ -32,7 +32,9 @@ from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+import axon_transparency
 from lib import (
+    BASE_URL,
     agency_active_slug,
     agency_coords,
     agency_display_name,
@@ -61,6 +63,12 @@ GRAPH_PATH = Path("assets/transparency.flocksafety.com/.sharing_graph_full.json"
 DATA_DIR = Path("assets/transparency.flocksafety.com")
 HISTORY_DIR = Path("docs/data/history")
 AUDIT_DIR = Path("docs/data/audit")
+# drone_flights.py's DATA_DIR (Skydio DFR dashboards).
+SKYDIO_DIR = Path("assets/cloud.skydio.com")
+# Skydio simulation/demo orgs: "[Paraverse] Oakland County Sheriff's Office
+# (MI)", "SIM - Cincinnati Police Department". drone_flights.py links them to
+# the real agency, but their dashboards show simulated flights.
+SKYDIO_SIM_ORG = re.compile(r"\bparaverse\b|^\s*sim\s*-", re.I)
 OUT_PATH = Path("docs/data/report_data.json")
 RECENT_ADD_WINDOW_DAYS = 90
 
@@ -540,6 +548,75 @@ def _load_portal_json(reg_entry):
         return json.loads(latest_path.read_text())
     except (OSError, json.JSONDecodeError):
         return {}
+
+
+def _load_vendor_pages(axon_dir=None, skydio_dir=None):
+    """Public transparency pages on vendors other than Flock, by agency_id.
+
+    Axon: tenants whose ALPR "Policy and Usage" page is published as of the
+    last crawl (tenant.json from axon_transparency.py). A tenant that
+    publishes nothing is left out — Axon Evidence is near-universal among
+    police departments, so a tenant alone says nothing about ALPR use.
+    Skydio: public drone-flight dashboards (org.json from drone_flights.py),
+    minus simulation/demo orgs.
+
+    Only records linked to a registry agency_id count; an unconfirmed
+    `candidate` match doesn't. Either directory may be absent.
+
+    Returns {agency_id: [{vendor, kind, label, url}]}.
+    """
+    axon_dir = axon_dir or axon_transparency.DATA_DIR
+    skydio_dir = skydio_dir or SKYDIO_DIR
+    pages = defaultdict(list)
+    for path in sorted(axon_dir.glob(f"*/{axon_transparency.TENANT_FILE}")):
+        try:
+            t = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        if t.get("published") and t.get("agency_id") and t.get("host"):
+            pages[t["agency_id"]].append({
+                "vendor": "Axon",
+                "kind": "alpr",
+                "label": "Axon ALPR",
+                "url": axon_transparency.policy_url(t["host"]),
+            })
+    for path in sorted(skydio_dir.glob("*/org.json")):
+        try:
+            org = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not org.get("agency_id") or SKYDIO_SIM_ORG.search(org.get("agency_name") or ""):
+            continue
+        # The href is rendered as-is (HTML-escaped only), so https-only.
+        public = [d for d in org.get("dashboards") or []
+                  if d.get("access") == "public" and (d.get("url") or "").startswith("https://")]
+        if public:
+            # One link per org: every dashboard shows the same flights, and
+            # later ones are copies ("[<staff name> COPY FOR EXPERIMENT] Denver
+            # Police Department ..."), so the first-created is the original.
+            d = min(public, key=lambda d: d.get("created") or "")
+            pages[org["agency_id"]].append({
+                "vendor": "Skydio",
+                "kind": "drone",
+                "label": "Skydio drone flights",
+                "url": d["url"],
+            })
+    return pages
+
+
+def _transparency_pages(reg_entry, crawled, vendor_pages):
+    """Every public transparency page for one agency: its Flock portal (when
+    crawled) first, then other vendors' pages."""
+    pages = []
+    if crawled:
+        pages.append({
+            "vendor": "Flock",
+            "kind": "alpr",
+            "label": "Flock ALPR",
+            "url": f"{BASE_URL}/{agency_active_slug(reg_entry)}",
+        })
+    pages.extend(vendor_pages.get(reg_entry.get("agency_id"), []))
+    return pages
 
 
 def _load_audit_json(reg_entry):
@@ -1222,6 +1299,8 @@ def main():
     # are excluded rather than presented as current staffing.
     _latest_sworn_year = sworn_latest_year()
     sworn_min_year = (_latest_sworn_year - 1) if _latest_sworn_year else None
+
+    vendor_pages = _load_vendor_pages()
 
     reports = {}
     for e in registry:
@@ -2120,6 +2199,9 @@ def main():
             "geo": reg.get("geo") or {},
             "crawled": crawled,
             "crawled_date": crawl_status(reg, DATA_DIR)[1],
+            # Public transparency pages across vendors: Flock (when
+            # crawled), Axon ALPR, Skydio drone flights.
+            "transparency_pages": _transparency_pages(reg, crawled, vendor_pages),
             # Searches per reported Part 1 crime, latest full FBI month.
             # None when the agency has no ORI / no FBI data. See
             # fbi_crime.searches_per_crime for the block shape.
