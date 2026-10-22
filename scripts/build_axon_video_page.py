@@ -61,7 +61,7 @@ DOCS = {
     "earnings_dc": ("same transcript, DocumentCloud copy", "https://www.documentcloud.org/documents/28538524-axon-q1-2026-earnings-call-transcript/"),
     "webcast": ("Axon Q1 2026 earnings call webcast (May 6, 2026)", "https://vimeo.com/1189936613"),
     # other agencies' records
-    "kennewick": ("Kennewick, WA: Axon quote Q-753565 (40 Outposts at $0)", PR + "kennewick-wa/reference/Axon_Quote_Q-753565_2025-11-20.pdf"),
+    "kennewick": ("Kennewick, WA: Axon quote Q-753565 (40 Outposts at $0.00 for 114 months, refreshes included, inside a 10-year, $10.8M Axon renewal: body cams, Axon AI and in-car video)", PR + "kennewick-wa/reference/Axon_Quote_Q-753565_2025-11-20.pdf"),
     "knoxville": ("Knoxville, TN: Axon quote Q-786169 (27 Outposts at $0)", PR + "knoxville-tn/reference/Axon_Quote_Q-786169_2025-12-15.pdf"),
     "jupiter": ("Jupiter, FL: Axon quote Q-671876 (10 Outposts at $0)", PR + "jupiter-fl/reference/Axon_Quote_Q-671876_2025-10-02.pdf"),
     "douglas": ("Douglas County, CO: Axon quote Q-845030 (10 donor Outposts at $0; 100 at $211.98)", PR + "douglas-county-co/reference/Axon_Quote_Q-845030_2026-07-07.pdf"),
