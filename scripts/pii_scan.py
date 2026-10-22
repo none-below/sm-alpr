@@ -115,6 +115,34 @@ ALLOWED_EMAIL_DOMAINS = {
     # documents under assets/public-records/san-jose/reference/: the Digital Privacy
     # Office intake address and the memo author's contact line in File 26-215.
     "sanjoseca.gov",
+    # Agency contacts printed on Axon quotes and council items, committed as comparator
+    # records for the Axon video's sources page (assets/public-records/<folder>/reference/,
+    # Oct 2026). Each is the agency's own published contact block on a public council record.
+    "abilenetx.gov",  # abilene-tx
+    "angelscamp.gov",  # angels-camp
+    "bristolct.gov",  # bristol-ct
+    "charleston-sc.gov",  # charleston-sc
+    "ci.kennewick.wa.us",  # kennewick-wa
+    "circlevillepolice.com",  # circleville-oh
+    "circlevitiepolice.com",  # circleville-oh (OCR variant of circlevillepolice.com)
+    "cityofinglewood.org",  # inglewood
+    "cityofsunprairie.com",  # sun-prairie-wi
+    "cogs.us",  # glenwood-springs-co
+    "dcsheriff.net",  # douglas-county-co
+    "duncanvillepd.com",  # duncanville-tx
+    "englewoodco.gov",  # englewood-co
+    "ferndalepolice.org",  # ferndale-mi
+    "grandchutewi.gov",  # grand-chute-wi
+    "jcpolice.org",  # junction-city-or
+    "jupiter.fl.us",  # jupiter-fl
+    "knoxvilletn.gov",  # knoxville-tn
+    "plymouthmn.gov",  # plymouth-mn
+    "psd.plantation.org",  # plantation-fl
+    "reno.gov",  # reno-nv
+    "rialtopd.com",  # rialto
+    "sbcity.org",  # san-bernardino
+    "southpasadenaca.gov",  # south-pasadena
+    "woodscross.gov",  # woods-cross-ut
 }
 
 # Known public phone numbers from published City of San Mateo records.
@@ -128,6 +156,8 @@ ALLOWED_PHONES = {
     "6505227627",
     "6505227633",
     "6505227663",  # Lt. S. Casazza, SMPD audit officer (W012665/W012666 audit email signatures)
+    "6505227102",  # A. Veeser, Finance Director (FY2026-27 budget agenda reports, assets/public-records/san-mateo/reference/)
+    "6504350823",  # Z. Reda, Senior Management Analyst (7/20/2026 sales tax measure report, same folder)
     "6505237663",  # OCR variant of 650-522-7663 (Casazza, same emails)
     "6505227664",  # J. Santiago, Management Analyst, Office of the Chief (chief email signatures, sources 56-60)
     "6505227662",  # SMPD (W012665 Emails_Sent_to_Users_Re_Audit.pdf)
