@@ -244,6 +244,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-16T20:05:05Z"
   },
+  "https://www.kvue.com/article/news/local/austin-lawsuit-flock-safety-gender-discrimination/269-d4d30ecf-139b-40db-b6c4-dea42df2ba80": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-21T23:13:41Z"
+  },
   "https://www.kvue.com/article/news/local/bastrop-flock-license-plate-reader-contract-ended/269-389cb18d-dee0-452e-acbd-4529545eedb2": {
     "attempts": 3,
     "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kvue.com/article/news/local/bastrop-flock-license-plate-reader-contract-ended/269-389cb18d-dee0-452e-acbd-4529545eedb2\nCall log:\n  - navigating to \"https://www.kvue.com/article/news/local/bastrop-flock-license-plate-reader-contract-ended/269-389cb1; curl_cffi: HTTP 403; requests: HTTP 403",
