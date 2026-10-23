@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "UNC Chapel Hill Police Department (NC)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-10-22T15:43:50Z",
+      "id": "8f53ba348d4c48498d3b80637ba05fd6",
+      "title": "UNC Chapel Hill Police Department (NC) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/8f53ba348d4c48498d3b80637ba05fd6"
+    }
+  ],
+  "description": "Feature service for UNC Chapel Hill Police Department (NC)",
+  "events": [
+    {
+      "date": "2026-10-23",
+      "event": "listed"
+    },
+    {
+      "dashboard": "8f53ba348d4c48498d3b80637ba05fd6",
+      "date": "2026-10-23",
+      "event": "dashboard_published",
+      "title": "UNC Chapel Hill Police Department (NC) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-23",
+  "flights": {
+    "count": 6,
+    "duplicates": 0,
+    "first_takeoff": "2026-10-22T12:47:03Z",
+    "last_takeoff": "2026-10-22T15:22:14Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "263647a5-e4e5-496d-87bd-abf7b5a40023",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/263647a5-e4e5-496d-87bd-abf7b5a40023-production/FeatureServer"
+}
