@@ -229,11 +229,6 @@
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kron4.com/news/technology-ai/controversial-surveillance-camera-company-flock-safety-reducing-staff-amid-backlash/\nCall log:\n  - navigating to \"https://www.kron4.com/news/technology-ai/controversial-surveillance-camera-company-flock-safety-reducing-",
     "last_attempt": "2026-10-11T01:53:08Z"
   },
-  "https://www.kten.com/news/kten_news/howe-city-council-announces-the-removal-of-flock-cameras/article_ef0b7021-a9d7-41b7-8780-db4a9d205c4d.html": {
-    "attempts": 1,
-    "error": "HTTP 429",
-    "last_attempt": "2026-10-23T19:07:56Z"
-  },
   "https://www.kut.org/austin/2025-07-01/austin-ends-flock-cameras": {
     "attempts": 3,
     "error": "HTTP 404",
@@ -265,9 +260,9 @@
     "last_attempt": "2026-10-09T09:01:20Z"
   },
   "https://www.kvue.com/article/news/police/cedar-park-texas-leaders-seek-online-resident-input-flock-cameras/269-9c77c6d7-3e86-453e-b6d0-018c08c59acb": {
-    "attempts": 2,
+    "attempts": 3,
     "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kvue.com/article/news/police/cedar-park-texas-leaders-seek-online-resident-input-flock-cameras/269-9c77c6d7-3e86-453e-b6d0-018c08c59acb\nCall log:\n  - navigating to \"https://www.kvue.com/article/news/police/cedar-park-texas-leaders-seek-online-resid; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-23T19:14:39Z"
+    "last_attempt": "2026-10-23T22:07:52Z"
   },
   "https://www.kvue.com/article/news/police/hutto-flock-license-plate-reader-cameras/269-bb59e66e-fe73-4253-86b7-e7c66a0259a0": {
     "attempts": 3,
