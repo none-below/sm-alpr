@@ -259,6 +259,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-10-09T09:01:20Z"
   },
+  "https://www.kvue.com/article/news/police/cedar-park-texas-leaders-seek-online-resident-input-flock-cameras/269-9c77c6d7-3e86-453e-b6d0-018c08c59acb": {
+    "attempts": 1,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kvue.com/article/news/police/cedar-park-texas-leaders-seek-online-resident-input-flock-cameras/269-9c77c6d7-3e86-453e-b6d0-018c08c59acb\nCall log:\n  - navigating to \"https://www.kvue.com/article/news/police/cedar-park-texas-leaders-seek-online-resid; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-23T15:02:07Z"
+  },
   "https://www.kvue.com/article/news/police/hutto-flock-license-plate-reader-cameras/269-bb59e66e-fe73-4253-86b7-e7c66a0259a0": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
@@ -448,6 +453,11 @@
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-10-09T08:58:00Z"
+  },
+  "https://www.news10.com/news/local-news/ulster-county-executive-bans-ai-surveillance-tech-under-her-authority/": {
+    "attempts": 1,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.news10.com/news/local-news/ulster-county-executive-bans-ai-surveillance-tech-under-her-authority/\nCall log:\n  - navigating to \"https://www.news10.com/news/local-news/ulster-county-executive-bans-ai-surveillance-tech-under-her-authority/\", waiting u; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-23T15:00:56Z"
   },
   "https://www.news10.com/news/national/ap-license-plate-camera-company-halts-cooperation-with-federal-agencies-among-investigation-concerns/": {
     "attempts": 3,
