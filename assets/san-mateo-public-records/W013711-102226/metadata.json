@@ -1,0 +1,32 @@
+{
+  "title": "Records for four drone flights logged \"Vacation Check\", 2026-09-28 to 10-21",
+  "summary": "Asks for records about four San Mateo Police Department drone flights, each recorded with the flight purpose \"Vacation Check\" (two on 2026-09-28, one on 10-12 and one on 10-21, each 5 to 9 minutes in the early afternoon), and six calls for service on the same dates. The request identifies the flights by flight ID and the calls by CAD incident number.\n\n- Item 1: any warrant, court order or other legal process authorizing the flights, or the observation or recording of any location during them.\n- Item 2: the complete CAD event record for each listed incident (call type and priority, receipt, remarks, every unit dispatched including any drone or DFR unit, status timestamps, disposition), plus any CAD, RMS or DFR record linking a flight to a call.\n- Item 3: the vacation house check request behind each incident and any record of what the requester was told about how the check would be done, including any notice of, consent to or agreement to drone use, plus blank copies of the request forms, web pages or intake scripts in use. Requester names, contact details and addresses are not sought.\n- Item 4: as in effect 2026-09-28 through 10-21, (a) the \"Small Unmanned Aircraft Systems (sUAS) Procedure\" listed in the SOP Manual table of contents produced in W012571-042026, (b) each Policy Manual chapter governing drone use, (c) any procedure for vacation house checks, and (d) any directive, bulletin or training material on using drones for them.\n- Item 5: each flight's record in Skydio Cloud, the evidence software or any other system: flight log or report, launch and landing locations, flight path including altitude, pilot or operator, the record documenting camera use, who requested or approved the flight, and any supervisor or program review.\n- Item 6: each flight's recording and any other video or stills captured, with the retention category, any deletion record and the access audit trail.\n\nThe request asks that any withheld portion be marked in place with the exemption relied on (Gov. Code §§ 7922.525(b), 7922.540), and that the video, images and flight records be preserved while it is pending.",
+  "tags": ["uas"],
+  "policy_promises": [
+    {
+      "policy": "SMPD Real Time Information Center presentation to City Council, 2026-10-05 (produced in W013663-101526)",
+      "quote": "We record every DFR flight from start to finish. That recording preserves a record of the operation that can be reviewed to evaluate how the drone and camera were used.",
+      "tests": "Does the Department produce a recording for each of the four flights (item 6)? The request notes that a \"no responsive records\" answer to item 6 would mean the recording no longer exists or was never made."
+    },
+    {
+      "policy": "Same presentation, \"DFR Accountability: From Launch to Landing\"",
+      "quote": "Camera use documented ... Access audit trail ... Supervisor/Program Review",
+      "tests": "Are there a camera-use record and a supervisor or program review for each flight (item 5), and an access audit trail for each recording (item 6)?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013663-101526",
+      "relation": "source",
+      "note": "Produced the 2026-10-05 Real Time Information Center presentation quoted in the request."
+    },
+    {
+      "ref": "W012571-042026",
+      "relation": "evidence-source",
+      "note": "The SOP Manual produced 2026-04-21, whose table of contents lists the \"Small Unmanned Aircraft Systems (sUAS) Procedure\" sought in item 4(a)."
+    }
+  ],
+  "filed_because": "At the 2026-10-05 Council meeting the Department said every DFR flight is recorded from start to finish, with camera use, access and supervisor review documented. This request tests those statements against four specific flights logged as vacation checks. It asks what legal process (if any) authorized them, which calls for service they answered, what each requester was told, which procedures governed them, and whether the flight records, recordings and audit trails exist.",
+  "status_override": null,
+  "notes": "Filed 2026-10-22 (portal receipt 10/22/2026 6:51 PM); auto-acknowledged the same minute and forwarded to department(s) for processing. Statutory determination due 2026-11-01 (a Sunday)."
+}
