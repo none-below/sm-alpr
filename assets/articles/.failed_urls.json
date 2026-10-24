@@ -259,6 +259,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-10-09T09:01:20Z"
   },
+  "https://www.kvue.com/article/news/police/cedar-park-texas-leaders-seek-online-resident-input-flock-cameras/269-9c77c6d7-3e86-453e-b6d0-018c08c59acb": {
+    "attempts": 3,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kvue.com/article/news/police/cedar-park-texas-leaders-seek-online-resident-input-flock-cameras/269-9c77c6d7-3e86-453e-b6d0-018c08c59acb\nCall log:\n  - navigating to \"https://www.kvue.com/article/news/police/cedar-park-texas-leaders-seek-online-resid; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-23T22:07:52Z"
+  },
   "https://www.kvue.com/article/news/police/hutto-flock-license-plate-reader-cameras/269-bb59e66e-fe73-4253-86b7-e7c66a0259a0": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
@@ -393,6 +398,11 @@
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-10-06T02:56:46Z"
+  },
+  "https://www.mlive.com/news/detroit/2026/10/rochester-hills-board-to-consider-renewing-flock-contract.html": {
+    "attempts": 2,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.mlive.com/news/detroit/2026/10/rochester-hills-board-to-consider-renewing-flock-contract.html\nCall log:\n  - navigating to \"https://www.mlive.com/news/detroit/2026/10/rochester-hills-board-to-consider-renewing-flock-contract.html\", waiting until \"do; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-24T18:04:59Z"
   },
   "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/": {
     "attempts": 3,
