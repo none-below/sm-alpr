@@ -103,6 +103,58 @@ RATE_LIMIT_BURN_FILE = ".rate_limit_burns.json"
 RATE_LIMIT_BURN_LIMIT = 3
 VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
+
+# Flock renders each sharing list in a scroll box with inline
+# `height:var(--tp-access-table-viewport-height, 480px); max-height:480px;
+# overflow-y:auto`. Every row is in the DOM (the parser reads the full list
+# from the saved HTML), but in print the box clips to its first ~10 rows.
+#
+# The first fix, a blunt `*{max-height:none;overflow:visible}`, left that
+# inline `height` alone: the box stayed 480px and the rest of the list painted
+# over the Policy & Trust cards below it. It also un-hid every row's
+# `nowrap; text-overflow:ellipsis` name cell, so long names ran into the next
+# column (157 colliding words in lafayette-pd-in's 2026-10-22 PDF).
+#
+# So: mark the scroll boxes (overflow-y auto/scroll — not the overflow:hidden
+# ellipsis cells) and unclamp them from an injected stylesheet, whose
+# !important beats Flock's inline styles. Marking doesn't depend on whether a
+# box overflows at the 1440px viewport, so the narrower print layout can't
+# slip one past. Inside the innermost boxes (the lists themselves), names
+# wrap instead of truncating, and an inline fixed height (the 48px rows)
+# becomes a minimum, so a row grows for a wrapped name and otherwise prints
+# as it renders. A page-level scroll container only grows, so a Flock
+# redesign that adds one doesn't rewrap the whole page.
+EXPAND_SCROLL_BOXES_CSS = (
+    "@property --print-min-h{syntax:'<length-percentage>';inherits:false;"
+    "initial-value:0px}"
+    "[data-print-expand]{height:auto !important;max-height:none !important;"
+    "overflow:visible !important;}"
+    "[data-print-expand=list] :not(svg,svg *,img,video,canvas,iframe){"
+    "height:auto !important;min-height:var(--print-min-h) !important;"
+    "max-height:none !important;white-space:normal !important;"
+    "overflow-wrap:anywhere !important;}"
+)
+EXPAND_SCROLL_BOXES_JS = r"""
+css => {
+  const boxes = [...document.querySelectorAll('*')].filter(el => {
+    const oy = getComputedStyle(el).overflowY;
+    return oy === 'auto' || oy === 'scroll';
+  });
+  for (const el of boxes) {
+    const outer = el === document.documentElement || el === document.body ||
+      boxes.some(other => other !== el && el.contains(other));
+    el.setAttribute('data-print-expand', outer ? 'outer' : 'list');
+    if (outer) continue;
+    for (const d of el.querySelectorAll('[style]')) {
+      if (d.style.height) d.style.setProperty('--print-min-h', d.style.height);
+    }
+  }
+  const style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+  return boxes.length;
+}
+"""
 STALE_DAYS = 14
 
 # Two different things behind a 403, and telling them apart is the whole game.
@@ -1566,6 +1618,35 @@ def attach_csv_integrity(portal_data):
 # Crawl: fetch pages, save .txt + .pdf
 # ═══════════════════════════════════════════════════════════
 
+def render_archive_pdf(page):
+    """Print the loaded portal page to PDF bytes with the sharing lists
+    expanded (see EXPAND_SCROLL_BOXES_JS).
+
+    Call after page.content() has been saved: the expansion marks elements and
+    injects a stylesheet, which the archived HTML must not contain. The next
+    goto() replaces the document, so nothing needs undoing.
+    """
+    try:
+        expanded = page.evaluate(EXPAND_SCROLL_BOXES_JS, EXPAND_SCROLL_BOXES_CSS)
+        if expanded:
+            print(f"    expanded {expanded} scroll box(es) for print")
+    except Exception as e:
+        # The parsed JSON is already in hand and the PDF is the visual copy;
+        # a clipped PDF beats dropping the capture and ending the crawl.
+        print(f"    WARNING: couldn't expand scroll boxes for print "
+              f"({e.__class__.__name__}); PDF lists may be clipped")
+
+    cdp = page.context.new_cdp_session(page)
+    result = cdp.send("Page.printToPDF", {
+        "printBackground": True, "preferCSSPageSize": False,
+        "paperWidth": 11, "paperHeight": 17,
+        "marginTop": 0.4, "marginBottom": 0.4,
+        "marginLeft": 0.4, "marginRight": 0.4,
+    })
+    cdp.detach()
+    return base64.b64decode(result["data"])
+
+
 def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     """Returns (status, discovered_slugs).
 
@@ -1662,24 +1743,7 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         print(f"    extracted {csv_name}: {len(csv_rows)} rows")
     attach_csv_integrity(portal_data)
 
-    # Flock renders the sharing lists inside fixed-height "slider" boxes that
-    # scroll; in print those clip to the first few visible rows. The rows are
-    # already all in the DOM (the parser reads the full list from the saved
-    # HTML), so overriding max-height/overflow flows the complete list into the
-    # PDF instead of truncating it.
-    page.add_style_tag(content=(
-        "*{max-height:none !important;overflow:visible !important;}"
-    ))
-
-    cdp = page.context.new_cdp_session(page)
-    result = cdp.send("Page.printToPDF", {
-        "printBackground": True, "preferCSSPageSize": False,
-        "paperWidth": 11, "paperHeight": 17,
-        "marginTop": 0.4, "marginBottom": 0.4,
-        "marginLeft": 0.4, "marginRight": 0.4,
-    })
-    cdp.detach()
-    pdf_data = base64.b64decode(result["data"])
+    pdf_data = render_archive_pdf(page)
 
     # Stage the four-artifact set in a fresh temp dir, then mv into
     # slug_dir only after all four write successfully. mktemp -d (not
