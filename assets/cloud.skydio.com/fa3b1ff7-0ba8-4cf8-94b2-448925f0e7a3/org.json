@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - DFR Demo (Canada)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-10-23T22:28:30Z",
+      "id": "a001c13077a54fcb9b4eb8499ebee0ec",
+      "title": "INT - DFR Demo (Canada) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/a001c13077a54fcb9b4eb8499ebee0ec"
+    }
+  ],
+  "description": "Feature service for INT - DFR Demo (Canada)",
+  "events": [
+    {
+      "date": "2026-10-24",
+      "event": "listed"
+    },
+    {
+      "dashboard": "a001c13077a54fcb9b4eb8499ebee0ec",
+      "date": "2026-10-24",
+      "event": "dashboard_published",
+      "title": "INT - DFR Demo (Canada) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-24",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "fa3b1ff7-0ba8-4cf8-94b2-448925f0e7a3",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/fa3b1ff7-0ba8-4cf8-94b2-448925f0e7a3-production/FeatureServer"
+}
