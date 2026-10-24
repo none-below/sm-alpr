@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Detroit Fire Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-02-17T20:12:32Z",
+      "id": "00013c28bfd349089a62f87b1cab5fd2",
+      "title": "Detroit Fire Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/00013c28bfd349089a62f87b1cab5fd2"
+    }
+  ],
+  "description": "Feature service for Detroit Fire Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "00013c28bfd349089a62f87b1cab5fd2",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Detroit Fire Department Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 435,
+    "duplicates": 0,
+    "first_takeoff": "2024-02-04T15:39:53Z",
+    "last_takeoff": "2026-03-09T16:21:25Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "020f7282-0454-4e1b-b74d-b9579a1b0aca",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/020f7282-0454-4e1b-b74d-b9579a1b0aca-production/FeatureServer"
+}

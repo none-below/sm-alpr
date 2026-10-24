@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Flagler County Fire Rescue (FL)",
+  "dashboards": [],
+  "description": "Feature service for Flagler County Fire Rescue (FL)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-04-29T12:50:11Z",
+    "last_takeoff": "2026-04-29T12:50:11Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "bf792ede-4a89-4bbb-bb78-ac2d3af0037e",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/bf792ede-4a89-4bbb-bb78-ac2d3af0037e-production/FeatureServer"
+}

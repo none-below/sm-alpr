@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - Skydio Employees",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-02-27T20:07:24Z",
+      "id": "6239a4041ffe4de7ae4e076e9b7fdbfc",
+      "title": "Skydio Transparency Dashboard ABC",
+      "url": "https://www.arcgis.com/apps/dashboards/6239a4041ffe4de7ae4e076e9b7fdbfc"
+    }
+  ],
+  "description": "Feature service for INT - Skydio Employees",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "6239a4041ffe4de7ae4e076e9b7fdbfc",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Skydio Transparency Dashboard ABC"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-05-14T21:08:36Z",
+    "last_takeoff": "2026-05-14T21:08:36Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "627dec4f-3c91-4a82-88c2-81345e8dcd35",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/627dec4f-3c91-4a82-88c2-81345e8dcd35-production/FeatureServer"
+}

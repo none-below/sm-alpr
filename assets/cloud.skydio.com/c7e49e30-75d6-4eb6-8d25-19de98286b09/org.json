@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Ramapo Town Police Department (NY)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-06-12T04:08:39Z",
+      "id": "91bfbf2aaa034122810ad9120c1213b9",
+      "title": "Town of Ramapo Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/91bfbf2aaa034122810ad9120c1213b9"
+    }
+  ],
+  "description": "Feature service for Ramapo Town Police Department (NY)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "91bfbf2aaa034122810ad9120c1213b9",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Town of Ramapo Police Department Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1479,
+    "duplicates": 73,
+    "first_takeoff": "2026-03-31T15:10:23Z",
+    "last_takeoff": "2026-10-22T12:46:41Z",
+    "unhashed": 1479
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "c7e49e30-75d6-4eb6-8d25-19de98286b09",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c7e49e30-75d6-4eb6-8d25-19de98286b09-production/FeatureServer"
+}

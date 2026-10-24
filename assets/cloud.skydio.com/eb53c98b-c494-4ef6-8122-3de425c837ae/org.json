@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Systra Canada",
+  "dashboards": [],
+  "description": "Feature service for Systra Canada",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 12,
+    "duplicates": 0,
+    "first_takeoff": "2024-11-30T07:46:19Z",
+    "last_takeoff": "2024-11-30T14:39:08Z",
+    "unhashed": 12
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "eb53c98b-c494-4ef6-8122-3de425c837ae",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/eb53c98b-c494-4ef6-8122-3de425c837ae-production/FeatureServer"
+}

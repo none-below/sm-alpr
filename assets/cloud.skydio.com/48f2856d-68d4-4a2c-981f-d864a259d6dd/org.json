@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Huntington Beach Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-10-09T19:33:51Z",
+      "id": "c3be19afce314574baf793eae5ec373d",
+      "title": "Huntington Beach Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/c3be19afce314574baf793eae5ec373d"
+    }
+  ],
+  "description": "Feature service for Huntington Beach Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "c3be19afce314574baf793eae5ec373d",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Huntington Beach Police Department Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "48f2856d-68d4-4a2c-981f-d864a259d6dd",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/48f2856d-68d4-4a2c-981f-d864a259d6dd-production/FeatureServer"
+}

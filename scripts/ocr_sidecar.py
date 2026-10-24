@@ -32,6 +32,13 @@ import pytesseract
 from PIL import Image
 import io
 
+# Naming rules live in sidecar_names (no OCR imports) so the uploader and build
+# scripts can share them; re-exported here for existing callers.
+from sidecar_names import (  # noqa: E402, F401
+    SUPPORTED_EXTENSIONS, file_hash, is_sidecar, remove_stale_sidecars,
+    sidecar_base_name, sidecar_name, sidecar_path_for,
+)
+
 
 # Minimum fraction of 3+ char alpha tokens that must be in the system wordlist
 # for an image-OCR sidecar to be considered worth keeping. Garbled
@@ -147,20 +154,7 @@ def extract_annotations(doc):
     return out
 
 
-def file_hash(file_path):
-    """Return first 8 hex chars of the file's MD5."""
-    h = hashlib.md5()
-    with open(file_path, "rb") as f:
-        for chunk in iter(lambda: f.read(8192), b""):
-            h.update(chunk)
-    return h.hexdigest()[:8]
-
-
-def sidecar_path_for(file_path):
-    """Return the hash-stamped sidecar path for a file."""
-    file_path = Path(file_path)
-    digest = file_hash(file_path)
-    return file_path.parent / f"{file_path.name}.{digest}.txt"
+PORTAL_RENDER_DIRS = ("assets/transparency.flocksafety.com/", "assets/evidence.com/")
 
 
 def generate_sidecar(file_path, force=False, removed_stale=None):
@@ -171,22 +165,20 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
     are appended to it (so callers can stage the deletions in git).
     """
     file_path = Path(file_path)
-    # Transparency portal PDFs are rendered from the HTML we already save as
-    # YYYY-MM-DD.txt during the crawl. A hash-suffixed sidecar next to them
-    # collides with the portal parser's strict date-keyed file layout.
-    if "assets/transparency.flocksafety.com/" in file_path.as_posix():
+    # Transparency portal PDFs are renders of data the crawl already archives
+    # as text (Flock: the page as YYYY-MM-DD.txt; Axon: the raw JSON). A
+    # hash-suffixed sidecar next to them duplicates that and collides with
+    # the scrapers' strict date-keyed file layout.
+    if any(d in file_path.as_posix() for d in PORTAL_RENDER_DIRS):
         return None
     sidecar = sidecar_path_for(file_path)
 
     if not force and sidecar.exists():
         return None
 
-    # Clean up any stale sidecars for this file (different hash)
-    for old in file_path.parent.glob(f"{file_path.name}.*.txt"):
-        if old != sidecar:
-            old.unlink()
-            if removed_stale is not None:
-                removed_stale.append(old)
+    for old in remove_stale_sidecars(file_path, keep=sidecar):
+        if removed_stale is not None:
+            removed_stale.append(old)
 
     suffix = file_path.suffix.lower()
     if suffix in (".doc", ".docx"):
@@ -250,7 +242,6 @@ def generate_sidecar(file_path, force=False, removed_stale=None):
     return sidecar
 
 
-SUPPORTED_EXTENSIONS = {".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg"}
 
 
 def get_staged_assets():
@@ -294,7 +285,9 @@ def main():
         if not pdfs:
             sys.exit(0)
     elif args.files:
-        pdfs = [Path(f) for f in args.files]
+        # CI passes every path the change touches, including files it deletes;
+        # a deleted file has nothing left to OCR.
+        pdfs = [p for p in map(Path, args.files) if p.exists()]
     else:
         scan_dir = Path(args.dir)
         if not scan_dir.exists():

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Medicine Hat Police Service",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-08-12T16:24:18Z",
+      "id": "dc06dea91597478ea122684bdbffdb3d",
+      "title": "Medicine Hat Police Service Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/dc06dea91597478ea122684bdbffdb3d"
+    }
+  ],
+  "description": "Feature service for Medicine Hat Police Service",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "dc06dea91597478ea122684bdbffdb3d",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Medicine Hat Police Service Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2026-08-12T15:59:04Z",
+    "last_takeoff": "2026-08-12T23:50:54Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "5f6eee2b-3156-46eb-8650-92f374eea53c",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5f6eee2b-3156-46eb-8650-92f374eea53c-production/FeatureServer"
+}

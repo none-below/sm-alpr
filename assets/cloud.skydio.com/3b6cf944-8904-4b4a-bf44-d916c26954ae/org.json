@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - CR/DFR CR14 FFs (DO NOT EDIT)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-06-25T23:59:17Z",
+      "id": "c381d526ddd142eab9e2b39b642a9e98",
+      "title": "INT - CR/DFR CR16 FFs (DO NOT EDIT) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/c381d526ddd142eab9e2b39b642a9e98"
+    }
+  ],
+  "description": "Feature service for INT - CR/DFR CR14 FFs (DO NOT EDIT)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "c381d526ddd142eab9e2b39b642a9e98",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "INT - CR/DFR CR16 FFs (DO NOT EDIT) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 21,
+    "duplicates": 0,
+    "first_takeoff": "2026-03-24T22:32:20Z",
+    "last_takeoff": "2026-10-12T20:50:41Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "3b6cf944-8904-4b4a-bf44-d916c26954ae",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/3b6cf944-8904-4b4a-bf44-d916c26954ae-production/FeatureServer"
+}

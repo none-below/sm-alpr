@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - Stephen's",
+  "dashboards": [],
+  "description": "Feature service for INT - Stephen's",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-05-04T23:10:42Z",
+    "last_takeoff": "2026-05-04T23:10:42Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "c62b9f5f-d402-44ec-a280-92f500713e2c",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c62b9f5f-d402-44ec-a280-92f500713e2c-production/FeatureServer"
+}

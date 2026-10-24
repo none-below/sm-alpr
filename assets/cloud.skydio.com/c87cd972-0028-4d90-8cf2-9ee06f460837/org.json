@@ -1,0 +1,50 @@
+{
+  "agency_id": "54ec60dd-900e-55cb-9eaf-b9db3c9481c6",
+  "agency_name": "Fresno Police Department (CA)",
+  "dashboards": [],
+  "description": "Feature service for Fresno Police Department (CA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "54ec60dd-900e-55cb-9eaf-b9db3c9481c6",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-04-16T22:24:55Z",
+    "last_takeoff": "2026-04-16T22:24:55Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "c87cd972-0028-4d90-8cf2-9ee06f460837",
+  "ori": [
+    "CA0100500"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c87cd972-0028-4d90-8cf2-9ee06f460837-production/FeatureServer"
+}

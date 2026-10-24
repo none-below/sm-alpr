@@ -1,0 +1,64 @@
+{
+  "agency_id": "25b04479-d425-52a6-a197-c941bcd88952",
+  "agency_name": "[Paraverse] Oakland County Sheriff's Office (MI)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-09-05T15:08:53Z",
+      "id": "6c4d65ac50574b4e9254572f0df4c43e",
+      "title": "Oakland County Sheriff's Office DFR",
+      "url": "https://www.arcgis.com/apps/dashboards/6c4d65ac50574b4e9254572f0df4c43e"
+    }
+  ],
+  "description": "Feature service for [Paraverse] Oakland County Sheriff's Office (MI)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "6c4d65ac50574b4e9254572f0df4c43e",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Oakland County Sheriff's Office DFR"
+    },
+    {
+      "agency_id": "25b04479-d425-52a6-a197-c941bcd88952",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 3,
+    "duplicates": 0,
+    "first_takeoff": "2025-09-05T13:23:10Z",
+    "last_takeoff": "2025-09-05T14:36:50Z",
+    "unhashed": 3
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "e7cd5233-b363-4033-8976-f8fc2a54da96",
+  "ori": [
+    "MI6316300"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/e7cd5233-b363-4033-8976-f8fc2a54da96-production/FeatureServer"
+}

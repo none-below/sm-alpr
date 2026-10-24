@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Axon Demo Sim",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-04-15T21:40:07Z",
+      "id": "c8bbf845d0c345f8aff7bfdaba7d06ee",
+      "title": " Axon Demo Sim Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/c8bbf845d0c345f8aff7bfdaba7d06ee"
+    }
+  ],
+  "description": "Feature service for  Axon Demo Sim",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "c8bbf845d0c345f8aff7bfdaba7d06ee",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": " Axon Demo Sim Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 6,
+    "duplicates": 0,
+    "first_takeoff": "2025-04-15T21:19:45Z",
+    "last_takeoff": "2025-05-22T17:32:56Z",
+    "unhashed": 6
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "fa2e7018-0838-4503-a8ba-54d0beb824ae",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/fa2e7018-0838-4503-a8ba-54d0beb824ae-production/FeatureServer"
+}

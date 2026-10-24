@@ -1,0 +1,64 @@
+{
+  "agency_id": "1320544c-4c09-5a08-9264-52d844f58fd1",
+  "agency_name": "Brooklyn PARK Police Department (MN)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-01-22T19:30:19Z",
+      "id": "b230d35acc124c4080b591a99fc3b28d",
+      "title": "Brooklyn Park Police Department",
+      "url": "https://www.arcgis.com/apps/dashboards/b230d35acc124c4080b591a99fc3b28d"
+    }
+  ],
+  "description": "Feature service for Brooklyn PARK Police Department (MN)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "b230d35acc124c4080b591a99fc3b28d",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Brooklyn Park Police Department"
+    },
+    {
+      "agency_id": "1320544c-4c09-5a08-9264-52d844f58fd1",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2644,
+    "duplicates": 161,
+    "first_takeoff": "2026-01-13T17:37:32Z",
+    "last_takeoff": "2026-10-18T02:50:53Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "5476bd24-9000-4625-8756-139e0b63a3ee",
+  "ori": [
+    "MN0270300"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5476bd24-9000-4625-8756-139e0b63a3ee-production/FeatureServer"
+}

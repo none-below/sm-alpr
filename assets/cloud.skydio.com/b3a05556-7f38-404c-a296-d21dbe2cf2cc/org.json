@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Foxborough Police Department (MA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-03-27T17:13:12Z",
+      "id": "d8e670915cd6437c985ee831219964d8",
+      "title": "Foxborough Police Department (MA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/d8e670915cd6437c985ee831219964d8"
+    }
+  ],
+  "description": "Feature service for Foxborough Police Department (MA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "d8e670915cd6437c985ee831219964d8",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Foxborough Police Department (MA) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 3,
+    "duplicates": 0,
+    "first_takeoff": "2026-03-26T23:03:43Z",
+    "last_takeoff": "2026-03-26T23:54:56Z",
+    "unhashed": 3
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "b3a05556-7f38-404c-a296-d21dbe2cf2cc",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/b3a05556-7f38-404c-a296-d21dbe2cf2cc-production/FeatureServer"
+}

@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Massachusetts Bay Transportation Authority",
+  "dashboards": [],
+  "description": "Feature service for Massachusetts Bay Transportation Authority",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "cc012078-50cf-430d-b8dd-89496aa2189d",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/cc012078-50cf-430d-b8dd-89496aa2189d-production/FeatureServer"
+}

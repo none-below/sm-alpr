@@ -1,0 +1,64 @@
+{
+  "agency_id": "eb5babed-94d1-5b60-b448-fcf8ddddfbce",
+  "agency_name": "Quincy Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-08-15T20:30:36Z",
+      "id": "842da83f140c4bcb93f2164981ea0dec",
+      "title": "Quincy Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/842da83f140c4bcb93f2164981ea0dec"
+    }
+  ],
+  "description": "Feature service for Quincy Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "842da83f140c4bcb93f2164981ea0dec",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Quincy Police Department Drone Flights"
+    },
+    {
+      "agency_id": "eb5babed-94d1-5b60-b448-fcf8ddddfbce",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 8,
+    "duplicates": 0,
+    "first_takeoff": "2025-09-30T18:43:50Z",
+    "last_takeoff": "2026-01-06T20:36:01Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "86f0324b-af44-49e5-9c04-48b1e9daa247",
+  "ori": [
+    "FL0200100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/86f0324b-af44-49e5-9c04-48b1e9daa247-production/FeatureServer"
+}

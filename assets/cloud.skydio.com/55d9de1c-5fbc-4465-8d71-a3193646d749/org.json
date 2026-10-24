@@ -1,0 +1,50 @@
+{
+  "agency_id": "f982a410-a911-5e23-9335-a04fe856c198",
+  "agency_name": "Glasgow Police Department",
+  "dashboards": [],
+  "description": "Feature service for Glasgow Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "f982a410-a911-5e23-9335-a04fe856c198",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-06-05T15:53:35Z",
+    "last_takeoff": "2025-06-05T15:53:35Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "55d9de1c-5fbc-4465-8d71-a3193646d749",
+  "ori": [
+    "KY0050100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/55d9de1c-5fbc-4465-8d71-a3193646d749-production/FeatureServer"
+}

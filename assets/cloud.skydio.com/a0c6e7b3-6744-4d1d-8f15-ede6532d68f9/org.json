@@ -1,0 +1,64 @@
+{
+  "agency_id": "9d854e44-d8a8-5d3e-b896-1d032acf2544",
+  "agency_name": "Trophy Club Police Department (TX)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-28T22:52:19Z",
+      "id": "b82c0141ee054a41ac56d9b9b36e393f",
+      "title": "Trophy Club Police Department (TX) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/b82c0141ee054a41ac56d9b9b36e393f"
+    }
+  ],
+  "description": "Feature service for Trophy Club Police Department (TX)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "b82c0141ee054a41ac56d9b9b36e393f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Trophy Club Police Department (TX) Drone Flights"
+    },
+    {
+      "agency_id": "9d854e44-d8a8-5d3e-b896-1d032acf2544",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-23T11:32:20Z",
+    "last_takeoff": "2026-07-23T11:32:20Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "a0c6e7b3-6744-4d1d-8f15-ede6532d68f9",
+  "ori": [
+    "TX0613100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/a0c6e7b3-6744-4d1d-8f15-ede6532d68f9-production/FeatureServer"
+}

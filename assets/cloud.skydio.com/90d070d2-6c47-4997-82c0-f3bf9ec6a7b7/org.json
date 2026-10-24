@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "AEP ED TFS Line East",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-01-08T12:43:06Z",
+      "id": "78367bc1ae0944a9b47fe179a13f5c5f",
+      "title": "AEP ED TFS Line East Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/78367bc1ae0944a9b47fe179a13f5c5f"
+    }
+  ],
+  "description": "Feature service for AEP ED TFS Line East",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "78367bc1ae0944a9b47fe179a13f5c5f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "AEP ED TFS Line East Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "90d070d2-6c47-4997-82c0-f3bf9ec6a7b7",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/90d070d2-6c47-4997-82c0-f3bf9ec6a7b7-production/FeatureServer"
+}

@@ -1,0 +1,50 @@
+{
+  "agency_id": "4f57d504-d5eb-5750-804e-44ce4a04418d",
+  "agency_name": "East Point Police Department (GA)",
+  "dashboards": [],
+  "description": "Feature service for East Point Police Department (GA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "4f57d504-d5eb-5750-804e-44ce4a04418d",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "6de36965-dabe-4ece-a97a-e5dc0527b96e",
+  "ori": [
+    "GA0600200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/6de36965-dabe-4ece-a97a-e5dc0527b96e-production/FeatureServer"
+}

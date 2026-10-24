@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "FSU | EMHS",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-12-13T16:57:04Z",
+      "id": "e51b33d0cd5c4c0ca801dab88a739b90",
+      "title": "FSU  EMHS Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/e51b33d0cd5c4c0ca801dab88a739b90"
+    }
+  ],
+  "description": "Feature service for FSU | EMHS",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "e51b33d0cd5c4c0ca801dab88a739b90",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "FSU  EMHS Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 7,
+    "duplicates": 0,
+    "first_takeoff": "2025-11-17T21:33:29Z",
+    "last_takeoff": "2025-12-13T00:57:32Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "9b31bb2c-80a2-4ffe-8a38-088e9e1a780e",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/9b31bb2c-80a2-4ffe-8a38-088e9e1a780e-production/FeatureServer"
+}

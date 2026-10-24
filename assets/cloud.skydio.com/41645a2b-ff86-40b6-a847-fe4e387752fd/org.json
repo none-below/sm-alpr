@@ -1,0 +1,64 @@
+{
+  "agency_id": "56f4c9ee-d92c-52bc-b87b-0a3387be9211",
+  "agency_name": "Culpeper Police Department (VA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-09-10T12:38:53Z",
+      "id": "089b564cbca5421880c35bd95af44c15",
+      "title": "Culpeper Police Department (VA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/089b564cbca5421880c35bd95af44c15"
+    }
+  ],
+  "description": "Feature service for Culpeper Police Department (VA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "089b564cbca5421880c35bd95af44c15",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Culpeper Police Department (VA) Drone Flights"
+    },
+    {
+      "agency_id": "56f4c9ee-d92c-52bc-b87b-0a3387be9211",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 13,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-09T17:15:11Z",
+    "last_takeoff": "2026-09-10T12:09:07Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "41645a2b-ff86-40b6-a847-fe4e387752fd",
+  "ori": [
+    "VA0240100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/41645a2b-ff86-40b6-a847-fe4e387752fd-production/FeatureServer"
+}

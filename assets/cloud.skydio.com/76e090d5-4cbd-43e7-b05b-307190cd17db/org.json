@@ -1,0 +1,50 @@
+{
+  "agency_id": "fda63002-7ff4-5aba-9b20-77951af1a775",
+  "agency_name": "SIM - Cincinnati Police Department",
+  "dashboards": [],
+  "description": "Feature service for SIM - Cincinnati Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "fda63002-7ff4-5aba-9b20-77951af1a775",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-06-02T16:18:13Z",
+    "last_takeoff": "2025-06-02T16:18:13Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "76e090d5-4cbd-43e7-b05b-307190cd17db",
+  "ori": [
+    "OHCIP0000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/76e090d5-4cbd-43e7-b05b-307190cd17db-production/FeatureServer"
+}

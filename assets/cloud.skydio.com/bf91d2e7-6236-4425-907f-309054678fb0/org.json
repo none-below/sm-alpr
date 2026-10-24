@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "I and C Builders",
+  "dashboards": [],
+  "description": "Feature service for I and C Builders",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2025-08-17T11:14:01Z",
+    "last_takeoff": "2025-08-17T11:14:57Z",
+    "unhashed": 2
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "bf91d2e7-6236-4425-907f-309054678fb0",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/bf91d2e7-6236-4425-907f-309054678fb0-production/FeatureServer"
+}

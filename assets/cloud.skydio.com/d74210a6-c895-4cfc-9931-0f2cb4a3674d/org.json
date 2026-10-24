@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "C&V Consulting Inc.",
+  "dashboards": [],
+  "description": "Feature service for C&V Consulting Inc.",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-02T23:37:05Z",
+    "last_takeoff": "2026-07-02T23:37:05Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "d74210a6-c895-4cfc-9931-0f2cb4a3674d",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d74210a6-c895-4cfc-9931-0f2cb4a3674d-production/FeatureServer"
+}

@@ -1,0 +1,64 @@
+{
+  "agency_id": "83cf8f49-4381-5526-be5f-545a5348c0aa",
+  "agency_name": "Lone Tree Police Department (CO)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-27T22:38:22Z",
+      "id": "615d0a79e17c427cb0e8741ae308eb54",
+      "title": "Lone Tree Police Department (CO) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/615d0a79e17c427cb0e8741ae308eb54"
+    }
+  ],
+  "description": "Feature service for Lone Tree Police Department (CO)",
+  "events": [
+    {
+      "date": "2026-10-21",
+      "event": "listed"
+    },
+    {
+      "dashboard": "615d0a79e17c427cb0e8741ae308eb54",
+      "date": "2026-10-21",
+      "event": "dashboard_published",
+      "title": "Lone Tree Police Department (CO) Drone Flights"
+    },
+    {
+      "agency_id": "83cf8f49-4381-5526-be5f-545a5348c0aa",
+      "basis": "name+role+state",
+      "date": "2026-10-21",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-21",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "43210308-f4b0-4dcf-9ba4-937bbec1a838",
+  "ori": [
+    "CO0180700"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/43210308-f4b0-4dcf-9ba4-937bbec1a838-production/FeatureServer"
+}

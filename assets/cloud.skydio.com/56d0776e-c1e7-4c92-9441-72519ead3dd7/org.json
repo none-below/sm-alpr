@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Kansas City Fire Department (MO)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-10-05T15:42:01Z",
+      "id": "b7a20e2e5ac24fdf806aa6ee14647219",
+      "title": "Kansas City Fire Department (MO) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/b7a20e2e5ac24fdf806aa6ee14647219"
+    }
+  ],
+  "description": "Feature service for Kansas City Fire Department (MO)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "b7a20e2e5ac24fdf806aa6ee14647219",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Kansas City Fire Department (MO) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 125,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-20T03:04:01Z",
+    "last_takeoff": "2026-10-20T13:37:50Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "56d0776e-c1e7-4c92-9441-72519ead3dd7",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/56d0776e-c1e7-4c92-9441-72519ead3dd7-production/FeatureServer"
+}

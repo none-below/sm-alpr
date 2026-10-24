@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Columbus Police Department - OH",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-11-03T13:24:54Z",
+      "id": "be1daa5b5d4f486eaf15770cb0dd0bb1",
+      "title": "Columbus Police Department - OH Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/be1daa5b5d4f486eaf15770cb0dd0bb1"
+    }
+  ],
+  "description": "Feature service for Columbus Police Department - OH",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "be1daa5b5d4f486eaf15770cb0dd0bb1",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Columbus Police Department - OH Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-11-19T16:54:56Z",
+    "last_takeoff": "2025-11-19T16:54:56Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "7a86050d-f897-4ef7-8620-f3e6e8009b88",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/7a86050d-f897-4ef7-8620-f3e6e8009b88-production/FeatureServer"
+}

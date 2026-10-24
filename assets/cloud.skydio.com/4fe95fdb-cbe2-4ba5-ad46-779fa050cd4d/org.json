@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "University of Illinois Urbana - Champaign",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-05-26T15:26:22Z",
+      "id": "d4a3d2851dba46149858ce525b941b90",
+      "title": "University of Illinois Division of Public Safety Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/d4a3d2851dba46149858ce525b941b90"
+    }
+  ],
+  "description": "Feature service for University of Illinois Urbana - Champaign",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "d4a3d2851dba46149858ce525b941b90",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "University of Illinois Division of Public Safety Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 454,
+    "duplicates": 0,
+    "first_takeoff": "2026-02-04T20:57:45Z",
+    "last_takeoff": "2026-10-22T12:44:05Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "4fe95fdb-cbe2-4ba5-ad46-779fa050cd4d",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/4fe95fdb-cbe2-4ba5-ad46-779fa050cd4d-production/FeatureServer"
+}

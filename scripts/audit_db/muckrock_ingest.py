@@ -1,4 +1,4 @@
-"""TRUTH loader for the MuckRock CA audit-log corpus (tabular files only; PDFs deferred).
+"""TRUTH loader for the MuckRock CA audit-log corpus (tabular files; PDF tables are pdf_table_ingest.py's).
 
 Provenance travels with every row: flock_audit_rows.src_row is the row as a reader sees it when opening the original
 (spreadsheet row number; for CSV the record number with the header as row 1), and releases carries the request page
@@ -28,9 +28,18 @@ import re
 import zipfile
 from pathlib import Path
 
+from paths import sql_str  # noqa: F401  (also re-exported: other modules import it from here)
+
 ALIASES = {"reason_1": "Reason", "test prompt": "Text Prompt", "license plates": "License Plate",
            "search date": "Search Time", "case number": "Case #"}
+# the Flock audit-export superset (flock_audit_rows) and the event-log columns (flock_event_rows)
+FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
+              "Reason", "Case #", "Filters", "Search Time", "Search Type", "Text Prompt", "Moderation"]
 EVENT_COLS = ["Timestamp", "User", "Event Type", "Entity Type", "Entity Details", "Event Id"]
+KNOWN_COLS = set(FLOCK_COLS) | set(EVENT_COLS)
+# how src_row locates a row in the original (releases.src_row_basis)
+CSV_BASIS = "CSV record number, header = row 1 (the row shown when the file is opened in a spreadsheet); decoded {}"
+SHEET_BASIS = "spreadsheet row number in the named sheet (1-based, as shown by Excel)"
 
 
 def org_from_name(name):
@@ -39,6 +48,7 @@ def org_from_name(name):
     if not m:
         return None
     org = re.sub(r"_+", " ", m.group("org")).strip(" -_")
+    org = re.sub(r"(?i)[ -]+org$", "", org)   # 'Roseville CA PD org-Audit', 'San Diego CA PD-ORG-Audit'
     return org if re.search(r"\b(CA|PD|SO|FD|Sheriff|Police)\b", org) else None
 
 
@@ -48,26 +58,34 @@ def norm_header(h):
 
 
 def canonical(raw_header):
-    """Load-time column names for a released header: aliases mapped, blanks named, duplicates suffixed (read_csv needs unique)."""
-    out, seen = [], collections.Counter()
+    """Load-time column names for a released header: aliases mapped, blanks named, and a label already taken suffixed _2,
+    _3 (the first free one), comparing without case: DuckDB column names are case-insensitive, so 'Reason' and 'reason'
+    would be one column. A Flock column's exact label (FLOCK_COLS, EVENT_COLS) is taken first, wherever it stands, so a
+    case variant before it ('reason' ahead of 'Reason') is the one suffixed and the Flock column keeps its values."""
     # 'Search Date' is the full timestamp only when no separate 'Search Time' column exists (San Jose splits the two)
     split_dt = "search time" in {(h or "").strip().lower() for h in raw_header}
-    for i, h in enumerate(raw_header):
-        c = (h or "").strip() if split_dt and (h or "").strip().lower() == "search date" else norm_header(h)
-        c = c or f"column{i:02d}"
-        seen[c] += 1
-        out.append(c if seen[c] == 1 else f"{c}_{seen[c]}")
+    base = [((h or "").strip() if split_dt and (h or "").strip().lower() == "search date" else norm_header(h))
+            or f"column{i:02d}" for i, h in enumerate(raw_header)]
+    out, taken = [None] * len(base), set()
+    for i, c in enumerate(base):
+        if c in KNOWN_COLS and c.lower() not in taken:
+            out[i] = c
+            taken.add(c.lower())
+    for i, c in enumerate(base):
+        if out[i] is None:
+            name, k = c, 1
+            while name.lower() in taken:
+                k += 1
+                name = f"{c}_{k}"
+            taken.add(name.lower())
+            out[i] = name
     return out
 
 
 HEADER_BASIS = ("header_raw = the released header row (the first row with >= 3 alphabetic cells); header = canonical(header_raw): "
                 "labels trimmed, aliases mapped (reason_1, test prompt, license plates, search date, case number), San Jose's "
                 "'Search Date' kept as is where a separate 'Search Time' exists, blank labels named columnNN (0-based position), "
-                "repeated labels suffixed _2, _3")
-
-
-def sql_str(s):
-    return "'" + s.replace("'", "''") + "'"
+                "a label already taken (ignoring case) suffixed _2, _3 (the first free one), a Flock column's exact label taken first")
 
 
 def sql_ident(s):
@@ -82,10 +100,67 @@ def extra_json(cols):
     return f"CASE WHEN coalesce({', '.join(sql_ident(c) for c in cols)}) IS NULL THEN NULL ELSE {obj} END"
 
 
+OLE2 = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
+
+
+def sniff(head, ext):
+    """A unit's file type from its first bytes, over its name's extension (catalog member names can be cut short)."""
+    if head[:4] == b"PK\x03\x04":
+        return ext if ext in (".xlsx", ".xlsm", ".xlsb") else ".xlsx"
+    return ".xls" if head[:8] == OLE2 else ext
+
+
+def render(r):
+    """A row's cells as text, the way they are loaded: None -> '', a whole float without its '.0', else str()."""
+    return ["" if v is None else (str(int(v)) if isinstance(v, float) and v.is_integer() else str(v)) for v in r]
+
+
+def sha256_file(p):
+    h = hashlib.sha256()
+    with open(p, "rb") as fh:
+        for b in iter(lambda: fh.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+AUDIT_OF_KIND = {"network_audit": "network", "search_audit_own": "own", "event_log": "event"}
+
+
+def audit_of(u, ov, fov):
+    """A release's audit label: producers.json's (a file entry over the request's), else its catalog kind's. An authored
+    label only says whether an audit is network or own-search; whether a file is an event log is the catalog kind's
+    call (it decides the table: extract.table_of). So a request-level label is 'network' or 'own' and applies to the
+    request's audits, never its event logs; a file-level label may not move a file across the event-log line. Anything
+    else is an error."""
+    default = AUDIT_OF_KIND[u["kind"]]
+    if ov.get("audit") not in (None, "network", "own"):
+        raise ValueError(f"producers.json {u['request_id']}: request-level audit {ov['audit']!r}: only 'network' or 'own'")
+    if fov.get("audit") and (fov["audit"] == "event") != (default == "event"):
+        raise ValueError(f"producers.json {u['request_id']} files entry for {u['name']!r}: audit {fov['audit']!r} on a "
+                         f"{u['kind']} file would move its rows between the audit and event tables")
+    return fov.get("audit") or (ov.get("audit") if default != "event" else None) or default
+
+
 def resolve_member(z, member):
-    if member in z.namelist():
+    """The catalog can hold a member name cut short before its extension: take the one member that starts with it."""
+    names = z.namelist()
+    if member in names:
         return member
-    return next(n for n in z.namelist() if n.startswith(member))
+    hits = [n for n in names if n.startswith(member)]
+    if len(hits) != 1:
+        raise ValueError(f"catalog member {member!r} matches {len(hits)} zip members")
+    return hits[0]
+
+
+def release_id(u):
+    """A MuckRock unit's release id: mr:<request>:<container file>[!<member as cataloged>][#<sheet as cataloged>]."""
+    return (f"mr:{u['request_id']}:{Path(u['local_path']).name}" + (f"!{u['member']}" if u["member"] else "")
+            + (f"#{u['sheet']}" if u["sheet"] else ""))
+
+
+def unit_id(u):
+    """A short stable id for a unit (container path + member + sheet), for file and directory names."""
+    return hashlib.sha1((u["local_path"] + str(u["member"]) + str(u["sheet"])).encode()).hexdigest()[:16]
 
 
 def member_bytes(path, member):
@@ -114,9 +189,17 @@ def file_override(ov, u, res):
     return next((files[n] for n in names if n and n in files), {})
 
 
+def catalogs(EV):
+    """The catalog files, oldest first: the 2026-09-24 sweep's, then one per later re-sweep (profile-resweep)."""
+    return ["catalog.json", "catalog2.json", *sorted(p.name for p in EV.glob("catalog_resweep_*.json"))]
+
+
 def units(EV):
-    cat = json.load(open(EV / "catalog.json")) + json.load(open(EV / "catalog2.json"))
-    reqs = {r["request_id"]: r for r in json.load(open(EV / "catalog_requests.json"))}
+    cat = [e for name in catalogs(EV) for e in json.load(open(EV / name))]
+    reqs = {}
+    for name in ("catalog_requests.json", *sorted(p.name for p in EV.glob("catalog_requests_resweep_*.json"))):
+        for r in json.load(open(EV / name)):
+            reqs.setdefault(r["request_id"], r)
     seen, out = set(), []
     for e in cat:
         if e.get("http") != 200 or not e.get("local_path"):
@@ -161,13 +244,8 @@ def to_csv(u, EV, TMP):
     if u["member"]:
         with zipfile.ZipFile(EV / u["local_path"]) as z:
             member_full = resolve_member(z, u["member"])
-    ext = Path(member_full or u["name"]).suffix.lower()
-    # content decides over the name: catalog member names can be truncated before the extension
-    if raw[:4] == b"PK\x03\x04":
-        ext = ext if ext in (".xlsx", ".xlsm", ".xlsb") else ".xlsx"
-    elif raw[:8] == b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1":
-        ext = ".xls"
-    dest = TMP / "muckrock_units" / f"{hashlib.sha1((u['local_path'] + str(u['member']) + str(u['sheet'])).encode()).hexdigest()[:16]}.csv.gz"
+    ext = sniff(raw[:8], Path(member_full or u["name"]).suffix.lower())
+    dest = TMP / "muckrock_units" / f"{unit_id(u)}.csv.gz"
     dest.parent.mkdir(parents=True, exist_ok=True)
     sheet_full, rows = None, None
     if ext in (".csv", ".tsv", ".txt") or ext == "":
@@ -176,7 +254,7 @@ def to_csv(u, EV, TMP):
         except UnicodeDecodeError:
             text, enc = raw.decode("cp1252", errors="replace"), "cp1252"
         rows = enumerate(csv.reader(io.StringIO(text, newline=""), delimiter="\t" if ext == ".tsv" else ","), start=1)
-        basis = f"CSV record number, header = row 1 (the row shown when the file is opened in a spreadsheet); decoded {enc}"
+        basis = CSV_BASIS.format(enc)
         content_sha = hashlib.sha256(raw).hexdigest()
     elif ext in (".xlsx", ".xlsm", ".xls", ".xlsb"):
         try:  # calamine (Rust): ~100x faster than openpyxl on 500k-row sheets
@@ -199,7 +277,7 @@ def to_csv(u, EV, TMP):
                 wbb = open_workbook(io.BytesIO(raw))
                 sheet_full = next(x for x in wbb.sheets if x[:40] == u["sheet"]) if u["sheet"] else wbb.sheets[0]
                 rows = ((r[0].r + 1, [c.v for c in r]) for r in wbb.get_sheet(sheet_full).rows() if r)
-        basis = "spreadsheet row number in the named sheet (1-based, as shown by Excel)"
+        basis = SHEET_BASIS
         content_sha = None
     if rows is None:
         return None
@@ -209,7 +287,7 @@ def to_csv(u, EV, TMP):
     with gzip.open(dest, "wt", newline="", encoding="utf-8", compresslevel=3) as fh:
         w = csv.writer(fh)
         for src_row, r in rows:
-            vals = ["" if v is None else (str(int(v)) if isinstance(v, float) and v.is_integer() else str(v)) for v in r]
+            vals = render(r)
             if header is None:
                 if _is_header(vals):
                     header = vals
@@ -232,7 +310,7 @@ def _stage(args):
         return f"{type(ex).__name__}: {str(ex)[:80]}"
 
 
-def add_muckrock(con, EV, TMP, FLOCK_COLS, sha256_file, resolve=lambda org: None, log=lambda m: print(m, flush=True)):
+def add_muckrock(con, EV, TMP, resolve=lambda org: None, log=lambda m: print(m, flush=True)):
     """resolve(org) -> registry agency_id or None (build_truth passes the repo registry's resolver)."""
     EV, TMP = Path(EV), Path(TMP)
     us = units(EV)
@@ -253,7 +331,7 @@ def add_muckrock(con, EV, TMP, FLOCK_COLS, sha256_file, resolve=lambda org: None
             continue
         path, raw_header = Path(res["path"]), res["header"]
         header = canonical(raw_header)
-        rid = f"mr:{u['request_id']}:{Path(u['local_path']).name}" + (f"!{u['member']}" if u["member"] else "") + (f"#{u['sheet']}" if u["sheet"] else "")
+        rid = release_id(u)
         staged.append((u, path, raw_header, header, res, rid))
         if u["kind"] == "search_audit_own" and "Org Name" in header:
             oi = header.index("Org Name") + 1  # staged CSV starts with __src_row
@@ -280,7 +358,10 @@ def add_muckrock(con, EV, TMP, FLOCK_COLS, sha256_file, resolve=lambda org: None
         if not org:
             org, basis = u["agency"], "MuckRock agency name"
         agency_id = resolve(org)
-        audit = fov.get("audit") or ov.get("audit") or {"network_audit": "network", "search_audit_own": "own", "event_log": "event"}[u["kind"]]
+        try:
+            audit = audit_of(u, ov, fov)
+        except ValueError as ex:
+            raise SystemExit(str(ex)) from None
         names = "[" + ", ".join(sql_str(c) for c in ["__src_row"] + header) + "]"
         src = f"read_csv({sql_str(str(path))}, all_varchar=true, header=true, names={names}, null_padding=true, parallel=false)"
         cols = EVENT_COLS if audit == "event" else FLOCK_COLS
@@ -330,7 +411,47 @@ def stage_all(EV, TMP, workers=2):  # each worker can hold a whole sheet in memo
     print(f"staged {ok} of {len(us)} units; {sum(isinstance(r, str) for r in results)} errors", flush=True)
 
 
+def profile_resweep(EV, run):
+    """Catalog the files a re-sweep fetched (MANIFEST_resweep_<run>.txt) the way catalog.json catalogs the 9/24 sweep's:
+    writes catalog_resweep_<run>.json (files, with each audit table's kind and headers, by content: table_profile.py)
+    and catalog_requests_resweep_<run>.json (requests not in catalog_requests.json, from the saved request pages).
+    New files only; never rewrites an existing catalog."""
+    from table_profile import profile_file
+    EV = Path(EV)
+    out_files, out_reqs = EV / f"catalog_resweep_{run}.json", EV / f"catalog_requests_resweep_{run}.json"
+    if out_files.exists() or out_reqs.exists():
+        raise SystemExit(f"{out_files.name} / {out_reqs.name} already exist: catalogs are append-only")
+    pages = {str(r["request_id"]): r for r in json.load(open(EV / "_resweep" / run / "requests.json"))}
+    known = {str(r["request_id"]) for r in json.load(open(EV / "catalog_requests.json"))}
+    entries = []
+    for line in (EV / f"MANIFEST_resweep_{run}.txt").read_text().splitlines():
+        sha, path, url = line.split("  ")
+        req = path.split("/", 1)[0].split("-", 1)[0]
+        m = re.search(r"/(\d{4})/(\d{2})/(\d{2})/", url)
+        prof, err = profile_file(EV / path)
+        entries.append({"request_id": req, "agency": None, "file_name": Path(path).name, "local_path": path, "url": url,
+                        "http": 200, "sha256": sha, "file_date": "-".join(m.groups()) if m else None,
+                        "profile": [{**p, "sheet": p["sheet"][:40] if p["sheet"] else None} for p in prof],
+                        "profile_error": err})
+    reqs = []
+    for rid, p in sorted(pages.items()):
+        if rid in known:
+            continue
+        title = p.get("title") or ""
+        agency = [a for a in re.findall(r"\(([^()]+)\)", title.split(" \u2022 ")[0])
+                  if re.search(r"\b(police|sheriff|department|county|city|attorney|district|office|patrol|university|"
+                               r"PD|SO|center|agency)\b", a, re.I) and not re.search(r"\d", a)]
+        reqs.append({"request_id": rid, "url": p["url"], "title": title.split(" \u2022 ")[0],
+                     "agency": agency[-1] if agency else None, "source": f"_resweep/{run}/pages/{rid}.html"})
+    json.dump(entries, open(out_files, "w"), indent=1)
+    json.dump(reqs, open(out_reqs, "w"), indent=1)
+    print(f"{out_files.name}: {len(entries)} files, {sum(len(e['profile']) for e in entries)} audit tables; "
+          f"{out_reqs.name}: {len(reqs)} new requests", flush=True)
+
+
 if __name__ == "__main__":
     import sys
     if len(sys.argv) >= 4 and sys.argv[1] == "stage":
         stage_all(sys.argv[2], sys.argv[3])
+    elif len(sys.argv) >= 4 and sys.argv[1] == "profile-resweep":
+        profile_resweep(sys.argv[2], sys.argv[3])

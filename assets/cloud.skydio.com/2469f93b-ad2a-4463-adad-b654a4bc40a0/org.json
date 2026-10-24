@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Kootenai County Sheriff's Office (ID)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-06-22T15:16:17Z",
+      "id": "28e40b58334948d5a551f831c83db142",
+      "title": "Kootenai County Sheriff's Office (ID) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/28e40b58334948d5a551f831c83db142"
+    }
+  ],
+  "description": "Feature service for Kootenai County Sheriff's Office (ID)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "28e40b58334948d5a551f831c83db142",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Kootenai County Sheriff's Office (ID) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 6,
+    "duplicates": 0,
+    "first_takeoff": "2026-06-17T18:58:21Z",
+    "last_takeoff": "2026-06-22T05:12:57Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "2469f93b-ad2a-4463-adad-b654a4bc40a0",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/2469f93b-ad2a-4463-adad-b654a4bc40a0-production/FeatureServer"
+}

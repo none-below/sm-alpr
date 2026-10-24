@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Petersburg Volunteer Fire Department",
+  "dashboards": [],
+  "description": "Feature service for Petersburg Volunteer Fire Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-01-28T04:00:13Z",
+    "last_takeoff": "2026-01-28T04:00:13Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "8a9532f9-2a4b-4b3b-8df1-b22d5a442a66",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/8a9532f9-2a4b-4b3b-8df1-b22d5a442a66-production/FeatureServer"
+}

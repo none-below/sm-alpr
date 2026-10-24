@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - Solutions Engineering",
+  "dashboards": [],
+  "description": "Feature service for INT - Solutions Engineering",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "aa435ac0-7ef9-4ac4-9bb3-b84c57c2fecd",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/aa435ac0-7ef9-4ac4-9bb3-b84c57c2fecd-production/FeatureServer"
+}

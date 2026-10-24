@@ -1,0 +1,64 @@
+{
+  "agency_id": "1acfc459-7554-5223-b133-3c7682bdc019",
+  "agency_name": "St. Cloud Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-09-29T19:16:50Z",
+      "id": "a72c3583084241528c5dc488d59892ba",
+      "title": "St. Cloud Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/a72c3583084241528c5dc488d59892ba"
+    }
+  ],
+  "description": "Feature service for St. Cloud Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "a72c3583084241528c5dc488d59892ba",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "St. Cloud Police Department Drone Flights"
+    },
+    {
+      "agency_id": "1acfc459-7554-5223-b133-3c7682bdc019",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1218,
+    "duplicates": 29,
+    "first_takeoff": "2025-02-09T07:49:05Z",
+    "last_takeoff": "2026-10-21T21:20:03Z",
+    "unhashed": 1218
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "fc542615-7161-478a-b623-60b82e6ea9ab",
+  "ori": [
+    "FL0490100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/fc542615-7161-478a-b623-60b82e6ea9ab-production/FeatureServer"
+}

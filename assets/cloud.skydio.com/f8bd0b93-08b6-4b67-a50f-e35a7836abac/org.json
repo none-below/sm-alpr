@@ -1,0 +1,50 @@
+{
+  "agency_id": "7c6e3ac2-0a81-50d7-ac9b-f523da9d8052",
+  "agency_name": "Altoona Police Department (IA)",
+  "dashboards": [],
+  "description": "Feature service for Altoona Police Department (IA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "7c6e3ac2-0a81-50d7-ac9b-f523da9d8052",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "f8bd0b93-08b6-4b67-a50f-e35a7836abac",
+  "ori": [
+    "IA0770800"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/f8bd0b93-08b6-4b67-a50f-e35a7836abac-production/FeatureServer"
+}

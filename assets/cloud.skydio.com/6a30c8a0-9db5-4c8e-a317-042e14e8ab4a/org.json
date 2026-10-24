@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "DFR - BROWNSVILLE - PD",
+  "dashboards": [],
+  "description": "Feature service for DFR - BROWNSVILLE - PD",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-05-29T20:44:41Z",
+    "last_takeoff": "2025-05-29T20:44:41Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "6a30c8a0-9db5-4c8e-a317-042e14e8ab4a",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/6a30c8a0-9db5-4c8e-a317-042e14e8ab4a-production/FeatureServer"
+}

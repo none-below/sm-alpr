@@ -12,7 +12,9 @@ Local evidence (.claude/ exists only in the primary checkout) is found via git's
 The repo commit the inputs came from is recorded in truth.build_info.
 
 Sources: Redwood City + Los Altos (committed NDJSON conversions of the agency workbooks), San Mateo PD (the committed
-PDFs it produced; smpd_pdf_loader.py), the MuckRock CA corpus (muckrock_ingest.py; staged first).
+PDFs it produced; smpd_pdf_loader.py), the MuckRock CA corpus (muckrock_ingest.py; staged first), the CA public-records-
+portal harvest (portal_ingest.py; staged first), and audit spreadsheets printed to PDF in either collection
+(pdf_table_ingest.py; staged first). Releases a loader leaves out on purpose are listed in release_exclusions.
 """
 import argparse
 import glob
@@ -32,11 +34,12 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 import smpd_pdf_loader as smpd  # noqa: E402
-from muckrock_ingest import add_muckrock, canonical, sql_ident, sql_str  # noqa: E402
+from muckrock_ingest import FLOCK_COLS, add_muckrock, canonical, sha256_file as sha256, sql_ident, sql_str  # noqa: E402
+from paths import duck_connect  # noqa: E402
+from pdf_table_ingest import add_pdf_tables  # noqa: E402
+from portal_ingest import add_portals  # noqa: E402
 
 HERE = Path(__file__).parent
-FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
-              "Reason", "Case #", "Filters", "Search Time", "Search Type", "Text Prompt", "Moderation"]
 # repo inputs, and this build code, whose uncommitted edits would make the recorded commit a lie
 REPO_INPUTS = ["assets/redwood-city-pras", "assets/los-altos-pras", "assets/san-mateo-public-records/W012541-*",
                "assets/san-mateo-public-records/W012818-*", "assets/agency_registry.json", "scripts/audit_db"]
@@ -54,14 +57,6 @@ RELEASES_DDL = """CREATE OR REPLACE TABLE releases (release_id VARCHAR PRIMARY K
 
 def git(repo, *args):
     return subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, check=True).stdout.strip()
-
-
-def sha256(p):
-    h = hashlib.sha256()
-    with open(p, "rb") as fh:
-        for b in iter(lambda: fh.read(1 << 20), b""):
-            h.update(b)
-    return h.hexdigest()
 
 
 def ndjson_sha256(p):
@@ -295,26 +290,32 @@ def main():
                          "identify the code: run the build_truth.py of the checkout you build from")
     PRIMARY = Path(git(WT, "rev-parse", "--path-format=absolute", "--git-common-dir")).parent
     EV = PRIMARY / ".claude/local_evidence/muckrock-ca-audit-logs"
+    PV = PRIMARY / ".claude/local_evidence/pra-portals-ca"
     TMP = Path(args.tmp)
     repo_commit = git(WT, "rev-parse", "HEAD")
     repo_dirty = bool(git(WT, "status", "--porcelain", "--", *REPO_INPUTS))
-    print(f"repo inputs: {WT} @ {repo_commit[:9]}{' (DIRTY inputs)' if repo_dirty else ''}; evidence: {EV}", flush=True)
+    print(f"repo inputs: {WT} @ {repo_commit[:9]}{' (DIRTY inputs)' if repo_dirty else ''}; evidence: {EV}; portals: {PV}",
+          flush=True)
     # registry: Flock org name / alias -> agency_id (same fields lib.resolve_agency(name=) searches)
     name_to_id = {}
     for e in json.load(open(WT / "assets/agency_registry.json")):
         for n in (e.get("flock_names") or []) + (e.get("aliases") or []):
             name_to_id.setdefault(n, e["agency_id"])
 
-    con = duckdb.connect(str(args.out))
-    # modest defaults so the laptop stays usable; raise with AUDIT_DB_THREADS / AUDIT_DB_MEMORY for a faster build
-    con.execute(f"SET temp_directory='{TMP}/duck_tmp'; SET threads={os.environ.get('AUDIT_DB_THREADS', '4')}; "
-                f"SET memory_limit='{os.environ.get('AUDIT_DB_MEMORY', '6GB')}'")   # insertion order kept: row_no = file order
+    # modest defaults so the laptop stays usable; raise with AUDIT_DB_THREADS / AUDIT_DB_MEMORY for a faster build.
+    # Insertion order is kept (the default), so row_no = file order.
+    con = duck_connect(args.out, spill_root=TMP / "duck_spill",   # own spill dir under the build's scratch
+                       threads=int(os.environ.get('AUDIT_DB_THREADS', '4')), memory_limit=os.environ.get('AUDIT_DB_MEMORY', '6GB'))
     con.execute(RELEASES_DDL)
     con.execute(f"CREATE OR REPLACE TABLE flock_audit_rows (release_id VARCHAR, row_no BIGINT, src_row BIGINT, "
                 f"{', '.join(f'{sql_ident(c)} VARCHAR' for c in FLOCK_COLS)}, extra JSON)")
     load_repo_ndjson(con, WT, name_to_id.get)
     # MuckRock CA corpus (all other tabular audit logs + event logs); see muckrock_ingest.py
-    add_muckrock(con, EV, TMP, FLOCK_COLS, sha256, resolve=name_to_id.get)
+    add_muckrock(con, EV, TMP, resolve=name_to_id.get)
+    con.execute("CREATE OR REPLACE TABLE release_exclusions (release_id VARCHAR, reason VARCHAR, source VARCHAR)")
+    # agencies' own records portals (portal_ingest.py), then audit spreadsheets printed to PDF in both collections
+    add_portals(con, PV, TMP, resolve=name_to_id.get)
+    add_pdf_tables(con, EV, PV, TMP, resolve=name_to_id.get)
     load_smpd(con, WT, name_to_id.get)
     load_authored(con)
 
@@ -327,7 +328,7 @@ def main():
     con.executemany("INSERT INTO build_info VALUES (?, ?)", [
         ("built_at_utc", con.execute("SELECT strftime(now() AT TIME ZONE 'UTC', '%Y-%m-%dT%H:%M:%SZ')").fetchone()[0]),
         ("repo_checkout", str(WT)), ("repo_commit", repo_commit), ("repo_inputs_dirty", str(repo_dirty)),
-        ("commits_behind_local_origin_main", str(behind)), ("evidence_dir", str(EV)),
+        ("commits_behind_local_origin_main", str(behind)), ("evidence_dir", str(EV)), ("portals_dir", str(PV)),
         # web base for repo permalinks: <repo_web_url>/blob/<repo_commit>/<container_path>
         ("repo_web_url", re.sub(r"^git@github\.com:(.*?)(\.git)?$", r"https://github.com/\1",
                                 git(WT, "remote", "get-url", "origin")).removesuffix(".git")),

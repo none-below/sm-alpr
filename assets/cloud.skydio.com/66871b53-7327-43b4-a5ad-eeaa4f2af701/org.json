@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "WYOLINK",
+  "dashboards": [],
+  "description": "Feature service for WYOLINK",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-08-18T14:57:19Z",
+    "last_takeoff": "2025-08-18T14:57:19Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "66871b53-7327-43b4-a5ad-eeaa4f2af701",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/66871b53-7327-43b4-a5ad-eeaa4f2af701-production/FeatureServer"
+}

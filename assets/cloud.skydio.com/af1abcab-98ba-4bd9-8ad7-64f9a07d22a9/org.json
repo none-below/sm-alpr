@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Sunbelt Rentals",
+  "dashboards": [],
+  "description": "Feature service for Sunbelt Rentals",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 102,
+    "duplicates": 0,
+    "first_takeoff": "2026-03-26T15:57:43Z",
+    "last_takeoff": "2026-09-04T20:40:27Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "af1abcab-98ba-4bd9-8ad7-64f9a07d22a9",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/af1abcab-98ba-4bd9-8ad7-64f9a07d22a9-production/FeatureServer"
+}

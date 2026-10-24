@@ -1,0 +1,64 @@
+{
+  "agency_id": "5460d54d-6a3d-531b-a007-de6e9491f686",
+  "agency_name": "El Centro Police Department - CA",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-03-25T18:39:19Z",
+      "id": "987c3bcd7aa644bb876e9c401fd9b2a6",
+      "title": "El Centro Police Department - CA Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/987c3bcd7aa644bb876e9c401fd9b2a6"
+    }
+  ],
+  "description": "Feature service for El Centro Police Department - CA",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "987c3bcd7aa644bb876e9c401fd9b2a6",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "El Centro Police Department - CA Drone Flights"
+    },
+    {
+      "agency_id": "5460d54d-6a3d-531b-a007-de6e9491f686",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 7,
+    "duplicates": 0,
+    "first_takeoff": "2025-03-21T18:04:10Z",
+    "last_takeoff": "2025-04-07T19:07:43Z",
+    "unhashed": 7
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "db43ceca-fab8-4e0e-803e-3e92f01bcec6",
+  "ori": [
+    "CA0130400"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/db43ceca-fab8-4e0e-803e-3e92f01bcec6-production/FeatureServer"
+}

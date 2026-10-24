@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "NYE County Sheriffs Office (NV)",
+  "dashboards": [],
+  "description": "Feature service for NYE County Sheriffs Office (NV)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 6,
+    "duplicates": 0,
+    "first_takeoff": "2026-01-29T00:30:04Z",
+    "last_takeoff": "2026-02-22T21:31:18Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "62abbe38-233e-4f31-b4b8-01f5c2a033f3",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/62abbe38-233e-4f31-b4b8-01f5c2a033f3-production/FeatureServer"
+}

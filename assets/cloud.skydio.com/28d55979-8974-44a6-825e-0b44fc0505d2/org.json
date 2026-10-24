@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Axon Air PSM",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-03-10T16:20:04Z",
+      "id": "490bbd4e23aa4d2683c48a53b2a38e6d",
+      "title": "Axon Air PSM Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/490bbd4e23aa4d2683c48a53b2a38e6d"
+    }
+  ],
+  "description": "Feature service for Axon Air PSM",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "490bbd4e23aa4d2683c48a53b2a38e6d",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Axon Air PSM Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 41,
+    "duplicates": 0,
+    "first_takeoff": "2025-03-12T22:57:18Z",
+    "last_takeoff": "2026-10-05T14:38:10Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "28d55979-8974-44a6-825e-0b44fc0505d2",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/28d55979-8974-44a6-825e-0b44fc0505d2-production/FeatureServer"
+}

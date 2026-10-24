@@ -1,0 +1,64 @@
+{
+  "agency_id": "a1078504-f18e-54fe-a657-0d1ce4ca5efc",
+  "agency_name": "Fairfax County Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-09-18T21:32:39Z",
+      "id": "c47a7c0ff6d5465884f182588bd2a15f",
+      "title": "Fairfax County Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/c47a7c0ff6d5465884f182588bd2a15f"
+    }
+  ],
+  "description": "Feature service for Fairfax County Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "c47a7c0ff6d5465884f182588bd2a15f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Fairfax County Police Department Drone Flights"
+    },
+    {
+      "agency_id": "a1078504-f18e-54fe-a657-0d1ce4ca5efc",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 54,
+    "duplicates": 16,
+    "first_takeoff": "2026-03-19T17:39:02Z",
+    "last_takeoff": "2026-07-28T19:04:47Z",
+    "unhashed": 54
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "b9a43b2e-83d7-447c-a3cd-432b6314a2d3",
+  "ori": [
+    "VA0290100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/b9a43b2e-83d7-447c-a3cd-432b6314a2d3-production/FeatureServer"
+}

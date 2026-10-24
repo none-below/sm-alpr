@@ -1,0 +1,64 @@
+{
+  "agency_id": "6b12d769-1659-5af8-89bf-5fcec9edb556",
+  "agency_name": "Laredo Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-01-14T14:38:22Z",
+      "id": "54d059bde3374638a21e593fa5d9c417",
+      "title": "Laredo Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/54d059bde3374638a21e593fa5d9c417"
+    }
+  ],
+  "description": "Feature service for Laredo Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "54d059bde3374638a21e593fa5d9c417",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Laredo Police Department Drone Flights"
+    },
+    {
+      "agency_id": "6b12d769-1659-5af8-89bf-5fcec9edb556",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 6196,
+    "duplicates": 408,
+    "first_takeoff": "2026-01-31T00:44:55Z",
+    "last_takeoff": "2026-10-20T20:54:10Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "139347d9-df46-42ce-98d8-980db6bda7ff",
+  "ori": [
+    "TX2400100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/139347d9-df46-42ce-98d8-980db6bda7ff-production/FeatureServer"
+}

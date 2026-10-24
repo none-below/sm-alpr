@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Arkansas DOT",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-03-11T20:48:30Z",
+      "id": "88c4f1e8bda644668f3c363a821225a0",
+      "title": "Arkansas DOT Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/88c4f1e8bda644668f3c363a821225a0"
+    }
+  ],
+  "description": "Feature service for Arkansas DOT",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "88c4f1e8bda644668f3c363a821225a0",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Arkansas DOT Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 11,
+    "duplicates": 0,
+    "first_takeoff": "2025-02-24T18:13:08Z",
+    "last_takeoff": "2025-03-10T14:02:45Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "b300d1e3-5183-48e5-939c-db2e1346d1bc",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/b300d1e3-5183-48e5-939c-db2e1346d1bc-production/FeatureServer"
+}

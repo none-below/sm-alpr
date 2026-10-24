@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Dallas Police Department (TX)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-05-28T22:03:58Z",
+      "id": "50131d633d314eef8408f834f22c19b3",
+      "title": "Dallas Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/50131d633d314eef8408f834f22c19b3"
+    }
+  ],
+  "description": "Feature service for Dallas Police Department (TX)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "50131d633d314eef8408f834f22c19b3",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Dallas Police Department Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 151,
+    "duplicates": 0,
+    "first_takeoff": "2026-05-05T18:33:11Z",
+    "last_takeoff": "2026-05-20T00:00:41Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "b0509266-d8dd-4037-ab48-f1aadedd8914",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/b0509266-d8dd-4037-ab48-f1aadedd8914-production/FeatureServer"
+}

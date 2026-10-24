@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - Online - Skydio Training",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-05-20T18:43:48Z",
+      "id": "e310c32396e941809244d11502b69767",
+      "title": "INT - Online - Skydio Training Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/e310c32396e941809244d11502b69767"
+    }
+  ],
+  "description": "Feature service for INT - Online - Skydio Training",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "e310c32396e941809244d11502b69767",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "INT - Online - Skydio Training Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 5,
+    "duplicates": 0,
+    "first_takeoff": "2025-05-20T18:08:22Z",
+    "last_takeoff": "2026-08-03T15:41:01Z",
+    "unhashed": 5
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "c1343b74-2964-4438-9826-8164b311c22c",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c1343b74-2964-4438-9826-8164b311c22c-production/FeatureServer"
+}

@@ -1,0 +1,64 @@
+{
+  "agency_id": "10d8673e-60c9-5345-a1e1-eb25f18d157b",
+  "agency_name": "Ontario Police Department (CA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-07-23T15:44:05Z",
+      "id": "2928687a9e6d4966b4b46304bca4a3e1",
+      "title": "Ontario Police Department (CA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/2928687a9e6d4966b4b46304bca4a3e1"
+    }
+  ],
+  "description": "Feature service for Ontario Police Department (CA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "2928687a9e6d4966b4b46304bca4a3e1",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Ontario Police Department (CA) Drone Flights"
+    },
+    {
+      "agency_id": "10d8673e-60c9-5345-a1e1-eb25f18d157b",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "9bdf2ec1-370e-47d8-9089-7eb0894d3d83",
+  "ori": [
+    "CA0360700"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/9bdf2ec1-370e-47d8-9089-7eb0894d3d83-production/FeatureServer"
+}

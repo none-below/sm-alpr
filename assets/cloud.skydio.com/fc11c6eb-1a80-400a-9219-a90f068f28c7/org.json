@@ -1,0 +1,64 @@
+{
+  "agency_id": "ea5513bc-6cd6-57d7-9322-92ff656a41bd",
+  "agency_name": "Denton Police Department (TX)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-09-28T15:22:09Z",
+      "id": "46494583f1d543c19fac654b5a526e3e",
+      "title": "Denton Police Department (TX) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/46494583f1d543c19fac654b5a526e3e"
+    }
+  ],
+  "description": "Feature service for Denton Police Department (TX)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "46494583f1d543c19fac654b5a526e3e",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Denton Police Department (TX) Drone Flights"
+    },
+    {
+      "agency_id": "ea5513bc-6cd6-57d7-9322-92ff656a41bd",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 481,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-28T22:44:25Z",
+    "last_takeoff": "2026-10-22T15:25:51Z",
+    "unhashed": 481
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "fc11c6eb-1a80-400a-9219-a90f068f28c7",
+  "ori": [
+    "TX0610200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/fc11c6eb-1a80-400a-9219-a90f068f28c7-production/FeatureServer"
+}

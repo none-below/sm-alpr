@@ -1,0 +1,50 @@
+{
+  "agency_id": "831aa14d-e2aa-54b7-97aa-7fc80dbc7373",
+  "agency_name": "Harford County Sheriff's Office (MD)",
+  "dashboards": [],
+  "description": "Feature service for Harford County Sheriff's Office (MD)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "831aa14d-e2aa-54b7-97aa-7fc80dbc7373",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 4,
+    "duplicates": 0,
+    "first_takeoff": "2026-01-05T21:18:58Z",
+    "last_takeoff": "2026-07-01T03:14:16Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "294bf704-a9ed-4012-87dd-495b3df40543",
+  "ori": [
+    "MD0130000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/294bf704-a9ed-4012-87dd-495b3df40543-production/FeatureServer"
+}

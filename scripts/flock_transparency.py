@@ -39,6 +39,7 @@ import hashlib
 import html.parser
 import io
 import json
+import os
 import random
 import re
 import shutil
@@ -57,7 +58,7 @@ except ImportError:  # pragma: no cover - optional dependency
     stealth_sync = None
 
 from lib import (
-    BASE_URL, FAILED_FILE, USER_AGENT,
+    BASE_URL, FAILED_FILE,
     audit_integrity, dedupe, load_json, save_json,
     portal_jsons, portal_txts, resolve_agency,
 )
@@ -173,6 +174,87 @@ STALE_DAYS = 14
 # after that is the rate limit, and ends the run.
 WARMUP_RETRY_BACKOFF = 8   # seconds before the one cold-IP handshake retry, ±30% jitter
 RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears it"
+
+# goto() raising with no HTTP response at all (net::ERR_INVALID_ARGUMENT, from
+# 2026-09-22 on). It is never about the slug — the host is the same for every
+# portal — and it is per-runner: in every run that hit it, every slug failed
+# the same way within a second of each other (~10ms after goto), while the
+# next runner fetched them fine. It is Chromium's own net error -4, not a
+# server answer — usually a local syscall returning EINVAL — and it arrived
+# with Chrome 154: on 2026-09-22/23, 0 of 24 runs on Chrome 153 hit it, 11 of
+# 36 on 154 did (155 still does). Not predicted by Azure region or runner
+# image. So most likely a Chrome 154 change failing on some runner hosts, not
+# Flock's edge; the refresh workflow keeps a Chrome net-log from affected runs
+# (and logs egress IP and DNS) to show which component raises it. Either way it is
+# handled like a post-warm-up 403: end the run, don't stamp, don't
+# quarantine. It does not spend the warm-up retry, since the sampled runs show
+# a same-session request a second later fails too.
+#
+# It used to be quarantined like a 404. Over four weeks that parked 238 live,
+# previously-captured portals (san-mateo-ca-pd among them) in .failed_slugs.json
+# — 255 of the 261 captured slugs in total — leaving six in the rotation, so
+# even a `--max-age 1` run found only two eligible.
+UNREACHABLE_NOTE = "portal unreachable from this IP (no HTTP response); only a fresh IP clears it"
+
+
+# Platform tokens for the reduced UA string Chrome itself sends.
+_UA_PLATFORMS = {
+    "darwin": "Macintosh; Intel Mac OS X 10_15_7",
+    "win32": "Windows NT 10.0; Win64; x64",
+}
+_UA_PLATFORM_DEFAULT = "X11; Linux x86_64"
+
+
+def chrome_user_agent(version, platform=None):
+    """The UA string the launched browser would send if it weren't headless.
+
+    The override exists only to drop the "HeadlessChrome" token. It used to be
+    lib.USER_AGENT, a fixed "Chrome/131 on macOS" — while CI runs real Chrome
+    155 on Linux, whose TLS handshake, client hints and navigator.platform all
+    say so. A 24-major-version, wrong-OS mismatch is exactly what edge bot
+    scoring looks for, so the UA now follows the actual browser: its major
+    version (Chrome reports MAJOR.0.0.0 since UA reduction) and the host OS.
+    """
+    major = str(version).split(".")[0]
+    token = _UA_PLATFORMS.get(platform or sys.platform, _UA_PLATFORM_DEFAULT)
+    return (f"Mozilla/5.0 ({token}) AppleWebKit/537.36 "
+            f"(KHTML, like Gecko) Chrome/{major}.0.0.0 Safari/537.36")
+
+
+def is_quarantinable(reason):
+    """True when a failure reason says the slug itself is not a portal.
+
+    Only these belong in .failed_slugs.json, which parks a slug until a manual
+    --retry-failed. Anything transient must stay out, because a quarantined
+    slug never fails visibly again — it silently stops being crawled:
+      parse_error — the parser tripped on a new format; fixed forward, and the
+        next crawl re-captures. Surfaced as a tracking issue instead.
+      http_5xx — the portal was reached but the server was having a bad
+        moment. redwood-city-ca-pd sat parked on one 503 from 2026-07-08.
+      navigation_error — legacy reason for what is now the "unreachable"
+        sentinel, which never reaches the quarantine path. Listed so entries
+        written before that change get pruned on load.
+    """
+    if reason in ("parse_error", "navigation_error"):
+        return False
+    return not reason.startswith("http_5")
+
+
+def prune_transient_quarantines(failed_slugs):
+    """Drop quarantine entries whose reason is_quarantinable rejects, in place.
+
+    Returns the pruned slugs. Makes a policy change self-applying: entries
+    written under an older, broader policy are released on the next crawl
+    rather than needing a hand-edit or a --retry-failed that would also release
+    the genuine 404s.
+    """
+    pruned = sorted(
+        slug for slug, info in failed_slugs.items()
+        if isinstance(info, dict) and not is_quarantinable(info.get("reason", ""))
+    )
+    for slug in pruned:
+        del failed_slugs[slug]
+    return pruned
 
 
 # ═══════════════════════════════════════════════════════════
@@ -483,11 +565,42 @@ _EXPECTS_CONTINUATION = re.compile(
 # previous name (e.g. "LLC", "Inc.", "CA"). Flock's data has split entries
 # from un-escaped commas in their source — e.g. "Brickyard Cove - Richmond, CA"
 # splits into ["Brickyard Cove - Richmond", "CA"]. Re-attach to the prior entry.
-# Two-letter tokens are US state abbreviations (CA, NY, TX, …).
+# Two-letter tokens are US state abbreviations (CA, NY, TX, …). A company
+# suffix may carry Flock's state tag ("Inc. (CA)").
 _IS_CONTINUATION_SUFFIX = re.compile(
-    r"^(LLC|L\.L\.C\.?|Inc\.?|Corp\.?|Ltd\.?|Co\.?|[A-Z]{2})$",
+    r"^((LLC|L\.L\.C\.?|Inc\.?|Corp\.?|Ltd\.?|Co\.?)( \([A-Z]{2}\))?|[A-Z]{2})$",
     re.IGNORECASE,
 )
+
+# (previous-part end, part) shapes that are one account split on its
+# comma (#645): "Montgomery County Constable, Precinct 4 (TX)",
+# "1st Judicial District, District Attorney's Office TX". Both sides must
+# match, so a standalone "Precinct 4 Constable TX" is left alone.
+_STATE_TAG = r"( [A-Z]{2}| \([A-Z]{2}\))?"
+_CONTINUATION_PAIRS = (
+    (re.compile(r"\bConstable$"),
+     re.compile(rf"^(Precinct|Pct\.?) \d+{_STATE_TAG}$")),
+    (re.compile(r"\bJudicial District$"),
+     re.compile(rf"^District Attorney'?s? Office{_STATE_TAG}$")),
+    (None, re.compile(r"^District #\d+ \([A-Z]{2}\)$")),
+)
+
+# One-off accounts whose split halves match no general shape.
+_KNOWN_COMMA_NAMES = frozenset({
+    "Wild Horse Valley Rd, Napa (CA)",
+})
+
+
+def _continues_name(prev, part):
+    """True when ``part`` is the rest of ``prev`` split on a comma."""
+    return bool(
+        _EXPECTS_CONTINUATION.search(prev)
+        or _IS_CONTINUATION_SUFFIX.match(part)
+        or any((p is None or p.search(prev)) and q.match(part)
+               for p, q in _CONTINUATION_PAIRS)
+        or f"{prev}, {part}" in _KNOWN_COMMA_NAMES
+    )
+
 
 # Maps heading aliases -> canonical field name.  This is the single source of
 # truth for all known headings.  Use None for structural headings (page chrome
@@ -524,6 +637,9 @@ _HEADING_MAP = {
     # policy alongside its ALPR-specific policy link. Route to policy_info,
     # not alpr_policy, so the ALPR policy field stays the ALPR policy.
     "MVPD Public Safety Video Surveillance System Policy:": "policy_info",
+    # blue-springs-mo-pd links its Real Time Crime Center policy beside the
+    # ALPR one — broader scope, same treatment as mill-valley's above.
+    "RTCC Policy":                           "policy_info",
     # ── other structural fields ──
     "Additional Info":                       "additional_info",
     "Additional Information":                "additional_info",
@@ -539,6 +655,15 @@ _HEADING_MAP = {
     # alameda-ca-pd bolds the shortened form (rendered "FLOCK Contract";
     # heading lookup is case-insensitive so one spelling covers both).
     "Flock Contract":                        "additional_info",
+    # blue-springs-mo-pd bolds links for its drone program — not ALPR data,
+    # but kept as text rather than dropped as chrome.
+    "Flight Dashboard":                      "additional_info",
+    "Important links listed at the bottom along with Drone Flight path information": "additional_info",
+    "Murfreesboro Police Department's Real Time Crime Center Webpage": "additional_info",
+    # murfreesboro-tn-pd's write-up beside the standard "Data retention"
+    # stat. Not data_retention: that field is a last-wins number, so a prose
+    # section there would clobber the real value or raise.
+    "LPR Data Retention Length":             "additional_info",
     "Download CSV":                          "download_csv",
     "Public Search Audit":                   "search_audit",
     "Search Audit":                          "search_audit",
@@ -562,6 +687,11 @@ _HEADING_MAP = {
     # a trailing "(Aug. 2026)" — the prefix branch absorbs that suffix.
     "Armed Suspects Located Through ALPR and Regional RTIC Partnership": "success_stories",
     "Yuba County SO -Assist in Bicycle Recovery": "success_stories",
+    "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Four Suspects": "success_stories",  # hollister
+    "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Two Suspects": "success_stories",   # hollister
+    "Package Theft from a Front Porch":      "success_stories",  # blue-springs-mo-pd
+    # hannibal-mo-pd reposts a news headline as a case write-up.
+    "New license plate reader system helps in capture of NEMO shooting suspect": "success_stories",
     "Disclaimer":                            "disclaimer",
     "California SVS":                        "california_svs",
     "SB54: California Values Act":           "sb54",
@@ -1058,6 +1188,15 @@ _NOT_SHARING_RE = re.compile(
     r" is not sharing data with any partner networks\.$"
 )
 
+# Trailing summary sentence with no terminal period, appended after the
+# enumerated partner list — sits outside _looks_like_disclaimer's period
+# gate entirely (johnson-city-tn-pd 2026-09-12: "JCPD shares access to LPR
+# data with law enforcement agencies within the State of Tennessee", the
+# 151st line in a list of 150 real agencies, no trailing ".").
+_SHARES_ACCESS_SUMMARY_RE = re.compile(
+    r"^\S+ shares access to .+ with law enforcement agencies within the State of \S+$"
+)
+
 
 def _looks_like_disclaimer(line):
     """True if a line in the orgs section is a policy sentence, not an
@@ -1096,21 +1235,22 @@ def _parse_org_names(body):
         and not _EMPTY_ORG_RE.match(L)
         and not _PORTAL_NAV_RE.match(L)
         and not _NOT_SHARING_RE.search(L)
+        and not _SHARES_ACCESS_SUMMARY_RE.match(L)
         and not _looks_like_disclaimer(L)
     ]
     if not lines:
         return []
-    if len(lines) >= 3 and sum(1 for L in lines if "," not in L) >= len(lines) * 0.8:
+    # One-per-line from two lines up: a two-partner list ("El Segundo CA PD"
+    # / "Hermosa Beach PD CA", culver-city-ca-pd 2026-09-26) otherwise falls
+    # to the comma path, which space-joins the lines into one fake agency.
+    # At 2 lines the 80% rule requires both to be comma-free.
+    if len(lines) >= 2 and sum(1 for L in lines if "," not in L) >= len(lines) * 0.8:
         raw = lines
     else:
         raw = [n.strip() for n in " ".join(lines).split(", ") if n.strip()]
     names = []
     for part in raw:
-        merge = names and (
-            _EXPECTS_CONTINUATION.search(names[-1])
-            or _IS_CONTINUATION_SUFFIX.match(part)
-        )
-        if merge:
+        if names and _continues_name(names[-1], part):
             names[-1] = f"{names[-1]}, {part}"
         else:
             names.append(part)
@@ -1476,8 +1616,8 @@ def attach_csv_integrity(portal_data):
 def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     """Returns (status, discovered_slugs).
 
-    status: Path (saved), "unchanged", "rate_limited", "forbidden", or
-    ("failed", reason).
+    status: Path (saved), "unchanged", "rate_limited", "forbidden",
+    "unreachable", or ("failed", reason).
 
     Artifact-set integrity: a slug-dir capture is the four-tuple
     .txt/.html/.json/.pdf. The whole set is staged in a `mktemp -d`
@@ -1499,8 +1639,10 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     try:
         response = page.goto(url, wait_until="domcontentloaded", timeout=30000)
     except Exception as e:
+        # No response at all — says nothing about the slug.
+        # See UNREACHABLE_NOTE.
         print(f"    WARNING: navigation failed: {e}")
-        return ("failed", "navigation_error"), []
+        return "unreachable", []
 
     # 403 and 429 are the same signal from Flock's edge — this IP is over its
     # hourly request budget — and neither is a block on the slug. run_crawl_batch
@@ -1616,14 +1758,70 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     return pdf_path, discovered_slugs
 
 
+def launch_browser(p, proxy=None, netlog=None):
+    """Start the crawl browser and return (browser, page).
+
+    Shared by the crawler and slug_probe, which hit the same edge and need the
+    same fingerprint: real Chrome, a UA that matches it, and the stealth patch.
+    `p` is a sync_playwright() handle. `netlog` (a path) has Chrome write a
+    net-log there, for runs that hit net::ERR_INVALID_ARGUMENT
+    (UNREACHABLE_NOTE).
+    """
+    # channel="chrome" launches the OS-installed real Chrome instead of
+    # Playwright's bundled Chromium. Bundled Chromium's TLS handshake
+    # fingerprint (JA3/JA4) doesn't match the real-Chrome population, so
+    # Flock's edge scores it as a bot and returns HTTP 403 before any HTTP
+    # transaction. article_crawl.py hit the same wall in May 2026 and this
+    # is the fix that cleared it; the Flock crawler never got it, and when
+    # Flock tightened their edge the whole rotation started 403ing.
+    # Falls back to bundled Chromium so a machine without real Chrome
+    # still runs (it will likely 403, but that is better than crashing).
+    launch_args = ["--headless=new"]
+    if netlog:
+        launch_args.append(f"--log-net-log={netlog}")
+    launch_kwargs = {"headless": True, "args": launch_args}
+    if proxy:
+        launch_kwargs["proxy"] = {"server": proxy}
+    try:
+        browser = p.chromium.launch(channel="chrome", **launch_kwargs)
+    except Exception as e:
+        print(f"  real Chrome unavailable ({e.__class__.__name__}); "
+              f"falling back to bundled Chromium — expect 403s")
+        browser = p.chromium.launch(**launch_kwargs)
+    user_agent = chrome_user_agent(browser.version)
+    print(f"  browser {browser.version}; UA {user_agent}")
+    context = browser.new_context(
+        viewport=VIEWPORT,
+        user_agent=user_agent,
+    )
+    page = context.new_page()
+    # tf-playwright-stealth patches the JS-layer detection signals
+    # (navigator.webdriver, plugin enumeration, WebGL vendor strings).
+    # Stacks on the TLS-layer fix above. Optional import so the crawler
+    # still runs where the package isn't installed.
+    if stealth_sync is not None:
+        try:
+            stealth_sync(page)
+        except Exception as e:
+            print(f"  stealth patch failed ({e.__class__.__name__}), continuing")
+    return browser, page
+
+
 def new_crawl_session():
     """Per-browser-session crawl state.
 
     One warm-up retry per session, not per slug: the cold-IP handshake happens
     once, when the session's first request meets the edge. Every 403 after that
     is the rate limit, and no number of retries clears it.
+
+    Also one browser relaunch per session for "unreachable" (UNREACHABLE_NOTE).
+    The net-log of an affected run shows Chrome never issued the page request
+    — only a speculative preconnect — so the failure is inside Chrome's
+    navigation layer and the retry spends none of Flock's rate budget.
+    cmd_crawl sets "relaunch" (closes the browser, starts a fresh one, returns
+    its page) and "page" (the current page, which later BFS levels must use).
     """
-    return {"warmup_retries": 1}
+    return {"warmup_retries": 1, "relaunches": 1}
 
 
 def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
@@ -1665,7 +1863,7 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             for alt in slug_variations(slug)[1:]:
                 print(f"    trying variation: {alt}")
                 status, discovered_slugs = archive_agency(page, alt, data_dir, force, hashes)
-                if status in ("rate_limited", "forbidden"):
+                if status in ("rate_limited", "forbidden", "unreachable"):
                     # Budget spent mid-probe. A 403 says nothing about whether
                     # this variation exists, so don't claim it as the working
                     # slug — fall through to the stop below, still under the
@@ -1690,9 +1888,32 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             time.sleep(backoff)
             status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
 
-        if status in ("rate_limited", "forbidden"):
+        if status == "unreachable" and session.get("relaunch") and session["relaunches"]:
+            # Free to retry: Chrome failed the navigation before sending any
+            # request. A fresh browser either clears it (the run continues on
+            # the new page) or doesn't (the run ends below, as before) — the
+            # log line says which, so this doubles as the diagnosis.
+            session["relaunches"] -= 1
+            print("    relaunching the browser and retrying once "
+                  "(the failure never reached Flock)")
+            page = session["relaunch"]()
+            status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
+            print(f"    after relaunch: "
+                  f"{'still unreachable' if status == 'unreachable' else 'navigation succeeded'}")
+            if status in ("rate_limited", "forbidden") and session["warmup_retries"]:
+                # The fresh browser's first request meets the edge cold.
+                session["warmup_retries"] -= 1
+                backoff = max(delay, WARMUP_RETRY_BACKOFF) * random.uniform(0.7, 1.3)
+                print(f"    first 403/429 of the session — retrying once after "
+                      f"{backoff:.0f}s in case it's the cold-IP handshake")
+                time.sleep(backoff)
+                status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
+
+        if status in ("rate_limited", "forbidden", "unreachable"):
             # Warm-up already spent (or just spent and didn't clear), so this
-            # is the rate limit. Don't retry and don't move on to the next
+            # is the rate limit — or the no-response form of the same per-IP
+            # block (UNREACHABLE_NOTE), which takes this path directly. Don't
+            # retry and don't move on to the next
             # slug: the cooldown is per-IP and hours long, so both would only
             # collect more 403s while burning the budget the remaining slugs
             # would have had. Leave the rest untouched for the next run's fresh
@@ -1709,7 +1930,7 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             # times running gets stamped, so a permanently unreachable one
             # still ages out instead of pinning position #1.
             remaining = total - i - 1
-            print(f"    {RATE_LIMIT_NOTE}")
+            print(f"    {UNREACHABLE_NOTE if status == 'unreachable' else RATE_LIMIT_NOTE}")
             print(f"    ending this run; {remaining} slug(s) left for the next run")
             if record_rate_limit_burn(slug, data_dir):
                 print(f"    {slug} has burned {RATE_LIMIT_BURN_LIMIT} runs in a "
@@ -1728,14 +1949,12 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
         if discovered_slugs:
             discovered.extend(discovered_slugs)
         if isinstance(status, tuple) and status[0] == "failed":
-            # Don't permanently quarantine transient failures:
-            #   parse_error: parser tripped on a new format variant; archive_agency
-            #     stages and only commits on full success so no artifacts written.
-            #     Surfaced as a tracking issue by the workflow.
-            # (403/429 rate limits return above and never reach here. Other
-            #  HTTP 4xx/5xx are real failures and do get quarantined until the
-            #  next --retry-failed.)
-            if status[1] != "parse_error":
+            # Quarantine only failures that say the slug isn't a portal (404
+            # and other 4xx, not_a_portal) until the next --retry-failed.
+            # Transient ones — parse_error, 5xx — are attempted (stamped
+            # above) but stay in the rotation; see is_quarantinable. 403/429
+            # and unreachable return above and never reach here.
+            if is_quarantinable(status[1]):
                 failed_slugs[slug] = {"reason": status[1], "date": date.today().isoformat()}
 
         save_json(data_dir / HASH_FILE, hashes)
@@ -1767,6 +1986,14 @@ def cmd_crawl(args):
     data_dir.mkdir(parents=True, exist_ok=True)
     hashes = load_json(data_dir / HASH_FILE)
     failed_slugs = load_json(data_dir / FAILED_FILE)
+    # Release entries an older policy quarantined for transient reasons. Saved
+    # now, not with the first finished slug, so slug_probe and the dashboard
+    # see the released set even if this run is rate-limited on slug #1.
+    released = prune_transient_quarantines(failed_slugs)
+    if released:
+        print(f"  released {len(released)} transiently-quarantined slug(s) "
+              f"back into the rotation")
+        save_json(data_dir / FAILED_FILE, failed_slugs)
     # Snapshot the previously-failed set before --retry-failed wipes it — we
     # still want the sort to deprioritize retries of prior 404s below fresh
     # uncrawled slugs.
@@ -1776,41 +2003,27 @@ def cmd_crawl(args):
         failed_slugs.clear()
 
     with sync_playwright() as p:
-        # channel="chrome" launches the OS-installed real Chrome instead of
-        # Playwright's bundled Chromium. Bundled Chromium's TLS handshake
-        # fingerprint (JA3/JA4) doesn't match the real-Chrome population, so
-        # Flock's edge scores it as a bot and returns HTTP 403 before any HTTP
-        # transaction. article_crawl.py hit the same wall in May 2026 and this
-        # is the fix that cleared it; the Flock crawler never got it, and when
-        # Flock tightened their edge the whole rotation started 403ing.
-        # Falls back to bundled Chromium so a machine without real Chrome
-        # still runs (it will likely 403, but that is better than crashing).
-        launch_args = ["--headless=new"]
-        launch_kwargs = {"headless": True, "args": launch_args}
-        if args.proxy:
-            launch_kwargs["proxy"] = {"server": args.proxy}
-        try:
-            browser = p.chromium.launch(channel="chrome", **launch_kwargs)
-        except Exception as e:
-            print(f"  real Chrome unavailable ({e.__class__.__name__}); "
-                  f"falling back to bundled Chromium — expect 403s")
-            browser = p.chromium.launch(**launch_kwargs)
-        context = browser.new_context(
-            viewport=VIEWPORT,
-            user_agent=USER_AGENT,
-        )
-        page = context.new_page()
+        def launch(first=True):
+            """(browser, page). The unreachable path's relaunch passes
+            first=False so the first failure's net-log isn't overwritten."""
+            netlog = os.environ.get("FLOCK_NETLOG") if first else None
+            return launch_browser(p, proxy=args.proxy, netlog=netlog)
+
+        browser, page = launch()
         # One session's worth of warm-up budget, shared by every batch below.
         session = new_crawl_session()
-        # tf-playwright-stealth patches the JS-layer detection signals
-        # (navigator.webdriver, plugin enumeration, WebGL vendor strings).
-        # Stacks on the TLS-layer fix above. Optional import so the crawler
-        # still runs where the package isn't installed.
-        if stealth_sync is not None:
+        session["page"] = page
+
+        def relaunch():
+            nonlocal browser
             try:
-                stealth_sync(page)
-            except Exception as e:
-                print(f"  stealth patch failed ({e.__class__.__name__}), continuing")
+                browser.close()
+            except Exception:
+                pass
+            browser, session["page"] = launch(first=False)
+            return session["page"]
+
+        session["relaunch"] = relaunch
 
         if args.all_agencies and not slugs:
             slugs = list(DEFAULT_SLUGS)
@@ -1940,7 +2153,7 @@ def cmd_crawl(args):
                     print(f"[{label}] Archiving {len(new_slugs)} agency portal(s):\n")
 
                     results, newly_discovered, rate_limited = run_crawl_batch(
-                        page, new_slugs, data_dir, args.force,
+                        session["page"], new_slugs, data_dir, args.force,
                         args.delay, hashes, failed_slugs,
                         try_variations=args.try_variations,
                         session=session,
@@ -1961,7 +2174,7 @@ def cmd_crawl(args):
                 slugs = slugs[:args.batch]
             print(f"Archiving {len(slugs)} agency portal(s):\n")
             results, _, _ = run_crawl_batch(
-                page, slugs, data_dir, args.force,
+                session["page"], slugs, data_dir, args.force,
                 args.delay, hashes, failed_slugs,
                 try_variations=args.try_variations,
                 explicit=True,

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Monroe County Sheriff's Office",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-08-08T00:55:23Z",
+      "id": "57633537efa44d2eb774f49ef3c2bf59",
+      "title": "Monroe County Sheriff's Office DFR Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/57633537efa44d2eb774f49ef3c2bf59"
+    }
+  ],
+  "description": "Feature service for Monroe County Sheriff's Office",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "57633537efa44d2eb774f49ef3c2bf59",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Monroe County Sheriff's Office DFR Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 399,
+    "duplicates": 19,
+    "first_takeoff": "2026-03-09T15:32:35Z",
+    "last_takeoff": "2026-10-20T18:12:43Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "8f89237e-d91e-4bdf-adea-f99dae78585e",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/8f89237e-d91e-4bdf-adea-f99dae78585e-production/FeatureServer"
+}

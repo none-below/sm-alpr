@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "APAC - Jangmin X10",
+  "dashboards": [],
+  "description": "Feature service for APAC - Jangmin X10",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2026-03-04T02:53:18Z",
+    "last_takeoff": "2026-06-26T02:38:22Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "0a327940-ed7e-466b-ad0f-30fb97540668",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/0a327940-ed7e-466b-ad0f-30fb97540668-production/FeatureServer"
+}

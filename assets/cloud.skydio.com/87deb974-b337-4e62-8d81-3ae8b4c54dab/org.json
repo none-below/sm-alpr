@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Bradley County Sheriff's Office Cleveland (TN)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-11-12T15:33:18Z",
+      "id": "4bc15e35dc5c400c8a8071ce99299f00",
+      "title": "Bradley County Sheriff's Office Cleveland (TN) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/4bc15e35dc5c400c8a8071ce99299f00"
+    }
+  ],
+  "description": "Feature service for Bradley County Sheriff's Office Cleveland (TN)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "4bc15e35dc5c400c8a8071ce99299f00",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Bradley County Sheriff's Office Cleveland (TN) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "87deb974-b337-4e62-8d81-3ae8b4c54dab",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/87deb974-b337-4e62-8d81-3ae8b4c54dab-production/FeatureServer"
+}

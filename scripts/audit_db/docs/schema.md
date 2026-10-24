@@ -40,11 +40,16 @@ release whose `release_id` is `LIKE` their `release_pattern`.
 | `smpd_pdf_rows` | one search-id block printed in an `smpd:` PDF | (`release_id`, `row_no`) |
 | `release_dispositions` | one authored claim that a field was withheld or redacted | (`release_pattern`, `field`) |
 | `release_layouts` | one authored correction for cells released under the wrong column label | (`release_pattern`, `src_row_from`) |
+| `release_exclusions` | one release a loader left out on purpose, with the reason | `release_id` |
 | `build_info` | one fact about the build | `key` |
 
-`release_id` has three forms:
+`release_id` has five forms:
 
 - `mr:<request>:<container>[!<member>]#<sheet>` for a MuckRock file. `#csv` stands in for a CSV's sheet.
+- `pp:<platform>:<portal host>:<request>:<file as saved>[!<member>][#<sheet>]` for a file an agency posted on its own
+  public-records portal (NextRequest, GovQA or JustFOIA; `portal_ingest.py`).
+- `pdft:mr:<path in the MuckRock corpus>` or `pdft:pp:<path in the portal harvest>` for an audit spreadsheet the agency
+  printed to PDF, read by position (`pdf_table_ingest.py`). Its `src_row` is page × 1000 + row on that page.
 - `smpd:<request folder>:<pdf file name>` for San Mateo PD's PDF-derived own-search log, one release per PDF.
 - `<prefix>:[<request>:]<file stem>` for other NDJSON conversions committed to the repo.
 
@@ -104,7 +109,7 @@ an empty cell from a column that was not released.
 | `Search Type` | VARCHAR | Flock's search-type label |
 | `Text Prompt` | VARCHAR | Prompt of a free-form (natural-language) search. Civilian data; local only |
 | `Moderation` | VARCHAR | Flock's moderation verdict on that prompt |
-| `extra` | JSON | Released columns outside the 14, as canonical name → cell text. NULL when all of them are empty. Civilian data; local only |
+| `extra` | JSON | Released columns outside the 14, as canonical name → cell text. NULL when all of them are empty. Civilian data; local only. For `pdft:` rows: `pdf_page`, `pdf_row` and, when a cell's text lies under a solid black filled rectangle drawn on the page, `under_fill` = those columns |
 
 ### `flock_event_rows`
 
@@ -157,6 +162,18 @@ search-id block. Lines are stored verbatim, exactly as the PDF text layer gives 
 | `mapping` | MAP(VARCHAR, VARCHAR) | Canonical field → the header label, or `extra` key, whose cell holds that field in these rows. A NULL value means no cell holds the field |
 | `source` | VARCHAR | Citation, and how the shift was verified |
 
+### `release_exclusions`
+
+Releases a loader found and did not load, so that leaving them out is visible: a file that an authored exclusion names
+(`exclusions.json` in git, or `exclusions.local.json` next to the databases, which stays out of git; same format:
+`release_pattern` (fnmatch), `reason`, `source`), or a PDF whose layout `pdf_table_reader.layout_ok` rejects.
+
+| Column | Type | Meaning |
+|---|---|---|
+| `release_id` | VARCHAR | The release id the file would have had |
+| `reason` | VARCHAR | Why it is left out |
+| `source` | VARCHAR | The citation (an authored exclusion's `source`), or `pdf_table_reader.layout_ok` |
+
 ### `build_info`
 
 | Column | Type | Meaning |
@@ -172,6 +189,7 @@ search-id block. Lines are stored verbatim, exactly as the PDF text layer gives 
 | `repo_inputs_dirty` | Whether the repo inputs or the build code had uncommitted changes |
 | `commits_behind_local_origin_main` | Number of commits between `HEAD` and the local `origin/main` ref |
 | `evidence_dir` | Absolute local path of the MuckRock evidence directory. Local only |
+| `portals_dir` | Absolute local path of the public-records-portal harvest. Local only |
 | `repo_web_url` | GitHub base URL, used to build repo permalinks |
 | `duckdb_version`, `python_version`, `pymupdf_version` | Tool versions that built truth |
 
@@ -446,6 +464,8 @@ One row per sighting that can be linked: it has a Flock search UUID, or both a s
 | `has_tf` | BOOLEAN | The row has a parsed time frame |
 | `k3` | UBIGINT | `hash(org, t, nets)`. NULL without `t` or `org` |
 | `k5` | UBIGINT | `hash(org, t, nets, tf_start, tf_end)`. NULL without `t`, `org` or `tf_start` |
+| `k2` | UBIGINT | `hash(org, t)`. NULL without `t` or `org`. Used by tiers 7 and 8 |
+| `weak` | BOOLEAN | No UUID, no network count and no time frame: a release that carries only org, reason and time |
 
 ### `cache.sighting_event`
 
@@ -517,7 +537,10 @@ matches.
 | `4_k5_group` | No UUID was found. It has a time frame, and it is grouped with the rows that share its `k5` | `k5:<k5>` |
 | `5_k3_to_group` | No UUID was found. It has no time frame, and its `k3` maps to exactly one `k5` group | `k5:<k5>` |
 | `6_k3_group` | No UUID was found. It has no time frame and no `k5` group, and it is grouped by `k3` | `k3:<k3>` |
-| `x_ambiguous` | Its key fits two or more UUIDs or groups, so it forms an event of its own | `x:<sighting_id>` |
+| `7_org_second` | A `weak` row: exactly one search by its org is recorded at that second by the tiers above, and it joins it | that search's |
+| `8_same_second_same_reason` | A row left on its own above (`x_ambiguous`, or `weak` with no tier-7 match) joins a same-second search by its org that has a UUID and the same Reason text (lower-cased, spaces collapsed); the lowest such `event_id` when several do | `u:<UUID>` |
+| `8_same_second_no_reason` | As tier 8, for a row with no readable Reason: it joins the lowest same-second UUID search by its org | `u:<UUID>` |
+| `x_ambiguous` | Its key fits two or more UUIDs or groups, and tier 8 found no match, so it forms an event of its own | `x:<sighting_id>` |
 
 Only `u:` ids stay the same across rebuilds. The other forms are `hash()` values tied to one build.
 
@@ -531,9 +554,13 @@ Values of `truth.releases.producer_basis`. For `mr:` releases the rules are trie
 | `fixed (dedicated loader)` | Fixed by the loader of a repo-committed NDJSON source |
 | `fixed (SMPD PRA)` | Fixed for the `smpd:` releases (San Mateo PD's PDF-derived log) |
 | `producers.json` | An authored entry in `producers.json`, per file or per request, cited in `producer_source` |
-| `filename` | Parsed from the file or zip-member name (`<digits>_<Org Name>_[Network-]Audit`) |
+| `filename` | Parsed from the file or zip-member name (`<digits>_<Org Name>_[Network-]Audit`; a trailing `org`/`-ORG` is dropped) |
 | `own-search dominant Org Name` | The most frequent non-blank `Org Name` in the request's own-search files |
 | `MuckRock agency name` | Last resort: the agency named on the MuckRock request |
+| `portal_producers.json (file)` | `pp:`/`pdft:pp:`: an authored per-file entry in `portal_producers.json`, cited in `producer_source` |
+| `portal_producers.json (request)` | `pp:`/`pdft:pp:`: an authored per-request entry, cited in `producer_source` |
+| `portal_producers.json (host)` | `pp:`/`pdft:pp:`: the portal's agency (authored per host, cited), used when the file names no org and the request has no own-search log, or that log's `Org Name` is not in the registry (Santa Rosa's own exports say `SRPD`) |
+| `portal host (no producer known)` | `pp:`: no rule applied; `producer` is the portal host. The build warns |
 
 ### `audit`
 
@@ -556,3 +583,4 @@ Values of `truth.releases.audit`, carried into the derived views.
 | `producer (SMPD PDF export has no org field)` | `sightings.org_basis` | `org` is the producer of an `smpd:` release |
 | `repo` | `releases.container_root` | `container_path` is relative to the repo checkout (`build_info.repo_checkout`) |
 | `evidence` | `releases.container_root` | `container_path` is relative to the evidence directory (`build_info.evidence_dir`) |
+| `portals` | `releases.container_root` | `container_path` is relative to the public-records-portal harvest (`build_info.portals_dir`) |

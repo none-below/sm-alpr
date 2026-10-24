@@ -1,0 +1,50 @@
+{
+  "agency_id": "0d453e59-9264-54b4-b08d-5fc506f1d751",
+  "agency_name": "St. Lucie County Sheriff's Office",
+  "dashboards": [],
+  "description": "Feature service for St. Lucie County Sheriff's Office",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "0d453e59-9264-54b4-b08d-5fc506f1d751",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-06-01T00:12:26Z",
+    "last_takeoff": "2025-06-01T00:12:26Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "0514fecb-31ae-4d3b-9535-349398964f3a",
+  "ori": [
+    "FL0560000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/0514fecb-31ae-4d3b-9535-349398964f3a-production/FeatureServer"
+}

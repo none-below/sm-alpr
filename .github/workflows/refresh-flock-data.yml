@@ -100,8 +100,28 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: uv run playwright install chromium
 
+      - name: Record runner egress IP and Flock DNS
+        # Diagnostic for the intermittent net::ERR_INVALID_ARGUMENT runs
+        # (UNREACHABLE_NOTE in scripts/flock_transparency.py): every slug in
+        # an affected run fails while the next runner fetches them fine, and
+        # the Azure region doesn't predict it. Logs what else varies per
+        # runner — the egress IP, and what transparency.flocksafety.com
+        # resolves to (A/AAAA, plus the HTTPS record Chrome reads for ALPN and
+        # ECH). Never contacts Flock's edge: the IP echo is AWS's and the rest
+        # is DNS, so it spends none of the ~3 req/hr budget. Reporting-only.
+        continue-on-error: true
+        run: |
+          echo "egress IPv4: $(curl -fsS --max-time 10 https://checkip.amazonaws.com || echo unknown)"
+          getent ahosts transparency.flocksafety.com || echo "getent: lookup failed"
+          if command -v dig >/dev/null; then
+            echo "HTTPS RR: $(dig +short HTTPS transparency.flocksafety.com || echo lookup failed)"
+          fi
+
       - name: Crawl oldest agencies
         id: crawl
+        env:
+          # Chrome writes a net-log here; kept below only if a navigation failed.
+          FLOCK_NETLOG: /tmp/chrome-netlog.json
         run: |
           # pipefail is load-bearing: without it `| tee` reports tee's exit
           # status and the crawler's non-zero "everything failed" code is
@@ -125,9 +145,25 @@ jobs:
               --delay 1 | tee /tmp/crawl.log || rc=$?
           fi
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          if grep -q "navigation failed" /tmp/crawl.log; then
+            echo "unreachable=true" >> "$GITHUB_OUTPUT"
+          fi
           if [ "$rc" -ne 0 ]; then
             echo "::warning::Crawl captured nothing (exit $rc). Persisting the attempt log, then failing this job at the end."
           fi
+
+      - name: Keep the Chrome net-log from a failed navigation
+        # Shows which layer raised ERR_INVALID_ARGUMENT (DNS, connect, TLS,
+        # HTTP). Only uploaded when a navigation failed; a normal run's log is
+        # noise. Default capture mode strips cookies and credentials.
+        if: always() && steps.crawl.outputs.unreachable == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome-netlog-${{ github.run_id }}
+          path: /tmp/chrome-netlog.json
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Parse new data
         run: uv run python scripts/flock_transparency.py parse | tee -a /tmp/crawl.log
@@ -149,46 +185,19 @@ jobs:
           # no .txt/.html/.json/.pdf. There is nothing on disk to re-parse —
           # the fix is forward-only (harden the parser; the next crawl
           # re-captures). Don't tell readers to re-parse a saved file.
-          if [ ! -f /tmp/crawl.log ]; then exit 0; fi
-          ERRORS=$(grep -E "PARSE_ERROR: " /tmp/crawl.log | sort -u || true)
-          if [ -z "$ERRORS" ]; then exit 0; fi
-          ERRORS_HASH=$(echo "$ERRORS" | sha256sum | cut -d' ' -f1)
-          {
-            echo "Parser tripped on one or more agency portals. The capture"
-            echo "for each failing date was **discarded** — \`archive_agency\`"
-            echo "parses in memory before writing, so no \`.txt\`/\`.html\` was"
-            echo "saved and there is nothing to re-parse. Fix the parser; the"
-            echo "next crawl re-captures. Errors whose fix needs the page body"
-            echo "(overview-marker misses, numeric fields with no pure-number"
-            echo "line) require re-scraping that slug to diagnose."
-            echo
-            echo '```'
-            echo "$ERRORS"
-            echo '```'
-            echo
-            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-            echo
-            echo "<!-- parse-errors-hash: $ERRORS_HASH -->"
-          } > /tmp/parse-issue-body.md
-          EXISTING=$(gh issue list --label parser --state open --json number -q '.[0].number' || true)
-          if [ -n "$EXISTING" ]; then
-            # Skip the comment when this run's errors match the newest ones
-            # already on the issue — repeat failures on every refresh run
-            # flooded the rolling issue with identical comments (#223).
-            LAST_HASH=$(gh issue view "$EXISTING" --json body,comments \
-              -q '[.body, (.comments[-1].body // "")] | join("\n")' \
-              | grep -oE 'parse-errors-hash: [0-9a-f]+' | tail -1 || true)
-            if [ "$LAST_HASH" = "parse-errors-hash: $ERRORS_HASH" ]; then
-              echo "Same parse errors already reported on issue #$EXISTING; not commenting."
-            else
-              gh issue comment "$EXISTING" --body-file /tmp/parse-issue-body.md
-            fi
-          else
-            gh issue create \
-              --title "Parser tripped on a new Flock portal variant" \
-              --label parser \
-              --body-file /tmp/parse-issue-body.md
-          fi
+          #
+          # Issue selection and the dedupe guard live in
+          # scripts/report_parse_errors.sh, shared with probe-slugs.yml.
+          cat > /tmp/parse-intro.md <<'EOF'
+          Parser tripped on one or more agency portals. The capture
+          for each failing date was **discarded** — `archive_agency`
+          parses in memory before writing, so no `.txt`/`.html` was
+          saved and there is nothing to re-parse. Fix the parser; the
+          next crawl re-captures. Errors whose fix needs the page body
+          (overview-marker misses, numeric fields with no pure-number
+          line) require re-scraping that slug to diagnose.
+          EOF
+          bash scripts/report_parse_errors.sh /tmp/crawl.log /tmp/parse-intro.md
 
       - name: Install Tesseract (cached)
         uses: awalsh128/cache-apt-pkgs-action@latest
@@ -238,7 +247,15 @@ jobs:
             echo
             echo "Add coordinates to \`assets/agency_registry.json\` so they appear on the sharing map."
           } > /tmp/coord-issue-body.md
-          EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number' || true)
+          # A failed lookup must not read as "no open issue". `|| true` here
+          # once turned a GraphQL 503 into an empty EXISTING, so the create
+          # below minted #804 while #737 was still open — and since every
+          # writer takes `.[0]` (the newest), #737 was orphaned with a stale
+          # list. An empty result from a successful call still creates.
+          if ! EXISTING=$(gh issue list --label geocoding --state open --json number -q '.[0].number'); then
+            echo "::warning::Could not list open geocoding issues; skipping rather than risk opening a duplicate."
+            exit 0
+          fi
           if [ -z "$EXISTING" ]; then
             gh issue create \
               --title "Recipients missing coordinates in agency registry" \
@@ -250,17 +267,59 @@ jobs:
           # Only touch the issue when the list changes — commenting the full
           # list on every refresh run flooded the issue with hundreds of
           # identical comments (#516, #636).
-          gh issue view "$EXISTING" --json body -q .body | tr -d '\r' > /tmp/coord-issue-old.md
-          if diff -u /tmp/coord-issue-old.md /tmp/coord-issue-body.md > /tmp/coord-issue-diff.txt; then
+          gh issue view "$EXISTING" --json body -q .body > /tmp/coord-issue-old.raw || true
+          # Fail closed on an unreadable body. Without this, a transient gh
+          # failure (502, secondary rate limit, transferred issue) leaves the
+          # file empty, the normalization below turns 0 bytes into a lone
+          # newline, and diff reports the WHOLE list as an insertion — posting
+          # a bogus full-list "change" instead of surfacing the outage.
+          if [ ! -s /tmp/coord-issue-old.raw ]; then
+            echo "::warning::Could not read the body of #$EXISTING; skipping rather than posting a spurious full-list change."
+            exit 0
+          fi
+          # Canonicalize BOTH sides identically before comparing: strip CR,
+          # then collapse trailing newlines to exactly one.
+          #
+          # `--json body -q .body` pipes the stored body through jq -r, which
+          # appends its own newline to a body GitHub already stored with one,
+          # so the fetched copy was always exactly one blank line longer than
+          # the file built above. diff therefore reported "changed" on every
+          # single run even when the list was byte-identical, and the
+          # changelog rendered EMPTY because the sole differing line is a bare
+          # "-" that the grep below drops. That produced 1,643 of #673's 2,500
+          # comments (66%) — the dominant contributor to it reaching GitHub's
+          # comment cap, alongside 726 from the unguarded pre-#713 ci.yml path
+          # and 131 real changes.
+          #
+          # CR is stripped on both sides too, not just the fetched one: agency
+          # display names come from raw scraped portal text (scripts/lib.py
+          # agency_display_name), so a stray \r in a name would otherwise pin
+          # the guard permanently open with a diff that looks like real
+          # content — the same bug class, one character further along.
+          printf '%s\n' "$(tr -d '\r' < /tmp/coord-issue-old.raw)" > /tmp/coord-issue-old.md
+          printf '%s\n' "$(tr -d '\r' < /tmp/coord-issue-body.md)" > /tmp/coord-issue-new.md
+          if diff -u /tmp/coord-issue-old.md /tmp/coord-issue-new.md > /tmp/coord-issue-diff.txt; then
             echo "Recipient list unchanged; leaving issue #$EXISTING alone."
             exit 0
           fi
-          gh issue edit "$EXISTING" --body-file /tmp/coord-issue-body.md
+          # Second guard, independent of the first: never post a changelog
+          # with nothing in it. Keep every real content line — including one
+          # whose own first character is "-" or "+", which renders as "--"/
+          # "+-" and which a `^[-+][^-+]` pattern would silently discard —
+          # while dropping the ---/+++ file headers and blank +/- lines.
+          grep -E '^[-+]' /tmp/coord-issue-diff.txt \
+            | grep -vE '^(---|\+\+\+) ' \
+            | grep -vE '^[-+][[:space:]]*$' > /tmp/coord-issue-changes.txt || true
+          gh issue edit "$EXISTING" --body-file /tmp/coord-issue-new.md
+          if [ ! -s /tmp/coord-issue-changes.txt ]; then
+            echo "Only formatting differed; body refreshed on #$EXISTING, no comment posted."
+            exit 0
+          fi
           {
             echo "Recipient list changed:"
             echo
             echo '```diff'
-            grep -E '^[-+][^-+]' /tmp/coord-issue-diff.txt || true
+            cat /tmp/coord-issue-changes.txt
             echo '```'
           } > /tmp/coord-issue-comment.md
           gh issue comment "$EXISTING" --body-file /tmp/coord-issue-comment.md

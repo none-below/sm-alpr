@@ -1,0 +1,64 @@
+{
+  "agency_id": "48a65226-c77c-557d-ac4a-fa2f396f2672",
+  "agency_name": "Chesterfield County Police Department (VA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-01T20:29:26Z",
+      "id": "50b238d27ed94d298ebceaff9ee48bf4",
+      "title": "Chesterfield County Police Department (VA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/50b238d27ed94d298ebceaff9ee48bf4"
+    }
+  ],
+  "description": "Feature service for Chesterfield County Police Department (VA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "50b238d27ed94d298ebceaff9ee48bf4",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Chesterfield County Police Department (VA) Drone Flights"
+    },
+    {
+      "agency_id": "48a65226-c77c-557d-ac4a-fa2f396f2672",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 395,
+    "duplicates": 3,
+    "first_takeoff": "2026-07-15T17:45:30Z",
+    "last_takeoff": "2026-10-20T21:54:37Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "60d35172-24f0-43a6-b2a5-ef4fbf773f36",
+  "ori": [
+    "VA0210100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/60d35172-24f0-43a6-b2a5-ef4fbf773f36-production/FeatureServer"
+}

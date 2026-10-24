@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - X10 Dock Demo",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2024-12-13T20:54:48Z",
+      "id": "f9cf6e64c7c246a68596da24f904e47f",
+      "title": "Metropolitan Police Department",
+      "url": "https://www.arcgis.com/apps/dashboards/f9cf6e64c7c246a68596da24f904e47f"
+    }
+  ],
+  "description": "Feature service for INT - X10 Dock Demo",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "f9cf6e64c7c246a68596da24f904e47f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Metropolitan Police Department"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 107,
+    "duplicates": 6,
+    "first_takeoff": "2024-09-24T00:45:00Z",
+    "last_takeoff": "2026-09-15T17:15:19Z",
+    "unhashed": 107
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "edd2a1aa-8614-4d75-82c0-7612f79e76c9",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/edd2a1aa-8614-4d75-82c0-7612f79e76c9-production/FeatureServer"
+}

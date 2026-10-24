@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Washington County SO MD",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-09-28T16:29:09Z",
+      "id": "95da191621f746d8af54a46cf27a7021",
+      "title": "Washington County Sheriff's Office",
+      "url": "https://www.arcgis.com/apps/dashboards/95da191621f746d8af54a46cf27a7021"
+    }
+  ],
+  "description": "Feature service for Washington County SO MD",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "95da191621f746d8af54a46cf27a7021",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Washington County Sheriff's Office"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 17,
+    "duplicates": 0,
+    "first_takeoff": "2025-12-19T13:27:06Z",
+    "last_takeoff": "2026-09-27T02:08:28Z",
+    "unhashed": 17
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "d27f9355-980e-428f-b647-75850f599de4",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d27f9355-980e-428f-b647-75850f599de4-production/FeatureServer"
+}

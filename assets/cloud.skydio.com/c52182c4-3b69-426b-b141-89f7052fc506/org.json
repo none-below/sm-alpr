@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "BLM NAO Admin (RPRS)",
+  "dashboards": [],
+  "description": "Feature service for BLM NAO Admin (RPRS)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 10,
+    "duplicates": 0,
+    "first_takeoff": "2025-05-03T18:55:28Z",
+    "last_takeoff": "2025-07-06T21:03:43Z",
+    "unhashed": 10
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "c52182c4-3b69-426b-b141-89f7052fc506",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c52182c4-3b69-426b-b141-89f7052fc506-production/FeatureServer"
+}

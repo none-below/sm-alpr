@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "West Valley-Mission College Police Dept. (CA)",
+  "dashboards": [],
+  "description": "Feature service for West Valley-Mission College Police Dept. (CA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "6f1e2875-d341-4f7b-a7f1-96b26b5693a7",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/6f1e2875-d341-4f7b-a7f1-96b26b5693a7-production/FeatureServer"
+}

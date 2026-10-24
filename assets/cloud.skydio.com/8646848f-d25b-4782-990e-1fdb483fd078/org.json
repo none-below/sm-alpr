@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Mesa County Sheriff's Office",
+  "dashboards": [],
+  "description": "Feature service for Mesa County Sheriff's Office",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-19T15:32:02Z",
+    "last_takeoff": "2026-07-19T15:32:02Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "8646848f-d25b-4782-990e-1fdb483fd078",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/8646848f-d25b-4782-990e-1fdb483fd078-production/FeatureServer"
+}

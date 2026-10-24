@@ -1,0 +1,64 @@
+{
+  "agency_id": "8e9c1759-130e-5fe9-9ab4-6c4682ed81ec",
+  "agency_name": "South San Francisco Police Department (CA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-10-12T07:49:22Z",
+      "id": "c62d7fea1f524f2ebe9f10ff5569e0c8",
+      "title": "South San Francisco Police Department (CA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/c62d7fea1f524f2ebe9f10ff5569e0c8"
+    }
+  ],
+  "description": "Feature service for South San Francisco Police Department (CA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "c62d7fea1f524f2ebe9f10ff5569e0c8",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "South San Francisco Police Department (CA) Drone Flights"
+    },
+    {
+      "agency_id": "8e9c1759-130e-5fe9-9ab4-6c4682ed81ec",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-18",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1910,
+    "duplicates": 38,
+    "first_takeoff": "2025-10-06T20:56:21Z",
+    "last_takeoff": "2026-10-22T03:34:11Z",
+    "unhashed": 8
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "d9f92238-9012-451d-8350-82ece7e59c27",
+  "ori": [
+    "CA0411700"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d9f92238-9012-451d-8350-82ece7e59c27-production/FeatureServer"
+}

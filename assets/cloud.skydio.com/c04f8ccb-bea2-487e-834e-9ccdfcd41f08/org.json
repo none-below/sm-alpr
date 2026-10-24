@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Amarillo Police Department G47 Beta",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-02-13T21:08:54Z",
+      "id": "f34686592a37474e830e95065fcca6d8",
+      "title": "Amarillo Police Department",
+      "url": "https://www.arcgis.com/apps/dashboards/f34686592a37474e830e95065fcca6d8"
+    }
+  ],
+  "description": "Feature service for Amarillo Police Department G47 Beta",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "f34686592a37474e830e95065fcca6d8",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Amarillo Police Department"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 10,
+    "duplicates": 0,
+    "first_takeoff": "2025-03-03T15:51:24Z",
+    "last_takeoff": "2025-03-09T06:48:44Z",
+    "unhashed": 10
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "c04f8ccb-bea2-487e-834e-9ccdfcd41f08",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c04f8ccb-bea2-487e-834e-9ccdfcd41f08-production/FeatureServer"
+}

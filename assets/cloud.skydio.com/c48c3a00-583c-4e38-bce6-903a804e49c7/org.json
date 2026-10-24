@@ -1,0 +1,64 @@
+{
+  "agency_id": "24583728-656d-56ad-bf09-58e1a48b58b1",
+  "agency_name": "West Palm Beach Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2024-12-12T02:01:38Z",
+      "id": "92ead0d3c5c6434a8272625b91d3e40e",
+      "title": "West Palm Beach Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/92ead0d3c5c6434a8272625b91d3e40e"
+    }
+  ],
+  "description": "Feature service for West Palm Beach Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "92ead0d3c5c6434a8272625b91d3e40e",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "West Palm Beach Police Department Drone Flights"
+    },
+    {
+      "agency_id": "24583728-656d-56ad-bf09-58e1a48b58b1",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 46,
+    "duplicates": 0,
+    "first_takeoff": "2024-12-11T00:06:52Z",
+    "last_takeoff": "2025-08-03T03:07:55Z",
+    "unhashed": 46
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "c48c3a00-583c-4e38-bce6-903a804e49c7",
+  "ori": [
+    "FL0500800"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c48c3a00-583c-4e38-bce6-903a804e49c7-production/FeatureServer"
+}

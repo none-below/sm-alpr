@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Cinnaminson Township Police Department",
+  "dashboards": [],
+  "description": "Feature service for Cinnaminson Township Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-09-23T07:49:53Z",
+    "last_takeoff": "2025-09-23T07:49:53Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "33e24785-92d7-43d1-a018-d7341550286b",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/33e24785-92d7-43d1-a018-d7341550286b-production/FeatureServer"
+}

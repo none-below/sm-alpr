@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Long Beach Police Department",
+  "dashboards": [],
+  "description": "Feature service for Long Beach Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 6,
+    "duplicates": 0,
+    "first_takeoff": "2026-10-10T17:29:30Z",
+    "last_takeoff": "2026-10-14T10:55:18Z",
+    "unhashed": 6
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "c2679043-006e-4dfd-bdb0-b1ca46429e61",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c2679043-006e-4dfd-bdb0-b1ca46429e61-production/FeatureServer"
+}

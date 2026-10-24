@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "The University of Tennessee - Knoxville (TN)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-04-29T02:06:41Z",
+      "id": "647f9b0728384289927fe5ff71dec13c",
+      "title": "The University of Tennessee Police Department",
+      "url": "https://www.arcgis.com/apps/dashboards/647f9b0728384289927fe5ff71dec13c"
+    }
+  ],
+  "description": "Feature service for The University of Tennessee - Knoxville (TN)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "647f9b0728384289927fe5ff71dec13c",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "The University of Tennessee Police Department"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 277,
+    "duplicates": 0,
+    "first_takeoff": "2026-04-20T17:01:20Z",
+    "last_takeoff": "2026-10-18T00:33:58Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "72623a10-c3bc-4c30-b3a6-761b300e22c1",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/72623a10-c3bc-4c30-b3a6-761b300e22c1-production/FeatureServer"
+}

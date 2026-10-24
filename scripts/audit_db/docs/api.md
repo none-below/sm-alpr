@@ -21,10 +21,32 @@ uv run --locked --project scripts/audit_db python scripts/audit_db/<script>.py  
 |---|---|---|
 | `AUDIT_DB_DIR` | every tool | Audit dir to use instead of the one found through git (`paths.py`) |
 | `AUDIT_DB_THREADS`, `AUDIT_DB_MEMORY` | builds, `gen_stats.py` | DuckDB threads and memory limit (defaults 4 and 6GB) |
-| `AUDIT_DB_TEMP`, `AUDIT_DB_MAX_TEMP` | `gen_stats.py` | Spill directory (default `<system tmp>/alpr_duck_tmp`) and its cap (default 12GiB) |
+| `AUDIT_DB_TEMP`, `AUDIT_DB_MAX_TEMP` | `gen_stats.py` | A base directory for spills: the process spills under `<AUDIT_DB_TEMP>/alpr_audit_spill/` instead of `<audit_db>/spill/` (empty disables spilling); and the spill cap (default 12GiB) |
 | `PLATE_TOKEN_KEY` | `plate_key.py --install` | Plate-token key to install as the key file (CI) |
 
 Heavy jobs are meant to run niced at background QoS: prefix them with `nice -n 19 taskpolicy -b` (macOS).
+
+DuckDB names its temp files by block size only, so two processes sharing one spill directory corrupt each other's
+queries. Every process therefore spills into its own directory, `<owner>-<random>` under a spill root, which DuckDB
+removes on close. The process holds an exclusive lock on `<root>/<owner>.lock` for as long as it lives, and the kernel
+drops it however the process ends; a process starting up removes the directories (and locks) of owners whose lock is
+free. No pid or host name is involved, so a changed host name or a reused pid changes nothing. A spill root belongs to
+these tools (it is swept) and is made private (`0700`): never point one at a shared directory.
+
+- readers (`audit_client.connect`, the check and generate scripts, `verify_provenance.py`, `ui.py`): root
+  `<audit_db>/spill/` (the `--audit-dir` of the tool, if given);
+- `build_truth.py`: root `<scratch dir>/duck_spill/`;
+- `build_derived.py`: DuckDB's default, `derived.duckdb.tmp`, which only it uses (no other process can open the file
+  while it writes);
+- DuckDB CLI sessions (`init.sql`): no spilling (see below).
+
+A root that cannot be written or locked (a read-only audit dir, a file system without `flock`) falls back to
+`~/.cache/alpr_audit_spill/`, never the shared `/tmp`: spill files hold released text and plates.
+
+Open DuckDB through `paths.duck_connect(database, read_only=..., spill_root=..., **settings)` (or
+`audit_client.connect`), which sets the spill directory and then each setting (strings quoted, `None` skipped). On a
+connection opened some other way, call `paths.use_spill_dir(con)`. DuckDB creates only the last level of a spill
+directory, so it cannot survive its root being deleted mid-query.
 
 ## Querying from Python: `audit_client.py`
 
@@ -45,7 +67,7 @@ for r in ac.drill(con, "u:<Flock search UUID>"):
 
 | Function | Returns |
 |---|---|
-| `connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB")` | A read-only connection to `derived.duckdb` with `truth` attached read-only. Spills go to `temp_dir` (default `<system tmp>/alpr_duck_tmp`) and are capped at `max_temp`, so a runaway query fails instead of filling the disk. `audit_dir` defaults to the audit dir. |
+| `connect(audit_dir=None, threads=4, memory="4GB", temp_dir=None, max_temp="8GiB")` | A read-only connection to `derived.duckdb` with `truth` attached read-only. Spills go to the process's own directory under `<audit_db>/spill/`, or under `<temp_dir>/alpr_audit_spill/` when `temp_dir` is given (`""` disables spilling), and are capped at `max_temp` (`None`: no cap), so a runaway query fails instead of filling the disk. Settings belong to the DuckDB instance, which every connection to one file in one process shares: a second `connect()` changes threads and memory for both and keeps the spill directory. `audit_dir` defaults to the audit dir. |
 | `sightings_for(con, pairs)` | A DuckDB relation with the `sightings` columns for a list of `(release_id, row_no)` pairs, ordered by `(release_id, row_no)`. Pairs not in truth are absent. Holds released text: local only. |
 | `citations_for(con, pairs)` | A relation with the `sighting_sources` columns for the same pairs: where each row is in the original, with a ready-to-paste citation. No cell values. |
 | `sightings_sql(pairs)`, `citations_sql(pairs)` | The SQL those two functions run, for use inside your own query. |
@@ -62,7 +84,10 @@ From a shell, `audit_client.py <event_id> [audit_dir]` prints the states and cit
 
 - **DuckDB CLI** (version 1.5.5, as pinned), from the audit dir:
   `duckdb -bail -readonly -init <code>/init.sql derived.duckdb`. `init.sql` attaches `truth` read-only, fails the session
-  unless that `truth.duckdb` sits beside the opened `derived.duckdb`, and sets limits (4 threads, 4 GB, spill capped).
+  unless that `truth.duckdb` sits beside the opened `derived.duckdb`, and sets limits (4 threads, 4 GB). It turns
+  spilling off: a CLI session has no lock to prove it alive, so a killed session's spill directory could never be told
+  from a live one's, and a relative one breaks after `.cd`. A query that needs more than 4 GB fails; run it from Python
+  (`audit_client.connect`) or `ui.py`, which spill into their own directories.
 - **DuckDB UI:** `ui.py` opens the same session in the browser notebook at `http://localhost:4213` (page assets come
   from ui.duckdb.org; queries run locally).
 
@@ -73,13 +98,19 @@ the repo commit, which identifies the build code as well as the committed inputs
 
 | Script | What it does | Arguments |
 |---|---|---|
-| `muckrock_ingest.py` | Stages every MuckRock release (file, zip member, sheet) as a CSV for the truth build. Also the MuckRock loader `build_truth.py` imports. | `stage <evidence dir> <tmp dir>` |
+| `muckrock_ingest.py` | Stages every MuckRock release (file, zip member, sheet) as a CSV for the truth build. Also the MuckRock loader `build_truth.py` imports. `profile-resweep` catalogs the files a later re-sweep fetched (`MANIFEST_resweep_<run>.txt`) into `catalog_resweep_<run>.json` and `catalog_requests_resweep_<run>.json`, which the loader reads with the original catalogs. | `stage <evidence dir> <tmp dir>`; `profile-resweep <evidence dir> <run>` |
 | `build_truth.py` | Builds `truth.duckdb`: released rows verbatim from the repo checkout (NDJSON conversions, San Mateo PD's audit PDFs) and the staged MuckRock releases, plus the authored facts. Refuses to run from a different checkout than `--repo`. | `OUT.duckdb TMPDIR [--repo CHECKOUT]` |
 | `smpd_pdf_loader.py` | San Mateo PD's PDF reader, used by `build_truth.py`. Run on its own, it prints a per-PDF summary. | `PDF...` |
+| `portal_ingest.py` | Stages every Flock audit table in the public-records-portal harvest (profiled with `table_profile.py`, staged with `muckrock_ingest.to_csv`), and loads them as `pp:` releases (`add_portals`, called by `build_truth.py`). | `stage <portals dir> <tmp dir>` |
+| `pdf_table_ingest.py` | Reads every PDF in the MuckRock corpus and the portal harvest whose page 1 holds a Flock header (`pdf_table_reader.py`), caches the rows by file sha256, and loads those that pass the layout gate (checked on the first pages before the rest is read) as `pdft:` releases (`add_pdf_tables`); the rest go to `release_exclusions`. | `stage <evidence dir> <portals dir> <tmp dir>` |
+| `pdf_table_reader.py` | Module: reads an audit spreadsheet printed to PDF by position (`read_pdf`, `rows`), with the layout gate (`layout_ok`). | — |
+| `table_profile.py` | Module: which tables in a file (CSV, sheet, zip member) are Flock audit logs, and of what kind, by content. | — |
 | `build_derived.py` | Builds `derived.duckdb`: the views and macros, `public_macros.sql`, and the event-linking cache. Run from the audit dir. | `truth.duckdb derived.duckdb [--views-only]` (refresh views and macros, keep the cache) |
 | `sql_templates.py` | Module: the parse and citation SQL shared by the full views, the row-lookup macros and `audit_client.py`. | — |
 | `cache_fingerprint.py` | Module: what the cache was built from (truth fingerprint, linking-code hash, DuckDB version). | — |
-| `paths.py` | Module: where the audit dir is. | — |
+| `paths.py` | Module: where the audit dir and the evidence directory are, and each DuckDB process's spill directory: `duck_connect(database, read_only=False, spill_root=None, **settings)` opens DuckDB with one, `use_spill_dir(con, root=None)` sets one on a connection, `duck_temp(root=None)` names one, `sweep_spill(root)` removes those of dead processes. `owner(root)` and `sweep_owned(lock_root, owned)` are the lock-based liveness behind them, for other per-process files. `sql_str(v)` quotes a SQL string literal. | — |
+| `extract.py` | Module: extracts one released file, zip member or sheet into a chunk (`rows.parquet` + `chunk.json`), streamed, with no staging. A chunk depends only on the container's bytes, the catalog entry and this code; a unit that cannot be read (a missing container, a reader that panics) gets a chunk with status `failed` and the error, as does a unit whose worker process died (`failed_chunk`). A failure never replaces a chunk that extracted cleanly: that chunk stays (its `chunk.json` still true of its rows), and the failure is reported with `kept`. Cells beyond the header's width that are not empty go to `extra` as a JSON list under `overflow_key` (`overflow`, or a free variant when the header has that label). | — |
+| `build_chunks.py` | Extracts chunks for the MuckRock corpus into `<audit_db>/chunks/<request_id>/<unit_id>/`, reusing a chunk that extracted cleanly from unchanged inputs and whose `rows.parquet` still has the recorded `parquet_sha256` (a failed chunk is always retried). A missing container, a worker that dies or a chunk that cannot be written (a full disk) fails that unit only; the run goes on. One run at a time per output directory. Evidence is append-only: each container path is bound to one sha256 (`MANIFEST_v2.txt`'s, or else the one its chunk was extracted from), and a path whose bytes changed is reported as failed and not extracted, even with `--force`, so its chunk (perhaps the only record of the old version) is kept. A re-released or edited file must come in under a new path, where it is one more release beside the old one. With `--verify`, compares every chunk with `truth.duckdb` (release columns and a digest over every row; a chunk with overflow cells, which truth's loader dropped, by its `row_digest_legacy`), reading the evidence truth was built from, in a thread beside extraction, and writes `verify-<UTC>.jsonl`; `--discard` then deletes the rows of chunks that matched, so the next run extracts them again. Exit 1 if any selected chunk failed or did not match, 2 if nothing is selected or the output directory is in use. | `[OUT] [--only PATTERN] [--sample N [--seed S]] [--limit N] [--workers N] [--force] [--verify [--discard]] [--audit-dir DIR] [--evidence DIR]` |
 | `plate_key.py` | The plate-token key: `--check` validates the key file (status only, never the key); `--install` writes `PLATE_TOKEN_KEY` to the key file (CI). Needed only for `sightings_public` and `plate_token()`. | `--check` or `--install` |
 
 Authored facts, loaded into truth with their citations:
@@ -102,6 +133,8 @@ py()   { uv run --locked --project "$C" python "$@"; }                         #
 bgpy() { nice -n 19 taskpolicy -b uv run --locked --project "$C" python "$@"; }  # heavy steps, at background QoS
 cd "$R"
 bgpy "$C/muckrock_ingest.py" stage <evidence dir> "$T"                                             # ~6 min
+bgpy "$C/portal_ingest.py" stage <portals dir> "$T"                                                # ~5 min
+bgpy "$C/pdf_table_ingest.py" stage <evidence dir> <portals dir> "$T"                              # ~1 h first time; cached by sha256
 bgpy "$C/build_truth.py" "$A/truth_new.duckdb" "$T" && mv "$A/truth_new.duckdb" "$A/truth.duckdb"   # ~10 min
 rm -f "$A/derived.duckdb" && (cd "$A" && bgpy "$C/build_derived.py" truth.duckdb derived.duckdb)  # ~12 min
 py "$C/check_cache.py"                                   # seconds; exit 1 = stale cache
@@ -109,6 +142,22 @@ bgpy "$C/gen_coverage.py" && bgpy "$C/gen_stats.py"      # local pages in <audit
 py "$C/check_docs.py"                                    # seconds
 bgpy "$C/verify_provenance.py"                           # needs poppler's pdftotext
 ```
+
+### Chunks
+
+A chunk's `chunk.json` records the release's own columns (header, member, sheet, hashes, row count, row locator
+basis), a digest over its rows (plus `row_digest_legacy`, the digest without overflow cells, when it has any), the input hashes (container, catalog entry), the code (`code_sha256`, commit, whether
+the code had uncommitted edits) and the library versions, and for own-search logs the organization counts that
+assembly uses to infer the producer. Authored facts are not in chunks: they are applied at assembly.
+
+```sh
+bgpy "$C/build_chunks.py" --only 'mr:205259:%' --verify     # one request, checked against truth
+bgpy "$C/build_chunks.py" --sample 20 --verify --discard     # a quick check that keeps no rows
+bgpy "$C/build_chunks.py" --verify                           # the whole corpus
+```
+
+Fixture tests (synthetic inputs, each also loaded the old staging way and compared) run in CI and in `make test`;
+`make test-audit-db` runs them alone.
 
 ## Checking
 

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "JEA",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-02-26T17:03:18Z",
+      "id": "d93918edbd9844dea5a830bd3fea2e85",
+      "title": "JEA Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/d93918edbd9844dea5a830bd3fea2e85"
+    }
+  ],
+  "description": "Feature service for JEA",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "d93918edbd9844dea5a830bd3fea2e85",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "JEA Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "6b192170-d286-44c8-8ef8-32dbac0077a1",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/6b192170-d286-44c8-8ef8-32dbac0077a1-production/FeatureServer"
+}

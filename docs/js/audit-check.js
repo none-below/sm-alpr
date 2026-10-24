@@ -32,6 +32,20 @@
   // revoked and rebuilt on each new analysis so they don't leak across files.
   var objUrls = [];
 
+  // The vector-redaction check's pdf.js document stays open after the scan so each
+  // flagged page can be rendered in context on demand (a real per-row column redaction
+  // flags thousands of boxes across every page — rendering them all up front is the
+  // memory problem the pages= field exists for). Torn down on each new analysis;
+  // vecGen lets an in-flight render from the previous file notice and drop its result.
+  var vecDocLive = null;
+  var vecObserver = null;
+  var vecGen = 0;
+  function teardownVec() {
+    vecGen++;
+    if (vecObserver) { vecObserver.disconnect(); vecObserver = null; }
+    if (vecDocLive) { try { vecDocLive.destroy(); } catch (e) { /* ignore */ } vecDocLive = null; }
+  }
+
   fileInput.addEventListener("change", function () {
     if (this.files && this.files[0]) handleFile(this.files[0]);
   });
@@ -46,10 +60,38 @@
     if (f) handleFile(f);
   });
 
+  // A dense, vector-outlined page can have thousands of drawings, so the vector-
+  // redaction scan below is the slow part of the whole checker on some real-world
+  // files (multi-second); this spinner + live page count keeps that from looking
+  // like a frozen tab.
+  function loadingHtml(msg) { return '<p class="nochange"><span class="spinner"></span>' + esc(msg) + "</p>"; }
+
   function esc(s) {
     return String(s).replace(/[&<>]/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c];
     });
+  }
+
+  // "35" / "35,40-44" / "12, 40-44, 90" -> [35] / [35,40,41,42,43,44] / ... (sorted,
+  // deduped, invalid tokens ignored). Empty/blank -> null, meaning "no restriction —
+  // check every page" (scanDocument's own default).
+  function parsePageSpec(s) {
+    s = (s || "").trim();
+    if (!s) return null;
+    var out = {};
+    s.split(",").forEach(function (tok) {
+      tok = tok.trim();
+      if (!tok) return;
+      var m = /^(\d+)\s*-\s*(\d+)$/.exec(tok);
+      if (m) {
+        var lo = Math.min(+m[1], +m[2]), hi = Math.max(+m[1], +m[2]);
+        for (var i = lo; i <= hi; i++) out[i] = true;
+      } else if (/^\d+$/.test(tok)) {
+        out[+tok] = true;
+      }
+    });
+    var pages = Object.keys(out).map(Number).sort(function (a, b) { return a - b; });
+    return pages.length ? pages : null;
   }
   function norm(s) { return s.split(/\s+/).filter(Boolean).join(" "); }
 
@@ -255,7 +297,7 @@
   }
 
   async function handleFile(file) {
-    out.innerHTML = '<p class="nochange">Reading &amp; reconstructing revisions&hellip;</p>';
+    out.innerHTML = loadingHtml("Reading & reconstructing revisions…");
     var buf;
     try { buf = new Uint8Array(await file.arrayBuffer()); }
     catch (e) { out.innerHTML = '<p class="err">Could not read file.</p>'; return; }
@@ -276,7 +318,7 @@
   async function loadFromUrl(value, ref, updateBar) {
     var url = resolveUrl(value, ref);
     if (!url) return;
-    out.innerHTML = '<p class="nochange">Fetching &amp; reconstructing revisions&hellip;</p>';
+    out.innerHTML = loadingHtml("Fetching & reconstructing revisions…");
     var resp;
     try { resp = await fetch(url); }
     catch (e) { out.innerHTML = '<p class="err">Fetch failed (network or CORS): ' + esc(String((e && e.message) || e)) + "</p>"; return; }
@@ -286,7 +328,9 @@
     catch (e) { out.innerHTML = '<p class="err">Could not read response.</p>'; return; }
     if (updateBar) {
       try {
-        var q = "?pdf=" + encodeURIComponent(value.trim()) + (ref && ref !== "main" ? "&ref=" + encodeURIComponent(ref) : "");
+        var pagesVal = document.getElementById("vecpages").value.trim();
+        var q = "?pdf=" + encodeURIComponent(value.trim()) + (ref && ref !== "main" ? "&ref=" + encodeURIComponent(ref) : "") +
+                (pagesVal ? "&pages=" + encodeURIComponent(pagesVal) : "");
         history.replaceState(null, "", q);
       } catch (e) { /* ignore */ }
     }
@@ -434,6 +478,7 @@
   async function analyzeBytes(buf, name) {
     objUrls.forEach(function (u) { try { URL.revokeObjectURL(u); } catch (e) { /* ignore */ } });
     objUrls = [];
+    teardownVec();
     var ends = revisionEnds(buf);
     var html = '<div class="file-title">' + esc(name) + "</div>";
     html += '<div class="meta">' + buf.length.toLocaleString() + " bytes &middot; " + ends.length + " revision marker(s)</div>";
@@ -443,6 +488,31 @@
     for (var e = 0; e < ends.length; e++) {
       try { recs.push(await readRevision(buf, ends[e])); }
       catch (err) { recs.push({ error: String(err), text: "", rows: [] }); }
+    }
+
+    // Vector-redaction check (scripts/pdf_vector_redaction.py's browser port): text
+    // rendered as filled vector paths under an opaque box, invisible to the text-span
+    // diff above. Runs against the final revision as released.
+    // IMPORTANT: getDocument({data}) TRANSFERS the given buffer's memory to the pdf.js
+    // worker, detaching it in this thread (buf.byteLength -> 0). buf is reused below
+    // (per-revision blob links via buf.slice(...)), so we must hand pdf.js a throwaway
+    // copy here, never buf itself.
+    var vecFindings = [];
+    var vecGenHere = vecGen;
+    if (window.PdfVectorRedaction) {
+      var vecDoc = null;
+      try {
+        vecDoc = await pdfjsLib.getDocument({ data: buf.slice(), stopAtErrors: false }).promise;
+        var vecPageSpec = parsePageSpec(document.getElementById("vecpages").value);
+        vecFindings = await PdfVectorRedaction.scanDocument(vecDoc, pdfjsLib, function (p, n) {
+          out.innerHTML = loadingHtml("Checking for hidden redacted content… page " + p + " of " + n +
+            (vecPageSpec ? " (" + vecPageSpec.length + " page(s) requested)" : ""));
+        }, vecPageSpec);
+      } catch (e) { vecFindings = []; /* not fatal to the rest of the analysis */ }
+      // keep the doc only if it has findings to render in context AND no newer file
+      // was loaded while this scan ran
+      if (vecDoc && vecFindings.length && vecGenHere === vecGen) vecDocLive = vecDoc;
+      else if (vecDoc) { try { await vecDoc.destroy(); } catch (e) { /* ignore */ } }
     }
 
     // diff each transition once; the badge for revision N reflects what the save into
@@ -514,6 +584,41 @@
       html += '<div class="summary">' + esc(s) + "</div>";
     }
 
+    // One block per page, not per box: a per-row column redaction flags every row, and
+    // a list of isolated field crops loses which row each one belongs to.
+    var vecByPage = {}, vecPageOrder = [];
+    vecFindings.forEach(function (f) {
+      if (!vecByPage[f.page]) { vecByPage[f.page] = []; vecPageOrder.push(f.page); }
+      vecByPage[f.page].push(f);
+    });
+    if (vecFindings.length) {
+      html += '<h2 class="tl">vector redaction check <span class="badge vec">' + vecFindings.length +
+              ' finding' + (vecFindings.length === 1 ? "" : "s") +
+              (vecPageOrder.length > 1 ? " on " + vecPageOrder.length + " pages" : "") + '</span></h2>';
+      html += '<div class="vecnote">Text rendered as filled vector paths (outlined, not real characters) found ' +
+              'hidden under an opaque box. A text-layer check finds nothing here, but the content is still ' +
+              'present as ordinary graphics. Each page below is shown as released with the flagged boxes opened ' +
+              'up in place: <span class="veckey box">box</span> repainted where the black box was, ' +
+              '<span class="veckey hid">red</span> the content it covers, redrawn from the same path data, so it ' +
+              'reads next to the rest of its row. The isolated reconstructions are under each page.</div>';
+      vecPageOrder.forEach(function (p) {
+        var fs = vecByPage[p];
+        var nShapes = fs.reduce(function (a, f) { return a + f.nShapes; }, 0);
+        var nHigh = fs.filter(function (f) { return f.confidence === "high"; }).length;
+        var conf = nHigh === fs.length ? "high" : nHigh === 0 ? "medium" : nHigh + " high, " + (fs.length - nHigh) + " medium";
+        html += '<div class="vecblk"><h4>page ' + p + ' &middot; ' + fs.length + ' box' + (fs.length === 1 ? "" : "es") +
+                ' &middot; ' + nShapes + ' hidden shape(s) &middot; confidence: ' + conf + '</h4>' +
+                '<div class="vecctx" data-page="' + p + '"><p class="nochange"><span class="spinner"></span>' +
+                'rendering page ' + p + ' in context&hellip;</p></div>' +
+                '<details class="veccrops"><summary>isolated reconstruction' + (fs.length === 1 ? "" : "s") +
+                ' (' + fs.length + ')</summary>';
+        fs.forEach(function (f) {
+          html += '<img class="vecimg" src="' + f.image + '" alt="recovered content, page ' + p + '">';
+        });
+        html += "</details></div>";
+      });
+    }
+
     // A sequence of saves fragments one logical edit (e.g. scrub a value, then tidy
     // the leftover wording). When more than one save changed content, lead with the
     // summed original-vs-produced view so the full change per row reads at a glance;
@@ -559,6 +664,44 @@
     }
 
     out.innerHTML = html;
+    if (vecFindings.length && vecGenHere === vecGen) renderVecContexts(vecByPage, vecGenHere);
+  }
+
+  // Click an in-context render to toggle between fit-to-width and its full rendered
+  // resolution (scrollable), where small print is legible.
+  out.addEventListener("click", function (e) {
+    var img = e.target && e.target.closest && e.target.closest(".vecctx .vecimg");
+    if (img) img.parentNode.classList.toggle("full");
+  });
+
+  // Render each flagged page in context as its block scrolls near the viewport, one at
+  // a time (each is a full-page pdf.js render).
+  function renderVecContexts(byPage, gen) {
+    var els = Array.prototype.slice.call(out.querySelectorAll(".vecctx[data-page]"));
+    if (!els.length || !vecDocLive) return;
+    var doc = vecDocLive, queue = [], busy = false;
+    function pump() {
+      if (busy || !queue.length || gen !== vecGen) return;
+      busy = true;
+      var el = queue.shift();
+      var p = +el.getAttribute("data-page");
+      PdfVectorRedaction.renderInContext(doc, pdfjsLib, p, byPage[p])
+        .then(function (url) {
+          if (gen === vecGen) el.innerHTML = '<img class="vecimg" src="' + url + '" alt="page ' + p + ' with its redaction boxes opened up in place">';
+        }, function (e) {
+          if (gen === vecGen) el.innerHTML = '<p class="err">Could not render page ' + p + " in context: " + esc(String((e && e.message) || e)) + "</p>";
+        })
+        .then(function () { busy = false; pump(); });
+    }
+    if (!("IntersectionObserver" in window)) { queue = els; pump(); return; }
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { obs.unobserve(en.target); queue.push(en.target); }
+      });
+      pump();
+    }, { rootMargin: "600px 0px" });
+    vecObserver = obs;
+    els.forEach(function (el) { obs.observe(el); });
   }
 
   // ---- built-in picker for the W012541 audit PDFs (the only PRA with edits) ----
@@ -641,6 +784,8 @@
   (function () {
     var params = new URLSearchParams(location.search);
     var pdf = params.get("pdf");
+    var pages = params.get("pages");
+    if (pages) document.getElementById("vecpages").value = pages;
     if (pdf) { document.getElementById("url").value = pdf; loadFromUrl(pdf, params.get("ref"), false); }
   })();
 })();

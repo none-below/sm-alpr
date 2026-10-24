@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "El Cajon PD",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-06-05T14:31:32Z",
+      "id": "e82d5b26aff9427f88026be731055113",
+      "title": "El Cajon PD Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/e82d5b26aff9427f88026be731055113"
+    }
+  ],
+  "description": "Feature service for El Cajon PD",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "e82d5b26aff9427f88026be731055113",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "El Cajon PD Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 153,
+    "duplicates": 0,
+    "first_takeoff": "2026-08-25T20:37:22Z",
+    "last_takeoff": "2026-10-22T00:16:43Z",
+    "unhashed": 153
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "e29c2326-3bf0-4cc7-b547-8d6e267e359d",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/e29c2326-3bf0-4cc7-b547-8d6e267e359d-production/FeatureServer"
+}

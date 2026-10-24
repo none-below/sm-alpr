@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Clemson University",
+  "dashboards": [],
+  "description": "Feature service for Clemson University",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2025-08-31T13:50:55Z",
+    "last_takeoff": "2025-08-31T14:43:11Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "5dc39eaa-175c-4c86-aab1-ed87556e32c0",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5dc39eaa-175c-4c86-aab1-ed87556e32c0-production/FeatureServer"
+}

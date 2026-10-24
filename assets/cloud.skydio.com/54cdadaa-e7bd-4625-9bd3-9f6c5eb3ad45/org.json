@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Port Authority of New York and New Jersey OEM",
+  "dashboards": [],
+  "description": "Feature service for Port Authority of New York and New Jersey OEM",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "54cdadaa-e7bd-4625-9bd3-9f6c5eb3ad45",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/54cdadaa-e7bd-4625-9bd3-9f6c5eb3ad45-production/FeatureServer"
+}

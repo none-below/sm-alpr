@@ -1,0 +1,64 @@
+{
+  "agency_id": "510608b2-6fbf-5ab0-a1ed-766feb142222",
+  "agency_name": "Norton Police Department (OH)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-31T19:17:20Z",
+      "id": "9e47de96be8a4dec90b98064bff26c12",
+      "title": "Norton Police Department (OH) sUAS Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/9e47de96be8a4dec90b98064bff26c12"
+    }
+  ],
+  "description": "Feature service for Norton Police Department (OH)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "9e47de96be8a4dec90b98064bff26c12",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Norton Police Department (OH) sUAS Flights"
+    },
+    {
+      "agency_id": "510608b2-6fbf-5ab0-a1ed-766feb142222",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 32,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-31T00:00:21Z",
+    "last_takeoff": "2026-10-03T01:05:53Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "2fed5f2e-c902-4a3d-9fdf-4d8b1d33fb9e",
+  "ori": [
+    "OH0771000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/2fed5f2e-c902-4a3d-9fdf-4d8b1d33fb9e-production/FeatureServer"
+}

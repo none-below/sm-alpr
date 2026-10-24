@@ -11,18 +11,15 @@ import argparse
 import sys
 from pathlib import Path
 
-import duckdb
-
 sys.path.insert(0, str(Path(__file__).parent))
 import cache_fingerprint  # noqa: E402
+import audit_client as ac  # noqa: E402
 from paths import audit_dir  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
 A = Path(ap.parse_args().audit_dir or audit_dir())
-con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
-con.execute("SET threads=1; SET memory_limit='1GB'")   # reads catalogs and the small truth tables only
-con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
+con = ac.connect(A, threads=1, memory="1GB", max_temp=None)   # derived read-only + truth attached, own spill dir
 cols = {c for (c,) in con.execute("""SELECT column_name FROM duckdb_columns()
                                      WHERE database_name = current_database() AND schema_name = 'cache' AND table_name = 'builds'""").fetchall()}
 if not cols:

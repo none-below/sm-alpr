@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Hudson Valley Community College",
+  "dashboards": [],
+  "description": "Feature service for Hudson Valley Community College",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-15T16:45:15Z",
+    "last_takeoff": "2026-07-15T17:12:02Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "6525bed2-fb94-472e-b347-53b61f1b6c68",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/6525bed2-fb94-472e-b347-53b61f1b6c68-production/FeatureServer"
+}

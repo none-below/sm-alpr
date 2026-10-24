@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Chzld Pxl (Chiseled Pixel) Aerial Solutions",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-09-04T21:46:29Z",
+      "id": "65f210d1cf7941fa8eb942be7e7f662c",
+      "title": "Chzld Pxl (Chiseled Pixel) Aerial Solutions Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/65f210d1cf7941fa8eb942be7e7f662c"
+    }
+  ],
+  "description": "Feature service for Chzld Pxl (Chiseled Pixel) Aerial Solutions",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "65f210d1cf7941fa8eb942be7e7f662c",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Chzld Pxl (Chiseled Pixel) Aerial Solutions Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "687985e8-66a6-4ecd-b509-e2d83e5832b8",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/687985e8-66a6-4ecd-b509-e2d83e5832b8-production/FeatureServer"
+}

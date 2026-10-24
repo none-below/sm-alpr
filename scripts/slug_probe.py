@@ -41,7 +41,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from lib import (
-    BASE_URL, FAILED_FILE, REGISTRY_PATH, USER_AGENT,
+    BASE_URL, FAILED_FILE, REGISTRY_PATH,
     dedupe, load_json, load_registry, save_json,
 )
 
@@ -327,9 +327,8 @@ PORTAL_MARKERS = [
 
 WAIT_MS = 5000  # matches flock_transparency.py — let SPA hydrate
 
-# A 403 from Flock's edge is a bot-challenge, not a real answer about the
-# slug — the same block the module dodges with Chromium, leaking through
-# intermittently. They arrive in bursts once the session is fingerprinted,
+# A 403 from Flock's edge is a bot-challenge or the per-IP rate limit, not a
+# real answer about the slug. They arrive in bursts once the session is fingerprinted,
 # so we back off (exponential, jittered, capped) instead of plowing through
 # and burning candidates as permanent misses, and bail the run entirely
 # after this many consecutive 403s.
@@ -396,6 +395,30 @@ def agency_state(state, agency_id):
         "last_probed": None,
         "exhausted": False,
     })
+
+
+# `tried` details that were never an answer about the slug: an edge 403 or 429,
+# or a navigation Chrome failed before sending any request (UNREACHABLE_NOTE in
+# flock_transparency.py). Current code never records these, but older runs
+# did — 35 candidates were parked on an http_403 in April 2026 — and a tried
+# candidate is skipped for good, so a real slug could stay unfound forever.
+TRANSIENT_TRIED = ("http_403", "http_429", "navigation:", "no_response")
+
+
+def prune_transient_tried(state):
+    """Forget transient `tried` entries, in place, and un-exhaust the agencies
+    that lose one (exhaustion is recomputed from the remaining candidates).
+    Returns the number of entries dropped."""
+    dropped = 0
+    for st in state.get("agencies", {}).values():
+        tried = st.get("tried", {})
+        stale = [c for c, d in tried.items() if str(d).startswith(TRANSIENT_TRIED)]
+        for c in stale:
+            del tried[c]
+        if stale:
+            dropped += len(stale)
+            st["exhausted"] = False
+    return dropped
 
 
 # ═══════════════════════════════════════════════════════════
@@ -561,6 +584,10 @@ def main():
     data_dir = args.data_dir
     failed_slugs = load_json(data_dir / FAILED_FILE)
     state = load_state(data_dir)
+    released = prune_transient_tried(state)
+    if released:
+        print(f"Released {released} candidate(s) recorded on a 403/429/navigation "
+              f"error — they get re-probed")
 
     if args.reset_exhausted:
         for aid, st in state.get("agencies", {}).items():
@@ -645,22 +672,22 @@ def main():
 
     # Lazy import: archive_agency lives in flock_transparency, which pulls
     # in playwright/parsing — only import when we'll actually probe.
-    from flock_transparency import HASH_FILE, archive_agency
+    from flock_transparency import HASH_FILE, archive_agency, launch_browser
 
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, args=["--headless=new"])
-        context = browser.new_context(
-            viewport={"width": 1440, "height": 900},
-            user_agent=USER_AGENT,
-        )
-        page = context.new_page()
+        # Same browser as the crawler — real Chrome with a matching UA. The
+        # probe used bundled Chromium, whose TLS fingerprint the edge 403s:
+        # from 2026-10-15 nearly every run hit three 403s and stopped with
+        # zero probes, and the last real hit was 2026-09-08.
+        browser, page = launch_browser(p)
+        relaunches = 1  # per run, for navigation errors
 
         # Wrap the inner loop so we can run it twice (tier A then tier B)
         # against separate queues with separate budgets. Return value is
         # whether we hit a rate_limit and should stop the whole run.
         def run_tier(queues, budget, label):
-            nonlocal probes_done, consecutive_forbidden
+            nonlocal probes_done, consecutive_forbidden, browser, page, relaunches
             q_idx = 0
             consumed = 0
             while consumed < budget and queues:
@@ -739,8 +766,27 @@ def main():
                     q_idx += 1
                     continue  # skip the normal save + inter-probe sleep tail
                 else:  # error
-                    print(f"    error ({detail}) — leaving as tried to avoid retry loops")
-                    q_idx += 1
+                    # Chrome failed the navigation itself, before any request
+                    # (UNREACHABLE_NOTE): no answer about the slug, and no
+                    # rate budget spent. Don't burn the candidate — it used to
+                    # be recorded as tried, i.e. skipped forever. Retry it on
+                    # one fresh browser; if that fails too, this runner can't
+                    # probe, so stop and let the next run's runner try.
+                    st["tried"].pop(candidate, None)
+                    probes_done -= 1
+                    consumed -= 1
+                    candidates.insert(0, candidate)
+                    if not relaunches:
+                        print(f"    error ({detail}) again after relaunch — stopping this run")
+                        return True
+                    relaunches -= 1
+                    print(f"    error ({detail}) — relaunching the browser and retrying once")
+                    try:
+                        browser.close()
+                    except Exception:
+                        pass
+                    browser, page = launch_browser(p)
+                    continue
 
                 # Save after every probe so a crash mid-run doesn't lose progress
                 save_state(data_dir, state)

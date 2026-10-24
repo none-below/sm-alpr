@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Philadelphia Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-03-10T17:35:09Z",
+      "id": "acc28d9c9fbd48c68d1059452bf2bb1c",
+      "title": "Philadelphia Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/acc28d9c9fbd48c68d1059452bf2bb1c"
+    }
+  ],
+  "description": "Feature service for Philadelphia Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "acc28d9c9fbd48c68d1059452bf2bb1c",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Philadelphia Police Department Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 6160,
+    "duplicates": 2379,
+    "first_takeoff": "2024-07-29T16:12:40Z",
+    "last_takeoff": "2026-10-22T14:34:27Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "1fbc1d0b-0a24-4f30-9fb9-8775f6b4bf6f",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/1fbc1d0b-0a24-4f30-9fb9-8775f6b4bf6f-production/FeatureServer"
+}

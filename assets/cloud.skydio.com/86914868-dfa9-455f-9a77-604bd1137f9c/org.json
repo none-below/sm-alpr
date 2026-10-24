@@ -1,0 +1,64 @@
+{
+  "agency_id": "e315ed7a-38a7-5d85-8048-28fc54fbbe4a",
+  "agency_name": "Oklahoma City Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-01-16T14:54:58Z",
+      "id": "c7a3fac3b8024e2098e8d98aede302b5",
+      "title": "Oklahoma City Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/c7a3fac3b8024e2098e8d98aede302b5"
+    }
+  ],
+  "description": "Feature service for Oklahoma City Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "c7a3fac3b8024e2098e8d98aede302b5",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Oklahoma City Police Department Drone Flights"
+    },
+    {
+      "agency_id": "e315ed7a-38a7-5d85-8048-28fc54fbbe4a",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 16,
+    "duplicates": 0,
+    "first_takeoff": "2024-11-16T15:19:06Z",
+    "last_takeoff": "2025-02-05T02:35:52Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "86914868-dfa9-455f-9a77-604bd1137f9c",
+  "ori": [
+    "OK0550600"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/86914868-dfa9-455f-9a77-604bd1137f9c-production/FeatureServer"
+}

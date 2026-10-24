@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Suwannee County Drone Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-09-10T20:22:05Z",
+      "id": "c7c43160a88f474aacb38fd9e6625ab9",
+      "title": "Suwannee County Drone Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/c7c43160a88f474aacb38fd9e6625ab9"
+    }
+  ],
+  "description": "Feature service for Suwannee County Drone Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "c7c43160a88f474aacb38fd9e6625ab9",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Suwannee County Drone Department Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "2c97d448-b761-4923-afc8-aa449ce9447c",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/2c97d448-b761-4923-afc8-aa449ce9447c-production/FeatureServer"
+}

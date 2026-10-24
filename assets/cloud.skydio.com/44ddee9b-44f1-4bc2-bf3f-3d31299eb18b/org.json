@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - Dylan Brown DFR",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-04-09T17:07:10Z",
+      "id": "501b91d979214e81a9b4eb48f4b68066",
+      "title": "INT - Dylan Brown DFR Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/501b91d979214e81a9b4eb48f4b68066"
+    }
+  ],
+  "description": "Feature service for INT - Dylan Brown DFR",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "501b91d979214e81a9b4eb48f4b68066",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "INT - Dylan Brown DFR Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 5,
+    "duplicates": 0,
+    "first_takeoff": "2025-03-12T20:59:31Z",
+    "last_takeoff": "2025-06-02T22:32:50Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "44ddee9b-44f1-4bc2-bf3f-3d31299eb18b",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/44ddee9b-44f1-4bc2-bf3f-3d31299eb18b-production/FeatureServer"
+}

@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "CAVHCS Drone Team",
+  "dashboards": [],
+  "description": "Feature service for CAVHCS Drone Team",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 57,
+    "duplicates": 0,
+    "first_takeoff": "2023-11-09T15:28:29Z",
+    "last_takeoff": "2025-03-01T00:53:56Z",
+    "unhashed": 57
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "ea70a8f7-fa9b-4109-a10e-107698681860",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/ea70a8f7-fa9b-4109-a10e-107698681860-production/FeatureServer"
+}

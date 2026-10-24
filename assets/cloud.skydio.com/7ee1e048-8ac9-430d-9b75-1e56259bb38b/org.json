@@ -1,0 +1,50 @@
+{
+  "agency_id": "68022427-6385-511a-9bdb-15bf1772888b",
+  "agency_name": "Albany Police Department (GA)",
+  "dashboards": [],
+  "description": "Feature service for Albany Police Department (GA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "68022427-6385-511a-9bdb-15bf1772888b",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-04-30T21:01:12Z",
+    "last_takeoff": "2026-04-30T21:01:12Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "7ee1e048-8ac9-430d-9b75-1e56259bb38b",
+  "ori": [
+    "GA0470100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/7ee1e048-8ac9-430d-9b75-1e56259bb38b-production/FeatureServer"
+}

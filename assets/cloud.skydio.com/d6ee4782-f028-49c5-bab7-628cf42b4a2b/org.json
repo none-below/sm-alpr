@@ -1,0 +1,64 @@
+{
+  "agency_id": "db77b3b3-d462-5ed7-95c7-992fb302de46",
+  "agency_name": "Birmingham Police Department (AL)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-03-31T13:55:55Z",
+      "id": "f3736746a3c9430d98cc8ca03ab5c53a",
+      "title": "Birmingham Police Department (AL) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/f3736746a3c9430d98cc8ca03ab5c53a"
+    }
+  ],
+  "description": "Feature service for Birmingham Police Department (AL)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "f3736746a3c9430d98cc8ca03ab5c53a",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Birmingham Police Department (AL) Drone Flights"
+    },
+    {
+      "agency_id": "db77b3b3-d462-5ed7-95c7-992fb302de46",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-03-30T20:01:24Z",
+    "last_takeoff": "2026-03-30T20:01:24Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "d6ee4782-f028-49c5-bab7-628cf42b4a2b",
+  "ori": [
+    "AL0010200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d6ee4782-f028-49c5-bab7-628cf42b4a2b-production/FeatureServer"
+}

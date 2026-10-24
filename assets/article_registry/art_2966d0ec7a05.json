@@ -1,0 +1,100 @@
+{
+  "url": "https://timesofsandiego.com/crime/2026/10/21/san-diego-police-will-no-longer-use-other-as-a-reason-for-searching-the-citys-license-plate-readers/",
+  "source_domain": "timesofsandiego.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "San Diego police will no longer use \"other\" as reason for searching the city's license plate readers",
+  "byline": "Dorian Hargrove \u2022 Times of San Diego, Tessa Balc \u2022 Times of San Diego",
+  "published_at": "2026-10-22T03:15:18+00:00",
+  "fetched_at": "2026-10-22T15:10:38Z",
+  "discovered_by": "rss:timesofsandiego.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 117 pts, HIGH/CRITICAL findings",
+  "scanner_score": 117,
+  "content_hash": "78af5da87d6326d297777e1510dbe27269f33424f04b6e02d17d1d3bb6e90ee9",
+  "paths": {
+    "html": "assets/articles/timesofsandiego.com/crime-2026-10-21-san-diego-police-will-no-longer-use-other-as-a-reason-for-searc_2966d0ec.html",
+    "meta": "assets/articles/timesofsandiego.com/crime-2026-10-21-san-diego-police-will-no-longer-use-other-as-a-reason-for-searc_2966d0ec.meta.json",
+    "txt": "assets/articles/timesofsandiego.com/crime-2026-10-21-san-diego-police-will-no-longer-use-other-as-a-reason-for-searc_2966d0ec.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-requests-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:false-positive",
+    "incident:ice-cooperation",
+    "outcome:reconsidering",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+    "29060c81-ed62-5e02-b2b0-d7aad0341aaf",
+    "6eae633e-a8ac-590e-ab4f-058b8527f136",
+    "3b78d3ac-8681-5883-bdbc-97b96ee98f92"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "display_name": "San Diego CA PD",
+      "state": "CA",
+      "score": 6.7,
+      "matched_forms": [
+        "San Diego Police",
+        "San Diego Police Department"
+      ]
+    },
+    {
+      "agency_id": "29060c81-ed62-5e02-b2b0-d7aad0341aaf",
+      "display_name": "San Diego CA PD is not sharing data with any partner networks. Policy & Trust",
+      "state": "CA",
+      "score": 6.7,
+      "matched_forms": [
+        "San Diego Police",
+        "San Diego Police Department"
+      ]
+    },
+    {
+      "agency_id": "6eae633e-a8ac-590e-ab4f-058b8527f136",
+      "display_name": "Pacific WA PD",
+      "state": "WA",
+      "score": 4.85,
+      "matched_forms": [
+        "Pacific"
+      ]
+    },
+    {
+      "agency_id": "3b78d3ac-8681-5883-bdbc-97b96ee98f92",
+      "display_name": "Metropolitan Washington DC PD",
+      "state": "DC",
+      "score": 2.667,
+      "matched_forms": [
+        "Washington"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad"
+  ],
+  "summary": "SDPD announced it will eliminate the generic 'other' category officers used to justify ALPR searches, after a City Council committee raised transparency and accuracy concerns and voted to draft an ordinance ending the city's Flock Safety contract. Councilmember Elo-Rivera cited nearly 4,000 'other'-reason searches this year, while Mayor Gloria opposed terminating the program.",
+  "key_quotes": [
+    {
+      "quote": "officers searched the license plate reader system 114,692 times this year, selecting \"other\" as the reason for nearly 4,000 of those searches",
+      "paragraph_idx": 12
+    },
+    {
+      "quote": "The committee voted to draft an ordinance to end the contract.",
+      "paragraph_idx": 14
+    },
+    {
+      "quote": "a San Diego man was falsely linked to an attempted carjacking because he drove the same type of vehicle as the suspect",
+      "paragraph_idx": 9
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-22T15:14:32Z",
+  "article_id": "art_2966d0ec7a05"
+}

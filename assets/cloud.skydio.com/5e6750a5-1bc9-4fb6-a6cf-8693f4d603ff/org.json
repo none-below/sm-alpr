@@ -1,0 +1,64 @@
+{
+  "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+  "agency_name": "Los Angeles Police Department - trial",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-08-12T20:50:28Z",
+      "id": "82a43b632c314e298d0b8b0bb62d4d1a",
+      "title": "Los Angeles Police Department Drone as First Responder",
+      "url": "https://www.arcgis.com/apps/dashboards/82a43b632c314e298d0b8b0bb62d4d1a"
+    }
+  ],
+  "description": "Feature service for Los Angeles Police Department - trial",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "82a43b632c314e298d0b8b0bb62d4d1a",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Los Angeles Police Department Drone as First Responder"
+    },
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 12937,
+    "duplicates": 1100,
+    "first_takeoff": "2025-07-29T22:38:51Z",
+    "last_takeoff": "2026-10-22T05:15:17Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "5e6750a5-1bc9-4fb6-a6cf-8693f4d603ff",
+  "ori": [
+    "CA0194200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5e6750a5-1bc9-4fb6-a6cf-8693f4d603ff-production/FeatureServer"
+}

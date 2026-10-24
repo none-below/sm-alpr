@@ -1,0 +1,116 @@
+{
+  "url": "https://www.eff.org/deeplinks/2026/09/while-country-rejects-alpr-mass-surveillance-sf-settles-weak-safeguards",
+  "source_domain": "eff.org",
+  "tier": 2,
+  "stance": "critical",
+  "title": "While the Country Rejects ALPR Mass Surveillance, SF Settles for Weak Safeguards",
+  "byline": "Rindala Alajaji, Adam Schwartz, and Sarah Hamid",
+  "published_at": "2026-09-29T14:30:22-07:00",
+  "fetched_at": "2026-09-30T13:37:59Z",
+  "discovered_by": "rss:eff.org",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 31 pts, HIGH/CRITICAL findings",
+  "scanner_score": 31,
+  "content_hash": "f8199f9e460b5301a6a3d1b74484475eca9dbe77d8abc4f589a77f4c601a2373",
+  "paths": {
+    "html": "assets/articles/eff.org/deeplinks-2026-09-while-country-rejects-alpr-mass-surveillance-sf-settles-weak-s_12f5f642.html",
+    "meta": "assets/articles/eff.org/deeplinks-2026-09-while-country-rejects-alpr-mass-surveillance-sf-settles-weak-s_12f5f642.meta.json",
+    "pdf": "assets/articles/eff.org/deeplinks-2026-09-while-country-rejects-alpr-mass-surveillance-sf-settles-weak-s_12f5f642.pdf",
+    "txt": "assets/articles/eff.org/deeplinks-2026-09-while-country-rejects-alpr-mass-surveillance-sf-settles-weak-s_12f5f642.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:opinion",
+    "incident:ice-cooperation",
+    "incident:misuse",
+    "incident:wrongful-stop",
+    "outcome:renewed",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "scope:local",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:motorola"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+    "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+    "be2a35be-0069-575f-93a2-dce581925536",
+    "e385763c-36f7-5ec2-a084-b3f3be99eeb2"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 11.233,
+      "matched_forms": [
+        "San Francisco"
+      ]
+    },
+    {
+      "agency_id": "55db20ff-e7cc-54e9-8115-34d66ff7e188",
+      "display_name": "Imperial City CA PD",
+      "state": "CA",
+      "score": 2.633,
+      "matched_forms": [
+        "Imperial"
+      ]
+    },
+    {
+      "agency_id": "be2a35be-0069-575f-93a2-dce581925536",
+      "display_name": "Melissa TX PD",
+      "state": "TX",
+      "score": 2.617,
+      "matched_forms": [
+        "Melissa"
+      ]
+    },
+    {
+      "agency_id": "e385763c-36f7-5ec2-a084-b3f3be99eeb2",
+      "display_name": "Spring ISD TX PD",
+      "state": "TX",
+      "score": 2.6,
+      "matched_forms": [
+        "Spring"
+      ]
+    },
+    {
+      "agency_id": "43959383-1338-5d3c-94c2-d9aad1829694",
+      "display_name": "Delete",
+      "state": null,
+      "score": 1.1,
+      "matched_forms": [
+        "Delete"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "EFF criticizes San Francisco's decision to retain its ALPR program with new safeguards, arguing the policy is inadequate because it lacks a warrant requirement, has no data deletion deadline (only 30 days to move data to city servers), and relies on audit logs that only catch abuse after the fact. EFF calls on SF to end its ALPR contracts entirely.",
+  "key_quotes": [
+    {
+      "quote": "San Francisco's decision to retain its use of Automated License Plate Reader (ALPR) surveillance cameras belies what we know about this spying technology tool",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "There is no warrant requirement to search stored ALPR data. An incident or computer-aided dispatch (CAD) number is not judicial authorization.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "the announced policies include no deadline to delete ALPR data, there is only a 30-day deadline to move data from the vendor's servers to the city's servers",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "San Francisco is behind many communities that have considered the tradeoffs of ALPR surveillance and made the right choice by ending their contracts.",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-30T13:48:04Z",
+  "article_id": "art_12f5f642f184"
+}

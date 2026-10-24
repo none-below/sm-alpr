@@ -1,0 +1,92 @@
+{
+  "crawled_slug": "carmel-ca-pd",
+  "crawled_name": "Carmel CA PD",
+  "archived_date": "2026-10-20",
+  "whats_detected": "License Plates, Vehicles",
+  "whats_not_detected": "Facial recognition, People, Gender, Race",
+  "acceptable_use_policy": "Data is used for law enforcement purposes only. Data is owned by Carmel CA PD and is never sold to 3rd parties.",
+  "prohibited_uses": "Immigration enforcement, traffic enforcement, harrassment or intimidation, usage based solely on a protected class (i.e. race, sex, religion), Personal use.",
+  "access_policy": "All system access requires a valid reason and is stored indefinitely.",
+  "hotlist_policy": "Hotlist hits are required to be human verified prior to action.",
+  "sharing_with_partners": "",
+  "sharing_restrictions": "",
+  "data_retention_days": 30,
+  "camera_count": 6,
+  "hotlists_alerted_on": "California SVS, NCMEC Amber Alert",
+  "vehicles_detected_30d": 133825,
+  "hotlist_hits_30d": 83,
+  "searches_30d": 6,
+  "sharing_outbound": [],
+  "sharing_inbound": [],
+  "sharing_outbound_section_present": true,
+  "sharing_inbound_section_present": false,
+  "sharing_outbound_declared_none": true,
+  "overview": "Carmel CA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Carmel CA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Carmel CA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.\n\nCommunity Impact\nData & Usage Summary",
+  "policy_info": "",
+  "alpr_policy": "https://ci.carmel.ca.us/sites/main/files/file-attachments/policy_462_automated_licenseplate_reader_policy.pdf?1689800923",
+  "alpr_sop": "",
+  "additional_info": "",
+  "download_csv": "",
+  "search_audit": "Download to view searches performed over the last 30 days.\n\nDownload CSV\nMore Info",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": "",
+  "crawled_at": "2026-10-20T08:10:25.573370+00:00",
+  "search_audit_csv": [
+    {
+      "id": "74beb6d0-153e-4a2b-84cf-ed4573dd0853",
+      "searchDate": "2026-09-28T00:22:44.363Z",
+      "networkCount": "328",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "488f9b99-4787-4765-a709-a910325b5256",
+      "searchDate": "2026-09-29T01:16:46.272Z",
+      "networkCount": "317",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "68224b57-3499-4eb7-aeae-8b3ebc9b9d8f",
+      "searchDate": "2026-09-29T15:19:26.572Z",
+      "networkCount": "318",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "e86c9eae-3243-4e5c-8b17-b6012155179c",
+      "searchDate": "2026-10-04T22:19:38.257Z",
+      "networkCount": "308",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "cd26e51a-a0f4-4414-804f-d40a5421465e",
+      "searchDate": "2026-10-05T17:24:13.645Z",
+      "networkCount": "309",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "ba682c99-ed1a-4895-9387-6ecf8d1d70a9",
+      "searchDate": "2026-10-18T21:27:05.554Z",
+      "networkCount": "308",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    }
+  ],
+  "integrity": {
+    "search_audit_csv": {
+      "row_count": 6,
+      "date_resets": 0,
+      "date_ordering": "ascending",
+      "duplicate_ids": 0,
+      "date_span": {
+        "first": "2026-09-28T00:22:44.363000+00:00",
+        "last": "2026-10-18T21:27:05.554000+00:00",
+        "min": "2026-09-28T00:22:44.363000+00:00",
+        "max": "2026-10-18T21:27:05.554000+00:00"
+      }
+    }
+  }
+}

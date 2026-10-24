@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Port Saint JOE Police Department (FL)",
+  "dashboards": [],
+  "description": "Feature service for Port Saint JOE Police Department (FL)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 4,
+    "duplicates": 0,
+    "first_takeoff": "2025-11-17T19:10:14Z",
+    "last_takeoff": "2026-03-30T17:29:23Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "9abf7331-192b-44fa-bcb1-98f8604cecc7",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/9abf7331-192b-44fa-bcb1-98f8604cecc7-production/FeatureServer"
+}

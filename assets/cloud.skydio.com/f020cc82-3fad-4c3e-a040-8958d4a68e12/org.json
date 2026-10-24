@@ -1,0 +1,64 @@
+{
+  "agency_id": "7ace6fc6-14f1-5825-8f5d-6798623f674e",
+  "agency_name": "Greeley Police Department (CO)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-04-30T21:25:37Z",
+      "id": "e6b0a17763154df2b33112c954ef6b0d",
+      "title": "Greeley Police Department (CO) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/e6b0a17763154df2b33112c954ef6b0d"
+    }
+  ],
+  "description": "Feature service for Greeley Police Department (CO)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "e6b0a17763154df2b33112c954ef6b0d",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Greeley Police Department (CO) Drone Flights"
+    },
+    {
+      "agency_id": "7ace6fc6-14f1-5825-8f5d-6798623f674e",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2669,
+    "duplicates": 0,
+    "first_takeoff": "2026-01-28T17:47:11Z",
+    "last_takeoff": "2026-10-20T17:42:45Z",
+    "unhashed": 2669
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "f020cc82-3fad-4c3e-a040-8958d4a68e12",
+  "ori": [
+    "CO0620200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/f020cc82-3fad-4c3e-a040-8958d4a68e12-production/FeatureServer"
+}

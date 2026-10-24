@@ -3,7 +3,9 @@
   "summary": "Requests, distinct from the SOP 205.5.1 end-user audits the Department has twice said don't exist (W012461-040226, W012666-050426): (1) any access, usage, or audit data concerning the NCRIC Astrometrics platform the Department obtained from NCRIC or its vendor for any purpose, including logs of end-user sign-on, search terms/case numbers, or the justification tied to a search; (2) any request or correspondence by which the Department asked NCRIC or its vendor for that data; (3) records concerning the disposition of SMPD ALPR data on termination, wind-down, or cessation of the vendor operating NCRIC Astrometrics, including certificates of destruction or migration/transition records; and (4) any notice the Department received from NCRIC or the vendor about the vendor's wind-down/status change, data migration or deletion, or public disclosure of the platform's infrastructure code — including a record showing no such notice was received, if one exists.",
   "tags": [
     "ncric",
-    "sop-205.5.1"
+    "sop-205.5.1",
+    "audit-compliance",
+    "pra-process"
   ],
   "policy_promises": [
     {
@@ -24,6 +26,11 @@
   ],
   "prior_pra_refs": [
     {
+      "ref": "W012160-021226",
+      "relation": "predicate",
+      "note": "Asked for SOP 205 quarterly end-user audits covering 2020–2025; answered \"no responsive records\" (Feb 2026). The four 2020 memos produced here fall within that scope."
+    },
+    {
       "ref": "W012461-040226",
       "relation": "predicate",
       "note": "First \"no responsive records\" claim for NCRIC-platform end-user audits under SOP 205.5.1 — this PRA reframes around the underlying access data instead."
@@ -31,7 +38,7 @@
     {
       "ref": "W012666-050426",
       "relation": "predicate",
-      "note": "Second \"no responsive records\" claim for the same NCRIC-platform end-user audits."
+      "note": "Second \"no responsive records\" claim for the same NCRIC-platform end-user audits (item 3). Its general end-user audit item (item 2), same 2019-10-25-onward scope, produced only the four 2021 quarterly memos — which themselves describe NCRIC-provided data — and none of the Q3 2019–Q4 2020 memos produced here."
     },
     {
       "ref": "W012672-050426",
@@ -56,5 +63,5 @@
   ],
   "filed_because": "The Department has twice told the requester no responsive records exist for SOP 205.5.1 end-user audits of the NCRIC Astrometrics platform (W012461-040226, W012666-050426). This PRA works around that gap by seeking the underlying NCRIC/vendor-held access and usage data directly — rather than the audits SMPD says it never ran — and by asking what became of SMPD's ALPR data and whether SMPD was notified given indications that the vendor operating Astrometrics has wound down or changed status.",
   "status_override": null,
-  "notes": "Filed 2026-09-14. On 2026-09-24, the 10-day due date, SMPD invoked a 14-day extension under Gov. Code § 7922.535(c), citing \"the volume of potentially responsive email correspondence that must be identified, collected, and reviewed\"; determination now promised no later than 2026-10-08. No records produced and no item-level determination yet."
+  "notes": "Filed 2026-09-14. On 2026-09-24, the 10-day due date, SMPD invoked a 14-day extension under Gov. Code § 7922.535(c), citing \"the volume of potentially responsive email correspondence that must be identified, collected, and reviewed\"; determination now promised no later than 2026-10-08. No records produced and no item-level determination yet.\n\n2026-10-08 response letter (Kelly O'Keefe, Police Technical Services Administrator), with portions withheld under Gov. Code § 7923.600:\n- Item 1: the Department \"may have responsive records maintained in email correspondence\"; an initial query returned over 10,000 emails; rolling production, first batch \"on or before October 15, 2026.\"\n- Items 2 and 3: no responsive records.\n- Item 4: responsive records released. \"Fw: NCRIC\" is a May 2026 thread in which Lt. Casazza asked NCRIC to deactivate the ALPR feature on SMPD's NCRIC account; NCRIC confirmed on 2026-05-19 that all cityofsanmateo.org accounts had been disabled, and Casazza forwarded the thread to the Support Services Captain on 2026-06-22. \"San Mateo ALPR data retained at NCRIC — publicly posted vendor code\" is the Chief's 2026-09-12 inquiry to NCRIC, which forwards the requester's 2026-09-11 email, together with NCRIC's 2026-09-13 reply.\n\nThe portal message sent with the letter promises a further update \"no later than 08/15/26,\" a date already past, while the letter gives October 15. The parser reads the portal date as overdue, so status_override is set to rolling_production.\n\n2026-10-15: SMPD released a final batch with an updated response letter (Kelly O'Keefe) and closed the request. Item 1 updated response: \"Responsive documents were located within an email mailbox during the Department's good-faith search ... Although these documents may also have been responsive to prior requests, they were not identified during the searches conducted at that time and were only recently located in connection with the Department's search for records responsive to this request.\" Portions withheld under Gov. Code § 7923.600. Items 2–3 remain no responsive records; item 4 unchanged.\n- Six SOP 205 \"Summary of Quarterly Audit of SMPD 'End-User' ALPR Data\" memos (Lt. Matt Lethin to Capt. David Norris), Q3 2019 through Q4 2020. Each states the data reviewed \"is generated and provided by the [NCRIC], as they are the keeper of this data.\" Q4 2019, Q1 2020, and Q2 2020 were each released twice; the copies are text-identical.\n- Searches per memo: Q3 2019 122; Q4 2019 66; Q1 2020 48; Q2 2020 47; Q3 2020 123; Q4 2020 207. Every memo reports 100% of searches carried the required criteria and concludes activity was consistent with policy.\n- A redacted 207-row NCRIC search log for Q4 2020 (timestamp, searcher email, search purpose). Case-number and license-plate columns are fully redacted; searcher email is redacted on 37 of 207 rows. Row count and purpose breakdown (106 stolen/wanted vehicle, 96 criminal investigation/arrest warrant, 4 violent-crime witness/victim, 1 Amber/Silver) match the Q4 2020 memo exactly.\n- The Q4 2019 memo is dated \"January 16th, 2019\" and the Q4 2020 memo \"January 4th, 2020\"; the PDFs' creation dates (2020-01-16, 2021-01-04) show the year is a typo in each.\n- These memos fall within the date scope of W012160-021226 (2020–2025), answered \"no responsive records,\" and W012666-050426 (2019-10-25 onward), which produced only the four 2021 memos for its end-user audit item and answered its NCRIC end-user audit item \"No responsive records.\" No memo for any quarter after Q4 2020 was produced here, including the 2021 memos SMPD had already produced in W012666.\n\n2026-10-15 (5:09 PM) requester follow-up on the closed request: under Gov. Code § 7922.525(b), asked for the reasonably segregable domain portion of the 37 withheld searcher email addresses in SMPD_Q4_2020_ALPR_Audit_Log (the other 170 rows were released in full, all @cityofsanmateo.org), or the exemption and basis for withholding the domain separately from the username. The log's redactions were checked and are sound: the email cells were emptied in the source spreadsheet before PDF export, nothing sits under the black boxes, and the only earlier \"revision\" is a 471-byte linearization stub."
 }

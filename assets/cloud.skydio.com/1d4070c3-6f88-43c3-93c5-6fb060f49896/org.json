@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "JP-NTT-X10-NTT-ME",
+  "dashboards": [],
+  "description": "Feature service for JP-NTT-X10-NTT-ME",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2025-05-16T05:32:36Z",
+    "last_takeoff": "2025-05-19T23:50:54Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "1d4070c3-6f88-43c3-93c5-6fb060f49896",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/1d4070c3-6f88-43c3-93c5-6fb060f49896-production/FeatureServer"
+}

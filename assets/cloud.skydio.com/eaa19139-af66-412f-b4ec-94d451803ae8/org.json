@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Kimley-Horn",
+  "dashboards": [],
+  "description": "Feature service for Kimley-Horn",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-14T17:15:23Z",
+    "last_takeoff": "2026-07-14T17:15:23Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "eaa19139-af66-412f-b4ec-94d451803ae8",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/eaa19139-af66-412f-b4ec-94d451803ae8-production/FeatureServer"
+}

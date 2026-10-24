@@ -1,0 +1,64 @@
+{
+  "agency_id": "270aae46-f0d1-558e-bb3f-249d03b0510f",
+  "agency_name": "Concord Police Department (CA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-11-06T09:24:04Z",
+      "id": "0394c1027dee4b79b609a41650f623cf",
+      "title": "Concord Police Department (CA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/0394c1027dee4b79b609a41650f623cf"
+    }
+  ],
+  "description": "Feature service for Concord Police Department (CA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "0394c1027dee4b79b609a41650f623cf",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Concord Police Department (CA) Drone Flights"
+    },
+    {
+      "agency_id": "270aae46-f0d1-558e-bb3f-249d03b0510f",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 3794,
+    "duplicates": 196,
+    "first_takeoff": "2025-10-01T20:16:33Z",
+    "last_takeoff": "2026-10-21T18:14:03Z",
+    "unhashed": 3794
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "efa5b827-75f5-4882-bde2-8e1464d7e40b",
+  "ori": [
+    "CA0070400"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/efa5b827-75f5-4882-bde2-8e1464d7e40b-production/FeatureServer"
+}

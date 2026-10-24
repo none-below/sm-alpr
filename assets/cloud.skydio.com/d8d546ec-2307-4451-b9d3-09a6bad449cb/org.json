@@ -1,0 +1,64 @@
+{
+  "agency_id": "225a622c-c9c8-5b37-818c-cdd5cbdec38d",
+  "agency_name": "Titusville Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-01-27T17:45:57Z",
+      "id": "5378b0bf683744ccb1f7493d70c3c39f",
+      "title": "Titusville Police Department sUAS Transparency Dashboard",
+      "url": "https://www.arcgis.com/apps/dashboards/5378b0bf683744ccb1f7493d70c3c39f"
+    }
+  ],
+  "description": "Feature service for Titusville Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "5378b0bf683744ccb1f7493d70c3c39f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Titusville Police Department sUAS Transparency Dashboard"
+    },
+    {
+      "agency_id": "225a622c-c9c8-5b37-818c-cdd5cbdec38d",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 23,
+    "duplicates": 0,
+    "first_takeoff": "2025-12-29T19:30:34Z",
+    "last_takeoff": "2026-09-15T20:41:39Z",
+    "unhashed": 23
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "d8d546ec-2307-4451-b9d3-09a6bad449cb",
+  "ori": [
+    "FL0051100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d8d546ec-2307-4451-b9d3-09a6bad449cb-production/FeatureServer"
+}

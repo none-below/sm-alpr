@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Tennessee Department of Agriculture, Division of Forestry",
+  "dashboards": [],
+  "description": "Feature service for Tennessee Department of Agriculture, Division of Forestry",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "0e7f3fa1-38c9-4ea4-9048-16d49746ea12",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/0e7f3fa1-38c9-4ea4-9048-16d49746ea12-production/FeatureServer"
+}

@@ -1,0 +1,84 @@
+{
+  "url": "https://sfist.com/2026/09/29/sf-adds-new-flock-safeguards-after-human-rights-commission-investigation/",
+  "source_domain": "sfist.com",
+  "tier": 2,
+  "stance": "critical",
+  "title": "SF Adds New Flock Safeguards Following Human Rights Commission Investigation",
+  "byline": "Leanne Maxwell",
+  "published_at": "2026-09-29T18:49:12.000Z",
+  "fetched_at": "2026-09-30T13:41:52Z",
+  "discovered_by": "rss:sfist.com",
+  "scanner_verdict": "WARNINGS \u2014 14 pts, low/medium only",
+  "scanner_score": 14,
+  "content_hash": "f4cba0f8f55b1a21a01706d977a0ea2deb351e4b76f53209d227d74da94c9602",
+  "paths": {
+    "html": "assets/articles/sfist.com/2026-09-29-sf-adds-new-flock-safeguards-after-human-rights-commission-investigat_4e1b5671.html",
+    "meta": "assets/articles/sfist.com/2026-09-29-sf-adds-new-flock-safeguards-after-human-rights-commission-investigat_4e1b5671.meta.json",
+    "pdf": "assets/articles/sfist.com/2026-09-29-sf-adds-new-flock-safeguards-after-human-rights-commission-investigat_4e1b5671.pdf",
+    "txt": "assets/articles/sfist.com/2026-09-29-sf-adds-new-flock-safeguards-after-human-rights-commission-investigat_4e1b5671.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:analysis",
+    "incident:ice-cooperation",
+    "outcome:restricted",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "14b510e3-7bde-5474-8249-6ef49a16cfc5",
+      "display_name": "San Francisco CA PD",
+      "state": "CA",
+      "score": 3.083,
+      "matched_forms": [
+        "San Francisco Police",
+        "San Francisco Police Department"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "14b510e3-7bde-5474-8249-6ef49a16cfc5"
+  ],
+  "summary": "San Francisco announced new safeguards for SFPD's Flock ALPR system following a Human Rights Commission investigation prompted by revelations that out-of-state and federal agencies accessed SFPD Flock data over 1.6 million times. New rules require leadership approval for data older than 30 days, incident reports for searches, monthly log reviews, and annual audits, though the city declined to adopt all commission recommendations, including direct SFPD control over Flock's Nationwide Lookup feature.",
+  "key_quotes": [
+    {
+      "quote": "out-of-state and federal agencies had accessed SFPD's Flock data more than 1.6 million times between August 2024 and February 2025",
+      "paragraph_idx": 3
+    },
+    {
+      "quote": "the SFPD will continue retaining automated license plate-reader data from its collection of more than 400 Flock cameras for 12 months, but officers will need police leadership approval to access data more than 30 days old",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "the commission found that SFPD did not know Flock had enabled its Nationwide Lookup feature",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "the SFPD has since disabled Nationwide Lookup, but the city's new policy does not give the department direct control over the feature from Flock",
+      "paragraph_idx": 10
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-09-30T13:48:23Z",
+  "article_id": "art_4e1b56715257"
+}

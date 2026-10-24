@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "BIV Industries, LLC",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-09-08T16:23:45Z",
+      "id": "26ae4331e425405ba3e7fe7e8eb8a1b5",
+      "title": "BIV Industries, LLC Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/26ae4331e425405ba3e7fe7e8eb8a1b5"
+    }
+  ],
+  "description": "Feature service for BIV Industries, LLC",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "26ae4331e425405ba3e7fe7e8eb8a1b5",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "BIV Industries, LLC Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-10T01:45:07Z",
+    "last_takeoff": "2026-09-10T01:45:07Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "1a9d6f64-131b-444c-809f-f4d206b10221",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/1a9d6f64-131b-444c-809f-f4d206b10221-production/FeatureServer"
+}

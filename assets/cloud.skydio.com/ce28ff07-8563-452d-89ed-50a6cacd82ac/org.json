@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - DFR Demo",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2024-12-16T15:00:27Z",
+      "id": "82462e5ea2d64f0f855831126b92353b",
+      "title": "INT - DFR Demo Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/82462e5ea2d64f0f855831126b92353b"
+    }
+  ],
+  "description": "Feature service for INT - DFR Demo",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "82462e5ea2d64f0f855831126b92353b",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "INT - DFR Demo Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 55,
+    "duplicates": 8,
+    "first_takeoff": "2024-12-10T15:06:35Z",
+    "last_takeoff": "2026-10-09T16:58:29Z",
+    "unhashed": 55
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "ce28ff07-8563-452d-89ed-50a6cacd82ac",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/ce28ff07-8563-452d-89ed-50a6cacd82ac-production/FeatureServer"
+}

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Odessa Police & Fire Departments (TX)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-08-18T19:12:12Z",
+      "id": "203f2a50944a4f72acf412853024ad89",
+      "title": "Odessa Police & Fire Departments (TX) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/203f2a50944a4f72acf412853024ad89"
+    }
+  ],
+  "description": "Feature service for Odessa Police & Fire Departments (TX)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "203f2a50944a4f72acf412853024ad89",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Odessa Police & Fire Departments (TX) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "e58689c9-1614-4ba9-a0f2-b9c0d805ef77",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/e58689c9-1614-4ba9-a0f2-b9c0d805ef77-production/FeatureServer"
+}

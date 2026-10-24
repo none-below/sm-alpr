@@ -1,0 +1,64 @@
+{
+  "agency_id": "30c59ff7-8ee9-51ca-95a7-3dad69eba35f",
+  "agency_name": "LOS Altos Police Department (CA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-03-26T16:13:31Z",
+      "id": "555d9b93a2824197becd4066013775ea",
+      "title": "Los Altos Police Department (CA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/555d9b93a2824197becd4066013775ea"
+    }
+  ],
+  "description": "Feature service for LOS Altos Police Department (CA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "555d9b93a2824197becd4066013775ea",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Los Altos Police Department (CA) Drone Flights"
+    },
+    {
+      "agency_id": "30c59ff7-8ee9-51ca-95a7-3dad69eba35f",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-18",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 521,
+    "duplicates": 58,
+    "first_takeoff": "2026-03-05T20:48:30Z",
+    "last_takeoff": "2026-10-15T14:19:02Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "4e9b6dad-3dea-4c31-ad91-6f2acf0663c4",
+  "ori": [
+    "CA0430500"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/4e9b6dad-3dea-4c31-ad91-6f2acf0663c4-production/FeatureServer"
+}

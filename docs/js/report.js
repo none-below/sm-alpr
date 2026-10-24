@@ -293,11 +293,21 @@
       renderQrCode("top-map-qrcode", topMapUrlAbs, { size: 90 });
     }, 0);
 
+    const pages = report.transparency_pages || [];
     if (!report.crawled) {
+      // An agency off Flock may still publish ALPR stats on another
+      // vendor's page (Axon). This report doesn't read those, so point
+      // there rather than call the stats unknowable.
+      const otherAlpr = pages.filter(function(p) { return p.kind === "alpr"; });
+      const elsewhere = otherAlpr.length
+        ? `Cameras, retention policy, and 30-day activity are not on this report; this agency publishes its own on ${otherAlpr.map(function(p) {
+            return `<a href="${escapeHtml(p.url)}" target="_blank" rel="noopener">${escapeHtml(p.vendor)}&rsquo;s ALPR page</a>`;
+          }).join(" and ")}.`
+        : "Cameras, retention policy, and 30-day activity are not knowable without their own transparency page.";
       html += `<div class="no-data-box">
         <strong>This agency does not publish a Flock transparency page.</strong>
         The information below is derived from sharing lists on <em>other</em> agencies' transparency pages.
-        Cameras, retention policy, and 30-day activity are not knowable without their own transparency page.
+        ${elsewhere}
       </div>`;
     }
 
@@ -351,14 +361,22 @@
     if (report.household_vehicles) {
       addMeta("Household vehicles", Number(report.household_vehicles).toLocaleString());
     }
-    // "No transparency portal" is a meaningful compliance signal on its
-    // own — color it red so it stands out in the metadata block.
-    if (report.crawled) {
-      addMeta("Transparency portal", "Yes");
-    } else {
-      html += `<div><span class="label">Transparency portal:</span> <span class="value" style="color:var(--flag); font-weight: bold">No</span></div>`;
+    // "No Flock transparency portal" is a meaningful compliance signal on
+    // its own — color it red so it stands out in the metadata block.
+    // (A crawled portal shows up as the Flock link under Transparency
+    // pages below.)
+    if (!report.crawled) {
+      html += `<div><span class="label">Flock transparency portal:</span> <span class="value" style="color:var(--flag); font-weight: bold">No</span></div>`;
     }
     addMeta("Last crawled", report.crawled_date);
+    // Every public transparency page we know of, across vendors: Flock,
+    // Axon ALPR, Skydio drone flights. Full-width row: up to three links.
+    if (pages.length) {
+      const links = pages.map(function(p) {
+        return `<a href="${escapeHtml(p.url)}" target="_blank" rel="noopener">${escapeHtml(p.label)}&nbsp;&#8599;</a>`;
+      }).join(" &middot; ");
+      html += `<div class="meta-wide"><span class="label">Transparency pages:</span> <span class="value">${links}</span></div>`;
+    }
 
     html += '</div>';
 
@@ -3071,8 +3089,18 @@
       document.getElementById("report").innerHTML = `
         <div class="error-box">
           <h1 style="margin-top:0">No agency specified</h1>
-          <p>Pass <code>?agency=&lt;slug&gt;</code> in the URL, or pick an agency from the <a href="sharing_map.html">interactive map</a>.</p>
+          <p>Search for an agency in the box above, pass <code>?agency=&lt;slug&gt;</code> in the URL, or pick an agency from the <a href="sharing_map.html">interactive map</a>.</p>
         </div>`;
+      // Still load the index so the toolbar search box works — it's
+      // the obvious next step from this page.
+      fetch("data/report_data.json?v=" + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          wireAgencySearch(data, null);
+          const input = document.getElementById("agency-search-input");
+          if (input) input.focus();
+        })
+        .catch(function(err) { console.warn("Agency search index failed to load:", err); });
       return;
     }
 

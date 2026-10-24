@@ -1,0 +1,50 @@
+{
+  "agency_id": "af819162-1570-57d8-924d-b4e5aa0d144a",
+  "agency_name": "Oak Lawn Police Department (IL)",
+  "dashboards": [],
+  "description": "Feature service for Oak Lawn Police Department (IL)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "af819162-1570-57d8-924d-b4e5aa0d144a",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "93a74fd4-a6a7-42a1-9887-acf47999a059",
+  "ori": [
+    "IL0168000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/93a74fd4-a6a7-42a1-9887-acf47999a059-production/FeatureServer"
+}

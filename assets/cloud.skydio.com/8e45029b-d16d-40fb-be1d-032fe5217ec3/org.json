@@ -1,0 +1,64 @@
+{
+  "agency_id": "29545821-ba90-50b6-93a9-3804382846bb",
+  "agency_name": "Fitchburg Police Department (WI)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-17T14:11:12Z",
+      "id": "0249cfdd63684f5a81dd5c33b710a464",
+      "title": "Fitchburg Police Department (WI) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/0249cfdd63684f5a81dd5c33b710a464"
+    }
+  ],
+  "description": "Feature service for Fitchburg Police Department (WI)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "0249cfdd63684f5a81dd5c33b710a464",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Fitchburg Police Department (WI) Drone Flights"
+    },
+    {
+      "agency_id": "29545821-ba90-50b6-93a9-3804382846bb",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 95,
+    "duplicates": 1,
+    "first_takeoff": "2026-07-13T21:25:38Z",
+    "last_takeoff": "2026-07-17T13:19:35Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "8e45029b-d16d-40fb-be1d-032fe5217ec3",
+  "ori": [
+    "WI0137000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/8e45029b-d16d-40fb-be1d-032fe5217ec3-production/FeatureServer"
+}

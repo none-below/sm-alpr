@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "USAF - 87 ABW sUAS Agency - JB McGuire-Dix-Lakehurst",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-01-08T13:43:36Z",
+      "id": "b6b34c3e68fb4e78894f9fe13cdfd0e4",
+      "title": "USAF -  87 ABW sUAS Agency - JB McGuire-Dix-Lakehurst Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/b6b34c3e68fb4e78894f9fe13cdfd0e4"
+    }
+  ],
+  "description": "Feature service for USAF -  87 ABW sUAS Agency - JB McGuire-Dix-Lakehurst",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "b6b34c3e68fb4e78894f9fe13cdfd0e4",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "USAF -  87 ABW sUAS Agency - JB McGuire-Dix-Lakehurst Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "c974b832-2662-43ca-a45e-4c52070fae2b",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c974b832-2662-43ca-a45e-4c52070fae2b-production/FeatureServer"
+}

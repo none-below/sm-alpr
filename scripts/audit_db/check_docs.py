@@ -21,8 +21,7 @@ import re
 import sys
 from pathlib import Path
 
-import duckdb
-
+import audit_client as ac
 from paths import CODE, audit_dir
 
 ap = argparse.ArgumentParser()
@@ -30,9 +29,7 @@ ap.add_argument("--audit-dir", help="directory holding the databases (default: p
 args = ap.parse_args()
 A = Path(args.audit_dir or audit_dir())
 D = CODE / "docs"
-con = duckdb.connect(str(A / "derived.duckdb"), read_only=True)
-con.execute(f"ATTACH IF NOT EXISTS '{A / 'truth.duckdb'}' AS truth (READ_ONLY)")
-con.execute("SET threads=1; SET memory_limit='1GB'")   # catalog + small tables only
+con = ac.connect(A, threads=1, memory="1GB", max_temp=None)   # derived read-only + truth attached, own spill dir
 
 
 def documented_in(text):

@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Municipio de Guayama",
+  "dashboards": [],
+  "description": "Feature service for Municipio de Guayama",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-08-22T16:28:40Z",
+    "last_takeoff": "2025-08-22T16:28:40Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "f5ed99fa-a007-49c1-807e-0cb212e0e5a9",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/f5ed99fa-a007-49c1-807e-0cb212e0e5a9-production/FeatureServer"
+}

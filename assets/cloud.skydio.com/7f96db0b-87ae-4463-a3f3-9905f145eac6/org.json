@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "New York State Parks and Recreation (NY)",
+  "dashboards": [],
+  "description": "Feature service for New York State Parks and Recreation (NY)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 4,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-04T16:05:21Z",
+    "last_takeoff": "2026-07-26T15:27:38Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "7f96db0b-87ae-4463-a3f3-9905f145eac6",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/7f96db0b-87ae-4463-a3f3-9905f145eac6-production/FeatureServer"
+}

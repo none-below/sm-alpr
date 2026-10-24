@@ -16,8 +16,7 @@ Select the rows before parsing, so the truth scan prunes, e.g. for two known row
   con.sql(sightings_flock_sql(f"({flock_rows_sql(raw)})"))
 """
 
-FLOCK_COLS = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
-              "Reason", "Case #", "Filters", "Search Time", "Search Type", "Text Prompt", "Moderation"]
+from muckrock_ingest import FLOCK_COLS  # noqa: E402  (one list, shared with the loaders)
 FLAGS = ["Org Name", "Reason", "Case #", "Name", "License Plate"]   # fields whose header / withheld flags cell_state reads
 
 
@@ -76,7 +75,8 @@ SOURCES_FLOCK_T = """WITH fl AS (
   SELECT hash(a.release_id, a.row_no) AS sighting_id, a.release_id, rs.public_release_id, a.row_no, a.src_row,
     NULL::VARCHAR AS pdf_pages, rs.producer, rs.request_label, rs.request_url, rs.released_on, rs.document,
     rs.document_verbatim, rs.sheet, a.mapping IS NOT NULL AS layout_corrected,
-    'row ' || a.src_row || CASE WHEN a.mapping IS NOT NULL
+    CASE WHEN a.release_id LIKE 'pdft:%' THEN 'page ' || (a.src_row // 1000) || ', row ' || (a.src_row % 1000) || ' on that page'
+         ELSE 'row ' || a.src_row END || CASE WHEN a.mapping IS NOT NULL
                                 THEN '; cells released under other column labels (see release_layouts)' ELSE '' END AS locator,
     coalesce(rs.source_url, rs.repo_url) AS open_url, rs.container_sha256 AS sha256, rs.member_sha256, rs.src_row_basis, rs.link
   FROM (SELECT a.release_id, a.row_no, a.src_row, __LAYOUT_OF__ AS mapping

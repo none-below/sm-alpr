@@ -1,0 +1,112 @@
+{
+  "url": "https://arstechnica.com/tech-policy/2026/10/florida-cops-say-they-dont-know-who-owns-11-unpermitted-flock-cameras/",
+  "source_domain": "arstechnica.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Florida cops say they don't know who owns 11 unpermitted Flock cameras",
+  "byline": "Ashley Belanger",
+  "published_at": "2026-10-01T16:49:33+00:00",
+  "fetched_at": "2026-10-02T16:26:40Z",
+  "discovered_by": "rss:arstechnica.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 143 pts, HIGH/CRITICAL findings",
+  "scanner_score": 143,
+  "content_hash": "9ae6d0c6c6449e93c85e7bb72517fc6ad7d7b2722a2de68fd24aaa0b91e70287",
+  "paths": {
+    "html": "assets/articles/arstechnica.com/tech-policy-2026-10-florida-cops-say-they-dont-know-who-owns-11-unpermitted-floc_54cedabf.html",
+    "meta": "assets/articles/arstechnica.com/tech-policy-2026-10-florida-cops-say-they-dont-know-who-owns-11-unpermitted-floc_54cedabf.meta.json",
+    "pdf": "assets/articles/arstechnica.com/tech-policy-2026-10-florida-cops-say-they-dont-know-who-owns-11-unpermitted-floc_54cedabf.pdf",
+    "txt": "assets/articles/arstechnica.com/tech-policy-2026-10-florida-cops-say-they-dont-know-who-owns-11-unpermitted-floc_54cedabf.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "policy:purpose-limitation",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "0d453e59-9264-54b4-b08d-5fc506f1d751",
+    "4f545e10-4f02-51d7-9f85-b670f74f352c",
+    "d66fa12e-6160-5db7-ada8-9756c80ee1b5",
+    "6e8b5384-5568-5425-873a-3b938ef50bdd",
+    "a6ee05fe-842e-512c-9cae-13bb118682c0"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "0d453e59-9264-54b4-b08d-5fc506f1d751",
+      "display_name": "St. Lucie County FL SO",
+      "state": "FL",
+      "score": 21.367,
+      "matched_forms": [
+        "St. Lucie County",
+        "St. Lucie County Sheriff",
+        "St. Lucie County Sheriff's Office"
+      ]
+    },
+    {
+      "agency_id": "4f545e10-4f02-51d7-9f85-b670f74f352c",
+      "display_name": "Orange CA PD",
+      "state": "CA",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    },
+    {
+      "agency_id": "d66fa12e-6160-5db7-ada8-9756c80ee1b5",
+      "display_name": "Pinellas County FL SO",
+      "state": "FL",
+      "score": 2.75,
+      "matched_forms": [
+        "Pinellas County"
+      ]
+    },
+    {
+      "agency_id": "6e8b5384-5568-5425-873a-3b938ef50bdd",
+      "display_name": "Fort Pierce FL PD",
+      "state": "FL",
+      "score": 2.683,
+      "matched_forms": [
+        "Fort Pierce"
+      ]
+    },
+    {
+      "agency_id": "a6ee05fe-842e-512c-9cae-13bb118682c0",
+      "display_name": "Cambridge Police Department",
+      "state": "MA",
+      "score": 2.65,
+      "matched_forms": [
+        "Cambridge"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "0d453e59-9264-54b4-b08d-5fc506f1d751"
+  ],
+  "summary": "St. Lucie County, Florida discovered 14 Flock cameras operating without permits, 11 of which have no identified owner; the county sheriff's office claimed three but wouldn't explain the lack of permits. The article contextualizes the discovery with past misuse by Florida officers in Fort Pierce and Pinellas County and other instances of Flock installing cameras without authorization.",
+  "key_quotes": [
+    {
+      "quote": "Of the 14 cameras found, 11 had no obvious owners, raising concerns about who has access to sensitive data that bad actors could abuse.",
+      "paragraph_idx": 5
+    },
+    {
+      "quote": "One officer in Fort Pierce, Josepher Crutchfield, accessed a Flock database 382 times while stalking an ex-girlfriend",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Last December, Flock installed two cameras in Cambridge, Massachusetts, without telling anyone, after local officials had banned the technology.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "permitting requirements \"vary by jurisdiction and are not necessary in every location.\"",
+      "paragraph_idx": 18
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-02T16:31:53Z",
+  "article_id": "art_54cedabf146a"
+}

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Calcasieu Parish Sheriff's Office",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-11-07T17:29:07Z",
+      "id": "d121145f41bc46fb8ae2dc6dcbe0b293",
+      "title": "Calcasieu Parish Sheriff's Office Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/d121145f41bc46fb8ae2dc6dcbe0b293"
+    }
+  ],
+  "description": "Feature service for Calcasieu Parish Sheriff's Office",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "d121145f41bc46fb8ae2dc6dcbe0b293",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Calcasieu Parish Sheriff's Office Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 188,
+    "duplicates": 5,
+    "first_takeoff": "2025-11-14T17:46:15Z",
+    "last_takeoff": "2026-07-22T20:02:39Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "00a1a479-73f8-4394-b5ae-8e30d6ea2b47",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/00a1a479-73f8-4394-b5ae-8e30d6ea2b47-production/FeatureServer"
+}

@@ -1,0 +1,50 @@
+{
+  "agency_id": "fde3bac7-6761-5434-82d3-61e323c1ed80",
+  "agency_name": "Elkhart Police (IN)",
+  "dashboards": [],
+  "description": "Feature service for Elkhart Police (IN)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "fde3bac7-6761-5434-82d3-61e323c1ed80",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "8ce0ce88-8276-4cd1-86e1-774dbd4976b1",
+  "ori": [
+    "IN0200100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/8ce0ce88-8276-4cd1-86e1-774dbd4976b1-production/FeatureServer"
+}

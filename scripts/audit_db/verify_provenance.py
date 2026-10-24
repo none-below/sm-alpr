@@ -1,14 +1,17 @@
 """Check that the database's row locations point at the right place in the original released files.
 
   nice -n 19 taskpolicy -b uv run --locked --project scripts/audit_db python scripts/audit_db/verify_provenance.py [options]
-  (the SMPD check also needs poppler's pdftotext on PATH)
+  (the SMPD and PDF-table checks also need poppler's pdftotext on PATH)
 
-MuckRock releases (evidence dir): for sampled rows, opens the ORIGINAL file (zip member / sheet) with a reader
+MuckRock and portal releases (evidence dir, portals dir): for sampled rows, opens the ORIGINAL file (zip member / sheet) with a reader
 independent of staging's (openpyxl for spreadsheets, Python's csv module for CSV; calamine, the staging library, only
 where openpyxl cannot open the workbook, and counted separately as not independent), goes to src_row and compares every
 cell EXACTLY (no trimming) with what truth stored, including the cells kept in `extra`. Also: the header row against
-releases.header_raw, each container against releases.container_sha256 and the timestamped MANIFEST_v2.txt, each zip
-member against releases.member_sha256, and CSV originals against releases.content_sha256.
+releases.header_raw, each container against releases.container_sha256 and its collection's manifest (MuckRock: the
+timestamped MANIFEST_v2.txt / MANIFEST_resweep_*.txt; portals: MANIFEST.jsonl), each zip member against
+releases.member_sha256, and CSV originals against releases.content_sha256.
+Audit spreadsheets printed to PDF (pdft: releases): each PDF re-hashed; for sampled rows, every non-empty ID / Org Name /
+Search Time / Reason cell must appear (whitespace ignored) in poppler's pdftotext -raw of the page the row cites.
 Repo NDJSON (Redwood City, Los Altos): the agency workbooks are not in the repo, so sampled rows are compared value by
 value with the committed NDJSON line (line = src_row - 1, or src_row for an export the conversion manifest marks
 header-less). Each file is streamed once, which also re-checks container_sha256 (the .gz) and content_sha256 (the
@@ -37,11 +40,10 @@ import sys
 import zipfile
 from pathlib import Path
 
-import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 from muckrock_ingest import canonical  # noqa: E402  (truth stores row keys under canonical() names)
-from paths import audit_dir  # noqa: E402
+from paths import audit_dir, duck_connect, sql_str as q  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--audit-dir", help="directory holding the databases (default: paths.audit_dir())")
@@ -55,10 +57,12 @@ ap.add_argument("--only", help="release_id LIKE pattern: check only these releas
 ap.add_argument("--seed", type=int, default=1)
 args = ap.parse_args()
 A = Path(args.audit_dir or audit_dir())
-con = duckdb.connect(args.truth or str(A / "truth.duckdb"), read_only=True)
-con.execute("SET threads=2; SET memory_limit='2GB'")   # lookups by literal release_id/row_no only
+con = duck_connect(args.truth or A / "truth.duckdb", read_only=True, spill_root=A / "spill",   # own spill dir
+                   threads=2, memory_limit="2GB")   # lookups by literal release_id/row_no only
 info = dict(con.execute("SELECT key, value FROM build_info").fetchall())
 EV, WT = Path(info["evidence_dir"]), Path(info["repo_checkout"])
+PV = Path(info["portals_dir"]) if info.get("portals_dir") else None
+ROOTS = {"evidence": EV, **({"portals": PV} if PV else {})}   # spreadsheet originals by container_root
 TABLES = {t for (t,) in con.execute("SELECT table_name FROM duckdb_tables()").fetchall()}
 RCOLS = {c for (c,) in con.execute("SELECT column_name FROM duckdb_columns() WHERE table_name = 'releases'").fetchall()}
 FLOCK = ["ID", "Name", "Org Name", "Total Networks Searched", "Total Devices Searched", "Time Frame", "License Plate",
@@ -84,10 +88,6 @@ def sha(p):
     return h.hexdigest()
 
 
-def q(s):
-    return "'" + s.replace("'", "''") + "'"
-
-
 def cmp(reader, where, col, orig, stored):
     """Exact comparison; a difference only in surrounding whitespace is still a difference (truth is verbatim).
     One reader equivalence is allowed and counted: a date-only cell is a midnight datetime to openpyxl and a date to
@@ -110,13 +110,17 @@ def stored_rows(table, rid, row_nos):
     return {r["row_no"]: r for r in (dict(zip(cols, t)) for t in cur.fetchall())}
 
 
-manifest = {}
-mf = EV / "MANIFEST_v2.txt"
-if mf.exists():
-    for line in mf.read_text().splitlines():   # "<sha256>  <local_path>  <source_url>"
-        parts = line.split("  ")
-        if len(parts) >= 2 and len(parts[0]) == 64:
-            manifest[parts[1].strip()] = parts[0]
+manifest = {}   # (container_root, path) -> sha256 recorded when the file was fetched
+for mf in [EV / "MANIFEST_v2.txt", *sorted(EV.glob("MANIFEST_resweep_*.txt"))]:
+    if mf.exists():
+        for line in mf.read_text().splitlines():   # "<sha256>  <local_path>  <source_url>"
+            parts = line.split("  ")
+            if len(parts) >= 2 and len(parts[0]) == 64:
+                manifest[("evidence", parts[1].strip())] = parts[0]
+if PV and (PV / "MANIFEST.jsonl").exists():
+    for line in (PV / "MANIFEST.jsonl").read_text().splitlines():
+        m = json.loads(line)
+        manifest.setdefault(("portals", m["path"]), m["sha256"])
 
 # ---- which rows to check ------------------------------------------------------------------------------------------
 sel = ", ".join(c if c in RCOLS else f"NULL AS {c}" for c in
@@ -130,7 +134,8 @@ for rid, a, b in con.execute("SELECT r.release_id, l.src_row_from, l.src_row_to 
                              "ON r.release_id LIKE l.release_pattern").fetchall():
     layouts[rid].append((a, b))
 is_ndjson = lambda r: r["root"] == "repo" and r["path"].endswith(".ndjson.gz")
-big = [r["rid"] for r in rels if r["root"] == "evidence" and r["n"] > FIRST]
+is_pdft = lambda r: r["rid"].startswith("pdft:")
+big = [r["rid"] for r in rels if r["root"] in ROOTS and not is_pdft(r) and r["n"] > FIRST]
 deep = set(big if args.deep_releases < 0 else rnd.sample(big, min(args.deep_releases, len(big)))) | set(layouts)
 
 
@@ -194,12 +199,17 @@ def original_rows(key, data, sheet, wanted):
         for i, r in it:
             r = [norm(v) for v in r]
             if hdr is None and is_header(r):
-                hdr, off = r, next(j for j, v in enumerate(r) if v)
+                hdr = r
+            first = next((j for j, v in enumerate(r) if v), None)
+            if first is not None and (off is None or first < off):
+                off = first
             if i in wanted:
                 out[i] = r
             if i >= last:
                 break
-        if reader == "openpyxl" and off:   # staging's reader starts at the first used column
+        # staging's reader starts at the sheet's first used column, which can be left of the header's first label (Los
+        # Altos 26-366 'November': column A holds names under a blank header cell); rows read here stand in for the sheet
+        if reader == "openpyxl" and off:
             hdr, out = hdr[off:], {k: v[off:] for k, v in out.items()}
         return hdr, out, reader
     try:
@@ -225,19 +235,19 @@ def trail(xs):
 
 containers = {}
 zip_cache = {}
-evid = [r for r in rels if r["root"] == "evidence"]
+evid = [r for r in rels if r["root"] in ROOTS and not is_pdft(r)]
 for k, r in enumerate(evid, 1):
-    rid, f = r["rid"], EV / r["path"]
+    rid, f = r["rid"], ROOTS[r["root"]] / r["path"]
     if f not in containers:
         containers[f] = sha(f)
-        hashes["evidence containers"] += 1
+        hashes[f"{r['root']} containers"] += 1
         if containers[f] != r["csha"]:
             problem("hash", f"{rid}: container sha256 differs from releases.container_sha256")
-        m = manifest.get(r["path"])
+        m = manifest.get((r["root"], r["path"]))
         if m is None:
-            problem("hash", f"{r['path']}: not listed in MANIFEST_v2.txt")
+            problem("hash", f"{r['path']}: not listed in its download manifest")
         elif m != containers[f]:
-            problem("hash", f"{r['path']}: sha256 differs from MANIFEST_v2.txt")
+            problem("hash", f"{r['path']}: sha256 differs from its download manifest")
     if r["member"]:
         if f not in zip_cache:
             zip_cache.clear()
@@ -280,7 +290,39 @@ for k, r in enumerate(evid, 1):
         if any(v.strip() for v in o_row[len(r["header"]):]):
             problem(reader, f"{where}: the original has non-empty cells beyond the header width that truth does not hold")
     if k % 100 == 0:
-        print(f"  {k}/{len(evid)} MuckRock releases", flush=True)
+        print(f"  {k}/{len(evid)} MuckRock and portal releases", flush=True)
+
+# ---- audit spreadsheets printed to PDF: sampled rows' cells on their page, read by an independent reader ------------
+# pdf_table_reader reads the text layer by position (pymupdf); poppler's pdftotext reads the page on its own. Every
+# non-empty ID / Org Name / Search Time / Reason cell of a sampled row must appear on the page the row cites
+# (whitespace ignored: wrapped cells and column layout differ between readers). -raw keeps each cell's text together in
+# drawing order; -layout interleaves a wrapped cell's lines with the neighbouring columns' text.
+for r in (r for r in rels if is_pdft(r)):
+    rid, f = r["rid"], ROOTS.get(r["root"], EV) / r["path"]
+    hashes["PDF tables"] += 1
+    if sha(f) != r["csha"]:
+        problem("hash", f"{rid}: PDF sha256 differs from releases.container_sha256")
+    m = manifest.get((r["root"], r["path"]))
+    if m is not None and m != r["csha"]:
+        problem("hash", f"{r['path']}: sha256 differs from its download manifest")
+    table, want = pick(r)
+    recs = stored_rows(table, rid, want)
+    readers["pdftotext (PDF tables)"]["releases"] += 1
+    pages = {}
+    for rec in recs.values():
+        page = rec["src_row"] // 1000
+        if page not in pages:
+            out = subprocess.run(["pdftotext", "-f", str(page), "-l", str(page), "-raw", str(f), "-"],
+                                 capture_output=True, text=True)
+            pages[page] = re.sub(r"\s+", "", out.stdout)
+        readers["pdftotext (PDF tables)"]["rows"] += 1
+        for col in ("ID", "Org Name", "Search Time", "Reason"):
+            v = rec.get(col)
+            if not v:
+                continue
+            readers["pdftotext (PDF tables)"]["cells"] += 1
+            if re.sub(r"\s+", "", v) not in pages[page]:
+                problem("pdftotext (PDF tables)", f"{rid} row_no {rec['row_no']} (page {page}): {col} not found on its page")
 
 # ---- repo NDJSON (Redwood City, Los Altos): the committed conversion, streamed once per file -------------------------
 headerless = {}
@@ -407,7 +449,7 @@ if smpd and args.smpd:
                     problem(reader, f"{rid} row_no {n} page {pg}: {name} not found on that page or the next")
 
 # ---- report --------------------------------------------------------------------------------------------------------
-print(f"releases: {len(evid)} MuckRock, {sum(1 for r in rels if is_ndjson(r))} repo NDJSON, {len(smpd)} SMPD PDFs "
+print(f"releases: {len(evid)} MuckRock and portal, {sum(1 for r in rels if is_ndjson(r))} repo NDJSON, {len(smpd)} SMPD PDFs "
       f"({len(image_only)} image-only: {', '.join(image_only) or 'none'}); deep rows in {len(deep & set(big))} of {len(big)} "
       f"large MuckRock releases")
 print("re-hashed: " + (", ".join(f"{v} {k}" for k, v in hashes.items()) or "nothing"))

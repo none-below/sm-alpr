@@ -186,6 +186,49 @@ def test_parse_org_names_merges_company_suffix():
     assert "Fairfield CA PD" in names
 
 
+def test_parse_org_names_rejoins_comma_split_account_names():
+    """Account names with a comma were split into fragment agencies that
+    then got registry rows and map pins (#645)."""
+    body = (
+        "Montgomery County Constable, Precinct 3 (TX), Montgomery County SO, "
+        "1st Judicial District, District Attorney's Office TX, "
+        "Westfield Park Recreation and Parkways, District #12 (CA), "
+        "Wild Horse Valley Rd, Napa (CA), "
+        "Property Management & Accounting, Inc. (CA), "
+        "Owner's Association of Patriot Estates, Inc (TX), "
+        "Woodland CA PD"
+    )
+    assert _parse_org_names(body) == [
+        "Montgomery County Constable, Precinct 3 (TX)",
+        "Montgomery County SO",
+        "1st Judicial District, District Attorney's Office TX",
+        "Westfield Park Recreation and Parkways, District #12 (CA)",
+        "Wild Horse Valley Rd, Napa (CA)",
+        "Property Management & Accounting, Inc. (CA)",
+        "Owner's Association of Patriot Estates, Inc (TX)",
+        "Woodland CA PD",
+    ]
+    # Same accounts split across lines of the one-per-line layout.
+    assert _parse_org_names(
+        "Montgomery County Constable\nPrecinct 4 (TX)\nMontgomery County SO"
+    ) == ["Montgomery County Constable, Precinct 4 (TX)", "Montgomery County SO"]
+
+
+def test_parse_org_names_keeps_standalone_lookalikes_apart():
+    """Each rejoin needs both halves to match, so real neighbors that only
+    resemble one half stay separate."""
+    assert _parse_org_names(
+        "Harris County Constable, Precinct 4 Constable TX, Napa (CA), "
+        "Judicial District Court TX, District Attorney's Office TX"
+    ) == [
+        "Harris County Constable",
+        "Precinct 4 Constable TX",
+        "Napa (CA)",
+        "Judicial District Court TX",
+        "District Attorney's Office TX",
+    ]
+
+
 def test_parse_org_names_handles_one_per_line_layout():
     """The 2026 layout renders the partner list with one agency per
     line (was: comma-separated paragraph). Both must work, including
@@ -204,6 +247,25 @@ def test_parse_org_names_handles_one_per_line_layout():
     body_legacy = "Albany CA PD, Antioch CA PD, Arcadia CA PD, Avenal CA PD"
     assert _parse_org_names(body_legacy) == [
         "Albany CA PD", "Antioch CA PD", "Arcadia CA PD", "Avenal CA PD",
+    ]
+
+
+def test_parse_org_names_two_line_list_not_concatenated():
+    """A two-partner one-per-line list must yield two names. The layout
+    heuristic used to require ≥3 lines, so two lines fell to the comma
+    path and were space-joined into one fake agency
+    (culver-city-ca-pd 2026-09-26: "El Segundo CA PD Hermosa Beach PD CA",
+    which then minted a phantom registry entry)."""
+    assert _parse_org_names("El Segundo CA PD\nHermosa Beach PD CA") == [
+        "El Segundo CA PD", "Hermosa Beach PD CA",
+    ]
+    # Trailing 2026-07 "Policy & Trust" label still dropped.
+    assert _parse_org_names(
+        "El Segundo CA PD\nHermosa Beach PD CA\nPolicy & Trust"
+    ) == ["El Segundo CA PD", "Hermosa Beach PD CA"]
+    # Grid-split company suffix still re-attaches at two lines.
+    assert _parse_org_names("CA - Topgolf USA El Segundo\nLLC") == [
+        "CA - Topgolf USA El Segundo, LLC",
     ]
 
 
@@ -285,6 +347,18 @@ def test_parse_org_names_drops_policy_disclaimer():
         "Ohio Department of Rehabilitation and Correction - Office of "
         "the Chief Inspector"
     ]
+
+
+def test_parse_org_names_drops_shares_access_summary_no_period():
+    """johnson-city-tn-pd 2026-09-12 appends a trailing summary sentence
+    after its 150 real partner agencies with no terminal period, so it
+    slips past _looks_like_disclaimer's period gate and got minted as a
+    151st fake recipient with no coordinates."""
+    assert _parse_org_names(
+        "Alcoa TN PD\nAlgood TN PD\nWoodbury TN PD\n"
+        "JCPD shares access to LPR data with law enforcement agencies "
+        "within the State of Tennessee"
+    ) == ["Alcoa TN PD", "Algood TN PD", "Woodbury TN PD"]
 
 
 def test_extract_bold_headings_matches_2026_layout():
@@ -984,6 +1058,39 @@ def test_issue698_heading_variants_classify():
         field, kind = _match_heading_kind(heading)
         assert field is not _UNKNOWN, f"{heading!r} stayed _UNKNOWN"
         assert field == want, f"{heading!r}: got {field!r}, want {want!r}"
+
+
+def test_issue527_heading_variants_classify():
+    """Bold headings that kept blue-springs-mo-pd and hannibal-mo-pd from
+    parsing in the 5/31–7/22 refreshes (issues #527/#645). Neither slug has
+    a capture on main — every attempt aborted, and later ones 403'd before
+    reaching the parser. One-off agency strings, so exact aliases.
+    """
+    from flock_transparency import _match_heading_kind
+    expected = {
+        "Flight Dashboard": "additional_info",                     # blue-springs
+        "Important links listed at the bottom along with Drone Flight path information": "additional_info",
+        "RTCC Policy": "policy_info",
+        "Package Theft from a Front Porch": "success_stories",
+        "New license plate reader system helps in capture of NEMO shooting suspect": "success_stories",  # hannibal
+    }
+    for heading, want in expected.items():
+        assert _match_heading_kind(heading) == (want, "exact"), heading
+
+
+def test_2026_09_heading_variants_classify():
+    """Headings that aborted murfreesboro-tn-pd and hollister-ca-pd captures
+    in the September refreshes (reported on #645). Failed captures are
+    discarded, so the fix applies from the next crawl."""
+    from flock_transparency import _match_heading_kind
+    expected = {
+        "LPR Data Retention Length": "additional_info",  # murfreesboro
+        "Murfreesboro Police Department's Real Time Crime Center Webpage": "additional_info",
+        "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Four Suspects": "success_stories",  # hollister
+        "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Two Suspects": "success_stories",
+    }
+    for heading, want in expected.items():
+        assert _match_heading_kind(heading) == (want, "exact"), heading
 
 
 def test_issue698_bold_heading_entity_form_classifies():

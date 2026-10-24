@@ -1,0 +1,64 @@
+{
+  "agency_id": "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad",
+  "agency_name": "Appleton Police Department (WI)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-21T17:26:52Z",
+      "id": "dc72264a9fcf40eca84e78661ed37a16",
+      "title": "Appleton Police Department (WI) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/dc72264a9fcf40eca84e78661ed37a16"
+    }
+  ],
+  "description": "Feature service for Appleton Police Department (WI)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "dc72264a9fcf40eca84e78661ed37a16",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Appleton Police Department (WI) Drone Flights"
+    },
+    {
+      "agency_id": "d561e3c0-2216-56aa-8a7a-b2a1ac12d6ad",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 47,
+    "duplicates": 0,
+    "first_takeoff": "2026-08-02T01:31:35Z",
+    "last_takeoff": "2026-10-09T01:18:06Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "b145d623-0763-4f8b-a303-c0e2bfdf4615",
+  "ori": [
+    "WI0450100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/b145d623-0763-4f8b-a303-c0e2bfdf4615-production/FeatureServer"
+}

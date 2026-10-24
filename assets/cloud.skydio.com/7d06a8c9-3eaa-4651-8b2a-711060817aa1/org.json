@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Paraverse - Titan Protection & Consulting",
+  "dashboards": [],
+  "description": "Feature service for Paraverse - Titan Protection & Consulting",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-01-07T21:40:55Z",
+    "last_takeoff": "2026-01-07T21:40:55Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "7d06a8c9-3eaa-4651-8b2a-711060817aa1",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/7d06a8c9-3eaa-4651-8b2a-711060817aa1-production/FeatureServer"
+}

@@ -1,0 +1,50 @@
+{
+  "agency_id": "9f23df85-6bfa-5a6d-9600-367266638274",
+  "agency_name": "Burbank Police Department (CA) - Trial",
+  "dashboards": [],
+  "description": "Feature service for Burbank Police Department (CA) - Trial",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "9f23df85-6bfa-5a6d-9600-367266638274",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "de267a70-8b8f-43c9-9fa8-49bad0fd86ee",
+  "ori": [
+    "CA0191200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/de267a70-8b8f-43c9-9fa8-49bad0fd86ee-production/FeatureServer"
+}

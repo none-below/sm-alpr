@@ -1,0 +1,64 @@
+{
+  "agency_id": "0860b7e0-5f28-51b2-97e0-75887a516e6f",
+  "agency_name": "Killeen Police Department (TX)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-27T15:18:25Z",
+      "id": "71bd05b0f73341c5a8caaa6ef84c4b1f",
+      "title": "Killeen Police Department (TX) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/71bd05b0f73341c5a8caaa6ef84c4b1f"
+    }
+  ],
+  "description": "Feature service for Killeen Police Department (TX)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "71bd05b0f73341c5a8caaa6ef84c4b1f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Killeen Police Department (TX) Drone Flights"
+    },
+    {
+      "agency_id": "0860b7e0-5f28-51b2-97e0-75887a516e6f",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 462,
+    "duplicates": 0,
+    "first_takeoff": "2026-03-24T18:05:07Z",
+    "last_takeoff": "2026-10-21T02:08:32Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "49ade02b-3fb2-4e87-9850-449c56d62d7a",
+  "ori": [
+    "TX0140400"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/49ade02b-3fb2-4e87-9850-449c56d62d7a-production/FeatureServer"
+}

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Vanderbilt University Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-05-04T16:18:44Z",
+      "id": "a8cd850f37644d7ca7d50dde2ab9733a",
+      "title": "Vanderbilt University Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/a8cd850f37644d7ca7d50dde2ab9733a"
+    }
+  ],
+  "description": "Feature service for Vanderbilt University Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "a8cd850f37644d7ca7d50dde2ab9733a",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Vanderbilt University Police Department Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1059,
+    "duplicates": 4,
+    "first_takeoff": "2026-04-21T16:41:37Z",
+    "last_takeoff": "2026-09-23T18:15:40Z",
+    "unhashed": 1059
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "bc63cfbe-82f1-4d06-90b5-86bad094368f",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/bc63cfbe-82f1-4d06-90b5-86bad094368f-production/FeatureServer"
+}

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "University of Connecticut T2 Center",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-30T14:00:10Z",
+      "id": "569d8c9db1bb4d14badaae86a369265f",
+      "title": "University of Connecticut T2 Center Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/569d8c9db1bb4d14badaae86a369265f"
+    }
+  ],
+  "description": "Feature service for University of Connecticut T2 Center",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "569d8c9db1bb4d14badaae86a369265f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "University of Connecticut T2 Center Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "f5717d36-d4dd-4b45-92b6-ae6cbf044b0b",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/f5717d36-d4dd-4b45-92b6-ae6cbf044b0b-production/FeatureServer"
+}

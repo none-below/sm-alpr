@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Omaha Police Department - G47 Beta",
+  "dashboards": [],
+  "description": "Feature service for Omaha Police Department - G47 Beta",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-10-08T13:15:01Z",
+    "last_takeoff": "2025-10-08T13:15:01Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "f8caef32-1d44-4594-b2ba-057015eefe9b",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/f8caef32-1d44-4594-b2ba-057015eefe9b-production/FeatureServer"
+}

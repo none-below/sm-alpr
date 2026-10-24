@@ -1,0 +1,50 @@
+{
+  "agency_id": "6bcd3ffd-515a-5cbf-9506-bb96c66c73ff",
+  "agency_name": "Sioux City Police Department",
+  "dashboards": [],
+  "description": "Feature service for Sioux City Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "6bcd3ffd-515a-5cbf-9506-bb96c66c73ff",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 9,
+    "duplicates": 0,
+    "first_takeoff": "2025-01-17T18:42:50Z",
+    "last_takeoff": "2025-03-27T13:51:58Z",
+    "unhashed": 9
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "b814ec27-2683-438d-bf9c-d14789c99624",
+  "ori": [
+    "IA0970100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/b814ec27-2683-438d-bf9c-d14789c99624-production/FeatureServer"
+}

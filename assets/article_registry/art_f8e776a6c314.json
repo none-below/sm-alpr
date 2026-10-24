@@ -1,0 +1,146 @@
+{
+  "url": "https://ww2.kqed.org/news/2026/10/10/flock-is-catching-flak-experts-say-other-police-surveillance-tools-are-more-worrisome/",
+  "source_domain": "kqed.org",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "Flock Is Catching Flak. Experts Say Other Police Surveillance Tools Are More Worrisome | KQED",
+  "byline": null,
+  "published_at": "2026-10-10T12:00:00-07:00",
+  "fetched_at": "2026-10-11T15:37:58Z",
+  "discovered_by": "rss:kqed.org",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 73 pts, HIGH/CRITICAL findings",
+  "scanner_score": 73,
+  "content_hash": "f718feb6faca4c38e100be41aa4d5cc0aaa2e01bf291ec9e7da56bb9896bffe0",
+  "paths": {
+    "html": "assets/articles/kqed.org/news-2026-10-10-flock-is-catching-flak-experts-say-other-police-surveillance-too_f8e776a6.html",
+    "meta": "assets/articles/kqed.org/news-2026-10-10-flock-is-catching-flak-experts-say-other-police-surveillance-too_f8e776a6.meta.json",
+    "pdf": "assets/articles/kqed.org/news-2026-10-10-flock-is-catching-flak-experts-say-other-police-surveillance-too_f8e776a6.pdf",
+    "txt": "assets/articles/kqed.org/news-2026-10-10-flock-is-catching-flak-experts-say-other-police-surveillance-too_f8e776a6.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "policy:audit",
+    "policy:retention",
+    "scope:national",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:fusus"
+  ],
+  "agencies": [
+    "6fc47404-6f79-5f5d-ace0-18db02bc2391",
+    "100fe8be-e599-591f-8d5f-8c8b70e195d5",
+    "3707fe3f-94c4-527c-82ec-7037db1438fb",
+    "b0bd9add-ff5d-5af4-a468-0f03eb94214e",
+    "42ac4d61-32cd-5fa4-aa11-b6713123a5c7",
+    "e315ed7a-38a7-5d85-8048-28fc54fbbe4a",
+    "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+    "90120363-c2b2-5550-8513-2bba14ab260d"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "6fc47404-6f79-5f5d-ace0-18db02bc2391",
+      "display_name": "Anderson CA PD",
+      "state": "CA",
+      "score": 14.467,
+      "matched_forms": [
+        "Anderson"
+      ]
+    },
+    {
+      "agency_id": "100fe8be-e599-591f-8d5f-8c8b70e195d5",
+      "display_name": "Anderson SC PD",
+      "state": "SC",
+      "score": 13.967,
+      "matched_forms": [
+        "Anderson"
+      ]
+    },
+    {
+      "agency_id": "3707fe3f-94c4-527c-82ec-7037db1438fb",
+      "display_name": "Greenville County SC SO",
+      "state": "SC",
+      "score": 6.9,
+      "matched_forms": [
+        "Greenville County",
+        "Greenville County Sheriff"
+      ]
+    },
+    {
+      "agency_id": "b0bd9add-ff5d-5af4-a468-0f03eb94214e",
+      "display_name": "East Palo Alto CA PD",
+      "state": "CA",
+      "score": 5.817,
+      "matched_forms": [
+        "East Palo Alto",
+        "East Palo Alto Police"
+      ]
+    },
+    {
+      "agency_id": "42ac4d61-32cd-5fa4-aa11-b6713123a5c7",
+      "display_name": "Irvine CA PD",
+      "state": "CA",
+      "score": 5.717,
+      "matched_forms": [
+        "Irvine",
+        "Irvine Police",
+        "Irvine Police Department"
+      ]
+    },
+    {
+      "agency_id": "e315ed7a-38a7-5d85-8048-28fc54fbbe4a",
+      "display_name": "Oklahoma City OK PD",
+      "state": "OK",
+      "score": 5.55,
+      "matched_forms": [
+        "Oklahoma City",
+        "Oklahoma City Police",
+        "Oklahoma City Police Department"
+      ]
+    },
+    {
+      "agency_id": "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+      "display_name": "New York City Department of Environmental Protection PD",
+      "state": "NY",
+      "score": 3.767,
+      "matched_forms": [
+        "New York"
+      ]
+    },
+    {
+      "agency_id": "90120363-c2b2-5550-8513-2bba14ab260d",
+      "display_name": "Liberty Village NY PD",
+      "state": "NY",
+      "score": 2.617,
+      "matched_forms": [
+        "Liberty"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "NPR/KQED report argues that while Flock ALPRs have drawn public backlash, privacy experts view AI-powered real-time crime center software like Axon's Fusus as a broader surveillance concern because it aggregates ALPR, body cams, drones, 911, gunshot detection and private surveillance feeds into a single pane of glass. Fusus adoption has more than doubled since Axon's 2024 acquisition, and experts call for legislative guardrails like retention limits and audits.",
+  "key_quotes": [
+    {
+      "quote": "real-time crime centers have not just ALPR cameras and sensors, but video analytics and drones and essentially a way to create a visual single-pane-of-glass vision of what's going on in a city, with time machine capabilities where you can go back and investigate crime.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "The number of law enforcement agencies using the tool has more than doubled since then, according to Axon.",
+      "paragraph_idx": 20
+    },
+    {
+      "quote": "What happens if there is a government that wants to silence a particular group or even a particular person? And you just built the architecture of surveillance that makes that super-easy",
+      "paragraph_idx": 30
+    },
+    {
+      "quote": "lawmakers could act by limiting how long data is stored, for instance, mandating regular audits or restricting surveillance near sensitive sites like abortion clinics or immigration courts.",
+      "paragraph_idx": 31
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-11T15:40:05Z",
+  "article_id": "art_f8e776a6c314"
+}

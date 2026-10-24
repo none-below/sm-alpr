@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Paraverse - Metro Nashville PD",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-02-25T15:51:51Z",
+      "id": "9b0f6f3e62354a15917192855845a415",
+      "title": "Paraverse - Metro Nashville PD Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/9b0f6f3e62354a15917192855845a415"
+    }
+  ],
+  "description": "Feature service for Paraverse - Metro Nashville PD",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "9b0f6f3e62354a15917192855845a415",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Paraverse - Metro Nashville PD Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "2ff50f24-2af7-437b-8799-1f705905ccf7",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/2ff50f24-2af7-437b-8799-1f705905ccf7-production/FeatureServer"
+}

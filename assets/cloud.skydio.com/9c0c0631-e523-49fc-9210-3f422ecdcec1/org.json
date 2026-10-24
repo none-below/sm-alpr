@@ -1,0 +1,50 @@
+{
+  "agency_id": "6dd1ac80-46a7-5e30-a512-bc0d51bfe013",
+  "agency_name": "[Paraverse] Santa Ana Police Department (CA)",
+  "dashboards": [],
+  "description": "Feature service for [Paraverse] Santa Ana Police Department (CA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "6dd1ac80-46a7-5e30-a512-bc0d51bfe013",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-06-16T16:22:55Z",
+    "last_takeoff": "2026-06-16T16:22:55Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "9c0c0631-e523-49fc-9210-3f422ecdcec1",
+  "ori": [
+    "CA0301900"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/9c0c0631-e523-49fc-9210-3f422ecdcec1-production/FeatureServer"
+}

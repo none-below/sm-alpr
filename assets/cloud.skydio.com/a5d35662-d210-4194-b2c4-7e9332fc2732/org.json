@@ -1,0 +1,64 @@
+{
+  "agency_id": "ed14dd1e-7cd3-564e-bcda-f0fa8000279b",
+  "agency_name": "Minnetonka Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-05-01T16:03:09Z",
+      "id": "864a017ece0f4aa898e0026032f8ce92",
+      "title": "Minnetonka Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/864a017ece0f4aa898e0026032f8ce92"
+    }
+  ],
+  "description": "Feature service for Minnetonka Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "864a017ece0f4aa898e0026032f8ce92",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Minnetonka Police Department Drone Flights"
+    },
+    {
+      "agency_id": "ed14dd1e-7cd3-564e-bcda-f0fa8000279b",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1405,
+    "duplicates": 53,
+    "first_takeoff": "2025-02-13T19:23:00Z",
+    "last_takeoff": "2026-10-08T13:27:34Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "a5d35662-d210-4194-b2c4-7e9332fc2732",
+  "ori": [
+    "MN0271200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/a5d35662-d210-4194-b2c4-7e9332fc2732-production/FeatureServer"
+}

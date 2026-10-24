@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "JP-NTT-Dock-MEBS",
+  "dashboards": [],
+  "description": "Feature service for JP-NTT-Dock-MEBS",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-02-20T01:08:04Z",
+    "last_takeoff": "2025-02-20T01:08:04Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "6f7437a4-0298-48f6-943d-20a4d516ac7b",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/6f7437a4-0298-48f6-943d-20a4d516ac7b-production/FeatureServer"
+}

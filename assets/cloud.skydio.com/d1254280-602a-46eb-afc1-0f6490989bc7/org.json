@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "[Paraverse] UCLA",
+  "dashboards": [],
+  "description": "Feature service for [Paraverse] UCLA",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 1,
+    "first_takeoff": "2026-06-02T23:09:37Z",
+    "last_takeoff": "2026-06-02T23:09:37Z",
+    "unhashed": 2
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "d1254280-602a-46eb-afc1-0f6490989bc7",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d1254280-602a-46eb-afc1-0f6490989bc7-production/FeatureServer"
+}

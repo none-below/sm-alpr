@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Monterey County Sheriffs Office",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-01-18T01:39:40Z",
+      "id": "e2a854d76f274156bba90cbaeb655e84",
+      "title": "Monterey County Sheriffs Office Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/e2a854d76f274156bba90cbaeb655e84"
+    }
+  ],
+  "description": "Feature service for Monterey County Sheriffs Office",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "e2a854d76f274156bba90cbaeb655e84",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Monterey County Sheriffs Office Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-14T07:41:59Z",
+    "last_takeoff": "2026-09-14T07:59:02Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "5778f624-5a22-47fe-97d2-aee9b601ae3b",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5778f624-5a22-47fe-97d2-aee9b601ae3b-production/FeatureServer"
+}

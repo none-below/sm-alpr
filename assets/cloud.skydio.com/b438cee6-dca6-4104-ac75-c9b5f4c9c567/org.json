@@ -1,0 +1,64 @@
+{
+  "agency_id": "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+  "agency_name": "Milwaukee Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-04-05T00:20:36Z",
+      "id": "81fc8f0745944ddfbf773850cf28eca8",
+      "title": " Milwaukee Police Department",
+      "url": "https://www.arcgis.com/apps/dashboards/81fc8f0745944ddfbf773850cf28eca8"
+    }
+  ],
+  "description": "Feature service for  Milwaukee Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "81fc8f0745944ddfbf773850cf28eca8",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": " Milwaukee Police Department"
+    },
+    {
+      "agency_id": "47624845-fd5d-5cb9-bb18-22d138c82a2f",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 4977,
+    "duplicates": 0,
+    "first_takeoff": "2025-03-09T05:58:09Z",
+    "last_takeoff": "2026-10-19T03:42:14Z",
+    "unhashed": 4977
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "b438cee6-dca6-4104-ac75-c9b5f4c9c567",
+  "ori": [
+    "WIMPD0000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/b438cee6-dca6-4104-ac75-c9b5f4c9c567-production/FeatureServer"
+}

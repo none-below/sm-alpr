@@ -1,0 +1,64 @@
+{
+  "agency_id": "ab5c5b8b-859f-5304-8520-0ed8c740f2f9",
+  "agency_name": "Lafayette Police Department (LA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-04-23T17:35:39Z",
+      "id": "652aee69f955462f9a788b4e60e6fa23",
+      "title": "Lafayette Police Department (LA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/652aee69f955462f9a788b4e60e6fa23"
+    }
+  ],
+  "description": "Feature service for Lafayette Police Department (LA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "652aee69f955462f9a788b4e60e6fa23",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Lafayette Police Department (LA) Drone Flights"
+    },
+    {
+      "agency_id": "ab5c5b8b-859f-5304-8520-0ed8c740f2f9",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2025-03-25T15:44:56Z",
+    "last_takeoff": "2025-03-25T15:44:56Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "1d46b223-25aa-45b7-9480-d49ee6f10eab",
+  "ori": [
+    "LA0280300"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/1d46b223-25aa-45b7-9480-d49ee6f10eab-production/FeatureServer"
+}

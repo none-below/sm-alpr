@@ -56,6 +56,14 @@ EXCLUDED_PATH_PREFIXES = (
     # peer-city staff addresses plus the signature-block office and cell numbers
     # those staff publish themselves. Expected content, not a leak.
     "assets/san-mateo-public-records/smcso-pra-081826/",
+    # BSCC's production on grant agreement 1150-23 (GovQA request
+    # R000014-092126), kept byte-exact. It is grant-administration email among
+    # BSCC, Daly City, San Bruno, and San Mateo staff, plus BSCC distribution
+    # lists addressed to every ORT grantee agency statewide, so it carries
+    # dozens of agency domains and staff signature-block numbers. Expected
+    # content, not a leak. The requester's own outbound request one level up
+    # stays scanned.
+    "assets/public-records/bscc/1150-23/R000014-092126/",
 )
 
 ALLOWED_EMAIL_DOMAINS = {
@@ -89,6 +97,52 @@ ALLOWED_EMAIL_DOMAINS = {
     # address is published on the BSCC contact page; appears in outbound
     # correspondence under assets/public-records/bscc/.
     "bscc.ca.gov",
+    # Axon Enterprise — vendor sales-rep, privacy@ and aceip@ contact addresses
+    # printed in Axon quotes and terms attached to other agencies' council
+    # records under assets/public-records/denver/ and cloquet-mn/.
+    "axon.com",
+    # City and County of Denver — contract-manager and Privacy@ addresses in the
+    # council-approved Axon ALPR agreement (file 26-0246),
+    # assets/public-records/denver/reference/.
+    "denvergov.org",
+    # City of Cloquet, MN — police department letterhead and chief's address in
+    # the Feb 17, 2026 Request for Council Action (Axon Draft One),
+    # assets/public-records/cloquet-mn/reference/. The second form is how the
+    # chief's address is printed in that document.
+    "cloquetmn.gov",
+    "cloquet.mn.gov",
+    # City of San José. Published city addresses in the San Jose PD ALPR reference
+    # documents under assets/public-records/san-jose/reference/: the Digital Privacy
+    # Office intake address and the memo author's contact line in File 26-215.
+    "sanjoseca.gov",
+    # Agency contacts printed on Axon quotes and council items, committed as comparator
+    # records for the Axon video's sources page (assets/public-records/<folder>/reference/,
+    # Oct 2026). Each is the agency's own published contact block on a public council record.
+    "abilenetx.gov",  # abilene-tx
+    "angelscamp.gov",  # angels-camp
+    "bristolct.gov",  # bristol-ct
+    "charleston-sc.gov",  # charleston-sc
+    "ci.kennewick.wa.us",  # kennewick-wa
+    "circlevillepolice.com",  # circleville-oh
+    "circlevitiepolice.com",  # circleville-oh (OCR variant of circlevillepolice.com)
+    "cityofinglewood.org",  # inglewood
+    "cityofsunprairie.com",  # sun-prairie-wi
+    "cogs.us",  # glenwood-springs-co
+    "dcsheriff.net",  # douglas-county-co
+    "duncanvillepd.com",  # duncanville-tx
+    "englewoodco.gov",  # englewood-co
+    "ferndalepolice.org",  # ferndale-mi
+    "grandchutewi.gov",  # grand-chute-wi
+    "jcpolice.org",  # junction-city-or
+    "jupiter.fl.us",  # jupiter-fl
+    "knoxvilletn.gov",  # knoxville-tn
+    "plymouthmn.gov",  # plymouth-mn
+    "psd.plantation.org",  # plantation-fl
+    "reno.gov",  # reno-nv
+    "rialtopd.com",  # rialto
+    "sbcity.org",  # san-bernardino
+    "southpasadenaca.gov",  # south-pasadena
+    "woodscross.gov",  # woods-cross-ut
 }
 
 # Known public phone numbers from published City of San Mateo records.
@@ -102,6 +156,8 @@ ALLOWED_PHONES = {
     "6505227627",
     "6505227633",
     "6505227663",  # Lt. S. Casazza, SMPD audit officer (W012665/W012666 audit email signatures)
+    "6505227102",  # A. Veeser, Finance Director (FY2026-27 budget agenda reports, assets/public-records/san-mateo/reference/)
+    "6504350823",  # Z. Reda, Senior Management Analyst (7/20/2026 sales tax measure report, same folder)
     "6505237663",  # OCR variant of 650-522-7663 (Casazza, same emails)
     "6505227664",  # J. Santiago, Management Analyst, Office of the Chief (chief email signatures, sources 56-60)
     "6505227662",  # SMPD (W012665 Emails_Sent_to_Users_Re_Audit.pdf)
@@ -322,7 +378,9 @@ def main():
         if not pdfs:
             sys.exit(0)
     elif args.files:
-        pdfs = [Path(f) for f in args.files]
+        # CI passes every path the change touches, including PDFs it deletes;
+        # a deleted file has nothing left to scan.
+        pdfs = [p for p in map(Path, args.files) if p.exists()]
     else:
         scan_dir = Path(args.dir)
         if not scan_dir.exists():

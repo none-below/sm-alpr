@@ -1,0 +1,64 @@
+{
+  "agency_id": "5ff85b41-14de-586d-ad80-47202e85e9b1",
+  "agency_name": "Overland Park Police Department (KS)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-01-23T14:12:40Z",
+      "id": "046b94ec93f84a599e69d5f1b1b01eb1",
+      "title": "Overland Park Police Department (KS) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/046b94ec93f84a599e69d5f1b1b01eb1"
+    }
+  ],
+  "description": "Feature service for Overland Park Police Department (KS)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "046b94ec93f84a599e69d5f1b1b01eb1",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Overland Park Police Department (KS) Drone Flights"
+    },
+    {
+      "agency_id": "5ff85b41-14de-586d-ad80-47202e85e9b1",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 541,
+    "duplicates": 5,
+    "first_takeoff": "2026-05-12T11:32:52Z",
+    "last_takeoff": "2026-10-22T15:24:28Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "2b350515-444b-4007-890b-471ce5652da0",
+  "ori": [
+    "KS0460600"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/2b350515-444b-4007-890b-471ce5652da0-production/FeatureServer"
+}

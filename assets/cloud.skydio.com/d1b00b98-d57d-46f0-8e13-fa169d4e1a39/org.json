@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Trial - Colorado Springs Police Department (CO)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-11-13T19:08:06Z",
+      "id": "77fe7c984946489aaf32ca7564667c0b",
+      "title": "CSPD Real-Time Crime Center DFR Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/77fe7c984946489aaf32ca7564667c0b"
+    }
+  ],
+  "description": "Feature service for Trial - Colorado Springs Police Department (CO)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "77fe7c984946489aaf32ca7564667c0b",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "CSPD Real-Time Crime Center DFR Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 13889,
+    "duplicates": 774,
+    "first_takeoff": "2025-09-21T08:21:29Z",
+    "last_takeoff": "2026-10-22T14:44:50Z",
+    "unhashed": 13889
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "d1b00b98-d57d-46f0-8e13-fa169d4e1a39",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d1b00b98-d57d-46f0-8e13-fa169d4e1a39-production/FeatureServer"
+}

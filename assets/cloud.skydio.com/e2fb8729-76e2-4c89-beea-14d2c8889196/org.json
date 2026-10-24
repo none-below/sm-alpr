@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Turner Construction Company",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-01-29T13:05:19Z",
+      "id": "980c6bec15754d998e45b726e8eca6b9",
+      "title": "Turner Construction Company Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/980c6bec15754d998e45b726e8eca6b9"
+    }
+  ],
+  "description": "Feature service for Turner Construction Company",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "980c6bec15754d998e45b726e8eca6b9",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Turner Construction Company Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2024-12-01T20:00:41Z",
+    "last_takeoff": "2024-12-01T20:33:30Z",
+    "unhashed": 2
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "e2fb8729-76e2-4c89-beea-14d2c8889196",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/e2fb8729-76e2-4c89-beea-14d2c8889196-production/FeatureServer"
+}

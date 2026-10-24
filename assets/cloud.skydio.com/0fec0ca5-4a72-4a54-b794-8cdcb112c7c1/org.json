@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "[Paraverse] Vancouver Police Department (Canada)",
+  "dashboards": [],
+  "description": "Feature service for [Paraverse] Vancouver Police Department (Canada)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 4,
+    "duplicates": 2,
+    "first_takeoff": "2026-04-30T17:08:29Z",
+    "last_takeoff": "2026-04-30T17:34:26Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "0fec0ca5-4a72-4a54-b794-8cdcb112c7c1",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/0fec0ca5-4a72-4a54-b794-8cdcb112c7c1-production/FeatureServer"
+}

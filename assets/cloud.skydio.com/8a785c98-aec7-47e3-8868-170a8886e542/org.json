@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Laurel Police Department (MD)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-24T13:57:25Z",
+      "id": "f9e4f009b02b43628e8d259acbe14a68",
+      "title": "Laurel Police Department UAS Flight Data",
+      "url": "https://www.arcgis.com/apps/dashboards/f9e4f009b02b43628e8d259acbe14a68"
+    }
+  ],
+  "description": "Feature service for Laurel Police Department (MD)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "f9e4f009b02b43628e8d259acbe14a68",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Laurel Police Department UAS Flight Data"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 654,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-03T00:40:36Z",
+    "last_takeoff": "2026-10-21T09:51:07Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "8a785c98-aec7-47e3-8868-170a8886e542",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/8a785c98-aec7-47e3-8868-170a8886e542-production/FeatureServer"
+}

@@ -1,0 +1,50 @@
+{
+  "agency_id": "3fe2a016-c78d-505c-a004-750a39b2bafa",
+  "agency_name": "Chicago Heights Police Department",
+  "dashboards": [],
+  "description": "Feature service for Chicago Heights Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "3fe2a016-c78d-505c-a004-750a39b2bafa",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 19,
+    "duplicates": 0,
+    "first_takeoff": "2025-02-20T00:03:28Z",
+    "last_takeoff": "2025-10-27T14:05:07Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "1fe67364-6b88-495f-919c-7b396c27ebe2",
+  "ori": [
+    "IL0161900"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/1fe67364-6b88-495f-919c-7b396c27ebe2-production/FeatureServer"
+}

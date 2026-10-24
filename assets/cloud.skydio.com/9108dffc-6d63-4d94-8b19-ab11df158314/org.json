@@ -1,0 +1,50 @@
+{
+  "agency_id": "3c4842f4-ada8-5f82-8033-fb3b88096054",
+  "agency_name": "Wilton Manors Police Department",
+  "dashboards": [],
+  "description": "Feature service for Wilton Manors Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "3c4842f4-ada8-5f82-8033-fb3b88096054",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-04-24T17:51:47Z",
+    "last_takeoff": "2026-04-24T17:51:47Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "9108dffc-6d63-4d94-8b19-ab11df158314",
+  "ori": [
+    "FL0060900"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/9108dffc-6d63-4d94-8b19-ab11df158314-production/FeatureServer"
+}

@@ -1,0 +1,85 @@
+{
+  "url": "https://www.404media.co/cops-warned-to-look-for-suspicious-behavior-from-people-opposing-flock-at-city-council-meetings/",
+  "source_domain": "404media.co",
+  "tier": 2,
+  "stance": "critical",
+  "title": "Cops Warned to Look for \u2018Suspicious Behavior\u2019 From People Opposing Flock at City Council Meetings",
+  "byline": "Jason Koebler",
+  "published_at": "2026-10-21T17:09:47.000Z",
+  "fetched_at": "2026-10-22T15:09:08Z",
+  "discovered_by": "rss:404media.co",
+  "scanner_verdict": "WARNINGS \u2014 27 pts, low/medium only",
+  "scanner_score": 27,
+  "content_hash": "b1df1de80d138d29adb43196e91e07e53653a01512d83f24d37fe1a3b125d935",
+  "paths": {
+    "html": "assets/articles/404media.co/cops-warned-to-look-for-suspicious-behavior-from-people-opposing-flock-at-city-c_05333a84.html",
+    "meta": "assets/articles/404media.co/cops-warned-to-look-for-suspicious-behavior-from-people-opposing-flock-at-city-c_05333a84.meta.json",
+    "txt": "assets/articles/404media.co/cops-warned-to-look-for-suspicious-behavior-from-people-opposing-flock-at-city-c_05333a84.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:misuse",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+    "2c981ce6-8d54-565f-bb99-ac885eee8769",
+    "1808b50d-b58e-5245-b233-3b7b31dd5c29"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "a17a8e7d-6ebb-50e2-ad83-14ecd689e810",
+      "display_name": "Los Angeles CA PD",
+      "state": "CA",
+      "score": 5.467,
+      "matched_forms": [
+        "Los Angeles",
+        "Los Angeles Police",
+        "Los Angeles Police Department"
+      ]
+    },
+    {
+      "agency_id": "2c981ce6-8d54-565f-bb99-ac885eee8769",
+      "display_name": "Orange County SO CA",
+      "state": "CA",
+      "score": 2.717,
+      "matched_forms": [
+        "Orange County"
+      ]
+    },
+    {
+      "agency_id": "1808b50d-b58e-5245-b233-3b7b31dd5c29",
+      "display_name": "Costa Mesa CA PD",
+      "state": "CA",
+      "score": 2.667,
+      "matched_forms": [
+        "Costa Mesa"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "2c981ce6-8d54-565f-bb99-ac885eee8769"
+  ],
+  "summary": "404 Media obtained a July bulletin from the Orange County Intelligence Assessment Center, a fusion center, warning California police that city council meetings about Flock surveillance cameras could be targets for 'extremists' and listing protected First Amendment activities (large turnout, emotional confrontations, media presence) as potential public safety risks. The bulletin acknowledged no credible threats and cited LAPD's recent termination of its Flock contract as potentially emboldening anti-surveillance organizers.",
+  "key_quotes": [
+    {
+      "quote": "City-hosted events (i.e., city council meetings) may be viewed by extremists as a desirable target. Partners are encouraged to review for signs of suspicious activity",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "providing organizers and participants with a high-profile local example that could increase turnout and place additional public pressure on City Council members",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "no specific and credible threats found",
+      "paragraph_idx": 5
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-22T15:14:25Z",
+  "article_id": "art_05333a841ca6"
+}

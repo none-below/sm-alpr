@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "[Paraverse] Ohio State University",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-11-26T15:29:45Z",
+      "id": "43e0e875ad41422180cd6e7c31c1b871",
+      "title": "[Paraverse] Ohio State University Simulated Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/43e0e875ad41422180cd6e7c31c1b871"
+    }
+  ],
+  "description": "Feature service for [Paraverse] Ohio State University",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "43e0e875ad41422180cd6e7c31c1b871",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "[Paraverse] Ohio State University Simulated Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 8,
+    "duplicates": 0,
+    "first_takeoff": "2025-10-02T22:35:33Z",
+    "last_takeoff": "2026-01-13T13:34:09Z",
+    "unhashed": 8
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "ddd886dd-4984-4cdc-bea3-2fe0a6966a28",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/ddd886dd-4984-4cdc-bea3-2fe0a6966a28-production/FeatureServer"
+}

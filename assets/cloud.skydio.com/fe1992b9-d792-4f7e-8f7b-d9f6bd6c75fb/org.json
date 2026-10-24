@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - Elliot Graebert",
+  "dashboards": [],
+  "description": "Feature service for INT - Elliot Graebert",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2025-05-28T16:55:18Z",
+    "last_takeoff": "2025-06-12T04:40:54Z",
+    "unhashed": 2
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "fe1992b9-d792-4f7e-8f7b-d9f6bd6c75fb",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/fe1992b9-d792-4f7e-8f7b-d9f6bd6c75fb-production/FeatureServer"
+}

@@ -1,0 +1,50 @@
+{
+  "agency_id": "b735fd9f-dfb3-5fc3-80bf-715cea3256ae",
+  "agency_name": "Boynton Beach Police Department",
+  "dashboards": [],
+  "description": "Feature service for Boynton Beach Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "b735fd9f-dfb3-5fc3-80bf-715cea3256ae",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-09-10T13:44:54Z",
+    "last_takeoff": "2026-09-10T13:44:54Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "f32bf3d9-9ee5-415c-b209-bfa0fea1e2e1",
+  "ori": [
+    "FL0500300"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/f32bf3d9-9ee5-415c-b209-bfa0fea1e2e1-production/FeatureServer"
+}

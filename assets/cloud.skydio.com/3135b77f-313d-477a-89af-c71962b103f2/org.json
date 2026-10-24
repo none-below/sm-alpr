@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Florida Department of Transportation",
+  "dashboards": [],
+  "description": "Feature service for Florida Department of Transportation",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 1,
+    "first_takeoff": "2024-11-22T16:51:45Z",
+    "last_takeoff": "2024-11-22T16:51:45Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "3135b77f-313d-477a-89af-c71962b103f2",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/3135b77f-313d-477a-89af-c71962b103f2-production/FeatureServer"
+}

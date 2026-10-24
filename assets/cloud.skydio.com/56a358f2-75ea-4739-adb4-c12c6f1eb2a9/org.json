@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Sandy Springs Fire Department (GA)",
+  "dashboards": [],
+  "description": "Feature service for Sandy Springs Fire Department (GA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 1,
+    "first_takeoff": "2026-02-17T15:25:12Z",
+    "last_takeoff": "2026-02-17T15:25:12Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "56a358f2-75ea-4739-adb4-c12c6f1eb2a9",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/56a358f2-75ea-4739-adb4-c12c6f1eb2a9-production/FeatureServer"
+}

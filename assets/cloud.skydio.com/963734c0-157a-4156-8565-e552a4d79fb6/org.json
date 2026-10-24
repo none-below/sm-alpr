@@ -1,0 +1,50 @@
+{
+  "agency_id": "09d70d09-1c2d-59cc-a227-a21fe402ac91",
+  "agency_name": "Chicago Police Department",
+  "dashboards": [],
+  "description": "Feature service for Chicago Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "09d70d09-1c2d-59cc-a227-a21fe402ac91",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 5,
+    "duplicates": 0,
+    "first_takeoff": "2025-02-03T20:04:26Z",
+    "last_takeoff": "2025-02-09T20:34:28Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "963734c0-157a-4156-8565-e552a4d79fb6",
+  "ori": [
+    "ILCPD0000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/963734c0-157a-4156-8565-e552a4d79fb6-production/FeatureServer"
+}

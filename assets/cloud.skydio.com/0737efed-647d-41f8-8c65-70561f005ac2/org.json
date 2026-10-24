@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Columbus GA - Skydio DFR Day",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-07-17T15:49:28Z",
+      "id": "e4ff0fb1f5d841b78cbc70a428ead7c2",
+      "title": "Columbus GA - Skydio DFR Day Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/e4ff0fb1f5d841b78cbc70a428ead7c2"
+    }
+  ],
+  "description": "Feature service for Columbus GA - Skydio DFR Day",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "e4ff0fb1f5d841b78cbc70a428ead7c2",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Columbus GA - Skydio DFR Day Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "0737efed-647d-41f8-8c65-70561f005ac2",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/0737efed-647d-41f8-8c65-70561f005ac2-production/FeatureServer"
+}

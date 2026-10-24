@@ -1,0 +1,64 @@
+{
+  "agency_id": "dc516af3-0ae3-593c-a214-b1a268a89920",
+  "agency_name": "Bernalillo County Sheriff's Office",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-03-12T19:17:53Z",
+      "id": "831574a885f145c9ad80a2dbbed4e0be",
+      "title": "Bernalillo County Sheriff's Office Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/831574a885f145c9ad80a2dbbed4e0be"
+    }
+  ],
+  "description": "Feature service for Bernalillo County Sheriff's Office",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "831574a885f145c9ad80a2dbbed4e0be",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Bernalillo County Sheriff's Office Drone Flights"
+    },
+    {
+      "agency_id": "dc516af3-0ae3-593c-a214-b1a268a89920",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 7,
+    "duplicates": 0,
+    "first_takeoff": "2026-03-12T15:32:36Z",
+    "last_takeoff": "2026-03-24T17:34:35Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "4870b79d-bcc1-4b01-8de0-a180cc59faa8",
+  "ori": [
+    "NM0010000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/4870b79d-bcc1-4b01-8de0-a180cc59faa8-production/FeatureServer"
+}

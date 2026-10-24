@@ -1,0 +1,64 @@
+{
+  "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+  "agency_name": "Santa Clara County Sheriff's Office",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-04-16T13:33:44Z",
+      "id": "06fa738e00f84de6a9fa587a01ab159e",
+      "title": "Santa Clara County Sheriff's Office UAS Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/06fa738e00f84de6a9fa587a01ab159e"
+    }
+  ],
+  "description": "Feature service for Santa Clara County Sheriff's Office",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "06fa738e00f84de6a9fa587a01ab159e",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Santa Clara County Sheriff's Office UAS Flights"
+    },
+    {
+      "agency_id": "1b719ab9-5230-5a7a-bcb4-a495a4e716eb",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 802,
+    "duplicates": 0,
+    "first_takeoff": "2024-12-09T18:09:22Z",
+    "last_takeoff": "2026-10-14T06:39:47Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "a34eedd9-14db-41e1-ad32-86064c27e170",
+  "ori": [
+    "CA0430000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/a34eedd9-14db-41e1-ad32-86064c27e170-production/FeatureServer"
+}

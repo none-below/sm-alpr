@@ -1,0 +1,64 @@
+{
+  "agency_id": "96ab8fbc-f76a-5cc0-8a9f-05dd6a836de8",
+  "agency_name": "Cobb County Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-11-20T16:15:24Z",
+      "id": "b8e5c097e1bb44c7bd3912fb79037cba",
+      "title": "Cobb County Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/b8e5c097e1bb44c7bd3912fb79037cba"
+    }
+  ],
+  "description": "Feature service for Cobb County Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "b8e5c097e1bb44c7bd3912fb79037cba",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Cobb County Police Department Drone Flights"
+    },
+    {
+      "agency_id": "96ab8fbc-f76a-5cc0-8a9f-05dd6a836de8",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 761,
+    "duplicates": 22,
+    "first_takeoff": "2025-11-06T19:53:44Z",
+    "last_takeoff": "2026-10-22T02:18:06Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "5b551c3f-90ca-4771-82b9-f33a4de6d47a",
+  "ori": [
+    "GA0330200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5b551c3f-90ca-4771-82b9-f33a4de6d47a-production/FeatureServer"
+}

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "lNT - SE X10 Docks",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-04-17T16:03:52Z",
+      "id": "50f7e683411c425da3f70938808dd0de",
+      "title": "lNT - SE X10 Docks Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/50f7e683411c425da3f70938808dd0de"
+    }
+  ],
+  "description": "Feature service for lNT - SE X10 Docks",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "50f7e683411c425da3f70938808dd0de",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "lNT - SE X10 Docks Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 4,
+    "duplicates": 0,
+    "first_takeoff": "2025-04-17T12:47:24Z",
+    "last_takeoff": "2025-04-17T15:40:00Z",
+    "unhashed": 4
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "c50e34ab-2097-4a13-90a2-d3cc2b8619e4",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/c50e34ab-2097-4a13-90a2-d3cc2b8619e4-production/FeatureServer"
+}

@@ -1,0 +1,64 @@
+{
+  "agency_id": "1fd48543-8a0b-50b3-bdd5-69d51d203892",
+  "agency_name": "Sterling Heights Police Department (MI)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-09-10T14:38:50Z",
+      "id": "7f9a1a85d1734f2da3ac37cc809ea79b",
+      "title": "Sterling Heights Police Department (MI) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/7f9a1a85d1734f2da3ac37cc809ea79b"
+    }
+  ],
+  "description": "Feature service for Sterling Heights Police Department (MI)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "7f9a1a85d1734f2da3ac37cc809ea79b",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Sterling Heights Police Department (MI) Drone Flights"
+    },
+    {
+      "agency_id": "1fd48543-8a0b-50b3-bdd5-69d51d203892",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 50,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-21T16:56:32Z",
+    "last_takeoff": "2026-10-22T12:13:18Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "3013951d-0f7c-4485-a195-8dddf7bec723",
+  "ori": [
+    "MI5076500"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/3013951d-0f7c-4485-a195-8dddf7bec723-production/FeatureServer"
+}

@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Applus+",
+  "dashboards": [],
+  "description": "Feature service for Applus+",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 2,
+    "duplicates": 0,
+    "first_takeoff": "2026-01-07T04:45:40Z",
+    "last_takeoff": "2026-01-07T05:49:31Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "9f57eeeb-b7db-4da1-a927-3a3418e21c15",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/9f57eeeb-b7db-4da1-a927-3a3418e21c15-production/FeatureServer"
+}

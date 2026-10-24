@@ -5,7 +5,9 @@
 # (see git ls-tree -r -l origin/main -- assets/transparency.flocksafety.com);
 # nothing in `make build`/`make test` or the curators reads them directly —
 # generators consume the parsed *.json, and CLAUDE.md already forbids reading
-# the raw *.html there. The OCR *.txt sidecars and *.json stay, so the
+# the raw *.html there. Axon's rendered *.pdf captures (assets/evidence.com/)
+# are skipped for the same reason: visual archives nothing in the build reads.
+# The OCR *.txt sidecars and *.json stay, so the
 # worktree still has everything the pipeline and parser-adjacent debugging
 # normally need.
 #
@@ -22,18 +24,20 @@ repo_root="$(git rev-parse --show-toplevel)"
 worktree_path="$repo_root/.claude/worktrees/$name"
 
 git -C "$repo_root" fetch origin main
-git -C "$repo_root" worktree add --no-checkout "$worktree_path" -b "$name" origin/main
+# The full ref name: a local branch or tag called "origin/main" would otherwise win.
+git -C "$repo_root" worktree add --no-checkout "$worktree_path" -b "$name" refs/remotes/origin/main
 
 git -C "$worktree_path" sparse-checkout init --no-cone
 git -C "$worktree_path" sparse-checkout set --stdin <<'PATTERNS'
 /*
 !/assets/transparency.flocksafety.com/**/*.html
 !/assets/transparency.flocksafety.com/**/*.pdf
+!/assets/evidence.com/**/*.pdf
 PATTERNS
 git -C "$worktree_path" checkout "$name"
 
 echo "Worktree ready: $worktree_path"
-echo "Sparse: Flock raw *.html/*.pdf excluded (json + OCR txt sidecars kept)."
+echo "Sparse: Flock raw *.html/*.pdf and Axon *.pdf renders excluded (json + OCR txt sidecars kept)."
 echo
 echo "Need the raw html/pdf for one agency (e.g. parser debugging)?"
 echo "  git -C \"$worktree_path\" sparse-checkout add '/assets/transparency.flocksafety.com/<agency>/*.html' '/assets/transparency.flocksafety.com/<agency>/*.pdf'"

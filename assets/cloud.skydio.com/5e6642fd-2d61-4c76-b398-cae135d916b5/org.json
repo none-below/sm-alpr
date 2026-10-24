@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Frederick County Sheriff's Office",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-04-02T15:00:04Z",
+      "id": "757a3ca500934bfa9de33669a5d473e8",
+      "title": "Frederick County Sheriff's Office Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/757a3ca500934bfa9de33669a5d473e8"
+    }
+  ],
+  "description": "Feature service for Frederick County Sheriff's Office",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "757a3ca500934bfa9de33669a5d473e8",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Frederick County Sheriff's Office Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 5,
+    "duplicates": 0,
+    "first_takeoff": "2026-01-23T05:24:58Z",
+    "last_takeoff": "2026-02-23T20:45:40Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "5e6642fd-2d61-4c76-b398-cae135d916b5",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5e6642fd-2d61-4c76-b398-cae135d916b5-production/FeatureServer"
+}

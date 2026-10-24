@@ -4,6 +4,8 @@ set -eu
 #   1. Generate OCR text sidecars for staged PDFs (aborts if new sidecars created)
 #   2. Scan staged PDFs for PII (advisory)
 #   3. Scan staged transparency-portal scrapes for prompt injection (advisory)
+#   4. Scan staged text for AI-assistant fingerprints and hidden Unicode
+#      (blocks on errors; skips assets/ and data/)
 #
 # Note: PDF generation from findings MD is handled by GitHub Actions (CI + deploy).
 #
@@ -22,8 +24,13 @@ uv run python scripts/ocr_sidecar.py --staged || exit 1
 # contributor — unhelpful when both classes are advisory.
 pii_ec=0
 inj_ec=0
+fp_ec=0
 uv run python scripts/pii_scan.py --staged || pii_ec=$?
 uv run python scripts/check_injection.py --staged || inj_ec=$?
+# Stdlib-only, so plain python3 skips the uv env sync. Reads staged blobs
+# from the index, not the working tree, so the TOCTOU caveat above doesn't
+# apply to it.
+python3 scripts/check_ai_fingerprints.py --staged || fp_ec=$?
 
 # Block on PII (any exit) and HIGH/CRITICAL injection findings (exit >= 2).
 # LOW/MEDIUM injection warnings (exit 1) pass through.
@@ -33,6 +40,11 @@ if [ "$pii_ec" -ne 0 ]; then
 fi
 if [ "$inj_ec" -ge 2 ]; then
   echo "Pre-commit aborted: prompt-injection scan flagged HIGH/CRITICAL content." >&2
+  exit 1
+fi
+if [ "$fp_ec" -eq 1 ]; then
+  echo "Pre-commit aborted: AI-fingerprint scan flagged staged text." >&2
+  echo "  Mechanical hits: python3 scripts/check_ai_fingerprints.py --fix <file>, then re-stage." >&2
   exit 1
 fi
 exit 0

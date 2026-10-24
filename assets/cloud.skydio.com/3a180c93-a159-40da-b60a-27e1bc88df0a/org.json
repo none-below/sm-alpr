@@ -1,0 +1,64 @@
+{
+  "agency_id": "1df739b8-4105-59f1-a7a1-5fe80431ef6f",
+  "agency_name": "Virginia Beach Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-08-13T18:00:18Z",
+      "id": "9cac2db7f521433ebbecd7dda731562b",
+      "title": "Virginia Beach Police Department DFR Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/9cac2db7f521433ebbecd7dda731562b"
+    }
+  ],
+  "description": "Feature service for Virginia Beach Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "9cac2db7f521433ebbecd7dda731562b",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Virginia Beach Police Department DFR Flights"
+    },
+    {
+      "agency_id": "1df739b8-4105-59f1-a7a1-5fe80431ef6f",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 65,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-04T21:00:36Z",
+    "last_takeoff": "2026-10-21T15:50:41Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "3a180c93-a159-40da-b60a-27e1bc88df0a",
+  "ori": [
+    "VA1280000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/3a180c93-a159-40da-b60a-27e1bc88df0a-production/FeatureServer"
+}

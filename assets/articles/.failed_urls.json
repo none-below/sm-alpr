@@ -24,20 +24,40 @@
     "error": "HTTPError: 404 Client Error: Not Found for url: https://brookline.news/police-pause-flock-access",
     "last_attempt": "2026-05-08T22:10:13Z"
   },
+  "https://chicagoreader.com/news/explainer/alpr-flock-motorola-surveillance-camera/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://chicagoreader.com/news/explainer/alpr-flock-motorola-surveillance-camera/\nCall log:\n  - navigating to \"https://chicagoreader.com/news/explainer/alpr-flock-motorola-surveillance-camera/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-03T21:14:29Z"
+  },
   "https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://cvillerightnow.com/news/208802-charlottesville-turns-off-flock-license-plate-cameras-after-concerns-raised/",
     "last_attempt": "2026-05-08T22:09:04Z"
+  },
+  "https://davisvanguard.org/2026/10/marin-alpr-data-breach/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-17T04:18:08Z"
   },
   "https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr": {
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://evanstonroundtable.com/2025/09/26/evanston-ends-flock-alpr",
     "last_attempt": "2026-05-08T22:15:00Z"
   },
+  "https://hoodline.com/2026/10/schumer-demands-flock-safety-delete-data-reveal-federal-camera-access/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://hoodline.com/2026/10/schumer-demands-flock-safety-delete-data-reveal-federal-camera-access/\nCall log:\n  - navigating to \"https://hoodline.com/2026/10/schumer-demands-flock-safety-delete-data-reveal-federal-camera-access/\", waiting until \"domcontentload",
+    "last_attempt": "2026-10-06T02:58:09Z"
+  },
   "https://kdvr.com/news/local/denver-to-extend-license-plate-reader-contract-but-adds-federal-data-sharing-penalties/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-06-05T17:54:33Z"
+  },
+  "https://localnewsmatters.org/2026/10/07/san-jose-license-plate-reader-lawsuit-dismissed/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://localnewsmatters.org/2026/10/07/san-jose-license-plate-reader-lawsuit-dismissed/\nCall log:\n  - navigating to \"https://localnewsmatters.org/2026/10/07/san-jose-license-plate-reader-lawsuit-dismissed/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-09T16:16:37Z"
   },
   "https://madison.com/news/local/verona-flock-renewal-vote": {
     "attempts": 3,
@@ -89,10 +109,25 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-27T16:49:26Z"
   },
+  "https://thehill.com/policy/technology/6073913-alpr-camera-privacy-debate/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-17T04:15:18Z"
+  },
+  "https://thehill.com/policy/technology/6073913-alpr-camera-privacy-debate/?ipid=promo-link-block3": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-17T19:17:59Z"
+  },
   "https://universe.byu.edu/metro/the-debate-of-alpr-cameras-in-provo": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-15T01:25:48Z"
+  },
+  "https://urgentcomm.com/tracking-monitoring-control/ai-driven-alpr-systems-scrutinized-during-senate-hearing": {
+    "attempts": 3,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://urgentcomm.com/tracking-monitoring-control/ai-driven-alpr-systems-scrutinized-during-senate-hearing\nCall log:\n  - navigating to \"https://urgentcomm.com/tracking-monitoring-control/ai-driven-alpr-systems-scrutinized-during-senate-hearing\", waiting until; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-17T04:16:49Z"
   },
   "https://www.aclunc.org/blog/californians-fought-hard-driver-privacy-protections-why-are-police-refusing-follow-them": {
     "attempts": 3,
@@ -109,6 +144,11 @@
     "error": "HTTP 404",
     "last_attempt": "2026-05-09T06:28:56Z"
   },
+  "https://www.cleveland.com/crime/2026/10/clevelands-police-commission-wants-to-pause-flock-camera-use-will-that-happen.html": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-10T22:31:04Z"
+  },
   "https://www.columbian.com/news/2025/skamania-county-flock": {
     "attempts": 3,
     "error": "HTTP 404",
@@ -118,6 +158,11 @@
     "attempts": 3,
     "error": "HTTP 404",
     "last_attempt": "2026-05-26T23:26:40Z"
+  },
+  "https://www.eff.org/deeplinks/2026/10/we-demand-more-information-how-marin-cops-illegally-shared-flock-alpr-data": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.eff.org/deeplinks/2026/10/we-demand-more-information-how-marin-cops-illegally-shared-flock-alpr-data\nCall log:\n  - navigating to \"https://www.eff.org/deeplinks/2026/10/we-demand-more-information-how-marin-cops-illegally-shared-flock-alpr-data\", wai",
+    "last_attempt": "2026-10-03T01:08:55Z"
   },
   "https://www.examiner-enterprise.com/story/news/2024/02/06/washington-county-flock": {
     "attempts": 3,
@@ -154,6 +199,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-06-25T17:21:43Z"
   },
+  "https://www.kron4.com/news/bay-area/car-theft-suspect-arrested-after-asking-north-bay-officer-for-the-time/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kron4.com/news/bay-area/car-theft-suspect-arrested-after-asking-north-bay-officer-for-the-time/\nCall log:\n  - navigating to \"https://www.kron4.com/news/bay-area/car-theft-suspect-arrested-after-asking-north-bay-officer-for-the-time/\", waiting until",
+    "last_attempt": "2026-10-11T01:49:55Z"
+  },
   "https://www.kron4.com/news/bay-area/half-moon-bay-to-end-flock-camera-contract/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
@@ -174,6 +224,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-06-19T17:25:12Z"
   },
+  "https://www.kron4.com/news/technology-ai/controversial-surveillance-camera-company-flock-safety-reducing-staff-amid-backlash/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kron4.com/news/technology-ai/controversial-surveillance-camera-company-flock-safety-reducing-staff-amid-backlash/\nCall log:\n  - navigating to \"https://www.kron4.com/news/technology-ai/controversial-surveillance-camera-company-flock-safety-reducing-",
+    "last_attempt": "2026-10-11T01:53:08Z"
+  },
   "https://www.kut.org/austin/2025-07-01/austin-ends-flock-cameras": {
     "attempts": 3,
     "error": "HTTP 404",
@@ -189,6 +244,21 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-16T20:05:05Z"
   },
+  "https://www.kvue.com/article/news/local/austin-lawsuit-flock-safety-gender-discrimination/269-d4d30ecf-139b-40db-b6c4-dea42df2ba80": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-21T23:13:41Z"
+  },
+  "https://www.kvue.com/article/news/local/bastrop-flock-license-plate-reader-contract-ended/269-389cb18d-dee0-452e-acbd-4529545eedb2": {
+    "attempts": 3,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kvue.com/article/news/local/bastrop-flock-license-plate-reader-contract-ended/269-389cb18d-dee0-452e-acbd-4529545eedb2\nCall log:\n  - navigating to \"https://www.kvue.com/article/news/local/bastrop-flock-license-plate-reader-contract-ended/269-389cb1; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-20T00:16:37Z"
+  },
+  "https://www.kvue.com/article/news/local/hays-county/kyle-council-flock-cameras/269-401f3e43-1479-4821-8198-0efc6cf8fd5b": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-09T09:01:20Z"
+  },
   "https://www.kvue.com/article/news/police/hutto-flock-license-plate-reader-cameras/269-bb59e66e-fe73-4253-86b7-e7c66a0259a0": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
@@ -198,6 +268,11 @@
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-17T22:08:59Z"
+  },
+  "https://www.kvue.com/article/news/politics/vote-texas/texas-flock-camera-reinstatement-state-funding/269-d93cb7f5-228e-4596-bb36-1433bccc2302": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-07T08:36:50Z"
   },
   "https://www.kxan.com/border-report/border-report-live-california-attorney-general-rob-bonta/": {
     "attempts": 3,
@@ -254,6 +329,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-26T16:55:11Z"
   },
+  "https://www.kxan.com/news/local/hays/kyle/kyle-city-council-votes-to-cover-flock-cameras/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kxan.com/news/local/hays/kyle/kyle-city-council-votes-to-cover-flock-cameras/\nCall log:\n  - navigating to \"https://www.kxan.com/news/local/hays/kyle/kyle-city-council-votes-to-cover-flock-cameras/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-09T09:02:35Z"
+  },
   "https://www.kxan.com/news/local/here-are-the-central-texas-law-enforcement-agencies-with-flock-data-sharing-agreements-with-texas-dps/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
@@ -279,6 +359,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-26T19:28:10Z"
   },
+  "https://www.kxan.com/news/national-news/mapquests-new-surveillance-layer-feature-flags-flock-cameras-on-users-routes/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-20T00:17:53Z"
+  },
   "https://www.kxan.com/news/national-news/trump-weighs-in-on-flock-debate-i-like-them/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
@@ -299,10 +384,30 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-26T19:52:22Z"
   },
+  "https://www.latimes.com/california/story/2026-10-06/los-angeles-city-council-lapd-axon-license-plate-reader-contract": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.latimes.com/california/story/2026-10-06/los-angeles-city-council-lapd-axon-license-plate-reader-contract\nCall log:\n  - navigating to \"https://www.latimes.com/california/story/2026-10-06/los-angeles-city-council-lapd-axon-license-plate-reader-contra",
+    "last_attempt": "2026-10-08T01:52:50Z"
+  },
+  "https://www.mlive.com/news/2026/10/flock-cameras-spark-privacy-battle-across-michigan-and-4-other-major-stories.html": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-06T02:56:46Z"
+  },
+  "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/\nCall log:\n  - navigating to \"https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/\", waiting until \"domcontentloaded\"\n",
+    "last_attempt": "2026-10-03T06:27:18Z"
+  },
   "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-september-18/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-19T20:34:23Z"
+  },
+  "https://www.news10.com/capitol/nyclu-praises-flock-regulation/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-04T00:33:02Z"
   },
   "https://www.news10.com/news/albany-county/colonie-group-meets-to-discuss-flock-cameras/": {
     "attempts": 3,
@@ -329,10 +434,20 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-17T22:07:23Z"
   },
+  "https://www.news10.com/news/local-news/attorney-talks-greenport-flock-camera-approval-process/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-01T05:42:34Z"
+  },
   "https://www.news10.com/news/local-news/greenports-board-minutes-resolutions-lack-flock-camera-approval/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-25T22:16:04Z"
+  },
+  "https://www.news10.com/news/local-news/questions-remain-about-greenport-flock-contract-after-board-meeting/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-09T08:58:00Z"
   },
   "https://www.news10.com/news/national/ap-license-plate-camera-company-halts-cooperation-with-federal-agencies-among-investigation-concerns/": {
     "attempts": 3,
@@ -359,6 +474,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-05-27T04:44:46Z"
   },
+  "https://www.news10.com/news/troy-city-council-passes-flock-regulation-mayor-plans-to-veto/": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-03T01:10:04Z"
+  },
   "https://www.news10.com/news/warren-county/roller-coaster-enthusiasts-flock-to-the-great-escape/": {
     "attempts": 3,
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
@@ -368,6 +488,11 @@
     "attempts": 3,
     "error": "HTTP 404",
     "last_attempt": "2026-05-27T08:55:17Z"
+  },
+  "https://www.nytimes.com/2026/09/28/nyregion/nyc-flock-nypd-surveillance-cameras.html": {
+    "attempts": 3,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-09-29T01:50:46Z"
   },
   "https://www.opb.org/article/2025/11/24/lawmakers-question-legality-of-border-patrol-license-plate-reader-program/": {
     "attempts": 3,
@@ -383,6 +508,11 @@
     "attempts": 3,
     "error": "HTTPError: 404 Client Error: Not Found for url: https://www.redrocknews.com/2025/09/09/sedona-ends-flock-license-plate-cameras",
     "last_attempt": "2026-05-08T22:11:56Z"
+  },
+  "https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2026-10-09/": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2026-10-09/\nCall log:\n  - navigating to \"https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2",
+    "last_attempt": "2026-10-10T22:34:25Z"
   },
   "https://www.smdailyjournal.com/news/local/belmont-moves-ahead-with-drone-program/article_4723b7c0-52d9-11ef-ac5e-efdc64cb5f0f.html": {
     "attempts": 3,
@@ -408,6 +538,16 @@
     "attempts": 3,
     "error": "HTTP 429",
     "last_attempt": "2026-05-27T16:47:32Z"
+  },
+  "https://www.smdailyjournal.com/news/local/san-mateo-police-department-restricts-data-sharing/article_0625c800-b15c-4085-9246-2358fd3e9662.html": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_HTTP_RESPONSE_CODE_FAILURE at https://www.smdailyjournal.com/news/local/san-mateo-police-department-restricts-data-sharing/article_0625c800-b15c-4085-9246-2358fd3e9662.html\nCall log:\n  - navigating to \"https://www.smdailyjournal.com/news/local/san-mateo-police-department-restrict",
+    "last_attempt": "2026-10-10T22:28:36Z"
+  },
+  "https://www.smdailyjournal.com/news/local/san-mateo-to-implement-axon-cameras-the-city-will-add-alpr-cameras-in-new-contract/article_7a240de8-4b73-4afa-a6fa-62c6eec28e68.html": {
+    "attempts": 3,
+    "error": "Error: Page.goto: net::ERR_HTTP_RESPONSE_CODE_FAILURE at https://www.smdailyjournal.com/news/local/san-mateo-to-implement-axon-cameras-the-city-will-add-alpr-cameras-in-new-contract/article_7a240de8-4b73-4afa-a6fa-62c6eec28e68.html\nCall log:\n  - navigating to \"https://www.smdailyjournal.com/news/local/san-",
+    "last_attempt": "2026-10-10T22:27:22Z"
   },
   "https://www.smdailyjournal.com/news/local/south-san-francisco-police-leverage-ai/article_98ae85ac-3282-41d1-aabe-00a0a5b2aa0e.html": {
     "attempts": 3,

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Axon",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2024-12-13T21:05:41Z",
+      "id": "c7819204066a4f71af6a5463be0f8b30",
+      "title": "Axon Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/c7819204066a4f71af6a5463be0f8b30"
+    }
+  ],
+  "description": "Feature service for Axon",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "c7819204066a4f71af6a5463be0f8b30",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Axon Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 41,
+    "duplicates": 5,
+    "first_takeoff": "2024-10-23T18:07:49Z",
+    "last_takeoff": "2026-05-07T16:27:11Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "1f18467c-59a9-45ae-a839-9de5448b01ce",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/1f18467c-59a9-45ae-a839-9de5448b01ce-production/FeatureServer"
+}

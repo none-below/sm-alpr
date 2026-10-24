@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "[Paraverse] Pennsylvania Department of Corrections (PA)",
+  "dashboards": [],
+  "description": "Feature service for [Paraverse] Pennsylvania Department of Corrections (PA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "88f764d4-2564-4497-a34c-e456196aae57",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/88f764d4-2564-4497-a34c-e456196aae57-production/FeatureServer"
+}

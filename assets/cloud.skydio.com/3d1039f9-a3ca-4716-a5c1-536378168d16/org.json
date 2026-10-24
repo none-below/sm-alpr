@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "joejoeDrones",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-04-26T22:32:47Z",
+      "id": "57d20cd16680439cacfe64cb956ac1a9",
+      "title": "joejoeDrones Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/57d20cd16680439cacfe64cb956ac1a9"
+    }
+  ],
+  "description": "Feature service for joejoeDrones",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "57d20cd16680439cacfe64cb956ac1a9",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "joejoeDrones Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 24,
+    "duplicates": 0,
+    "first_takeoff": "2025-04-23T15:48:10Z",
+    "last_takeoff": "2025-11-28T18:47:50Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "3d1039f9-a3ca-4716-a5c1-536378168d16",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/3d1039f9-a3ca-4716-a5c1-536378168d16-production/FeatureServer"
+}

@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Franklin Police Department UAS Unit (TN)",
+  "dashboards": [],
+  "description": "Feature service for Franklin Police Department UAS Unit (TN)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "db2884db-04c3-4bfe-a494-1880d8e21733",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/db2884db-04c3-4bfe-a494-1880d8e21733-production/FeatureServer"
+}

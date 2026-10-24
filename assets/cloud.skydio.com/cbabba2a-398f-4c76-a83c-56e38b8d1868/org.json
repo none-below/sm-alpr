@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - Customer Support G47 Dock",
+  "dashboards": [],
+  "description": "Feature service for INT - Customer Support G47 Dock",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1,
+    "duplicates": 0,
+    "first_takeoff": "2026-01-28T15:35:09Z",
+    "last_takeoff": "2026-01-28T15:35:09Z",
+    "unhashed": 1
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "cbabba2a-398f-4c76-a83c-56e38b8d1868",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/cbabba2a-398f-4c76-a83c-56e38b8d1868-production/FeatureServer"
+}

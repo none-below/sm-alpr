@@ -1,0 +1,42 @@
+{
+  "agency_id": null,
+  "agency_name": "Orange County Sheriff's Office (NC)",
+  "dashboards": [],
+  "description": "Feature service for Orange County Sheriff's Office (NC)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "74c55ba5-dc1c-4cda-8b4a-9dcfadc2fbb8",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/74c55ba5-dc1c-4cda-8b4a-9dcfadc2fbb8-production/FeatureServer"
+}

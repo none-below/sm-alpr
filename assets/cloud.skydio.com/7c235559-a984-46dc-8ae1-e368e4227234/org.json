@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - Jason LaFond",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2024-12-11T13:53:38Z",
+      "id": "46ae44ddca694be98eeb993a66f2de18",
+      "title": "INT - Jason LaFond Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/46ae44ddca694be98eeb993a66f2de18"
+    }
+  ],
+  "description": "Feature service for INT - Jason LaFond",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "46ae44ddca694be98eeb993a66f2de18",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "INT - Jason LaFond Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 10,
+    "duplicates": 1,
+    "first_takeoff": "2024-10-09T17:40:45Z",
+    "last_takeoff": "2024-12-30T18:00:09Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "7c235559-a984-46dc-8ae1-e368e4227234",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/7c235559-a984-46dc-8ae1-e368e4227234-production/FeatureServer"
+}

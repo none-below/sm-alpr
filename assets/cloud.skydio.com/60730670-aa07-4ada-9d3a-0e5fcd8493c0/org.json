@@ -1,0 +1,50 @@
+{
+  "agency_id": "037a8932-9800-57e3-8904-939ae423301e",
+  "agency_name": "Maiden Police Department",
+  "dashboards": [],
+  "description": "Feature service for Maiden Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "037a8932-9800-57e3-8904-939ae423301e",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 4,
+    "duplicates": 0,
+    "first_takeoff": "2025-07-24T17:50:00Z",
+    "last_takeoff": "2025-07-25T18:13:50Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "60730670-aa07-4ada-9d3a-0e5fcd8493c0",
+  "ori": [
+    "NC0180300"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/60730670-aa07-4ada-9d3a-0e5fcd8493c0-production/FeatureServer"
+}

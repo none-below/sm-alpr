@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "University of Maryland, Baltimore (UMB)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-10-09T15:14:57Z",
+      "id": "92a93123417b49c09c7c1f696bfc13bd",
+      "title": "University of Maryland, Baltimore (UMB) Aerial Support Missions",
+      "url": "https://www.arcgis.com/apps/dashboards/92a93123417b49c09c7c1f696bfc13bd"
+    }
+  ],
+  "description": "Feature service for University of Maryland, Baltimore (UMB)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "92a93123417b49c09c7c1f696bfc13bd",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "University of Maryland, Baltimore (UMB) Aerial Support Missions"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 22,
+    "duplicates": 0,
+    "first_takeoff": "2026-08-26T13:25:05Z",
+    "last_takeoff": "2026-10-21T18:37:36Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "41146b95-c328-4437-9b3b-936bdb05518f",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/41146b95-c328-4437-9b3b-936bdb05518f-production/FeatureServer"
+}

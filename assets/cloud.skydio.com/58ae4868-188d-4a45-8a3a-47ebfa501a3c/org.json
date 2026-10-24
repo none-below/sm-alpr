@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Austintown Fire Department (OH)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-06-20T01:51:09Z",
+      "id": "cec559ab9a04433db43889b30156cedc",
+      "title": "Austintown Fire Department (OH) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/cec559ab9a04433db43889b30156cedc"
+    }
+  ],
+  "description": "Feature service for Austintown Fire Department (OH)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "cec559ab9a04433db43889b30156cedc",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Austintown Fire Department (OH) Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "58ae4868-188d-4a45-8a3a-47ebfa501a3c",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/58ae4868-188d-4a45-8a3a-47ebfa501a3c-production/FeatureServer"
+}

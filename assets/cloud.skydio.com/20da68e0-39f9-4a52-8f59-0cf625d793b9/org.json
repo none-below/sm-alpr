@@ -1,0 +1,64 @@
+{
+  "agency_id": "beb0c18e-3f99-5b06-9a8f-52b636e68c33",
+  "agency_name": "Tampa Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-01-05T17:15:06Z",
+      "id": "ba48b9c7ffa549749decea24ad63264f",
+      "title": "Tampa Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/ba48b9c7ffa549749decea24ad63264f"
+    }
+  ],
+  "description": "Feature service for Tampa Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "ba48b9c7ffa549749decea24ad63264f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Tampa Police Department Drone Flights"
+    },
+    {
+      "agency_id": "beb0c18e-3f99-5b06-9a8f-52b636e68c33",
+      "basis": "name+role+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 802,
+    "duplicates": 48,
+    "first_takeoff": "2026-01-03T06:52:41Z",
+    "last_takeoff": "2026-10-04T04:23:53Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+extent",
+  "org_id": "20da68e0-39f9-4a52-8f59-0cf625d793b9",
+  "ori": [
+    "FL0290200"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/20da68e0-39f9-4a52-8f59-0cf625d793b9-production/FeatureServer"
+}

@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - NACHO CARNICERO",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-07-11T13:19:17Z",
+      "id": "7c085801448a4d539afa0c0ab2ff8dfa",
+      "title": "INT - NACHO CARNICERO Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/7c085801448a4d539afa0c0ab2ff8dfa"
+    }
+  ],
+  "description": "Feature service for INT - NACHO CARNICERO",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "7c085801448a4d539afa0c0ab2ff8dfa",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "INT - NACHO CARNICERO Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 13,
+    "duplicates": 1,
+    "first_takeoff": "2025-07-11T09:56:58Z",
+    "last_takeoff": "2025-12-19T19:26:03Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "46a8a2fa-957e-4153-9f21-b55c54a8ef04",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/46a8a2fa-957e-4153-9f21-b55c54a8ef04-production/FeatureServer"
+}

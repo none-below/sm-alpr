@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Oakland County Sheriff's Office MI - Dock Trial",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-09-23T15:25:12Z",
+      "id": "11517f673dc847f4bcf7f48fd3139e7f",
+      "title": "Oakland County Sheriff's Office",
+      "url": "https://www.arcgis.com/apps/dashboards/11517f673dc847f4bcf7f48fd3139e7f"
+    }
+  ],
+  "description": "Feature service for Oakland County Sheriff's Office MI - Dock Trial",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "11517f673dc847f4bcf7f48fd3139e7f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Oakland County Sheriff's Office"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 9,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-16T14:26:13Z",
+    "last_takeoff": "2026-07-16T21:04:51Z",
+    "unhashed": 9
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "f0fc18ff-27e6-4ee1-9991-6eb74d6ebf75",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/f0fc18ff-27e6-4ee1-9991-6eb74d6ebf75-production/FeatureServer"
+}

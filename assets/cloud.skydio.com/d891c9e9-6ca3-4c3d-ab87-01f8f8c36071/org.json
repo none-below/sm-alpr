@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "INT - DFR Team Eng Demo SIM ONLY",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-03-24T22:23:50Z",
+      "id": "b8351ea4eb70468999ac4a3a528ac4b7",
+      "title": "INT - DFR Team Eng Demo SIM ONLY Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/b8351ea4eb70468999ac4a3a528ac4b7"
+    }
+  ],
+  "description": "Feature service for INT - DFR Team Eng Demo SIM ONLY",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "b8351ea4eb70468999ac4a3a528ac4b7",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "INT - DFR Team Eng Demo SIM ONLY Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "d891c9e9-6ca3-4c3d-ab87-01f8f8c36071",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d891c9e9-6ca3-4c3d-ab87-01f8f8c36071-production/FeatureServer"
+}

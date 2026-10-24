@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "NIRAS EMEA",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2025-01-21T17:36:30Z",
+      "id": "37b99114b5d843fabfa7cd05b0ecbbd1",
+      "title": "NIRAS EMEA Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/37b99114b5d843fabfa7cd05b0ecbbd1"
+    }
+  ],
+  "description": "Feature service for NIRAS EMEA",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "37b99114b5d843fabfa7cd05b0ecbbd1",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "NIRAS EMEA Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 6,
+    "duplicates": 0,
+    "first_takeoff": "2025-01-21T08:37:59Z",
+    "last_takeoff": "2025-01-21T12:35:19Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "94045c25-2e0f-4b9a-b3b0-91ecc600e45c",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/94045c25-2e0f-4b9a-b3b0-91ecc600e45c-production/FeatureServer"
+}

@@ -1,0 +1,50 @@
+{
+  "agency_id": "11780c28-0850-5ff1-807d-a472190781c7",
+  "agency_name": "Carson City Sheriff's Office (NV)",
+  "dashboards": [],
+  "description": "Feature service for Carson City Sheriff's Office (NV)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "11780c28-0850-5ff1-807d-a472190781c7",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "ed735cf2-82e1-46f8-9fe5-3f8dbf645ab7",
+  "ori": [
+    "NV0130000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/ed735cf2-82e1-46f8-9fe5-3f8dbf645ab7-production/FeatureServer"
+}

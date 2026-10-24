@@ -1,0 +1,64 @@
+{
+  "agency_id": "ba56fd98-9421-53e5-a792-66efa9c376ca",
+  "agency_name": "Arvada Police Department (CO)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-05-22T15:48:45Z",
+      "id": "b7c9dafc9f1047f4af6f3df05a7fae2e",
+      "title": "Arvada Police Department (CO) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/b7c9dafc9f1047f4af6f3df05a7fae2e"
+    }
+  ],
+  "description": "Feature service for Arvada Police Department (CO)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "b7c9dafc9f1047f4af6f3df05a7fae2e",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Arvada Police Department (CO) Drone Flights"
+    },
+    {
+      "agency_id": "ba56fd98-9421-53e5-a792-66efa9c376ca",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 1828,
+    "duplicates": 30,
+    "first_takeoff": "2026-05-22T17:18:02Z",
+    "last_takeoff": "2026-10-19T18:18:32Z",
+    "unhashed": 1828
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "d5a0507e-f4f1-41cc-a666-40dabdaa2286",
+  "ori": [
+    "CO0300100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d5a0507e-f4f1-41cc-a666-40dabdaa2286-production/FeatureServer"
+}

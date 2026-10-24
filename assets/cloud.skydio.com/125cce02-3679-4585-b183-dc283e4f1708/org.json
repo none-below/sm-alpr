@@ -1,0 +1,50 @@
+{
+  "agency_id": "94f5209c-59bb-5e33-8f58-9a7f667bdfa8",
+  "agency_name": "Piedmont Police Department (OK)",
+  "dashboards": [],
+  "description": "Feature service for Piedmont Police Department (OK)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "agency_id": "94f5209c-59bb-5e33-8f58-9a7f667bdfa8",
+      "basis": "name+role+state",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "125cce02-3679-4585-b183-dc283e4f1708",
+  "ori": [
+    "OK0090600"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/125cce02-3679-4585-b183-dc283e4f1708-production/FeatureServer"
+}

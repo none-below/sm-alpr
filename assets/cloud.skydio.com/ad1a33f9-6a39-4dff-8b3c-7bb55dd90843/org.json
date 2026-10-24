@@ -1,0 +1,64 @@
+{
+  "agency_id": "b692536a-da76-59ec-8c26-95b5c9cb6e74",
+  "agency_name": "Hampton Police Department (VA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-07-30T18:02:05Z",
+      "id": "7f548a7c0fe54c2989d1f5beb949736f",
+      "title": "Hampton Police Department (VA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/7f548a7c0fe54c2989d1f5beb949736f"
+    }
+  ],
+  "description": "Feature service for Hampton Police Department (VA)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "7f548a7c0fe54c2989d1f5beb949736f",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Hampton Police Department (VA) Drone Flights"
+    },
+    {
+      "agency_id": "b692536a-da76-59ec-8c26-95b5c9cb6e74",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 43,
+    "duplicates": 0,
+    "first_takeoff": "2026-07-28T19:43:02Z",
+    "last_takeoff": "2026-10-15T19:38:25Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "ad1a33f9-6a39-4dff-8b3c-7bb55dd90843",
+  "ori": [
+    "VA1110000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/ad1a33f9-6a39-4dff-8b3c-7bb55dd90843-production/FeatureServer"
+}

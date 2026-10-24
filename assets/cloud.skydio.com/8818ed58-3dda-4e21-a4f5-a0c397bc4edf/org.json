@@ -1,0 +1,56 @@
+{
+  "agency_id": null,
+  "agency_name": "Isle of Palms Police Department",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-09-23T06:48:19Z",
+      "id": "8e2ec7f98ce04e93ab3a9b5e9a481068",
+      "title": "Isle of Palms Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/8e2ec7f98ce04e93ab3a9b5e9a481068"
+    }
+  ],
+  "description": "Feature service for Isle of Palms Police Department",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "8e2ec7f98ce04e93ab3a9b5e9a481068",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Isle of Palms Police Department Drone Flights"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": null,
+  "org_id": "8818ed58-3dda-4e21-a4f5-a0c397bc4edf",
+  "ori": [],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/8818ed58-3dda-4e21-a4f5-a0c397bc4edf-production/FeatureServer"
+}

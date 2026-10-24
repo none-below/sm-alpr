@@ -1,0 +1,64 @@
+{
+  "agency_id": "3401474d-eec9-579d-9681-26303ba6b7f8",
+  "agency_name": "Bloomington Police Department (IL)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-04-14T00:00:42Z",
+      "id": "cc7f3e1ceb9d4e79a05d6e9f5e1ebe6b",
+      "title": "Bloomington Police Department (IL) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/cc7f3e1ceb9d4e79a05d6e9f5e1ebe6b"
+    }
+  ],
+  "description": "Feature service for Bloomington Police Department (IL)",
+  "events": [
+    {
+      "date": "2026-10-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "cc7f3e1ceb9d4e79a05d6e9f5e1ebe6b",
+      "date": "2026-10-18",
+      "event": "dashboard_published",
+      "title": "Bloomington Police Department (IL) Drone Flights"
+    },
+    {
+      "agency_id": "3401474d-eec9-579d-9681-26303ba6b7f8",
+      "basis": "name+role+state+extent",
+      "date": "2026-10-19",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-18",
+  "flights": {
+    "count": 510,
+    "duplicates": 8,
+    "first_takeoff": "2026-04-04T20:25:54Z",
+    "last_takeoff": "2026-10-18T13:47:24Z",
+    "unhashed": 510
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "d6bcac94-87db-4629-882b-d9d536a02019",
+  "ori": [
+    "IL0570100"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/d6bcac94-87db-4629-882b-d9d536a02019-production/FeatureServer"
+}
