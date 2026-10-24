@@ -52,7 +52,7 @@ import urllib.request
 from pathlib import Path
 
 BASE = "https://api.v1.citizenrims.com"
-UA = "sm-alpr research (public records research; contact: brian@zerobelow.org)"
+UA = "sm-alpr/1.0"
 
 # prefix -> (agencyId, display name). San Mateo County agencies confirmed
 # 2026-09-14 with incidentsEnabled=True (public CAD data).
