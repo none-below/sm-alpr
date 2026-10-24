@@ -400,9 +400,9 @@
     "last_attempt": "2026-10-06T02:56:46Z"
   },
   "https://www.mlive.com/news/detroit/2026/10/rochester-hills-board-to-consider-renewing-flock-contract.html": {
-    "attempts": 1,
-    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
-    "last_attempt": "2026-10-24T14:30:42Z"
+    "attempts": 2,
+    "error": "playwright: Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.mlive.com/news/detroit/2026/10/rochester-hills-board-to-consider-renewing-flock-contract.html\nCall log:\n  - navigating to \"https://www.mlive.com/news/detroit/2026/10/rochester-hills-board-to-consider-renewing-flock-contract.html\", waiting until \"do; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-24T18:04:59Z"
   },
   "https://www.news10.com/5-things-to-know/5-things-to-know-this-friday-october-2/": {
     "attempts": 3,
