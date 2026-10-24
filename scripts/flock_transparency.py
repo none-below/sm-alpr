@@ -104,50 +104,55 @@ RATE_LIMIT_BURN_LIMIT = 3
 VIEWPORT = {"width": 1440, "height": 900}
 WAIT_MS = 5000
 
-# Flock renders the sharing lists inside fixed-height "slider" boxes that
-# scroll. In print those clip to the first few visible rows, so the archive
-# PDF used to hold only a fraction of the list even though every row is in
-# the DOM (the parser reads the full list from the saved HTML).
+# Flock renders each sharing list in a scroll box with inline
+# `height:var(--tp-access-table-viewport-height, 480px); max-height:480px;
+# overflow-y:auto`. Every row is in the DOM (the parser reads the full list
+# from the saved HTML), but in print the box clips to its first ~10 rows.
 #
-# The first fix was a blunt `*{max-height:none;overflow:visible}`. That let
-# the rows paint, but the slider kept its fixed `height`, so the list spilled
-# *out* of its box and rendered on top of the cards below it instead of
-# pushing them down — unreadable text-over-text on any long agency list.
+# The first fix, a blunt `*{max-height:none;overflow:visible}`, left that
+# inline `height` alone: the box stayed 480px and the rest of the list painted
+# over the Policy & Trust cards below it. It also un-hid every row's
+# `nowrap; text-overflow:ellipsis` name cell, so long names ran into the next
+# column (157 colliding words in lafayette-pd-in's 2026-10-22 PDF).
 #
-# So: measure before mutating. Find the elements that are actually clipping
-# their own content, then give those (and every ancestor that pins a height)
-# `height:auto` so the box grows and the rest of the page reflows below it.
-# On a page with no oversized slider this is a no-op. Repeat a few passes —
-# unclamping an outer box can reveal a nested one.
-EXPAND_SLIDERS_JS = r"""
-() => {
-  const unclampBox = el => {
-    el.style.setProperty('max-height', 'none', 'important');
-    el.style.setProperty('height', 'auto', 'important');
-  };
-  let expanded = 0;
-  for (let pass = 0; pass < 4; pass++) {
-    const clipped = [];
-    for (const el of document.querySelectorAll('body *')) {
-      const cs = getComputedStyle(el);
-      if (cs.overflowX === 'visible' && cs.overflowY === 'visible') continue;
-      if (el.scrollHeight > el.clientHeight + 1 ||
-          el.scrollWidth > el.clientWidth + 1) clipped.push(el);
+# So: mark the scroll boxes (overflow-y auto/scroll — not the overflow:hidden
+# ellipsis cells) and unclamp them from an injected stylesheet, whose
+# !important beats Flock's inline styles. Marking doesn't depend on whether a
+# box overflows at the 1440px viewport, so the narrower print layout can't
+# slip one past. Inside the innermost boxes (the lists themselves), names
+# wrap instead of truncating, and an inline fixed height (the 48px rows)
+# becomes a minimum, so a row grows for a wrapped name and otherwise prints
+# as it renders. A page-level scroll container only grows, so a Flock
+# redesign that adds one doesn't rewrap the whole page.
+EXPAND_SCROLL_BOXES_CSS = (
+    "@property --print-min-h{syntax:'<length-percentage>';inherits:false;"
+    "initial-value:0px}"
+    "[data-print-expand]{height:auto !important;max-height:none !important;"
+    "overflow:visible !important;}"
+    "[data-print-expand=list] :not(svg,svg *,img,video,canvas,iframe){"
+    "height:auto !important;min-height:var(--print-min-h) !important;"
+    "max-height:none !important;white-space:normal !important;"
+    "overflow-wrap:anywhere !important;}"
+)
+EXPAND_SCROLL_BOXES_JS = r"""
+css => {
+  const boxes = [...document.querySelectorAll('*')].filter(el => {
+    const oy = getComputedStyle(el).overflowY;
+    return oy === 'auto' || oy === 'scroll';
+  });
+  for (const el of boxes) {
+    const outer = el === document.documentElement || el === document.body ||
+      boxes.some(other => other !== el && el.contains(other));
+    el.setAttribute('data-print-expand', outer ? 'outer' : 'list');
+    if (outer) continue;
+    for (const d of el.querySelectorAll('[style]')) {
+      if (d.style.height) d.style.setProperty('--print-min-h', d.style.height);
     }
-    if (!clipped.length) break;
-    for (const el of clipped) {
-      unclampBox(el);
-      el.style.setProperty('overflow', 'visible', 'important');
-      // A grown child still gets cut off if an ancestor pins a height, so
-      // walk up too. Ancestors keep their own overflow rule — growing them
-      // is enough, and leaving it alone avoids disturbing unrelated layout.
-      for (let n = el.parentElement; n && n !== document.body; n = n.parentElement) {
-        unclampBox(n);
-      }
-    }
-    expanded += clipped.length;
   }
-  return expanded;
+  const style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+  return boxes.length;
 }
 """
 STALE_DAYS = 14
@@ -1613,6 +1618,35 @@ def attach_csv_integrity(portal_data):
 # Crawl: fetch pages, save .txt + .pdf
 # ═══════════════════════════════════════════════════════════
 
+def render_archive_pdf(page):
+    """Print the loaded portal page to PDF bytes with the sharing lists
+    expanded (see EXPAND_SCROLL_BOXES_JS).
+
+    Call after page.content() has been saved: the expansion marks elements and
+    injects a stylesheet, which the archived HTML must not contain. The next
+    goto() replaces the document, so nothing needs undoing.
+    """
+    try:
+        expanded = page.evaluate(EXPAND_SCROLL_BOXES_JS, EXPAND_SCROLL_BOXES_CSS)
+        if expanded:
+            print(f"    expanded {expanded} scroll box(es) for print")
+    except Exception as e:
+        # The parsed JSON is already in hand and the PDF is the visual copy;
+        # a clipped PDF beats dropping the capture and ending the crawl.
+        print(f"    WARNING: couldn't expand scroll boxes for print "
+              f"({e.__class__.__name__}); PDF lists may be clipped")
+
+    cdp = page.context.new_cdp_session(page)
+    result = cdp.send("Page.printToPDF", {
+        "printBackground": True, "preferCSSPageSize": False,
+        "paperWidth": 11, "paperHeight": 17,
+        "marginTop": 0.4, "marginBottom": 0.4,
+        "marginLeft": 0.4, "marginRight": 0.4,
+    })
+    cdp.detach()
+    return base64.b64decode(result["data"])
+
+
 def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     """Returns (status, discovered_slugs).
 
@@ -1709,28 +1743,7 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         print(f"    extracted {csv_name}: {len(csv_rows)} rows")
     attach_csv_integrity(portal_data)
 
-    # Expand the sharing-list sliders so the PDF holds the whole list without
-    # it overlapping what follows (see EXPAND_SLIDERS_JS). Measure under print
-    # media so what we unclamp is what printToPDF will actually lay out; the
-    # page object outlives this call, so reset the emulation afterwards or the
-    # next slug's inner_text() would be read under the site's print styles.
-    try:
-        page.emulate_media(media="print")
-        expanded = page.evaluate(EXPAND_SLIDERS_JS)
-        if expanded:
-            print(f"    expanded {expanded} clipped container(s) for print")
-
-        cdp = page.context.new_cdp_session(page)
-        result = cdp.send("Page.printToPDF", {
-            "printBackground": True, "preferCSSPageSize": False,
-            "paperWidth": 11, "paperHeight": 17,
-            "marginTop": 0.4, "marginBottom": 0.4,
-            "marginLeft": 0.4, "marginRight": 0.4,
-        })
-        cdp.detach()
-    finally:
-        page.emulate_media(media="null")
-    pdf_data = base64.b64decode(result["data"])
+    pdf_data = render_archive_pdf(page)
 
     # Stage the four-artifact set in a fresh temp dir, then mv into
     # slug_dir only after all four write successfully. mktemp -d (not
