@@ -1,8 +1,9 @@
 # San Mateo — reference documents
 
 Public City of San Mateo council records and Axon's published standard terms, collected 2026-10-22 for the
-Axon ALPR amendment (Oct 5, 2026, item 12). Not covered here: `Policy_463_ALPR_2025-12-23.pdf` and
-`SOP_205_ALPR_2026-03-06.pdf`, which were added earlier (see `git log` for this folder).
+Axon ALPR amendment (Oct 5, 2026, item 12). SMPD's ALPR policy and procedure are listed separately under
+"SMPD ALPR Policy 463 and SOP 205" at the end. `Policy_463_ALPR_2025-12-23.pdf` and
+`SOP_205_ALPR_2026-03-06.pdf` were added earlier (see `git log` for this folder).
 
 How the City's files were fetched:
 - **PrimeGov item attachments** download with plain curl from
@@ -42,3 +43,17 @@ Notes:
   Oct 19, 2026 agenda approves only the Aug 17 and Aug 20 minutes.
 
 OCR/text sidecars (`*.pdf.<hash>.txt`) were generated with `scripts/ocr_sidecar.py --files`.
+
+## SMPD ALPR Policy 463 and SOP 205
+
+Fetched with plain curl from the City's DocumentCenter. Both URLs are the ones SMPD's Flock transparency portal links as
+`alpr_policy` and `alpr_sop`. The City replaces files in place at the same DocumentCenter id (View/102451 held the
+2026/03/06 SOP until at least 2026-08-18), so the SHA-256 identifies which version a given fetch returned. Both files were
+also fetched on 2026-09-27 and were byte-identical then.
+
+The date in each new filename is the Lexipol copyright date printed in the document's footer.
+
+| File | Document | Source URL | Lexipol date | PDF CreationDate | Fetched | SHA-256 |
+|---|---|---|---|---|---|---|
+| `Policy_463_ALPR_2026-09-11.pdf` | Policy 463, Automated License Plate Readers (ALPRs), 5 pp. Compared with the 2025/12/22 text (`Policy_463_ALPR_2025-12-23.pdf`), only § 463.2.1 and § 463.8 changed. § 463.8 is retitled "ALPR Data Sharing" and adds Approval Criteria, Denial Criteria, Periodic Review, Suspension or Termination and Documentation provisions for in-state network-sharing relationships. | https://www.cityofsanmateo.org/DocumentCenter/View/107284/Automated-License-Plate-Readers-ALPRs-Policy-463 | 2026/09/11 | 2026-09-22 11:39:28 PDT | 2026-10-25 | `16de735ecd841a2a7e4fd8563422f73842b9a807d9cc4710cd4f4c8a03bc2d83` |
+| `SOP_205_ALPR_2026-09-21.pdf` | Procedure 205, Automated License Plate Reader Operating Procedure, 4 pp. Replaced the 2026/03/06 text (`SOP_205_ALPR_2026-03-06.pdf`) at the same URL. § 205.5 now says audits "should be completed monthly" and go to the Chief of Police; the Vigilant/Motorola VehicleManager paragraph is removed. | https://www.cityofsanmateo.org/DocumentCenter/View/102451/Automated-License-Plate-Reader-Operating-Procedure | 2026/09/21 | 2026-09-22 11:33:54 PDT | 2026-10-25 | `2587add7186984ae5ed6c41e0142a4151b87c5f5b29c2af2b8333ccade5a62c9` |
