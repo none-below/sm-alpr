@@ -106,9 +106,12 @@ def file_status(state: str, name: str, *, indent: str = "     ") -> None:
 
 def pdf_text_fingerprint(pdf_bytes: bytes) -> str | None:
     """MD5 of the PDF's extracted text with whitespace normalized.
-    Returns None if the bytes aren't a readable PDF. Lets us detect when a
-    re-downloaded MH PDF has identical *content* despite differing metadata
-    (CreationDate, ModDate, etc.) — avoids spamming git history with churn."""
+    Returns None if the bytes aren't a readable PDF, or if the PDF has no
+    text layer (scanned images, or the vector-glyph Flock audit exports): every
+    such PDF extracts to "", so a fingerprint would call two different files
+    equal. Lets us detect when a re-downloaded MH PDF has identical *content*
+    despite differing metadata (CreationDate, ModDate, etc.) — avoids spamming
+    git history with churn."""
     try:
         doc = fitz.open(stream=pdf_bytes, filetype="pdf")
     except Exception:
@@ -121,6 +124,8 @@ def pdf_text_fingerprint(pdf_bytes: bytes) -> str | None:
     finally:
         doc.close()
     normalized = " ".join(text.split())
+    if not normalized:
+        return None
     return hashlib.md5(normalized.encode("utf-8")).hexdigest()
 
 
@@ -176,15 +181,16 @@ def filename_from_response(resp, url: str) -> str | None:
 def save_pdf_via_click(page: Page, element, *,
                       target_path: Path | None = None,
                       folder: Path | None = None,
-                      fallback_name: str | None = None
+                      fallback_name: str | None = None,
+                      withheld: dict[str, str] | None = None
                       ) -> tuple[Path, str] | None:
     """Click `element`; handle whichever of these the portal returns:
        (a) Content-Disposition: attachment -> Chromium download event
        (b) inline PDF in a new tab -> popup with URL we fetch via request API
        (c) direct href on the anchor -> fetch URL straight via request API.
 
-    Returns (path, state) on success where state is "new"|"updated"|"unchanged",
-    else None.
+    Returns (path, state) on success where state is "new"|"updated"|"unchanged"
+    or "withheld" (content hash is in `withheld`; nothing written), else None.
     """
     ctx = page.context
 
@@ -199,7 +205,8 @@ def save_pdf_via_click(page: Page, element, *,
         try:
             resp = ctx.request.get(full_url)
             if resp.ok:
-                return _write_pdf(resp, full_url, target_path, folder, fallback_name)
+                return _write_pdf(resp, full_url, target_path, folder,
+                                  fallback_name, withheld)
         except Exception:
             pass  # fall through to click-race
 
@@ -280,13 +287,8 @@ def save_pdf_via_click(page: Page, element, *,
         try:
             if tmp_path:
                 new_bytes = Path(tmp_path).read_bytes()
-                if target_path is not None:
-                    out = target_path
-                else:
-                    assert folder is not None, "folder required when target_path is None"
-                    out = _resolve_collision_path(folder, name, new_bytes)
-                state = _write_bytes_with_dedup(new_bytes, out)
-                result = (out, state)
+                result = _store_bytes(new_bytes, name, target_path, folder,
+                                      withheld)
             else:
                 # No local tmp path; fall back to save_as. We can't dedup, so
                 # treat as new/updated depending on whether the target existed.
@@ -323,7 +325,8 @@ def save_pdf_via_click(page: Page, element, *,
             try:
                 resp = ctx.request.get(pdf_url)
                 if resp.ok:
-                    return _write_pdf(resp, pdf_url, target_path, folder, fallback_name)
+                    return _write_pdf(resp, pdf_url, target_path, folder,
+                                      fallback_name, withheld)
             except Exception:
                 pass
     return None
@@ -399,19 +402,34 @@ def _write_bytes_with_dedup(new_bytes: bytes, out: Path) -> str:
     return "new"
 
 
+def _store_bytes(new_bytes: bytes, name: str,
+                 target_path: Path | None,
+                 folder: Path | None,
+                 withheld: dict[str, str] | None = None) -> tuple[Path, str]:
+    """Write a downloaded file and return (path, state).
+
+    The withheld check runs before collision handling: a withheld upload that
+    shares a filename with a kept file must not rename the kept one to a
+    hashed sibling on its way to being discarded."""
+    if target_path is not None:
+        return target_path, _write_bytes_with_dedup(new_bytes, target_path)
+    assert folder is not None, "folder required when target_path is None"
+    reason = (withheld or {}).get(hashlib.sha256(new_bytes).hexdigest())
+    if reason is not None:
+        file_status("withheld", f"{sanitize(name)} ({reason})")
+        return folder / sanitize(name), "withheld"
+    out = _resolve_collision_path(folder, name, new_bytes)
+    return out, _write_bytes_with_dedup(new_bytes, out)
+
+
 def _write_pdf(resp, url: str,
                target_path: Path | None,
                folder: Path | None,
-               fallback_name: str | None) -> tuple[Path, str]:
-    new_bytes = resp.body()
-    if target_path is not None:
-        out = target_path
-    else:
-        name = filename_from_response(resp, url) or fallback_name or "unnamed.pdf"
-        assert folder is not None, "folder required when target_path is None"
-        out = _resolve_collision_path(folder, name, new_bytes)
-    state = _write_bytes_with_dedup(new_bytes, out)
-    return out, state
+               fallback_name: str | None,
+               withheld: dict[str, str] | None = None) -> tuple[Path, str]:
+    name = (target_path.name if target_path is not None
+            else filename_from_response(resp, url) or fallback_name or "unnamed.pdf")
+    return _store_bytes(resp.body(), name, target_path, folder, withheld)
 
 
 REPO = Path(__file__).resolve().parent.parent
@@ -475,11 +493,17 @@ WITHHELD_ATTACHMENTS: dict[str, dict[str, str]] = {
     # City's reissue. Requester-made derivatives are in the request folder's
     # requester-redacted/ subfolder; a reissue under the same filenames has
     # different bytes and so is downloaded normally.
+    # Also the 7/16-7/31/2023 log as re-printed 10/24/2026 and uploaded under the
+    # 7_16_2026-7_31_2026 filename, next to the unchanged 10/17 file of that
+    # name (the 2026 log). Kept out so a 2023 log isn't filed under a 2026 name;
+    # the 10/23 printing of the 2023 log is committed under its own name.
     "W012541-041426": {
         "12b57682edbc9f996b54ec8d0a4d07fbee07c05c2de101c742c2ac32d6d777ab":
             "withheld pending reissue",
         "d48e5a0a69a0bbe75b09b9e39c8d224e32a7b028f1d4495fd12cd8adea98d2a9":
             "withheld pending reissue",
+        "6128ff5708c66ca1c9027c512ffba89073b62ffebe783b774d738f05290415f7":
+            "2023 log re-uploaded under the 2026 filename",
     },
     # The 3/5/2026 audit PDF as released 9/14/2026, withheld from the repo.
     # The City reissued it on the portal under the same filename on
@@ -919,6 +943,25 @@ def discover_and_stub_new_requests(page: Page, home_url: str) -> list[str]:
 
 def local_pdf_names(folder: Path) -> set[str]:
     return {p.name for p in folder.glob("*.pdf", case_sensitive=False)}
+
+
+def skip_by_name(existing: set[str], label: str, anchors_with_label: int) -> bool:
+    """True when an attachment is already on disk and needn't be fetched.
+
+    A label the portal lists once is skipped as soon as a file of that name
+    exists. When several anchors share a label (an agency uploaded a second file
+    under the same filename), one local copy proves nothing about the others, so
+    skip only once the folder holds as many copies, counting the hash-suffixed
+    siblings `_resolve_collision_path` creates."""
+    plain = sanitize(label)
+    if anchors_with_label <= 1:
+        return label in existing or plain in existing
+    base = Path(plain)
+    sibling = re.compile(
+        rf"^{re.escape(base.stem)}\.[0-9a-f]{{8}}{re.escape(base.suffix)}$")
+    copies = sum(1 for n in existing
+                 if n in (label, plain) or sibling.match(n))
+    return copies >= anchors_with_label
 
 
 DOCLIKE_EXTS = (".pdf", ".doc", ".docx", ".xls", ".xlsx", ".zip", ".csv",
@@ -1454,6 +1497,11 @@ def process_request(page: Page, home_url: str, request_id: str,
             _dump_page_diag(page)
             return
         print(f"   {len(anchors)} attachment anchor(s)")
+        label_counts: dict[str, int] = {}
+        for a in anchors:
+            lbl = (a.inner_text() or "").strip()
+            label_counts[lbl] = label_counts.get(lbl, 0) + 1
+        withheld = WITHHELD_ATTACHMENTS.get(request_id)
         counts = {"new": 0, "updated": 0, "unchanged": 0,
                   "skipped": 0, "withheld": 0, "failed": 0}
         # Track by (label, onclick, href) to survive DOM re-render between
@@ -1493,18 +1541,24 @@ def process_request(page: Page, home_url: str, request_id: str,
                 file_status("skipped", f"{target_label} (requester email artifact)")
                 continue
 
-            if target_label in existing or sanitize(target_label) in existing:
+            if skip_by_name(existing, target_label,
+                            label_counts.get(target_label, 1)):
                 counts["skipped"] += 1
                 file_status("skipped", target_label)
                 continue
 
             result = save_pdf_via_click(page, target_el, folder=folder,
-                                        fallback_name=target_label)
+                                        fallback_name=target_label,
+                                        withheld=withheld)
             if result is None:
                 counts["failed"] += 1
                 file_status("failed", target_label)
                 continue
             saved, state = result
+            if state == "withheld":
+                counts["withheld"] += 1
+                continue
+            # Backstop for the save_as fallback, which writes before hashing.
             reason = withheld_reason(request_id, saved)
             if reason is not None:
                 saved.unlink()
