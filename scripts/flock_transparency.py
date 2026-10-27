@@ -58,7 +58,7 @@ except ImportError:  # pragma: no cover - optional dependency
     stealth_sync = None
 
 from lib import (
-    BASE_URL, FAILED_FILE,
+    BASE_URL, FAILED_FILE, PROBE_HITS_DIR, REGISTRY_PATH,
     audit_integrity, dedupe, load_json, save_json,
     portal_jsons, portal_txts, resolve_agency,
 )
@@ -1917,6 +1917,71 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
     return results, discovered, False
 
 
+def ingest_probe_hits(data_dir, registry_path=REGISTRY_PATH):
+    """Apply slug_probe's hand-off files to the files the crawler owns.
+
+    The probe commits to its own branch, and when it also rewrote the
+    registry, .content_hashes.json and .failed_slugs.json, its branch and
+    flock-refresh kept conflicting on rebase: both insert keys into the same
+    sorted files, so a probe hit next to a slug the crawler just re-hashed
+    collides on adjacent lines (#530 in June, hendersonville-nc-pd from
+    2026-10-22). Now the probe writes one PROBE_HITS_DIR/<agency_id>.json per
+    find and the crawler is the only writer of those three files. The probe
+    creates a hand-off file and this deletes it, so the two branches never
+    change the same path.
+
+    Per hit: add the found slug to flock_slugs and make it active, clear the
+    old and new slug from failed_slugs, and record the probe capture's
+    content hash. A hit whose agency_id isn't in the registry stays in place
+    for a human. Returns the number applied.
+    """
+    hits_dir = data_dir / PROBE_HITS_DIR
+    hit_files = sorted(hits_dir.glob("*.json")) if hits_dir.is_dir() else []
+    if not hit_files:
+        print("No slug-probe hits to ingest.")
+        return 0
+
+    registry = json.loads(registry_path.read_text())
+    by_id = {e["agency_id"]: e for e in registry}
+    hashes = load_json(data_dir / HASH_FILE)
+    failed_slugs = load_json(data_dir / FAILED_FILE)
+
+    applied = 0
+    for hf in hit_files:
+        try:
+            hit = json.loads(hf.read_text())
+            aid, found = hit["agency_id"], hit["found_slug"]
+        except (OSError, ValueError, KeyError, TypeError) as e:
+            print(f"  WARNING: unreadable hit {hf.name} ({e!r}); left in place")
+            continue
+        entry = by_id.get(aid)
+        if entry is None:
+            print(f"  WARNING: hit {hf.name}: agency_id {aid} not in the registry; left in place")
+            continue
+
+        slugs = entry.setdefault("flock_slugs", [])
+        if found not in slugs:
+            slugs.append(found)
+        entry["flock_active_slug"] = found
+        for s in (hit.get("old_slug"), found):
+            if s:
+                failed_slugs.pop(s, None)
+        if hit.get("content_hash"):
+            hashes[found] = hit["content_hash"]
+        hf.unlink()
+        applied += 1
+        print(f"  promoted {aid}: active slug -> {found}")
+
+    if applied:
+        registry_path.write_text(json.dumps(registry, indent=2) + "\n")
+        save_json(data_dir / HASH_FILE, hashes)
+        save_json(data_dir / FAILED_FILE, failed_slugs)
+        if not any(hits_dir.iterdir()):
+            hits_dir.rmdir()
+    print(f"Ingested {applied} slug-probe hit(s).")
+    return applied
+
+
 def cmd_crawl(args):
     from playwright.sync_api import sync_playwright
 
@@ -2510,6 +2575,11 @@ def main():
     p_agg.add_argument("--out", type=Path,
                        help="Write JSON results to file")
 
+    # ── ingest-probe-hits ──
+    sub.add_parser("ingest-probe-hits",
+                   help=f"Apply slug_probe's {PROBE_HITS_DIR}/ hand-offs to the "
+                        f"registry, content hashes and failed slugs")
+
     args = parser.parse_args()
 
     if args.command == "crawl":
@@ -2518,6 +2588,8 @@ def main():
         cmd_parse(args)
     elif args.command == "aggregate":
         cmd_aggregate(args)
+    elif args.command == "ingest-probe-hits":
+        ingest_probe_hits(args.data_dir)
 
 
 if __name__ == "__main__":

@@ -619,3 +619,33 @@ def test_navigation_error_after_relaunch_stops_without_burning_the_candidate(mon
     assert len(launches) == 2
     assert len(calls) == 2
     assert tried == {}, "a navigation error is never recorded as tried"
+
+
+def test_hit_hands_off_and_leaves_the_crawlers_files_alone(monkeypatch, tmp_path):
+    """The registry, .content_hashes.json and .failed_slugs.json are the
+    refresh crawler's; the probe writing them is what kept its branch from
+    rebasing onto main (see flock_transparency.ingest_probe_hits)."""
+    import flock_transparency
+
+    def fake_archive(page, slug, data_dir, force=False, hashes=None, progress=""):
+        (data_dir / slug).mkdir(parents=True)
+        (data_dir / slug / "2026-10-27.json").write_text("{}")
+        hashes[slug] = "h-new"
+        return data_dir / slug / "2026-10-27.pdf", []
+
+    monkeypatch.setattr(flock_transparency, "archive_agency", fake_archive)
+    monkeypatch.delenv("GITHUB_OUTPUT", raising=False)
+    monkeypatch.chdir(tmp_path)  # where a write to the relative REGISTRY_PATH would land
+    data = tmp_path / "data"
+
+    calls, _, tried = _run_main(monkeypatch, data, [("hit", "http_200")])
+
+    found = calls[0]
+    assert sorted(p.name for p in data.iterdir()) == [
+        slug_probe.PROBE_HITS_DIR, slug_probe.STATE_FILE, found]
+    hit = json.loads((data / slug_probe.PROBE_HITS_DIR / "anytown.json").read_text())
+    assert (hit["agency_id"], hit["found_slug"], hit["old_slug"], hit["content_hash"]) == (
+        "anytown", found, None, "h-new")
+    assert not (tmp_path / "assets").exists(), "registry untouched"
+    state = json.loads((data / slug_probe.STATE_FILE).read_text())
+    assert state["agencies"]["anytown"]["found"] == found
