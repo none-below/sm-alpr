@@ -33,7 +33,7 @@ permissions:
 
 jobs:
   refresh:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # not -latest: Playwright 1.58 refuses ubuntu-26.04 ("does not support ffmpeg"), seen 2026-10-27
     steps:
       - uses: actions/checkout@v6
         with:
