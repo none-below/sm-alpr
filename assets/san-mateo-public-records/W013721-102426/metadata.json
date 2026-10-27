@@ -1,0 +1,37 @@
+{
+  "title": "Flock Audit Assistance flags shown on the Council RTIC slide (149 \"Needs Review\", a 587-search activity) and the Department's review of them; Axon, lockout and exigent-search flags",
+  "summary": "Asks for the records behind the \"Audit Assistance\" slide in the Police Department's Real Time Information Center presentation to Council on 2026-10-05 (produced under W013663-101526). The slide shows the Flock Audit Assistance screen with 149 activities under \"Needs Review\", including a \"Searches Beyond 30 Day Timeframe\" activity at \"587 total, 31 new\" (latest activity 4/27/2026 6:52:17 PM), another at \"13 total, 1 new\" (4/28/2026 9:01:49 AM), and a \"Single-User Plate Searches\" activity. The request quotes Flock's 2026-08-13 public description of Audit Assistance, \"proactive lockout\" and flagging of exigent searches. Default period: 2026-04-01 through production.\n\n- Item 1: every Audit Assistance activity under the \"Needs Review\", \"Archived\" and \"All\" views, with the displayed fields (Activity, Related Activity, User, Plate, Total Searches, Latest Activity, Status), any reviewer note, disposition or archive date, and the view counts; the system export (CSV/XLS) if one exists.\n- Item 2: for the two activities on the slide, (a) the activity detail with each underlying search's date/time, offense type, reason, case number and networks or cameras, and (b) any record of review, disposition, archiving, notes, suspension or lockout, notice to the user or a supervisor, or referral.\n- Item 3: the record of when Audit Assistance was enabled and by which account (e.g. Flock event-log entries, Flock's notice, or the settings page), and any record designating who reviews activities.\n- Item 4: any record of review of an Audit Assistance activity, including in the Policy 463.10 monthly audit memoranda. Quotes Policy 463.10 and notes that a \"no responsive records\" answer would mean no record of reviewing any flagged activity, including the 587-search one.\n- Item 5: any Axon Evidence or Axon Fusus report or flag of anomalous ALPR search activity (Fleet 3 or other Axon ALPR data), and its review.\n- Item 6: any record of a \"proactive lockout\" suspension and its review and outcome, and of whether and when proactive lockout was enabled.\n- Item 7: any flag or review record for an emergency or exigent search that bypassed the case code, case number or offense type requirement.\n\nElectronic records are requested in their native format (Gov. Code § 7922.570), with withheld portions marked in place per field and the legal authority identified (Gov. Code § 7922.540).",
+  "tags": [
+    "audit-compliance",
+    "policy-463.10",
+    "axon-alpr",
+    "fusus"
+  ],
+  "policy_promises": [
+    {
+      "policy": "Policy 463.10 (Data Search Audits)",
+      "quote": "It is the responsibility of the ALPR Committee Captain or the authorized designee to ensure an audit is conducted of ALPR data searches at least monthly for internal ALPR users and quarterly for external CA public agency users. The audit shall be documented in the form of an internal department memorandum to the Chief of Police. ... After review by the Chief of Police, the memorandum and any associated documentation shall be filed and retained.",
+      "tests": "Whether any monthly audit memorandum or other Department record shows review of the activities the Flock system flagged for review, including the 587-search activity."
+    },
+    {
+      "policy": "Gov. Code § 7922.570",
+      "quote": "The agency shall make the information available in any electronic format in which it holds the information.",
+      "tests": "Whether the Audit Assistance lists and activity details are produced as the system export rather than a rendering."
+    },
+    {
+      "policy": "Gov. Code § 7922.540",
+      "quote": "A response to a written request for inspection or copies of public records that includes a determination that the request is denied, in whole or in part, shall be in writing.",
+      "tests": "Whether withheld portions are marked in place per field with the authority for each."
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013663-101526",
+      "relation": "evidence-source",
+      "note": "Produced the 2026-10-05 Real Time Information Center presentation whose \"Audit Assistance\" slide this request quotes."
+    }
+  ],
+  "filed_because": "The Department showed Council a Flock screen with 149 search activities flagged \"Needs Review\", one of them 587 searches for a plate outside a 30-day window. This request asks for the full flag list, the detail behind the two visible activities, when the feature was turned on, and whatever record shows anyone at the Department reviewed the flags, as Policy 463.10's monthly audits would require. It also asks for the comparable Axon flags and any lockout or exigent-search flags.",
+  "status_override": null,
+  "notes": "Filed 2026-10-24 (portal receipt 10/24/2026 10:52 PM, a Saturday); auto-acknowledged and forwarded to department(s). 10-day statutory determination due 2026-11-03."
+}
