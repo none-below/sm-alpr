@@ -337,6 +337,26 @@ def test_a_worker_that_dies_takes_only_its_own_unit_down(tmp_path, workers):
     assert "worker process died" in mans["bad.csv"]["error"]
 
 
+def test_a_worker_that_dies_between_waits_takes_only_its_own_unit_down(tmp_path):
+    """bad.csv's worker dies after wait() has handed back a.csv but before the next submit(), which then raises
+    BrokenProcessPool itself: the order CI hit by chance."""
+    told = tmp_path / "told"
+    setup = ("import time\n"
+             "def die_when_told():\n"
+             f"    while not os.path.exists({str(told)!r}): time.sleep(0.01)\n"
+             "    os._exit(9)\n"
+             "real_wait = build_chunks.wait\n"
+             "def wait_out(fs, **k):\n"
+             "    first = real_wait(fs, **k)\n"
+             f"    open({str(told)!r}, 'w').close()\n"
+             "    real_wait(fs)\n"
+             "    return first\n"
+             "build_chunks.wait = wait_out")
+    r, mans = forked_run(tmp_path, "die_when_told()", ["a.csv", "bad.csv", "b.csv", "c.csv"], setup=setup)
+    assert r.returncode == 1 and "Traceback" not in r.stderr, r.stdout + r.stderr
+    assert {k: m["status"] for k, m in mans.items()} == {"a.csv": "ok", "b.csv": "ok", "c.csv": "ok", "bad.csv": "failed"}
+
+
 def mini_truth(audit, ev):
     """A truth.duckdb holding ev's units loaded the old way (stage_all + add_muckrock), with build_truth's tables."""
     import build_truth
@@ -416,18 +436,19 @@ FORKED = ("import multiprocessing as mp, os, sys; mp.set_start_method('fork'); s
           "        {action}\n"
           "    return real(u, *a, **k)\n"
           "extract.extract_unit = patched\n"
+          "{setup}\n"
           "sys.argv = ['build_chunks.py'] + sys.argv[2:]\n"
           "build_chunks.main()")
 
 
-def forked_run(tmp_path, action, names, workers=2):
+def forked_run(tmp_path, action, names, workers=2, setup=""):
     """build_chunks over names (CSV audits), in fork mode so the workers inherit an extract_unit that does `action` on
-    bad.csv. Returns (completed process, {local_path: chunk.json})."""
+    bad.csv; `setup` runs in the parent first. Returns (completed process, {local_path: chunk.json})."""
     ev = evidence(tmp_path / "ev", names)
     for n in names:
         (ev / n).write_bytes(csv_bytes(HDR, rows(3)))
     out = tmp_path / "chunks"
-    r = subprocess.run([sys.executable, "-c", FORKED.format(action=action), str(Path(extract.__file__).parent), str(out),
+    r = subprocess.run([sys.executable, "-c", FORKED.format(action=action, setup=setup), str(Path(extract.__file__).parent), str(out),
                         "--evidence", str(ev), "--audit-dir", str(tmp_path / "audit"), "--workers", str(workers)],
                        capture_output=True, text=True, timeout=300)
     return r, {m["unit"]["local_path"]: m for m in (json.loads(p.read_text()) for p in out.glob("*/*/chunk.json"))}

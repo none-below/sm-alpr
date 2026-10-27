@@ -277,13 +277,18 @@ def main():
         """Extract queue_ with at most `workers` units in flight, so that when a worker dies (a broken pool fails every
         unfinished unit) only the units in flight are suspects. Returns (suspects, units not yet started)."""
         it = iter(queue_)
+        refused = []               # units submit() turned away: a worker died before wait() reported it
         with ProcessPoolExecutor(workers) as pool:
             inflight = {}
 
             def top_up():
                 for u in it:
-                    inflight[pool.submit(extract.extract_unit, u, str(EV), str(out), str(spill), csha[u["local_path"]],
-                                       code)] = u
+                    try:
+                        inflight[pool.submit(extract.extract_unit, u, str(EV), str(out), str(spill),
+                                             csha[u["local_path"]], code)] = u
+                    except BrokenProcessPool:  # u never started; the dead worker's future fails in the next wait()
+                        refused.append(u)
+                        return
                     if len(inflight) >= workers:
                         return
             top_up()
@@ -293,12 +298,12 @@ def main():
                     try:
                         man = f.result()
                     except BrokenProcessPool:
-                        return [u, *inflight.values()], list(it)
+                        return [u, *inflight.values()], [*refused, *it]
                     except Exception as ex:  # noqa: BLE001  the chunk could not be written: that unit fails, the run goes on
                         man = unwritten(u, ex)
                     finish(man, False)
                 top_up()
-        return [], []
+        return [], [*refused, *it]
 
     for u in sel:
         if id(u) in moved:
