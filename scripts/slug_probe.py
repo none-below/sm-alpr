@@ -10,12 +10,15 @@ schedule without eating that crawler's rate budget. Hits at most --limit
 candidates per run (default 3) against the Flock portal and records what it
 tried in a state file so the next run doesn't repeat itself.
 
-When a candidate returns a live portal, the registry entry is updated so the
-primary crawler picks it up on its next pass:
-  - the found slug is appended to flock_slugs (if not already there)
-  - flock_active_slug is repointed at the found slug
-  - the old failing slug is removed from .failed_slugs.json so the main
-    crawler will try again
+When a candidate returns a live portal, the probe captures the page under the
+new slug's directory and writes a hand-off file, .slug_probe_hits/<agency_id>.json.
+It never edits agency_registry.json, .content_hashes.json or .failed_slugs.json:
+the refresh crawler owns those, and its next run applies the hand-off
+(flock_transparency.py ingest-probe-hits) — the found slug is added to
+flock_slugs and made active, the old and new slugs leave .failed_slugs.json, and
+the capture's content hash is recorded. Both bots rewriting the same sorted
+files on separate branches is what kept the probe's branch from rebasing onto
+main.
 
 Usage:
   uv run python scripts/slug_probe.py              # probe 3 candidates
@@ -23,8 +26,9 @@ Usage:
   uv run python scripts/slug_probe.py --dry-run    # list candidates, no HTTP
   uv run python scripts/slug_probe.py --agency <agency_id>   # force one agency
 
-State:
+State (the only shared-tree files the probe writes, besides new captures):
   assets/transparency.flocksafety.com/.slug_probe_state.json
+  assets/transparency.flocksafety.com/.slug_probe_hits/<agency_id>.json
 """
 
 import functools
@@ -41,7 +45,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from lib import (
-    BASE_URL, FAILED_FILE, REGISTRY_PATH,
+    BASE_URL, FAILED_FILE, PROBE_HITS_DIR,
     dedupe, load_json, load_registry, save_json,
 )
 
@@ -540,24 +544,27 @@ def allocate_tier_budget(limit, tier_a_count, tier_b_count, tier_b_share=1/3):
 
 
 # ═══════════════════════════════════════════════════════════
-# Registry promotion
+# Hand-off to the crawler
 # ═══════════════════════════════════════════════════════════
 
 
-def promote_slug(registry, agency_id, found_slug):
-    """Update the registry in-place: add found_slug and make it active."""
-    for e in registry:
-        if e["agency_id"] == agency_id:
-            slugs = e.setdefault("flock_slugs", [])
-            if found_slug not in slugs:
-                slugs.append(found_slug)
-            e["flock_active_slug"] = found_slug
-            return True
-    return False
-
-
-def clear_failed(failed_slugs, slug):
-    failed_slugs.pop(slug, None)
+def record_hit(data_dir, agency_id, found_slug, old_slug, content_hash, probed_at):
+    """Write the hand-off file for one find; flock_transparency.ingest_probe_hits
+    applies it on the crawler's next run and deletes it. One file per agency, so
+    a probe branch and the refresh branch never change the same path."""
+    target = data_dir / PROBE_HITS_DIR / f"{agency_id}.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    record = {
+        "agency_id": agency_id,
+        "found_slug": found_slug,
+        "old_slug": old_slug,
+        "content_hash": content_hash,
+        "probed_at": probed_at,
+    }
+    # temp + rename: ingest treats any *.json in the dir as a complete hit.
+    tmp = target.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(record, indent=2) + "\n")
+    tmp.replace(target)
 
 
 # ═══════════════════════════════════════════════════════════
@@ -672,7 +679,7 @@ def main():
 
     # Lazy import: archive_agency lives in flock_transparency, which pulls
     # in playwright/parsing — only import when we'll actually probe.
-    from flock_transparency import HASH_FILE, archive_agency, launch_browser
+    from flock_transparency import archive_agency, launch_browser
 
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
@@ -712,26 +719,26 @@ def main():
                     consecutive_forbidden = 0
 
                 if result == "hit":
-                    print(f"    HIT ({detail}) — promoting to registry")
+                    print(f"    HIT ({detail}) — handing off to the crawler")
                     st["found"] = candidate
-                    old_slug = entry.get("flock_active_slug")
-                    promote_slug(registry, aid, candidate)
-                    if old_slug:
-                        clear_failed(failed_slugs, old_slug)
-                    clear_failed(failed_slugs, candidate)
                     hits.append((name, candidate))
                     queues.pop(q_idx % len(queues))
 
                     # Save the page so cmd_crawl doesn't have to come back
                     # to confirm what we just confirmed. archive_agency
-                    # re-navigates (5s dwell) but cleanly produces .txt /
-                    # .html / .json / .pdf and updates the content hash —
-                    # the slug becomes a normal tier-1 refresh target on
-                    # the next cmd_crawl run.
-                    hashes = load_json(data_dir / HASH_FILE)
+                    # re-navigates (5s dwell) and writes .txt/.html/.json/.pdf
+                    # under the new slug's own directory. The hash goes into a
+                    # local dict and rides in the hand-off: .content_hashes.json
+                    # is the crawler's (see record_hit). A failed capture still
+                    # hands off — the probe saw the portal; the crawler
+                    # re-captures it.
+                    capture_hashes = {}
                     archive_agency(page, candidate, data_dir,
-                                   force=True, hashes=hashes)
-                    save_json(data_dir / HASH_FILE, hashes)
+                                   force=True, hashes=capture_hashes)
+                    record_hit(data_dir, aid, candidate,
+                               old_slug=entry.get("flock_active_slug"),
+                               content_hash=capture_hashes.get(candidate),
+                               probed_at=st["last_probed"])
                 elif result == "miss":
                     print(f"    miss ({detail})")
                     q_idx += 1
@@ -788,11 +795,9 @@ def main():
                     browser, page = launch_browser(p)
                     continue
 
-                # Save after every probe so a crash mid-run doesn't lose progress
+                # Save after every probe so a crash mid-run doesn't lose
+                # progress. A hit's hand-off is already on disk (record_hit).
                 save_state(data_dir, state)
-                save_json(data_dir / FAILED_FILE, failed_slugs)
-                if hits:
-                    REGISTRY_PATH.write_text(json.dumps(registry, indent=2) + "\n")
 
                 if probes_done < args.limit and queues:
                     sleep_for = args.delay * random.uniform(0.7, 1.3)
@@ -811,7 +816,6 @@ def main():
 
     # Final save
     save_state(data_dir, state)
-    save_json(data_dir / FAILED_FILE, failed_slugs)
 
     print(f"\nDone: {probes_done} probe(s), {len(hits)} hit(s)")
     if hits:

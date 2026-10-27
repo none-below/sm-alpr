@@ -117,6 +117,14 @@ jobs:
             echo "HTTPS RR: $(dig +short HTTPS transparency.flocksafety.com || echo lookup failed)"
           fi
 
+      - name: Apply slug-probe finds
+        # slug_probe leaves a .slug_probe_hits/<agency_id>.json per portal it
+        # finds instead of editing the registry, .content_hashes.json and
+        # .failed_slugs.json itself; this run is the only writer of those.
+        # Before the crawl so the promoted slug is in this run's registry.
+        # Deletes each hand-off it applies; "Commit and push" stages that.
+        run: uv run python scripts/flock_transparency.py ingest-probe-hits
+
       - name: Crawl oldest agencies
         id: crawl
         env:

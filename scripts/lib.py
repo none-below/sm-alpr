@@ -25,6 +25,9 @@ USER_AGENT = (
     "Chrome/131.0.0.0 Safari/537.36"
 )
 FAILED_FILE = ".failed_slugs.json"
+# slug_probe's hand-off to the crawler: one <agency_id>.json per portal found,
+# deleted by flock_transparency.ingest_probe_hits once applied.
+PROBE_HITS_DIR = ".slug_probe_hits"
 
 
 def load_json(path):
