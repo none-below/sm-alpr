@@ -1,15 +1,7 @@
 {
   "agency_id": "83cf8f49-4381-5526-be5f-545a5348c0aa",
   "agency_name": "Lone Tree Police Department (CO)",
-  "dashboards": [
-    {
-      "access": "public",
-      "created": "2026-07-27T22:38:22Z",
-      "id": "615d0a79e17c427cb0e8741ae308eb54",
-      "title": "Lone Tree Police Department (CO) Drone Flights",
-      "url": "https://www.arcgis.com/apps/dashboards/615d0a79e17c427cb0e8741ae308eb54"
-    }
-  ],
+  "dashboards": [],
   "description": "Feature service for Lone Tree Police Department (CO)",
   "events": [
     {
@@ -27,6 +19,16 @@
       "basis": "name+role+state",
       "date": "2026-10-21",
       "event": "linked"
+    },
+    {
+      "date": "2026-10-28",
+      "event": "unlisted"
+    },
+    {
+      "dashboard": "615d0a79e17c427cb0e8741ae308eb54",
+      "date": "2026-10-28",
+      "event": "dashboard_removed",
+      "title": "Lone Tree Police Department (CO) Drone Flights"
     }
   ],
   "first_seen": "2026-10-21",
@@ -54,7 +56,7 @@
       "Shape__Length"
     ]
   },
-  "listed": true,
+  "listed": false,
   "match": "name+role+state",
   "org_id": "43210308-f4b0-4dcf-9ba4-937bbec1a838",
   "ori": [
