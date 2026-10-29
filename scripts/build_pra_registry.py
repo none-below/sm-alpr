@@ -55,8 +55,9 @@ HEADER_RE = re.compile(
     r"^On (\d{1,2}/\d{1,2}/\d{4}) (\d{1,2}:\d{2}:\d{2} [AP]M), (.+?) wrote:\s*$",
     re.MULTILINE,
 )
+# Year is optional: staff sometimes write "no later than 11/11." with none.
 PROMISED_NUMERIC_RE = re.compile(
-    r"no later than (\d{1,2}/\d{1,2}/\d{2,4})", re.IGNORECASE
+    r"no later than (\d{1,2}/\d{1,2}(?:/\d{2,4})?)\b", re.IGNORECASE
 )
 PROMISED_MONTHNAME_RE = re.compile(
     r"no later than (January|February|March|April|May|June|July|"
@@ -98,13 +99,25 @@ REQUEST_TEXT_RE = re.compile(
 )
 
 
-def parse_short_date(s):
-    """Parse '5/4/2026' or '5/4/26' to ISO 'YYYY-MM-DD'."""
-    m, d, y = s.split("/")
-    y = int(y)
-    if y < 100:
-        y += 2000
-    return f"{y:04d}-{int(m):02d}-{int(d):02d}"
+def parse_short_date(s, ref_iso=None):
+    """Parse '5/4/2026', '5/4/26', or yearless '5/4' to ISO 'YYYY-MM-DD'.
+
+    A yearless date takes the year of ref_iso (the message date), rolling to
+    the next year when that would land more than ~6 months before it — a
+    12/30 message promising "1/13" means January of the following year.
+    """
+    parts = s.split("/")
+    m, d = int(parts[0]), int(parts[1])
+    if len(parts) == 3:
+        y = int(parts[2])
+        if y < 100:
+            y += 2000
+        return f"{y:04d}-{m:02d}-{d:02d}"
+    ref = date.fromisoformat(ref_iso)
+    y = ref.year
+    if (ref - date(y, m, d)).days > 180:
+        y += 1
+    return f"{y:04d}-{m:02d}-{d:02d}"
 
 
 def parse_timestamp(date_str, time_str):
@@ -221,7 +234,7 @@ def promise_history(messages, fallback_year):
             continue
         dates = []
         for m in PROMISED_NUMERIC_RE.finditer(msg["body"]):
-            dates.append(parse_short_date(m.group(1)))
+            dates.append(parse_short_date(m.group(1), msg["ts"][:10]))
         for m in PROMISED_MONTHNAME_RE.finditer(msg["body"]):
             dates.append(_promise_from_monthname(m, fallback_year))
         if not dates:
