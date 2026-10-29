@@ -1,0 +1,134 @@
+{
+  "url": "https://arstechnica.com/tech-policy/2026/10/florida-county-wont-investigate-sketchy-flock-cameras-removed-by-mystery-owners/",
+  "source_domain": "arstechnica.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Florida county won\u2019t investigate sketchy Flock cameras removed by mystery owners",
+  "byline": "Ashley Belanger",
+  "published_at": "2026-10-28T17:37:49+00:00",
+  "fetched_at": "2026-10-29T14:14:17Z",
+  "discovered_by": "rss:arstechnica.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 17 pts, HIGH/CRITICAL findings",
+  "scanner_score": 17,
+  "content_hash": "ff912c2cf8ee65f39edda96895f3bbc30e126eeb9a9a0bfb03edbc66c40bff46",
+  "paths": {
+    "html": "assets/articles/arstechnica.com/tech-policy-2026-10-florida-county-wont-investigate-sketchy-flock-cameras-remove_576adeb8.html",
+    "meta": "assets/articles/arstechnica.com/tech-policy-2026-10-florida-county-wont-investigate-sketchy-flock-cameras-remove_576adeb8.meta.json",
+    "txt": "assets/articles/arstechnica.com/tech-policy-2026-10-florida-county-wont-investigate-sketchy-flock-cameras-remove_576adeb8.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "outcome:terminated",
+    "policy:purpose-limitation",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "0d453e59-9264-54b4-b08d-5fc506f1d751",
+    "53f8b57b-50ab-5c42-a54d-920c7c6cb906",
+    "4f545e10-4f02-51d7-9f85-b670f74f352c",
+    "70924aff-db95-54c6-8fab-33bfeaa1688c",
+    "6e8b5384-5568-5425-873a-3b938ef50bdd",
+    "c9dde8c2-5175-5e10-8c6e-952e67aaaf60"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "0d453e59-9264-54b4-b08d-5fc506f1d751",
+      "display_name": "St. Lucie County FL SO",
+      "state": "FL",
+      "score": 10.367,
+      "matched_forms": [
+        "St. Lucie County"
+      ]
+    },
+    {
+      "agency_id": "53f8b57b-50ab-5c42-a54d-920c7c6cb906",
+      "display_name": "Port St. Lucie FL PD",
+      "state": "FL",
+      "score": 6.817,
+      "matched_forms": [
+        "Port St. Lucie",
+        "Port St. Lucie Police",
+        "Port St. Lucie Police Department"
+      ]
+    },
+    {
+      "agency_id": "4f545e10-4f02-51d7-9f85-b670f74f352c",
+      "display_name": "Orange CA PD",
+      "state": "CA",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    },
+    {
+      "agency_id": "70924aff-db95-54c6-8fab-33bfeaa1688c",
+      "display_name": "TX - City of Orange",
+      "state": "TX",
+      "score": 3.7,
+      "matched_forms": [
+        "Orange"
+      ]
+    },
+    {
+      "agency_id": "6e8b5384-5568-5425-873a-3b938ef50bdd",
+      "display_name": "Fort Pierce FL PD",
+      "state": "FL",
+      "score": 2.683,
+      "matched_forms": [
+        "Fort Pierce"
+      ]
+    },
+    {
+      "agency_id": "c9dde8c2-5175-5e10-8c6e-952e67aaaf60",
+      "display_name": "TX - Joshua PD",
+      "state": "TX",
+      "score": 2.6,
+      "matched_forms": [
+        "Joshua"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "0d453e59-9264-54b4-b08d-5fc506f1d751",
+    "53f8b57b-50ab-5c42-a54d-920c7c6cb906",
+    "6e8b5384-5568-5425-873a-3b938ef50bdd"
+  ],
+  "summary": "St. Lucie County, Florida, won't investigate who owned seven unpermitted Flock cameras discovered during a countywide takedown, with officials saying their goal was removal, not identification. Five of the 12 cameras were claimed by Port St. Lucie and Fort Pierce police, while Flock told Ars it knows the owners but won't disclose them. The article also covers Flock CEO's dismissal of protests as inauthentic and a researcher's finding that Flock's network is roughly twice as large as publicly stated.",
+  "key_quotes": [
+    {
+      "quote": "despite ending that nearly half-million-dollar contract, the county lacks resources to investigate who owned the seven other unpermitted cameras found",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "The cameras have been removed and belonged to several different customers. Flock does not share specifics regarding individual agency contracts, camera counts, locations, or deployments.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "Michael exposed a network of 214,073 devices, not 120,000",
+      "paragraph_idx": 21
+    },
+    {
+      "quote": "Over three years, the Port St. Lucie Police Department's Flock contract ballooned from $22,000 to $470,000 in 2025",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-29T14:17:11Z",
+  "article_id": "art_576adeb8bf9a"
+}
