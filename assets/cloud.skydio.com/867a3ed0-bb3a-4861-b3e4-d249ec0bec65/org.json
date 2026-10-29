@@ -1,0 +1,64 @@
+{
+  "agency_id": "df41fa0b-bd6c-5340-9593-4f10cabe5b71",
+  "agency_name": "Bristol Police Department (CT)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-10-29T15:08:45Z",
+      "id": "8a51e35d1fa546e49414966a20a5b1dd",
+      "title": "Bristol Police Department (CT) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/8a51e35d1fa546e49414966a20a5b1dd"
+    }
+  ],
+  "description": "Feature service for Bristol Police Department (CT)",
+  "events": [
+    {
+      "date": "2026-10-29",
+      "event": "listed"
+    },
+    {
+      "dashboard": "8a51e35d1fa546e49414966a20a5b1dd",
+      "date": "2026-10-29",
+      "event": "dashboard_published",
+      "title": "Bristol Police Department (CT) Drone Flights"
+    },
+    {
+      "agency_id": "df41fa0b-bd6c-5340-9593-4f10cabe5b71",
+      "basis": "name+role+state",
+      "date": "2026-10-29",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-10-29",
+  "flights": {
+    "count": 0,
+    "duplicates": 0,
+    "first_takeoff": null,
+    "last_takeoff": null,
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state",
+  "org_id": "867a3ed0-bb3a-4861-b3e4-d249ec0bec65",
+  "ori": [
+    "CT0001700"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/867a3ed0-bb3a-4861-b3e4-d249ec0bec65-production/FeatureServer"
+}
