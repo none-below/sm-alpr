@@ -11,12 +11,13 @@ California Public Records Act. It is committed byte-for-byte as received.
 | Producing agency | Salinas Police Department |
 | Export date | 2026-10-22 (from the filename) |
 | Received | 2026-10-30, as a forwarded copy of the production |
-| Request number | Not recorded in the file |
+| Request | [26-1065](https://city-of-salinas-ca.nextrequest.com/requests/26-1065) on the City of Salinas NextRequest portal |
 | sha256 | `4a49bdb8fa5208cee72a9561591da965571aed78a05245b406d6668e98e58899` |
 | Size | 26,979 bytes, 344 data rows, UTF-8, LF line endings, no trailing newline |
 
-The production was not among the documents posted on the city's public
-NextRequest portal (`city-of-salinas-ca.nextrequest.com`) as of 2026-10-30.
+As of 2026-10-30 the request can't be viewed on the portal without a login,
+and it lists no public documents. So this copy couldn't be checked against a
+city-posted one.
 
 ## Format
 
