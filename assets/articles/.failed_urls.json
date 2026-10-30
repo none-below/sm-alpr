@@ -204,6 +204,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403",
     "last_attempt": "2026-06-25T17:21:43Z"
   },
+  "https://www.kron4.com/news/bay-area/assault-weapon-seized-4-arrested-in-multi-city-bay-bridge-stolen-vehicle-police-chase/": {
+    "attempts": 1,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-10-30T19:16:09Z"
+  },
   "https://www.kron4.com/news/bay-area/car-theft-suspect-arrested-after-asking-north-bay-officer-for-the-time/": {
     "attempts": 3,
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.kron4.com/news/bay-area/car-theft-suspect-arrested-after-asking-north-bay-officer-for-the-time/\nCall log:\n  - navigating to \"https://www.kron4.com/news/bay-area/car-theft-suspect-arrested-after-asking-north-bay-officer-for-the-time/\", waiting until",
