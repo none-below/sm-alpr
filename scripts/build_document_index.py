@@ -80,6 +80,7 @@ CITY_AGENCY = {
     "plymouth-mn": ("plymouth-pd", "Plymouth PD (MN)"),
     "reno-nv": ("reno-pd", "Reno PD (NV)"),
     "rialto": ("rialto-pd", "Rialto PD"),
+    "salinas": ("salinas-pd", "Salinas PD"),
     "san-bernardino": ("san-bernardino-pd", "San Bernardino PD"),
     "south-pasadena": ("south-pasadena-pd", "South Pasadena PD"),
     "sun-prairie-wi": ("sun-prairie-pd", "Sun Prairie PD (WI)"),
