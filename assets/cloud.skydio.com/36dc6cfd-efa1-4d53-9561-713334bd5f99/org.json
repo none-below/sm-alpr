@@ -1,12 +1,26 @@
 {
   "agency_id": null,
   "agency_name": "Frederick Police Department",
-  "dashboards": [],
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-10-30T15:47:17Z",
+      "id": "270a8d884c374cfb85f887cffc593cb2",
+      "title": "Frederick Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/270a8d884c374cfb85f887cffc593cb2"
+    }
+  ],
   "description": "Feature service for Frederick Police Department",
   "events": [
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "dashboard": "270a8d884c374cfb85f887cffc593cb2",
+      "date": "2026-10-30",
+      "event": "dashboard_published",
+      "title": "Frederick Police Department Drone Flights"
     }
   ],
   "first_seen": "2026-10-18",
