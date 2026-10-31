@@ -1,0 +1,299 @@
+--- page 1 ---
+A  P R A C T I C A L  G U I D E  F O R  A G E N C Y  P R E P A R AT I O N , 
+C O U N C I L  A P P R O VA L  A N D  L O N G -T E R M  G O V E R N A N C E
+ALPR Council 
+and Community 
+Engagement Guide
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be 
+reproduced or redistributed without the prior written consent of Axon.
+
+--- page 2 ---
+Dear Public Safety Partners, 
+Public safety technology earns its legitimacy through governance, not just capability. 
+Agencies that can explain not only what a product does but how it is governed walk into 
+every public hearing on solid ground. That work starts before a product reaches the field.
+Axon’s Responsible Innovation Framework guides how we evaluate emerging technologies 
+and helps ensure expanding capability does not outpace accountability. 
+The Ethics & Equity Advisory Council, a body of community leaders and subject-matter 
+experts in civil rights, criminal justice reform, AI ethics, public policy and social equity, 
+provides an external perspective that shapes our approach to product development, 
+including the ALPR capabilities this guide addresses.
+That is the standard we built into it. We design our systems so agencies own and control 
+their data. Sharing is off by default, explicit, visible and revocable. Retention and access 
+follow agency-defined controls. Activity is logged so oversight is enforceable. That 
+governance model is reflected in how we build.
+This guide is built to help agency leaders explain those governance choices in their own 
+voice in the rooms where it matters, including council chambers, community meetings 
+and conversations with civic stakeholders.
+J E F F  K U N I N S
+C H I E F  P R O D U C T  O F F I C E R 
+A N D  C H I E F  T E C H N O L O G Y  O F F I C E R 
+A X O N
+Foreword
+Note: This foreword is provided by Axon. The agency’s case for its ALPR program should be 
+made in the agency’s own voice, using the companion Q&A and other toolkit materials.
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+
+--- page 3 ---
+1
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Why This Guide Exists
+A council vote on an automated license plate recognition (ALPR) program is a governance decision before it is a 
+technology decision. The questions that decide the room are not answered by detection rates or camera counts 
+alone. They are about who controls the data, who can see it, what happens when someone outside the agency 
+requests access, and what shows the agency is operating the way it said it would. An agency that can answer 
+those questions with built-in controls and reviewable records is prepared to have a productive conversation 
+about how the program is governed.
+This guide is built for that. It helps agency leaders explain who controls the data, who can access it and how the 
+program is reviewed. The companion toolkit helps agencies turn that foundation into local answers, checklists 
+and proof sources.
+The Questions That Decide the Room
+Most ALPR hearings turn on a small set of questions. The questions below will help you prepare direct answers, 
+and the next section shows the architecture behind each one.
+What does the system collect, and what does it leave out?
+Each detection captures a license plate image, a vehicle context image, basic vehicle attributes such as color, 
+make and vehicle type, and the time and location. Context images provide vehicle context for review. They are 
+not used for facial recognition, driver identification or behavioral profiling. The system does not perform live 
+registered-owner lookups when a plate is read. 
+Who owns the data, sets retention and controls access?
+The agency does. The agency owns its ALPR data, sets retention periods, controls user access and decides 
+whether and how sharing is enabled. Those are agency decisions. The system applies the configured controls, 
+and the agency remains responsible for policy, training and oversight.
+Can another agency see this data, and does sharing create a national pool?
+Sharing is off by default and requires the owning agency’s deliberate approval. Another agency can access data 
+only through a specific sharing relationship approved by the owning agency. That access is invite-only, visible 
+and revocable. Sharing creates no national pool, no copy of agency ALPR data and no transfer of ownership. A 
+recipient agency cannot re-share ALPR data it receives through a sharing relationship.
+
+--- page 4 ---
+2
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Can the system be used to follow people or vehicles over time?
+The system does not monitor people or maintain a live location feed. When investigating a specific vehicle, an 
+authorized user can review prior detections of that plate within the agency’s retention period. That search is tied 
+to a named user and logged with the action, time and stated reason.
+What happens if a federal agency or outside party seeks agency ALPR data through Axon or directly from 
+the agency?
+Through Axon, there is no automatic, standing or built-in federal access to agency ALPR data. Because the 
+agency owns and controls the data, a lawful request goes to the agency and its counsel to handle. If Axon 
+receives such a request, Axon directs it to the agency as the data owner and discloses data only where legally 
+required to do so.
+What record shows the program is operating within policy?
+The audit record does. Access, searches, sharing activity where enabled and configuration changes are logged 
+and available for agency review. When sharing is enabled, that record includes recipient activity against shared 
+data and changes to sharing relationships over time. The companion Audit & Accountability Checklist helps 
+agencies turn those logs into a repeatable oversight process.
+The rest of this guide explains what makes these short answers enforceable, so the agency can point to the 
+controls, records and decision rights behind each claim before the hearing forces the question.
+T H E  Q U E S T I O N S  T H AT  D E C I D E  T H E  R O O M  –  C O N T I N U E D
+How the Architecture Answers Them
+This section shows the architecture behind each of those questions, the system controls that apply the agency’s 
+decisions and the records that let the agency verify them.
+What the system collects, and what it does not
+The collection boundary is defined by what the system is designed to capture: vehicle detection information, 
+not driver identity. The context image gives reviewers visual information around the vehicle. Because it is an 
+image from the scene, it may incidentally include surroundings, signage or people in view. It is not analyzed 
+for facial recognition or behavioral profiling, and its retention follows the agency’s policy for ALPR detection 
+data. The system does not perform live registered-owner lookups when a plate is read, does not independently 
+retrieve personal records about individuals and does not build a profile of a registered owner. Identifying who 
+is associated with a vehicle is a separate, deliberate step an agency takes through its own authorized channels, 
+outside this system. Agency policy governs that step. The system maintains that separation by design, while 
+access and activity are logged so the agency has a record it can review.
+
+--- page 5 ---
+3
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Who owns the data, sets retention and controls access
+Retention settings are applied by the system on the schedule the agency sets for ALPR detection data. Data 
+subject to that policy is automatically removed when the applicable retention period expires. Detections 
+preserved as evidence follow the agency’s evidence retention rules. Access is scoped to the users and roles the 
+agency authorizes. The governance is the agency’s. The system applies those controls and records activity so 
+the agency can review use against policy.
+Why sharing does not create a national pool
+In pooled or network-based models, exposure can expand when visibility, copies or downstream access extend 
+beyond what the originating agency can see or control. The agency-controlled model is built around a different 
+boundary. Visibility changes only when the owning agency changes it. The sharing relationship stays visible to 
+the owner and revocable, and agency ALPR data is not copied into a shared repository or routed into a national 
+pool. The owning agency keeps ownership throughout. Because sharing does not copy the data or transfer 
+ownership, a recipient agency cannot re-share ALPR data it receives through a sharing relationship.
+H O W  T H E  A R C H I T E C T U R E  A N S W E R S  T H E M  –  C O N T I N U E D
+Why historical lookup is not live tracking
+Detection is automated. Operational judgment remains human. Investigative search reaches backward into 
+records the agency already holds under its own policy, for an authorized purpose, tied to a named user and 
+bounded by the agency’s retention period. It is architecturally different from continuous tracking. There is no 
+persistent watch on a person, no live feed that follows an individual across locations, and no system action that 
+substitutes for human judgment.
+These boundaries are enforced through system design, configuration controls and reviewable records. The next 
+section explains how those records support the agency’s accountability case.
+What happens when an outside or federal entity wants the data
+Agency ALPR data is not placed into a national or pooled database that outside entities can access through 
+Axon. The agency remains the data owner and decision-maker. Because the agency owns and controls the data, 
+a lawful request goes to the agency and its counsel to handle. If Axon receives such a request, Axon directs it to 
+the agency as the data owner and discloses data only where legally required to do so.
+
+--- page 6 ---
+4
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+The Accountability Record
+A governance case is only as strong as the record behind it. The boundaries in the previous section are 
+supported by system controls, configuration choices and reviewable records an agency can use to show how 
+the program is operating. That record is what helps separate a program governed in practice from a program 
+described in policy alone.
+The accountability record starts with the audit log. Access, searches, sharing activity where enabled and 
+configuration changes are recorded and available to the agency. When sharing is enabled, the audit record 
+includes recipient activity against shared data and changes to sharing relationships over time, so the agency can 
+review who had access during a specific period. The log helps answer the questions an oversight body asks after 
+a program is running: which user took which action, the timestamp and the stated reason for access. It is the 
+difference between telling a council the program is used appropriately and being able to show the activity record 
+behind that statement.
+A log supports accountability when the agency reviews it consistently. That is the work the companion 
+Audit & Accountability Checklist is built for. It gives the agency a repeatable model: who owns the audit function, 
+how often access and activity are reviewed, what a review looks for and how exceptions are handled. An agency 
+that can describe its review cadence and name its audit owner walks into a hearing with an operating oversight 
+process, not just a system capability. The capability is in the system. The discipline of using it belongs to the 
+agency.
+The public transparency portal is a separate mechanism with a different job. Where the audit log is the agency’s 
+internal accountability record, the portal is a public-facing disclosure tool that lets an agency publish information 
+about its ALPR program for community visibility. It supports the agency’s public transparency approach, 
+which is the agency’s decision to make. It is a way to show the public the shape of the program. It is not the 
+accountability mechanism itself. The audit record is.
+For current security and certification documentation, trust.axon.com is the source. It holds Axon’s published 
+security and compliance materials and is the right reference when a council or city attorney asks about the 
+platform’s security posture. It documents how the platform is secured and independently assessed. It is 
+not where an agency points to demonstrate its own governance decisions. Those live in the agency’s policy, 
+configuration choices and audit record. The next section steps back from the governance case to  
+the platform itself.
+
+--- page 7 ---
+5
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Fleet 3
+Axon’s mobile ALPR solution, capturing detections from patrol vehicles in the field.
+Axon Outpost
+A fixed ALPR camera with integrated livestreaming and flexible mounting options.
+Axon Lightpost
+Fixed ALPR and livestreaming on existing streetlights, through Axon’s partnership with Ubicquia.
+Works With Axon
+A certified partner program that connects qualifying third-party cameras into the same 
+workflow. Certification means a device has met Axon’s security, performance and 
+interoperability standards. The program grows as new partners qualify.
+Axon Fusus 
+Vehicle Search
+The search and real-time operations capability inside Fusus where vehicle detections from 
+mobile, fixed and certified partner sources come together.
+The Components and 
+How They Connect
+ALPR is the category most council members recognize. Axon Vehicle Intelligence is the name for five connected 
+components anchored in Fusus, the real-time operations layer.
+Fusus is the real-time operations layer. It is where authorized users search and review vehicle detections under 
+the agency’s access controls. Relevant detections can be preserved in Axon Evidence, where they are retained 
+and managed under agency-defined retention, access and audit controls.
+Configured vehicle detection sources feed into one governed operations workflow. The agency controls  
+who can access that workflow and how vehicle detections are retained, preserved and reviewed under 
+agency-defined controls.
+
+--- page 8 ---
+6
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+The Companion Toolkit
+This guide lays out the governance case. The companion documents help agencies prepare local answers, 
+confirm decisions and maintain accountability over time. Each asset can be used as part of the full toolkit or 
+shared independently once it has been reviewed and localized to the agency’s deployment, policy and 
+applicable law.
+Captures your agency’s deployment and policy decisions so 
+every public answer reflects your actual program, not the general 
+framework.
+ALPR Program 
+Details Worksheet
+What the platform does and does not do, in plain language for 
+public discussions.
+Axon Vehicle 
+Intelligence Boundaries
+The questions a hearing is likely to raise, with answers you can 
+localize to your agency.
+Council and 
+Community Q&A
+The governance decisions, owners and supporting documents 
+to confirm before public discussion.
+Council Readiness 
+Checklist
+A repeatable oversight process that helps the agency review audit 
+logs, document outcomes and maintain an accountability record.
+Audit & Accountability 
+Checklist
+
+--- page 9 ---
+7
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Retention periods
+The actual retention window your agency has set 
+for ALPR detection data.
+Sharing configuration
+Whether sharing is enabled, with whom and under 
+what approval.
+Authorized uses
+The specific purposes your policy permits the 
+system to be used for.
+Hotlist sources and approval process
+Which lists your agency uses and who approves 
+additions.
+Audit owner and review cadence
+Who owns the audit function and how often access 
+and activity are reviewed.
+Public transparency approach
+Whether your agency publishes program 
+information, what it publishes and where.
+Federal and lawful request process
+How your agency handles a request for data, 
+whether it arrives through Axon or directly.
+Livestreaming and recording settings, if enabled
+Whether livestreaming or recording is enabled, 
+who can access it and how video is retained.
+Applicable state, local and public records law
+The statutes, ordinances and public records 
+requirements that govern ALPR in your 
+jurisdiction.
+Program outcomes, if available
+Public-safe outcome examples your agency 
+can speak to, such as recovered stolen vehicles, 
+missing person responses or investigative leads.
+Used together, the guide and companion documents give the agency a public explanation grounded in its actual 
+policy, configuration and accountability record.
+T H E  C O M P A N I O N  T O O L K I T  –  C O N T I N U E D
+Localize Before You Use It
+The governance architecture in this guide is consistent across deployments. The agency-specific answers are 
+not. Retention periods, sharing configuration, authorized uses and policy context are local decisions, and the 
+toolkit answers need to reflect the decisions your agency has actually made. Before using any of the companion 
+documents, localize the toolkit answers to your agency’s:
+
+--- page 10 ---
+8
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Closing
+Key Resources and Contacts
+ALPR programs play an important role in public safety, and they raise real questions from the communities they 
+serve. A council vote comes down to a few of them: who controls the data, who can access it, what happens 
+when someone outside the agency requests access and what records show the program is operating within 
+policy. The answers in this guide are grounded in agency decisions, system controls and reviewable records. 
+The agency owns its data, sets its retention, access and sharing rules, and can show how the program operates 
+over time. Those are the answers to bring into the room.
+Security and compliance documentation: 
+trust.axon.com 
+Vehicle Intelligence product overview:  
+axon.com/products/vehicle-intelligence 
+Responsible Innovation Framework: 
+axon.com/responsibility/responsible-innovation
+Agency account support: 
+Contact your Axon account representative 
+Media and press inquiries: 
+press@axon.com
+Axon Resources
+Axon Contacts
