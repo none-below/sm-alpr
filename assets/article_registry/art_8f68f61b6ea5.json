@@ -1,0 +1,77 @@
+{
+  "url": "https://www.kcrg.com/2026/10/28/north-liberty-votes-end-contract-with-flock/",
+  "source_domain": "kcrg.com",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "North Liberty votes to end contract with Flock",
+  "byline": "Elizabeth Schultz",
+  "published_at": "2026-10-28T01:01:00.07Z",
+  "fetched_at": "2026-10-28T16:04:29Z",
+  "discovered_by": "rss:kcrg.com",
+  "scanner_verdict": "WARNINGS \u2014 16 pts, low/medium only",
+  "scanner_score": 16,
+  "content_hash": "22a92b0edcc49bf1a163a385a87a08a96baedbf810c790941f5e38eac5aaa54d",
+  "paths": {
+    "html": "assets/articles/kcrg.com/2026-10-28-north-liberty-votes-end-contract-with-flock_8f68f61b.html",
+    "meta": "assets/articles/kcrg.com/2026-10-28-north-liberty-votes-end-contract-with-flock_8f68f61b.meta.json",
+    "txt": "assets/articles/kcrg.com/2026-10-28-north-liberty-votes-end-contract-with-flock_8f68f61b.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "policy:retention",
+    "policy:sharing",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "7dfe18e8-7be7-5ee4-97ab-9f23c75008e4",
+    "308e7ece-43c7-53c1-90a6-82f1e7a26d68"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "7dfe18e8-7be7-5ee4-97ab-9f23c75008e4",
+      "display_name": "North Liberty IA PD",
+      "state": "IA",
+      "score": 12.683,
+      "matched_forms": [
+        "North Liberty",
+        "North Liberty Police"
+      ]
+    },
+    {
+      "agency_id": "308e7ece-43c7-53c1-90a6-82f1e7a26d68",
+      "display_name": "Cedar Rapids IA PD",
+      "state": "IA",
+      "score": 7.5,
+      "matched_forms": [
+        "Cedar Rapids"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "7dfe18e8-7be7-5ee4-97ab-9f23c75008e4"
+  ],
+  "summary": "The North Liberty, Iowa City Council voted 3-1 to end its contract with Flock, which operated 12 license-plate reading cameras at a cost of about $36,000 per year. The city plans to turn off data sharing immediately, though physical cameras may remain while contract requirements are worked out.",
+  "key_quotes": [
+    {
+      "quote": "The North Liberty City Council voted 3-1 Tuesday night to end its contract with Flock.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "The city plans to turn off data sharing Wednesday, meaning North Liberty will no longer share data with other agencies or access data from their systems",
+      "paragraph_idx": 10
+    },
+    {
+      "quote": "reducing data retention from 30 days to seven days and limiting which outside agencies can access the system",
+      "paragraph_idx": 7
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-28T16:09:58Z",
+  "article_id": "art_8f68f61b6ea5"
+}

@@ -1,0 +1,92 @@
+{
+  "url": "https://timesofsandiego.com/crime/2026/10/29/mistakes-happen-legal-claims-allege-false-alpr-identification-led-to-police-shooting/",
+  "source_domain": "timesofsandiego.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "'Mistakes happen' \u2014 Legal claims allege false ALPR identification led to police shooting",
+  "byline": "Dorian Hargrove \u2022 Times of San Diego, Tessa Balc \u2022 Times of San Diego",
+  "published_at": "2026-10-29T21:54:23+00:00",
+  "fetched_at": "2026-10-30T14:07:08Z",
+  "discovered_by": "rss:timesofsandiego.com",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 114 pts, HIGH/CRITICAL findings",
+  "scanner_score": 114,
+  "content_hash": "810db5a98ef9a442c1672903450bc509d98b21aaae8cdfb396801194ca0defe0",
+  "paths": {
+    "html": "assets/articles/timesofsandiego.com/crime-2026-10-29-mistakes-happen-legal-claims-allege-false-alpr-identification-l_7e49d647.html",
+    "meta": "assets/articles/timesofsandiego.com/crime-2026-10-29-mistakes-happen-legal-claims-allege-false-alpr-identification-l_7e49d647.meta.json",
+    "txt": "assets/articles/timesofsandiego.com/crime-2026-10-29-mistakes-happen-legal-claims-allege-false-alpr-identification-l_7e49d647.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-requests-fallback",
+  "tags": [
+    "genre:investigative",
+    "incident:false-positive",
+    "incident:wrongful-stop",
+    "policy:hotlist",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+    "29060c81-ed62-5e02-b2b0-d7aad0341aaf",
+    "56f9a46f-863a-5d77-b2c9-72403bb11a8e"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "ddca091b-bdea-5711-8eda-e1b175ebe7ad",
+      "display_name": "San Diego CA PD",
+      "state": "CA",
+      "score": 12.2,
+      "matched_forms": [
+        "San Diego Police",
+        "San Diego Police Department"
+      ]
+    },
+    {
+      "agency_id": "29060c81-ed62-5e02-b2b0-d7aad0341aaf",
+      "display_name": "San Diego CA PD is not sharing data with any partner networks. Policy & Trust",
+      "state": "CA",
+      "score": 12.2,
+      "matched_forms": [
+        "San Diego Police",
+        "San Diego Police Department"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 2.1,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "ddca091b-bdea-5711-8eda-e1b175ebe7ad"
+  ],
+  "summary": "A 19-year-old San Diego man and the owner of the vehicle he was riding in have filed tort claims alleging a San Diego Police officer shot him after an ALPR hotlist alert falsely identified the car as stolen. The claims come as a San Diego City Council committee signaled willingness to end the city's Flock Safety contract.",
+  "key_quotes": [
+    {
+      "quote": "The Department's ALPR system automatically receives stolen-vehicle information from [the National Crime Information Center] through regularly updated hotlists",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "The officer exited his vehicle, gave no verbal commands, and immediately fired one round from his firearm",
+      "paragraph_idx": 25
+    },
+    {
+      "quote": "one told him, 'mistakes happen,'",
+      "paragraph_idx": 29
+    },
+    {
+      "quote": "the Honda was not stolen and was being driven with Nelson's permission",
+      "paragraph_idx": 12
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-10-30T14:11:07Z",
+  "article_id": "art_7e49d647abb9"
+}
