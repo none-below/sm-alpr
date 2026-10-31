@@ -1,0 +1,62 @@
+{
+  "title": "ALPR platform access by California National Guard Counterdrug Task Force personnel (follow-up to W013606 item 3)",
+  "summary": "On 2026-10-29 the City produced, as responsive to item 3 of W013606-100826 (records designating a non-employee \"authorized designee\" to access ALPR data), a Memorandum of Understanding between the California National Guard Counterdrug Task Force (CDTF) and the Department, signed for the Department on 2024-10-17. The MOU does not mention ALPR, license plate data, Flock Safety or Axon. This request asks for the records that would show which CDTF personnel were assigned to the Department and what ALPR access they had. Platform scope matches W013606 (Flock Safety; Axon including Fleet 3; Vigilant; NCRIC AstroMetrics); period 2024-01-01 to date, or earlier if CDTF support began earlier. Eight items:\n\n- Item 1: the Department's written requests for CDTF support (the \"validated support request letter\" and each mission request under MOU § 4.a, with objectives and point of contact),\n- Item 2: records showing which CDTF personnel were assigned, their support category or position, the unit supported and assignment start and end dates (names may be redacted),\n- Item 3: for each CDTF member, the ALPR platform account records (user-list entry with creation and deactivation dates, and account event-log entries),\n- Item 4: for each CDTF account holder, the access-approval and job-duties determination and the pre-access training completion record (Policy 463.2, 463.4(a), 463.4(d); SOP 205.3),\n- Item 5: the platform audit records of every search or access through each CDTF account, in export format with user, timestamp, reason and case-number fields (Policy 463.6(a); Civ. Code § 1798.90.52(a)(3)),\n- Item 6: any analytical product CDTF personnel prepared for the Department using ALPR data and any record of its retention or dissemination outside the Department (MOU § 9.b),\n- Item 7: the CDTF activity and statistics reports and the Department's statistics provided to the CDTF under MOU § 9.d,\n- Item 8: the record designating or approving ALPR access for the \"DA Investigator\" and \"Cold Case Investigator\" account holders and the \"API User (Axon)\" and \"API User (Sun Ridge)\" integration accounts on the user list produced 2026-10-16.\n\nEach item that rests on a policy, MOU or statutory \"shall\" quotes it and states what a \"no responsive records\" answer would mean. Item 3 states the two readings of a null answer: either no CDTF member held an account (in which case the MOU is not an item-3 record and that item remains open) or CDTF personnel accessed data without an account record.",
+  "tags": [
+    "policy-463",
+    "sop-205",
+    "audit-compliance",
+    "external-sharing"
+  ],
+  "policy_promises": [
+    {
+      "policy": "463.4(a) / 463.4(d) / 463.2",
+      "quote": "An ALPR shall only be used for official law enforcement business by any Department member(s) or authorized designee whose job duties necessitate the use of ALPR and that have completed Department approved training.",
+      "tests": "Is there an approval, job-duties determination and pre-access training record for each CDTF member who held an ALPR account?"
+    },
+    {
+      "policy": "SOP 205.3",
+      "quote": "Records of this training shall be maintained by our Training Division.",
+      "tests": "Does the Training Division hold a completion record for each CDTF account holder?"
+    },
+    {
+      "policy": "463.6(a) / Civ. Code § 1798.90.52(a)(3)",
+      "quote": "The username of the person who accesses the information, and, as applicable, the organization or entity with whom the person is affiliated.",
+      "tests": "Can the Department produce the per-account access record for CDTF users, showing the user and the affiliated organization?"
+    },
+    {
+      "policy": "CDTF MOU § 4.a",
+      "quote": "will be initiated upon approval of a written request from the San Mateo Police Department ... San Mateo Police Department will provide specific objectives for each requested mission and designate a San Mateo Police Department point of contact",
+      "tests": "Does the Department hold its support-request letter and per-mission requests?"
+    },
+    {
+      "policy": "CDTF MOU § 9.b",
+      "quote": "CDTF personnel shall not independently collect, retain, or disseminate information on United States persons. The criminal information under analysis is the property of San Mateo Police Department and will not be retained in NGCA facilities or databases, nor disseminated.",
+      "tests": "Is there any CDTF work product derived from ALPR data, and any record of where it went?"
+    },
+    {
+      "policy": "CDTF MOU § 9.d",
+      "quote": "The CDTF is required to provide timely reporting of drug interdiction and CD support activities/statistics",
+      "tests": "Does the Department hold the CDTF activity reports and its own statistics provided to the CDTF?"
+    },
+    {
+      "policy": "Gov. Code § 7922.535(a)",
+      "quote": "agency must notify requester within 10 calendar days whether it will produce records",
+      "tests": "Does the City issue a determination by 2026-11-10?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013606-100826",
+      "relation": "followup",
+      "note": "Parent request, still in rolling production (next update promised by 2026-11-13). Item 1 produced the Flock user list on 2026-10-16; item 3 produced the CDTF MOU on 2026-10-29. Items 2 and 4–10 unanswered as of filing."
+    },
+    {
+      "ref": "W012570-041926",
+      "relation": "context",
+      "note": "Produced a Flock EVENTLOG; item 3 asks for account event-log entries in that form."
+    }
+  ],
+  "filed_because": "The only record the City has produced designating non-employees to access ALPR data is a National Guard counterdrug MOU that never names ALPR, and the user list it produced has no agency column and 85 accounts with no title, so nothing in hand shows whether Guard personnel held accounts or ran searches. This request asks for the assignment, account, approval, training, audit-log and work-product records that would answer that, and for the designee record behind the four non-SMPD-titled accounts on the user list.",
+  "status_override": null,
+  "notes": "Filed 2026-10-31 at 11:38 AM; auto-acknowledged the same minute and forwarded to department(s) for processing. Statutory determination due 2026-11-10. Filed as a separate request rather than a clarification to W013606 so that it carries its own determination date."
+}
