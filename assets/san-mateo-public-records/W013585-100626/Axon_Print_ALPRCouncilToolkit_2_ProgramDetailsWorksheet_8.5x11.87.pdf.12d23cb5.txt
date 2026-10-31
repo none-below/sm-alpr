@@ -1,0 +1,316 @@
+--- page 1 ---
+1
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+ALPR Program 
+Details Worksheet
+Use this worksheet to record your configuration and policy decisions before 
+you adapt the Q&A.
+The toolkit materials use general language that applies across automated license plate recognition (ALPR) 
+programs. Your agency’s public answers need to reflect your specific configuration, policy decisions and legal 
+context, not the general framework.
+Record each field below before adapting the Q&A or preparing any public-facing materials. If a decision is not yet 
+made, settle it before the hearing. Answers about how the system is designed and what it does by default are 
+addressed in the Axon Vehicle Intelligence Boundaries document.
+P A R T  O F  T H E  A L P R  C O U N C I L  A N D  C O M M U N I T Y  E N G A G E M E N T  T O O L K I T
+
+--- page 2 ---
+2
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Axon Vehicle Intelligence Components
+Section 1: Deployment Configuration
+Record what your agency has deployed and what is currently enabled. These facts determine which Q&A 
+answers apply to your program and which require adjustment.
+Notes and Follow-Up:
+Component
+Deployed
+Notes
+Fleet 3 (mobile ALPR)
+□ Yes   □ No
+Number of units: _______________________________
+Axon Outpost (fixed ALPR)
+□ Yes   □ No
+Number of units: _______________________________
+Axon Lightpost 
+(fixed ALPR on streetlights)
+□ Yes   □ No
+Number of units: _______________________________
+Works With Axon certified 
+partner cameras
+□ Yes   □ No
+Source or sources:
+_______________________________________________
+_______________________________________________
+Axon Fusus Vehicle Search
+□ Yes   □ No
+Deployment footprint and 
+placement rationale
+Public-safe description of coverage area, placement 
+criteria and whether exact camera locations will 
+be published:
+_______________________________________________
+_______________________________________________
+_______________________________________________
+
+--- page 3 ---
+3
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+S E C T I O N  1 :  D E P L O Y M E N T  C O N F I G U R AT I O N  –  C O N T I N U E D
+Enabled Capabilities
+Notes and Follow-Up:
+Capability
+Status
+Notes
+Cross-agency sharing
+□ Enabled   □ Disabled
+Document partners and conditions in  
+Section 2
+Public transparency portal
+□ Enabled   □ Disabled
+If enabled, URL:__________________________
+Livestreaming
+□ Enabled   □ Disabled
+Document access authorization in Section 2
+Video recording
+□ Enabled   □ Disabled
+Document retention and governance in 
+Section 2
+
+--- page 4 ---
+4
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Section 2: Local Policy Decisions 
+and Governing Documents
+For each decision, record your agency’s answer. The Governing Document or Policy column shows where each 
+decision is typically governed and, where it applies, where to find or configure it in the platform. Complete each 
+row before council review. If a decision is unresolved, settle it before the hearing.
+Decision
+Your Agency’s Answer
+Governing Document or Policy
+ALPR detection data 
+retention period
+_______ □ hours   □ days
+Retention policy or configuration 
+export
+Evidence retention for 
+detections preserved to a case
+Per evidence rules / _______ days
+Evidence retention policy
+Video retention, if recording 
+is enabled
+_________ days
+Video retention policy
+Authorized uses of the system
+Documented in: 
+_______________________________
+Signed and dated written use policy 
+with adoption date and approving 
+authority
+Offense category configuration
+Offense categories authorized for 
+ALPR searches:
+_______________________________
+Use policy, offense category approval 
+record or configuration export
+Additional search justification 
+required by agency policy
+□  Case number required
+□  Other:  _____________________
+□  None
+Written use policy or system 
+configuration
+Authorized user training 
+requirements and completion 
+status
+Documented in: ________________
+Training policy or curriculum, or 
+completion records
+
+--- page 5 ---
+5
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+S E C T I O N  2 :  L O C A L  P O L I C Y  D E C I S I O N S  A N D  G O V E R N I N G  D O C U M E N T S  –  C O N T I N U E D
+Decision
+Your Agency’s Answer
+Governing Document or Policy
+Hotlist sources approved for 
+use
+□  NCIC
+□  Agency-owned
+□  Other:  _____________________
+Approved source list; may be set by 
+state law
+Whether approved hotlist 
+sources include vehicle-status 
+or owner-related fields
+□  No owner-related fields
+□  Yes, source:  ________________
+Written use policy or approved hotlist 
+source list
+Who may add, edit or delete 
+hotlist entries
+_______________________________
+Written use policy; approval records
+Sharing configuration
+□  Off
+□  Enabled 
+If enabled, list partner agencies 
+and the basis for each 
+relationship:
+______________________________
+______________________________
+______________________________
+Sharing configuration export
+Who can enable or change 
+sharing
+_______________________________
+_______________________________ 
+_______________________________
+Role authorization document
+Sharing relationship review 
+cadence
+_______________________________ 
+_______________________________
+Audit policy or sharing review 
+procedure
+Recipient access audit review
+Review cadence for recipient 
+activity against shared data:
+_______________________________ 
+_______________________________
+Audit policy or sharing review 
+procedure
+
+--- page 6 ---
+6
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+S E C T I O N  2 :  L O C A L  P O L I C Y  D E C I S I O N S  A N D  G O V E R N I N G  D O C U M E N T S  –  C O N T I N U E D
+Decision
+Your Agency’s Answer
+Governing Document or Policy
+Sharing agreement history
+Documented in: 
+_________________________
+Audit policy or sharing review 
+procedure; sharing configuration 
+history
+Access roles and authorized 
+personnel
+ 
+______________________________
+Access role configuration export
+Who can authorize access 
+changes
+ 
+______________________________
+Role authorization policy
+Audit owner
+Name and title:
+______________________________
+______________________________
+______________________________
+Designation documentation
+Audit review cadence
+ 
+______________________________
+Documented review schedule
+Escalation path for audit 
+findings
+Documented in: 
+______________________________
+Escalation procedure document
+Transparency portal: what is 
+published
+□  Not enabled
+□  Retention policy
+□  Available aggregate ALPR 
+program information
+□  Partner agencies if sharing is 
+enabled
+Portal configuration or published page
+Public reporting plan
+Documented in: 
+______________________________
+Transparency policy or 
+communications plan
+Public reporting and program 
+outcomes
+Documented in: 
+______________________________
+Reporting policy, communications 
+plan or case review process
+Community engagement and 
+feedback process
+Documented in: 
+______________________________
+Community engagement plan, public 
+meeting process or communications 
+policy
+
+--- page 7 ---
+7
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+S E C T I O N  2 :  L O C A L  P O L I C Y  D E C I S I O N S  A N D  G O V E R N I N G  D O C U M E N T S  –  C O N T I N U E D
+Decision
+Your Agency’s Answer
+Governing Document or Policy
+Lawful request handling: 
+requests received by Axon
+Documented in: 
+_________________________
+Written request process
+Lawful request handling: 
+requests received directly by 
+the agency
+Documented in: 
+_________________________
+Written request process
+Public records request handling
+Documented in: 
+_________________________
+Redaction and response procedure
+Applicable state ALPR statute
+Statute name and citation:
+______________________________
+______________________________
+Legal review memo
+Applicable local ordinance or 
+municipal code
+Ordinance name and citation,  
+if any:
+______________________________
+______________________________
+Legal review memo
+Surveillance use policy or local 
+technology approval process, 
+if required
+Approval body and current status:
+______________________________
+______________________________
+Surveillance use policy, staff report or 
+approval record
+Agency policy on immigration 
+enforcement use
+Documented in: 
+_________________________
+Written policy or legal memo
+Livestreaming access 
+authorization, if enabled
+Who can access and under what 
+conditions:
+______________________________
+______________________________
+Access authorization document
+Video governance policy, if 
+recording is enabled
+Documented in: 
+______________________________
+Video governance policy
+If your agency configures different retention periods for reads that match a hotlist versus reads that do not, 
+document both periods in the ALPR detection data retention row and note the distinction.

@@ -1,0 +1,102 @@
+--- page 1 ---
+1
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Axon Vehicle 
+Intelligence 
+Boundaries
+Built-in limits. Agency-configured controls.
+In a council hearing about automated license plate recognition (ALPR), the most important questions are 
+often about boundaries: what the system does, what it does not do and whether those limits are enforceable. 
+Policy sets the agency’s rules. System design, configuration controls and reviewable records help make those 
+rules enforceable and observable. The boundaries below explain how Axon Vehicle Intelligence supports that 
+governance model.
+What the system does 
+	✓
+Capture vehicle detections from fixed, mobile and certified partner cameras where configured, including a license 
+plate image, a vehicle context image, basic vehicle attributes such as color, make and vehicle type, and the time and 
+location
+	✓
+Compare plates against agency-approved hotlists, such as the National Crime Information Center (NCIC) or 
+agency-owned lists where configured
+	✓
+Surface alerts for human review when a plate matches a hotlist
+	✓
+Support authorized investigative searches in Fusus, the agency’s real-time operations layer, using known information 
+such as a plate, partial plate or vehicle description
+	✓
+Let an authorized user review prior detections of a specific plate within the agency’s retention period in support of an 
+active investigation
+	✓
+Support preservation of relevant detections in Axon Evidence under the agency’s retention, access and audit controls
+	✓
+Log access, searches, sharing activity where enabled and configuration changes with user, action, time and 
+stated reason
+	✓
+Apply agency-configured offense category controls to every ALPR search in Fusus, requiring users to enter an 
+authorized offense category and a stated reason before results are returned
+P A R T  O F  T H E  A L P R  C O U N C I L  A N D  C O M M U N I T Y  E N G A G E M E N T  T O O L K I T
+
+--- page 2 ---
+2
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Detection is not decision
+The system surfaces vehicle information for authorized personnel to review. People apply judgment and decide 
+what happens next.
+Searching over time
+The system does not monitor people or maintain a live location feed on anyone. When investigating a specific 
+vehicle, an authorized user can review where and when that plate was previously captured within the agency’s 
+retention period. That search is tied to a named user and logged with the action, time and stated reason. It is 
+an investigative search of a known vehicle, bounded by retention and oversight, not continuous monitoring of  
+the public.
+Sharing
+Sharing is off by default. When an agency enables sharing, it is explicit, invite-only, visible and revocable. Sharing 
+does not copy agency ALPR data into a shared repository, transfer ownership or connect agency ALPR data to a 
+national pool. Visibility changes only when the agency makes it change.
+Vendor access
+Axon has no standing access to agency ALPR data. Access occurs only when an agency initiates a specific 
+support request. When that happens, access is temporary, limited to the stated purpose, logged and auditable 
+by the agency.
+A X O N  V E H I C L E  I N T E L L I G E N C E  B O U N D A R I E S  –  C O N T I N U E D
+What the system does NOT do 
+	
+×
+Does not use facial recognition or perform live registered-owner lookups
+	
+×
+Does not place agency ALPR data into a national or pooled database
+	
+×
+Does not share agency ALPR data automatically or by default
+	
+×
+Does not allow agencies that receive shared data to re-share it
+	
+×
+Does not provide federal agencies automatic, standing or built-in access to agency ALPR data through Axon
+	
+×
+Does not automate enforcement. Every alert requires human review before action
+	
+×
+Does not allow Axon to pool, resell or disclose agency ALPR data except where legally required
+	
+×
+Does not continuously monitor individuals or maintain a real-time location feed on any person
+
+--- page 3 ---
+3
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+A X O N  V E H I C L E  I N T E L L I G E N C E  B O U N D A R I E S  –  C O N T I N U E D
+Designed to be observable
+Some boundaries are enforced by system design. Some are governed by agency configuration. Access, 
+searches, sharing activity where enabled and configuration changes are logged and reviewable by the agency. 
+That record helps an agency show how the program operates against policy, not just assert it. Core boundaries 
+are built into how the system works. The system does not place agency ALPR data into a national pool, does not 
+share data automatically, does not use facial recognition, does not perform live registered-owner lookups and 
+does not automate enforcement. Within those boundaries, each agency configures retention, access, sharing, 
+transparency and livestreaming or recording settings under its policy and applicable law.
+For governance detail, see the ALPR Council and Community Engagement Guide. For current security and 
+certification documentation, see trust.axon.com.

@@ -1,0 +1,289 @@
+--- page 1 ---
+That is the foundation Fleet 3, Outpost, and Lightpost are validated by independent third-party assessments, 
+and proven across years of mobile ALPR deployments. The pages that follow show how it works in practice.
+Built for Public Safety. 
+Governed for Accountability.
+Privacy, security, and compliance across Axon Vehicle Intelligence.
+Vehicle Intelligence
+At a glance
+Data ownership
+Agencies own and control their ALPR data. Axon 
+does not pool, resell, or independently disclose it.
+Sharing
+Off by default. Invite-only, visible, time-bound, 
+and revocable.
+Lawful requests
+Routed to the agency as the data owner. Axon 
+does not independently disclose customer data.
+Federal access
+No back door, no centralized pool. No automatic or 
+standing federal access.
+Retention
+Agency-configured and automatically enforced. 
+Non-evidentiary ALPR data purge per policy.
+Audit
+Every access logged with user, action, time, and 
+stated reason, in immutable audit logs.
+Agencies own and control their ALPR data. Sharing is explicit, permission-
+based, and revocable. Lawful requests go through the agency for read 
+and hit data, not Axon. Retention is short, configurable, and automatically 
+enforced. Every action is logged in immutable audit logs that hold up in a 
+council chamber, a courtroom, or an oversight review.
+
+--- page 2 ---
+axon.com
+1. Your data, your control
+Agencies own and control their ALPR data. Axon does not pool, resell, or independently disclose agency data. 
+The eight points below are how that principle is implemented in practice.
+Data ownership
+The agency owns and controls its ALPR data. Axon 
+does not have access to agency data and does not 
+use agency data for any other purpose, including 
+resale or independent analysis. Any external request 
+for data, including subpoenas, warrants, or FOIA 
+requests, would be directed to the agency itself, and 
+the agency would determine how to respond under 
+applicable law and its own policies.
+Cross-agency sharing
+Cross-agency sharing capabilities are planned for Q3 
+2026. Sharing relationships will be invite-only, visible, 
+and revocable. Every relationship will be managed in the 
+agency’s Axon environment and will require an explicit 
+invitation. Shared access will not create copies of 
+records, recipient agencies will not take ownership, and 
+there will be no national lookup or unrestricted network.
+Lawful requests
+Legal process requests are directed to the agency, and 
+every step is logged. If a subpoena, warrant, or FOIA 
+request is directed to Axon, we object and route it to 
+the agency as the data owner. Axon Evidence audit 
+logs preserve each step so councils and oversight 
+bodies can confirm lawful procedures were followed.
+Retention
+Agencies set retention, and data is purged automat-
+ically. ALPR data is transferred into the agency’s 
+secure instance of Axon Evidence, where retention 
+periods are configured. Non-evidentiary ALPR data is 
+automatically deleted per agency policy. Axon pro-
+vides recommended defaults, and agencies configure 
+and control the settings themselves.
+Access tracking
+Every access is recorded, including who accessed 
+the data, what actions were taken, and when access 
+occurred. Immutable audit logs in Axon Evidence 
+capture the user, action, time, and, when configured, 
+the stated reason for access. Both Axon Evidence and 
+Fusus provide audit capabilities that allow agencies to 
+review activity at any time.
+Sharing controls
+Sharing is off by default, configurable based on 
+agency policy, revocable, and can be time-bound. 
+Sharing does not involve copying or redistributing 
+ALPR data. Access is federated, allowing recipient 
+agencies to query authorized data without taking 
+ownership, and access can be revoked immediately 
+by the donor agency.
+AI model training
+Axon may use transformed ALPR data from customers 
+who have opted to participate in Axon’s Customer 
+Experience Improvement Program (ACEIP). Full plate 
+reads are not used. Customers may opt out at any time 
+by contacting aceip@axon.com.
+Federal access
+There is no back door or centralized pool for federal 
+access. Any federal access requires either valid legal 
+process directed to the agency or an agency-approved 
+sharing relationship. Even when a sharing relationship 
+exists, the agency must approve the request before 
+data is shared. All access is permissioned and logged.
+Transparency
+Agencies receive access to the ALPR Policy and Usage 
+Transparency Portal in Axon Evidence, which can be 
+configured to publish retention policies, usage metrics, 
+and program details on a public-facing website. Agen-
+cies control what is published and may disable the 
+portal at any time.
+
+--- page 3 ---
+axon.com
+2. Built to be secure
+Device security and hardware integrity
+•	 Secure boot: Each stage of the boot process is cryp-
+tographically validated; only Axon-signed firmware 
+runs on the device.
+•	 Encrypted storage: AES-256 encrypted partition 
+with hardware-backed key protection covers ALPR 
+reads, context video, authentication tokens, configu-
+ration files, and logs.
+•	 Physical security: Physical interfaces (e.g., USB) 
+support only approved functions and are locked 
+against interactive access. 
+•	 Controlled firmware and updates: OTA firmware 
+packages are cryptographically signed and validated 
+before installation. Third-party penetration testing is 
+performed under Axon’s Trust & Assurance program.
+Secure access and role management
+•	 Device access: Devices have no exposed local login 
+interface; configuration occurs through authenti-
+cated Axon workflows. Pairing requires authenti-
+cated provisioning via Axon’s installer with signed 
+tokens and encrypted channels.
+•	 Agency access controls: Through Axon Evidence 
+and Fusus, agencies assign to the device role-based 
+permissions, enforce least-privilege access (including 
+export and retention restrictions), and use SSO and 
+MFA to align with their authentication standards.
+•	 Audit and accountability: Every action, user activity, 
+access attempts, configuration changes, sharing 
+decisions, data exports, is recorded in immutable 
+audit logs to maintain evidentiary integrity.
+Data and network security
+•	 Data in transit: TLS 1.2+ with cryptographic modules 
+protects uploads to Axon Evidence and Fusus. 
+Devices authenticate using hardware-protected cer-
+tificates and signed tokens, preventing spoofing.
+•	 Data at rest: AES-256 encryption protects all 
+stored data.
+•	 Network defenses: Firewall enforcement permits 
+only essential outbound communication; inbound 
+interfaces are restricted by default. Store-and-for-
+ward reliability buffers ALPR data on encrypted 
+storage if connectivity is lost.
+ALPR audit capability:
+Beginning April 2026, agencies have access to a one-
+button ALPR audit report built directly into Axon Fusus.
+The report is designed to make compliance reporting 
+easy, repeatable, and defensible. It captures officer-level 
+access activity including user identity, the action taken, 
+timestamp, and the stated reason for each ALPR 
+access. It’ll also show activity by external agencies with 
+whom you decide to share your ALPR data, when ALPR 
+Sharing launches in Q3 2026. 
+The report is built for supervisory review, internal 
+affairs, and oversight bodies that require full account-
+ability detail. For external sharing such as FOIA 
+requests, agencies can choose to remove PII and inves-
+tigative details like officer name, plate number, and case 
+number etc. before sharing the report. This pulls the 
+data from the same immutable audit log infrastructure 
+that underlies all of Axon Evidence.
+Axon ALPR cameras are engineered as field-deployable platforms with 
+built-in protections aligned to Axon’s Secure by Design principles, validated 
+by internal testing and independent third-party assessments.
+
+--- page 4 ---
+axon.com
+3. Where Axon stands apart
+Design area
+Agency-controlled model (Axon)
+Shared / network-based model
+Where data lives
+Within an agency-controlled environment.
+May be stored or accessed through shared 
+or network-accessible environments.
+Who can see data
+Visibility unchanged unless the agency 
+takes explicit action.
+Visibility may expand based on 
+participation, configuration, 
+or system features.
+How data is shared
+Explicit, relationship-based sharing 
+defined by the agency.
+May be enabled through participation or 
+system features.
+Federal access
+No back door or centralized pool for 
+federal access. Any federal access requires 
+a valid legal process directed to the 
+agency or an agency-approved sharing 
+relationship, and the agency must approve 
+each request before data is shared.
+Network-based architectures may create 
+centralized data pools where legal process 
+can be directed to the vendor rather than 
+solely to the originating agency. Federal 
+access pathways have been a documented 
+focus of public scrutiny in this category.
+Who can access
+Limited to direct, authorized relationships.
+May include indirect pathways such as 
+partner agencies or shared query layers.
+Retention
+System-enforced based on agency policy.
+Policy-defined with variable enforcement; 
+exported data may persist outside controls.
+Disclosure control
+Agency retains full control.
+May involve multiple entities.
+Access tracking
+Agency can directly review and explain 
+all access.
+Visibility into access may depend on 
+system structure.
+If something goes wrong
+Issues typically contained to a single 
+agency environment.
+Impact scope may extend beyond 
+one agency.
+Independent validation
+SOC 2 Type II, ISO 27001, ISO 27701, 
+FedRAMP High, CJIS, see trust.axon.com.
+Varies by vendor.
+The most important distinction is not the camera, it is how the system 
+is structured after data is captured. Architecture determines exposure 
+boundaries; configuration determines governance posture.
+
+--- page 5 ---
+axon.com
+Agencies have used Fleet for years to deploy mobile ALPR responsibly, and that same foundation carries forward 
+across fixed and mobile ALPR, sharing remains explicit, revocable, and fully auditable, whether the camera is in 
+a patrol vehicle, on a roadside pole, or integrated into streetlight infrastructure. Adding fixed ALPR to an existing 
+Fleet 3 deployment does not introduce a separate governance model: ALPR data flow into the same agency-con-
+trolled environment under the same retention, access, sharing, and audit controls.
+Answers to the questions headlines are raising
+Some of the most-asked questions in council chambers today come from 
+headlines about other vendors in this category. Here is how Axon Vehicle 
+Intelligence is structured to answer those questions directly.
+Does Axon maintain a national pool of ALPR data?
+No. ALPR data stays within the agency’s environment unless the agency chooses to share it. There is no auto-
+matic cross-agency access, and the system does not connect to a national database. When an agency does 
+choose to share, that access is limited, visible, and can be changed or revoked at any time. Nothing is shared by 
+default, and agencies can only share data they own.
+Can federal agencies automatically access our ALPR data?
+No. The platform does not provide automatic or built-in access to any federal agency. There are no built-in path-
+ways that route data outside the agency’s controlled environment. Any request from a federal entity, like any 
+other external request, would be directed to the agency itself, and the agency would determine how to respond 
+based on its own policies and applicable law. Federal agencies do not receive automatic or standing access.
+Can Axon disclose our agency’s data without our permission?
+No. The agency owns and controls its ALPR data. Axon does not have routine access to agency ALPR data and 
+does not independently disclose it to any outside party. Subpoenas, warrants, and FOIA requests are routed to 
+the agency as the data owner, and the agency determines how to respond based on its own policies and appli-
+cable law. All activity is logged so councils and oversight bodies can confirm lawful procedures were followed.
+Is governance enforced by design or just by policy?
+By design. Agency ownership, explicit sharing, enforceable retention, and immutable audit logs are built into the 
+platform from the ground up, not added on top after the fact.
+Can we use our own hotlists?
+Axon supports both NCIC and agency-owned hotlists in a single platform. Axon pulls the NCIC hotlist on a daily 
+cycle. Agencies can upload and manage their own hotlists directly in Evidence.com, with updates propagating 
+to devices in minutes, giving agencies real-time control without depending on external update cycles. All hotlist 
+data is encrypted in transit.
+
+--- page 6 ---
+axon.com
+What this means in a council conversation
+When an agency walks into a hearing on ALPR, the questions that decide the room are predictable: Where does 
+our data live? Who can see it? Can it be shared without our permission? How long is it kept? Can a federal entity 
+access it? Who is accountable when something goes wrong? Axon Vehicle Intelligence is structured so each of 
+those questions has a clear, specific, system-enforced answer, not a policy promise layered over an architecture 
+that allows otherwise.
+Resources
+Vehicle Intelligence overview: axon.com/products/vehicle-intelligence.
+Trust, security certifications, and supporting documentation: trust.axon.com.
+Axon Customer Experience Improvement Program: axon.com/aceip.
+Axon cloud Services Policy: axon.com/legal/cloud-services-privacy-policy.
+Responsible Innovation framework: axon.com/responsibility/responsible-innovation.
+, 
+ AXON, Axon, Axon Vehicle Intelligence, Fleet 3, Axon Outpost, Axon Lightpost, Axon Evidence and Axon Fusus are trademarks of Axon 
+Enterprise, Inc., some of which are registered in the US and other countries. For more information visit www.axon.com/legal. All rights 
+reserved. © 2026 Axon Enterprise, Inc.
