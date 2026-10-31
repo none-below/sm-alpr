@@ -1,0 +1,31 @@
+{
+  "byte_size": 493799,
+  "content_hash": "d072dd3458587058ad64b7e4563392aad708377d516de6d50ba63b607a6ebcf1",
+  "discovered_by": "bing:alpr",
+  "extracted_chars": 13161,
+  "fetch_path": "curl_cffi",
+  "fetched_at": "2026-10-31T12:18:30Z",
+  "final_url": "https://www.independent.org/article/2026/10/27/flock-alprs-and-the-problem-of-police-misuse/",
+  "http_status": 200,
+  "http_title": "Flock, ALPRs and the Problem of Police Misuse",
+  "paths": {
+    "html": "assets/articles/independent.org/article-2026-10-27-flock-alprs-and-the-problem-of-police-misuse_eb9e1be8.html",
+    "meta": "assets/articles/independent.org/article-2026-10-27-flock-alprs-and-the-problem-of-police-misuse_eb9e1be8.meta.json",
+    "txt": "assets/articles/independent.org/article-2026-10-27-flock-alprs-and-the-problem-of-police-misuse_eb9e1be8.txt"
+  },
+  "pdf_byte_size": null,
+  "pdf_status": "skipped-curl-fallback",
+  "queued_at": "2026-10-31T11:10:05Z",
+  "scanner_score": 115,
+  "scanner_verdict": "REVIEW REQUIRED \u2014 115 pts, HIGH/CRITICAL findings",
+  "slug": "article-2026-10-27-flock-alprs-and-the-problem-of-police-misuse_eb9e1be8",
+  "source_domain": "independent.org",
+  "stance": "critical",
+  "status": "fetched",
+  "tier": 2,
+  "url": "https://www.independent.org/article/2026/10/27/flock-alprs-and-the-problem-of-police-misuse/",
+  "wayback_error": "ConnectTimeout: HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /save (Caused by ConnectTimeoutError(<HTTPSConnection(host='web.archive.org', port=443) at 0x7f83bdba47d0>, 'Connection to web.archive.org timed out. (connect timeout=15)'))",
+  "wayback_source": "submit-failed",
+  "wayback_timestamp": null,
+  "wayback_url": null
+}
