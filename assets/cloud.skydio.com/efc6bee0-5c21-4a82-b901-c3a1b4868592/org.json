@@ -1,15 +1,7 @@
 {
   "agency_id": null,
   "agency_name": "Knoxville Police Department (TN)",
-  "dashboards": [
-    {
-      "access": "public",
-      "created": "2026-08-06T15:23:46Z",
-      "id": "a41b99c12f4c46f4a3e7f9b3b9b39ecb",
-      "title": "Knoxville Police Department (TN) Drone Flights",
-      "url": "https://www.arcgis.com/apps/dashboards/a41b99c12f4c46f4a3e7f9b3b9b39ecb"
-    }
-  ],
+  "dashboards": [],
   "description": "Feature service for Knoxville Police Department (TN)",
   "events": [
     {
@@ -20,6 +12,16 @@
       "dashboard": "a41b99c12f4c46f4a3e7f9b3b9b39ecb",
       "date": "2026-10-30",
       "event": "dashboard_published",
+      "title": "Knoxville Police Department (TN) Drone Flights"
+    },
+    {
+      "date": "2026-11-01",
+      "event": "unlisted"
+    },
+    {
+      "dashboard": "a41b99c12f4c46f4a3e7f9b3b9b39ecb",
+      "date": "2026-11-01",
+      "event": "dashboard_removed",
       "title": "Knoxville Police Department (TN) Drone Flights"
     }
   ],
@@ -48,7 +50,7 @@
       "Shape__Length"
     ]
   },
-  "listed": true,
+  "listed": false,
   "match": null,
   "org_id": "efc6bee0-5c21-4a82-b901-c3a1b4868592",
   "ori": [],
