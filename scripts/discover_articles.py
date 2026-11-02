@@ -246,7 +246,12 @@ def parse_qa_stats(qa_out: str, stats: dict) -> None:
 
 
 def process_source(source: dict, *, kws: list[str], dry_run: bool) -> dict:
-    """Process one source's RSS feed. Returns stats dict."""
+    """Process one source's RSS feed(s). Returns stats dict.
+
+    ``extra_feed_urls`` are polled alongside ``feed_url``: section feeds
+    or ``?paged=2`` for a site whose main feed is too short to survive a
+    daily poll (RWC Pulse's 10 items can span six hours). Matches from
+    all of a source's feeds go to queue_add as one batch."""
     domain = source["domain"]
     feed_url = source.get("feed_url")
     stats = {
@@ -257,36 +262,42 @@ def process_source(source: dict, *, kws: list[str], dry_run: bool) -> dict:
         stats["error"] = "no feed_url"
         return stats
 
-    print(f"\n=== {domain}  feed: {feed_url}")
-    entries, err = fetch_feed(feed_url)
-    if err:
-        stats["error"] = err
-        print(f"  ERROR: {err}")
-        return stats
-
-    stats["items"] = len(entries)
-    matches: list[tuple[str, str]] = []
-    for entry in entries:
-        url = entry.get("link")
-        if not url:
+    matches: dict[str, str] = {}  # url -> keyword; first feed wins
+    errors: list[str] = []
+    for feed in [feed_url, *source.get("extra_feed_urls", [])]:
+        print(f"\n=== {domain}  feed: {feed}")
+        entries, err = fetch_feed(feed)
+        if err:
+            errors.append(err if feed == feed_url else f"{feed}: {err}")
+            print(f"  ERROR: {err}")
             continue
-        title = entry.get("title") or ""
-        summary = entry.get("summary") or ""
-        kw = matches_keywords(f"{title}\n{summary}", kws)
-        if kw:
-            matches.append((url, kw))
+
+        stats["items"] += len(entries)
+        n_before = len(matches)
+        for entry in entries:
+            url = entry.get("link")
+            if not url:
+                continue
+            title = entry.get("title") or ""
+            summary = entry.get("summary") or ""
+            kw = matches_keywords(f"{title}\n{summary}", kws)
+            if kw:
+                matches.setdefault(url, kw)
+        print(f"  {len(entries)} items, {len(matches) - n_before} new matched")
+    if errors:
+        stats["error"] = "; ".join(errors)
+
     stats["matched"] = len(matches)
     if not matches:
-        print(f"  {len(entries)} items, 0 matched")
         return stats
 
-    print(f"  {len(entries)} items, {len(matches)} matched:")
-    for url, kw in matches:
+    print(f"  {domain}: {len(matches)} matched:")
+    for url, kw in matches.items():
         print(f"    [{kw}]  {url}")
 
     discovered_by = f"rss:{domain}"
     _, qa_out, rejects = queue_add_batch(
-        [u for u, _ in matches],
+        list(matches),
         discovered_by=discovered_by,
         dry_run=dry_run,
     )

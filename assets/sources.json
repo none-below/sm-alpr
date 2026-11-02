@@ -7,6 +7,7 @@
     "stance": "neutral | critical | supportive | industry | unknown \u2014 posture toward law-enforcement surveillance",
     "last_reviewed": "YYYY-MM-DD when tier/stance was last confirmed by a human",
     "feed_url": "(optional) RSS/Atom feed URL \u2014 scripts/discover_articles.py polls this and auto-queues items matching ALPR keywords",
+    "extra_feed_urls": "(optional) list of more feed URLs polled alongside feed_url, e.g. section feeds or ?paged=2 when the main feed turns over faster than the daily poll",
     "notes": "free-form"
   },
   "_handler_policy": {
@@ -1004,7 +1005,14 @@
       "stance": "neutral",
       "last_reviewed": "2026-05-29",
       "feed_url": "https://www.rwcpulse.com/rss",
-      "notes": "Redwood City (San Mateo County). Embarcadero Media Foundation network feed-bearer: this one RSS carries the shared network's stories (almanacnews/paloaltoonline/mv-voice publish the same items under their own domains), so only this domain polls the feed to avoid duplicate crawls."
+      "extra_feed_urls": [
+        "https://www.rwcpulse.com/feed/?paged=2",
+        "https://www.rwcpulse.com/public-safety/feed/",
+        "https://www.rwcpulse.com/crime/feed/",
+        "https://www.rwcpulse.com/redwood-city/feed/",
+        "https://www.rwcpulse.com/investigative-story/feed/"
+      ],
+      "notes": "Redwood City (San Mateo County). Embarcadero Media Foundation network feed-bearer: this one RSS carries the shared network's stories (almanacnews/paloaltoonline/mv-voice publish the same items under their own domains), so only this domain polls the feed to avoid duplicate crawls. Extra feeds added 2026-11-02: the main feed's 10 items spanned ~6 hours that day (8 CalMatters reprints), so the daily poll missed most local stories; the section feeds reach back weeks (public-safety to 9/14, crime to 9/4)."
     },
     {
       "domain": "sacbee.com",

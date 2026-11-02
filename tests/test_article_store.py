@@ -44,3 +44,35 @@ def test_save_only_writes_changed_shards(tmp_path):
 
 def test_load_missing_dir_returns_empty(tmp_path):
     assert article_store.load_registry(tmp_path / "does-not-exist") == []
+
+
+# ── story_key ────────────────────────────────────────────────────
+
+
+def test_story_key_ignores_section_prefix():
+    """RWC Pulse newsletter path and feed permalink are one story."""
+    a = article_store.story_key(
+        "https://www.rwcpulse.com/express-newsletter-content/2026/11/02/"
+        "redwood-city-postpones-alpr-recommendation-until-2027/")
+    b = article_store.story_key(
+        "https://www.rwcpulse.com/public-safety/2026/11/02/"
+        "redwood-city-postpones-alpr-recommendation-until-2027/")
+    assert a == b == ("rwcpulse.com/2026/11/02/"
+                      "redwood-city-postpones-alpr-recommendation-until-2027")
+
+
+def test_story_key_distinguishes_host_date_and_slug():
+    base = "https://rwcpulse.com/news/2026/11/02/story/"
+    assert article_store.story_key(base) != article_store.story_key(
+        "https://almanacnews.com/news/2026/11/02/story/")
+    assert article_store.story_key(base) != article_store.story_key(
+        "https://rwcpulse.com/news/2026/11/03/story/")
+    assert article_store.story_key(base) != article_store.story_key(
+        "https://rwcpulse.com/news/2026/11/02/other-story/")
+
+
+def test_story_key_none_without_dated_slug_path():
+    assert article_store.story_key("https://eff.org/deeplinks/2026/11/x") is None
+    assert article_store.story_key("https://eff.org/post-1") is None
+    assert article_store.story_key(
+        "https://rwcpulse.com/news/2026/11/02/story/amp/") is None

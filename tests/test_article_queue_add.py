@@ -196,3 +196,45 @@ def test_add_subdomain_url_matches_apex_allowlist(tmp_path, monkeypatch, capsys)
     rc, out, _ = _run(monkeypatch, capsys, "https://blog.eff.org/post-1")
     assert rc == 0
     assert "appended=1" in out
+
+
+_NEWSLETTER = "https://www.eff.org/express-newsletter-content/2026/11/02/story-slug/"
+_PERMALINK = "https://www.eff.org/public-safety/2026/11/02/story-slug/"
+
+
+def test_add_dedup_same_story_against_registry(tmp_path, monkeypatch, capsys):
+    """A feed permalink for a story already ingested under its newsletter
+    path is the same story, not a new article."""
+    _setup_repo(tmp_path, monkeypatch)
+    (tmp_path / "assets/article_registry/art_001.json").write_text(json.dumps(
+        {"article_id": "art_001", "url": _NEWSLETTER,
+         "curation_status": "mechanical"}))
+    rc, out, _ = _run(monkeypatch, capsys, _PERMALINK)
+    assert rc == 0
+    assert "appended=0" in out
+    assert "duplicate=1" in out
+    assert f"SAME-STORY {_PERMALINK}: already known as {_NEWSLETTER}" in out
+    assert not list((tmp_path / "assets/articles/queue").glob("*.json"))
+
+
+def test_add_dedup_same_story_against_queue_and_batch(tmp_path, monkeypatch, capsys):
+    """Same story twice in one call, then again in a later call."""
+    _setup_repo(tmp_path, monkeypatch)
+    rc, out, _ = _run(monkeypatch, capsys, _PERMALINK, _NEWSLETTER)
+    assert rc == 0
+    assert "appended=1" in out
+    assert "duplicate=1" in out
+    rc, out, _ = _run(monkeypatch, capsys,
+                      _NEWSLETTER.replace("express-newsletter-content", "crime"))
+    assert "duplicate=1" in out
+    files = list((tmp_path / "assets/articles/queue").glob("*.json"))
+    assert [json.loads(f.read_text())["url"] for f in files] == [_PERMALINK]
+
+
+def test_add_keeps_different_stories_same_section(tmp_path, monkeypatch, capsys):
+    _setup_repo(tmp_path, monkeypatch)
+    rc, out, _ = _run(monkeypatch, capsys, _PERMALINK,
+                      _PERMALINK.replace("story-slug", "other-slug"),
+                      _PERMALINK.replace("/02/", "/03/"))
+    assert rc == 0
+    assert "appended=3" in out

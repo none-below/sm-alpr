@@ -221,7 +221,9 @@ auto-appends ALPR/Flock-related items to the queue. Runs daily via
 
 1. Confirm the publisher's domain is in `sources.json` with a tier
    and stance. Add it if not.
-2. Add `"feed_url": "https://..."` to that entry.
+2. Add `"feed_url": "https://..."` to that entry. If the main feed turns
+   over faster than the daily poll, list section feeds or `?paged=2` in
+   `"extra_feed_urls": [...]`; they're polled alongside it.
 3. Optionally test locally:
    ```sh
    uv run python scripts/discover_articles.py --source <domain> --dry-run
