@@ -346,9 +346,12 @@ def probe(page, slug, timeout_ms=30000):
     Flock blocks non-browser clients at the edge (403 on curl/urllib), so we
     need a real Chromium. Even then the edge bot-challenges a fraction of our
     requests with a 403 — that's a "we flagged you," NOT a "this slug is dead,"
-    so it's reported distinctly from a genuine 404/4xx miss.
-    Returns ("hit"|"miss"|"forbidden"|"rate_limited"|"error", detail).
+    so it's reported distinctly from a genuine 404/4xx miss. Cloudflare's
+    managed challenge is waited out first, as in archive_agency.
+    Returns ("hit"|"miss"|"forbidden"|"rate_limited"|"challenged"|"error", detail).
     """
+    from flock_transparency import is_cloudflare_challenge, wait_out_challenge
+
     url = f"{BASE_URL}/{slug}"
     try:
         response = page.goto(url, wait_until="domcontentloaded", timeout=timeout_ms)
@@ -357,22 +360,30 @@ def probe(page, slug, timeout_ms=30000):
 
     if response is None:
         return "error", "no_response"
-    if response.status == 429:
+    status = response.status
+    if is_cloudflare_challenge(response):
+        outcome = wait_out_challenge(page)
+        if outcome == "interactive":
+            return "challenged", "cf_interactive"
+        if outcome is None:
+            return "forbidden", "cf_challenge_timeout"
+        status = outcome
+    if status == 429:
         return "rate_limited", "http_429"
-    if response.status == 403:
+    if status == 403:
         return "forbidden", "http_403"
-    if response.status == 404:
+    if status == 404:
         return "miss", "http_404"
-    if response.status >= 400:
-        return "miss", f"http_{response.status}"
+    if status >= 400:
+        return "miss", f"http_{status}"
 
     page.wait_for_timeout(WAIT_MS)
     body = page.inner_text("body")
 
     if any(marker in body for marker in PORTAL_MARKERS):
-        return "hit", f"http_{response.status}"
+        return "hit", f"http_{status}"
 
-    return "miss", f"http_{response.status}_no_marker"
+    return "miss", f"http_{status}_no_marker"
 
 
 # ═══════════════════════════════════════════════════════════
@@ -742,8 +753,9 @@ def main():
                 elif result == "miss":
                     print(f"    miss ({detail})")
                     q_idx += 1
-                elif result == "rate_limited":
-                    print(f"    RATE LIMITED — stopping this run")
+                elif result in ("rate_limited", "challenged"):
+                    print("    RATE LIMITED — stopping this run" if result == "rate_limited"
+                          else "    Cloudflare asked for a human check — stopping this run")
                     # Roll back the consumed candidate — we don't want to mark it
                     # tried without actually knowing the answer.
                     st["tried"].pop(candidate, None)
