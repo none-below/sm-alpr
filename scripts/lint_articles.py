@@ -141,6 +141,7 @@ def main() -> int:
     warnings: list[str] = []
     seen_ids: dict[str, int] = {}
     seen_urls: dict[str, int] = {}
+    seen_stories: dict[str, int] = {}
 
     for i, entry in enumerate(registry):
         prefix = f"entry[{i}] (art_id={entry.get('article_id', '?')})"
@@ -167,6 +168,13 @@ def main() -> int:
             )
         else:
             seen_urls[url] = i
+            key = article_store.story_key(url)
+            if key in seen_stories:
+                warnings.append(
+                    f"{prefix}: same story as entry[{seen_stories[key]}] "
+                    f"under a different path ({key})")
+            elif key:
+                seen_stories[key] = i
 
         domain = (entry.get("source_domain") or "").lower()
         if not domain:

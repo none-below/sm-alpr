@@ -20,10 +20,34 @@ assets/articles/<domain>/ (see CLAUDE.md).
 """
 
 import json
+import re
 from pathlib import Path
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY_DIR = ROOT / "assets" / "article_registry"
+
+# Trailing /YYYY/MM/DD/<slug>/ in a URL path (WordPress-style permalinks).
+_DATED_SLUG_RE = re.compile(r"/(\d{4})/(\d{2})/(\d{2})/([^/]+)/?$")
+
+
+def story_key(url: str) -> str | None:
+    """Section-independent identity for dated-slug article URLs.
+
+    Some publishers serve one story at several paths that differ only in
+    the section prefix. RWC Pulse's newsletter links use
+    /express-newsletter-content/2026/11/02/<slug>/ while its RSS feed lists
+    /public-safety/2026/11/02/<slug>/, so exact-URL dedup let the same story
+    in twice. The key is host (lowercased, www. stripped) + date + slug,
+    which two different stories on one site essentially never share.
+    Returns None for URLs without that path shape (no key, no match).
+    """
+    parsed = urlparse(url)
+    m = _DATED_SLUG_RE.search(parsed.path)
+    if not m:
+        return None
+    host = parsed.netloc.lower().removeprefix("www.")
+    return f"{host}/{'/'.join(m.groups())}"
 
 
 def shard_path(article_id: str, registry_dir: Path = REGISTRY_DIR) -> Path:

@@ -154,3 +154,62 @@ def test_fetch_feed_filter_only_alpr_relevant():
     assert "https://example.com/post-3" in matched_urls  # Flock Safety
     assert "https://example.com/post-2" not in matched_urls  # taxes
     assert len(matches) == 2
+
+
+# ── process_source: extra_feed_urls ──────────────────────────────
+
+
+def _feed_entries(*items):
+    return [{"link": link, "title": title, "summary": ""}
+            for link, title in items]
+
+
+def test_process_source_polls_extra_feeds_in_one_batch(monkeypatch):
+    feeds = {
+        "https://site.org/feed": _feed_entries(
+            ("https://site.org/a", "ALPR vote delayed"),
+            ("https://site.org/b", "Bake sale")),
+        "https://site.org/feed/?paged=2": _feed_entries(
+            ("https://site.org/a", "ALPR vote delayed")),
+        "https://site.org/crime/feed/": _feed_entries(
+            ("https://site.org/c", "Flock camera leads to arrest")),
+    }
+    monkeypatch.setattr(da, "fetch_feed", lambda url, **kw: (feeds[url], None))
+    batches = []
+
+    def fake_batch(urls, *, discovered_by, dry_run):
+        batches.append((urls, discovered_by))
+        return 0, f"appended={len(urls)} duplicate=0 rejected=0", []
+    monkeypatch.setattr(da, "queue_add_batch", fake_batch)
+
+    stats = da.process_source(
+        {"domain": "site.org", "feed_url": "https://site.org/feed",
+         "extra_feed_urls": ["https://site.org/feed/?paged=2",
+                             "https://site.org/crime/feed/"]},
+        kws=da.KEYWORDS, dry_run=False)
+
+    assert batches == [(["https://site.org/a", "https://site.org/c"],
+                        "rss:site.org")]
+    assert stats["items"] == 4
+    assert stats["matched"] == 2
+    assert stats["appended"] == 2
+    assert stats["error"] is None
+
+
+def test_process_source_extra_feed_error_keeps_other_feeds(monkeypatch):
+    def fake_fetch(url, **kw):
+        if "crime" in url:
+            return [], "HTTPError: 404"
+        return _feed_entries(("https://site.org/a", "ALPR vote delayed")), None
+    monkeypatch.setattr(da, "fetch_feed", fake_fetch)
+    monkeypatch.setattr(
+        da, "queue_add_batch",
+        lambda urls, **kw: (0, f"appended={len(urls)} duplicate=0", []))
+
+    stats = da.process_source(
+        {"domain": "site.org", "feed_url": "https://site.org/feed",
+         "extra_feed_urls": ["https://site.org/crime/feed/"]},
+        kws=da.KEYWORDS, dry_run=False)
+
+    assert stats["appended"] == 1
+    assert stats["error"] == "https://site.org/crime/feed/: HTTPError: 404"

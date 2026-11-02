@@ -2,7 +2,9 @@
 """Append URLs to the article-fetch queue.
 
 Validates each URL against assets/sources.json (publisher allowlist) and
-deduplicates against existing queued URLs and the article registry.
+deduplicates against existing queued URLs and the article registry, by
+exact URL and by section-independent story key for dated-slug URLs
+(article_store.story_key).
 
 The queue is a directory of one-file-per-URL, named ``<urlhash>.json``
 where urlhash is the first 8 hex chars of sha256(url):
@@ -112,6 +114,18 @@ def load_known_urls() -> set[str]:
     return seen
 
 
+def load_known_stories(known_urls: set[str]) -> dict[str, str]:
+    """story_key -> known URL, for the known URLs that have a key. Catches
+    the same story queued under a different section path (see
+    article_store.story_key)."""
+    stories: dict[str, str] = {}
+    for url in known_urls:
+        key = article_store.story_key(url)
+        if key:
+            stories.setdefault(key, url)
+    return stories
+
+
 def validate_url(url: str) -> tuple[str, str | None]:
     """Return (canonical_url, error). error is None on success."""
     url = url.strip()
@@ -153,6 +167,7 @@ def main() -> int:
 
     allowed = load_allowed_domains()
     known = load_known_urls()
+    known_stories = load_known_stories(known)
     target_dir = PRIORITY_DIR if args.priority else QUEUE_DIR
     target_dir.mkdir(parents=True, exist_ok=True)
 
@@ -180,6 +195,11 @@ def main() -> int:
         if url in known:
             skipped_dup += 1
             continue
+        key = article_store.story_key(url)
+        if key in known_stories:
+            print(f"SAME-STORY {url}: already known as {known_stories[key]}")
+            skipped_dup += 1
+            continue
         entry = {
             "url": url,
             "source_domain": matched,
@@ -196,6 +216,8 @@ def main() -> int:
         tmp.write_text(json.dumps(entry, indent=2) + "\n")
         tmp.replace(target)
         known.add(url)
+        if key:
+            known_stories[key] = url
         appended += 1
 
     where = "queue/priority/" if args.priority else "queue/"

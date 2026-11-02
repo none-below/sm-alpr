@@ -240,3 +240,14 @@ def test_lint_rejects_missing_paths(tmp_path):
     rc, out, err = _run(repo)
     assert rc == 1
     assert "missing on disk" in err
+
+
+def test_lint_warns_same_story_under_different_path(tmp_path):
+    repo, _ = _make_repo(tmp_path, registry=[
+        _good_entry("art_001",
+                    url="https://eff.org/express-newsletter-content/2026/11/02/s/"),
+        _good_entry("art_002", url="https://eff.org/public-safety/2026/11/02/s/"),
+    ])
+    rc, out, err = _run(repo)
+    assert rc == 0
+    assert "same story as entry[0]" in out + err
