@@ -128,6 +128,22 @@ STALE_DAYS = 14
 WARMUP_RETRY_BACKOFF = 8   # seconds before the one cold-IP handshake retry, ±30% jitter
 RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears it"
 
+# What (1) actually is, found 2026-11-02: Cloudflare's managed challenge. The
+# 403 carries `cf-mitigated: challenge`, and its page runs a script, sets
+# cf_clearance, then POSTs back to the portal URL (?__cf_chl_f_tk=...) — the
+# answer to that POST is the portal. A normal browser shows only a flicker of
+# ?__cf_chl_rt_tk in the address bar. The crawler used to return on the 403
+# and lean on the warm-up retry; from 2026-10-28 16:00 UTC it never passed.
+# With the stealth patch's fake headers the challenge's POST died inside
+# Chrome, and with them cleared (launch_browser) it went through in about a
+# second. So archive_agency now waits on the challenge page for it to finish,
+# and that is all: it never clicks, types or reloads. If Cloudflare asks for a
+# human instead (a Turnstile frame from challenges.cloudflare.com), the run
+# stops there.
+CHALLENGE_WAIT_MS = 20000
+CHALLENGE_POLL_MS = 250
+CHALLENGE_NOTE = "Cloudflare asked for a human check; the crawler doesn't attempt those"
+
 # goto() raising with no HTTP response at all (net::ERR_INVALID_ARGUMENT, from
 # 2026-09-22 on). It is never about the slug — the host is the same for every
 # portal — and it is per-runner: in every run that hit it, every slug failed
@@ -147,6 +163,15 @@ RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears 
 # previously-captured portals (san-mateo-ca-pd among them) in .failed_slugs.json
 # — 255 of the 261 captured slugs in total — leaving six in the rotation, so
 # even a `--max-age 1` run found only two eligible.
+#
+# Cause, found 2026-11-02: the stealth patch's random header profile
+# (launch_browser). About 40% of its profiles force an Accept-Encoding
+# containing "*", and Chrome 156 fails every navigation carrying one with
+# net::ERR_INVALID_ARGUMENT before sending it (reproduced against a local
+# server: always with the header, never without). The profile is drawn once
+# per browser, hence per-run, and why a relaunch could clear it. Presumably
+# Chrome 154 is when that header started being rejected. launch_browser now
+# clears the profile; the relaunch stays for anything else that fails this way.
 UNREACHABLE_NOTE = "portal unreachable from this IP (no HTTP response); only a fresh IP clears it"
 
 
@@ -1566,11 +1591,41 @@ def attach_csv_integrity(portal_data):
 # Crawl: fetch pages, save .txt + .pdf
 # ═══════════════════════════════════════════════════════════
 
+def is_cloudflare_challenge(response):
+    """A 403 that is Cloudflare's managed challenge (see CHALLENGE_NOTE), not a
+    plain refusal."""
+    return (response is not None and response.status == 403
+            and response.headers.get("cf-mitigated") == "challenge")
+
+
+def wait_out_challenge(page, timeout_ms=CHALLENGE_WAIT_MS):
+    """Wait, without touching the page, for a Cloudflare challenge to finish.
+
+    Returns the HTTP status of the page it lands on, "interactive" if
+    Cloudflare wants a human, or None if it didn't finish in time. The status
+    comes from the document's own navigation entry: the page the challenge
+    lands on is the answer to its POST, not to our goto().
+    """
+    for _ in range(timeout_ms // CHALLENGE_POLL_MS):
+        page.wait_for_timeout(CHALLENGE_POLL_MS)
+        if any(urllib.parse.urlparse(f.url).hostname == "challenges.cloudflare.com"
+               for f in page.frames):
+            return "interactive"
+        try:
+            status = page.evaluate(
+                "() => performance.getEntriesByType('navigation')[0]?.responseStatus || 0")
+        except Exception:
+            continue  # mid-navigation
+        if status and status != 403:
+            return status
+    return None
+
+
 def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
     """Returns (status, discovered_slugs).
 
     status: Path (saved), "unchanged", "rate_limited", "forbidden",
-    "unreachable", or ("failed", reason).
+    "challenged", "unreachable", or ("failed", reason).
 
     Artifact-set integrity: a slug-dir capture is the four-tuple
     .txt/.html/.json/.pdf. The whole set is staged in a `mktemp -d`
@@ -1597,20 +1652,34 @@ def archive_agency(page, slug, data_dir, force=False, hashes=None, progress=""):
         print(f"    WARNING: navigation failed: {e}")
         return "unreachable", []
 
-    # 403 and 429 are the same signal from Flock's edge — this IP is over its
-    # hourly request budget — and neither is a block on the slug. run_crawl_batch
-    # ends the run on either; the next scheduled run retries from a fresh IP.
-    if response and response.status == 429:
+    http_status = response.status if response else None
+    if is_cloudflare_challenge(response):
+        print("    got Cloudflare's challenge (HTTP 403); waiting for it to finish")
+        outcome = wait_out_challenge(page)
+        if outcome == "interactive":
+            print("    the challenge wants a human (Turnstile)")
+            return "challenged", []
+        if outcome is None:
+            print(f"    the challenge didn't finish within {CHALLENGE_WAIT_MS // 1000}s")
+            return "forbidden", []
+        print(f"    challenge passed (HTTP {outcome})")
+        http_status = outcome
+
+    # A plain 403 and a 429 are the same signal from Flock's edge — this IP is
+    # over its hourly request budget — and neither is a block on the slug.
+    # run_crawl_batch ends the run on either; the next scheduled run retries
+    # from a fresh IP.
+    if http_status == 429:
         print(f"    got HTTP 429 (rate limited)")
         return "rate_limited", []
 
-    if response and response.status == 403:
+    if http_status == 403:
         print(f"    got HTTP 403 (rate limited; Flock's edge serves 403 and 429 alike)")
         return "forbidden", []
 
-    if response and response.status >= 400:
-        print(f"    WARNING: got HTTP {response.status}, skipping")
-        return ("failed", f"http_{response.status}"), []
+    if http_status is not None and http_status >= 400:
+        print(f"    WARNING: got HTTP {http_status}, skipping")
+        return ("failed", f"http_{http_status}"), []
 
     page.wait_for_timeout(WAIT_MS)
 
@@ -1753,6 +1822,16 @@ def launch_browser(p, proxy=None, netlog=None):
             stealth_sync(page)
         except Exception as e:
             print(f"  stealth patch failed ({e.__class__.__name__}), continuing")
+        # stealth_sync also forces a random fake_http_header profile onto
+        # every request: an old Chrome 9x User-Agent contradicting the one
+        # above, malformed client hints, a random referer, and in ~40% of
+        # profiles an Accept-Encoding with "*" in it, which Chrome fails with
+        # net::ERR_INVALID_ARGUMENT (UNREACHABLE_NOTE). Under it, Flock's
+        # Cloudflare challenge stopped passing (CHALLENGE_NOTE). Clear it so
+        # Chrome sends its own headers. The JS patches stay, including
+        # navigator.userAgent from the same random profile — the 2026-11-02
+        # run that passed the challenge had them on.
+        page.set_extra_http_headers({})
     return browser, page
 
 
@@ -1778,9 +1857,10 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
     """Crawl a list of slugs. Returns (results, discovered_slugs, rate_limited).
 
     rate_limited is True when a 403/429 outlived the session's one warm-up
-    retry. The caller must stop crawling for the rest of the run: the cooldown
-    is per-IP and lasts hours, so every further request is guaranteed to fail
-    and only refreshes the cooldown.
+    retry, or Cloudflare asked for a human (CHALLENGE_NOTE). The caller must
+    stop crawling for the rest of the run: the cooldown is per-IP and lasts
+    hours, so every further request is guaranteed to fail and only refreshes
+    the cooldown.
 
     `session` is the per-browser-session state shared across calls (cmd_crawl
     makes one call per BFS level against the same page). It holds the single
@@ -1812,7 +1892,7 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             for alt in slug_variations(slug)[1:]:
                 print(f"    trying variation: {alt}")
                 status, discovered_slugs = archive_agency(page, alt, data_dir, force, hashes)
-                if status in ("rate_limited", "forbidden", "unreachable"):
+                if status in ("rate_limited", "forbidden", "challenged", "unreachable"):
                     # Budget spent mid-probe. A 403 says nothing about whether
                     # this variation exists, so don't claim it as the working
                     # slug — fall through to the stop below, still under the
@@ -1858,10 +1938,11 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                 time.sleep(backoff)
                 status, discovered_slugs = archive_agency(page, slug, data_dir, force, hashes)
 
-        if status in ("rate_limited", "forbidden", "unreachable"):
+        if status in ("rate_limited", "forbidden", "challenged", "unreachable"):
             # Warm-up already spent (or just spent and didn't clear), so this
             # is the rate limit — or the no-response form of the same per-IP
-            # block (UNREACHABLE_NOTE), which takes this path directly. Don't
+            # block (UNREACHABLE_NOTE), which takes this path directly, as
+            # does a human check (CHALLENGE_NOTE), never retried. Don't
             # retry and don't move on to the next
             # slug: the cooldown is per-IP and hours long, so both would only
             # collect more 403s while burning the budget the remaining slugs
@@ -1879,7 +1960,9 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
             # times running gets stamped, so a permanently unreachable one
             # still ages out instead of pinning position #1.
             remaining = total - i - 1
-            print(f"    {UNREACHABLE_NOTE if status == 'unreachable' else RATE_LIMIT_NOTE}")
+            note = {"unreachable": UNREACHABLE_NOTE,
+                    "challenged": CHALLENGE_NOTE}.get(status, RATE_LIMIT_NOTE)
+            print(f"    {note}")
             print(f"    ending this run; {remaining} slug(s) left for the next run")
             if record_rate_limit_burn(slug, data_dir):
                 print(f"    {slug} has burned {RATE_LIMIT_BURN_LIMIT} runs in a "

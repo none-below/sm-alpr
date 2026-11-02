@@ -26,6 +26,7 @@ import flock_transparency as ft
 class _FakeResponse:
     def __init__(self, status):
         self.status = status
+        self.headers = {}
 
 
 class _FakePage:

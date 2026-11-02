@@ -409,6 +409,7 @@ def test_eyesonflock_hint_returns_none_without_geo_block():
 class _FakeResponse:
     def __init__(self, status):
         self.status = status
+        self.headers = {}
 
 
 class _FakePage:
