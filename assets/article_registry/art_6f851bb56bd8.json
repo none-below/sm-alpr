@@ -1,0 +1,80 @@
+{
+  "url": "https://jalopnik.com/2250034/flock-cameras-coming-down-replaced-same-tech-axon/",
+  "source_domain": "jalopnik.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Flock Cameras Are Coming Down Around The Country Only To Be Replaced By The Same Technology With A Different Name - Jalopnik",
+  "byline": "Justin Hughes",
+  "published_at": "2026-09-05T12:25:00+00:00",
+  "fetched_at": "2026-11-01T15:02:48Z",
+  "discovered_by": "bing:alpr",
+  "scanner_verdict": "WARNINGS \u2014 3 pts, low/medium only",
+  "scanner_score": 3,
+  "content_hash": "f24243a56a369aac4fb883de05ba6ef8635d5c5d51dc6820f1f6661fc34110f8",
+  "paths": {
+    "html": "assets/articles/jalopnik.com/2250034-flock-cameras-coming-down-replaced-same-tech-axon_6f851bb5.html",
+    "meta": "assets/articles/jalopnik.com/2250034-flock-cameras-coming-down-replaced-same-tech-axon_6f851bb5.meta.json",
+    "pdf": "assets/articles/jalopnik.com/2250034-flock-cameras-coming-down-replaced-same-tech-axon_6f851bb5.pdf",
+    "txt": "assets/articles/jalopnik.com/2250034-flock-cameras-coming-down-replaced-same-tech-axon_6f851bb5.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:analysis",
+    "policy:retention",
+    "policy:sharing",
+    "scope:national",
+    "vendor:axon",
+    "vendor:flock",
+    "vendor:fusus"
+  ],
+  "agencies": [
+    "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+    "8ba7c038-a01d-5359-9eeb-5c3a6faa8458"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "6f7dca30-e826-53d5-bb7a-33a8e21a85ef",
+      "display_name": "New York City Department of Environmental Protection PD",
+      "state": "NY",
+      "score": 2.633,
+      "matched_forms": [
+        "New York"
+      ]
+    },
+    {
+      "agency_id": "8ba7c038-a01d-5359-9eeb-5c3a6faa8458",
+      "display_name": "Denver Police Department",
+      "state": "CO",
+      "score": 2.6,
+      "matched_forms": [
+        "Denver"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "Jalopnik reports that as communities cancel Flock ALPR contracts amid backlash, some police departments are switching to competing ALPR providers like Axon (formerly Taser), which offers similar or more invasive capabilities including live video and AI integration via Fusus. The piece notes Axon's longer default data retention, federal contracting (including ICE), and civil liberties groups' arguments that swapping vendors doesn't address mass-surveillance concerns.",
+  "key_quotes": [
+    {
+      "quote": "some departments that have dropped Flock have simply switched to other companies that do the same thing",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "Axon's default period remains 30 days, and there is no limit on how long data can be stored",
+      "paragraph_idx": 7
+    },
+    {
+      "quote": "Axon does contract with the federal government, and supplied $3.5 million worth of tasers and taser supplies to ICE last year",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "simply replacing Flock surveillance with another company's surveillance won't necessarily solve any of the privacy and other civil liberties problems",
+      "paragraph_idx": 14
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-11-01T15:03:18Z",
+  "article_id": "art_6f851bb56bd8"
+}
