@@ -756,6 +756,7 @@ _HEADING_MAP = {
     "Number of Flock LPR Cameras":           "camera_count",
     "Number of LPRs":                        "camera_count",
     "LPR Cameras":                           "camera_count",
+    "License Plate Cameras":                 "camera_count",  # great-parks-of-hamilton-county-oh-pd
     "Total Cameras":                         "camera_count",
     # livermore-ca-pd annotates the count with a Flock/non-Flock breakdown
     # ("Total Active Cameras (Qty 75 Flock ALPR and Qty 73 non-Flock ALPR
@@ -770,6 +771,9 @@ _HEADING_MAP = {
     "Distinct Vehicles (No Duplicates) detected in the last 30 days": "vehicles_detected_30d",
     "Hotlist hits in the last 30 days":      "hotlist_hits_30d",
     "Number of Hotlist Hits":                "hotlist_hits_30d",
+    # great-parks-of-hamilton-county-oh-pd's renamed hotlist-hits stat; its
+    # description line still reads "Total hotlist hits over the last 30 days."
+    "Number of system notifications involving active police investigations, missing persons, or safety alerts": "hotlist_hits_30d",
     "Searches in the last 30 days":          "searches_30d",
     "Number of Searches":                    "searches_30d",
     "Livermore PD searches in the last 30 days": "searches_30d",
@@ -1332,7 +1336,12 @@ _FLOCK_MARKER_RE = re.compile(
     r"(?: \(?[Aa]?LPR\)?)?) )?"
     r"(?:[Tt]echnology|Operating System)"
     r"|Automatic License Plate Reader(?:s)?"
-    r"(?: \(?[Aa]LPR\)?)? technology)"
+    r"(?: \(?[Aa]LPR\)?)? technology"
+    # The readers themselves as the product, no "technology" after:
+    # "Great Parks of Hamilton County, Ohio, uses Flock Safety License
+    # Plate Readers (LPR's) to capture ..." (great-parks-of-hamilton-
+    # county-oh-pd, from 2026-10-21).
+    r"|Flock Safety(?:['’]s)? (?:[Aa]utomat(?:ed|ic) )?[Ll]icense [Pp]late [Rr]eaders?\b)"
 )
 
 # A prefix capture that isn't name-shaped. The marker branch takes
@@ -1392,10 +1401,13 @@ def _extract_crawled_name(overview, slug, datestamp):
     """
     m = _FLOCK_MARKER_RE.search(overview)
     if m:
+        # rstrip(","): an appositive subject ("Great Parks of Hamilton
+        # County, Ohio, uses ...") leaves its closing comma on the name.
         candidate = (
             overview[: m.start()]
             .strip()
             .strip("\"'“”‘’")
+            .rstrip(",")
             .strip()
         )
         # Fall through rather than return a non-name-shaped prefix: the

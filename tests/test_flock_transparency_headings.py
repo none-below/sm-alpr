@@ -1094,8 +1094,9 @@ def test_2026_09_heading_variants_classify():
 
 
 def test_2026_10_heading_variants_classify():
-    """Headings that aborted hollister-ca-pd (10/20), palatine-il-pd (10/22)
-    and tracy-ca-pd (11/3) captures, reported on #940."""
+    """Headings that aborted hollister-ca-pd (10/20), great-parks-of-hamilton-
+    county-oh-pd (10/21), palatine-il-pd (10/22) and tracy-ca-pd (11/3)
+    captures, reported on #940."""
     from flock_transparency import _match_heading_kind
     exact = [
         "Stolen Vehicle Pursuit in Hollister, leads to arrest",
@@ -1113,6 +1114,12 @@ def test_2026_10_heading_variants_classify():
     ]
     for heading in exact:
         assert _match_heading_kind(heading) == ("success_stories", "exact"), heading
+    for heading, want in {
+        "License Plate Cameras": "camera_count",
+        "Number of system notifications involving active police investigations, "
+        "missing persons, or safety alerts": "hotlist_hits_30d",
+    }.items():  # great-parks-of-hamilton-county-oh-pd
+        assert _match_heading_kind(heading) == (want, "exact"), heading
     for heading in ("September Top 10 Search Reasons", "October Top 10 Search Reasons",
                     "October 2026 Top 5 Search Reasons"):
         assert _match_heading_kind(heading) == ("additional_info", "dynamic"), heading
