@@ -84,6 +84,7 @@ CITY_AGENCY = {
     "south-pasadena": ("south-pasadena-pd", "South Pasadena PD"),
     "sun-prairie-wi": ("sun-prairie-pd", "Sun Prairie PD (WI)"),
     "woods-cross-ut": ("woods-cross-pd", "Woods Cross PD (UT)"),
+    "alameda-county": ("alameda-county-so", "Alameda County SO"),
 }
 SMPD = ("san-mateo-pd", "San Mateo PD")
 
