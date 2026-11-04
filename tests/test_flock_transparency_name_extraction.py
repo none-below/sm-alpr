@@ -188,3 +188,17 @@ def test_all_caps_single_word_name_still_accepted():
     assert _extract(
         "NCRIC uses Flock Safety technology to support member agencies."
     ) == "NCRIC"
+
+
+def test_license_plate_readers_as_product_with_appositive_subject():
+    """great-parks-of-hamilton-county-oh-pd's rewritten overview (from
+    2026-10-21) names the readers themselves, with no "technology" after,
+    and sets off the state with commas, so the subject ends in a comma."""
+    assert _extract(
+        "Great Parks of Hamilton County, Ohio, uses Flock Safety License Plate "
+        "Readers (LPR's) to capture objective evidence without compromising "
+        "individual privacy."
+    ) == "Great Parks of Hamilton County, Ohio"
+    assert _extract(
+        "Springfield PD uses Flock Safety automated license plate readers to capture..."
+    ) == "Springfield PD"

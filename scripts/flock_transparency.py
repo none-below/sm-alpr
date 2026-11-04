@@ -48,7 +48,7 @@ import tempfile
 import time
 import urllib.parse
 from collections import Counter
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -143,6 +143,16 @@ RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears 
 CHALLENGE_WAIT_MS = 20000
 CHALLENGE_POLL_MS = 250
 CHALLENGE_NOTE = "Cloudflare asked for a human check; the crawler doesn't attempt those"
+
+# A run that captured nothing used to mean the crawler was blocked, so it
+# failed the job. Since #986 it mostly means one unlucky runner: about half of
+# all runs get the human check on their first slug and stop there, while the
+# next run's IP gets through. In the first day of hourly runs after #986, the
+# longest gap between captures was about 5 hours. A real block, like
+# 2026-10-28 to 11-02, means no run captures anything for days. So a run that
+# captures nothing fails the job only once no run has captured a portal for
+# this long.
+BLOCKED_AFTER_HOURS = 8
 
 # goto() raising with no HTTP response at all (net::ERR_INVALID_ARGUMENT, from
 # 2026-09-22 on). It is never about the slug — the host is the same for every
@@ -489,6 +499,37 @@ def clear_rate_limit_burns(slug, data_dir):
         save_json(path, burns)
 
 
+def latest_crawled_at(data_dir, now=None):
+    """The newest `crawled_at` among the last two days' captures, or None.
+
+    Reads only captures named for yesterday, today or tomorrow (UTC). File
+    names use the crawling machine's local date, so tomorrow covers a machine
+    east of UTC, and yesterday covers the window crossing midnight.
+    """
+    now = now or datetime.now(timezone.utc)
+    days = {(now + timedelta(days=d)).date().isoformat() for d in (-1, 0, 1)}
+    newest = None
+    for slug_dir in data_dir.iterdir():
+        if not slug_dir.is_dir():
+            continue
+        for day in days:
+            try:
+                when = datetime.fromisoformat(load_json(slug_dir / f"{day}.json")["crawled_at"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            if newest is None or when > newest:
+                newest = when
+    return newest
+
+
+def crawler_blocked(data_dir, now=None):
+    """(blocked, last capture time) for a run that captured nothing. See
+    BLOCKED_AFTER_HOURS."""
+    now = now or datetime.now(timezone.utc)
+    last = latest_crawled_at(data_dir, now)
+    return last is None or now - last >= timedelta(hours=BLOCKED_AFTER_HOURS), last
+
+
 def latest_capture_attempt_date(slug, data_dir):
     """Return the latest *attempted* capture date: the newer of the latest
     .txt on disk and the slug's stamp in the attempt log.
@@ -667,7 +708,21 @@ _HEADING_MAP = {
     "Yuba County SO -Assist in Bicycle Recovery": "success_stories",
     "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Four Suspects": "success_stories",  # hollister
     "Police use FLOCK to Help Recover Stolen Vehicle and Arrest Two Suspects": "success_stories",   # hollister
+    "Stolen Vehicle Pursuit in Hollister, leads to arrest": "success_stories",                    # hollister
+    "Suspect in Domestic Violence case arrested while attempting to Flee City": "success_stories", # hollister
     "Package Theft from a Front Porch":      "success_stories",  # blue-springs-mo-pd
+    # tracy-ca-pd's case write-ups, bolded from 2026-11-03 (the 10/20 capture
+    # had the same stories as plain text under "Success Stories").
+    "Felony Vehicle Alert leads to Arrest":  "success_stories",
+    "Oakland Sideshow Felony Vehicle Recovered": "success_stories",
+    "Pursuit Leads to Arrest and Stolen Vehicle Recovery": "success_stories",
+    "Pursuit Leads to Location and Safe Return of Kidnapping Victims": "success_stories",
+    "Recovered Stolen Vehicle out of Menlo Park": "success_stories",
+    "Recovered Stolen Vehicle out of Stockton": "success_stories",
+    "Road Rage Homicide":                    "success_stories",
+    "San Jose Sideshow Felony Vehicle Recovered": "success_stories",
+    "San Jose Sideshow Vehicle Recovered":   "success_stories",
+    "Tracy PD Teamwork Leads to Recovery of Vehicle": "success_stories",
     # hannibal-mo-pd reposts a news headline as a case write-up.
     "New license plate reader system helps in capture of NEMO shooting suspect": "success_stories",
     "Disclaimer":                            "disclaimer",
@@ -701,6 +756,7 @@ _HEADING_MAP = {
     "Number of Flock LPR Cameras":           "camera_count",
     "Number of LPRs":                        "camera_count",
     "LPR Cameras":                           "camera_count",
+    "License Plate Cameras":                 "camera_count",  # great-parks-of-hamilton-county-oh-pd
     "Total Cameras":                         "camera_count",
     # livermore-ca-pd annotates the count with a Flock/non-Flock breakdown
     # ("Total Active Cameras (Qty 75 Flock ALPR and Qty 73 non-Flock ALPR
@@ -715,6 +771,9 @@ _HEADING_MAP = {
     "Distinct Vehicles (No Duplicates) detected in the last 30 days": "vehicles_detected_30d",
     "Hotlist hits in the last 30 days":      "hotlist_hits_30d",
     "Number of Hotlist Hits":                "hotlist_hits_30d",
+    # great-parks-of-hamilton-county-oh-pd's renamed hotlist-hits stat; its
+    # description line still reads "Total hotlist hits over the last 30 days."
+    "Number of system notifications involving active police investigations, missing persons, or safety alerts": "hotlist_hits_30d",
     "Searches in the last 30 days":          "searches_30d",
     "Number of Searches":                    "searches_30d",
     "Livermore PD searches in the last 30 days": "searches_30d",
@@ -832,6 +891,15 @@ _DYNAMIC_HEADINGS = [
     # Camera Use Information and Public FAQ", mill-valley-ca-pd). Same role
     # as the "Additional Info" aliases — captured as text, no value parse.
     (re.compile(r"^.+\bFAQ$", re.IGNORECASE), "additional_info"),
+    # palatine-il-pd's monthly roll-up of its search reasons ("September Top
+    # 10 Search Reasons"), beside its monthly-network-audit note under
+    # Additional Info. The month changes every month, so a pattern, not an
+    # exact entry. Whole-line and month-anchored so a prose line can't match.
+    (re.compile(
+        r"^(?:January|February|March|April|May|June|July|August|September|"
+        r"October|November|December)(?: \d{4})? Top \d+ Search Reasons$",
+        re.IGNORECASE,
+    ), "additional_info"),
     # Sentence-style link blurbs, e.g. "Auburn PD's Policies and
     # Procedures can be found at the following link:" — same role as
     # the "Policy Documents" / "Policy Link" exact headings. Placed
@@ -1268,7 +1336,12 @@ _FLOCK_MARKER_RE = re.compile(
     r"(?: \(?[Aa]?LPR\)?)?) )?"
     r"(?:[Tt]echnology|Operating System)"
     r"|Automatic License Plate Reader(?:s)?"
-    r"(?: \(?[Aa]LPR\)?)? technology)"
+    r"(?: \(?[Aa]LPR\)?)? technology"
+    # The readers themselves as the product, no "technology" after:
+    # "Great Parks of Hamilton County, Ohio, uses Flock Safety License
+    # Plate Readers (LPR's) to capture ..." (great-parks-of-hamilton-
+    # county-oh-pd, from 2026-10-21).
+    r"|Flock Safety(?:['’]s)? (?:[Aa]utomat(?:ed|ic) )?[Ll]icense [Pp]late [Rr]eaders?\b)"
 )
 
 # A prefix capture that isn't name-shaped. The marker branch takes
@@ -1328,10 +1401,13 @@ def _extract_crawled_name(overview, slug, datestamp):
     """
     m = _FLOCK_MARKER_RE.search(overview)
     if m:
+        # rstrip(","): an appositive subject ("Great Parks of Hamilton
+        # County, Ohio, uses ...") leaves its closing comma on the name.
         candidate = (
             overview[: m.start()]
             .strip()
             .strip("\"'“”‘’")
+            .rstrip(",")
             .strip()
         )
         # Fall through rather than return a non-name-shaped prefix: the
@@ -2293,9 +2369,17 @@ def cmd_crawl(args):
     # merely finding nothing new. This used to print a note and exit 0, so
     # ~48 green workflow runs a day reported success while capturing nothing
     # for four days straight and the backlog dashboard silently filled up.
-    # Partial failures stay green; a total wipeout goes red.
+    # Partial failures stay green; a total wipeout goes red once no run has
+    # captured anything for BLOCKED_AFTER_HOURS.
     if failed and not captured and not unchanged:
-        print(f"\nERROR: all {failed} agency portal(s) failed — crawler is "
+        blocked, last = crawler_blocked(data_dir)
+        if not blocked:
+            hours = (datetime.now(timezone.utc) - last).total_seconds() / 3600
+            print(f"\nNothing captured this run, but the last capture landed "
+                  f"{hours:.1f}h ago — this runner was blocked, not the crawler.")
+            return 0
+        print(f"\nERROR: all {failed} agency portal(s) failed and nothing has "
+              f"been captured for {BLOCKED_AFTER_HOURS}h+ — crawler is "
               f"blocked, not caught up.")
         return 1
     return 0
