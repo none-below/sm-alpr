@@ -493,15 +493,18 @@ WITHHELD_ATTACHMENTS: dict[str, dict[str, str]] = {
     # City's reissue. Requester-made derivatives are in the request folder's
     # requester-redacted/ subfolder; a reissue under the same filenames has
     # different bytes and so is downloaded normally.
-    # Also the 7/16-7/31/2023 log as re-printed 10/24/2026 and uploaded under the
-    # 7_16_2026-7_31_2026 filename, next to the unchanged 10/17 file of that
-    # name (the 2026 log). Kept out so a 2023 log isn't filed under a 2026 name;
-    # the 10/23 printing of the 2023 log is committed under its own name.
+    # The 7/16-7/31/2023 log as released 10/23/2026: one Reason entry shows a
+    # third party's identifiers. A requester-made derivative is in
+    # requester-redacted/. Also the City's 10/24/2026 re-print of that log, which
+    # boxes part of that entry but was uploaded under the 7_16_2026-7_31_2026
+    # filename, next to the unchanged 10/17 file of that name (the 2026 log).
     "W012541-041426": {
         "12b57682edbc9f996b54ec8d0a4d07fbee07c05c2de101c742c2ac32d6d777ab":
             "withheld pending reissue",
         "d48e5a0a69a0bbe75b09b9e39c8d224e32a7b028f1d4495fd12cd8adea98d2a9":
             "withheld pending reissue",
+        "329f051e52bb0fe037fcbf41d0e0d6f28ad1aa51afd1b759cc8d15035aff8c4e":
+            "third-party PII",
         "6128ff5708c66ca1c9027c512ffba89073b62ffebe783b774d738f05290415f7":
             "2023 log re-uploaded under the 2026 filename",
     },
