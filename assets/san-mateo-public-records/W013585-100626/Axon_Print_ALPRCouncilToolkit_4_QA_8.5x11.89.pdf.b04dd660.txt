@@ -1,0 +1,223 @@
+--- page 1 ---
+1
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Council and 
+Community Q&A
+This Q&A answers common questions about automated license plate recognition (ALPR) programs and the 
+Axon Vehicle Intelligence capabilities that support them. It explains system capabilities, governance controls and 
+accountability in clear, practical terms.
+How is this different from another ALPR system? 
+The difference is in how the data is governed after capture. Axon Vehicle Intelligence is built around agency-
+controlled data: sharing is explicit and invite-only, no data is copied during sharing, recipient agencies cannot 
+re-share data they receive, and all access and sharing activity is logged and reviewable by the owning agency. 
+Each agency’s data stays under its own control throughout the program’s operation.
+What It Is & What It Captures
+System Overview
+What problem does this technology address?
+Vehicle-related crime is a factor in many serious incidents, including stolen vehicles, hit-and-runs, missing 
+persons cases and investigations that cross jurisdictions. In those situations, identifying a vehicle quickly can 
+reduce the time it takes to locate a vehicle of interest and move an investigation forward. The system helps 
+agencies confirm where a vehicle was seen and respond with better information, within defined limits on how 
+data is collected, used and governed.
+What data does the system collect?
+The system captures a license plate image, a vehicle context image, basic vehicle attributes visible in the image 
+such as color, make and vehicle type, and the time and location of the detection. The context image provides 
+vehicle context for review. Because it is an image from the scene, it may incidentally include surroundings, 
+signage or people in view. It is not analyzed for facial recognition or behavioral profiling. The system does not 
+perform live registered-owner lookups or build a profile of a registered owner.
+
+--- page 2 ---
+2
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Is this a form of surveillance?
+ALPR cameras record vehicle detections at specific camera locations. The system does not use facial 
+recognition, perform live registered-owner lookups or maintain continuous monitoring of individuals. The agency 
+defines who can access the data, how long it is retained and what uses are authorized. Every search is tied to a 
+named user and logged for review.
+How does the agency decide where to deploy cameras?
+Camera placement is an agency decision governed by the agency’s operational needs, its policies and 
+applicable law. Agencies should be prepared to explain the reasoning behind their deployment plan if asked 
+in a public setting.
+Tracking & Movement
+Does this system track people?
+No. The system captures vehicle detection information, not driver identity. License plate images and vehicle 
+context are recorded at specific camera locations. It does not use facial recognition, perform live registered-
+owner lookups or maintain a live location feed on any person.
+W H AT  I T  I S  &  W H AT  I T  C A P T U R E S  –  C O N T I N U E D
+Could this be used to track where people go over time?
+The system does not monitor people or maintain a live location feed on anyone. When investigating a specific 
+vehicle, an authorized user can review where and when that plate was previously captured, within the agency’s 
+retention period. That search is tied to a named user and logged with the action, time and stated reason. It is 
+an investigative search of a known vehicle, bounded by retention and oversight, not continuous monitoring of 
+the public.
+
+--- page 3 ---
+3
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Ownership, Sharing & Hotlists
+Who owns and controls the data?
+The agency owns and controls its ALPR data. Axon does not pool it, resell it, or disclose it except where legally 
+required. Ownership does not change when data is preserved in Axon Evidence, and it does not change when an 
+agency enables sharing. The agency decides retention, access and sharing. The system applies the configured 
+controls. The agency remains responsible for policy, training and oversight.
+Who can access the data?
+The agency decides. Access is limited to the users and roles the agency authorizes, and the agency defines and 
+manages those roles. Every ALPR search in Fusus requires an authorized offense category and a stated reason, 
+and each search is logged with the user, the action, the time and the stated reason.
+Is this connected to a national database?
+No. Data stays within the agency’s environment unless the agency chooses to share it. There is no automatic 
+cross-agency access, and the system does not place agency ALPR data into a national or pooled database. 
+Visibility does not expand unless the agency takes deliberate action.
+Can other agencies access the data?
+Sharing is off by default and requires the owning agency’s deliberate approval. Another agency can access data 
+only through a specific sharing relationship approved by the owning agency. That access is invite-only, visible 
+and revocable. Sharing does not copy agency ALPR data into a shared repository, transfer ownership or connect 
+agency ALPR data to a national pool.
+Can an agency that receives shared data re-share it with other agencies?
+No. Re-sharing is architecturally impossible, not just prohibited by policy. Sharing is federated: no data is 
+copied when a sharing relationship is established. Because no copy exists, a recipient agency never acquires 
+ownership of shared data and cannot share it further. Agencies can only share ALPR data they own.
+Can the agency audit how shared data is accessed?
+Yes. When sharing is enabled, access to shared ALPR data is logged and reviewable by the owning agency. The 
+audit record includes recipient activity against shared data and changes to sharing relationships over time, so the 
+agency can review who had access during a specific period.
+
+--- page 4 ---
+4
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Can an agency use hotlists?
+Yes. The agency controls which hotlists the system uses, including agency-owned lists, the National Crime 
+Information Center (NCIC) and other official vehicle-status lists the agency is authorized to use. Any vehicle-
+status or owner-related details associated with a match come from the agency-authorized hotlist entry, not from 
+a live registered-owner lookup.
+Can the system look up who owns a vehicle?
+No, not through a live registered-owner lookup. When a plate is read, the system compares it against agency-
+approved hotlists, which may include official vehicle-status lists the agency is legally authorized to use where 
+configured. Any vehicle-status or owner-related details associated with a match come from the agency-
+authorized hotlist entry, not from a live registered-owner lookup.
+O W N E R S H I P,  S H A R I N G  &  H O T L I S T S  –  C O N T I N U E D
+Federal Access & Lawful Requests
+Can federal agencies access the data?
+There is no automatic, standing or built-in federal access to agency ALPR data through Axon. Because the 
+agency owns and controls the data, a lawful request goes to the agency and its counsel to handle. If Axon 
+receives such a request, Axon directs it to the agency as the data owner and discloses data only where legally 
+required to do so.
+What stops this from being used for immigration enforcement?
+This is a local policy decision that the agency governs through its own policy and applicable law. The system 
+provides no automatic, standing or built-in access to any federal agency, including immigration enforcement. If 
+Axon receives a request for agency ALPR data, Axon directs it to the agency as the data owner and provides data 
+only where legally required to do so. If a request goes directly to the agency, the agency decides how to respond 
+under its own policy and applicable law.
+Can the agency control what ALPR searches are permitted?
+Yes. The agency configures which offense categories are authorized for ALPR searches. That configuration 
+applies system-wide, covering the agency’s own users and any agencies the data is shared with, so a single 
+standard governs how ALPR can be used across the program. When performing an ALPR search in Fusus, 
+users must enter an offense category and a stated reason for the search. If the category is not on the agency’s 
+authorized list, the search does not return ALPR data. Both the category and the reason are written to the audit 
+record, so the agency can review not only which searches were run but the purpose given for each one.
+
+--- page 5 ---
+5
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Retention, Oversight & Misuse
+How long is data kept?
+ALPR detection data is retained according to the agency’s configured retention policy and removed when the 
+applicable retention period expires. Detections preserved as evidence follow the agency’s evidence retention 
+rules. The agency sets retention periods according to its policy and applicable law, and the system enforces 
+configured retention settings.
+Is governance enforced by design or just by policy?
+Policy sets the agency’s rules. System design and configuration controls help enforce those rules, and audit 
+records help the agency review use against them. Agency ownership, explicit sharing, configured retention and 
+logged activity are reflected in how the system works and in the records the agency can review.
+What prevents misuse of the system?
+Access is limited to authorized users, and every ALPR search and relevant system action is logged with user, 
+action, time and stated reason. The agency can assign an audit owner, review activity on a defined cadence and 
+enforce policy through investigation, access restrictions and disciplinary action when needed.
+What happens if a hotlist match turns out to be incorrect?
+A hotlist match generates an alert, not a stop. Officers review every alert and make all enforcement decisions 
+based on their own assessment and applicable law. The system’s role ends at detection. What happens next 
+is governed by the agency’s policies, officer training and applicable legal standards. The agency remains 
+responsible for establishing how officers respond to alerts and how those decisions are reviewed over time.
+Are ALPR records subject to public records requests?
+Public records obligations depend on state and local law. The agency is responsible for reviewing and responding 
+to public records requests under its policies and applicable law. ALPR reads, hits, audit records or related 
+materials may require legal review and redaction before any external disclosure.
+F E D E R A L  A C C E S S  &  L A W F U L  R E Q U E S T S  –  C O N T I N U E D
+
+--- page 6 ---
+6
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+How can the agency communicate program outcomes to the public over time?
+The agency decides what to report, how often and through what channels. That may include aggregate 
+metrics or approved examples such as recovered vehicles, investigative leads, missing person responses 
+or AMBER and Silver Alert support, where available and appropriate. The Axon transparency portal gives 
+agencies a tool to publish aggregate program information publicly. Agencies can also include outcome 
+summaries in council presentations, annual reports or community updates. Agencies should not publish raw 
+ALPR reads, plate numbers, images, exact camera locations, active investigation details, user-level audit logs 
+or personal information.
+Does the system use AI to predict crime or flag people?
+No. AI reads plate characters and basic vehicle attributes from images. It is not used to predict behavior, assign 
+risk scores or identify individuals.
+Is agency data used to train AI?
+Axon’s agreements with AI providers prohibit them from using agency data to train their models. Axon trains its 
+own AI primarily on self-collected and synthetic data. An agency’s ALPR data can also contribute to improving 
+Axon’s products, including AI, through the Axon Customer Experience Improvement Program (ACEIP). 
+Participation is optional, and the agency can decline or withdraw at any time. Every approved ACEIP use case is 
+published on Axon’s ACEIP transparency portal, with the data used and the safeguards applied listed for each.
+What stops this from expanding into something more invasive over time?
+New capabilities do not become part of the agency’s program unless the agency approves or configures them 
+under its policy and contract.
+AI & Scope
+R E T E N T I O N ,  O V E R S I G H T  &  M I S U S E  –  C O N T I N U E D
+Can an agency show the community how the system is governed?
+Yes. Axon offers a public transparency portal an agency can use to disclose its data retention policies and 
+available aggregate ALPR program information. The agency decides whether to publish it and controls which 
+available elements appear. It stays off until the agency turns it on, and the agency can deactivate it at any time. 
+It publishes aggregate information only, no plate numbers, images, individual records or camera locations. When 
+an agency has sharing enabled, the portal can also disclose the partner agencies with whom data is shared.
+
+--- page 7 ---
+7
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Does Axon access agency data?
+Axon has no standing access to agency ALPR data. Access occurs only when an agency initiates a specific 
+support request. When that happens, access is temporary, limited to the stated purpose, logged and auditable by 
+the agency.
+Vendor Access,  
+Verification & Accuracy
+Is the system independently verified?
+Yes. Axon publishes current security and compliance documentation through trust.axon.com. Agencies 
+should use that documentation to confirm which products, services and controls are in scope for each audit or 
+certification. For governance detail, see the ALPR Council and Community Engagement Guide.
+What happens if the system gets it wrong?
+Accuracy can vary with conditions such as lighting, camera angle and plate visibility. That is why a person reviews 
+every alert before any action is taken. The agency has verification procedures to confirm information before an 
+operational decision is made.
+
+--- page 8 ---
+8
+axon.com
+© 2026 Axon Enterprise, Inc. All rights reserved. No part of this document may be reproduced or redistributed without the prior written consent of Axon.
+Do these cameras livestream and record, and how is that governed?
+Livestreaming is permission-based and configurable. It is active only when an authorized user pulls up a feed for 
+real-time viewing during an active situation. An agency controls whether it is enabled. 
+Video is handled under its own access, storage and retention controls, which are separate from how ALPR 
+detection data is governed. Where an agency enables and configures recording, video is retained under the 
+agency’s video retention settings, not its ALPR retention settings. Video access is logged and auditable by the 
+agency. 
+Core boundaries are built into how the system works. The system does not place agency ALPR data into 
+a national pool, does not share data automatically, does not use facial recognition, does not perform live 
+registered-owner lookups and does not automate enforcement. Within those boundaries, each agency 
+configures retention, access, sharing, transparency and livestreaming or recording settings under its policy and 
+applicable law. 
+For governance detail, see the ALPR Council and Community Engagement Guide. For current security and 
+certification documentation, see trust.axon.com.
+Cameras, Livestreaming 
+& Recording

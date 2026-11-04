@@ -1,0 +1,177 @@
+--- page 1 ---
+Date:
+Mon, 27 Jul 2026 10:03:13 PM (UTC)
+Sent:
+Mon, 27 Jul 2026 10:03:02 PM (UTC)
+Subject: Fw: Axon Fusus Release Notes 2026.26
+From:
+Anthony Riccardi <ARiccardi@cityofsanmateo.org >
+To:
+Ed Barberini <ebarberini@cityofsanmateo.org >; Kelly O'Keefe <kokeefe@cityofsanmateo.org >; Daniel Sanchez
+<dsanchez@cityofsanmateo.org >; Stephan Casazza <casazza@cityofsanmateo.org >;
+Just a heads up here is a release from Axon regarding the sharing of ALPR data. Steve, can we get together and
+talk about what our sharing agreement looks like for Axon. This will be for Fleet 3 and Axon Outpost. 
+From: Axon Fusus <noreply@axon.com>
+Sent: Monday, July 27, 2026 1:59 PM
+To: Anthony Riccardi <ariccardi@cityofsanmateo.org >
+Subject: Axon Fusus Release Notes 2026.26
+ 
+AXON FUSUS RELEASE NOTES
+
+--- page 2 ---
+Release Version: 2026.26
+Features and Enhancements
+Web Experience
+ 
+ALPR Sharing
+Law enforcement agencies using Axon Fusus can now securely share
+ALPR data with specific partner agencies without copying any data out of
+their own system, enabling faster mutual-aid and regional collaboration
+while the data owner stays in control.
+Agencies can:
+Invite a specific partner agency to share ALPR data — sharing is
+always donor-initiated, and the recipient must separately accept
+before anything is shared.
+Limit what's shared using two independent conditions: only reads
+matching the recipient's hotlist (the default), specific Axon device
+types, or both.
+Require every cross-agency search to declare a matching offense
+category before a donor's data is included in results.
+Revoke a sharing relationship at any time.
+Review a full audit trail of sharing activity, from both the donor and
+recipient side.
+Availability: US1
+ALPR Audit
+Agencies using Axon Fusus now have expanded visibility into how ALPR
+data is used — by their own users, by partner agencies receiving shared
+data, and through changes made to hotlists and sharing relationships.
+Agencies can:
+Run four dedicated reports from the LPR Audit page: Internal ALPR
+Activity (your own users' searches, exports, and record access),
+Network ALPR Activity (how partner agencies used data you shared),
+ALPR Data Sharing (the full sharing-relationship lifecycle), and the
+ALPR Hotlist Management Audit Report (hotlist changes).
+See every access or download of an ALPR record inside Select
+
+--- page 3 ---
+Region - Axon alongside Fusus activity, in one unified audit trail.
+See additional fields captured automatically on relevant searches to
+support certain state-specific requirements (for example, camera
+location or camera count).
+Availability: US1 using Sign In with Axon with the ALPR System
+Administration permission assigned. Expansion to CA1 and US4 is
+expected 8/11.
+Enterprise and law enforcement camera sharing
+U.S.-based enterprise and law enforcement customers can now securely
+share cameras with one another in Axon Fusus, simplifying collaboration
+during planned events and mutual-aid responses.
+Fusus administrators can:
+Share cameras across enterprise and law enforcement organizations.
+Configure access permissions, including live viewing, recording
+playback, and optional expiration dates.
+Accept, manage, or revoke shares from the Shares administration
+page.
+Camera owners retain control:
+Only the organization that owns a camera can create, modify, or
+revoke access to it.
+Access is never granted automatically. Recipient organizations
+cannot reshare cameras or grant access to another
+organization.
+For more information, see the updated Camera Setup and System
+Administration articles on our Help Site.
+Availability: US1, US4
+Fusus 911 Audio Playback Controls
+Operators can now review both live and ended 911 call audio directly
+within the 911 call panel using new playback controls. Advanced controls
+— including play, pause, 10-second rewind/forward, and timeline
+scrubbing — are collapsed by default, with mute and volume controls
+always visible.
+On a live call, audio plays from the live position by default. If you scrub
+
+--- page 4 ---
+backward, a Return to Live tooltip lets you jump back to real time. On an
+ended call, playback starts from the beginning and displays the total call
+duration. Note that playback position does not persist when switching
+between calls — each call resets to its default starting point (live for active
+calls, zero for ended calls) on return.
+These controls support rapid review of critical moments, real-time incident
+monitoring, and post-incident analysis without interrupting live call
+processing.
+Learn more at 911 call panel.
+Availability: US1
+Alerts Panel toggle update
+Alerts panel Location filter contains new toggle: "Show alerts not tied to a
+Fusus location" on by default, which lets you include or exclude real-time
+alerts that aren't associated with a named Fusus location.
+Availability: All regions
+New connection banner notification
+Improved livestream messaging so users are clearly informed when a poor
+connection may affect video quality.
+Availability: All regions
+Maintenance and Bug Fixes
+Correct Appliance Type name on Fusus Appliance Dashboard
+Appliance types now show friendly display names instead of internal code
+names.
+CAD drawer fix
+Fixed a crash that occurred when reopening the CAD drawer after closing
+it.
+CAD alerts appear in real time
+Fixed an issue where CAD alert toasts could stop appearing in real time
+when the Axon Devices layer was active on an Agency/Legacy SSO
+account, while calls were still being processed normally in the
+background.
+Map layer preference now remembered on login
+
+--- page 5 ---
+Map layer preferences are now applied when you first log in, so any layers
+you have turned off will stay off.
+Incident Management tab viewable in VAULT
+Fixed an issue where administrators could not see the Incident
+Management tab in fususVAULT.
+Changed the behavior of ALPR hotlist filters
+When no filters are selected, all alerts matching those hotlists are now
+excluded from results. Previously, having no filters selected behaved the
+same as selecting all of them (i.e., nothing was excluded).
+ Mobile (iOS and Android) 
+iOS Features and Enhancements
+None
+iOS Bug Fixes and Maintenance
+Alerts: Signing out now stops alert notifications. Once you sign out, no
+further alerts are delivered to the device.
+Body-camera livestreaming: Axon body-camera livestreams now
+start automatically when you open the livestream card while the
+camera is recording, so there's no extra tap to begin watching.
+Camera livestreaming: Livestreams from Fusus and external-
+appliance cameras now start more reliably.
+Chat: You can now close a PDF attachment after viewing it and return
+to the conversation.
+Android Features and Enhancements
+None
+Android Bug Fixes and Maintenance
+This update improves the reliability of the Axon device list and map.
+The list and map now load consistently, including when a Fleet Hub
+device has no vehicle assigned.
+ 
+Axon Fusus Support
+
+--- page 6 ---
+Axon Fusus
+Email: helpdesk@fusus.com
+North America: 1-844-226-9226 ext 2
+Axon
+Protect Life
+Help us to improve.
+Do you agree with this statement?
+ 
+Release Notes are easy to find and understand.
+ὄ Yes ὄ No
+Axon Enterprise, Inc. 17800 N. 85th St. Scottsdale, AZ 85255-6311, USA
+ 
+The Delta Logo, the Axon & Design Logo, Axon, TASER, Bolt with Circle
+Logo, and Protect Life are trademarks of Axon Enterprise, Inc., some of
+which are registered in the US and other countries.
+© 2026 Axon Enterprise, Inc.
+ 
+ Privacy Policy
+ Contact Us
+Unsubscribe
