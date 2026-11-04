@@ -1,0 +1,79 @@
+{
+  "url": "https://www.pressherald.com/2026/11/04/here-are-the-results-from-yorks-referendum-election/",
+  "source_domain": "pressherald.com",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "York voters approve full slate of referendum questions",
+  "byline": null,
+  "published_at": "2026-11-04T13:21:14+00:00",
+  "fetched_at": "2026-11-04T22:44:14Z",
+  "discovered_by": "claude-search:nov3-2026-ballot-measures",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 135 pts, HIGH/CRITICAL findings",
+  "scanner_score": 135,
+  "content_hash": "1fb37f348378b59d32be27db304232fd3615dbb5f074669fe52437986f18bf25",
+  "paths": {
+    "html": "assets/articles/pressherald.com/2026-11-04-here-are-the-results-from-yorks-referendum-election_5fc01950.html",
+    "meta": "assets/articles/pressherald.com/2026-11-04-here-are-the-results-from-yorks-referendum-election_5fc01950.meta.json",
+    "pdf": "assets/articles/pressherald.com/2026-11-04-here-are-the-results-from-yorks-referendum-election_5fc01950.pdf",
+    "txt": "assets/articles/pressherald.com/2026-11-04-here-are-the-results-from-yorks-referendum-election_5fc01950.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "legal:ballot-measure",
+    "legal:legislation",
+    "outcome:terminated",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "d9f58fac-673f-5cc9-8dd7-422e6f438dde",
+    "e7dcce67-71f9-500a-bd1c-3727e117fd5d"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "d9f58fac-673f-5cc9-8dd7-422e6f438dde",
+      "display_name": "York ME PD",
+      "state": "ME",
+      "score": 17.917,
+      "matched_forms": [
+        "York",
+        "York Police",
+        "York Police Department"
+      ]
+    },
+    {
+      "agency_id": "e7dcce67-71f9-500a-bd1c-3727e117fd5d",
+      "display_name": "Scarborough ME PD",
+      "state": "ME",
+      "score": 2.683,
+      "matched_forms": [
+        "Scarborough"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "d9f58fac-673f-5cc9-8dd7-422e6f438dde"
+  ],
+  "summary": "York, Maine voters approved a slate of six referendum questions, including a 'Stop ALPRs' ordinance permanently banning automated license plate reading cameras by any public agency in town, passing 5,386-2,043. The York Police Department had already terminated its Flock Safety contract and removed at least four cameras in September following a citizen petition.",
+  "key_quotes": [
+    {
+      "quote": "Residents also voted to ban automated license plate reading cameras, or ALPRs, in a 5,386-2,043 vote amid a nationwide debate over the ethics of similar technology.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "The York Police Department terminated its contract with the ALPR company Flock Safety in September and removed at least four cameras on public property following a citizen petition that garnered 115 signatures.",
+      "paragraph_idx": 16
+    },
+    {
+      "quote": "Tuesday's decision implements an ordinance permanently barring any public agency in town from using similar technology.",
+      "paragraph_idx": 17
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-11-04T22:49:01Z",
+  "article_id": "art_5fc01950381d"
+}
