@@ -14,8 +14,12 @@ data is one JSON blob the app fetches from the same host:
                  policyStatements, deviceBreakdown, categoryBreakdown and, when
                  the agency shares, sharedAgencies [{agencyId, agencyName,
                  state, sharedSince}] ("Sharing LPR Data With")
-  404 BlobNotFound
-                 not published, OR no such tenant (the response is identical)
+  404 BlobNotFound / empty
+                 not published, OR no such tenant (the response is identical).
+                 Until late Oct 2026 this was Azure's BlobNotFound XML; since
+                 then an nginx proxy answers with an empty body and an
+                 X-Transparency-Origin header, and strips Azure's Content-MD5,
+                 ETag, Last-Modified and x-ms-request-id from 200s too.
 
 Tenant existence is a separate one-request check: GET /api/oauth2/login without
 following redirects. A real tenant 303s to the identity host with
@@ -216,9 +220,11 @@ def fetch_transparency(session, host, now=None):
         return {"status": "error", "error": "no response"}
     body = r.content
     if r.status_code == 404:
-        if b"BlobNotFound" in body:
+        # An empty 404 without the proxy's header came from something else
+        # (an outage page, a different front end) and stays an error.
+        if b"BlobNotFound" in body or (not body and r.headers.get("x-transparency-origin")):
             return {"status": "not_published"}
-        return {"status": "error", "error": f"404 without BlobNotFound ({len(body)} bytes)"}
+        return {"status": "error", "error": f"unrecognized 404 ({len(body)} bytes)"}
     if r.status_code != 200:
         return {"status": "error", "error": f"HTTP {r.status_code}"}
 
@@ -247,6 +253,8 @@ def fetch_transparency(session, host, now=None):
         "last_modified": r.headers.get("last-modified"),
         "etag": r.headers.get("etag"),
         "x_ms_request_id": r.headers.get("x-ms-request-id"),
+        # HIT = served from the proxy's cache (Cache-Control max-age=1800).
+        "x_proxy_cache": r.headers.get("x-proxy-cache"),
         "updated_at": (datetime.fromtimestamp(updated, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
                        if isinstance(updated, (int, float)) else None),
     }

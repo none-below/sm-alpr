@@ -40,6 +40,8 @@ class FakeSession:
 
 
 BLOB_404 = Resp(404, b'\xef\xbb\xbf<?xml version="1.0"?><Error><Code>BlobNotFound</Code></Error>')
+# The nginx proxy's form of the same answer (since late Oct 2026).
+PROXY_404 = Resp(404, b"", {"Server": "nginx", "Content-Length": "0", "X-Transparency-Origin": "backend"})
 
 
 def doc(**over):
@@ -137,6 +139,16 @@ def test_fetch_md5_mismatch_is_error():
 def test_fetch_without_md5_header_still_published():
     r = ax.fetch_transparency(FakeSession({ax.file_url(H): published(doc(), md5=False)}), H)
     assert r["status"] == "published" and r["meta"]["content_md5_ok"] is None
+
+
+@pytest.mark.parametrize("resp", [BLOB_404, PROXY_404])
+def test_fetch_404_forms_are_not_published(resp):
+    assert ax.fetch_transparency(FakeSession({ax.file_url(H): resp}), H) == {"status": "not_published"}
+
+
+def test_fetch_empty_404_without_proxy_header_is_error():
+    r = ax.fetch_transparency(FakeSession({ax.file_url(H): Resp(404, b"", {"Server": "nginx"})}), H)
+    assert r["status"] == "error" and "404" in r["error"]
 
 
 @pytest.mark.parametrize("resp,status", [
