@@ -1,20 +1,34 @@
 {
   "agency_id": null,
   "agency_name": "Riverside County Sheriffs Office",
-  "dashboards": [],
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-11-03T19:06:05Z",
+      "id": "4ad2956d7a974cf8aecbe1ad72c85744",
+      "title": "Riverside County Sheriffs Office Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/4ad2956d7a974cf8aecbe1ad72c85744"
+    }
+  ],
   "description": "Feature service for Riverside County Sheriffs Office",
   "events": [
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "dashboard": "4ad2956d7a974cf8aecbe1ad72c85744",
+      "date": "2026-11-04",
+      "event": "dashboard_published",
+      "title": "Riverside County Sheriffs Office Drone Flights"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
+    "count": 4,
     "duplicates": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
+    "first_takeoff": "2026-11-03T18:31:06Z",
+    "last_takeoff": "2026-11-04T16:26:56Z",
     "unhashed": 0
   },
   "layer": {
