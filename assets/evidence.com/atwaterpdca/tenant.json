@@ -1,6 +1,9 @@
 {
   "agency_id": "4a99a1f3-e9ec-5fdc-b620-ba8c356dc19c",
-  "axon_agency": null,
+  "axon_agency": {
+    "id": "d5bf572b-98da-4746-9323-2ca8ea4fbaf4",
+    "name": "Atwater Police Dept. - CA"
+  },
   "candidate": null,
   "events": [
     {
@@ -10,6 +13,10 @@
     {
       "date": "2026-10-13",
       "event": "not_published"
+    },
+    {
+      "date": "2026-11-04",
+      "event": "published"
     }
   ],
   "first_seen": "2026-10-13",
@@ -19,5 +26,5 @@
   "ori": [
     "CA0240100"
   ],
-  "published": false
+  "published": true
 }
