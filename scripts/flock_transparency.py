@@ -140,6 +140,16 @@ RATE_LIMIT_NOTE = "per-IP rate budget spent (~3 req/hr); only a fresh IP clears 
 # and that is all: it never clicks, types or reloads. If Cloudflare asks for a
 # human instead (a Turnstile frame from challenges.cloudflare.com), the run
 # stops there.
+#
+# Until 2026-11-04 "asks for a human" meant the frame showed up at all, and the
+# crawler stopped on the poll that saw it, ~0.5s in. That happened on slug 1 in
+# about half of all CI runs, and on every slug 2. But Turnstile can also finish
+# without a click, so a frame alone doesn't show that it wants one. The
+# crawler now keeps waiting with the frame up (still never touching the page)
+# and calls it a human check only if the frame is still there when
+# CHALLENGE_WAIT_MS runs out. The log says which happened ("Turnstile cleared
+# by itself after Ns" / "Turnstile still up after 20s"). If a few days of runs
+# never show it clearing, this wait buys nothing and can go.
 CHALLENGE_WAIT_MS = 20000
 CHALLENGE_POLL_MS = 250
 CHALLENGE_NOTE = "Cloudflare asked for a human check; the crawler doesn't attempt those"
@@ -1601,23 +1611,34 @@ def is_cloudflare_challenge(response):
 def wait_out_challenge(page, timeout_ms=CHALLENGE_WAIT_MS):
     """Wait, without touching the page, for a Cloudflare challenge to finish.
 
-    Returns the HTTP status of the page it lands on, "interactive" if
-    Cloudflare wants a human, or None if it didn't finish in time. The status
-    comes from the document's own navigation entry: the page the challenge
-    lands on is the answer to its POST, not to our goto().
+    Returns the HTTP status of the page it lands on, "interactive" if a
+    Turnstile frame is still up when time runs out (Cloudflare wants a human),
+    or None if it didn't finish in time without one. The status comes from the
+    document's own navigation entry: the page the challenge lands on is the
+    answer to its POST, not to our goto().
     """
-    for _ in range(timeout_ms // CHALLENGE_POLL_MS):
+    turnstile_at = None
+    for poll in range(1, timeout_ms // CHALLENGE_POLL_MS + 1):
         page.wait_for_timeout(CHALLENGE_POLL_MS)
-        if any(urllib.parse.urlparse(f.url).hostname == "challenges.cloudflare.com"
-               for f in page.frames):
-            return "interactive"
+        elapsed = poll * CHALLENGE_POLL_MS / 1000
+        if turnstile_at is None and any(
+                urllib.parse.urlparse(f.url).hostname == "challenges.cloudflare.com"
+                for f in page.frames):
+            turnstile_at = elapsed
+            print(f"    Turnstile appeared after {elapsed:.1f}s; waiting to see "
+                  f"if it clears by itself (no clicks)")
         try:
             status = page.evaluate(
                 "() => performance.getEntriesByType('navigation')[0]?.responseStatus || 0")
         except Exception:
             continue  # mid-navigation
         if status and status != 403:
+            if turnstile_at is not None:
+                print(f"    Turnstile cleared by itself after {elapsed:.1f}s")
             return status
+    if turnstile_at is not None:
+        print(f"    Turnstile still up after {timeout_ms // 1000}s")
+        return "interactive"
     return None
 
 

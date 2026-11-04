@@ -84,9 +84,24 @@ def test_wait_returns_the_status_the_challenge_lands_on():
 
 
 def test_wait_reports_a_human_check_instead_of_attempting_it():
+    """A Turnstile frame that never clears is a human check, reported only
+    once the wait runs out, never acted on."""
     page = _ChallengePage(frames=["https://challenges.cloudflare.com/cdn-cgi/challenge-platform/turnstile"])
-    assert ft.wait_out_challenge(page) == "interactive"
-    assert page.polls == 1
+    assert ft.wait_out_challenge(page, timeout_ms=1000) == "interactive"
+    assert page.polls == 1000 // ft.CHALLENGE_POLL_MS
+    assert page.navigations == 0, "waiting must never reload"
+
+
+def test_wait_lets_turnstile_clear_by_itself(capsys):
+    """Turnstile can finish without a click: the frame comes up and the page
+    then lands on the portal. That is a pass, not a human check."""
+    page = _ChallengePage(landings=[403, 403, 403, 200],
+                          frames=["https://challenges.cloudflare.com/x"])
+    assert ft.wait_out_challenge(page) == 200
+    assert page.navigations == 0
+    out = capsys.readouterr().out
+    assert "Turnstile appeared after 0.2s" in out
+    assert "Turnstile cleared by itself after 1.0s" in out
 
 
 def test_wait_gives_up_after_the_timeout():
