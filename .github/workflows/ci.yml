@@ -25,6 +25,14 @@ jobs:
       coord-missing: ${{ steps.coords.outputs.has_missing }}
       pii-failed: ${{ steps.pii.outcome == 'failure' }}
     steps:
+      - name: Free runner disk
+        # See refresh-flock-data.yml: the full checkout is ~10 GB and this
+        # job ran out of disk on 2026-11-02.
+        run: |
+          df -h /
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /usr/local/.ghcup /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+
       - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}

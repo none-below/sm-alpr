@@ -1093,6 +1093,40 @@ def test_2026_09_heading_variants_classify():
         assert _match_heading_kind(heading) == (want, "exact"), heading
 
 
+def test_2026_10_heading_variants_classify():
+    """Headings that aborted hollister-ca-pd (10/20), palatine-il-pd (10/22)
+    and tracy-ca-pd (11/3) captures, reported on #940."""
+    from flock_transparency import _match_heading_kind
+    exact = [
+        "Stolen Vehicle Pursuit in Hollister, leads to arrest",
+        "Suspect in Domestic Violence case arrested while attempting to Flee City",
+        "Felony Vehicle Alert leads to Arrest",
+        "Oakland Sideshow Felony Vehicle Recovered",
+        "Pursuit Leads to Arrest and Stolen Vehicle Recovery",
+        "Pursuit Leads to Location and Safe Return of Kidnapping Victims",
+        "Recovered Stolen Vehicle out of Menlo Park",
+        "Recovered Stolen Vehicle out of Stockton",
+        "Road Rage Homicide",
+        "San Jose Sideshow Felony Vehicle Recovered",
+        "San Jose Sideshow Vehicle Recovered",
+        "Tracy PD Teamwork Leads to Recovery of Vehicle",
+    ]
+    for heading in exact:
+        assert _match_heading_kind(heading) == ("success_stories", "exact"), heading
+    for heading in ("September Top 10 Search Reasons", "October Top 10 Search Reasons",
+                    "October 2026 Top 5 Search Reasons"):
+        assert _match_heading_kind(heading) == ("additional_info", "dynamic"), heading
+
+
+def test_monthly_search_reasons_pattern_is_whole_line():
+    """A prose line mentioning the roll-up must not become a heading."""
+    from flock_transparency import _match_heading_kind, _UNKNOWN
+    for line in ("See the September Top 10 Search Reasons below.",
+                 "September Top 10 Search Reasons were reviewed by supervisors."):
+        field, _kind = _match_heading_kind(line)
+        assert field is _UNKNOWN, line
+
+
 def test_issue698_bold_heading_entity_form_classifies():
     """extract_bold_headings strips tags but does not unescape entities, so
     the same heading reaches the unrecognized-bold check as "&amp;" while the

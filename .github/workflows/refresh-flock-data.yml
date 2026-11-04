@@ -29,6 +29,17 @@ jobs:
   refresh:
     runs-on: ubuntu-24.04  # not -latest: Playwright 1.58 refuses ubuntu-26.04 ("does not support ffmpeg"), seen 2026-10-27
     steps:
+      - name: Free runner disk
+        # The full checkout is ~10 GB (a 5 GB pack plus a working tree of raw
+        # portal captures) and grows with every capture. Three refresh runs
+        # and one CI run on 2026-11-02/03 died with "No space left on device"
+        # before reaching the crawl. These preinstalled toolchains are space
+        # no step here uses. Same step in ci.yml.
+        run: |
+          df -h /
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /usr/local/.ghcup /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+
       - uses: actions/checkout@v6
         with:
           ref: main
@@ -449,8 +460,11 @@ jobs:
         # Runs last so the attempt log and any partial state are committed
         # first. A red run here means "the crawler is blocked", which is a
         # genuinely different condition from "nothing changed upstream" —
-        # the latter still exits 0 and stays green.
+        # the latter still exits 0 and stays green. So does one run that
+        # captured nothing while another run captured a portal recently:
+        # the crawler exits non-zero only once no run has captured anything
+        # for BLOCKED_AFTER_HOURS (scripts/flock_transparency.py).
         if: steps.crawl.outputs.rc != '0'
         run: |
-          echo "::error::Every portal in this batch failed — the refresh is blocked, not caught up. See the Crawl step log for the failure mode (edge 403 / rate limit / parse error)."
+          echo "::error::Nothing captured by any run for hours — the refresh is blocked, not caught up. See the Crawl step log for the failure mode (Cloudflare challenge / rate limit / unreachable / parse error)."
           exit 1
