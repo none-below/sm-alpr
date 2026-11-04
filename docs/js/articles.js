@@ -29,6 +29,7 @@ function cycleFilter(tag) {
   if (!cur) STATE.filters[tag] = 'include';
   else if (cur === 'include') STATE.filters[tag] = 'exclude';
   else delete STATE.filters[tag];
+  syncUrl();
   render();
 }
 
@@ -66,10 +67,12 @@ function setDateRange(from, to) {
   render();
 }
 
-// Reflect the agency and date filters in the URL so the page is
+// Reflect the agency, date and tag filters in the URL so the page is
 // shareable and the sharing_map / report pages can deep-link in. Use
 // replaceState (not pushState) so the browser back button doesn't trap
-// users in a chain of intermediate filter states.
+// users in a chain of intermediate filter states. Tags go in as sorted
+// comma lists (?tag=a,b&exclude=c) so the same view always yields the
+// same link.
 function syncUrl() {
   var url = new URL(window.location.href);
   if (STATE.agencyFilter) {
@@ -85,7 +88,32 @@ function syncUrl() {
   if (STATE.datePreset) url.searchParams.set('range', STATE.datePreset);
   if (STATE.dateFrom) url.searchParams.set('from', STATE.dateFrom);
   if (STATE.dateTo) url.searchParams.set('to', STATE.dateTo);
+  var includes = [], excludes = [];
+  for (var t in STATE.filters) {
+    (STATE.filters[t] === 'include' ? includes : excludes).push(t);
+  }
+  url.searchParams.delete('tag');
+  url.searchParams.delete('exclude');
+  if (includes.length) url.searchParams.set('tag', includes.sort().join(','));
+  if (excludes.length) url.searchParams.set('exclude', excludes.sort().join(','));
+  // ':' and ',' are legal in a query string; leaving them unescaped keeps
+  // a pasted link readable (?tag=legal:ballot-measure, not %3A).
+  url.search = url.searchParams.toString().replace(/%3A/gi, ':').replace(/%2C/gi, ',');
   history.replaceState(null, '', url.toString());
+}
+
+// Split a ?tag= / ?exclude= value into known tags. Unknown tags are
+// dropped (the caller rewrites the URL) rather than silently matching
+// nothing.
+function parseTagParam(data, value) {
+  var out = [];
+  if (!value) return out;
+  var parts = value.split(',');
+  for (var i = 0; i < parts.length; i++) {
+    var t = parts[i].trim();
+    if (t && data.tags && data.tags[t]) out.push(t);
+  }
+  return out;
 }
 
 function findDatePreset(key) {
@@ -401,9 +429,20 @@ function renderActiveBar(matchedCount, totalCount) {
   if (includes.length || excludes.length || dateLabel) {
     html += '<button class="clear" id="clear-btn">clear filters</button>';
   }
+  if (includes.length || excludes.length || dateLabel || STATE.agencyFilter) {
+    html += '<button class="clear" id="copy-link-btn" title="Copy a link to this filtered view">copy link</button>';
+  }
   bar.innerHTML = html;
   var btn = document.getElementById('clear-btn');
   if (btn) btn.addEventListener('click', clearFilters);
+  var linkBtn = document.getElementById('copy-link-btn');
+  if (linkBtn) {
+    linkBtn.addEventListener('click', function () {
+      navigator.clipboard.writeText(window.location.href);
+      linkBtn.textContent = 'copied!';
+      setTimeout(function () { linkBtn.textContent = 'copy link'; }, 1200);
+    });
+  }
 }
 
 function renderArticleCard(article) {
@@ -872,13 +911,21 @@ fetch('data/articles_data.json')
       if (dayStartTs(from) !== null) STATE.dateFrom = from;
       if (dayStartTs(to) !== null) STATE.dateTo = to;
     }
-    // If a URL param pointed at an unknown agency or held a malformed
-    // date, drop it from the URL rather than leaving a dead query string
-    // sitting on the address bar.
+    var tagParam = params.get('tag');
+    var excludeParam = params.get('exclude');
+    var tagIncludes = parseTagParam(data, tagParam);
+    var tagExcludes = parseTagParam(data, excludeParam);
+    for (var ti = 0; ti < tagIncludes.length; ti++) STATE.filters[tagIncludes[ti]] = 'include';
+    for (var te = 0; te < tagExcludes.length; te++) STATE.filters[tagExcludes[te]] = 'exclude';
+    // If a URL param pointed at an unknown agency or tag, or held a
+    // malformed date, drop it from the URL rather than leaving a dead
+    // query string sitting on the address bar.
     if ((param && !STATE.agencyFilter)
         || (range && !STATE.datePreset)
         || (from && from !== STATE.dateFrom)
-        || (to && to !== STATE.dateTo)) {
+        || (to && to !== STATE.dateTo)
+        || (tagParam && tagParam.split(',').length !== tagIncludes.length)
+        || (excludeParam && excludeParam.split(',').length !== tagExcludes.length)) {
       syncUrl();
     }
     initMap();
