@@ -23,6 +23,10 @@ var DATE_PRESETS = [
   { key: '1y', label: 'Past year', months: 12 }
 ];
 
+// Pages publishes only docs/, so archived files under assets/ link to
+// GitHub's file viewer (renders PDFs inline) rather than a relative path.
+var REPO_BLOB = 'https://github.com/none-below/sm-alpr/blob/main/';
+
 
 function cycleFilter(tag) {
   var cur = STATE.filters[tag];
@@ -471,8 +475,8 @@ function renderArticleCard(article) {
       + '" target="_blank" rel="noopener">original</a>');
   }
   if (article.paths && article.paths.pdf) {
-    links.push('<a href="../' + escapeHtml(article.paths.pdf)
-      + '" target="_blank">pdf</a>');
+    links.push('<a href="' + escapeHtml(REPO_BLOB + encodeURI(article.paths.pdf))
+      + '" target="_blank" rel="noopener">pdf</a>');
   }
   if (waybackUrl) {
     links.push('<a href="' + escapeHtml(waybackUrl)
