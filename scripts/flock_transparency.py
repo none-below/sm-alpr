@@ -57,6 +57,7 @@ try:
 except ImportError:  # pragma: no cover - optional dependency
     stealth_sync = None
 
+from gazetteer import county_fips_near
 from lib import (
     BASE_URL, FAILED_FILE, PROBE_HITS_DIR, REGISTRY_PATH,
     audit_integrity, dedupe, load_json, save_json,
@@ -99,6 +100,12 @@ ATTEMPT_FILE = ".attempts.json"
 # the warm-up retry usually clears), while a persistently unreachable slug
 # still ages out within a few runs. Any fetch that reaches the portal clears
 # the counter.
+#
+# A human check (Turnstile) is not a burn at all. Cloudflare decides it per IP
+# before the portal is reached, so it says nothing about the slug, and no slug
+# can be stuck behind it while others pass. Since 2026-11-03 it ends ~90% of
+# runs, so counting it stamped slugs three tries in and sent them to the back
+# uncaptured: four in the ten hours of 2026-11-04 that captured two.
 RATE_LIMIT_BURN_FILE = ".rate_limit_burns.json"
 RATE_LIMIT_BURN_LIMIT = 3
 VIEWPORT = {"width": 1440, "height": 900}
@@ -576,6 +583,120 @@ def latest_capture_attempt_date(slug, data_dir):
 
     candidates = [d for d in (from_txt, from_log) if d is not None]
     return max(candidates) if candidates else None
+
+
+# Crawl-queue priority.
+#
+# Since 2026-11-03 Cloudflare lets a run capture at most one portal, and on a
+# bad day only ~3 runs get even that. Oldest-first spread those few captures
+# evenly over ~260 portals, so the Bay Area portals this project works from
+# waited as long as a sheriff's office in Ohio. Each portal now belongs to a
+# group with a target refresh age, and the queue takes the portals furthest
+# past their target (age / target): a Bay Area portal at 14 days (2x) goes
+# before an out-of-state one at 100 days (1.1x). Nothing starves; when
+# captures run short, every group falls behind in proportion to its target.
+QUEUE_GROUPS = (  # (label, target refresh age in days), highest priority first
+    ("Bay Area", 7),       # the seed itself and the nine Bay Area counties
+    ("seed partner", 14),  # shares with the seed, either way, from elsewhere
+    ("California", 28),
+    ("out of state", 90),
+)
+BAY_AREA_COUNTY_FIPS = frozenset({
+    "06001",  # Alameda
+    "06013",  # Contra Costa
+    "06041",  # Marin
+    "06055",  # Napa
+    "06075",  # San Francisco
+    "06081",  # San Mateo
+    "06085",  # Santa Clara
+    "06095",  # Solano
+    "06097",  # Sonoma
+})
+
+
+def _latest_outbound(slug_dir):
+    jsons = portal_jsons(slug_dir) if slug_dir.is_dir() else []
+    if not jsons:
+        return []
+    stored = json.loads(jsons[-1].read_text())
+    return stored.get("sharing_outbound") or stored.get("shared_org_names", [])
+
+
+def seed_partner_slugs(seeds, data_dir):
+    """Slugs that share with a seed or that a seed shares with, read from
+    each portal's newest capture on disk."""
+    seed_names = set()
+    partners = set()
+    for seed in seeds:
+        seed_names.update((resolve_agency(slug=seed) or {}).get("flock_names", []))
+        for name in _latest_outbound(data_dir / seed):
+            peer = resolve_agency(name=name)
+            if peer and peer.get("flock_active_slug"):
+                partners.add(peer["flock_active_slug"])
+    for slug in crawled_slugs_on_disk(data_dir):
+        if seed_names.intersection(_latest_outbound(data_dir / slug)):
+            partners.add(slug)
+    return partners - set(seeds)
+
+
+def california_county_fips(entry):
+    """County FIPS for a California registry entry, or None.
+
+    A California ORI names its county exactly: CA041xxxx is county 41 in
+    alphabetical order, San Mateo, and California's county FIPS are the odd
+    numbers in that same order (06081). Without an ORI, a county or county
+    subdivision geo carries its county in the FIPS; any other geo is a point,
+    resolved to the nearest county subdivision.
+    """
+    for ori in entry.get("ori") or []:
+        m = re.fullmatch(r"CA(\d{3})\w{4}", ori)
+        if m and 1 <= int(m.group(1)) <= 58:
+            return f"06{2 * int(m.group(1)) - 1:03d}"
+    geo = entry.get("geo") or {}
+    if geo.get("state") != "CA":
+        return None
+    if geo.get("kind") in ("county", "cousub"):
+        return (geo.get("fips") or "")[:5] or None
+    if geo.get("lat") is not None:
+        return county_fips_near(geo["lat"], geo["lng"], "CA")
+    return None
+
+
+def queue_group(slug, seeds, partners):
+    """Index into QUEUE_GROUPS for a slug."""
+    if slug in seeds:
+        return 0
+    entry = resolve_agency(slug=slug) or {}
+    if california_county_fips(entry) in BAY_AREA_COUNTY_FIPS:
+        return 0
+    if slug in partners:
+        return 1
+    if (entry.get("geo") or {}).get("state") == "CA":
+        return 2
+    return 3
+
+
+def crawl_order_key(slug, data_dir, target_days, previously_failed, today=None):
+    """Sort key for the crawl rotation, by tier:
+
+      0 never attempted — fills gaps like newly-seeded registry entries
+      1 previously captured — furthest past its group's target refresh age
+        first (QUEUE_GROUPS)
+      2 attempted before but no successful capture (was in failed_slugs.json)
+        — lowest priority so retries of prior 404s/parse-failures don't
+        starve fresh slugs. Normal runs already exclude these via `visited`;
+        this tier only fires under --retry-failed, where we still want the
+        retry to happen *after* genuinely new slugs.
+    """
+    # Use attempt date (.txt presence) so a slug whose parser is broken
+    # still ages out of tier 0 — its .txt got saved on the failed attempt,
+    # even though no .json was produced.
+    last = latest_capture_attempt_date(slug, data_dir)
+    if last is not None:
+        return (1, -((today or date.today()) - last).days / target_days)
+    if slug in previously_failed:
+        return (2, 0)
+    return (0, 0)
 
 
 # ═══════════════════════════════════════════════════════════
@@ -2061,7 +2182,8 @@ def run_crawl_batch(page, slugs, data_dir, force, delay, hashes, failed_slugs,
                     "challenged": CHALLENGE_NOTE}.get(status, RATE_LIMIT_NOTE)
             print(f"    {note}")
             print(f"    ending this run; {remaining} slug(s) left for the next run")
-            if record_rate_limit_burn(slug, data_dir):
+            # A human check is never a burn (see RATE_LIMIT_BURN_FILE).
+            if status != "challenged" and record_rate_limit_burn(slug, data_dir):
                 print(f"    {slug} has burned {RATE_LIMIT_BURN_LIMIT} runs in a "
                       f"row on the rate limit — recording an attempt so it "
                       f"yields its queue slot")
@@ -2256,6 +2378,9 @@ def cmd_crawl(args):
             num_levels = max_depth + 1
             level_budgets = split_batch_across_levels(args.batch, num_levels)
             available = 0
+            seeds = set(slugs)
+            partners = seed_partner_slugs(seeds, data_dir)
+            today = date.today()
 
             for level in range(num_levels):
                 available += level_budgets[level]
@@ -2301,40 +2426,25 @@ def cmd_crawl(args):
                 if args.all_agencies and level == 0:
                     candidates = dedupe(candidates + crawled_slugs_on_disk(data_dir))
                 new_slugs = [s for s in candidates if s not in visited]
-                # Crawl order by tier:
-                #   0 never attempted — fills gaps like newly-seeded registry
-                #     entries
-                #   1 previously captured — refresh stalest first (by capture
-                #     date)
-                #   2 attempted before but no successful capture (was in
-                #     failed_slugs.json) — lowest priority so retries of prior
-                #     404s/parse-failures don't starve fresh slugs. Normal runs
-                #     already exclude these via `visited`; this tier only fires
-                #     under --retry-failed, where we still want the retry to
-                #     happen *after* genuinely new slugs.
+                groups = {s: queue_group(s, seeds, partners) for s in new_slugs}
+
                 def _order(s):
-                    # Use attempt date (.txt presence) so a slug whose
-                    # parser is broken still ages out of tier 0 — its
-                    # .txt got saved on the failed attempt, even though
-                    # no .json was produced.
-                    last = latest_capture_attempt_date(s, data_dir)
-                    if last is not None:
-                        return (1, last)
-                    if s in previously_failed:
-                        return (2, date.min)
-                    return (0, date.min)
+                    return crawl_order_key(s, data_dir, QUEUE_GROUPS[groups[s]][1],
+                                           previously_failed, today)
                 new_slugs.sort(key=_order)
                 if args.batch:
-                    # Pick a random sample from the top 3*budget oldest
+                    # Pick a random sample from the top 3*budget most overdue
                     # candidates instead of strictly the top N. Preserves
-                    # "oldest first" intent but spreads attention so a
-                    # single failing slug at position #1 doesn't waste
-                    # the same crawl slot on every run — over a few
-                    # cycles the failing slug just becomes one of many
-                    # candidates for the slot.
+                    # the priority but spreads attention so a single failing
+                    # slug at position #1 doesn't waste the same crawl slot
+                    # on every run — over a few cycles the failing slug just
+                    # becomes one of many candidates for the slot. The sample
+                    # goes back into priority order: only the run's first
+                    # slug usually gets through, so it should be the most
+                    # overdue of them.
                     n = int(available)
                     pool = new_slugs[:n * 3]
-                    new_slugs = random.sample(pool, min(n, len(pool)))
+                    new_slugs = sorted(random.sample(pool, min(n, len(pool))), key=_order)
 
                 if not new_slugs and not discovered_from_existing:
                     print(f"\nDepth {level}: no new agencies to check, stopping.\n")
@@ -2344,6 +2454,11 @@ def cmd_crawl(args):
 
                 if new_slugs:
                     label = f"depth {level}" if args.depth else "all"
+                    for s in new_slugs:
+                        group, target = QUEUE_GROUPS[groups[s]]
+                        last = latest_capture_attempt_date(s, data_dir)
+                        age = f"{(today - last).days}d since last try" if last else "never tried"
+                        print(f"  queue: {s} ({group}, {age}, target {target}d)")
                     print(f"[{label}] Archiving {len(new_slugs)} agency portal(s):\n")
 
                     results, newly_discovered, rate_limited = run_crawl_batch(
