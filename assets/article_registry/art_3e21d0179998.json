@@ -1,0 +1,54 @@
+{
+  "url": "https://nexanet.ai/blog/inside-flock-safety-03-sharing-boundary-permission-setting",
+  "source_domain": "nexanet.ai",
+  "tier": 2,
+  "stance": "unknown",
+  "title": "Flock Safety Shares Camera Access Across Agencies",
+  "byline": null,
+  "published_at": "2026-08-12T00:00:00.000Z",
+  "fetched_at": "2026-11-05T12:14:12Z",
+  "discovered_by": "manual: sharing distances (Flock sharing boundary/radius)",
+  "scanner_verdict": "WARNINGS \u2014 6 pts, low/medium only",
+  "scanner_score": 6,
+  "content_hash": "5ef63cbbd327eda25f21676134c78a40e0e34ed5ede0682d74b55ead8ef1260c",
+  "paths": {
+    "html": "assets/articles/nexanet.ai/blog-inside-flock-safety-03-sharing-boundary-permission-setting_3e21d017.html",
+    "meta": "assets/articles/nexanet.ai/blog-inside-flock-safety-03-sharing-boundary-permission-setting_3e21d017.meta.json",
+    "txt": "assets/articles/nexanet.ai/blog-inside-flock-safety-03-sharing-boundary-permission-setting_3e21d017.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:analysis",
+    "policy:sharing",
+    "scope:national",
+    "vendor:flock"
+  ],
+  "agencies": [],
+  "agency_candidates": [],
+  "primary_subject_agency_ids": [],
+  "summary": "A privacy/cybersecurity firm's blog post analyzes Flock Safety's camera-sharing software architecture, describing how feature-level permissions (search, hotlist, live video, PTZ, downloads, analytics), state/radius auto-approval, nationwide discoverability, revocation, and CSV export are distinct mechanisms. It argues that 'sharing cameras' collapses meaningfully different access powers and that revocation cannot recover already-exported data.",
+  "key_quotes": [
+    {
+      "quote": "A camera can be owned by one organization while access to its capabilities crosses an organizational boundary through software.",
+      "paragraph_idx": 4
+    },
+    {
+      "quote": "The sharing workflow can translate selected product features into distinct permission sets for another organization, which makes the phrase \"share cameras\" too imprecise for oversight.",
+      "paragraph_idx": 6
+    },
+    {
+      "quote": "Discoverability can increase the population of organizations able to find and request access without itself granting that access.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "Revocation runs on two clocks. It can end future access inside the service, while a CSV or downloaded recording may keep existing under the recipient's controls.",
+      "paragraph_idx": 11
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-11-05T12:14:43Z",
+  "article_id": "art_3e21d0179998"
+}
