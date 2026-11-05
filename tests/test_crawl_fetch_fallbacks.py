@@ -44,6 +44,10 @@ class _FakePage:
         self._status = status
         self._body = body
         self.url = "https://example.test/article"
+        self.extra_headers = None
+
+    def set_extra_http_headers(self, headers):
+        self.extra_headers = headers
 
     def goto(self, url, wait_until=None, timeout=None):
         if self._status is None:
@@ -132,6 +136,23 @@ def _served(body="<html>from fallback</html>", pdf_status="skipped-curl-fallback
     return {"fetch_error": None, "status": 200, "body": body,
             "final_url": "https://example.test/article",
             "pdf_status": pdf_status, "pdf_byte_size": None, "pdf_error": None}
+
+
+def test_stealth_fake_headers_are_cleared(monkeypatch):
+    """stealth_sync forces a random fake header profile; ~40% carry an
+    Accept-Encoding with "*", which Chrome fails as ERR_INVALID_ARGUMENT
+    before sending. The crawler must clear them after patching."""
+    page = _FakePage(200)
+    monkeypatch.setattr(ac, "_PLAYWRIGHT_AVAILABLE", True)
+    monkeypatch.setattr(ac, "sync_playwright",
+                        lambda: _FakePlaywright(page), raising=False)
+    monkeypatch.setattr(
+        ac, "stealth_sync",
+        lambda p: p.set_extra_http_headers({"accept-encoding": "gzip, *"}),
+        raising=False)
+    ac.fetch_and_render("https://example.test/article", None, skip_pdf=True)
+
+    assert page.extra_headers == {}
 
 
 def test_403_that_clears_at_curl_cffi_does_not_reach_requests(chain):

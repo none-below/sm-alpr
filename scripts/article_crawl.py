@@ -683,6 +683,13 @@ def fetch_and_render(url: str, pdf_path: Path | None,
                 # on top of the channel="chrome" TLS-layer fix above —
                 # together they cover most non-enterprise bot walls.
                 stealth_sync(page)
+                # stealth_sync also forces a random fake_http_header
+                # profile onto every request; in ~40% of profiles its
+                # Accept-Encoding contains "*", which Chrome fails before
+                # sending with net::ERR_INVALID_ARGUMENT. Clear it so
+                # Chrome sends its own headers (same fix as
+                # flock_transparency.launch_browser, #986).
+                page.set_extra_http_headers({})
                 # `domcontentloaded` is faster than `networkidle` and
                 # good enough for static news pages; some sites (ad-
                 # heavy news, advocacy blogs with embeds) never reach
