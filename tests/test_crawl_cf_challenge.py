@@ -194,3 +194,15 @@ def test_launch_browser_clears_the_stealth_header_profile(monkeypatch, stealth_r
     _, page = ft.launch_browser(p)
 
     assert page.extra_headers[-1] == {}, page.extra_headers
+
+
+def test_a_human_check_never_costs_the_slug_its_turn(tmp_path, monkeypatch):
+    """Turnstile is Cloudflare's verdict on the runner's IP, reached before the
+    portal. Counted as a burn it stamped slugs after three runs and sent them
+    to the back of the queue uncaptured."""
+    monkeypatch.setattr(ft, "archive_agency", lambda *a, **k: ("challenged", []))
+    for _ in range(ft.RATE_LIMIT_BURN_LIMIT + 1):
+        ft.run_crawl_batch(MagicMock(), ["bay-ca-pd"], tmp_path, force=False,
+                           delay=0, hashes={}, failed_slugs={})
+    assert "bay-ca-pd" not in (ft.load_json(tmp_path / ft.ATTEMPT_FILE) or {})
+    assert "bay-ca-pd" not in (ft.load_json(tmp_path / ft.RATE_LIMIT_BURN_FILE) or {})
