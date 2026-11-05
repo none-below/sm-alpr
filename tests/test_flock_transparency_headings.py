@@ -1278,3 +1278,84 @@ def test_definition_block_after_stat_does_not_clobber_value():
         assert data["searches_30d"] == 502, (
             f"{label}: searches_30d came back {data['searches_30d']!r}"
         )
+
+
+def test_blue_springs_document_and_camera_headings_classify():
+    """blue-springs-mo-pd, 2026-11: a contract/compliance documents link and a
+    camera location table, kept as text. Camera Locations must not reach the
+    last-wins camera_count."""
+    from flock_transparency import _match_heading_kind
+    for heading in (
+        "Agency Resolution approving contract with Flock Group, Inc for the "
+        "Safe City Program, Trust and Compliance documents",
+        "Camera Locations",
+    ):
+        assert _match_heading_kind(heading) == ("additional_info", "exact"), heading
+
+
+def _stories_page(title):
+    return "\n".join([
+        "Success Stories", "",
+        "Ulta Beauty Burglary", "",
+        "Officers identified the suspect vehicle.", "",
+        title, "",
+        "10-15-26, Officers identified a subject.", "",
+        "Acceptable Use Policy", "",
+        "Law enforcement purposes only.", "",
+    ])
+
+
+def test_unknown_story_titles_inside_success_stories_pass():
+    """Blue Springs posts several stories a month, and each new bold title
+    used to abort the capture. Inside a success_stories section the title is
+    kept with its story, so it isn't an unknown field. HTML entities in the
+    bold set match the decoded text line."""
+    title = "Stolen License plates, Warrants & Driving While Revoked"
+    parsed = parse_portal_text(
+        _stories_page(title), "test-agency", "2026-11-05",
+        bold_headings={"Success Stories", "Ulta Beauty Burglary",
+                       title.replace("&", "&amp;"), "Acceptable Use Policy"})
+    assert title in parsed["success_stories"]
+    assert parsed["acceptable_use_policy"] == "Law enforcement purposes only."
+
+
+def test_unknown_heading_outside_success_stories_still_raises():
+    import pytest
+    text = "\n".join([
+        "Acceptable Use Policy", "",
+        "Law enforcement purposes only.", "",
+        "Camera Inventory Total", "",
+        "42", "",
+    ])
+    with pytest.raises(ValueError, match="Camera Inventory Total"):
+        parse_portal_text(text, "test-agency", "2026-11-05",
+                          bold_headings={"Acceptable Use Policy", "Camera Inventory Total"})
+
+
+def test_stat_named_by_its_description_when_the_heading_is_a_value():
+    """creedmoor-nc-pd typed the values into the heading slots ("30 days",
+    "10"). Flock's description line under each still names the stat."""
+    text = "\n".join([
+        "Data & Usage Summary", "",
+        "30 days", "",
+        "The number of days data is retained.", "",
+        "30 days", "",
+        "10", "",
+        "Number of LPR and other cameras.", "",
+        "10", "",
+        "Number of Searches", "",
+        "Total user search sessions over the last 30 days.", "",
+        "38", "",
+    ])
+    parsed = parse_portal_text(text, "test-agency", "2026-11-05",
+                               bold_headings={"30 days", "10", "Number of Searches"})
+    assert parsed["data_retention_days"] == 30
+    assert parsed["camera_count"] == 10
+    assert parsed["searches_30d"] == 38
+
+
+def test_relabel_leaves_known_headings_and_value_lines_alone():
+    from flock_transparency import relabel_described_stats
+    text = "LPR Cameras\n\nNumber of LPR and other cameras.\n\n12\n"
+    assert relabel_described_stats(text, {"LPR Cameras"}) == (text, {"LPR Cameras"})
+    assert relabel_described_stats(text, None) == (text, None)

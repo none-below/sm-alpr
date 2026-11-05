@@ -809,6 +809,12 @@ _HEADING_MAP = {
     # but kept as text rather than dropped as chrome.
     "Flight Dashboard":                      "additional_info",
     "Important links listed at the bottom along with Drone Flight path information": "additional_info",
+    # blue-springs-mo-pd, from 2026-11: a link to its SharePoint folder of
+    # contract and compliance documents, then a ~50-row camera table
+    # (network name, location, device type). Not camera_count: that field
+    # is a last-wins number.
+    "Agency Resolution approving contract with Flock Group, Inc for the Safe City Program, Trust and Compliance documents": "additional_info",
+    "Camera Locations":                      "additional_info",
     "Murfreesboro Police Department's Real Time Crime Center Webpage": "additional_info",
     # murfreesboro-tn-pd's write-up beside the standard "Data retention"
     # stat. Not data_retention: that field is a last-wins number, so a prose
@@ -1202,6 +1208,43 @@ def _looks_like_heading(line):
     return True
 
 
+# Flock's template prints a fixed description under each usage stat. An agency
+# can rename the stat's heading (creedmoor-nc-pd typed the values themselves
+# into it, "30 days" and "10", by 2026-11-05), but the description stays, so
+# it names the stat when the heading doesn't. Each maps to a heading
+# _HEADING_MAP already knows.
+_STAT_DESCRIPTIONS = {
+    "The number of days data is retained.":                "Data Retention",
+    "Number of LPR and other cameras.":                    "Total Cameras",
+    "Number of LPR cameras only.":                         "LPR Cameras",
+    "Number of unique plate reads over the last 30 days.": "Unique Vehicles Detected",
+    "Total user search sessions over the last 30 days.":   "Number of Searches",
+    "National and statewide hotlist sources.":             "Hotlists Alerted On",
+    "Total hotlist hits over the last 30 days.":           "Number of Hotlist Hits",
+}
+
+
+def relabel_described_stats(text, bold_headings):
+    """Swap each unknown bold heading whose next line is a _STAT_DESCRIPTIONS
+    entry for that stat's known heading. Returns (text, bold_headings)."""
+    if not bold_headings:
+        return text, bold_headings
+    lines = text.split("\n")
+    relabeled, canonical = set(), set()
+    for i, line in enumerate(lines):
+        heading = line.strip()
+        if heading not in bold_headings or _match_heading(heading) is not _UNKNOWN:
+            continue
+        following = next((L.strip() for L in lines[i + 1:] if L.strip()), None)
+        if following in _STAT_DESCRIPTIONS:
+            lines[i] = _STAT_DESCRIPTIONS[following]
+            relabeled.add(heading)
+            canonical.add(lines[i])
+    if not relabeled:
+        return text, bold_headings
+    return "\n".join(lines), (set(bold_headings) - relabeled) | canonical
+
+
 def parse_sections(text, bold_headings=None):
     """Split raw DOM text into [(heading, body), ...] pairs.
 
@@ -1461,7 +1504,7 @@ _PORTAL_CONTENT_MARKERS = (
 # followed by its parenthetical acronym, "Automated License Plate Reader
 # (ALPR) technology" (north-kingstown-ri-pd).
 _FLOCK_MARKER_RE = re.compile(
-    r" (?:use|utilize|employ|leverage)s? "
+    r" (?:use|utilize|employ|leverage|operate)s? "
     r"(?:Flock Safety(?:['’]s)? "
     r"(?:(?:A?LPR|[Aa]utomat(?:ed|ic) [Ll]icense [Pp]late [Rr]eaders?"
     r"(?: \(?[Aa]?LPR\)?)?) )?"
@@ -1567,7 +1610,7 @@ def _extract_crawled_name(overview, slug, datestamp):
         raise ValueError(
             f"{slug} {datestamp}: overview mentions Flock Safety but no "
             f"agency-name marker matched. Expected either "
-            f"'<Agency> (use|utilize|employ|leverage)[s] Flock Safety[\\'s] "
+            f"'<Agency> (use|utilize|employ|leverage|operate)[s] Flock Safety[\\'s] "
             f"[LPR|automated license plate reader] (technology|Operating "
             f"System)' or 'Flock Safety technology helps advance [the] "
             f"<Agency>[\\'s] public safety mission' — Flock may have "
@@ -1582,6 +1625,7 @@ def _extract_crawled_name(overview, slug, datestamp):
 
 def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     """Parse structured data from raw DOM text."""
+    raw_text, bold_headings = relabel_described_stats(raw_text, bold_headings)
     sections, unknown = parse_sections(raw_text, bold_headings=bold_headings)
 
     if unknown:
@@ -1665,10 +1709,24 @@ def parse_portal_text(raw_text, slug, datestamp, bold_headings=None):
     # Filter out the agency-name page title (some templates render it as
     # a standalone bold <h1>; others concatenate with "Transparency Portal"
     # which the dynamic noise regex catches).
+    #
+    # Success-story titles are bold headings too, and each new one used to
+    # abort the capture until someone added it to _HEADING_MAP: hollister
+    # and tracy in October, blue-springs-mo-pd ten at once in November. An
+    # unknown heading that is a line of a success_stories section is a
+    # story title. Its text stays in that section, so passing it loses
+    # nothing. (Bold headings come from the HTML, entities and all.)
     if bold_headings:
+        story_lines = {
+            line.strip()
+            for heading, body in sections
+            if _match_heading(heading) == "success_stories"
+            for line in body.splitlines()
+        }
         unrecognized_bold = [
             h for h in bold_headings
             if _match_heading(h) is _UNKNOWN and h != crawled_name
+            and html.unescape(h) not in story_lines
         ]
         if unrecognized_bold:
             raise ValueError(
