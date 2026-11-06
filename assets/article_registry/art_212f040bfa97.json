@@ -1,0 +1,120 @@
+{
+  "url": "https://www.thedrive.com/news/my-city-canceled-flocks-contract-flock-ignored-it-so-the-police-chief-unplugged-the-cameras",
+  "source_domain": "thedrive.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "My City Canceled Flock's Contract. Flock Ignored It, So the Police Chief Unplugged the Cameras",
+  "byline": "Joel Feder",
+  "published_at": "2026-10-23T11:00:54-04:00",
+  "fetched_at": "2026-11-06T03:05:39Z",
+  "discovered_by": "manual: user batch 2026-11-05",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 47 pts, HIGH/CRITICAL findings",
+  "scanner_score": 47,
+  "content_hash": "28f0cf8b010516f96ce6844c8be2374d3f18cd050af15d42e08a6c076b80b9ad",
+  "paths": {
+    "html": "assets/articles/thedrive.com/news-my-city-canceled-flocks-contract-flock-ignored-it-so-the-police-chief-unplu_212f040b.html",
+    "meta": "assets/articles/thedrive.com/news-my-city-canceled-flocks-contract-flock-ignored-it-so-the-police-chief-unplu_212f040b.meta.json",
+    "pdf": "assets/articles/thedrive.com/news-my-city-canceled-flocks-contract-flock-ignored-it-so-the-police-chief-unplu_212f040b.pdf",
+    "txt": "assets/articles/thedrive.com/news-my-city-canceled-flocks-contract-flock-ignored-it-so-the-police-chief-unplu_212f040b.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "poll-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:investigative",
+    "incident:wrongful-stop",
+    "outcome:terminated",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "5f2f3539-75f1-5425-8546-c29120f30592"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "c3e041bd-a814-5b15-a170-927b599583ae",
+      "display_name": "(Dead/Old) Plymouth IN PD",
+      "state": "IN",
+      "score": 1.25,
+      "matched_forms": [
+        "Plymouth Police"
+      ]
+    },
+    {
+      "agency_id": "5f2f3539-75f1-5425-8546-c29120f30592",
+      "display_name": "Plymouth MI PD",
+      "state": "MI",
+      "score": 1.25,
+      "matched_forms": [
+        "Plymouth Police"
+      ]
+    },
+    {
+      "agency_id": "e567f15f-d2c4-52ec-ad9e-d9f162ec8d5f",
+      "display_name": "Plymouth MN PD",
+      "state": "MN",
+      "score": 1.25,
+      "matched_forms": [
+        "Plymouth Police"
+      ]
+    },
+    {
+      "agency_id": "08d1f49a-7a6c-5310-9e6a-62e7fcac4180",
+      "display_name": "Plymouth PD IN",
+      "state": "IN",
+      "score": 1.25,
+      "matched_forms": [
+        "Plymouth Police"
+      ]
+    },
+    {
+      "agency_id": "26e764e8-250b-54dd-ad6b-be85abb01a34",
+      "display_name": "Plymouth Township MI PD",
+      "state": "MI",
+      "score": 1.25,
+      "matched_forms": [
+        "Plymouth Police"
+      ]
+    },
+    {
+      "agency_id": "be7d5e29-f4df-5ad1-94a0-78752a515c3d",
+      "display_name": "Plymouth WI PD",
+      "state": "WI",
+      "score": 1.25,
+      "matched_forms": [
+        "Plymouth Police"
+      ]
+    },
+    {
+      "agency_id": "56f9a46f-863a-5d77-b2c9-72403bb11a8e",
+      "display_name": "Old",
+      "state": null,
+      "score": 1.05,
+      "matched_forms": [
+        "Old"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [
+    "5f2f3539-75f1-5425-8546-c29120f30592"
+  ],
+  "summary": "After Plymouth, Michigan's city council voted on Sept. 22 to cancel its Flock ALPR contract following a wrongful stop of the reporter, Flock allegedly did not respond to the cancellation. Police Chief Eric Fadden directed staff to unplug the Flock cameras to ensure they weren't recording, while the company has not provided a timeline for removing the hardware.",
+  "key_quotes": [
+    {
+      "quote": "On the morning of Sept. 23, we suspended all Plymouth user Flock accounts and notified Flock Safety of the Council's decision. We followed up with a formal letter of cancellation via US Mail and email after consulting with our City Attorney's Office.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "After hearing nothing for more than a week, I directed our staff to disconnect the power cords from the cameras in order to be sure that they are not functioning or recording plates",
+      "paragraph_idx": 11
+    },
+    {
+      "quote": "The cameras are the property of Flock and we continue to reach out to them asking for a timeline in which the cameras will be removed.",
+      "paragraph_idx": 13
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-11-06T03:08:02Z",
+  "article_id": "art_212f040bfa97"
+}
