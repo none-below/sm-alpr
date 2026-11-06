@@ -85,6 +85,8 @@ CITY_AGENCY = {
     "sun-prairie-wi": ("sun-prairie-pd", "Sun Prairie PD (WI)"),
     "woods-cross-ut": ("woods-cross-pd", "Woods Cross PD (UT)"),
     "alameda-county": ("alameda-county-so", "Alameda County SO"),
+    # Flock comparator contracts, Nov 2026
+    "brunswick-county-nc": ("brunswick-county-so", "Brunswick County SO (NC)"),
 }
 SMPD = ("san-mateo-pd", "San Mateo PD")
 
