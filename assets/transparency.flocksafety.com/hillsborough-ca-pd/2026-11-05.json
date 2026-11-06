@@ -1,0 +1,984 @@
+{
+  "crawled_slug": "hillsborough-ca-pd",
+  "crawled_name": "The Hillsborough Police Department",
+  "archived_date": "2026-11-05",
+  "whats_detected": "License Plates, Vehicles",
+  "whats_not_detected": "Facial recognition, People, Gender, Race",
+  "acceptable_use_policy": "Data is utilized on a right-to-know and need-to-know basis. Data is governed by policy and will never be sold to outside parties.",
+  "prohibited_uses": "Activities that are considered immigration enforcement, commercial, non-law enforcement, personal, and prohibited as defined by applicable laws or policies.",
+  "access_policy": "Documented justification is required prior to the query of any data. System access and queries are recorded and logged.",
+  "hotlist_policy": "Hotlist alerts must be verified through CLETS and by visual confirmation of the license plate before any enforcement action is taken.",
+  "sharing_with_partners": "",
+  "sharing_restrictions": "",
+  "data_retention_days": 365,
+  "camera_count": 22,
+  "hotlists_alerted_on": "California SVS, NCMEC Amber Alert",
+  "vehicles_detected_30d": 141266,
+  "hotlist_hits_30d": 385,
+  "searches_30d": 94,
+  "sharing_outbound": [
+    "Alameda County CA SO",
+    "Alhambra CA PD",
+    "Amador County CA Sheriff's Office",
+    "Anaheim CA PD",
+    "Anderson CA PD",
+    "Angels Camp CA PD",
+    "Antioch CA PD",
+    "Arcadia CA PD",
+    "Atherton CA PD",
+    "Auburn CA PD",
+    "Avenal CA PD",
+    "Azusa CA PD",
+    "Bakersfield CA PD",
+    "Baldwin Park CA PD",
+    "Barstow CA PD",
+    "Bear Valley Springs CA PD",
+    "Beaumont CA PD",
+    "Bell CA PD",
+    "Belmont CA PD",
+    "Belvedere CA PD",
+    "Benicia CA PD",
+    "Berkeley CA PD",
+    "Beverly Hills CA PD",
+    "Blythe CA PD",
+    "Brawley CA PD",
+    "Brentwood CA PD",
+    "Brisbane CA PD",
+    "Buena Park CA PD",
+    "Burbank CA PD",
+    "Burlingame CA PD",
+    "Calexico CA PD",
+    "California Department of Corrections",
+    "California Highway Patrol",
+    "California State Parks",
+    "Calistoga CA PD",
+    "Campbell CA PD",
+    "Capitola CA PD",
+    "Cathedral City CA PD",
+    "Chino CA PD",
+    "Chula Vista CA PD",
+    "Citrus Heights CA PD",
+    "City of Lemoore CA",
+    "City of Riverside CA PD",
+    "Claremont CA PD",
+    "Clayton CA PD",
+    "Clearlake CA PD",
+    "Cloverdale CA PD",
+    "Colma CA PD",
+    "Colton CA PD",
+    "Colusa CA PD",
+    "Concord CA PD",
+    "Contra Costa County CA SO",
+    "Corcoran CA PD",
+    "Corona CA PD",
+    "Coronado CA PD",
+    "Costa Mesa CA PD",
+    "Cotati CA PD",
+    "Covina CA PD",
+    "Culver City CA PD",
+    "Cypress CA PD",
+    "Daly City CA PD",
+    "Danville CA PD",
+    "Del Norte County CA SO",
+    "Delano CA PD",
+    "Desert Hot Springs CA PD",
+    "Dinuba CA PD",
+    "Dixon CA PD",
+    "Downey PD CA",
+    "Dublin CA PD (ACSO)",
+    "East Bay Parks CA PD",
+    "East Palo Alto CA PD",
+    "El Cajon CA PD",
+    "El Centro CA PD",
+    "El Dorado County CA SO",
+    "El Monte CA PD",
+    "El Segundo CA PD",
+    "Elk Grove CA PD",
+    "Emeryville CA PD",
+    "Escalon CA PD",
+    "Escondido CA PD",
+    "Fairfield CA PD",
+    "Folsom CA PD",
+    "Fontana CA PD",
+    "Fort Bragg CA PD",
+    "Foster City CA PD",
+    "Fountain Valley CA PD",
+    "Fowler CA PD",
+    "Fremont CA PD",
+    "Fresno CA PD",
+    "Fullerton CA PD",
+    "Galt CA PD",
+    "Garden Grove CA PD",
+    "Gilroy CA PD",
+    "Glendora (CA) PD",
+    "Greenfield CA PD",
+    "Grover Beach CA PD",
+    "Gustine PD CA",
+    "Hanford CA PD",
+    "Hayward CA PD",
+    "Hemet CA PD",
+    "Hercules CA PD",
+    "Hollister CA PD",
+    "Humboldt County CA SO",
+    "Huntington Beach CA PD",
+    "Imperial City CA PD",
+    "Imperial County CA SO",
+    "Irvine CA PD",
+    "Irwindale CA PD",
+    "Kerman CA PD",
+    "Kern County CA SO",
+    "Kings County CA DAs Office",
+    "Kings County Sheriff's Office CA",
+    "La Habra CA PD",
+    "La Mesa CA PD",
+    "Laguna Beach CA PD",
+    "Lake County CA SO",
+    "Lakeport CA PD",
+    "Lancaster CA PD",
+    "Lathrop CA PD",
+    "Lincoln CA PD",
+    "Livermore CA PD",
+    "Lodi CA PD",
+    "Lompoc CA PD",
+    "Los Alamitos PD CA",
+    "Los Altos CA PD",
+    "Los Angeles CA PD",
+    "Los Angeles County CA SD",
+    "Los Gatos CA",
+    "Madera CA PD",
+    "Madera County SO CA",
+    "Manteca CA PD",
+    "Marin County CA DA",
+    "Marin County CA SO",
+    "Marina CA PD",
+    "McFarland CA PD",
+    "Mendocino County SO-CA",
+    "Mendota CA PD",
+    "Menifee CA PD",
+    "Menlo Park CA PD",
+    "Merced County CA SO",
+    "Mill Valley CA PD",
+    "Milpitas CA PD",
+    "Modoc County CA SO",
+    "Montclair CA PD",
+    "Monterey CA PD",
+    "Monterey County District Attorney's Office",
+    "Monterey Park CA PD",
+    "Moraga CA PD",
+    "Morgan Hill CA PD",
+    "Murrieta CA PD",
+    "Napa CA PD",
+    "Napa County CA SO",
+    "National City CA PD",
+    "Nevada City CA PD",
+    "Newark CA PD",
+    "Newport Beach PD CA",
+    "Novato CA PD",
+    "Oakland CA PD",
+    "Oakley CA PD",
+    "Ontario CA PD",
+    "Orange CA PD",
+    "Orange County (CA) DA Office",
+    "Orange County SO CA",
+    "Oroville CA PD",
+    "Pacific Grove CA PD",
+    "Pacifica CA PD",
+    "Palm Springs CA PD",
+    "Palo Alto CA PD",
+    "Pasadena CA PD",
+    "Petaluma CA PD",
+    "Piedmont CA PD",
+    "Placentia CA PD",
+    "Placer County CA DA Office",
+    "Placer County CA SO",
+    "Pleasant Hill CA PD",
+    "Pleasanton CA PD",
+    "Porterville CA PD",
+    "Redondo Beach CA PD",
+    "Redwood City CA PD",
+    "Reedley CA PD",
+    "Richmond CA PD",
+    "Ridgecrest CA PD",
+    "Rio Vista CA PD",
+    "Riverside County CA District Attorney",
+    "Riverside County CA SO",
+    "Rohnert Park Department of Public Safety (CA)",
+    "Roseville CA PD",
+    "Sacramento CA DA",
+    "Salinas CA PD",
+    "San Benito County SO CA",
+    "San Bernardino CA PD",
+    "San Bruno CA PD",
+    "San Diego CA PD",
+    "San Diego County CA SO",
+    "San Diego Harbor CA PD",
+    "San Fernando CA PD",
+    "San Francisco CA PD",
+    "San Francisco District Attorney CA",
+    "San Gabriel CA PD",
+    "San Joaquin CA DA",
+    "San Joaquin County CA SO",
+    "San Jose CA PD",
+    "San Leandro CA PD",
+    "San Luis Obispo CA PD",
+    "San Luis Obispo County (CA) Sheriff",
+    "San Mateo CA PD",
+    "San Mateo County CA SO",
+    "San Pablo CA PD",
+    "San Rafael CA PD",
+    "San Ramon CA PD",
+    "Sanger CA PD",
+    "Santa Ana CA PD",
+    "Santa Barbara County CA SO",
+    "Santa Clara CA PD",
+    "Santa Clara County CA SO",
+    "Santa Clara DA CA",
+    "Santa Monica CA PD",
+    "Santa Rosa CA PD",
+    "Sausalito CA PD",
+    "Seal Beach CA PD",
+    "Seaside CA PD",
+    "Shasta County SO",
+    "Simi Valley CA PD",
+    "Solano County CA SO",
+    "Solano County DA CA",
+    "Soledad CA PD",
+    "Sonoma County CA SO",
+    "South Pasadena CA PD",
+    "South San Francisco CA PD",
+    "Stallion Springs CA PD",
+    "Stockton CA PD",
+    "Suisun City CA PD",
+    "Sunnyvale CA PD",
+    "Sutter County CA SO",
+    "Taft CA PD",
+    "Tehachapi CA PD",
+    "Tehama County CA SO",
+    "Tiburon CA PD",
+    "Tracy CA PD",
+    "Trinity County SO CA",
+    "Tulare CA PD",
+    "Tulare County CA SO",
+    "Turlock CA PD",
+    "Tustin CA PD",
+    "Ukiah CA PD",
+    "Union City CA PD",
+    "Upland CA PD",
+    "Vacaville CA PD",
+    "Vallejo CA PD",
+    "Ventura CA PD",
+    "Ventura County CA SO",
+    "Ventura County District Attorney's Office CA",
+    "Vernon CA PD",
+    "Visalia CA PD",
+    "Walnut Creek CA PD",
+    "Watsonville CA PD",
+    "West Covina CA PD",
+    "West Sacramento CA PD",
+    "Westminster CA PD",
+    "Whittier CA PD",
+    "Williams CA PD",
+    "Willits CA PD",
+    "Winters CA PD",
+    "Woodlake CA PD",
+    "Woodland CA PD",
+    "Yolo County CA SO",
+    "Yreka CA PD",
+    "Yuba City CA PD",
+    "Yuba County Sheriffs Office"
+  ],
+  "sharing_inbound": [],
+  "sharing_outbound_section_present": true,
+  "sharing_inbound_section_present": false,
+  "sharing_outbound_declared_none": false,
+  "overview": "The Hillsborough Police Department uses Flock Safety technology to capture objective evidence without compromising individual privacy. Retroactive search and real-time alerts enable the Hillsborough Police Department to better detect criminal activity and solve criminal investigations. For additional information, policies and usage statistics have been made available to the public via the Flock Transparency Portal.\n\nCommunity Impact\nData & Usage Summary",
+  "policy_info": "",
+  "alpr_policy": "https://www.hillsborough.net/DocumentCenter/View/6743/Automated_License_Plate_Readers__ALPRs_",
+  "alpr_sop": "",
+  "additional_info": "",
+  "download_csv": "",
+  "search_audit": "Download to view searches performed over the last 30 days.\n\nDownload CSV\nMore Info",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": "",
+  "crawled_at": "2026-11-05T22:10:24.539369+00:00",
+  "search_audit_csv": [
+    {
+      "id": "20330d7e-27a7-4821-8717-f09a8349ee20",
+      "userId": "***",
+      "searchDate": "2026-10-06T19:48:20.860Z",
+      "networkCount": "403",
+      "offenseType": "Disorderly Conduct/Disturbance"
+    },
+    {
+      "id": "0652a663-0d8f-47c7-a558-ca2100a60fad",
+      "userId": "***",
+      "searchDate": "2026-10-06T21:06:55.546Z",
+      "networkCount": "89",
+      "offenseType": "Obstructing the Police (Fleeing/Eluding)"
+    },
+    {
+      "id": "4d173fd4-6cd1-43f8-b131-8b24bf9e6707",
+      "userId": "***",
+      "searchDate": "2026-10-06T23:54:10.123Z",
+      "networkCount": "2",
+      "offenseType": "Illegal Dumping/Littering"
+    },
+    {
+      "id": "86bd8b91-39f5-40fb-bfdd-2812ebd2978c",
+      "userId": "***",
+      "searchDate": "2026-10-07T00:00:09.327Z",
+      "networkCount": "3",
+      "offenseType": "Illegal Dumping/Littering"
+    },
+    {
+      "id": "6504d558-f17e-49ad-bc03-45c332d6c928",
+      "userId": "***",
+      "searchDate": "2026-10-07T16:26:55.671Z",
+      "networkCount": "32",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "f528ec19-4842-4bcf-882c-56eedd137e4a",
+      "userId": "***",
+      "searchDate": "2026-10-08T17:39:01.186Z",
+      "networkCount": "408",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "73bc1870-bc0d-4e36-8e65-8e6307ae8c93",
+      "userId": "***",
+      "searchDate": "2026-10-08T23:19:15.917Z",
+      "networkCount": "407",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "25162bfa-0be3-4d05-a2ba-9e76b3dcb271",
+      "userId": "***",
+      "searchDate": "2026-10-09T02:57:42.621Z",
+      "networkCount": "85",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "1c3ae3ac-5cb8-455f-8c5b-a96b617e5f8c",
+      "userId": "***",
+      "searchDate": "2026-10-09T03:01:26.009Z",
+      "networkCount": "83",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "ced38f97-804a-4f4a-9c70-9e8a03456048",
+      "userId": "***",
+      "searchDate": "2026-10-09T04:01:01.575Z",
+      "networkCount": "85",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "7fc7cd09-d9b4-4884-864a-fd89cb591fdf",
+      "userId": "***",
+      "searchDate": "2026-10-12T17:15:34.824Z",
+      "networkCount": "85",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "c51d664c-75a0-4d10-8375-f8ef4857f364",
+      "userId": "***",
+      "searchDate": "2026-10-12T21:36:54.538Z",
+      "networkCount": "81",
+      "offenseType": "Traffic Infraction"
+    },
+    {
+      "id": "8190d8f9-700b-48ce-b744-d0d03666a674",
+      "userId": "***",
+      "searchDate": "2026-10-13T01:30:14.759Z",
+      "networkCount": "2",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "6bd08115-3f20-4a9d-a4b0-ff592c36467d",
+      "userId": "***",
+      "searchDate": "2026-10-14T21:51:48.409Z",
+      "networkCount": "2",
+      "offenseType": "Destruction/Damage/Vandalism of Property"
+    },
+    {
+      "id": "39ee8951-5851-41a7-bf03-c83e807ddf2b",
+      "userId": "***",
+      "searchDate": "2026-10-15T14:58:08.172Z",
+      "networkCount": "406",
+      "offenseType": "Homicide/Death Investigation"
+    },
+    {
+      "id": "751a5912-900c-4b2f-8de8-2ffc62b3e939",
+      "userId": "***",
+      "searchDate": "2026-10-15T15:18:04.438Z",
+      "networkCount": "406",
+      "offenseType": "Homicide/Death Investigation"
+    },
+    {
+      "id": "8250a129-248d-4f56-b5d4-086dbebd70bb",
+      "userId": "***",
+      "searchDate": "2026-10-18T18:04:02.043Z",
+      "networkCount": "2",
+      "offenseType": "Robbery"
+    },
+    {
+      "id": "0a9e95b6-ba1c-40b7-81e6-a0203a37202d",
+      "userId": "***",
+      "searchDate": "2026-10-20T14:27:46.531Z",
+      "networkCount": "89",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "2bf2cba2-eac3-47f5-ad7d-6e1a756c36e4",
+      "userId": "***",
+      "searchDate": "2026-10-20T17:38:27.999Z",
+      "networkCount": "89",
+      "offenseType": "Indecent Exposure/Lewd"
+    },
+    {
+      "id": "e105e473-74f7-4be8-9623-728cb9c09d00",
+      "userId": "***",
+      "searchDate": "2026-10-20T17:58:01.290Z",
+      "networkCount": "2",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "e1d8bba7-5615-4def-87b1-907a1af503bf",
+      "userId": "***",
+      "searchDate": "2026-10-20T18:05:21.867Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "f2e6c7f0-6301-41f7-9fe8-dbe7113fec36",
+      "userId": "***",
+      "searchDate": "2026-10-20T18:26:36.014Z",
+      "networkCount": "89",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "8a20870b-3f92-4b82-8c8b-64eaca473b0c",
+      "userId": "***",
+      "searchDate": "2026-10-20T20:44:53.533Z",
+      "networkCount": "89",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "ac5aa647-7a20-47d3-a28d-f993431cc3a5",
+      "userId": "***",
+      "searchDate": "2026-10-20T21:39:17.454Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "139d3977-bcb6-41e5-8e66-4e05c12e0015",
+      "userId": "***",
+      "searchDate": "2026-10-20T21:40:33.663Z",
+      "networkCount": "89",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "6f20e775-90da-4a1a-ba00-6a334e232291",
+      "userId": "***",
+      "searchDate": "2026-10-21T14:01:56.668Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "3839e165-1c3d-40fa-9490-a3689001f70a",
+      "userId": "***",
+      "searchDate": "2026-10-21T16:15:32.100Z",
+      "networkCount": "88",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "02c3fe6f-3b47-4d24-ac8a-b7d19a577652",
+      "userId": "***",
+      "searchDate": "2026-10-21T17:03:38.192Z",
+      "networkCount": "88",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "2510b403-2627-41f6-9ff2-fd6579196173",
+      "userId": "***",
+      "searchDate": "2026-10-21T18:21:02.095Z",
+      "networkCount": "88",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "3fe5cadc-b592-467b-ae5f-08ce847107d7",
+      "userId": "***",
+      "searchDate": "2026-10-21T19:29:29.603Z",
+      "networkCount": "88",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "4c7c88fe-2e57-4cfa-b57b-a80f57869ce5",
+      "userId": "***",
+      "searchDate": "2026-10-22T15:14:13.938Z",
+      "networkCount": "406",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "975e5bcd-63d9-4e70-aeab-7899e52113ed",
+      "userId": "***",
+      "searchDate": "2026-10-22T20:41:23.674Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "a64880a9-45d0-48a8-af77-069b50022d4b",
+      "userId": "***",
+      "searchDate": "2026-10-23T13:23:53.582Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "076f2573-9b4e-4d7e-a628-5c18be8d806e",
+      "userId": "***",
+      "searchDate": "2026-10-23T15:43:21.546Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "931733cf-1280-41fa-8450-a4997268e430",
+      "userId": "***",
+      "searchDate": "2026-10-25T05:24:00.333Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "5758395f-3a40-43a4-8972-bd22bbcc43e6",
+      "userId": "***",
+      "searchDate": "2026-10-25T15:20:40.131Z",
+      "networkCount": "379",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "18c75365-83e1-46d3-ad48-da29a08c3c75",
+      "userId": "***",
+      "searchDate": "2026-10-25T15:21:15.162Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "63c01a64-8cbc-4846-8349-026a03845d7b",
+      "userId": "***",
+      "searchDate": "2026-10-25T17:00:08.431Z",
+      "networkCount": "379",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "1377f778-dcc3-4f3f-8434-6d242bfe63d1",
+      "userId": "***",
+      "searchDate": "2026-10-25T19:19:12.952Z",
+      "networkCount": "379",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "20ae6a53-92ef-46d4-a9e0-81ae0d957884",
+      "userId": "***",
+      "searchDate": "2026-10-25T21:53:56.825Z",
+      "networkCount": "379",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "133221da-0a4a-468a-86aa-6a2178b6009a",
+      "userId": "***",
+      "searchDate": "2026-10-26T00:44:04.162Z",
+      "networkCount": "377",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "bf232f09-1307-4796-bcda-9e3d9b67a91b",
+      "userId": "***",
+      "searchDate": "2026-10-26T02:12:15.436Z",
+      "networkCount": "377",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "d0913744-f3f3-4e1b-9b64-843949eb14d6",
+      "userId": "***",
+      "searchDate": "2026-10-26T02:36:00.388Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "e41c873f-dd15-493c-acdd-4825f57eb621",
+      "userId": "***",
+      "searchDate": "2026-10-26T03:11:59.134Z",
+      "networkCount": "557",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "ec3e0376-f868-4718-9ce2-8ef15669ddb7",
+      "userId": "***",
+      "searchDate": "2026-10-26T04:43:33.429Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "321f8782-8d74-4f03-924c-488fc2fc8394",
+      "userId": "***",
+      "searchDate": "2026-10-26T10:24:25.046Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "a173c5b6-7680-453e-9f28-16a0ee0cec46",
+      "userId": "***",
+      "searchDate": "2026-10-26T12:51:37.658Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "8ead9653-736d-43ca-b747-0ae5dec30c6a",
+      "userId": "***",
+      "searchDate": "2026-10-26T13:32:05.496Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "6e7f4aaa-8805-4c52-a5ed-f7f7f64377a4",
+      "userId": "***",
+      "searchDate": "2026-10-26T13:33:52.220Z",
+      "networkCount": "405",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "6befe2ed-ca0a-47fd-8cd5-507aae6a996a",
+      "userId": "***",
+      "searchDate": "2026-10-26T14:00:12.640Z",
+      "networkCount": "1",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "dfd78cde-e2cd-4b43-bcf9-1060671fe9a1",
+      "userId": "***",
+      "searchDate": "2026-10-26T14:49:52.676Z",
+      "networkCount": "379",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "e9fb526c-073f-4c72-a049-e887ecc5e0ca",
+      "userId": "***",
+      "searchDate": "2026-10-26T15:11:42.407Z",
+      "networkCount": "379",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "2a6eebc5-f4b8-46a1-a848-3e137861f191",
+      "userId": "***",
+      "searchDate": "2026-10-26T15:27:21.218Z",
+      "networkCount": "379",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "47087eab-209d-4b5d-aab7-05e28845ce67",
+      "userId": "***",
+      "searchDate": "2026-10-26T16:08:32.752Z",
+      "networkCount": "379",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "7ae149d3-9fc5-461a-b0e8-e84968923bb1",
+      "userId": "***",
+      "searchDate": "2026-10-26T16:24:47.194Z",
+      "networkCount": "378",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "ca7d1cc7-e71d-463a-9921-6d16cd98e793",
+      "userId": "***",
+      "searchDate": "2026-10-26T17:23:47.226Z",
+      "networkCount": "2",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "0dd18c48-2d6f-4bce-84ac-411742444c43",
+      "userId": "***",
+      "searchDate": "2026-10-26T21:06:27.702Z",
+      "networkCount": "378",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "fbe452b2-f346-4e1c-be30-b5a9c36c30b7",
+      "userId": "***",
+      "searchDate": "2026-10-27T13:44:14.316Z",
+      "networkCount": "378",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "1fcdc6cf-0b40-4dff-a3c4-d78b9c200a2f",
+      "userId": "***",
+      "searchDate": "2026-10-28T15:12:34.512Z",
+      "networkCount": "378",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "070a9e54-0cf4-44bf-a80d-bdcd18cd802d",
+      "userId": "***",
+      "searchDate": "2026-10-28T16:07:30.261Z",
+      "networkCount": "403",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "87f83706-ad20-47da-9adb-5496ced122dc",
+      "userId": "***",
+      "searchDate": "2026-10-28T20:59:54.157Z",
+      "networkCount": "403",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "a2fc740b-22be-4aea-a3db-d672cb2a9017",
+      "userId": "***",
+      "searchDate": "2026-10-28T21:00:08.431Z",
+      "networkCount": "556",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "2fa2bd4e-aba8-4d28-bddf-77a772afc923",
+      "userId": "***",
+      "searchDate": "2026-10-31T03:44:43.483Z",
+      "networkCount": "2",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "2d15632b-1380-4b8c-9903-0e3b0efca757",
+      "userId": "***",
+      "searchDate": "2026-10-31T03:53:32.294Z",
+      "networkCount": "1",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "17738cfc-814e-47ee-aad6-9c4654524a57",
+      "userId": "***",
+      "searchDate": "2026-10-31T04:01:47.956Z",
+      "networkCount": "2",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "00f7f043-ec2c-420a-84c3-c28d3ac80a0f",
+      "userId": "***",
+      "searchDate": "2026-10-31T04:09:10.693Z",
+      "networkCount": "2",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "c63b1358-1532-4b3f-8275-cc2b2c82dc13",
+      "userId": "***",
+      "searchDate": "2026-10-31T04:14:37.456Z",
+      "networkCount": "2",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "58ec8db4-2c6f-44d9-ab60-e0b16ede3e08",
+      "userId": "***",
+      "searchDate": "2026-10-31T06:03:42.358Z",
+      "networkCount": "2",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "8e8f2e2b-30c1-4c06-8a22-c47c4a17df3d",
+      "userId": "***",
+      "searchDate": "2026-10-31T08:59:02.962Z",
+      "networkCount": "2",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "a1c62b6d-ba21-4a8f-8b01-917c6d6002b1",
+      "userId": "***",
+      "searchDate": "2026-10-31T15:25:54.004Z",
+      "networkCount": "1",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "4066a87f-bc3e-4428-a6ec-1ee41e91c894",
+      "userId": "***",
+      "searchDate": "2026-10-31T16:32:49.935Z",
+      "networkCount": "1",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "93971d19-1a0d-489f-9db4-9cf330fe3a7f",
+      "userId": "***",
+      "searchDate": "2026-10-31T17:02:56.287Z",
+      "networkCount": "2",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "57369e95-718f-4b0f-a49f-ea1b321a6f5f",
+      "userId": "***",
+      "searchDate": "2026-11-01T04:43:52.179Z",
+      "networkCount": "1",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "c73158ad-b043-49d5-973f-f6398ea71c6e",
+      "userId": "***",
+      "searchDate": "2026-11-01T05:02:49.954Z",
+      "networkCount": "1",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "1cda83ff-7b00-41ae-97ff-dad6c39b2a2d",
+      "userId": "***",
+      "searchDate": "2026-11-01T05:45:42.029Z",
+      "networkCount": "2",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "31c68201-eb2b-4a7f-bd62-822a03d0c7a7",
+      "userId": "***",
+      "searchDate": "2026-11-01T06:07:40.848Z",
+      "networkCount": "3",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "dc7749ac-7828-4e66-88d9-238094fed69d",
+      "userId": "***",
+      "searchDate": "2026-11-01T08:51:40.686Z",
+      "networkCount": "1",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "1950c759-fbc3-47d4-bb8f-d9c65d4bacf8",
+      "userId": "***",
+      "searchDate": "2026-11-01T09:51:57.856Z",
+      "networkCount": "1",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "21de2675-b756-46bd-bd23-91b527d4e277",
+      "userId": "***",
+      "searchDate": "2026-11-01T19:35:40.975Z",
+      "networkCount": "403",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "3391c94b-c7fb-49e8-a1e2-9eea6d4a3837",
+      "userId": "***",
+      "searchDate": "2026-11-01T19:58:50.969Z",
+      "networkCount": "2",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "18a3a672-ac98-4585-82bf-f8bc5868dada",
+      "userId": "***",
+      "searchDate": "2026-11-01T20:00:02.174Z",
+      "networkCount": "1",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "93a47afa-cc07-48ee-8478-12c0e89f5695",
+      "userId": "***",
+      "searchDate": "2026-11-01T22:08:25.121Z",
+      "networkCount": "1",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "eaeeb486-144c-432e-b4ad-d46f79426206",
+      "userId": "***",
+      "searchDate": "2026-11-02T04:27:18.480Z",
+      "networkCount": "403",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "dc5273b2-ee0a-4676-b34d-3e917a2280f0",
+      "userId": "***",
+      "searchDate": "2026-11-02T18:23:53.260Z",
+      "networkCount": "89",
+      "offenseType": "Obstructing the Police (Fleeing/Eluding)"
+    },
+    {
+      "id": "a6aa99d0-3e6a-4704-a55e-7eb23e0848ed",
+      "userId": "***",
+      "searchDate": "2026-11-02T18:41:39.899Z",
+      "networkCount": "404",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "988e9eb8-e28a-4343-83bb-90515f363c0c",
+      "userId": "***",
+      "searchDate": "2026-11-02T19:23:47.620Z",
+      "networkCount": "89",
+      "offenseType": "Obstructing the Police (Fleeing/Eluding)"
+    },
+    {
+      "id": "0863c8e9-e0e5-497b-a69e-08d32fdcae92",
+      "userId": "***",
+      "searchDate": "2026-11-02T20:30:53.513Z",
+      "networkCount": "89",
+      "offenseType": "Obstructing the Police (Fleeing/Eluding)"
+    },
+    {
+      "id": "3eab73cc-91b2-45c2-adaa-7a0fd4389c70",
+      "userId": "***",
+      "searchDate": "2026-11-02T21:13:43.148Z",
+      "networkCount": "404",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "ac9b82cb-1d13-4f19-a586-4910a36b1cf4",
+      "userId": "***",
+      "searchDate": "2026-11-02T22:16:30.996Z",
+      "networkCount": "404",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "b8099fb3-db78-4dfa-a828-897f0c628bdf",
+      "userId": "***",
+      "searchDate": "2026-11-03T16:11:23.204Z",
+      "networkCount": "89",
+      "offenseType": "Obstructing the Police (Fleeing/Eluding)"
+    },
+    {
+      "id": "72d02149-b3b1-407e-9544-8568b6cd7c91",
+      "userId": "***",
+      "searchDate": "2026-11-03T18:50:56.564Z",
+      "networkCount": "89",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "6e3c2f06-a93e-4b83-bb7e-5a73caca14c8",
+      "userId": "***",
+      "searchDate": "2026-11-03T21:17:34.708Z",
+      "networkCount": "2",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "107fc3d1-86db-4db3-a277-3da4051cbc81",
+      "userId": "***",
+      "searchDate": "2026-11-04T15:36:32.608Z",
+      "networkCount": "378",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "72388f32-ac97-4b75-93b0-1b27c884a748",
+      "userId": "***",
+      "searchDate": "2026-11-04T23:49:40.929Z",
+      "networkCount": "1",
+      "offenseType": "Burglary/Breaking & Entering"
+    }
+  ],
+  "integrity": {
+    "search_audit_csv": {
+      "row_count": 94,
+      "date_resets": 0,
+      "date_ordering": "ascending",
+      "duplicate_ids": 0,
+      "date_span": {
+        "first": "2026-10-06T19:48:20.860000+00:00",
+        "last": "2026-11-04T23:49:40.929000+00:00",
+        "min": "2026-10-06T19:48:20.860000+00:00",
+        "max": "2026-11-04T23:49:40.929000+00:00"
+      }
+    }
+  }
+}
