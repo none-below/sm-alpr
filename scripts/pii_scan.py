@@ -143,6 +143,9 @@ ALLOWED_EMAIL_DOMAINS = {
     "sbcity.org",  # san-bernardino
     "southpasadenaca.gov",  # south-pasadena
     "woodscross.gov",  # woods-cross-ut
+    # Accounts-payable role address on the Brunswick County SO Flock agreement the sheriff
+    # posted publicly (assets/public-records/brunswick-county-nc/reference/, Nov 2026).
+    "brunswicksheriff.com",  # brunswick-county-nc
 }
 
 # Known public phone numbers from published City of San Mateo records.
