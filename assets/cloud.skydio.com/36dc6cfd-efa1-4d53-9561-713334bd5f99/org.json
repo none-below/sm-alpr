@@ -1,5 +1,5 @@
 {
-  "agency_id": null,
+  "agency_id": "b87b8efa-56ea-51a9-94b2-af4629ccb399",
   "agency_name": "Frederick Police Department",
   "dashboards": [
     {
@@ -21,14 +21,20 @@
       "date": "2026-10-30",
       "event": "dashboard_published",
       "title": "Frederick Police Department Drone Flights"
+    },
+    {
+      "agency_id": "b87b8efa-56ea-51a9-94b2-af4629ccb399",
+      "basis": "name+role+extent",
+      "date": "2026-11-06",
+      "event": "linked"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 0,
+    "count": 1,
     "duplicates": 0,
-    "first_takeoff": null,
-    "last_takeoff": null,
+    "first_takeoff": "2026-11-05T21:54:33Z",
+    "last_takeoff": "2026-11-05T21:54:33Z",
     "unhashed": 0
   },
   "layer": {
@@ -49,8 +55,10 @@
     ]
   },
   "listed": true,
-  "match": null,
+  "match": "name+role+extent",
   "org_id": "36dc6cfd-efa1-4d53-9561-713334bd5f99",
-  "ori": [],
+  "ori": [
+    "CO0621700"
+  ],
   "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/36dc6cfd-efa1-4d53-9561-713334bd5f99-production/FeatureServer"
 }
