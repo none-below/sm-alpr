@@ -202,3 +202,13 @@ def test_license_plate_readers_as_product_with_appositive_subject():
     assert _extract(
         "Springfield PD uses Flock Safety automated license plate readers to capture..."
     ) == "Springfield PD"
+
+
+def test_operates_variant():
+    """creedmoor-nc-pd (by 2026-11-05) "operates" the readers. "operates
+    Flock Safety cameras" still raises: cameras isn't a product term."""
+    assert _extract(
+        "The Creedmoor Police Department operates Flock Safety automatic license "
+        "plate readers, which are fixed automated high speed cameras used in "
+        "combination with computer algorithms..."
+    ) == "The Creedmoor Police Department"
