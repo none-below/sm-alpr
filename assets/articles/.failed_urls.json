@@ -1,4 +1,9 @@
 {
+  "https://anthonyamore.substack.com/p/fly-with-the-flock": {
+    "attempts": 1,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-11-06T03:31:49Z"
+  },
   "https://azdailysun.com/news/local/flagstaff-city-council-attempts-to-find-middle-ground-in-use-of-flock-surveillance-cameras/article_3412588e-866c-437d-b46f-49fd3dea5772.html": {
     "attempts": 3,
     "error": "HTTP 429",
@@ -538,6 +543,11 @@
     "attempts": 3,
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2026-10-09/\nCall log:\n  - navigating to \"https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2",
     "last_attempt": "2026-10-10T22:34:25Z"
+  },
+  "https://www.scottsdale.org/city_news/scottsdale-keeps-cameras-on-despite-flock-fury/article_9670e344-0d7a-47fb-b7a8-d9f51747d359.html": {
+    "attempts": 1,
+    "error": "HTTP 429",
+    "last_attempt": "2026-11-06T03:32:59Z"
   },
   "https://www.smdailyjournal.com/news/local/belmont-moves-ahead-with-drone-program/article_4723b7c0-52d9-11ef-ac5e-efdc64cb5f0f.html": {
     "attempts": 3,
