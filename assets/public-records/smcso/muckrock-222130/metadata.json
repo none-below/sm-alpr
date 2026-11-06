@@ -7,16 +7,16 @@
   "agency_tracking_number": null,
   "status": "Awaiting Response",
   "dates": {
-    "submitted": "Sept. 28, 2026",
-    "due": "Oct. 8, 2026",
-    "estimated-completion": "None"
+    "submitted": "2026-09-28",
+    "due": "2026-10-08",
+    "completed": "2026-11-05"
   },
   "overdue": [
     "due"
   ],
-  "captured_at_utc": "2026-10-09T04:35:34Z",
-  "html_sha256": "1e3ead44e14f03363a09aa198061e1355e027c1bdca8c3d0af817d34a050a3c3",
-  "thread_sha256": "86e9b17e3002097de4f48a55f9eff77b309f826a003f09cd130c40b3b804d315",
+  "captured_at_utc": "2026-11-06T02:15:49Z",
+  "api_sha256": "c747dcf00c3b72e9e62bd9d293b3380282478722726376a406787e8cda1a3385",
+  "thread_sha256": "93032f6f487cc31f1839ced2f50f0972f3a582d068e886d4407cc906c8eec6fc",
   "redactions": [
     "requester surname (first sender's full name reduced to first name)",
     "MuckRock upload links",
@@ -28,7 +28,7 @@
       "from": "Brian",
       "datetime": "2026-09-28T01:05:32.064558-04:00",
       "subject": "California Public Records Act Request: NCRIC AstroMetrics user provisioning and federal access authorization (resubmitted; originally submitted 9/13/2026)",
-      "channel": "Email",
+      "channel": null,
       "attachments": [
         {
           "title": "72_smcso_astrometrics_pra_2026-09-13.pdf",
@@ -41,7 +41,7 @@
       "from": "Muckrock Staff",
       "datetime": "2026-10-08T01:00:50.453880-04:00",
       "subject": "RE: California Public Records Act Request: NCRIC AstroMetrics user provisioning and federal access authorization (resubmitted; originally submitted 9/13/2026)",
-      "channel": "Email",
+      "channel": null,
       "attachments": []
     },
     {
@@ -49,7 +49,7 @@
       "from": "San Mateo County Sheriff’s Office",
       "datetime": "2026-10-08T14:53:30.966243-04:00",
       "subject": "RE: California Public Records Act Request: NCRIC AstroMetrics user provisioning and federal access authorization (resubmitted; originally submitted 9/13/2026)",
-      "channel": "Email",
+      "channel": null,
       "attachments": [
         {
           "title": "image001",
@@ -62,7 +62,57 @@
       "from": "Brian",
       "datetime": "2026-10-09T00:06:01.833750-04:00",
       "subject": "RE: California Public Records Act Request: NCRIC AstroMetrics user provisioning and federal access authorization (resubmitted; originally submitted 9/13/2026)",
-      "channel": "Email",
+      "channel": null,
+      "attachments": []
+    },
+    {
+      "id": "comm-2432424",
+      "from": "San Mateo County Sheriff’s Office",
+      "datetime": "2026-10-19T11:15:44.289394-04:00",
+      "subject": "RE: California Public Records Act Request: NCRIC AstroMetrics user provisioning and federal access authorization (resubmitted; originally submitted 9/13/2026)",
+      "channel": null,
+      "attachments": [
+        {
+          "title": "image001",
+          "url": "https://cdn.muckrock.com/foia_files/2026/10/19/image001_tOD3laj.jpg"
+        }
+      ]
+    },
+    {
+      "id": "comm-2447981",
+      "from": "Muckrock Staff",
+      "datetime": "2026-11-03T01:00:41.706672-05:00",
+      "subject": "RE: California Public Records Act Request: NCRIC AstroMetrics user provisioning and federal access authorization (resubmitted; originally submitted 9/13/2026)",
+      "channel": null,
+      "attachments": []
+    },
+    {
+      "id": "comm-2452056",
+      "from": "San Mateo County Sheriff’s Office",
+      "datetime": "2026-11-05T11:46:36.146641-05:00",
+      "subject": "RE: California Public Records Act Request: NCRIC AstroMetrics user provisioning and federal access authorization (resubmitted; originally submitted 9/13/2026)",
+      "channel": null,
+      "attachments": [
+        {
+          "title": "image001",
+          "url": "https://cdn.muckrock.com/foia_files/2026/11/05/image001_spCGcRm.jpg"
+        },
+        {
+          "title": "NCRIC-ALPR-POLICY-2024",
+          "url": "https://cdn.muckrock.com/foia_files/2026/11/05/NCRIC-ALPR-POLICY-2024.pdf"
+        },
+        {
+          "title": "PRA Response",
+          "url": "https://cdn.muckrock.com/foia_files/2026/11/05/PRA_Response.pdf"
+        }
+      ]
+    },
+    {
+      "id": "comm-2452453",
+      "from": "Brian",
+      "datetime": "2026-11-05T19:59:39.894905-05:00",
+      "subject": "RE: California Public Records Act Request: NCRIC AstroMetrics user provisioning and federal access authorization (resubmitted; originally submitted 9/13/2026)",
+      "channel": null,
       "attachments": []
     }
   ]
