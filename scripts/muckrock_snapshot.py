@@ -27,9 +27,16 @@ Fetching: www.muckrock.com's Cloudflare rules filter on the user agent. Since
 about 2026-10-11 they 403 curl's default UA as well as browser UAs; a plain
 descriptive UA (USER_AGENT below) gets the page. This shells out to curl.
 
+By 2026-11-05 request pages were failing at Cloudflare even with that UA.
+--api reads the same request from MuckRock's authenticated api_v2 instead,
+with the credentials in CREDENTIALS (a read collaborator on our requests).
+The API also returns embargoed requests, so --api refuses any request that is
+not public. The API has no channel field (Email, Portal), so that is left out.
+
 Usage:
   uv run python scripts/muckrock_snapshot.py --agency san-jose <request-url> [<request-url> ...]
   uv run python scripts/muckrock_snapshot.py --agency smcso --save-html <dir> <request-url>
+  uv run python scripts/muckrock_snapshot.py --agency smcso --api --save-html <dir> <request-url>
 """
 
 import argparse
@@ -39,7 +46,8 @@ import json
 import re
 import subprocess
 import sys
-from datetime import UTC, datetime
+import urllib.request
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import fitz  # pymupdf
@@ -71,6 +79,113 @@ def fetch(url: str) -> str:
         check=True, capture_output=True,
     )
     return out.stdout.decode("utf-8")
+
+
+API_ROOT = "https://www.muckrock.com/api_v2/"
+TOKEN_URL = "https://accounts.muckrock.com/api/token/"
+CREDENTIALS = Path("~/.config/sm-alpr/muckrock_credentials.json").expanduser()
+# api_v2 status codes, labelled as the request page labels them.
+STATUS_LABELS = {
+    "submitted": "Processing",
+    "ack": "Awaiting Acknowledgement",
+    "processed": "Awaiting Response",
+    "appealing": "Awaiting Appeal",
+    "fix": "Fix Required",
+    "payment": "Payment Required",
+    "lawsuit": "In Litigation",
+    "rejected": "Rejected",
+    "no_docs": "No Responsive Documents",
+    "done": "Completed",
+    "partial": "Partially Completed",
+    "abandoned": "Withdrawn",
+}
+# The statuses in which the page marks a past due date as missed.
+AWAITING_AGENCY = {"ack", "processed", "appealing"}
+
+
+def api_json(url: str, token: str | None = None, body: dict | None = None):
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/json"}
+    data = None
+    if body is not None:
+        headers["Content-Type"] = "application/json"
+        data = json.dumps(body).encode()
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    with urllib.request.urlopen(urllib.request.Request(url, data=data, headers=headers), timeout=60) as r:
+        return json.loads(r.read())
+
+
+def fetch_api(url: str) -> tuple[dict, str]:
+    """The request from api_v2, parsed, plus the raw responses as one JSON string."""
+    m = REQUEST_ID_RE.search(url)
+    if not m:
+        raise ValueError(f"no request id in URL: {url}")
+    rid = int(m.group(1))
+    creds = json.loads(CREDENTIALS.read_text())
+    token = api_json(TOKEN_URL, body={"username": creds["username"], "password": creds["password"]})["access"]
+    foia = api_json(f"{API_ROOT}requests/{rid}/", token)
+    if foia.get("embargo_status") != "public":
+        raise SystemExit(f"{rid}: embargo status {foia.get('embargo_status')!r}, not writing it to the repo")
+    comms, nxt = [], f"{API_ROOT}communications/?foia={rid}"
+    while nxt:
+        page = api_json(nxt, token)
+        comms += page["results"]
+        nxt = page.get("next")
+    files = {str(f): api_json(f"{API_ROOT}files/{f}/", token) for c in comms for f in c.get("files") or []}
+    raw = {
+        "request": foia,
+        "communications": comms,
+        "files": files,
+        "requester": api_json(f"{API_ROOT}users/{foia['user']}/", token)["full_name"],
+        "agency": api_json(f"{API_ROOT}agencies/{foia['agency']}/", token)["name"],
+    }
+    raw_text = json.dumps(raw, ensure_ascii=False, sort_keys=True, indent=1)
+    return parse_api(raw, url, datetime.now(UTC).date()), raw_text
+
+
+def parse_api(raw: dict, url: str, today: date) -> dict:
+    """Build the same request dict parse_request builds, from api_v2 responses."""
+    foia = raw["request"]
+    due = foia.get("date_due")
+    dates = {"submitted": foia["datetime_submitted"][:10], "due": due}
+    if foia.get("datetime_done"):
+        dates["completed"] = foia["datetime_done"][:10]
+    overdue = ["due"] if due and foia["status"] in AWAITING_AGENCY and date.fromisoformat(due) < today else []
+
+    def sender(c):
+        if c["from_user"] == foia["user"]:
+            return raw["requester"]
+        return raw["agency"] if c["response"] else "Muckrock Staff"
+
+    comms = []
+    for c in raw["communications"]:
+        body = c["communication"].replace("\r\n", "\n")
+        # Outlook inline-image refs ([cid:image001.jpg@01DD...]) carry no content and trip the PII scan.
+        body = re.sub(r"\[cid:[^\]]*\]", "", body)
+        body = "\n".join(re.sub(r"[ \t\u00a0]+", " ", ln).strip() for ln in body.split("\n"))
+        comms.append({
+            "id": f"comm-{c['id']}",
+            "from": sender(c),
+            "datetime": c["datetime"],
+            "subject": c["subject"],
+            "channel": None,
+            "body": re.sub(r"\n{3,}", "\n\n", body).strip(),
+            "attachments": [
+                {"title": raw["files"][str(f)]["title"], "url": raw["files"][str(f)]["ffile"]}
+                for f in c.get("files") or []
+            ],
+        })
+    return {
+        "muckrock_id": foia["id"],
+        "url": re.sub(r"#.*$", "", url),
+        "title": foia["title"],
+        "agency": raw["agency"],
+        "agency_tracking_number": foia.get("tracking_id") or None,
+        "status": STATUS_LABELS.get(foia["status"], foia["status"]),
+        "dates": dates,
+        "overdue": overdue,
+        "communications": comms,
+    }
 
 
 def decode_cfemail(hexstr: str) -> str:
@@ -207,7 +322,7 @@ def thread_text(req: dict) -> str:
     return json.dumps(keep, ensure_ascii=False, sort_keys=True, indent=1)
 
 
-def render_pdf(req: dict, captured_at: str, html_sha256: str, out: Path) -> None:
+def render_pdf(req: dict, captured_at: str, source: str, out: Path) -> None:
     e = html.escape
     meta_bits = [f"MuckRock request #{req['muckrock_id']}", req.get("agency") or ""]
     if req.get("agency_tracking_number"):
@@ -223,7 +338,7 @@ def render_pdf(req: dict, captured_at: str, html_sha256: str, out: Path) -> None
         f"<p class='meta'>Source: {e(req['url'])}</p>",
         "<p class='note'>"
         + e(
-            f"Captured {captured_at} from the public request page (raw HTML sha256 {html_sha256}). "
+            f"Captured {captured_at} from {source}. "
             "Communication text is extracted verbatim. Redacted: "
             + "; ".join(req["redactions"]) + "."
         )
@@ -281,10 +396,16 @@ def download_attachments(req: dict, folder: Path, requester_first: str) -> list[
     return saved
 
 
-def snapshot(url: str, agency: str, root: Path, save_html: Path | None, force: bool) -> Path | None:
-    page = fetch(url)
-    html_sha = hashlib.sha256(page.encode("utf-8")).hexdigest()
-    req = redact(parse_request(page, url))
+def snapshot(url: str, agency: str, root: Path, save_html: Path | None, force: bool, use_api: bool = False) -> Path | None:
+    if use_api:
+        parsed, page = fetch_api(url)
+        sha_key, suffix, source = "api_sha256", "json", "MuckRock's api_v2 (raw response sha256 {})"
+    else:
+        page = fetch(url)
+        parsed = parse_request(page, url)
+        sha_key, suffix, source = "html_sha256", "html", "the public request page (raw HTML sha256 {})"
+    source_sha = hashlib.sha256(page.encode("utf-8")).hexdigest()
+    req = redact(parsed)
     rid = req["muckrock_id"]
     folder = root / agency / f"muckrock-{rid}"
     folder.mkdir(parents=True, exist_ok=True)
@@ -298,16 +419,16 @@ def snapshot(url: str, agency: str, root: Path, save_html: Path | None, force: b
     captured_at = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     if save_html:
         save_html.mkdir(parents=True, exist_ok=True)
-        (save_html / f"muckrock_{rid}_{captured_at[:10]}.html").write_text(page)
+        (save_html / f"muckrock_{rid}_{captured_at[:10]}.{suffix}").write_text(page)
     pdf = folder / f"MuckRock_{rid}_Thread.pdf"
-    render_pdf(req, captured_at, html_sha, pdf)
+    render_pdf(req, captured_at, source.format(source_sha), pdf)
     first = req["communications"][0]["from"] if req["communications"] else ""
     attachments = download_attachments(req, folder, first)
     meta = {
         "platform": "muckrock",
         **{k: req[k] for k in ("muckrock_id", "url", "title", "agency", "agency_tracking_number", "status", "dates", "overdue")},
         "captured_at_utc": captured_at,
-        "html_sha256": html_sha,
+        sha_key: source_sha,
         "thread_sha256": thread_sha,
         "redactions": req["redactions"],
         "communications": [
@@ -331,9 +452,10 @@ def main() -> int:
     ap.add_argument("--root", type=Path, default=DEFAULT_ROOT)
     ap.add_argument("--save-html", type=Path, help="also keep the raw page here (outside the repo: it carries tokens)")
     ap.add_argument("--force", action="store_true", help="rewrite even if the thread is unchanged")
+    ap.add_argument("--api", action="store_true", help=f"read from api_v2 with {CREDENTIALS} instead of the page")
     args = ap.parse_args()
     for url in args.urls:
-        snapshot(url, args.agency, args.root, args.save_html, args.force)
+        snapshot(url, args.agency, args.root, args.save_html, args.force, args.api)
     return 0
 
 
