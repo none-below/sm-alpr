@@ -1,4 +1,9 @@
 {
+  "https://anthonyamore.substack.com/p/fly-with-the-flock": {
+    "attempts": 1,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-11-06T03:31:49Z"
+  },
   "https://azdailysun.com/news/local/flagstaff-city-council-attempts-to-find-middle-ground-in-use-of-flock-surveillance-cameras/article_3412588e-866c-437d-b46f-49fd3dea5772.html": {
     "attempts": 3,
     "error": "HTTP 429",
@@ -519,6 +524,11 @@
     "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
     "last_attempt": "2026-09-29T01:50:46Z"
   },
+  "https://www.nytimes.com/interactive/2026/10/22/us/politics/ai-surveillance-cameras-border-mexico.html": {
+    "attempts": 1,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-11-06T17:29:00Z"
+  },
   "https://www.opb.org/article/2025/11/24/lawmakers-question-legality-of-border-patrol-license-plate-reader-program/": {
     "attempts": 3,
     "error": "HTTP 404",
@@ -538,6 +548,11 @@
     "attempts": 3,
     "error": "Error: Page.goto: net::ERR_INVALID_ARGUMENT at https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2026-10-09/\nCall log:\n  - navigating to \"https://www.reuters.com/business/ai-surveillance-startup-flock-safety-cut-several-hundred-jobs-amid-backlash-2",
     "last_attempt": "2026-10-10T22:34:25Z"
+  },
+  "https://www.scottsdale.org/city_news/scottsdale-keeps-cameras-on-despite-flock-fury/article_9670e344-0d7a-47fb-b7a8-d9f51747d359.html": {
+    "attempts": 1,
+    "error": "HTTP 429",
+    "last_attempt": "2026-11-06T03:32:59Z"
   },
   "https://www.smdailyjournal.com/news/local/belmont-moves-ahead-with-drone-program/article_4723b7c0-52d9-11ef-ac5e-efdc64cb5f0f.html": {
     "attempts": 3,
@@ -588,6 +603,11 @@
     "attempts": 3,
     "error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.theolympian.com/news/local/article-olympia-flock\nCall log:\n  - navigating to \"https://www.theolympian.com/news/local/article-olympia-flock\", waiting until \"domcontentloaded\"\n",
     "last_attempt": "2026-05-09T02:14:47Z"
+  },
+  "https://www.wfmynews2.com/article/news/crime/former-brunswick-county-deputy-charged-with-misusing-flock-camera-system-daniel-heith-little/83-5568bd05-0f6e-4beb-b758-5e4baa357511": {
+    "attempts": 1,
+    "error": "playwright: HTTP 403; curl_cffi: HTTP 403; requests: HTTP 403",
+    "last_attempt": "2026-11-06T09:24:03Z"
   },
   "https://www.whsv.com/2025/12/10/staunton-ends-flock-cameras": {
     "attempts": 3,
