@@ -1,15 +1,7 @@
 {
   "agency_id": "a1078504-f18e-54fe-a657-0d1ce4ca5efc",
   "agency_name": "Fairfax County Police Department",
-  "dashboards": [
-    {
-      "access": "public",
-      "created": "2025-09-18T21:32:39Z",
-      "id": "c47a7c0ff6d5465884f182588bd2a15f",
-      "title": "Fairfax County Police Department Drone Flights",
-      "url": "https://www.arcgis.com/apps/dashboards/c47a7c0ff6d5465884f182588bd2a15f"
-    }
-  ],
+  "dashboards": [],
   "description": "Feature service for Fairfax County Police Department",
   "events": [
     {
@@ -27,6 +19,16 @@
       "basis": "name+role+extent",
       "date": "2026-10-19",
       "event": "linked"
+    },
+    {
+      "date": "2026-11-06",
+      "event": "unlisted"
+    },
+    {
+      "dashboard": "c47a7c0ff6d5465884f182588bd2a15f",
+      "date": "2026-11-06",
+      "event": "dashboard_removed",
+      "title": "Fairfax County Police Department Drone Flights"
     }
   ],
   "first_seen": "2026-10-18",
@@ -54,7 +56,7 @@
       "Shape__Length"
     ]
   },
-  "listed": true,
+  "listed": false,
   "match": "name+role+extent",
   "org_id": "b9a43b2e-83d7-447c-a3cd-432b6314a2d3",
   "ori": [
