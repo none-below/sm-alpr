@@ -1,0 +1,3107 @@
+<!DOCTYPE html><html lang="en" data-gallery-cover="" data-hero-poster="" data-gallery-media=""><head><style class="vjs-styles-defaults">
+      .video-js {
+        width: 300px;
+        height: 150px;
+      }
+
+      .vjs-fluid:not(.vjs-audio-only-mode) {
+        padding-top: 56.25%
+      }
+    </style><style class="vjs-styles-dimensions">
+      .hero-video-dimensions {
+        width: 1920px;
+        height: 1080px;
+      }
+
+      .hero-video-dimensions.vjs-fluid:not(.vjs-audio-only-mode) {
+        padding-top: 56.25%;
+      }
+    </style>
+		<meta charset="utf-8">
+		<!--
+			DEV-1215 · Reserve the chrome's footprint before any JS runs.
+			The wral-header and wral-alerts-bar custom elements ship empty and are
+			upgraded by the deferred core module, so on a slow/cold load first paint
+			happens before upgrade and the page content jumps down. These min-heights
+			hold the space; the components override them via the --wral-* custom
+			properties once they know their real height.
+			Must stay the first rule set in the document head (right after the
+			charset meta) so it is parsed before OneTrust and every other tag.
+		-->
+		<style>
+			wral-header { display: block; min-height: var(--wral-header-height, 44px); }
+			wral-alerts-bar { display: block; min-height: var(--wral-alerts-bar-height, 87px); }
+			@media (min-width: 1024px) {
+				wral-header { min-height: var(--wral-header-height, 108px); }
+			}
+			/* DEV-894: an undefined studio-breadcrumbs is inline, so its min-height holds nothing until upgrade; desktop only, as on phones the row pushes the hero below the fold */
+			@media (min-width: 964px) {
+				studio-breadcrumbs { display: block; }
+			}
+		</style>
+		<!-- OneTrust Cookies Consent Notice start for wral.com -->
+		<script async="" crossorigin="anonymous" src="https://sdk.ocmthood.com/sdk/ht.js?tag=NjY4PXN0NqDjqzQ2r0wxNDY4MjE0NqDN"></script><script type="text/javascript" async="" src="//static.chartbeat.com/js/chartbeat.js"></script><script class="exco-player" src="//player.ex.co/player/d8af3f9c-ad37-4890-8ed5-bb0ce702acdf"></script><script async="" src="//cdn.taboola.com/libtrc/wral-wralnews/loader.js" id="tb_loader_script"></script><script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" type="text/javascript" charset="UTF-8" data-domain-script="6d068f80-e744-46ab-877e-4847983f3ad4"></script>
+		<script type="text/javascript">
+		function OptanonWrapper() { }
+		</script>
+		<!-- OneTrust Cookies Consent Notice end for wral.com -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="preconnect" href="https://web-components.cdn.wral.com" crossorigin="">
+		<link rel="modulepreload" href="https://web-components.cdn.wral.com/core/v0.15/components.es.js">
+		<title>Former Harnett County detective indicted after misusing license plate readers to track a woman :: WRAL.com</title>
+		<link rel="icon" type="image/png" href="https://www.wral.com/favicon-48x48.png">
+		
+			
+		
+		
+			
+				<!-- HTL Ad management -->
+				<link rel="stylesheet" type="text/css" href="https://htlbid.com/v3/wral.com/opscobid.css">
+				<script async="" src="https://htlbid.com/v3/wral.com/opscobid.js"></script>
+				<script>window.opscobid = window.opscobid || {}, opscobid.cmd = opscobid.cmd || [], opscobid.cmd.push(function () { opscobid.setTargeting("is_testing", "no"), opscobid.setTargeting("is_home", "no"), opscobid.setTargeting("category", "story"), opscobid.setTargeting("keywords", ""), opscobid.layout() })</script>
+			
+		
+		<meta name="description" content="Jayne L. Holland, a detective with the Harnett County Sheriff's Office, is charged with two counts of automated license plate system violations—which are misdemeanor offenses—and one count of accessing government computers for personal reasons, a felony. ">
+		<meta name="ad-unit-path" content="wral-v4/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026">
+		<meta name="robots" content="index,follow,max-image-preview:large">
+		<link rel="dns-prefetch" href="//images.wral.com">
+		<link rel="preconnect" href="https://images.wral.com">
+
+		
+			
+		
+
+		<link rel="canonical" href="https://www.wral.com/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/">
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;500;700&amp;family=Roboto:wght@400;500;700&amp;display=swap" as="style">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;500;700&amp;family=Roboto:wght@400;500;700&amp;display=swap">
+		<!-- DEV-894: verbatim copy of core/v0.15/styles-nofonts.css so first paint already has the library layout (no 1.0 desktop CLS when styles.css below applies late); re-paste it and bump data-lib-version whenever a release changes that file -->
+		<!-- DEV-894: measured desktop article and forecast CLS 1.02 to 0.001 and mobile article CLS 0.19 to 0.06 (lab A/B, 2026-09-29); costs about 2.9 KB gzip of HTML and 20 to 50 ms of first paint on cold views -->
+		<!-- DEV-894: do not edit the block below by hand; regenerate it from web-components-wral dist/styles-nofonts.css (see README) -->
+		<style id="wral-core-inline" data-lib-version="0.15.26">:root{--color-primary:#001d68;--color-primary-light:#193377;--color-primary-dark:#00144a;--color-secondary:#2594e3;--color-secondary-light:#46a4e7;--color-secondary-dark:#1d76b5;--color-light-blue:#e9ebf3;--color-red:#d1232a;--color-red-light:#ff2b32;--color-red-dark:#d1232a;--color-yellow:#ffec19;--color-yellow-light:#fff15e;--color-yellow-dark:#e5d416;--color-green:#72b509;--color-green-light:#8ec33a;--color-green-dark:#66a208;--color-purple:#33109c;--color-purple-light:#4727a5;--color-purple-dark:#280c7c;--color-orange:#ff9505;--color-orange-light:#ffa21f;--color-orange-dark:#f58f00;--color-white:#fff;--color-black:#030711;--color-straw:#fff5ba;--color-gray-1:#f7f5f4;--color-gray-2:#e7e5e4;--color-gray-3:#d7d4d2;--color-gray-4:#7c7c7c;--color-gray-5:#6c6c6c;--color-gray-6:#565454;--color-gray-7:#424242;--color-gray-8:#263238;--color-gray-9:#1c2321;--background-color:var(--color-white);--color-info:var(--color-secondary);--color-danger:var(--color-red-light);--color-warning:var(--color-orange);--color-success:var(--color-green);--color-special:var(--color-purple);--color-link:var(--color-secondary);--color-sponsor:var(--color-straw);background-color:var(--background-color)}body.media,html.media body{--background-color:#030711;--color-link:var(--color-secondary-light);color:var(--color-white);--color-red:var(--color-red-light)}:root{--heading-font-family:"IBM Plex Sans Condensed","San Francisco",-apple-system,BlinkMacSystemFont,".SFNSText-Regular","Helvetica Neue",Helvetica,sans-serif;--body-font-family:Roboto,"San Francisco",-apple-system,BlinkMacSystemFont,".SFNSText-Regular","Helvetica Neue",Helvetica,sans-serif}html{font-size:16px}h1,h2,h3,h4,h5,h6{font-weight:700}.heading,h1,h2,h3,h4,h5,h6{font-family:var(--heading-font-family)}body{font-family:var(--body-font-family);font-size:1.125rem;font-weight:400}a{color:var(--color-link)}li,p{line-height:1.6}blockquote{border-color:var(--color-secondary-light);border-style:solid;border-width:.3125rem;box-sizing:border-box;display:block;font-family:var(--heading-font-family);font-size:1.5rem;font-weight:500;letter-spacing:-.028rem;line-height:1.32;margin:0 0 20px;padding:1.25rem 1.5625rem;position:relative;quotes:none;text-align:center;word-spacing:.01em}blockquote:before{background-color:var(--background-color);color:var(--color-primary);content:"“";font-family:Georgia,serif;font-size:4.5rem;font-weight:400;height:20px;left:calc(50% - 36px);line-height:1;margin:0 auto;position:absolute;top:0;transform:translateY(-20px);width:4rem;z-index:1}blockquote cite{color:var(--color-gray-5);display:block;font-family:var(--body-font-family);font-size:.875rem;font-style:normal;font-weight:400;letter-spacing:.01rem;margin-top:1rem;text-align:center;text-transform:none;width:100%}:root{--max-content-width:1366px}body{margin:0;padding:0}.sticky-container{overflow-y:auto;position:sticky;top:0;width:100%}.content-wrapper{margin:0 auto;max-width:var(--max-content-width)};.fullwidth{box-sizing:border-box;width:100%}img.fullwidth{height:auto;width:100%}.visually-hidden{height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;clip:rect(0,0,0,0);border:0}.weather-conditions-wrapper{align-items:stretch;background-color:var(--color-gray-1,#f9f9f9);display:flex;gap:1rem;margin:0 auto;max-width:1366px;padding:1.125rem 1.5rem 1.5rem}.weather-conditions-wrapper>*{flex:1 1}@media (max-width:1024px){.weather-conditions-wrapper{flex-direction:column;max-height:unset}}figure img{max-width:100%}figure figcaption{border-bottom:.0625rem solid var(--color-gray-2);color:var(--color-gray-4);display:block;font-family:sans-serif;font-size:.8125rem;margin:1rem 0;padding-bottom:.625rem}.aspect-16x9,.aspect-4x3{display:block;overflow:hidden;position:relative;width:100%}.aspect-16x9:before,.aspect-4x3:before{content:"";display:block;padding-top:0}.aspect-16x9:before{padding-top:56.25%}.aspect-4x3:before{padding-top:75%}.aspect-16x9>img,.aspect-4x3>img{height:100%;left:0;-o-object-fit:cover;object-fit:cover;position:absolute;top:0;width:100%}.section-wrapper{padding:0 1.25rem}.section-title{border-bottom:.125rem solid var(--color-primary-dark);font-weight:700;width:100%}.section-title a{border:.125rem solid var(--color-primary-dark);color:inherit;padding-left:.25rem;position:relative;text-decoration:none;top:.025rem}.section-title a:after{background-color:var(--color-primary-dark);color:var(--color-white);content:" →";margin-left:.25rem;padding:0 .125rem}.section-title,.section-title-alt{color:var(--color-primary-dark);font-family:var(--body-font-family);font-size:.9375rem;text-transform:uppercase}.section-title-alt{color:var(--color-primary);font-size:1.0625rem;font-weight:600;line-height:1;padding:0 0 .1875rem 1.25rem;position:relative;text-transform:uppercase}.section-title-alt:before{color:var(--color-secondary);content:"·";font-size:2.5em;height:1em;left:0;line-height:1;margin-right:.3125rem;position:absolute;top:-.75rem}.article{display:flex;flex-flow:row wrap}.article-header{margin:0 .9375rem;padding:1.2625rem 0;width:100%}.article-breadcrumb{font-size:.8125rem}.article-breadcrumb a{color:var(--color-red);text-decoration:none;text-transform:uppercase}.article-header h1{color:var(--color-primary-dark);font-family:var(--heading-font-family);font-size:2rem;letter-spacing:-.03em;margin-bottom:.75rem;margin-top:0}.article-main{display:flex;flex-flow:column}.article-hero,.article-main{box-sizing:border-box;width:100%}.article-hero{margin:0;padding:0}.article-hero img{width:100%}.article-hero figcaption{padding-left:.9375rem}.article-abstract{color:var(--color-gray-8);font-family:var(--body-font-family);font-size:18px;font-weight:400;padding-bottom:.75rem}.article-header .timestamp{color:var(--color-gray-6);font-size:.8125rem;padding-bottom:.75rem}.article-byline{font-size:1rem;font-weight:800;margin:.625rem 0;padding-left:1.25rem}.article-byline address{display:inline;font-style:normal;font-weight:700}.article-byline a{color:var(--color-primary-dark);text-decoration:none}.article-body{margin-top:.3125rem;padding:0 1.25rem}.article-body img{max-width:100%}.article-body .exco-wrapper{background:var(--color-gray-1);box-sizing:border-box;display:flex;flex-direction:column;margin-bottom:.5rem;padding:0 10px 10px;width:100%}.article-body .exco-wrapper p{color:var(--color-gray-6);font-size:.7em;font-style:italic;font-weight:800;margin:.5em 0;padding-top:.5em;text-align:right}.article .tags{font-size:14px;width:100%}.article .tags ul{align-items:stretch;border-bottom:none;box-sizing:border-box;display:flex;flex-flow:row nowrap;flex-grow:1;font-size:.875rem;list-style:none;margin:0;overflow-x:auto;overflow-y:hidden;padding-left:1.25rem;transform:translateX(0);width:100%}.article .tags ul>*{flex-shrink:0}.article .tags li{margin-right:0;padding:1.25rem 0;width:auto}.article .tags li>*{padding:0 .9375rem}.article .tags li:first-of-type{border-right:.0625rem solid var(--color-gray-2);font-weight:700;padding-left:1.25rem;padding-right:.9375rem}.article-credits{background-color:var(--color-gray-1);padding:1.25rem .9375rem .3125rem;position:relative;z-index:-1}.article-credits .section-title-alt{margin-top:0}.article-credits .credit{background-color:var(--background-color);box-shadow:0 0 .4375rem rgba(0,0,0,.075);display:flex;margin-bottom:.9375rem}.article-credits .credit-container{align-items:center;border-left:.0625rem solid var(--color-gray-2);display:flex;flex-flow:row wrap;min-height:2.75rem;order:2;padding:1.25rem 0 1.25rem 1.375rem}.article-credits,.article-credits h4{font-family:var(--body-font-family);font-size:.875rem;margin:0}.article-credits .credit-role{order:2}.article-credits .credit-role:before{content:", "}.article-credits a{color:var(--color-gray-8);font-weight:700;text-decoration:none}.article-credits .credit-excerpt{color:var(--color-gray-7);margin-top:.625rem;order:3;width:100%}.article-credits .credit-thumbnail{align-self:center;background-color:var(--color-gray-1);border-radius:100%;margin-left:1.25rem;margin-right:1.25rem;max-height:3rem;max-width:3rem;order:1;overflow:hidden;position:relative;width:100%}.article-credits ul{list-style:none;margin:0;padding:0}.article-copyright{background-color:var(--color-gray-1);box-sizing:border-box;color:var(--color-gray-6);font-size:.8125rem;margin-bottom:2.5rem;padding:1.25rem .9375rem 1.875rem;width:100%}.article-sidebar{box-sizing:border-box;display:flex;flex-flow:column nowrap;width:100%}@media (min-width:964px){.article-header{border-bottom:.3125rem solid var(--color-primary-dark);margin-right:1.25rem}.article-header h1{font-size:2.5rem;line-height:1.3}.article-main{border-right:.0625rem solid var(--color-gray-2);margin-bottom:2rem;padding-right:1.875rem;width:calc(100% - 350px)}.article-abstract{font-size:1.3125rem}.article-hero{padding-left:1.25rem}.article-hero figcaption{padding-left:0}.article-copyright{margin-bottom:0}.article-sidebar{align-self:stretch;flex:1;padding-left:1.875rem;width:auto}.article-footer{width:calc(100% + 30px)}.article-body .exco-wrapper{padding:0 40px 40px}.article-body .exco-wrapper p{font-size:unset;margin:unset;padding-top:40}}.grid,.grid-1,.grid-2,.grid-3,.grid-4,.grid-5{--grid-gap:0.9375rem;--grid-basis:100%;align-items:stretch;display:flex;flex-wrap:wrap;gap:.9375rem;list-style:none;margin:0;padding:0}.grid-1{--grid-basis:100%}.grid-2{--grid-basis:50%}.grid-3{--grid-basis:33.333%}.grid-4{--grid-basis:25%}.grid-5{--grid-basis:20%}.grid-1>*,.grid-2>*,.grid-3>*,.grid-4>*,.grid-5>*{flex-basis:calc(var(--grid-basis) - var(--grid-gap));flex-grow:1;list-style:none;margin:0;padding:0}@media (max-width:1200px){.grid-5>*{--grid-basis:33.333%}.grid-4>*,.grid-5>:first-child,.grid-5>:nth-child(2){--grid-basis:50%}}@media (max-width:520px){.grid-2>*,.grid-3>*,.grid-4>*,.grid-5>:nth-child(n){--grid-basis:100%}}.table{border-collapse:collapse;border-spacing:0;font-family:var(--heading-font-family);font-size:14px;margin:0 auto .9375rem}.table th{background-color:var(--color-primary);border-right:.0625rem solid hsla(0,0%,100%,.15);color:var(--color-white)}.table th:last-child{border-right:none}.table thead{border-bottom:3px solid var(--color-gray-2)}.table tr>*{padding:10px 12px}.table tbody{border:.0625rem solid var(--color-gray-2)}.table tbody tr:not(:last-child){border-bottom:.0625rem solid var(--color-gray-2)}:root{--radius-none:0;--radius-xs:0.15rem;--radius-sm:0.3125rem;--radius-md:0.5rem;--radius-lg:0.625rem;--radius-full:50%;--radius-dynamic:clamp(var(--radius-sm),1vw,var(--radius-lg));--xs-line:1px;--sm-line:2px;--md-line:3px;--lg-line:5px;--border-color:var(--color-gray-4);--border-color-focus:var(--color-primary);--border-style:solid}</style>
+		<!--
+			web-components-wral · core library.
+			DEV-1215: pinned to v0.15, which carries the CLS fix for the header and
+			alerts bar. Keep this in lockstep with the modulepreload above and the
+			components.es.js loader below.
+		-->
+		<link rel="stylesheet" href="https://web-components.cdn.wral.com/core/v0.15/styles.css" media="all" onload="this.media='all'">
+
+		<meta property="og:url" content="https://www.wral.com/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/">
+		<meta name="twitter:url" content="https://www.wral.com/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/">
+		<meta property="og:title" content="Former Harnett County detective indicted after misusing license plate readers to track a woman">
+		<meta name="twitter:title" content="Former Harnett County detective indicted after misusing license plate readers to track a woman">
+		
+			
+				<meta property="og:description" content="Jayne L. Holland, a detective with the Harnett County Sheriff's Office, is charged with two counts of automated license plate system violations—which are misdemeanor offenses—and one count of accessing government computers for personal reasons, a felony. ">
+				<meta name="twitter:description" content="Jayne L. Holland, a detective with the Harnett County Sheriff's Office, is charged with two counts of automated license plate system violations—which are misdemeanor offenses—and one count of accessing government computers for personal reasons, a felony. ">
+			
+
+			
+				<meta property="og:image" content="https://images.wral.com/7d22fcab-6dfb-57e1-b37d-5a70531cbfa9?w=1200&amp;h=630&amp;height=630">
+				<meta property="og:image:width" content="1200">
+				<meta property="og:image:height" content="630">
+				<meta property="og:image:alt" content="Former Harnett County detective indicted after misusing license plate readers to track a woman">
+				<meta name="twitter:image" content="https://images.wral.com/7d22fcab-6dfb-57e1-b37d-5a70531cbfa9?w=1200&amp;h=630&amp;height=630">
+			
+			
+			
+		
+
+		<!-- OG Video (only when a hero video is present) -->
+		
+  		
+    		<!-- og:video / og:video:secure_url -->
+    		<meta property="og:video" content="https://media-hls.wral.com/vodhttporigins3/_definst_/smil:amazons3/api-vod-prod-renditions/2c1c8ce7-eee2-452c-9464-f7dcccdeb98a-6a99f116b3ec/b0941f38-15fc-4cd9-9b21-cf97cad28b20/playlist.smil/playlist.m3u8">
+    		<meta property="og:video:secure_url" content="https://media-hls.wral.com/vodhttporigins3/_definst_/smil:amazons3/api-vod-prod-renditions/2c1c8ce7-eee2-452c-9464-f7dcccdeb98a-6a99f116b3ec/b0941f38-15fc-4cd9-9b21-cf97cad28b20/playlist.smil/playlist.m3u8">
+    		<meta property="og:video:type" content="application/x-mpegURL">
+    		<meta property="og:video:width" content="1920">
+    		<meta property="og:video:height" content="1080">
+
+    		
+      		<meta property="video:duration" content="80">
+      		<meta property="og:video:duration" content="PT1M20S">
+    		
+  		
+		
+
+		
+  		
+    		<meta name="twitter:player" content="https://media-hls.wral.com/vodhttporigins3/_definst_/smil:amazons3/api-vod-prod-renditions/2c1c8ce7-eee2-452c-9464-f7dcccdeb98a-6a99f116b3ec/b0941f38-15fc-4cd9-9b21-cf97cad28b20/playlist.smil/playlist.m3u8">
+    		<meta name="twitter:player:width" content="1280">
+    		<meta name="twitter:player:height" content="720">
+  		
+		
+
+		<meta property="og:type" content="article">
+		<meta property="og:site_name" content="WRAL.com">
+		<meta name="twitter:site" content="@wral">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:creator" content="@wral">
+
+		<script type="module" src="https://cdn.wral.com/@wral/search-results/v0.1.14/define.standalone.js"></script>
+
+		
+			
+			
+				<meta property="article:published_time" content="2026-11-03T19:55:14Z">
+			
+			
+				<meta property="article:modified_time" content="2026-11-03T23:30:39Z">
+			
+			
+				<meta property="article:author" content="Lance Wilhelm, WRAL Reporter">
+				<meta name="author" content="Lance Wilhelm, WRAL Reporter">
+			
+			
+			
+				<script async="" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+				<script defer="" src="https://video-player.cdn.wral.com/v1.0/wralvideo.js"></script>
+				<script>
+					window.addEventListener('DOMContentLoaded', () => {
+						const players = document.querySelectorAll('video.wral-video');
+						if (!players.length) {
+							return;
+						}
+						const removeHeroPreviewOverlays = () => {
+							document.querySelectorAll('.hero-preview-overlay').forEach((overlay) => {
+								overlay.remove();
+							});
+						};
+						const adUnitPath = document.querySelector('meta[name="ad-unit-path"]')?.content || '';
+						const buildAdTagUrl = () => {
+							const adUnitParams = new URLSearchParams();
+							adUnitParams.set('sz', '576x324');
+							adUnitParams.set('iu', `/6167/${adUnitPath}`);
+							adUnitParams.set('ciu-szs', (['300x250']).join(','));
+							adUnitParams.set('impl', 's');
+							adUnitParams.set('gdfp_req', '1');
+							adUnitParams.set('env', 'vp');
+							adUnitParams.set('output', 'xml_vast3');
+							adUnitParams.set('unviewed_position_start', '1');
+							adUnitParams.set('correlator', `${Date.now()}`);
+							adUnitParams.set('url', window.location.href);
+							adUnitParams.set('description_url', window.location.href);
+							adUnitParams.set('plcmt', 1);
+							adUnitParams.set('vpmute', 1);
+							return `https://pubads.g.doubleclick.net/gampad/ads?${adUnitParams.toString()}`;
+						};
+						players.forEach((videoElement) => {
+							videoElement.getAttributeNames().forEach((name) => {
+								// Keep data-title -- the wralvideo player reads it to render
+								// the overlay headline (DEV-1127). Still drop the legacy
+								// data-video-* attributes from the iOS playback fix.
+								if (name.startsWith('data-video-')) {
+									videoElement.removeAttribute(name);
+								}
+							});
+							const player = wralvideo(videoElement, { adTagUrl: buildAdTagUrl() });
+							player.one('play', () => {
+								// get all hero-preview-overlay classes and remove them
+								removeHeroPreviewOverlays();
+								window.dataLayer = window.dataLayer || [];
+								window.dataLayer.push({
+									event: 'GAEvent',
+									eventAction: 'contentStart',
+									eventCategory: 'video',
+									eventLabel: window.document.title,
+									eventValue: 'HTML Video',
+									id: window.location.href, // current url
+								});
+							});
+						});
+					});
+				</script>
+			
+		
+
+		<script type="module" src="https://web-components.cdn.wral.com/weather/icon/v0/component.es.js"></script>
+		<script type="module" async="" src="https://web-components.cdn.wral.com/core/v0.15/components.es.js"></script>
+
+		
+			
+			
+		
+
+		
+			
+			
+		
+
+		
+			
+			
+				<!-- JSON-LD Structured Data for an Article  -->
+				<script type="application/ld+json">
+					{"@context":"https://schema.org","@type":"NewsArticle","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.wral.com/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/"},"headline":"Former Harnett County detective indicted after misusing license plate readers to track a woman","description":"Jayne L. Holland, a detective with the Harnett County Sheriff's Office, is charged with two counts of automated license plate system violations—which are misdemeanor offenses—and one count of accessing government computers for personal reasons, a felony. ","image":"https://images.wral.com/6ff5873f-4127-4566-b042-62434b1cdf9f?fpx=63&fpy=60","datePublished":"2026-11-03T19:55:14+00:00","dateModified":"2026-11-03T23:30:39+00:00","publisher":{"@type":"NewsMediaOrganization","name":"WRAL","url":"https://www.wral.com/","logo":{"@type":"ImageObject","url":"https://images.wral.com/4687bfb9-1153-4ec6-b63e-01c2ae696033?w=1200&h=630","width":1200,"height":630}},"author":{"@type":"Person","name":"Lance Wilhelm, WRAL Reporter"}}
+				</script>
+			
+		
+
+		<!-- JSON-LD for the hero VideoObject -->
+		
+  		
+    		<script type="application/ld+json">
+      		{"@context":"https://schema.org/","@type":"VideoObject","name":"Former Harnett County detective indicted after misusing license plate readers to track a woman","description":"Jayne L. Holland, a detective with the Harnett County Sheriff's Office, is charged with two counts of automated license plate system violations—which are misdemeanor offenses—and one count of accessing government computers for personal reasons, a felony. ","thumbnailUrl":"https://images.wral.com/7d22fcab-6dfb-57e1-b37d-5a70531cbfa9?w=640&height=360","uploadDate":"2026-11-03T19:55:14+00:00","isLiveBroadcast":false,"contentUrl":"https://media-hls.wral.com/vodhttporigins3/_definst_/smil:amazons3/api-vod-prod-renditions/2c1c8ce7-eee2-452c-9464-f7dcccdeb98a-6a99f116b3ec/b0941f38-15fc-4cd9-9b21-cf97cad28b20/playlist.smil/playlist.m3u8","embedUrl":"https://media-hls.wral.com/vodhttporigins3/_definst_/smil:amazons3/api-vod-prod-renditions/2c1c8ce7-eee2-452c-9464-f7dcccdeb98a-6a99f116b3ec/b0941f38-15fc-4cd9-9b21-cf97cad28b20/playlist.smil/playlist.m3u8","duration":"PT1M20S"}
+    		</script>
+  		
+		
+
+		<script type="application/ld+json">
+			{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://wral.com/"},{"@type":"ListItem","position":2,"name":"News","item":"https://wral.com/news"},{"@type":"ListItem","position":3,"name":"Local","item":"https://wral.com/news/local"},{"@type":"ListItem","position":4,"name":"Former harnett county detective indicted misuing license plate readers november 2026","item":"https://wral.com/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026"}]}
+		</script>
+
+		
+			
+				<script type="text/javascript">
+					window._taboola = window._taboola || [];
+					_taboola.push({article:'auto'});
+					!function (e, f, u, i) {
+						if (!document.getElementById(i)){
+							e.async = 1;
+							e.src = u;
+							e.id = i;
+							f.parentNode.insertBefore(e, f);
+						}
+					}(document.createElement('script'),
+					document.getElementsByTagName('script')[0],
+					'//cdn.taboola.com/libtrc/wral-wralnews/loader.js',
+					'tb_loader_script');
+					if(window.performance && typeof window.performance.mark == 'function')
+						{window.performance.mark('tbl_ic');}
+				</script>
+
+				<script defer="" src="//s.ntv.io/serve/load.js"></script>
+				<script defer="" src="https://ak.sail-horizon.com/spm/spm.v1.min.js"></script>
+				<script>Sailthru.init({ customerId: '1f6454efcec5f1022e7f7daf14bbbeb4' });</script>
+			
+		
+		<!-- Taboola Web Push SDK (DEV-1315), behind the same gate as the Taboola loader above.
+		     It registers the /sw.js service worker served from platforms.web.wral-public-root. -->
+		
+			
+				<script async="" src="https://cdn.taboola.com/webpush/publishers/2102904/taboola-push-sdk.js"></script>
+			
+		
+	<style>
+			.timestamp .timestamp-item:not(:first-child)::before {
+				content: "—";
+			}
+
+			/* DEV-1234 · Google draws a fixed 40px-tall button into the placeholder
+			   after load; reserve that height so the header does not shift. */
+			.article-preferred-source {
+				min-height: 40px;
+			}
+
+			.aspect-16x9 {
+				aspect-ratio: 16 / 9;
+			}
+
+			.article-body-video {
+				margin: 1rem 0;
+			}
+
+			.article-body-video .video-container {
+				position: relative;
+				padding-bottom: calc(100% * 9 / 16);
+				width: 100%;
+			}
+
+			.article-body-video .video-container > * {
+				max-width: 100%;
+				width: 100%;
+				height: 100%;
+				position: absolute;
+			}
+
+			.article-hero img {
+				background-color: var(--color-gray-2);
+				color: var(--color-gray-4);
+				font-family: var(--body-font-family);
+				text-shadow: 1px 1px 1px var(--color-white);
+				display: grid;
+				align-content: center;
+				justify-content: center;
+			}
+
+			figcaption,
+			.article-body .image-tool__caption,
+			.article-body media-caption {
+				color: var(--color-gray-4);
+				border-bottom: 0.0625rem solid var(--color-gray-2);
+				padding-bottom: 0.625rem;
+				font-size: 0.8125rem;
+				display: block;
+				font-family: sans-serif;
+				margin: 1rem 0;
+			}
+
+			/* Rights line under an image. Emitted by plexer's content/image
+			   transform for body images, and by the hero figure below. Inline so
+			   it reads as part of the caption: "A caption (© WRAL)". */
+			.image-copyright {
+				white-space: nowrap;
+			}
+
+			.ai-generation-notice {
+				color: var(--color-gray-4);
+				font-style: italic;
+				margin-bottom: 0.5rem;
+			}
+
+			.house-promo {
+				display: flex;
+				width: 300px;
+				min-height: 158px;
+				border-width: .1875rem;
+				--tw-border-opacity: 1;
+				border-color: rgb(231 229 228/var(--tw-border-opacity));
+				padding: .625rem;
+				border-style: solid;
+				box-sizing: border-box;
+				margin: auto;
+			}
+
+			.house-promo:empty {
+
+				border: none;
+			}
+
+			.font-resize-container {
+				margin-left: 0;
+				display: flex;
+				flex-direction: row;
+				gap: .5rem;
+				margin-right: auto;
+				margin-top: 5px;
+				min-height: 37px;
+				align-items: center;
+			}
+
+			.article-tools-container {
+				display: flex;
+				align-items: anchor-center;
+			}
+
+			.small-font p {
+				font-size: 1.125rem;
+			}
+
+			.medium-font p {
+				font-size: 1.5rem;
+			}
+
+			.large-font p {
+				font-size: 1.75rem;
+			}
+			.more-on-this {
+				margin: 0px auto;
+				padding: 0px 1rem;
+			}
+
+			.more-on-this > h3 {
+				margin: 0px 0px 1rem;
+			}
+
+			.more-on-this > .more-on-this-item {
+				align-content: flex-start;
+				align-items: flex-start;
+				flex-flow: row nowrap;
+				border-bottom: 0.0625rem solid #e7e5e4;
+				padding: 0.625rem 0 0.75rem;
+			}
+
+			.related-collection > .more-on-this-item {
+				padding: 0.625rem 0 0.75rem;
+			}
+
+			.more-on-this-item article-asset {
+				display: block;
+			}
+
+			.opscoad-OOP_Adhesion {
+				display: block;
+				width: 100%;
+				min-height: 50px;
+			}
+
+			@media (min-width: 768px) {
+				.opscoad-OOP_Adhesion {
+					min-height: 90px;
+				}
+			}
+
+			.opscoad-OOP_Adhesion iframe,
+			.opscoad-OOP_Adhesion img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
+		</style>
+	<script src="https://cdn.cookielaw.org/scripttemplates/202310.1.0/otBannerSdk.js" async="" type="text/javascript"></script><style>@charset "UTF-8";
+.vjs-modal-dialog .vjs-modal-dialog-content, .video-js .vjs-modal-dialog, .vjs-button > .vjs-icon-placeholder:before, .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vjs-button > .vjs-icon-placeholder:before, .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
+  text-align: center;
+}
+
+@font-face {
+  font-family: VideoJS;
+  src: url(data:application/font-woff;charset=utf-8;base64,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) format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-play, .video-js .vjs-play-control .vjs-icon-placeholder, .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-play:before, .video-js .vjs-play-control .vjs-icon-placeholder:before, .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
+  content: "\f101";
+}
+
+.vjs-icon-play-circle {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-play-circle:before {
+  content: "\f102";
+}
+
+.vjs-icon-pause, .video-js .vjs-play-control.vjs-playing .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-pause:before, .video-js .vjs-play-control.vjs-playing .vjs-icon-placeholder:before {
+  content: "\f103";
+}
+
+.vjs-icon-volume-mute, .video-js .vjs-mute-control.vjs-vol-0 .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-volume-mute:before, .video-js .vjs-mute-control.vjs-vol-0 .vjs-icon-placeholder:before {
+  content: "\f104";
+}
+
+.vjs-icon-volume-low, .video-js .vjs-mute-control.vjs-vol-1 .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-volume-low:before, .video-js .vjs-mute-control.vjs-vol-1 .vjs-icon-placeholder:before {
+  content: "\f105";
+}
+
+.vjs-icon-volume-mid, .video-js .vjs-mute-control.vjs-vol-2 .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-volume-mid:before, .video-js .vjs-mute-control.vjs-vol-2 .vjs-icon-placeholder:before {
+  content: "\f106";
+}
+
+.vjs-icon-volume-high, .video-js .vjs-mute-control .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-volume-high:before, .video-js .vjs-mute-control .vjs-icon-placeholder:before {
+  content: "\f107";
+}
+
+.vjs-icon-fullscreen-enter, .video-js .vjs-fullscreen-control .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-fullscreen-enter:before, .video-js .vjs-fullscreen-control .vjs-icon-placeholder:before {
+  content: "\f108";
+}
+
+.vjs-icon-fullscreen-exit, .video-js.vjs-fullscreen .vjs-fullscreen-control .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-fullscreen-exit:before, .video-js.vjs-fullscreen .vjs-fullscreen-control .vjs-icon-placeholder:before {
+  content: "\f109";
+}
+
+.vjs-icon-square {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-square:before {
+  content: "\f10a";
+}
+
+.vjs-icon-spinner {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-spinner:before {
+  content: "\f10b";
+}
+
+.vjs-icon-subtitles, .video-js .vjs-subs-caps-button .vjs-icon-placeholder,
+.video-js.video-js:lang(en-GB) .vjs-subs-caps-button .vjs-icon-placeholder,
+.video-js.video-js:lang(en-IE) .vjs-subs-caps-button .vjs-icon-placeholder,
+.video-js.video-js:lang(en-AU) .vjs-subs-caps-button .vjs-icon-placeholder,
+.video-js.video-js:lang(en-NZ) .vjs-subs-caps-button .vjs-icon-placeholder, .video-js .vjs-subtitles-button .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-subtitles:before, .video-js .vjs-subs-caps-button .vjs-icon-placeholder:before,
+.video-js.video-js:lang(en-GB) .vjs-subs-caps-button .vjs-icon-placeholder:before,
+.video-js.video-js:lang(en-IE) .vjs-subs-caps-button .vjs-icon-placeholder:before,
+.video-js.video-js:lang(en-AU) .vjs-subs-caps-button .vjs-icon-placeholder:before,
+.video-js.video-js:lang(en-NZ) .vjs-subs-caps-button .vjs-icon-placeholder:before, .video-js .vjs-subtitles-button .vjs-icon-placeholder:before {
+  content: "\f10c";
+}
+
+.vjs-icon-captions, .video-js:lang(en) .vjs-subs-caps-button .vjs-icon-placeholder,
+.video-js:lang(fr-CA) .vjs-subs-caps-button .vjs-icon-placeholder, .video-js .vjs-captions-button .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-captions:before, .video-js:lang(en) .vjs-subs-caps-button .vjs-icon-placeholder:before,
+.video-js:lang(fr-CA) .vjs-subs-caps-button .vjs-icon-placeholder:before, .video-js .vjs-captions-button .vjs-icon-placeholder:before {
+  content: "\f10d";
+}
+
+.vjs-icon-chapters, .video-js .vjs-chapters-button .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-chapters:before, .video-js .vjs-chapters-button .vjs-icon-placeholder:before {
+  content: "\f10e";
+}
+
+.vjs-icon-share {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-share:before {
+  content: "\f10f";
+}
+
+.vjs-icon-cog {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-cog:before {
+  content: "\f110";
+}
+
+.vjs-icon-circle, .vjs-seek-to-live-control .vjs-icon-placeholder, .video-js .vjs-volume-level, .video-js .vjs-play-progress {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-circle:before, .vjs-seek-to-live-control .vjs-icon-placeholder:before, .video-js .vjs-volume-level:before, .video-js .vjs-play-progress:before {
+  content: "\f111";
+}
+
+.vjs-icon-circle-outline {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-circle-outline:before {
+  content: "\f112";
+}
+
+.vjs-icon-circle-inner-circle {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-circle-inner-circle:before {
+  content: "\f113";
+}
+
+.vjs-icon-hd {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-hd:before {
+  content: "\f114";
+}
+
+.vjs-icon-cancel, .video-js .vjs-control.vjs-close-button .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-cancel:before, .video-js .vjs-control.vjs-close-button .vjs-icon-placeholder:before {
+  content: "\f115";
+}
+
+.vjs-icon-replay, .video-js .vjs-play-control.vjs-ended .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-replay:before, .video-js .vjs-play-control.vjs-ended .vjs-icon-placeholder:before {
+  content: "\f116";
+}
+
+.vjs-icon-facebook {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-facebook:before {
+  content: "\f117";
+}
+
+.vjs-icon-gplus {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-gplus:before {
+  content: "\f118";
+}
+
+.vjs-icon-linkedin {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-linkedin:before {
+  content: "\f119";
+}
+
+.vjs-icon-twitter {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-twitter:before {
+  content: "\f11a";
+}
+
+.vjs-icon-tumblr {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-tumblr:before {
+  content: "\f11b";
+}
+
+.vjs-icon-pinterest {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-pinterest:before {
+  content: "\f11c";
+}
+
+.vjs-icon-audio-description, .video-js .vjs-descriptions-button .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-audio-description:before, .video-js .vjs-descriptions-button .vjs-icon-placeholder:before {
+  content: "\f11d";
+}
+
+.vjs-icon-audio, .video-js .vjs-audio-button .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-audio:before, .video-js .vjs-audio-button .vjs-icon-placeholder:before {
+  content: "\f11e";
+}
+
+.vjs-icon-next-item {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-next-item:before {
+  content: "\f11f";
+}
+
+.vjs-icon-previous-item {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-previous-item:before {
+  content: "\f120";
+}
+
+.vjs-icon-picture-in-picture-enter, .video-js .vjs-picture-in-picture-control .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-picture-in-picture-enter:before, .video-js .vjs-picture-in-picture-control .vjs-icon-placeholder:before {
+  content: "\f121";
+}
+
+.vjs-icon-picture-in-picture-exit, .video-js.vjs-picture-in-picture .vjs-picture-in-picture-control .vjs-icon-placeholder {
+  font-family: VideoJS;
+  font-weight: normal;
+  font-style: normal;
+}
+.vjs-icon-picture-in-picture-exit:before, .video-js.vjs-picture-in-picture .vjs-picture-in-picture-control .vjs-icon-placeholder:before {
+  content: "\f122";
+}
+
+.video-js {
+  display: block;
+  vertical-align: top;
+  box-sizing: border-box;
+  color: #fff;
+  background-color: #000;
+  position: relative;
+  padding: 0;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: normal;
+  font-style: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  word-break: initial;
+}
+.video-js:-moz-full-screen {
+  position: absolute;
+}
+.video-js:-webkit-full-screen {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.video-js[tabindex="-1"] {
+  outline: none;
+}
+
+.video-js *,
+.video-js *:before,
+.video-js *:after {
+  box-sizing: inherit;
+}
+
+.video-js ul {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  list-style-position: outside;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.video-js.vjs-fluid,
+.video-js.vjs-16-9,
+.video-js.vjs-4-3,
+.video-js.vjs-9-16,
+.video-js.vjs-1-1 {
+  width: 100%;
+  max-width: 100%;
+}
+
+.video-js.vjs-fluid:not(.vjs-audio-only-mode),
+.video-js.vjs-16-9:not(.vjs-audio-only-mode),
+.video-js.vjs-4-3:not(.vjs-audio-only-mode),
+.video-js.vjs-9-16:not(.vjs-audio-only-mode),
+.video-js.vjs-1-1:not(.vjs-audio-only-mode) {
+  height: 0;
+}
+
+.video-js.vjs-16-9:not(.vjs-audio-only-mode) {
+  padding-top: 56.25%;
+}
+
+.video-js.vjs-4-3:not(.vjs-audio-only-mode) {
+  padding-top: 75%;
+}
+
+.video-js.vjs-9-16:not(.vjs-audio-only-mode) {
+  padding-top: 177.7777777778%;
+}
+
+.video-js.vjs-1-1:not(.vjs-audio-only-mode) {
+  padding-top: 100%;
+}
+
+.video-js.vjs-fill:not(.vjs-audio-only-mode) {
+  width: 100%;
+  height: 100%;
+}
+
+.video-js .vjs-tech {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-js.vjs-audio-only-mode .vjs-tech {
+  display: none;
+}
+
+body.vjs-full-window {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.vjs-full-window .video-js.vjs-fullscreen {
+  position: fixed;
+  overflow: hidden;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.video-js.vjs-fullscreen:not(.vjs-ios-native-fs) {
+  width: 100% !important;
+  height: 100% !important;
+  padding-top: 0 !important;
+}
+
+.video-js.vjs-fullscreen.vjs-user-inactive {
+  cursor: none;
+}
+
+.vjs-hidden {
+  display: none !important;
+}
+
+.vjs-disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.video-js .vjs-offscreen {
+  height: 1px;
+  left: -9999px;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.vjs-lock-showing {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.vjs-no-js {
+  padding: 20px;
+  color: #fff;
+  background-color: #000;
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  width: 300px;
+  height: 150px;
+  margin: 0px auto;
+}
+
+.vjs-no-js a,
+.vjs-no-js a:visited {
+  color: #66A8CC;
+}
+
+.video-js .vjs-big-play-button {
+  font-size: 3em;
+  line-height: 1.5em;
+  height: 1.63332em;
+  width: 3em;
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 0;
+  cursor: pointer;
+  opacity: 1;
+  border: 0.06666em solid #fff;
+  background-color: #2B333F;
+  background-color: rgba(43, 51, 63, 0.7);
+  border-radius: 0.3em;
+  transition: all 0.4s;
+}
+.vjs-big-play-centered .vjs-big-play-button {
+  top: 50%;
+  left: 50%;
+  margin-top: -0.81666em;
+  margin-left: -1.5em;
+}
+
+.video-js:hover .vjs-big-play-button,
+.video-js .vjs-big-play-button:focus {
+  border-color: #fff;
+  background-color: #73859f;
+  background-color: rgba(115, 133, 159, 0.5);
+  transition: all 0s;
+}
+
+.vjs-controls-disabled .vjs-big-play-button,
+.vjs-has-started .vjs-big-play-button,
+.vjs-using-native-controls .vjs-big-play-button,
+.vjs-error .vjs-big-play-button {
+  display: none;
+}
+
+.vjs-has-started.vjs-paused.vjs-show-big-play-button-on-pause .vjs-big-play-button {
+  display: block;
+}
+
+.video-js button {
+  background: none;
+  border: none;
+  color: inherit;
+  display: inline-block;
+  font-size: inherit;
+  line-height: inherit;
+  text-transform: none;
+  text-decoration: none;
+  transition: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.vjs-control .vjs-button {
+  width: 100%;
+  height: 100%;
+}
+
+.video-js .vjs-control.vjs-close-button {
+  cursor: pointer;
+  height: 3em;
+  position: absolute;
+  right: 0;
+  top: 0.5em;
+  z-index: 2;
+}
+.video-js .vjs-modal-dialog {
+  background: rgba(0, 0, 0, 0.8);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0));
+  overflow: auto;
+}
+
+.video-js .vjs-modal-dialog > * {
+  box-sizing: border-box;
+}
+
+.vjs-modal-dialog .vjs-modal-dialog-content {
+  font-size: 1.2em;
+  line-height: 1.5;
+  padding: 20px 24px;
+  z-index: 1;
+}
+
+.vjs-menu-button {
+  cursor: pointer;
+}
+
+.vjs-menu-button.vjs-disabled {
+  cursor: default;
+}
+
+.vjs-workinghover .vjs-menu-button.vjs-disabled:hover .vjs-menu {
+  display: none;
+}
+
+.vjs-menu .vjs-menu-content {
+  display: block;
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: auto;
+}
+
+.vjs-menu .vjs-menu-content > * {
+  box-sizing: border-box;
+}
+
+.vjs-scrubbing .vjs-control.vjs-menu-button:hover .vjs-menu {
+  display: none;
+}
+
+.vjs-menu li {
+  list-style: none;
+  margin: 0;
+  padding: 0.2em 0;
+  line-height: 1.4em;
+  font-size: 1.2em;
+  text-align: center;
+  text-transform: lowercase;
+}
+
+.vjs-menu li.vjs-menu-item:focus,
+.vjs-menu li.vjs-menu-item:hover,
+.js-focus-visible .vjs-menu li.vjs-menu-item:hover {
+  background-color: #73859f;
+  background-color: rgba(115, 133, 159, 0.5);
+}
+
+.vjs-menu li.vjs-selected,
+.vjs-menu li.vjs-selected:focus,
+.vjs-menu li.vjs-selected:hover,
+.js-focus-visible .vjs-menu li.vjs-selected:hover {
+  background-color: #fff;
+  color: #2B333F;
+}
+
+.video-js .vjs-menu *:not(.vjs-selected):focus:not(:focus-visible),
+.js-focus-visible .vjs-menu *:not(.vjs-selected):focus:not(.focus-visible) {
+  background: none;
+}
+
+.vjs-menu li.vjs-menu-title {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1em;
+  line-height: 2em;
+  padding: 0;
+  margin: 0 0 0.3em 0;
+  font-weight: bold;
+  cursor: default;
+}
+
+.vjs-menu-button-popup .vjs-menu {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  width: 10em;
+  left: -3em;
+  height: 0em;
+  margin-bottom: 1.5em;
+  border-top-color: rgba(43, 51, 63, 0.7);
+}
+
+.vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  background-color: #2B333F;
+  background-color: rgba(43, 51, 63, 0.7);
+  position: absolute;
+  width: 100%;
+  bottom: 1.5em;
+  max-height: 15em;
+}
+
+.vjs-layout-tiny .vjs-menu-button-popup .vjs-menu .vjs-menu-content,
+.vjs-layout-x-small .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  max-height: 5em;
+}
+
+.vjs-layout-small .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  max-height: 10em;
+}
+
+.vjs-layout-medium .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  max-height: 14em;
+}
+
+.vjs-layout-large .vjs-menu-button-popup .vjs-menu .vjs-menu-content,
+.vjs-layout-x-large .vjs-menu-button-popup .vjs-menu .vjs-menu-content,
+.vjs-layout-huge .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  max-height: 25em;
+}
+
+.vjs-workinghover .vjs-menu-button-popup.vjs-hover .vjs-menu,
+.vjs-menu-button-popup .vjs-menu.vjs-lock-showing {
+  display: block;
+}
+
+.video-js .vjs-menu-button-inline {
+  transition: all 0.4s;
+  overflow: hidden;
+}
+
+.video-js .vjs-menu-button-inline:before {
+  width: 2.222222222em;
+}
+
+.video-js .vjs-menu-button-inline:hover,
+.video-js .vjs-menu-button-inline:focus,
+.video-js .vjs-menu-button-inline.vjs-slider-active,
+.video-js.vjs-no-flex .vjs-menu-button-inline {
+  width: 12em;
+}
+
+.vjs-menu-button-inline .vjs-menu {
+  opacity: 0;
+  height: 100%;
+  width: auto;
+  position: absolute;
+  left: 4em;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  transition: all 0.4s;
+}
+
+.vjs-menu-button-inline:hover .vjs-menu,
+.vjs-menu-button-inline:focus .vjs-menu,
+.vjs-menu-button-inline.vjs-slider-active .vjs-menu {
+  display: block;
+  opacity: 1;
+}
+
+.vjs-no-flex .vjs-menu-button-inline .vjs-menu {
+  display: block;
+  opacity: 1;
+  position: relative;
+  width: auto;
+}
+
+.vjs-no-flex .vjs-menu-button-inline:hover .vjs-menu,
+.vjs-no-flex .vjs-menu-button-inline:focus .vjs-menu,
+.vjs-no-flex .vjs-menu-button-inline.vjs-slider-active .vjs-menu {
+  width: auto;
+}
+
+.vjs-menu-button-inline .vjs-menu-content {
+  width: auto;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.video-js .vjs-control-bar {
+  display: none;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3em;
+  background-color: #2B333F;
+  background-color: rgba(43, 51, 63, 0.7);
+}
+
+.vjs-has-started .vjs-control-bar,
+.vjs-audio-only-mode .vjs-control-bar {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0.1s, opacity 0.1s;
+}
+
+.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+  visibility: visible;
+  opacity: 0;
+  pointer-events: none;
+  transition: visibility 1s, opacity 1s;
+}
+
+.vjs-controls-disabled .vjs-control-bar,
+.vjs-using-native-controls .vjs-control-bar,
+.vjs-error .vjs-control-bar {
+  display: none !important;
+}
+
+.vjs-audio.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar,
+.vjs-audio-only-mode.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.vjs-has-started.vjs-no-flex .vjs-control-bar {
+  display: table;
+}
+
+.video-js .vjs-control {
+  position: relative;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 4em;
+  flex: none;
+}
+
+.video-js .vjs-control.vjs-visible-text {
+  width: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.vjs-button > .vjs-icon-placeholder:before {
+  font-size: 1.8em;
+  line-height: 1.67;
+}
+
+.vjs-button > .vjs-icon-placeholder {
+  display: block;
+}
+
+.video-js .vjs-control:focus:before,
+.video-js .vjs-control:hover:before,
+.video-js .vjs-control:focus {
+  text-shadow: 0em 0em 1em white;
+}
+
+.video-js *:not(.vjs-visible-text) > .vjs-control-text {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.vjs-no-flex .vjs-control {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.video-js .vjs-custom-control-spacer {
+  display: none;
+}
+
+.video-js .vjs-progress-control {
+  cursor: pointer;
+  flex: auto;
+  display: flex;
+  align-items: center;
+  min-width: 4em;
+  touch-action: none;
+}
+
+.video-js .vjs-progress-control.disabled {
+  cursor: default;
+}
+
+.vjs-live .vjs-progress-control {
+  display: none;
+}
+
+.vjs-liveui .vjs-progress-control {
+  display: flex;
+  align-items: center;
+}
+
+.vjs-no-flex .vjs-progress-control {
+  width: auto;
+}
+
+.video-js .vjs-progress-holder {
+  flex: auto;
+  transition: all 0.2s;
+  height: 0.3em;
+}
+
+.video-js .vjs-progress-control .vjs-progress-holder {
+  margin: 0 10px;
+}
+
+.video-js .vjs-progress-control:hover .vjs-progress-holder {
+  font-size: 1.6666666667em;
+}
+
+.video-js .vjs-progress-control:hover .vjs-progress-holder.disabled {
+  font-size: 1em;
+}
+
+.video-js .vjs-progress-holder .vjs-play-progress,
+.video-js .vjs-progress-holder .vjs-load-progress,
+.video-js .vjs-progress-holder .vjs-load-progress div {
+  position: absolute;
+  display: block;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 0;
+}
+
+.video-js .vjs-play-progress {
+  background-color: #fff;
+}
+.video-js .vjs-play-progress:before {
+  font-size: 0.9em;
+  position: absolute;
+  right: -0.5em;
+  top: -0.3333333333em;
+  z-index: 1;
+}
+
+.video-js .vjs-load-progress {
+  background: rgba(115, 133, 159, 0.5);
+}
+
+.video-js .vjs-load-progress div {
+  background: rgba(115, 133, 159, 0.75);
+}
+
+.video-js .vjs-time-tooltip {
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 0.3em;
+  color: #000;
+  float: right;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  padding: 6px 8px 8px 8px;
+  pointer-events: none;
+  position: absolute;
+  top: -3.4em;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.video-js .vjs-progress-holder:focus .vjs-time-tooltip {
+  display: none;
+}
+
+.video-js .vjs-progress-control:hover .vjs-time-tooltip,
+.video-js .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
+  display: block;
+  font-size: 0.6em;
+  visibility: visible;
+}
+
+.video-js .vjs-progress-control.disabled:hover .vjs-time-tooltip {
+  font-size: 1em;
+}
+
+.video-js .vjs-progress-control .vjs-mouse-display {
+  display: none;
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background-color: #000;
+  z-index: 1;
+}
+
+.vjs-no-flex .vjs-progress-control .vjs-mouse-display {
+  z-index: 0;
+}
+
+.video-js .vjs-progress-control:hover .vjs-mouse-display {
+  display: block;
+}
+
+.video-js.vjs-user-inactive .vjs-progress-control .vjs-mouse-display {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 1s, opacity 1s;
+}
+
+.video-js.vjs-user-inactive.vjs-no-flex .vjs-progress-control .vjs-mouse-display {
+  display: none;
+}
+
+.vjs-mouse-display .vjs-time-tooltip {
+  color: #fff;
+  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.video-js .vjs-slider {
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0.45em 0 0.45em;
+  /* iOS Safari */
+  -webkit-touch-callout: none;
+  /* Safari */
+  -webkit-user-select: none;
+  /* Konqueror HTML */
+  /* Firefox */
+  -moz-user-select: none;
+  /* Internet Explorer/Edge */
+  -ms-user-select: none;
+  /* Non-prefixed version, currently supported by Chrome and Opera */
+  user-select: none;
+  background-color: #73859f;
+  background-color: rgba(115, 133, 159, 0.5);
+}
+
+.video-js .vjs-slider.disabled {
+  cursor: default;
+}
+
+.video-js .vjs-slider:focus {
+  text-shadow: 0em 0em 1em white;
+  box-shadow: 0 0 1em #fff;
+}
+
+.video-js .vjs-mute-control {
+  cursor: pointer;
+  flex: none;
+}
+.video-js .vjs-volume-control {
+  cursor: pointer;
+  margin-right: 1em;
+  display: flex;
+}
+
+.video-js .vjs-volume-control.vjs-volume-horizontal {
+  width: 5em;
+}
+
+.video-js .vjs-volume-panel .vjs-volume-control {
+  visibility: visible;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin-left: -1px;
+}
+
+.video-js .vjs-volume-panel {
+  transition: width 1s;
+}
+.video-js .vjs-volume-panel.vjs-hover .vjs-volume-control, .video-js .vjs-volume-panel:active .vjs-volume-control, .video-js .vjs-volume-panel:focus .vjs-volume-control, .video-js .vjs-volume-panel .vjs-volume-control:active, .video-js .vjs-volume-panel.vjs-hover .vjs-mute-control ~ .vjs-volume-control, .video-js .vjs-volume-panel .vjs-volume-control.vjs-slider-active {
+  visibility: visible;
+  opacity: 1;
+  position: relative;
+  transition: visibility 0.1s, opacity 0.1s, height 0.1s, width 0.1s, left 0s, top 0s;
+}
+.video-js .vjs-volume-panel.vjs-hover .vjs-volume-control.vjs-volume-horizontal, .video-js .vjs-volume-panel:active .vjs-volume-control.vjs-volume-horizontal, .video-js .vjs-volume-panel:focus .vjs-volume-control.vjs-volume-horizontal, .video-js .vjs-volume-panel .vjs-volume-control:active.vjs-volume-horizontal, .video-js .vjs-volume-panel.vjs-hover .vjs-mute-control ~ .vjs-volume-control.vjs-volume-horizontal, .video-js .vjs-volume-panel .vjs-volume-control.vjs-slider-active.vjs-volume-horizontal {
+  width: 5em;
+  height: 3em;
+  margin-right: 0;
+}
+.video-js .vjs-volume-panel.vjs-hover .vjs-volume-control.vjs-volume-vertical, .video-js .vjs-volume-panel:active .vjs-volume-control.vjs-volume-vertical, .video-js .vjs-volume-panel:focus .vjs-volume-control.vjs-volume-vertical, .video-js .vjs-volume-panel .vjs-volume-control:active.vjs-volume-vertical, .video-js .vjs-volume-panel.vjs-hover .vjs-mute-control ~ .vjs-volume-control.vjs-volume-vertical, .video-js .vjs-volume-panel .vjs-volume-control.vjs-slider-active.vjs-volume-vertical {
+  left: -3.5em;
+  transition: left 0s;
+}
+.video-js .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-hover, .video-js .vjs-volume-panel.vjs-volume-panel-horizontal:active, .video-js .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-slider-active {
+  width: 10em;
+  transition: width 0.1s;
+}
+.video-js .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-mute-toggle-only {
+  width: 4em;
+}
+
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
+  height: 8em;
+  width: 3em;
+  left: -3000em;
+  transition: visibility 1s, opacity 1s, height 1s 1s, width 1s 1s, left 1s 1s, top 1s 1s;
+}
+
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
+  transition: visibility 1s, opacity 1s, height 1s 1s, width 1s, left 1s 1s, top 1s 1s;
+}
+
+.video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
+  width: 5em;
+  height: 3em;
+  visibility: visible;
+  opacity: 1;
+  position: relative;
+  transition: none;
+}
+
+.video-js.vjs-no-flex .vjs-volume-control.vjs-volume-vertical,
+.video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
+  position: absolute;
+  bottom: 3em;
+  left: 0.5em;
+}
+
+.video-js .vjs-volume-panel {
+  display: flex;
+}
+
+.video-js .vjs-volume-bar {
+  margin: 1.35em 0.45em;
+}
+
+.vjs-volume-bar.vjs-slider-horizontal {
+  width: 5em;
+  height: 0.3em;
+}
+
+.vjs-volume-bar.vjs-slider-vertical {
+  width: 0.3em;
+  height: 5em;
+  margin: 1.35em auto;
+}
+
+.video-js .vjs-volume-level {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+}
+.video-js .vjs-volume-level:before {
+  position: absolute;
+  font-size: 0.9em;
+  z-index: 1;
+}
+
+.vjs-slider-vertical .vjs-volume-level {
+  width: 0.3em;
+}
+.vjs-slider-vertical .vjs-volume-level:before {
+  top: -0.5em;
+  left: -0.3em;
+  z-index: 1;
+}
+
+.vjs-slider-horizontal .vjs-volume-level {
+  height: 0.3em;
+}
+.vjs-slider-horizontal .vjs-volume-level:before {
+  top: -0.3em;
+  right: -0.5em;
+}
+
+.video-js .vjs-volume-panel.vjs-volume-panel-vertical {
+  width: 4em;
+}
+
+.vjs-volume-bar.vjs-slider-vertical .vjs-volume-level {
+  height: 100%;
+}
+
+.vjs-volume-bar.vjs-slider-horizontal .vjs-volume-level {
+  width: 100%;
+}
+
+.video-js .vjs-volume-vertical {
+  width: 3em;
+  height: 8em;
+  bottom: 8em;
+  background-color: #2B333F;
+  background-color: rgba(43, 51, 63, 0.7);
+}
+
+.video-js .vjs-volume-horizontal .vjs-menu {
+  left: -2em;
+}
+
+.video-js .vjs-volume-tooltip {
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 0.3em;
+  color: #000;
+  float: right;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  padding: 6px 8px 8px 8px;
+  pointer-events: none;
+  position: absolute;
+  top: -3.4em;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.video-js .vjs-volume-control:hover .vjs-volume-tooltip,
+.video-js .vjs-volume-control:hover .vjs-progress-holder:focus .vjs-volume-tooltip {
+  display: block;
+  font-size: 1em;
+  visibility: visible;
+}
+
+.video-js .vjs-volume-vertical:hover .vjs-volume-tooltip,
+.video-js .vjs-volume-vertical:hover .vjs-progress-holder:focus .vjs-volume-tooltip {
+  left: 1em;
+  top: -12px;
+}
+
+.video-js .vjs-volume-control.disabled:hover .vjs-volume-tooltip {
+  font-size: 1em;
+}
+
+.video-js .vjs-volume-control .vjs-mouse-display {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  z-index: 1;
+}
+
+.video-js .vjs-volume-horizontal .vjs-mouse-display {
+  width: 1px;
+  height: 100%;
+}
+
+.vjs-no-flex .vjs-volume-control .vjs-mouse-display {
+  z-index: 0;
+}
+
+.video-js .vjs-volume-control:hover .vjs-mouse-display {
+  display: block;
+}
+
+.video-js.vjs-user-inactive .vjs-volume-control .vjs-mouse-display {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 1s, opacity 1s;
+}
+
+.video-js.vjs-user-inactive.vjs-no-flex .vjs-volume-control .vjs-mouse-display {
+  display: none;
+}
+
+.vjs-mouse-display .vjs-volume-tooltip {
+  color: #fff;
+  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.vjs-poster {
+  display: inline-block;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: contain;
+  background-color: #000000;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+}
+
+.vjs-has-started .vjs-poster,
+.vjs-using-native-controls .vjs-poster {
+  display: none;
+}
+
+.vjs-audio.vjs-has-started .vjs-poster,
+.vjs-has-started.vjs-audio-poster-mode .vjs-poster {
+  display: block;
+}
+
+.video-js .vjs-live-control {
+  display: flex;
+  align-items: flex-start;
+  flex: auto;
+  font-size: 1em;
+  line-height: 3em;
+}
+
+.vjs-no-flex .vjs-live-control {
+  display: table-cell;
+  width: auto;
+  text-align: left;
+}
+
+.video-js:not(.vjs-live) .vjs-live-control,
+.video-js.vjs-liveui .vjs-live-control {
+  display: none;
+}
+
+.video-js .vjs-seek-to-live-control {
+  align-items: center;
+  cursor: pointer;
+  flex: none;
+  display: inline-flex;
+  height: 100%;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  font-size: 1em;
+  line-height: 3em;
+  width: auto;
+  min-width: 4em;
+}
+
+.vjs-no-flex .vjs-seek-to-live-control {
+  display: table-cell;
+  width: auto;
+  text-align: left;
+}
+
+.video-js.vjs-live:not(.vjs-liveui) .vjs-seek-to-live-control,
+.video-js:not(.vjs-live) .vjs-seek-to-live-control {
+  display: none;
+}
+
+.vjs-seek-to-live-control.vjs-control.vjs-at-live-edge {
+  cursor: auto;
+}
+
+.vjs-seek-to-live-control .vjs-icon-placeholder {
+  margin-right: 0.5em;
+  color: #888;
+}
+
+.vjs-seek-to-live-control.vjs-control.vjs-at-live-edge .vjs-icon-placeholder {
+  color: red;
+}
+
+.video-js .vjs-time-control {
+  flex: none;
+  font-size: 1em;
+  line-height: 3em;
+  min-width: 2em;
+  width: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.vjs-live .vjs-time-control {
+  display: none;
+}
+
+.video-js .vjs-current-time,
+.vjs-no-flex .vjs-current-time {
+  display: none;
+}
+
+.video-js .vjs-duration,
+.vjs-no-flex .vjs-duration {
+  display: none;
+}
+
+.vjs-time-divider {
+  display: none;
+  line-height: 3em;
+}
+
+.vjs-live .vjs-time-divider {
+  display: none;
+}
+
+.video-js .vjs-play-control {
+  cursor: pointer;
+}
+
+.video-js .vjs-play-control .vjs-icon-placeholder {
+  flex: none;
+}
+
+.vjs-text-track-display {
+  position: absolute;
+  bottom: 3em;
+  left: 0;
+  right: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.video-js.vjs-controls-disabled .vjs-text-track-display,
+.video-js.vjs-user-inactive.vjs-playing .vjs-text-track-display {
+  bottom: 1em;
+}
+
+.video-js .vjs-text-track {
+  font-size: 1.4em;
+  text-align: center;
+  margin-bottom: 0.1em;
+}
+
+.vjs-subtitles {
+  color: #fff;
+}
+
+.vjs-captions {
+  color: #fc6;
+}
+
+.vjs-tt-cue {
+  display: block;
+}
+
+video::-webkit-media-text-track-display {
+  transform: translateY(-3em);
+}
+
+.video-js.vjs-controls-disabled video::-webkit-media-text-track-display,
+.video-js.vjs-user-inactive.vjs-playing video::-webkit-media-text-track-display {
+  transform: translateY(-1.5em);
+}
+
+.video-js .vjs-picture-in-picture-control {
+  cursor: pointer;
+  flex: none;
+}
+.video-js.vjs-audio-only-mode .vjs-picture-in-picture-control {
+  display: none;
+}
+
+.video-js .vjs-fullscreen-control {
+  cursor: pointer;
+  flex: none;
+}
+.video-js.vjs-audio-only-mode .vjs-fullscreen-control {
+  display: none;
+}
+
+.vjs-playback-rate > .vjs-menu-button,
+.vjs-playback-rate .vjs-playback-rate-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vjs-playback-rate .vjs-playback-rate-value {
+  pointer-events: none;
+  font-size: 1.5em;
+  line-height: 2;
+  text-align: center;
+}
+
+.vjs-playback-rate .vjs-menu {
+  width: 4em;
+  left: 0em;
+}
+
+.vjs-error .vjs-error-display .vjs-modal-dialog-content {
+  font-size: 1.4em;
+  text-align: center;
+}
+
+.vjs-error .vjs-error-display:before {
+  color: #fff;
+  content: "X";
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 4em;
+  left: 0;
+  line-height: 1;
+  margin-top: -0.5em;
+  position: absolute;
+  text-shadow: 0.05em 0.05em 0.1em #000;
+  text-align: center;
+  top: 50%;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.vjs-loading-spinner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+  opacity: 0.85;
+  text-align: left;
+  border: 6px solid rgba(43, 51, 63, 0.7);
+  box-sizing: border-box;
+  background-clip: padding-box;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  visibility: hidden;
+}
+
+.vjs-seeking .vjs-loading-spinner,
+.vjs-waiting .vjs-loading-spinner {
+  display: block;
+  -webkit-animation: vjs-spinner-show 0s linear 0.3s forwards;
+          animation: vjs-spinner-show 0s linear 0.3s forwards;
+}
+
+.vjs-loading-spinner:before,
+.vjs-loading-spinner:after {
+  content: "";
+  position: absolute;
+  margin: -6px;
+  box-sizing: inherit;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  opacity: 1;
+  border: inherit;
+  border-color: transparent;
+  border-top-color: white;
+}
+
+.vjs-seeking .vjs-loading-spinner:before,
+.vjs-seeking .vjs-loading-spinner:after,
+.vjs-waiting .vjs-loading-spinner:before,
+.vjs-waiting .vjs-loading-spinner:after {
+  -webkit-animation: vjs-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, vjs-spinner-fade 1.1s linear infinite;
+  animation: vjs-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, vjs-spinner-fade 1.1s linear infinite;
+}
+
+.vjs-seeking .vjs-loading-spinner:before,
+.vjs-waiting .vjs-loading-spinner:before {
+  border-top-color: white;
+}
+
+.vjs-seeking .vjs-loading-spinner:after,
+.vjs-waiting .vjs-loading-spinner:after {
+  border-top-color: white;
+  -webkit-animation-delay: 0.44s;
+  animation-delay: 0.44s;
+}
+
+@keyframes vjs-spinner-show {
+  to {
+    visibility: visible;
+  }
+}
+@-webkit-keyframes vjs-spinner-show {
+  to {
+    visibility: visible;
+  }
+}
+@keyframes vjs-spinner-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes vjs-spinner-spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes vjs-spinner-fade {
+  0% {
+    border-top-color: #73859f;
+  }
+  20% {
+    border-top-color: #73859f;
+  }
+  35% {
+    border-top-color: white;
+  }
+  60% {
+    border-top-color: #73859f;
+  }
+  100% {
+    border-top-color: #73859f;
+  }
+}
+@-webkit-keyframes vjs-spinner-fade {
+  0% {
+    border-top-color: #73859f;
+  }
+  20% {
+    border-top-color: #73859f;
+  }
+  35% {
+    border-top-color: white;
+  }
+  60% {
+    border-top-color: #73859f;
+  }
+  100% {
+    border-top-color: #73859f;
+  }
+}
+.video-js.vjs-audio-only-mode .vjs-captions-button {
+  display: none;
+}
+
+.vjs-chapters-button .vjs-menu ul {
+  width: 24em;
+}
+
+.video-js.vjs-audio-only-mode .vjs-descriptions-button {
+  display: none;
+}
+
+.video-js .vjs-subs-caps-button + .vjs-menu .vjs-captions-menu-item .vjs-menu-item-text .vjs-icon-placeholder {
+  vertical-align: middle;
+  display: inline-block;
+  margin-bottom: -0.1em;
+}
+
+.video-js .vjs-subs-caps-button + .vjs-menu .vjs-captions-menu-item .vjs-menu-item-text .vjs-icon-placeholder:before {
+  font-family: VideoJS;
+  content: "";
+  font-size: 1.5em;
+  line-height: inherit;
+}
+
+.video-js.vjs-audio-only-mode .vjs-subs-caps-button {
+  display: none;
+}
+
+.video-js .vjs-audio-button + .vjs-menu .vjs-main-desc-menu-item .vjs-menu-item-text .vjs-icon-placeholder {
+  vertical-align: middle;
+  display: inline-block;
+  margin-bottom: -0.1em;
+}
+
+.video-js .vjs-audio-button + .vjs-menu .vjs-main-desc-menu-item .vjs-menu-item-text .vjs-icon-placeholder:before {
+  font-family: VideoJS;
+  content: " ";
+  font-size: 1.5em;
+  line-height: inherit;
+}
+
+.video-js.vjs-layout-small .vjs-current-time,
+.video-js.vjs-layout-small .vjs-time-divider,
+.video-js.vjs-layout-small .vjs-duration,
+.video-js.vjs-layout-small .vjs-remaining-time,
+.video-js.vjs-layout-small .vjs-playback-rate,
+.video-js.vjs-layout-small .vjs-volume-control, .video-js.vjs-layout-x-small .vjs-current-time,
+.video-js.vjs-layout-x-small .vjs-time-divider,
+.video-js.vjs-layout-x-small .vjs-duration,
+.video-js.vjs-layout-x-small .vjs-remaining-time,
+.video-js.vjs-layout-x-small .vjs-playback-rate,
+.video-js.vjs-layout-x-small .vjs-volume-control, .video-js.vjs-layout-tiny .vjs-current-time,
+.video-js.vjs-layout-tiny .vjs-time-divider,
+.video-js.vjs-layout-tiny .vjs-duration,
+.video-js.vjs-layout-tiny .vjs-remaining-time,
+.video-js.vjs-layout-tiny .vjs-playback-rate,
+.video-js.vjs-layout-tiny .vjs-volume-control {
+  display: none;
+}
+.video-js.vjs-layout-small .vjs-volume-panel.vjs-volume-panel-horizontal:hover, .video-js.vjs-layout-small .vjs-volume-panel.vjs-volume-panel-horizontal:active, .video-js.vjs-layout-small .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-slider-active, .video-js.vjs-layout-small .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-hover, .video-js.vjs-layout-x-small .vjs-volume-panel.vjs-volume-panel-horizontal:hover, .video-js.vjs-layout-x-small .vjs-volume-panel.vjs-volume-panel-horizontal:active, .video-js.vjs-layout-x-small .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-slider-active, .video-js.vjs-layout-x-small .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-hover, .video-js.vjs-layout-tiny .vjs-volume-panel.vjs-volume-panel-horizontal:hover, .video-js.vjs-layout-tiny .vjs-volume-panel.vjs-volume-panel-horizontal:active, .video-js.vjs-layout-tiny .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-slider-active, .video-js.vjs-layout-tiny .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-hover {
+  width: auto;
+  width: initial;
+}
+.video-js.vjs-layout-x-small .vjs-progress-control, .video-js.vjs-layout-tiny .vjs-progress-control {
+  display: none;
+}
+.video-js.vjs-layout-x-small .vjs-custom-control-spacer {
+  flex: auto;
+  display: block;
+}
+.video-js.vjs-layout-x-small.vjs-no-flex .vjs-custom-control-spacer {
+  width: auto;
+}
+
+.vjs-modal-dialog.vjs-text-track-settings {
+  background-color: #2B333F;
+  background-color: rgba(43, 51, 63, 0.75);
+  color: #fff;
+  height: 70%;
+}
+
+.vjs-text-track-settings .vjs-modal-dialog-content {
+  display: table;
+}
+
+.vjs-text-track-settings .vjs-track-settings-colors,
+.vjs-text-track-settings .vjs-track-settings-font,
+.vjs-text-track-settings .vjs-track-settings-controls {
+  display: table-cell;
+}
+
+.vjs-text-track-settings .vjs-track-settings-controls {
+  text-align: right;
+  vertical-align: bottom;
+}
+
+@supports (display: grid) {
+  .vjs-text-track-settings .vjs-modal-dialog-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    padding: 20px 24px 0px 24px;
+  }
+
+  .vjs-track-settings-controls .vjs-default-button {
+    margin-bottom: 20px;
+  }
+
+  .vjs-text-track-settings .vjs-track-settings-controls {
+    grid-column: 1/-1;
+  }
+
+  .vjs-layout-small .vjs-text-track-settings .vjs-modal-dialog-content,
+.vjs-layout-x-small .vjs-text-track-settings .vjs-modal-dialog-content,
+.vjs-layout-tiny .vjs-text-track-settings .vjs-modal-dialog-content {
+    grid-template-columns: 1fr;
+  }
+}
+.vjs-track-setting > select {
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+
+.vjs-text-track-settings fieldset {
+  margin: 5px;
+  padding: 3px;
+  border: none;
+}
+
+.vjs-text-track-settings fieldset span {
+  display: inline-block;
+}
+
+.vjs-text-track-settings fieldset span > select {
+  max-width: 7.3em;
+}
+
+.vjs-text-track-settings legend {
+  color: #fff;
+  margin: 0 0 5px 0;
+}
+
+.vjs-text-track-settings .vjs-label {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  display: block;
+  margin: 0 0 5px 0;
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.vjs-track-settings-controls button:focus,
+.vjs-track-settings-controls button:active {
+  outline-style: solid;
+  outline-width: medium;
+  background-image: linear-gradient(0deg, #fff 88%, #73859f 100%);
+}
+
+.vjs-track-settings-controls button:hover {
+  color: rgba(43, 51, 63, 0.75);
+}
+
+.vjs-track-settings-controls button {
+  background-color: #fff;
+  background-image: linear-gradient(-180deg, #fff 88%, #73859f 100%);
+  color: #2B333F;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.vjs-track-settings-controls .vjs-default-button {
+  margin-right: 1em;
+}
+
+@media print {
+  .video-js > *:not(.vjs-tech):not(.vjs-poster) {
+    visibility: hidden;
+  }
+}
+.vjs-resize-manager {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  z-index: -1000;
+}
+
+.js-focus-visible .video-js *:focus:not(.focus-visible) {
+  outline: none;
+}
+
+.video-js *:focus:not(:focus-visible) {
+  outline: none;
+}
+</style><style>/**
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.ima-ad-container {
+  top: 0em;
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* Move overlay if user fast-clicks play button. */
+.video-js.vjs-playing .bumpable-ima-ad-container {
+  margin-top: -4em;
+}
+
+/* Move overlay when controls are active. */
+.video-js.vjs-user-inactive.vjs-playing .bumpable-ima-ad-container {
+  margin-top: 0em;
+}
+
+.video-js.vjs-paused .bumpable-ima-ad-container,
+.video-js.vjs-playing:hover .bumpable-ima-ad-container,
+.video-js.vjs-user-active.vjs-playing .bumpable-ima-ad-container {
+  margin-top: -4em;
+}
+
+.ima-controls-div {
+  bottom: 0em;
+  height: 1.4em;
+  position: absolute;
+  overflow: hidden;
+  display: none;
+  opacity: 1;
+  background-color: rgba(7, 20, 30, .7);
+  background: -moz-linear-gradient(
+      bottom,
+      rgba(7, 20, 30, .7) 0%,
+      rgba(7, 20, 30, 0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0%,rgba(7, 20, 30, .7)),
+      color-stop(100%,rgba(7, 20, 30, 0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(
+      bottom,
+      rgba(7, 20, 30, .7) 0%,
+      rgba(7, 20, 30, 0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(bottom,
+    rgba(7, 20, 30, .7) 0%,
+    rgba(7, 20, 30, 0) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(bottom,
+    rgba(7, 20, 30, .7) 0%,
+    rgba(7, 20, 30, 0) 100%); /* IE10+ */
+  background: linear-gradient(to top,
+    rgba(7, 20, 30, .7) 0%,
+    rgba(7, 20, 30, 0) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(
+    startColorstr='#0007141E',
+    endColorstr='#07141E',GradientType=0 ); /* IE6-9 */
+}
+
+.ima-controls-div.ima-controls-div-showing {
+  height: 3.7em;
+}
+
+.ima-countdown-div {
+  height: 1em;
+  color: #FFFFFF;
+  text-shadow: 0 0 0.2em #000;
+  cursor: default;
+}
+
+.ima-seek-bar-div {
+  top: 1.2em;
+  height: 0.3em;
+  position: absolute;
+  background: rgba(255, 255, 255, .4);
+}
+
+.ima-progress-div {
+  width: 0em;
+  height: 0.3em;
+  background-color: #ECC546;
+}
+
+.ima-play-pause-div, .ima-mute-div, .ima-slider-div, .ima-fullscreen-div {
+  width: 2.33em;
+  height: 1.33em;
+  top: 0.733em;
+  left: 0em;
+  position: absolute;
+  color: #CCCCCC;
+  font-size: 1.5em;
+  line-height: 2;
+  text-align: center;
+  font-family: VideoJS;
+  cursor: pointer;
+}
+
+.ima-mute-div {
+  left: auto;
+  right: 5.667em;
+}
+
+.ima-slider-div {
+  left: auto;
+  right: 2.33em;
+  width: 3.33em;
+  height: 0.667em;
+  top: 1.33em;
+  background-color: #555555;
+}
+
+.ima-slider-level-div {
+  width: 100%;
+  height: 0.667em;
+  background-color: #ECC546;
+}
+
+.ima-fullscreen-div {
+  left: auto;
+  right: 0em;
+}
+
+.ima-playing:before {
+  content: "\00f103";
+}
+
+.ima-paused:before {
+  content: "\00f101";
+}
+
+.ima-playing:hover:before, .ima-paused:hover:before {
+  text-shadow: 0 0 1em #fff;
+}
+
+.ima-non-muted:before {
+  content: "\00f107";
+}
+
+.ima-muted:before {
+  content: "\00f104";
+}
+
+.ima-non-muted:hover:before, .ima-muted:hover:before {
+  text-shadow: 0 0 1em #fff;
+}
+
+.ima-non-fullscreen:before {
+  content: "\00f108";
+}
+
+.ima-fullscreen:before {
+  content: "\00f109";
+}
+
+.ima-non-fullscreen:hover:before, .ima-fullscreen:hover:before {
+  text-shadow: 0 0 1em #fff;
+}
+</style><style>.wralvideo-title-overlay {
+  position: absolute;
+  font-size: 2rem;
+  width: 100%;
+  padding: .5rem;
+  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.9));
+}
+.vjs-overlay-bottom .wralvideo-title-overlay {
+  bottom: 0;
+}
+</style><link rel="preload" as="script" href="https://dn0qt3r0xannq.cloudfront.net/opsco-1ku4Rylpgy/default/prebid-load.js"><link rel="preload" as="script" href="https://dn0qt3r0xannq.cloudfront.net/opsco-1ku4Rylpgy/default/prebid-wrapper.js"><script src="https://dn0qt3r0xannq.cloudfront.net/opsco-1ku4Rylpgy/default/prebid-load.js" async=""></script><style>.bd-container{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(244,244,244,.8);z-index:999999}html .overflow{overflow-y:hidden}body .overflow{overflow-y:hidden}</style><script>!function(h,oo,d,y,t,a,g){h[y]=t[y]||function(){(h[y].q=h[y].q||[]).push(arguments)},h[y].l=1*new Date,a=oo.createElement(d),g=oo.getElementsByTagName(d)[0],a.async=1,a.crossOrigin='anonymous',a.src=t,g.parentNode.insertBefore(a,g)}(window,document,'script','Hood','https://sdk.ocmthood.com/sdk/ht.js?tag=NjY4PXN0NqDjqzQ2r0wxNDY4MjE0NqDN');</script><script type="text/javascript" src="https://jadserve.postrelease.com/t?ntv_mvi=&amp;ntv_url=https%253A%252F%252Fwww.wral.com%252Fnews%252Flocal%252Fformer-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026%252F"></script><script src="https://raven-edge.aditude.io/raven/opsco-main-8ctWb/library.js"></script><link rel="preload" as="script" href="https://edge.aditude.io/prebid/10.29.0.js?fork=1&amp;v=bcb558adff569ea248d0057c2715ab27&amp;modules=WyIzM2Fjcm9zc0lkU3lzdGVtIiwiYWRpdHVkZSIsImFka2VybmVsQmlkQWRhcHRlciIsImFsbG93QWN0aXZpdGllcyIsImFwcG5leHVzQmlkQWRhcHRlciIsImNvbnNlbnRNYW5hZ2VtZW50IiwiY29uc2VudE1hbmFnZW1lbnRHcHAiLCJjb25zZW50TWFuYWdlbWVudFVzcCIsImNvbnZlcnNhbnRCaWRBZGFwdGVyIiwiY3JpdGVvSWRTeXN0ZW0iLCJkaXN0cm9zY2FsZUJpZEFkYXB0ZXIiLCJmYWJyaWNrSWRTeXN0ZW0iLCJmbGVkZ2VGb3JHcHQiLCJnZHByRW5mb3JjZW1lbnQiLCJncHRQcmVBdWN0aW9uIiwiaWQ1SWRTeXN0ZW0iLCJpZHhJZFN5c3RlbSIsImt1ZWV6UnRiQmlkQWRhcHRlciIsImxpdmVJbnRlbnRJZFN5c3RlbSIsImxvdGFtZVBhbm9yYW1hSWRTeXN0ZW0iLCJtZWRpYWZ1c2VCaWRBZGFwdGVyIiwibWVkaWFuZXRCaWRBZGFwdGVyIiwibWludXRlbWVkaWFCaWRBZGFwdGVyIiwibmF0aXZvQmlkQWRhcHRlciIsIm9tc0JpZEFkYXB0ZXIiLCJvcGVueEJpZEFkYXB0ZXIiLCJvcHNjb0JpZEFkYXB0ZXIiLCJwcmljZUZsb29ycyIsInB1YlByb3ZpZGVkSWRTeXN0ZW0iLCJwdWJtYXRpY0JpZEFkYXB0ZXIiLCJydWJpY29uQmlkQWRhcHRlciIsInNjaGFpbiIsInNoYXJlZElkU3lzdGVtIiwic21hcnRhZHNlcnZlckJpZEFkYXB0ZXIiLCJzb3ZybkJpZEFkYXB0ZXIiLCJ0YWJvb2xhQmlkQWRhcHRlciIsInRyaXBsZWxpZnRCaWRBZGFwdGVyIiwidHRkQmlkQWRhcHRlciIsInVpZDJJZFN5c3RlbSIsInVuaWZpZWRJZFN5c3RlbSIsInlpZWxkbW9CaWRBZGFwdGVyIiwiemVvdGFwSWRQbHVzSWRTeXN0ZW0iXQ%3D%3D"><link rel="preload" as="script" href="https://cdn.confiant-integrations.net/9ZeujtnTRcWYkt00h1QXzSc_Ivo/gpt_and_prebid/config.js"><link rel="preload" as="script" href="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></head>
+
+	<body>
+		<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+
+			<symbol id="i-text-height" viewBox="0 0 576 512">
+				<path d="M304 32H16A16 16 0 0 0 0 48v96a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16v-32h56v304H80a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16h-40V112h56v32a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zm256 336h-48V144h48c14.31 0 21.33-17.31 11.31-27.31l-80-80a16 16 0 0 0-22.62 0l-80 80C379.36 126 384.36 144 400 144h48v224h-48c-14.31 0-21.32 17.31-11.31 27.31l80 80a16 16 0 0 0 22.62 0l80-80C580.64 386 575.64 368 560 368z"></path>
+			</symbol>
+		</svg>
+		<wral-header style="position: sticky; top: 0; z-index: 99999;"></wral-header>
+		<wral-alerts-bar id="alerts"></wral-alerts-bar>
+		<main>
+			<article class="content-wrapper article">
+			<section class="article-header">
+				<studio-breadcrumbs style="min-height: 25px" metadata="{&quot;path&quot;:&quot;/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/&quot;,&quot;site&quot;:&quot;wral.com&quot;}">
+				</studio-breadcrumbs>
+				<h1>Former Harnett County detective indicted after misusing license plate readers to track a woman</h1>
+				
+					<div class="article-abstract">Jayne L. Holland, a detective with the Harnett County Sheriff's Office, is charged with two counts of automated license plate system violations—which are misdemeanor offenses—and one count of accessing government computers for personal reasons, a felony. </div>
+				
+				<div class="timestamp">
+					
+						<span class="timestamp-item">
+							Posted
+							<formatted-timestamp iso-date="2026-11-03T19:55:14.991Z">
+								11/3/2026, 7:55:14 PM
+							</formatted-timestamp>
+						</span>
+					
+					
+						<span class="timestamp-item">
+							Updated
+							<formatted-timestamp iso-date="2026-11-03T23:30:39.448Z">
+								11/3/2026, 11:30:39 PM
+							</formatted-timestamp>
+						</span>
+					
+				</div>
+				<!-- DEV-1234 · Google "Preferred Source" button: readers add wral.com as a
+				     preferred source in Google Search and are returned to this page.
+				     publisher.js scans for the placeholder once, as soon as it runs, so the
+				     script has to come after it. Both sit under one feature-name, so the
+				     vendor.google.preferredsource killswitch removes the button and the
+				     script together. -->
+				<div class="article-preferred-source">
+					<div google-add-preferred-source-btn=""></div>
+					<script async="" src="https://news.google.com/swg/js/v1/publisher.js"></script>
+				</div>
+			</section>
+
+			<section class="article-main">
+				
+				<div class="article-meta">
+					
+						<figure class="article-hero">
+							
+								<div class="video-container">
+									<!--
+										DEV-1239 · The rights holder rides the player's own
+										title overlay (wralvideo renders data-title before play
+										and on pause) instead of a second template overlay
+										stacked on top of it. Same shape as images: "A title
+										(© WRAL)", or "© WRAL" alone. NOTE: no // comments
+										inside attribute expressions — attribute newlines are
+										collapsed, so a line comment swallows the expression.
+									-->
+									<div style="width: 100%;" poster="https://images.wral.com/7d22fcab-6dfb-57e1-b37d-5a70531cbfa9?w=1200&amp;h=675&amp;height=675" data-title="Former Harnett County detective charged with misusing flack cameras (© WRAL)" class="wral-video video-js vjs-paused hero-video-dimensions vjs-controls-enabled vjs-workinghover vjs-v7 vjs-user-active" id="hero-video" tabindex="-1" lang="en" translate="no" role="region" aria-label="Video Player"><video id="hero-video_html5_api" class="vjs-tech" data-title="Former Harnett County detective charged with misusing flack cameras (© WRAL)" poster="https://images.wral.com/7d22fcab-6dfb-57e1-b37d-5a70531cbfa9?w=1200&amp;h=675&amp;height=675" style="width: 100%;" tabindex="-1" preload="auto">
+										
+											<source src="https://media-hls.wral.com/vodhttporigins3/_definst_/smil:amazons3/api-vod-prod-renditions/2c1c8ce7-eee2-452c-9464-f7dcccdeb98a-6a99f116b3ec/b0941f38-15fc-4cd9-9b21-cf97cad28b20/playlist.smil/playlist.m3u8" type="application/x-mpegURL">
+										
+										
+											
+										
+									</video><div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(&quot;https://images.wral.com/7d22fcab-6dfb-57e1-b37d-5a70531cbfa9?w=1200&amp;h=675&amp;height=675&quot;);"></div><div class="vjs-text-track-display" translate="yes" aria-live="off" aria-atomic="true"><div style="position: absolute; inset: 0px; margin: 1.5%;"></div></div><div class="vjs-loading-spinner" dir="ltr"><span class="vjs-control-text">Video Player is loading.</span></div><button class="vjs-big-play-button" type="button" title="Play Video" aria-disabled="false" style="top: 50%; left: 50%; margin-top: -0.81666em; margin-left: -1.5em; transition: none; z-index: 9999;"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Play Video</span></button><div class="vjs-overlay vjs-overlay-bottom vjs-overlay-background"><div class="wralvideo-title-overlay">Former Harnett County detective charged with misusing flack cameras (© WRAL)</div></div><div class="vjs-overlay vjs-overlay-top vjs-overlay-background vjs-hidden"><div class="wralvideo-title-overlay">Former Harnett County detective charged with misusing flack cameras (© WRAL)</div></div><div class="vjs-control-bar" dir="ltr"><button class="vjs-play-control vjs-control vjs-button" type="button" title="Play" aria-disabled="false"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Play</span></button><div class="vjs-volume-panel vjs-control vjs-volume-panel-horizontal"><button class="vjs-mute-control vjs-control vjs-button vjs-vol-3" type="button" title="Mute" aria-disabled="false"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Mute</span></button><div class="vjs-volume-control vjs-control vjs-volume-horizontal"><div tabindex="0" class="vjs-volume-bar vjs-slider-bar vjs-slider vjs-slider-horizontal" role="slider" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Volume Level" aria-live="polite" aria-valuetext="100%"><div class="vjs-mouse-display"><div class="vjs-volume-tooltip" aria-hidden="true"></div></div><div class="vjs-volume-level"><span class="vjs-control-text"></span></div></div></div></div><div class="vjs-current-time vjs-time-control vjs-control"><span class="vjs-control-text" role="presentation">Current Time&nbsp;</span><span class="vjs-current-time-display" aria-live="off" role="presentation">0:00</span></div><div class="vjs-time-control vjs-time-divider" aria-hidden="true"><div><span>/</span></div></div><div class="vjs-duration vjs-time-control vjs-control"><span class="vjs-control-text" role="presentation">Duration&nbsp;</span><span class="vjs-duration-display" aria-live="off" role="presentation">-:-</span></div><div class="vjs-progress-control vjs-control"><div tabindex="0" class="vjs-progress-holder vjs-slider vjs-slider-horizontal" role="slider" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Progress Bar"><div class="vjs-load-progress"><span class="vjs-control-text"><span>Loaded</span>: <span class="vjs-control-text-loaded-percentage">0%</span></span></div><div class="vjs-mouse-display"><div class="vjs-time-tooltip" aria-hidden="true"></div></div><div class="vjs-play-progress vjs-slider-bar" aria-hidden="true"><div class="vjs-time-tooltip" aria-hidden="true"></div></div></div></div><div class="vjs-live-control vjs-control vjs-hidden"><div class="vjs-live-display" aria-live="off"><span class="vjs-control-text">Stream Type&nbsp;</span>LIVE</div></div><button class="vjs-seek-to-live-control vjs-control" type="button" title="Seek to live, currently behind live" aria-disabled="false"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Seek to live, currently behind live</span><span class="vjs-seek-to-live-text" aria-hidden="true">LIVE</span></button><div class="vjs-remaining-time vjs-time-control vjs-control"><span class="vjs-control-text" role="presentation">Remaining Time&nbsp;</span><span aria-hidden="true">-</span><span class="vjs-remaining-time-display" aria-live="off" role="presentation">0:00</span></div><div class="vjs-custom-control-spacer vjs-spacer ">&nbsp;</div><div class="vjs-playback-rate vjs-menu-button vjs-menu-button-popup vjs-control vjs-button vjs-hidden"><div class="vjs-playback-rate-value" id="vjs-playback-rate-value-label-hero-video_component_254">1x</div><button class="vjs-playback-rate vjs-menu-button vjs-menu-button-popup vjs-button" type="button" aria-disabled="false" title="Playback Rate" aria-haspopup="true" aria-expanded="false" aria-describedby="vjs-playback-rate-value-label-hero-video_component_254"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Playback Rate</span></button><div class="vjs-menu"><ul class="vjs-menu-content"></ul></div></div><div class="vjs-chapters-button vjs-menu-button vjs-menu-button-popup vjs-control vjs-button vjs-hidden"><button class="vjs-chapters-button vjs-menu-button vjs-menu-button-popup vjs-button" type="button" aria-disabled="false" title="Chapters" aria-haspopup="true" aria-expanded="false"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Chapters</span></button><div class="vjs-menu"><ul class="vjs-menu-content"><li class="vjs-menu-title" tabindex="-1">Chapters</li></ul></div></div><div class="vjs-descriptions-button vjs-menu-button vjs-menu-button-popup vjs-control vjs-button vjs-hidden"><button class="vjs-descriptions-button vjs-menu-button vjs-menu-button-popup vjs-button" type="button" aria-disabled="false" title="Descriptions" aria-haspopup="true" aria-expanded="false"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Descriptions</span></button><div class="vjs-menu"><ul class="vjs-menu-content"><li class="vjs-menu-item vjs-selected" tabindex="-1" role="menuitemradio" aria-disabled="false" aria-checked="true"><span class="vjs-menu-item-text">descriptions off</span><span class="vjs-control-text" aria-live="polite">, selected</span></li></ul></div></div><div class="vjs-subs-caps-button vjs-menu-button vjs-menu-button-popup vjs-control vjs-button"><button class="vjs-subs-caps-button vjs-menu-button vjs-menu-button-popup vjs-button" type="button" aria-disabled="false" title="Captions" aria-haspopup="true" aria-expanded="false"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Captions</span></button><div class="vjs-menu"><ul class="vjs-menu-content" role="menu"><li class="vjs-menu-item vjs-texttrack-settings" tabindex="-1" role="menuitem" aria-disabled="false"><span class="vjs-menu-item-text">captions settings</span><span class="vjs-control-text" aria-live="polite">, opens captions settings dialog</span></li><li class="vjs-menu-item vjs-selected" tabindex="-1" role="menuitemradio" aria-disabled="false" aria-checked="true"><span class="vjs-menu-item-text">captions off</span><span class="vjs-control-text" aria-live="polite">, selected</span></li><li class="vjs-menu-item vjs-subtitles-menu-item" tabindex="-1" role="menuitemradio" aria-disabled="false" aria-checked="false"><span class="vjs-menu-item-text">English</span><span class="vjs-control-text" aria-live="polite"></span></li></ul></div></div><div class="vjs-audio-button vjs-menu-button vjs-menu-button-popup vjs-control vjs-button vjs-hidden"><button class="vjs-audio-button vjs-menu-button vjs-menu-button-popup vjs-button" type="button" aria-disabled="false" title="Audio Track" aria-haspopup="true" aria-expanded="false"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Audio Track</span></button><div class="vjs-menu"><ul class="vjs-menu-content"></ul></div></div><button class="vjs-picture-in-picture-control vjs-control vjs-button vjs-disabled" type="button" title="Picture-in-Picture" aria-disabled="true" disabled="disabled"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Picture-in-Picture</span></button><button class="vjs-fullscreen-control vjs-control vjs-button" type="button" title="Fullscreen" aria-disabled="false"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Fullscreen</span></button></div><div class="vjs-error-display vjs-modal-dialog vjs-hidden " tabindex="-1" aria-describedby="hero-video_component_472_description" aria-hidden="true" aria-label="Modal Window" role="dialog"><p class="vjs-modal-dialog-description vjs-control-text" id="hero-video_component_472_description">This is a modal window.</p><div class="vjs-modal-dialog-content" role="document"></div></div><div class="vjs-modal-dialog vjs-hidden  vjs-text-track-settings" tabindex="-1" aria-describedby="hero-video_component_478_description" aria-hidden="true" aria-label="Caption Settings Dialog" role="dialog"><p class="vjs-modal-dialog-description vjs-control-text" id="hero-video_component_478_description">Beginning of dialog window. Escape will cancel and close the window.</p><div class="vjs-modal-dialog-content" role="document"><div class="vjs-track-settings-colors"><fieldset class="vjs-fg-color vjs-track-setting"><legend id="captions-text-legend-hero-video_component_478">Text</legend><label id="captions-foreground-color-hero-video_component_478" class="vjs-label">Color</label><select aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-color-hero-video_component_478"><option id="captions-foreground-color-hero-video_component_478-White" value="#FFF" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-color-hero-video_component_478 captions-foreground-color-hero-video_component_478-White">White</option><option id="captions-foreground-color-hero-video_component_478-Black" value="#000" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-color-hero-video_component_478 captions-foreground-color-hero-video_component_478-Black">Black</option><option id="captions-foreground-color-hero-video_component_478-Red" value="#F00" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-color-hero-video_component_478 captions-foreground-color-hero-video_component_478-Red">Red</option><option id="captions-foreground-color-hero-video_component_478-Green" value="#0F0" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-color-hero-video_component_478 captions-foreground-color-hero-video_component_478-Green">Green</option><option id="captions-foreground-color-hero-video_component_478-Blue" value="#00F" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-color-hero-video_component_478 captions-foreground-color-hero-video_component_478-Blue">Blue</option><option id="captions-foreground-color-hero-video_component_478-Yellow" value="#FF0" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-color-hero-video_component_478 captions-foreground-color-hero-video_component_478-Yellow">Yellow</option><option id="captions-foreground-color-hero-video_component_478-Magenta" value="#F0F" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-color-hero-video_component_478 captions-foreground-color-hero-video_component_478-Magenta">Magenta</option><option id="captions-foreground-color-hero-video_component_478-Cyan" value="#0FF" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-color-hero-video_component_478 captions-foreground-color-hero-video_component_478-Cyan">Cyan</option></select><span class="vjs-text-opacity vjs-opacity"><label id="captions-foreground-opacity-hero-video_component_478" class="vjs-label">Transparency</label><select aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-opacity-hero-video_component_478"><option id="captions-foreground-opacity-hero-video_component_478-Opaque" value="1" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-opacity-hero-video_component_478 captions-foreground-opacity-hero-video_component_478-Opaque">Opaque</option><option id="captions-foreground-opacity-hero-video_component_478-SemiTransparent" value="0.5" aria-labelledby="captions-text-legend-hero-video_component_478 captions-foreground-opacity-hero-video_component_478 captions-foreground-opacity-hero-video_component_478-SemiTransparent">Semi-Transparent</option></select></span></fieldset><fieldset class="vjs-bg-color vjs-track-setting"><legend id="captions-background-hero-video_component_478">Background</legend><label id="captions-background-color-hero-video_component_478" class="vjs-label">Color</label><select aria-labelledby="captions-background-hero-video_component_478 captions-background-color-hero-video_component_478"><option id="captions-background-color-hero-video_component_478-Black" value="#000" aria-labelledby="captions-background-hero-video_component_478 captions-background-color-hero-video_component_478 captions-background-color-hero-video_component_478-Black">Black</option><option id="captions-background-color-hero-video_component_478-White" value="#FFF" aria-labelledby="captions-background-hero-video_component_478 captions-background-color-hero-video_component_478 captions-background-color-hero-video_component_478-White">White</option><option id="captions-background-color-hero-video_component_478-Red" value="#F00" aria-labelledby="captions-background-hero-video_component_478 captions-background-color-hero-video_component_478 captions-background-color-hero-video_component_478-Red">Red</option><option id="captions-background-color-hero-video_component_478-Green" value="#0F0" aria-labelledby="captions-background-hero-video_component_478 captions-background-color-hero-video_component_478 captions-background-color-hero-video_component_478-Green">Green</option><option id="captions-background-color-hero-video_component_478-Blue" value="#00F" aria-labelledby="captions-background-hero-video_component_478 captions-background-color-hero-video_component_478 captions-background-color-hero-video_component_478-Blue">Blue</option><option id="captions-background-color-hero-video_component_478-Yellow" value="#FF0" aria-labelledby="captions-background-hero-video_component_478 captions-background-color-hero-video_component_478 captions-background-color-hero-video_component_478-Yellow">Yellow</option><option id="captions-background-color-hero-video_component_478-Magenta" value="#F0F" aria-labelledby="captions-background-hero-video_component_478 captions-background-color-hero-video_component_478 captions-background-color-hero-video_component_478-Magenta">Magenta</option><option id="captions-background-color-hero-video_component_478-Cyan" value="#0FF" aria-labelledby="captions-background-hero-video_component_478 captions-background-color-hero-video_component_478 captions-background-color-hero-video_component_478-Cyan">Cyan</option></select><span class="vjs-bg-opacity vjs-opacity"><label id="captions-background-opacity-hero-video_component_478" class="vjs-label">Transparency</label><select aria-labelledby="captions-background-hero-video_component_478 captions-background-opacity-hero-video_component_478"><option id="captions-background-opacity-hero-video_component_478-Opaque" value="1" aria-labelledby="captions-background-hero-video_component_478 captions-background-opacity-hero-video_component_478 captions-background-opacity-hero-video_component_478-Opaque">Opaque</option><option id="captions-background-opacity-hero-video_component_478-SemiTransparent" value="0.5" aria-labelledby="captions-background-hero-video_component_478 captions-background-opacity-hero-video_component_478 captions-background-opacity-hero-video_component_478-SemiTransparent">Semi-Transparent</option><option id="captions-background-opacity-hero-video_component_478-Transparent" value="0" aria-labelledby="captions-background-hero-video_component_478 captions-background-opacity-hero-video_component_478 captions-background-opacity-hero-video_component_478-Transparent">Transparent</option></select></span></fieldset><fieldset class="vjs-window-color vjs-track-setting"><legend id="captions-window-hero-video_component_478">Window</legend><label id="captions-window-color-hero-video_component_478" class="vjs-label">Color</label><select aria-labelledby="captions-window-hero-video_component_478 captions-window-color-hero-video_component_478"><option id="captions-window-color-hero-video_component_478-Black" value="#000" aria-labelledby="captions-window-hero-video_component_478 captions-window-color-hero-video_component_478 captions-window-color-hero-video_component_478-Black">Black</option><option id="captions-window-color-hero-video_component_478-White" value="#FFF" aria-labelledby="captions-window-hero-video_component_478 captions-window-color-hero-video_component_478 captions-window-color-hero-video_component_478-White">White</option><option id="captions-window-color-hero-video_component_478-Red" value="#F00" aria-labelledby="captions-window-hero-video_component_478 captions-window-color-hero-video_component_478 captions-window-color-hero-video_component_478-Red">Red</option><option id="captions-window-color-hero-video_component_478-Green" value="#0F0" aria-labelledby="captions-window-hero-video_component_478 captions-window-color-hero-video_component_478 captions-window-color-hero-video_component_478-Green">Green</option><option id="captions-window-color-hero-video_component_478-Blue" value="#00F" aria-labelledby="captions-window-hero-video_component_478 captions-window-color-hero-video_component_478 captions-window-color-hero-video_component_478-Blue">Blue</option><option id="captions-window-color-hero-video_component_478-Yellow" value="#FF0" aria-labelledby="captions-window-hero-video_component_478 captions-window-color-hero-video_component_478 captions-window-color-hero-video_component_478-Yellow">Yellow</option><option id="captions-window-color-hero-video_component_478-Magenta" value="#F0F" aria-labelledby="captions-window-hero-video_component_478 captions-window-color-hero-video_component_478 captions-window-color-hero-video_component_478-Magenta">Magenta</option><option id="captions-window-color-hero-video_component_478-Cyan" value="#0FF" aria-labelledby="captions-window-hero-video_component_478 captions-window-color-hero-video_component_478 captions-window-color-hero-video_component_478-Cyan">Cyan</option></select><span class="vjs-window-opacity vjs-opacity"><label id="captions-window-opacity-hero-video_component_478" class="vjs-label">Transparency</label><select aria-labelledby="captions-window-hero-video_component_478 captions-window-opacity-hero-video_component_478"><option id="captions-window-opacity-hero-video_component_478-Transparent" value="0" aria-labelledby="captions-window-hero-video_component_478 captions-window-opacity-hero-video_component_478 captions-window-opacity-hero-video_component_478-Transparent">Transparent</option><option id="captions-window-opacity-hero-video_component_478-SemiTransparent" value="0.5" aria-labelledby="captions-window-hero-video_component_478 captions-window-opacity-hero-video_component_478 captions-window-opacity-hero-video_component_478-SemiTransparent">Semi-Transparent</option><option id="captions-window-opacity-hero-video_component_478-Opaque" value="1" aria-labelledby="captions-window-hero-video_component_478 captions-window-opacity-hero-video_component_478 captions-window-opacity-hero-video_component_478-Opaque">Opaque</option></select></span></fieldset></div><div class="vjs-track-settings-font"><fieldset class="vjs-font-percent vjs-track-setting"><legend id="captions-font-size-hero-video_component_478" class="">Font Size</legend><select aria-labelledby="captions-font-size-hero-video_component_478"><option id="captions-font-size-hero-video_component_478-50" value="0.50" aria-labelledby="captions-font-size-hero-video_component_478 captions-font-size-hero-video_component_478-50">50%</option><option id="captions-font-size-hero-video_component_478-75" value="0.75" aria-labelledby="captions-font-size-hero-video_component_478 captions-font-size-hero-video_component_478-75">75%</option><option id="captions-font-size-hero-video_component_478-100" value="1.00" aria-labelledby="captions-font-size-hero-video_component_478 captions-font-size-hero-video_component_478-100">100%</option><option id="captions-font-size-hero-video_component_478-125" value="1.25" aria-labelledby="captions-font-size-hero-video_component_478 captions-font-size-hero-video_component_478-125">125%</option><option id="captions-font-size-hero-video_component_478-150" value="1.50" aria-labelledby="captions-font-size-hero-video_component_478 captions-font-size-hero-video_component_478-150">150%</option><option id="captions-font-size-hero-video_component_478-175" value="1.75" aria-labelledby="captions-font-size-hero-video_component_478 captions-font-size-hero-video_component_478-175">175%</option><option id="captions-font-size-hero-video_component_478-200" value="2.00" aria-labelledby="captions-font-size-hero-video_component_478 captions-font-size-hero-video_component_478-200">200%</option><option id="captions-font-size-hero-video_component_478-300" value="3.00" aria-labelledby="captions-font-size-hero-video_component_478 captions-font-size-hero-video_component_478-300">300%</option><option id="captions-font-size-hero-video_component_478-400" value="4.00" aria-labelledby="captions-font-size-hero-video_component_478 captions-font-size-hero-video_component_478-400">400%</option></select></fieldset><fieldset class="vjs-edge-style vjs-track-setting"><legend id="hero-video_component_478" class="">Text Edge Style</legend><select aria-labelledby="hero-video_component_478"><option id="hero-video_component_478-None" value="none" aria-labelledby="hero-video_component_478 hero-video_component_478-None">None</option><option id="hero-video_component_478-Raised" value="raised" aria-labelledby="hero-video_component_478 hero-video_component_478-Raised">Raised</option><option id="hero-video_component_478-Depressed" value="depressed" aria-labelledby="hero-video_component_478 hero-video_component_478-Depressed">Depressed</option><option id="hero-video_component_478-Uniform" value="uniform" aria-labelledby="hero-video_component_478 hero-video_component_478-Uniform">Uniform</option><option id="hero-video_component_478-Dropshadow" value="dropshadow" aria-labelledby="hero-video_component_478 hero-video_component_478-Dropshadow">Dropshadow</option></select></fieldset><fieldset class="vjs-font-family vjs-track-setting"><legend id="captions-font-family-hero-video_component_478" class="">Font Family</legend><select aria-labelledby="captions-font-family-hero-video_component_478"><option id="captions-font-family-hero-video_component_478-ProportionalSansSerif" value="proportionalSansSerif" aria-labelledby="captions-font-family-hero-video_component_478 captions-font-family-hero-video_component_478-ProportionalSansSerif">Proportional Sans-Serif</option><option id="captions-font-family-hero-video_component_478-MonospaceSansSerif" value="monospaceSansSerif" aria-labelledby="captions-font-family-hero-video_component_478 captions-font-family-hero-video_component_478-MonospaceSansSerif">Monospace Sans-Serif</option><option id="captions-font-family-hero-video_component_478-ProportionalSerif" value="proportionalSerif" aria-labelledby="captions-font-family-hero-video_component_478 captions-font-family-hero-video_component_478-ProportionalSerif">Proportional Serif</option><option id="captions-font-family-hero-video_component_478-MonospaceSerif" value="monospaceSerif" aria-labelledby="captions-font-family-hero-video_component_478 captions-font-family-hero-video_component_478-MonospaceSerif">Monospace Serif</option><option id="captions-font-family-hero-video_component_478-Casual" value="casual" aria-labelledby="captions-font-family-hero-video_component_478 captions-font-family-hero-video_component_478-Casual">Casual</option><option id="captions-font-family-hero-video_component_478-Script" value="script" aria-labelledby="captions-font-family-hero-video_component_478 captions-font-family-hero-video_component_478-Script">Script</option><option id="captions-font-family-hero-video_component_478-SmallCaps" value="small-caps" aria-labelledby="captions-font-family-hero-video_component_478 captions-font-family-hero-video_component_478-SmallCaps">Small Caps</option></select></fieldset></div><div class="vjs-track-settings-controls"><button type="button" class="vjs-default-button" title="restore all settings to the default values">Reset<span class="vjs-control-text"> restore all settings to the default values</span></button><button type="button" class="vjs-done-button">Done</button></div></div><button class="vjs-close-button vjs-control vjs-button" type="button" title="Close Modal Dialog" aria-disabled="false"><span class="vjs-icon-placeholder" aria-hidden="true"></span><span class="vjs-control-text" aria-live="polite">Close Modal Dialog</span></button><p class="vjs-control-text">End of dialog window.</p></div><div id="hero-video_ima-ad-container" class="hero-video_ima-ad-container ima-ad-container" style="position: absolute; z-index: 1111;"><div id="hero-video_ima-controls-div" class="hero-video_ima-controls-div ima-controls-div" style="width: 100%;"><div id="hero-video_ima-countdown-div" class="hero-video_ima-countdown-div ima-countdown-div" style="display: block;">Advertisement</div><div id="hero-video_ima-seek-bar-div" class="hero-video_ima-seek-bar-div ima-seek-bar-div" style="width: 100%;"><div id="hero-video_ima-progress-div" class="hero-video_ima-progress-div ima-progress-div"></div></div><div id="hero-video_ima-play-pause-div" class="hero-video_ima-play-pause-div ima-play-pause-div ima-playing"></div><div id="hero-video_ima-mute-div" class="hero-video_ima-mute-div ima-mute-div ima-non-muted ima-non-muted"></div><div id="hero-video_ima-slider-div" class="hero-video_ima-slider-div ima-slider-div"><div id="hero-video_ima-slider-level-div" class="hero-video_ima-slider-level-div ima-slider-level-div" style="width: 100%;"></div></div><div id="hero-video_ima-fullscreen-div" class="hero-video_ima-fullscreen-div ima-fullscreen-div ima-non-fullscreen"></div></div></div></div>
+									
+									<!--
+										DEV-1239 · The hero video's copyright renders in the
+										player's own data-title overlay (see the <video> tag
+										above); this template overlay is for the editorial
+										caption only, so the two never stack.
+									-->
+									
+								</div>
+								<style>
+									.article-hero .video-container {
+										position: relative;
+										padding-bottom: calc(100% * 9 / 16);
+										width: 100%;
+										position: relative;
+									}
+
+									.article-hero .video-container>* {
+										max-width: 100%;
+										width: 100%;
+										height: 100%;
+										position: absolute;
+									}
+
+									.article-hero .caption-overlay {
+										position: absolute;
+										bottom: 0%;
+										background-color: rgba(0, 0, 0, 0.75);
+										display: flex;
+										color: var(--color-white);
+										justify-content: space-around;
+										align-items: center;
+										zindex: 9996;
+										width: 100%;
+										height: 20%;
+										font-size: 1.125rem;
+									}
+
+									.article-hero .live-overlay {
+										position: absolute;
+										bottom: 2%;
+										left: 1%;
+										background-color: var(--color-red);
+										display: flex;
+										color: var(--color-white);
+										justify-content: space-around;
+										display: flex;
+										align-items: center;
+										z-index: 9997;
+										width: 90px;
+										height: 18px;
+										padding: 6px;
+										font-size: 12px;
+										text-transform: uppercase;
+									}
+								</style>
+							
+
+							
+
+							
+						</figure>
+					
+
+					
+						<div class="article-byline">
+							By Lance Wilhelm, WRAL Reporter
+						</div>
+					
+				</div>
+
+				<div class="article-body">
+					<div class="article-tools-container">
+						<div id="font-resize" class="font-resize-container">
+							<button id="small-font-button" aria-label="Small font size" style="border:none;background:0 0">
+								<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="text-height" class="fa-text-height fa-w-18 svg-inline--fa small-buttom-font-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height:19.13px;width:17px">
+									<use href="#i-text-height"></use>
+								</svg>
+							</button>
+							<button id="medium-font-button" aria-label="Medium font size" style="border:none;background:0 0">
+								<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="text-height" class="fa-text-height fa-w-18 svg-inline--fa" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height:27px;width:21px">
+									<use href="#i-text-height"></use>
+								</svg>
+							</button>
+							<button id="large-font-button" aria-label="Large font size" style="border:none;background:0 0">
+								<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="text-height" class="fa-text-height fa-w-18 svg-inline--fa" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height:31.5px;width:28px">
+									<use href="#i-text-height"></use>
+								</svg>
+							</button>
+							<script>
+								const body = document.getElementsByClassName("article-body")[0],
+									smallFontButton = document.getElementById("small-font-button"),
+									mediumFontButton = document.getElementById("medium-font-button"),
+									largeFontButton = document.getElementById("large-font-button");
+
+								smallFontButton.addEventListener("click", t => {
+									body.classList.add("small-font"),
+									body.classList.remove("medium-font"),
+									body.classList.remove("large-font")
+								}),
+								mediumFontButton.addEventListener("click", t => {
+									body.classList.remove("small-font"),
+									body.classList.add("medium-font"),
+									body.classList.remove("large-font")
+								}),
+								largeFontButton.addEventListener("click", t => {
+									body.classList.remove("small-font"),
+										body.classList.remove("medium-font"),
+										body.classList.add("large-font")
+								})
+							</script>
+						</div>
+						<wral-bookmark-button baseurl="https://api.wral.com/user-facts/v1/"></wral-bookmark-button>
+					</div>
+
+						
+							
+							
+							
+							<p>A Harnett County detective was indicted for misusing government computer systems.&nbsp;</p>
+							
+						
+							
+							
+							
+						
+					
+							
+							
+							
+							<p>Jayne L. Holland, 45, a detective with the Harnett County Sheriff's Office, is facing charges of two counts of automated license plate system violations—which are misdemeanor offenses—and one count of accessing government computers for personal reasons, a felony.&nbsp;</p>
+							
+						
+							
+								<div class="exco-wrapper" style="aspect-ratio: 16/9;">
+									<p>Other WRAL Top Stories</p>
+									<div class="exco-player" style="width: inherit;" id="d8af3f9c-ad37-4890-8ed5-bb0ce702acdf"></div>
+								</div>
+							
+							
+							
+						
+					
+							
+							
+							
+							<p>The dates of the offenses are listed as January 22 and April 1 on court documents.&nbsp;</p>
+							
+						
+							
+							
+							
+						
+					
+							
+							
+							
+							<p>She turned herself in to the Wake County Jail on Tuesday, around 1 p.m., and agents with the State Bureau of Investigation (SBI) met her there, according to NC SBI.</p>
+							
+						
+							
+							
+							
+						
+					
+							
+							
+							
+							<p>She posted a $5,000 bond.</p>
+							
+						
+							
+							
+							
+						
+					
+							
+							
+							
+							<p>She is set to appear in court in Harnett County on Dec. 14 at 9:30 a.m. </p>
+							
+						
+							
+							
+							
+						
+					
+							
+							
+							
+							<p>Holland is still listed as a detective on the Harnett County Sheriff's Office website.</p>
+							
+						
+							
+							
+							
+						
+					
+							
+							
+							
+							<p>WRAL has reached out to the sheriff's office asking if she is still employed as a detective.</p>
+							
+						
+							
+							
+								<div class="opscoad-Mobile_In_Content" data-unit="wral-v4/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026">
+								</div>
+								<div class="opscoad-article_in_read" data-unit="wral-v4/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/"></div>
+							
+							
+						
+					
+					
+				</div>
+
+
+				<div class="article-footer">
+					
+
+					
+
+						
+
+					
+					
+					
+						<div class="article-copyright">
+							© 2026  Copyright Capitol Broadcasting Company
+						</div>
+					
+				</div>
+
+				
+					<!-- Taboola -->
+					<div class="section-wrapper">
+						<div id="taboola-below-article-thumbnails" style="min-height: 1580px;"></div>
+					</div>
+					<script type="text/javascript">
+						window._taboola = window._taboola || [];
+						_taboola.push({
+							mode: 'alternating-thumbnails-a',
+							container: 'taboola-below-article-thumbnails',
+							placement: 'Below Article Thumbnails',
+							target_type: 'mix'
+						});
+					</script>
+				
+			</section>
+
+			<section class="article-sidebar">
+				<div class="sticky-container" style="top: 120px;">
+					<div class="sticky">
+						<div class="opscoad-Desktop_Right_Rail_1" data-unit="wral-v4/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/"></div>
+						<div id="sidebar-promo" class="house-promo"></div>
+						<script>
+							!function () {
+								const promoUrl = 'https://www-promos.wral.com/content/ads/fetch_promos.php?asset_id=4&ad_position=standard_promo_1';
+								const getPromos = async () => {
+									const res = await fetch(promoUrl);
+									const json = await res.json();
+									if (res.ok) {
+										const housePromo = document.getElementById("sidebar-promo");
+										housePromo.innerHTML = json.markup;
+										const innerLink = housePromo.getElementsByClassName("h-link")[0];
+										innerLink.style = "margin: auto; text-decoration: none;"
+										innerLink.getElementsByClassName("flag-media")[0].style = "display: flex;"
+										innerLink.querySelector(".flag-media img").style = "margin: auto;"
+										innerLink.querySelectorAll(".flag-body > *").forEach(elt => {
+											elt.style = "margin: auto; text-align: center; font-size: 1rem; font-weight: 700; color: black;";
+										})
+									} else {
+										throw new Error(text);
+									}
+								};
+								getPromos();
+							}();
+						</script>
+
+						<div id="bc_recommend"></div>
+						<div class="opscoad-Desktop_Right_Rail_2" data-unit="wral-v4/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/"></div>
+					</div>
+				</div>
+			</section>
+			</article>
+		</main>
+				<script>
+					(() => {
+							if (typeof window === 'undefined') return;
+
+							const lazyWrapperId = 'related-lazy-wrapper';
+							let initialized = false;
+
+						const normalize = (item) => {
+							if (!item) return null;
+							const href = item.uri || item.href || item.url || item.path || '';
+							const title = item.title || item.headline || item.name || '';
+							const description = item.description || item.summary || item.deck || '';
+							const image =
+								item.image
+								|| item.image_url
+								|| item.primaryImage
+								|| item.teaseImage
+								|| (Array.isArray(item.images) && item.images[0] && (item.images[0].src || item.images[0]))
+								|| '';
+							if (!href || !title) return null;
+							return { href, title, description, image };
+						};
+
+						const parseConfigs = (lazyWrapper) => {
+							let primary = null;
+							let searches = [];
+							try {
+								if (lazyWrapper.dataset.relatedPrimary) {
+									primary = JSON.parse(lazyWrapper.dataset.relatedPrimary);
+								}
+							} catch (err) {
+							}
+							try {
+								if (lazyWrapper.dataset.relatedSearches) {
+									searches = JSON.parse(lazyWrapper.dataset.relatedSearches);
+								}
+							} catch (err) {
+							}
+							return { primary, searches };
+						};
+
+						const ensureSearchListAttributes = (searchList) => {
+							if (!searchList.hasAttribute('image-width')) {
+								searchList.setAttribute('image-width', '640');
+							}
+							if (!searchList.hasAttribute('image-height')) {
+								searchList.setAttribute('image-height', '360');
+							}
+						};
+
+							const initSearchList = (lazyWrapper, searchList) => {
+								if (!searchList || initialized) return;
+								initialized = true;
+
+							const { primary, searches } = parseConfigs(lazyWrapper);
+
+							const searchConfig = (primary && primary.query)
+								? primary
+								: (Array.isArray(searches) ? searches.find(search => search?.query) : null);
+							if (!searchConfig) {
+								return;
+							}
+
+							ensureSearchListAttributes(searchList);
+
+							const apiBase = 'https://api.wral.com/related/v1/recommendations/search';
+							const limit = Number.isFinite(+searchConfig.limit) ? +searchConfig.limit : 3;
+							const paginate = searchConfig.paginate === true;
+							const baseParams = {
+								query: searchConfig.query,
+								limit,
+								lang: searchConfig.lang || 'en',
+								sort: searchConfig.sort || 'updated',
+								paginate,
+							};
+
+							const sentinel = document.createElement('div');
+							sentinel.setAttribute('aria-hidden', 'true');
+							sentinel.style.cssText = 'height: 1px; width: 100%;';
+							searchList.after(sentinel);
+
+							let accumulated = [];
+							let nextToken = null;
+							let loading = false;
+							let reachedEnd = false;
+
+							const loadPage = async (token = null) => {
+								if (loading || reachedEnd) return;
+								loading = true;
+								searchList.loading = true;
+
+								const params = new URLSearchParams();
+								params.set('query', baseParams.query);
+								params.set('limit', `${baseParams.limit}`);
+								params.set('lang', baseParams.lang);
+								params.set('sort', baseParams.sort);
+								if (baseParams.paginate) params.set('paginate', 'true');
+								if (token) params.set('next', token);
+								const url = `${apiBase}?${params.toString()}`;
+
+								try {
+									const res = await fetch(url);
+									if (!res.ok) throw new Error(`status ${res.status}`);
+									const data = await res.json();
+									const pageItems = Array.isArray(data.items)
+										? data.items
+										: (Array.isArray(data.results) ? data.results : []);
+									const currentUrl = window.location.href.replace(/\/$/, '');
+									const normalized = pageItems.map(normalize).filter(Boolean)
+										.filter(item => item.href.replace(/\/$/, '') !== currentUrl);
+									accumulated.push(...normalized);
+									searchList.items = accumulated.slice();
+									nextToken = data.next || null;
+									reachedEnd = !nextToken;
+									searchList.error = '';
+								} catch (err) {
+									searchList.error = 'Unable to load results.';
+									reachedEnd = true;
+								} finally {
+									loading = false;
+									searchList.loading = false;
+									if (!baseParams.paginate || reachedEnd) {
+										observer?.disconnect();
+									}
+								}
+							};
+
+							const observer = baseParams.paginate
+								? new IntersectionObserver((entries) => {
+									entries.forEach(entry => {
+										if (entry.isIntersecting && !reachedEnd && !loading) {
+											loadPage(nextToken);
+										}
+									});
+								}, {
+									// Use viewport as the root; shadow DOM + external roots can miss intersections.
+									root: null,
+									rootMargin: '200px 0px',
+								})
+								: null;
+
+							if (observer) {
+								observer.observe(sentinel);
+							}
+
+								loadPage();
+							};
+
+							const observeSearchList = (lazyWrapper, shadowRoot) => {
+								const existing = shadowRoot.querySelector('search-list');
+								if (existing) {
+									initSearchList(lazyWrapper, existing);
+									return;
+							}
+							const mo = new MutationObserver(() => {
+									const next = shadowRoot.querySelector('search-list');
+									if (next) {
+										mo.disconnect();
+										initSearchList(lazyWrapper, next);
+									}
+								});
+								mo.observe(shadowRoot, { childList: true, subtree: true });
+							};
+
+							const waitForShadowRoot = (lazyWrapper, timeoutMs = 8000) => new Promise((resolve) => {
+								const start = performance.now();
+								const check = () => {
+								if (lazyWrapper.shadowRoot) {
+									resolve(lazyWrapper.shadowRoot);
+									return;
+								}
+								if (performance.now() - start >= timeoutMs) {
+									resolve(null);
+									return;
+								}
+								requestAnimationFrame(check);
+							};
+							check();
+						});
+
+							const attachWhenReady = async (lazyWrapper) => {
+								if (initialized) return;
+								const shadowRoot = await waitForShadowRoot(lazyWrapper);
+								if (initialized) return;
+								if (shadowRoot) {
+									observeSearchList(lazyWrapper, shadowRoot);
+								}
+							};
+
+							const bootstrap = () => {
+								const lazyWrapper = document.getElementById(lazyWrapperId);
+								if (!lazyWrapper) {
+									return;
+								}
+
+								if (customElements.get('lazy-wrapper')) {
+									attachWhenReady(lazyWrapper);
+								} else {
+									customElements.whenDefined('lazy-wrapper')
+										.then(() => attachWhenReady(lazyWrapper));
+								}
+							};
+
+						if (document.readyState === 'complete' || document.readyState === 'interactive') {
+							bootstrap();
+						} else {
+							document.addEventListener('DOMContentLoaded', bootstrap, { once: true });
+						}
+					})();
+				</script>
+
+		<!-- DEV-1087: bottom footer Desktop Leaderboard removed (improves footer viewability) -->
+
+		<div class="opscoad-OOP_Leaderboard" data-unit="wral-v4/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/"></div>
+		<div class="opscoad-OOP_Pushdown" data-unit="wral-v4/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/"></div>
+		
+			<div class="opscoad-OOP_Adhesion" data-unit="wral-v4/news/local/former-harnett-county-detective-indicted-misuing-license-plate-readers-november-2026/"></div>
+		
+
+		<script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-TV2CD7D" onload="window.dataLayer = window.dataLayer || []; window.dataLayer.push({ 'gtm.start' : new Date().getTime(), event : 'gtm.js' });">
+		</script>
+
+		<script>
+			(() => {
+				if (typeof window === 'undefined') return;
+
+				const captionStyleText = `
+					figcaption,
+					.image-tool__caption,
+					media-caption {
+						color: var(--color-gray-4);
+						border-bottom: 0.0625rem solid var(--color-gray-2);
+						padding-bottom: 0.625rem;
+						font-size: 0.8125rem;
+						display: block;
+						font-family: sans-serif;
+						margin: 1rem 0;
+					}
+				`;
+				const captionSelectors = [
+					'.image-tool__caption',
+					'.image-caption',
+					'media-caption',
+				].join(',');
+
+				const convertToFigcaption = element => {
+					if (!element || element.tagName?.toLowerCase() === 'figcaption') return;
+					const figcaption = document.createElement('figcaption');
+					for (const { name, value } of Array.from(element.attributes)) {
+						figcaption.setAttribute(name, value);
+					}
+					figcaption.innerHTML = element.innerHTML;
+					element.replaceWith(figcaption);
+				};
+
+				const normalizeCaptions = root => {
+					if (!root || typeof root.querySelectorAll !== 'function') return;
+					root.querySelectorAll(captionSelectors).forEach(convertToFigcaption);
+				};
+
+				const ensureShadowCaptionStyles = root => {
+					if (!root || !('host' in root)) return;
+					if (root.querySelector('style[data-inline-caption-style]')) return;
+					const style = document.createElement('style');
+					style.setAttribute('data-inline-caption-style', 'true');
+					style.textContent = captionStyleText;
+					root.prepend(style);
+				};
+
+				const observeCaptions = target => {
+					if (!target || typeof MutationObserver === 'undefined') return;
+					const observer = new MutationObserver(() => {
+						normalizeCaptions(target);
+					});
+					observer.observe(target, { childList: true, subtree: true });
+				};
+
+				const init = () => {
+					document.querySelectorAll('content-block').forEach(block => {
+						normalizeCaptions(block);
+						observeCaptions(block);
+
+						if (!block.shadowRoot) return;
+						ensureShadowCaptionStyles(block.shadowRoot);
+						normalizeCaptions(block.shadowRoot);
+						observeCaptions(block.shadowRoot);
+					});
+				};
+
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', init, { once: true });
+				} else {
+					init();
+				}
+			})();
+		</script>
+
+		<script>
+			/** DataLayer Events */
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({
+				'event': 'core-page-view',
+				'currentPageUrl': window.location.href,
+				'assetType': 'story',
+				'template': 'wral-web.story',
+				'articleTitle': window.document.title,
+				'articleHeadline': document.querySelector('h1')?.textContent,
+				'siteVersion': 5,
+			});
+		</script>
+
+		<script>
+			(function (d, s, n) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				js = d.createElement(s);
+				js.className = n;
+				js.src = "//player.ex.co/player/d8af3f9c-ad37-4890-8ed5-bb0ce702acdf";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'exco-player'));
+		</script>
+
+		<script id="chartbeat">
+			(function () {
+				setTimeout(function () {
+					var _sf_async_config = window._sf_async_config = (window._sf_async_config || {});
+					_sf_async_config.uid = 20531;
+					_sf_async_config.domain = 'wral.com';
+					_sf_async_config.useCanonical = true;
+					_sf_async_config.useCanonicalDomain = true;
+					_sf_async_config.flickerControl = false;
+					function loadChartbeat() {
+						var e = document.createElement('script');
+						var n = document.getElementsByTagName('script')[0];
+						e.type = 'text/javascript';
+						e.async = true;
+						e.src = '//static.chartbeat.com/js/chartbeat.js';
+						n.parentNode.insertBefore(e, n);
+					}
+					loadChartbeat();
+				}, 100);
+			})();
+		</script>
+		<script async="" id="chartbeat_mab" src="//static.chartbeat.com/js/chartbeat_mab.js"></script>
+
+		<wral-footer></wral-footer>
+		<my-wral-benefits-modal></my-wral-benefits-modal>
+		<script type="text/javascript">
+			window._taboola = window._taboola || [];
+			_taboola.push({flush: true});
+		</script>
+	
+
+</body></html>

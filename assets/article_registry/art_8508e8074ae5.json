@@ -1,0 +1,78 @@
+{
+  "url": "https://www.kark.com/news/state-news/siloam-springs-police-covering-flock-cameras-with-black-bags/",
+  "source_domain": "kark.com",
+  "tier": 2,
+  "stance": "neutral",
+  "title": "Siloam Springs police covering Flock cameras with black bags",
+  "byline": "Edward McKinnon",
+  "published_at": "2026-10-23T21:42:38+00:00",
+  "fetched_at": "2026-11-06T03:32:37Z",
+  "discovered_by": "manual: user batch 2026-11-05",
+  "scanner_verdict": "REVIEW REQUIRED \u2014 204 pts, HIGH/CRITICAL findings",
+  "scanner_score": 204,
+  "content_hash": "48e1d17082b23a08d0b156b1ebe25c3cb78bebfabd168c8b6e3393d3dc7b7a19",
+  "paths": {
+    "html": "assets/articles/kark.com/news-state-news-siloam-springs-police-covering-flock-cameras-with-black-bags_8508e807.html",
+    "meta": "assets/articles/kark.com/news-state-news-siloam-springs-police-covering-flock-cameras-with-black-bags_8508e807.meta.json",
+    "txt": "assets/articles/kark.com/news-state-news-siloam-springs-police-covering-flock-cameras-with-black-bags_8508e807.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "skipped-curl-fallback",
+  "tags": [
+    "genre:investigative",
+    "outcome:terminated",
+    "scope:local",
+    "vendor:flock"
+  ],
+  "agencies": [
+    "712ff333-a22a-5e58-b99d-852b357bc527",
+    "09e782d9-7b55-5e5c-8f0c-e885c0fca646",
+    "a57096a4-2ccc-5e07-aeb0-4211b32bd06c"
+  ],
+  "agency_candidates": [
+    {
+      "agency_id": "712ff333-a22a-5e58-b99d-852b357bc527",
+      "display_name": "Little Rock AR PD",
+      "state": "AR",
+      "score": 5.05,
+      "matched_forms": [
+        "Little Rock"
+      ]
+    },
+    {
+      "agency_id": "09e782d9-7b55-5e5c-8f0c-e885c0fca646",
+      "display_name": "Searcy AR PD",
+      "state": "AR",
+      "score": 4.8,
+      "matched_forms": [
+        "Searcy"
+      ]
+    },
+    {
+      "agency_id": "a57096a4-2ccc-5e07-aeb0-4211b32bd06c",
+      "display_name": "Bryant AR PD",
+      "state": "AR",
+      "score": 2.6,
+      "matched_forms": [
+        "Bryant"
+      ]
+    }
+  ],
+  "primary_subject_agency_ids": [],
+  "summary": "After the Siloam Springs Board of Directors voted 6-1 to turn off the city's six Flock Safety license plate readers, police began disabling the cameras and covered them with black bags as a preemptive measure. Interim Chief Chase Fine said the department will continue investigations using other tools while a final decision on the Flock contract is pending.",
+  "key_quotes": [
+    {
+      "quote": "The city of Siloam Springs has covered all of its license plate readers with black bags after the city's board of directors voted earlier this week to turn them off.",
+      "paragraph_idx": 1
+    },
+    {
+      "quote": "The Siloam Springs Board of Directors voted 6-1 on Tuesday to turn off the city's six automated license plate readers operated by the company Flock Safety.",
+      "paragraph_idx": 2
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-11-06T03:34:48Z",
+  "article_id": "art_8508e8074ae5"
+}

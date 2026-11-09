@@ -1,0 +1,53 @@
+{
+  "url": "https://www.nextgov.com/digital-government/2020/07/customs-expand-license-plate-reading-program-nationwide/166841/",
+  "source_domain": "nextgov.com",
+  "tier": 1,
+  "stance": "neutral",
+  "title": "Customs to Expand License Plate Reading Program Nationwide",
+  "byline": "Aaron Boyd",
+  "published_at": "2020-07-13T15:56:02",
+  "fetched_at": "2026-11-06T03:06:48Z",
+  "discovered_by": "manual: user batch 2026-11-05",
+  "scanner_verdict": "WARNINGS \u2014 44 pts, low/medium only",
+  "scanner_score": 44,
+  "content_hash": "aaa3d629af60144d27693b5e74811116ae8d7143d4c986c5fb8ea2eeccbd6718",
+  "paths": {
+    "html": "assets/articles/nextgov.com/digital-government-2020-07-customs-expand-license-plate-reading-program-nationwi_491f5eed.html",
+    "meta": "assets/articles/nextgov.com/digital-government-2020-07-customs-expand-license-plate-reading-program-nationwi_491f5eed.meta.json",
+    "pdf": "assets/articles/nextgov.com/digital-government-2020-07-customs-expand-license-plate-reading-program-nationwi_491f5eed.pdf",
+    "txt": "assets/articles/nextgov.com/digital-government-2020-07-customs-expand-license-plate-reading-program-nationwi_491f5eed.txt"
+  },
+  "wayback_url": null,
+  "wayback_timestamp": null,
+  "wayback_source": "submit-failed",
+  "pdf_status": "rendered",
+  "tags": [
+    "genre:explainer",
+    "policy:audit",
+    "policy:purpose-limitation",
+    "policy:retention",
+    "policy:sharing",
+    "scope:national"
+  ],
+  "agencies": [],
+  "agency_candidates": [],
+  "primary_subject_agency_ids": [],
+  "summary": "U.S. Customs and Border Protection published a July 2020 privacy impact assessment authorizing operational use of commercial third-party license plate reader data\u2014aggregated from parking garages, toll cameras, local governments, law enforcement, and repossession firms\u2014queried via an API through its Automated Targeting System. The PIA acknowledges privacy risks including the mosaic effect and lack of notice to drivers, which CBP says it partially mitigates by limiting lookbacks to five years, role-based access, and audits.",
+  "key_quotes": [
+    {
+      "quote": "With the release of the PIA, CBP can also use data from third-party vendors.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "The only way for a person to truly protect their privacy from these systems is to opt out by not driving in areas with license plate readers, 'which may pose significant hardships and be generally unrealistic,' the document states.",
+      "paragraph_idx": 19
+    },
+    {
+      "quote": "LPR data from third party sources may, in the aggregate, reveal information about an individual's travel over time",
+      "paragraph_idx": 21
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-11-06T03:09:00Z",
+  "article_id": "art_491f5eed53f8"
+}
