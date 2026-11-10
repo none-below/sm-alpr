@@ -1,20 +1,34 @@
 {
   "agency_id": null,
   "agency_name": "Town of Cheektowaga Police Department",
-  "dashboards": [],
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-11-10T14:48:55Z",
+      "id": "321eac9c0a154770873250b3950a5291",
+      "title": "Town of Cheektowaga Police Department Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/321eac9c0a154770873250b3950a5291"
+    }
+  ],
   "description": "Feature service for Town of Cheektowaga Police Department",
   "events": [
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "dashboard": "321eac9c0a154770873250b3950a5291",
+      "date": "2026-11-10",
+      "event": "dashboard_published",
+      "title": "Town of Cheektowaga Police Department Drone Flights"
     }
   ],
   "first_seen": "2026-10-18",
   "flights": {
-    "count": 2,
+    "count": 5,
     "duplicates": 1,
     "first_takeoff": "2024-12-17T23:02:44Z",
-    "last_takeoff": "2024-12-17T23:02:44Z",
+    "last_takeoff": "2026-11-06T19:39:11Z",
     "unhashed": 0
   },
   "layer": {
