@@ -1,0 +1,42 @@
+{
+  "title": "Axon Outpost encroachment permits (Public Works, SMMC Chapter 17.08), 2026",
+  "summary": "Asks the Public Works Department, for 2026-01-01 through the search date, for:\n\n- Item 1: each application for an encroachment permit, or any other SMMC Chapter 17.08 permit, to install Axon Outpost cameras, poles, solar panels, batteries or related equipment, by the City, the Police Department, Axon or a contractor, in any status (pending, withdrawn or denied included), with attachments, site plans, location lists and traffic control plans, and each permit issued. Quotes SMMC §17.08.070 and states that \"no responsive records\" would mean no City permit had been applied for or issued for any Outpost camera in a City street, sidewalk or public place as of the search date.\n- Item 2: any Caltrans encroachment permit application for the same work that the City submitted or holds a copy of, and any permit Caltrans issued.\n\nThe request opens with Outpost Statement of Work §4.2 (Exhibit D to File 26-11633, approved 2026-10-05): \"All permit licenses will be in the name of the customer.\" It asks for discrete permit records only, not an email search.",
+  "tags": ["axon-alpr"],
+  "policy_promises": [
+    {
+      "policy": "SMMC §17.08.070",
+      "quote": "No person shall place or use, or cause to be placed or used, any material, machinery or apparatus for building, paving, construction, excavation, demolition or other purposes, on any street, sidewalk or public place, without a permit having been first obtained from the Superintendent of Streets.",
+      "tests": "Has a City permit been applied for or issued for Outpost poles and cameras in the public right of way, and when?"
+    },
+    {
+      "policy": "Axon Outpost SOW §4.2 (Q-865809-009, Exhibit D)",
+      "quote": "All permit licenses will be in the name of the customer.",
+      "tests": "Are Outpost permits held in the City's name, making the applications City records whoever prepared them?"
+    },
+    {
+      "policy": "Gov. Code § 7922.535(a)",
+      "quote": "agency must notify requester within 10 calendar days whether it will produce records",
+      "tests": "Does the City issue a determination by 2026-11-19?"
+    }
+  ],
+  "prior_pra_refs": [
+    {
+      "ref": "W013584-100626",
+      "relation": "context",
+      "note": "Produced Q-865809-009, whose Outpost Statement of Work (§§3, 4.1–4.3, 9.2) puts site approval with Axon and permits in the City's name, with 45 sites shipping 2026-10-15 and the license starting 2026-11-15."
+    },
+    {
+      "ref": "W013585-100626",
+      "relation": "context",
+      "note": "The 2026-11-02 supplemental includes Axon's 2026-09-02 \"Re: LPR Site Locations\" email asking SMPD for proposed sites \"so we can get ahead on permitting, improving the deployment timeline.\""
+    },
+    {
+      "ref": "W013837-110926",
+      "relation": "companion",
+      "note": "Same-day request to the Police Department for the Outpost site list, site assessments, installation schedule and delivery records."
+    }
+  ],
+  "filed_because": "The Outpost Statement of Work puts every permit in the City's name, and Axon told SMPD in September that it wanted sites chosen early to get ahead on permitting. A City encroachment permit application is the earliest public record of where and when Outpost poles go into the street, and SMMC §17.08.070 requires one before any construction material or apparatus is placed in a street or sidewalk.",
+  "status_override": null,
+  "notes": "Filed 2026-11-09 at 11:28 AM; auto-acknowledged the same minute and forwarded to department(s) for processing. Statutory determination due 2026-11-19.\n\nA same-day request to Caltrans District 4 (R056064-110926, filed through Caltrans's records portal) asks for encroachment permits for ALPR cameras and poles on SR-82, SR-92 and US-101 in San Mateo from 2020 on."
+}
