@@ -1,0 +1,65 @@
+--- page 1 ---
+Re: San Mateo ALPR data retained at NCRIC
+From
+Brian C <
+>
+To
+Ed Barberini <ebarberini@cityofsanmateo.org>
+Cc
+Bahareh Abdollahi <babdollahi@cityofsanmateo.org>
+Date
+2026-11-04 23:27
+Chief Barberini,
+Upon reviewing some recent public records responses, it has become apparent to me that the department has mischaracterized my September 11
+message about NCRIC sharing. The issue was never the six SMPD searches in NCRIC's published audit log. It is this:
+At least 3.14 million San Mateo plate reads were copied out of Flock into a separate NCRIC database in a single 30-day period, in an
+arrangement that ran for nearly three years. These are records of where San Mateo residents and visitors drove. Accounts at ICE, DHS and
+the FBI were searching that database, as NCRIC's audit log shows, alongside six searches by SMPD officers. The log only records who
+searched it; the exposure is the copy of the plate data itself, and federal accounts' access to it. California law limits ALPR sharing to
+public agencies, which the Attorney General reads as excluding federal agencies. SMPD's own SOP 205 required quarterly audits of NCRIC use.
+The department has produced no record of auditing that copy, limiting who could reach it, or having it deleted.
+Under SMPD's MOU with NCRIC, that control stayed with SMPD even while NCRIC held the data:
+- Data Sharing: SMPD decided "within its sole discretion, which data records are to be shared," and any data it "later declares should not
+be shared, shall be withdrawn by all Hosts from all NCRIC-DSP Systems within 48 hours, including deletion of any replications of the data."
+- Security Requirements: "All Member Agencies and Hosts agree to enforce and maintain security, retention, and purge requirements for the
+information shared."
+- Information Ownership and Release: SMPD remains "the official custodian of all information contributed."
+If SMPD had been following its own policies, then it would also hold its own records of who searched that database. SOP 205 has required
+quarterly audits of "end-users usage of the NCRIC platform" since at least 2019, and says "Our Department can obtain such data for the
+purposes of an audit directly from the NCRIC." The department did exactly that in 2019 and 2020: it has produced six quarterly NCRIC audit
+memos and a 2020 NCRIC search log in the same format as the 2023 log. Civil Code § 1798.90.52 also requires an ALPR operator that "provides
+access" to its ALPR information to keep a record of that access, including who searched, their organization, what they searched and why.
+And Government Code § 34090 bars destroying city records without a Council resolution and the City Attorney's written consent. So even if
+NCRIC no longer has its log, SMPD should have these records. If the department does not have them, please explain why it has neglected its
+own policies, and what it will do to correct this going forward.
+The details:
+- The 3.14 million figure comes from NCRIC's own platform dashboard, included in the published files. That many SMPD reads arrived in its
+last month on record alone, in late 2023. The arrangement ran for nearly three years, so the total was presumably far higher, but the
+published files only show a subset of the totals.
+- These are NCRIC's records by NCRIC's own account. In its September 15 takedown notice to GitHub, NCRIC wrote "This project belongs to us"
+and swore "under penalty of perjury, that the information in this notification is accurate."
+- SOP 205 has said since February 2021 that the department partners with NCRIC "to store the ALPR data we collect with PIPs and Flock."
+NCRIC's answer to you confirms the mechanism: "replication and/or federation of data from the original vendor location, such as Flock"
+before 2024.
+- Those copies sat outside Flock's 30-day retention, and searches against them never appear in SMPD's Flock audit log.
+- NCRIC says it is "not in possession of any repositories of ALPR data from any agency." That describes today, not when SMPD's data was
+removed.
+My questions:
+1. Which SMPD datasets did NCRIC hold, for what period, and with what retention? When were they deleted, and does SMPD have any record
+confirming it?
+2. Where are the NCRIC usage data and audit results from SOP 205's quarterly NCRIC audits for 2021 through 2023? If they were destroyed,
+under what Council resolution and City Attorney consent?
+3. Where is SMPD's record, under Civil Code § 1798.90.52, of the access it provided to NCRIC's users, including the federal accounts?
+4. Has SMPD ever made the declaration under the MOU's Data Sharing section that requires NCRIC to delete replications of its data within 48
+hours? Deactivating SMPD's NCRIC accounts on May 19 does not appear to be that declaration.
+5. SOP 205, revised November 2025, still says SMPD partners with NCRIC "to store the ALPR data we collect with PIPs and Flock." Was that
+accurate when it was revised?
+6. The MOU requires NCRIC to keep "an audit log … for a period of no less than three years to record user access to shared data." Has SMPD
+obtained that log for its data, and will it ask NCRIC to preserve it? I requested this log from the department in W013470 on September 18,
+and was told the department had no records of it. If NCRIC destroyed that log before the three years were up, what recourse is SMPD
+pursuing against NCRIC for that breach of the agreement?
+Please reply by Wednesday, November 18. Question 6 is time-sensitive: the last entries in NCRIC's 2023 log reach the MOU's three-year
+minimum on December 1, so I would appreciate an answer on preservation sooner if possible.
+If I don't hear back by November 18, I will take that to mean the department has no records answering these questions and has not taken any
+of the actions they ask about, and I will proceed on that understanding.
+-brian
