@@ -22,6 +22,9 @@
   "wayback_source": "submit-failed",
   "pdf_status": "rendered",
   "tags": [
+    "genre:investigative",
+    "incident:data-breach",
+    "scope:national",
     "vendor:flock"
   ],
   "agencies": [
@@ -69,9 +72,26 @@
     }
   ],
   "primary_subject_agency_ids": [],
-  "summary": null,
-  "key_quotes": [],
-  "curation_status": "mechanical",
-  "curated_at": "2026-11-06T23:11:33Z",
+  "summary": "Proton is hosting a public map of more than 300,000 Flock surveillance devices across the US, based on an inventory obtained by researcher Joshua Michael via an exposed Flock access token in late 2025. Michael has faced a cease-and-desist from Flock, which said forensic review found no customer-data impact. The article also notes an OC Intelligence Assessment Center bulletin urging police to watch people attending council meetings to oppose ALPRs.",
+  "key_quotes": [
+    {
+      "quote": "Proton is hosting a public map showing more than 300,000 Flock surveillance devices across the United States, preserving access to a research project whose creator faces legal threats and intimidation.",
+      "paragraph_idx": 8
+    },
+    {
+      "quote": "In November 2025, Michael discovered that an access token could be obtained without logging in and used to retrieve device-location information.",
+      "paragraph_idx": 9
+    },
+    {
+      "quote": "Michael said Flock had sent him a cease-and-desist letter threatening litigation and told customers it had notified law enforcement.",
+      "paragraph_idx": 13
+    },
+    {
+      "quote": "California's Orange County Intelligence Assessment Center had circulated a bulletin warning police about people attending city council meetings to oppose the surveillance technology.",
+      "paragraph_idx": 15
+    }
+  ],
+  "curation_status": "enriched",
+  "curated_at": "2026-11-10T00:22:58Z",
   "article_id": "art_f79140d368c6"
 }
