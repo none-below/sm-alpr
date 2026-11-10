@@ -45,6 +45,25 @@ def test_committed_histories_match_their_folder():
             assert problem is None, f"{mh}: {problem}"
 
 
+def test_other_portal_uses_its_own_ids_and_folder(monkeypatch):
+    # use_portal rebinds module globals; register them so monkeypatch restores.
+    for name in ("PRA_ROOT", "AUTH_STATE", "CONFIG_PATH", "DEFAULT_PORTAL_BASE",
+                 "DEFAULT_SUPPORT_HOME", "REQUEST_ID_RE", "W_REQUEST_ID_RE"):
+        monkeypatch.setattr(pd, name, getattr(pd, name))
+    pd.use_portal("caltrans")
+    assert pd.REQUEST_ID_RE.match("R056064-110926")
+    assert not pd.REQUEST_ID_RE.match("W000001-010126")
+    assert pd.AUTH_STATE.name == "pra_caltrans_auth.json"
+    data = _mh_pdf("R000002-010226 - Public Records Request")
+    problem = pd.message_history_problem(data, "R000001-010126")
+    assert problem and "R000002-010226" in problem
+    for folder in sorted(pd.PRA_ROOT.glob("R*")):
+        mh = folder / f"{folder.name}_Message_History.pdf"
+        if mh.is_file():
+            problem = pd.message_history_problem(mh.read_bytes(), folder.name)
+            assert problem is None, f"{mh}: {problem}"
+
+
 def test_uppercase_pdf_extension_counts_as_existing(tmp_path):
     (tmp_path / "_INVIT_1.PDF").write_bytes(b"%PDF")
     (tmp_path / "letter.pdf").write_bytes(b"%PDF")

@@ -20,6 +20,8 @@ Regular use:
   uv run python scripts/pra_download.py                    # same as --all
   uv run python scripts/pra_download.py --active           # every folder except closed ones
   uv run python scripts/pra_download.py --discover         # stub new portal ids, then scrape all
+  uv run python scripts/pra_download.py --portal caltrans R056064-110926
+                                       # another agency's GovQA portal (PORTALS)
 
 After downloading, run OCR to refresh sidecars:
   uv run python scripts/ocr_sidecar.py --staged
@@ -454,6 +456,34 @@ REQUESTS_LIST_PATH = "CustomerIssues.aspx"
 
 REQUEST_ID_RE = re.compile(r"^W\d{6}-\d{6}$")
 W_REQUEST_ID_RE = re.compile(r"\bW\d{6}-\d{6}\b")
+
+# Other agencies' GovQA portals, picked with --portal. The same account works
+# on each (one credentials file), but each keeps its own saved session and
+# config, and files its requests under its own folder.
+PORTALS = {
+    "caltrans": {
+        "root": REPO / "assets" / "public-records" / "caltrans",
+        "base": "https://caltrans.mycusthelp.com/WEBAPP/_rs",
+        "id_prefix": "R",
+    },
+}
+
+
+def use_portal(name: str) -> None:
+    """Point the module-level portal settings at PORTALS[name]."""
+    global PRA_ROOT, AUTH_STATE, CONFIG_PATH, DEFAULT_PORTAL_BASE
+    global DEFAULT_SUPPORT_HOME, REQUEST_ID_RE, W_REQUEST_ID_RE
+    portal = PORTALS[name]
+    PRA_ROOT = portal["root"]
+    AUTH_STATE = CONFIG_DIR / f"pra_{name}_auth.json"
+    CONFIG_PATH = CONFIG_DIR / f"pra_{name}_config.json"
+    DEFAULT_PORTAL_BASE = portal["base"]
+    DEFAULT_SUPPORT_HOME = portal["base"] + "/supporthome.aspx"
+    prefix = re.escape(portal["id_prefix"])
+    REQUEST_ID_RE = re.compile(rf"^{prefix}\d{{6}}-\d{{6}}$")
+    W_REQUEST_ID_RE = re.compile(rf"\b{prefix}\d{{6}}-\d{{6}}\b")
+
+
 SESSION_TOKEN_RE = re.compile(r"/\(S\([^)]+\)\)/")
 SSESSIONID_RE = re.compile(r"[?&]sSessionID=[^&]*")
 DOWNLOAD_TIMEOUT_MS = 60_000  # portal pre-signs S3 URLs; can take several seconds
@@ -1683,7 +1713,8 @@ def run(args, config: dict) -> None:
 
         for rid in targets:
             if not REQUEST_ID_RE.match(rid):
-                print(f"skipping '{rid}': not a W-request id", file=sys.stderr)
+                print(f"skipping '{rid}': not a request id on this portal",
+                      file=sys.stderr)
                 continue
             process_request(page, home_url, rid,
                             do_messages=do_messages, do_files=do_files)
@@ -1719,12 +1750,17 @@ def main() -> int:
                         help="Only refresh message-history PDFs, skip attachments")
     parser.add_argument("-v", "--verbose", action="store_true",
                         help="Show diagnostic output (selector matches, page dumps, etc.)")
+    parser.add_argument("--portal", choices=sorted(PORTALS),
+                        help="Another agency's GovQA portal instead of San "
+                             "Mateo's (same login)")
     parser.add_argument("requests", nargs="*",
                         help="Specific request ids (e.g. W012297-030826)")
     args = parser.parse_args()
 
     global VERBOSE
     VERBOSE = args.verbose
+    if args.portal:
+        use_portal(args.portal)
 
     if args.login:
         return login()

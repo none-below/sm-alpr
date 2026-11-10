@@ -87,6 +87,8 @@ CITY_AGENCY = {
     "alameda-county": ("alameda-county-so", "Alameda County SO"),
     # Flock comparator contracts, Nov 2026
     "brunswick-county-nc": ("brunswick-county-so", "Brunswick County SO (NC)"),
+    # D4 encroachment-permit records for ALPR poles on state routes, Nov 2026
+    "caltrans": ("caltrans", "Caltrans"),
 }
 SMPD = ("san-mateo-pd", "San Mateo PD")
 
