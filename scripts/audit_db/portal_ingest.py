@@ -29,7 +29,7 @@ from fnmatch import fnmatch
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from muckrock_ingest import (EVENT_COLS, FLOCK_COLS, canonical, extra_json, org_from_name, repaired_header,  # noqa: E402
+from muckrock_ingest import (EVENT_COLS, FLOCK_COLS, canonical, extra_json, org_from_name, repaired_header, staged_second,  # noqa: E402
                              sha256_file, sql_ident, sql_str, to_csv)
 from paths import audit_dir  # noqa: E402
 from table_profile import TABULAR, profile_file  # noqa: E402
@@ -205,16 +205,18 @@ def add_portals(con, PV, TMP, resolve=lambda org: None, log=lambda m: print(m, f
         uploaded = rm.get("uploaded", {}).get(u["doc_id"])
         source_url = (f"https://{u['host']}/documents/{u['doc_id']}" if u["platform"] == "nextrequest" and u["doc_id"].isdigit()
                       else rm.get("url"))
+        n2, basis2, mismatch = staged_second(n, res)
         con.execute("""INSERT INTO releases (release_id, producer, producer_agency_id, producer_basis, producer_source, audit, pra_id,
                          container_root, container_path, member, member_sha256, sheet, source_file, container_sha256, header,
                          header_raw, header_basis, n_rows, content_sha256, released_on, released_on_basis, source_url,
-                         request_url, src_row_basis)
-                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TRY_CAST(? AS DATE),?,?,?,?)""",
+                         request_url, src_row_basis, n_rows_second, second_basis, count_mismatch_at)
+                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TRY_CAST(? AS DATE),?,?,?,?,?,?,?)""",
                     [rid, org, resolve(org), basis, source, audit, f"{u['host']}:{u['request']}", "portals", u["local_path"],
                      res["member"], res.get("member_sha256"), res["sheet"],
                      shown_name(Path(res["member"] or u["local_path"]).name), container_sha[u["local_path"]], header,
                      raw_header, header_basis, n, res["content_sha256"], uploaded,
-                     "portal upload date" if uploaded else None, source_url, rm.get("url"), res["src_row_basis"]])
+                     "portal upload date" if uploaded else None, source_url, rm.get("url"), res["src_row_basis"],
+                     n2, basis2, mismatch])
         loaded += 1
     log(f"  portals: {loaded} releases loaded, {n_excl} excluded (release_exclusions)"
         + (f"; no producer for hosts {sorted(unresolved)}" if unresolved else ""))

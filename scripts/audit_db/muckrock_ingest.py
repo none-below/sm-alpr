@@ -300,7 +300,7 @@ def to_csv(u, EV, TMP):
     if rows is None:
         return None
     h = hashlib.sha256()
-    header = None
+    header, n_data = None, 0
     # gzip: staging all units as plain CSV needs ~19 GB; read_csv reads .csv.gz directly
     with gzip.open(dest, "wt", newline="", encoding="utf-8", compresslevel=3) as fh:
         w = csv.writer(fh)
@@ -314,10 +314,32 @@ def to_csv(u, EV, TMP):
             if any(v.strip() for v in vals):
                 w.writerow([src_row] + vals)
                 h.update(("\x1f".join(vals) + "\n").encode())
+                n_data += 1   # the second count: data rows written here, before DuckDB's CSV reader sees them
     if header is None:
         return None
     return {"path": str(dest), "header": header, "content_sha256": content_sha or h.hexdigest(), "member": member_full,
-            "member_sha256": member_sha, "sheet": sheet_full, "src_row_basis": basis}
+            "member_sha256": member_sha, "sheet": sheet_full, "src_row_basis": basis, "n_data_rows": n_data}
+
+
+STAGED_BASIS = ("non-empty data rows below the header, counted by the staging writer as it wrote them (Python csv), "
+                "independent of DuckDB's read_csv, which produced n_rows")
+
+
+def second_count(n_loaded, n_second, basis, where=None):
+    """(n_rows_second, second_basis, count_mismatch_at) for a release: the count taken without the row parser, how
+    it was taken, and where the two counts first diverge (None when they agree, or when no second count exists)."""
+    if n_second is None:
+        return None, basis, None
+    if n_second == n_loaded:
+        return n_second, basis, None
+    return n_second, basis, where or f"totals differ: loaded {n_loaded}, counted {n_second}"
+
+
+def staged_second(n_loaded, res):
+    """second_count for a staged unit; a staged.json from before the count existed records that instead."""
+    if "n_data_rows" not in res:
+        return second_count(n_loaded, None, "no second count: staged before it existed (restage to record it)")
+    return second_count(n_loaded, res["n_data_rows"], STAGED_BASIS)
 
 
 def _stage(args):
@@ -401,16 +423,17 @@ def add_muckrock(con, EV, TMP, resolve=lambda org: None, log=lambda m: print(m, 
         if msha is None and res["member"]:   # staged.json from before staging hashed members: hash now (restage to skip)
             member_sha_missing += 1
             msha = member_sha256(EV / u["local_path"], res["member"])
+        n2, basis2, mismatch = staged_second(n, res)
         con.execute("""INSERT INTO releases (release_id, producer, producer_agency_id, producer_basis, producer_source, audit, pra_id,
                          container_root, container_path, member, member_sha256, sheet, source_file, container_sha256, header,
                          header_raw, header_basis, n_rows, content_sha256, released_on, released_on_basis, source_url,
-                         request_url, src_row_basis)
-                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TRY_CAST(? AS DATE),?,?,?,?)""",
+                         request_url, src_row_basis, n_rows_second, second_basis, count_mismatch_at)
+                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TRY_CAST(? AS DATE),?,?,?,?,?,?,?)""",
                     [rid, org, agency_id, basis, source, audit, f"muckrock-{u['request_id']}",
                      "evidence", u["local_path"], res["member"], msha, res["sheet"], Path(res["member"] or u["local_path"]).name,
                      container_sha[u["local_path"]], header, raw_header, header_basis,
                      n, res["content_sha256"], rel_on, "MuckRock attachment date" if rel_on else None, u["url"],
-                     u.get("request_url"), res["src_row_basis"]])
+                     u.get("request_url"), res["src_row_basis"], n2, basis2, mismatch])
     if member_sha_missing:
         log(f"  NOTE: staged.json predates member hashing; hashed {member_sha_missing} zip members at load (restage to skip)")
     log(f"  muckrock: {len(staged)} releases loaded in full")

@@ -77,6 +77,9 @@ Treat `release_id` as an opaque key. It can contain zip folder names, so publish
 | `header_raw` | VARCHAR[] | The header as released or printed, verbatim, where one was recorded (see `header_basis`). Otherwise NULL |
 | `header_basis` | VARCHAR | How `header` and `header_raw` were obtained, in words |
 | `n_rows` | BIGINT | Number of rows loaded for this release. It equals the release's count in its row table |
+| `n_rows_second` | BIGINT | A second row count taken without the row parser that produced `n_rows`: data rows counted by the staging writer for a sheet or CSV, non-empty lines for a repo NDJSON conversion, UUID-shaped strings in the text layer page by page for a PDF with an ID column. NULL when no such count exists (`second_basis` says why) |
+| `second_basis` | VARCHAR | How `n_rows_second` was taken, in words, or why it is NULL |
+| `count_mismatch_at` | VARCHAR | NULL when `n_rows` and `n_rows_second` agree. Otherwise where they first diverge: the page (PDFs) or the two totals (sheets, CSV, NDJSON). A release with a value here is flagged: rows the loader did not parse, or text the parser counted twice |
 | `content_sha256` | VARCHAR | Fingerprint of the released content, independent of the container: file bytes for CSV and PDF, the staged cells for a sheet, the decompressed NDJSON. Equal values mark re-releases |
 | `released_on` | DATE | Production date. NULL when it is not recorded |
 | `released_on_basis` | VARCHAR | Where `released_on` comes from, or why it is NULL |

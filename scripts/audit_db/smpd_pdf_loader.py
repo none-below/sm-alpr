@@ -116,7 +116,9 @@ def parse_pdf(path):
                      "reason_line": "\n".join(txt(j) for j in use[2:]) if len(use) > 2 else None,
                      "parse_note": note})
     header_raw = [t for _, _, t, _ in flat[:ids[0]]] if ids else None
-    return {"n_pages": len(pages), "header_raw": header_raw or None, "rows": rows,
+    # the second count: UUID-shaped strings per page by a plain regex over the page text, not by block
+    uuid_per_page = {pno: sum(len(UUID_LINE.findall(t)) for t, _ in lines) for pno, lines in enumerate(pages, 1)}
+    return {"n_pages": len(pages), "header_raw": header_raw or None, "rows": rows, "uuid_per_page": uuid_per_page,
             "stats": {"blocks": len(rows), "distinct_ids": len({r["id"].strip() for r in rows}), "read_by_position": n_pos,
                       "with_note": n_note, "orphan_lines": len(orphans), "pages_without_positions": len(no_pos)}}
 
