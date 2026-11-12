@@ -1,1 +1,12 @@
-[]
+[
+ {
+  "release_pattern": "la:25-312:*",
+  "reason": "the same workbook sheets are loaded from the agency's records portal (pp: releases of the same request, workbook and sheet, equal row counts). A row-by-row cell comparison of all 74 pairs found no difference beyond whitespace and spreadsheet-library renderings of typed cells (dates, floats, booleans, formula errors), except one sheet whose portal load needed the header repair added with this entry (header_align.py). The portal workbook is the released bytes; the committed NDJSON is a derivative of a copy received by email, kept in the repo for the site's pages.",
+  "source": "data repo reports/los-altos-twin-loads-2026-11-12.md (nuggets releases twins, alpr-tools 91f3e28; pin sm-alpr@18ba003c, state sha256:c7631c1e…)"
+ },
+ {
+  "release_pattern": "la:26-366:*",
+  "reason": "same as la:25-312:* — the portal harvest holds the released workbooks; see that entry.",
+  "source": "data repo reports/los-altos-twin-loads-2026-11-12.md"
+ }
+]
