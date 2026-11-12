@@ -29,7 +29,7 @@ from fnmatch import fnmatch
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from muckrock_ingest import (EVENT_COLS, FLOCK_COLS, HEADER_BASIS, canonical, extra_json, org_from_name,  # noqa: E402
+from muckrock_ingest import (EVENT_COLS, FLOCK_COLS, canonical, extra_json, org_from_name, repaired_header,  # noqa: E402
                              sha256_file, sql_ident, sql_str, to_csv)
 from paths import audit_dir  # noqa: E402
 from table_profile import TABULAR, profile_file  # noqa: E402
@@ -182,6 +182,7 @@ def add_portals(con, PV, TMP, resolve=lambda org: None, log=lambda m: print(m, f
             unresolved.add(u["host"])
             org, basis = u["host"], "portal host (no producer known)"
         header, raw_header = canonical(res["header"]), res["header"]
+        header, header_basis = repaired_header(header, Path(res["path"]), rid, log)
         audit = AUDIT_OF_KIND[u["kind"]]
         names = "[" + ", ".join(sql_str(c) for c in ["__src_row"] + header) + "]"
         src = f"read_csv({sql_str(res['path'])}, all_varchar=true, header=true, names={names}, null_padding=true, parallel=false)"
@@ -212,7 +213,7 @@ def add_portals(con, PV, TMP, resolve=lambda org: None, log=lambda m: print(m, f
                     [rid, org, resolve(org), basis, source, audit, f"{u['host']}:{u['request']}", "portals", u["local_path"],
                      res["member"], res.get("member_sha256"), res["sheet"],
                      shown_name(Path(res["member"] or u["local_path"]).name), container_sha[u["local_path"]], header,
-                     raw_header, HEADER_BASIS, n, res["content_sha256"], uploaded,
+                     raw_header, header_basis, n, res["content_sha256"], uploaded,
                      "portal upload date" if uploaded else None, source_url, rm.get("url"), res["src_row_basis"]])
         loaded += 1
     log(f"  portals: {loaded} releases loaded, {n_excl} excluded (release_exclusions)"

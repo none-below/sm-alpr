@@ -87,6 +87,24 @@ HEADER_BASIS = ("header_raw = the released header row (the first row with >= 3 a
                 "'Search Date' kept as is where a separate 'Search Time' exists, blank labels named columnNN (0-based position), "
                 "a label already taken (ignoring case) suffixed _2, _3 (the first free one), a Flock column's exact label taken first")
 
+from header_align import repair_header, sample_rows  # noqa: E402  (sibling module; sys.path has this directory)
+
+
+def repaired_header(header, path, rid, log):
+    """The labels each data column of a staged sheet loads under, after header_align's type check on its first rows:
+    (header, header_basis). A well-formed sheet comes back unchanged with HEADER_BASIS; a repaired one (phantom label
+    dropped, unlabeled column kept as column_<N>) with the repair appended; an ambiguous one is loaded by position
+    and header_basis says so."""
+    try:
+        labels, phantom, unlabeled, note = repair_header(header, sample_rows(path))
+    except ValueError as ex:
+        log(f"  {rid[:90]}: {ex}; loaded by position")
+        return header, f"{HEADER_BASIS}; header_align: {ex}; loaded by position"
+    if note is None:
+        return header, HEADER_BASIS
+    log(f"  {rid[:90]}: {note}")
+    return labels, f"{HEADER_BASIS}; {note}"
+
 
 def sql_ident(s):
     return '"' + s.replace('"', '""') + '"'
@@ -332,7 +350,8 @@ def add_muckrock(con, EV, TMP, resolve=lambda org: None, log=lambda m: print(m, 
         path, raw_header = Path(res["path"]), res["header"]
         header = canonical(raw_header)
         rid = release_id(u)
-        staged.append((u, path, raw_header, header, res, rid))
+        header, header_basis = repaired_header(header, path, rid, log)
+        staged.append((u, path, raw_header, header, res, rid, header_basis))
         if u["kind"] == "search_audit_own" and "Org Name" in header:
             oi = header.index("Org Name") + 1  # staged CSV starts with __src_row
             with gzip.open(path, "rt", encoding="utf-8-sig", errors="replace") as fh:
@@ -344,7 +363,7 @@ def add_muckrock(con, EV, TMP, resolve=lambda org: None, log=lambda m: print(m, 
                         own_orgs[u["request_id"]][row[oi].strip()] += 1
     log(f"  staged {len(staged)} of {len(us)} units")
     container_sha, member_sha_missing = {}, 0
-    for u, path, raw_header, header, res, rid in staged:
+    for u, path, raw_header, header, res, rid, header_basis in staged:
         ov = overrides.get(u["request_id"], {})
         fov = file_override(ov, u, res)   # a file-level entry wins over the request-level one, field by field
         org, basis = fov.get("org") or ov.get("org"), "producers.json"
@@ -389,7 +408,7 @@ def add_muckrock(con, EV, TMP, resolve=lambda org: None, log=lambda m: print(m, 
                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TRY_CAST(? AS DATE),?,?,?,?)""",
                     [rid, org, agency_id, basis, source, audit, f"muckrock-{u['request_id']}",
                      "evidence", u["local_path"], res["member"], msha, res["sheet"], Path(res["member"] or u["local_path"]).name,
-                     container_sha[u["local_path"]], header, raw_header, HEADER_BASIS,
+                     container_sha[u["local_path"]], header, raw_header, header_basis,
                      n, res["content_sha256"], rel_on, "MuckRock attachment date" if rel_on else None, u["url"],
                      u.get("request_url"), res["src_row_basis"]])
     if member_sha_missing:

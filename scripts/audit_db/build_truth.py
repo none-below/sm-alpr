@@ -37,7 +37,7 @@ import smpd_pdf_loader as smpd  # noqa: E402
 from muckrock_ingest import FLOCK_COLS, add_muckrock, canonical, sha256_file as sha256, sql_ident, sql_str  # noqa: E402
 from paths import duck_connect  # noqa: E402
 from pdf_table_ingest import add_pdf_tables  # noqa: E402
-from portal_ingest import add_portals  # noqa: E402
+from portal_ingest import add_portals, excluded, load_exclusions  # noqa: E402
 
 HERE = Path(__file__).parent
 # repo inputs, and this build code, whose uncommitted edits would make the recorded commit a lie
@@ -148,7 +148,14 @@ def load_repo_ndjson(con, WT, resolve):
                     man.get((Path(f).parent, Path(f).name), {})))
     la_facts = la_readme_facts(WT / "assets/los-altos-pras/json/README.md")
     jx = lambda k: f"json_extract_string(j, {sql_str('$.' + json.dumps(k))})"
+    rules = load_exclusions(con)   # authored exclusions apply here as to every other loader (release_exclusions lists them)
+    n_excl = 0
     for rid, prod, audit, path, pra, m in rel:
+        ex = excluded(rid, rules)
+        if ex:
+            con.execute("INSERT INTO release_exclusions VALUES (?, ?, ?)", [rid, *ex])
+            n_excl += 1
+            continue
         data_keys = ndjson_keys(con, path)
         headerless = bool(m.get("headerless"))
         if rid.startswith("la:") and m.get("header"):
@@ -200,6 +207,8 @@ def load_repo_ndjson(con, WT, resolve):
                             "workbook row = NDJSON line + 1 (header on row 1)")
                            + "; the committed conversion (scripts/xlsx_to_audit_ndjson.py) drops all-empty rows, so exact "
                              "unless the workbook has blank rows mid-sheet; it trims cell text and omits empty cells"))
+    if n_excl:
+        print(f"repo NDJSON: {n_excl} releases excluded (release_exclusions)", flush=True)
 
 
 def load_smpd(con, WT, resolve, pdfs=None, workers=2):
@@ -312,7 +321,7 @@ def main():
     load_repo_ndjson(con, WT, name_to_id.get)
     # MuckRock CA corpus (all other tabular audit logs + event logs); see muckrock_ingest.py
     add_muckrock(con, EV, TMP, resolve=name_to_id.get)
-    con.execute("CREATE OR REPLACE TABLE release_exclusions (release_id VARCHAR, reason VARCHAR, source VARCHAR)")
+    # release_exclusions is created by the first loader that reads exclusions.json (load_repo_ndjson, above)
     # agencies' own records portals (portal_ingest.py), then audit spreadsheets printed to PDF in both collections
     add_portals(con, PV, TMP, resolve=name_to_id.get)
     add_pdf_tables(con, EV, PV, TMP, resolve=name_to_id.get)
