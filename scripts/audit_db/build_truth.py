@@ -34,7 +34,7 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).parent))
 import smpd_pdf_loader as smpd  # noqa: E402
-from muckrock_ingest import FLOCK_COLS, add_muckrock, canonical, sha256_file as sha256, sql_ident, sql_str  # noqa: E402
+from muckrock_ingest import FLOCK_COLS, add_muckrock, canonical, second_count, sha256_file as sha256, sql_ident, sql_str  # noqa: E402
 from paths import duck_connect  # noqa: E402
 from pdf_table_ingest import add_pdf_tables  # noqa: E402
 from portal_ingest import add_portals, excluded, load_exclusions  # noqa: E402
@@ -52,7 +52,18 @@ RELEASES_DDL = """CREATE OR REPLACE TABLE releases (release_id VARCHAR PRIMARY K
   container_path VARCHAR, member VARCHAR, member_sha256 VARCHAR, sheet VARCHAR, source_file VARCHAR,
   container_sha256 VARCHAR, header VARCHAR[], header_raw VARCHAR[], header_basis VARCHAR, n_rows BIGINT,
   content_sha256 VARCHAR, released_on DATE, released_on_basis VARCHAR, source_url VARCHAR, request_url VARCHAR,
-  src_row_basis VARCHAR)"""
+  src_row_basis VARCHAR, n_rows_second BIGINT, second_basis VARCHAR, count_mismatch_at VARCHAR)"""
+
+
+def ndjson_lines(p):
+    """Non-empty lines of a gzipped NDJSON file, counted in Python: the second count for a repo conversion, taken
+    without read_ndjson_objects (a line DuckDB could not parse would be a loaded-vs-counted difference)."""
+    n = 0
+    with gzip.open(p, "rb") as fh:
+        for line in fh:
+            if line.strip():
+                n += 1
+    return n
 
 
 def git(repo, *args):
@@ -193,12 +204,15 @@ def load_repo_ndjson(con, WT, resolve):
         con.execute(f"INSERT INTO flock_audit_rows SELECT ?, row_number() OVER (), row_number() OVER () + {off}, {sel}, {ext} "
                     f"FROM read_ndjson_objects({sql_str(str(path))}) t(j)", [rid])
         n = con.execute("SELECT count(*) FROM flock_audit_rows WHERE release_id = ?", [rid]).fetchone()[0]
+        n2, basis2, mismatch = second_count(n, ndjson_lines(path), "non-empty NDJSON lines counted in Python, independent of "
+                                            "read_ndjson_objects (which produced n_rows)")
         lf = la_facts.get(pra, {}) if rid.startswith("la:") else {}
         insert_release(
             con, release_id=rid, producer=prod, producer_agency_id=resolve(prod), producer_basis="fixed (dedicated loader)",
             audit=audit, pra_id=pra, container_root="repo", container_path=str(path.relative_to(WT)), sheet=m.get("sheet"),
             source_file=m.get("source"), container_sha256=sha256(path), content_sha256=ndjson_sha256(path),
             header=header, header_raw=header_raw, header_basis=header_basis, n_rows=n,
+            n_rows_second=n2, second_basis=basis2, count_mismatch_at=mismatch,
             released_on=lf.get("closed"), request_url=lf.get("url"),
             released_on_basis=(f"Los Altos README: PRA {pra} closed {lf['closed']}" if lf.get("closed") else
                                "not in the Los Altos README" if rid.startswith("la:") else
@@ -209,6 +223,22 @@ def load_repo_ndjson(con, WT, resolve):
                              "unless the workbook has blank rows mid-sheet; it trims cell text and omits empty cells"))
     if n_excl:
         print(f"repo NDJSON: {n_excl} releases excluded (release_exclusions)", flush=True)
+
+
+def smpd_second(res):
+    """The second count for a San Mateo PDF: UUID-shaped strings in each page's text layer (a regex over the page
+    text, not the block parser), with the first page where that count and the parsed rows on the page differ."""
+    per_page = res.get("uuid_per_page") or {}
+    rows_on = {}
+    for r in res["rows"]:
+        rows_on[r["src_page"]] = rows_on.get(r["src_page"], 0) + 1
+    first_bad = next((p for p in sorted(set(per_page) | set(rows_on)) if per_page.get(p, 0) != rows_on.get(p, 0)), None)
+    n2, basis, mismatch = second_count(len(res["rows"]), sum(per_page.values()) if per_page is not None else None,
+                                       "UUID-shaped strings in each page's text layer (regex over page.get_text()), "
+                                       "independent of the block parser that produced n_rows; compared page by page",
+                                       where=(f"page {first_bad}: {per_page.get(first_bad, 0)} ids in the text, "
+                                              f"{rows_on.get(first_bad, 0)} rows parsed" if first_bad else None))
+    return {"n_rows_second": n2, "second_basis": basis, "count_mismatch_at": mismatch}
 
 
 def load_smpd(con, WT, resolve, pdfs=None, workers=2):
@@ -247,6 +277,7 @@ def load_smpd(con, WT, resolve, pdfs=None, workers=2):
                           "no header row printed (a continuation part); header = the five columns of Flock's search-audit "
                           "export, as in the part it continues"),
             n_rows=len(rows),
+            **smpd_second(res),
             released_on_basis=("rolling production; the date each PDF was released is not recorded here (see the "
                                "request's message-history PDF in the same folder)"),
             src_row_basis=smpd.SRC_ROW_BASIS)

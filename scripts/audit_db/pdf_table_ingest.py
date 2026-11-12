@@ -27,7 +27,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent))
 import pdf_table_reader as ptr  # noqa: E402
-from muckrock_ingest import FLOCK_COLS, org_from_name, sha256_file  # noqa: E402
+from muckrock_ingest import FLOCK_COLS, org_from_name, second_count, sha256_file  # noqa: E402
 from portal_ingest import excluded, load_exclusions, manifest_files, producer_for, request_meta, shown_name  # noqa: E402
 
 HERE = Path(__file__).parent
@@ -56,6 +56,7 @@ def _read(args):
     if not cache.exists():
         try:
             res = ptr.read_pdf(path)
+            res["uuid_per_page"] = uuid_per_page(path) if res.get("header") and "ID" in res["header"] else None
         except BaseException as ex:  # noqa: BLE001  damaged PDFs raise inside pymupdf
             if isinstance(ex, (KeyboardInterrupt, SystemExit)):
                 raise
@@ -69,7 +70,41 @@ def _read(args):
         res = json.load(fh)
     return {"root": root, "rel": rel, "sha256": sha, "cache": str(cache), "header": res["header"],
             "header_raw": res["header_raw"], "n_pages": res["n_pages"], "n_rows": len(res["rows"]), "ok": res["ok"],
-            "why": res["why"]}
+            "why": res["why"], "uuid_per_page": res.get("uuid_per_page", "absent")}
+
+
+def uuid_per_page(path):
+    """The second count for a PDF table with an ID column: UUID-shaped strings per page by a plain regex over each
+    page's text, not by the cell reader. {page (1-based): n}."""
+    import pymupdf
+    out = {}
+    with pymupdf.open(path) as doc:
+        for pno, page in enumerate(doc, 1):
+            out[pno] = len(UUID_ANY.findall(page.get_text() or ""))
+    return out
+
+
+UUID_ANY = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", re.I)
+
+
+def pdf_second(n_loaded, s, rows):
+    """second_count for a PDF-table release: the per-page UUID count against the rows read from each page."""
+    per = s.get("uuid_per_page", "absent")
+    if per == "absent":
+        return second_count(n_loaded, None, "no second count: the PDF-table cache predates it (delete its <sha256>.json.gz "
+                                            "under pdf_tables/ to recount)")
+    if per is None:
+        return second_count(n_loaded, None, "no second count: the table has no ID column to count without the cell reader")
+    per = {int(k): v for k, v in per.items()}   # JSON keys come back as strings
+    rows_on = {}
+    for r in rows:
+        rows_on[r["_page"]] = rows_on.get(r["_page"], 0) + 1
+    first_bad = next((p for p in sorted(set(per) | set(rows_on)) if per.get(p, 0) != rows_on.get(p, 0)), None)
+    return second_count(n_loaded, sum(per.values()),
+                        "UUID-shaped strings in each page's text layer (regex over page.get_text()), independent of the "
+                        "cell reader that produced n_rows; compared page by page",
+                        where=(f"page {first_bad}: {per.get(first_bad, 0)} ids in the text, {rows_on.get(first_bad, 0)} rows read"
+                               if first_bad else None))
 
 
 def stage(EV, PV, TMP, workers=3):
@@ -166,14 +201,15 @@ def add_pdf_tables(con, EV, PV, TMP, resolve=lambda org: None, log=lambda m: pri
         con.execute("INSERT INTO flock_audit_rows SELECT release_id, row_no, src_row, "
                     + ", ".join(f'"{c}"' for c in FLOCK_COLS) + ", extra::JSON FROM pdft_df")
         con.unregister("pdft_df")
+        n2, basis2, mismatch = pdf_second(len(rows), s, rows)
         con.execute("""INSERT INTO releases (release_id, producer, producer_agency_id, producer_basis, producer_source, audit, pra_id,
                          container_root, container_path, member, member_sha256, sheet, source_file, container_sha256, header,
                          header_raw, header_basis, n_rows, content_sha256, released_on, released_on_basis, source_url,
-                         request_url, src_row_basis)
-                       VALUES (?,?,?,?,?,?,?,?,?,NULL,NULL,NULL,?,?,?,?,?,?,?,TRY_CAST(? AS DATE),?,?,?,?)""",
+                         request_url, src_row_basis, n_rows_second, second_basis, count_mismatch_at)
+                       VALUES (?,?,?,?,?,?,?,?,?,NULL,NULL,NULL,?,?,?,?,?,?,?,TRY_CAST(? AS DATE),?,?,?,?,?,?,?)""",
                     [rid, org, resolve(org), basis, source, audit, pra_id, s["root"], s["rel"], shown_name(name),
                      s["sha256"], s["header"], s["header_raw"], HEADER_BASIS, len(rows), s["sha256"], released_on,
-                     rel_basis, source_url, request_url, ptr.SRC_ROW_BASIS])
+                     rel_basis, source_url, request_url, ptr.SRC_ROW_BASIS, n2, basis2, mismatch])
         loaded += 1
     log(f"  pdf tables: {loaded} releases loaded, {n_excl} excluded (release_exclusions)")
 
