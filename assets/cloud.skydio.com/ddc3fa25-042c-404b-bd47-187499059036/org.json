@@ -1,12 +1,26 @@
 {
   "agency_id": null,
   "agency_name": "San Bernardino RTIC",
-  "dashboards": [],
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-06-29T16:26:28Z",
+      "id": "3254b0d90e324b80a747a2371af7e405",
+      "title": "San Bernardino RTIC Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/3254b0d90e324b80a747a2371af7e405"
+    }
+  ],
   "description": "Feature service for San Bernardino RTIC",
   "events": [
     {
       "date": "2026-10-18",
       "event": "listed"
+    },
+    {
+      "dashboard": "3254b0d90e324b80a747a2371af7e405",
+      "date": "2026-11-12",
+      "event": "dashboard_published",
+      "title": "San Bernardino RTIC Drone Flights"
     }
   ],
   "first_seen": "2026-10-18",
