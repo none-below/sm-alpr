@@ -135,3 +135,20 @@ def test_gate_on_first_pages_stops_early(tmp_path, monkeypatch):
     res = ptr.read_pdf(p)
     assert not res["ok"] and res["sampled"] and res["why"].startswith("first 1 pages")
     assert {r["_page"] for r in res["rows"]} == {1}
+
+
+def test_pdf_reader_probe_stops_at_sample_pages(tmp_path):
+    """A header on page 1 and no readable rows anywhere: the gate must answer after SAMPLE_PAGES pages, not after
+    walking the whole document (Fullerton's exports run to 33,000 pages)."""
+    p = tmp_path / "long.pdf"
+    doc = pymupdf.open()
+    page = doc.new_page(width=792, height=612)
+    for name, a in (("Org Name", 50), ("Time Frame", 150), ("Reason", 300), ("Filters", 380), ("Search Time", 430)):
+        page.insert_text((a + 3, 70), name, fontsize=7)
+    for _ in range(40):
+        doc.new_page(width=792, height=612).insert_text((50, 70), "nothing a row parser recognizes", fontsize=7)
+    doc.save(p)
+    res = ptr.read_pdf(p)
+    assert res["header"] and not res["ok"] and res["sampled"]
+    assert res["why"] == f"first {ptr.SAMPLE_PAGES} pages: no rows"
+    assert list(ptr.rows(p, max_pages=3)) == []

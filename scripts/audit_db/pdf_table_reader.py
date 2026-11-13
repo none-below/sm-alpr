@@ -144,9 +144,10 @@ def _spans(edges, labels):
     return out
 
 
-def rows(path, orgs=None):
+def rows(path, orgs=None, max_pages=None):
     """Yield dict rows {column: text, '_page': n, '_row': k, '_under_fill': [columns]} for rows whose Org Name is in
-    orgs (all rows when orgs is None). Pages without any target org string are skipped unread."""
+    orgs (all rows when orgs is None). Pages without any target org string are skipped unread. With max_pages, only
+    the first that many pages are read (the layout probe)."""
     with pymupdf.open(path) as doc:
         if not doc.page_count:
             return
@@ -158,7 +159,7 @@ def rows(path, orgs=None):
         if "Search Time" not in names:
             return
         spans = None
-        for pno in range(doc.page_count):
+        for pno in range(doc.page_count if max_pages is None else min(doc.page_count, max_pages)):
             page = doc[pno]
             if orgs is not None:
                 text = page.get_text()
@@ -244,15 +245,14 @@ def read_pdf(path):
         return {"header": None, "header_raw": None, "n_pages": n_pages, "rows": [], "ok": False,
                 "why": "no Flock header row on page 1"}
     header = [n for n, _, _ in hdr[1]]
-    rs, gated = [], n_pages <= SAMPLE_PAGES
-    for r in rows(path):
-        if not gated and r["_page"] > SAMPLE_PAGES:
-            gated = True
-            ok, why = layout_ok(header, rs)
-            if not ok:
-                return {"header": header, "header_raw": header_raw, "n_pages": n_pages, "rows": rs, "ok": False,
-                        "why": f"first {SAMPLE_PAGES} pages: {why}", "sampled": True}
-        rs.append(r)
+    # The probe reads the first SAMPLE_PAGES pages by page count, not by rows produced: a layout that yields no rows
+    # at all used to be read to the last page before "no rows" came back (a 33,696-page export took forty minutes).
+    probe = list(rows(path, max_pages=SAMPLE_PAGES))
+    ok, why = layout_ok(header, probe)
+    if n_pages > SAMPLE_PAGES and not ok:
+        return {"header": header, "header_raw": header_raw, "n_pages": n_pages, "rows": probe, "ok": False,
+                "why": f"first {SAMPLE_PAGES} pages: {why}", "sampled": True}
+    rs = probe if n_pages <= SAMPLE_PAGES else list(rows(path))
     ok, why = layout_ok(header, rs)
     return {"header": header, "header_raw": header_raw, "n_pages": n_pages, "rows": rs, "ok": ok, "why": why,
             "sampled": False}
