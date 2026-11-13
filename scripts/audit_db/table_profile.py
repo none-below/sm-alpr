@@ -85,8 +85,23 @@ def profile_bytes(raw, name):
     return out
 
 
+def profile_zip(path):
+    """A zip profiled in place: the container is opened by path (central directory plus each tabular member's span),
+    never read whole into memory, so a multi-GB zip costs one member at a time."""
+    out = []
+    with zipfile.ZipFile(path) as z:
+        for m in z.namelist():
+            if m.endswith("/") or Path(m).suffix.lower() not in TABULAR:
+                continue
+            for p in profile_bytes(z.read(m), m):
+                out.append({**p, "member": m})
+    return out
+
+
 def profile_file(path, name=None):
     try:
+        if Path(path).suffix.lower() == ".zip" or open(path, "rb").read(4) == b"PK\x03\x04" and Path(name or path).suffix.lower() == ".zip":
+            return profile_zip(path), None
         return profile_bytes(Path(path).read_bytes(), name or Path(path).name), None
     except BaseException as ex:  # noqa: BLE001  calamine raises a pyo3 PanicException (BaseException) on some workbooks
         if isinstance(ex, (KeyboardInterrupt, SystemExit)):
