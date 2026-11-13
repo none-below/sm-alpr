@@ -18,28 +18,36 @@ right on the converter path (reports/los-altos-twin-loads-2026-11-12.md in the d
 """
 import re
 
-# Expected value kind per known canonical column, used to verify header/data alignment.
+# Expected value kinds per known canonical column, used to verify header/data alignment. A set: Flock prints
+# "Search Time" as a full timestamp, San Jose splits it into a date column and a time-of-day column.
 EXPECTED_KIND = {
-    "Name": "text", "Org Name": "text", "Total Networks Searched": "int",
-    "Total Devices Searched": "int", "Time Frame": "date", "License Plate": "text",
-    "Reason": "text", "Case #": "text", "Filters": "text", "Search Time": "date",
-    "Search Type": "text", "Text Prompt": "text", "Moderation": "text",
+    "Name": {"text"}, "Org Name": {"text"}, "Total Networks Searched": {"int"},
+    "Total Devices Searched": {"int"}, "Time Frame": {"date"}, "License Plate": {"text"},
+    "Reason": {"text"}, "Case #": {"text"}, "Filters": {"text"}, "Search Time": {"date", "time"},
+    "Search Date": {"date"}, "Search Type": {"text"}, "Text Prompt": {"text"}, "Moderation": {"text"},
 }
-DATEISH = re.compile(r"\d{2}/\d{2}/\d{4},")
+DATEISH = re.compile(r"(?<!\d)(\d{1,2}/\d{1,2}/\d{2,4}|\d{4}-\d{2}-\d{2})(?!\d)")   # 8/28/2024, 08/28/2024, 2024-08-28
+TIMEISH = re.compile(r"^\d{1,2}:\d{2}(:\d{2})?(\s*[AP]M)?(\s*UTC)?$", re.I)            # a time of day alone
 INTISH = re.compile(r"^\d+$")
 SAMPLE = 500
 MAX_REPAIRS = 2   # phantom labels + unlabeled data columns a sheet may need before it is refused as ambiguous
 
 
+PLACEHOLDER = re.compile(r"^(?:\[?redacted\]?|n/?a|none|null|(?:â€”|â€“|Â·)+)$", re.I)   # a mask or a dash, mojibake included
+
+
 def cell_kind(v):
-    """Coarse type of one cell, for header/data alignment checks."""
+    """Coarse type of one cell, for header/data alignment checks. A mask or a placeholder ("***", "——", "REDACTED",
+    "N/A") says nothing about the column's kind and counts as empty."""
     if v is None:
         return "none"
     s = str(v).strip()
-    if s == "":
+    if s == "" or not re.search(r"[A-Za-z0-9]", s) or PLACEHOLDER.match(s):
         return "none"
     if DATEISH.search(s):
         return "date"
+    if TIMEISH.match(s):
+        return "time"
     if INTISH.match(s):
         return "int"
     return "text"
@@ -63,7 +71,9 @@ def pair_score(h, kind):
     want = EXPECTED_KIND.get(h) if h else None
     if want is None or kind == "none":
         return 0.0          # blank/unknown label, or an all-empty column
-    return 1.0 if want == kind else -1.0
+    if "text" in want:
+        return 1.0 if kind == "text" else 0.0   # a text column holds anything: a numeric reason or a dated one is no mismatch
+    return 1.0 if kind in want else -1.0
 
 
 def align(hdr, kinds):
@@ -121,8 +131,25 @@ def verify(mapping, kinds):
     """Labels that still contradict their data column after alignment."""
     return [f"{h}@{d}:want={EXPECTED_KIND[h]},got={kinds[d]}"
             for d, h in mapping.items()
-            if h in EXPECTED_KIND and kinds[d] != "none"
-            and EXPECTED_KIND[h] != kinds[d]]
+            if h in EXPECTED_KIND and "text" not in EXPECTED_KIND[h] and kinds[d] != "none"
+            and kinds[d] not in EXPECTED_KIND[h]]
+
+
+def contradictions(hdr, kinds):
+    """Labels of a specific kind (a count, a date, a time) standing over a non-empty column of another kind, read by
+    position. A text label is never contradicted: a Reason column of case numbers is still the Reason column. A sheet
+    with no contradiction needs no repair, whatever a type-agreement search might prefer."""
+    out = []
+    for i, h in enumerate(hdr):
+        want = EXPECTED_KIND.get(h)
+        if not want or "text" in want or i >= len(kinds):
+            continue
+        if kinds[i] != "none" and kinds[i] not in want:
+            out.append(h)
+        elif kinds[i] == "none" and i + 1 < len(kinds) and kinds[i + 1] in want \
+                and kinds[i + 1] not in (EXPECTED_KIND.get(hdr[i + 1]) or {"text"}):
+            out.append(h)   # its column is empty and its kind of data sits one column to the right: a shift
+    return out
 
 
 def repair_header(header, sample):
@@ -137,6 +164,8 @@ def repair_header(header, sample):
     ncol = len(header)
     hdr = [h or "" for h in header]
     kinds = column_kinds(sample, ncol)
+    if not contradictions(hdr, kinds):
+        return list(hdr), [], [], None   # read by position: every known label agrees with its column
     mapping, phantom = align(hdr, kinds)
     bad = verify(mapping, kinds)
     if bad:
