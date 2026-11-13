@@ -182,11 +182,13 @@ def unit_id(u):
 
 
 def member_bytes(path, member):
-    data = open(path, "rb").read()
+    """The bytes of a file, or of one zip member. A zip is opened in place (its central directory, then the member's
+    own span), never read whole into memory: a multi-GB zip with many members was being read in full once per
+    member, over the NAS share, and two staging workers holding it swapped the machine (2026-11-12)."""
     if not member:
-        return data
-    z = zipfile.ZipFile(io.BytesIO(data))
-    return z.read(resolve_member(z, member))
+        return open(path, "rb").read()
+    with zipfile.ZipFile(path) as z:
+        return z.read(resolve_member(z, member))
 
 
 def member_sha256(path, member):
