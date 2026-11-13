@@ -1,0 +1,731 @@
+{
+  "crawled_slug": "belmont-ca-pd",
+  "crawled_name": "Belmont CA PD",
+  "archived_date": "2026-11-13",
+  "whats_detected": "License Plates, Vehicles",
+  "whats_not_detected": "Facial recognition, People, Gender, Race",
+  "acceptable_use_policy": "Data is used for law enforcement purposes only. Data is owned by Belmont CA PD and is never sold to 3rd parties.",
+  "prohibited_uses": "Immigration enforcement, traffic enforcement, harassment or intimidation, usage based solely on a protected class (i.e. race, sex, religion), Personal use.",
+  "access_policy": "All system access requires a valid reason and is stored indefinitely.",
+  "hotlist_policy": "Hotlist hits are required to be human verified prior to action.",
+  "sharing_with_partners": "",
+  "sharing_restrictions": "",
+  "data_retention_days": 30,
+  "camera_count": 10,
+  "hotlists_alerted_on": "California SVS, NCMEC Amber Alert",
+  "vehicles_detected_30d": 310675,
+  "hotlist_hits_30d": 314,
+  "searches_30d": 73,
+  "sharing_outbound": [
+    "Atherton CA PD",
+    "Brisbane CA PD",
+    "Burlingame CA PD",
+    "Cal Fire",
+    "California Highway Patrol",
+    "Colma CA PD",
+    "Daly City CA PD",
+    "East Palo Alto CA PD",
+    "Foster City CA PD",
+    "Hillsborough CA PD",
+    "Menlo Park CA PD",
+    "Pacifica CA PD",
+    "Redwood City CA PD",
+    "San Bruno CA PD",
+    "San Mateo CA PD",
+    "San Mateo County CA SO",
+    "South San Francisco CA PD"
+  ],
+  "sharing_inbound": [],
+  "sharing_outbound_section_present": true,
+  "sharing_inbound_section_present": false,
+  "sharing_outbound_declared_none": false,
+  "overview": "Belmont CA PD uses Flock Safety technology to capture objective evidence without compromising on individual privacy. Belmont CA PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Belmont CA PD utilizes real time alerting of hotlist vehicles to capture wanted criminals. In an effort to ensure proper usage and guardrails are in place, they have made the below policies and usage statistics available to the public.\n\nCommunity Impact\nData & Usage Summary",
+  "policy_info": "",
+  "alpr_policy": "https://www.belmont.gov/home/showpublisheddocument/24502/638725706546683515",
+  "alpr_sop": "",
+  "additional_info": "",
+  "download_csv": "",
+  "search_audit": "Download to view searches performed over the last 30 days.\n\nDownload CSV\nMore Info",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": "",
+  "crawled_at": "2026-11-13T23:13:59.758293+00:00",
+  "search_audit_csv": [
+    {
+      "id": "4e5299bb-ec0a-4bed-bab2-0d956ca3d6be",
+      "userId": "***",
+      "searchDate": "2026-10-14T19:32:59.138Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610140032",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "5fd7eacd-130f-4c44-b14e-a6a2da3f33a5",
+      "userId": "***",
+      "searchDate": "2026-10-14T19:36:40.966Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610140032",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "b380ab34-10ae-4257-b458-c9e21d24e299",
+      "userId": "***",
+      "searchDate": "2026-10-14T20:16:39.749Z",
+      "networkCount": "3",
+      "reason": "Investigation",
+      "caseNumber": "2610140032",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "8a33891d-3826-453e-92b4-437bd936c45a",
+      "userId": "***",
+      "searchDate": "2026-10-14T21:40:17.553Z",
+      "networkCount": "3",
+      "reason": "Investigation",
+      "caseNumber": "2610140032",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "97f12432-6b64-4ef8-a139-e9073c247023",
+      "userId": "***",
+      "searchDate": "2026-10-14T23:08:35.549Z",
+      "networkCount": "3",
+      "reason": "Investigation",
+      "caseNumber": "2610140040",
+      "offenseType": "Disorderly Conduct/Disturbance"
+    },
+    {
+      "id": "ac056d8b-4ff3-4679-b4d8-0fc86b01351a",
+      "userId": "***",
+      "searchDate": "2026-10-14T23:08:46.512Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610-0068",
+      "offenseType": "Threats/Harassment"
+    },
+    {
+      "id": "f020f0d9-28b5-42da-88b0-5daefca7d5b9",
+      "userId": "***",
+      "searchDate": "2026-10-15T15:01:35.050Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610-0067",
+      "offenseType": "Destruction/Damage/Vandalism of Property"
+    },
+    {
+      "id": "36900daa-21ad-4876-a5b5-5c7caba5f239",
+      "userId": "***",
+      "searchDate": "2026-10-15T20:20:28.750Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610150045",
+      "offenseType": "Extortion/Blackmail"
+    },
+    {
+      "id": "8164dc73-48cb-42ce-8a3e-30261ea88a31",
+      "userId": "***",
+      "searchDate": "2026-10-15T22:27:29.303Z",
+      "networkCount": "379",
+      "reason": "Warrant",
+      "caseNumber": "2411090035",
+      "offenseType": "Weapons Offense (Guns/Shots Fired), Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "2d91db6b-7429-460a-a2c7-7f0022d80af0",
+      "userId": "***",
+      "searchDate": "2026-10-15T22:30:38.118Z",
+      "networkCount": "17",
+      "reason": "Investigation",
+      "caseNumber": "2610140040",
+      "offenseType": "Disorderly Conduct/Disturbance"
+    },
+    {
+      "id": "0b15b5cb-f6f6-4cfa-8372-beadc4593811",
+      "userId": "***",
+      "searchDate": "2026-10-15T23:11:04.541Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610150051",
+      "offenseType": "Assault/Battery Offenses"
+    },
+    {
+      "id": "ba2e9c8a-cd09-4384-9b32-3d9ef6e5af9d",
+      "userId": "***",
+      "searchDate": "2026-10-15T23:54:43.649Z",
+      "networkCount": "17",
+      "reason": "Investigation",
+      "caseNumber": "2610-0067",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "1151cf40-138f-44e6-8aa1-e39f7e2e57c1",
+      "userId": "***",
+      "searchDate": "2026-10-16T03:50:40.143Z",
+      "networkCount": "379",
+      "reason": "BOL",
+      "caseNumber": "2610150102",
+      "offenseType": "Weapons Offense (Guns/Shots Fired)"
+    },
+    {
+      "id": "360c64a5-acd0-4ea3-87d6-c34a1e0384e8",
+      "userId": "***",
+      "searchDate": "2026-10-16T04:09:21.169Z",
+      "networkCount": "2",
+      "reason": "BOL",
+      "caseNumber": "mpk2610150102",
+      "offenseType": "Assault/Battery Offenses, Weapons Offense (Guns/Shots Fired)"
+    },
+    {
+      "id": "5e5f0030-7165-4a6b-aee2-8ba82e87d3ad",
+      "userId": "***",
+      "searchDate": "2026-10-16T07:29:16.457Z",
+      "networkCount": "10",
+      "reason": "Investigation",
+      "caseNumber": "2610160001",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "e8f98b5b-16e3-40c7-8f85-072616fd79fb",
+      "userId": "***",
+      "searchDate": "2026-10-16T14:37:28.658Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610-0042",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "8ef35974-b761-4d6d-bdf4-feeebba85bcd",
+      "userId": "***",
+      "searchDate": "2026-10-16T16:45:37.290Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610-0067",
+      "offenseType": "Destruction/Damage/Vandalism of Property"
+    },
+    {
+      "id": "10d59c50-a674-475c-843c-ea8300d76efa",
+      "userId": "***",
+      "searchDate": "2026-10-16T23:01:14.546Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610160051",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "2936bfb3-cd02-4a3e-8580-05bf278ab057",
+      "userId": "***",
+      "searchDate": "2026-10-17T04:36:48.612Z",
+      "networkCount": "379",
+      "reason": "Stolen",
+      "caseNumber": "26-91437  berkeley",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "5cc9fafb-38d2-48e8-b3fb-87d2e66ccb16",
+      "userId": "***",
+      "searchDate": "2026-10-17T06:12:27.248Z",
+      "networkCount": "420",
+      "reason": "Stolen",
+      "caseNumber": "Berkeley 26-91437",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "1fe422b4-e9a4-416c-a2c7-1ada61f6847f",
+      "userId": "***",
+      "searchDate": "2026-10-18T04:39:49.231Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "SMCSO 10/17/26 torresvalencia, reynaldo 417 PC",
+      "offenseType": "Weapons Offense (Guns/Shots Fired)"
+    },
+    {
+      "id": "aa069a72-ad13-49d0-a558-d05fb301808c",
+      "userId": "***",
+      "searchDate": "2026-10-18T19:14:21.389Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610180027",
+      "offenseType": "Alcohol Offenses (Non-DUI)"
+    },
+    {
+      "id": "01461e89-829c-4a0c-af89-e40080a07a8e",
+      "userId": "***",
+      "searchDate": "2026-10-19T01:23:55.405Z",
+      "networkCount": "2",
+      "reason": "Missing Person / AMBER",
+      "caseNumber": "2610-0085",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "13d8a8a6-8990-4ffd-ac3e-30edef92f274",
+      "userId": "***",
+      "searchDate": "2026-10-19T02:05:55.669Z",
+      "networkCount": "17",
+      "reason": "Missing Person / AMBER",
+      "caseNumber": "2610-0085",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "0820ecfe-046e-4672-b86f-4cb768d750a6",
+      "userId": "***",
+      "searchDate": "2026-10-19T05:33:06.489Z",
+      "networkCount": "379",
+      "reason": "BOL",
+      "caseNumber": "2610180040",
+      "offenseType": "Obstructing the Police (Fleeing/Eluding)"
+    },
+    {
+      "id": "e94c0a08-bff0-4a16-9e59-d80052274347",
+      "userId": "***",
+      "searchDate": "2026-10-19T06:32:08.196Z",
+      "networkCount": "379",
+      "reason": "BOL",
+      "caseNumber": "2610180040",
+      "offenseType": "Obstructing the Police (Fleeing/Eluding)"
+    },
+    {
+      "id": "03441523-614c-4c89-83ec-72a4ef3bc275",
+      "userId": "***",
+      "searchDate": "2026-10-19T23:12:44.321Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610-0088",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "0d9a3753-2c94-4142-872a-1626ca014e35",
+      "userId": "***",
+      "searchDate": "2026-10-20T09:44:07.130Z",
+      "networkCount": "420",
+      "reason": "Investigation",
+      "caseNumber": "rwc pd 2610200009",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "f0dbb512-e0af-49f6-b0fb-ec3c85fd20ac",
+      "userId": "***",
+      "searchDate": "2026-10-20T11:13:34.259Z",
+      "networkCount": "2",
+      "reason": "BOL",
+      "caseNumber": "Redwood city",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "74b3e87d-ecde-4cd6-ab30-318040c5fa7c",
+      "userId": "***",
+      "searchDate": "2026-10-20T22:55:58.404Z",
+      "networkCount": "420",
+      "reason": "Investigation",
+      "caseNumber": "2609-0109",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "c281b052-ef4d-4bb4-9c2c-831d71d3dafd",
+      "userId": "***",
+      "searchDate": "2026-10-21T00:05:58.815Z",
+      "networkCount": "420",
+      "reason": "Investigation",
+      "caseNumber": "2610-0054",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "9295b8e1-da0f-459f-bae6-ddc16bca0dd8",
+      "userId": "***",
+      "searchDate": "2026-10-21T19:37:42.149Z",
+      "networkCount": "420",
+      "reason": "Investigation",
+      "caseNumber": "2610-0054",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "1410ee95-34db-4317-bf16-4f1be3ac2f93",
+      "userId": "***",
+      "searchDate": "2026-10-22T17:35:47.503Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610-0054",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "f1efa785-e1c8-4ce6-92ec-a791cebecb8d",
+      "userId": "***",
+      "searchDate": "2026-10-24T00:28:31.863Z",
+      "networkCount": "419",
+      "reason": "Missing Person / AMBER",
+      "caseNumber": "2610-0085",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "8bb3c63c-5489-4656-8cfa-b1ce10e38d63",
+      "userId": "***",
+      "searchDate": "2026-10-24T19:02:30.206Z",
+      "networkCount": "17",
+      "reason": "Investigation",
+      "caseNumber": "2610240021",
+      "offenseType": "Assault/Battery Offenses"
+    },
+    {
+      "id": "bcc18278-2f0a-4f46-9512-5267cb2f3661",
+      "userId": "***",
+      "searchDate": "2026-10-26T17:14:17.480Z",
+      "networkCount": "2",
+      "reason": "BOL",
+      "caseNumber": "2610260031",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "20745d8c-143b-4529-b12b-0f6848da5dc5",
+      "userId": "***",
+      "searchDate": "2026-10-26T22:10:25.447Z",
+      "networkCount": "29",
+      "reason": "Investigation",
+      "caseNumber": "2610-0112",
+      "offenseType": "Obstructing the Police (Fleeing/Eluding)"
+    },
+    {
+      "id": "ca88628d-b287-42c8-9716-cdec9bea5ed7",
+      "userId": "***",
+      "searchDate": "2026-10-26T22:12:44.534Z",
+      "networkCount": "17",
+      "reason": "Investigation",
+      "caseNumber": "2610-0112",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "e1548fbc-1b1f-420a-a43a-2b6cda4c06a3",
+      "userId": "***",
+      "searchDate": "2026-10-26T23:42:23.288Z",
+      "networkCount": "17",
+      "reason": "Investigation",
+      "caseNumber": "2610-0112",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "2409b407-3359-4e7f-a386-6e6a9b273872",
+      "userId": "***",
+      "searchDate": "2026-10-27T00:43:02.966Z",
+      "networkCount": "17",
+      "reason": "Investigation",
+      "caseNumber": "2610-0112",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "3d1642f7-ab7e-4478-b6bf-8e3ce7b31d67",
+      "userId": "***",
+      "searchDate": "2026-10-27T14:48:18.638Z",
+      "networkCount": "420",
+      "reason": "Investigation",
+      "caseNumber": "2610-0112",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "adb01e44-f266-483c-9138-bc2571550afe",
+      "userId": "***",
+      "searchDate": "2026-10-27T15:20:27.177Z",
+      "networkCount": "419",
+      "reason": "Investigation",
+      "caseNumber": "2610-0112",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "b8cb342d-d6c1-463e-921c-58fe6601819f",
+      "userId": "***",
+      "searchDate": "2026-10-27T16:50:16.201Z",
+      "networkCount": "419",
+      "reason": "Investigation",
+      "caseNumber": "2610-0112",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "055cdb5d-08b3-485a-9875-752098194e1a",
+      "userId": "***",
+      "searchDate": "2026-10-27T19:13:57.674Z",
+      "networkCount": "420",
+      "reason": "Investigation",
+      "caseNumber": "2610270026",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "b9e72592-fa53-47ed-92c6-b641d60d68b2",
+      "userId": "***",
+      "searchDate": "2026-10-27T21:18:27.020Z",
+      "networkCount": "16",
+      "reason": "Investigation",
+      "caseNumber": "2610270031",
+      "offenseType": "Property Recovery (Civil Enforcement)"
+    },
+    {
+      "id": "72e5db5f-29c9-4adc-97cc-467f06b35f5d",
+      "userId": "***",
+      "searchDate": "2026-10-27T21:57:10.550Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2610-0118",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "61e8b218-d1ea-4581-b44a-473e4fb21327",
+      "userId": "***",
+      "searchDate": "2026-10-27T23:29:35.384Z",
+      "networkCount": "378",
+      "reason": "Investigation",
+      "caseNumber": "2610-0118",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "9952ccc7-a1c7-4f52-83ae-cfd8cb25dcdf",
+      "userId": "***",
+      "searchDate": "2026-10-28T00:01:21.817Z",
+      "networkCount": "378",
+      "reason": "Investigation",
+      "caseNumber": "2610-0118",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "84ae4eb4-13f5-4111-a3e3-bf2133926df9",
+      "userId": "***",
+      "searchDate": "2026-10-28T01:48:45.364Z",
+      "networkCount": "419",
+      "reason": "Investigation",
+      "caseNumber": "2610-0112",
+      "offenseType": "Obstructing the Police (Fleeing/Eluding)"
+    },
+    {
+      "id": "ea60a1be-9fdc-4948-b932-aca1c4a0180e",
+      "userId": "***",
+      "searchDate": "2026-10-30T20:58:07.858Z",
+      "networkCount": "420",
+      "reason": "Investigation",
+      "caseNumber": "2609-0037",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "96689ed5-07a5-4ccd-8395-e7a62b745484",
+      "userId": "***",
+      "searchDate": "2026-10-31T10:36:49.530Z",
+      "networkCount": "377",
+      "reason": "BOL",
+      "caseNumber": "2610310008",
+      "offenseType": "Driving Under the Influence (DUI/DWI/OWI/OVI)"
+    },
+    {
+      "id": "77296f1d-281b-493d-af63-6c183399b6b5",
+      "userId": "***",
+      "searchDate": "2026-11-02T00:50:51.367Z",
+      "networkCount": "419",
+      "reason": "Investigation",
+      "caseNumber": "2610-0112",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "427e701c-8625-4e21-8fbc-2669fba32810",
+      "userId": "***",
+      "searchDate": "2026-11-02T01:37:36.195Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "2610-0129",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "71651f09-67cb-4d9f-af63-08db4b0c0d88",
+      "userId": "***",
+      "searchDate": "2026-11-04T01:05:32.112Z",
+      "networkCount": "418",
+      "reason": "BOL",
+      "caseNumber": "26sf014295a",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "a7308bbc-b25c-463e-807c-00489bb27ca6",
+      "userId": "***",
+      "searchDate": "2026-11-05T20:02:33.415Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611050025",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "eef8d77f-093c-4247-bb7f-2a7a7e70084f",
+      "userId": "***",
+      "searchDate": "2026-11-07T18:18:46.175Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "2611-0015",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "1c18078a-eaae-42e5-a16a-d51da9ce4501",
+      "userId": "***",
+      "searchDate": "2026-11-07T21:38:51.577Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611-0020",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "ccb21233-ed73-4f2e-bb82-477b4f7fc178",
+      "userId": "***",
+      "searchDate": "2026-11-07T21:57:05.171Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611-0020",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "a7bdf025-c082-4198-b4dc-93630376eb21",
+      "userId": "***",
+      "searchDate": "2026-11-07T22:03:13.519Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611-0020",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "d4f0a83c-7d92-4cff-9e40-eb73715448bf",
+      "userId": "***",
+      "searchDate": "2026-11-08T00:00:43.952Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611-0020",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "0a4399b4-b6ba-4029-8244-9a5fe5455c14",
+      "userId": "***",
+      "searchDate": "2026-11-08T02:20:53.644Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611-0020",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "7a4fedb0-59db-4bab-80e5-311ab4faf299",
+      "userId": "***",
+      "searchDate": "2026-11-08T07:24:09.174Z",
+      "networkCount": "2",
+      "reason": "BOL",
+      "caseNumber": "2611070053",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "23d25234-deee-484a-990d-eb15a2a04ec6",
+      "userId": "***",
+      "searchDate": "2026-11-08T07:37:52.882Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611070053",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "1b201fc4-3a57-4bcd-a1c5-ff9800f44276",
+      "userId": "***",
+      "searchDate": "2026-11-08T20:03:59.204Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611080017",
+      "offenseType": "Assault/Battery Offenses"
+    },
+    {
+      "id": "7baab2ba-ed8e-4b75-8ba0-babce91a1f70",
+      "userId": "***",
+      "searchDate": "2026-11-11T00:47:52.865Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611-0039",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "9e286132-8e6e-4a2e-9c79-daef0d12c457",
+      "userId": "***",
+      "searchDate": "2026-11-11T00:52:48.217Z",
+      "networkCount": "418",
+      "reason": "BOL",
+      "caseNumber": "online citizen complaint of possible fraud",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "0cf444a8-34ab-444b-a195-e6e68d5bc018",
+      "userId": "***",
+      "searchDate": "2026-11-11T04:48:08.735Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611-0028",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "508ebac6-eaeb-44d5-82d2-d76ea9a32789",
+      "userId": "***",
+      "searchDate": "2026-11-11T17:22:07.685Z",
+      "networkCount": "418",
+      "reason": "Investigation",
+      "caseNumber": "2611-0039",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "51e6a34d-f029-4cc3-ad34-1ad3972587b6",
+      "userId": "***",
+      "searchDate": "2026-11-12T03:46:11.399Z",
+      "networkCount": "2",
+      "reason": "Investigation",
+      "caseNumber": "2611110042",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "8182cb1d-f554-473b-a687-bfe2ec5052c9",
+      "userId": "***",
+      "searchDate": "2026-11-12T03:48:59.623Z",
+      "networkCount": "1",
+      "reason": "Investigation",
+      "caseNumber": "2611110042",
+      "offenseType": "Disorderly Conduct/Disturbance"
+    },
+    {
+      "id": "93e846ee-9f8e-4d76-bf39-c026d3f61c61",
+      "userId": "***",
+      "searchDate": "2026-11-12T04:44:43.458Z",
+      "networkCount": "17",
+      "reason": "Investigation",
+      "caseNumber": "2611110042",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "21490bdb-6894-4d18-8e0f-31a6d3cd246f",
+      "userId": "***",
+      "searchDate": "2026-11-12T10:10:39.993Z",
+      "networkCount": "83",
+      "reason": "Investigation",
+      "caseNumber": "2611-0043",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "8aa7a98d-4caf-4835-bbe0-d6742758725f",
+      "userId": "***",
+      "searchDate": "2026-11-12T14:53:56.448Z",
+      "networkCount": "417",
+      "reason": "Investigation",
+      "caseNumber": "2611-0039",
+      "offenseType": "Welfare Check"
+    }
+  ],
+  "integrity": {
+    "search_audit_csv": {
+      "row_count": 73,
+      "date_resets": 0,
+      "date_ordering": "ascending",
+      "duplicate_ids": 0,
+      "date_span": {
+        "first": "2026-10-14T19:32:59.138000+00:00",
+        "last": "2026-11-12T14:53:56.448000+00:00",
+        "min": "2026-10-14T19:32:59.138000+00:00",
+        "max": "2026-11-12T14:53:56.448000+00:00"
+      }
+    }
+  }
+}
