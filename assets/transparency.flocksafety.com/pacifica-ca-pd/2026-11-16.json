@@ -1,0 +1,773 @@
+{
+  "crawled_slug": "pacifica-ca-pd",
+  "crawled_name": "The Pacifica Police Department",
+  "archived_date": "2026-11-16",
+  "whats_detected": "License Plates and vehicle characteristics (make, color, body type), with the date, time and camera location",
+  "whats_not_detected": "Facial recognition, video, audio, speed, registered owner information, gender, race. The cameras are not designed to capture or record people.",
+  "acceptable_use_policy": "Data is used for official law enforcement purposes only. Data is owned by the City of Pacifica, is never sold, and is shared only with approved public law enforcement agencies in the nine Bay Area counties.",
+  "prohibited_uses": "General surveillance, immigration enforcement, enforcement related to lawful reproductive health care, traffic enforcement, harassment or intimidation, usage based solely on a protected class (i.e. race, sex, religion), personal use, searches on behalf of unauthorized parties.",
+  "access_policy": "Every search requires a case number and one of 42 listed offense types. All searches are logged, audited each quarter, and the audits are published.",
+  "hotlist_policy": "Hotlist alerts are investigative leads only. Officers confirm the plate image and the hotlist record before taking enforcement action.",
+  "sharing_with_partners": "",
+  "sharing_restrictions": "",
+  "data_retention_days": 30,
+  "camera_count": 10,
+  "hotlists_alerted_on": "California SVS, NCMEC Amber Alert",
+  "vehicles_detected_30d": null,
+  "hotlist_hits_30d": null,
+  "searches_30d": null,
+  "sharing_outbound": [
+    "Alameda County CA SO",
+    "Antioch CA PD",
+    "Atherton CA PD",
+    "Belmont CA PD",
+    "Belvedere CA PD",
+    "Benicia CA PD",
+    "Berkeley CA PD",
+    "Brentwood CA PD",
+    "Brisbane CA PD",
+    "Burlingame CA PD",
+    "California Highway Patrol",
+    "Calistoga CA PD",
+    "Campbell CA PD",
+    "Clayton CA PD",
+    "Cloverdale CA PD",
+    "Colma CA PD",
+    "Concord CA PD",
+    "Contra Costa County CA SO",
+    "Cotati CA PD",
+    "Daly City CA PD",
+    "Danville CA PD",
+    "Dixon CA PD",
+    "Dublin CA PD (ACSO)",
+    "East Bay Parks CA PD",
+    "East Palo Alto CA PD",
+    "Emeryville CA PD",
+    "Fairfield CA PD",
+    "Foothill-DeAnza CA PD",
+    "Foster City CA PD",
+    "Gilroy CA PD",
+    "Hayward CA PD",
+    "Hillsborough CA PD",
+    "Los Altos CA PD",
+    "Los Gatos CA",
+    "Marin County CA DA",
+    "Marin County CA SO",
+    "Menlo Park CA PD",
+    "Mill Valley CA PD",
+    "Milpitas CA PD",
+    "Morgan Hill CA PD",
+    "Napa CA PD",
+    "Newark CA PD",
+    "Novato CA PD",
+    "Oakley CA PD",
+    "Palo Alto CA PD",
+    "Petaluma CA PD",
+    "Pleasant Hill CA PD",
+    "Pleasanton CA PD",
+    "Redwood City CA PD",
+    "Rio Vista CA PD",
+    "Rohnert Park Department of Public Safety (CA)",
+    "San Bruno CA PD",
+    "San Francisco District Attorney CA",
+    "San Jose - Evergreen Community College Campus PD CA",
+    "San Jose CA PD",
+    "San Jose State University CA",
+    "San Leandro CA PD",
+    "San Mateo CA PD",
+    "San Mateo County CA SO",
+    "San Pablo CA PD",
+    "Santa Clara CA PD",
+    "Santa Clara County CA SO",
+    "Santa Rosa CA PD",
+    "Sausalito CA PD",
+    "Solano County DA CA",
+    "South San Francisco CA PD",
+    "Suisun City CA PD",
+    "Tiburon CA PD",
+    "University of California, Berkeley PD",
+    "Vacaville CA PD",
+    "Vallejo CA PD",
+    "Walnut Creek CA PD"
+  ],
+  "sharing_inbound": [],
+  "sharing_outbound_section_present": true,
+  "sharing_inbound_section_present": false,
+  "sharing_outbound_declared_none": false,
+  "overview": "The Pacifica Police Department uses Flock Safety's Operating System to capture objective evidence without compromising on individual privacy. Pacifica PD utilizes retroactive search to solve crimes after they've occurred. Additionally, Pacifica PD utilizes real-time alerting of hotlist vehicles to capture wanted criminals. In an effort to be open with the public to demonstrate our proper usage and communicate what guardrails are in place, we have made the below policies and usage statistics available to the public.\n\nCommunity Impact\nData & Usage Summary",
+  "policy_info": "",
+  "alpr_policy": "https://www.cityofpacifica.org/home/showpublisheddocument/23946/639274174542770000",
+  "alpr_sop": "",
+  "additional_info": "",
+  "download_csv": "",
+  "search_audit": "Download to view searches performed over the last 30 days.\n\nDownload CSV\nMore Info",
+  "delivery_address": "",
+  "sharing_info": "",
+  "success_stories": "",
+  "disclaimer": "",
+  "california_svs": "",
+  "sb54": "",
+  "last_updated": "",
+  "restrictions_on_deployment": "",
+  "crawled_at": "2026-11-16T14:13:23.359782+00:00",
+  "search_audit_csv": [
+    {
+      "id": "b185c0fd-ded8-4d9e-8df1-7b258e9cc9d2",
+      "userId": "***",
+      "searchDate": "2026-10-16T01:36:18.676Z",
+      "networkCount": "261",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "053f53ec-e031-4e12-a2e5-b88a41570b3c",
+      "userId": "***",
+      "searchDate": "2026-10-16T02:04:59.102Z",
+      "networkCount": "1",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "09431d22-4459-4e55-9984-9fd779ec0878",
+      "userId": "***",
+      "searchDate": "2026-10-16T03:13:28.111Z",
+      "networkCount": "261",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "0c2f9eee-35e9-47cc-beef-5b3b3727b740",
+      "userId": "***",
+      "searchDate": "2026-10-16T03:54:32.032Z",
+      "networkCount": "261",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "dd600442-9541-4913-a1d7-3c4d3e1c5b5e",
+      "userId": "***",
+      "searchDate": "2026-10-17T01:04:31.685Z",
+      "networkCount": "1",
+      "offenseType": "Criminal Motor Vehicle Offense (incl. Road Rage/Reckless)"
+    },
+    {
+      "id": "a7bddee1-390a-4b12-ab1d-a2bf29e76369",
+      "userId": "***",
+      "searchDate": "2026-10-17T21:42:08.302Z",
+      "networkCount": "261",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "e2bfb836-b10e-418a-88f0-a1a69fc42487",
+      "userId": "***",
+      "searchDate": "2026-10-17T21:47:04.383Z",
+      "networkCount": "1",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "97db7576-700f-44d5-a63b-ab1596bc7efe",
+      "userId": "***",
+      "searchDate": "2026-10-18T15:29:52.903Z",
+      "networkCount": "261",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "0a8920ad-7889-4e82-b3d4-56d1e7ac43f7",
+      "userId": "***",
+      "searchDate": "2026-10-18T16:15:42.513Z",
+      "networkCount": "1",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "5ba014de-fbbe-4b58-8ce4-2b709bc87458",
+      "userId": "***",
+      "searchDate": "2026-10-18T21:28:52.864Z",
+      "networkCount": "261",
+      "offenseType": "Assault/Battery Offenses"
+    },
+    {
+      "id": "6cb5e7d2-afda-4133-b59a-8862c6cb77ca",
+      "userId": "***",
+      "searchDate": "2026-10-19T03:09:39.461Z",
+      "networkCount": "1",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "34b6df06-bd88-4acb-bd49-e62f20171e84",
+      "userId": "***",
+      "searchDate": "2026-10-19T06:43:44.289Z",
+      "networkCount": "1",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "54718aca-f962-43a2-b341-93143128fbcb",
+      "userId": "***",
+      "searchDate": "2026-10-19T07:52:45.841Z",
+      "networkCount": "261",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "8b454700-a332-45a8-bdf1-f3e4a8b7c12a",
+      "userId": "***",
+      "searchDate": "2026-10-19T11:10:08.812Z",
+      "networkCount": "1",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "ae3a2eda-e637-4d84-9f45-1430db1f71c0",
+      "userId": "***",
+      "searchDate": "2026-10-19T12:07:37.110Z",
+      "networkCount": "261",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "10df6659-0e3d-4252-b3dc-fd851a32200f",
+      "userId": "***",
+      "searchDate": "2026-10-19T17:29:34.599Z",
+      "networkCount": "1",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "00687136-3d9a-407b-a0f1-6a97a8226652",
+      "userId": "***",
+      "searchDate": "2026-10-19T19:58:41.272Z",
+      "networkCount": "261",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "06d0c2fc-22fa-4fbc-82c0-20c076e0eb71",
+      "userId": "***",
+      "searchDate": "2026-10-19T20:00:44.945Z",
+      "networkCount": "47",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "88413270-de39-44b6-9b89-931c6e366623",
+      "userId": "***",
+      "searchDate": "2026-10-20T05:34:23.128Z",
+      "networkCount": "1",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "b3ea9682-ccdf-4b56-b5d2-5299ff557a23",
+      "userId": "***",
+      "searchDate": "2026-10-20T13:21:11.120Z",
+      "networkCount": "1",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "e00b8b67-4c40-42a6-83b5-3c16457a57b1",
+      "userId": "***",
+      "searchDate": "2026-10-20T18:10:25.183Z",
+      "networkCount": "1",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "72b4c53f-8fb0-4ee0-9361-54198a7cfb4e",
+      "userId": "***",
+      "searchDate": "2026-10-21T19:17:32.088Z",
+      "networkCount": "1",
+      "offenseType": "Robbery"
+    },
+    {
+      "id": "231e828a-7ac6-4d87-87b8-f44a053e8196",
+      "userId": "***",
+      "searchDate": "2026-10-21T19:18:10.823Z",
+      "networkCount": "260",
+      "offenseType": "Robbery"
+    },
+    {
+      "id": "6e939714-3acf-4302-b4f8-7e16692b09be",
+      "userId": "***",
+      "searchDate": "2026-10-21T19:19:35.393Z",
+      "networkCount": "260",
+      "offenseType": "Robbery"
+    },
+    {
+      "id": "d854a357-0932-41b7-9dce-1dde4a6cfe4a",
+      "userId": "***",
+      "searchDate": "2026-10-21T20:01:28.907Z",
+      "networkCount": "260",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "1f495151-6336-4f1c-a646-9ff3b2957335",
+      "userId": "***",
+      "searchDate": "2026-10-21T20:53:34.649Z",
+      "networkCount": "245",
+      "offenseType": "Robbery"
+    },
+    {
+      "id": "6102955f-4493-4f53-9a77-cb424b3ea1d5",
+      "userId": "***",
+      "searchDate": "2026-10-21T21:02:02.313Z",
+      "networkCount": "260",
+      "offenseType": "Robbery"
+    },
+    {
+      "id": "6fe79dc3-b669-4991-8f6d-d164be750544",
+      "userId": "***",
+      "searchDate": "2026-10-21T21:06:33.591Z",
+      "networkCount": "260",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "f931cdd6-754f-4de7-92f1-5c11fe3ca608",
+      "userId": "***",
+      "searchDate": "2026-10-21T21:31:11.193Z",
+      "networkCount": "245",
+      "offenseType": "Robbery"
+    },
+    {
+      "id": "b6d6ec7d-8403-4345-a181-639e2ca2b562",
+      "userId": "***",
+      "searchDate": "2026-10-22T21:46:51.728Z",
+      "networkCount": "1",
+      "offenseType": "Threats/Harassment"
+    },
+    {
+      "id": "0f4d0d1e-9ceb-4606-8125-f9508973a893",
+      "userId": "***",
+      "searchDate": "2026-10-22T22:00:43.146Z",
+      "networkCount": "260",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "89e70820-7916-4f51-a21a-0697980c5cfd",
+      "userId": "***",
+      "searchDate": "2026-10-22T23:15:20.280Z",
+      "networkCount": "260",
+      "offenseType": "Missing/Endangered Person/Runaway"
+    },
+    {
+      "id": "d3a21d6c-566a-4f81-88fa-84a86b1720de",
+      "userId": "***",
+      "searchDate": "2026-10-23T05:17:16.489Z",
+      "networkCount": "260",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "b301e1fb-1f75-4aa0-886c-db523948a7be",
+      "userId": "***",
+      "searchDate": "2026-10-24T03:22:44.860Z",
+      "networkCount": "260",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "212f7170-2326-47c5-81b6-acf86f5cc1e7",
+      "userId": "***",
+      "searchDate": "2026-10-26T00:05:11.864Z",
+      "networkCount": "1",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "454c70c8-ba86-4819-9b90-88208497bfa1",
+      "userId": "***",
+      "searchDate": "2026-10-26T00:12:00.885Z",
+      "networkCount": "260",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "15d5293b-a70f-4df6-9760-52a525f9b48f",
+      "userId": "***",
+      "searchDate": "2026-10-26T06:55:00.227Z",
+      "networkCount": "260",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "3fb13e1b-641e-4cef-9674-bf5e3e0fa143",
+      "userId": "***",
+      "searchDate": "2026-10-26T17:18:19.474Z",
+      "networkCount": "1",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "9a716e9c-a7e7-4bc2-baa8-3ab70a661928",
+      "userId": "***",
+      "searchDate": "2026-10-27T08:18:28.843Z",
+      "networkCount": "1",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "956d9210-d4d4-4afd-a157-59f68d83a06c",
+      "userId": "***",
+      "searchDate": "2026-10-27T18:02:30.195Z",
+      "networkCount": "260",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "7bd9616e-81f8-47eb-a7d4-1d8a785177b7",
+      "userId": "***",
+      "searchDate": "2026-10-28T10:06:36.129Z",
+      "networkCount": "1",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "cb259d1a-149f-49aa-91c3-f94501797ec2",
+      "userId": "***",
+      "searchDate": "2026-10-28T17:41:01.057Z",
+      "networkCount": "260",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "2cf46692-4d1d-44e8-be62-aae150ed83c0",
+      "userId": "***",
+      "searchDate": "2026-10-28T21:36:39.691Z",
+      "networkCount": "260",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "a591b34c-e7ac-4078-acad-45881125d534",
+      "userId": "***",
+      "searchDate": "2026-10-28T23:09:26.442Z",
+      "networkCount": "260",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "55609978-9d7b-4d77-a99d-6f67d80855da",
+      "userId": "***",
+      "searchDate": "2026-10-30T21:57:23.049Z",
+      "networkCount": "1",
+      "offenseType": "Welfare Check, Driving Under the Influence (DUI/DWI/OWI/OVI)"
+    },
+    {
+      "id": "eb1cab84-725e-49c6-af95-aae759d4defb",
+      "userId": "***",
+      "searchDate": "2026-10-31T04:56:30.882Z",
+      "networkCount": "1",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "757f1ae8-6be7-4948-b177-3d576dc511c3",
+      "userId": "***",
+      "searchDate": "2026-10-31T05:15:23.339Z",
+      "networkCount": "259",
+      "offenseType": "Assault/Battery Offenses (Domestic)"
+    },
+    {
+      "id": "2d9bae50-1f74-4f05-accc-0302552853a0",
+      "userId": "***",
+      "searchDate": "2026-10-31T05:58:16.933Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "19d0a9b4-901a-41b3-aa8a-07809e5cf90f",
+      "userId": "***",
+      "searchDate": "2026-10-31T13:28:33.610Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "4168f9ee-c52b-4b72-bf55-92bf112fedc3",
+      "userId": "***",
+      "searchDate": "2026-11-01T10:14:12.120Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "cf8336a8-37a1-401c-843d-2345a544fa71",
+      "userId": "***",
+      "searchDate": "2026-11-03T20:01:33.970Z",
+      "networkCount": "260",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "40fffd09-7610-472d-9d3f-8fd6aa07e8c0",
+      "userId": "***",
+      "searchDate": "2026-11-03T23:58:23.074Z",
+      "networkCount": "7",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "f61fcb3e-f0eb-4b2d-845d-134b343ba9a3",
+      "userId": "***",
+      "searchDate": "2026-11-04T00:07:40.097Z",
+      "networkCount": "1",
+      "offenseType": "Financial Crime (Embezzlement/Fraud)"
+    },
+    {
+      "id": "a005121e-7a63-498b-a46c-a6c0353def90",
+      "userId": "***",
+      "searchDate": "2026-11-04T01:35:32.134Z",
+      "networkCount": "260",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "33d57451-39c0-4489-81a0-9255146c6cf8",
+      "userId": "***",
+      "searchDate": "2026-11-04T02:22:19.808Z",
+      "networkCount": "1",
+      "offenseType": "Larceny/Theft Offenses"
+    },
+    {
+      "id": "840b46ab-ece1-4474-9bbb-2071ce5013ca",
+      "userId": "***",
+      "searchDate": "2026-11-04T03:50:13.307Z",
+      "networkCount": "258",
+      "offenseType": "Driving Under the Influence (DUI/DWI/OWI/OVI)"
+    },
+    {
+      "id": "50c70e2f-0e65-4c28-9c82-cd13a0a17af8",
+      "userId": "***",
+      "searchDate": "2026-11-04T15:15:42.171Z",
+      "networkCount": "260",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "a47cc439-a68a-441e-b012-83fa20b00cfb",
+      "userId": "***",
+      "searchDate": "2026-11-04T16:47:58.001Z",
+      "networkCount": "1",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "0c5610b6-3233-4655-a7f6-ee446e13bd58",
+      "userId": "***",
+      "searchDate": "2026-11-04T23:17:50.596Z",
+      "networkCount": "1",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "22edf9a2-7d37-4446-8088-b45113b4bf85",
+      "userId": "***",
+      "searchDate": "2026-11-05T00:14:54.348Z",
+      "networkCount": "1",
+      "offenseType": "Burglary/Breaking & Entering"
+    },
+    {
+      "id": "0d052766-8650-4916-b4c9-75088f68532c",
+      "userId": "***",
+      "searchDate": "2026-11-05T14:56:18.295Z",
+      "networkCount": "1",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "b76905e6-626c-4e9d-b527-2f293d99d2de",
+      "userId": "***",
+      "searchDate": "2026-11-05T17:20:38.055Z",
+      "networkCount": "259",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "a6bf813e-9cd6-4cff-9ecc-f70fcd4cc9bb",
+      "userId": "***",
+      "searchDate": "2026-11-05T18:53:45.002Z",
+      "networkCount": "259",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "f5d0d617-3007-44cf-823e-c77fa5e5039b",
+      "userId": "***",
+      "searchDate": "2026-11-05T22:57:41.982Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "cb979efb-d1a3-4c40-955f-c0d6336c40cb",
+      "userId": "***",
+      "searchDate": "2026-11-05T23:01:25.828Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "2bd108e8-081a-49fd-b297-724f742ee10b",
+      "userId": "***",
+      "searchDate": "2026-11-05T23:02:21.174Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "8e5947d0-18c8-4e72-9574-6e58824c26c5",
+      "userId": "***",
+      "searchDate": "2026-11-05T23:02:29.640Z",
+      "networkCount": "4",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "7e3ff1a6-111d-41b7-89e2-34f54b1724a1",
+      "userId": "***",
+      "searchDate": "2026-11-05T23:04:39.906Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "94b140d5-d1e0-494f-aa00-e37719d87fb2",
+      "userId": "***",
+      "searchDate": "2026-11-05T23:04:54.117Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "49f0f2e5-def6-4344-820f-4313e135484c",
+      "userId": "***",
+      "searchDate": "2026-11-05T23:31:24.829Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "9a54419f-9ce6-4acb-ad50-07a27e0509c1",
+      "userId": "***",
+      "searchDate": "2026-11-06T10:53:54.165Z",
+      "networkCount": "259",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "b85b1b20-700e-4544-adab-bd40ec73a475",
+      "userId": "***",
+      "searchDate": "2026-11-06T11:01:53.982Z",
+      "networkCount": "259",
+      "offenseType": "Stolen Property Offenses"
+    },
+    {
+      "id": "90587ddd-c9ec-44c3-8d0a-0432ce11d920",
+      "userId": "***",
+      "searchDate": "2026-11-06T15:56:24.368Z",
+      "networkCount": "259",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "d50689a8-40df-4951-aabe-9f4b79b1405c",
+      "userId": "***",
+      "searchDate": "2026-11-06T16:33:17.015Z",
+      "networkCount": "259",
+      "offenseType": "Sex Offenses"
+    },
+    {
+      "id": "064e4dd1-48d2-4c95-9ee3-2b2a8d10ea15",
+      "userId": "***",
+      "searchDate": "2026-11-06T16:39:42.120Z",
+      "networkCount": "259",
+      "offenseType": "Wanted Person (Arrest Warrant/Fugitive)"
+    },
+    {
+      "id": "23bda6fc-2e8f-4080-8998-e2ecb6168e48",
+      "userId": "***",
+      "searchDate": "2026-11-06T18:59:06.730Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "d9e99e3d-c54c-4c4b-a74d-aa549de01472",
+      "userId": "***",
+      "searchDate": "2026-11-06T19:02:17.391Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "2db832c0-e0d0-4d94-aa0d-f1c5b63333b9",
+      "userId": "***",
+      "searchDate": "2026-11-08T00:53:50.715Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "a5b117a1-32bf-4788-9ad0-daa03184ebb0",
+      "userId": "***",
+      "searchDate": "2026-11-08T04:45:27.531Z",
+      "networkCount": "1",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "23050b7a-8003-4f9c-8fd6-d04e4145cde8",
+      "userId": "***",
+      "searchDate": "2026-11-09T05:36:56.245Z",
+      "networkCount": "257",
+      "offenseType": "Driving Under the Influence (DUI/DWI/OWI/OVI)"
+    },
+    {
+      "id": "06c45336-fffa-4467-b23f-61b3c68d3672",
+      "userId": "***",
+      "searchDate": "2026-11-09T05:38:11.029Z",
+      "networkCount": "1",
+      "offenseType": "Driving Under the Influence (DUI/DWI/OWI/OVI)"
+    },
+    {
+      "id": "ceeb430e-4ff0-40cd-8c11-dd3dfd95b3ec",
+      "userId": "***",
+      "searchDate": "2026-11-10T12:23:56.487Z",
+      "networkCount": "1",
+      "offenseType": "Arson"
+    },
+    {
+      "id": "0716b899-cdfc-4ea5-a10c-e1ad79013a09",
+      "userId": "***",
+      "searchDate": "2026-11-11T03:58:33.445Z",
+      "networkCount": "1",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "98de1b87-2e1f-4d0e-bb71-093f1a9dd2af",
+      "userId": "***",
+      "searchDate": "2026-11-11T22:50:37.461Z",
+      "networkCount": "1",
+      "offenseType": "Driving Under the Influence (DUI/DWI/OWI/OVI)"
+    },
+    {
+      "id": "520a3c8c-fd0c-42f9-ba31-2f5b5b540a28",
+      "userId": "***",
+      "searchDate": "2026-11-11T23:03:18.981Z",
+      "networkCount": "1",
+      "offenseType": "Driving Under the Influence (DUI/DWI/OWI/OVI)"
+    },
+    {
+      "id": "1cf2b7e0-6eda-4c8b-abb1-6fd7ec25143d",
+      "userId": "***",
+      "searchDate": "2026-11-12T06:36:43.655Z",
+      "networkCount": "1",
+      "offenseType": "Motor Vehicle Theft/Stolen"
+    },
+    {
+      "id": "f11082ad-2218-42ca-a467-49d48c9286cf",
+      "userId": "***",
+      "searchDate": "2026-11-13T22:31:14.121Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "0aec9e23-dfc5-4fc9-a149-65ab3e1b43fb",
+      "userId": "***",
+      "searchDate": "2026-11-13T23:02:04.037Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "9f15c8d1-885b-4679-ae3a-e55410dd601b",
+      "userId": "***",
+      "searchDate": "2026-11-14T00:21:12.122Z",
+      "networkCount": "1",
+      "offenseType": "Hit and Run/Car Accident"
+    },
+    {
+      "id": "73eafca0-752e-45ad-b8b8-f46e7f06a589",
+      "userId": "***",
+      "searchDate": "2026-11-14T18:54:56.711Z",
+      "networkCount": "1",
+      "offenseType": "Welfare Check"
+    },
+    {
+      "id": "12b5ca7a-3cb3-43ed-ad83-19298434d620",
+      "userId": "***",
+      "searchDate": "2026-11-14T19:10:31.895Z",
+      "networkCount": "256",
+      "offenseType": "Trespass"
+    },
+    {
+      "id": "610129f8-462a-47bc-962f-891e970b105b",
+      "userId": "***",
+      "searchDate": "2026-11-14T22:03:13.972Z",
+      "networkCount": "1",
+      "offenseType": "Stolen Property Offenses"
+    }
+  ],
+  "integrity": {
+    "search_audit_csv": {
+      "row_count": 92,
+      "date_resets": 0,
+      "date_ordering": "ascending",
+      "duplicate_ids": 0,
+      "date_span": {
+        "first": "2026-10-16T01:36:18.676000+00:00",
+        "last": "2026-11-14T22:03:13.972000+00:00",
+        "min": "2026-10-16T01:36:18.676000+00:00",
+        "max": "2026-11-14T22:03:13.972000+00:00"
+      }
+    }
+  }
+}
