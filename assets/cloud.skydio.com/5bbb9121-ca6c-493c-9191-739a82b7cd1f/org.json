@@ -1,0 +1,64 @@
+{
+  "agency_id": "4671f34c-d1a6-5eca-9d02-1d62c10e8844",
+  "agency_name": "Loveland Police Department (CO)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-11-17T03:42:19Z",
+      "id": "47a85afccd0d4c4896828933ba9cffbf",
+      "title": "Loveland Police Department (CO) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/47a85afccd0d4c4896828933ba9cffbf"
+    }
+  ],
+  "description": "Feature service for Loveland Police Department (CO)",
+  "events": [
+    {
+      "date": "2026-11-18",
+      "event": "listed"
+    },
+    {
+      "dashboard": "47a85afccd0d4c4896828933ba9cffbf",
+      "date": "2026-11-18",
+      "event": "dashboard_published",
+      "title": "Loveland Police Department (CO) Drone Flights"
+    },
+    {
+      "agency_id": "4671f34c-d1a6-5eca-9d02-1d62c10e8844",
+      "basis": "name+role+state+extent",
+      "date": "2026-11-18",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-11-18",
+  "flights": {
+    "count": 20,
+    "duplicates": 0,
+    "first_takeoff": "2026-11-12T04:22:53Z",
+    "last_takeoff": "2026-11-18T09:39:57Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "5bbb9121-ca6c-493c-9191-739a82b7cd1f",
+  "ori": [
+    "CO0350400"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/5bbb9121-ca6c-493c-9191-739a82b7cd1f-production/FeatureServer"
+}
