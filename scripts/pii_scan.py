@@ -146,6 +146,16 @@ ALLOWED_EMAIL_DOMAINS = {
     # Accounts-payable role address on the Brunswick County SO Flock agreement the sheriff
     # posted publicly (assets/public-records/brunswick-county-nc/reference/, Nov 2026).
     "brunswicksheriff.com",  # brunswick-county-nc
+    # Caltrans District 4 encroachment-permit production (GovQA R056064-110926,
+    # assets/public-records/caltrans/): forms-unit footer, State Representative
+    # and D4permits@ addresses printed in the permit special provisions.
+    "dot.ca.gov",
+    # Redwood City PD applicant's work address on Caltrans application
+    # 04-26-X-XX-0660 (same production).
+    "redwoodcity.org",
+    # OCR variant of flocksafety.com: a Flock install contact on the Caltrans
+    # permits' contractor pages reads ".eom".
+    "flocksafety.eom",
 }
 
 # Known public phone numbers from published City of San Mateo records.
@@ -178,6 +188,7 @@ ALLOWED_PHONES = {
     "6505227720",  # R. Sianez, Field Operations admin (W012459-040226 ORT email + PO-0001042, 2024)
     "6505227100",  # S. Wong, Buyer (W012459-040226 PO-0001042, 2024)
     "6505333539",  # San Mateo County community chapter (Council packet, 2022-04-04)
+    "6507807129",  # Redwood City PD applicant line on Caltrans application 04-26-X-XX-0660 (assets/public-records/caltrans/R056064-110926/)
     # Office of the County Clerk (San Mateo County Assessor-County Clerk-Recorder-
     # Elections) — direct and fax lines published in the office's own email
     # signature block; appear in emails/ sources 63-64.
