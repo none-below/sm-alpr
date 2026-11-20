@@ -1,0 +1,64 @@
+{
+  "agency_id": "4e689ee7-da7f-5530-bef1-c987d872e792",
+  "agency_name": "Oceanside Police Department (CA)",
+  "dashboards": [
+    {
+      "access": "public",
+      "created": "2026-11-11T22:50:08Z",
+      "id": "aa2b678098e0487aa23f8b6fc40270e8",
+      "title": "Oceanside Police Department (CA) Drone Flights",
+      "url": "https://www.arcgis.com/apps/dashboards/aa2b678098e0487aa23f8b6fc40270e8"
+    }
+  ],
+  "description": "Feature service for Oceanside Police Department (CA)",
+  "events": [
+    {
+      "date": "2026-11-20",
+      "event": "listed"
+    },
+    {
+      "dashboard": "aa2b678098e0487aa23f8b6fc40270e8",
+      "date": "2026-11-20",
+      "event": "dashboard_published",
+      "title": "Oceanside Police Department (CA) Drone Flights"
+    },
+    {
+      "agency_id": "4e689ee7-da7f-5530-bef1-c987d872e792",
+      "basis": "name+role+state+extent",
+      "date": "2026-11-20",
+      "event": "linked"
+    }
+  ],
+  "first_seen": "2026-11-20",
+  "flights": {
+    "count": 21,
+    "duplicates": 0,
+    "first_takeoff": "2026-11-12T00:51:45Z",
+    "last_takeoff": "2026-11-20T05:38:31Z",
+    "unhashed": 0
+  },
+  "layer": {
+    "fields": [
+      "ObjectId",
+      "flight_id",
+      "vehicle_serial",
+      "dock_serial",
+      "user_email",
+      "takeoff",
+      "landing",
+      "external_id",
+      "description",
+      "flight_purpose",
+      "operation_id",
+      "organization_id",
+      "Shape__Length"
+    ]
+  },
+  "listed": true,
+  "match": "name+role+state+extent",
+  "org_id": "4188a45d-9bff-43bc-b206-d598199d5196",
+  "ori": [
+    "CA0371000"
+  ],
+  "service_url": "https://services7.arcgis.com/mnhQTdIYDA7UoY2l/arcgis/rest/services/4188a45d-9bff-43bc-b206-d598199d5196-production/FeatureServer"
+}
